@@ -1,0 +1,14 @@
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+.wf-active body, .wf-active label, .wf-active .radio label, .wf-active .checkbox label, .wf-active .btn-link, .wf-active .dropdown-menu > li > a {
+  font-weight: 100;
+}
+.wf-active
+
+.wf-active body, .wf-active .tooltip, .wf-active .popover{
+  font-family: $font-family-sans-serif-loaded, $font-family-sans-serif;
+}
