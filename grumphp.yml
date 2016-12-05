@@ -1,0 +1,48 @@
+parameters:
+    git_dir: .
+    bin_dir: vendor/bin
+    stop_on_failure: true
+    tasks:
+          codeception: ~
+          composer: ~
+#         composer_script: ~
+          git_blacklist:
+              keywords:
+                  - "die("
+                  - "var_dump("
+                  - "exit;"
+              triggered_by: [php]
+          git_commit_message:
+              matchers:
+                  - /BUG-([0-9]*)|FEATURE-([0-9]*)|\W/
+              case_insensitive: true
+              multiline: true
+              additional_modifiers: ''
+          git_conflict: ~
+          gulp:
+              task: "--production"
+          jsonlint: ~
+#         npm_script: ~
+          phpcpd: ~
+          phpcs:
+              standard: PSR2
+              whitelist_patterns:
+                - /^src\/vendor\/(.*)/
+                - /^src\/tests\/(.*)/
+                - /^src\/resources\/(.*)/
+              ignore_patterns: [./vendor/*,./tests/*, ./resources/*, ./database/*, ./bootstrap/*]
+          phpcsfixer: ~
+          phpcsfixer2:
+              config: ~
+              allow_risky: true
+          phplint: ~
+          phpmd:
+              exclude: [./vendor/*]
+              ruleset: ['./phpmdrulesets/cleancode.xml', './phpmdrulesets/codesize.xml', './phpmdrulesets/controversial.xml', './phpmdrulesets/design.xml', './phpmdrulesets/naming.xml','./phpmdrulesets/unusedcode.xml']
+          phpparser: ~
+          phpspec: ~
+          phpunit: ~
+          securitychecker: ~
+          shell: ~
+          xmllint: ~
+          yamllint: ~
