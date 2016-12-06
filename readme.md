@@ -38,3 +38,26 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+## Packages
+[laravelcollective/html :](https://laravelcollective.com/docs/5.3/html)
+  Generate Forms And Html
+[duro85/roles](https://packagist.org/packages/duro85/roles)   
+  package for handling roles and permissions in Laravel 5 forked from romanbican/roles ad update to work with Laravel >= 5.3
+[jtant/laravel-env-sync](https://github.com/JulienTant/Laravel-Env-Sync)  
+  A package that makes sure that your .env file is in sync with your .env.example
+[brotzka/laravel-dotenv-editor](https://github.com/Brotzka/laravel-dotenv-editor)
+  A Laravel package for editing the .env file dynamically. 
+[laracasts/utilities](https://packagist.org/packages/laracasts/utilities)     
+  Transform your PHP to JavaScript
+[spatie/url-signer] (https://github.com/spatie/laravel-url-signer)
+  Create and validate signed URLs with a limited lifetime
+[vinkla/hashids](https://github.com/vinkla/laravel-hashids)
+  A Hashids bridge for Laravel https://vinkla.com/
+[anhskohbo/no-captcha](https://github.com/anhskohbo/no-captcha)    
+  No CAPTCHA reCAPTCHA For Laravel. 
+[Propaganistas/Laravel-Phone](https://github.com/Propaganistas/Laravel-Phone)
+  Phone number validation & formatting for Laravel and Lumen 
+[rinvex/country](https://github.com/rinvex/country)
+   retrieving country details with flexibility. A whole bunch of data including name, demonym, capital, iso codes, dialling codes, geo data, currencies, flags, emoji
+[rinvex/repository](https://github.com/rinvex/repository)         
+   simple, intuitive, and smart implementation of Active Repository with extremely flexible & granular caching system for Laravel,   
