@@ -42,11 +42,11 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - Generate Forms And Html [laravelcollective/html](https://laravelcollective.com/docs/5.3/html).
 - Handling roles and permissions [duro85/roles](https://packagist.org/packages/duro85/roles).    
 - Sync with .env [jtant/laravel-env-sync](https://github.com/JulienTant/Laravel-Env-Sync).  
-- Editing the .env file dynamically.[brotzka/laravel-dotenv-editor]  (https://github.com/Brotzka/laravel-dotenv-editor).
-- Transform your PHP to JavaScript[laracasts/utilities](https://packagist.org/packages/laracasts/utilities)
-- Create and validate signed URLs with a limited lifetime[spatie/url-signer](https://github.com/spatie/laravel-url-signer)
-- Hashids bridge for Laravel[vinkla/hashids](https://github.com/vinkla/laravel-hashids)
-- No CAPTCHA reCAPTCHA For Laravel[anhskohbo/no-captcha](https://github.com/anhskohbo/no-captcha)  
-- Phone number validation & formatting[Propaganistas/Laravel-Phone](https://github.com/Propaganistas/Laravel-Phone)
-- Retrieving country details with flexibility[rinvex/country](https://github.com/rinvex/country)
-- Implementation of Active Repository with extremely flexible & granular caching system[rinvex/repository](https://github.com/rinvex/repository)
+- Editing the .env file dynamically [brotzka/laravel-dotenv-editor]  (https://github.com/Brotzka/laravel-dotenv-editor).
+- Transform your PHP to JavaScript [laracasts/utilities](https://packagist.org/packages/laracasts/utilities)
+- Create and validate signed URLs with a limited lifetime [spatie/url-signer](https://github.com/spatie/laravel-url-signer)
+- Hashids bridge for Laravel [vinkla/hashids](https://github.com/vinkla/laravel-hashids)
+- No CAPTCHA reCAPTCHA For Laravel [anhskohbo/no-captcha](https://github.com/anhskohbo/no-captcha)  
+- Phone number validation & formatting [Propaganistas/Laravel-Phone](https://github.com/Propaganistas/Laravel-Phone)
+- Retrieving country details with flexibility [rinvex/country](https://github.com/rinvex/country)
+- Implementation of Active Repository with extremely flexible & granular caching system [rinvex/repository](https://github.com/rinvex/repository)
