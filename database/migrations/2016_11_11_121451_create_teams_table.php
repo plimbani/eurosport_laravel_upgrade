@@ -12,7 +12,7 @@ class CreateTeamsTable extends Migration
      * @return void
      */
     public function up()
-    { 
+    {
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('club_id')->unsigned()->index();

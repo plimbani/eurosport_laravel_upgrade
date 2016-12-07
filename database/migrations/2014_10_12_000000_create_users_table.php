@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->integer('person_id')->unsigned()->unique()->index();
             $table->foreign('person_id')->references('id')->on('people');
             $table->string('username')->unique()->index();
+            $table->string('name',60);
             $table->string('email')->unique()->index();
             $table->string('password', 60);
             $table->string('token');

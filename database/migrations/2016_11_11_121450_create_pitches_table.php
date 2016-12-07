@@ -17,7 +17,7 @@ class CreatePitchesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('pitch_number')->unsigned();
-            $table->enum('type',['grass','artificial']);
+            $table->enum('type', ['grass', 'artificial']);
             $table->integer('location_id')->unsigned()->index();
             $table->foreign('location_id')->references('id')->on('venues');
             $table->string('availability');

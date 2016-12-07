@@ -13,14 +13,30 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         $routeCollection = Route::getRoutes();
+        $createUsersPermission = Permission::create([
+        'name' => 'Create users',
+        'slug' => 'create.users',
+        'description' => '', // optional
+    ]);
+
+    $deleteUsersPermission = Permission::create([
+        'name' => 'Delete users',
+        'slug' => 'delete.users',
+    ]);
+
+       /* $i=0;    
         foreach ($routeCollection as $value) {
             if ($value->getName() !== '') {
+                $name = title_case(str_replace('.', ' ', $value->getName()));
+                if(trim($name) != '') {
                 Permission::create([
-                    'name' => title_case(str_replace('.', ' ', $value->getName())),
+                    'name' => $name,
                     'slug' => $value->getName(),
-                    'description' => title_case(str_replace('.', ' ', $value->getName())), // optional
+                    'description' => $name, // optional                    
                 ]);
+                }
+                $i++;
             }
-        }
+        } */
     }
 }
