@@ -15,7 +15,7 @@ class VenuesTableSeeder extends Seeder
     {
         $faker = Faker::create();
         DB::table('venues')->delete();
-        foreach (range(1,10) as $index) {
+        foreach (range(1, 10) as $index) {
             DB::table('venues')->insert([
                 'name' => $faker->word(),
                 'address1' => $faker->address(),
@@ -33,6 +33,5 @@ class VenuesTableSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]);
         }
-
     }
 }

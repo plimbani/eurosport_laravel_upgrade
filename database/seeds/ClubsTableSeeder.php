@@ -16,14 +16,13 @@ class ClubsTableSeeder extends Seeder
         $faker = Faker::create();
         $users = App\Models\User::all()->pluck('id')->toArray();
         DB::table('clubs')->delete();
-        foreach (range(1,10) as $index) {
+        foreach (range(1, 10) as $index) {
             DB::table('clubs')->insert([
                 'user_id' => $faker->randomElement($users),
                 'name' => $faker->word(),
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
             ]);
         }
-        
     }
 }

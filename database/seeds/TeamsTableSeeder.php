@@ -18,7 +18,7 @@ class TeamsTableSeeder extends Seeder
         $users = App\Models\User::all()->pluck('id')->toArray();
         $agegroups = App\Models\AgeGroup::all()->pluck('id')->toArray();
         DB::table('teams')->delete();
-        foreach (range(1,10) as $index) {
+        foreach (range(1, 10) as $index) {
             DB::table('teams')->insert([
                 'club_id' => $faker->randomElement($clubs),
                 'user_id' => $faker->randomElement($users),
@@ -28,7 +28,7 @@ class TeamsTableSeeder extends Seeder
                 'facebook' => $faker->word(),
                 'twitter' => $faker->word(),
                 'shirt_colour' => $faker->hexcolor,
-                'esr_reference' => $faker->numberBetween(100000,999999),
+                'esr_reference' => $faker->numberBetween(100000, 999999),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

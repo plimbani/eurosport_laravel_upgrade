@@ -14,14 +14,14 @@ class PeopleTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        
+
         DB::table('people')->delete();
-        foreach(range(1,10) as $index){
+        foreach (range(1, 10) as $index) {
             DB::table('people')->insert([
                 'first_name' => $faker->word(),
                 'last_name' => $faker->word(),
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
             ]);
         }
     }
