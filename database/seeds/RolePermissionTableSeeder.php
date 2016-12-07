@@ -11,6 +11,5 @@ class RolePermissionTableSeeder extends Seeder
      */
     public function run()
     {
-        //
     }
 }

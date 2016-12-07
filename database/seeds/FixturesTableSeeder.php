@@ -21,9 +21,9 @@ class FixturesTableSeeder extends Seeder
         $teams = App\Models\Team::all()->pluck('id')->toArray();
         $matchresults = App\Models\MatchResult::all()->pluck('id')->toArray();
         $referee = App\Models\Referee::all()->pluck('id')->toArray();
-        
+
         DB::table('fixtures')->delete();
-        foreach (range(1,10) as $index) {
+        foreach (range(1, 10) as $index) {
             DB::table('fixtures')->insert([
                 'tournament_id' => $faker->randomElement($tournaments),
                 'competition_id' => $faker->randomElement($competitions),
@@ -39,9 +39,9 @@ class FixturesTableSeeder extends Seeder
                 'hometeam_point' => $faker->randomFloat(2, 0, 10),
                 'awayteam_point' => $faker->randomFloat(2, 0, 10),
                 'match_result_id' => $faker->randomElement($matchresults),
-                'bracket_json' => json_encode(array()),
+                'bracket_json' => json_encode([]),
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
             ]);
         }
     }

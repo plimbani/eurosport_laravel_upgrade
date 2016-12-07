@@ -13,20 +13,20 @@ class RefereeTableSeeder extends Seeder
      */
     public function run()
     {
-    	$faker = Faker::create();
+        $faker = Faker::create();
         DB::table('referee')->delete();
         $users = App\Models\User::All()->pluck('id')->toArray();
-        $age_groups = App\Models\AgeGroup::All()->pluck('id')->toArray();
-        
-        foreach (range(1,10) as $index) {
+        $ageGroups = App\Models\AgeGroup::All()->pluck('id')->toArray();
+
+        foreach (range(1, 10) as $index) {
             DB::table('referee')->insert([
-                'user_id' => $faker->randomElement($users), 
+                'user_id' => $faker->randomElement($users),
                 'availability' => '100',
                 'comments' => $faker->text,
-                'age_group_id' => $faker->randomElement($age_groups), 
-                'created_at' => Carbon::now(), 
-                'updated_at' => Carbon::now()
-               
+                'age_group_id' => $faker->randomElement($ageGroups),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+
             ]);
         }
     }

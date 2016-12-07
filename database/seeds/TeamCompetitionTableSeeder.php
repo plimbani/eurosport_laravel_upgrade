@@ -16,12 +16,11 @@ class TeamCompetitionTableSeeder extends Seeder
         $teams = App\Models\Team::all()->pluck('id')->toArray();
         $competitions = App\Models\Competition::all()->pluck('id')->toArray();
         DB::table('team_competition')->delete();
-        foreach(range(1,10) as $index){
+        foreach (range(1, 10) as $index) {
             DB::table('team_competition')->insert([
                 'team_id' => $faker->randomElement($teams),
-                'competition_id' => $faker->randomElement($competitions)
+                'competition_id' => $faker->randomElement($competitions),
             ]);
-            
         }
     }
 }

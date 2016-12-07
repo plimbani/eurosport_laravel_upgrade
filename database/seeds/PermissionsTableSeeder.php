@@ -13,18 +13,18 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         $routeCollection = Route::getRoutes();
-        $createUsersPermission = Permission::create([
+        $createPermission = Permission::create([
         'name' => 'Create users',
         'slug' => 'create.users',
         'description' => '', // optional
     ]);
 
-    $deleteUsersPermission = Permission::create([
+        $deletePermission = Permission::create([
         'name' => 'Delete users',
         'slug' => 'delete.users',
     ]);
 
-       /* $i=0;    
+       /* $i=0;
         foreach ($routeCollection as $value) {
             if ($value->getName() !== '') {
                 $name = title_case(str_replace('.', ' ', $value->getName()));
@@ -32,7 +32,7 @@ class PermissionsTableSeeder extends Seeder
                 Permission::create([
                     'name' => $name,
                     'slug' => $value->getName(),
-                    'description' => $name, // optional                    
+                    'description' => $name, // optional
                 ]);
                 }
                 $i++;
