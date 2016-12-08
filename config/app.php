@@ -198,6 +198,7 @@ return [
          *  Api Service Providers
          */
         App\Providers\UserServiceProvider::class,
+        App\Providers\TeamServiceProvider::class,
 
     ],
 
