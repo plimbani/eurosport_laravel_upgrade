@@ -22,3 +22,13 @@ Route::get('/user/verification/resend/{user}', 'Auth\VerifyAccountController@sen
             ->name('user.verification.resend');
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/test2', 'HomeController@getUsers');
+// Api Stuff
+$api = app('Dingo\Api\Routing\Router');
+
+$api->version('v1', function ($api) {
+    //$api->version('v1', ['middleware' => 'api.auth'], function ($api) {
+    $api->get('users/test', 'App\Api\Controllers\EnvController@test2');
+    $api->get('teams', 'App\Api\Controllers\TeamController@getTeams');
+    $api->post('team/create', 'App\Api\Controllers\TeamController@createTeam');
+});

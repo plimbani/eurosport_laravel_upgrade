@@ -183,6 +183,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Propaganistas\LaravelPhone\LaravelPhoneServiceProvider::class,
         Rinvex\Repository\Providers\RepositoryServiceProvider::class,
+        Dingo\Api\Provider\LaravelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -192,6 +193,12 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        /*
+         *  Api Service Providers
+         */
+        App\Providers\UserServiceProvider::class,
+        App\Providers\TeamServiceProvider::class,
 
     ],
 
