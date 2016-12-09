@@ -3,9 +3,9 @@
 namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Api\Services\TeamService;
+use App\Api\Services\RefereeService;
 
-class TeamServiceProvider extends ServiceProvider
+class RefereeServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -23,10 +23,10 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
-        $this->app->bind('App\Api\Contracts\TeamContract', function ($app) {
-        
-            return new TeamService();
+
+        $this->app->bind('App\Api\Contracts\RefereeContract', function ($app) {
+            
+            return new RefereeService();
         });
     }
 
@@ -37,6 +37,6 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['App\Api\Contracts\TeamContract'];
+        return ['App\Api\Contracts\RefereeContract'];
     }
 }
