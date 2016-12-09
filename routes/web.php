@@ -26,3 +26,5 @@ Route::get('/home/test2', 'HomeController@getUsers');
 
 Route::get('/teams', 'TeamController@index');
 Route::get('/team/create', 'TeamController@create');
+
+

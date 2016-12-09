@@ -17,7 +17,7 @@ class CreateMatchResultsTable extends Migration
             $table->increments('id');
             $table->integer('goal_score1');
             $table->integer('goal_score2');
-            $table->enum('match_status',['Walk over','abandoned','full-time','penalties']);
+            $table->enum('match_status', ['Walk over', 'abandoned', 'full-time', 'penalties']);
             $table->string('winner');
             $table->integer('location_id')->unsigned()->index();
             $table->foreign('location_id')->references('id')->on('venues');

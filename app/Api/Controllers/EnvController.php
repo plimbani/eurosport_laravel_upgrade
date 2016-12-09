@@ -13,11 +13,12 @@ class EnvController extends BaseController
 {
     public function __construct(UserContract $userObj)
     {
+    	
         $this->userObj = $userObj;
     }
 
     public function test2()
     {
-        return $this->userObj->getAllUsers();
+    	return $this->userObj->getAllUsers();
     }
 }

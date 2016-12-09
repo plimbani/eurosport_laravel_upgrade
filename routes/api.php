@@ -26,4 +26,8 @@ $api->version('v1', function ($api) {
     $api->get('users/test', 'App\Api\Controllers\EnvController@test2');
     $api->get('teams', 'App\Api\Controllers\TeamController@getTeams');
     $api->post('team/create', 'App\Api\Controllers\TeamController@createTeam');
+	//Referee api
+	$api->get('referees', 'App\Api\Controllers\RefereeController@getReferees');
+    $api->post('referee/create', 'App\Api\Controllers\RefereeController@createReferee');
+
 });
