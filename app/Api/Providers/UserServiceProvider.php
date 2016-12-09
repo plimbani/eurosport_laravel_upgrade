@@ -1,12 +1,19 @@
 <?php
 
-namespace App\Providers;
+namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Api\Services\TeamService;
+use App\Api\Services\UserService;
 
-class TeamServiceProvider extends ServiceProvider
+class UserServiceProvider extends ServiceProvider
 {
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+
     /**
      * Bootstrap the application services.
      *
@@ -14,7 +21,6 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
     }
 
     /**
@@ -24,8 +30,8 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('App\Api\Contracts\TeamContract', function ($app) {
-            return new TeamService();
+        $this->app->bind('App\Api\Contracts\UserContract', function ($app) {
+            return new UserService();
         });
     }
 
@@ -36,6 +42,6 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['App\Api\Contracts\TeamContract'];
+        return ['App\Api\Contracts\UserContract'];
     }
 }

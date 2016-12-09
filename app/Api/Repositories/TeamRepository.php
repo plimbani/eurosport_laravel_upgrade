@@ -7,14 +7,18 @@ use DB;
 
 class TeamRepository
 {
+    public function __construct()
+    {
+        $this->dbObj = DB::table('teams');
+    }
+
     public function getAllTeams()
     {
-        /*  Use Join for Fetch Club Income Data with Club Table */
         return Team::all();
     }
 
     public function createTeam($teamData)
     {
-        echo "<pre>---";print_r($teamData->all());exit();
+        return $this->dbObj->insert($teamData);
     }
 }
