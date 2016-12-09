@@ -31,7 +31,7 @@ class TeamController extends BaseController
      *
      * @Get("/teams")
      * @Versions({"v1"})
-     * @Response(200, body={"id": 10, "username": "foo"})
+     * @Response(200, body={"id": 10, "club_id": "foo"})
      */
     public function getTeams()
     {
