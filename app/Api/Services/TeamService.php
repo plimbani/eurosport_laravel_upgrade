@@ -2,21 +2,26 @@
 
 namespace App\Api\Services;
 
-use DB;
 use App\Api\Contracts\TeamContract;
-use Validator;
-use App\Model\Role;
+use App\Api\Repositories\TeamRepository;
 
 class TeamService implements TeamContract
 {
-    public function __construct()
+    public function __construct(TeamRepository $teamRepoObj)
     {
-        $this->teamRepoObj = new \App\Api\Repositories\TeamRepository();
+        $this->teamRepoObj = $teamRepoObj;
     }
 
     public function getAllTeams()
     {
-        return $this->teamRepoObj->getAllTeams();
+        // Here we send Status Code and Messages
+        $data = $this->teamRepoObj->getAllTeams();
+        if($data){
+            return array('status_code'=>'200','data'=>$data);
+        } else {
+            return array('status_code'=>'505','message'=>'Error in Data');
+        }
+        
     }
 
     public function createTeam($data)

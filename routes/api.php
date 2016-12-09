@@ -22,8 +22,12 @@ use Illuminate\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api) {
-    //$api->version('v1', ['middleware' => 'api.auth'], function ($api) {
     $api->get('users/test', 'App\Api\Controllers\EnvController@test2');
+
+    // Team Stuff
     $api->get('teams', 'App\Api\Controllers\TeamController@getTeams');
     $api->post('team/create', 'App\Api\Controllers\TeamController@createTeam');
+
+    //Age Group Stuff
+    $api->get('age_groups', 'App\Api\Controllers\AgeGroupController@getAgeGroups');
 });
