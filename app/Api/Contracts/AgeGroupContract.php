@@ -10,6 +10,4 @@ interface AgeGroupContract
      * @param  array $data,$affiliateList
      * @return response
      */
-    
-  
 }

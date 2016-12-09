@@ -30,4 +30,8 @@ $api->version('v1', function ($api) {
 
     //Age Group Stuff
     $api->get('age_groups', 'App\Api\Controllers\AgeGroupController@getAgeGroups');
+
+	//Referee api
+	$api->get('referees', 'App\Api\Controllers\RefereeController@getReferees');
+    $api->post('referee/create', 'App\Api\Controllers\RefereeController@createReferee');
 });

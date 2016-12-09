@@ -17,12 +17,11 @@ class AgeGroupService implements AgeGroupContract
     {
         // Here we send Status Code and Messages
         $data = $this->ageGroupObj->getAll();
-        if($data){
-            return array('status_code'=>'200','data'=>$data);
-        } else {
-            return array('status_code'=>'505','message'=>'Error in Data');
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
         }
-        
+
+        return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
     public function create($data)

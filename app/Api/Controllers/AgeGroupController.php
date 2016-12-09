@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Api\Controllers;
+
 use Illuminate\Http\Request;
 
 // Need to Define Only Contracts

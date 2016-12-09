@@ -10,7 +10,8 @@ interface TeamContract
      * @param  array $data,$affiliateList
      * @return response
      */
-    
+
     public function getAllTeams();
+
     public function createTeam($data);
 }

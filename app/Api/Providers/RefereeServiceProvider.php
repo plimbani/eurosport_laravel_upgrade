@@ -3,10 +3,9 @@
 namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Api\Services\AgeGroupService;
-use App\Api\Repositories\AgeGroupRepository;
+use App\Api\Services\RefereeService;
 
-class AgeGroupServiceProvider extends ServiceProvider
+class RefereeServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -24,8 +23,8 @@ class AgeGroupServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('App\Api\Contracts\AgeGroupContract', function ($app) {
-            return new AgeGroupService(new AgeGroupRepository());
+        $this->app->bind('App\Api\Contracts\RefereeContract', function ($app) {
+            return new RefereeService();
         });
     }
 
@@ -36,6 +35,6 @@ class AgeGroupServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['App\Api\Contracts\AgeContract'];
+        return ['App\Api\Contracts\RefereeContract'];
     }
 }
