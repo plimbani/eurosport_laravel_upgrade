@@ -20,6 +20,7 @@ class TeamRepository
     public function createTeam($teamData)
     {
         print_r($teamData->all());
+
         return $this->dbObj->insert($teamData);
     }
 }

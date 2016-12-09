@@ -23,9 +23,7 @@ class RefereeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         $this->app->bind('App\Api\Contracts\RefereeContract', function ($app) {
-            
             return new RefereeService();
         });
     }

@@ -23,9 +23,7 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
         $this->app->bind('App\Api\Contracts\TeamContract', function ($app) {
-        
             return new TeamService();
         });
     }
