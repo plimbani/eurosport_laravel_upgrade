@@ -197,8 +197,9 @@ return [
         /*
          *  Api Service Providers
          */
-        App\Providers\UserServiceProvider::class,
-        App\Providers\TeamServiceProvider::class,
+        App\Api\Providers\UserServiceProvider::class,
+        App\Api\Providers\TeamServiceProvider::class,
+        App\Providers\ApiServiceProvider::class,
 
     ],
 

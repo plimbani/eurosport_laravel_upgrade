@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Api\Controllers;
 
 use Brotzka\DotenvEditor\DotenvEditor;
@@ -10,9 +11,11 @@ use Illuminate\Http\Request;
 use App\Api\Contracts\TeamContract;
 
 /**
- * Teams Resource Description
+ * Teams Resource Description.
  *
  * @Resource("Teams")
+ *
+ * @Author Knayak@aecordigital.com
  */
 class TeamController extends BaseController
 {
@@ -21,25 +24,24 @@ class TeamController extends BaseController
         $this->teamObj = $teamObj;
     }
 
-   /**
-    * Show all Team Details
-    *
-    * Get a JSON representation of all the Teams.
-    *
-    * @Get("/teams")
-    * @Versions({"v1"})
-    * @Response(200, body={"id": 10, "username": "foo"})
-    */
-
+    /**
+     * Show all Team Details.
+     *
+     * Get a JSON representation of all the Teams.
+     *
+     * @Get("/teams")
+     * @Versions({"v1"})
+     * @Response(200, body={"id": 10, "username": "foo"})
+     */
     public function getTeams()
     {
         return $this->teamObj->getAllTeams();
     }
 
     /**
-     * Create  team
+     * Create  team.
      *
-     * Create New Team 
+     * Create New Team
      *
      * @Post("/team/create")
      *

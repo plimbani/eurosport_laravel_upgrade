@@ -14,7 +14,6 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
     }
 
     /**
