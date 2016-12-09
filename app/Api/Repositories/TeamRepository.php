@@ -15,8 +15,6 @@ class TeamRepository
 
     public function createTeam($teamData)
     {
-        
         print_r($teamData->all());
-      
     }
 }
