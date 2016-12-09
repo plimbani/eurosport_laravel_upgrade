@@ -16,12 +16,11 @@ class TeamService implements TeamContract
     {
         // Here we send Status Code and Messages
         $data = $this->teamRepoObj->getAllTeams();
-        if($data){
-            return array('status_code'=>'200','data'=>$data);
-        } else {
-            return array('status_code'=>'505','message'=>'Error in Data');
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
         }
-        
+
+        return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
     public function createTeam($data)
