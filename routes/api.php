@@ -13,7 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-/*Route::get('/user', function (Request $request) {
+/*
+Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api')->name('api.user');
 */
@@ -26,8 +27,10 @@ $api->version('v1', function ($api) {
     $api->get('users/test', 'App\Api\Controllers\EnvController@test2');
     $api->get('teams', 'App\Api\Controllers\TeamController@getTeams');
     $api->post('team/create', 'App\Api\Controllers\TeamController@createTeam');
-	//Referee api
-	$api->get('referees', 'App\Api\Controllers\RefereeController@getReferees');
+    //Referee api
+    $api->get('referees', 'App\Api\Controllers\RefereeController@getReferees');
     $api->post('referee/create', 'App\Api\Controllers\RefereeController@createReferee');
-
+    //MatchResult api
+    $api->get('matches', 'App\Api\Controllers\MatchController@getMatches');
+    $api->post('match/create', 'App\Api\Controllers\MatchController@createMatch');
 });

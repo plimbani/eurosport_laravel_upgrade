@@ -200,6 +200,7 @@ return [
         App\Api\Providers\UserServiceProvider::class,
         App\Api\Providers\TeamServiceProvider::class,
         App\Api\Providers\RefereeServiceProvider::class,
+        App\Api\Providers\MatchServiceProvider::class,
         App\Providers\ApiServiceProvider::class,
 
     ],
