@@ -21,4 +21,9 @@ class RefereeRepository
     {
         return $this->dbObj->insert($refereeData);
     }
+
+    public function getRefereeFromId($refereeId)
+    {
+        return Referee::find($refereeId);
+    }
 }

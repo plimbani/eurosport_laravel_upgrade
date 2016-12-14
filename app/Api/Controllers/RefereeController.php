@@ -35,7 +35,6 @@ class RefereeController extends BaseController
      */
     public function getReferees()
     {
-      
         return $this->refereeObj->getAllReferees();
     }
 
@@ -52,5 +51,10 @@ class RefereeController extends BaseController
     public function createReferee(Request $request)
     {
         return $this->refereeObj->createReferee($request);
+    }
+
+    public function deleteReferee($deleteId)
+    {
+        return $this->refereeObj->deleteReferee($deleteId);
     }
 }

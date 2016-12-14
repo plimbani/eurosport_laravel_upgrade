@@ -35,7 +35,6 @@ class MatchController extends BaseController
      */
     public function getMatches()
     {
-      
         return $this->matchObj->getAllMatches();
     }
 
@@ -50,5 +49,10 @@ class MatchController extends BaseController
     public function createMatch(Request $request)
     {
         return $this->matchObj->createMatch($request);
+    }
+
+    public function deleteMatch($deleteId)
+    {
+        return $this->matchObj->deleteMatch($deleteId);
     }
 }

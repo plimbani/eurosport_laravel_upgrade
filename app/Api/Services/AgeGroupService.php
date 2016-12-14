@@ -2,20 +2,21 @@
 
 namespace App\Api\Services;
 
-use App\Api\Contracts\TeamContract;
-use App\Api\Repositories\TeamRepository;
+use App\Api\Contracts\AgeGroupContract;
+use Validator;
+use App\Api\Repositories\AgeGroupRepository;
 
-class TeamService implements TeamContract
+class AgeGroupService implements AgeGroupContract
 {
-    public function __construct(TeamRepository $teamRepoObj)
+    public function __construct(AgeGroupRepository $ageRepoObj)
     {
-        $this->teamRepoObj = $teamRepoObj;
+        $this->ageGroupObj = $ageRepoObj;
     }
 
-    public function getAllTeams()
+    public function getAllData()
     {
         // Here we send Status Code and Messages
-        $data = $this->teamRepoObj->getAllTeams();
+        $data = $this->ageGroupObj->getAll();
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
@@ -23,10 +24,10 @@ class TeamService implements TeamContract
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
-    public function createTeam($data)
+    public function create($data)
     {
         $data = $data->all();
-        $data = $this->teamRepoObj->createTeam($data);
+        $data = $this->ageGroupObj->create($data);
         if ($data) {
             return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }

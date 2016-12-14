@@ -21,4 +21,9 @@ class MatchRepository
     {
         return $this->dbObj->insert($matchData);
     }
+
+    public function getMatchFromId($matchId)
+    {
+        return MatchResult::find($matchId);
+    }
 }

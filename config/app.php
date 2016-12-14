@@ -199,9 +199,11 @@ return [
          */
         App\Api\Providers\UserServiceProvider::class,
         App\Api\Providers\TeamServiceProvider::class,
+        App\Api\Providers\AgeGroupServiceProvider::class,
         App\Api\Providers\RefereeServiceProvider::class,
         App\Api\Providers\MatchServiceProvider::class,
         App\Providers\ApiServiceProvider::class,
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
     ],
 
@@ -269,6 +271,7 @@ return [
         'DotenvEditor' => Brotzka\DotenvEditor\DotenvEditorFacade::class,
         'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
 
     ],
 

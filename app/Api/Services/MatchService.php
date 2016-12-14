@@ -27,4 +27,12 @@ class MatchService implements MatchContract
             return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
+
+    public function deleteMatch($deleteId)
+    {
+        $matchRes = $this->matchRepoObj->getMatchFromId($deleteId)->delete();
+        if ($matchRes) {
+            return ['code' => '200', 'message' => 'Match Sucessfully Deleted'];
+        }
+    }
 }

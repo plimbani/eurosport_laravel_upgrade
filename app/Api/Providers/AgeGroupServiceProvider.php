@@ -3,10 +3,10 @@
 namespace App\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Api\Services\TeamService;
-use App\Api\Repositories\TeamRepository;
+use App\Api\Services\AgeGroupService;
+use App\Api\Repositories\AgeGroupRepository;
 
-class TeamServiceProvider extends ServiceProvider
+class AgeGroupServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -24,8 +24,8 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('App\Api\Contracts\TeamContract', function ($app) {
-            return new TeamService(new TeamRepository());
+        $this->app->bind('App\Api\Contracts\AgeGroupContract', function ($app) {
+            return new AgeGroupService(new AgeGroupRepository());
         });
     }
 
@@ -36,6 +36,6 @@ class TeamServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['App\Api\Contracts\TeamContract'];
+        return ['App\Api\Contracts\AgeContract'];
     }
 }

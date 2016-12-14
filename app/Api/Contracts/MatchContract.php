@@ -14,4 +14,6 @@ interface MatchContract
     public function getAllMatches();
 
     public function createMatch($data);
+
+    public function deleteMatch($deleteId);
 }

@@ -21,7 +21,8 @@
         "rinvex/country": "^2.0",
         "iatstuti/laravel-cascade-soft-deletes": "^1.1",
         "rinvex/repository": "^2.0",
-        "dingo/api": "1.0.*@dev"
+        "dingo/api": "1.0.*@dev",
+        "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.6",
