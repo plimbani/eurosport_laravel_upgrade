@@ -14,4 +14,6 @@ interface RefereeContract
     public function getAllReferees();
 
     public function createReferee($data);
+
+    public function deleteReferee($data);
 }

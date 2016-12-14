@@ -27,4 +27,12 @@ class RefereeService implements RefereeContract
             return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
+
+    public function deleteReferee($deleteId)
+    {
+        $refereeRes = $this->refereeRepoObj->getRefereeFromId($deleteId)->delete();
+        if ($refereeRes) {
+            return ['code' => '200', 'message' => 'Referee Sucessfully Deleted'];
+        }
+    }
 }

@@ -8,7 +8,22 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+               
+                   <p> Welcome {{ Auth::user()->name }} (
+                        @if (Auth::user()->isRole('superadmin')) 
+                           Super Administrator
+                        @endif
+                        @if (Auth::user()->isRole('admin')) 
+                           Administrator
+                        @endif
+                        @if (Auth::user()->isRole('moderator')) 
+                           Moderator
+                        @endif
+                        @if (Auth::user()->isRole('user')) 
+                           User
+                        @endif
+                    ) </p>
+
                 </div>
             </div>
         </div>
