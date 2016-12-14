@@ -202,6 +202,7 @@ return [
         App\Api\Providers\AgeGroupServiceProvider::class,
         App\Api\Providers\RefereeServiceProvider::class,
         App\Api\Providers\MatchServiceProvider::class,
+        App\Api\Providers\TournamentServiceProvider::class,
         App\Providers\ApiServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 

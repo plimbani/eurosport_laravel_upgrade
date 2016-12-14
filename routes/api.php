@@ -57,4 +57,9 @@ $api->version('v1', function ($api) {
 
     //Age Group Stuff
     $api->get('age_groups', 'App\Api\Controllers\AgeGroupController@getAgeGroups');
+
+    //Tournament Api
+    $api->get('tournament', 'App\Api\Controllers\TournamentController@getAllTournaments');
+    $api->post('tournament/create', 'App\Api\Controllers\TournamentController@createTournament');
+
 });

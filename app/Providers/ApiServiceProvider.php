@@ -14,6 +14,10 @@ class ApiServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        //$app = app();
+        //$app->bind('helloworld','App\Contracts\ApiContract');
+        //$dispatcherObj = app('Dingo\Api\Dispatcher');
+
         $this->app->bind('App\Contracts\ApiContract', function ($app) {
             return new ApiService();
         });
