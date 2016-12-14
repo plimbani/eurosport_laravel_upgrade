@@ -201,6 +201,7 @@ return [
         App\Api\Providers\TeamServiceProvider::class,
         App\Api\Providers\AgeGroupServiceProvider::class,
         App\Api\Providers\RefereeServiceProvider::class,
+        App\Api\Providers\TournamentServiceProvider::class,
         App\Providers\ApiServiceProvider::class,
 
     ],

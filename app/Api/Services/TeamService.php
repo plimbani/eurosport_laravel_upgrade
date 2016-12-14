@@ -28,7 +28,7 @@ class TeamService implements TeamContract
         $data = $data->all();
         $data = $this->teamRepoObj->createTeam($data);
         if ($data) {
-            return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
+            return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
 }

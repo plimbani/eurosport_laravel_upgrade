@@ -28,9 +28,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = $this->apiObj->api->get('teams');
-
-        return view('team.index')->with('teams', $teams);
+        return view('team.index')->with('teams', $this->apiObj->api->get('teams'));
     }
 
     public function create()
@@ -39,9 +37,11 @@ class TeamController extends Controller
 
         $teamData = [
             'club_id' => '1', 'user_id' => '1', 'age_group_id' => '1',
-            'name' => 'TestTeams', 'website' => 'http://www.team.com', 'facebook' => 'fbook', 'twitter' => 'Test',
+            'name' => 'TestTeams', 'website' => 'http://www.team1.com', 'facebook' => 'fbook',
+            'twitter' => 'Test',
             'shirt_colour' => '#271d7e', 'esr_reference' => '232323',
         ];
-        $dispatcher->with($teamData)->post('team/create');
+
+        $result = $dispatcher->with($teamData)->post('team/create');
     }
 }
