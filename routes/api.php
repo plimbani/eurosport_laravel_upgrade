@@ -63,6 +63,4 @@ $api->version('v1', function ($api) {
     $api->post('tournament/create', 'App\Api\Controllers\TournamentController@create');
     $api->post('tournament/edit/{id}', 'App\Api\Controllers\TournamentController@edit');
     $api->post('tournament/delete/{id}', 'App\Api\Controllers\TournamentController@delete');
-
-
 });

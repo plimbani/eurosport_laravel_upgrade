@@ -30,6 +30,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
         ],
 
         'api' => [
@@ -55,5 +56,7 @@ class Kernel extends HttpKernel
         'role' => \Duro85\Roles\Middleware\VerifyRole::class,
         'permission' => \Duro85\Roles\Middleware\VerifyPermission::class,
         'level' => \Duro85\Roles\Middleware\VerifyLevel::class,
+        'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+        'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
     ];
 }

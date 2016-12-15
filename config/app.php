@@ -272,6 +272,9 @@ return [
         'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+
     ],
 
     'localAliases' => [

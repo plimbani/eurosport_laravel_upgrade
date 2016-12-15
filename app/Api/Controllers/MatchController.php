@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 // Need to Define Only Contracts
 use App\Api\Contracts\MatchContract;
+use JWTAuth;
 
 /**
  * Matches Resource Description.
@@ -22,6 +23,7 @@ class MatchController extends BaseController
     public function __construct(MatchContract $matchObj)
     {
         $this->matchObj = $matchObj;
+        $this->middleware('jwt.auth');
     }
 
     /**
