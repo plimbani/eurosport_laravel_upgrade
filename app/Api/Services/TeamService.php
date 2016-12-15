@@ -12,10 +12,16 @@ class TeamService implements TeamContract
         $this->teamRepoObj = $teamRepoObj;
     }
 
-    public function getAllTeams()
+    /*
+     * Get All Teams
+     *
+     * @param  array $api_key,$state,$type
+     * @return response
+     */
+    public function index()
     {
         // Here we send Status Code and Messages
-        $data = $this->teamRepoObj->getAllTeams();
+        $data = $this->teamRepoObj->getAll();
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
@@ -23,12 +29,52 @@ class TeamService implements TeamContract
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
-    public function createTeam($data)
+    /**
+     * create New Team.
+     *
+     * @param  [type]
+     * @param mixed $data
+     *
+     * @return [type]
+     */
+    public function create($data)
     {
         $data = $data->all();
-        $data = $this->teamRepoObj->createTeam($data);
+        $data = $this->teamRepoObj->create($data);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
+        }
+    }
+
+    /**
+     * Edit Team.
+     *
+     * @param array $data
+     *
+     * @return [type]
+     */
+    public function edit($data)
+    {
+        $data = $data->all();
+        $data = $this->teamRepoObj->edit($data);
+        if ($data) {
+            return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+        }
+    }
+
+    /**
+     * Delete Team.
+     *
+     * @param array $data
+     *
+     * @return [type]
+     */
+    public function delete($data)
+    {
+        $data = $data->all();
+        $data = $this->teamRepoObj->delete($data);
+        if ($data) {
+            return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
     }
 }

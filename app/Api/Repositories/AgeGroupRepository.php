@@ -2,22 +2,27 @@
 
 namespace App\Api\Repositories;
 
-use DB;
+use App\Models\AgeGroup;
 
 class AgeGroupRepository
 {
-    public function __construct()
-    {
-        $this->dbObj = DB::table('age_groups');
-    }
-
     public function getAll()
     {
-        return $this->dbObj->get();
+        return AgeGroup::get();
     }
 
     public function create($data)
     {
-        return $this->dbObj->insert($data);
+        return AgeGroup::create($data);
+    }
+
+    public function edit($data)
+    {
+        return AgeGroup::where('id', $data['id'])->update($data);
+    }
+
+    public function delete($data)
+    {
+        return AgeGroup::find($data['id'])->delete();
     }
 }

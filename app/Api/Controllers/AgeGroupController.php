@@ -22,7 +22,7 @@ class AgeGroupController extends BaseController
     }
 
     /**
-     * Show all AgeGroup Details.
+     * Show all Tournament Details.
      *
      * Get a JSON representation of all the Age Groups.
      *
@@ -30,23 +30,49 @@ class AgeGroupController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getAgeGroups()
+    public function index()
     {
-        return $this->ageGroupObj->getAllData();
+        return $this->ageGroupObj->index();
     }
 
     /**
-     * Create  team.
+     * Create  Torunament.
      *
-     * Create New Team
+     * Create New Age Group
      *
      * @Post("/age_group/create")
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function createAgeGroup(Request $request)
+    public function create(Request $request)
     {
-        return $this->ageGroupObj->createAgeGroup($request);
+        return $this->ageGroupObj->create($request);
+    }
+
+    /**
+     * Edit  Age Group.
+     *
+     * @Post("/age_group/edit/{$id}")
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function edit(Request $request)
+    {
+        return $this->ageGroupObj->edit($request);
+    }
+
+    /**
+     * Delete  Age Group.
+     *
+     * @Post("/age_group/delete")
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function delete(Request $request)
+    {
+        return $this->ageGroupObj->delete($request);
     }
 }

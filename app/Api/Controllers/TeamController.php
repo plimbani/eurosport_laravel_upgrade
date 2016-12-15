@@ -3,7 +3,6 @@
 namespace App\Api\Controllers;
 
 use Brotzka\DotenvEditor\DotenvEditor;
-use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
@@ -33,23 +32,49 @@ class TeamController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getTeams()
+    public function index()
     {
-        return $this->teamObj->getAllTeams();
+        return $this->teamObj->index();
     }
 
     /**
-     * Create  team.
+     * Create  Torunament.
      *
-     * Create New Team
+     * Create New Tournament
      *
      * @Post("/team/create")
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function createTeam(Request $request)
+    public function create(Request $request)
     {
-        return $this->teamObj->createTeam($request);
+        return $this->teamObj->create($request);
+    }
+
+    /**
+     * Edit  Teams.
+     *
+     * @Post("/team/edit/{$id}")
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function edit(Request $request)
+    {
+        return $this->teamObj->edit($request);
+    }
+
+    /**
+     * Delete  Teams.
+     *
+     * @Post("/team/delete")
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function delete(Request $request)
+    {
+        return $this->teamObj->delete($request);
     }
 }
