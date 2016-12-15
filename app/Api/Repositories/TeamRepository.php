@@ -3,22 +3,26 @@
 namespace App\Api\Repositories;
 
 use App\Models\Team;
-use DB;
 
 class TeamRepository
 {
-    public function __construct()
+    public function getAll()
     {
-        $this->dbObj = DB::table('teams');
+        return Team::get();
     }
 
-    public function getAllTeams()
+    public function create($data)
     {
-        return Team::all();
+        return Team::create($data);
     }
 
-    public function createTeam($teamData)
+    public function edit($data)
     {
-        return $this->dbObj->insert($teamData);
+        return Team::where('id', $data['id'])->update($data);
+    }
+
+    public function delete($data)
+    {
+        return Team::find($data['id'])->delete();
     }
 }

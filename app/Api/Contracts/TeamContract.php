@@ -5,13 +5,36 @@ namespace App\Api\Contracts;
 interface TeamContract
 {
     /*
-     * Get User Data
+     * Get All Teams
      *
-     * @param  array $data,$affiliateList
+     * @param  array $api_key,$state,$type
+     * @return response
+     */
+    public function index();
+
+    /*
+     * Create New Team
+     *
+     * @param  array $api_key,$data
      * @return response
      */
 
-    public function getAllTeams();
+    public function create($request);
 
-    public function createTeam($data);
+    /*
+     * Edit team
+     *
+     * @param  array $api_key,$tournament_id,$data
+     * @return response
+     */
+    public function edit($request);
+
+    /*
+     * Delete Team
+     *
+     * @param  array $api_key,$tournament_id
+     * @return response
+     */
+
+    public function delete($request);
 }

@@ -3,7 +3,6 @@
 namespace App\Api\Services;
 
 use App\Api\Contracts\AgeGroupContract;
-use Validator;
 use App\Api\Repositories\AgeGroupRepository;
 
 class AgeGroupService implements AgeGroupContract
@@ -13,7 +12,13 @@ class AgeGroupService implements AgeGroupContract
         $this->ageGroupObj = $ageRepoObj;
     }
 
-    public function getAllData()
+     /*
+     * Get All AgeGroup
+     *
+     * @param  array $api_key,$state,$type
+     * @return response
+     */
+    public function index()
     {
         // Here we send Status Code and Messages
         $data = $this->ageGroupObj->getAll();
@@ -24,12 +29,52 @@ class AgeGroupService implements AgeGroupContract
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
+    /**
+     * create New AgeGroup.
+     *
+     * @param  [type]
+     * @param mixed $data
+     *
+     * @return [type]
+     */
     public function create($data)
     {
         $data = $data->all();
         $data = $this->ageGroupObj->create($data);
         if ($data) {
-            return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
+            return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
+        }
+    }
+
+    /**
+     * Edit AgeGroup.
+     *
+     * @param array $data
+     *
+     * @return [type]
+     */
+    public function edit($data)
+    {
+        $data = $data->all();
+        $data = $this->ageGroupObj->edit($data);
+        if ($data) {
+            return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+        }
+    }
+
+    /**
+     * Delete AgeGroup.
+     *
+     * @param array $data
+     *
+     * @return [type]
+     */
+    public function delete($data)
+    {
+        $data = $data->all();
+        $data = $this->ageGroupObj->delete($data);
+        if ($data) {
+            return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
     }
 }

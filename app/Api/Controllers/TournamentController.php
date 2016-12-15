@@ -35,10 +35,6 @@ class TournamentController extends BaseController
      */
     public function index()
     {
-        /* return response(array(
-        'error' => false,
-        'products' =>$products->toArray(),
-       ),200); */
         return $this->tournamentObj->index();
     }
 
