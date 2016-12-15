@@ -58,8 +58,11 @@ $api->version('v1', function ($api) {
     //Age Group Stuff
     $api->get('age_groups', 'App\Api\Controllers\AgeGroupController@getAgeGroups');
 
-    //Tournament Api
-    $api->get('tournament', 'App\Api\Controllers\TournamentController@getAllTournaments');
-    $api->post('tournament/create', 'App\Api\Controllers\TournamentController@createTournament');
+    //Tournament Api CRUD Routes
+    $api->post('tournament', 'App\Api\Controllers\TournamentController@index');
+    $api->post('tournament/create', 'App\Api\Controllers\TournamentController@create');
+    $api->post('tournament/edit/{id}', 'App\Api\Controllers\TournamentController@edit');
+    $api->post('tournament/delete/{id}', 'App\Api\Controllers\TournamentController@delete');
+
 
 });

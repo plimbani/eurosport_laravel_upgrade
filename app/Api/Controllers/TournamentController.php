@@ -16,6 +16,9 @@ use App\Api\Contracts\TournamentContract;
  */
 class TournamentController extends BaseController
 {
+    /**
+     * @param object $tournamentObj
+     */
     public function __construct(TournamentContract $tournamentObj)
     {
         $this->tournamentObj = $tournamentObj;
@@ -30,13 +33,13 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getAllTournaments()
+    public function index()
     {
         /* return response(array(
         'error' => false,
         'products' =>$products->toArray(),
        ),200); */
-        return $this->tournamentObj->getAllTournaments();
+        return $this->tournamentObj->index();
     }
 
     /**
@@ -49,8 +52,34 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function createTournament(Request $request)
+    public function create(Request $request)
     {
-        return $this->tournamentObj->createTournament($request);
+        return $this->tournamentObj->create($request);
+    }
+
+    /**
+     * Edit  Torunament.
+     *
+     * @Post("/tournament/edit/{$id}")
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function edit(Request $request)
+    {
+        return $this->tournamentObj->edit($request);
+    }
+
+    /**
+     * Delete  Torunament.
+     *
+     * @Post("/tournament/delete")
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function delete(Request $request)
+    {
+        return $this->tournamentObj->delete($request);
     }
 }
