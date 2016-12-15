@@ -53,6 +53,19 @@ class MatchController extends BaseController
         return $this->matchObj->createMatch($request);
     }
 
+    /**
+     * Edit  Match result.
+     *
+     * @Post("/match/edit/{$id}")
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function edit(Request $request)
+    {
+        return $this->matchObj->edit($request);
+    }
+
     public function deleteMatch($deleteId)
     {
         return $this->matchObj->deleteMatch($deleteId);

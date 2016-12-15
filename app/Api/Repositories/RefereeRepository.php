@@ -19,7 +19,12 @@ class RefereeRepository
 
     public function createReferee($refereeData)
     {
-        return $this->dbObj->insert($refereeData);
+        return Referee::create($refereeData);
+    }
+
+    public function edit($data)
+    {
+        return Referee::where('id', $data['id'])->update($data);
     }
 
     public function getRefereeFromId($refereeId)

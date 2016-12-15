@@ -19,6 +19,14 @@ class MatchService implements MatchContract
         return $this->matchRepoObj->getAllMatches();
     }
 
+    /**
+     * create New Match.
+     *
+     * @param  [type]
+     * @param mixed $data
+     *
+     * @return [type]
+     */
     public function createMatch($data)
     {
         $data = $data->all();
@@ -28,6 +36,30 @@ class MatchService implements MatchContract
         }
     }
 
+    /**
+     * Edit Match.
+     *
+     * @param array $data
+     *
+     * @return [type]
+     */
+    public function edit($data)
+    {
+        $data = $data->all();
+        $data = $this->matchRepoObj->edit($data);
+        if ($data) {
+            return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+        }
+    }
+
+    /**
+     * Delete Match.
+     *
+     * @param array $data
+     * @param mixed $deleteId
+     *
+     * @return [type]
+     */
     public function deleteMatch($deleteId)
     {
         $matchRes = $this->matchRepoObj->getMatchFromId($deleteId)->delete();
