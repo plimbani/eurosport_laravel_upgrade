@@ -54,6 +54,19 @@ class RefereeController extends BaseController
         return $this->refereeObj->createReferee($request);
     }
 
+    /**
+     * Edit  referee.
+     *
+     * @Post("/referee/edit/{$id}")
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function edit(Request $request)
+    {
+        return $this->refereeObj->edit($request);
+    }
+
     public function deleteReferee($deleteId)
     {
         return $this->refereeObj->deleteReferee($deleteId);

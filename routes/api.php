@@ -48,11 +48,13 @@ $api->version('v1', function ($api) {
     //Referee api
     $api->get('referees', 'App\Api\Controllers\RefereeController@getReferees');
     $api->post('referee/create', 'App\Api\Controllers\RefereeController@createReferee');
+    $api->post('referee/edit/{id}', 'App\Api\Controllers\RefereeController@edit');
     $api->post('referee/delete/{deleteid}', 'App\Api\Controllers\RefereeController@deleteReferee');
 
     //MatchResult api
     $api->get('matches', 'App\Api\Controllers\MatchController@getMatches');
     $api->post('match/create', 'App\Api\Controllers\MatchController@createMatch');
+    $api->post('match/edit/{id}', 'App\Api\Controllers\MatchController@edit');
     $api->post('match/delete/{deleteid}', 'App\Api\Controllers\MatchController@deleteMatch');
 
     //Age Group Stuff

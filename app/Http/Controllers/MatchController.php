@@ -17,7 +17,7 @@ class MatchController extends Controller
     public function __construct(ApiContract $apiObj)
     {
         $this->apiObj = $apiObj;
-        $this->middleware('auth');
+        $this->middleware('jwt.auth');
     }
 
     /**
