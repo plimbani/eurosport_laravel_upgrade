@@ -22,7 +22,7 @@ class RefereeController extends BaseController
     public function __construct(RefereeContract $refereeObj)
     {
         $this->refereeObj = $refereeObj;
-         $this->middleware('jwt.auth');
+        $this->middleware('jwt.auth');
     }
 
     /**

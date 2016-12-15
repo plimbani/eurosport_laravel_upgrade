@@ -24,7 +24,6 @@ class MatchController extends BaseController
     {
         $this->matchObj = $matchObj;
         $this->middleware('jwt.auth');
-        
     }
 
     /**
