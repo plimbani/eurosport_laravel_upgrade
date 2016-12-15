@@ -15,7 +15,6 @@ class ApiService implements ApiContract
     protected $apiObj;
     protected $dispatcherObj;
 
-
     public function __construct()
     {
         $this->apiObj = $this->api;
@@ -25,5 +24,4 @@ class ApiService implements ApiContract
     {
         return $this->dispatcherObj = app('Dingo\Api\Dispatcher');
     }
-
 }

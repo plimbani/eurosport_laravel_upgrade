@@ -2,22 +2,27 @@
 
 namespace App\Api\Repositories;
 
-use DB;
+use App\Models\Tournament;
 
 class TournamentRepository
 {
-    public function __construct()
+    public function getAll()
     {
-        $this->dbObj = DB::table('tournaments');
+        return Tournament::get();
     }
 
-    public function getAllTournaments()
+    public function create($data)
     {
-        return $this->dbObj->get();
+        return Tournament::create($data);
     }
 
-    public function createTournament($data)
+    public function edit($data)
     {
-        return $this->dbObj->insert($data);
+        return Tournament::where('id', $data['id'])->update($data);
+    }
+
+    public function delete($data)
+    {
+        return Tournament::find($data['id'])->delete();
     }
 }
