@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class LoginController extends Controller
 {
@@ -36,7 +38,8 @@ class LoginController extends Controller
     public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->middleware('guest', ['except' => 'logout']);
+        // $this->middleware('guest', ['except' => 'logout']);
+        // $this->middleware('jwt.auth', ['except' => ['login']]);
     }
 
     /**
@@ -76,4 +79,26 @@ class LoginController extends Controller
 
         return redirect()->intended($this->redirectPath());
     }
+
+     public function login(Request $request)
+    {
+        
+        $credentials = $request->only( 'password');
+        $credentials['email'] = $request->input('login'); 
+        
+        try {
+            // attempt to verify the credentials and create a token for the user
+            if (! $token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            }
+        } catch (JWTException $e) {
+            // something went wrong whilst attempting to encode the token
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+        // return redirect('/matches');
+        // all good so return the token
+        return response()->json(compact('token'));
+    }
+
+
 }
