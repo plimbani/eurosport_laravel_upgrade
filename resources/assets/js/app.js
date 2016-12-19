@@ -22,7 +22,6 @@ import Vue from 'vue'
 // Add router for All  routing files
 import router from '../js/router'
 
-
 new Vue({
   router
 }).$mount('#app')

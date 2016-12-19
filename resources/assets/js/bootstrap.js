@@ -27,6 +27,9 @@ window.Vue = require('vue');
 
 window.axios = require('axios');
 
+
+window.VueResource = require ('vue-resource');
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
