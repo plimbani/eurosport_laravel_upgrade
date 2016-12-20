@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AgeGroup extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
-	protected $table = 'age_groups';
+    protected $table = 'age_groups';
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     /**

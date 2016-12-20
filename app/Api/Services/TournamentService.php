@@ -56,13 +56,15 @@ class TournamentService implements TournamentContract
      * Edit Tournament.
      *
      * @param array $data
+     * @param mixed $id
+     * @param mixed $tournamentId
      *
      * @return [type]
      */
-    public function edit($data,$id)
+    public function edit($data, $tournamentId)
     {
         $data = $data->all();
-        $data = $this->tournamentRepoObj->edit($data,$id);
+        $data = $this->tournamentRepoObj->edit($data, $tournamentId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
@@ -72,6 +74,7 @@ class TournamentService implements TournamentContract
      * Delete Tournament.
      *
      * @param array $data
+     * @param mixed $deleteId
      *
      * @return [type]
      */

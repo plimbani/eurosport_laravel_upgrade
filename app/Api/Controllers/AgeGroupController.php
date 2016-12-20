@@ -41,10 +41,9 @@ class AgeGroupController extends BaseController
         return $this->ageGroupObj->create($request);
     }
 
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $ageId)
     {
-
-        return $this->ageGroupObj->edit($request,$id);
+        return $this->ageGroupObj->edit($request, $ageId);
     }
 
     public function delete($deleteId)

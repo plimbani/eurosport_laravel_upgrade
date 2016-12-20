@@ -19,6 +19,17 @@ class TeamRepository
 
     public function createTeam($teamData)
     {
-        return $this->dbObj->insert($teamData);
+        return Team::create($teamData);
+    }
+
+    public function edit($data,$teamId)
+    {
+        
+        return Team::where('id', $teamId)->update($data);
+    }
+
+    public function getTeamFromId($teamId)
+    {
+        return Team::find($teamId);
     }
 }

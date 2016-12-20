@@ -40,13 +40,15 @@ class MatchService implements MatchContract
      * Edit Match.
      *
      * @param array $data
+     * @param mixed $id
+     * @param mixed $matchId
      *
      * @return [type]
      */
-    public function edit($data,$id)
+    public function edit($data, $matchId)
     {
         $data = $data->all();
-        $data = $this->matchRepoObj->edit($data,$id);
+        $data = $this->matchRepoObj->edit($data, $matchId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }

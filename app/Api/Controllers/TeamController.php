@@ -23,7 +23,7 @@ class TeamController extends BaseController
     {
         $this->teamObj = $teamObj;
 
-         $this->middleware('jwt.auth');
+        $this->middleware('jwt.auth');
     }
 
     /**
@@ -62,11 +62,13 @@ class TeamController extends BaseController
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     *
+     * @param mixed $id
+     * @param mixed $teamId
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $teamId)
     {
-
-        return $this->teamObj->edit($request,$id);
+        return $this->teamObj->edit($request, $teamId);
     }
 
     public function deleteTeam($deleteId)

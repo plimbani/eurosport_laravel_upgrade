@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('superadmin'),
             'is_verified' => 1,
             'person_id' => 1,
-            'token' => '1',
+            'token' => str_random(60),
 
         ]);
 
@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
         $adminUser = factory(App\Models\User::class)->create([
             'username' => 'admin',
             'email' => 'admin@admin.com',
-            'password' => bcrypt('admin'), 'person_id' => 2, 'token' => '2',
+            'password' => bcrypt('admin'), 'person_id' => 2,  'token' => str_random(60),
             'is_verified' => 1,
         ]);
         $adminUser->attachRole(Role::where('slug', 'admin')->get());
@@ -35,7 +35,7 @@ class UsersTableSeeder extends Seeder
         $moderatorUser = factory(App\Models\User::class)->create([
             'username' => 'moderator',
             'email' => 'moderator@moderator.com',
-            'password' => bcrypt('moderator'), 'person_id' => 3, 'token' => '3',
+            'password' => bcrypt('moderator'), 'person_id' => 3, 'token' => str_random(60),
             'is_verified' => 1,
         ]);
         $moderatorUser->attachRole(Role::where('slug', 'moderator')->get());

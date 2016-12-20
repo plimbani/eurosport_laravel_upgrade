@@ -14,19 +14,20 @@ interface TeamContract
     public function getAllTeams();
 
     public function createTeam($data);
+
      /*
      * Edit Team
      *
-     * @param  array $team_id,$data
+     * @param  array $teamId,$data
      * @return response
      */
-    public function edit($request,$team_id);
+    public function edit($request, $teamId);
 
 /*
      * Delete Team
      *
-     * @param  array $team_id
+     * @param  array $teamId
      * @return response
      */
-    public function deleteTeam($team_id);
+    public function deleteTeam($teamId);
 }

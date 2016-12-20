@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Api\Repositories;
+
 use App\Models\AgeGroup;
 use DB;
 
@@ -21,14 +22,13 @@ class AgeGroupRepository
         return AgeGroup::create($data);
     }
 
-    public function edit($data,$id)
+    public function edit($data, $ageId)
     {
-        
-        return AgeGroup::where('id', $id)->update($data);
+        return AgeGroup::where('id', $ageId)->update($data);
     }
 
-    public function getAgegroupFromId($id)
+    public function getAgegroupFromId($ageId)
     {
-        return AgeGroup::find($id);
+        return AgeGroup::find($ageId);
     }
 }

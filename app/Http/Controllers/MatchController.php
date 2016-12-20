@@ -42,6 +42,7 @@ class MatchController extends Controller
             'location_id' => '1', 'referee_id' => '1',
             'notes' => 'test Notes',
         ];
+
         return $dispatcher->with($matchData)->post('match/create');
     }
 
@@ -52,7 +53,7 @@ class MatchController extends Controller
         $matchData = [
             'goal_score2' => '5',
         ];
-        
+
         return $dispatcher->with($matchData)->post('match/edit/'.$matchId);
     }
 

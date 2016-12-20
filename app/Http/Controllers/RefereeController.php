@@ -40,6 +40,7 @@ class RefereeController extends Controller
              'user_id' => '1', 'availability' => '100',
             'comments' => 'TestComments', 'age_group_id' => '1',
         ];
+
         return $dispatcher->with($refereeData)->post('referee/create');
     }
 
@@ -50,8 +51,8 @@ class RefereeController extends Controller
         $refereeData = [
             'availability' => '100',
         ];
-        
-       return $dispatcher->with($refereeData)->post('referee/edit/'.$refereeId);
+
+        return $dispatcher->with($refereeData)->post('referee/edit/'.$refereeId);
     }
 
     public function deleteReferee($deleteId)

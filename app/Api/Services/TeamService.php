@@ -36,19 +36,21 @@ class TeamService implements TeamContract
      * Edit Match.
      *
      * @param array $data
+     * @param mixed $id
+     * @param mixed $teamId
      *
      * @return [type]
      */
-    public function edit($data,$id)
+    public function edit($data, $teamId)
     {
         $data = $data->all();
-        $data = $this->teamRepoObj->edit($data,$id);
+        $data = $this->teamRepoObj->edit($data, $teamId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
     }
 
-        /**
+    /**
      * Delete Match.
      *
      * @param array $data

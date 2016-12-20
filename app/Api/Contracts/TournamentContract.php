@@ -24,17 +24,17 @@ interface TournamentContract
     /*
      * Edit Tournament
      *
-     * @param  array $id,$data
+     * @param  array $tournamentId,$data
      * @return response
      */
-    public function edit($request,$id);
+    public function edit($request, $tournamentId);
 
     /*
      * Delete Tournament
      *
-     * @param  array $id
+     * @param  array $tournamentId
      * @return response
      */
 
-    public function delete($id);
+    public function delete($tournamentId);
 }

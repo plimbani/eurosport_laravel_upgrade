@@ -32,11 +32,11 @@ class AgeGroupService implements AgeGroupContract
             return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
-    
-    public function edit($data,$id)
+
+    public function edit($data, $ageId)
     {
         $data = $data->all();
-        $data = $this->ageGroupObj->edit($data,$id);
+        $data = $this->ageGroupObj->edit($data, $ageId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
