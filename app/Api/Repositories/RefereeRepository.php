@@ -22,13 +22,13 @@ class RefereeRepository
         return Referee::create($refereeData);
     }
 
-    public function edit($data)
+    public function edit($data,$id)
     {
-        return Referee::where('id', $data['id'])->update($data);
+        return Referee::where('id', $id)->update($data);
     }
 
     public function getRefereeFromId($refereeId)
     {
-        return Referee::find($refereeId);
+        return Referee::findOrFail($refereeId);
     }
 }

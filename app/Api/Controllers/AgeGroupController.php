@@ -19,6 +19,7 @@ class AgeGroupController extends BaseController
     public function __construct(AgeGroupContract $ageGroupObj)
     {
         $this->ageGroupObj = $ageGroupObj;
+        $this->middleware('jwt.auth');
     }
 
     /**
@@ -35,18 +36,19 @@ class AgeGroupController extends BaseController
         return $this->ageGroupObj->getAllData();
     }
 
-    /**
-     * Create  team.
-     *
-     * Create New Team
-     *
-     * @Post("/age_group/create")
-     *
-     * @Versions({"v1"})
-     * @Request("name=test", contentType="application/x-www-form-urlencoded")
-     */
-    public function createAgeGroup(Request $request)
+    public function create(Request $request)
     {
-        return $this->ageGroupObj->createAgeGroup($request);
+        return $this->ageGroupObj->create($request);
+    }
+
+    public function edit(Request $request,$id)
+    {
+
+        return $this->ageGroupObj->edit($request,$id);
+    }
+
+    public function delete($deleteId)
+    {
+        return $this->ageGroupObj->delete($deleteId);
     }
 }

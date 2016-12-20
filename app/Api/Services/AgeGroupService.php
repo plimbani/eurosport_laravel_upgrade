@@ -32,4 +32,21 @@ class AgeGroupService implements AgeGroupContract
             return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
+    
+    public function edit($data,$id)
+    {
+        $data = $data->all();
+        $data = $this->ageGroupObj->edit($data,$id);
+        if ($data) {
+            return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+        }
+    }
+
+    public function delete($deleteId)
+    {
+        $matchRes = $this->ageGroupObj->getAgegroupFromId($deleteId)->delete();
+        if ($matchRes) {
+            return ['code' => '200', 'message' => 'AgeGroup has been deleted sucessfully'];
+        }
+    }
 }

@@ -11,6 +11,9 @@ class Referee extends Model
 
     protected $table = 'referee';
 
+    protected $fillable = [
+        'user_id','availability', 'comments', 'age_group_id'
+    ];
     /**
      * The attributes that should be mutated to dates.
      *

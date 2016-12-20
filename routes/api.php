@@ -44,6 +44,8 @@ $api->version('v1', function ($api) {
     // Team Stuff
     $api->get('teams', 'App\Api\Controllers\TeamController@getTeams');
     $api->post('team/create', 'App\Api\Controllers\TeamController@createTeam');
+    $api->post('team/edit/{id}', 'App\Api\Controllers\TeamController@edit');
+    $api->post('team/delete/{deleteid}', 'App\Api\Controllers\TeamController@deleteTeam');
 
     //Referee api
     $api->get('referees', 'App\Api\Controllers\RefereeController@getReferees');
@@ -59,9 +61,12 @@ $api->version('v1', function ($api) {
 
     //Age Group Stuff
     $api->get('age_groups', 'App\Api\Controllers\AgeGroupController@getAgeGroups');
+    $api->post('age_group/create', 'App\Api\Controllers\AgeGroupController@create');
+    $api->post('age_group/edit/{id}', 'App\Api\Controllers\AgeGroupController@edit');
+    $api->post('age_group/delete/{deleteid}', 'App\Api\Controllers\AgeGroupController@delete');
 
     //Tournament Api CRUD Routes
-    $api->post('tournament', 'App\Api\Controllers\TournamentController@index');
+    $api->get('tournaments', 'App\Api\Controllers\TournamentController@index');
     $api->post('tournament/create', 'App\Api\Controllers\TournamentController@create');
     $api->post('tournament/edit/{id}', 'App\Api\Controllers\TournamentController@edit');
     $api->post('tournament/delete/{id}', 'App\Api\Controllers\TournamentController@delete');

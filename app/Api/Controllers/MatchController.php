@@ -61,9 +61,10 @@ class MatchController extends BaseController
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function edit(Request $request)
+    public function edit(Request $request,$id)
     {
-        return $this->matchObj->edit($request);
+
+        return $this->matchObj->edit($request,$id);
     }
 
     public function deleteMatch($deleteId)

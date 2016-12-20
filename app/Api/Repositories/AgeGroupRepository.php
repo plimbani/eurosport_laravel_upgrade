@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Api\Repositories;
-
+use App\Models\AgeGroup;
 use DB;
 
 class AgeGroupRepository
@@ -13,11 +13,22 @@ class AgeGroupRepository
 
     public function getAll()
     {
-        return $this->dbObj->get();
+        return AgeGroup::all();
     }
 
     public function create($data)
     {
-        return $this->dbObj->insert($data);
+        return AgeGroup::create($data);
+    }
+
+    public function edit($data,$id)
+    {
+        
+        return AgeGroup::where('id', $id)->update($data);
+    }
+
+    public function getAgegroupFromId($id)
+    {
+        return AgeGroup::find($id);
     }
 }

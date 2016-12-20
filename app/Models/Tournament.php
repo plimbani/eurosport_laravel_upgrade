@@ -15,9 +15,9 @@ class Tournament extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'website', 'facebook', 'twitter', 'logo', 'competition_type',
-    'no_of_pitches', 'no_of_match_per_day_pitch', 'points_per_match_win', 'points_per_match_tie',
-    'points_per_bye', 'user_id', 'start_date', 'end_date',
+    protected $fillable = ['competition_type', 'user_id', 'start_date', 'end_date', 'no_of_pitches', 'no_of_match_per_day_pitch',
+    'no_of_pitches', 'points_per_match_win',  'points_per_match_tie',
+    'points_per_bye'
     ];
 
     protected $dates = ['end_date', 'start_date', 'created_at', 'updated_at', 'pos_dispatched', 'deleted_at'];

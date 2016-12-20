@@ -24,16 +24,16 @@ interface MatchContract
     /*
      * Edit Match
      *
-     * @param  array $api_key,$match_id,$data
+     * @param  array $api_key,$matchId,$data
      * @return response
      */
-    public function edit($request);
+    public function edit($request, $matchId);
 
     /*
      * Delete Match
      *
-     * @param  array $api_key,$match_id
+     * @param  array $api_key,$matchId
      * @return response
      */
-    public function deleteMatch($deleteId);
+    public function deleteMatch($matchId);
 }

@@ -19,12 +19,15 @@ class MatchRepository
 
     public function createMatch($matchData)
     {
+
         return MatchResult::create($matchData);
+
     }
 
-    public function edit($data)
+    public function edit($data,$id)
     {
-        return MatchResult::where('id', $data['id'])->update($data);
+        
+        return MatchResult::where('id', $id)->update($data);
     }
 
     public function getMatchFromId($matchId)

@@ -24,16 +24,16 @@ interface RefereeContract
     /*
      * Edit Referee
      *
-     * @param  array $api_key,$referee_id,$data
+     * @param  array $api_key,$refereeId,$data
      * @return response
      */
-    public function edit($request);
+    public function edit($request, $refereeId);
 
     /*
      * Delete Referee
      *
-     * @param  array $api_key,$referee_id
+     * @param  array $api_key,$refereeId
      * @return response
      */
-    public function deleteReferee($data);
+    public function deleteReferee($refereeId);
 }
