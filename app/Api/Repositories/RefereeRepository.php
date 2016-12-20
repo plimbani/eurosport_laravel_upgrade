@@ -22,9 +22,9 @@ class RefereeRepository
         return Referee::create($refereeData);
     }
 
-    public function edit($data,$id)
+    public function edit($data, $refereeId)
     {
-        return Referee::where('id', $id)->update($data);
+        return Referee::where('id', $refereeId)->update($data);
     }
 
     public function getRefereeFromId($refereeId)

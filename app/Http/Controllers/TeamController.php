@@ -18,7 +18,7 @@ class TeamController extends Controller
     public function __construct(ApiContract $apiObj)
     {
         $this->apiObj = $apiObj;
-        $this->middleware('auth');
+        $this->middleware('jwt.auth');
     }
 
     /**
@@ -42,6 +42,24 @@ class TeamController extends Controller
             'shirt_colour' => '#271d7e', 'esr_reference' => '232323',
         ];
 
-        $result = $dispatcher->with($teamData)->post('team/create');
+        return $dispatcher->with($teamData)->post('team/create');
+    }
+
+    public function edit($teamId)
+    {
+        $dispatcher = $this->apiObj->getDispacther();
+
+        $teamData = [
+            'name' => 'TestTeams update',
+        ];
+
+        return $dispatcher->with($teamData)->post('team/edit/'.$teamId);
+    }
+
+    public function deleteTeam($deleteId)
+    {
+        $dispatcher = $this->apiObj->getDispacther();
+
+        return $dispatcher->post('team/delete/'.$deleteId);
     }
 }

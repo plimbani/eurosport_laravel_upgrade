@@ -22,9 +22,8 @@ class TeamRepository
         return Team::create($teamData);
     }
 
-    public function edit($data,$teamId)
+    public function edit($data, $teamId)
     {
-        
         return Team::where('id', $teamId)->update($data);
     }
 

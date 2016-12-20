@@ -16,13 +16,13 @@ class TournamentRepository
         return Tournament::create($data);
     }
 
-    public function edit($data,$id)
+    public function edit($data, $tournamentId)
     {
-        return Tournament::where('id', $id)->update($data);
+        return Tournament::where('id', $tournamentId)->update($data);
     }
 
-    public function getTournamentFromId($id)
+    public function getTournamentFromId($tournamentId)
     {
-        return Tournament::find($id);
+        return Tournament::find($tournamentId);
     }
 }
