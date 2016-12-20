@@ -41,13 +41,14 @@ class RefereeService implements RefereeContract
      *
      * @param array $data
      * @param mixed $id
+     * @param mixed $refereeId
      *
      * @return [type]
      */
-    public function edit($data, $id)
+    public function edit($data, $refereeId)
     {
         $data = $data->all();
-        $data = $this->refereeRepoObj->edit($data, $id);
+        $data = $this->refereeRepoObj->edit($data, $refereeId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
