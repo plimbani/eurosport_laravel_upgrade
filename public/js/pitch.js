@@ -1,18 +1,7 @@
-$("#tbl_avail").on(  "click", '.available', function () {
-   $(this).addClass("allocate");
-   $(this).removeClass("available");
-  $(this).find('span').text('allocate');
-});
-$( '#tbl_avail' ).on( "click",'.allocate', function() {
-	$(this).find('span').text('available');
-   $(this).addClass("available");
-   $(this).removeClass("allocate");
-});
-
-
 $(document).ready(function(){
 
     function getPitchesData() {
+
         vuePitch = new Vue({
             el: "#pitchSet",
             data: {
@@ -25,61 +14,33 @@ $(document).ready(function(){
                 searchdata: ''
             },
             ready: function() {
-                this.getPitches();
+              alert('h');
+
             },
             methods: {
-                getPitches: function(page, sortby, sorttype, searchdata) {
-                    if(typeof(sortby) == "undefined"){
-                        sortby = this.sortby;
-                        sorttype = this.sorttype;
-                    }
-                    var data = "sortby="+sortby + "&sorttype=" + sorttype; 
-
-                    if(typeof(searchdata) != "undefined") {
-                        data += searchdata;    
-                    }
-
-                    data += setPaginationAmount();
-
-                    if(typeof(page) == "undefined"){
-                        ajaxCall("templates/get_data", data, 'POST', 'json', pitchDataSuccess);
-                    } else {
-                        ajaxCall("templates/get_data?page="+page, data, 'POST', 'json', pitchDataSuccess);
-                    }
-                },
-                savePitchDetail: function() {
-
+                savePitchDetail: function(form) {
+                	console.log(form);
+                	return false;
                     var validateRules = {
-                        "name": {
+                        "pitch_name": {
                             required: true
-                        },
-                        "subject": {
-                            required: true
-                        },
-                        "content_editor": {
-                            cke_required: true
                         }
                     }
 
                     var messages = {
-                        "name": {
+                        "pitch_name": {
                             required: "This field is required"
                         }    
                     }
 
-                    checkValidation( "frmTemplateForm", validateRules, messages );
+                    checkValidation( "frmPitchDetails", validateRules, messages );
                     
-                    if($('#frmTemplateForm').validate().form()) {
-                        var m_data = new FormData($("#frmTemplateForm")[0]);
+                    if($('#frmPitchDetails').validate().form()) {
+                        var m_data = new FormData($("#frmPitchDetails")[0]);
 
-                        content = CKEDITOR.instances.content_editor.getData();
-                        m_data.append('content', content);
 
-                        if(typeof(this.templateID) != "undefined" && this.templateID != 0) {
-                            m_data.append('template_id', this.templateID);
-                        }
 
-                        ajaxCall("/template/store", m_data, 'POST', 'json', templateUpdateSuccess, false, false);
+                        ajaxCall("/pitches/store", m_data, 'POST', 'json', pitchUpdateSuccess, false, false);
                     }
 
                 },
@@ -115,4 +76,26 @@ $(document).ready(function(){
     }
     getPitchesData();
     datePickerInit();
+
+$("#tbl_avail").on(  "click", '.available', function () {
+   $(this).addClass("allocate");
+   $(this).removeClass("available");
+   $(this).find('span').text('allocate');
+});
+$( '#tbl_avail' ).on( "click",'.allocate', function() {
+	$(this).find('span').text('available');
+   $(this).addClass("available");
+   $(this).removeClass("allocate");
+});
+
+function pitchUpdateSuccess(pitch, status, xhr){
+	console.log('msg');
+    if(pitch.status === true) {
+        showMsg("success", 'Success', 'Pitch has been saved successfully');
+        window.location = "/templates";
+    } else {
+       console.log('test');
+    }
+}
+
 });

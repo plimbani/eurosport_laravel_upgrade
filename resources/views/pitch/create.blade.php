@@ -8,7 +8,8 @@
       <div class="container" id="pitchSet">
         <div class="content">
             <div class="text-center col-md-8 col-md-offset-2">
-                <form>
+                <form name="frmPitchDetails" role="form" class="form-horizontal" id="frmPitchDetails">
+
                     <ul class="nav nav-tabs">
                       <li class="active"><a data-toggle="tab" href="#pitch_detail">Pitch</a></li>
                       <li><a data-toggle="tab" href="#avail">Availability</a></li>
@@ -46,6 +47,8 @@
                           <label for="comment" class="col-md-4">Comment:</label>
                           <textarea class="col-md-3" rows="5" id="comment"></textarea>
                         </div>
+
+                         <button type="submit" class="btn btn-default" id="submitStep1"  @click="savePitchDetail(this)">Next</button>
                       </div>
                        <div id="avail" class="tab-pane fade">
                         <h3>Availability</h3>
@@ -62,7 +65,7 @@
                             </thead>
                             <tbody>
                            
-                              @foreach ($time_slot['30'] as $ts)
+                              @foreach ($timeSlot['30'] as $ts)
                               <tr>
                                 <th>{{$ts}}</th>
                                 @foreach (range(1,$days) as $day)
@@ -80,7 +83,7 @@
                       </div>
                     </div>
 
-                    <button type="submit" class="btn btn-default">Next</button>
+                   
                 </form>
             </div>
 
