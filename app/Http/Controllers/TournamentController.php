@@ -31,7 +31,7 @@ class TeamController extends Controller
         return view('team.index')->with('teams', $this->apiObj->api->get('teams'));
     }
 
-    public function create()
+    /*public function create()
     {
         $dispatcher = $this->apiObj->getDispacther();
 
@@ -43,5 +43,5 @@ class TeamController extends Controller
         ];
 
         $result = $dispatcher->with($teamData)->post('team/create');
-    }
+    }*/
 }

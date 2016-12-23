@@ -11,9 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('index');
+/*Route::get('/', function () {
+    return view('dashboard');
+})->name('index');*/
+
+Route::get('/', 'HomeController@index');
+Route::resource('home', 'HomeController');
+
+Route::get('/teams', 'TeamController@index');
+Route::get('/team/create', 'TeamController@create');
 
 Auth::routes();
 
@@ -24,8 +30,8 @@ Auth::routes();
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/test2', 'HomeController@getUsers');
 
-    Route::get('/teams', 'TeamController@index');
-    Route::get('/team/create', 'TeamController@create');
+    //Route::get('/teams', 'TeamController@index');
+    //Route::get('/team/create', 'TeamController@create');
 
     Route::get('/referees', 'RefereeController@index');
     Route::get('/referee/create', 'RefereeController@create');

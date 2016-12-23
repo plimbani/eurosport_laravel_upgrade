@@ -19,7 +19,6 @@ class CreateVenuesTable extends Migration
             $table->string('address1');
             $table->string('address2');
             $table->string('address3');
-            $table->string('town');
             $table->string('state');
             $table->string('county');
             $table->string('city');
