@@ -1,81 +1,20 @@
 $(document).ready(function(){
 
-    function getPitchesData() {
-
-        vuePitch = new Vue({
-            el: "#pitchSet",
-            data: {
-                pitchData: [],
-                pitchCount: 0,
-                sortKey: '',
-                sortOrder: 1,
-                sortby: 'id',
-                sorttype: 'desc',
-                searchdata: ''
-            },
-            ready: function() {
-              alert('h');
-
-            },
-            methods: {
-                savePitchDetail: function(form) {
-                	console.log(form);
-                	return false;
-                    var validateRules = {
-                        "pitch_name": {
-                            required: true
-                        }
-                    }
-
-                    var messages = {
-                        "pitch_name": {
-                            required: "This field is required"
-                        }    
-                    }
-
-                    checkValidation( "frmPitchDetails", validateRules, messages );
-                    
-                    if($('#frmPitchDetails').validate().form()) {
-                        var m_data = new FormData($("#frmPitchDetails")[0]);
+$('#frmPitchDetails').on('submit', function(){
+	event.preventDefault();
+	var m_data = $("#frmPitchDetails").serialize();
 
 
+	$.ajax({
+	  url: '/pitch/store',
+	  data: m_data,
+	  success: pitchUpdateSuccess,
+	  method : 'POST',
+	  dataType: 'json',
+	  processData: false
 
-                        ajaxCall("/pitches/store", m_data, 'POST', 'json', pitchUpdateSuccess, false, false);
-                    }
-
-                },
-                sortBy: function (key) {
-                    this.sortOrder = this.sortOrder * -1;
-                    this.$set('sortOrder', this.sortOrder);
-                    this.$set('sortby', key);
-                    this.$set('sortKey', key);
-                    var stype = this.sortOrder == 1 ? 'asc':'desc';
-                    this.$set('sorttype', stype);
-                    this.getTemplates(this.currPage, key, stype, this.searchdata);
-                },
-                changesStatus: function (key) {
-                    // console.log(this.sortby, this.sorttype, this.searchdata);
-                    // return false;
-                     vuePitch.$set('modal_title', 'Confirmation');
-                        vuePitch.$set('modal_msg', 'Do you really want to delete this template?');
-                        vuePitch.$set('modal_id', 'active');
-                        vuePitch.$set('modal_template_id', key);
-
-                    $("#updateStatus").modal('show');
-                    
-                },
-                updateStateStatus: function(templateid) {
-                    
-                    ajaxCall('template/delete/'+templateid, '', 'POST', 'json', pitchDataSuccess);
-                    showMsg("success", 'Success', 'Template has been deleted successfully');
-                     $("#updateStatus").modal('hide');
-                    this.getTemplates(this.currPage,this.sortby, this.sorttype, this.searchdata);
-                }
-            }
-        });
-    }
-    getPitchesData();
-    datePickerInit();
+	});
+});
 
 $("#tbl_avail").on(  "click", '.available', function () {
    $(this).addClass("allocate");
@@ -88,14 +27,21 @@ $( '#tbl_avail' ).on( "click",'.allocate', function() {
    $(this).removeClass("allocate");
 });
 
+
 function pitchUpdateSuccess(pitch, status, xhr){
-	console.log('msg');
+	console.log(pitch, status, xhr);
     if(pitch.status === true) {
-        showMsg("success", 'Success', 'Pitch has been saved successfully');
+    	alert('Hello');
+    	$( "li" ).each(function( index ) {
+			  console.log( index + ": " + $( this ).text() );
+		});
+	    showMsg("success", 'Success', 'Pitch has been saved successfully');
         window.location = "/templates";
     } else {
-       console.log('test');
+     
     }
 }
 
+
+	
 });
