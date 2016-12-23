@@ -34,3 +34,7 @@ Auth::routes();
     Route::get('/matches', 'MatchController@index');
     Route::get('/match/create', 'MatchController@create');
     Route::any('/match/delete/{delete_id}', 'MatchController@deleteMatch');
+
+    Route::get('/pitches', 'PitchController@index');
+    Route::get('/pitch/create', 'PitchController@create');
+    // Route::any('/referee/delete/{delete_id}', 'RefereeController@deleteReferee');
