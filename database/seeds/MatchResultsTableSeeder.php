@@ -20,7 +20,7 @@ class MatchResultsTableSeeder extends Seeder
         $matchStatus = ['Walk over', 'abandoned', 'full-time', 'penalties'];
         $referee = App\Models\Referee::all()->pluck('id')->toArray();
 
-        foreach (range(1, 10) as $index) {
+        foreach (range(1, 5) as $index) {
             DB::table('match_results')->insert([
                 'goal_score1' => $faker->numberBetween(1, 10),
                 'goal_score2' => $faker->numberBetween(1, 10),

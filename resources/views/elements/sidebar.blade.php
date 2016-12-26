@@ -26,7 +26,7 @@
 
    {{-- @if(Auth::user()->can( 'cms.view' ) || Auth::user()->can( 'cms.admin' )) --}}
    <li @if( (isset($title) && $title != '') && $title == 'Clubs')  class="nav-item start clubs" @else  class="nav-item start clubs"  @endif data-page="clubs">
-       <a href="{{ url('/club') }}" class="nav-link nav-toggle">
+       <a href="{{ url('/tournament/create') }}" class="nav-link nav-toggle">
            <i class="fa fa-file-text"></i>
            <span class="title">Tournament Details</span>
            <span class="selected"></span>

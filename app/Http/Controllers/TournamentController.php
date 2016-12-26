@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 //use Dingo\Api\Routing\Helpers;
 use App\Contracts\ApiContract;
 
-class TeamController extends Controller
+class TournamentController extends Controller
 {
     // use Helpers;
 
@@ -28,7 +28,12 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return view('team.index')->with('teams', $this->apiObj->api->get('teams'));
+        //return view('team.index')->with('teams', $this->apiObj->api->get('teams'));
+    }
+
+    public function create()
+    {
+        return view('tournament.create');
     }
 
     /*public function create()

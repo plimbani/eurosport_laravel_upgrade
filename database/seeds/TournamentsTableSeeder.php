@@ -16,9 +16,21 @@ class TournamentsTableSeeder extends Seeder
         $faker = Faker::create();
         $users = App\Models\User::all()->pluck('id')->toArray();
         $competitionType = ['Group Games', 'Single Elimination', 'Double Elimination'];
+
+        $tournamentArray = [
+            ['name' => 'U14 Fc Schadewijk', 'website' => 'http://toposscup.nl/', 'facebook' => 'fb',
+                'twitter' => 'tw', 'logo' => '',
+                ],
+            ];
         DB::table('tournaments')->delete();
-        foreach (range(1, 10) as $index) {
+        foreach ($tournamentArray as $tournament) {
             DB::table('tournaments')->insert([
+                'name' => $tournament['name'],
+                'website' => $tournament['website'],
+                'facebook' => $tournament['facebook'],
+                'twitter' => $tournament['twitter'],
+                'logo' => $tournament['logo'],
+
                 'competition_type' => $faker->randomElement($competitionType),
                 'user_id' => $faker->randomElement($users),
                 'start_date' => $faker->dateTimeBetween($startDate = '-15 days', $endDate = 'now'),

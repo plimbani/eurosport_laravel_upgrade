@@ -25,6 +25,7 @@ class CreateVenuesTable extends Migration
             $table->string('country');
             $table->string('postcode', 10);
             $table->string('contact_no', 30);
+            $table->string('email_address', 30);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -19,6 +19,8 @@ class PitchAvailibilty extends Migration
             $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->integer('pitch_id')->unsigned()->index();
             $table->foreign('pitch_id')->references('id')->on('pitches');
+
+            $table->integer('time_slot');
             $table->timestamp('start_time')->nullable();
             $table->timestamp('end_time')->nullable();
             $table->timestamps();

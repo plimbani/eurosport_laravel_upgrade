@@ -21,6 +21,8 @@ Route::resource('home', 'HomeController');
 Route::get('/teams', 'TeamController@index');
 Route::get('/team/create', 'TeamController@create');
 
+Route::get('/tournament/create', 'TournamentController@create');
+
 Auth::routes();
 
     Route::get('/user/verification/{token}', 'Auth\VerifyAccountController@userActivation')->name('user.verification');

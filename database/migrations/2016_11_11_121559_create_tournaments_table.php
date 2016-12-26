@@ -15,6 +15,11 @@ class CreateTournamentsTable extends Migration
     {
         Schema::create('tournaments', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->string('website')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('logo')->nullable();
             $table->enum('competition_type', ['Group Games', 'Single Elimination', 'Double Elimination']);
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users');
