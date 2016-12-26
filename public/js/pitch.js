@@ -15,7 +15,7 @@ $('#frmPitchDetails').on('submit', function(){
 
 	});
 });
-
+ 
 $("#tbl_avail").on(  "click", '.available', function () {
    $(this).addClass("allocate");
    $(this).removeClass("available");
