@@ -36,6 +36,12 @@ class TournamentController extends Controller
         return view('tournament.create');
     }
 
+    public function store(Request $request)
+    {
+        // Save Data over here
+        dd($request);
+    }
+
     /*public function create()
     {
         $dispatcher = $this->apiObj->getDispacther();

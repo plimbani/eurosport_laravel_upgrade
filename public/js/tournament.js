@@ -41,7 +41,7 @@ $(document).ready(function(){
                 },
                 saveTournament: function() {
 
-                    $.validator.addMethod('checkDesiredUrlStr', function (value, element, param) {
+                   /* $.validator.addMethod('checkDesiredUrlStr', function (value, element, param) {
                         if(/^[\w\d]+-?[\w\d]*$/.test(value)) {
                             return true;
                         } else {
@@ -54,7 +54,7 @@ $(document).ready(function(){
                         } else {
                             return false;
                         }
-                    });
+                    });*/
 
                     var validateRules = {
                         
@@ -127,7 +127,7 @@ $(document).ready(function(){
                                $('#desired_url-error').parentsUntil('div .form-group').parent().removeClass('has-error');  
                             }
 
-                         var data1 = "clubname=" + $('#club_name').val() + "&id="+this.updateClubId + "&desired_url=" + $('#desired_url').val();
+                         /*var data1 = "clubname=" + $('#club_name').val() + "&id="+this.updateClubId + "&desired_url=" + $('#desired_url').val();
                           ajaxCall("/club/checkClubName",data1, 'GET', 'json', 
                             function(response) {
                                
@@ -152,7 +152,7 @@ $(document).ready(function(){
 
                                }
                                
-                        });
+                        });*/
                           
                           
                           
@@ -161,12 +161,14 @@ $(document).ready(function(){
                         if(this.updateTournamentId != 0); {
                             m_data.append('clubid', this.updateTournamentId);
                         }
-                        // console.log(m_data);
+                        ajaxresponse = true;
+
                         // return false;
                         setTimeout(function(){
                            
                             if(ajaxresponse == true && response_error == false){
-                                ajaxCall("/club/store", m_data, 'POST', 'json', clubUpdateSuccess, false, false);
+
+                                ajaxCall("/tournament/store", m_data, 'POST', 'json', clubUpdateSuccess, false, false);
                             }
                         
                         },2000);

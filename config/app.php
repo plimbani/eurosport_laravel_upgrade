@@ -195,15 +195,19 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /*
-         *  Api Service Providers
+         *  Custom Service Providers
          */
-        App\Api\Providers\UserServiceProvider::class,
-        App\Api\Providers\TeamServiceProvider::class,
-        App\Api\Providers\AgeGroupServiceProvider::class,
-        App\Api\Providers\RefereeServiceProvider::class,
-        App\Api\Providers\MatchServiceProvider::class,
-        App\Api\Providers\TournamentServiceProvider::class,
+        App\Providers\UserServiceProvider::class,
+        App\Providers\TeamServiceProvider::class,
+        App\Providers\AgeGroupServiceProvider::class,
+        App\Providers\RefereeServiceProvider::class,
+        App\Providers\MatchServiceProvider::class,
+        App\Providers\TournamentServiceProvider::class,
         App\Providers\ApiServiceProvider::class,
+
+        /*
+         *  3rd Party Service Providers
+         */
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
     ],

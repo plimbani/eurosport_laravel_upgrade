@@ -850,8 +850,8 @@
           <div class="form-actions top">
             <div class="row pull-right">
                 <div class="col-md-12">
-                  <button type="button" id="submitClub" class="btn green margin-right-5" @click="saveClub()">Save</button>
-                  <button type="button" class="btn default margin-right-5" @click="reloadData('frmClubSaveData')">Clear</button>
+                  <button type="button" id="submitClub" class="btn green margin-right-5" @click="saveTournament()">Save</button>
+                  <button type="button" class="btn default margin-right-5" @click="reloadData('frmTournamentSaveData')">Clear</button>
                   <button type="button" class="btn grey" @click="goBack()">Cancel</button>
                     <!-- <button type="submit" class="btn green">Submit</button> -->
                     <!-- <button type="button" class="btn default">Cancel</button> -->
