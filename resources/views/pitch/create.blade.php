@@ -77,7 +77,7 @@
                                    @endif
                                 @endforeach
                               </tr>
-                              @endforeach
+                              @endforeach 
                             </tbody>
                           </table>
                       </div>
