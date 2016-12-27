@@ -1,6 +1,9 @@
 var PageLimit = 5;
-// Metronic.init();
 
+Metronic.init();
+if ($.cookie('sidebar_closed') == undefined){
+    $.cookie('sidebar_closed', '1');
+}
 
 $(document).on('ajaxStart', function (xhr) {
     // setHeader(xhr);
@@ -9,6 +12,11 @@ $(document).on('ajaxComplete', function (xhr, status){
     // 
 });
 
+
+setInterval(function() {
+    $('#timer').html(moment().format('HH:mm:ss'));
+    $('#date').html(moment().format('ddd D MMMM YYYY'));
+}, 1000);
 
 // $(document).ready(function(){
 //   $('#logout').on('click',function(){
@@ -24,6 +32,7 @@ function setHeader1(xhr) {
    
     xhr.setRequestHeader('X-CSRF-Token', $('meta[name=csrf-token]').attr('content'));
 }
+
 
 
 var auth_token = '';
@@ -54,6 +63,193 @@ function ajaxCall(url, data, method, dataType, successHandlerFunction, processDa
             Metronic.stopPageLoading();
         }
     });
+}
+
+// function setHeader(xhr) {
+//     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+//     if(typeof($.cookie('auth_token')) != 'undefined')
+//         xhr.setRequestHeader('Authorization', 'Bearer:'+$.cookie('auth_token'));
+//     // else
+//         // window.location = '/admin/login';
+// }
+
+// function setCookie(xhr) {
+//     if(xhr.getResponseHeader('Authorization') != null)
+//     {
+//         auth_token = xhr.getResponseHeader('Authorization');
+//         auth_token = auth_token.replace("Bearer ", "");
+//         $.cookie('auth_token', auth_token);
+//     }
+// }
+
+vueHeader = new Vue({
+    el: "#page-header",
+    data: {
+        usersList: [],
+        addEditDonation: false,
+        sortKey: '',
+        sortOrder: 1
+    },
+    methods: {
+        // changeAffiliate: function() {
+        //     var affiliate_id = $("#affiliates").val();
+        //     var data = "affiliate_id="+affiliate_id; 
+        //     ajaxCall("users/getUsers", data, 'POST', 'json', usersListSuccess);
+        // },
+        openUpdateAdminModal: function(user_id) {
+            $("#clearBtn").hide();
+            vueHeader.selectedUser = user_id;
+            vueHeader.isAdmin = 1;
+            var affiliate_id = $("#affiliates").val();
+            var data = "user_id="+user_id+"&affiliate_id="+affiliate_id;
+            ajaxCall("/user/getUserData", data, 'POST', 'json', adminSuccess);
+        },
+        openChangePasswordModal: function(user_id) {
+            vueHeader.selectedUser = user_id;
+            $("#change_password_modal").modal("show");
+            setTimeout(function() {
+                $(".modal-backdrop.fade.in").remove();
+            }, 300);
+        },
+        clearForm: function(formid) {
+            clearFormData(formid);
+        },
+        saveUser: function() {
+            var validateRules = {
+                "email": {
+                    required: true,
+                    email: true
+                },
+                "first_name": {
+                    required: true
+                },
+                "last_name": {
+                    required: true
+                },
+                "admin": {
+                    required: true
+                }
+            }
+
+            var messages = {
+                "email": {
+                    required: "This field is required"
+                },
+                "first_name": {
+                    required: "This field is required"
+                },
+                "last_name": {
+                    required: "This field is required"
+                },
+                "admin": {
+                    required: "This field is required"
+                }                
+            }
+
+            checkValidation( "frmAdminSaveData", validateRules, messages );
+            if($('#frmAdminSaveData').validate().form()) {
+                var m_data = new FormData($("#frmAdminSaveData")[0]);
+
+                if($("#gwt-uid-25").is(":checked")) {
+                    m_data.append('admin', 0);
+                } else {
+                    m_data.append('admin', 1);
+                }
+
+                var affiliate_id = $("#affiliates").val();
+                m_data.append('affiliate_id', affiliate_id);
+
+                if(vueHeader.isAdmin == 1)
+                    m_data.append('admin_profile_update', 1);
+                else 
+                    m_data.append('admin_profile_update', 0);
+                
+                m_data.append('admin_id', vueHeader.selectedUser);
+                ajaxCall("/user/update", m_data, 'POST', 'json', adminUpdateSuccess, false, false);
+            }
+
+            // ajaxCall("user/getUserData", data, 'POST', 'json', userSuccess);
+        },
+        changePassword: function() {
+            $.validator.addMethod('checkConfirmPassword', function (value, element, param) {
+                return $("#password").val() == $("#password_confirmation").val();
+            });
+
+            var validateRules = {
+                "password": {
+                    required: true
+                },
+                "new_password": {
+                    required: true
+                },
+                "password_confirmation": {
+                    required: true,
+                    checkConfirmPassword: true
+                }
+            }
+
+            var messages = {
+                "password_confirmation": {
+                    checkConfirmPassword: "New password and confirm new password do not match."
+                }
+            }
+
+            checkValidation( "frmChangePassword", validateRules, messages );
+            if($('#frmChangePassword').validate().form()) {
+                var m_data = new FormData($("#frmChangePassword")[0]);
+                m_data.append('admin_id', vueHeader.selectedUser);
+                ajaxCall("/user/change_password", m_data, 'POST', 'json', adminChangePasswordSuccess, false, false);
+            }
+
+            // ajaxCall("user/getUserData", data, 'POST', 'json', userSuccess);
+        }
+        // gotoUsers: function() {
+        //     window.location = "/users";
+        // }
+    }
+});
+
+function adminUpdateSuccess(usersList, status, xhr){
+    $("#admin_modal").modal('hide');
+    if(usersList.success === true) {
+        showMsg("success", 'Success', 'User details saved successfully');
+        if(typeof(usersList.adminName) != "undefined")
+            $(".dropdown-user span.username").html(usersList.adminName);
+    } else {
+        showMsg("error", 'Error', 'User details could not be saved successfully');
+    }
+}
+
+function adminChangePasswordSuccess(password, status, xhr){
+    $("#change_password_modal").modal('hide');
+    if(password.success === true) {
+        showMsg("success", 'Success', 'Password has been changed successfully');
+    } else {
+        if(typeof(password.currPassword) != "undefined") 
+            showMsg("error", 'Error', '  Current password does not match, Please provide valid current password to update your new password.');
+        else
+            showMsg("error", 'Error', 'Password could not be changed successfully');
+    }
+}
+
+function adminSuccess(userData, status, xhr){
+    vueHeader.$set('userData', userData['data'][0]);
+    if(userData.success === true) {
+        if( userData['data'][0].admin == 0 ) {
+            $("#gwt-uid-25").attr('checked', 'checked');
+        } else {
+            $("#gwt-uid-26").attr('checked', 'checked');
+        }
+        $(".adminModal").show();
+        $("#submitAdmin .v-button-caption").html('Save user');
+        $("#removeUser").show();
+        $("#admin_modal").modal('show');
+        setTimeout(function() {
+            $(".modal-backdrop.fade.in").remove();
+        }, 300);
+    } else {
+        alert("error");
+    }
 }
 
 
@@ -192,7 +388,9 @@ function setPaginationAmount() {
 }
 
 function initPaginationRecord() {
+
    
+
     setTimeout(function(){
         if(typeof($.cookie('pagination_length')) != "undefined"){
             $("#pagination_length").val($.cookie('pagination_length'));

@@ -1,11 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.admin_theme')
 
 @section('content')
-	
+  
   <!-- route outlet -->
   <!-- component matched by the route will render here -->
+  <div class="page-content">
     <div class="flex-center position-ref full-height">
-      <div class="container" id="pitchSet">
+      <div class="container" id="pitchSet" v-cloak>
         <div class="content">
             <div class="text-center col-md-8 col-md-offset-2">
                 <form name="frmPitchDetails" role="form" class="form-horizontal" id="frmPitchDetails">
@@ -48,7 +49,7 @@
                           <textarea class="col-md-3" rows="5" id="comment"></textarea>
                         </div>
 
-                         <button type="submit" class="btn btn-default" id="submitStep1"  @click="savePitchDetail(this)">Next</button>
+                         <button type="submit" class="btn btn-default" id="submitStep1"  @click="PitchDetail()">Next</button>
                       </div>
                        <div id="avail" class="tab-pane fade">
                         <h3>Availability</h3>
@@ -56,28 +57,21 @@
                             <thead>
                               <tr>
                                 <th>#</th>
-                                @foreach (range(1,$days) as $day)
+                               
                                   
-                                  <td>Day {{$day}}</td>
+                                  <td  v-for="(day,index) in pitchDays">Day @{{ index+1 }} </td>
+
                                   
-                                @endforeach
+                               
                               </tr>
                             </thead>
                             <tbody>
                            
-                              @foreach ($timeSlot['30'] as $ts)
-                              <tr>
-                                <th>{{$ts}}</th>
-                                @foreach (range(1,$days) as $day)
-                                   @if(in_array($day.'-'.$ts,$unavailable))
-                                       <td  id="{!! $day.'-'.$ts !!}" class="unavailable"><span>Unavailable</span></td>
-                                   @else
-                                        <td  id="{!! $day.'-'.$ts !!}" class="available"><span>Available</span></td>
-                                     
-                                   @endif
-                                @endforeach
+                              <tr v-for="ts in timeSlot">
+                                <th>@{{ts}}</th>
+                                  <td  v-for="days in pitchDays" id=" @{{ days }}" :class="[days+'-' != 0 ? 'available' : 'unavailable']"  v-text="unavailable | availability(ts,days)"></td>
                               </tr>
-                              @endforeach 
+                              
                             </tbody>
                           </table>
                       </div>
@@ -90,9 +84,9 @@
          </div>
       </div>
     </div>
-    
+   </div> 
 @endsection
 
-@section('pageStyle')
-
+@section('page-scripts')
+   <script src="{{ elixir('js/pitch.js') }}" type="text/javascript"></script>
 @endsection

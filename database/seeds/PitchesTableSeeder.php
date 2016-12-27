@@ -21,7 +21,7 @@ class PitchesTableSeeder extends Seeder
                 'name' => $faker->word(),
                 'pitch_number' => $faker->numberBetween(100000, 999999),
                 'type' => $faker->randomElement(['grass', 'artificial']),
-                'location_id' => $faker->randomElement($location),
+                'venue_id' => $faker->randomElement($location),
                 'availability' => '100',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
