@@ -16,13 +16,21 @@ class TeamRepository
         return Team::create($data);
     }
 
-    public function edit($data)
-    {
-        return Team::where('id', $data['id'])->update($data);
-    }
-
     public function delete($data)
     {
         return Team::find($data['id'])->delete();
+
+        return Team::create($teamData);
+    }
+
+    public function edit($data, $teamId)
+    {
+        return Team::where('id', $teamId)->update($data);
+    }
+
+    public function getTeamFromId($teamId)
+    {
+        return Team::find($teamId);
+
     }
 }

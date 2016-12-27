@@ -61,10 +61,13 @@ class RefereeController extends BaseController
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     *
+     * @param mixed $id
+     * @param mixed $refereeId
      */
-    public function edit(Request $request)
+    public function edit(Request $request, $refereeId)
     {
-        return $this->refereeObj->edit($request);
+        return $this->refereeObj->edit($request, $refereeId);
     }
 
     public function deleteReferee($deleteId)

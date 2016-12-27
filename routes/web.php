@@ -30,15 +30,20 @@ Auth::routes();
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/home/test2', 'HomeController@getUsers');
 
-    //Route::get('/teams', 'TeamController@index');
-    //Route::get('/team/create', 'TeamController@create');
+
+    Route::get('/teams', 'TeamController@index');
+    Route::get('/team/create', 'TeamController@create');
+    Route::get('/team/edit/{edit_id}', 'TeamController@edit');
+
 
     Route::get('/referees', 'RefereeController@index');
     Route::get('/referee/create', 'RefereeController@create');
+    Route::get('/referee/edit/{edit_id}', 'RefereeController@edit');
     Route::any('/referee/delete/{delete_id}', 'RefereeController@deleteReferee');
 
     Route::get('/matches', 'MatchController@index');
     Route::get('/match/create', 'MatchController@create');
+    Route::get('/match/edit/{edit_id}', 'MatchController@edit');
     Route::any('/match/delete/{delete_id}', 'MatchController@deleteMatch');
 
     Route::get('/pitches', 'PitchController@index');

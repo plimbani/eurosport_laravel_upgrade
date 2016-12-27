@@ -21,6 +21,8 @@ class TeamController extends BaseController
     public function __construct(TeamContract $teamObj)
     {
         $this->teamObj = $teamObj;
+
+        $this->middleware('jwt.auth');
     }
 
     /**
@@ -53,28 +55,23 @@ class TeamController extends BaseController
     }
 
     /**
-     * Edit  Teams.
+     * Edit  Match result.
      *
      * @Post("/team/edit/{$id}")
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     *
+     * @param mixed $id
+     * @param mixed $teamId
      */
-    public function edit(Request $request)
+    public function edit(Request $request, $teamId)
     {
-        return $this->teamObj->edit($request);
+        return $this->teamObj->edit($request, $teamId);
     }
 
-    /**
-     * Delete  Teams.
-     *
-     * @Post("/team/delete")
-     *
-     * @Versions({"v1"})
-     * @Request("name=test", contentType="application/x-www-form-urlencoded")
-     */
-    public function delete(Request $request)
+    public function deleteTeam($deleteId)
     {
-        return $this->teamObj->delete($request);
+        return $this->teamObj->deleteTeam($deleteId);
     }
 }

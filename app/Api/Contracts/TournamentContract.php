@@ -7,7 +7,7 @@ interface TournamentContract
     /*
      * Get All Tournaments
      *
-     * @param  array $api_key,$state,$type
+     * @param  array $state,$type
      * @return response
      */
     public function index();
@@ -15,7 +15,7 @@ interface TournamentContract
     /*
      * Create New Tournament
      *
-     * @param  array $api_key,$data
+     * @param  array $data
      * @return response
      */
 
@@ -24,17 +24,17 @@ interface TournamentContract
     /*
      * Edit Tournament
      *
-     * @param  array $api_key,$tournament_id,$data
+     * @param  array $tournamentId,$data
      * @return response
      */
-    public function edit($request);
+    public function edit($request, $tournamentId);
 
     /*
      * Delete Tournament
      *
-     * @param  array $api_key,$tournament_id
+     * @param  array $tournamentId
      * @return response
      */
 
-    public function delete($request);
+    public function delete($tournamentId);
 }

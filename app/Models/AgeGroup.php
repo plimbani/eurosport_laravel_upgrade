@@ -9,8 +9,8 @@ class AgeGroup extends Model
 {
     use SoftDeletes;
 
-    public $timestamps = false;
 
+  
     protected $table = 'age_groups';
 
     protected $primaryKey = 'id';
@@ -26,4 +26,13 @@ class AgeGroup extends Model
     {
         return $this->belongsTo('App\Models\User', 'user_id');
     }
+
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
 }

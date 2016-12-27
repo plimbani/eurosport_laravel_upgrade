@@ -4,37 +4,31 @@ namespace App\Api\Contracts;
 
 interface AgeGroupContract
 {
-    /*
-     * Get All Age Group Categories
-     *
-     * @param  array $api_key,$state,$type
-     * @return response
-     */
-    public function index();
+
+    public function getAllData();
 
     /*
-     * Create New Age Group
+     * Create New Match
      *
-     * @param  array $api_key,$data
+     * @param  array $data
      * @return response
      */
-
-    public function create($request);
+    public function create($data);
 
     /*
-     * Edit Age Group
+     * Edit Match
      *
-     * @param  array $api_key,$data
+     * @param  array $ageGroupId,$data
      * @return response
      */
-    public function edit($request);
+    public function edit($request, $ageGroupId);
 
     /*
-     * Delete Age Group
+     * Delete Match
      *
-     * @param  array $api_key,$data
+     * @param  array $ageGroupId
      * @return response
      */
+    public function delete($ageGroupId);
 
-    public function delete($request);
 }

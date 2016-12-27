@@ -40,13 +40,15 @@ class MatchService implements MatchContract
      * Edit Match.
      *
      * @param array $data
+     * @param mixed $id
+     * @param mixed $matchId
      *
      * @return [type]
      */
-    public function edit($data)
+    public function edit($data, $matchId)
     {
         $data = $data->all();
-        $data = $this->matchRepoObj->edit($data);
+        $data = $this->matchRepoObj->edit($data, $matchId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
@@ -64,7 +66,7 @@ class MatchService implements MatchContract
     {
         $matchRes = $this->matchRepoObj->getMatchFromId($deleteId)->delete();
         if ($matchRes) {
-            return ['code' => '200', 'message' => 'Match Sucessfully Deleted'];
+            return ['code' => '200', 'message' => 'Match has been deleted sucessfully'];
         }
     }
 }

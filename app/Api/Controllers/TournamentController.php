@@ -22,6 +22,7 @@ class TournamentController extends BaseController
     public function __construct(TournamentContract $tournamentObj)
     {
         $this->tournamentObj = $tournamentObj;
+        $this->middleware('jwt.auth');
     }
 
     /**
@@ -60,10 +61,13 @@ class TournamentController extends BaseController
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     *
+     * @param mixed $id
+     * @param mixed $tournamentId
      */
-    public function edit(Request $request)
+    public function edit(Request $request, $tournamentId)
     {
-        return $this->tournamentObj->edit($request);
+        return $this->tournamentObj->edit($request, $tournamentId);
     }
 
     /**
@@ -73,9 +77,11 @@ class TournamentController extends BaseController
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     *
+     * @param mixed $tournamentId
      */
-    public function delete(Request $request)
+    public function delete($tournamentId)
     {
-        return $this->tournamentObj->delete($request);
+        return $this->tournamentObj->delete($tournamentId);
     }
 }
