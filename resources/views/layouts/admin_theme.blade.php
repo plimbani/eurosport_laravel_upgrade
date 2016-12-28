@@ -143,7 +143,7 @@
         <script src="{{ asset('js/jquery.twbsPagination.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/metronic.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/inview.js') }}" type="text/javascript"></script>         
+        <script src="{{ asset('js/inview.js') }}" type="text/javascript"></script>        
         @yield('page-scripts')        
 </body>
 

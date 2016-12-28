@@ -56,19 +56,22 @@
                            <table class="table .table-bordered" id="tbl_avail">
                             <thead>
                               <tr>
-                               
+                              <th>TimeSlot </th>
+                               <th v-for="day in pitchDays" >Day @{{ day }}</th>
                               </tr>
                             </thead>
                             <tbody>
-                           
-                              
-                              
+                              <tr  v-for="tslot in timeSlot">
+                                <td>@{{ tslot }}</td>
+                                 <td v-for="day in pitchDays">
+                                  <span id="unavailable">@{{ day}}   @{{ day | availablilityCheck(tslot)}}</span>
+                                 </td>
+                                 
+                              </tr>
                             </tbody>
                           </table>
                       </div>
                     </div>
-
-                   
                 </form>
             </div>
 
