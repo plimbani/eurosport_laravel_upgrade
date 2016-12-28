@@ -64,7 +64,7 @@
                               <tr  v-for="tslot in timeSlot">
                                 <td>@{{ tslot }}</td>
                                  <td v-for="day in pitchDays">
-                                  <span id="unavailable">@{{ day}}   @{{ day | availablilityCheck(tslot)}}</span>
+                                  <span id="unavailable"> @{{ day | availablilityCheck(tslot)}}</span>
                                  </td>
                                  
                               </tr>
