@@ -229,9 +229,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="pull-right">
-                                @can('admin.email_template_write')
-                                    <button type="button" id="submitTemplate" class="btn green margin-right-5" @click="saveTemplate()">Save</button>
-                                @endcan
+                                    <button type="button" id="submitTemplate" class="btn green margin-right-5" 
+                                    v-on:click="saveTournamentData()">
+                                    Save</button>                               
                                 <button type="button" class="btn grey" @click="goBack()">Cancel</button>
                             </div>
                         </div>

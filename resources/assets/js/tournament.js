@@ -1,26 +1,15 @@
-import Vue from 'vue'
+import Vue from 'vue';
 
-const tournament = new Vue({ 
-  'el': '#tournamentadd',
-  data: {
-    tournamentdata: []
-  },
-  mounted: function () {
-    console.log('Hello Data');
-  },
-   methods: {
+const tournament = new Vue({
+  el: '#tournamentadd',
+  data: { tournamentdata: [] },
+  mounted: () => { },
+  methods: {
     // Here List of methods Used For Tournament
-    fetchTournamentData: function(tournament){
-
+    fetchTournamentData: () => {},
+    saveTournamentData:  () => {
+    	console.log('Hello Called');
     },
-
-    saveTournamentData: function(tournament){
-
-    },
-    saveTournamentData: function(tournament){
-
-    },
-  }
-})
-
-tournament.fetchTournamentData();
+  },
+});
+//tournament.fetchTournamentData();
