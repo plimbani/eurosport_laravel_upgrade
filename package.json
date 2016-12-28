@@ -24,6 +24,5 @@
   },
   "dependencies": {
      "vue-loader": "^10.0.2"
-
   }
 }

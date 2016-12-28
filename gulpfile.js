@@ -1,7 +1,5 @@
 const elixir = require('laravel-elixir');
-
 require('laravel-elixir-remove');
-
 require('laravel-elixir-vue-2');
 
 /*
@@ -17,11 +15,12 @@ require('laravel-elixir-vue-2');
 
 elixir((mix) => {
     mix.sass('app.scss')
-       .webpack('app.js')
+        //.webpack('app.js')
+       .webpack('tournament.js')
        .copy(
             'node_modules/bootstrap-sass/assets/fonts/bootstrap',
             'public/fonts/bootstrap'
         );
     mix.remove(['public/build/css','public/build/js']);
-    mix.version(['css/app.css','js/app.js']);
+    mix.version(['css/app.css','js/tournament.js']);
 });

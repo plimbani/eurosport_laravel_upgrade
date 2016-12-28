@@ -59,11 +59,11 @@
             margin-right: 6px;
         }
     </style>
-      @yield('pca-script')
+      
 </head>
 <!-- End of Head Section-->
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
-
+    <div id="app">
      <!-- BEGIN HEADER -->
        <div class="page-header navbar navbar-fixed-top md-shadow-z-1-i">
             <!-- BEGIN HEADER INNER -->
@@ -115,22 +115,16 @@
     <!-- JavaScripts -->
 
     <!-- BEGIN CORE PLUGINS -->
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-    
-       
-        <!--<script type="text/javascript">
-            $.ajaxSetup({
-                headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
-            });
-        </script>-->
+             
+        
+   </div>     
 
-         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="{{ asset('admin_theme/global/plugins/jquery.blockui.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/jquery.cokie.min.js') }}"></script>
         <script src="{{ asset('admin_theme/global/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
-        
         <script src="{{ asset('admin_theme/global/scripts/app.js') }}" type="text/javascript"></script>
-        
         <script src="{{ asset('admin_theme/layouts/layout/scripts/layout.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('admin_theme/layouts/layout/scripts/demo.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('admin_theme/layouts/global/scripts/quick-sidebar.min.js') }}" type="text/javascript"></script>
@@ -139,16 +133,12 @@
         <script src="{{ asset('admin_theme/global/plugins/moment.min.js') }}" type="text/javascript"></script>
 
         <script src="{{ asset('admin_theme/pages/scripts/components-select2.min.js') }}" type="text/javascript"></script>
-
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.9.3/vue-resource.js"></script>
         
         <script src="{{ asset('js/jquery.twbsPagination.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/metronic.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/inview.js') }}" type="text/javascript"></script>
-        @yield('plugin-scripts')
-        <script src="{{ asset('js/custom.js') }}"></script>        
-        @yield('page-scripts')
+        <script src="{{ asset('js/inview.js') }}" type="text/javascript"></script>         
+        @yield('page-scripts')        
 </body>
+
 </html>
