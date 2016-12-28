@@ -40,13 +40,15 @@ class RefereeService implements RefereeContract
      * Edit Match.
      *
      * @param array $data
+     * @param mixed $id
+     * @param mixed $refereeId
      *
      * @return [type]
      */
-    public function edit($data)
+    public function edit($data, $refereeId)
     {
         $data = $data->all();
-        $data = $this->refereeRepoObj->edit($data);
+        $data = $this->refereeRepoObj->edit($data, $refereeId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
@@ -62,9 +64,14 @@ class RefereeService implements RefereeContract
       */
      public function deleteReferee($deleteId)
      {
-         $refereeRes = $this->refereeRepoObj->getRefereeFromId($deleteId)->delete();
-         if ($refereeRes) {
-             return ['code' => '200', 'message' => 'Referee Sucessfully Deleted'];
+         $refreeRec = $this->refereeRepoObj->getRefereeFromId($deleteId);
+         if ($refreeRec) {
+             $refereeRes = $refreeRec->delete();
+             if ($refereeRes) {
+                 return ['code' => '200', 'message' => 'Referee has beeb deleted sucessfully'];
+             }
          }
+
+         return ['code' => '400', 'message' => 'Something goes wrong'];
      }
 }

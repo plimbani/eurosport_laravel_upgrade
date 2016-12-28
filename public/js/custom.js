@@ -1,4 +1,5 @@
 var PageLimit = 5;
+
 Metronic.init();
 if ($.cookie('sidebar_closed') == undefined){
     $.cookie('sidebar_closed', '1');
@@ -10,6 +11,7 @@ $(document).on('ajaxStart', function (xhr) {
 $(document).on('ajaxComplete', function (xhr, status){
     // 
 });
+
 
 setInterval(function() {
     $('#timer').html(moment().format('HH:mm:ss'));
@@ -31,40 +33,7 @@ function setHeader1(xhr) {
     xhr.setRequestHeader('X-CSRF-Token', $('meta[name=csrf-token]').attr('content'));
 }
 
-// $.ajaxSetup({
-//     beforeSend: setHeader,
-//     error: function(response, xhr, status){
 
-//         if(response.status == 401 || status == 'Unauthorized' || 
-//             (typeof(response.responseJSON) != "undefined" && response.responseJSON.error == "token_invalid")){
-//             window.location = '/admin/login';
-//         }
-
-//         if(response.status == 403 || status == 'Forbidden'){
-//             window.location = '/admin/dashboard';
-//         }
-
-//         errorText = '';
-//         $.each(response.responseJSON.errors, function(key, value){
-//             errorText += value[0] + '<br>';
-//         });
-
-//         if(errorText == '')
-//             errorText = 'There is an error, please try after some time.';
-
-//         showMsg('warning', errorText, 'warning');
-//         Metronic.stopPageLoading();
-//     },
-//     complete: function(xhr, status){
-//         Metronic.stopPageLoading();
-//         if(xhr.getResponseHeader('Authorization') != null)
-//         {
-//             auth_token = xhr.getResponseHeader('Authorization');
-//             auth_token = auth_token.replace("Bearer ", "");
-//             $.cookie('auth_token', auth_token);
-//             }
-//     }
-// });
 
 var auth_token = '';
 var geturl = '';
@@ -79,7 +48,7 @@ function ajaxCall(url, data, method, dataType, successHandlerFunction, processDa
       contentTypeFlag = 'application/x-www-form-urlencoded';
     }
 
-    Metronic.startPageLoading();
+    // Metronic.startPageLoading();
     
     geturl = $.ajax({
         url: url,
@@ -419,10 +388,14 @@ function setPaginationAmount() {
 }
 
 function initPaginationRecord() {
+
+   
+
     setTimeout(function(){
         if(typeof($.cookie('pagination_length')) != "undefined"){
             $("#pagination_length").val($.cookie('pagination_length'));
         } else {
+
             $.cookie('pagination_length', PageLimit);
         }
     });

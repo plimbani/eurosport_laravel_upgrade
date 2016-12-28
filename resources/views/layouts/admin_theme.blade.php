@@ -44,6 +44,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/popupbutton.css') }}">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
     
     @if(isset($_SERVER['HTTP_USER_AGENT']))
         @if(preg_match('/Safari/i',$_SERVER['HTTP_USER_AGENT']) && !preg_match('/Chrome/i',$_SERVER['HTTP_USER_AGENT']))
@@ -119,6 +120,7 @@
         
    </div>     
 
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="{{ asset('admin_theme/global/plugins/jquery.blockui.min.js') }}" type="text/javascript"></script>
@@ -133,11 +135,15 @@
         <script src="{{ asset('admin_theme/global/plugins/moment.min.js') }}" type="text/javascript"></script>
 
         <script src="{{ asset('admin_theme/pages/scripts/components-select2.min.js') }}" type="text/javascript"></script>
+
+<!--         // <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+        // <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.9.3/vue-resource.js"></script> -->
+
         
         <script src="{{ asset('js/jquery.twbsPagination.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/metronic.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('js/inview.js') }}" type="text/javascript"></script>         
+        <script src="{{ asset('js/inview.js') }}" type="text/javascript"></script>        
         @yield('page-scripts')        
 </body>
 

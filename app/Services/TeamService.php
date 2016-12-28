@@ -50,31 +50,25 @@ class TeamService implements TeamContract
      * Edit Team.
      *
      * @param array $data
+     * @param mixed $teamId
      *
      * @return [type]
      */
-    public function edit($data)
+    public function edit($data, $teamId)
     {
         $data = $data->all();
-        $data = $this->teamRepoObj->edit($data);
+        $data = $this->teamRepoObj->edit($data, $teamId);
+
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
     }
 
-    /**
-     * Delete Team.
-     *
-     * @param array $data
-     *
-     * @return [type]
-     */
-    public function delete($data)
+    public function deleteTeam($deleteId)
     {
-        $data = $data->all();
-        $data = $this->teamRepoObj->delete($data);
-        if ($data) {
-            return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
+        $teamRes = $this->teamRepoObj->getTeamFromId($deleteId)->delete();
+        if ($teamRes) {
+            return ['code' => '200', 'message' => 'Team has been deleted sucessfully'];
         }
     }
 }

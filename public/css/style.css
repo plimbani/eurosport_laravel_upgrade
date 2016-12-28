@@ -1,0 +1,15 @@
+.available {
+	background-color:#4dcc71;
+	color: #fff;
+	cursor: pointer;
+
+}
+.unavailable {
+	background-color:#999c9e;
+	color: #fff;
+}
+.allocate {
+	background-color:#2776e1;
+	color: #fff;
+	cursor: pointer;
+}

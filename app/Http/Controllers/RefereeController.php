@@ -17,7 +17,7 @@ class RefereeController extends Controller
     public function __construct(ApiContract $apiObj)
     {
         $this->apiObj = $apiObj;
-        $this->middleware('auth');
+        $this->middleware('jwt.auth');
     }
 
     /**
@@ -40,13 +40,25 @@ class RefereeController extends Controller
              'user_id' => '1', 'availability' => '100',
             'comments' => 'TestComments', 'age_group_id' => '1',
         ];
-        $referee = $dispatcher->with($refereeData)->post('referee/create');
+
+        return $dispatcher->with($refereeData)->post('referee/create');
+    }
+
+    public function edit($refereeId)
+    {
+        $dispatcher = $this->apiObj->getDispacther();
+
+        $refereeData = [
+            'availability' => '100',
+        ];
+
+        return $dispatcher->with($refereeData)->post('referee/edit/'.$refereeId);
     }
 
     public function deleteReferee($deleteId)
     {
         $dispatcher = $this->apiObj->getDispacther();
 
-        $referee = $dispatcher->post('referee/delete/'.$deleteId);
+        return $dispatcher->post('referee/delete/'.$deleteId);
     }
 }
