@@ -18,10 +18,13 @@ require('laravel-elixir-vue-2');
 elixir((mix) => {
     mix.sass('app.scss')
        .webpack('app.js')
+       .webpack('pitch.js')
        .copy(
             'node_modules/bootstrap-sass/assets/fonts/bootstrap',
             'public/fonts/bootstrap'
         );
     mix.remove(['public/build/css','public/build/js']);
-    mix.version(['css/app.css','js/app.js']);
+    mix.version(['css/app.css','js/pitch.js']);
 });
+
+
