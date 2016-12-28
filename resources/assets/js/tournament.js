@@ -9,9 +9,17 @@ const tournament = new Vue({
     console.log('Hello Data');
   },
    methods: {
-    fetchTournamentData: function (event) {
-      console.log('Helloone')
-    }
+    // Here List of methods Used For Tournament
+    fetchTournamentData: function(tournament){
+
+    },
+
+    saveTournamentData: function(tournament){
+
+    },
+    saveTournamentData: function(tournament){
+
+    },
   }
 })
 
