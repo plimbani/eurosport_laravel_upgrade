@@ -56,21 +56,12 @@
                            <table class="table .table-bordered" id="tbl_avail">
                             <thead>
                               <tr>
-                                <th>#</th>
-                               
-                                  
-                                  <td  v-for="(day,index) in pitchDays">Day @{{ index+1 }} </td>
-
-                                  
                                
                               </tr>
                             </thead>
                             <tbody>
                            
-                              <tr v-for="ts in timeSlot">
-                                <th>@{{ts}}</th>
-                                  <td  v-for="days in pitchDays" id=" @{{ days }}" :class="[days+'-' != 0 ? 'available' : 'unavailable']"  v-text="unavailable | availability(ts,days)"></td>
-                              </tr>
+                              
                               
                             </tbody>
                           </table>

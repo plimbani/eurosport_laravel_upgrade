@@ -20,7 +20,6 @@ class TeamController extends Controller
         $this->apiObj = $apiObj;
 
       //  $this->middleware('auth');
-
     }
 
     /**

@@ -48,7 +48,7 @@ function ajaxCall(url, data, method, dataType, successHandlerFunction, processDa
       contentTypeFlag = 'application/x-www-form-urlencoded';
     }
 
-    Metronic.startPageLoading();
+    // Metronic.startPageLoading();
     
     geturl = $.ajax({
         url: url,

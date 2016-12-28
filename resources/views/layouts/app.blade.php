@@ -81,13 +81,9 @@
     <!-- Scripts -->
     @include('scripts.app')
     @yield('beforeScript')
-    <script src="{{ elixir('js/app.js') }}" type="application/javascript"></script>
-    <script src="{{ asset('js/pitch.js') }}" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.6/vue.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.0.3/vue-resource.min.js"></script>
-    <script src="{{ asset('js/custom.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/jquery.twbsPagination.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+    <!-- // <script src="{{ elixir('js/app.js') }}" type="application/javascript"></script> -->
+    <script src="{{ elixir('js/test.js') }}" type="text/javascript"></script>
+
     @yield('afterScript')
 
 </body>

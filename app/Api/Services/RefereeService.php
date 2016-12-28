@@ -70,8 +70,8 @@ class RefereeService implements RefereeContract
              if ($refereeRes) {
                  return ['code' => '200', 'message' => 'Referee has beeb deleted sucessfully'];
              }
-         } 
-             return ['code' => '400', 'message' => 'Something goes wrong'];
-        
+         }
+
+         return ['code' => '400', 'message' => 'Something goes wrong'];
      }
 }

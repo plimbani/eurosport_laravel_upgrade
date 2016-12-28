@@ -31,6 +31,5 @@ class TeamRepository
     public function getTeamFromId($teamId)
     {
         return Team::find($teamId);
-
     }
 }

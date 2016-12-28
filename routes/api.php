@@ -48,7 +48,6 @@ $api->version('v1', function ($api) {
     $api->post('team/edit/{id}', 'App\Api\Controllers\TeamController@edit');
     $api->post('team/delete/{deleteid}', 'App\Api\Controllers\TeamController@deleteTeam');
 
-
     //Referee api
     $api->get('referees', 'App\Api\Controllers\RefereeController@getReferees');
     $api->post('referee/create', 'App\Api\Controllers\RefereeController@createReferee');

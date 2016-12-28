@@ -5,7 +5,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+// require('./bootstrap');
 
 /**
  * Web Font Loader gives you added control when using linked fonts via @font-face
@@ -20,7 +20,7 @@ WebFont.load({
 import Vue from 'vue'
 
 // Add router for All  routing files
-import router from '../js/router'
+// import router from '../js/router'
 
 new Vue({
   router

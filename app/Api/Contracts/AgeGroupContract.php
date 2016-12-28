@@ -4,7 +4,6 @@ namespace App\Api\Contracts;
 
 interface AgeGroupContract
 {
-
     public function getAllData();
 
     /*
@@ -30,5 +29,4 @@ interface AgeGroupContract
      * @return response
      */
     public function delete($ageGroupId);
-
 }

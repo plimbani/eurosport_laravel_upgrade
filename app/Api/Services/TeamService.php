@@ -50,10 +50,10 @@ class TeamService implements TeamContract
      * Edit Team.
      *
      * @param array $data
+     * @param mixed $teamId
      *
      * @return [type]
      */
-
     public function edit($data, $teamId)
     {
         $data = $data->all();
@@ -64,13 +64,11 @@ class TeamService implements TeamContract
         }
     }
 
-
     public function deleteTeam($deleteId)
     {
         $teamRes = $this->teamRepoObj->getTeamFromId($deleteId)->delete();
         if ($teamRes) {
             return ['code' => '200', 'message' => 'Team has been deleted sucessfully'];
-
         }
     }
 }

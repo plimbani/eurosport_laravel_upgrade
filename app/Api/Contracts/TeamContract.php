@@ -4,7 +4,7 @@ namespace App\Api\Contracts;
 
 interface TeamContract
 {
-   public function createTeam($data);
+    public function createTeam($data);
 
      /*
      * Edit Team
