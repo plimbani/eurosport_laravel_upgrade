@@ -20,7 +20,8 @@ var adminThemePath = './public/';
 
 elixir((mix) => {
     mix.sass('app.scss')
-        //.webpack('app.js')
+       .webpack('app.js')
+       .webpack('pitch.js')
        .webpack('tournament.js')
        .copy(
             'node_modules/bootstrap-sass/assets/fonts/bootstrap',
@@ -63,8 +64,11 @@ elixir((mix) => {
     ],'public/js/layout_admin_theme.js');
 
     mix.remove(['public/build/css','public/build/js']);
-    mix.version(['css/app.css','js/tournament.js']);
+    mix.version(['css/app.css','js/pitch.js']);
+});
 
+//     mix.version(['css/app.css','js/tournament.js']);
+// });
     // Add ESLint
     mix.eslint(
     	 'resources/assets/js/*.js'

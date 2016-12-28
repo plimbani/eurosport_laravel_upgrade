@@ -17,7 +17,8 @@ class MatchController extends Controller
     public function __construct(ApiContract $apiObj)
     {
         $this->apiObj = $apiObj;
-        $this->middleware('jwt.auth');
+        $this->middleware('auth');
+        // $this->middleware('jwt.auth');
     }
 
     /**
@@ -42,13 +43,25 @@ class MatchController extends Controller
             'location_id' => '1', 'referee_id' => '1',
             'notes' => 'test Notes',
         ];
-        $match = $dispatcher->with($matchData)->post('match/create');
+
+        return $dispatcher->with($matchData)->post('match/create');
+    }
+
+    public function edit($matchId)
+    {
+        $dispatcher = $this->apiObj->getDispacther();
+
+        $matchData = [
+            'goal_score2' => '5',
+        ];
+
+        return $dispatcher->with($matchData)->post('match/edit/'.$matchId);
     }
 
     public function deleteMatch($deleteId)
     {
         $dispatcher = $this->apiObj->getDispacther();
 
-        $match = $dispatcher->post('match/delete/'.$deleteId);
+        return $dispatcher->post('match/delete/'.$deleteId);
     }
 }

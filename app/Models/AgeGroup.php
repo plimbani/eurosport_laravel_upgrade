@@ -9,8 +9,6 @@ class AgeGroup extends Model
 {
     use SoftDeletes;
 
-    public $timestamps = false;
-
     protected $table = 'age_groups';
 
     protected $primaryKey = 'id';

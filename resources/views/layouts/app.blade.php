@@ -7,6 +7,15 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Euro Sportring</title>
+
+
+    <!-- Styles -->
+    <link href="{{ elixir('css/app.css') }}" rel="stylesheet" type="text/css" media="none" onload="this.media='all';">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
+    @yield('pageStyle')
+
+    @includeIf('scripts.beforeapp')
+
 </head>
 <body>
     <div id="wrapper">
@@ -70,6 +79,12 @@
     </div>
    
     <!-- Scripts -->
+    @include('scripts.app')
+    @yield('beforeScript')
+    <!-- // <script src="{{ elixir('js/app.js') }}" type="application/javascript"></script> -->
+    <script src="{{ elixir('js/test.js') }}" type="text/javascript"></script>
+
+    @yield('afterScript')
 </body>
  @yield('page-scripts')
 </html>

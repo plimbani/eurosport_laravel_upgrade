@@ -22,9 +22,9 @@ class MatchRepository
         return MatchResult::create($matchData);
     }
 
-    public function edit($data)
+    public function edit($data, $matchId)
     {
-        return MatchResult::where('id', $data['id'])->update($data);
+        return MatchResult::where('id', $matchId)->update($data);
     }
 
     public function getMatchFromId($matchId)

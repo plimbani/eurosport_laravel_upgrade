@@ -19,6 +19,7 @@ class AgeGroupController extends BaseController
     public function __construct(AgeGroupContract $ageGroupObj)
     {
         $this->ageGroupObj = $ageGroupObj;
+        $this->middleware('jwt.auth');
     }
 
     /**
@@ -57,10 +58,12 @@ class AgeGroupController extends BaseController
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     *
+     * @param mixed $ageId
      */
-    public function edit(Request $request)
+    public function edit(Request $request, $ageId)
     {
-        return $this->ageGroupObj->edit($request);
+        return $this->ageGroupObj->edit($request, $ageId);
     }
 
     /**
@@ -70,9 +73,11 @@ class AgeGroupController extends BaseController
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     *
+     * @param mixed $deleteId
      */
-    public function delete(Request $request)
+    public function delete($deleteId)
     {
-        return $this->ageGroupObj->delete($request);
+        return $this->ageGroupObj->delete($deleteId);
     }
 }
