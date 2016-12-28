@@ -20,9 +20,10 @@ class TeamsTableSeeder extends Seeder
         DB::table('teams')->delete();
         foreach (range(1, 10) as $index) {
             DB::table('teams')->insert([
-                'club_id' => $faker->randomElement($clubs),
-                'user_id' => $faker->randomElement($users),
-                'age_group_id' => $faker->randomElement($agegroups),
+                'club_id' => '1',
+                //'user_id' => $faker->randomElement($users),
+              //  'age_group_id' => '1',
+                'country_id' => '1',
                 'name' => $faker->word(),
                 'website' => $faker->word(),
                 'facebook' => $faker->word(),

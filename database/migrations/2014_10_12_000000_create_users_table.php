@@ -31,7 +31,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_blocked')->default(false);
             $table->timestamp('blocked_time')->nullable();
             $table->integer('blocker_id')->nullable();
-            $table->string('settings')->nullable();
+            $table->jsonb('settings')->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

@@ -14,6 +14,7 @@ class UsersTableSeeder extends Seeder
     {
         $superAdminUser = factory(App\Models\User::class)->create([
             'username' => 'superadmin',
+            'name' => 'SuperAdmin',
             'email' => 'superadmin@superadmin.com',
             'password' => bcrypt('superadmin'),
             'is_verified' => 1,
@@ -26,6 +27,7 @@ class UsersTableSeeder extends Seeder
 
         $adminUser = factory(App\Models\User::class)->create([
             'username' => 'admin',
+            'name' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin'), 'person_id' => 2, 'token' => '2',
             'is_verified' => 1,
@@ -34,6 +36,7 @@ class UsersTableSeeder extends Seeder
 
         $moderatorUser = factory(App\Models\User::class)->create([
             'username' => 'moderator',
+            'name' => 'User',
             'email' => 'moderator@moderator.com',
             'password' => bcrypt('moderator'), 'person_id' => 3, 'token' => '3',
             'is_verified' => 1,

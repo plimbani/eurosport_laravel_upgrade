@@ -15,13 +15,14 @@ class PitchesTableSeeder extends Seeder
     {
         $faker = Faker::create();
         $location = App\Models\Venue::All()->pluck('id')->toArray();
+        $pitchName = ['AWF - Field 4', 'AWF - Field 1', 'AWF - Field 2'];
         DB::table('pitches')->delete();
         foreach (range(1, 10) as $index) {
             DB::table('pitches')->insert([
-                'name' => $faker->word(),
+                'name' => $faker->randomElement($pitchName),
                 'pitch_number' => $faker->numberBetween(100000, 999999),
                 'type' => $faker->randomElement(['grass', 'artificial']),
-                'location_id' => $faker->randomElement($location),
+                'venue_id' => $faker->randomElement($location),
                 'availability' => '100',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

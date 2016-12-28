@@ -4,20 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>Euro Sportring</title>
-
-    <!-- Styles -->
-    <link href="{{ elixir('css/app.css') }}" rel="stylesheet" type="text/css" media="none" onload="this.media='all';">
-    @yield('pageStyle')
-
-    @includeIf('scripts.beforeapp')
 </head>
 <body>
-    <div id="app">
+    <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -73,15 +65,11 @@
                 </div>
             </div>
         </nav>
-
-        @yield('content')
+      @yield('content') 
+      
     </div>
-
+   
     <!-- Scripts -->
-    @include('scripts.app')
-    @yield('beforeScript')
-    <script src="{{ elixir('js/app.js') }}" type="application/javascript"></script>
-    @yield('afterScript')
-
 </body>
+ @yield('page-scripts')
 </html>
