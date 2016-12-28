@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Api\Services;
+namespace App\Services;
 
 use App\Model\UserAffiliates;
 use DB;
-use App\Api\Contracts\UserContract;
+use App\Contracts\UserContract;
 use Validator;
 use App\Model\Role;
 use Illuminate\Support\Facades\Password;
@@ -14,7 +14,7 @@ class UserService implements UserContract
 {
     public function __construct()
     {
-        $this->userRepoObj = new \App\Api\Repositories\UserRepository();
+        $this->userRepoObj = new \App\Repositories\UserRepository();
     }
 
     public function getAllUsers()

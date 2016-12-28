@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_theme')
 
 @section('content')
 exit
@@ -30,4 +30,9 @@ exit
         </div>
     </div>
 </div>
+
+@section('page-scripts')
+  <script src="{{ asset('js/tournament.js') }}"></script>
+@endsection
+
 @endsection

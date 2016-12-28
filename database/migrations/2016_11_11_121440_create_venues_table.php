@@ -22,9 +22,11 @@ class CreateVenuesTable extends Migration
             $table->string('state');
             $table->string('county');
             $table->string('city');
-            $table->string('country');
+            $table->integer('country_id')->unsigned();
+            $table->foreign('country_id')->references('id')->on('countries');
             $table->string('postcode', 10);
             $table->string('contact_no', 30);
+            $table->string('email_address', 30);
             $table->timestamps();
             $table->softDeletes();
         });

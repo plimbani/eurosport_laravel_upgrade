@@ -28,7 +28,18 @@ class TournamentController extends Controller
      */
     public function index()
     {
-        return view('team.index')->with('teams', $this->apiObj->api->get('teams'));
+        //return view('team.index')->with('teams', $this->apiObj->api->get('teams'));
+    }
+
+    public function create()
+    {
+        return view('tournament.create');
+    }
+
+    public function store(Request $request)
+    {
+        // Save Data over here
+        dd($request);
     }
 
     /*public function create()

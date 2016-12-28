@@ -28,6 +28,7 @@ class VenuesTableSeeder extends Seeder
                 'country' => $faker->country(),
                 'postcode' => $faker->postcode(),
                 'contact_no' => $faker->phoneNumber(),
+                'email_address' => 'test@gmail.com',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

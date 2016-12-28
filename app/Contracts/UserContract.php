@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\Contracts;
+namespace App\Contracts;
 
 interface UserContract
 {

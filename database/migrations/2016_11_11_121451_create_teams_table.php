@@ -17,10 +17,14 @@ class CreateTeamsTable extends Migration
             $table->increments('id');
             $table->integer('club_id')->unsigned()->index();
             $table->foreign('club_id')->references('id')->on('clubs');
-            $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->integer('age_group_id')->unsigned()->index();
-            $table->foreign('age_group_id')->references('id')->on('age_groups');
+
+            //$table->integer('country_id')->unsigned()->index();
+            //$table->foreign('country_id')->references('id')->on('countries');
+
+           // $table->integer('user_id')->unsigned()->index();
+           // $table->foreign('user_id')->references('id')->on('users');
+            //$table->integer('age_group_id')->unsigned()->index();
+            //$table->foreign('age_group_id')->references('id')->on('age_groups');
             $table->string('name');
             $table->string('website');
             $table->string('facebook');

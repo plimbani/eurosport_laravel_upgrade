@@ -23,7 +23,7 @@ class FixturesTableSeeder extends Seeder
         $referee = App\Models\Referee::all()->pluck('id')->toArray();
 
         DB::table('fixtures')->delete();
-        foreach (range(1, 10) as $index) {
+        foreach (range(1, 5) as $index) {
             DB::table('fixtures')->insert([
                 'tournament_id' => $faker->randomElement($tournaments),
                 'competition_id' => $faker->randomElement($competitions),
