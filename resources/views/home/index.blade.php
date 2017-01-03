@@ -4,9 +4,14 @@
  <!-- BEGIN CONTENT BODY -->
   <div class="page-content">
     <h3 class="page-title">Dashboard</h3>
+
     <div class="page-bar">
-         <navbar></navbar>
-    </div>
+    <ul class="page-breadcrumb">
+      <li><i class="fa fa-home"></i>Welcome <i class="fa fa-angle-right"></i></li>
+      <li class="active pagewise-breadcrumb">Tournament<i class="fa fa-angle-right"></i>
+      </li>
+    </ul>
+  </div>
     <div class="portlet light bordered">
 
       <div class="portlet-title">
@@ -22,9 +27,6 @@
      </div>
   </div>
  <!-- END CONTENT BODY -->
-@endsection
-@section('page-scripts')
-<script src="js/vue_app.js"> </script>
 @endsection
 
 
