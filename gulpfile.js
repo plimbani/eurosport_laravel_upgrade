@@ -29,7 +29,7 @@ elixir((mix) => {
     mix.remove(['public/build/css','public/build/js']);
     mix.version(['css/app.css','js/pitch.js']);
      mix.eslint(
-         'resources/assets/js/*.js'
+         'resources/assets/js/pitch.js'
     );
 });
 
