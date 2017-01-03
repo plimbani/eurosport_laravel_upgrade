@@ -10,5 +10,5 @@ class Pitch extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'pitch_number', 'type', 'location_id', 'time_slot', 'availability'];
+    protected $fillable = ['name', 'pitch_number', 'type', 'venue_id', 'comment', 'time_slot', 'availability'];
 }

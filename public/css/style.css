@@ -13,3 +13,6 @@
 	color: #fff;
 	cursor: pointer;
 }
+#tbl_avail > thead > tr > th {
+	text-align: center;
+}
