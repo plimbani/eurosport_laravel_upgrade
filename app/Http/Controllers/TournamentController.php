@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 //use Dingo\Api\Routing\Helpers;
-use App\Contracts\ApiContract;
+use App\Contracts\TournamentContract;
 
 class TournamentController extends Controller
 {
@@ -15,9 +15,9 @@ class TournamentController extends Controller
      *
      * @return void
      */
-    public function __construct(ApiContract $apiObj)
+    public function __construct(TournamentContract $tournamentObj)
     {
-        $this->apiObj = $apiObj;
+        $this->tournamentObj = $tournamentObj;
       //  $this->middleware('auth');
     }
 
@@ -38,8 +38,9 @@ class TournamentController extends Controller
 
     public function store(Request $request)
     {
-        // Save Data over here
-        dd($request);
+        // Call Service For Save Tournament Details
+        return response()->json($this->tournamentObj->create($request->all()));
+        //return $this->tournamentObj->create($request->all());
     }
 
     /*public function create()

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\TournamentContract;
 use App\Repositories\TournamentRepository;
+use App\Services\VenueService;
 
 class TournamentService implements TournamentContract
 {
@@ -13,9 +14,10 @@ class TournamentService implements TournamentContract
     const SUCCESS_MSG = 'Data Sucessfully inserted';
     const ERROR_MSG = 'Error in Data';
 
-    public function __construct(TournamentRepository $tournamentRepoObj)
+    public function __construct(TournamentRepository $tournamentRepoObj, VenueService $venueObj)
     {
         $this->tournamentRepoObj = $tournamentRepoObj;
+        $this->venueServiceObj = $venueObj;
     }
 
      /*
@@ -45,11 +47,15 @@ class TournamentService implements TournamentContract
      */
     public function create($data)
     {
-        $data = $data->all();
-        $data = $this->tournamentRepoObj->create($data);
-        if ($data) {
-            return ['status_code' => '200', 'message' => self::SUCCESS_MSG];
-        }
+        //$tournamentData = array();
+        //$tournamentVenueData = array();
+
+        $tournamentdata = $this->tournamentRepoObj->create($data);
+        $venueData = $this->venueServiceObj->create($data);
+
+        // Now Save Venue Details For Tournament
+
+        return ($tournamentdata && $venueData) ? ['status_code' => '200', 'message' => self::SUCCESS_MSG] : ['status_code' => '505', 'message' => self::ERROR_MSG];
     }
 
     /**

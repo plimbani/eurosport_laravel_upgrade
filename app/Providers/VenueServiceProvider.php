@@ -3,12 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Services\TournamentService;
 use App\Services\VenueService;
 use App\Repositories\VenueRepository;
-use App\Repositories\TournamentRepository;
 
-class TournamentServiceProvider extends ServiceProvider
+class VenueServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -26,8 +24,8 @@ class TournamentServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('App\Contracts\TournamentContract', function ($app) {
-            return new TournamentService(new TournamentRepository(), new VenueService(new VenueRepository()));
+        $this->app->bind('App\Contracts\VenueContract', function ($app) {
+            return new VenueService(new VenueRepository());
         });
     }
 
@@ -38,6 +36,6 @@ class TournamentServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['App\Contracts\TournamentContract'];
+        return ['App\Contracts\VenueContract'];
     }
 }
