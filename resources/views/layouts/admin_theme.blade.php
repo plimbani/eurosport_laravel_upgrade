@@ -9,10 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="_token" content="{!! csrf_token() !!}"/> 
     <title>@yield('page-title')</title>
-    <link href="{{ elixir('css/layout_admin_theme.css') }}" rel="stylesheet" type="text/css" />
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">   
+    <link href="{{ elixir('css/layout_admin_theme.css') }}" rel="stylesheet" type="text/css" />
     @yield('page-css')    
     <style>
         body {font-family: 'Lato';}
@@ -21,11 +21,12 @@
 </head>
 <!-- End of Head Section-->
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+
     <div id="app">
      <!-- BEGIN HEADER -->
        <div class="page-header navbar navbar-fixed-top md-shadow-z-1-i">
             <!-- BEGIN HEADER INNER -->
-            <div class="page-header-inner ">
+            <div class="page-header-inner">
                @include('elements.top_menu')
             </div>
             <!-- END HEADER INNER-->
@@ -74,7 +75,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js">
     </script>
-    <script src="{{ asset('js/layout_admin_theme.js') }}"></script>      
+    <script src="{{ asset('js/layout_admin_theme.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>      
     @yield('plugin-scripts')         
     @yield('page-scripts')        
 </body>
