@@ -20,24 +20,15 @@ var adminThemePath = './public/';
 
 elixir((mix) => {
     mix.sass('app.scss')
+       .webpack('app.js')
        .webpack('pitch.js')
-       .webpack('tournament.js')
+        .webpack('tournament.js')
        //.webpack('./components/tournament/tournament_form.vue')
        
        .copy(
             'node_modules/bootstrap-sass/assets/fonts/bootstrap',
             'public/fonts/bootstrap'
         );
-
-    mix.remove(['public/build/css','public/build/js']);
-    mix.version(['css/app.css','js/pitch.js']);
-     mix.eslint(
-         'resources/assets/js/pitch.js'
-    );
-});
-
-//     mix.version(['css/app.css','js/tournament.js']);
-// });
     mix.styles([
     adminThemePath + 'admin_theme/global/plugins/font-awesome/css/font-awesome.min.css',
     adminThemePath + 'admin_theme/global/plugins/simple-line-icons/simple-line-icons.min.css',
@@ -79,4 +70,3 @@ elixir((mix) => {
    
     mix.eslint('resources/assets/js/*.js');
 });
-

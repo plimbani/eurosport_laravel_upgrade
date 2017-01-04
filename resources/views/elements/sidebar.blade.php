@@ -33,6 +33,15 @@
 
        </a>
    </li>
+
+      <li  class="nav-item start pitch" >
+       <a href="{{ url('/pitch/create') }}" class="nav-link nav-toggle">
+           <i class="fa fa-file-text"></i>
+           <span class="title">Pitch Allocation Details</span>
+           <span class="selected"></span>
+
+       </a>
+   </li>
   {{-- @endif --}}
 
   {{-- @if(Auth::user()->can( 'aff.view' ) || Auth::user()->can( 'aff.admin' )) --}}

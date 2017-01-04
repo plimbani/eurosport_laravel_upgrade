@@ -48,7 +48,6 @@
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -82,6 +81,8 @@
     @include('scripts.app')
     @yield('beforeScript')
     <!-- // <script src="{{ elixir('js/app.js') }}" type="application/javascript"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js">
     <script src="{{ elixir('js/test.js') }}" type="text/javascript"></script>
 
     @yield('afterScript')

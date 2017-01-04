@@ -24,14 +24,14 @@
 .page-header.navbar .top-menu .navbar-nav > li.dropdown-language > .dropdown-toggle > .langname,
 .page-header.navbar .top-menu .navbar-nav > li.dropdown-user > .dropdown-toggle > .username,
 .page-header.navbar .top-menu .navbar-nav > li.dropdown-user > .dropdown-toggle > i {
-  color: #666;
+  color: #fff;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 400; 
 }
 
 .page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle:hover,
 .page-header.navbar .top-menu .navbar-nav > li.dropdown.open .dropdown-toggle {
-  background-color: #fff;
+  background-color: #1f1f1f;
 }
 
 .page-header.navbar .menu-toggler > span,
