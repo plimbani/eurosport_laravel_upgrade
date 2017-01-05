@@ -29,14 +29,14 @@ class PitchService implements PitchContract
      */
     public function createPitch($data)
     {
-        $pitchNumber = '1234';
         $availability = '80';
+        $pitchNumber = '12';
         $dataArr = [
             'name' => $data->input('pitch_name'),
             'pitch_number' => $pitchNumber,
             'type' => $data->input('pitch_type'),
-            'venue_id' => '1',
-            'time_slot' => $data->input('time_slot'),
+            'venue_id' => $data->input('location'),
+            'time_slot' => '30',
             'availability' => $availability,
         ];
         $dataRes = $this->pitchRepoObj->createPitch($dataArr);

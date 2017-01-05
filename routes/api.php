@@ -43,10 +43,10 @@ $api->version('v1', function ($api) {
 
     // Team Stuff
 
-    $api->get('teams', 'App\Api\Controllers\TeamController@getTeams');
-    $api->post('team/create', 'App\Api\Controllers\TeamController@createTeam');
-    $api->post('team/edit/{id}', 'App\Api\Controllers\TeamController@edit');
-    $api->post('team/delete/{deleteid}', 'App\Api\Controllers\TeamController@deleteTeam');
+    //$api->get('teams', 'App\Api\Controllers\TeamController@getTeams');
+    //$api->post('team/create', 'App\Api\Controllers\TeamController@createTeam');
+    //$api->post('team/edit/{id}', 'App\Api\Controllers\TeamController@edit');
+    //$api->post('team/delete/{deleteid}', 'App\Api\Controllers\TeamController@deleteTeam');
 
     //Referee api
     $api->get('referees', 'App\Api\Controllers\RefereeController@getReferees');

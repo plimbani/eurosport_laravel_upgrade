@@ -39,6 +39,8 @@ class TournamentController extends Controller
     public function store(Request $request)
     {
         // Call Service For Save Tournament Details
+        dd($request->all());
+
         return response()->json($this->tournamentObj->create($request->all()));
         //return $this->tournamentObj->create($request->all());
     }

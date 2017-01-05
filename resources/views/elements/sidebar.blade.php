@@ -47,9 +47,19 @@
   {{-- @if(Auth::user()->can( 'aff.view' ) || Auth::user()->can( 'aff.admin' )) --}}
    <li @if( (isset($title) && $title != '') &&  $title == 'Users')  class="nav-item start reports" @else  class="nav-item start reports"  @endif data-page="reports">
 
-       <a href="{{ url('/teams') }}" class="nav-link nav-toggle">
+       <a href="{{ url('teams') }}" class="nav-link nav-toggle">
            <i class="fa fa-cloud-download"></i>
            <span class="title">Teams</span>
+           <span class="selected"></span>
+
+       </a>
+   </li>
+   
+   <li class="nav-item start reports" data-page="reports">
+
+       <a href="{{ url('/pitch/create') }}" class="nav-link nav-toggle">
+           <i class="fa fa-cloud-download"></i>
+           <span class="title">Pitches</span>
            <span class="selected"></span>
 
        </a>

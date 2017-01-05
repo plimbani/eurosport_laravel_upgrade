@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Contracts\PitchContract;
 use App\Models\Pitch;
 use App\Repositories\PitchRepository;
+use App\Repositories\VenueRepository;
 
 class PitchController extends Controller
 {
@@ -42,18 +43,20 @@ class PitchController extends Controller
         return view('pitch.create')->with(compact('location', 'days', 'timeSlot', 'unavailable', 'locationId'));
     }
 
-    public function pitchAllocation($tSlot = '30')
+    public function pitchAllocation()
     {
+        $venuerepo =  new VenueRepository();
         $days = 4;
-        if ($tSlot === '30') {
-            $timeSlot = ['9:00', '9.30', '10:00', '10:30', '11:00', '11.30', '12:00', '12:30', '13:00', '13:30', '14:00', '14.30', '15:00', '15:30', '16:00', '16.30', '17:00', '17:30', '18:00'];
-        } elseif ($tSlot === '45') {
-            $timeSlot = ['9.00', '9:45', '10.30', '11:15', '12:00', '12:45', '14.00', '14:45', '15:30', '16:15', '17:00', '17:45'];
-        }
+        $location = array_pluck($venuerepo->getAll(), 'name', 'id'); 
+        // if ($tSlot === '30') {
+        //     $timeSlot = ['9:00', '9.30', '10:00', '10:30', '11:00', '11.30', '12:00', '12:30', '13:00', '13:30', '14:00', '14.30', '15:00', '15:30', '16:00', '16.30', '17:00', '17:30', '18:00'];
+        // } elseif ($tSlot === '45') {
+        //     $timeSlot = ['9.00', '9:45', '10.30', '11:15', '12:00', '12:45', '14.00', '14:45', '15:30', '16:15', '17:00', '17:45'];
+        // }
 
-        $unavailable = [ '1-10:30', '1-13:30', '1-15:00', '2-12:30', '3-10:30', '3-15:30', '4-12:00', '4-16:00' ];
+        // $unavailable = [ '1-10:30', '1-13:30', '1-15:00', '2-12:30', '3-10:30', '3-15:30', '4-12:00', '4-16:00' ];
 
-        return ['days' => $days, 'timeSlot' => $timeSlot, 'unavailable' => $unavailable];
+        return ['days' => $days, 'location' => $location];
     }
 
     public function store(Request $request)

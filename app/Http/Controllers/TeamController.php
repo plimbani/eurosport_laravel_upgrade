@@ -15,11 +15,10 @@ class TeamController extends Controller
      *
      * @return void
      */
-    public function __construct(ApiContract $apiObj)
+    public function __construct()
     {
-        $this->apiObj = $apiObj;
-
-      //  $this->middleware('auth');
+        //  $this->apiObj = $apiObj;
+        $this->middleware('auth');
     }
 
     /**
@@ -29,7 +28,8 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return view('team.index')->with('teams', $this->apiObj->api->get('teams'));
+        return view('team.index');
+        //return view('team.index')->with('teams', $this->apiObj->api->get('teams'));
     }
 
     public function create()

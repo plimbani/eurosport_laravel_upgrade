@@ -20,7 +20,9 @@ var adminThemePath = './public/';
 
 elixir((mix) => {
     mix.sass('app.scss')
+       .webpack('custom.js')
        .webpack('app.js')
+     //  .webpack('bootstrap.js')
        .webpack('pitch.js')
         .webpack('tournament.js')
        //.webpack('./components/tournament/tournament_form.vue')
@@ -30,7 +32,6 @@ elixir((mix) => {
             'public/fonts/bootstrap'
         );
     mix.styles([
-    adminThemePath + 'admin_theme/global/plugins/font-awesome/css/font-awesome.min.css',
     adminThemePath + 'admin_theme/global/plugins/simple-line-icons/simple-line-icons.min.css',
     adminThemePath + 'admin_theme/global/plugins/bootstrap/css/bootstrap.min.css',
     adminThemePath + 'admin_theme/global/plugins/bootstrap-toastr/toastr.min.css',
@@ -47,22 +48,20 @@ elixir((mix) => {
     ],'public/css/layout_admin_theme.css')  
 
     mix.scripts([
-    adminThemePath + 'admin_theme/global/plugins/jquery.blockui.min.js',
-    adminThemePath + 'admin_theme/global/plugins/jquery.blockui.min.js',
-    adminThemePath + 'admin_theme/global/plugins/jquery.blockui.min.js',
-    adminThemePath + 'admin_theme/global/plugins/jquery.blockui.min.js',
-    adminThemePath + 'admin_theme/global/plugins/select2/js/select2.full.min.js',
-    adminThemePath + 'admin_theme/global/scripts/app.js',
-    adminThemePath + 'admin_theme/layouts/layout/scripts/layout.min.js',
-    adminThemePath + 'admin_theme/layouts/layout/scripts/demo.min.js',
-    adminThemePath + 'admin_theme/layouts/global/scripts/quick-sidebar.min.js',
-    adminThemePath + 'admin_theme/global/plugins/bootstrap-toastr/toastr.min.js',
-    adminThemePath + 'admin_theme/global/plugins/moment.min.js',
-    adminThemePath + 'admin_theme/pages/scripts/components-select2.min.js',
-    adminThemePath +'js/jquery.twbsPagination.min.js',
-    adminThemePath +'js/jquery.validate.min.js',
-    adminThemePath +'js/metronic.js',
-    adminThemePath +'js/inview.js',
+        adminThemePath + 'admin_theme/global/plugins/jquery.blockui.min.js',
+        adminThemePath + 'admin_theme/global/plugins/select2/js/select2.full.min.js',
+        adminThemePath + 'admin_theme/global/scripts/app.js',
+        adminThemePath + 'admin_theme/layouts/layout/scripts/layout.min.js',
+        adminThemePath + 'admin_theme/layouts/layout/scripts/demo.min.js',
+        adminThemePath + 'admin_theme/layouts/global/scripts/quick-sidebar.min.js',
+        adminThemePath + 'admin_theme/global/plugins/bootstrap-toastr/toastr.min.js',
+        adminThemePath + 'admin_theme/global/plugins/moment.min.js',
+        adminThemePath + 'admin_theme/pages/scripts/components-select2.min.js',
+        adminThemePath + 'js/jquery.cokie.min.js',
+        adminThemePath + 'js/jquery.twbsPagination.min.js',
+        adminThemePath + 'js/jquery.validate.min.js',
+        adminThemePath + 'js/metronic.js',
+        adminThemePath + 'js/inview.js',
     ],'public/js/layout_admin_theme.js');
 
     mix.remove(['public/build/css','public/build/js']);

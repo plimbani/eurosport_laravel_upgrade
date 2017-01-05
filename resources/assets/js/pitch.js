@@ -2,39 +2,44 @@ import Vue from 'vue';
 
 require('../js/axios_service.js');
 import PitchForm from './components/pitch/pitch_form.vue';
+// import VueSelect from './components/global/vue-select.vue';
+import Multiselect from 'vue-multiselect';
 
-// import myComponent from '../js/components/Test.vue';
-// var step1 = Vue.extend(require('../js/components/Test.vue'));
-// var myComponent = Vue.extend(require('./components/Test.vue'));
+
+// register globally
+Vue.component('multiselect',Multiselect);
 
 let vuePitch = new Vue({
   el: '#pitchSet',
-    components: {
-    'pitch-form': PitchForm
-  },
+     components: { 
+      'pitch-form': PitchForm,
+      },
   data() {
     return {
       pitchdata:
       {
-        location_name:'Test', pitch_type:'artificial', time_slot:'30' 
+        pitch_name:'Test', pitch_type:'artificial', location:'Location 3' 
       },
-      pitchdata123:
-      {
-        location_name:'Test123', pitch_type:'grass', time_slot:'45' 
-      }  
-
+      selected: null,
+      options: ['list', 'of', 'options']
     } 
   },
   mounted() {
-   console.log('test');
+    this.getAvailability();
   },
   methods: {
     getAvailability() {
       Vue.$http.get('getdata').then(function pitchGetDataUpdate(response) {
         vuePitch.pitchDays = response.data.days;
-        vuePitch.unAvailable = response.data.unavailable;
-        vuePitch.timeSlot = response.data.timeSlot; // true
+        console.log(response.data.location);  
+        
+        $("#location").select2({
+          data: response.data.location
+        });
       });
+    },
+    updateSelected (newSelected) {
+      this.selected = newSelected
     },
 
   },
