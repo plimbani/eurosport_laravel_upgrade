@@ -1,0 +1,80 @@
+<div class="container">
+<div class="row"> 
+       <div class="col-md-12"> 
+          <div class="panel panel-default"> 
+              <div class="panel-heading"> 
+                  <span class="panel-title col-md-offset-2"> 
+                    Hi Chris, welcome to Tournament Planner. Got a question? Check the Help page or contact us for assistance
+                  </span>
+              </div>
+          </div>
+       </div>
+</div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Manage Tournaments</div>
+                <div class="panel-body">
+                     <div class="form-group">
+                            <div class="col-md-12">
+                            <div>
+                              <label class="typo__label">Select Tournament</label>
+                              <multiselect   v-model="value" 
+                              track-by="name" label="name" 
+                              :custom-label="nameWithStatus" @select="onSelect"
+                              placeholder="Select Existing Tournament" :options="options"
+                               :searchable="false" :allow-empty="false">
+                              </multiselect>                              
+                            </div>
+                              <!--<multiselect :options="user.tournamentList">
+                              <select 
+                              class="select form-control" 
+                              id="tournament" 
+                              v-model="user.tournamentList"
+                              v-on:change="addTournamentData"
+                              >
+                              <option v-for="tournament in user.tournamentList"
+                              :value="tournament.id">
+                                    {{tournament.name}} ({{tournament.status}})
+                               </option>                              
+                              </select>-->
+                              </div>
+                              &nbsp;
+                            <div class="col-md-12 col col-md-offset-4">
+                            <button type="button" id="submitTemplate" class="btn green margin-right-5" 
+                                    v-on:click="addTournamentData">
+                                    Add New Tournament</button> 
+                            </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" v-if="user.user_name == 'superadmin'">
+            <div class="panel panel-default">
+                <div class="panel-heading">Manage Users</div>
+                <div class="panel-body">
+                        <div class="col-md-12 col-md-offset-4">
+                            <button type="button" class="btn btn-default">
+                              Desktop Users
+                            </button>
+                        </div>&nbsp;
+                        <div class="col-md-12 col-md-offset-4">
+                            <button type="button" class="btn btn-default">
+                                Mobile App Users
+                            </button>
+                        </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-md-6" v-else>
+            <div class="panel panel-default">
+                <div class="panel-heading">Add New Tournament</div>
+                <div class="panel-body">
+                       <h3 class="panel-title">1. Add Tournament Details</h3>
+                       <h3 class="panel-title">2. Review</h3>
+                       <h3 class="panel-title">3. Publish</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

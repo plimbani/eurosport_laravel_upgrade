@@ -91,4 +91,17 @@ class TournamentService implements TournamentContract
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
     }
+
+    /**
+     *  Get Tournament Data.
+     *
+     *  @param int $tournamentData
+     * @param mixed $tournamentId
+     *
+     *  @return [type]
+     */
+    public function getAllData($tournamentId)
+    {
+        return $this->tournamentRepoObj->getTournamentFromId($tournamentId);
+    }
 }

@@ -33,7 +33,15 @@ class TournamentController extends Controller
 
     public function create()
     {
-        return view('tournament.create');
+        return view('tournament.add_tournament');
+        //return view('tournament.create');
+    }
+
+    public function dashboard(Request $request, $tournamentId)
+    {
+        $tournamentData = $this->tournamentObj->getAllData($tournamentId);
+
+        return view('home.index', compact('tournamentData'));
     }
 
     public function store(Request $request)

@@ -13,8 +13,7 @@ return [
     | Example: 'footer' or ['footer', 'bottom']
     |
     */
-    'bind_js_vars_to_this_view' => 'footer',
-
+    'bind_js_vars_to_this_view' => 'elements.footer',
     /*
     |--------------------------------------------------------------------------
     | JavaScript Namespace
@@ -26,5 +25,4 @@ return [
     |
     */
     'js_namespace' => 'window',
-
 ];
