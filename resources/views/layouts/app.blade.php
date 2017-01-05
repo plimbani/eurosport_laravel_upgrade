@@ -7,22 +7,17 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Euro Sportring</title>
-
-
     <!-- Styles -->
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet" type="text/css" media="none" onload="this.media='all';">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
     @yield('pageStyle')
-
-    @includeIf('scripts.beforeapp')
-
+    @includeIf('scripts.beforeapp')    
 </head>
 <body>
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
-
                     <!-- Collapsed Hamburger -->
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                         <span class="sr-only">Toggle Navigation</span>
@@ -30,19 +25,14 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
                         Euro Sportring
                     </a>
                 </div>
-
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
+                    <ul class="nav navbar-nav">&nbsp;</ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
@@ -73,19 +63,15 @@
                 </div>
             </div>
         </nav>
-      @yield('content') 
-      
-    </div>
-   
+      @yield('content')       
+    </div>   
     <!-- Scripts -->
     @include('scripts.app')
-    @yield('beforeScript')
-    <!-- // <script src="{{ elixir('js/app.js') }}" type="application/javascript"></script> -->
+    @yield('beforeScript')    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js">
-    <script src="{{ elixir('js/test.js') }}" type="text/javascript"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
     @yield('afterScript')
 </body>
+ @include('elements.footer')
  @yield('page-scripts')
 </html>

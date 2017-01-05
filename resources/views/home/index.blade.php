@@ -13,11 +13,9 @@
     </ul>
   </div>
     <div class="portlet light bordered">
-
       <div class="portlet-title">
-         <div class="caption"> Copa Cost Bravo 2017</div>
+         <div class="caption"> {{ $tournamentData['name']}}</div>
        </div>
-
       <div class="portlet-body">
         <h3 class="page-title"> Welcome To  Dashboard
             <small></small>
