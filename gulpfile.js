@@ -24,7 +24,7 @@ elixir((mix) => {
        .webpack('app.js')
      //  .webpack('bootstrap.js')
        .webpack('pitch.js')
-       .webpack('tournament.js')
+        .webpack('tournament.js')
        //.webpack('./components/tournament/tournament_form.vue')
        
        .copy(

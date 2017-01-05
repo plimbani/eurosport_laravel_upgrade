@@ -204,6 +204,7 @@ return [
         App\Providers\MatchServiceProvider::class,
         App\Providers\TournamentServiceProvider::class,
         App\Providers\ApiServiceProvider::class,
+        App\Providers\PitchServiceProvider::class,
 
         /*
          *  3rd Party Service Providers

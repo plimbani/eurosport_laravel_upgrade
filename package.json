@@ -11,7 +11,6 @@
     "gulp-eslint": "^3.0.1",
     "jquery": "^3.1.0",
     "jshint": "^2.9.4",
-    "laravel-elixir": "^6.0.0-14",
     "laravel-elixir-remove": "^0.2.1",
     "laravel-elixir-vue-2": "^0.2.0",
     "laravel-elixir-webpack-official": "^1.0.2",
@@ -26,7 +25,8 @@
   "dependencies": {
     "axios": "^0.15.2",
     "laravel-elixir": "^6.0.0-15",
-    "vue": "^2.0.1",
+    "laravel-elixir-eslint": "^3.0.2",
+    "vue": "^2.1.8",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.8"
   }
