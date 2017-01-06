@@ -8,7 +8,8 @@ export default {
     },
 
     methods: {
-      saveTournamentData()  {
+
+      saveTournamentData1()  {       
       // Here We have to save the data     
       this.tournamentdata.tournaments_start_date = $( "#tournaments_start_date" ).val();
       this.tournamentdata.tournament_days = $( "#tournament_days" ).val();
