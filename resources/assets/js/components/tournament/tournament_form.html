@@ -1,196 +1,183 @@
-<form  method="POST"  role="form" class="form-horizontal" id="frmTournamentForm" v-on:submit.prevent="saveTournamentData">
-                 <div class="form-body">
-                      <div class="form-group">
-                          <label class="col-md-2 control-label">Tournament Name
-                          <span class="required">*</span></label>
-                          <div class="col-md-10">
-                              <input type="text" name="name" 
-                              id="tournaments_name" 
-                              v-model="tournamentdata.tournaments_name" 
-                              class="form-control" 
-                              placeholder="Enter the name of your tournament">
-                          </div>
 
-                      </div>
-                      <div class="form-group">
-                         <label class="col-md-2 control-label">Start Date<span class="required">*
-                      </span>
-                          </label>
-                          <div class="col-md-4">
-                           <!--<input type="text" name="tournaments_start_date" 
-                              id="name" 
-                              v-model="tournamentdata.tournaments_start_date" 
-                              class="form-control" 
-                              placeholder="Enter the name of your tournament"> -->
-    
-                           <div data-date-format="dd-mm-yyyy" class="input-group date date-picker ">
-                                  <input type="text" readonly="" class="form-control" name="tournaments_start_date" id="tournaments_start_date">
-                                  <span class="input-group-btn">
-                                      <button type="button" class="btn default">
-                                          <i class="fa fa-calendar"></i>
-                                      </button>
-                                  </span>
-                              </div>
-                              </div>
-                          <label class="col-md-2 control-label">Tournament Days<span class="required">*
-                      </span>
-                          </label>
-                          <div class="col-md-4">
-                           <select class="form-control select2-allow-clear" 
-                           name="tournament_days" id="tournament_days" 
-                           data-placeholder="Select Tournament Days">
-                                      <option value="1" selected>1</option>
-                                      <option value="2">2</option>
-                                      <option value="3">3</option>
-                                      <option value="4">4</option>
-                                      <option value="5">5</option>
-                                  </select>
-                              </div>    
-                      </div>
-                      <div class="form-group">
-                          <label class="col-md-2 control-label">Venue
-                          <span class="required">*</span></label>
-                          <div class="col-md-4">
-                              <input type="text" name="venues_name" 
-                              id="venue" 
-                              v-model="tournamentdata.venues_name"  class="form-control" placeholder="Enter venue">
-                          </div>
-                           <label class="col-md-2 control-label">Telephone
-                          <span class="required">*</span></label>
-                          <div class="col-md-4">
-                              <input type="text"
-                              name="venues_contact_no" 
-                              id="venues_contact_no" 
-                              v-model="tournamentdata.venues_contact_no"  class="form-control" 
-                              placeholder="Enter Telephone">
-                          </div>
-                          
-                      </div>
+  <form  method="POST"  role="form" class="form-horizontal" id="frmTournamentForm" v-on:submit.prevent="saveTournamentData">
+    <div class="form-body">
+      <div class="form-group">
+        <label class="col-md-2 control-label">Tournament Name<span class="required">*</span>
+        </label>
+        <div class="col-md-10">
+          <input type="text" name="name" 
+          id="tournaments_name" 
+          v-model="tournamentdata.tournaments_name" 
+          class="form-control" 
+          placeholder="Enter the name of your tournament">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label">Start Date<span class="required">*</span>
+       </label>
+       <div class="col-md-4">
+         <div data-date-format="dd-mm-yyyy" class="input-group date date-picker ">
+            <input type="text" readonly="" class="form-control" name="tournaments_start_date" id="tournaments_start_date">
+            <span class="input-group-btn">
+              <button type="button" class="btn default"><i class="fa fa-calendar"></i></button>
+            </span>
+          </div>
+        </div>
+        <label class="col-md-2 control-label">Tournament Days<span class="required">*
+        </span></label>
 
-                       <div class="form-group">
-                          <label class="col-md-2 control-label">Address1
-                          <span class="required">*</span></label>
-                          <div class="col-md-4">
-                              <input type="text" name="venues_address1" 
-                              id="address1" 
-                              v-model="tournamentdata.venues_address1"  class="form-control" placeholder="Enter Address1">
-                          </div>
-                          <label class="col-md-2 control-label">Email<span class="required">*</span></label>
-                          <div class="col-md-4">
-                                <input type="text" name="venues_email_address" id="venues_email" v-model="tournamentdata.venues_email_address" class="form-control" placeholder="Enter Email">
-                         </div>
+        <div class="col-md-4">
+          <select class="form-control select2-allow-clear" name="tournament_days" 
+          id="tournament_days" data-placeholder="Select Tournament Days">
+            <option value="1" selected>1</option><option value="2">2</option>
+            <option value="3">3</option><option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>    
+      </div>
+      <div class="form-group">
+          <label class="col-md-2 control-label">Venue
+          <span class="required">*</span></label>
+        <div class="col-md-4">
+          <input type="text" name="venues_name" 
+          id="venue" 
+          v-model="tournamentdata.venues_name"  class="form-control" placeholder="Enter venue">
+        </div>
+      <label class="col-md-2 control-label">Telephone<span class="required">*</span></label>
+      <div class="col-md-4">
+        <input type="text"
+        name="venues_contact_no" 
+        id="venues_contact_no" 
+        v-model="tournamentdata.venues_contact_no"  class="form-control" 
+        placeholder="Enter Telephone">
+      </div>
 
-                      </div>
+      </div>
 
-                      <div class="form-group">
-                          <label class="col-md-2 control-label">Address2
-                          <span class="required">*</span></label>
-                          <div class="col-md-4">
-                              <input type="text" name="venues_address2" 
-                              id="venues_address2" 
-                              v-model="tournamentdata.venues_address2"  class="form-control" placeholder="Enter Address2">
-                          </div>
-                          <label class="col-md-2 control-label">Website<span class="required">*</span></label>
-                          <div class="col-md-4">
-                                <input type="text" name="tournaments_website" id="website" v-model="tournamentdata.tournaments_website" class="form-control" placeholder="Enter venue">
-                         </div>
+      <div class="form-group">
+         <label class="col-md-2 control-label">Address1<span class="required">*</span>
+         </label>
+          <div class="col-md-4">
+              <input type="text" name="venues_address1" 
+              id="address1" 
+              v-model="tournamentdata.venues_address1"  class="form-control" placeholder="Enter Address1">
+          </div>
 
-                      </div>
+          <label class="col-md-2 control-label">Email<span class="required">*</span></label>
+          <div class="col-md-4">
+            <input type="text" name="venues_email_address" id="venues_email" 
+            v-model="tournamentdata.venues_email_address" class="form-control" 
+            placeholder="Enter Email">
+          </div>
 
-                       <div class="form-group">
-                          <label class="col-md-2 control-label">Address3
-                          <span class="required">*</span></label>
-                          <div class="col-md-4">
-                              <input type="text" name="venues_address3" 
-                              id="venues_address3" 
-                              v-model="tournamentdata.venues_address3"  class="form-control" placeholder="Enter Address3">
-                          </div>
+      </div>
 
-                          <label class="col-md-2 control-label">Facebook<span class="required">*</span></label>
-                          <div class="col-md-4">
-                                <input type="text" name="tournaments_facebook" id="facebook" v-model="tournamentdata.tournaments_facebook" class="form-control" placeholder="Enter facebook">
-                         </div>                          
-                         
-                      </div>
+<div class="form-group">
+<label class="col-md-2 control-label">Address2
+<span class="required">*</span></label>
+<div class="col-md-4">
+<input type="text" name="venues_address2" 
+id="venues_address2" 
+v-model="tournamentdata.venues_address2"  class="form-control" placeholder="Enter Address2">
+</div>
+<label class="col-md-2 control-label">Website<span class="required">*</span></label>
+<div class="col-md-4">
+<input type="text" name="tournaments_website" id="website" v-model="tournamentdata.tournaments_website" class="form-control" placeholder="Enter venue">
+</div>
 
-                      <div class="form-group">
-                          <label class="col-md-2 control-label">Town/City
-                          <span class="required">*</span></label>
-                          <div class="col-md-4">
-                              <input type="text"
-                              name="venues_city" 
-                              id="venues_city" 
-                              v-model="tournamentdata.venues_city"  class="form-control" 
-                              placeholder="Enter Town">
-                          </div>
+</div>
 
-                         
-                          <label class="col-md-2 control-label">Twitter<span class="required">*</span></label>
-                          <div class="col-md-4">
-                                <input type="text" name="tournaments_twitter" id="tournaments_twitter" v-model="tournamentdata.tournaments_twitter" class="form-control" placeholder="Enter Twitter">
-                         </div>
+<div class="form-group">
+<label class="col-md-2 control-label">Address3
+<span class="required">*</span></label>
+<div class="col-md-4">
+<input type="text" name="venues_address3" 
+id="venues_address3" 
+v-model="tournamentdata.venues_address3"  class="form-control" placeholder="Enter Address3">
+</div>
 
-                      </div>
-                      <div class="form-group">
-                          <label class="col-md-2 control-label">PostCode
-                          <span class="required">*</span></label>
-                          <div class="col-md-4">
-                              <input type="text"
-                              name="venues_postcode" 
-                              id="postcode" 
-                              v-model="tournamentdata.venues_postcode"  class="form-control" 
-                              placeholder="Enter Post Code">
-                          </div>
-                          <label class="col-md-2 control-label">Logo<span class="required">*</span></label>
-                           <div class="col-md-4">
-                                    <span class="btn default btn-file">
-                                    <span class="fileinput-new">
-                                    Select Logo </span>
-                                    <!--<span class="fileinput-exists">
-                                    Change </span>-->
-                                    <input type="file" name="file" 
-                                    data-imgW='172' data-imgH='111'
-                                     id="file_img">
-                                    </span>
-                                </div>
-                          
-                      </div>
+<label class="col-md-2 control-label">Facebook<span class="required">*</span></label>
+<div class="col-md-4">
+<input type="text" name="tournaments_facebook" id="facebook" v-model="tournamentdata.tournaments_facebook" class="form-control" placeholder="Enter facebook">
+</div>                          
 
-                      <div class="form-group">
-                          <label class="col-md-2 control-label">State
-                          <span class="required">*</span></label>
-                          <div class="col-md-4">
-                              <input type="text"
-                              name="venues_state" 
-                              id="state" 
-                              v-model="tournamentdata.venues_state"  class="form-control" 
-                              placeholder="Enter State">
-                          </div>
-                           <label class="col-md-2 control-label">Country
-                          <span class="required">*</span></label>
-                          <div class="col-md-4">
-                              <input type="text"
-                              name="venues_country" 
-                              id="country" 
-                              v-model="tournamentdata.venues_country"  class="form-control" 
-                              placeholder="Enter country">
-                          </div>
+</div>
 
-                          
-                      </div>
-                      
-                      </div> <!-- end of form-body class> -->
-                <div class="form-actions top">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="pull-right">
-                                    <button type="button" id="submitTemplate" class="btn green margin-right-5" 
-                                    v-on:click="saveTournamentData()">
-                                    Save</button>                               
-                                <button type="button" class="btn grey" v-on:click="goBack()">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-            </form>
+<div class="form-group">
+<label class="col-md-2 control-label">Town/City
+<span class="required">*</span></label>
+<div class="col-md-4">
+<input type="text"
+name="venues_city" 
+id="venues_city" 
+v-model="tournamentdata.venues_city"  class="form-control" 
+placeholder="Enter Town">
+</div>
+
+
+<label class="col-md-2 control-label">Twitter<span class="required">*</span></label>
+<div class="col-md-4">
+<input type="text" name="tournaments_twitter" id="tournaments_twitter" v-model="tournamentdata.tournaments_twitter" class="form-control" placeholder="Enter Twitter">
+</div>
+
+</div>
+<div class="form-group">
+    <label class="col-md-2 control-label">PostCode
+    <span class="required">*</span></label>
+    <div class="col-md-4">
+      <input type="text"
+      name="venues_postcode" 
+      id="postcode" 
+      v-model="tournamentdata.venues_postcode"  class="form-control" 
+      placeholder="Enter Post Code">
+    </div>
+    <label class="col-md-2 control-label">Logo<span class="required">*</span></label>
+    <div class="col-md-4">
+    <span class="btn default btn-file">
+    <span class="fileinput-new">
+    Select Logo </span>
+    <!--<span class="fileinput-exists">
+    Change </span>-->
+    <input type="file" name="file" 
+    data-imgW='172' data-imgH='111'
+    id="file_img">
+    </span>
+    </div>
+
+</div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label">State
+      <span class="required">*</span></label>
+    <div class="col-md-4">
+      <input type="text"
+      name="venues_state" 
+      id="state" 
+      v-model="tournamentdata.venues_state"  class="form-control" 
+      placeholder="Enter State">
+    </div>
+    <label class="col-md-2 control-label">Country<span class="required">*</span></label>
+    <div class="col-md-4">
+      <input type="text"
+      name="venues_country" 
+      id="country" 
+      v-model="tournamentdata.venues_country"  class="form-control" 
+      placeholder="Enter country">
+    </div>
+  </div>
+
+</div> <!-- end of form-body class> -->
+  <div class="form-actions top">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="pull-right">
+        <button type="button" id="submitTemplate" class="btn green margin-right-5" 
+        v-on:click="saveTournamentData1()">
+        Save</button>                               
+        <button type="button" class="btn grey" v-on:click="goBack()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 
