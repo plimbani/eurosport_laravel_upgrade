@@ -8,9 +8,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Euro Sportring</title>
     <!-- Styles -->
-    <link href="{{ elixir('css/app.css') }}" rel="stylesheet" type="text/css" media="none" onload="this.media='all';">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" media="none" onload="this.media='all';">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
-    @yield('pageStyle')
+    @yield('page-css')
     @includeIf('scripts.beforeapp')    
 </head>
 <body>
@@ -26,6 +26,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <!-- Branding Image -->
+                    
                     <a class="navbar-brand" href="{{ url('/') }}">
                         Euro Sportring
                     </a>
@@ -43,7 +44,6 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
                                         <a href="{{ url('/logout') }}"
@@ -51,7 +51,6 @@
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
-
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
@@ -69,9 +68,10 @@
     @include('scripts.app')
     @yield('beforeScript')    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>       
     @yield('afterScript')
 </body>
  @include('elements.footer')
+ @yield('plugin-scripts')
  @yield('page-scripts')
 </html>
