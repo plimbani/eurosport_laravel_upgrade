@@ -1,17 +1,21 @@
+import OtherComponent from './addNewtournament.vue'
 export default {
 	  props: ["user"],
+    
     mounted() {
-            console.log('Dashboard Componenet ready.')            
+            console.log('Child tournament_dashboard called');
     },
     data() {
       return {
-        value: '',
-        options: this.user.tournamentList
+        value: '', options: this.user.tournamentList
       }
+    },
+    components: {
+      OtherComponent
     },
     methods: {
       addTournamentData() {
-        // Here We have to save the data             
+        // Here We have Redirect to create New Tournament
         window.location.href = 'tournament/create';
      },
      nameWithStatus ({ name, status }) {
