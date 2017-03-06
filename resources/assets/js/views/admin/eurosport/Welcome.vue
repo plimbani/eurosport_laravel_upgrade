@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="welcome-div">
-					<p>Hi Chris, welcome to Tournament Planner. Got a question? Check the <strong> Help </strong>page or <strong> contact us </strong> for assistance.</p>
+					<p>Hi Chris, Welcome to Tournament Planner. Got a question? Check the <strong> Help </strong>page or <strong> contact us </strong> for assistance.</p>
 					<a href="#"><i class="fa fa-times"></i></a>
 				</div>
 			</div>
