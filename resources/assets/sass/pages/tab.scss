@@ -1,0 +1,39 @@
+#tournament_details .card{
+	padding: 20px 0;
+}
+button, input, optgroup, select, textarea {
+	font-family: $base-font-family;
+}
+
+
+/* form accordian */
+.optional_details .panel {
+	box-shadow: none;
+	/*border: 1px solid #ccc;*/
+	margin-bottom: 27px;
+}
+.optional_details .panel a.panel-title{
+	padding: 10px;
+     border: 1px solid #ccc; 
+}
+.optional_details .panel .panel-content {
+	margin-top: 2%;
+	padding: 0;
+}
+.padding0{
+	padding: 0;
+}
+.optional_details .panel .panel-content .form-inline label {
+	-webkit-box-align: start;
+	align-items: flex-start;
+	-webkit-box-pack: start;
+	justify-content: flex-start;
+}
+.optional_details .panel .panel-content .form-inline .form-group {
+	-webkit-box-align: start;
+	align-items: flex-start;
+}
+.optional_details .panel .panel-content .form-inline .form-group .form-group{
+	margin-bottom: 1rem;
+	margin-right: 0;
+}
