@@ -56,3 +56,20 @@
 		</div>		
 	</div>	
 </template>
+<script type="text/babel">
+import Tournament from '../../../api/tournament.js'
+
+export default {
+	mounted() {		
+        this.$store.dispatch('SetTournamentName','test')
+        Tournament.getAllTournaments().then(
+          (response) => {
+            console.log(response)
+          },
+          (error) => {
+            console.log('Error occured during Tournament api ', error)
+          }
+         )
+	}
+}
+</script>
