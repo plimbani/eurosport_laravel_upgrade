@@ -20,8 +20,7 @@ const actions = {
 
 // mutations
 const mutations = {  
-  [types.CURRENT_TOURNAMENT] (state, currentTournamentName) {
-    alert(currentTournamentName)
+  [types.CURRENT_TOURNAMENT] (state, currentTournamentName) {    
     state.tournamentName = currentTournamentName
   }  
 }
