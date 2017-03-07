@@ -6,6 +6,9 @@
 
     font-family: $base-font-family;
 }
+.btn {
+    font-size: 15px;
+}
 
 // Disable Outline on focus
 .btn:focus, .btn.focus, .btn:active:focus, .btn:active.focus, .btn.active:focus, .btn.active.focus {
