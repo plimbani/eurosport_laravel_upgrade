@@ -1,7 +1,7 @@
 import router from './router.js'
 
 import Layout from './helpers/layout'
-
+import store from './store'
 /**
  * First we will load all of this project's JavaScript dependencies which
  * include Vue and Vue Resource. This gives a great starting point for
@@ -21,6 +21,7 @@ window.Plugin = Plugin
 
 const app = new Vue({
     router,
+    store,
     methods : {
         onOverlayClick(){
             Layout.toggleSidebar()

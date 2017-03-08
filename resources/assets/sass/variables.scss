@@ -100,7 +100,8 @@ $code-color : $ls-color-primary;
 */
 
 // -- Font Color
-$base-font-family : 'Roboto',sans-serif;
+/*$base-font-family : 'Roboto',sans-serif;*/
+$base-font-family : 'PT Sans', sans-serif;
 $base-font-color : lighten($ls-color-black,15%);
 $heading-font-color : $ls-color-black;
 $font-family-base : $base-font-family;

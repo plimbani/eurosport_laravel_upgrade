@@ -7,6 +7,7 @@ use DB;
 use Laraspace\Api\Contracts\UserContract;
 use Validator;
 use Illuminate\Support\Facades\Password;
+use App\Custom\Helper\Common;
 use Illuminate\Mail\Message;
 use Laraspace\Models\User;
 use Hash;
@@ -53,6 +54,11 @@ class UserService implements UserContract
         $userObj=$this->userRepoObj->create($userData['user']);
 
         $userObj->attachRole($data['role_id']);
+
+        $email_details = array();
+        $email_details['name'] = $data['first_name'];
+        $recipient = $data['email'];
+        Common::sendMail($contact_details, $recipient, 'Eurosport - Set Password', 'emails.users.create');
 
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
