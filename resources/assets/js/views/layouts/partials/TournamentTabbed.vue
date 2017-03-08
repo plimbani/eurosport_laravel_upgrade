@@ -6,7 +6,7 @@
 					<div class="tabs tabs-primary">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" 
+								<a class="nav-link active" data-toggle="tab" 
 								href="#home2" role="tab" @click="GetSelectComponent('tournament_add')">Tournament Details</a>
 							</li>					  		 
 							<li class="nav-item">
@@ -26,7 +26,7 @@
 								href="#home1" role="tab"  @click="GetSelectComponent('teams_groups')">Teams And Groups</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link active" data-toggle="tab" 
+								<a class="nav-link" data-toggle="tab" 
 								href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">Summary</a>
 							</li>
 						</ul>

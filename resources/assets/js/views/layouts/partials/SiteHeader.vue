@@ -11,7 +11,7 @@
                 <span>toggle menu</span>
             </div>
         </a>
-
+        <span class="offset-1"> {{TournamentName}} </span>
         <ul class="action-list">
             <li>
                 <a href="#" data-toggle="dropdown"  class="avatar"><img src="/assets/img/avatars/avatar.png" alt="Avatar"></a>
@@ -70,6 +70,11 @@
                 Auth.logout().then(() => {
                     this.$router.replace('/login')
                 })
+            }
+        },
+        computed: {
+            TournamentName() {                
+                return this.$store.state.Tournament.tournamentName
             }
         }
 

@@ -24,7 +24,7 @@ const state = {
   // selectedVehicleCategory: ''
 }
 const mutations = {
-  [types.CURRENT_TOURNAMENT] (state, tournamentName) {
+  [types.CURRENT_TOURNAMENT] (state, tournamentName) {    
     state.tournamentName = tournamentName
   }  
 }

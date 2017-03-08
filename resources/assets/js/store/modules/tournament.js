@@ -5,7 +5,8 @@ import Tournament from '../../api/tournament'
 
 // initial state
 const state = {
-  tournamentName: ''
+  tournamentName: '',
+  currentPage: ''
 }
 // getters
 const getters = {
@@ -20,8 +21,11 @@ const actions = {
 
 // mutations
 const mutations = {  
-  [types.CURRENT_TOURNAMENT] (state, currentTournamentName) {    
-    state.tournamentName = currentTournamentName
+  [types.CURRENT_TOURNAMENT] (state, currentTournamentName) {        
+    //alert(JSON.stringify(currentTournamentName))
+
+    state.tournamentName = currentTournamentName.name
+    state.currentPage = currentTournamentName.currentPage
   }  
 }
 
