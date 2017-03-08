@@ -1,4 +1,4 @@
-<template>
+\<template>
     <div class="template-container">
         <site-header></site-header>
           <div class="main-content" id="dashboardPage">
@@ -32,7 +32,24 @@
             SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, TournamentTabbed
         },
         mounted() {
-            Layout.set('layout-horizontal')
+        return axios.get('/api/matches').then(response =>  {
+            console.log(response)
+            
+            }).catch(error => {
+                if (error.response.status == 401) {
+                    toastr['error']('Invalid Credentials', 'Error');
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                }
+            });
+            // // alert('hello')
+            //     return axios.get('/api/matches').then(response =>  {
+            //         console.log(response);
+            //     }).catch(error => {
+            //         console.log('Error', error.message);
+            //     });
+            // Layout.set('layout-horizontal')
         }
     }
 </script>

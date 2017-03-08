@@ -79,6 +79,7 @@ import LayoutTournament from './views/layouts/LayoutTournament.vue'
 import Welcome from './views/admin/eurosport/Welcome.vue'
 import TournamentSummaryDetails from './views/admin/eurosport/Tournament.vue'
 import TournamentTeamGroup from './views/admin/eurosport/TournamentTeamGroup.vue'
+import TournamentPitch from './views/admin/eurosport/TournamentPitch.vue'
 import Summary from './views/admin/eurosport/Summary.vue'
 
 Vue.use(VueRouter)
@@ -139,7 +140,7 @@ const routes = [
 
      {
         path: '/tournament', component: LayoutTournament,
-        meta: { requiresAuth: true },
+        meta: { requiresAuth: true },   
         children: [
             {
                 path: '/',
@@ -151,6 +152,12 @@ const routes = [
                 component: TournamentTeamGroup,
                 name: 'teams_groups'
             },            
+            {
+                path: '/pitch',
+                component: TournamentPitch,
+                name: 'pitch'
+            },            
+            
         ]
     },
 

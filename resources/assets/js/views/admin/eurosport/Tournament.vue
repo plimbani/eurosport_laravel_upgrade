@@ -7,6 +7,6 @@
 </template>
 
 <script type="text/babel">
-export default {	
+export default {
 }
 </script>

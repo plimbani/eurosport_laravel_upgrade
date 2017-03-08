@@ -198,6 +198,8 @@ return [
         Laraspace\Api\Providers\RefereeServiceProvider::class,
         Laraspace\Api\Providers\MatchServiceProvider::class,
         Laraspace\Api\Providers\TournamentServiceProvider::class,
+        Laraspace\Api\Providers\PitchServiceProvider::class,
+        
     ],
 
     /*
