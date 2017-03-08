@@ -80,7 +80,11 @@ import Welcome from './views/admin/eurosport/Welcome.vue'
 import TournamentSummaryDetails from './views/admin/eurosport/Tournament.vue'
 import TournamentTeamGroup from './views/admin/eurosport/TournamentTeamGroup.vue'
 import TournamentPitch from './views/admin/eurosport/TournamentPitch.vue'
+import TournamentAdd from './views/admin/eurosport/tournamentAdd.vue'
 import Summary from './views/admin/eurosport/Summary.vue'
+import CompetationFormat from './views/admin/eurosport/CompetationFormat.vue'
+import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
+
 
 Vue.use(VueRouter)
 
@@ -151,6 +155,21 @@ const routes = [
                 path: '/teams_groups',
                 component: TournamentTeamGroup,
                 name: 'teams_groups'
+            }, 
+            {
+                path: '/tournament_add',
+                component: TournamentAdd,
+                name: 'tournament_add'
+            },
+            {
+                path: '/competation_format',
+                component: CompetationFormat,
+                name: 'competation_format'
+            }, 
+            {
+                path: '/pitch_capacity',
+                component: PitchCapacity,
+                name: 'pitch_capacity'
             },            
             {
                 path: '/pitch',

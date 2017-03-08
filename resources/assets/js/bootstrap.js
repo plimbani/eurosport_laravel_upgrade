@@ -3,6 +3,9 @@ import VeeValidate from 'vee-validate';
 import Axios from 'axios';
 import Ls from './services/ls'
 
+import Multiselect from 'vue-multiselect';
+
+
 window._ = require('lodash');
 
 /**
@@ -62,3 +65,4 @@ axios.interceptors.request.use(function (config) {
 Vue.use(VueRouter)
 
 Vue.use(VeeValidate);
+Vue.component('multiselect',Multiselect);
