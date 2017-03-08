@@ -55,5 +55,8 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \Laraspace\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'role' => \Duro85\Roles\Middleware\VerifyRole::class,
+        'permission' => \Duro85\Roles\Middleware\VerifyPermission::class,
+        'level' => \Duro85\Roles\Middleware\VerifyLevel::class,
     ];
 }
