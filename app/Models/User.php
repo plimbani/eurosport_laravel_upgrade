@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Duro85\Roles\Traits\HasRoleAndPermission;
 use Duro85\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract
 {
@@ -19,6 +21,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
     protected $fillable = [
         'person_id',
         'username',
+        'name',
         'email',
         'password',
         'token',
@@ -86,5 +89,37 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
     public function profile()
     {
         return $this->belongsTo('Laraspace\Models\Person', 'person_id');
+    }
+
+    /**
+     * Get all permissions from roles.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function rolePermissions()
+    {
+        $permissionModel = app(config('roles.models.permission'));
+
+        if (!$permissionModel instanceof Model) {
+            throw new InvalidArgumentException('[roles.models.permission] must be an instance of \Illuminate\Database\Eloquent\Model');
+        }
+
+        return $permissionModel::select(['permissions.*', 'permission_role.created_at as pivot_created_at', 'permission_role.updated_at as pivot_updated_at'])
+                ->join('permission_role', 'permission_role.permission_id', '=', 'permissions.id')->join('roles', 'roles.id', '=', 'permission_role.role_id')
+                ->whereIn('roles.id', $this->getRoles()->pluck('id')->toArray()) ->orWhere('roles.level', '<', $this->level())
+                ->groupBy(['permissions.id', 'pivot_created_at', 'pivot_updated_at']);
+    }
+
+    /**
+     * Check if the user has a permission.
+     *
+     * @param int|string $permission
+     * @return bool
+     */
+    public function hasPermission($permission)
+    {
+        return $this->getPermissions()->contains(function ($value, $key) use ($permission) {
+            return $permission == $value->id || Str::is($permission, $value->slug);
+        });
     }
 }

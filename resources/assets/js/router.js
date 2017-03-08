@@ -75,6 +75,9 @@ import Home from './views/front/Home.vue'
 // EuroSport Layout
 import LayoutTournament from './views/layouts/LayoutTournament.vue'
 
+// Horizontal Layout For Inner Pages
+import LayoutHorizontalInnerPages from './views/layouts/LayoutHorizontalInnerPages.vue'
+
 //EuroSport Pages
 import Welcome from './views/admin/eurosport/Welcome.vue'
 import TournamentSummaryDetails from './views/admin/eurosport/Tournament.vue'
@@ -84,6 +87,15 @@ import Summary from './views/admin/eurosport/Summary.vue'
 import CompetationFormat from './views/admin/eurosport/CompetationFormat.vue'
 import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
 
+//User Pages
+import UserList from './views/admin/users/List.vue'
+import UserCreate from './views/admin/users/Create.vue'
+import UserUpdate from './views/admin/users/Update.vue'
+
+// UserManagement Layout
+import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
+// UserMangement Pages
+import UserMangementDetails from './views/admin/eurosport/UserManagement.vue'
 
 Vue.use(VueRouter)
 
@@ -141,7 +153,7 @@ const routes = [
         ]
     },
 
-     {
+    {
         path: '/tournament', component: LayoutTournament,
         meta: { requiresAuth: true },
         children: [
@@ -170,6 +182,39 @@ const routes = [
                 component: PitchCapacity,
                 name: 'pitch_capacity'
             },            
+        ]
+    },
+    {
+        path: '/usermanagement', component: LayoutUserManagement,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: UserMangementDetails,
+                name: 'UserMangement'
+            },
+        ]
+    },
+
+    {
+        path: '/users', component: LayoutHorizontalInnerPages,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: UserList,
+                name: 'users_list'
+            },
+            {
+                path: 'create',
+                component: UserCreate,
+                name: 'users_create'
+            },
+            {
+                path: 'update',
+                component: UserUpdate,
+                name: 'users_update'
+            }
         ]
     },
 
