@@ -7,9 +7,12 @@
 
     th {
         color: $heading-font-color;
-        font-weight: normal;
+        font-weight: 600;
+        background-color: #F2F2F2;
     }
-
+    td {
+    border-top: 0;
+    }
 }
 
 .card-block .table {

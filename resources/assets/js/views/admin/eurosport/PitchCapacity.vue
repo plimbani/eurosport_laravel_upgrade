@@ -1,11 +1,36 @@
 <template> 
 	<div class="tab-content">
 		<div class="card">
-			<div class="col-md-12">
-                <h6><strong>Pitch Capacity</strong></h6>
-            </div>
             <div class="card-block">
-            	<div class="row">
+                <h6 class="mt-4"><strong>Pitch Capacity</strong></h6>
+
+                <div class="row">
+                    <div class="col-md-1 pitch-capaciry">
+                        <p><strong>Pitch 1</strong></p>
+                        <img src="/assets/img/pitch.png">
+                        <p>
+                            <span><a href="#">Edit</a></span>
+                            <span><a href="#">Remove</a></span>
+                        </p>
+                    </div>
+                    <div class="col-md-1 pitch-capaciry disable-div">
+                        <p><strong>Pitch 2</strong></p>
+                        <img src="/assets/img/pitch-disable.png">
+                        <p>
+                            <span><a href="#">Edit</a></span>
+                            <span><a href="#">Remove</a></span>
+                        </p>
+                    </div>
+                    <div class="col-md-1 pitch-capaciry disable-div">
+                        <p><strong>Pitch 3</strong></p>
+                        <img src="/assets/img/pitch-disable.png">
+                        <p>
+                            <span><a href="#">Edit</a></span>
+                            <span><a href="#">Remove</a></span>
+                        </p>
+                    </div>
+                </div>
+            	<div class="mt-4">
             		<button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add Pitch</button>
             	</div>
             	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
@@ -88,13 +113,13 @@
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Stage 1 start</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </span>
                                                                 <input type="text" class="form-control ls-datepicker">
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -106,16 +131,19 @@
                                                                     <option value="">10:30</option>
                                                                     <option value="">Etc...</option>
                                                                 </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                &nbsp;
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Break start</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 &nbsp;
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -127,19 +155,22 @@
                                                                     <option value="">10:30</option>
                                                                     <option value="">Etc...</option>
                                                                 </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                &nbsp;
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Stage 1 continued</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </span>
                                                                 <input type="text" class="form-control ls-datepicker">
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -151,19 +182,22 @@
                                                                     <option value="">10:30</option>
                                                                     <option value="">Etc...</option>
                                                                 </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                &nbsp;
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Stage 1 end</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </span>
                                                                 <input type="text" class="form-control ls-datepicker">
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -176,26 +210,26 @@
                                                                     <option value="">Etc...</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                 5hr 30m
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 padding0">
-                                                        <span>X Delete stage</span>
+                                                        <span class="delete-stage">X Delete stage</span>
                                                     </div>
                                                 </div>
                                                 <div class="stage" id="stage2">
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Stage 2 start</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </span>
                                                                 <input type="text" class="form-control ls-datepicker">
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -208,7 +242,7 @@
                                                                     <option value="">Etc...</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                 5hr 30m
                                                             </div>
                                                         </div>
@@ -216,10 +250,10 @@
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Break start</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 &nbsp;
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -231,19 +265,22 @@
                                                                     <option value="">10:30</option>
                                                                     <option value="">Etc...</option>
                                                                 </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                &nbsp;
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Stage 2 continued</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </span>
                                                                 <input type="text" class="form-control ls-datepicker">
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -255,19 +292,22 @@
                                                                     <option value="">10:30</option>
                                                                     <option value="">Etc...</option>
                                                                 </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                &nbsp;
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Stage 2 end</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </span>
                                                                 <input type="text" class="form-control ls-datepicker">
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -280,26 +320,26 @@
                                                                     <option value="">Etc...</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                 5hr 30m
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 padding0">
-                                                        <span>X Delete stage</span>
+                                                        <span class="delete-stage">X Delete stage</span>
                                                     </div>
                                                 </div>
                                                 <div class="stage" id="stage3" style="display: none;">
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Stage 3 start</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </span>
                                                                 <input type="text" class="form-control ls-datepicker">
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -312,7 +352,7 @@
                                                                     <option value="">Etc...</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                 5hr 30m
                                                             </div>
                                                         </div>
@@ -320,10 +360,10 @@
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Break start</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 &nbsp;
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -335,19 +375,22 @@
                                                                     <option value="">10:30</option>
                                                                     <option value="">Etc...</option>
                                                                 </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                &nbsp;
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Stage 3 continued</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </span>
                                                                 <input type="text" class="form-control ls-datepicker">
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -359,19 +402,22 @@
                                                                     <option value="">10:30</option>
                                                                     <option value="">Etc...</option>
                                                                 </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                &nbsp;
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 padding0">
                                                         <div class="form-group">
                                                             <label for="nameInput" class="control-label col-md-3">Stage 3 end</label>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <span class="input-group-addon">
                                                                     <i class="fa fa-calendar"></i>
                                                                 </span>
                                                                 <input type="text" class="form-control ls-datepicker">
                                                             </div>
-                                                            <div class="input-group col-md-4">
+                                                            <div class="input-group col-md-3">
                                                                 <select class="form-control ls-select2">
                                                                     <option value="">7:00</option>
                                                                     <option value="">7:30</option>
@@ -384,16 +430,16 @@
                                                                     <option value="">Etc...</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-md-1">
+                                                            <div class="col-md-2">
                                                                 5hr 30m
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 padding0">
-                                                        <span>X Delete stage</span>
+                                                        <span class="delete-stage">X Delete stage</span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12">
+                                                <div class="col-md-12 padding0">
                                                     <button type="button" id="add_stage" class="btn btn-outline-secondary">Add Stage</button>
                                                 </div>
                                             </form>
@@ -405,6 +451,25 @@
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                 <button type="button" class="btn btn-primary">Save</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="result col-md-12">
+                        <div class="dashbox">
+                            <p>
+                                <label class="col-md-3"><strong>Total time required:</strong></label>
+                                <label class="col-md-5">13 hrs 40 mins</label>
+                            </p>
+                            <p>
+                                <label class="col-md-3"><strong>Total pitch capacity:</strong></label>
+                                <label class="col-md-5">12 hrs 10 mins</label>
+                            </p>
+                            <p>
+                                <label class="col-md-3"><strong>Balance:</strong></label>
+                                <label class="red col-md-5">- 1 hr 30 mins <a href="">(Help)</a></label>
+                            </p>
                         </div>
                     </div>
                 </div>
