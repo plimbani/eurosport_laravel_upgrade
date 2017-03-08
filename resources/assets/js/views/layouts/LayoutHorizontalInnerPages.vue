@@ -1,10 +1,11 @@
 <template>
     <div class="template-container">
         <site-header></site-header>
-        <site-sidebar type="basic"></site-sidebar>
-        <transition name="fade" mode="out-in">
-            <router-view></router-view>
-        </transition>
+        <div class="main-content">
+            <breadCrum></breadCrum>
+        </div>
+        <router-view></router-view>
+        <div class="horizontal_line"></div>
         <site-footer></site-footer>
     </div>
 </template>
@@ -13,21 +14,22 @@
 
     import SiteHeader from './partials/SiteHeader.vue'
     import SiteFooter from './partials/SiteFooter.vue'
-    import SiteSidebar from './partials/SiteSidebar.vue'
+    import SiteHeaderBottom from './partials/SiteHeaderBottom.vue'
 
     import Layout from '../../helpers/layout'
+    import BreadCrum from '../../components/BreadCrum.vue'
 
     export default {
         data() {
             return {
-                'header': 'header'
+                'header' : 'header'
             }
         },
-        components: {
-            SiteHeader, SiteSidebar, SiteFooter
+        components : {
+            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum
         },
         mounted() {
-            Layout.set('layout-default');
+            Layout.set('layout-horizontal')
         }
     }
 </script>
