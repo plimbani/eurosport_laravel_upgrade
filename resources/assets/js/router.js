@@ -92,6 +92,10 @@ import UserList from './views/admin/users/List.vue'
 import UserCreate from './views/admin/users/Create.vue'
 import UserUpdate from './views/admin/users/Update.vue'
 
+// UserManagement Layout
+import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
+// UserMangement Pages
+import UserMangementDetails from './views/admin/eurosport/UserManagement.vue'
 
 Vue.use(VueRouter)
 
@@ -178,6 +182,17 @@ const routes = [
                 component: PitchCapacity,
                 name: 'pitch_capacity'
             },            
+        ]
+    },
+    {
+        path: '/usermanagement', component: LayoutUserManagement,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: UserMangementDetails,
+                name: 'UserMangement'
+            },
         ]
     },
 
