@@ -101,5 +101,11 @@ export default {
     isFunction(functionToCheck) {
         var getType = {};
         return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+    },
+
+    addstage(functiontoadd) {
+        $('#add_stage').click(function(){
+            $('#stage3').show();
+        });
     }
 }

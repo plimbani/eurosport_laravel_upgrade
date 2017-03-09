@@ -11,6 +11,17 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+    protected $localProviders;
+    protected $localAliases;
+    
+    public function __construct($app)
+    {
+        $this->app = $app;
+        $this->localProviders = config('app.localProviders');
+        $this->localAliases = config('app.localAliases');
+    }
+
+
     public function boot()
     {
         //
@@ -23,6 +34,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        //register the service providers
+        if ($this->app->isLocal() && ! empty($this->localProviders)) {
+            foreach ($this->localProviders as $provider) {
+                $this->app->register($provider);
+            }
+        }
+        //register the alias
+        if ($this->app->isLocal() && ! empty($this->localAliases)) {
+            foreach ($this->localAliases as $alias => $facade) {
+                $this->app->alias($alias, $facade);
+            }
+        }
     }
 }

@@ -1,9 +1,5 @@
 <template> 
-	<div class="tab-content">
-		<div>
-		Hello Tournament Terams And Group[s] 
-		</div>		
-	</div>
+  <div></div>
 </template>
 
 <script type="text/babel">

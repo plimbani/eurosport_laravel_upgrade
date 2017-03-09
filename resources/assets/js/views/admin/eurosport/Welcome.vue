@@ -12,7 +12,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="row home-content">
 			<div class="col-sm-6">
 				<div class="card">
@@ -60,3 +59,11 @@
 		</div>		
 	</div>	
 </template>
+<script>
+import TournamentDropDown from '../../../components/TournamentDropDown.vue'
+export default {    
+  components : {
+    TournamentDropDown
+  },    
+}
+</script>

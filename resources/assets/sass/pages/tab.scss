@@ -1,0 +1,149 @@
+.tab-content .card{
+	padding: 20px 0;
+}
+button, input, optgroup, select, textarea {
+	font-family: $base-font-family;
+	font-size: 15px;
+}
+.select2-container {
+	width: 100% !important;
+}
+
+
+/****************************
+	tournament_add
+****************************/
+
+/* form accordian */
+.optional_details .panel {
+	box-shadow: none;
+	/*border: 1px solid #ccc;*/
+	margin-bottom: 27px;
+}
+.optional_details .panel a.panel-title{
+	padding: 10px;
+     border: 1px solid #ccc; 
+}
+.optional_details .panel .panel-content {
+	margin-top: 2%;
+	padding: 0;
+}
+.padding0{
+	padding: 0;
+}
+.optional_details .panel .panel-content .form-inline label {
+	-webkit-box-align: start;
+	align-items: flex-start;
+	-webkit-box-pack: start;
+	justify-content: flex-start;
+}
+.optional_details .panel .panel-content .form-inline .form-group {
+	-webkit-box-align: start;
+	align-items: flex-start;
+}
+.optional_details .panel .panel-content .form-inline .form-group .form-group{
+	margin-bottom: 1rem;
+	margin-right: 0;
+}
+
+/****************************
+	competation_format
+****************************/
+.competition_list {
+	background-color: #F2F2F2;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+.competition_list span {
+	font-weight: 600;
+}
+.multi-number {
+	margin-top: 10px;
+}
+.multi-number small{
+	margin-left: 20%;
+}
+.minutes-div {
+	line-height: 2.6;
+}
+.radio label {
+	margin-bottom: 0;
+}
+.add-text {
+	margin-top: 20px;
+	font-weight: 600;
+}
+/****************************
+	pitch_capacity
+****************************/
+.pitch-capaciry {
+	width: 63px;
+	text-align: center;
+}
+.pitch-capaciry p{
+	text-align: center;
+	margin-bottom: 5px;
+	font-size: 13px;
+}
+.pitch-capaciry p span{
+	display: block;
+}
+.pitch-capaciry img {
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+.pitch-capaciry.disable-div p,
+.pitch-capaciry.disable-div p span {
+	color: #C2BCBC;
+}
+.pitch-capaciry.disable-div img {
+	cursor: default;
+}
+#availability {
+	width: 95%;
+	margin: 0 auto;	
+}
+#availability form.form-inline label {
+	-webkit-box-align: start;
+	align-items: flex-start;
+	-webkit-box-pack: start;
+	justify-content: flex-start;
+}
+#availability form.form-inline .col-md-12
+{
+	margin-bottom: 1rem;
+}
+#availability form.form-inline .col-md-12 span.delete-stage{
+	font-size: 14px;
+	color: #A9A9A9;
+	text-decoration: underline;
+}
+#availability form.form-inline label.col-md-3 {
+	padding: 0;
+	font-weight: 600;
+} 
+#availability form.form-inline div.col-md-3 {
+	padding: 0 5px;
+}
+#availability form.form-inline div.col-md-2 {
+	padding: 0 5px;
+	text-align: right;
+}
+.stage {
+	width: 100%;
+}
+.result .dashbox {
+	background-color: #F2F2F2;
+}
+.result .dashbox p{
+	text-align: left;
+}
+.red {
+	color: $ls-color-red;
+}
+.result .dashbox p label {
+	width: 20%;
+}
+.result .dashbox p label a {
+	color: #595959;
+}

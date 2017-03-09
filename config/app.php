@@ -141,6 +141,7 @@ return [
          * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
@@ -173,7 +174,32 @@ return [
         Laraspace\Providers\RouteServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Dingo\Api\Provider\LaravelServiceProvider::class,
+        Duro85\Roles\RolesServiceProvider::class,
+        
+        /*
+         *  Custom Service Providers
+         */
+        Laraspace\Providers\UserServiceProvider::class,
+        Laraspace\Providers\TeamServiceProvider::class,
+        Laraspace\Providers\AgeGroupServiceProvider::class,
+        Laraspace\Providers\RefereeServiceProvider::class,
+        Laraspace\Providers\MatchServiceProvider::class,
+        Laraspace\Providers\TournamentServiceProvider::class,
+        Laraspace\Providers\ApiServiceProvider::class,
+        Laraspace\Providers\PitchServiceProvider::class,
+        Laraspace\Providers\VenueServiceProvider::class,
+        
+        /*
+         *  Api Service Providers
+         */
+        Laraspace\Api\Providers\UserServiceProvider::class,
+        Laraspace\Api\Providers\TeamServiceProvider::class,
+        Laraspace\Api\Providers\AgeGroupServiceProvider::class,
+        Laraspace\Api\Providers\RefereeServiceProvider::class,
+        Laraspace\Api\Providers\MatchServiceProvider::class,
+        Laraspace\Api\Providers\TournamentServiceProvider::class,
     ],
 
     /*
