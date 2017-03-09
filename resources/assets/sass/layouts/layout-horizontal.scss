@@ -1,9 +1,35 @@
 .layout-horizontal .main-content {
-    padding: 138px 30px 10px;
+    // padding: 138px 30px 10px;
+    margin-top: 85px;
 }
 
-.layout-horizontal .site-footer {
-    padding: 10px 30px;
+.layout-horizontal {
+    .site-footer {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-flex-wrap: nowrap;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-align-content: flex-end;
+        -ms-flex-line-pack: end;
+        align-content: flex-end;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: 15px 0;
+        // background-color: color('grey','lighten-3');
+        &.sticky {
+            position: absolute;
+            bottom: 0;
+        }
+    }
 }
 
 .header-bottom {

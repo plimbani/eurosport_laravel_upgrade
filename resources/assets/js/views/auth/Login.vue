@@ -11,18 +11,17 @@
         <div class="other-actions row">
             <div class="col-sm-6">
                 <div class="checkbox">
-                    <label class="c-input c-checkbox">
-                        <input type="checkbox" name="remember" v-model="loginData.remember">
-                        <span class="c-indicator"></span>
-                        Remember Me
-                    </label>
+                    <div class="c-input">
+                        <input type="checkbox" class="euro-checkbox" id="1" name="remember" v-model="loginData.remember" >
+                        <label for="1">Remember me</label>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-6 text-sm-right">
                 <a href="#" class="forgot-link">Forgot Password?</a>
             </div>
         </div>
-        <button class="btn btn-theme btn-full euro-button">Login</button>
+        <button class="btn btn-login btn-full euro-button">Login</button>
     </form>
 </template>
 
