@@ -3,7 +3,7 @@
         <site-header></site-header>
           <div class="main-content" id="dashboardPage">
             <breadCrum></breadCrum>
-            <UserManagementabbed>              
+            <UserManagementabbed>
             </UserManagementabbed>                 
           </div>             
         <!--<router-view></router-view>-->
