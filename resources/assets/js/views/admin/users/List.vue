@@ -1,9 +1,9 @@
 <template> 
-    <div class="card">
-        <div class="card-block">
-            <div class="row">
-                <div class="col-lg-9 offset-2">
-                    
+    <div class="tab-content">
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    user list
                 </div>
             </div>
         </div>
@@ -11,6 +11,6 @@
 </template>
 
 <script type="text/babel">
-    export default {    
+    export default {
     }
 </script>

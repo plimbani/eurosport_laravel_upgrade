@@ -7,17 +7,18 @@
 					<div class="tabs tabs-primary user_tabs">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
-								<a class="nav-link active" data-to	ggle="tab" 
-								href="#home2" role="tab" @click="GetSelectComponent('desktop_users')">Desktop users</a>
+								<a class="nav-link active" data-toggle="tab" 
+								href="#home2" role="tab" @click="GetSelectComponent('desktop')">Desktop users</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" 
-								href="#home2" role="tab" @click="GetSelectComponent('mobile_users')">Mobile users</a>
+								href="#home2" role="tab" @click="GetSelectComponent('mobile')">Mobile users</a>
 							</li>							
 						</ul>
 						<div class="add_user_btn">
 							<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addUserModal">Add New User</button>
 						</div>
+						<router-view></router-view>
 						<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
 		                    <div class="modal-dialog" role="document">
 		                        <div class="modal-content">
@@ -87,8 +88,8 @@ export default {
 		}
 	},
 	methods: {
-		GetSelectComponent(componentName) {			
-			this.$router.push({name: componentName})
+		GetSelectComponent(registerType) {			
+			this.$router.push({name: 'users_list', params: { registerType: registerType }})
 		}
 	}
 }
