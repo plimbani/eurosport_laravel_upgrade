@@ -51,8 +51,9 @@ class PitchController extends Controller
      */
     public function createPitch(Request $request)
     {
-        return "Hello";
-        // return $this->pitchObj->createPitch($request);
+        dd($request->all());
+        // return "Hello";
+        return $this->pitchObj->createPitch($request);
     }
 
     /**

@@ -65,3 +65,4 @@ $api->version('v1', function ($api) {
     $api->post('tournament/delete/{id}', 'Laraspace\Api\Controllers\TournamentController@delete');
 });
 
+

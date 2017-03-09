@@ -171,11 +171,11 @@ const routes = [
                 component: PitchCapacity,
                 name: 'pitch_capacity'
             },            
-            {
-                path: '/pitch',
-                component: TournamentPitch,
-                name: 'pitch'
-            },            
+            // {
+            //     path: '/pitch',
+            //     component: PitchCapacity,
+            //     name: 'pitch'
+            // },            
             
         ]
     },
