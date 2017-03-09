@@ -69,5 +69,9 @@ $api->version('v1', function ($api) {
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
     $api->post('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('update.users');
     $api->post('user/delete/{deleteid}', 'Laraspace\Api\Controllers\UserController@deleteUser')->name('delete.users');
+
+    // Role Stuff
+    $api->get('roles', 'Laraspace\Api\Controllers\RoleController@getRoles');
+    $api->get('roles-for-select', 'Laraspace\Api\Controllers\RoleController@getRolesForSelect');
 });
 
