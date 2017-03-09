@@ -8,6 +8,9 @@ button, input, optgroup, select, textarea {
 .select2-container {
 	width: 100% !important;
 }
+.clearfix {
+	clear: both;
+}
 
 
 /****************************
@@ -146,4 +149,63 @@ button, input, optgroup, select, textarea {
 }
 .result .dashbox p label a {
 	color: #595959;
+}
+
+/****************************
+	teams_groups
+****************************/
+
+.age-category {
+	padding: 20px;
+	background-color: #F8F8F8;
+	text-align: center;
+	width: 100%;
+    margin: 0 auto;
+}
+.category-list {
+	width: auto;
+	margin: 0 auto;
+	padding: 0;
+}
+.category-list li {
+	background-color: #F2F2F2;
+	list-style-type: none;
+	text-align: left;
+	padding: 10px;
+	float: left;
+	margin-right: 20px;
+	width: 144px;
+}
+.category-list li:last-child {
+	margin-right: 0;;
+}
+.category-list li h6 {
+	margin-bottom: 5px;
+	text-decoration: underline;
+
+}
+.category-list li p {
+	margin-bottom: 0;
+}
+.filter-category-form.form-inline {
+	border: 1px solid #ccc;
+	padding: 10px 15px;
+}
+.filter-category-form.form-inline .form-group {
+	margin-right: 0;
+}
+.filter-category-form.form-inline label.control-label,
+.filter-category-form.form-inline select.form-control
+{
+	margin-right: 15px;
+}
+.filter-category-form.form-inline label.control-label:last-child {
+	margin-right: 0;
+}
+.filter-category-form.form-inline label.control-label input {
+	margin-right: 5px;
+}
+.add-category-table {
+	height: 250px;
+	overflow-y: scroll;
 }
