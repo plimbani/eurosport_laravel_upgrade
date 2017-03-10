@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
             <div class="card-block">
-                <h6 class="mt-4"><strong>Pitch Capacity</strong></h6>
+                <h6 class=""><strong>Pitch Capacity</strong></h6>
 
                 <div class="row">
                     <div class="col-md-1 pitch-capaciry">

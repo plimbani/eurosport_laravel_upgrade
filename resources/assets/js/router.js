@@ -40,7 +40,7 @@ import Advanced from './views/admin/forms/Advanced.vue'
 import Layouts from './views/admin/forms/FormLayouts.vue'
 import Validation from './views/admin/forms/FormValidation.vue'
 import Editors from './views/admin/forms/Editors.vue'
-import VeeValidate from './views/admin/forms/VeeValidate.vue'
+//import VeeValidate from './views/admin/forms/VeeValidate.vue'
 
 //Settings
 import Settings from './views/admin/Settings.vue'
@@ -79,7 +79,7 @@ import LayoutTournament from './views/layouts/LayoutTournament.vue'
 import Welcome from './views/admin/eurosport/Welcome.vue'
 import TournamentSummaryDetails from './views/admin/eurosport/Tournament.vue'
 import TournamentTeamGroup from './views/admin/eurosport/TournamentTeamGroup.vue'
-import TournamentAdd from './views/admin/eurosport/tournamentAdd.vue'
+import TournamentAdd from './views/admin/eurosport/TournamentAdd.vue'
 import Summary from './views/admin/eurosport/Summary.vue'
 import CompetationFormat from './views/admin/eurosport/CompetationFormat.vue'
 import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
@@ -154,27 +154,27 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
             {
-                path: '/',
+                path: 'tournaments_summary_details',
                 component: TournamentSummaryDetails,
                 name: 'tournaments_summary_details'
             }, 
             {
-                path: '/teams_groups',
+                path: 'teams_groups',
                 component: TournamentTeamGroup,
                 name: 'teams_groups'
             }, 
             {
-                path: '/tournament_add',
+                path: 'tournament_add',
                 component: TournamentAdd,
                 name: 'tournament_add'
             },
             {
-                path: '/competation_format',
+                path: 'competation_format',
                 component: CompetationFormat,
                 name: 'competation_format'
             }, 
             {
-                path: '/pitch_capacity',
+                path: 'pitch_capacity',
                 component: PitchCapacity,
                 name: 'pitch_capacity'
             },            
@@ -283,10 +283,6 @@ const routes = [
             {
                 path: 'forms/editors',
                 component: Editors
-            },
-            {
-                path: 'forms/vee',
-                component: VeeValidate
             },
 
             //Settings

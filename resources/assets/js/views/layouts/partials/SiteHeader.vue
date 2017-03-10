@@ -5,13 +5,12 @@
                 <img src="/assets/img/logo-desk.png" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down">
                 <img src="/assets/img/logo-mobile.png" id="logo-mobile" alt="Laraspace Logo" class="hidden-md-up">
             </a>
-
             <a href="#" class="nav-toggle" @click="onNavToggle">
                 <div class="hamburger hamburger--htla">
                     <span>toggle menu</span>
                 </div>
             </a>
-
+            <!-- <span class="offset-1"> {{TournamentName}} </span> -->
             <ul class="action-list">
                 <li>
                     <i class="fa fa-clock-o"></i>&nbsp;<span id="timer">12:16:14</span>
@@ -77,6 +76,11 @@
                 Auth.logout().then(() => {
                     this.$router.replace('/login')
                 })
+            }
+        },
+        computed: {
+            TournamentName() {                
+                return this.$store.state.Tournament.tournamentName
             }
         }
 

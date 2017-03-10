@@ -6,8 +6,8 @@
 					<div class="tabs tabs-primary">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
-								<a class="nav-link" data-to	ggle="tab" 
-								href="#home2" role="tab" @click="GetSelectComponent('tournament_add')">Tournament Details</a>
+								<a class="nav-link active" data-toggle="tab" 
+								 role="tab" @click="GetSelectComponent('tournament_add')">Tournament Details</a>
 							</li>					  		 
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" 
@@ -26,23 +26,11 @@
 								href="#home1" role="tab"  @click="GetSelectComponent('teams_groups')">Teams And Groups</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link active" data-toggle="tab" 
+								<a class="nav-link" data-toggle="tab" 
 								href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">Summary</a>
 							</li>
 						</ul>
 					<router-view></router-view>
-
-					<div class="row">
-		            	<div class="col-md-12">
-		            		<div class="pull-left">
-		            			<button class="btn btn-outline-secondary"><i class="fa fa-angle-double-left" aria-hidden="true"></i>  Home</button>
-		            		</div>
-		            		<div class="pull-right">
-		            			<button class="btn btn-outline-secondary"><i class="fa fa-angle-double-right" aria-hidden="true"></i>  Next</button>
-		            		</div>
-		            	</div>
-		            </div>
-
 					</div>
 				</div>
 			</div>
@@ -55,6 +43,9 @@ export default {
 		return {
 			'header' : 'header'
 		}
+	},
+	mounted() {
+		// here we call function which select the active class
 	},
 	methods: {
 		GetSelectComponent(componentName) {			

@@ -122,4 +122,14 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
             return $permission == $value->id || Str::is($permission, $value->slug);
         });
     }
+
+    /**
+     * Person Detail
+     * 
+     * @return [type] [description]
+     */
+    public function personDetail()
+    {
+        return $this->belongsTo('Laraspace\Models\Person', 'person_id');
+    }
 }

@@ -1,12 +1,12 @@
 <template>
     <div class="template-container">
         <site-header></site-header>
-          <div class="main-content" id="dashboardPage">
+        <div class="main-content">
             <breadCrum></breadCrum>
             <UserManagementabbed>
             </UserManagementabbed>                 
-          </div>             
-        <!--<router-view></router-view>-->
+        </div>
+        <delete-modal></delete-modal>
         <div class="horizontal_line"></div>
         <site-footer></site-footer>
     </div>
@@ -21,6 +21,7 @@
     import Layout from '../../helpers/layout'
     import BreadCrum from '../../components/BreadCrum.vue'
     import UserManagementabbed from './partials/UserManagementabbed.vue'
+    import DeleteModal from '../../components/DeleteModal.vue'
 
     export default {
         data() {
@@ -29,7 +30,7 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, UserManagementabbed
+            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, UserManagementabbed, DeleteModal
         },
         mounted() {
             Layout.set('layout-horizontal')

@@ -3,8 +3,7 @@
         <site-header></site-header>
           <div class="main-content container" id="dashboardPage">
             <breadCrum></breadCrum>
-            <tournamentTabbed>              
-            </tournamentTabbed>                 
+            <tournamentTabbed></tournamentTabbed>                 
           </div>             
         <!--<router-view></router-view>-->
         <!-- <div class="horizontal_line"></div> -->
@@ -33,6 +32,6 @@
         },
         mounted() {
             Layout.set('layout-horizontal')
-        }
+        }        
     }
 </script>
