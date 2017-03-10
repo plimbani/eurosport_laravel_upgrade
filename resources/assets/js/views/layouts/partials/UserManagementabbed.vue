@@ -6,11 +6,11 @@
 					<div class="tabs tabs-primary user_tabs">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
-								<a class="nav-link active" data-toggle="tab" 
+								<a class="nav-link" :class="{'active' : this.$route.params.registerType=='desktop'}" data-toggle="tab" 
 								href="#desktop" role="tab" @click="getSelectComponent('desktop')">Desktop users</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" 
+								<a class="nav-link" :class="{'active' : this.$route.params.registerType=='mobile'}" data-toggle="tab" 
 								href="#mobile" role="tab" @click="getSelectComponent('mobile')">Mobile users</a>
 							</li>							
 						</ul>
