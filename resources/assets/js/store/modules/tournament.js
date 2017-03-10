@@ -22,11 +22,12 @@ const actions = {
     Tournament.saveTournament(tournamentData).then(
       (response) => {        
         console.log(response)
-        if(response.data.status_code == 200) {
-          alert('hello123')
+        if(response.data.status_code == 200) {          
           // Now here we set the tournament Id and Name
           let data1 = {'id':response.data.data,'name':tournamentData.name}
           commit(types.SAVE_TOURNAMENT, data1) 
+        } else {
+          alert('Error Occured')
         }
         // commit(types.SAVE_TOURNAMENT, response.data)
       },
@@ -44,6 +45,7 @@ const mutations = {
     //alert(JSON.stringify(currentTournamentName))
     state.tournamentName = currentTournamentName.name
     state.currentPage = currentTournamentName.currentPage
+    state.tournamentId = currentTournamentName.id
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {        
     // alert('hello in mutation')

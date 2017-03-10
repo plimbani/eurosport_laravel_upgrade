@@ -1,10 +1,10 @@
 <template>
 	<select class="form-control ls-select2 col-sm-8 offset-2" v-on:change="onChange"
-	>
+	v-model="tournament">
 		<option value="">Select an existing edition</option>
 		<option value="">--------------</option>
 		<option v-for="option in options" 
-		v-bind:value="option.id" v-if="option.status != null" 
+		v-bind:value="option" v-if="option.status != null" 
 		>		  
 		 {{option.name}} ({{option.status}})                                 
 		</option>                                
@@ -34,8 +34,18 @@
       	)
 	},
 	methods: {
-		onChange(option) {
-			alert(JSON.stringify(option))
+		onChange() {
+			// Now here we have to Set the TournamentId for Tournament
+			// After Selecting it we redirect to Competaion Formats
+		 
+		  let name = this.tournament.name
+		  let id = this.tournament.id
+		  let tournamentSel  = {name:name, currentPage:'Competation Formats',id:id}       
+    	  this.$store.dispatch('SetTournamentName', tournamentSel)
+    	  this.$router.push({name:'competation_format'})
+			// this.$store.dispatch('SetTournamentName','Your Tournament') 
+			// alert(this.option.name)
+			// alert(this.tournament)		
 		}
 	}    
 }
