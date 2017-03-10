@@ -2,10 +2,8 @@
 <div class="tab-content" id="tournament_details">
     <div>
     	<div class="card">
-            <div class="col-md-12">
-                <h6><strong>Tournament information</strong></h6>
-            </div>
             <div class="card-block">
+                <h6><strong>Tournament information</strong></h6>
                 <form name="tournamentName" enctype="multipart/form-data">
                     <div class="form-group row" :class="{'has-error': errors.has('tournament.name') }">
                         <label class="col-sm-2 form-control-label">Tournament name *</label>
@@ -43,7 +41,7 @@
                     </div>
                     <div class="panel-group optional_details" id="accordion" role="tablist" aria-multiselectable="true">
                     	<div class="panel panel-default">
-                    		<div class="panel-heading" role="tab" id="headingOne">
+                    		<div class="panel-heading col-md-3 padding0" role="tab" id="headingOne">
                                 <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
                                    aria-expanded="true" aria-controls="collapseOne">
                                     <i class="fa fa-plus"></i> Show Optional Details
