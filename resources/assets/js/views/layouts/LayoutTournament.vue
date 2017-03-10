@@ -1,13 +1,13 @@
 <template>
     <div class="template-container">
         <site-header></site-header>
-          <div class="main-content" id="dashboardPage">
+          <div class="main-content container" id="dashboardPage">
             <breadCrum></breadCrum>
             <tournamentTabbed>              
             </tournamentTabbed>                 
           </div>             
         <!--<router-view></router-view>-->
-        <div class="horizontal_line"></div>
+        <!-- <div class="horizontal_line"></div> -->
         <site-footer></site-footer>
     </div>
 </template>
