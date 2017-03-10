@@ -7,42 +7,44 @@
 .tabs-default {
 
     .nav-link.active {
-        background-color: $ls-color-secondary;
+        background-color: color('blue','base');
         color: $ls-color-primary;
+        border-bottom: 1px solid color('blue','base');
 
         &:hover, &:active, &:focus {
-            background-color: $ls-color-secondary;
+            background-color: color('blue','base');
             color: $ls-color-primary;
         }
     }
 
     .nav-link:hover {
-        border: 1px solid $ls-color-secondary;
+        border: 1px solid color('blue','base');
     }
 
     .nav-tabs {
-        border-bottom: 1px solid $ls-color-secondary;
+        border-bottom: 1px solid color('blue','base');
     }
 }
 
 .tabs-primary {
 
     .nav-link.active {
-        background-color: $brand-primary;
+        background-color: color('blue','base');
         color: $white;
+        border-bottom: 1px solid color('blue','base');
 
         &:hover, &:active, &:focus {
-            background-color: $brand-primary;
+            background-color: color('blue','base');
             color: $white;
         }
     }
 
     .nav-link:hover {
-        border: 1px solid $brand-primary;
+        border: 1px solid color('blue','base');
     }
 
     .nav-tabs {
-        border-bottom: 1px solid $brand-primary;
+        border-bottom: 1px solid color('blue','base');
     }
 }
 
@@ -80,7 +82,7 @@
 
     .nav-tabs {
         float: left;
-        border-right: 1px solid $ls-color-secondary;
+        border-right: 1px solid color('blue','base');
         border-bottom: none;
         overflow: hidden;
         margin-right: 1.2rem;
@@ -98,19 +100,19 @@
             margin-bottom: .2rem;
             background-color: $white;
             border-color: transparent;
-            border-right-color: $ls-color-secondary;
+            border-right-color: color('blue','base');
 
             &:hover, &:active, &:focus {
                 background-color: $white;
-                border-color: $ls-color-secondary;
+                border-color: color('blue','base');
             }
 
             &.active {
-                background-color: $ls-color-secondary;
+                background-color: color('blue','base');
                 color: $ls-color-primary;
 
                 &:hover, &:active, &:focus {
-                    background-color: $ls-color-secondary;
+                    background-color: color('blue','base');
                     color: $ls-color-primary;
                 }
             }
@@ -118,22 +120,22 @@
     }
 
     &.tabs-primary .nav-tabs {
-        border-right: 1px solid $brand-primary;
+        border-right: 1px solid color('blue','base');
 
         li a {
-            border-right-color: $brand-primary;
+            border-right-color: color('blue','base');
 
             &:hover, &:active, &:focus {
                 background-color: $white;
-                border-color: $brand-primary;
+                border-color: color('blue','base');
             }
 
             &.active {
-                background-color: $brand-primary;
+                background-color: color('blue','base');
                 color: $white;
 
                 &:hover, &:active, &:focus {
-                    background-color: $brand-primary;
+                    background-color: color('blue','base');
                     color: $white;
                 }
             }
