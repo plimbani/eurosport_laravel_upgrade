@@ -49,7 +49,7 @@ class TournamentController extends BaseController
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
     public function create(Request $request)
-    {
+    {                
         return $this->tournamentObj->create($request);
     }
 
