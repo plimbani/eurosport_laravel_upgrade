@@ -13,13 +13,13 @@ export default  {
   	return {
   		'breadCrum' : 'breadCrum'
   	}
-  },
+  },  
   computed: {
   	TournamentName() {
   		return this.$store.state.Tournament.tournamentName
   	},
     currentPage() {
-      return this.$store.state.Tournament.currentPage
+    return (this.$store.state.Tournament.currentPage == '') ? '' : this.$store.state.Tournament.currentPage      
     }
   }
 }

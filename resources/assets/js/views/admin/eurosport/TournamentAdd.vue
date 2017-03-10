@@ -6,12 +6,15 @@
                 <h6><strong>Tournament information</strong></h6>
             </div>
             <div class="card-block">
-                <form>
-                    <div class="form-group row">
+                <form name="tournamentName" enctype="multipart/form-data">
+                    <div class="form-group row" :class="{'has-error': errors.has('tournament.name') }">
                         <label class="col-sm-2 form-control-label">Tournament name *</label>
 
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name">
+                            <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"
+                             v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
+                              <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
+                                    <span class="help is-danger" v-show="errors.has('tournament_name')">Tournament Name Required</span>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -22,7 +25,8 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </span>
-                                <input type="text" class="form-control ls-datepicker" value="09:30">
+                                <input type="text" class="form-control ls-datepicker" 
+                                 id="tournament_start_date">
                             </div>
                         </div>
                         <label class="col-sm-2 form-control-label">Tournament end date *</label>
@@ -32,7 +36,8 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </span>
-                                <input type="text" class="form-control ls-datepicker" value="09:30">
+                                <input type="text" class="form-control ls-datepicker" 
+                                 id="tournament_end_date">
                             </div>
                         </div>
                     </div>
@@ -71,11 +76,24 @@
     		                            <div class="col-md-6 padding0">
     		                            	<div class="form-group row">
     			                                <label class="col-md-4 control-label">Tournament logo</label>
-    			                                <input type="text" class="col-md-7 form-control" placeholder="">
+    			                                <div class="pull-right">
+                                                    <div v-if="!image">
+                                                        <input type="file" class="form-control-file" @change="onFileChange">
+                                                        <small class="text-muted">Maximum size of 1 MB.</small>
+                                                    </div>
+                                                     <div v-else>
+                                                    <img :src="image" width="40px" height="50px"/>
+                                                    <button @click="removeImage">Remove image</button>
+                                                    </div>
+                                                </div>
     			                            </div>
     			                            <div class="form-group row">
     			                                <label class="col-md-4 control-label">Sponsor banner</label>
-    			                                <input type="text" class="col-md-7 form-control" placeholder="">
+    			                                <div class="pull-right">
+                                                        <input type="file" value="Upload" 
+                                                        class="form-control-file">
+                                                        <small class="text-muted">Maximum size of 1 MB.</small>
+                                                </div>
     			                            </div>
     		                            </div>
     		                        </div>
@@ -168,51 +186,106 @@
                             <div class="form-group">
                                 <select class="form-control ls-select2" v-model="tournament.tournament_venue_country">
     	                            <option value="">Please select</option>
-    	                            <option value="">Andorra</option>
-    	                            <option value="">Belgium</option>
-    	                            <option value="">France </option>
-    	                            <option value="">Germany</option>
-    	                            <option value="">Italy	</option>
-    	                            <option value="">Spain</option>
-    	                            <option value="">United Kingdom</option>
-    	                            <option value="">Etc...</option>
+    	                            <option value="Andorra">Andorra</option>
+    	                            <option value="Belgium">Belgium</option>
+    	                            <option value="France">France </option>
+    	                            <option value="Germany">Germany</option>
+    	                            <option value="Italy">Italy	</option>
+    	                            <option value="Spain">Spain</option>
+    	                            <option value="United Kingdom">United Kingdom</option>    	                           
     	                        </select>
     	                    </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label">Organiser</label>
-
                         <div class="col-sm-4">
                             <input type="text" class="form-control" placeholder="">
                         </div>
                     </div>
                     <!-- <button class="btn btn-success">Save</button> -->
-                </form>
-                <button @click="saveTournament"> Next</button>
+                </form>                
             </div>
         </div>       
-    </div>		
+    </div>		 
+    <div class="row">
+      <div class="col-md-12">
+        <div class="pull-left">
+          <button class="btn btn-outline-secondary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>  Home</button>
+        </div>
+        <div class="pull-right">
+          <button class="btn btn-outline-secondary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>  Next</button>
+        </div>
+      </div>
+    </div>     
+    
 </div>
+
 </template>
 
 <script type="text/babel">
+
 export default {
   data() {
     return {
-      tournament: {name:' ',start_date:'',end_date:'',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',tournament_venue_name:'',tournament_venue_address1:'',tournament_venue_city:'',tournament_venue_postcode:'',tournament_venue_state:'',tournament_venue_country:'',
-      }
+      tournament: {name:' ',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',tournament_venue_name:'',touranment_venue_address1:'',tournament_venue_city:'',tournament_venue_postcode:'',tournament_venue_state:'',tournament_venue_country:'',image_logo:''
+      },
+      image:''
    }   
   },
   mounted(){
-    Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles'])
-      // here we dispatch methods 
+
+    Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
+      // here we dispatch methods     
     let tournamentAdd  = {name:'Your Tournament', 'currentPage':'TournamentAdd'}        
     this.$store.dispatch('SetTournamentName', tournamentAdd)
+    //this.handleValidation()
   },
   methods: {
-    saveTournament() {
-      console.log(this.tournament)
+    onFileChange(e) {        
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length)
+        return;
+      this.createImage(files[0]);
+    },
+    createImage(file) {
+      var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = (e) => {
+        vm.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    removeImage: function (e) {
+      this.image = '';
+      e.preventDefault();
+    },    
+    next() { 
+      // this.handleValidation()
+      // First Validate it 
+      // SET The Date Value for tournament
+      this.$validator.validateAll().then(
+          (response) => {        
+            // if its return true then proceed
+           this.tournament.start_date = document.getElementById('tournament_start_date').value
+            this.tournament.end_date = document.getElementById('tournament_end_date').value
+              this.tournament.image_logo = this.image
+              this.$store.dispatch('SaveTournamentDetails', this.tournament)
+
+              // Now redirect to Comperation Format page
+              this.$router.push({name:'competation_format'})
+
+            // commit(types.SAVE_TOURNAMENT, response.data)
+          },
+          (error) => {
+            console.log('Error occured during SaveTournament api ', error)
+          }
+      )           
+    },
+    backward() {
+        this.$router.push({name:'welcome'})
     }
   }
 }
