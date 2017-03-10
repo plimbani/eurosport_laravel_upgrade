@@ -25,6 +25,11 @@ class UserService implements UserContract
         return $this->userRepoObj->getAllUsers();
     }
 
+    public function getUsersByRegisterType($registerType)
+    {
+        return $this->userRepoObj->getUsersByRegisterType($registerType);
+    }
+
     /**
      * Create New User.
      *
@@ -41,24 +46,24 @@ class UserService implements UserContract
         $userData['people']=array();
         $userData['user']=array();
 
-        $userData['people']['first_name']=$data['first_name'];
-        $userData['people']['last_name']=$data['last_name'];
+        $userData['people']['first_name']=$data['name'];
+        $userData['people']['last_name']=$data['surname'];
         $peopleObj = $this->peopleRepoObj->create($userData['people']);
 
         $userData['user']['person_id']=$peopleObj->id;
-        $userData['user']['username']=$data['username'];
-        $userData['user']['name']=$data['first_name']." ".$data['last_name'];
-        $userData['user']['email']=$data['email'];
-        $userData['user']['password']=Hash::make($data['password']);
+        $userData['user']['username']=$data['name'];
+        $userData['user']['name']=$data['name']." ".$data['surname'];
+        $userData['user']['email']=$data['emailAddress'];
+        $userData['user']['password']=Hash::make('password');
 
         $userObj=$this->userRepoObj->create($userData['user']);
 
-        $userObj->attachRole($data['role_id']);
+        $userObj->attachRole($data['userType']);
 
-        $email_details = array();
-        $email_details['name'] = $data['first_name'];
-        $recipient = $data['email'];
-        Common::sendMail($contact_details, $recipient, 'Eurosport - Set Password', 'emails.users.create');
+        /*$email_details = array();
+        $email_details['name'] = $data['name'];
+        $recipient = $data['emailAddress'];
+        Common::sendMail($contact_details, $recipient, 'Eurosport - Set Password', 'emails.users.create');*/
 
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
@@ -72,7 +77,19 @@ class UserService implements UserContract
      *
      * @return [type]
      */
-    public function edit($data, $userId)
+    public function edit($userId)
+    {
+        return $this->userRepoObj->edit($userId);
+    }
+
+    /**
+     * Update User.
+     *
+     * @param array $data
+     *
+     * @return [type]
+     */
+    public function update($data, $userId)
     {
         $data = $data->all();
 

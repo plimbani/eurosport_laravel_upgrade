@@ -66,8 +66,10 @@ $api->version('v1', function ($api) {
 
     // User Stuff
     $api->get('users', 'Laraspace\Api\Controllers\UserController@getUsers');
+    $api->get('getUsersByRegisterType/{registerType}', 'Laraspace\Api\Controllers\UserController@getUsersByRegisterType');
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
-    $api->post('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('update.users');
+    $api->get('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('edit.users');
+    $api->post('user/update/{id}', 'Laraspace\Api\Controllers\UserController@update')->name('update.users');
     $api->post('user/delete/{deleteid}', 'Laraspace\Api\Controllers\UserController@deleteUser')->name('delete.users');
 
     // Role Stuff

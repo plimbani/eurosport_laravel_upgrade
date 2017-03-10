@@ -2,20 +2,19 @@
 	<div class="card">
 		<div class="card-block">
 			<div class="row">
-				<!-- <button type="button" class="btn btn-outline-secondary" @click="GetSelectComponent('add_user')">Add User</button> -->
 				<div class="col-lg-10 offset-1">
 					<div class="tabs tabs-primary user_tabs">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab" 
-								href="#desktop" role="tab" @click="GetSelectComponent('desktop')">Desktop users</a>
+								href="#desktop" role="tab" @click="getSelectComponent('desktop')">Desktop users</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" 
-								href="#mobile" role="tab" @click="GetSelectComponent('mobile')">Mobile users</a>
+								href="#mobile" role="tab" @click="getSelectComponent('mobile')">Mobile users</a>
 							</li>							
 						</ul>
-						<router-view :userlist="userList"></router-view>
+						<router-view :userList="userList"></router-view>
 					</div>
 				</div>
 			</div>
@@ -28,11 +27,26 @@ export default {
 	data() {
 		return {
 			'header' : 'header',
-			'userList': '{"a" : "test"}'
+			'userList': {
+				'userData': [],
+				'userCount': 0
+			}
 		}
 	},
+	created() {
+		this.getSelectComponent(this.$route.params.registerType);
+	},
 	methods: {
-		GetSelectComponent(registerType) {
+		getSelectComponent(registerType) {
+			axios.get("/api/getUsersByRegisterType/"+registerType).then((response) => {
+				if('users' in response.data) {
+					this.userList.userData = response.data.users;
+                	this.userList.userCount = response.data.users.length;
+				} else {
+					this.userList.userData = [];
+                	this.userList.userCount = 0;
+				}
+            });
 			this.$router.push({name: 'users_list', params: { registerType: registerType }})
 		}
 	}

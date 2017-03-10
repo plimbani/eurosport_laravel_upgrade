@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-
-Vue.use(VueAxios, axios)
 
 import AuthService from './services/auth'
 
@@ -44,7 +40,7 @@ import Advanced from './views/admin/forms/Advanced.vue'
 import Layouts from './views/admin/forms/FormLayouts.vue'
 import Validation from './views/admin/forms/FormValidation.vue'
 import Editors from './views/admin/forms/Editors.vue'
-import VeeValidate from './views/admin/forms/VeeValidate.vue'
+//import VeeValidate from './views/admin/forms/VeeValidate.vue'
 
 //Settings
 import Settings from './views/admin/Settings.vue'
@@ -287,10 +283,6 @@ const routes = [
             {
                 path: 'forms/editors',
                 component: Editors
-            },
-            {
-                path: 'forms/vee',
-                component: VeeValidate
             },
 
             //Settings
