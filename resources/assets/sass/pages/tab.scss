@@ -57,10 +57,48 @@ button, input, optgroup, select, textarea {
 .competition_list span {
 	font-weight: 600;
 }
-
+.multi-number {
+	margin-top: 10px;
+}
+.multi-number small{
+	margin-left: 20%;
+}
+.minutes-div {
+	line-height: 2.6;
+}
+.radio label {
+	margin-bottom: 0;
+}
+.add-text {
+	margin-top: 20px;
+	font-weight: 600;
+}
 /****************************
 	pitch_capacity
 ****************************/
+.pitch-capaciry {
+	width: 63px;
+	text-align: center;
+}
+.pitch-capaciry p{
+	text-align: center;
+	margin-bottom: 5px;
+	font-size: 13px;
+}
+.pitch-capaciry p span{
+	display: block;
+}
+.pitch-capaciry img {
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+.pitch-capaciry.disable-div p,
+.pitch-capaciry.disable-div p span {
+	color: #C2BCBC;
+}
+.pitch-capaciry.disable-div img {
+	cursor: default;
+}
 #availability {
 	width: 95%;
 	margin: 0 auto;	
@@ -75,8 +113,37 @@ button, input, optgroup, select, textarea {
 {
 	margin-bottom: 1rem;
 }
-#availability form.form-inline .col-md-12 .span{
-	font-size: 12px;
-	color: #ccc;
-	text-decoration: none;
+#availability form.form-inline .col-md-12 span.delete-stage{
+	font-size: 14px;
+	color: #A9A9A9;
+	text-decoration: underline;
+}
+#availability form.form-inline label.col-md-3 {
+	padding: 0;
+	font-weight: 600;
+} 
+#availability form.form-inline div.col-md-3 {
+	padding: 0 5px;
+}
+#availability form.form-inline div.col-md-2 {
+	padding: 0 5px;
+	text-align: right;
+}
+.stage {
+	width: 100%;
+}
+.result .dashbox {
+	background-color: #F2F2F2;
+}
+.result .dashbox p{
+	text-align: left;
+}
+.red {
+	color: $ls-color-red;
+}
+.result .dashbox p label {
+	width: 20%;
+}
+.result .dashbox p label a {
+	color: #595959;
 }

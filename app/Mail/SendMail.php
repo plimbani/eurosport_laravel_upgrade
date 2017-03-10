@@ -1,0 +1,39 @@
+<?php
+
+namespace Laraspace\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class SendMail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $email_details;
+    public $view_name;
+    public $subject = "Eurosport | Support";
+
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
+    public function __construct($email_details, $subject, $view_name)
+    {
+        $this->subject = $subject;
+        $this->view_name = $view_name;
+        $this->email_details = $email_details;
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->view($this->view_name);
+    }
+}

@@ -86,6 +86,14 @@ import CompetationFormat from './views/admin/eurosport/CompetationFormat.vue'
 import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
 
 
+// UserManagement Layout
+import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
+
+//User Pages
+import UserList from './views/admin/users/List.vue'
+import UserCreate from './views/admin/users/Create.vue'
+import UserUpdate from './views/admin/users/Update.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -142,7 +150,7 @@ const routes = [
         ]
     },
 
-     {
+    {
         path: '/tournament', component: LayoutTournament,
         meta: { requiresAuth: true },   
         children: [
@@ -177,6 +185,27 @@ const routes = [
             //     name: 'pitch'
             // },            
             
+        ]
+    },
+    {
+        path: '/users', component: LayoutUserManagement,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: ':registerType',
+                component: UserList,
+                name: 'users_list'
+            },
+            {
+                path: 'create',
+                component: UserCreate,
+                name: 'users_create'
+            },
+            {
+                path: 'update',
+                component: UserUpdate,
+                name: 'users_update'
+            }
         ]
     },
 

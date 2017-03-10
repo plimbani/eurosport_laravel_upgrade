@@ -141,6 +141,7 @@ return [
          * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
@@ -175,6 +176,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
+        Duro85\Roles\RolesServiceProvider::class,
         
         /*
          *  Custom Service Providers

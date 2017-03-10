@@ -22,11 +22,10 @@ class PitchRepository
         // dd($pitchData);
 
         return Pitch::create([
-            'name' => $pitchData['number'],
-            'pitch_number' => $pitchData['number'],
-            'type' => $pitchData['type'],
-            'venue_id' => '1',
-            'size' => $pitchData['Size'],
+            'pitch_number' => $pitchData['pitch_number'],
+            'type' => $pitchData['pitch_type'],
+            'venue_id' => $pitchData['location'],
+            'size' => $pitchData['pitch_size'],
         ]);
     }
 

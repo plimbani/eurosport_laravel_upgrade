@@ -2,12 +2,11 @@
 	<div class="card">
 		<div class="card-block">
 			<div class="row">
-				<div class="col-lg-9 offset-2">
+				<div class="col-lg-10 offset-1">
 					<div class="tabs tabs-primary">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
-								<a :class="[activePath == 'tournament_add' ? 'active' : '', 'nav-link']" data-toggle="tab" 
-								href="#home2" role="tab" @click="GetSelectComponent('tournament_add')">Tournament Details</a>
+								<a :class="[activePath == 'tournament_add' ? 'active' : '', 'nav-link']" data-toggle="tab"  href="#home2" role="tab" @click="GetSelectComponent('tournament_add')">Tournament Details</a>
 							</li>					  		 
 							<li class="nav-item">
 								<a :class="[activePath == 'competation_format' ? 'active' : '', 'nav-link']" data-toggle="tab" 
@@ -31,6 +30,18 @@
 							</li>
 						</ul>
 					<router-view></router-view>
+
+					<div class="row">
+		            	<div class="col-md-12">
+		            		<div class="pull-left">
+		            			<button class="btn btn-outline-secondary"><i class="fa fa-angle-double-left" aria-hidden="true"></i>  Home</button>
+		            		</div>
+		            		<div class="pull-right">
+		            			<button class="btn btn-outline-secondary"><i class="fa fa-angle-double-right" aria-hidden="true"></i>  Next</button>
+		            		</div>
+		            	</div>
+		            </div>
+
 					</div>
 				</div>
 			</div>

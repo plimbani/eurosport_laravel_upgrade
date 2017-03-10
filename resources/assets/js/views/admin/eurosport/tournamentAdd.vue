@@ -38,10 +38,10 @@
                         </div>
                         <div class="panel-group optional_details" id="accordion" role="tablist" aria-multiselectable="true">
                         	<div class="panel panel-default">
-                        		<div class="panel-heading" role="tab" id="headingOne">
+                        		<div class="panel-heading col-md-3 padding0" role="tab" id="headingOne">
 		                            <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
 		                               aria-expanded="true" aria-controls="collapseOne">
-		                                <i class="fa fa-plus"></i> Show Optional Details
+		                                <i class="fa fa-plus"></i> &nbsp;&nbsp; Show Optional Details
 		                            </a>
 		                        </div>
 		                        <div id="collapseOne" class="panel-collapse collapse panel-content in" role="tabpanel"
@@ -65,11 +65,17 @@
 				                            <div class="col-md-6 padding0">
 				                            	<div class="form-group row">
 					                                <label class="col-md-4 control-label">Tournament logo</label>
-					                                <input type="text" class="col-md-7 form-control" placeholder="">
+                                                    <div class="pull-right">
+    					                                <input type="file" value="Upload" class="form-control-file">
+                                                        <small class="text-muted">Maximum size of 1 MB.</small>
+                                                    </div>
 					                            </div>
 					                            <div class="form-group row">
 					                                <label class="col-md-4 control-label">Sponsor banner</label>
-					                                <input type="text" class="col-md-7 form-control" placeholder="">
+                                                    <div class="pull-right">
+    					                                <input type="file" value="Upload" class="form-control-file">
+                                                        <small class="text-muted">Maximum size of 1 MB.</small>
+                                                    </div>
 					                            </div>
 				                            </div>
 				                        </div>

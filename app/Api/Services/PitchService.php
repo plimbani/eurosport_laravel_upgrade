@@ -12,6 +12,7 @@ class PitchService implements PitchContract
     public function __construct()
     {
         $this->pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
+        $this->pitchAvailableRepoObj = new \Laraspace\Api\Repositories\PitchAvailableRepository();
     }
 
     public function getAllPitches()
@@ -29,11 +30,18 @@ class PitchService implements PitchContract
      */
     public function createPitch($data)
     {
-        $data = $data->all();
-        $data = $this->pitchRepoObj->createPitch($data);
-        if ($data) {
-            return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
+        $dataArr = $data->all();
+
+        $pitchdata = $this->pitchRepoObj->createPitch($dataArr);
+        // dd($pitchdata->id);
+        // $data['pitchId'] = $pitchdata->id;
+
+        if($pitchdata){
+            $data1 = $this->pitchAvailableRepoObj->createPitch($dataArr, $pitchdata->id);
         }
+        if ($data1) {
+            return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
+        }  
     }
 
     /**

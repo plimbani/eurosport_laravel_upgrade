@@ -8,21 +8,21 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
 // Need to Define Only Contracts
-use Laraspace\Api\Contracts\PitchContract;
+use Laraspace\Api\Contracts\UserContract;
 use JWTAuth;
 
 /**
  * Matches Resource Description.
  *
- * @Resource("Matches")
+ * @Resource("users")
  *
- * @Author Kparikh@aecordigital.com
+ * @Author mtilokani@aecordigital.com
  */
-class PitchController extends Controller
+class UserController extends BaseController
 {
-    public function __construct(PitchContract $pitchObj)
+    public function __construct(UserContract $userObj)
     {
-        $this->pitchObj = $pitchObj;
+        $this->userObj = $userObj;
         // $this->middleware('auth');
         // $this->middleware('jwt.auth');
     }
@@ -30,31 +30,28 @@ class PitchController extends Controller
     /**
      * Show all Match Results Details.
      *
-     * Get a JSON representation of all the Pitches.
+     * Get a JSON representation of all the Users.
      *
-     * @Get("/pitches")
+     * @Get("/users")
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getPitches()
+    public function getUsers()
     {
-        return $this->pitchObj->getAllPitches();
+        return $this->userObj->getAllUsers();
     }
 
     /**
      * Create New Match Result.
      *
-     * @Post("/match/create")
+     * @Post("/user/create")
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function createPitch(Request $request)
+    public function createUser(Request $request)
     {
-        // dd($request->all());
-        // return "Hello";
-        
-        return $this->pitchObj->createPitch($request);
+        return $this->userObj->create($request);
     }
 
     /**
@@ -65,13 +62,13 @@ class PitchController extends Controller
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function edit(Request $request)
+    public function edit(Request $request, $userId)
     {
-        return $this->pitchObj->edit($request);
+        return $this->userObj->edit($request, $userId);
     }
 
-    public function deletePitch($deleteId)
+    public function deleteUser($deleteId)
     {
-        return $this->pitchObj->deletePitch($deleteId);
+        return $this->userObj->deleteUser($deleteId);
     }
 }
