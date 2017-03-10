@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="add_user_btn">
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#user_form_modal">Add New User</button>
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#user_form_modal" @click="addUser()">Add New User</button>
         </div>
         <div class="tab-content">
             <div class="card">
@@ -28,7 +28,7 @@
                                         <td>{{ user.person_detail.last_name }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.organisation }}</td>
-                                        <td>{{ user.roles[0].name }}</td>
+                                        <td>{{ "aaa" }}</td>
                                         <td>
                                             <a href="javascript:void(0)" data-toggle="modal" data-target="#user_form_modal" @click="editUser(user.id)"><i class="fa fa-edit"></i></a>
                                             &nbsp;
@@ -50,7 +50,7 @@
                 <div class="modal-content">
                     <form @submit.prevent="validateBeforeSubmit">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                            <h5 class="modal-title">{{ userModalTitle }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -118,7 +118,8 @@
         data() {
             return {
                 formValues: this.initialState(),
-                userRolesOptions: []
+                userRolesOptions: [],
+                userModalTitle: 'Add User'
             }
         },
         created() {
@@ -143,17 +144,42 @@
                     this.userRolesOptions = response.data;
                 });
             },
+            addUser() {
+                this.$data.formValues = this.initialState();
+                this.userModalTitle="Add User";
+            },
             editUser(id) {
+                this.userModalTitle="Edit User";
                 axios.get("/api/user/edit/"+id).then((response) => {
                     this.$data.formValues = response.data;
                 });
             },
+            updateUserList() {
+                $("#user_form_modal").modal("hide");
+                this.$data.formValues = this.initialState();
+                axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
+                    if('users' in response.data) {
+                        this.userList.userData = response.data.users;
+                        this.userList.userCount = response.data.users.length;
+                    } else {
+                        this.userList.userData = [];
+                        this.userList.userCount = 0;
+                    }
+                });
+            },
             validateBeforeSubmit(){
                 this.$validator.validateAll().then(() => {
-                    axios.post("/api/user/create", this.formValues).then((response) => {
-                        $("#user_form_modal").modal("hide");
-                        this.$data.formValues = this.initialState();
-                    });
+                    if(this.$data.formValues.id=="") {
+                        axios.post("/api/user/create", this.formValues).then((response) => {
+                            toastr.success('User has been added succesfully.', 'Add User', {timeOut: 5000});
+                            this.updateUserList();
+                        });
+                    } else {
+                        axios.post("/api/user/update/"+this.formValues.id, this.formValues).then((response) => {
+                            toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
+                            this.updateUserList();
+                        });
+                    }
                 }).catch(() => { });
             }
         }

@@ -51,9 +51,10 @@ class UserService implements UserContract
         $peopleObj = $this->peopleRepoObj->create($userData['people']);
 
         $userData['user']['person_id']=$peopleObj->id;
-        $userData['user']['username']=$data['name'];
+        $userData['user']['username']=$data['emailAddress'];
         $userData['user']['name']=$data['name']." ".$data['surname'];
         $userData['user']['email']=$data['emailAddress'];
+        $userData['user']['organisation']=$data['organisation'];
         $userData['user']['password']=Hash::make('password');
 
         $userObj=$this->userRepoObj->create($userData['user']);
@@ -97,19 +98,18 @@ class UserService implements UserContract
         $userData['people']=array();
         $userData['user']=array();
 
-        $userData['user']['username']=$data['username'];
-        $userData['user']['name']=$data['first_name']." ".$data['last_name'];
-        $userData['user']['email']=$data['email'];
-        $userData['user']['password']=Hash::make($data['password']);
+        $userData['user']['name']=$data['name']." ".$data['surname'];
+        $userData['user']['email']=$data['emailAddress'];
+        $userData['user']['organisation']=$data['organisation'];
 
         $this->userRepoObj->edit($userData['user'], $userId);
 
         $userObj=User::findOrFail($userId);
         $userObj->detachAllRoles();
-        $userObj->attachRole($data['role_id']);
+        $userObj->attachRole($data['userType']);
 
-        $userData['people']['first_name']=$data['first_name'];
-        $userData['people']['last_name']=$data['last_name'];
+        $userData['people']['first_name']=$data['name'];
+        $userData['people']['last_name']=$data['surname'];
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
 
         if ($data) {

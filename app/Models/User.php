@@ -23,6 +23,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
         'username',
         'name',
         'email',
+        'organisation',
         'password',
         'token',
         'is_verified',
