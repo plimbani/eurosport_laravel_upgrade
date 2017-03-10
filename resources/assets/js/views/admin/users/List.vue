@@ -28,11 +28,11 @@
                                         <td>{{ user.person_detail.last_name }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.organisation }}</td>
-                                        <td>{{ "aaa" }}</td>
+                                        <td>{{ user.roles[0].name }}</td>
                                         <td>
                                             <a href="javascript:void(0)" data-toggle="modal" data-target="#user_form_modal" @click="editUser(user.id)"><i class="fa fa-edit"></i></a>
                                             &nbsp;
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i></a>
+                                            <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this user record?" data-toggle="modal" data-target="#delete_modal" @click="prepareDeleteResource(user.id)"><i class="fa fa-trash-o"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -75,7 +75,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">Email address</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('emailAddress') }" name="email_address" type="email" class="form-control" placeholder="Your email address">
+                                    <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Your email address">
                                     <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('email_address')">The email address field is required.</span>
                                 </div>
@@ -97,7 +97,6 @@
                                             {{ role }}
                                         </option>
                                     </select>
-                                    <i v-show="errors.has('user_type')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('user_type')">The user type field is required.</span>
                                 </div>
                             </div>
@@ -110,16 +109,24 @@
                 </div>
             </div>
         </div>
+        <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
     </div>
 </template>
 
 <script type="text/babel">
+    import DeleteModal from '../../../components/DeleteModal.vue'
+
     export default {
+        components: {
+            DeleteModal
+        },
         data() {
             return {
                 formValues: this.initialState(),
                 userRolesOptions: [],
-                userModalTitle: 'Add User'
+                userModalTitle: 'Add User',
+                deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
+                deleteAction: ''
             }
         },
         created() {
@@ -154,9 +161,10 @@
                     this.$data.formValues = response.data;
                 });
             },
+            prepareDeleteResource(id) {
+                this.deleteAction="/api/user/delete/"+id;
+            },
             updateUserList() {
-                $("#user_form_modal").modal("hide");
-                this.$data.formValues = this.initialState();
                 axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
                     if('users' in response.data) {
                         this.userList.userData = response.data.users;
@@ -172,15 +180,26 @@
                     if(this.$data.formValues.id=="") {
                         axios.post("/api/user/create", this.formValues).then((response) => {
                             toastr.success('User has been added succesfully.', 'Add User', {timeOut: 5000});
+                            $("#user_form_modal").modal("hide");
+                            this.$data.formValues = this.initialState();
                             this.updateUserList();
                         });
                     } else {
                         axios.post("/api/user/update/"+this.formValues.id, this.formValues).then((response) => {
                             toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
+                            $("#user_form_modal").modal("hide");
+                            this.$data.formValues = this.initialState();
                             this.updateUserList();
                         });
                     }
                 }).catch(() => { });
+            },
+            deleteConfirmed() {
+                axios.post(this.deleteAction).then((response) => {
+                    $("#delete_modal").modal("hide");
+                    toastr.success('User has been deleted succesfully.', 'Delete User', {timeOut: 5000});
+                    this.updateUserList();
+                });
             }
         }
     }

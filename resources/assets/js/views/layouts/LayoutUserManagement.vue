@@ -6,7 +6,6 @@
             <UserManagementabbed>
             </UserManagementabbed>                 
         </div>
-        <delete-modal></delete-modal>
         <div class="horizontal_line"></div>
         <site-footer></site-footer>
     </div>
@@ -21,7 +20,6 @@
     import Layout from '../../helpers/layout'
     import BreadCrum from '../../components/BreadCrum.vue'
     import UserManagementabbed from './partials/UserManagementabbed.vue'
-    import DeleteModal from '../../components/DeleteModal.vue'
 
     export default {
         data() {
@@ -30,7 +28,7 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, UserManagementabbed, DeleteModal
+            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, UserManagementabbed
         },
         mounted() {
             Layout.set('layout-horizontal')

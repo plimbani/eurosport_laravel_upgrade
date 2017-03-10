@@ -8,10 +8,11 @@ use Duro85\Roles\Traits\HasRoleAndPermission;
 use Duro85\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract
 {
-    use Notifiable,HasRoleAndPermission;
+    use Notifiable, HasRoleAndPermission, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

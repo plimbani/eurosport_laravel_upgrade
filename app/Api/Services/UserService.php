@@ -124,10 +124,9 @@ class UserService implements UserContract
      *
      * @return [type]
      */
-    public function delete($data)
+    public function delete($id)
     {
-        $data = $data->all();
-        $data = $this->userRepoObj->delete($data);
+        $data = $this->userRepoObj->delete($id);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
