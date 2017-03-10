@@ -32,7 +32,7 @@
                                         <td>
                                             <a href="javascript:void(0)" data-toggle="modal" data-target="#user_form_modal" @click="editUser(user.id)"><i class="fa fa-edit"></i></a>
                                             &nbsp;
-                                            <a href="javascript:void(0)"><i class="fa fa-trash-o"></i></a>
+                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
