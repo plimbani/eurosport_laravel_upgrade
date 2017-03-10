@@ -19,14 +19,11 @@ const state = {
   screenJson: {},
   currentVehicleStatus: {'inProgress': 'no', 'currentScreen': 0, 'selectedAction': '', 'registrationNumber': '', 'vehicleType': '', 'savedDateTime': ''}
   */
-  tournamentName: 'Your Tournament'
   // selectedVehicleType: '',
   // selectedVehicleCategory: ''
 }
 const mutations = {
-  [types.CURRENT_TOURNAMENT] (state, tournamentName) {
-    state.tournamentName = tournamentName
-  }  
+  
 }
 export default new Vuex.Store({
   state,

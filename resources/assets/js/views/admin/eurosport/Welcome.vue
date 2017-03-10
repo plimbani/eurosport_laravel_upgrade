@@ -12,20 +12,20 @@
 		  <div class="col-sm-6">
 			 <div class="card">
         <div class="card-header">
-          <h5 class="text-center"><strong>Manage Edition</strong></h5>
+          <h5 class="text-center"><strong>Manage Tournament</strong></h5>
         </div>
-        <div class="card-block text-center">
-          <form>
+        <div class="card-block text-center">        
             <div class="form-group"><tournamentDropDown></tournamentDropDown></div>
-              <button class="btn btn-primary col-sm-8 btn-theme">Add a new edition</button>                
-          </form>
+              <button class="btn btn-primary col-sm-8 btn-theme" 
+              @click="addNewTournament()">
+              Add a new Tournament</button>                       
         </div>
     </div>
 			</div>
 			<div class="col-sm-6">
 				<div class="card">
           <div class="card-header">
-              <h5 class="text-center"><strong>Add a new Tournament</strong></h5>
+              <h5 class="text-center"><strong>Add a new User</strong></h5>
           </div>
           <div class="card-block text-center">
               <form>
@@ -52,5 +52,12 @@ export default {
   components : {
     TournamentDropDown
   },    
+  methods : {
+    addNewTournament() {     
+      // we have to Dispatch there is New Tournament  
+      this.$store.dispatch('SetTournamentName','Your Tournament')     
+      this.$router.push({name: 'tournament_add'})      
+    }
+  }
 }
 </script>
