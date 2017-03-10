@@ -18,6 +18,25 @@ const actions = {
   SetTournamentName ({commit}, tournamentName) {  
     commit(types.CURRENT_TOURNAMENT, tournamentName)
   },
+  SaveCompeationFormatDetails  ({commit}, competationFormatData) { 
+    
+    Tournament.saveCompetationFormat(competationFormatData).then(
+      (response) => {        
+        console.log(response)
+        if(response.data.status_code == 200) {          
+          // Now here we set the template 
+          // let data1 = {'id':response.data.data,'name':tournamentData.name}
+          commit(types.SAVE_COMPETATION_FORMAT, data1) 
+        } else {
+          alert('Error Occured')
+        }
+        // commit(types.SAVE_TOURNAMENT, response.data)
+      },
+      (error) => {
+        console.log('Error occured during Save Compeation Fomat api ', error)
+      }
+    )
+  },  
   SaveTournamentDetails ({commit}, tournamentData) {      
     Tournament.saveTournament(tournamentData).then(
       (response) => {        
@@ -52,6 +71,12 @@ const mutations = {
     state.tournamentName = tournamentData.name
     state.tournamentId = tournamentData.id
     state.currentPage = 'Competation Formats'
+  },
+  [types.SAVE_COMPETATION_FORMAT] (state, competationFormatData) {        
+    // alert('hello in mutation')
+    state.templateData = competationFormatData.name
+    // state.tournamentId = tournamentData.id
+    // state.currentPage = 'Competation Formats'
   },
      
 }
