@@ -15,9 +15,9 @@ class PitchService implements PitchContract
         $this->pitchAvailableRepoObj = new \Laraspace\Api\Repositories\PitchAvailableRepository();
     }
 
-    public function getAllPitches()
+    public function getAllPitches($tournamentId)
     {
-        return $this->pitchRepoObj->getAllPitches();
+        return $this->pitchRepoObj->getAllPitches($tournamentId);
     }
 
     /**

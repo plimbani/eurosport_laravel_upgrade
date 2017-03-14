@@ -42,6 +42,20 @@ class UserController extends BaseController
     }
 
     /**
+     * Show all Match Results Details.
+     *
+     * Get a JSON representation of all the Users.
+     *
+     * @Get("/users")
+     * @Versions({"v1"})
+     * @Response(200, body={"id": 10, "username": "foo"})
+     */
+    public function getUsersByRegisterType($registerType)
+    {
+        return $this->userObj->getUsersByRegisterType($registerType);
+    }
+
+    /**
      * Create New Match Result.
      *
      * @Post("/user/create")
@@ -55,16 +69,28 @@ class UserController extends BaseController
     }
 
     /**
-     * Edit  Match result.
+     * Edit User
      *
      * @Post("/match/edit/{$id}")
      *
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function edit(Request $request, $userId)
+    public function edit($userId)
     {
-        return $this->userObj->edit($request, $userId);
+        return $this->userObj->edit($userId);
+    }
+
+    /**
+     * Update User
+     *
+     * @Post("/match/edit/{$id}")
+     *
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function update(Request $request, $userId)
+    {
+        return $this->userObj->update($request, $userId);
     }
 
     public function deleteUser($deleteId)

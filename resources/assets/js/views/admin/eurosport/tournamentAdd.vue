@@ -2,10 +2,8 @@
 	<div class="tab-content" id="tournament_details">
 		<div>
 			<div class="card">
-                <div class="col-md-12">
-                    <h6><strong>Tournament information</strong></h6>
-                </div>
                 <div class="card-block">
+                    <h6><strong>Tournament information</strong></h6>
                     <form>
                         <div class="form-group row">
                             <label class="col-sm-2 form-control-label">Tournament name *</label>

@@ -2,7 +2,7 @@
 	<div class="card">
 		<div class="card-block">
 			<div class="row">
-				<div class="col-lg-10 offset-1">
+				<div class="col-lg-12 ">
 					<div class="tabs tabs-primary">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">

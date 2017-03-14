@@ -7,10 +7,16 @@ interface UserContract
     /*
      * Get All Users
      *
-     * @param  array $api_key,$state,$type
      * @return response
      */
     public function getAllUsers();
+
+    /*
+     * Get Users By Register Type
+     *
+     * @return response
+     */
+    public function getUsersByRegisterType($registerType);
 
     /*
      * Create New User
@@ -27,7 +33,15 @@ interface UserContract
      * @param  array $api_key,$user_id,$data
      * @return response
      */
-    public function edit($request, $userId);
+    public function edit($userId);
+
+    /*
+     * Update User
+     *
+     * @param  array $api_key,$user_id,$data
+     * @return response
+     */
+    public function update($request, $userId);
 
     /*
      * Delete User

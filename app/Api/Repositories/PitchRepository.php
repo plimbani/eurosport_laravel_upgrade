@@ -12,9 +12,9 @@ class PitchRepository
         $this->dbObj = DB::table('pitches');
     }
 
-    public function getAllPitches()
+    public function getAllPitches($tournamentId)
     {
-        return Pitch::all();
+        return Pitch::where('tournament_id',$tournamentId)->get();
     }
 
     public function createPitch($pitchData)
@@ -22,6 +22,7 @@ class PitchRepository
         // dd($pitchData);
 
         return Pitch::create([
+            'tournament_id' => $pitchData['tournamentId'],
             'pitch_number' => $pitchData['pitch_number'],
             'type' => $pitchData['pitch_type'],
             'venue_id' => $pitchData['location'],

@@ -36,9 +36,9 @@ class PitchController extends Controller
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getPitches()
+    public function getPitches($tournamentId)
     {
-        return $this->pitchObj->getAllPitches();
+        return $this->pitchObj->getAllPitches($tournamentId);
     }
 
     /**

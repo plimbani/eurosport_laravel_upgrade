@@ -11,7 +11,7 @@ interface PitchContract
      * @return response
      */
 
-    public function getAllPitches();
+    public function getAllPitches($tournamentId);
 
     /*
      * Create New Pitch

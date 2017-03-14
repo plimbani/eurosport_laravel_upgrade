@@ -5,7 +5,8 @@ import Tournament from '../../api/tournament'
 
 // initial state
 const state = {
-  tournamentName: ''
+  tournamentName: '',
+  
 }
 // getters
 const getters = {
