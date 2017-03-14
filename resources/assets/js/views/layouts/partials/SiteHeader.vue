@@ -1,7 +1,7 @@
 <template>
     <header class="site-header">    
         
-        <a href="#" class="brand-main">
+        <a href="#" class="brand-main" @click="home">
             <img src="/assets/img/logo-desk.png" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down">
             <img src="/assets/img/logo-mobile.png" id="logo-mobile" alt="Laraspace Logo" class="hidden-md-up">
         </a>
@@ -11,7 +11,7 @@
                 <span>toggle menu</span>
             </div>
         </a>
-
+        <span class="offset-1"> {{TournamentName}} </span>
         <ul class="action-list">
             <li>
                 <a href="#" data-toggle="dropdown"  class="avatar"><img src="/assets/img/avatars/avatar.png" alt="Avatar"></a>
@@ -70,6 +70,14 @@
                 Auth.logout().then(() => {
                     this.$router.replace('/login')
                 })
+            },
+            home() {
+                this.$router.push({'name':'welcome'})
+            }
+        },
+        computed: {
+            TournamentName() {                
+                return this.$store.state.Tournament.tournamentName
             }
         }
 

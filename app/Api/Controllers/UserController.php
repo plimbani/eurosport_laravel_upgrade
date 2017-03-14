@@ -12,7 +12,7 @@ use Laraspace\Api\Contracts\UserContract;
 use JWTAuth;
 
 /**
- * Matches Resource Description.
+ * Users Resource Description.
  *
  * @Resource("users")
  *
@@ -28,7 +28,7 @@ class UserController extends BaseController
     }
 
     /**
-     * Show all Match Results Details.
+     * Show all User Results Details.
      *
      * Get a JSON representation of all the Users.
      *
@@ -42,7 +42,7 @@ class UserController extends BaseController
     }
 
     /**
-     * Show all Match Results Details.
+     * Show all User Results Details.
      *
      * Get a JSON representation of all the Users.
      *
@@ -56,7 +56,7 @@ class UserController extends BaseController
     }
 
     /**
-     * Create New Match Result.
+     * Create New User Result.
      *
      * @Post("/user/create")
      *
@@ -71,9 +71,8 @@ class UserController extends BaseController
     /**
      * Edit User
      *
-     * @Post("/match/edit/{$id}")
+     * @Post("/user/edit/{$id}")
      *
-     * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
     public function edit($userId)
@@ -84,7 +83,7 @@ class UserController extends BaseController
     /**
      * Update User
      *
-     * @Post("/match/edit/{$id}")
+     * @Post("/user/edit/{$id}")
      *
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
@@ -93,8 +92,15 @@ class UserController extends BaseController
         return $this->userObj->update($request, $userId);
     }
 
-    public function deleteUser($deleteId)
+    /**
+     * Delete User
+     * 
+     * @param  [type] $id User Id
+     * 
+     * @return [type]           [description]
+     */
+    public function deleteUser($id)
     {
-        return $this->userObj->deleteUser($deleteId);
+        return $this->userObj->delete($id);
     }
 }

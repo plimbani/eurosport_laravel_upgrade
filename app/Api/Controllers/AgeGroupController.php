@@ -75,4 +75,20 @@ class AgeGroupController extends BaseController
     {
         return $this->ageGroupObj->delete($request);
     }
+
+    /**
+     * Add  Age Group.
+     *
+     * @Post("/age_group/createCompeationFormat")
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function createCompetationFomat(Request $request)
+    {        
+        return $this->ageGroupObj->createCompetationFomat($request);
+    }
+    public function getCompetationFormat(Request $request) {
+        return $this->ageGroupObj->GetCompetationFormat($request);   
+    }
 }

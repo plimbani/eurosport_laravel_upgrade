@@ -26,8 +26,27 @@ class TournamentService implements TournamentContract
      */
     public function index()
     {
-        // Here we send Status Code and Messages
+        // Here we send Status Code and Messages        
         $data = $this->tournamentRepoObj->getAll();
+
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
+        }
+
+        return ['status_code' => '505', 'message' => self::ERROR_MSG];
+    }
+
+    /*
+     * Get All Templates
+     *
+     * @param  array $api_key,$state,$type
+     * @return response
+     */
+    public function templates()
+    {
+        // Here we send Status Code and Messages        
+        $data = $this->tournamentRepoObj->getAllTemplates();
+
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
@@ -46,12 +65,34 @@ class TournamentService implements TournamentContract
     public function create($data)
     {
         $data = $data->all();
-        $data = $this->tournamentRepoObj->create($data);
+        // dd($data);
+        // here first we save the tournament related Data
+        // here we have to precprocess the image
+        // Save the image
+       // $this->saveTournamentLogo($data);
+        
+        //\File::put($path , $imgData);
+        //print_r($imgData);        
+
+        $data = $this->tournamentRepoObj->create($data['tournamentData']);
+
         if ($data) {
-            return ['status_code' => '200', 'message' => self::SUCCESS_MSG];
+            return ['status_code' => '200', 'message' => self::SUCCESS_MSG,
+             'data'=>$data];
         }
     }
+    private function saveTournamentLogo($data){
+        $image_string = $data['tournamentData']['image_logo']; 
 
+        $img = explode(',', $image_string);        
+        $imgData = base64_decode($img[1]);        
+
+        $name = $data['tournamentData']['name'];
+
+        $path = public_path().'/assets/img/tournament_logo/'.$name.'.jpg';        
+        file_put_contents($path, $imgData);
+        return $name.'.jpg';
+    }
     /**
      * Edit Tournament.
      *

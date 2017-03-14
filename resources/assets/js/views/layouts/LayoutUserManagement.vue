@@ -1,12 +1,11 @@
 <template>
     <div class="template-container">
         <site-header></site-header>
-          <div class="main-content" id="dashboardPage">
+        <div class="main-content">
             <breadCrum></breadCrum>
             <UserManagementabbed>
             </UserManagementabbed>                 
-          </div>             
-        <!--<router-view></router-view>-->
+        </div>
         <div class="horizontal_line"></div>
         <site-footer></site-footer>
     </div>
