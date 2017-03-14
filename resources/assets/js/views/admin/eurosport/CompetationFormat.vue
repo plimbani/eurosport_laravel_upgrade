@@ -23,66 +23,61 @@
             			<span>Edit</span>
             		</div>
             	</div> -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="table add-category-table">
-                            <thead>
-                                <tr>
-                                    <th>Age category</th>
-                                    <th>Competition format</th>
-                                    <th>Total matches</th>
-                                    <th>Total time</th>
-                                    <th>Match schedule</th>
-                                    <th>Edit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr colspan="6">&nbsp;</tr>
-                                <tr>
-                                    <td>U11</td>
-                                    <td class="table-success">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
-                                                       checked>
-                                                6 teams, RR1, EM
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td class="table-success">20</td>
-                                    <td class="table-success">13 hours 40 minutes</td>
-                                    <td class="table-success">
-                                        <a href="#">Veiw</a>
-                                    </td>
-                                    <td>
-                                        <a href="#">Edit</a> &nbsp;&nbsp;&nbsp;
-                                        <a href="#">Delete</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                                6 teams, RR1, PM/F
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>18</td>
-                                    <td>12 hours 50 minutes</td>
-                                    <td>
-                                        <a href="">View</a>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <table class="table table-hover table-striped table-bordered add-category-table">
+                    <thead>
+                        <tr>
+                            <th>Age category</th>
+                            <th>Competition format</th>
+                            <th>Total matches</th>
+                            <th>Total time</th>
+                            <th>Match schedule</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>U11</td>
+                            <td class="">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
+                                               checked>
+                                        6 teams, RR1, EM
+                                    </label>
+                                </div>
+                            </td>
+                            <td class="">20</td>
+                            <td class="">13 hours 40 minutes</td>
+                            <td class="">
+                                <a href="#">Veiw</a>
+                            </td>
+                            <td>
+                                <a href="#">Edit</a> &nbsp;&nbsp;&nbsp;
+                                <a href="#">Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                        6 teams, RR1, PM/F
+                                    </label>
+                                </div>
+                            </td>
+                            <td>18</td>
+                            <td>12 hours 50 minutes</td>
+                            <td>
+                                <a href="">View</a>
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
             	<div class="row">
                     <div class="col-md-12">
-            		     <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add Age Category</button>
+            		     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add Age Category</button>
                     </div>
             	</div>
                 <div class="row">

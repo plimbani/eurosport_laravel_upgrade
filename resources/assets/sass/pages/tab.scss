@@ -206,6 +206,59 @@ button, input, optgroup, select, textarea {
 	margin-right: 5px;
 }
 .add-category-table {
-	height: 250px;
-	overflow-y: scroll;
+	max-height: 250px;
+	// overflow-y: scroll;
+}
+
+/****************************
+	competation_format
+****************************/
+.summary-tab.tabs-primary .nav-link.active{
+	background-color: transparent;
+	color: #9c9c9c;
+	border: 1px solid transparent;
+}
+.summary-tab .nav-tabs .nav-item{
+	border-left: 1px solid;
+}
+.summary-tab .nav-tabs .nav-item:first-child {
+	border-left: 0;
+}
+.summary-tab .nav-tabs .nav-item:first-child a {
+	padding-left: 0;
+}
+.summary-tab.tabs-primary .nav-link {
+	padding: 0px 10px;
+    border-radius: 0;
+}
+.summary-tab.tabs-primary .nav-tabs {
+	border-bottom: 1px solid #9c9c9c;
+	padding-bottom: 10px;
+}
+.summary-tab.tabs-primary .nav-link:hover {
+	border: 1px solid transparent;
+	color: #9c9c9c;
+	text-decoration: none;
+}
+
+.summary-content {
+	border: none;
+}
+.summary-content span {
+	display: block;
+	margin-bottom: 15px;
+}
+.blog .bolg-div {
+	background-color: #F2F2F2;
+	padding: 20px;
+	float: left;
+	margin-right: 19px;
+    width: 15%;
+}
+.blog .bolg-div:last-child {
+	margin-right: 0;
+}
+.blog .bolg-div span
+{
+	margin-bottom: 0
 }

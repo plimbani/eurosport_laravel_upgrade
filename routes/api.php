@@ -57,9 +57,11 @@ $api->version('v1', function ($api) {
     $api->post('age_group/create', 'Laraspace\Api\Controllers\AgeGroupController@create');
     $api->post('age_group/edit/{id}', 'Laraspace\Api\Controllers\AgeGroupController@edit');
     $api->post('age_group/delete/{deleteid}', 'Laraspace\Api\Controllers\AgeGroupController@delete');
+    $api->post('age_group/createCompetationFomat','Laraspace\Api\Controllers\AgeGroupController@createCompetationFomat');
 
     //Tournament Api CRUD Routes
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
+    $api->get('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates');
     $api->post('tournament/create', 'Laraspace\Api\Controllers\TournamentController@create');
     $api->post('tournament/edit/{id}', 'Laraspace\Api\Controllers\TournamentController@edit');
     $api->post('tournament/delete/{id}', 'Laraspace\Api\Controllers\TournamentController@delete');
@@ -70,7 +72,7 @@ $api->version('v1', function ($api) {
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
     $api->get('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('edit.users');
     $api->post('user/update/{id}', 'Laraspace\Api\Controllers\UserController@update')->name('update.users');
-    $api->post('user/delete/{deleteid}', 'Laraspace\Api\Controllers\UserController@deleteUser')->name('delete.users');
+    $api->post('user/delete/{id}', 'Laraspace\Api\Controllers\UserController@deleteUser')->name('delete.users');
 
     // Role Stuff
     $api->get('roles', 'Laraspace\Api\Controllers\RoleController@getRoles');

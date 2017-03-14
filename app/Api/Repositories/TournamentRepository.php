@@ -7,14 +7,17 @@ use Laraspace\Models\Person;
 use Laraspace\Models\Venue;
 use Laraspace\Models\TournamentContact;
 use Laraspace\Models\TournamentVenue;
-
+use Laraspace\Models\TournamentTemplates;
 class TournamentRepository
 {
     public function getAll()
     {
         return Tournament::get();
     }
-
+    public function getAllTemplates()
+    {
+        return TournamentTemplates::get();
+    }
     public function create($data)
     {
 

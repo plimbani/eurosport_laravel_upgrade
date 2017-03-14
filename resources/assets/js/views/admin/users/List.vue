@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="add_user_btn">
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#user_form_modal">Add New User</button>
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#user_form_modal" @click="addUser()">Add New User</button>
         </div>
         <div class="tab-content">
             <div class="card">
@@ -32,7 +32,7 @@
                                         <td>
                                             <a href="javascript:void(0)" data-toggle="modal" data-target="#user_form_modal" @click="editUser(user.id)"><i class="fa fa-edit"></i></a>
                                             &nbsp;
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#delete_modal"><i class="fa fa-trash-o"></i></a>
+                                            <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this user record?" data-toggle="modal" data-target="#delete_modal" @click="prepareDeleteResource(user.id)"><i class="fa fa-trash-o"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -50,7 +50,7 @@
                 <div class="modal-content">
                     <form @submit.prevent="validateBeforeSubmit">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                            <h5 class="modal-title">{{ userModalTitle }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -75,7 +75,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">Email address</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('emailAddress') }" name="email_address" type="email" class="form-control" placeholder="Your email address">
+                                    <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Your email address">
                                     <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('email_address')">The email address field is required.</span>
                                 </div>
@@ -97,7 +97,6 @@
                                             {{ role }}
                                         </option>
                                     </select>
-                                    <i v-show="errors.has('user_type')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('user_type')">The user type field is required.</span>
                                 </div>
                             </div>
@@ -110,15 +109,24 @@
                 </div>
             </div>
         </div>
+        <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
     </div>
 </template>
 
 <script type="text/babel">
+    import DeleteModal from '../../../components/DeleteModal.vue'
+
     export default {
+        components: {
+            DeleteModal
+        },
         data() {
             return {
                 formValues: this.initialState(),
-                userRolesOptions: []
+                userRolesOptions: [],
+                userModalTitle: 'Add User',
+                deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
+                deleteAction: ''
             }
         },
         created() {
@@ -143,18 +151,55 @@
                     this.userRolesOptions = response.data;
                 });
             },
+            addUser() {
+                this.$data.formValues = this.initialState();
+                this.userModalTitle="Add User";
+            },
             editUser(id) {
+                this.userModalTitle="Edit User";
                 axios.get("/api/user/edit/"+id).then((response) => {
                     this.$data.formValues = response.data;
                 });
             },
+            prepareDeleteResource(id) {
+                this.deleteAction="/api/user/delete/"+id;
+            },
+            updateUserList() {
+                axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
+                    if('users' in response.data) {
+                        this.userList.userData = response.data.users;
+                        this.userList.userCount = response.data.users.length;
+                    } else {
+                        this.userList.userData = [];
+                        this.userList.userCount = 0;
+                    }
+                });
+            },
             validateBeforeSubmit(){
                 this.$validator.validateAll().then(() => {
-                    axios.post("/api/user/create", this.formValues).then((response) => {
-                        $("#user_form_modal").modal("hide");
-                        this.$data.formValues = this.initialState();
-                    });
+                    if(this.$data.formValues.id=="") {
+                        axios.post("/api/user/create", this.formValues).then((response) => {
+                            toastr.success('User has been added succesfully.', 'Add User', {timeOut: 5000});
+                            $("#user_form_modal").modal("hide");
+                            this.$data.formValues = this.initialState();
+                            this.updateUserList();
+                        });
+                    } else {
+                        axios.post("/api/user/update/"+this.formValues.id, this.formValues).then((response) => {
+                            toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
+                            $("#user_form_modal").modal("hide");
+                            this.$data.formValues = this.initialState();
+                            this.updateUserList();
+                        });
+                    }
                 }).catch(() => { });
+            },
+            deleteConfirmed() {
+                axios.post(this.deleteAction).then((response) => {
+                    $("#delete_modal").modal("hide");
+                    toastr.success('User has been deleted succesfully.', 'Delete User', {timeOut: 5000});
+                    this.updateUserList();
+                });
             }
         }
     }

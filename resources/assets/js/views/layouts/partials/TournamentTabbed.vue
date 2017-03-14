@@ -48,9 +48,17 @@ export default {
 		// here we call function which select the active class
 	},
 	methods: {
-		GetSelectComponent(componentName) {			
+		GetSelectComponent(componentName) {
+			// here we check for Tournament Add			
+			if(componentName == 'tournament_add' && this.$store.state.Tournament.tournamentId != 'undefined') {
+				// here we check if tournamnetId is Set then Redirect to view page
+				alert('view')
+			}			
 			this.$router.push({name: componentName})
 		}
+	},
+	computed: {
+
 	}
 }
 </script>
