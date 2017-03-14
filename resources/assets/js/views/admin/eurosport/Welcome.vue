@@ -51,11 +51,17 @@ import TournamentDropDown from '../../../components/TournamentDropDown.vue'
 export default {    
   components : {
     TournamentDropDown
+  },
+  mounted() {
+    // Here we set Default Value For Tournament
+    let tournamentAdd  = {name:'Welcome', 'currentPage':'Home'}        
+    this.$store.dispatch('SetTournamentName', tournamentAdd)
   },    
   methods : {
     addNewTournament() {     
-      // we have to Dispatch there is New Tournament  
-      this.$store.dispatch('SetTournamentName','Your Tournament')     
+      // we have to Dispatch there is New Tournament 
+      let tournamentAdd  = {name:'Your Tournament', 'currentPage':'TournamentAdd'}        
+      this.$store.dispatch('SetTournamentName', tournamentAdd)      
       this.$router.push({name: 'tournament_add'})      
     }
   }

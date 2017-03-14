@@ -39,6 +39,20 @@ class TournamentController extends BaseController
     }
 
     /**
+     * Show all Tournament Templates.
+     *
+     * Get a JSON representation of all the Age Groups.
+     *
+     * @Get("/templates")
+     * @Versions({"v1"})
+     * @Response(200, body={"id": 10, "json": "foo"})
+     */
+    public function templates()
+    {
+        return $this->tournamentObj->templates();
+    }
+
+    /**
      * Create  Torunament.
      *
      * Create New Tournament
