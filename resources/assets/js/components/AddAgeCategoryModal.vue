@@ -114,27 +114,43 @@ export default {
     }
   },
   mounted() {
-    Tournament.getAllTournamentTemplate().then(
-      (response) => {          
-        this.options = response.data.data                       
+    this.TournamentCompetationList();   
+  },
+  methods: {
+    TournamentCompetationList() {
+      Tournament.getAllTournamentTemplate().then(
+      (response) => {                    
+        this.options = response.data.data
       },
       (error) => {
          console.log('Error occured during Tournament api ', error)
       }
       )
-  },
-  methods: {
+    },
     saveAgeCategory() {
-      // Now here we have to Save it Age Catgory
-      console.log(this.competation_format)
+      // Now here we have to Save it Age Catgory      
       this.$validator.validateAll().then(
-          (response) => {           
-          this.$store.dispatch('SaveCompeationFormatDetails', this.competation_format)
-          $('#saveAge').attr('data-dismiss','modal')
+          (response) => {    
+              Tournament.saveCompetationFormat(this.competation_format).then(
+                (response) => {                                
+                  if(response.data.status_code == 200) {                
+                    this.$router.push({name: 'competation_format'}) 
+                    $('#saveAge').attr('data-dismiss','modal')     
+                  } else {
+                    alert('Error Occured')
+                  }
+              
+              },
+              (error) => {
+                console.log('hello weeoe')
+                console.log('Error occured during Save Compeation Fomat api ', error)
+              }
+            )
+            $('#saveAge').attr('data-dismiss','modal')  
           },
           (error) => {
             console.log(this)            
-            console.log('Error occured during SaveTournament api ', error)            
+            console.log('Error occured during SaveTournament api ', error)
           }
       ) 
       //this.$store.state.dispatch('saveAgeCategory', this.competation_format)
