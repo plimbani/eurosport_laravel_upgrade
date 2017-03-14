@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -38,9 +37,9 @@
               <div class="col-sm-6">
                   <span class="col-sm-2 pull-left multi-number padding0">2 <small>X</small></span>
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.game_duration_RR">
-                      <option value="10">10</option>
-                      <option value="15">15</option>
-                      <option value="20">20</option>                      
+                      <option value="20">10</option>
+                      <option value="30">15</option>
+                      <option value="40">20</option>                      
                   </select>
                   <span class="col-md-2 minutes-div">minutes</span>
               </div>
@@ -50,9 +49,9 @@
               <div class="col-sm-6">
                   <span class="col-sm-2 pull-left multi-number padding0">2 <small>X</small></span>
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.game_duration_FM">
-                      <option value="10">10</option>
-                      <option value="15">15</option>
-                      <option value="20">20</option>                     
+                      <option value="20">10</option>
+                      <option value="30">15</option>
+                      <option value="40">20</option>                     
                   </select>
                   <span class="col-md-2 minutes-div">minutes</span>
               </div>
@@ -106,10 +105,11 @@ export default {
   data() {
     return  {
       competation_format: {
-        ageCategory_name:'',game_duration_RR:'10',game_duration_FM:'10',
+        ageCategory_name:'',game_duration_RR:'20',game_duration_FM:'20',
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:'',
         tournament_id: this.$store.state.Tournament.tournamentId  
       },
+      game_duration_stage: 2,
       options: []
     }
   },
