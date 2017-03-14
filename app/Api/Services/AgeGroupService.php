@@ -67,10 +67,38 @@ class AgeGroupService implements AgeGroupContract
         $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
         $total_matches = $json_data->total_matches;
 
-        // Now here we calculate total time for a Compeation format
-        // 
-        print_r($data);exit;
-        return array('10',$total_matches,$disp_format_name);
+        // Now here we calculate total time for a Compeation format For RR
+        // Move For loop and take count -1 for round robin        
+        $totalRound = count($json_data->tournament_competation_format->format_name);
+        $total_rr_time = 0; $total_final_time=0;$total_time=0;
+        for($i=0;$i<$totalRound-1;$i++){
+            // Now here we calculate followng fields
+            $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
+            // Now here we have to for loop for match_type
+            
+            foreach($rounds as $round) {
+               $total_round_match = $round->total_match;               
+               // Calculate Game Duration for RR
+               $total_rr_time+= $data['game_duration_RR'] * $total_round_match;
+               // Calculate  half Time Break for RR
+               $total_rr_time+= $data['halftime_break_RR'] * $total_round_match;
+              // Calculate Match Interval     
+               $total_rr_time+= $data['match_interval_RR'] * $total_round_match;
+           }
+            
+        }
+
+        // Now we calculate final match time
+        $final_round = array_pop($json_data->tournament_competation_format->format_name);
+        // we know that we have only one match over here
+        $total_final_time += $data['game_duration_FM'];
+        $total_final_time += $data['halftime_break_FM'];
+        $total_final_time += $data['match_interval_FM'];
+        
+        // Now we sum up round robin and final match
+        $total_time = $total_rr_time + $total_final_time;        
+                        
+        return array($total_time,$total_matches,$disp_format_name);
     }
     /**
      * create New AgeGroup.
