@@ -27,15 +27,23 @@ class AgeGroupRepository
         return AgeGroup::find($data['id'])->delete();
     }
     public function createCompeationFormat($data){
-      // here first we save the Age Group
-
+      // here first we save the Age Group            
       $ageGroupData['name'] = $data['ageCategory_name'];
       $ageGroupId = AgeGroup::create($ageGroupData)->id;
       
       // here we save the tournament_competation_template      
       $tournamentCompeationTemplate['age_group_id'] = $ageGroupId;
-      $tournamentCompeationTemplate['tournament_id'] = $data['touranament_id'];
-      
-      $data = TournamentCompetationTemplates::create($data);  
+      $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
+      $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
+      $tournamentCompeationTemplate['total_match'] = $data['total_match'];
+      $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
+      $tournamentCompeationTemplate['total_time'] =$data['total_time'];
+      $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR'];
+      $tournamentCompeationTemplate['game_duration_FM']= $data['game_duration_FM'];
+      $tournamentCompeationTemplate['halftime_break_RR']= $data['halftime_break_RR'];
+      $tournamentCompeationTemplate['halftime_break_FM']= $data['halftime_break_FM'];
+      $tournamentCompeationTemplate['match_interval_RR']= $data['match_interval_RR'];
+      $tournamentCompeationTemplate['match_interval_FM']= $data['match_interval_FM'];             
+      $data = TournamentCompetationTemplates::create($tournamentCompeationTemplate);  
     }
 }

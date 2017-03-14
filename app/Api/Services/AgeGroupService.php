@@ -43,9 +43,10 @@ class AgeGroupService implements AgeGroupContract
         $data = $data['compeationFormatData'];
         
         list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data);
+
         $data['total_time'] = $totalTime;
         $data['total_match'] = $totalmatch;
-        $data['disp_format_name'] = $dispFormatname;        
+        $data['disp_format_name'] = $dispFormatname;            
         
         $data = $this->ageGroupObj->createCompeationFormat($data);
         if ($data) {
@@ -56,7 +57,20 @@ class AgeGroupService implements AgeGroupContract
     }
 
     private function calculateTime($data) {
-        return array('10','20',' 6 teams, RR1, EM');
+        // We calculate the Following over here
+        // Total Time
+        // Total Match
+        // display Format Name
+        
+        $json_data = json_decode($data['tournamentTemplate']['json_data']);
+        
+        $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
+        $total_matches = $json_data->total_matches;
+
+        // Now here we calculate total time for a Compeation format
+        // 
+        print_r($data);exit;
+        return array('10',$total_matches,$disp_format_name);
     }
     /**
      * create New AgeGroup.
