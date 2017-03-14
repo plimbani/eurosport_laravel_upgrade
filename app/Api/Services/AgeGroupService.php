@@ -49,11 +49,10 @@ class AgeGroupService implements AgeGroupContract
         $data['disp_format_name'] = $dispFormatname;            
         
         $data = $this->ageGroupObj->createCompeationFormat($data);
+
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
-        }
-        print_r($data['compeationFormatData']);exit;
-        
+        }                
     }
 
     private function calculateTime($data) {
@@ -90,15 +89,25 @@ class AgeGroupService implements AgeGroupContract
 
         // Now we calculate final match time
         $final_round = array_pop($json_data->tournament_competation_format->format_name);
-        // we know that we have only one match over here
-        $total_final_time += $data['game_duration_FM'];
-        $total_final_time += $data['halftime_break_FM'];
-        $total_final_time += $data['match_interval_FM'];
+
+        // we know that we have only one Final Round Over here      
+        $total_final_match = $final_round->match_type[0]->total_match;
+        
+        $total_final_time  = $data['game_duration_FM']  * $total_final_match;
+        $total_final_time += $data['halftime_break_FM'] * $total_final_match;
+        $total_final_time += $data['match_interval_FM'] * $total_final_match;
         
         // Now we sum up round robin and final match
-        $total_time = $total_rr_time + $total_final_time;        
-                        
+        $total_time = $total_rr_time + $total_final_time;    
+        
         return array($total_time,$total_matches,$disp_format_name);
+    }
+    public function GetCompetationFormat($data) {        
+        $data = $this->ageGroupObj->getCompeationFormat($data['tournamentId']);
+        
+        if ($data) {
+            return ['status_code' => '200', 'message' => 'Competation Data', 'data' => $data];
+        }
     }
     /**
      * create New AgeGroup.

@@ -43,7 +43,15 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['halftime_break_RR']= $data['halftime_break_RR'];
       $tournamentCompeationTemplate['halftime_break_FM']= $data['halftime_break_FM'];
       $tournamentCompeationTemplate['match_interval_RR']= $data['match_interval_RR'];
-      $tournamentCompeationTemplate['match_interval_FM']= $data['match_interval_FM'];             
-      $data = TournamentCompetationTemplates::create($tournamentCompeationTemplate);  
+      $tournamentCompeationTemplate['match_interval_FM']= $data['match_interval_FM'];
+
+      // Insert value in Database             
+      return TournamentCompetationTemplates::create($tournamentCompeationTemplate);  
+      // Now here we return the appropriate Data
+    }
+    public function getCompeationFormat($tournamentId) {    
+
+    
+    return TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
     }
 }
