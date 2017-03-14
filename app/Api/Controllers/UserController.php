@@ -95,12 +95,12 @@ class UserController extends BaseController
     /**
      * Delete User
      * 
-     * @param  [type] $deleteId User Id
+     * @param  [type] $id User Id
      * 
      * @return [type]           [description]
      */
-    public function deleteUser($deleteId)
+    public function deleteUser($id)
     {
-        return $this->userObj->deleteUser($deleteId);
+        return $this->userObj->delete($id);
     }
 }

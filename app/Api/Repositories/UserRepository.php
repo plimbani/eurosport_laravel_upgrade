@@ -26,9 +26,9 @@ class UserRepository {
         return User::create($data);
     }
 
-    public function delete($data)
+    public function delete($id)
     {
-        return User::find($data['id'])->delete();
+        return User::find($id)->delete();
     }
 
     public function edit($userId)

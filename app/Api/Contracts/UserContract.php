@@ -50,5 +50,5 @@ interface UserContract
      * @return response
      */
 
-    public function delete($request);
+    public function delete($id);
 }

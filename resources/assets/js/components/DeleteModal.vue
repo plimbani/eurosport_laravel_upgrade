@@ -6,14 +6,11 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    
                 </div>
-                <div class="modal-body js-delete-confirmation-msg">
-                    Are you sure you want to delete?
-                </div>
+                <div class="modal-body js-delete-confirmation-msg">{{ deleteConfirmMsg }}</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Yes</button>
+                    <button type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">Yes</button>
                 </div>
                 <input name="_method" value="DELETE" type="hidden" />
             </form>
@@ -23,10 +20,13 @@
 </template>
 <script>
     export default  {
-      data () {
-        return {
-            
+        props: {
+            deleteConfirmMsg: String
+        },
+        methods: {
+            confirmDelete() {
+                this.$emit('confirmed');                
+            }
         }
-      }
     }
 </script>
