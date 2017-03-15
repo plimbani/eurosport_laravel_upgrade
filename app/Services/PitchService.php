@@ -16,7 +16,7 @@ class PitchService implements PitchContract
 
     public function getAllPitches()
     {
-        return $this->pitchRepoObj->getAllPitches();
+        return $this->pitchRepoObj->getAllPitches($tournamentId);
     }
 
     /**

@@ -22,6 +22,7 @@ class MatchController extends Controller
 {
     public function __construct(MatchContract $matchObj)
     {
+        
         $this->matchObj = $matchObj;
         // $this->middleware('auth');
         // $this->middleware('jwt.auth');
@@ -38,6 +39,7 @@ class MatchController extends Controller
      */
     public function getMatches()
     {
+        
         return $this->matchObj->getAllMatches();
     }
 

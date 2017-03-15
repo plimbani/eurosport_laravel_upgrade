@@ -46,7 +46,7 @@ $api->version('v1', function ($api) {
     $api->post('match/delete/{deleteid}', 'Laraspace\Api\Controllers\MatchController@deleteMatch');
 
     //MatchResult api
-    $api->get('pitches', 'Laraspace\Api\Controllers\PitchController@getPitches');
+    $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');
     $api->post('pitch/edit/{id}', 'Laraspace\Api\Controllers\PitchController@edit');
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch');
@@ -79,4 +79,5 @@ $api->version('v1', function ($api) {
     $api->get('roles', 'Laraspace\Api\Controllers\RoleController@getRoles');
     $api->get('roles-for-select', 'Laraspace\Api\Controllers\RoleController@getRolesForSelect');
 });
+
 
