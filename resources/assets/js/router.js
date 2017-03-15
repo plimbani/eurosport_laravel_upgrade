@@ -91,8 +91,6 @@ import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
 
 //User Pages
 import UserList from './views/admin/users/List.vue'
-//import UserCreate from './views/admin/users/Create.vue'
-//import UserUpdate from './views/admin/users/Update.vue'
 
 Vue.use(VueRouter)
 
@@ -185,6 +183,17 @@ const routes = [
             //     name: 'pitch'
             // },            
             
+        ]
+    },
+    {
+        path: '/users', component: LayoutUserManagement,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: ':registerType',
+                component: UserList,
+                name: 'users_list'
+            }
         ]
     },
 
