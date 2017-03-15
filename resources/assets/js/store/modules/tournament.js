@@ -5,7 +5,7 @@ import Tournament from '../../api/tournament'
 
 // initial state
 const state = {
-  tournamentName: 'Welcome',
+ tournamentName: 'Welcome',
   currentPage: '',
   tournamentId: ''
 }
@@ -25,8 +25,8 @@ const actions = {
         console.log(response)
         if(response.data.status_code == 200) {          
           // Now here we set the template 
-          // let data1 = {'id':response.data.data,'name':tournamentData.name}
-          commit(types.SAVE_COMPETATION_FORMAT, data1) 
+          // let data1 = {'id':response.data.data,'name':tournamentData.name}          
+          commit(types.SAVE_COMPETATION_FORMAT, competationFormatData) 
         } else {
           alert('Error Occured')
         }
@@ -74,7 +74,7 @@ const mutations = {
   },
   [types.SAVE_COMPETATION_FORMAT] (state, competationFormatData) {        
     // alert('hello in mutation')
-    state.templateData = competationFormatData.name
+    // state.templateData = competationFormatData.tournamentTemplate
     // state.tournamentId = tournamentData.id
     // state.currentPage = 'Competation Formats'
   },

@@ -79,6 +79,7 @@ import LayoutTournament from './views/layouts/LayoutTournament.vue'
 import Welcome from './views/admin/eurosport/Welcome.vue'
 import TournamentSummaryDetails from './views/admin/eurosport/Tournament.vue'
 import TournamentTeamGroup from './views/admin/eurosport/TournamentTeamGroup.vue'
+import TournamentPitch from './views/admin/eurosport/TournamentPitch.vue'
 import TournamentAdd from './views/admin/eurosport/TournamentAdd.vue'
 import Summary from './views/admin/eurosport/Summary.vue'
 import CompetationFormat from './views/admin/eurosport/CompetationFormat.vue'
@@ -151,7 +152,7 @@ const routes = [
 
     {
         path: '/tournament', component: LayoutTournament,
-        meta: { requiresAuth: true },
+        meta: { requiresAuth: true },   
         children: [
             {
                 path: 'tournaments_summary_details',
@@ -178,6 +179,12 @@ const routes = [
                 component: PitchCapacity,
                 name: 'pitch_capacity'
             },            
+            // {
+            //     path: '/pitch',
+            //     component: PitchCapacity,
+            //     name: 'pitch'
+            // },            
+            
         ]
     },
     {

@@ -18,7 +18,7 @@ use JWTAuth;
  *
  * @Author Kparikh@aecordigital.com
  */
-class PitchController extends BaseController
+class PitchController extends Controller
 {
     public function __construct(PitchContract $pitchObj)
     {
@@ -36,9 +36,9 @@ class PitchController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getPitches()
+    public function getPitches($tournamentId)
     {
-        return $this->pitchObj->getAllPitches();
+        return $this->pitchObj->getAllPitches($tournamentId);
     }
 
     /**
@@ -51,6 +51,9 @@ class PitchController extends BaseController
      */
     public function createPitch(Request $request)
     {
+        // dd($request->all());
+        // return "Hello";
+        
         return $this->pitchObj->createPitch($request);
     }
 
