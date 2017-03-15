@@ -33,8 +33,10 @@
 </template>
 
 <script type="text/babel">
+
 import SummaryTab from '../../../components/SummaryTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
+
 export default {
     data() {
        return {

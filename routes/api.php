@@ -46,7 +46,7 @@ $api->version('v1', function ($api) {
     $api->post('match/delete/{deleteid}', 'Laraspace\Api\Controllers\MatchController@deleteMatch');
 
     //MatchResult api
-    $api->get('pitches', 'Laraspace\Api\Controllers\PitchController@getPitches');
+    $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');
     $api->post('pitch/edit/{id}', 'Laraspace\Api\Controllers\PitchController@edit');
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch');
@@ -57,9 +57,12 @@ $api->version('v1', function ($api) {
     $api->post('age_group/create', 'Laraspace\Api\Controllers\AgeGroupController@create');
     $api->post('age_group/edit/{id}', 'Laraspace\Api\Controllers\AgeGroupController@edit');
     $api->post('age_group/delete/{deleteid}', 'Laraspace\Api\Controllers\AgeGroupController@delete');
+    $api->post('age_group/createCompetationFomat','Laraspace\Api\Controllers\AgeGroupController@createCompetationFomat');
+    $api->post('age_group/getCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat');
 
     //Tournament Api CRUD Routes
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
+    $api->get('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates');
     $api->post('tournament/create', 'Laraspace\Api\Controllers\TournamentController@create');
     $api->post('tournament/edit/{id}', 'Laraspace\Api\Controllers\TournamentController@edit');
     $api->post('tournament/delete/{id}', 'Laraspace\Api\Controllers\TournamentController@delete');
@@ -76,4 +79,5 @@ $api->version('v1', function ($api) {
     $api->get('roles', 'Laraspace\Api\Controllers\RoleController@getRoles');
     $api->get('roles-for-select', 'Laraspace\Api\Controllers\RoleController@getRolesForSelect');
 });
+
 
