@@ -1,10 +1,14 @@
 <template>
-<div>
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#">Welcome</a></li>
-		<li class="breadcrumb-item"><a href="#">{{TournamentName}}</a></li>
-		<li class="breadcrumb-item active">{{currentPage}}</li>
-	</ol>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="page-header">
+      <ol class="breadcrumb">
+        <li><a href="#">Welcome</a></li>
+        <li><a href="#">{{TournamentName}}</a></li>
+        <li class="active"><span>{{currentPage}}</span></li>
+      </ol>
+    </div>
+  </div>
 </div>
 </template>
 <script>

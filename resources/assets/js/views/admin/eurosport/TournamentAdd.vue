@@ -5,98 +5,103 @@
             <div class="card-block">
                 <h6><strong>Tournament information</strong></h6>
                 <form name="tournamentName" enctype="multipart/form-data">
-                    <div class="form-group row" :class="{'has-error': errors.has('tournament.name') }">
-                        <label class="col-sm-2 form-control-label">Tournament name *</label>
-
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"
-                             v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
-                              <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('tournament_name')">Tournament Name Required</span>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group" :class="{'has-error': errors.has('tournament.name') }">
+                            <label>Tournament name *</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"
+                                 v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
+                            </div>
+                            <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
+                            <span class="help is-danger" v-show="errors.has('tournament_name')">Tournament Name Required</span>
                         </div>
+                      </div>
                     </div>
-                    <div class="form-group row">
-                    	<label class="col-sm-2 form-control-label">Tournament start date *</label>
-
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
-                                <input type="text" class="form-control ls-datepicker" 
-                                 id="tournament_start_date">
-                            </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="tournament_end_date">Tournament start date *</label>
+                          <div class="input-group">
+                              <span class="input-group-addon">
+                                  <i class="fa fa-calendar"></i>
+                              </span>
+                              <input type="text" class="form-control ls-datepicker" 
+                               id="tournament_start_date">
+                          </div>
                         </div>
-                        <label class="col-sm-2 form-control-label">Tournament end date *</label>
-
-                        <div class="col-sm-4">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
-                                <input type="text" class="form-control ls-datepicker" 
-                                 id="tournament_end_date">
-                            </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="tournament_end_date">Tournament end date *</label>
+                          <div class="input-group">
+                              <span class="input-group-addon">
+                                  <i class="fa fa-calendar"></i>
+                              </span>
+                              <input type="text" class="form-control ls-datepicker" 
+                               id="tournament_end_date">
+                          </div>
                         </div>
+                      </div>
                     </div>
                     <div class="panel-group optional_details" id="accordion" role="tablist" aria-multiselectable="true">
                     	<div class="panel panel-default">
-                    		<div class="panel-heading col-md-3 padding0" role="tab" id="headingOne">
-                                <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                   aria-expanded="true" aria-controls="collapseOne">
-                                    <i class="fa fa-plus"></i> Show Optional Details
-                                </a>
+                        <div class="row">
+                      		<div class="panel-heading col-md-12" role="tab" id="headingOne">
+                            <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                               aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-plus"></i> Show Optional Details
+                            </a>
+                          </div>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse panel-content in" role="tabpanel"
+                            aria-labelledby="headingOne">
+                            <div class="form-inline">
+                            	<div class="form-group col-md-12 padding0">
+		                            <div class="col-md-6 padding0">
+		                            	<div class="form-group row">
+			                                <label class="col-md-4 control-label">Website</label>
+			                                <input type="text" class="col-md-7 form-control" placeholder="Enter Website" v-model="tournament.website">
+			                            </div>
+			                            <div class="form-group row">
+			                                <label class="col-md-4 control-label">Facebook</label>
+			                                <input type="text" class="col-md-7 form-control" 
+                                      v-model="tournament.facebook"
+                                      placeholder="Enter facebook">
+			                            </div>
+			                            <div class="form-group row">
+			                                <label class="col-md-4 control-label">Twitter</label>
+			                                <input type="text" 
+                                      v-model="tournament.twitter"
+                                      class="col-md-7 
+                                      form-control" placeholder="Enter Twitter"
+                                      >
+			                            </div>
+		                            </div>
+		                            <div class="col-md-6 padding0">
+		                            	<div class="form-group row">
+			                                <label class="col-md-4 control-label">Tournament logo</label>
+			                                <div class="pull-right">
+                                          <div v-if="!image">
+                                              <input type="file" @change="onFileChange">
+                                              <p class="help-block">Maximum size of 1 MB.</p>
+                                          </div>
+                                           <div v-else>
+                                          <img :src="image" width="40px" height="50px"/>
+                                          <button @click="removeImage">Remove image</button>
+                                          </div>
+                                      </div>
+			                            </div>
+			                            <div class="form-group row">
+			                                <label class="col-md-4 control-label">Sponsor banner</label>
+			                                <div class="pull-right">
+                                          <input type="file" value="Upload">
+                                          <p class="help-block">Maximum size of 1 MB.</p>
+                                      </div>
+			                            </div>
+		                            </div>
+		                        </div>
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse panel-content in" role="tabpanel"
-                                aria-labelledby="headingOne">
-                                <div class="form-inline">
-                                	<div class="form-group col-md-12 padding0">
-    		                            <div class="col-md-6 padding0">
-    		                            	<div class="form-group row">
-    			                                <label class="col-md-4 control-label">Website</label>
-    			                                <input type="text" class="col-md-7 form-control" placeholder="Enter Website" v-model="tournament.website">
-    			                            </div>
-    			                            <div class="form-group row">
-    			                                <label class="col-md-4 control-label">Facebook</label>
-    			                                <input type="text" class="col-md-7 form-control" 
-                                          v-model="tournament.facebook"
-                                          placeholder="Enter facebook">
-    			                            </div>
-    			                            <div class="form-group row">
-    			                                <label class="col-md-4 control-label">Twitter</label>
-    			                                <input type="text" 
-                                          v-model="tournament.twitter"
-                                          class="col-md-7 
-                                          form-control" placeholder="Enter Twitter"
-                                          >
-    			                            </div>
-    		                            </div>
-    		                            <div class="col-md-6 padding0">
-    		                            	<div class="form-group row">
-    			                                <label class="col-md-4 control-label">Tournament logo</label>
-    			                                <div class="pull-right">
-                                                    <div v-if="!image">
-                                                        <input type="file" class="form-control-file" @change="onFileChange">
-                                                        <small class="text-muted">Maximum size of 1 MB.</small>
-                                                    </div>
-                                                     <div v-else>
-                                                    <img :src="image" width="40px" height="50px"/>
-                                                    <button @click="removeImage">Remove image</button>
-                                                    </div>
-                                                </div>
-    			                            </div>
-    			                            <div class="form-group row">
-    			                                <label class="col-md-4 control-label">Sponsor banner</label>
-    			                                <div class="pull-right">
-                                                        <input type="file" value="Upload" 
-                                                        class="form-control-file">
-                                                        <small class="text-muted">Maximum size of 1 MB.</small>
-                                                </div>
-    			                            </div>
-    		                            </div>
-    		                        </div>
-                                </div>
-                            </div>
+                        </div>
                     	</div>
                     </div>
                     <div class="">
@@ -209,10 +214,10 @@
     <div class="row">
       <div class="col-md-12">
         <div class="pull-left">
-          <button class="btn btn-outline-secondary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>  Home</button>
+          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>  Home</button>
         </div>
         <div class="pull-right">
-          <button class="btn btn-outline-secondary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>  Next</button>
+          <button class="btn btn-primary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>  Next</button>
         </div>
       </div>
     </div>     

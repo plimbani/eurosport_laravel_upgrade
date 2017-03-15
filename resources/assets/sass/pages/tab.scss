@@ -206,8 +206,8 @@ button, input, optgroup, select, textarea {
 	margin-right: 5px;
 }
 .add-category-table {
-	height: 250px;
-	overflow-y: scroll;
+	max-height: 250px;
+	// overflow-y: scroll;
 }
 
 /****************************

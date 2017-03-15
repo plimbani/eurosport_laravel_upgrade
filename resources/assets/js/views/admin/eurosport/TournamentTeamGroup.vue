@@ -20,50 +20,58 @@
                     </div>
                 </div>
   			</form>
-  			<div class="age-category row">
-  				<ul class="category-list">
-  					<li>
-  						<div>
-  							<h6>GROUP A</h6>
-  							<p>Barmstedt BV</p>
-  							<p>A2</p>
-  							<p>A3</p>
-  							<p>A4</p>
+  			<div class="age-category">
+  				<div class="d-flex justify-content-center align-items-center">
+  					<div class="col-sm-3">
+  						<div class="m_card hoverable">
+                <div class="card-content">
+    							  <span class="card-title">GROUP A</span>
+      							<p>Barmstedt BV</p>
+      							<p>A2</p>
+      							<p>A3</p>
+      							<p>A4</p>
+                  </div>
   						</div>
-  					</li>
-  					<li>
-  						<div>
-  							<h6>GROUP B</h6>
-  							<p>Barmstedt BV</p>
-  							<p>A2</p>
-  							<p>A3</p>
-  							<p>A4</p>
+  					</div>
+  					<div class="col-sm-3">
+  						<div class="m_card hoverable">
+                <div class="card-content">
+    							  <span class="card-title">GROUP B</span>
+      							<p>Barmstedt BV</p>
+      							<p>A2</p>
+      							<p>A3</p>
+      							<p>A4</p>
+                  </div>
   						</div>
-  					</li>
-  					<li>
-  						<div>
-  							<h6>GROUP C</h6>
-  							<p>Barmstedt BV</p>
-  							<p>A2</p>
-  							<p>A3</p>
-  							<p>A4</p>
+  					</div>
+  					<div class="col-sm-3">
+  						<div class="m_card hoverable">
+                <div class="card-content">
+    							  <span class="card-title">GROUP C</span>
+      							<p>Barmstedt BV</p>
+      							<p>A2</p>
+      							<p>A3</p>
+      							<p>A4</p>
+                  </div>
   						</div>
-  					</li>
-  					<li>
-  						<div>
-  							<h6>GROUP D</h6>
-  							<p>Barmstedt BV</p>
-  							<p>A2</p>
-  							<p>A3</p>
-  							<p>A4</p>
+  					</div>
+  					<div class="col-sm-3">
+  						<div class="m_card hoverable">
+                <div class="card-content">
+    							  <span class="card-title">GROUP D</span>
+      							<p>Barmstedt BV</p>
+      							<p>A2</p>
+      							<p>A3</p>
+      							<p>A4</p>
+                  </div>
   						</div>
-  					</li>
-  				</ul>
+  					</div>
+  				</div>
   			</div>
   			<div class="clearfix">
   				<div class="pull-left">
-	  				<h6 class="mt-4"><strong>Team list</strong></h6>
-	  				<button type="button" class="btn btn-outline-primary">Upload teams</button>
+	  				<div class="mt-4"><strong>Team list</strong></div>
+	  				<button type="button" class="btn btn-primary">Upload teams</button>
 	  			</div>
 	  			<div class="pull-right mt-4">
 	  				<form class="form-inline filter-category-form">
@@ -253,7 +261,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type="button" class="btn btn-outline-primary pull-right">Update Groups</button>
+                    <button type="button" class="btn btn-primary pull-right">Update Groups</button>
   				</div>
   			</div>
   		</div>

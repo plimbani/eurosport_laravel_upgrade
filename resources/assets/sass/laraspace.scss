@@ -32,6 +32,9 @@
 @import 'skins/skin-lannister';
 @import 'skins/skin-stark';
 
+// Color
+@import 'components/colors';
+
 // Content Styles
 @import 'base';
 
@@ -47,6 +50,7 @@
 
 // Components
 @import 'components/forms';
+@import 'components/euro-checkbox';
 @import 'components/buttons';
 @import 'components/cards';
 @import 'components/tabs';
