@@ -36,7 +36,8 @@
               			<li class="text-left">Publish!</li>
               		</ol>
               	</div>
-                <button class="btn btn-primary col-sm-8 btn-theme">Add a new User</button>
+                <button class="btn btn-primary col-sm-8 btn-theme" 
+                @click="userList">Add a new User</button>
                 <br>
               </form>
             <a href="" class="text-left">See tournament administrator view</a>                       
@@ -63,6 +64,9 @@ export default {
       let tournamentAdd  = {name:'Your Tournament', 'currentPage':'TournamentAdd'}        
       this.$store.dispatch('SetTournamentName', tournamentAdd)      
       this.$router.push({name: 'tournament_add'})      
+    },
+    userList() {      
+      this.$router.push({ name: 'users_create'})
     }
   }
 }

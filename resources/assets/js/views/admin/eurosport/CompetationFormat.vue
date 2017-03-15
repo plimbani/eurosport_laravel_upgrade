@@ -32,17 +32,16 @@
 <script type="text/babel">
 import AddAgeCateogryModel from '../../../components/AddAgeCategoryModal.vue'
 import CompetationFormatList from '../../../components/CompetationFormatList.vue'
-export default {	
+export default {	  
   components: {
       AddAgeCateogryModel, CompetationFormatList
   },
   methods: {
     next() {
-        // Here First we set The template Value and Some value In State        
-        this.$router.push({name: 'tournament_add'})   
+      this.$root.$emit('setTemplate')
     },
     backward() {
-     this.$router.push({name: 'tournament_add'})   
+     // this.$router.push({name: 'tournament_add'})   
     }
   }
 }

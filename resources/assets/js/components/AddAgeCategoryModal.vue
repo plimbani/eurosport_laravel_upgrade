@@ -123,7 +123,7 @@ export default {
         this.options = response.data.data
       },
       (error) => {
-         console.log('Error occured during Tournament api ', error)
+         console.log('Error occured during Tournament Templates api ', error)
       }
       )
     },

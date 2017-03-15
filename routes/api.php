@@ -62,7 +62,12 @@ $api->version('v1', function ($api) {
 
     //Tournament Api CRUD Routes
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
+
+    // Get All Templates 
     $api->get('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates');
+
+    $api->post('tournaments/getTemplate', 'Laraspace\Api\Controllers\TournamentController@getTemplate');
+    
     $api->post('tournament/create', 'Laraspace\Api\Controllers\TournamentController@create');
     $api->post('tournament/edit/{id}', 'Laraspace\Api\Controllers\TournamentController@edit');
     $api->post('tournament/delete/{id}', 'Laraspace\Api\Controllers\TournamentController@delete');
