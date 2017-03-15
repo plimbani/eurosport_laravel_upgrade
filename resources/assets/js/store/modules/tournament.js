@@ -8,7 +8,8 @@ const state = {
  tournamentName: 'Welcome',
   currentPage: '',
   tournamentId: '',
-  currentTemplate: ''
+  currentTemplate: '',
+  currentTotalTime: ''
 }
 // getters
 const getters = {
@@ -19,11 +20,12 @@ const actions = {
   SetTournamentName ({commit}, tournamentName) {  
     commit(types.CURRENT_TOURNAMENT, tournamentName)
   },
-  SetTemplate ({commit}, tournamentId) { 
-    Tournament.getTemplate(tournamentId).then (
+  SetTemplate ({commit}, tournamentData) { 
+
+    Tournament.getTemplate(tournamentData).then (
       (response) => {
-        console.log(response.data)
-        commit(types.SET_TEMPLATE, response.data.data)
+        let TournamentRespData = {'json': response.data.data , 'TotalTime': tournamentData.totalTime}
+        commit(types.SET_TEMPLATE, TournamentRespData)
       },
       (error) => {
         console.log('Error occured during Set Template Fomat api ', error)
@@ -91,14 +93,9 @@ const mutations = {
     // state.currentPage = 'Competation Formats'
   },
    [types.SET_TEMPLATE] (state, templateData) {        
-    state.currentTemplate = templateData;
-    // alert('hello in mutation')
-    // state.templateData = competationFormatData.tournamentTemplate
-    // state.tournamentId = tournamentData.id
-    // state.currentPage = 'Competation Formats'
-  },
-  
-     
+    state.currentTemplate = templateData.json;
+    state.currentTotalTime = templateData.TotalTime;
+  }  
 }
 
 export default {

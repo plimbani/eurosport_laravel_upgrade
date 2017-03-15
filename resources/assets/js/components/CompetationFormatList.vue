@@ -17,15 +17,16 @@
               <div class="radio">
                   <label>
                       <input type="radio"                       
-                      name="competationFormatTemplate"
-                      :value="competation.tournament_template_id"
+                      name="competationFormatTemplate"                      
+                      :value="index"
                              checked>
                       {{competation.disp_format_name}}
                   </label>
               </div>
           </td>
           <td class="table-success">{{competation.total_match}}</td>
-          <td class="table-success">{{competation.total_time}}</td>
+          <td class="table-success">{{competation.total_time | formatTime}}          
+          </td>
           <td class="table-success">
               <a href="#">View</a>
           </td>
@@ -42,7 +43,8 @@ import Tournament from '../api/tournament.js'
 export default {  
   data() {
   	return {
-     competationList : {}, TournamentId: 0, competation_id: ''
+     competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
+     tournamentTemplateId: '', totalTime:''
     }
   },
 
@@ -54,8 +56,8 @@ export default {
   	if (!isNaN(this.TournamentId)) {
   		Tournament.getCompetationFormat(this.TournamentId).then(
       (response) => {          
-        this.competationList = response.data.data  
-        console.log(this.competationList);
+        this.competationList = response.data.data         
+        // console.log(this.competationList);
       },
       (error) => {
          console.log('Error occured during Tournament api ', error)
@@ -65,11 +67,25 @@ export default {
       this.TournamentId = 0;
     }
   },
+   filters: {
+    formatTime: function(time) {
+      var hours = Math.floor( time / 60); 
+      var minutes = Math.floor(time % 60);
+
+      return hours+ ' Hours And '+minutes+' Minutes'
+    }
+  },
   methods: {
+    
     next() {
-      let tournamentTemplateId = $('input[name=competationFormatTemplate]:checked').val()
+      
+      let index = $('input[name=competationFormatTemplate]:checked').val()
+      let tournamentTemplateId =  this.competationList[index].tournament_template_id
+      let tournamentTotalTime =  this.competationList[index].total_time      
+      let tournamentData  = {'tournamentTemplateId' : tournamentTemplateId,
+       'totalTime':tournamentTotalTime} 
       // Now here we set the template for it
-      this.$store.dispatch('SetTemplate', tournamentTemplateId);
+      this.$store.dispatch('SetTemplate', tournamentData);
       this.$router.push({name: 'pitch_capacity'});
     }
   },
