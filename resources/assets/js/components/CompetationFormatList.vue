@@ -1,5 +1,5 @@
 <template>
- <table class="table add-category-table">
+ <table class="table table-hover table-striped table-bordered add-category-table">
   <thead>
       <tr>
           <th>Age category</th>
@@ -11,13 +11,14 @@
       </tr>
   </thead>
   <tbody>      
-      <tr v-for="competation in competationList">
+      <tr v-for="(competation, index) in competationList">
           <td>Age Category</td>
           <td class="table-success">
               <div class="radio">
                   <label>
                       <input type="radio"                       
-                      name="exampleRadios" :value="competation.id"
+                      name="competationFormatTemplate"
+                      :value="competation.tournament_template_id"
                              checked>
                       {{competation.disp_format_name}}
                   </label>
@@ -38,7 +39,7 @@
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
-export default {
+export default {  
   data() {
   	return {
      competationList : {}, TournamentId: 0, competation_id: ''
@@ -63,6 +64,18 @@ export default {
   	} else {
       this.TournamentId = 0;
     }
+  },
+  methods: {
+    next() {
+      let tournamentTemplateId = $('input[name=competationFormatTemplate]:checked').val()
+      // Now here we set the template for it
+      this.$store.dispatch('SetTemplate', tournamentTemplateId);
+      this.$router.push({name: 'pitch_capacity'});
+    }
+  },
+  created: function() {
+    // We listen for the event on the eventHub    
+    this.$root.$on('setTemplate', this.next);
   }
 }
 </script>

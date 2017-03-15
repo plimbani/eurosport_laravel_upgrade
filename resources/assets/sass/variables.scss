@@ -9,7 +9,7 @@
 $ls-color-yellow: #ffde00;
 $ls-color-black: #333;
 $ls-color-black--light: #55595c;
-$ls-color-blue: #007dcc;
+$ls-color-blue: #2196F3;
 $ls-color-green: #4fc47f;
 $ls-color-red: #f35a3d;
 $ls-color-gray--light: #f8f8f8;
@@ -52,7 +52,7 @@ $btn-secondary-border:           $ls-color-black !default;
 /* Add change for Set Primary Color */
 // OC: $ls-color-primary : $ls-color-yellow;
 // PC: $ls-color-primary : $ls-color-green--dark;
-$ls-color-primary : $ls-color-orange-button;
+$ls-color-primary : $brand-primary;
 $ls-color-secondary : $ls-color-black;
 
 //HEADER SECTION

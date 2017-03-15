@@ -54,6 +54,24 @@ class TournamentService implements TournamentContract
         return ['status_code' => '505', 'message' => self::ERROR_MSG];
     }
 
+    /*
+     * Get Json Data For Template
+     *
+     * @param  array $api_key,$state,$type
+     * @return response
+     */
+    public function getTemplate($data)
+    {
+        // Here we send Status Code and Messages        
+        $data = $data['tournamentTemplateId'];
+        $data = $this->tournamentRepoObj->getTemplate($data);        
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
+        }
+
+        return ['status_code' => '505', 'message' => self::ERROR_MSG];
+    }
+
     /**
      * create New Tournament.
      *

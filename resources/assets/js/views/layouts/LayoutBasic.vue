@@ -1,5 +1,5 @@
 <template>
-    <div class="template-container">
+    <div class="container template-container">
         <site-header></site-header>
         <transition name="fade" mode="out-in">
             <router-view></router-view>

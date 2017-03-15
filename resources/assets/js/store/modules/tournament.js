@@ -7,7 +7,8 @@ import Tournament from '../../api/tournament'
 const state = {
  tournamentName: 'Welcome',
   currentPage: '',
-  tournamentId: ''
+  tournamentId: '',
+  currentTemplate: ''
 }
 // getters
 const getters = {
@@ -18,6 +19,17 @@ const actions = {
   SetTournamentName ({commit}, tournamentName) {  
     commit(types.CURRENT_TOURNAMENT, tournamentName)
   },
+  SetTemplate ({commit}, tournamentId) { 
+    Tournament.getTemplate(tournamentId).then (
+      (response) => {
+        console.log(response.data)
+        commit(types.SET_TEMPLATE, response.data.data)
+      },
+      (error) => {
+        console.log('Error occured during Set Template Fomat api ', error)
+      }
+    )
+  },  
   SaveCompeationFormatDetails  ({commit}, competationFormatData) { 
     
     Tournament.saveCompetationFormat(competationFormatData).then(
@@ -78,6 +90,14 @@ const mutations = {
     // state.tournamentId = tournamentData.id
     // state.currentPage = 'Competation Formats'
   },
+   [types.SET_TEMPLATE] (state, templateData) {        
+    state.currentTemplate = templateData;
+    // alert('hello in mutation')
+    // state.templateData = competationFormatData.tournamentTemplate
+    // state.tournamentId = tournamentData.id
+    // state.currentPage = 'Competation Formats'
+  },
+  
      
 }
 

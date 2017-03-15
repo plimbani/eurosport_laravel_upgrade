@@ -1,5 +1,5 @@
 <template>
-	<select class="form-control ls-select2 col-sm-8 offset-2" v-on:change="onChange"
+	<select class="form-control ls-select2 col-sm-8 offset-sm-2" v-on:change="onChange"
 	v-model="tournament">
 		<option value="">Select an existing edition</option>
 		<option value="">--------------</option>
