@@ -27,6 +27,8 @@ class PitchRepository
             'type' => $pitchData['pitch_type'],
             'venue_id' => $pitchData['location'],
             'size' => $pitchData['pitch_size'],
+            'pitch_capacity' => $pitchData['pitchCapacity'],
+            
         ]);
     }
 

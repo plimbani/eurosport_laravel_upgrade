@@ -20,10 +20,10 @@
 }(function ($) {
 	var _ONE_DAY = 86400;
 	var _lang = {
-		am: 'am',
-		pm: 'pm',
-		AM: 'AM',
-		PM: 'PM',
+		am: ' am',
+		pm: ' pm',
+		AM: ' AM',
+		PM: ' PM',
 		decimal: '.',
 		mins: 'mins',
 		hr: 'hr',

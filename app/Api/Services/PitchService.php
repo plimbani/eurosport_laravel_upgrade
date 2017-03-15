@@ -38,9 +38,10 @@ class PitchService implements PitchContract
 
         if($pitchdata){
             $data1 = $this->pitchAvailableRepoObj->createPitch($dataArr, $pitchdata->id);
+           
         }
         if ($data1) {
-            return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
+            return ['code' => '200','pitchId'=>$pitchdata->id, 'message' => 'Data Sucessfully Inserted'];
         }  
     }
 

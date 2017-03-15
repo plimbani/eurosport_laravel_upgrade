@@ -22,7 +22,7 @@ class PitchAvailableRepository
         // dd($pitchData);
         for($i=1;$i<=$pitchData['stage'];$i++) {
             // dd(isset($pitchData['stage_start_time'.$i]));
-            if(isset($pitchData['stage_start_date'.$i]) ) {
+            if(isset($pitchData['stage_start_date'.$i]) && isset($pitchData['stage_start_time'.$i])  ) {
                 PitchAvailable::create([
                     'tournament_id' => $pitchData['tournamentId'],
                     'pitch_id' => $pitchId,

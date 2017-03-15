@@ -1,7 +1,6 @@
 <template>
     <div class="template-container">
         <site-header></site-header>
-        <site-sidebar type="basic"></site-sidebar>
         <transition name="fade" mode="out-in">
             <router-view></router-view>
         </transition>
