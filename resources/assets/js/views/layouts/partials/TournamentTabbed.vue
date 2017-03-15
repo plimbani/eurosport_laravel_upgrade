@@ -55,12 +55,19 @@ export default {
 	},
 	methods: {
 		GetSelectComponent(componentName) {
-			// here we check for Tournament Add			
-			if(componentName == 'tournament_add' && this.$store.state.Tournament.tournamentId != 'undefined') {
-				// here we check if tournamnetId is Set then Redirect to view page
-				alert('view')
-			}			
+			// here we check for Tournament Add			  
+
 			this.$router.push({name: componentName})
+			setTimeout( function(){
+				if ($(document).height() > $(window).height()) {
+                    $('.site-footer').removeClass('sticky');    
+                } else {
+                   $('.site-footer').addClass('sticky');
+                }
+			},2000 )
+            
+
+
 		}
 	},
 	computed: {
