@@ -68,7 +68,6 @@ export default {
   methods: {
     next() {
       let tournamentTemplateId = $('input[name=competationFormatTemplate]:checked').val()
-    
       // Now here we set the template for it
       this.$store.dispatch('SetTemplate', tournamentTemplateId);
       this.$router.push({name: 'pitch_capacity'});
