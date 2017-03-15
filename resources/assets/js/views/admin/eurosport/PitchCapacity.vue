@@ -31,7 +31,7 @@
                     </div>
                 </div>
             	<div class="mt-4">
-            		<button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add Pitch</button>
+            		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add Pitch</button>
             	</div>
             	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -440,7 +440,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 padding0">
-                                                    <button type="button" id="add_stage" class="btn btn-outline-secondary">Add Stage</button>
+                                                    <button type="button" id="add_stage" class="btn btn-primary">Add Stage</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -448,7 +448,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                                 <button type="button" class="btn btn-primary">Save</button>
                             </div>
                         </div>

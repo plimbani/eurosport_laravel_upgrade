@@ -138,8 +138,8 @@
                 position: relative;
                 color: #fff;
                 text-decoration: none;
-                background-color: color('blue','base');
-                border: 1px solid color('blue','base');
+                background-color: $ls-color-primary;
+                border: 1px solid $ls-color-primary;
             }
             &:first-child a {
                 padding-left: 10px;
@@ -164,30 +164,30 @@
                     border-bottom: 18px solid transparent;
                     right: -12px;
                     z-index: 3;
-                    border-left-color: color('blue','base');
+                    border-left-color: $ls-color-primary;
                     border-left-style: solid;
                     border-left-width: 11px;
                 }
                 &:after {
                     right: -13px;
                     z-index: 2;
-                    border-left: 12px solid color('blue','darken-3');
+                    border-left: 12px solid darken($ls-color-primary,20%);
                 }
                 &:focus,
                 &:hover {
-                    background-color: color('blue','darken-1');
-                    border: 1px solid color('blue','darken-1');
+                    background-color: darken($ls-color-primary,5%);
+                    border: 1px solid darken($ls-color-primary,5%);
                 }
                 &:focus:before,
                 &:hover:before {
-                    border-left-color: color('blue','darken-1');
+                    border-left-color: darken($ls-color-primary,5%);
                 }
                 &:active {
-                    background-color: color('blue','darken-1');
-                    border: 1px solid color('blue','darken-1');
+                    background-color: darken($ls-color-primary,5%);
+                    border: 1px solid darken($ls-color-primary,5%);
                     &:after,
                     &:before {
-                        border-left-color: color('blue','darken-1');
+                        border-left-color: darken($ls-color-primary,5%);
                     }
                 }
             }

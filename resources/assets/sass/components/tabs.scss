@@ -7,44 +7,44 @@
 .tabs-default {
 
     .nav-link.active {
-        background-color: color('blue','base');
+        background-color: $ls-color-primary;
         color: $ls-color-primary;
-        border-bottom: 1px solid color('blue','base');
+        border-bottom: 1px solid $ls-color-primary;
 
         &:hover, &:active, &:focus {
-            background-color: color('blue','base');
+            background-color: $ls-color-primary;
             color: $ls-color-primary;
         }
     }
 
     .nav-link:hover {
-        border: 1px solid color('blue','base');
+        border: 1px solid $ls-color-primary;
     }
 
     .nav-tabs {
-        border-bottom: 1px solid color('blue','base');
+        border-bottom: 1px solid $ls-color-primary;
     }
 }
 
 .tabs-primary {
 
     .nav-link.active {
-        background-color: color('blue','base');
+        background-color: $ls-color-primary;
         color: $white;
-        border-bottom: 1px solid color('blue','base');
+        border-bottom: 1px solid $ls-color-primary;
 
         &:hover, &:active, &:focus {
-            background-color: color('blue','base');
+            background-color: $ls-color-primary;
             color: $white;
         }
     }
 
     .nav-link:hover {
-        border: 1px solid color('blue','base');
+        border: 1px solid $ls-color-primary;
     }
 
     .nav-tabs {
-        border-bottom: 1px solid color('blue','base');
+        border-bottom: 1px solid $ls-color-primary;
     }
 }
 
@@ -82,7 +82,7 @@
 
     .nav-tabs {
         float: left;
-        border-right: 1px solid color('blue','base');
+        border-right: 1px solid $ls-color-primary;
         border-bottom: none;
         overflow: hidden;
         margin-right: 1.2rem;
@@ -100,19 +100,19 @@
             margin-bottom: .2rem;
             background-color: $white;
             border-color: transparent;
-            border-right-color: color('blue','base');
+            border-right-color: $ls-color-primary;
 
             &:hover, &:active, &:focus {
                 background-color: $white;
-                border-color: color('blue','base');
+                border-color: $ls-color-primary;
             }
 
             &.active {
-                background-color: color('blue','base');
+                background-color: $ls-color-primary;
                 color: $ls-color-primary;
 
                 &:hover, &:active, &:focus {
-                    background-color: color('blue','base');
+                    background-color: $ls-color-primary;
                     color: $ls-color-primary;
                 }
             }
@@ -120,22 +120,22 @@
     }
 
     &.tabs-primary .nav-tabs {
-        border-right: 1px solid color('blue','base');
+        border-right: 1px solid $ls-color-primary;
 
         li a {
-            border-right-color: color('blue','base');
+            border-right-color: $ls-color-primary;
 
             &:hover, &:active, &:focus {
                 background-color: $white;
-                border-color: color('blue','base');
+                border-color: $ls-color-primary;
             }
 
             &.active {
-                background-color: color('blue','base');
+                background-color: $ls-color-primary;
                 color: $white;
 
                 &:hover, &:active, &:focus {
-                    background-color: color('blue','base');
+                    background-color: $ls-color-primary;
                     color: $white;
                 }
             }
