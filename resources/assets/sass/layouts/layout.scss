@@ -78,7 +78,8 @@
 
 .layout-default .main-content,
 .layout-icon-sidebar .main-content {
-    padding: 90px 15px 10px 255px;
+    // padding: 90px 15px 10px 255px;
+    padding-top: 85px;
     min-height: calc(100% - 39px);
 }
 
@@ -87,7 +88,13 @@
     color: #818a91;
     font-size: 13px;
     font-weight: normal;
+    min-height: 60px;
     // padding: 10px 15px 10px 255px;
+    &.sticky {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
     a {
         color: $ls-color-black--light;
     }

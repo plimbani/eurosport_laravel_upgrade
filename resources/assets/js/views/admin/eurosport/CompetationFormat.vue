@@ -4,8 +4,9 @@
             <div class="card-block">
                 <h6 class="mt4"><strong>Age categories</strong></h6>            	
                 <div class="row">
-                <div class="col-md-12">                       
-                    <competationFormatList></competationFormatList>
+                    <div class="col-md-12">                       
+                        <competationFormatList></competationFormatList>
+                    </div>
                 </div>
             	<div class="row">
                     <div class="col-md-12">
@@ -16,15 +17,15 @@
             </div>
 		</div>	
         <div class="row">
-      <div class="col-md-12">
-        <div class="pull-left">
-          <button class="btn btn-outline-secondary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>  Back</button>
+            <div class="col-md-12">
+                <div class="pull-left">
+                    <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>  Back</button>
+                </div>
+                <div class="pull-right">
+                  <button class="btn btn-primary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>  Next</button>
+                </div>
+            </div>
         </div>
-        <div class="pull-right">
-          <button class="btn btn-outline-secondary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>  Next</button>
-        </div>
-      </div>
-    </div>
 	</div>
 </template>
 

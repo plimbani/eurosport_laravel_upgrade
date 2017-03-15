@@ -1,7 +1,7 @@
 <template>    
-    <footer class="site-footer col-sm-12">
-        <div class="text-center">
-            Copyright 2016-17 Euro-Sportring. All rights reserved.
+    <footer class="site-footer d-flex justify-content-center">
+        <div class="align-self-center">
+                Copyright 2016-17 Euro-Sportring. All rights reserved.
         </div>
     </footer>
 </template>
