@@ -34,11 +34,11 @@
 
 <script type="text/babel">
 
-export default {
-
 import SummaryTab from '../../../components/SummaryTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
+
 export default {
+
     data() {
        return {
          currentView:'summaryTab'

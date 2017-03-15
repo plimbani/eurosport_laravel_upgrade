@@ -267,6 +267,7 @@
                 
             }
             let disableDate = this.disableDate;
+            console.log(disableDate)
             this.stage_date.push(obj)
             $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
             this.stage_capacity.push(capacity)
@@ -309,8 +310,7 @@
             $('.ls-datepicker').datepicker().on('changeDate',function(){
                 var stage = this.id
                stage = stage.replace("stage_start_date", "");
-                // this.disableDate.push( $('#stage_end_date'+i).val());
-               
+                
                console.log(that.disableDate,'tesr')
                 var index =  disableDate.indexOf($('#stage_end_date'+stage).val());
                 if (index > -1) {
@@ -322,7 +322,7 @@
                     // disableDate
                 }
 
-                that.disableDate.push( $('#'+this.id).val());
+                // that.disableDate.push( $('#'+this.id).val());
                 
                 $('.datestage'+stage).val($('#'+this.id).val())
             });
