@@ -1,5 +1,5 @@
 <template>
- <table class="table add-category-table">
+ <table class="table table-hover table-striped table-bordered add-category-table">
   <thead>
       <tr>
           <th>Age category</th>

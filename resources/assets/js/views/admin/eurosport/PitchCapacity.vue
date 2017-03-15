@@ -17,7 +17,7 @@
 
                 </div>
             	<div class="mt-4">
-            		<button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add Pitch</button>
+            		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add Pitch</button>
             	</div>
             	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -136,57 +136,51 @@
                                                             </div>
                                                         </div>
                                                     
-                                                    <div class="col-md-12 padding0">
-                                                        <div class="form-group">
+                                                        <div class="col-md-12 padding0">
+                                                            <div class="form-group">
 
-                                                            <label for="nameInput" class="control-label col-md-4">stage {{day}} continued</label>
-                                                            <div class="input-group col-md-4">
-                                                                <span class="input-group-addon">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                </span>
-                                                                <input type="text" :name="'stage_continue_date'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]">
-                                                            </div>
-                                                            <div class="input-group col-md-2">
-                                                                <input type="text" :name="'stage_continue_time'+day" :id="'stage_continue_time'+day" class="form-control ls-timepicker ">
-                                                                
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                &nbsp;
+                                                                <label for="nameInput" class="control-label col-md-4">stage {{day}} continued</label>
+                                                                <div class="input-group col-md-4">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </span>
+                                                                    <input type="text" :name="'stage_continue_date'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]">
+                                                                </div>
+                                                                <div class="input-group col-md-2">
+                                                                    <input type="text" :name="'stage_continue_time'+day" :id="'stage_continue_time'+day" class="form-control ls-timepicker ">
+                                                                    
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    &nbsp;
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12 padding0">
-                                                        <div class="form-group">
-                                                            <label for="nameInput" class="control-label col-md-4">Stage {{day}} end</label>
-                                                            <div class="input-group col-md-4">
-                                                                <span class="input-group-addon">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                </span>
-                                                                <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control  ls-datepicker datestage'+ day]">
-                                                            </div>
-                                                            <div class="input-group col-md-2">
-                                                                 <input :name="'stage_end_time'+day" :id="'stage_end_time'+day" type="text" class="form-control ls-timepicker">
-                                                               
-                                                            </div>
-                                                            <div class="col-md-1">
-                                                                <span :id="'stage_capacity_span'+day" >0.00</span>
-                                                                <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity'+day" value="0.00">
-                                                               
+                                                        <div class="col-md-12 padding0">
+                                                            <div class="form-group">
+                                                                <label for="nameInput" class="control-label col-md-4">Stage {{day}} end</label>
+                                                                <div class="input-group col-md-4">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </span>
+                                                                    <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control  ls-datepicker datestage'+ day]">
+                                                                </div>
+                                                                <div class="input-group col-md-2">
+                                                                     <input :name="'stage_end_time'+day" :id="'stage_end_time'+day" type="text" class="form-control ls-timepicker">
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    <span :id="'stage_capacity_span'+day" >0.00</span>
+                                                                    <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity'+day" value="0.00">
+                                                                   
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-12 padding0">
+                                                            <span @click="stageRemove(day)">X Delete stage</span>
+                                                        </div>
                                                     </div>
-                                                     <div class="col-md-12 padding0">
-                                                        <span @click="stageRemove(day)">X Delete stage</span>
-                                                    </div>
                                                 </div>
-                                                   
-                                                </div>
-
-                                                   <!--  </div>
-                                                </div>
-                                                </div> -->
                                                 <div class="col-md-12">
-                                                    <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-outline-secondary">Add Stage</button>
+                                                    <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">Add Stage</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -194,7 +188,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                                 <button type="button" class="btn btn-primary" @click="savePitchDetails()">Save</button>
                             </div>
                         </div>
