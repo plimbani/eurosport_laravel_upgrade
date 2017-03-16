@@ -42,6 +42,7 @@
 		  let id = this.tournament.id
 		  let tournamentSel  = {name:name, currentPage:'Competation Formats',id:id}       
     	  this.$store.dispatch('SetTournamentName', tournamentSel)
+    	  this.$store.dispatch('setActiveTab', 'competation_format')
     	  this.$router.push({name:'competation_format'})
 			// this.$store.dispatch('SetTournamentName','Your Tournament') 
 			// alert(this.option.name)

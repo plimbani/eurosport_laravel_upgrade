@@ -45,18 +45,15 @@ export default {
 	data() {
 		return {
 			'header' : 'header',
-			'activePath' :  'tournament_add'
+			'activePath' :  this.$store.state.activePath
 		}
 	},
-
-
 	mounted() {
 		// here we call function which select the active class
 	},
 	methods: {
 		GetSelectComponent(componentName) {
 			// here we check for Tournament Add			  
-
 			this.$router.push({name: componentName})
 			setTimeout( function(){
 				if ($(document).height() > $(window).height()) {
@@ -64,10 +61,7 @@ export default {
                 } else {
                    $('.site-footer').addClass('sticky');
                 }
-			},2000 )
-            
-
-
+			},2000 )            
 		}
 	},
 	computed: {

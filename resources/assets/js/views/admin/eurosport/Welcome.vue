@@ -1,5 +1,5 @@
 <template>
-	<div class="main-content container" id="dashboardPage">
+  <div class="main-content container" id="dashboardPage">
     <div class="row">
       <div class="col-md-12">
         <div class="alert alert-info alert-dismissible" role="alert">
@@ -13,15 +13,13 @@
           <div class="card-header">
             <h5 class="text-center"><strong>Manage Edition</strong></h5>
           </div>
-          <div class="card-block text-center">
-            <form>
+          <div class="card-block text-center">            
               <div class="form-group">
                 <tournamentDropDown></tournamentDropDown>              
               </div>
               <button class="btn btn-primary col-sm-8 btn-theme" 
               @click="addNewTournament()">
-              Add a new Tournament</button>
-            </form>
+              Add a new Tournament</button>            
           </div>
         </div>
       </div>
@@ -30,8 +28,7 @@
         <div class="card-header">
           <h5 class="text-center"><strong>Add a new Tournament</strong></h5>
         </div>
-        <div class="card-block text-center">
-          <form>
+        <div class="card-block text-center">          
             <div class="form-group">
               <ol class="col-sm-8 offset-sm-2">
                 <li class="text-left">Add your edtition details</li>
@@ -39,9 +36,8 @@
                 <li class="text-left">Publish!</li>
               </ol>
             </div>
-            <button class="btn btn-primary col-sm-8 btn-theme">Add a new User</button>
-            <br>
-          </form>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList">Add a new User</button>
+            <br>          
           <a href="" class="text-left">See tournament administrator view</a>
         </div>
       </div>
@@ -57,7 +53,7 @@ export default {
   },
   mounted() {
     // Here we set Default Value For Tournament
-    let tournamentAdd  = {name:'Welcome', 'currentPage':'Home'}        
+    let tournamentAdd  = {name:'', 'currentPage':'Home'}        
     this.$store.dispatch('SetTournamentName', tournamentAdd)
   },
   methods : {
@@ -68,7 +64,9 @@ export default {
       this.$router.push({name: 'tournament_add'})      
     },
     userList() {      
-      this.$router.push({ name: 'users_create'})
+      let tournamentAdd  = {name:'', 'currentPage':'Users'}        
+      this.$store.dispatch('SetTournamentName', tournamentAdd)
+      this.$router.push({ name: 'users_list', params: {registerType:'desktop'}})
     }
   }
 }
