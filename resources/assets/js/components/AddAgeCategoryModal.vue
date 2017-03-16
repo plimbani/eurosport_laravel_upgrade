@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
         <form name="ageCategoryName">
-          <div class="form-group row" :class="{'has-error': errors.has('ageCategory_name') }">
+          <div class="form-group row" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
               <label class="col-sm-5 form-control-label">Age category *</label>
               <div class="col-sm-6">
                   <input type="text" class="form-control" 
@@ -19,10 +19,12 @@
                                     <span class="help is-danger" v-show="errors.has('ageCategory_name')">Age Category is Required</span>
               </div>
           </div>
-          <div class="form-group row">
+          <div class="form-group row" >
               <label class="col-sm-5 form-control-label">Select templates *</label>
               <div class="col-sm-6">
-                  <select class="form-control ls-select2" v-on:change="selectTemplate"
+                  <select class="form-control ls-select2"
+                  name="tournamentTemplate"
+                  v-validate="'required'" :class="{'is-danger': errors.has('tournamentTemplate') }"
                   v-model="competation_format.tournamentTemplate">
                       <option value="">Select templates</option>
                       <option v-for="option in options" 
@@ -30,6 +32,9 @@
                      {{option.name}} 
                     </option>
                   </select>
+
+                  <span class="help is-danger" v-show="errors.has('tournamentTemplate')">Template is required.</span>
+
               </div>
           </div>
           <div class="form-group row">
@@ -59,13 +64,13 @@
           <div class="form-group row">
               <label class="col-sm-5 form-control-label">Half-time break RR/PM/EM *</label>
               <div class="col-sm-6">
-                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_RR">
+                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_RR" min="0">
               </div>
           </div>
           <div class="form-group row">
               <label class="col-sm-5 form-control-label">Half-time break Final *</label>
               <div class="col-sm-6">
-                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_FM">
+                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_FM" min="0">
               </div>
           </div>
           <div class="form-group row">
@@ -107,16 +112,38 @@ export default {
       competation_format: {
         ageCategory_name:'',game_duration_RR:'20',game_duration_FM:'20',
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:'',
-        tournament_id: this.$store.state.Tournament.tournamentId  
+        tournament_id: ''  
       },
       game_duration_stage: 2,
       options: []
     }
   },
-  mounted() {
+  mounted() {    
     this.TournamentCompetationList();   
   },
+  created: function() {
+    // We listen for the event on the eventHub    
+     this.$root.$on('setCompetationFormatData', function(id) {
+        // Now here We open The Age Category Model
+        let TournamentData = {'id': id}
+        Tournament.getCompetationFormat(TournamentData).then(
+          (response) => {       
+            this.competation_format = response.data.data[0]   
+            this.competation_format.ageCategory_name = this.competation_format.group_name;        
+           
+            this.$data.competation_format = this.competation_format;
+            
+            // console.log(this.competationList);
+          },
+          (error) => {
+             console.log('Error occured during Tournament api ', error)
+          }
+        )
+        $('#exampleModal').modal('show');
+     });
+  },
   methods: {
+
     TournamentCompetationList() {
       Tournament.getAllTournamentTemplate().then(
       (response) => {                    
@@ -128,14 +155,22 @@ export default {
       )
     },
     saveAgeCategory() {
-      // Now here we have to Save it Age Catgory      
+      // Now here we have to Save it Age Catgory   
+      
+      this.competation_format.tournament_id = this.$store.state.Tournament.tournamentId;
+      
       this.$validator.validateAll().then(
           (response) => {    
+            // Add tournament Id as well
+            
               Tournament.saveCompetationFormat(this.competation_format).then(
-                (response) => {                                
-                  if(response.data.status_code == 200) {                
-                    this.$router.push({name: 'competation_format'}) 
-                    $('#saveAge').attr('data-dismiss','modal')     
+                (response) => {      
+                console.log(response.data)
+                  if(response.data.status_code == 200) {    
+                  alert('hello in')            
+                    //this.$router.push({name: 'competation_format'}) 
+                    $('#saveAge').attr('data-dismiss','modal')  
+                    this.$root.$emit('displayCompetationList')   
                   } else {
                     alert('Error Occured')
                   }
@@ -154,10 +189,7 @@ export default {
           }
       ) 
       //this.$store.state.dispatch('saveAgeCategory', this.competation_format)
-    },
-    selectTemplate() {
-      //console.log(this.tournamentTemplate)
-    },    
+    }    
   }
 }
 </script>

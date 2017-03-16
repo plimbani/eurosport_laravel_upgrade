@@ -31,7 +31,8 @@
                     </div>
                 </li>
                 <li> <a href="#"> Help</a> </li>
-
+                <li><a href="#"  @click="$setLang('en')">English</a></li>
+                <li><a href="#"  @click="$setLang('fr')">French</a></li>
                 <!--
                 <li>
                     <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></a>

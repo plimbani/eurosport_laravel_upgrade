@@ -12,15 +12,15 @@
 								</li>					  		 
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
-									href="#home2" role="tab" @click="currentView='summaryReport'">Reports</a>
+									role="tab" @click="currentView='summaryReport'">Reports</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
-									href="#home2" role="tab" @click="GetSelectComponent('schedule_results')">Schedule and results</a>
+									role="tab" @click="currentView='scheduleResults'">Schedule and results</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
-									href="#home2" role="tab" @click="GetSelectComponent('messages')">Messages</a>
+									role="tab" @click="currentView='messages'">Messages</a>
 								</li>
 							</ul>
 							<component :is="currentView"> </component>
@@ -36,6 +36,8 @@
 
 import SummaryTab from '../../../components/SummaryTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
+import ScheduleResults from '../../../components/ScheduleResults.vue'
+import Messages from '../../../components/Messages.vue'
 
 export default {
 
@@ -45,7 +47,7 @@ export default {
        }
     },	
     components: {
-        SummaryTab, SummaryReport
-    }
+        SummaryTab, SummaryReport, ScheduleResults, Messages
+    }  
 }
 </script>

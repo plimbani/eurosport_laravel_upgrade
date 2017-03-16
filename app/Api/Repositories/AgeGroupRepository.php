@@ -28,11 +28,11 @@ class AgeGroupRepository
     }
     public function createCompeationFormat($data){
       // here first we save the Age Group            
-      $ageGroupData['name'] = $data['ageCategory_name'];
-      $ageGroupId = AgeGroup::create($ageGroupData)->id;
+      // $ageGroupData['name'] = $data['ageCategory_name'];
+      // $ageGroupId = AgeGroup::create($ageGroupData)->id;
       
       // here we save the tournament_competation_template      
-      $tournamentCompeationTemplate['age_group_id'] = $ageGroupId;
+      $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
       $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
@@ -49,9 +49,15 @@ class AgeGroupRepository
       return TournamentCompetationTemplates::create($tournamentCompeationTemplate);  
       // Now here we return the appropriate Data
     }
-    public function getCompeationFormat($tournamentId) {    
-
-    
-    return TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
+    /*
+      This Function will Fetch Data For tournament_competation_table
+      We pass tournamentId
+     */
+    public function getCompeationFormat($tournamentData) {  
+     // print_r($tournamentData);
+      $fieldName = key($tournamentData);
+      $value = $tournamentData[$fieldName];
+      
+      return TournamentCompetationTemplates::where($fieldName, $value)->get();
     }
 }

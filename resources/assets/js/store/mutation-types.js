@@ -6,5 +6,4 @@ export const SET_PITCHES = 'SET_PITCHES'
 export const SET_PITCH_CAPACITY = 'SET_PITCH_CAPACITY'
 export const SET_PITCH_ID = 'SET_PITCH_ID'
 export const SET_PITCH_DATA = 'SET_PITCH_DATA'
-
-
+export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB'

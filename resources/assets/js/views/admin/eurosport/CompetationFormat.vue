@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     next() {
-      this.$root.$emit('setTemplate')
+       this.$root.$emit('setTemplate')
     },
     backward() {
      // this.$router.push({name: 'tournament_add'})   

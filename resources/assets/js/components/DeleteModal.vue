@@ -25,7 +25,7 @@
         },
         methods: {
             confirmDelete() {
-                this.$emit('confirmed');                
+               // this.$emit('confirmed');                
             }
         }
     }

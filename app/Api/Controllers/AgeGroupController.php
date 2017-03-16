@@ -91,4 +91,5 @@ class AgeGroupController extends BaseController
     public function getCompetationFormat(Request $request) {
         return $this->ageGroupObj->GetCompetationFormat($request);   
     }
+    
 }

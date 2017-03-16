@@ -13,6 +13,7 @@ Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 
 const state = {
+  activePath: 'tournament_add'
   /*vehicleDetails: [],
   surveyDetail: [],
   multiSelectAll: false,
@@ -23,8 +24,11 @@ const state = {
   // selectedVehicleType: '',
   // selectedVehicleCategory: ''
 }
+
 const mutations = {
-  
+  [types.SET_ACTIVE_TAB] (state, activeTab) {
+    state.activePath = activeTab
+  }
 }
 export default new Vuex.Store({
   state,

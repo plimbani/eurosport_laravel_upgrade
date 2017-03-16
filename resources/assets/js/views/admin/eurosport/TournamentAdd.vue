@@ -91,13 +91,13 @@
                                           </div>
                                       </div>
 			                            </div>
-			                            <div class="form-group row">
+			                            <!--<div class="form-group row">
 			                                <label class="col-md-4 control-label">Sponsor banner</label>
 			                                <div class="pull-right">
                                           <input type="file" value="Upload">
                                           <p class="help-block">Maximum size of 1 MB.</p>
                                       </div>
-			                            </div>
+			                            </div>-->
 		                            </div>
 		                        </div>
                             </div>
@@ -107,23 +107,33 @@
                     <div class="">
                         <h6><strong>Euro-Sportring</strong></h6>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">First name</label>
+                    <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_first_name') }">
+                        <label class="col-sm-2 form-control-label">First name *</label>
 
                         <div class="col-sm-4">
                             <input type="text" class="form-control" placeholder=""
+                            name="tournament_contact_first_name"
                             v-model="tournament.tournament_contact_first_name"
+                            v-validate="'required'" :class="{'is-danger': errors.has('tournament_contact_first_name') }"
                             >
+                            <i v-show="errors.has('tournament_contact_first_name')" class="fa fa-warning"></i>
+                            <span class="help is-danger" v-show="errors.has('tournament_contact_first_name')">First Name Required</span>
                         </div>
+                        
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">Last name</label>
+                    <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_last_name') }">
+                        <label class="col-sm-2 form-control-label">Last name *</label>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" >
                             <input type="text" class="form-control" placeholder=""
+                            name="tournament_contact_last_name" 
+                            v-validate="'required'" :class="{'is-danger': errors.has('tournament_contact_last_name') }"
                             v-model="tournament.tournament_contact_last_name"
                             >
+                            <i v-show="errors.has('tournament_contact_first_name')" class="fa fa-warning"></i>
+                            <span class="help is-danger" v-show="errors.has('tournament_contact_first_name')">Last Name Required</span>
                         </div>
+                        
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label">Telephone</label>
@@ -137,14 +147,19 @@
                     <div class="">
                         <h6><strong>Location</strong></h6>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">Venue</label>
+                    <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_venue_name') }">
+                        <label class="col-sm-2 form-control-label">Venue *</label>
 
                         <div class="col-sm-4">
                             <input type="text" class="form-control"
+                            name="tournament_venue_name"
                             v-model="tournament.tournament_venue_name"
+                             v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_name') }"
                              placeholder="">
+                             <i v-show="errors.has('tournament_venue_name')" class="fa fa-warning"></i>
+                            <span class="help is-danger" v-show="errors.has('tournament_venue_name')">Venue Name Required</span>
                         </div>
+                        
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label">Address</label>
@@ -236,8 +251,7 @@ export default {
       image:''
    }   
   },
-  mounted(){
-
+  mounted(){    
     Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
       // here we dispatch methods     
     let tournamentAdd  = {name:'Your Tournament', 'currentPage':'TournamentAdd'}        
@@ -277,6 +291,8 @@ export default {
               this.tournament.image_logo = this.image
               this.$store.dispatch('SaveTournamentDetails', this.tournament)
 
+              // Display Toastr Message for add Tournament
+              toastr['success']('Tournament detail has been added successfully', 'Success');
               // Now redirect to Comperation Format page
               this.$router.push({name:'competation_format'})
 

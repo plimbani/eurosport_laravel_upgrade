@@ -36,12 +36,16 @@
 	methods: {
 		onChange() {
 			// Now here we have to Set the TournamentId for Tournament
-			// After Selecting it we redirect to Competaion Formats
-		 
+			// After Selecting it we redirect to Competaion Formats		 
 		  let name = this.tournament.name
 		  let id = this.tournament.id
-		  let tournamentSel  = {name:name, currentPage:'Competation Formats',id:id}       
+		  let tournamentSel  = {name:name, 
+		  	currentPage:'Competation Formats',id:id, 
+		  		tournamentStartDate:this.tournament.start_date, 
+				tournamentEndDate:this.tournament.end_date}  
+				console.log(tournamentSel)     
     	  this.$store.dispatch('SetTournamentName', tournamentSel)
+    	  this.$store.dispatch('setActiveTab', 'competation_format')
     	  this.$router.push({name:'competation_format'})
 			// this.$store.dispatch('SetTournamentName','Your Tournament') 
 			// alert(this.option.name)
