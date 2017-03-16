@@ -12,7 +12,7 @@
   </thead>
   <tbody>      
       <tr v-for="(competation, index) in competationList">
-          <td>Age Category</td>
+          <td>{{competation.group_name}}</td>
           <td class="table-success">
               <div class="radio">
                   <label>
@@ -31,7 +31,7 @@
               <a href="#">View</a>
           </td>
           <td>
-              <a href="#">Edit</a> &nbsp;&nbsp;&nbsp;
+              <a href="#" @click="editCompFormat(competation.id)">Edit</a> &nbsp;&nbsp;&nbsp;
               <a href="#">Delete</a>
           </td>
       </tr>     
@@ -50,22 +50,8 @@ export default {
 
   mounted () {
   	// here we load the Competation Format data Based on tournament Id
-  	this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
-  	
-  	// Only called if valid tournament id is Present
-  	if (!isNaN(this.TournamentId)) {
-  		Tournament.getCompetationFormat(this.TournamentId).then(
-      (response) => {          
-        this.competationList = response.data.data         
-        // console.log(this.competationList);
-      },
-      (error) => {
-         console.log('Error occured during Tournament api ', error)
-      }
-      )
-  	} else {
-      this.TournamentId = 0;
-    }
+    this.displayTournamentCompetationList()
+    
   },
    filters: {
     formatTime: function(time) {
@@ -76,9 +62,32 @@ export default {
     }
   },
   methods: {
-    
-    next() {
+    editCompFormat(Id) {
+       // Call Child Class Component Method
+      this.$root.$emit('setCompetationFormatData',  Id)   
+    },
+    displayTournamentCompetationList () {
       
+    this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
+    
+    // Only called if valid tournament id is Present
+    if (!isNaN(this.TournamentId)) {
+      // here we add data for 
+      let TournamentData = {'tournament_id': this.TournamentId}
+      Tournament.getCompetationFormat(TournamentData).then(
+      (response) => {          
+        this.competationList = response.data.data         
+        // console.log(this.competationList);
+      },
+      (error) => {
+         console.log('Error occured during Tournament api ', error)
+      }
+      )
+    } else {
+      this.TournamentId = 0;
+    }
+    },    
+    next() {      
       let index = $('input[name=competationFormatTemplate]:checked').val()
       let tournamentTemplateId =  this.competationList[index].tournament_template_id
       let tournamentTotalTime =  this.competationList[index].total_time      
@@ -91,7 +100,8 @@ export default {
   },
   created: function() {
     // We listen for the event on the eventHub    
-    this.$root.$on('setTemplate', this.next);
+     this.$root.$on('setTemplate', this.next);
+     this.$root.$on('displayCompetationList', this.displayTournamentCompetationList);
   }
 }
 </script>
