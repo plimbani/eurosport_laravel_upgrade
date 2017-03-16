@@ -19,7 +19,7 @@ const getters = {
 }
 // actions
 const actions = {
-  SetTournamentName ({commit}, tournamentData) {  
+  SetTournamentName ({commit}, tournamentData) {      
     commit(types.CURRENT_TOURNAMENT, tournamentData)
   },
   SetTemplate ({commit}, tournamentData) { 
@@ -79,8 +79,8 @@ const mutations = {
   [types.CURRENT_TOURNAMENT] (state, currentTournament) {        
     //alert(JSON.stringify(currentTournamentName))
     state.tournamentName = currentTournament.name
-    state.tournamentStartDate = currentTournament.startDate
-    state.tournamentEndDate = currentTournament.endDate
+    state.tournamentStartDate = currentTournament.tournamentStartDate
+    state.tournamentEndDate = currentTournament.tournamentEndDate
     
     state.currentPage = currentTournament.currentPage
     state.tournamentId = currentTournament.id
