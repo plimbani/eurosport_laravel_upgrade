@@ -7,7 +7,7 @@ import Tournament from '../../api/tournament'
 const state = {
  tournamentName: 'Welcome',
   currentPage: '',
-  tournamentId: '',
+  tournamentId: '1',
   currentTemplate: ''
 }
 // getters

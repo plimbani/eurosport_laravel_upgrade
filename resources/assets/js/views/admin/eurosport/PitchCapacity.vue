@@ -240,7 +240,7 @@
     export default {
         data() {
             return {
-                'tournamentId': 1,
+                'tournamentId': this.$store.state.tournament.tournamentId,
                 'pitches':'',
                 'pitchId' : '',
                 'tournamentDays': 3,
@@ -368,7 +368,7 @@
         },
         methods: {
             getAllPitches() {
-
+            this.$store.dispatch('SetPitches');  
             return axios.get('/api/pitches/'+this.tournamentId).then(response =>  {
                 this.pitches =  response.data.pitches
                 var pitchTime = 0
