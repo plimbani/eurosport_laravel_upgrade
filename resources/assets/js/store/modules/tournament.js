@@ -4,8 +4,10 @@ import Tournament from '../../api/tournament'
 
 
 // initial state
-const state = {
+const state = {  
   tournamentName: '',
+  tournamentStartDate:'',
+  tournamentEndDate:'',
   currentPage: '',
   tournamentId: '',
   currentTemplate: '',
@@ -17,8 +19,8 @@ const getters = {
 }
 // actions
 const actions = {
-  SetTournamentName ({commit}, tournamentName) {  
-    commit(types.CURRENT_TOURNAMENT, tournamentName)
+  SetTournamentName ({commit}, tournamentData) {  
+    commit(types.CURRENT_TOURNAMENT, tournamentData)
   },
   SetTemplate ({commit}, tournamentData) { 
 
@@ -74,11 +76,14 @@ const actions = {
 
 // mutations
 const mutations = {  
-  [types.CURRENT_TOURNAMENT] (state, currentTournamentName) {        
+  [types.CURRENT_TOURNAMENT] (state, currentTournament) {        
     //alert(JSON.stringify(currentTournamentName))
-    state.tournamentName = currentTournamentName.name
-    state.currentPage = currentTournamentName.currentPage
-    state.tournamentId = currentTournamentName.id
+    state.tournamentName = currentTournament.name
+    state.tournamentStartDate = currentTournament.startDate
+    state.tournamentEndDate = currentTournament.endDate
+    
+    state.currentPage = currentTournament.currentPage
+    state.tournamentId = currentTournament.id
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {        
     // alert('hello in mutation')
