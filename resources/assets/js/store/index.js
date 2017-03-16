@@ -6,6 +6,7 @@ import * as getters from './getters'
 import * as types from './mutation-types'
 
 import Tournament from './modules/tournament'
+import Pitch from './modules/pitch'
 
 Vue.use(Vuex)
 
@@ -35,7 +36,8 @@ export default new Vuex.Store({
   mutations,
   getters,
   modules: {
-    Tournament
+    Tournament,
+    Pitch
   },
   strict: debug
 })

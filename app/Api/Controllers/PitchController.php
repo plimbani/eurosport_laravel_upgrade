@@ -51,9 +51,6 @@ class PitchController extends Controller
      */
     public function createPitch(Request $request)
     {
-        // dd($request->all());
-        // return "Hello";
-        
         return $this->pitchObj->createPitch($request);
     }
 
@@ -65,11 +62,14 @@ class PitchController extends Controller
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function edit(Request $request)
+    public function edit(Request $request,$pitchId)
     {
-        return $this->pitchObj->edit($request);
+        return $this->pitchObj->edit($request,$pitchId);
     }
-
+    public function show($pitchId)
+    {
+        return $this->pitchObj->getPitchData($pitchId);
+    }
     public function deletePitch($deleteId)
     {
         return $this->pitchObj->deletePitch($deleteId);

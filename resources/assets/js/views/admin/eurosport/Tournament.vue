@@ -40,6 +40,7 @@ import ScheduleResults from '../../../components/ScheduleResults.vue'
 import Messages from '../../../components/Messages.vue'
 
 export default {
+
     data() {
        return {
          currentView:'summaryTab'
