@@ -17,7 +17,8 @@ export default {
   getCompetationFormat(tournamentData) {
     return api.post('age_group/getCompetationFormat', {'tournamentId': tournamentData})
   },
-  getTemplate(templateId) {
+  getTemplate(templateData) {
+    let templateId = templateData['tournamentTemplateId']
     return api.post('tournaments/getTemplate', {'tournamentTemplateId': templateId});
   }
 }
