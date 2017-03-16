@@ -4,7 +4,7 @@ import Axios from 'axios';
 import Ls from './services/ls'
 
 import Multiselect from 'vue-multiselect';
-
+import Lang from 'vue-lang';
 
 window._ = require('lodash');
 
@@ -66,3 +66,10 @@ Vue.use(VueRouter)
 
 Vue.use(VeeValidate);
 Vue.component('multiselect',Multiselect);
+
+var locales = {
+  "en": require("./locale/en.js"),
+  "fr": require("./locale/fr.js")
+}
+
+Vue.use(Lang, {lang: 'en', locales: locales})
