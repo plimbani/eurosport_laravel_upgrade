@@ -20,7 +20,7 @@
                     </div>
                 </div>
   			</form>
-  			<div class="age-category">
+  			<div class="block-bg age-category">
   				<div class="d-flex justify-content-center align-items-center">
   					<div class="col-sm-3">
   						<div class="m_card hoverable">
