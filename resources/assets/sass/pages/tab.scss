@@ -155,7 +155,7 @@ button, input, optgroup, select, textarea {
 	teams_groups
 ****************************/
 
-.age-category {
+.block-bg {
 	padding: 20px;
 	background-color: #F8F8F8;
 	text-align: center;
@@ -261,4 +261,44 @@ button, input, optgroup, select, textarea {
 .blog .bolg-div span
 {
 	margin-bottom: 0
+}
+
+/****************************
+	Summary Report
+****************************/
+.report_form .col-md-7{
+	margin-left: 1.5%;
+}
+.report_form .col-md-5 button.btn{
+	margin-top: 2rem;
+}
+.report_form .form-group .form-group {
+	margin-bottom: 0;
+}
+/****************************
+	draw_details
+****************************/
+.draw_table a:hover{
+	text-decoration: underline;
+}
+.schedule_list {
+	padding: 0;
+}
+.schedule_list li {
+	list-style-type: none;
+	display: inline-block;
+	padding: 5px 45px;
+	background-color: $ls-color-gray--dark;
+	cursor: pointer;
+}
+.schedule_list li.active {
+	background-color: $ls-color-gray--very-dark;
+
+}
+.schedule_list li:hover {
+	background-color: $ls-color-gray--very-dark;
+
+}
+.match_overview tr td a{
+	color: $ls-color-blue;
 }
