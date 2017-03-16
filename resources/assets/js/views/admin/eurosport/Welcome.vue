@@ -3,7 +3,9 @@
     <div class="row">
       <div class="col-md-12">
         <div class="alert alert-info alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Hi Chris, Welcome to Tournament Planner. Got a question? Check the <strong> Help </strong>page or <strong> contact us </strong>        for assistance.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
+          Hi Chris, Welcome to Tournament Planner. Got a question? Check the <strong> Help </strong>page or <strong> contact us </strong>        for assistance.
+
         </div>
       </div>
     </div>
@@ -11,7 +13,7 @@
       <div class="col-sm-6">
         <div class="card">
           <div class="card-header">
-            <h5 class="text-center"><strong>Manage Edition</strong></h5>
+            <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
           </div>
           <div class="card-block text-center">            
               <div class="form-group">
@@ -19,26 +21,26 @@
               </div>
               <button class="btn btn-primary col-sm-8 btn-theme" 
               @click="addNewTournament()">
-              Add a new Tournament</button>            
+              {{$lang.welcome_add_new_tournament}}</button>            
           </div>
         </div>
       </div>
       <div class="col-sm-6">
       <div class="card">
         <div class="card-header">
-          <h5 class="text-center"><strong>Add a new Tournament</strong></h5>
+          <h5 class="text-center"><strong>{{$lang.welcome_add_new_tournament}}</strong></h5>
         </div>
         <div class="card-block text-center">          
             <div class="form-group">
               <ol class="col-sm-8 offset-sm-2">
-                <li class="text-left">Add your edtition details</li>
-                <li class="text-left">Review</li>
-                <li class="text-left">Publish!</li>
+                <li class="text-left">{{$lang.welcome_add_new_tournament_edition_details}}</li>
+                <li class="text-left">{{$lang.welcome_add_new_tournament_review}}</li>
+                <li class="text-left">{{$lang.welcome_add_new_tournament_publish}}!</li>
               </ol>
             </div>
-            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList">Add a new User</button>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList">{{$lang.welcome_add_new_user}}</button>
             <br>          
-          <a href="" class="text-left">See tournament administrator view</a>
+          <a href="" class="text-left">{{$lang.welcome_see_tournament_admin_view}}</a>
         </div>
       </div>
       </div>
