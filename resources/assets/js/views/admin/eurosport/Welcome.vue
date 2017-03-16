@@ -1,5 +1,5 @@
 <template>
-	<div class="main-content container" id="dashboardPage">
+  <div class="main-content container" id="dashboardPage">
     <div class="row">
       <div class="col-md-12">
         <div class="alert alert-info alert-dismissible" role="alert">
@@ -13,15 +13,13 @@
           <div class="card-header">
             <h5 class="text-center"><strong>Manage Edition</strong></h5>
           </div>
-          <div class="card-block text-center">
-            <form>
+          <div class="card-block text-center">            
               <div class="form-group">
                 <tournamentDropDown></tournamentDropDown>              
               </div>
               <button class="btn btn-primary col-sm-8 btn-theme" 
               @click="addNewTournament()">
-              Add a new Tournament</button>
-            </form>
+              Add a new Tournament</button>            
           </div>
         </div>
       </div>
