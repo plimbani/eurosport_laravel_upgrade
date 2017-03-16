@@ -10,7 +10,7 @@
                         <p><strong>{{pitch.pitch_number}}</strong></p>
                         <img src="/assets/img/pitch.png">
                         <p>
-                            <span><a href="#">Edit</a></span>
+                            <span><a href="javascript:void(0)" @click="editPitch(pitch.id)">Edit</a></span>
                             <span><a href="javascript:void(0)" @click="removePitch(pitch.id)">Remove</a></span>
                         </p>
                     </div>
@@ -41,7 +41,7 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-5 form-control-label">Number  *</label>
                                                     <div class="col-sm-6">
-                                                        <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number" value="" class="form-control" placeholder="e.g. '1' or '1a'">
+                                                        <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
                                                             <i v-show="errors.has('pitch_number')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('pitch_number')">{{ errors.first('pitch_number') }}</span>
                                                     </div>
@@ -49,7 +49,7 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-5 form-control-label">Type  *</label>
                                                     <div class="col-sm-6">
-                                                        <select name="pitch_type" class="form-control ls-select2">
+                                                        <select name="pitch_type" id="pitch_type" class="form-control ls-select2">
                                                             <option value="Grass" selected="">Grass</option>
                                                             <option value="Artificial">Artificial</option>
                                                             <option value="Indoor">Indoor</option>
@@ -218,15 +218,15 @@
                         <div class="dashbox">
                             <p>
                                 <label class="col-md-3"><strong>Total time required:</strong></label>
-                                <label class="col-md-5">{{tournamentTime[0]+ ' hrs ' + tournamentTime[1] + ' mins '}}</label>
+                                <label class="col-md-5">{{((tournamentTime - (tournamentTime % 60)) / 60)+ ' hrs ' + (tournamentTime % 60) + ' mins '}}</label>
                             </p>
                             <p>
                                 <label class="col-md-3"><strong>Total pitch capacity:</strong></label>
-                                <label class="col-md-5">{{pitchCapacity[0]+ ' hrs ' + pitchCapacity[1] + ' mins '}}</label>
+                                <label class="col-md-5">{{((pitchCapacity - (pitchCapacity % 60)) / 60)+ ' hrs ' + (pitchCapacity % 60) + ' mins '}}</label>
                             </p>
                             <p>
                                 <label class="col-md-3"><strong>Balance:</strong></label>
-                                <label class="red col-md-5">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}} <a href="">(Help)</a></label>
+                                <label :class="[pitchAvailableBalance[0]<0? 'red': '','col-md-5' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}} <a href="">(Help)</a></label>
                             </p>
                         </div>
                     </div>
@@ -240,9 +240,8 @@
     export default {
         data() {
             return {
-                'tournamentId': this.$store.state.tournament.tournamentId,
-                'pitches':'',
-                'pitchId' : '',
+                'tournamentId': this.$store.state.Tournament.tournamentId,
+                'pitchId' : this.$store.state.Pitch.pitchId,
                 'tournamentDays': 3,
                 'stage_date':[],
                 'tournamentStartDate': '03/01/2017',
@@ -250,16 +249,26 @@
                 'removeStage': [],
                 'disableDate': [],
                 'stage_capacity' : [],
-                'availableDate': [],
-                'pitchCapacity': [],
-                'tournamentTime': ['15','30'] 
+                'availableDate': []
                 }
         },
         computed: {
+            tournamentTime: function() {
+                return this.$store.state.Tournament.currentTotalTime
+            },
+            pitches: function() {
+                return this.$store.state.Pitch.pitches
+            },
+            pitchData: function() {
+                return this.$store.state.Pitch.pitchData
+            },
+            pitchCapacity: function() {
+                return this.$store.state.Pitch.pitchCapacity
+            },
             pitchAvailableBalance : function() {
                 let pitchavailableBalance = []
-                let tournamentAvailableTime =  parseInt(this.tournamentTime[0]*60)+parseInt(this.tournamentTime[1])
-                let pitchCapacityTime = parseInt(this.pitchCapacity[0]*60)+parseInt(this.pitchCapacity[1])
+                let tournamentAvailableTime =  this.tournamentTime
+                let pitchCapacityTime =this.pitchCapacity
                 let availableTime = tournamentAvailableTime - pitchCapacityTime
                 var minutes = availableTime % 60;
                 var hours = (availableTime - minutes) / 60;
@@ -274,6 +283,7 @@
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';
+            this.$store.dispatch('SetPitches',this.tournamentId);
             let capacity={}
             let sDate = []
             var startDate = new Date(this.tournamentStartDate)
@@ -288,7 +298,6 @@
                 this.disableDate.push( $('.datestage'+i).val());
                 startDate.setDate(new Date(this.tournamentStartDate).getDate() + i)
                 obj['date'+i] = $('.datestage'+i).val();
-                
             }
             let disableDate = this.disableDate;
             this.stage_date.push(obj)
@@ -368,39 +377,9 @@
         },
         methods: {
             getAllPitches() {
-            this.$store.dispatch('SetPitches');  
-            return axios.get('/api/pitches/'+this.tournamentId).then(response =>  {
-                this.pitches =  response.data.pitches
-                var pitchTime = 0
-                $.each(this.pitches,function( i,pitch){
-                    var pitchCapacity = pitch.pitch_capacity
-                    var pitchTimeArr = pitchCapacity.split('.');
-                    pitchTime = parseInt(pitchTime + parseInt(pitchTimeArr[0]*60)+parseInt(pitchTimeArr[1]))
-                    
-                  
-                });
-                var minutes = pitchTime % 60;
-                var hours = (pitchTime - minutes) / 60;
-                this.pitchCapacity.push (hours,minutes)
-                // console.log(pitchTime)
-                   // this.pitchCapacity = 
-                    
-            }).catch(error => {
-                if (error.response.status == 401) {
-                    toastr['error']('Invalid Credentials', 'Error');
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.log('Error', error.message);
-                }
-            });
+                this.$store.dispatch('SetPitches',this.tournamentId);  
+            
             },
-            // stageCapacityCalc(stage) {
-            //     var timeStart = new Date($('#stage_start_date'+stage).val() + " "+ $('#stage_start_time'+stage).val());
-            //     var timeEnd = new Date($('#stage_start_date'+stage).val() +" " + $('#stage_end_time'+stage).val());
-            //     // var timeEnd = new Date("01/01/2007 " + "10:30 PM");
-                
-
-            // },
             savePitchDetails () {
                 this.$validator.validateAll().then(() => {
                     var time = 0
@@ -413,6 +392,7 @@
                    
                     let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time_val
                         if(this.pitchId == '') {
+                            // this.$store.dispatch('AddPitch',pitchData)
                             return axios.post('/api/pitch/create',pitchData).then(response =>  {
                                 this.pitchId = response.data.pitchId
                                 toastr['success']('Pitch detail has been added successfully', 'Success');
@@ -425,7 +405,8 @@
                                 }
                             });
                         }else{
-                           return axios.post('/api/pitch/ ',pitchData).then(response =>  {
+                           // pitchData += '&id='+this.pitchId;
+                           return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
                                 this.pitchId = response.data.pitchId
                                 toastr['success']('Pitch detail has been added successfully', 'Success');
                                 $('#exampleModal').modal('close')
@@ -453,7 +434,6 @@
                    
  
             },
-            
             stageRemove (day) {
                 this.removeStage.push(day)
                 // this.disableDate;
@@ -471,7 +451,7 @@
                 // console.log(this.stageShow+day)
 
             },
-             displayDay (day) {
+            displayDay (day) {
                 if($.inArray( day,this.removeStage) != -1 ) {
                     return false
 
@@ -542,7 +522,12 @@
                 }
 
             },
+            editPitch(pitchId) {
+                this.$store.dispatch('PitchData',pitchId)
+                $('#exampleModal').modal('show')
+            },
             removePitch(pitchId) {
+                // this.$store.dispatch('removePitch',pitchId)
                 return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
                     this.getAllPitches()
                     toastr['success']('Pitch Successfully removed', 'Success');

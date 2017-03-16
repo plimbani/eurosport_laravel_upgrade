@@ -9,7 +9,7 @@ const state = {
   currentPage: '',
   tournamentId: '1',
   currentTemplate: '',
-  currentTotalTime: ''
+  currentTotalTime: 380
 }
 // getters
 const getters = {

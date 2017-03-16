@@ -7,24 +7,24 @@
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
 
-								<a :class="[activePath == 'tournament_add' ? 'active' : '', 'nav-link']" data-toggle="tab"  href="#home2" role="tab" @click="GetSelectComponent('tournament_add')">Tournament Details</a>
+								<a :class="[activePath == 'tournament_add' ? 'active' : '', 'nav-link']" data-toggle="tab"  href="#tournament_add" role="tab" @click="GetSelectComponent('tournament_add')">Tournament Details</a>
 
 							</li>					  		 
 							<li class="nav-item">
 								<a :class="[activePath == 'competation_format' ? 'active' : '', 'nav-link']" data-toggle="tab" 
-								href="#home2" role="tab" @click="GetSelectComponent('competation_format')">Competation Formats</a>
+								href="#competation_format" role="tab" @click="GetSelectComponent('competation_format')">Competation Formats</a>
 							</li>
 							<li class="nav-item">
 								<a :class="[activePath == 'pitch_capacity' ? 'active' : '', 'nav-link']" data-toggle="tab" 
-								href="#home2" role="tab" @click="GetSelectComponent('pitch_capacity')">Pitch Capacity</a>
+								href="#pitch_capacity" role="tab" @click="GetSelectComponent('pitch_capacity')">Pitch Capacity</a>
 							</li>
 							<li class="nav-item">
 								<a :class="[activePath == 'pitch_planner' ? 'active' : '', 'nav-link']" data-toggle="tab" 
-								href="#home2" role="tab" @click="GetSelectComponent('pitch_planner')">Pitch Planner</a>
+								href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">Pitch Planner</a>
 							</li>
 							<li class="nav-item">
 								<a :class="[activePath == 'teams_groups' ? 'active' : '', 'nav-link']" data-toggle="tab" 
-								href="#home1" role="tab"  @click="GetSelectComponent('teams_groups')">Teams And Groups</a>
+								href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">Teams And Groups</a>
 							</li>
 							<li class="nav-item">
 

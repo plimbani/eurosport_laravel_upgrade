@@ -16,6 +16,11 @@ class PitchAvailableRepository
     {
         return PitchAvailable::all();
     }
+    public function getPitchData($pitchId)
+    {
+        return PitchAvailable::where('pitch_id', $pitchId)->get();
+    }
+    
 
     public function createPitch($pitchData,$pitchId)
     {
