@@ -12,17 +12,28 @@ const state = {
  }
 // getters
 const getters = {
-  
+  curPitchId: state => state.pitchId,
+  availableStage: function(state) {
+    let availableStage = []
+    _.forEach(state.pitchData.pitchAvailable, function (pitchAvailable) {
+     availableStage.push(pitchAvailable.stage_no)
+   });
+    return availableStage
+  } 
 }
 // actions
 const actions = {
  
-  SetPitches ({commit},tournamentId) { 
+  SetPitches ({commit,dispatch},tournamentId) { 
+    console.log('hhqq')
     Pitch.getAllPitches(tournamentId).then (
       (response) => {
         let pitches =  response.data.pitches
-        commit(types.SET_PITCHES, response.data.pitches)
+        commit(types.SET_ALL_PITCHES, response.data.pitches)
         commit(types.SET_PITCH_CAPACITY, response.data.pitches)
+        // dispatch(Pitch.PitchData,156)
+         // Pitch.PitchData(pitches[0].id)
+        
       },
       (error) => {
         console.log('Error occured during Get pitches detail ', error)
@@ -42,32 +53,26 @@ const actions = {
   PitchData ({commit},pitchId) {
     Pitch.getPitchData(pitchId).then (
       (response) => {
+        commit(types.SET_PITCH_ID, response.data.data.pitchdetail.id)
         commit(types.SET_PITCH_DATA, response)
+        setTimeout( function(){
+          $('#editPitch').modal('show')
+        },500)
+        
       },
       (error) => {
         console.log('Error occured during Add new pitch', error)
       }
     )    
   }, 
-  removePitch ({commit},pitchId) { 
-    console.log(pitchId)
-    Pitch.removePitch(pitchId).then (
-      (response) => {
-        Pitch.SetPitches(1)
-      },
-      (error) => {
-        console.log('Error occured during Add new pitch', error)
-      }
-    )
-  }, 
-   
+
   
 
 }
 
 // mutations
 const mutations = {  
-  [types.SET_PITCHES] (state, pitches) {        
+  [types.SET_ALL_PITCHES] (state, pitches) {        
     //alert(JSON.stringify(currentTournamentName))
     state.pitches = pitches
   },

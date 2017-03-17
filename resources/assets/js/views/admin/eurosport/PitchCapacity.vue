@@ -18,200 +18,13 @@
                 </div>
 
             	<div class="mt-4">
-            		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add Pitch</button>
+            		<button type="button" class="btn btn-primary" @click="addPitch()"><i class="fa fa-plus" ></i> Add Pitch</button>
             	</div>
-            	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="tabs tabs-primary">
-                                <div class="modal-header">
-                                    <ul class="nav nav-tabs col-md-12" role="tablist">
-                                        <li class="nav-item col-md-6 padding0">
-                                            <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active">Pitch Details</a>
-                                        </li>
-                                        <li class="nav-item col-md-6 padding0">
-                                            <a data-toggle="tab" href="#availability" role="tab" class="nav-link">Availability</a>
-                                        </li>                   
-                                    </ul>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="tab-content">
-                                        <div id="pitch" role="tabpanel" class="tab-pane active">
-                                            <form method="post" name="frmPitchDetail" id="frmPitchDetail">
-                                                <div class="form-group row">
-                                                    <label class="col-sm-5 form-control-label">Number  *</label>
-                                                    <div class="col-sm-6">
-                                                        <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
-                                                            <i v-show="errors.has('pitch_number')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('pitch_number')">{{ errors.first('pitch_number') }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-5 form-control-label">Type  *</label>
-                                                    <div class="col-sm-6">
-                                                        <select name="pitch_type" id="pitch_type" class="form-control ls-select2">
-                                                            <option value="Grass" selected="">Grass</option>
-                                                            <option value="Artificial">Artificial</option>
-                                                            <option value="Indoor">Indoor</option>
-                                                            <option value="Other">Other</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-5 form-control-label">Location *</label>
-                                                    <div class="col-sm-6">
-                                                        <select name="location" class="form-control ls-select2">
-                                                            <option value="1" selected="">Location 1</option>
-                                                            <option value="2">Location 2</option>
-                                                            <option value="3">Location 3</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-5 form-control-label">Size *</label>
-                                                    <div class="col-sm-6">
-                                                        <select name="pitch_size" id="pitch_size" class="form-control ls-select2 col-sm-4 pull-left">
-                                                            <option value="5-a-side" selected="">5-a-side</option>
-                                                            <option value="7-a-side">7-a-side</option>
-                                                            <option value="8-a-side">8-a-side</option>
-                                                            <option value="9-a-side">9-a-side</option>
-                                                            <option value="11-a-side">11-a-side</option>
-                                                            <option value="Handball">Handball</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div id="availability" role="tabpanel" class="tab-pane">
-                                            <div class="competition_list row">
-                                                <div class="col-md-4">
-                                                    <span>Stage</span>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <span>Date</span>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span>Time</span>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span>Capacity</span>
-                                                </div>
-                                            </div>
 
-                                            <form method="post" name="frmPitchAvailable" id="frmPitchAvailable" class="form-inline">
-                                                <div v-for="day in tournamentDays">
-                                                    <div class="stage" :id="'stage'+day" v-if="displayDay(day)">
-                                                        <div class="col-md-12 padding0">
-                                                            <div class="form-group">
-                                                                <label for="nameInput" class="control-label col-md-4">stage {{day}} start</label>
-                                                                <div class="input-group col-md-4">
-                                                                    <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </span>
-                                                                    <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control ls-datepicker datestage'+day] " >
-                                                                         <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
-                                                                         <span class="help is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
-                                                                    <!-- <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name"> -->
-                                                                </div>
-                                                                <div class="input-group col-md-2">
-                                                                <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker']"  :id="'stage_start_time'+day"  type="text" >
-                                                                    <i v-show="errors.has('stage_start_time'+day)" class="fa fa-warning"></i>
-                                                                    <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span>
-                                                                </div>
-                                                                 
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                &nbsp;
-                                                            </div>
-                                                        </div>
 
-                                                        <div class="col-md-12 padding0">
-                                                            <div class="form-group">
-                                                                <label for="nameInput" class="control-label col-md-4">Break start</label>
-                                                                <div class="input-group col-md-4">
-                                                                    &nbsp;
-                                                                </div>
-                                                                <div class="input-group col-md-2">
-                                                                 <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker']" :id="'stage_break_start'+day" >
-                                                                    <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning"></i>
-                                                                    <span class="help is-danger" v-show="errors.has('stage_break_start'+day)">Break start time is required</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                &nbsp;
-                                                            </div>
-                                                        </div>
-                                                    
-                                                        <div class="col-md-12 padding0">
-                                                            <div class="form-group">
+                <addPitchDetail v-if="pitchId==''" ></addPitchDetail>
+                <editPitchDetail v-if="pitchId!=''" ></editPitchDetail>
 
-                                                                <label for="nameInput" class="control-label col-md-4">stage {{day}} continued</label>
-                                                                <div class="input-group col-md-4">
-                                                                    <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </span>
-                                                                    <input type="text" :name="'stage_continue_date'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]">
-                                                                </div>
-                                                                <div class="input-group col-md-2">
-                                                                    <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker']"  :id="'stage_continue_time'+day">
-                                                                    <br>
-                                                                        <i v-show="errors.has('stage_continue_time'+day)" class="fa fa-warning"></i>
-                                                                        <span class="help is-danger" v-show="errors.has('stage_continue_time'+day)">Continue time is required</span>
-
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    &nbsp;
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12 padding0">
-                                                            <div class="form-group">
-                                                                <label for="nameInput" class="control-label col-md-4">Stage {{day}} end</label>
-                                                                <div class="input-group col-md-4">
-                                                                    <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </span>
-                                                                    <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control  ls-datepicker datestage'+ day]">
-                                                                </div>
-                                                                <div class="input-group col-md-2">
-
-                                                                     <input :name="'stage_end_time'+day" :id="'stage_end_time'+day" type="text"  v-validate="'required'" :class="[errors.has('stage_end_time'+day)?'is-danger': '', 'form-control ls-timepicker']">
-                                                                     <br>
-                                                                    <i v-show="errors.has('stage_end_time'+day)" class="fa fa-warning"></i>
-                                                                        <span class="help is-danger" v-show="errors.has('stage_end_time'+day)">Stage end time is required</span>
-
-                                                                </div>
-                                                                <div class="col-md-1">
-                                                                    <span :id="'stage_capacity_span'+day" >0.00</span>
-                                                                    <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity'+day" value="0.00">
-
-                                                                    <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity_min'+day" value="0">
-                                                                    
-                                                                   
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12 padding0">
-                                                            <span @click="stageRemove(day)">X Delete stage</span>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">Add Stage</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" @click="savePitchDetails()">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="row mt-4">
                     <div class="result col-md-12">
@@ -237,21 +50,28 @@
 </template>
 
 <script type="text/babel">
+import editPitchDetail from '../../../views/admin/eurosport/editPitchDetail.vue'
+import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
     export default {
+        
         data() {
             return {
                 'tournamentId': this.$store.state.Tournament.tournamentId,
-                'pitchId' : this.$store.state.Pitch.pitchId,
-                'tournamentDays': 3,
+                'tournamentDays': this.$store.state.Tournament.tournamentDay,
                 'stage_date':[],
-                'tournamentStartDate': '03/01/2017',
-                'tournamentEndDate': '03/03/2017',
+                'tournamentStartDate': this.$store.state.Tournament.tournamentStartDate,
+                'tournamentEndDate': this.$store.state.Tournament.tournamentEndDate,
                 'removeStage': [],
                 'disableDate': [],
                 'stage_capacity' : [],
-                'availableDate': []
+                'availableDate': [],
+                'pitchId': _.cloneDeep(this.$store.getters.curPitchId)
+            
                 }
         },
+        components: {
+            editPitchDetail,addPitchDetail
+        },  
         computed: {
             tournamentTime: function() {
                 return this.$store.state.Tournament.currentTotalTime
@@ -259,6 +79,7 @@
             pitches: function() {
                 return this.$store.state.Pitch.pitches
             },
+            
             pitchData: function() {
                 return this.$store.state.Pitch.pitchData
             },
@@ -283,7 +104,7 @@
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';
-            this.$store.dispatch('SetPitches',this.tournamentId);
+            // this.$store.dispatch('SetPitches',this.tournamentId);
             let capacity={}
             let sDate = []
             var startDate = new Date(this.tournamentStartDate)
@@ -378,6 +199,7 @@
         methods: {
             getAllPitches() {
                 this.$store.dispatch('SetPitches',this.tournamentId);  
+
             
             },
             savePitchDetails () {
@@ -522,9 +344,17 @@
                 }
 
             },
+            addPitch() {
+                this.pitchId = ''
+                setTimeout(function(){
+                    console.log('msg')
+                    $('#addPitchModal').modal('show')
+                },1000)
+            },
             editPitch(pitchId) {
+                // this.pitchId = pitchId
                 this.$store.dispatch('PitchData',pitchId)
-                $('#exampleModal').modal('show')
+                
             },
             removePitch(pitchId) {
                 // this.$store.dispatch('removePitch',pitchId)
