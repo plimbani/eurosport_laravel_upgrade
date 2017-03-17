@@ -132,6 +132,8 @@ export default {
        'totalTime':tournamentTotalTime} 
       // Now here we set the template for it
       this.$store.dispatch('SetTemplate', tournamentData);
+      
+      this.$store.dispatch('setActiveTab', 'competation_format')
       this.$router.push({name: 'pitch_capacity'});
     }
   },
