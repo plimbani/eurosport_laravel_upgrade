@@ -52,7 +52,7 @@ class TournamentRepository
         unset($peopleData);
         // Save Tournament Venue Data     
         $locationData['name'] =$data['tournament_venue_name']; 
-        $locationData['address1'] =$data['touranment_venue_address1'];
+        $locationData['address'] =$data['touranment_venue_address'];
         $locationData['city'] =$data['tournament_venue_city'];
         $locationData['postcode'] =$data['tournament_venue_postcode'];
         $locationData['state'] =$data['tournament_venue_state'];

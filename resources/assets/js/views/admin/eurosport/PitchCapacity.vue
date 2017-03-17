@@ -2,7 +2,7 @@
     <div class="tab-content">
         <div class="card">
             <div class="card-block">
-                <h6 class=""><strong>Pitch Capacity</strong></h6>
+                <h6 class=""><strong>{{$lang.pitch_capacity}}</strong></h6>
 
                 <div class="row">
 
@@ -18,8 +18,10 @@
                 </div>
 
             	<div class="mt-4">
+
             		<button type="button" class="btn btn-primary" @click="addPitch()"><i class="fa fa-plus" ></i> Add Pitch</button>
             	</div>
+
 
 
                 <addPitchDetail v-if="pitchId==''" ></addPitchDetail>
@@ -30,15 +32,15 @@
                     <div class="result col-md-12">
                         <div class="dashbox">
                             <p>
-                                <label class="col-md-3"><strong>Total time required:</strong></label>
+                                <label class="col-md-3"><strong>{{$lang.pitch_totaL_time}}</strong></label>
                                 <label class="col-md-5">{{((tournamentTime - (tournamentTime % 60)) / 60)+ ' hrs ' + (tournamentTime % 60) + ' mins '}}</label>
                             </p>
                             <p>
-                                <label class="col-md-3"><strong>Total pitch capacity:</strong></label>
+                                <label class="col-md-3"><strong>{{$lang.pitch_total_capacity}}</strong></label>
                                 <label class="col-md-5">{{((pitchCapacity - (pitchCapacity % 60)) / 60)+ ' hrs ' + (pitchCapacity % 60) + ' mins '}}</label>
                             </p>
                             <p>
-                                <label class="col-md-3"><strong>Balance:</strong></label>
+                                <label class="col-md-3"><strong>{{$lang.pitch_balance}}</strong></label>
                                 <label :class="[pitchAvailableBalance[0]<0? 'red': '','col-md-5' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}} <a href="">(Help)</a></label>
                             </p>
                         </div>

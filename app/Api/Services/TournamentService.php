@@ -121,9 +121,20 @@ class TournamentService implements TournamentContract
     public function edit($data)
     {
         $data = $data->all();
-        $data = $this->tournamentRepoObj->edit($data);
+        // dd($data);
+        // here first we save the tournament related Data
+        // here we have to precprocess the image
+        // Save the image
+       // $this->saveTournamentLogo($data);
+        
+        //\File::put($path , $imgData);
+        //print_r($imgData);        
+
+        $data = $this->tournamentRepoObj->edit($data['tournamentData']);
+
         if ($data) {
-            return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+            return ['status_code' => '200', 'message' => self::SUCCESS_MSG,
+             'data'=>$data];
         }
     }
 
