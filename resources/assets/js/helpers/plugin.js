@@ -112,5 +112,8 @@ export default {
     setCurrentDate() {        
         $("#tournament_start_date").datepicker().datepicker("setDate", new Date());
         $("#tournament_end_date").datepicker().datepicker("setDate", new Date());
+    },
+    setTournamentDays(date1, date2){
+        return Math.floor(( Date.parse(date2) - Date.parse(date1) ) / 86400000);            
     }
 }

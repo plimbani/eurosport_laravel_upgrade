@@ -39,18 +39,20 @@
 			// After Selecting it we redirect to Competaion Formats		 
 		  let name = this.tournament.name
 		  let id = this.tournament.id
+		  let tournamentDays = Plugin.setTournamentDays(this.tournament.start_date, this.tournament.end_date)
 		  let tournamentSel  = {name:name, 
 		  	currentPage:'Competation Formats',id:id, 
+		  	tournamentDays: tournamentDays,
 		  		tournamentStartDate:this.tournament.start_date, 
-				tournamentEndDate:this.tournament.end_date}  
-				console.log(tournamentSel)     
+				tournamentEndDate:this.tournament.end_date}  				
     	  this.$store.dispatch('SetTournamentName', tournamentSel)
     	  this.$store.dispatch('setActiveTab', 'competation_format')
     	  this.$router.push({name:'competation_format'})
 			// this.$store.dispatch('SetTournamentName','Your Tournament') 
 			// alert(this.option.name)
 			// alert(this.tournament)		
-		}
+		},
+		
 	}    
 }
 </script>

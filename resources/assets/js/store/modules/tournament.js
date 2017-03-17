@@ -11,7 +11,8 @@ const state = {
   currentPage: '',
   tournamentId: '1',
   currentTemplate: '',
-  currentTotalTime: 380
+  currentTotalTime: 380,
+  tournamentDays: ''
 }
 // getters
 const getters = {
@@ -37,8 +38,7 @@ const actions = {
   SaveCompeationFormatDetails  ({commit}, competationFormatData) { 
     
     Tournament.saveCompetationFormat(competationFormatData).then(
-      (response) => {        
-        console.log(response)
+      (response) => {                
         if(response.data.status_code == 200) {          
           // Now here we set the template 
           // let data1 = {'id':response.data.data,'name':tournamentData.name}          
@@ -55,8 +55,7 @@ const actions = {
   },  
   SaveTournamentDetails ({commit}, tournamentData) {      
     Tournament.saveTournament(tournamentData).then(
-      (response) => {        
-        console.log(response)
+      (response) => {                
         if(response.data.status_code == 200) {          
           // Now here we set the tournament Id and Name
           let data1 = {'id':response.data.data,'name':tournamentData.name}
@@ -81,7 +80,7 @@ const mutations = {
     state.tournamentName = currentTournament.name
     state.tournamentStartDate = currentTournament.tournamentStartDate
     state.tournamentEndDate = currentTournament.tournamentEndDate
-    
+    state.tournamentDays = currentTournament.tournamentDays
     state.currentPage = currentTournament.currentPage
     state.tournamentId = currentTournament.id
   },
