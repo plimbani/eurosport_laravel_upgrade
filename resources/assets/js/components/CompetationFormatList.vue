@@ -7,7 +7,7 @@
           <th class="text-center">Total matches</th>
           <th>Total time</th>
           <th class="text-center">Match schedule</th>
-          <th class="text-center">Edit</th>
+          <th class="text-center">Manage</th>
       </tr>
   </thead>
   <tbody>      
@@ -33,27 +33,40 @@
           <td class="text-center">
               <div class="row">
                 <div class="col-sm-6">
-                  <a class="text-primary" href="#" @click="editCompFormat(competation.id)">Edit</a>
+                  <a class="text-primary" href="#" @click="editCompFormat(competation.id)"><i class="fa fa-edit"></i></a>
+                  
                 </div>
-                <div class="col-sm-6">
-                  <a class="text-danger" href="#">Delete</a>
+                <div class="col-sm-6">                  
+                  <a href="javascript:void(0)" 
+                  data-confirm-msg="Are you sure you would like to delete this user record?" 
+                  data-toggle="modal" 
+                  data-target="#delete_modal" 
+                  @click="prepareDeleteResource(competation.id)">
+                  <i class="fa fa-trash-o"></i></a>
                 </div>
               </div>
           </td>
       </tr>     
   </tbody>
+  <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 </table>
+
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
+import DeleteModal from './DeleteModal.vue'
 export default {  
   data() {
   	return {
      competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
-     tournamentTemplateId: '', totalTime:''
+     tournamentTemplateId: '', totalTime:'',
+     deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: ''
+
     }
   },
-
+  components: {
+    DeleteModal
+  },
   mounted () {
   	// here we load the Competation Format data Based on tournament Id
     this.displayTournamentCompetationList()
@@ -69,9 +82,27 @@ export default {
   },
   methods: {
     editCompFormat(Id) {
-       // Call Child Class Component Method
+       // Call Child Class Component Method       
       this.$root.$emit('setCompetationFormatData',  Id)   
     },
+    prepareDeleteResource(Id) {
+       this.deleteAction=Id;
+    },
+     deleteConfirmed() {
+      Tournament.deleteCompetation(this.deleteAction).then(
+        (response) => {
+          if(response.data.status_code==200){
+             $("#delete_modal").modal("hide");
+             toastr.success('Competation has been deleted succesfully.', 'Delete Compeation', {timeOut: 5000});
+             this.displayTournamentCompetationList();
+          }
+        },
+        (error) => {
+          alert('error occur')
+        }
+      )
+    },
+
     displayTournamentCompetationList () {
       
     this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
@@ -108,6 +139,7 @@ export default {
     // We listen for the event on the eventHub    
      this.$root.$on('setTemplate', this.next);
      this.$root.$on('displayCompetationList', this.displayTournamentCompetationList);
-  }
+  },
+
 }
 </script>

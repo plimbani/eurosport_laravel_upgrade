@@ -4,6 +4,7 @@ namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\TournamentTemplate;
 
 class AgeGroupRepository
 {
@@ -45,8 +46,16 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['match_interval_RR']= $data['match_interval_RR'];
       $tournamentCompeationTemplate['match_interval_FM']= $data['match_interval_FM'];
 
-      // Insert value in Database             
-      return TournamentCompetationTemplates::create($tournamentCompeationTemplate);  
+      // Insert value in Database   
+      // here we check value for Edit as Well
+      
+      if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
+      
+      return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
+      } else {      
+      return TournamentCompetationTemplates::create($tournamentCompeationTemplate);    
+      }          
+      
       // Now here we return the appropriate Data
     }
     /*
@@ -60,4 +69,14 @@ class AgeGroupRepository
       
       return TournamentCompetationTemplates::where($fieldName, $value)->get();
     }
+    /*
+      This Function will Fetch Data For tournament_competation_table
+      We pass tournamentId
+     */
+    public function deleteCompeationFormat($tournamentCompetationTemplateId) {  
+     return TournamentCompetationTemplates::find($tournamentCompetationTemplateId)->delete();
+    }
+
+
+    //deleteCompeationFormat
 }

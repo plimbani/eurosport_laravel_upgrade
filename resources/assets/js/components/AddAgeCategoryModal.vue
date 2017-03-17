@@ -1,5 +1,8 @@
 <template>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+<div class="modal" id="exampleModal" tabindex="-1" role="dialog" 
+aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true" 
+data-animation="false"
+>
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -109,41 +112,60 @@ import Tournament from '../api/tournament.js'
 export default {
   data() {
     return  {
-      competation_format: {
-        ageCategory_name:'',game_duration_RR:'20',game_duration_FM:'20',
-        halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:'',
-        tournament_id: ''  
-      },
+      
+      competation_format: this.initialState(),
       game_duration_stage: 2,
       options: []
     }
   },
-  mounted() {    
+  mounted() {   
+    // here we call A function to delete all data
+     
     this.TournamentCompetationList();   
   },
   created: function() {
-    // We listen for the event on the eventHub    
-     this.$root.$on('setCompetationFormatData', function(id) {
-        // Now here We open The Age Category Model
+     this.$root.$on('setCompetationFormatData', this.setEdit); 
+  },
+  methods: {
+    initialState() {
+      return {
+         ageCategory_name:'',game_duration_RR:'20',game_duration_FM:'20',
+        halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:'',
+        tournament_id: '', competation_format_id:'0' 
+      }
+    },
+    setEdit(id) {
+      // Now here we check data
+      
         let TournamentData = {'id': id}
         Tournament.getCompetationFormat(TournamentData).then(
-          (response) => {       
-            this.competation_format = response.data.data[0]   
-            this.competation_format.ageCategory_name = this.competation_format.group_name;        
-           
-            this.$data.competation_format = this.competation_format;
+          (response) => {                   
             
-            // console.log(this.competationList);
+            let resp = response.data.data[0]  
+            // here we set some of values for Edit Form 
+            this.competation_format = resp
+            this.competation_format.ageCategory_name = resp.group_name;
+            this.competation_format.tournamentTemplate = this.getTemplateFromTemplates(resp.tournament_template_id);            
+            this.competation_format.competation_format_id = resp.id
+
           },
           (error) => {
              console.log('Error occured during Tournament api ', error)
           }
         )
         $('#exampleModal').modal('show');
-     });
-  },
-  methods: {
-
+    },
+    getTemplateFromTemplates(id) {
+      // Now here we find the 
+      let templates = this.options
+      let data
+      templates.forEach(function(template, index) {
+          if(id === template.id) {
+             data = template
+          }
+      });
+      return data
+    },
     TournamentCompetationList() {
       Tournament.getAllTournamentTemplate().then(
       (response) => {                    
@@ -162,12 +184,11 @@ export default {
       this.$validator.validateAll().then(
           (response) => {    
             // Add tournament Id as well
-            
+              
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {      
-                console.log(response.data)
                   if(response.data.status_code == 200) {    
-                  alert('hello in')            
+                    toastr.success('Age Category has been added succesfully.', 'Add AgeCategory', {timeOut: 5000});
                     //this.$router.push({name: 'competation_format'}) 
                     $('#saveAge').attr('data-dismiss','modal')  
                     this.$root.$emit('displayCompetationList')   
@@ -184,7 +205,6 @@ export default {
             $('#saveAge').attr('data-dismiss','modal')  
           },
           (error) => {
-            console.log(this)            
             console.log('Error occured during SaveTournament api ', error)
           }
       ) 
