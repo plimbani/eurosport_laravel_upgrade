@@ -110,6 +110,15 @@ class AgeGroupService implements AgeGroupContract
             return ['status_code' => '200', 'message' => 'Competation Data', 'data' => $data];
         }
     }
+    public function deleteCompetationFormat($data) {
+
+        $data = $this->ageGroupObj->deleteCompeationFormat($data['tournamentCompetationTemplateId']);
+        
+        if ($data) {
+            return ['status_code' => '200', 'message' => 'Competation Data delete successfully'];
+        }
+    }
+    
     /**
      * create New AgeGroup.
      *
