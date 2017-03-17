@@ -6,8 +6,9 @@ import Tournament from '../../api/tournament'
 // initial state
 const state = {  
   tournamentName: '',
-  tournamentStartDate:'',
-  tournamentEndDate:'',
+  tournamentStartDate:"03/01/2017",
+  tournamentEndDate:"03/04/2017",
+  tournamentDay:4,
   currentPage: '',
   tournamentId: '1',
   currentTemplate: '',
@@ -38,7 +39,9 @@ const actions = {
   SaveCompeationFormatDetails  ({commit}, competationFormatData) { 
     
     Tournament.saveCompetationFormat(competationFormatData).then(
-      (response) => {                
+
+      (response) => {        
+
         if(response.data.status_code == 200) {          
           // Now here we set the template 
           // let data1 = {'id':response.data.data,'name':tournamentData.name}          
@@ -55,7 +58,9 @@ const actions = {
   },  
   SaveTournamentDetails ({commit}, tournamentData) {      
     Tournament.saveTournament(tournamentData).then(
+
       (response) => {                
+
         if(response.data.status_code == 200) {          
           // Now here we set the tournament Id and Name
           let data1 = {'id':response.data.data,'name':tournamentData.name}
