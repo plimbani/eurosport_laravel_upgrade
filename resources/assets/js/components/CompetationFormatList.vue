@@ -1,19 +1,19 @@
 <template>
- <table class="table table-hover table-striped table-bordered add-category-table">
+ <table class="table table-hover table-bordered add-category-table">
   <thead>
       <tr>
-          <th>Age category</th>
+          <th class="text-center">Age category</th>
           <th>Competition format</th>
-          <th>Total matches</th>
+          <th class="text-center">Total matches</th>
           <th>Total time</th>
-          <th>Match schedule</th>
-          <th>Edit</th>
+          <th class="text-center">Match schedule</th>
+          <th class="text-center">Edit</th>
       </tr>
   </thead>
   <tbody>      
       <tr v-for="(competation, index) in competationList">
-          <td>{{competation.group_name}}</td>
-          <td class="table-success">
+          <td class="text-center">{{competation.group_name}}</td>
+          <td>
               <div class="radio">
                   <label>
                       <input type="radio"                       
@@ -24,15 +24,21 @@
                   </label>
               </div>
           </td>
-          <td class="table-success">{{competation.total_match}}</td>
-          <td class="table-success">{{competation.total_time | formatTime}}          
+          <td class="text-center">{{competation.total_match}}</td>
+          <td>{{competation.total_time | formatTime}}          
           </td>
-          <td class="table-success">
+          <td class="text-center">
               <a href="#">View</a>
           </td>
-          <td>
-              <a href="#" @click="editCompFormat(competation.id)">Edit</a> &nbsp;&nbsp;&nbsp;
-              <a href="#">Delete</a>
+          <td class="text-center">
+              <div class="row">
+                <div class="col-sm-6">
+                  <a class="text-primary" href="#" @click="editCompFormat(competation.id)">Edit</a>
+                </div>
+                <div class="col-sm-6">
+                  <a class="text-danger" href="#">Delete</a>
+                </div>
+              </div>
           </td>
       </tr>     
   </tbody>
