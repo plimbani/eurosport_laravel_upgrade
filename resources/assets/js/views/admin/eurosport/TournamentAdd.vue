@@ -166,7 +166,7 @@
 
                         <div class="col-sm-4">
                             <input type="text" class="form-control" 
-                            v-model="tournament.touranment_venue_address1"
+                            v-model="tournament.touranment_venue_address"
                             placeholder="">
                         </div>
                     </div>
@@ -246,7 +246,7 @@
 export default {
   data() {
     return {
-      tournament: {name:' ',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',tournament_venue_name:'',touranment_venue_address1:'',tournament_venue_city:'',tournament_venue_postcode:'',tournament_venue_state:'',tournament_venue_country:'',image_logo:''
+      tournament: {name:' ',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',tournament_venue_name:'',touranment_venue_address:'',tournament_venue_city:'',tournament_venue_postcode:'',tournament_venue_state:'',tournament_venue_country:'',image_logo:''
       },
       image:''
    }   
