@@ -2,19 +2,19 @@
   <div class="tab-content">
   	<div class="card">
   		<div class="card-block">
-  			<h6><strong>Teams and groups</strong></h6>
+  			<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
   			<form>
   				<div class="form-group row">
-                    <label class="col-sm-2 form-control-label">Age category</label>
+                    <label class="col-sm-2 form-control-label">{{$lang.teams_age_category}}</label>
 
                     <div class="col-sm-4">
                         <div class="form-group">
                             <select class="form-control ls-select2">
-	                            <option value="">Select age category</option>
-	                            <option value="">U9</option>
-	                            <option value="">U11</option>
-	                            <option value="">U15 </option>
-	                            <option value="">Etc...</option>
+	                            <option value="">{{$lang.teams_select_age_category}}</option>
+	                            <option value="">{{$lang.teams_u9}}</option>
+	                            <option value="">{{$lang.teams_u11}}</option>
+	                            <option value="">{{$lang.teams_u15}}</option>
+	                            <option value="">{{$lang.teams_etc}}</option>
 	                        </select>
 	                    </div>
                     </div>
@@ -25,44 +25,44 @@
   					<div class="col-sm-3">
   						<div class="m_card hoverable">
                 <div class="card-content">
-    							  <span class="card-title">GROUP A</span>
-      							<p>Barmstedt BV</p>
-      							<p>A2</p>
-      							<p>A3</p>
-      							<p>A4</p>
+    							  <span class="card-title">{{$lang.teams_group_a}}</span>
+      							<p>{{$lang.teams_group_a_Barmstedt_bv}}</p>
+      							<p>{{$lang.teams_group_a_a2}}</p>
+      							<p>{{$lang.teams_group_a_a3}}</p>
+      							<p>{{$lang.teams_group_a_a4}}</p>
                   </div>
   						</div>
   					</div>
   					<div class="col-sm-3">
   						<div class="m_card hoverable">
                 <div class="card-content">
-    							  <span class="card-title">GROUP B</span>
-      							<p>Barmstedt BV</p>
-      							<p>A2</p>
-      							<p>A3</p>
-      							<p>A4</p>
+    							  <span class="card-title">{{$lang.teams_group_b}}</span>
+      							<p>{{$lang.teams_group_b_Barmstedt_bv}}</p>
+      							<p>{{$lang.teams_group_b_a2}}</p>
+      							<p>{{$lang.teams_group_b_a3}}</p>
+      							<p>{{$lang.teams_group_b_a4}}</p>
                   </div>
   						</div>
   					</div>
   					<div class="col-sm-3">
   						<div class="m_card hoverable">
                 <div class="card-content">
-    							  <span class="card-title">GROUP C</span>
-      							<p>Barmstedt BV</p>
-      							<p>A2</p>
-      							<p>A3</p>
-      							<p>A4</p>
+    							  <span class="card-title">{{ $lang.teams_group_c }}</span>
+      							<p>{{$lang.teams_group_c_Barmstedt_bv}}</p>
+      							<p>{{$lang.teams_group_c_a2}}</p>
+      							<p>{{$lang.teams_group_c_a3}}</p>
+      							<p>{{$lang.teams_group_c_a4}}</p>
                   </div>
   						</div>
   					</div>
   					<div class="col-sm-3">
   						<div class="m_card hoverable">
                 <div class="card-content">
-    							  <span class="card-title">GROUP D</span>
-      							<p>Barmstedt BV</p>
-      							<p>A2</p>
-      							<p>A3</p>
-      							<p>A4</p>
+    							  <span class="card-title">{{$lang.teams_group_d}}</span>
+      							<p>{{$lang.teams_group_d_Barmstedt_bv}}</p>
+      							<p>{{$lang.teams_group_d_a2}}</p>
+      							<p>{{$lang.teams_group_d_a3}}</p>
+      							<p>{{$lang.teams_group_d_a4}}</p>
                   </div>
   						</div>
   					</div>
@@ -70,32 +70,32 @@
   			</div>
   			<div class="clearfix">
   				<div class="pull-left">
-	  				<div class="mt-4"><strong>Team list</strong></div>
-	  				<button type="button" class="btn btn-primary">Upload teams</button>
+	  				<div class="mt-4"><strong>{{$lang.teams_team_list}}</strong></div>
+	  				<button type="button" class="btn btn-primary">{{$lang.teams_upload_team}}</button>
 	  			</div>
 	  			<div class="pull-right mt-4">
 	  				<form class="form-inline filter-category-form">
 	  					<div class="form-group">
-	  						<label for="nameInput" class="control-label"><strong>Filter by:</strong></label> 
+	  						<label for="nameInput" class="control-label"><strong>{{$lang.teams_filter}}</strong></label> 
 	  						<label class="radio-inline control-label">
-  								<input type="radio" name="gender" value="team" checked="checked"> Team
+  								<input type="radio" name="gender" value="team" checked="checked">{{$lang.teams_team}}
                             </label>
                              <label class="radio-inline control-label">
-                            	<input type="radio" name="gender" value="country"> Country
+                            	<input type="radio" name="gender" value="country">{{$lang.teams_country}}
                             </label>
                             <label class="radio-inline control-label">
-                            	<input type="radio" name="gender" value="age category"> Age Category
+                            	<input type="radio" name="gender" value="age category">{{$lang.teams_age}}
                             </label>
                             <select class="form-control ls-select2">
-	                            <option value="">Select a location</option>
-	                            <option value="">Location 1</option>
-	                            <option value="">Location 2</option>
-	                            <option value="">Location 3 </option>
-	                            <option value="">Location 4</option>
-	                            <option value="">Etc...</option>
+	                            <option value="">{{$lang.teams_select_location}}</option>
+	                            <option value="">{{$lang.teams_select_location_1}}</option>
+	                            <option value="">{{$lang.teams_select_location_2}}</option>
+	                            <option value="">{{$lang.teams_select_location_3}}</option>
+	                            <option value="">{{$lang.teams_select_location_4}}</option>
+	                            <option value="">{{$lang.teams_select_etc}}</option>
 	                        </select>
 	                        <label class="control-label">
-	                        	<a href="#">Clear</a>
+	                        	<a href="#">{{$lang.teams_clear}}</a>
 	                        </label>
 	  					</div> 
 	  					
@@ -107,161 +107,162 @@
   					<table class="table add-category-table">
                         <thead>
                             <tr>
-                                <th>Reference</th>
-                                <th>Name</th>
-                                <th>Country</th>
-                                <th>Age Category</th>
-                                <th>Group</th>
+                                <th>{{$lang.teams_reference}}</th>
+                                <th>{{$lang.teams_name}}</th>
+                                <th>{{$lang.teams_country}}</th>
+                                <th>{{$lang.teams_agecategory}}</th>
+                                <th>{{$lang.teams_group}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1234567</td>
-                                <td>Jerez FC</td>
+                                <td>{{$lang.teams_team_no}}</td>
+                                <td>{{$lang.teams_team_name}}</td>
                                 <td>
-                                	<img src="/assets/img/flag.png" width="20"> Spain
+                                	<img src="/assets/img/flag.png" width="20">{{$lang.teams_team_country}}
                                 </td>
-                                <td>U11</td>
+                                <td>{{$lang.teams_team_age_category}}</td>
                                 <td>
                                 	<select class="form-control ls-select2">
-			                            <option value="">Select a location</option>
-			                            <option value="">Location 1</option>
-			                            <option value="">Location 2</option>
-			                            <option value="">Location 3 </option>
-			                            <option value="">Location 4</option>
-			                            <option value="">Etc...</option>
+			                            <option value="">{{$lang.teams_team_group}}</option>
+			                            <option value="">{{$lang.teams_team_location_1}}</option>
+			                            <option value="">{{$lang.teams_team_location_2}}</option>
+			                            <option value="">{{$lang.teams_team_location_3}}</option>
+			                            <option value="">{{$lang.teams_team_location_4}}</option>
+			                            <option value="">{{$lang.teams_team_location_etc}}</option>
 			                        </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>John</td>
-                                <td>Smith</td>
+                                <td>{{$lang.teams_team_one_no}}</td>
+                                <td>{{$lang.teams_team_one_name}}</td>
                                 <td>
-                                	<img src="/assets/img/flag.png" width="20"> Germany
+                                	<img src="/assets/img/flag.png" width="20">{{$lang.teams_team_one_country}}
                                 </td>
-                                <td>Blackpool Juniors FC</td>
+                                <td>{{$lang.teams_team_one_age_category}}</td>
                                 <td>
                                 	<select class="form-control ls-select2">
-			                            <option value="">Select a location</option>
-			                            <option value="">Location 1</option>
-			                            <option value="">Location 2</option>
-			                            <option value="">Location 3 </option>
-			                            <option value="">Location 4</option>
-			                            <option value="">Etc...</option>
+			                            <option value="">{{$lang.teams_team_one_group}}</option>
+			                            <option value="">{{$lang.teams_team_one_location_1}}</option>
+			                            <option value="">{{$lang.teams_team_one_location_2}}</option>
+			                            <option value="">{{$lang.teams_team_one_location_3}}</option>
+			                            <option value="">{{$lang.teams_team_one_location_4}}</option>
+			                            <option value="">{{$lang.teams_team_one_location_etc}}</option>
 			                        </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>1234567</td>
-                                <td>Jerez FC</td>
+                                <td>{{$lang.teams_team_two_no}}</td>
+                                <td>{{$lang.teams_team_two_name}}</td>
                                 <td>
-                                	<img src="/assets/img/flag.png" width="20"> Spain
+                                	<img src="/assets/img/flag.png" width="20">{{$lang.teams_team_two_country}}
                                 </td>
-                                <td>U11</td>
+                                <td>{{$lang.teams_team_two_age_category}}</td>
                                 <td>
                                 	<select class="form-control ls-select2">
-			                            <option value="">Select a location</option>
-			                            <option value="">Location 1</option>
-			                            <option value="">Location 2</option>
-			                            <option value="">Location 3 </option>
-			                            <option value="">Location 4</option>
-			                            <option value="">Etc...</option>
+			                            <option value="">{{$lang.teams_team_two_group}}</option>
+			                            <option value="">{{$lang.teams_team_two_location_1}}</option>
+			                            <option value="">{{$lang.teams_team_two_location_2}}</option>
+			                            <option value="">{{$lang.teams_team_two_location_3}}</option>
+			                            <option value="">{{$lang.teams_team_two_location_4}}</option>
+			                            <option value="">{{$lang.teams_team_two_location_etc}}</option>
 			                        </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>John</td>
-                                <td>Smith</td>
+                                <td>{{$lang.teams_team_three_no}}</td>
+                                <td>{{$lang.teams_team_three_name}}</td>
                                 <td>
-                                	<img src="/assets/img/flag.png" width="20"> Germany
+                                	<img src="/assets/img/flag.png" width="20">{{$lang.teams_team_three_country}}
                                 </td>
-                                <td>Blackpool Juniors FC</td>
+                                <td>{{$lang.teams_team_three_age_category}}</td>
                                 <td>
                                 	<select class="form-control ls-select2">
-			                            <option value="">Select a location</option>
-			                            <option value="">Location 1</option>
-			                            <option value="">Location 2</option>
-			                            <option value="">Location 3 </option>
-			                            <option value="">Location 4</option>
-			                            <option value="">Etc...</option>
+			                            <option value="">{{$lang.teams_team_three_group}}</option>
+			                            <option value="">{{$lang.teams_team_three_location_1}}1</option>
+			                            <option value="">{{$lang.teams_team_three_location_2}}</option>
+			                            <option value="">{{$lang.teams_team_three_location_3}}</option>
+			                            <option value="">{{$lang.teams_team_three_location_4}}</option>
+			                            <option value="">{{$lang.teams_team_three_location_etc}}</option>
+			                        </select>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>{{$lang.teams_team_four_no}}</td>
+                                <td>{{$lang.teams_team_four_name}}</td>
+                                <td>
+                                	<img src="/assets/img/flag.png" width="20">{{$lang.teams_team_four_country}}
+                                </td>
+                                <td>{{$lang.teams_team_four_age_category}}</td>
+                                <td>
+                                	<select class="form-control ls-select2">
+			                            <option value="">{{$lang.teams_team_four_group}}</option>
+			                            <option value="">{{$lang.teams_team_four_location_1}}</option>
+			                            <option value="">{{$lang.teams_team_four_location_2}}</option>
+			                            <option value="">{{$lang.teams_team_four_location_3}} </option>
+			                            <option value="">{{$lang.teams_team_four_location_4}}</option>
+			                            <option value="">{{$lang.teams_team_four_location_etc}}</option>
 			                        </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>1234567</td>
-                                <td>Jerez FC</td>
+                                <td>{{$lang.teams_team_five_no}}</td>
+                                <td>{{$lang.teams_team_five_name}}</td>
                                 <td>
-                                	<img src="/assets/img/flag.png" width="20"> Spain
+                                	<img src="/assets/img/flag.png" width="20">{{$lang.teams_team_five_country}}
                                 </td>
-                                <td>U11</td>
+                                <td>{{$lang.teams_team_five_age_category}}</td>
                                 <td>
                                 	<select class="form-control ls-select2">
-			                            <option value="">Select a location</option>
-			                            <option value="">Location 1</option>
-			                            <option value="">Location 2</option>
-			                            <option value="">Location 3 </option>
-			                            <option value="">Location 4</option>
-			                            <option value="">Etc...</option>
+			                            <option value="">{{$lang.teams_team_five_group}}</option>
+			                            <option value="">{{$lang.teams_team_five_location_1}}</option>
+			                            <option value="">{{$lang.teams_team_five_location_2}}</option>
+			                            <option value="">{{$lang.teams_team_five_location_3}}</option>
+			                            <option value="">{{$lang.teams_team_five_location_4}}</option>
+			                            <option value="">{{$lang.teams_team_five_location_etc}}</option>
 			                        </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>John</td>
-                                <td>Smith</td>
+                                <td>{{$lang.teams_team_six_no}}</td>
+                                <td>{{$lang.teams_team_six_name}}</td>
                                 <td>
-                                	<img src="/assets/img/flag.png" width="20"> Germany
+                                	<img src="/assets/img/flag.png" width="20">{{$lang.teams_team_six_country}}
                                 </td>
-                                <td>Blackpool Juniors FC</td>
+                                <td>{{$lang.teams_team_six_age_category}}</td>
                                 <td>
                                 	<select class="form-control ls-select2">
-			                            <option value="">Select a location</option>
-			                            <option value="">Location 1</option>
-			                            <option value="">Location 2</option>
-			                            <option value="">Location 3 </option>
-			                            <option value="">Location 4</option>
-			                            <option value="">Etc...</option>
+			                            <option value="">{{$lang.teams_team_six_group}}</option>
+			                            <option value="">{{$lang.teams_team_six_location_1}}</option>
+			                            <option value="">{{$lang.teams_team_six_location_2}}</option>
+			                            <option value="">{{$lang.teams_team_six_location_3}} </option>
+			                            <option value="">{{$lang.teams_team_six_location_4}}</option>
+			                            <option value="">{{$lang.teams_team_six_location_etc}}</option>
 			                        </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>1234567</td>
-                                <td>Jerez FC</td>
+                                <td>{{$lang.teams_team_seven_no}}</td>
+                                <td>{{$lang.teams_team_seven_name}}</td>
                                 <td>
-                                	<img src="/assets/img/flag.png" width="20"> Spain
+                                	<img src="/assets/img/flag.png" width="20"> {{$lang.teams_team_seven_country}}
                                 </td>
-                                <td>U11</td>
+                                <td>{{$lang.teams_team_seven_age_category}}</td>
                                 <td>
                                 	<select class="form-control ls-select2">
-			                            <option value="">Select a location</option>
-			                            <option value="">Location 1</option>
-			                            <option value="">Location 2</option>
-			                            <option value="">Location 3 </option>
-			                            <option value="">Location 4</option>
-			                            <option value="">Etc...</option>
-			                        </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>John</td>
-                                <td>Smith</td>
-                                <td>
-                                	<img src="/assets/img/flag.png" width="20"> Germany
-                                </td>
-                                <td>Blackpool Juniors FC</td>
-                                <td>
-                                	<select class="form-control ls-select2">
-			                            <option value="">Select a location</option>
-			                            <option value="">Location 1</option>
-			                            <option value="">Location 2</option>
-			                            <option value="">Location 3 </option>
-			                            <option value="">Location 4</option>
-			                            <option value="">Etc...</option>
+			                            <option value="">{{$lang.teams_team_seven_group}}</option>
+			                            <option value="">{{$lang.teams_team_seven_location_1}}1</option>
+			                            <option value="">{{$lang.teams_team_seven_location_2}}</option>
+			                            <option value="">{{$lang.teams_team_seven_location_3}}</option>
+			                            <option value="">{{$lang.teams_team_seven_location_4}}</option>
+			                            <option value="">{{$lang.teams_team_seven_location_etc}}</option>
 			                        </select>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <button type="button" class="btn btn-primary pull-right">Update Groups</button>
+                    <button type="button" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
   				</div>
   			</div>
   		</div>

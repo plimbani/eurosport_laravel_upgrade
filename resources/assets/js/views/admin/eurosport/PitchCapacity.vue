@@ -2,7 +2,7 @@
     <div class="tab-content">
         <div class="card">
             <div class="card-block">
-                <h6 class=""><strong>Pitch Capacity</strong></h6>
+                <h6 class=""><strong>{{$lang.pitch_capacity}}</strong></h6>
 
                 <div class="row">
 
@@ -18,7 +18,7 @@
                 </div>
 
             	<div class="mt-4">
-            		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add Pitch</button>
+            		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> {{$lang.pitch_add}}</button>
             	</div>
             	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -27,10 +27,10 @@
                                 <div class="modal-header">
                                     <ul class="nav nav-tabs col-md-12" role="tablist">
                                         <li class="nav-item col-md-6 padding0">
-                                            <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active">Pitch Details</a>
+                                            <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active">{{$lang.pitch_details}}</a>
                                         </li>
                                         <li class="nav-item col-md-6 padding0">
-                                            <a data-toggle="tab" href="#availability" role="tab" class="nav-link">Availability</a>
+                                            <a data-toggle="tab" href="#availability" role="tab" class="nav-link">{{$lang.pitch_availability}}</a>
                                         </li>                   
                                     </ul>
                                 </div>
@@ -39,7 +39,7 @@
                                         <div id="pitch" role="tabpanel" class="tab-pane active">
                                             <form method="post" name="frmPitchDetail" id="frmPitchDetail">
                                                 <div class="form-group row">
-                                                    <label class="col-sm-5 form-control-label">Number  *</label>
+                                                    <label class="col-sm-5 form-control-label">{{$lang.pitch_number}} *</label>
                                                     <div class="col-sm-6">
                                                         <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
                                                             <i v-show="errors.has('pitch_number')" class="fa fa-warning"></i>
@@ -47,36 +47,36 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-5 form-control-label">Type  *</label>
+                                                    <label class="col-sm-5 form-control-label">{{$lang.pitch_type}}  *</label>
                                                     <div class="col-sm-6">
                                                         <select name="pitch_type" id="pitch_type" class="form-control ls-select2">
-                                                            <option value="Grass" selected="">Grass</option>
-                                                            <option value="Artificial">Artificial</option>
-                                                            <option value="Indoor">Indoor</option>
-                                                            <option value="Other">Other</option>
+                                                            <option value="Grass" selected="">{{$lang.pitch_type_grass}}</option>
+                                                            <option value="Artificial">{{$lang.pitch_type_artificial}}</option>
+                                                            <option value="Indoor">{{$lang.pitch_type_indoor}}</option>
+                                                            <option value="Other">{{$lang.pitch_type_other}}</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-5 form-control-label">Location *</label>
+                                                    <label class="col-sm-5 form-control-label">{{$lang.pitch_location}} *</label>
                                                     <div class="col-sm-6">
                                                         <select name="location" class="form-control ls-select2">
-                                                            <option value="1" selected="">Location 1</option>
-                                                            <option value="2">Location 2</option>
-                                                            <option value="3">Location 3</option>
+                                                            <option value="1" selected="">{{$lang.pitch_location_location1}</option>
+                                                            <option value="2">{{$lang.pitch_location_location2}</option>
+                                                            <option value="3">{{$lang.pitch_location_location3}</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-5 form-control-label">Size *</label>
+                                                    <label class="col-sm-5 form-control-label">{{$lang.pitch_size}} *</label>
                                                     <div class="col-sm-6">
                                                         <select name="pitch_size" id="pitch_size" class="form-control ls-select2 col-sm-4 pull-left">
-                                                            <option value="5-a-side" selected="">5-a-side</option>
-                                                            <option value="7-a-side">7-a-side</option>
-                                                            <option value="8-a-side">8-a-side</option>
-                                                            <option value="9-a-side">9-a-side</option>
-                                                            <option value="11-a-side">11-a-side</option>
-                                                            <option value="Handball">Handball</option>
+                                                            <option value="5-a-side" selected="">{{$lang.pitch_size_5_a_side}}</option>
+                                                            <option value="7-a-side">{{$lang.pitch_size_7_a_side}}</option>
+                                                            <option value="8-a-side">{{$lang.pitch_size_8_a_side}}</option>
+                                                            <option value="9-a-side">{{$lang.pitch_size_9_a_side}}</option>
+                                                            <option value="11-a-side">{{$lang.pitch_size_11_a_side}}</option>
+                                                            <option value="Handball">{{$lang.pitch_size_handball}}</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -85,16 +85,16 @@
                                         <div id="availability" role="tabpanel" class="tab-pane">
                                             <div class="competition_list row">
                                                 <div class="col-md-4">
-                                                    <span>Stage</span>
+                                                    <span>{{$lang.pitch_availability_stage}}</span>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <span>Date</span>
+                                                    <span>{{$lang.pitch_availability_date}}</span>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <span>Time</span>
+                                                    <span>{{$lang.pitch_availability_time}}</span>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <span>Capacity</span>
+                                                    <span>{{$lang.pitch_availability_capacity}}</span>
                                                 </div>
                                             </div>
 
@@ -110,7 +110,7 @@
                                                                     </span>
                                                                     <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control ls-datepicker datestage'+day] " >
                                                                          <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
-                                                                         <span class="help is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
+                                                                         <span class="help  is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
                                                                     <!-- <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name"> -->
                                                                 </div>
                                                                 <div class="input-group col-md-2">
@@ -217,15 +217,15 @@
                     <div class="result col-md-12">
                         <div class="dashbox">
                             <p>
-                                <label class="col-md-3"><strong>Total time required:</strong></label>
+                                <label class="col-md-3"><strong>{{$lang.pitch_totaL_time}}</strong></label>
                                 <label class="col-md-5">{{((tournamentTime - (tournamentTime % 60)) / 60)+ ' hrs ' + (tournamentTime % 60) + ' mins '}}</label>
                             </p>
                             <p>
-                                <label class="col-md-3"><strong>Total pitch capacity:</strong></label>
+                                <label class="col-md-3"><strong>{{$lang.pitch_total_capacity}}</strong></label>
                                 <label class="col-md-5">{{((pitchCapacity - (pitchCapacity % 60)) / 60)+ ' hrs ' + (pitchCapacity % 60) + ' mins '}}</label>
                             </p>
                             <p>
-                                <label class="col-md-3"><strong>Balance:</strong></label>
+                                <label class="col-md-3"><strong>{{$lang.pitch_balance}}</strong></label>
                                 <label :class="[pitchAvailableBalance[0]<0? 'red': '','col-md-5' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}} <a href="">(Help)</a></label>
                             </p>
                         </div>
