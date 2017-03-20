@@ -10,11 +10,11 @@
 						<h5>{{tournamentName}}</h5>
 					</label>
 					<div class="clearfix"></div>
-					<span><strong>Locations:</strong> Cadiz (San Puerto), Jerez</span>
-					<span><strong>Dates:</strong> {{tournamentDates}}</span>
+					<span><strong>{{$lang.summary_location}}:</strong> Cadiz (San Puerto), Jerez</span>
+					<span><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</span>
 				</div>
 				<div class="pull-right col-md-6 padding0 text-right">
-					<span><strong>Status:</strong> {{tournamentStatus}}</span>
+					<span><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
 					<button type="button" data-toggle="modal" data-target="#publish_modal" class="btn btn-primary col-md-4">Publish</button><br>
 					<PublishTournament></PublishTournament>
 					<button type="button" data-toggle="modal" 
@@ -80,9 +80,15 @@
 		<div class="clearfix mt-4"></div>
 		<div class="row">
 			<div class="col-md-12">
+<<<<<<< HEAD
+				<span><strong>{{$lang.summary_age_groups}}</strong> G15, G17, U11, U13, U15, U17, U19</span>
+				<span><strong>{{$lang.summary_participating_countries}}</strong> Germany, Spain</span>
+				<span><strong>{{$lang.summary_euro_supporting_contact}}</strong> Chris Gartside</span>
+=======
 				<span><strong>Age groups:</strong> {{tournamentSummary.tournament_groups}}</span>
 				<span><strong>Participating countries:</strong>{{tournamentSummary.tournament_countries}}</span>
 				<span><strong>Euro-Sportring contact:</strong> {{tournamentSummary.tournament_contact}}</span>
+>>>>>>> 85ff2137fb79c45cee7415d04713a8a94b882fd1
 			</div>
 		</div>
 		
