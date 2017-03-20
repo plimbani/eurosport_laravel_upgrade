@@ -12,7 +12,7 @@
 							</li>					  		 
 							<li class="nav-item">
 								<a :class="[activePath == 'competation_format' ? 'active' : '', 'nav-link']" data-toggle="tab" 
-								href="#competation_format" role="tab" @click="GetSelectComponent('competation_format')">{{$lang.competation_label}} Formats</a>
+								href="#competation_format" role="tab" @click="GetSelectComponent('competation_format')">{{$lang.competation_label}}</a>
 							</li>
 							<li class="nav-item">
 								<a :class="[activePath == 'pitch_capacity' ? 'active' : '', 'nav-link']" data-toggle="tab" 
