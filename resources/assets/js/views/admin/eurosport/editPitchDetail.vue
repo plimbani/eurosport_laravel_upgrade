@@ -1,6 +1,6 @@
 <template> 
                 <div class="modal fade" id="editPitch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="tabs tabs-primary">
                                 <div class="modal-header">
@@ -14,21 +14,21 @@
                                     </ul>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="tab-content">
+                                    <div class="tab-content"> 
                                         <div id="pitch" role="tabpanel" class="tab-pane active">
                                             <form method="post" name="frmPitchDetail" id="frmPitchDetail">
                                                 <div class="form-group row">
                                                     <label class="col-sm-5 form-control-label">Number  *</label>
                                                     <div class="col-sm-6">
-                                                        <input type="text" v-validate="'required'" v-model="pitchData.pitchdetail.pitch_number" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
-                                                            <i v-show="errors.has('pitch_number')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('pitch_number')">{{ errors.first('pitch_number') }}</span>
+                                                        <input type="text" v-model = "pitchData.pitchdetail.pitch_number"  :class="{'is-danger': errors.has('pitch_number1') }" v-validate="'required'"   name="pitch_number1"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
+                                                          <i v-show="errors.has('pitch_number1')" class="fa fa-warning"></i>
+                                <span class="help is-danger" v-show="errors.has('pitch_number1')">{{ errors.first('pitch_number1') }}</span>  
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-sm-5 form-control-label">Type  * </label>
                                                     <div class="col-sm-6">
-                                                        <select name="pitch_type" id="pitch_type"  v-model="pitchData.pitchdetail.type" class="form-control ">
+                                                        <select name="pitch_type" v-model = "pitchData.pitchdetail.type" id="pitch_type"   class="form-control ">
                                                             <option value="grass" >Grass</option>
                                                             <option value="artificial">Artificial</option>
                                                             <option value="Indoor">Indoor</option>
@@ -39,17 +39,17 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-5 form-control-label">Location *</label>
                                                     <div class="col-sm-6">
-                                                        <select name="location"  v-model="pitchData.pitchdetail.venue_id"  class="form-control ">
-                                                            <option value="1" >Location 1</option>
-                                                            <option value="2">Location 2</option>
-                                                            <option value="3">Location 3</option>
-                                                        </select>
+                                                    <select name="location" id="location" class="form-control ls-select2">
+                                                        <option :value="venue.id"  v-model = "pitchData.pitchdetail.venue_id"   v-for="(venue,key) in venues">{{venue.address1}}</option>
+                                                        
+                                                    </select>
+                                                       
                                                     </div>
                                                 </div> 
                                                 <div class="form-group row">
                                                     <label class="col-sm-5 form-control-label">Size *</label>
                                                     <div class="col-sm-6">
-                                                        <select name="pitch_size" id="pitch_size" v-model="pitchData.pitchdetail.size"  class="form-control pull-left">
+                                                        <select name="pitch_size" id="pitch_size"  v-model = "pitchData.pitchdetail.size"  class="form-control pull-left">
                                                             <option value="5-a-side" >5-a-side</option>
                                                             <option value="7-a-side">7-a-side</option>
                                                             <option value="8-a-side">8-a-side</option>
@@ -185,7 +185,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel </button>
                                 <button type="button" class="btn btn-primary" @click="savePitchDetails()">Save</button>
                             </div>
                         </div>
@@ -199,7 +199,7 @@ import _ from 'lodash'
         data() {
             return {
                 'tournamentId': this.$store.state.Tournament.tournamentId,
-                'pitchId' : this.$store.state.Pitch.pitchId,
+                
                 'tournamentDays': 3,
                 'stage_date':[],
                 'tournamentStartDate': '03/01/2017',
@@ -208,19 +208,26 @@ import _ from 'lodash'
                 'disableDate': [],
                 'stage_capacity' : [],
                 'availableDate': []
+                
                 }
         },
         computed: {
             tournamentTime: function() {
                 return this.$store.state.Tournament.currentTotalTime
             },
+            pitchId : function() {
+                return this.$store.state.Pitch.pitchId
+            },
             pitches: function() {
                 return _.cloneDeep(this.$store.state.Pitch.pitches)
             },
-            pitchData: function() {
-                return _.cloneDeep(this.$store.state.Pitch.pitchData)
+            venues: function() {
+                return this.$store.state.Tournament.venues
             },
+            pitchData: function () {
+                return _.cloneDeep(this.$store.state.Pitch.pitchData)
 
+            },
             stageAvailable: function () {
                 return _.cloneDeep(this.$store.getters.availableStage)
             },
@@ -232,6 +239,9 @@ import _ from 'lodash'
                 let tournamentAvailableTime =  this.tournamentTime
                 let pitchCapacityTime =this.pitchCapacity
                 let availableTime = tournamentAvailableTime - pitchCapacityTime
+                if(availableTime < 0) {
+                    availableTime = 0
+                }
                 var minutes = availableTime % 60;
                 var hours = (availableTime - minutes) / 60;
                 pitchavailableBalance.push (hours,minutes)
@@ -250,113 +260,118 @@ import _ from 'lodash'
             var startDate = new Date(this.tournamentStartDate)
             var obj ={}
             let this1= this
+            setTimeout( function() {
 
-            
-            $('.ls-datepicker').datepicker('setStartDate', this.tournamentStartDate);
+            $('.ls-datepicker').datepicker('setStartDate', this1.tournamentStartDate);
 
-            $('.ls-datepicker').datepicker('setEndDate', this.tournamentEndDate);
-            for(let i=1;i<=this.tournamentDays;i++){
+            $('.ls-datepicker').datepicker('setEndDate', this1.tournamentEndDate);
+            for(let i=1;i<=this1.tournamentDays;i++){
                 capacity['day'+i]= '0.00'
                 $('.datestage'+i).datepicker('setDate', startDate)
                  this1.availableDate.push($('.datestage'+i).val())
                  this1.removeStage.push(i)
-                _.find(this.pitchData.pitchAvailable, function (pitchAvailable) {
+                 
+                    _.find(this1.pitchData.pitchAvailable, function (pitchAvailable) {
                     if(pitchAvailable.stage_no == i){
                         $('#stage_start_time'+pitchAvailable.stage_no).val(pitchAvailable.stage_start_time)
                         $('#stage_break_start'+pitchAvailable.stage_no).val(pitchAvailable.break_start_time)
                         $('#stage_continue_time'+pitchAvailable.stage_no).val(pitchAvailable.break_end_time)
                         $('#stage_end_time'+pitchAvailable.stage_no).val(pitchAvailable.stage_end_time)  
                         this1.disableDate.push(pitchAvailable.stage_start_date)
-                        var index =  this1.availableDate.indexOf(pitchAvailable.stage_start_date);
-                        this1.availableDate.splice(index, 1);
+                        // var index =  this1.availableDate.indexOf(pitchAvailable.stage_start_date);
+                        // this1.availableDate.splice(index, 1);
                         $('.datestage'+i).datepicker('setDate', pitchAvailable.stage_start_date)
                         $('#stage_capacity'+i).val(pitchAvailable.stage_capacity)
                         $('#stage_capacity_span'+i).text(pitchAvailable.stage_capacity+ ' hrs')
                         // var pitchCapacity = pitchAvailable.stage_capacity
                         var pitchCapacity = '7.3'
-                        console.log(pitchCapacity)
                         var pitchTimeArr = pitchCapacity.split('.');
                         var pitchTime = parseInt(pitchTimeArr[0]*60)+parseInt(pitchTimeArr[1])
                         $('#stage_capacity_min'+i).val(pitchTime)
 
                         this1.removeStage.splice(this1.removeStage.indexOf(i), 1);
+                        
                     }
-                    
+                
                 startDate.setDate(new Date(this1.tournamentStartDate).getDate() + i)
                 obj['date'+i] = $('.datestage'+i).val();
                 capacity['day'+i]= pitchAvailable.stage_start_date
                 });
             }
-            let disableDate = this.disableDate;
-            this.stage_date.push(obj)
-            $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
-            this.stage_capacity.push(capacity)
-            $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
-               // this.stageCapacityCalc(1)
-               // console.log($(this)[0].class)
-               let stage = $(this)[0].id;
-               // console.log(stage_id)
-               stage = stage.replace('stage_start_time','')
-               stage = stage.replace('stage_break_start','')
-               stage = stage.replace('stage_continue_time','')
-               stage = stage.replace('stage_end_time','')
-               if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage).val() == '' || $('#stage_continue_time'+stage).val() == ''  ) {
-                $('#stage_capacity_span'+stage).text('0.00 hrs');
+            this1.availableDate = _.difference(this1.availableDate, this1.disableDate);
+            // console.log(avail_date,this1.availableDate,this1.disableDate,'jj')
+            let disableDate = this1.disableDate;
+            this1.stage_date.push(obj)
+            $('.ls-datepicker').datepicker('setDatesDisabled', this1.disableDate);
+            this1.stage_capacity.push(capacity)
+            $('.ls-timepicker').timepicker()
+            
+                $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
+                   // this.stageCapacityCalc(1)
+                   // console.log($(this)[0].class)
+                   let stage = $(this)[0].id;
+                   stage = stage.replace('stage_start_time','')
+                   stage = stage.replace('stage_break_start','')
+                   stage = stage.replace('stage_continue_time','')
+                   stage = stage.replace('stage_end_time','')
+                   if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage).val() == '' || $('#stage_continue_time'+stage).val() == ''  ) {
+                    $('#stage_capacity_span'+stage).text('0.00 hrs');
 
-                $('#stage_capacity'+stage).val('0.00');
-               }else {
-                 var stageTimeStart = new Date($('#stage_start_date'+stage).val() + " "+ $('#stage_start_time'+stage).val());
-                var stageTimeEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_end_time'+stage).val());
-                var stageBreakStart = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_break_start'+stage).val());
-                var stageBreakEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_continue_time'+stage).val());
+                    $('#stage_capacity'+stage).val('0.00');
+                   }else {
+                     var stageTimeStart = new Date($('#stage_start_date'+stage).val() + " "+ $('#stage_start_time'+stage).val());
+                    var stageTimeEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_end_time'+stage).val());
+                    var stageBreakStart = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_break_start'+stage).val());
+                    var stageBreakEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_continue_time'+stage).val());
 
-                    var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
-                    var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
-                    var diff = diff1 + diff2
+                        var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
+                        var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
+                        var diff = diff1 + diff2
 
-                    var minutes = diff % 60;
-                    var hours = (diff - minutes) / 60;
-                    var time_val = hours+ '.' +minutes
-                    var time = hours+ ':' +minutes +' hrs'
-                $('#stage_capacity'+stage).val(time_val);
-                $('#stage_capacity_min'+stage).val(diff);
-                $('#stage_capacity_span'+stage).text(time);
-               }
-               
-            })
+                        var minutes = diff % 60;
+                        var hours = (diff - minutes) / 60;
+                        var time_val = hours+ '.' +minutes
+                        var time = hours+ ':' +minutes +' hrs'
+                    $('#stage_capacity'+stage).val(time_val);
+                    $('#stage_capacity_min'+stage).val(diff);
+                    $('#stage_capacity_span'+stage).text(time);
+                   }
+                   
+                })
 
             // $(".ls-datepicker").on("change", function(e) {
             //         console.log('msg')
             // });
-            var that = this
-            $('.ls-datepicker').datepicker().on('changeDate',function(){
-                var stage = this.id
-                
-               stage = stage.replace("stage_start_date", "");
-               if (stage.search('stage_end_date') != -1 || stage.search('stage_continue_date') != -1 ) {
-                return false
-               }
-               if($.inArray( parseInt(stage), that.removeStage ) !== -1  ){
+            var that = this1
+                $('.ls-datepicker').datepicker().on('changeDate',function(){
+                    var stage = this.id
+                   stage = stage.replace("stage_start_date", "");
+                   if (stage.search('stage_end_date') != -1 || stage.search('stage_continue_date') != -1 ) {
                     return false
-                }else{
-                    
-                var index =  that.disableDate.indexOf($('#stage_end_date'+stage).val());
-                if (index > -1) {
-                    // let stage = disableDate[index];
-                    that.disableDate.splice(index, 1);
-                    that.availableDate.push($('#stage_end_date'+stage).val())
-                    that.availableDate.splice(that.availableDate.indexOf($('#'+this.id).val()),1)
-                    // that.disableDate = disableDate
-                    $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                   }
+                   if($.inArray( parseInt(stage), that.removeStage ) !== -1  ){
+                        return false
+                    }else{
+                    var index =  that.disableDate.indexOf($('#stage_end_date'+stage).val());
+                    if (index > -1) {
+                        // let stage = disableDate[index];
+                        that.disableDate.splice(index, 1);
+                        that.availableDate.push($('#stage_end_date'+stage).val())
+                        that.availableDate.splice(that.availableDate.indexOf($('#'+this.id).val()),1)
+                        // that.disableDate = disableDate
+                        
 
-                    // disableDate
-                }
-                that.disableDate.push( $('#'+this.id).val());
-                
-                $('.datestage'+stage).val($('#'+this.id).val())
-                }
-                
-            });
+                        // disableDate
+                    }
+                    that.disableDate.push( $('#'+this.id).val());
+                    $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                    
+                    $('.datestage'+stage).val($('#'+this.id).val())
+                    }
+                    
+                });
+            },1000)
+           
             
              // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
              // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
@@ -374,6 +389,9 @@ import _ from 'lodash'
                     $( ".stage_capacity_all" ).each(function( index ) {
                       time = time + parseInt($(this).val())
                     });
+                    if(time < 0) {
+                        time = 0
+                    }
                     var minutes = time % 60;
                     var hours = (time - minutes) / 60;
                     var time_val = hours+ '.' +minutes
