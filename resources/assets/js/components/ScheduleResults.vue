@@ -1,29 +1,29 @@
 <template>
 	<div class="tab-content summary-report-content">
-		<h6><strong>Schedule and results</strong></h6>
-		<span>Last updated: 23.04.2017</span>
+		<h6><strong>{{$lang.summary_schedule}}</strong></h6>
+		<span>{{$lang.summary_schedule_last_update}}</span>
 		<div class="row mt-4">
 			<div class="col-md-8">
 				<ul class="schedule_list">
-					<li class="active"><a href="">Draws</a></li>
-					<li><a href="">Matches</a></li>
-					<li><a href="">Teams</a></li>
+					<li class="active"><a href="">{{$lang.summary_schedule_draws}}</a></li>
+					<li><a href="">{{$lang.summary_schedule_matches}}</a></li>
+					<li><a href="">{{$lang.summary_schedule_teams}}</a></li>
 				</ul>
 				<!-- <button type="button" class="btn btn-primary">Draw</button>
 				<button type="button" class="btn btn-primary">Matches</button>
 				<button type="button" class="btn btn-primary">Teams</button> -->
 			</div>
 			<div class="col-md-4">
-				<button type="button" class="btn btn-primary pull-right">Print</button>
+				<button type="button" class="btn btn-primary pull-right">{{$lang.summary_schedule_button_print}}</button>
 			</div>
 		</div>
 		<div class="col-md-6 row mt-4">
 			<table class="table draw_table">
 				<thead>
                     <tr>
-                        <th>Draw</th>
-                        <th>Type</th>
-                        <th>Teams</th>
+                        <th>{{$lang.summary_schedule_draw}}</th>
+                        <th>{{$lang.summary_schedule_type}}</th>
+                        <th>{{$lang.summary_schedule_team}}</th>
                     </tr>
                 </thead>
                 <tbody>

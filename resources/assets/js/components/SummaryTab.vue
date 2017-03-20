@@ -7,17 +7,17 @@
 						<img src="/assets/img/flag.png" width="30">
 					</label>
 					<label class="col-md-6">
-						<h5>XYZ Cup 2017</h5>
+						<h5>{{$lang.summary_cup}}</h5>
 					</label>
 					<div class="clearfix"></div>
-					<span><strong>Locations:</strong> Cadiz (San Puerto), Jerez</span>
-					<span><strong>Dates:</strong> 09 - 10 Apr 2017</span>
+					<span><strong>{{$lang.summary_location}}</strong> Cadiz (San Puerto), Jerez</span>
+					<span><strong>{{$lang.summary_dates}}</strong> 09 - 10 Apr 2017</span>
 				</div>
 				<div class="pull-right col-md-6 padding0 text-right">
-					<span><strong>Status:</strong> Ready to publish</span>
-					<button type="button" data-toggle="modal" data-target="#publish_modal" class="btn btn-primary col-md-4">Publish</button><br>
+					<span><strong>{{$lang.summary_status}}</strong> Ready to publish</span>
+					<button type="button" data-toggle="modal" data-target="#publish_modal" class="btn btn-primary col-md-4">{{$lang.summary_button_publish}}</button><br>
 					<PublishTournament></PublishTournament>
-					<button type="button" data-toggle="modal" data-target="#delete_tournament_modal" class="btn btn-danger col-md-4 mt-3">Delete</button>
+					<button type="button" data-toggle="modal" data-target="#delete_tournament_modal" class="btn btn-danger col-md-4 mt-3">{{$lang.summary_button_delete}}</button>
 					<DeleteTournament></DeleteTournament>
 				</div>
 			</div>
@@ -76,9 +76,9 @@
 		<div class="clearfix mt-4"></div>
 		<div class="row">
 			<div class="col-md-12">
-				<span><strong>Age groups:</strong> G15, G17, U11, U13, U15, U17, U19</span>
-				<span><strong>Participating countries:</strong> Germany, Spain</span>
-				<span><strong>Euro-Sportring contact:</strong> Chris Gartside</span>
+				<span><strong>{{$lang.summary_age_groups}}</strong> G15, G17, U11, U13, U15, U17, U19</span>
+				<span><strong>{{$lang.summary_participating_countries}}</strong> Germany, Spain</span>
+				<span><strong>{{$lang.summary_euro_supporting_contact}}</strong> Chris Gartside</span>
 			</div>
 		</div>
 		
