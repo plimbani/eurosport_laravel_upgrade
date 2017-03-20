@@ -10,7 +10,7 @@
 						<h5>{{tournamentName}}</h5>
 					</label>
 					<div class="clearfix"></div>
-					<span><strong>Locations:</strong> Cadiz (San Puerto), Jerez</span>
+					<span><strong>Locations:</strong> {{tournamentSummary.}}</span>
 					<span><strong>Dates:</strong> {{tournamentDates}}</span>
 				</div>
 				<div class="pull-right col-md-6 padding0 text-right">
