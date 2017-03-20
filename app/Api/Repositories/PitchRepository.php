@@ -41,7 +41,7 @@ class PitchRepository
     {
         $updateData = [
             'tournament_id' => $pitchData['tournamentId'],
-            'pitch_number' => $pitchData['pitch_number'],
+            'pitch_number' => $pitchData['pitch_number1'],
             'type' => $pitchData['pitch_type'],
             'venue_id' => $pitchData['location'],
             'size' => $pitchData['pitch_size'],

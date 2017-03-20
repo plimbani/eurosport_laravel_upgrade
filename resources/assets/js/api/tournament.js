@@ -4,6 +4,9 @@ export default {
   getAllTournaments() {  	
   	return api.get('tournaments')
   },
+  getAllVenues(tournamentId) {
+   return api.get('venues/getAll/'+tournamentId)
+  },
   saveTournament(tournamentData) {  	  	
   	return api.post('tournament/create', {'tournamentData': tournamentData})
   },

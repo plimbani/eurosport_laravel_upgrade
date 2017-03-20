@@ -201,88 +201,89 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
         methods: {
             getAllPitches() {
                 this.$store.dispatch('SetPitches',this.tournamentId);  
+                this.$store.dispatch('SetVenues',this.tournamentId);  
 
             
             },
-            savePitchDetails () {
-                this.$validator.validateAll().then(() => {
-                    var time = 0
-                    $( ".stage_capacity_all" ).each(function( index ) {
-                      time = time + parseInt($(this).val())
-                    });
-                     var minutes = time % 60;
-                    var hours = (time - minutes) / 60;
-                    var time_val = hours+ '.' +minutes
+            // savePitchDetails () {
+            //     this.$validator.validateAll().then(() => {
+            //         var time = 0
+            //         $( ".stage_capacity_all" ).each(function( index ) {
+            //           time = time + parseInt($(this).val())
+            //         });
+            //          var minutes = time % 60;
+            //         var hours = (time - minutes) / 60;
+            //         var time_val = hours+ '.' +minutes
                    
-                    let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time_val
-                        if(this.pitchId == '') {
-                            // this.$store.dispatch('AddPitch',pitchData)
-                            return axios.post('/api/pitch/create',pitchData).then(response =>  {
-                                this.pitchId = response.data.pitchId
-                                toastr['success']('Pitch detail has been added successfully', 'Success');
-                            }).catch(error => {
-                                if (error.response.status == 401) {
-                                    toastr['error']('Invalid Credentials', 'Error');
-                                } else {
-                                    //   happened in setting up the request that triggered an Error
-                                    console.log('Error', error.message);
-                                }
-                            });
-                        }else{
-                           // pitchData += '&id='+this.pitchId;
-                           return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
-                                this.pitchId = response.data.pitchId
-                                toastr['success']('Pitch detail has been added successfully', 'Success');
-                                $('#exampleModal').modal('close')
-                            }).catch(error => {
-                                if (error.response.status == 401) {
-                                    toastr['error']('Invalid Credentials', 'Error');
-                                } else {
-                                    //   happened in setting up the request that triggered an Error
-                                    console.log('Error', error.message);
-                                }
-                            }); 
-                        }
+            //         let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time_val
+            //             if(this.pitchId == '') {
+            //                 // this.$store.dispatch('AddPitch',pitchData)
+            //                 return axios.post('/api/pitch/create',pitchData).then(response =>  {
+            //                     this.pitchId = response.data.pitchId
+            //                     toastr['success']('Pitch detail has been added successfully', 'Success');
+            //                 }).catch(error => {
+            //                     if (error.response.status == 401) {
+            //                         toastr['error']('Invalid Credentials', 'Error');
+            //                     } else {
+            //                         //   happened in setting up the request that triggered an Error
+            //                         console.log('Error', error.message);
+            //                     }
+            //                 });
+            //             }else{
+            //                // pitchData += '&id='+this.pitchId;
+            //                return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
+            //                     this.pitchId = response.data.pitchId
+            //                     toastr['success']('Pitch detail has been added successfully', 'Success');
+            //                     $('#exampleModal').modal('close')
+            //                 }).catch(error => {
+            //                     if (error.response.status == 401) {
+            //                         toastr['error']('Invalid Credentials', 'Error');
+            //                     } else {
+            //                         //   happened in setting up the request that triggered an Error
+            //                         console.log('Error', error.message);
+            //                     }
+            //                 }); 
+            //             }
                        
-                }).catch(() => {
-                    // toastr['error']('Invalid Credentials', 'Error')
-                 });
-                // let pitchData = { 
-                //     'pitchId' : this.pitchId,
-                //     'number': '123',
-                //     'type' : 'Grass',
-                //     'location' : '1',
-                //     'Size' : '5-a-side'
-                //     }
-                     // let pitchData = new FormData($("#frmPitchDetail")[0]$("#frmPitchAvailable")[0]);
+            //     }).catch(() => {
+            //         // toastr['error']('Invalid Credentials', 'Error')
+            //      });
+            //     // let pitchData = { 
+            //     //     'pitchId' : this.pitchId,
+            //     //     'number': '123',
+            //     //     'type' : 'Grass',
+            //     //     'location' : '1',
+            //     //     'Size' : '5-a-side'
+            //     //     }
+            //          // let pitchData = new FormData($("#frmPitchDetail")[0]$("#frmPitchAvailable")[0]);
                    
  
-            },
-            stageRemove (day) {
-                this.removeStage.push(day)
-                // this.disableDate;
+            // },
+            // stageRemove (day) {
+            //     this.removeStage.push(day)
+            //     // this.disableDate;
 
-                var index = this.disableDate.indexOf($('#stage_start_date'+day).val());
-                if (index > -1) {
+            //     var index = this.disableDate.indexOf($('#stage_start_date'+day).val());
+            //     if (index > -1) {
                     
                     
-                    this.disableDate.splice(index, 1);
-                    this.availableDate.push($('#stage_start_date'+day).val())
-                    $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
-                    $('.datestage'+day).datepicker('clearDates')
-                }
-                // this.stageShowday = false
-                // console.log(this.stageShow+day)
+            //         this.disableDate.splice(index, 1);
+            //         this.availableDate.push($('#stage_start_date'+day).val())
+            //         $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
+            //         $('.datestage'+day).datepicker('clearDates')
+            //     }
+            //     // this.stageShowday = false
+            //     // console.log(this.stageShow+day)
 
-            },
-            displayDay (day) {
-                if($.inArray( day,this.removeStage) != -1 ) {
-                    return false
+            // },
+            // displayDay (day) {
+            //     if($.inArray( day,this.removeStage) != -1 ) {
+            //         return false
 
-                }else {
-                    return true
-                }
-            },
+            //     }else {
+            //         return true
+            //     }
+            // },
             setStageCapacity(stage) {
             
                 let stage_start_date = $('#stage_start_date'+stage).val();
@@ -300,52 +301,52 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 // return hours+ ':' +minutes
                 // return 10.30 *stage
             },
-            setDatepicker(tStartDate,tEndDate,disableDate,availableDate,stage) {
-                    // let availableDate = this.availableDate 
-                    let that =this
+            // setDatepicker(tStartDate,tEndDate,disableDate,availableDate,stage) {
+            //         // let availableDate = this.availableDate 
+            //         let that =this
 
-                   if(availableDate.length > 0) {
-                        let availDate = availableDate[0];
+            //        if(availableDate.length > 0) {
+            //             let availDate = availableDate[0];
 
-                        that.disableDate.push(availableDate[0])
-                        var index = availableDate.indexOf(availableDate[0]);
-                        availableDate.splice(index, 1);
-                        that.availableDate = availableDate
-                         setTimeout(function() {
-                        $('.datestage'+stage).datepicker();
-                        $('.datestage'+stage).datepicker('setStartDate', tStartDate)
-                        $('.datestage'+stage).datepicker('setEndDate', tEndDate)
-                        $('.datestage'+stage).datepicker('setEndDate', tEndDate)
-                        $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
-                         $('.datestage'+stage).datepicker('setDate', availDate)
+            //             that.disableDate.push(availableDate[0])
+            //             var index = availableDate.indexOf(availableDate[0]);
+            //             availableDate.splice(index, 1);
+            //             that.availableDate = availableDate
+            //              setTimeout(function() {
+            //             $('.datestage'+stage).datepicker();
+            //             $('.datestage'+stage).datepicker('setStartDate', tStartDate)
+            //             $('.datestage'+stage).datepicker('setEndDate', tEndDate)
+            //             $('.datestage'+stage).datepicker('setEndDate', tEndDate)
+            //             $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
+            //              $('.datestage'+stage).datepicker('setDate', availDate)
                             
                         
                         
-                        $('#stage_start_time'+stage).timepicker()
-                        $('#stage_break_start'+stage).timepicker()
-                        $('#stage_continue_time'+stage).timepicker()
-                        $('#stage_end_time'+stage).timepicker()
-                        },1000)
-                    }
+            //             $('#stage_start_time'+stage).timepicker()
+            //             $('#stage_break_start'+stage).timepicker()
+            //             $('#stage_continue_time'+stage).timepicker()
+            //             $('#stage_end_time'+stage).timepicker()
+            //             },1000)
+            //         }
                    
 
                     
-            },
-            addStage () {
-                let removeStageArr = this.removeStage
-                let stageno = Math.min.apply( Math, removeStageArr)
+            // },
+            // addStage () {
+            //     let removeStageArr = this.removeStage
+            //     let stageno = Math.min.apply( Math, removeStageArr)
 
-                var index = removeStageArr.indexOf(Math.min.apply( Math, removeStageArr ));
-                if (index > -1) {
-                    let stage = removeStageArr[index];
-                    removeStageArr.splice(index, 1);
-                    this.removeStage = removeStageArr
-                     var that = this
-                     that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,that.disableDate,that.availableDate,stage);
+            //     var index = removeStageArr.indexOf(Math.min.apply( Math, removeStageArr ));
+            //     if (index > -1) {
+            //         let stage = removeStageArr[index];
+            //         removeStageArr.splice(index, 1);
+            //         this.removeStage = removeStageArr
+            //          var that = this
+            //          that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,that.disableDate,that.availableDate,stage);
                 
-                }
+            //     }
 
-            },
+            // },
             addPitch() {
                 this.pitchId = ''
                 setTimeout(function(){
@@ -354,7 +355,7 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 },1000)
             },
             editPitch(pitchId) {
-                // this.pitchId = pitchId
+                this.pitchId = pitchId
                 this.$store.dispatch('PitchData',pitchId)
                 
             },

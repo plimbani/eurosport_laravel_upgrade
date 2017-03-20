@@ -10,10 +10,11 @@ const state = {
   tournamentEndDate:"03/04/2017",
   tournamentDay:4,
   currentPage: '',
-  tournamentId: '1',
+  tournamentId: '',
   currentTemplate: '',
   currentTotalTime: 380,
-  tournamentDays: ''
+  tournamentDays: '',
+  venues: []
 }
 // getters
 const getters = {
@@ -23,6 +24,20 @@ const getters = {
 const actions = {
   SetTournamentName ({commit}, tournamentData) {      
     commit(types.CURRENT_TOURNAMENT, tournamentData)
+  },
+  SetVenues ({commit},tournamentId) { 
+    Tournament.getAllVenues(tournamentId).then (
+      (response) => {
+        commit(types.SET_VENUES, response.data.data)
+        
+        // dispatch(Pitch.PitchData,156)
+         // Pitch.PitchData(pitches[0].id)
+        
+      },
+      (error) => {
+        console.log('Error occured during Get pitches detail ', error)
+      }
+    )
   },
   SetTemplate ({commit}, tournamentData) { 
 
@@ -104,7 +119,12 @@ const mutations = {
    [types.SET_TEMPLATE] (state, templateData) {        
     state.currentTemplate = templateData.json;
     state.currentTotalTime = templateData.TotalTime;
-  }  
+  },
+ [types.SET_VENUES] (state, venueData) {        
+    state.venues = venueData;
+    
+  },
+
 }
 
 export default {

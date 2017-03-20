@@ -1,6 +1,6 @@
 <template> 
 <div class="modal fade" id="addPitchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="tabs tabs-primary">
                             <div class="modal-header">
@@ -39,10 +39,9 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-5 form-control-label">Location *</label>
                                                 <div class="col-sm-6">
-                                                    <select name="location" class="form-control ls-select2">
-                                                        <option value="1" selected="">Location 1</option>
-                                                        <option value="2">Location 2</option>
-                                                        <option value="3">Location 3</option>
+                                                    <select name="location" id="location" class="form-control" >
+                                                        <option :value="venue.id" v-for="(venue,key) in venues">{{venue.address1}}</option>
+                                                        
                                                     </select>
                                                 </div>
                                             </div>
@@ -207,6 +206,7 @@
                 'disableDate': [],
                 'stage_capacity' : [],
                 'availableDate': []
+                
                 }
         },
         computed: {
@@ -215,6 +215,9 @@
             },
             pitches: function() {
                 return this.$store.state.Pitch.pitches
+            },
+            venues: function() {
+                return this.$store.state.Tournament.venues
             },
             pitchId: function() {
                 return this.$store.getters.curPitchId
@@ -352,11 +355,13 @@
                     var time_val = hours+ '.' +minutes
                    
                     let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time_val
-                        if(this.pitchId == '') {
                             // this.$store.dispatch('AddPitch',pitchData)
                             return axios.post('/api/pitch/create',pitchData).then(response =>  {
                                 this.pitchId = response.data.pitchId
                                 toastr['success']('Pitch detail has been added successfully', 'Success');
+                                $('#addPitchModal').modal('hide')
+                                $("#frmPitchDetail")[0].reset();
+
                             }).catch(error => {
                                 if (error.response.status == 401) {
                                     toastr['error']('Invalid Credentials', 'Error');
@@ -365,21 +370,7 @@
                                     console.log('Error', error.message);
                                 }
                             });
-                        }else{
-                           // pitchData += '&id='+this.pitchId;
-                           return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
-                                this.pitchId = response.data.pitchId
-                                toastr['success']('Pitch detail has been added successfully', 'Success');
-                                $('#exampleModal').modal('close')
-                            }).catch(error => {
-                                if (error.response.status == 401) {
-                                    toastr['error']('Invalid Credentials', 'Error');
-                                } else {
-                                    //   happened in setting up the request that triggered an Error
-                                    console.log('Error', error.message);
-                                }
-                            }); 
-                        }
+                        
                        
                 }).catch(() => {
                     // toastr['error']('Invalid Credentials', 'Error')
@@ -483,26 +474,7 @@
                 }
 
             },
-            editPitch(pitchId) {
-                // this.pitchId = pitchId
-                this.$store.dispatch('PitchData',pitchId)
-                
-            },
-            removePitch(pitchId) {
-                // this.$store.dispatch('removePitch',pitchId)
-                return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
-                    this.getAllPitches()
-                    toastr['success']('Pitch Successfully removed', 'Success');
-                    this.getAllPitches()
-                    }).catch(error => {
-                    if (error.response.status == 401) {
-                        toastr['error']('Invalid Credentials', 'Error');
-                    } else {
-                        // Something happened in setting up the request that triggered an Error
-                        console.log('Error', error.message);
-                    }
-                });
-            }
+            
 
         }
     }
