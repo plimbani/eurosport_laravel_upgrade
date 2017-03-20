@@ -54,9 +54,11 @@ class PitchService implements PitchContract
      */
     public function edit($data,$pitchId)
     {
+
         $dataArr = $data->all();
         $pitchdata = $this->pitchRepoObj->edit($dataArr,$pitchId);
         if($pitchdata){
+            $this->pitchAvailableRepoObj->removePitchAvailability($pitchId);
             $data1 = $this->pitchAvailableRepoObj->createPitch($dataArr, $pitchId);
            
         }

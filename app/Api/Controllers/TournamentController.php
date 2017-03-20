@@ -102,8 +102,12 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function delete(Request $request)
+    public function delete($id)
     {
-        return $this->tournamentObj->delete($request);
+        return $this->tournamentObj->delete($id);
+    }
+    public function tournamentSummary(Request $request)
+    {
+        return $this->tournamentObj->tournamentSummary($request);
     }
 }

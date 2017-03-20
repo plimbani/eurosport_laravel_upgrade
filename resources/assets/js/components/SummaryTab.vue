@@ -7,18 +7,22 @@
 						<img src="/assets/img/flag.png" width="30">
 					</label>
 					<label class="col-md-6">
-						<h5>{{$lang.summary_cup}}</h5>
+						<h5>{{tournamentName}}</h5>
 					</label>
 					<div class="clearfix"></div>
-					<span><strong>{{$lang.summary_location}}</strong> Cadiz (San Puerto), Jerez</span>
-					<span><strong>{{$lang.summary_dates}}</strong> 09 - 10 Apr 2017</span>
+					<span><strong>{{$lang.summary_location}}:</strong> Cadiz (San Puerto), Jerez</span>
+					<span><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</span>
 				</div>
 				<div class="pull-right col-md-6 padding0 text-right">
-					<span><strong>{{$lang.summary_status}}</strong> Ready to publish</span>
-					<button type="button" data-toggle="modal" data-target="#publish_modal" class="btn btn-primary col-md-4">{{$lang.summary_button_publish}}</button><br>
+					<span><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
+					<button type="button" data-toggle="modal" data-target="#publish_modal" class="btn btn-primary col-md-4">Publish</button><br>
 					<PublishTournament></PublishTournament>
-					<button type="button" data-toggle="modal" data-target="#delete_tournament_modal" class="btn btn-danger col-md-4 mt-3">{{$lang.summary_button_delete}}</button>
-					<DeleteTournament></DeleteTournament>
+					<button type="button" data-toggle="modal" 
+					data-confirm-msg="Are you sure you would like to delete this user record?"
+					data-target="#delete_modal"
+					class="btn btn-danger col-md-4 mt-3">Delete</button>
+					<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+					<!--<DeleteTournament></DeleteTournament>-->
 				</div>
 			</div>
 		</div>
@@ -27,7 +31,7 @@
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-						<div class="card-title">21</div>
+						<div class="card-title">{{tournamentSummary.tournament_teams}}</div>
 						<p>Teams</p>
 					</div>
 				</div>
@@ -35,7 +39,7 @@
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-					<div class="card-title">7</div>
+					<div class="card-title">{{tournamentSummary.tournament_age_categories}}</div>
 						<p>Age categories</p>
 					</div>
 				</div>
@@ -43,7 +47,7 @@
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-						<div class="card-title">44</div>
+						<div class="card-title">{{tournamentSummary.tournament_matches}}</div>
 						<p>Games</p>
 					</div>
 				</div>
@@ -51,7 +55,7 @@
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-						<div class="card-title">12</div>
+						<div class="card-title">{{tournamentSummary.tournament_pitches}}</div>
 						<p>Pitches</p>
 					</div>
 				</div>
@@ -59,7 +63,7 @@
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-					<div class="card-title">	4</div>
+					<div class="card-title">{{tournamentSummary.tournament_referees}}</div>
 						<p>Referees</p>
 					</div>
 				</div>
@@ -67,7 +71,7 @@
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-					<div class="card-title">	2</div>
+					<div class="card-title">{{tournamentDays}}</div>
 						<p>Days</p>
 					</div>
 				</div>
@@ -76,9 +80,15 @@
 		<div class="clearfix mt-4"></div>
 		<div class="row">
 			<div class="col-md-12">
+<<<<<<< HEAD
 				<span><strong>{{$lang.summary_age_groups}}</strong> G15, G17, U11, U13, U15, U17, U19</span>
 				<span><strong>{{$lang.summary_participating_countries}}</strong> Germany, Spain</span>
 				<span><strong>{{$lang.summary_euro_supporting_contact}}</strong> Chris Gartside</span>
+=======
+				<span><strong>Age groups:</strong> {{tournamentSummary.tournament_groups}}</span>
+				<span><strong>Participating countries:</strong>{{tournamentSummary.tournament_countries}}</span>
+				<span><strong>Euro-Sportring contact:</strong> {{tournamentSummary.tournament_contact}}</span>
+>>>>>>> 85ff2137fb79c45cee7415d04713a8a94b882fd1
 			</div>
 		</div>
 		
@@ -89,11 +99,59 @@
 <script type="text/babel">
 	
 	import PublishTournament from './PublishTournament.vue'
-	import DeleteTournament from './DeleteTournament.vue'
-
+	
+	import DeleteModal from './DeleteModal.vue'
+	import Tournament from '../api/tournament.js'
 	export default {	
+	    data(){
+	    	return {
+	    		tournamentSummary:{tournament_logo:'', name: '', locations: '',tournament_dates: '', tournament_status: '',tournament_teams:'0',tournament_age_categories:'0',tournament_matches:'0',tournament_pitches:'0',tournament_referees:'0',tournament_days:'',tournament_groups:'-',tournament_countries:'-',tournament_contact:'-'},
+	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:'',tournamentId:'',
+
+	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
+                deleteAction: ''
+	    	}
+	    },
 	    components: {
-	        PublishTournament, DeleteTournament
+	        PublishTournament, DeleteModal
+	    },
+	    mounted() {
+	    	let tournamentId = this.$store.state.Tournament.tournamentId;
+	    	// here we call Api to get All Summary Data
+	    	
+	    	Tournament.tournamentSummaryData(tournamentId).then(
+	    		(response) => {
+	    			if(response.data.status_code == 200) {
+	    					this.tournamentSummary = response.data.data;
+	    					// fetch data From State
+	    			}
+	    		},
+	    		(error) => {
+	    			// if no Response Set Zero
+	    			// 
+	    		}
+	    	);
+	    	this.tournamentId = this.$store.state.Tournament.tournamentId
+	    	this.tournamentName = this.$store.state.Tournament.tournamentName
+	    	this.tournamentStatus = this.$store.state.Tournament.tournamentStatus
+			  this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
+			  this.tournamentDays= this.$store.state.Tournament.tournamentDays
+	    },
+	    methods: {
+		deleteConfirmed() {
+			Tournament.deleteTournament(this.tournamentId).then(
+	        (response) => {
+	          if(response.data.status_code==200){
+	             $("#delete_modal").modal("hide");
+	             toastr.success('Tournament has been deleted succesfully.', 'Delete Tournament', {timeOut: 5000});
+	             this.displayTournamentCompetationList();
+	          }
+	        },
+	        (error) => {
+	          alert('error occur')
+	        }
+	      )
+	    },
 	    }
 	}
 </script>

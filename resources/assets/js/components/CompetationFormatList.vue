@@ -125,13 +125,18 @@ export default {
     }
     },    
     next() {      
+      
       let index = $('input[name=competationFormatTemplate]:checked').val()
-      let tournamentTemplateId =  this.competationList[index].tournament_template_id
-      let tournamentTotalTime =  this.competationList[index].total_time      
-      let tournamentData  = {'tournamentTemplateId' : tournamentTemplateId,
-       'totalTime':tournamentTotalTime} 
-      // Now here we set the template for it
-      this.$store.dispatch('SetTemplate', tournamentData);
+      if(!isNaN(index)) {
+        let tournamentTemplateId =  this.competationList[index].tournament_template_id
+        let tournamentTotalTime =  this.competationList[index].total_time      
+        let tournamentData  = {'tournamentTemplateId' : tournamentTemplateId,
+         'totalTime':tournamentTotalTime} 
+        // Now here we set the template for it
+        this.$store.dispatch('SetTemplate', tournamentData);      
+        
+      } 
+
       this.$router.push({name: 'pitch_capacity'});
     }
   },
