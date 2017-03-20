@@ -145,12 +145,19 @@ class TournamentService implements TournamentContract
      *
      * @return [type]
      */
-    public function delete($data)
+    public function delete($tournamentId)
     {
-        $data = $data->all();
-        $data = $this->tournamentRepoObj->delete($data);
+        $data = $this->tournamentRepoObj->delete($tournamentId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
+        }
+    }
+    public function tournamentSummary($data) 
+    {
+        $data = $data->all();
+        $tournamentData = $this->tournamentRepoObj->tournamentSummary($data['tournamentId']);
+        if ($tournamentData) {
+            return ['status_code' => '200', 'message' => 'Data Successfully Deleted','data'=>$tournamentData];
         }
     }
 }
