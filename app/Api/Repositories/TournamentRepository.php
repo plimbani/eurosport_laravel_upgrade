@@ -82,15 +82,20 @@ class TournamentRepository
         $summaryData = array();
        
         // we only consider relevent table data 
-       $locationIds = TournamentVenue::where('tournament_id', $tournamentId)->get();
+       $locationData = Venue::where('tournament_id', $tournamentId)->get();
+
        // we get Multiple LocationIds
        // TODO:--
-       
+       $tempData=array();
+       if(count($locationData) > 0) {
+        foreach($locationData as $location) {
+            $tempData['locationData'][]=$location['name'].'('.$location['country'].')';
+        }
+        $summaryData['']=implode(',',$tempData['locationData']);
+       }
        $tournamentCompetaionTemplateData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
 
-       $tempData=array();
-       
-       
+         
        if(count($tournamentCompetaionTemplateData) > 0 )
        {	
 	       foreach($tournamentCompetaionTemplateData as $tournamentData) {
