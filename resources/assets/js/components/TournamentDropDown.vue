@@ -43,8 +43,9 @@
 		  let tournamentSel  = {name:name, 
 		  	currentPage:'Competation Formats',id:id, 
 		  	tournamentDays: tournamentDays,
-		  		tournamentStartDate:this.tournament.start_date, 
-				tournamentEndDate:this.tournament.end_date}  				
+		  	tournamentStatus:this.tournament.status,
+		  	tournamentStartDate:this.tournament.start_date, 
+			tournamentEndDate:this.tournament.end_date}  				
     	  this.$store.dispatch('SetTournamentName', tournamentSel)
     	  this.$store.dispatch('setActiveTab', 'competation_format')
     	  this.$router.push({name:'competation_format'})

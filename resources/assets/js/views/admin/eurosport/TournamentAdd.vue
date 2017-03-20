@@ -144,6 +144,7 @@
                             placeholder="Enter Telephone">
                         </div>
                     </div>
+
                     <div class="">
                         <h6><strong>{{$lang.tournament_location}}</strong></h6>
                     </div>
@@ -221,7 +222,7 @@
                             <input type="text" class="form-control" placeholder="">
                         </div>
                     </div>
-                    <!-- <button class="btn btn-success">Save</button> -->
+                     <button class="btn btn-success">+ Add Location</button> 
                 </form>                
             </div>
         </div>       
