@@ -189,7 +189,7 @@ return [
         Laraspace\Providers\TournamentServiceProvider::class,
         Laraspace\Providers\ApiServiceProvider::class,
         Laraspace\Providers\PitchServiceProvider::class,
-        Laraspace\Providers\VenueServiceProvider::class,
+       
         
         /*
          *  Api Service Providers
@@ -202,6 +202,7 @@ return [
         Laraspace\Api\Providers\TournamentServiceProvider::class,
         Laraspace\Api\Providers\PitchServiceProvider::class,
         Laraspace\Api\Providers\RoleServiceProvider::class,
+        Laraspace\Api\Providers\VenueServiceProvider::class,
     ],
 
     /*

@@ -40,7 +40,7 @@
                                                 <label class="col-sm-5 form-control-label">Location *</label>
                                                 <div class="col-sm-6">
                                                     <select name="location" id="location" class="form-control" >
-                                                        <option :value="venue.id" v-for="(venue,key) in venues">{{venue.address1}}</option>
+                                                        <option :value="venue.id" v-for="(venue,key) in venues">{{venue.name}}</option>
                                                         
                                                     </select>
                                                 </div>
@@ -257,6 +257,7 @@
             $('.ls-datepicker').datepicker('setEndDate', this.tournamentEndDate);
             for(let i=1;i<=this.tournamentDays;i++){
                 capacity['day'+i]= '0.00'
+                console.log(startDate)
                 $('.datestage'+i).datepicker('setDate', startDate)
                 this.disableDate.push( $('.datestage'+i).val());
                 startDate.setDate(new Date(this.tournamentStartDate).getDate() + i)

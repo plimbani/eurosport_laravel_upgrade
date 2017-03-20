@@ -40,7 +40,7 @@
                                                     <label class="col-sm-5 form-control-label">Location *</label>
                                                     <div class="col-sm-6">
                                                     <select name="location" id="location" class="form-control ls-select2">
-                                                        <option :value="venue.id"  v-model = "pitchData.pitchdetail.venue_id"   v-for="(venue,key) in venues">{{venue.address1}}</option>
+                                                        <option :value="venue.id"  v-model = "pitchData.pitchdetail.venue_id"   v-for="(venue,key) in venues">{{venue.name}}</option>
                                                         
                                                     </select>
                                                        
@@ -370,7 +370,7 @@ import _ from 'lodash'
                     }
                     
                 });
-            },1000)
+            },2000)
            
             
              // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
