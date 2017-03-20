@@ -42,7 +42,9 @@ class TournamentRepository
         $newdata['user_id'] = 1;
 
         // Now here we Save it For Tournament
-        $tournamentId = Tournament::create($newdata)->id;      
+        $tournamentId = Tournament::create($newdata)->id;   
+        // Also Update the image Logo
+        Tournament::where('id',$tournamentId)->update('logo'=>'tournament_'.$tournamentId);   
         unset($newdata);  
         // Now here we save the eurosport contact details
         $peopleData =  array();
