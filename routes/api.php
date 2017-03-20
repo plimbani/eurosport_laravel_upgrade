@@ -76,6 +76,7 @@ $api->version('v1', function ($api) {
     $api->post('tournament/create', 'Laraspace\Api\Controllers\TournamentController@create');
     $api->post('tournament/edit/{id}', 'Laraspace\Api\Controllers\TournamentController@edit');
     $api->post('tournament/delete/{id}', 'Laraspace\Api\Controllers\TournamentController@delete');
+    $api->post('tournaments/tournamentSummary','Laraspace\Api\Controllers\TournamentController@tournamentSummary');
 
     // User Stuff
     $api->get('users', 'Laraspace\Api\Controllers\UserController@getUsers');

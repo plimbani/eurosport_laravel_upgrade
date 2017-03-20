@@ -25,5 +25,11 @@ export default {
   },
   deleteCompetation(competationId) {
     return api.post('age_group/deleteCompetationFormat', {'tournamentCompetationTemplateId': competationId});
+  },
+  tournamentSummaryData(tournamentId) {
+    return api.post('tournaments/tournamentSummary',{'tournamentId':tournamentId})
+  },
+  deleteTournament(tournamentId) {
+    return api.post('tournament/delete/'+tournamentId)
   }
 }

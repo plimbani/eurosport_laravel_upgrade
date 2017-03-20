@@ -8,6 +8,9 @@ use Laraspace\Models\Venue;
 use Laraspace\Models\TournamentContact;
 use Laraspace\Models\TournamentVenue;
 use Laraspace\Models\TournamentTemplates;
+use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\Pitch;
+
 class TournamentRepository
 {
     public function getAll()
@@ -57,9 +60,10 @@ class TournamentRepository
         $locationData['postcode'] =$data['tournament_venue_postcode'];
         $locationData['state'] =$data['tournament_venue_state'];
         $locationData['country'] =$data['tournament_venue_country'];
+        $locationData['tournament_id']=$tournamentId;
         // $locationData['organiser'] =$data['tournament_venue_organiser'];
         $locationId = Venue::create($locationData)->id;
-        TournamentVenue::create(array('tournament_id'=>$tournamentId,'venue_id'=>$locationId));
+        //TournamentVenue::create(array('tournament_id'=>$tournamentId,'venue_id'=>$locationId));
         
         return $tournamentId;        
     }
@@ -69,8 +73,58 @@ class TournamentRepository
         return Tournament::where('id', $data['id'])->update($data);
     }
 
-    public function delete($data)
+    public function delete($id)
     {
-        return Tournament::find($data['id'])->delete();
+        return Tournament::find($id)->delete();
+    }
+    public function tournamentSummary($tournamentId) {
+        // here we put validation for tournament id is exist
+        $summaryData = array();
+       
+        // we only consider relevent table data 
+       $locationIds = TournamentVenue::where('tournament_id', $tournamentId)->get();
+       // we get Multiple LocationIds
+       // TODO:--
+       
+       $tournamentCompetaionTemplateData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
+
+       $tempData=array();
+       
+       
+       if(count($tournamentCompetaionTemplateData) > 0 )
+       {	
+	       foreach($tournamentCompetaionTemplateData as $tournamentData) {
+	       	// here we consider whole string for total teams	
+	       	$tempData['total_teams'][] =  $tournamentData['disp_format_name'];
+	       	$tempData['total_match'][] =  $tournamentData['total_match'];  
+	       	$tempData['age_group'][]=$tournamentData['group_name'];    	
+	       }
+	      $summaryData['tournament_matches'] = array_sum($tempData['total_match']);
+        $summaryData['tournament_teams'] = array_sum($tempData['total_teams']);
+         $summaryData['tournament_groups']= implode(',',$tempData['age_group']);
+     	}
+
+       $tournamentPitch = Pitch::where('tournament_id', $tournamentId)->get();
+
+       $summaryData['tournament_age_categories'] = count($tournamentCompetaionTemplateData);
+        
+         $summaryData['tournament_pitches'] = count($tournamentPitch);
+         // TODO: referee is remaining
+         $summaryData['tournament_referees'] = '--';
+        
+        // TODO: country  is remaining depends on team
+         $summaryData['tournament_countries'] = '--';
+         $peopleData = TournamentContact::where('tournament_id',$tournamentId)->get();
+         
+         $peopleId = (count($peopleData) > 0) ?$peopleData[0]['id'] : '0';
+         
+         if($peopleId != 0) {
+
+         		$contactData = Person::where('id',$peopleId)->get();
+         		$summaryData['tournament_contact'] = $contactData[0]['first_name'].','.$contactData[0]['last_name'];
+         }
+         
+	       //$locationData = Venue::find();
+       return $summaryData;
     }
 }
