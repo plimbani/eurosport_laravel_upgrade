@@ -1,13 +1,13 @@
 <template>
 	<div class="tab-content summary-report-content">
-		<h6><strong>Reports</strong></h6>
+		<h6><strong>{{$lang.summary_reports}}</strong></h6>
 		<div class="row">
 			<div class="col-md-6">
-				<span>Use the filters below to generate a report.</span>
+				<span>{{$lang.summary_message}}</span>
 			</div>
 			<div class="col-md-6 text-right">
-				<button type="button" class="btn btn-primary">Download</button>
-                <button type="submit" class="btn btn-primary">Print</button>
+				<button type="button" class="btn btn-primary">{{$lang.summary_button_download}}</button>
+                <button type="submit" class="btn btn-primary">{{$lang.summary_button_print}}</button>
 			</div>
 		</div>
 		<div class="block-bg mt-4">
@@ -15,7 +15,7 @@
 				<div class="form-group row text-left">
 					<div class="col-md-7 row">
 						<div class="col-md-4 mb-7">
-							<label><strong>Age category</strong></label>
+							<label><strong>{{$lang.summary_age_category}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
 		                            <option value="">Select</option>
@@ -24,7 +24,7 @@
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
-							<label><strong>Club</strong></label>
+							<label><strong>{{$lang.summary_club}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
 		                            <option value="">Select</option>
@@ -33,7 +33,7 @@
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
-							<label><strong>Team</strong></label>
+							<label><strong>{{$lang.summary_team}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
 		                        	<option value="">Select</option>
@@ -44,7 +44,7 @@
 					</div>
 					<div class="col-md-5 row">
 						<div class="col-md-6 mb-5">
-							<label><strong>From</strong></label>
+							<label><strong>{{$lang.summary_from}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
 		                        	<option value="">Select</option>
@@ -53,7 +53,7 @@
 		                    </div>
 						</div>
 						<div class="col-md-6 mb-5">
-							<label><strong>To</strong></label>
+							<label><strong>{{$lang.summary_to}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
 		                        	<option value="">Select</option>
@@ -64,7 +64,7 @@
 					</div>
 					<div class="col-md-7 row">
 						<div class="col-md-4 mb-7">
-							<label><strong>Location</strong></label>
+							<label><strong>{{$lang.summary_location}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
 		                            <option value="">Select</option>
@@ -73,7 +73,7 @@
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
-							<label><strong>Pitch</strong></label>
+							<label><strong>{{$lang.summary_pitch}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
 		                            <option value="">Select</option>
@@ -82,7 +82,7 @@
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
-							<label><strong>Referee</strong></label>
+							<label><strong>{{$lang.summary_referee}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
 		                        	<option value="">Select</option>
@@ -92,8 +92,8 @@
 						</div>
 					</div>
 					<div class="col-md-5 text-right">
-						<button type="button" class="btn btn-primary">Clear</button>
-                		<button type="submit" class="btn btn-primary">Generate</button>
+						<button type="button" class="btn btn-primary">{{$lang.summary_button_clear}}</button>
+                		<button type="submit" class="btn btn-primary">{{$lang.summary_button_generate}}</button>
 					</div>
 				</div>
 			</form>
@@ -102,12 +102,12 @@
 			<table class="table">
 				<thead>
                     <tr>
-                        <th>Date (time)</th>
-                        <th>Age category</th>
-                        <th>Location</th>
-                        <th>Pitch</th>
-                        <th>Referee</th>
-                        <th>Game</th>
+                        <th>{{$lang.summary_reports_date}}</th>
+                        <th>{{$lang.summary_reports_age_catrgory}}</th>
+                        <th>{{$lang.summary_reports_location}}</th>
+                        <th>{{$lang.summary_reports_pitch}}</th>
+                        <th>{{$lang.summary_reports_referee}}</th>
+                        <th>{{$lang.summary_reports_game}}</th>
                     </tr>
                 </thead>
                 <tbody>

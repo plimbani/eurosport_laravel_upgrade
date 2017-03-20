@@ -8,19 +8,19 @@
 							<ul class="nav nav-tabs" role="tablist">
 								<li class="nav-item">
 									<a class="nav-link active" data-toggle="tab" 
-									 role="tab" @click="currentView='summaryTab'">Summary</a>
+									 role="tab" @click="currentView='summaryTab'">{{$lang.summary_label_summary}}</a>
 								</li>					  		 
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
-									role="tab" @click="currentView='summaryReport'">Reports</a>
+									role="tab" @click="currentView='summaryReport'">{{$lang.summary_label_reports}}</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
-									role="tab" @click="currentView='scheduleResults'">Schedule and results</a>
+									role="tab" @click="currentView='scheduleResults'">{{$lang.summary_label_schedule}}</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
-									role="tab" @click="currentView='messages'">Messages</a>
+									role="tab" @click="currentView='messages'">{{$lang.summary_label_message}}</a>
 								</li>
 							</ul>
 							<component :is="currentView"> </component>
