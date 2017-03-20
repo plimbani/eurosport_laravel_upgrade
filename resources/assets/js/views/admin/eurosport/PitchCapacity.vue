@@ -172,6 +172,7 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
             getAllPitches() {
 
                 this.$store.dispatch('SetPitches',this.tournamentId);
+                this.$store.dispatch('SetVenues',this.tournamentId);
             },
             savePitchDetails () {
                 this.$validator.validateAll().then(() => {
