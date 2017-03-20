@@ -6,7 +6,7 @@ data-animation="false"
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Age category</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{$lang.competation_modal_age_category}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -14,16 +14,16 @@ data-animation="false"
         <div class="modal-body">
         <form name="ageCategoryName">
           <div class="form-group row" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
-              <label class="col-sm-5 form-control-label">Age category *</label>
+              <label class="col-sm-5 form-control-label">{{$lang.competation_label_age_category}}</label>
               <div class="col-sm-6">
                   <input type="text" class="form-control" 
                   placeholder="e.g. U11, U16-A"  v-validate="'required'" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
                   <i v-show="errors.has('ageCategory_name')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('ageCategory_name')">Age Category is Required</span>
+                                    <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_age_category_required}}</span>
               </div>
           </div>
           <div class="form-group row" >
-              <label class="col-sm-5 form-control-label">Select templates *</label>
+              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_select_templates}}</label>
               <div class="col-sm-6">
                   <select class="form-control ls-select2"
                   name="tournamentTemplate"
@@ -36,12 +36,12 @@ data-animation="false"
                     </option>
                   </select>
 
-                  <span class="help is-danger" v-show="errors.has('tournamentTemplate')">Template is required.</span>
+                  <span class="help is-danger" v-show="errors.has('tournamentTemplate')">{{$lang.competation_modal_select_templates_required}}</span>
 
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Game duration RR/PM/EM *</label>
+              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_game_duration}}</label>
               <div class="col-sm-6">
                   <span class="col-sm-2 pull-left multi-number padding0">2 <small>X</small></span>
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.game_duration_RR">
@@ -53,7 +53,7 @@ data-animation="false"
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Game duration Final *</label>
+              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_game_duration_final}}</label>
               <div class="col-sm-6">
                   <span class="col-sm-2 pull-left multi-number padding0">2 <small>X</small></span>
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.game_duration_FM">
@@ -65,19 +65,19 @@ data-animation="false"
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Half-time break RR/PM/EM *</label>
+              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_half_time_break}}</label>
               <div class="col-sm-6">
                   <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_RR" min="0">
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Half-time break Final *</label>
+              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_half_time_break_final}}</label>
               <div class="col-sm-6">
                   <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_FM" min="0">
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Match interval RR/PM/EM *</label>
+              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_match_interval}}</label>
               <div class="col-sm-6">
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.match_interval_RR">
                       <option value="5">5</option>
@@ -87,7 +87,7 @@ data-animation="false"
               </div>
           </div>
             <div class="form-group row">
-                <label class="col-sm-5 form-control-label">Match interval Final *</label>
+                <label class="col-sm-5 form-control-label">{{$lang.competation_modal_match_interval}}</label>
                 <div class="col-sm-6">
                     <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.match_interval_FM">
                         <option value="5">5</option>
