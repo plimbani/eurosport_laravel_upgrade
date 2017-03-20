@@ -128,6 +128,8 @@ export default {
       
       let index = $('input[name=competationFormatTemplate]:checked').val()
       if(!isNaN(index)) {
+        
+        
         let tournamentTemplateId =  this.competationList[index].tournament_template_id
         let tournamentTotalTime =  this.competationList[index].total_time      
         let tournamentData  = {'tournamentTemplateId' : tournamentTemplateId,
