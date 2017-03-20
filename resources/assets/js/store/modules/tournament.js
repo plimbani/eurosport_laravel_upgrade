@@ -14,7 +14,7 @@ const state = {
   currentTemplate: '',
   currentTotalTime: 380,
   tournamentDays: '',
-  venues: []
+  venues: [],
   tournamentStatus: ''
 }
 // getters

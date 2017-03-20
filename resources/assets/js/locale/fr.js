@@ -198,7 +198,7 @@ module.exports = {
   teams_groups_label: "FTeams And Groups",
   summary_label: "FSummary",
 
-  summary_label_summary: "FSummary"
+  summary_label_summary: "FSummary",
   summary_label_reports: "FReports",
   summary_label_schedule: "FSchedule and results",
   summary_label_message: "FMessages"

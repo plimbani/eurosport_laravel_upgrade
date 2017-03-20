@@ -14,7 +14,7 @@ class Venue extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = ['name', 'address1', 'address2', 'address3', 'county',
-     'state', 'country', 'city', 'postcode', 'contact_no', 'email_address', ];
+     'state', 'country', 'city', 'postcode', 'contact_no', 'email_address','tournament_id' ];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 }
