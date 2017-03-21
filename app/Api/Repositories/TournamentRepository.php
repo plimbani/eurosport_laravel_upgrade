@@ -26,7 +26,7 @@ class TournamentRepository
     }
     public function create($data)
     {
-
+        //print_r($data);exit;
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
@@ -44,27 +44,34 @@ class TournamentRepository
         // Now here we Save it For Tournament
         $tournamentId = Tournament::create($newdata)->id;   
         // Also Update the image Logo
-        Tournament::where('id',$tournamentId)->update('logo'=>'tournament_'.$tournamentId);   
+        //Tournament::where('id',$tournamentId)->update('logo'=>'tournament_'.$tournamentId);   
         unset($newdata);  
         // Now here we save the eurosport contact details
-        $peopleData =  array();
-        $peopleData['first_name'] = $data['tournament_contact_first_name'];
-        $peopleData['last_name'] = $data['tournament_contact_last_name'];
-        $peopleData['home_phone'] = $data['tournament_contact_home_phone'];
-        $peopleId = Person::create($peopleData)->id;  
+        $tournamentContactData =  array();
+        $tournamentContactData['first_name'] = $data['tournament_contact_first_name'];
+        $tournamentContactData['last_name'] = $data['tournament_contact_last_name'];
+        $tournamentContactData['telephone'] = $data['tournament_contact_home_phone'];
+        $tournamentContactData['tournament_id'] = $tournamentId;
+        
         // Save Tournament Contact Data
-        TournamentContact::create(array('tournament_id'=>$tournamentId,'people_id'=>$peopleId));
-        unset($peopleData);
+        TournamentContact::create($tournamentContactData);
+        unset($tournamentContactData);
         // Save Tournament Venue Data     
-        $locationData['name'] =$data['tournament_venue_name']; 
-        $locationData['address'] =$data['touranment_venue_address'];
-        $locationData['city'] =$data['tournament_venue_city'];
-        $locationData['postcode'] =$data['tournament_venue_postcode'];
-        $locationData['state'] =$data['tournament_venue_state'];
-        $locationData['country'] =$data['tournament_venue_country'];
+        // we have to loop for according to loations
+        $locationCount = $data['locationCount'];
+        for($i=1;$i<=$locationCount;$i++) {
+
+        $locationData['name'] =$data['locations']['tournament_venue_name'][$i]; 
+        $locationData['address1'] =$data['locations']['touranment_venue_address'][$i];
+        $locationData['city'] =$data['locations']['tournament_venue_city'][$i];
+        $locationData['postcode'] =$data['locations']['tournament_venue_postcode'][$i];
+        $locationData['state'] =$data['locations']['tournament_venue_state'][$i];
+        $locationData['country'] =$data['locations']['tournament_venue_country'][$i];
         $locationData['tournament_id']=$tournamentId;
         // $locationData['organiser'] =$data['tournament_venue_organiser'];
-        $locationId = Venue::create($locationData)->id;
+        $locationId = Venue::create($locationData)->id;    
+        }
+        
         //TournamentVenue::create(array('tournament_id'=>$tournamentId,'venue_id'=>$locationId));
         
         return $tournamentId;        
