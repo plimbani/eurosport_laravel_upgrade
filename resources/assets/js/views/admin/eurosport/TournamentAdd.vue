@@ -145,8 +145,8 @@
                         </div>
                     </div>
 
-                     <custom v-for="n in customCount" :tournament="tournament"
-                     :customCount="customCount" :locations="locations"></custom> 
+                     <!--<custom v-for="n in customCount" :tournament="tournament"
+                     :customCount="customCount" :locations="locations"></custom> -->
                      <button class="btn btn-success" @click.prevent="customCount++">+ Add Location</button>
                      <button class="btn btn-success" @click.prevent="customCount--" v-if="customCount > 0">+ Remove Location</button>
                 </form>                
@@ -169,7 +169,7 @@
 </template>
 
 <script type="text/babel">
-// import custom from '../../../components/custom.vue'
+//import custom from '../../../components/custom.vue'
 
 export default {
   data() {
@@ -190,7 +190,9 @@ export default {
    }   
   },
   components: {
+
     // custom: custom
+
   },
   mounted(){    
     Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
