@@ -114,7 +114,7 @@
   				<div class="col-md-12">
   					<table class="table add-category-table">
                         <thead>
-                            <tr>
+                            <tr >
                                 <th>{{$lang.teams_reference}}</th>
                                 <th>{{$lang.teams_name}}</th>
                                 <th>{{$lang.teams_country}}</th>
@@ -123,13 +123,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1234567</td>
-                                <td>Jerez FC</td>
+                            <tr :id="team.team_id" v-for="team in teams">
+                                <td>{{team.esr_reference}}</td>
+                                <td>{{team.name}}</td>
                                 <td>
-                                	<img src="/assets/img/flag.png" width="20">Spain 
+                                	<img src="/assets/img/flag.png" width="20">{{team.country_name}} 
                                 </td>
-                                <td>U11</td>
+                                <td>{{team.country_name}}</td>
                                 <td>
                                 	<select class="form-control ls-select2">
 			                            <option value="">Select a location</option>
@@ -141,133 +141,7 @@
 			                        </select>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>John</td>
-                                <td>Smith</td>
-                                <td>
-                                	<img src="/assets/img/flag.png" width="20">Germany
-                                </td>
-                                <td>Blackpool Juniors FC</td>
-                                <td>
-                                	<select class="form-control ls-select2">
-                                  <option value="">Select a location</option>
-                                  <option value="">Location 1</option>
-                                  <option value="">Location 2</option>
-                                  <option value="">Location 3</option>
-                                  <option value="">Location 4</option>
-                                  <option value="">Etc...</option>
-			                        </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>Jerez FC</td>
-                                <td>
-                                	<img src="/assets/img/flag.png" width="20">Spain
-                                </td>
-                                <td>U11</td>
-                                <td>
-                                	<select class="form-control ls-select2">
-                                  <option value="">Select a location</option>
-                                  <option value="">Location 1</option>
-                                  <option value="">Location 2</option>
-                                  <option value="">Location 3</option>
-                                  <option value="">Location 4</option>
-                                  <option value="">Etc...</option>
-			                        </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>John</td>
-                                <td>Smith</td>
-                                <td>
-                                	<img src="/assets/img/flag.png" width="20">Germany
-                                </td>
-                                <td>Blackpool Juniors FC</td>
-                                <td>
-                                	<select class="form-control ls-select2">
-                                  <option value="">Select a location</option>
-                                  <option value="">Location 1</option>
-                                  <option value="">Location 2</option>
-                                  <option value="">Location 3</option>
-                                  <option value="">Location 4</option>
-                                  <option value="">Etc...</option>
-			                        </select>
-                                </td>
 
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>Jerez FC</td>
-                                <td>
-                                	<img src="/assets/img/flag.png" width="20">Spain
-                                </td>
-                                <td>U11</td>
-                                <td>
-                                	<select class="form-control ls-select2">
-                                  <option value="">Select a location</option>
-                                  <option value="">Location 1</option>
-                                  <option value="">Location 2</option>
-                                  <option value="">Location 3</option>
-                                  <option value="">Location 4</option>
-                                  <option value="">Etc...</option>
-			                        </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>John</td>
-                                <td>Smith</td>
-                                <td>
-                                	<img src="/assets/img/flag.png" width="20">Germany
-                                </td>
-                                <td>Blackpool Juniors FC</td>
-                                <td>
-                                	<select class="form-control ls-select2">
-                                  <option value="">Select a location</option>
-                                  <option value="">Location 1</option>
-                                  <option value="">Location 2</option>
-                                  <option value="">Location 3</option>
-                                  <option value="">Location 4</option>
-                                  <option value="">Etc...</option>
-			                        </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1234567</td>
-                                <td>Jerez FC</td>
-                                <td>
-                                	<img src="/assets/img/flag.png" width="20">Spain
-                                </td>
-                                <td>U11</td>
-                                <td>
-                                	<select class="form-control ls-select2">
-                                  <option value="">Select a location</option>
-                                  <option value="">Location 1</option>
-                                  <option value="">Location 2</option>
-                                  <option value="">Location 3</option>
-                                  <option value="">Location 4</option>
-                                  <option value="">Etc...</option>
-			                        </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>John</td>
-                                <td>Smith</td>
-                                <td>
-                                	<img src="/assets/img/flag.png" width="20">Germany
-                                </td>
-                                <td>Blackpool Juniors FC</td>
-                                <td>
-                                	<select class="form-control ls-select2">
-                                  <option value="">Select a location</option>
-                                  <option value="">Location 1</option>
-                                  <option value="">Location 2</option>
-                                  <option value="">Location 3</option>
-                                  <option value="">Location 4</option>
-                                  <option value="">Etc...</option>
-			                        </select>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                     <button type="button" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
@@ -282,8 +156,26 @@
 	export default {
     data() {
     return {
-        'team': 5
+        'teamSize': 5,
+        'teams': []
+
         }
+    },
+    mounted() {
+      return axios.get('/api/teams/1').then(response =>  {
+          console.log(response)
+          this.teams = response.data.data
+                                // this.pitchId = response.data.pitchId
+          }).catch(error => {
+              
+          });
+      return axios.get('/api/teams/1').then(response =>  {
+          console.log(response)
+          this.teams = response.data.data
+                                // this.pitchId = response.data.pitchId
+          }).catch(error => {
+              
+          });
     },
     methods: {
       csvImport() {
@@ -292,9 +184,9 @@
         return axios.post('/api/team/create',files).then(response =>  {
           console.log(response)
                                 // this.pitchId = response.data.pitchId
-                            }).catch(error => {
-                                
-                            });
+          }).catch(error => {
+              
+          });
       }
 
     }
