@@ -145,84 +145,10 @@
                         </div>
                     </div>
 
-                    <div class="">
-                        <h6><strong>{{$lang.tournament_location}}</strong></h6>
-                    </div>
-                    <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_venue_name') }">
-                        <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}} *</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control"
-                            name="tournament_venue_name"
-                            v-model="tournament.tournament_venue_name"
-                             v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_name') }"
-                             placeholder="">
-                             <i v-show="errors.has('tournament_venue_name')" class="fa fa-warning"></i>
-                            <span class="help is-danger" v-show="errors.has('tournament_venue_name')">{{$lang.tournament_validation_venue}}</span>
-                        </div>
-                        
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">{{$lang.tournament_address}}</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" 
-                            v-model="tournament.touranment_venue_address"
-                            placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">{{$lang.tournament_town_city}}</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" 
-                            v-model="tournament.tournament_venue_city"
-                            placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">{{$lang.tournament_postcode}}</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" 
-                            v-model="tournament.tournament_venue_postcode"
-                            placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">{{$lang.tournament_state}}</label>
-
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control"
-                            v-model="tournament.tournament_venue_state"
-                             placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">{{$lang.tournament_country}}</label>
-
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <select class="form-control ls-select2" v-model="tournament.tournament_venue_country">
-    	                            <option value="">{{$lang.tournament_country_please_select}}</option>
-    	                            <option value="Andorra">{{$lang.tournament_andorra}}</option>
-    	                            <option value="Belgium">{{$lang.tournament_belgium}}</option>
-    	                            <option value="France">{{$lang.tournament_france}} </option>
-    	                            <option value="Germany">{{$lang.tournament_germany}}</option>
-    	                            <option value="Italy">{{$lang.tournament_italy}}	</option>
-    	                            <option value="Spain">{{$lang.tournament_spain}}</option>
-    	                            <option value="United Kingdom">{{$lang. tournament_united_kingdom}}</option>    	                           
-    	                        </select>
-    	                    </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label">{{$lang.tournament_organiser}}</label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" placeholder="">
-                        </div>
-                    </div>
-                     <button class="btn btn-success">+ Add Location</button> 
+                     <custom v-for="n in customCount" :tournament="tournament"
+                     :customCount="customCount" :locations="locations"></custom> 
+                     <button class="btn btn-success" @click.prevent="customCount++">+ Add Location</button>
+                     <button class="btn btn-success" @click.prevent="customCount--" v-if="customCount > 0">+ Remove Location</button>
                 </form>                
             </div>
         </div>       
@@ -243,20 +169,45 @@
 </template>
 
 <script type="text/babel">
+import custom from '../../../components/custom.vue'
 
 export default {
   data() {
     return {
-      tournament: {name:' ',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',tournament_venue_name:'',touranment_venue_address:'',tournament_venue_city:'',tournament_venue_postcode:'',tournament_venue_state:'',tournament_venue_country:'',image_logo:''
+      tournament: {name:' ',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
+        image_logo:''
       },
-      image:''
+      locations: {
+        tournament_venue_name: {},
+        touranment_venue_address:{},
+        tournament_venue_city:{},
+        tournament_venue_postcode:{},
+        tournament_venue_state:{},
+        tournament_venue_country:{}
+      },
+      image:'',
+      customCount:0
    }   
+  },
+  components: {
+    custom: custom
   },
   mounted(){    
     Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
       // here we dispatch methods     
-    let tournamentAdd  = {name:'Your Tournament', 'currentPage':'TournamentAdd'}        
-    this.$store.dispatch('SetTournamentName', tournamentAdd)
+    // First we check that if tournament id is Set then dont dispatch it
+    
+    if(typeof this.$store.state.Tournament.tournamentId != 'undefined') {
+
+      let tournamentAdd  = {name: this.$store.state.Tournament.tournamentName, currentPage:'TournamentAdd'}  
+      this.$store.dispatch('SetTournamentName', tournamentAdd)
+    } else {
+      
+      let tournamentAdd  = {name:'Your Tournament', 
+      currentPage:'TournamentAdd'}  
+      this.$store.dispatch('SetTournamentName', tournamentAdd)
+    }
+    
     //this.handleValidation()
   },
   methods: {
@@ -289,8 +240,13 @@ export default {
             // if its return true then proceed
            this.tournament.start_date = document.getElementById('tournament_start_date').value
             this.tournament.end_date = document.getElementById('tournament_end_date').value
-              this.tournament.image_logo = this.image
-              this.$store.dispatch('SaveTournamentDetails', this.tournament)
+            this.tournament.image_logo = this.image
+
+            this.tournament.locations = this.locations
+
+            // we can take length of how much we have to move for loop
+            this.tournament.locationCount = this.customCount
+            this.$store.dispatch('SaveTournamentDetails', this.tournament)
 
               // Display Toastr Message for add Tournament
               toastr['success']('Tournament detail has been added successfully', 'Success');
