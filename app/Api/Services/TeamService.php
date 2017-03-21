@@ -18,10 +18,10 @@ class TeamService implements TeamContract
      * @param  array $api_key,$state,$type
      * @return response
      */
-    public function getTeams()
+    public function getTeams($tournamentId)
     {
         // Here we send Status Code and Messages
-        $data = $this->teamRepoObj->getAll();
+        $data = $this->teamRepoObj->getAll($tournamentId);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }

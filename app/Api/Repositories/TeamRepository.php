@@ -6,9 +6,14 @@ use Laraspace\Models\Team;
 
 class TeamRepository
 {
-    public function getAll()
+    public function getAll($tournamentId)
     {
-        return Team::get();
+        return Team::join('countries', function ($join) {
+                        $join->on('teams.country_id', '=', 'countries.id');
+                    })
+                 ->where('tournament_id',$tournamentId)
+                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name')
+                 ->get();
     }
 
     public function create($data)
