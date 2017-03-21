@@ -57,6 +57,9 @@
                                                         <option value="Handball">Handball</option>
                                                     </select>
                                                 </div>
+                                                <div class="col-md-12">
+                                                    <button type="button" id="add_stage" @click="nextStage()"  class="btn btn-primary">Next</button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -178,15 +181,17 @@
                                             <div class="col-md-12">
                                                 <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">Add Stage</button>
                                             </div>
+
                                         </form>
+                                         <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-primary" @click="savePitchDetails()">Save</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" @click="savePitchDetails()">Save</button>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -257,7 +262,6 @@
             $('.ls-datepicker').datepicker('setEndDate', this.tournamentEndDate);
             for(let i=1;i<=this.tournamentDays;i++){
                 capacity['day'+i]= '0.00'
-                console.log(startDate)
                 $('.datestage'+i).datepicker('setDate', startDate)
                 this.disableDate.push( $('.datestage'+i).val());
                 startDate.setDate(new Date(this.tournamentStartDate).getDate() + i)
@@ -344,6 +348,12 @@
                 this.$store.dispatch('SetPitches',this.tournamentId);  
 
             
+            },
+            nextStage() {
+                
+                    $('.nav-tabs a[href="#availability"]').tab('show');
+                
+
             },
             savePitchDetails () {
                 this.$validator.validateAll().then(() => {

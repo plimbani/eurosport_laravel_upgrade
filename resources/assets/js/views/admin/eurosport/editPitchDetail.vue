@@ -22,7 +22,7 @@
                                                     <div class="col-sm-6">
                                                         <input type="text" v-model = "pitchData.pitchdetail.pitch_number"  :class="{'is-danger': errors.has('pitch_number1') }" v-validate="'required'"   name="pitch_number1"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
                                                           <i v-show="errors.has('pitch_number1')" class="fa fa-warning"></i>
-                                <span class="help is-danger" v-show="errors.has('pitch_number1')">{{ errors.first('pitch_number1') }}</span>  
+                                                        <span class="help is-danger" v-show="errors.has('pitch_number1')">{{ errors.first('pitch_number1') }}</span>  
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -58,6 +58,9 @@
                                                             <option value="Handball">Handball</option>
                                                         </select>
                                                     </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <button type="button" id="add_stage" @click="nextStage()"  class="btn btn-primary">Next</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -382,6 +385,11 @@ import _ from 'lodash'
             getAllPitches() {
                 // this.$store.dispatch('SetPitches',this.tournamentId);  
             
+            },
+            nextStage() {
+                $('.nav-tabs a[href="#availability"]').tab('show');
+                
+
             },
             savePitchDetails () {
                 this.$validator.validateAll().then(() => {

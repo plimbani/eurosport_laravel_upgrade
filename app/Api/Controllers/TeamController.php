@@ -50,7 +50,13 @@ class TeamController extends BaseController
 
     public function createTeam(Request $request)
     {
-        return $this->teamObj->create($request);
+        // Excel::load('file.xls', function($reader) {
+
+    // reader methods
+
+// });
+        dd($request->all());
+        // return $this->teamObj->create($request);
     }
 
     /**
