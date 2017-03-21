@@ -170,7 +170,9 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
         },
         methods: {
             getAllPitches() {
+
                 this.$store.dispatch('SetPitches',this.tournamentId);
+                this.$store.dispatch('SetVenues',this.tournamentId);
             },
             savePitchDetails () {
                 this.$validator.validateAll().then(() => {
@@ -258,6 +260,7 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 // return hours+ ':' +minutes
                 // return 10.30 *stage
             },
+
             setDatepicker(tStartDate,tEndDate,disableDate,availableDate,stage) {
                     // let availableDate = this.availableDate
                     let that =this
@@ -293,6 +296,7 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                      that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,that.disableDate,that.availableDate,stage);
                 }
             },
+
             addPitch() {
                 this.pitchId = ''
                 setTimeout(function(){
@@ -301,7 +305,7 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 },1000)
             },
             editPitch(pitchId) {
-                // this.pitchId = pitchId
+                this.pitchId = pitchId
                 this.$store.dispatch('PitchData',pitchId)
             },
             removePitch(pitchId) {

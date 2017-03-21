@@ -25,7 +25,6 @@ const getters = {
 const actions = {
  
   SetPitches ({commit,dispatch},tournamentId) { 
-    console.log('hhqq')
     Pitch.getAllPitches(tournamentId).then (
       (response) => {
         let pitches =  response.data.pitches
@@ -48,14 +47,15 @@ const actions = {
       (error) => {
         console.log('Error occured during Add new pitch', error)
       }
-    )
+    )````
   },
   PitchData ({commit},pitchId) {
     Pitch.getPitchData(pitchId).then (
       (response) => {
-        commit(types.SET_PITCH_ID, response.data.data.pitchdetail.id)
         commit(types.SET_PITCH_DATA, response)
         setTimeout( function(){
+          commit(types.SET_PITCH_ID, response.data.data.pitchdetail.id)
+        
           $('#editPitch').modal('show')
         },500)
         

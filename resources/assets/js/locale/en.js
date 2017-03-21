@@ -196,7 +196,7 @@ module.exports = {
   teams_groups_label: "Teams And Groups",
   summary_label: "Summary",
 
-  summary_label_summary: "Summary"
+  summary_label_summary: "Summary",
   summary_label_reports: "Reports",
   summary_label_schedule: "Schedule and results",
   summary_label_message: "Messages"

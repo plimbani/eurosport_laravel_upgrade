@@ -55,4 +55,9 @@ class PitchAvailableRepository
     {
         return PitchAvailable::find($pitchId);
     }
+    public function removePitchAvailability($pitchId)
+    {
+        return PitchAvailable::where('pitch_id',$pitchId)->delete();
+    }
+    
 }
