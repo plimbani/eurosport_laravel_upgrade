@@ -40,7 +40,7 @@
                                                 <label class="col-sm-5 form-control-label">Location *</label>
                                                 <div class="col-sm-6">
                                                     <select name="location" id="location" class="form-control" >
-                                                        <option :value="venue.id" v-for="(venue,key) in venues">{{venue.address1}}</option>
+                                                        <option :value="venue.id" v-for="(venue,key) in venues">{{venue.name}}</option>
                                                         
                                                     </select>
                                                 </div>
@@ -56,6 +56,9 @@
                                                         <option value="11-a-side">11-a-side</option>
                                                         <option value="Handball">Handball</option>
                                                     </select>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <button type="button" id="add_stage" @click="nextStage()"  class="btn btn-primary">Next</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -178,15 +181,17 @@
                                             <div class="col-md-12">
                                                 <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">Add Stage</button>
                                             </div>
+
                                         </form>
+                                         <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-primary" @click="savePitchDetails()">Save</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" @click="savePitchDetails()">Save</button>
-                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -343,6 +348,12 @@
                 this.$store.dispatch('SetPitches',this.tournamentId);  
 
             
+            },
+            nextStage() {
+                
+                    $('.nav-tabs a[href="#availability"]').tab('show');
+                
+
             },
             savePitchDetails () {
                 this.$validator.validateAll().then(() => {

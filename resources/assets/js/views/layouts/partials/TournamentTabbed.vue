@@ -50,9 +50,9 @@ export default {
 		}
 	},
 	mounted() {
-		if(this.tournamentId == '' ) {
-			this.$router.push({name: 'welcome'})	
-			}
+		// if(this.tournamentId == '' ) {
+		// 	this.$router.push({name: 'welcome'})	
+		// 	}
 		// alert('hi')
 		// here we call function which select the active class
 	},

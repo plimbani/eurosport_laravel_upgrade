@@ -57,7 +57,7 @@ const actions = {
           commit(types.SET_PITCH_ID, response.data.data.pitchdetail.id)
         
           $('#editPitch').modal('show')
-        },500)
+        },1000)
         
       },
       (error) => {

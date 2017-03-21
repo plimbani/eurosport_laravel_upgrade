@@ -22,7 +22,7 @@
                                                     <div class="col-sm-6">
                                                         <input type="text" v-model = "pitchData.pitchdetail.pitch_number"  :class="{'is-danger': errors.has('pitch_number1') }" v-validate="'required'"   name="pitch_number1"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
                                                           <i v-show="errors.has('pitch_number1')" class="fa fa-warning"></i>
-                                <span class="help is-danger" v-show="errors.has('pitch_number1')">{{ errors.first('pitch_number1') }}</span>  
+                                                        <span class="help is-danger" v-show="errors.has('pitch_number1')">{{ errors.first('pitch_number1') }}</span>  
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -40,7 +40,7 @@
                                                     <label class="col-sm-5 form-control-label">Location *</label>
                                                     <div class="col-sm-6">
                                                     <select name="location" id="location" class="form-control ls-select2">
-                                                        <option :value="venue.id"  v-model = "pitchData.pitchdetail.venue_id"   v-for="(venue,key) in venues">{{venue.address1}}</option>
+                                                        <option :value="venue.id"  v-model = "pitchData.pitchdetail.venue_id"   v-for="(venue,key) in venues">{{venue.name}}</option>
                                                         
                                                     </select>
                                                        
@@ -58,6 +58,9 @@
                                                             <option value="Handball">Handball</option>
                                                         </select>
                                                     </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <button type="button" id="add_stage" @click="nextStage()"  class="btn btn-primary">Next</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -370,7 +373,7 @@ import _ from 'lodash'
                     }
                     
                 });
-            },1000)
+            },2000)
            
             
              // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
@@ -382,6 +385,11 @@ import _ from 'lodash'
             getAllPitches() {
                 // this.$store.dispatch('SetPitches',this.tournamentId);  
             
+            },
+            nextStage() {
+                $('.nav-tabs a[href="#availability"]').tab('show');
+                
+
             },
             savePitchDetails () {
                 this.$validator.validateAll().then(() => {
