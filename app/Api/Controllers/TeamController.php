@@ -32,9 +32,9 @@ class TeamController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getTeams()
+    public function getTeams($tournamentId)
     {
-        return $this->teamObj->getTeams();
+        return $this->teamObj->getTeams($tournamentId);
     }
 
     /**
@@ -50,12 +50,19 @@ class TeamController extends BaseController
 
     public function createTeam(Request $request)
     {
-        // Excel::load('file.xls', function($reader) {
+        $teamSize = 7;
+        $filepath = storage_path().'/Book1.xlsx';
+        \Excel::load($filepath, function($reader) {
+            print_r($reader->toArray()[0][0]);
+            $data[
+                '' => '',
+                
+            ]
+            $this->teamObj->create($request);
+            
 
-    // reader methods
-
-// });
-        dd($request->all());
+        });
+        // dd($request->all());
         // return $this->teamObj->create($request);
     }
 
