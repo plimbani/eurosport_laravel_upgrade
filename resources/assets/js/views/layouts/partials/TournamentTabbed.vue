@@ -50,6 +50,7 @@ export default {
 		}
 	},
 	mounted() {
+
 		if(this.tournamentId == '' ) {
 			//this.$router.push({name: 'welcome'})	
 			}

@@ -71,10 +71,18 @@
   			<div class="clearfix">
   				<div class="pull-left">
 	  				<div class="mt-4"><strong>{{$lang.teams_team_list}}</strong></div>
-	  				<button type="button" class="btn btn-primary">{{$lang.teams_upload_team}}</button>
+            <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
+            <div >
+            
+              <input type="file" name="fileUpload" id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+              <p class="help-block">Only excel and csv allowed.</p>
+            </div>
+	  				<button type="button" @click="csvImport()"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
+            </form>
+            
 	  			</div>
 	  			<div class="pull-right mt-4">
-	  				<form class="form-inline filter-category-form">
+	  				<form class="form-inline filter-category-form" >
 	  					<div class="form-group">
 	  						<label for="nameInput" class="control-label"><strong>{{$lang.teams_filter}}</strong></label> 
 	  						<label class="radio-inline control-label">
@@ -271,7 +279,24 @@
 </template>
 
 <script type="text/babel">
-	export default {	
-        
+	export default {
+    data() {
+    return {
+        'team': 5
+        }
+    },
+    methods: {
+      csvImport() {
+        let files  = new FormData($("#frmCsvImport")[0]);
+        // console.log(document.getElementById('fileUpload').files[0])
+        return axios.post('/api/team/create',files).then(response =>  {
+          console.log(response)
+                                // this.pitchId = response.data.pitchId
+                            }).catch(error => {
+                                
+                            });
+      }
+
     }
+  }
 </script>
