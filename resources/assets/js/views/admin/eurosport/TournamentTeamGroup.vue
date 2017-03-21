@@ -27,7 +27,9 @@
                 <div class="card-content">
     							  <span class="card-title">
                     {{group['groups']['group_name']}}</span>
-                    <p></p>
+                    <p v-for="n in group['group_count']">
+                     {{group['groups']['group_name']}}{{n}}
+                    </p>
       						</div>
   						</div>
   					</div>
