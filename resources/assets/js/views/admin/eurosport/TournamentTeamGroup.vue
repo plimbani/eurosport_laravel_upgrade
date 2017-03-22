@@ -72,6 +72,7 @@
   				<div class="pull-left">
 	  				<div class="mt-4"><strong>{{$lang.teams_team_list}}</strong></div>
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
+
             <div >
             
               <input type="file" name="fileUpload" id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
@@ -157,25 +158,19 @@
     data() {
     return {
         'teamSize': 5,
-        'teams': []
+        'teams': [],
+        'tournament_id': this.$store.state.Tournament.tournamentId
 
         }
     },
     mounted() {
-      return axios.get('/api/teams/1').then(response =>  {
-          console.log(response)
-          this.teams = response.data.data
+      return axios.get('/api/teams/'+this.tournament_id).then(response =>  {
+        console.log(response)
+        this.teams = response.data.data
                                 // this.pitchId = response.data.pitchId
-          }).catch(error => {
-              
-          });
-      return axios.get('/api/teams/1').then(response =>  {
-          console.log(response)
-          this.teams = response.data.data
-                                // this.pitchId = response.data.pitchId
-          }).catch(error => {
-              
-          });
+      }).catch(error => {
+      });
+
     },
     methods: {
       csvImport() {

@@ -37,9 +37,17 @@ class TeamService implements TeamContract
      *
      * @return [type]
      */
+    public function getCountryIdFromName($countryName) {
+        $cid = \DB::table('countries')->where('name', $countryName)->select('id')->first();
+        return $cid->id;
+        
+        // return 1;
+    }
     public function create($data)
     {
-        $data = $data->all();
+
+        // $data = $data->all();
+        $data['country_id'] = $this->getCountryIdFromName($data['country']);
         $data = $this->teamRepoObj->create($data);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];

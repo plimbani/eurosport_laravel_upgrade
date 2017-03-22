@@ -10,7 +10,7 @@ const state = {
   tournamentEndDate:"03/04/2017",
   tournamentDay:4,
   currentPage: '',
-  tournamentId: '',
+  tournamentId: 1,
   currentTemplate: '',
   currentTotalTime: 380,
   tournamentDays: '',
