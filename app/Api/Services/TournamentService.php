@@ -82,12 +82,16 @@ class TournamentService implements TournamentContract
      */
     public function create($data)
     {
+        
+         
+         
+         //exit;
         $data = $data->all();
         // dd($data);
         // here first we save the tournament related Data
         // here we have to precprocess the image
         // Save the image
-       // $this->saveTournamentLogo($data);
+        $data['tournamentData']['image_logo']=$this->saveTournamentLogo($data);
         
         //\File::put($path , $imgData);
         //print_r($imgData);        
@@ -99,17 +103,25 @@ class TournamentService implements TournamentContract
              'data'=>$data];
         }
     }
-    private function saveTournamentLogo($data){
-        $image_string = $data['tournamentData']['image_logo']; 
+    private function saveTournamentLogo($data)
+    {
+       if($data['tournamentData']['image_logo'] != '')
+       {
+            $image_string = $data['tournamentData']['image_logo']; 
 
-        $img = explode(',', $image_string);        
-        $imgData = base64_decode($img[1]);        
+            $img = explode(',', $image_string);        
+            $imgData = base64_decode($img[1]);        
 
-        $name = $data['tournamentData']['name'];
-
-        $path = public_path().'/assets/img/tournament_logo/'.$name.'.jpg';        
-        file_put_contents($path, $imgData);
-        return $name.'.jpg';
+            $name = $data['tournamentData']['name'];
+            $now = new \DateTime();
+            
+            $timeStamp = $now->getTimestamp();
+            $path = public_path().'/assets/img/tournament_logo/'.$timeStamp.'.png';        
+            file_put_contents($path, $imgData);      
+            return $timeStamp.'.png';
+        } else {
+            return '';
+        }
     }
     /**
      * Edit Tournament.
@@ -157,7 +169,7 @@ class TournamentService implements TournamentContract
         $data = $data->all();
         $tournamentData = $this->tournamentRepoObj->tournamentSummary($data['tournamentId']);
         if ($tournamentData) {
-            return ['status_code' => '200', 'message' => 'Data Successfully Deleted','data'=>$tournamentData];
+            return ['status_code' => '200', 'data'=>$tournamentData];
         }
     }
 }

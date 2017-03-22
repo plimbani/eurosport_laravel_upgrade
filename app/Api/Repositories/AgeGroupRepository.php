@@ -33,7 +33,9 @@ class AgeGroupRepository
       // $ageGroupId = AgeGroup::create($ageGroupData)->id;
       
       // here we save the tournament_competation_template      
-      $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
+      $tournamentCompeationTemplate = array();
+      $tournamentCompeationTemplate['group_name'] = 
+      $data['ageCategory_name'];
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
       $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
@@ -50,10 +52,10 @@ class AgeGroupRepository
       // here we check value for Edit as Well
       
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
-      
       return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {      
-      return TournamentCompetationTemplates::create($tournamentCompeationTemplate);    
+      
+     	return TournamentCompetationTemplates::create($tournamentCompeationTemplate);    
       }          
       
       // Now here we return the appropriate Data

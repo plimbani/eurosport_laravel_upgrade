@@ -15,7 +15,8 @@ const state = {
   currentTotalTime: '',
   tournamentDays: '',
   venues: [],
-  tournamentStatus: ''
+  tournamentStatus: '',
+  tournamentLogo: ''
 }
 // getters
 const getters = {
@@ -108,6 +109,7 @@ const mutations = {
     state.currentPage = currentTournament.currentPage
     state.tournamentId = currentTournament.id
     state.tournamentStatus = currentTournament.tournamentStatus
+    state.tournamentLogo = currentTournament.tournamentLogo
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {        
     // alert('hello in mutation')

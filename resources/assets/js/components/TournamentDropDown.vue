@@ -43,6 +43,7 @@
 		  let tournamentSel  = {name:name, 
 		  	currentPage:'Competation Formats',id:id, 
 		  	tournamentDays: tournamentDays,
+		  	tournamentLogo: this.tournament.logo,
 		  	tournamentStatus:this.tournament.status,
 		  	tournamentStartDate:this.tournament.start_date, 
 			tournamentEndDate:this.tournament.end_date}  				

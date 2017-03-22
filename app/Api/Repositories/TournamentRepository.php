@@ -35,7 +35,7 @@ class TournamentRepository
         $newdata['website'] = $data['website'];
         $newdata['facebook'] = $data['facebook'];
         $newdata['twitter'] = $data['twitter'];
-       // $newdata['logo'] = $data['logo'];
+        $newdata['logo'] = $data['image_logo'];
 
         // For New One We set Status as Unpublished
         $newdata['status'] = 'UnPublished';
@@ -88,6 +88,7 @@ class TournamentRepository
         return Tournament::find($id)->delete();
     }
     public function tournamentSummary($tournamentId) {
+
         // here we put validation for tournament id is exist
         $summaryData = array();
        
@@ -101,7 +102,7 @@ class TournamentRepository
         foreach($locationData as $location) {
             $tempData['locationData'][]=$location['name'].'('.$location['country'].')';
         }
-        $summaryData['']=implode(',',$tempData['locationData']);
+        $summaryData['locations']=implode(',',$tempData['locationData']);
        }
        $tournamentCompetaionTemplateData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
 
@@ -129,16 +130,15 @@ class TournamentRepository
         
         // TODO: country  is remaining depends on team
          $summaryData['tournament_countries'] = '--';
-         $peopleData = TournamentContact::where('tournament_id',$tournamentId)->get();
-         
-         $peopleId = (count($peopleData) > 0) ?$peopleData[0]['id'] : '0';
-         
-         if($peopleId != 0) {
 
-         		$contactData = Person::where('id',$peopleId)->get();
-         		$summaryData['tournament_contact'] = $contactData[0]['first_name'].','.$contactData[0]['last_name'];
+         $peopleData = TournamentContact::where('tournament_id',$tournamentId)->get();
+
+         // means they have Data
+         if(count($peopleData) > 0) {
+            
+            $summaryData['tournament_contact'] = $peopleData[0]['first_name'].','.$peopleData[0]['last_name'];
          }
-         
+        
 	       //$locationData = Venue::find();
        return $summaryData;
     }
