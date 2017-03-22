@@ -9,7 +9,7 @@
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory">
+                            <select class="form-control ls-select2" v-model="age_category">
 	                            <option value="">{{$lang.teams_select_age_category}}</option>
 	                            <option v-for="option in options" 
                                v-bind:value="option"> {{option.group_name}}</option>
@@ -190,7 +190,6 @@
 
       },
       csvImport() {
-        console.log($('#fileUpload').val())
         let files  = new FormData($("#frmCsvImport")[0]);
         files.append('ageCategory', this.age_category.id);
         files.append('tournamentId', this.tournamentId);
