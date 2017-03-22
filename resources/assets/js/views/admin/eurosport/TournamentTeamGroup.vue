@@ -18,9 +18,22 @@
                     </div>
                 </div>
   			</form>
-  			<div class="block-bg age-category">
+        <div class="block-bg age-category">
+          <div class="d-flex justify-content-center align-items-center">
+          <div class="col-sm-3" v-for="(group, index) in grps">
+            <div class="m_card hoverable">
+                  <div class="card-content">
+                     <span class="card-title">{{group['groups']['group_name']}}</span>
+                     <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
+                  </div>
+            </div>      
+          </div>
+          </div>
+        </div>  
+<!--   			<div class="block-bg age-category">
   				<div class="d-flex justify-content-center align-items-center">
   					<div v-for="(group, index) in grps">
+
             
               <div class="m_card hoverablex ">
   						  <div class="card-content">
@@ -30,10 +43,11 @@
                    {{group['groups']['group_name']}}{{n}}
                   </p>
       					</div>
+
     					</div>
             </div>
             </div>
-  			</div>
+  			</div> -->
   			<div class="clearfix">
   				<div class="pull-left">
 	  				<div class="mt-4"><strong>{{$lang.teams_team_list}}</strong></div>
@@ -49,7 +63,7 @@
             
 	  			</div>
 	  			<div class="pull-right mt-4">
-	  				<form class="form-inline filter-category-form" >
+	  				<form  class="form-inline filter-category-form" >
 	  					<div class="form-group">
 	  						<label for="nameInput" class="control-label"><strong>{{$lang.teams_filter}}</strong></label> 
 	  						<label class="radio-inline control-label">
@@ -79,6 +93,7 @@
   			</div>
   			<div class="row mt-4">
   				<div class="col-md-12">
+          <form name="frmTeamAssign" id="frmTeamAssign">
   					<table class="table add-category-table">
                         <thead>
                             <tr >
@@ -96,17 +111,18 @@
                                 <td>
                                 	<img :src="team.logo" width="20">{{team.country_name}} 
                                 </td>
-                                <td>{{team.country_name}}</td>
+                                <td>{{team.age_name}}</td>
                                 <td>
-                                	<select class="form-control ls-select2">
-			                            <option  v-for="group in grps"  :value="group.groups.group_name">{{group.groups.group_name}}</option>
-			                        </select>
+                                <select v-bind:data-id="team.id" v-bind:data-category-name="age_category.group_name"  :name="'sel_'+team.id" :id="team.id" class="form-control ls-select2 selTeams">
+			                            <option  v-for="group in grps"  :value="age_category.group_name+'-'+ group.groups.group_name">{{group.groups.group_name}}</option>
+			                         </select>
                                 </td>
                             </tr>
 
                         </tbody>
-                    </table>
-                    <button type="button" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+            </table>
+            <button type="button" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+          </form>  
   				</div>
   			</div>
   		</div>
@@ -116,6 +132,8 @@
 
 <script type="text/babel">
    import Tournament from '../../../api/tournament.js'
+   import _ from 'lodash'
+
 	export default {
     data() {
     return {
@@ -132,13 +150,9 @@
         }
     },
     mounted() {
-      // return axios.get('/api/teams/'+this.tournament_id).then(response =>  {
-      //   console.log(response)
-      //   this.teams = response.data.data
-      //                           // this.pitchId = response.data.pitchId
-      // }).catch(error => {
-      // });
-      this.getTeams()
+
+      this.getAgeCategories()
+      // this.getTeams()
       let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
         (response) => {           
@@ -149,13 +163,61 @@
         }
         )
 
-
     },
     methods: {
-      getTeams() {
+       getTeams() {
         Tournament.getTeams(this.tournament_id).then(
           (response) => {           
-            this.teams = response.data.data                     
+            this.teams = response.data.data        
+          },
+        (error) => {
+           console.log('Error occured during Tournament api ', error)
+        }
+        ) 
+      }, 
+      groupUpdate() {
+        let grpMain=[]
+        // let teamAssign  = new FormData($("#frmTeamAssign")[0]);
+        let teamAssign1  = $("#frmTeamAssign").serializeArray();
+        let error = false
+
+        console.log(teamAssign1)
+        _.find(this.grps, function(group) {
+         // console.log(group)
+         let grp= []
+          $('.selTeams').each( function() {
+            if(group.groups.group_name == $(this).find('option:selected').text()){
+              grp.push($(this).data('id'))
+            }
+            // console.log($(this).val())
+          }) 
+          if(grp.length > group.group_count){
+            error = true
+            toastr['error']('You are assigning more team  in '+ group.groups.group_name+' . please reassign team.', 'Error');
+            return false
+          }
+          // console.log(grp.length,group.group_count,'11')
+          grpMain.push(grp.join(','))
+          
+        });
+        let teamData = {'teamdata': teamAssign1,'group' : grpMain }
+        if(error == false){
+          Tournament.assignGroups(teamData).then(
+          (response) => {    
+            toastr['success']('Groups are assigned successfully', 'Success');                 
+          },
+          (error) => {
+             console.log('Error occured during Tournament api ', error)
+          }
+        )
+        }
+        
+      },
+      getAgeCategories() {
+        let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
+        Tournament.getCompetationFormat(TournamentData).then(
+          (response) => {    
+            this.options = response.data.data                       
           },
           (error) => {
              console.log('Error occured during Tournament api ', error)
@@ -172,7 +234,7 @@
             //var JsonTemplateData = JSON.stringify(eval("(" + response.data.data + ")"));
 
             let jsonObj = JSON.parse(response.data.data)
-            console.log(jsonObj)
+            // console.log(jsonObj)
             //let JsonTemplateData  = response.data.data
             // Now here we put data over there as per group
              let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']

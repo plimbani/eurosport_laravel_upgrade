@@ -38,7 +38,10 @@ export default {
   createTeam(teamData) {
     // console.log(teamData)
     return api.post('team/create',{'teamData': teamData})
-    
-  }
+  },
+  assignGroups(data) {
+    console.log(data)
+    return api.post('team/group/assign',{ data})
+ }
 
 }

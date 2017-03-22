@@ -45,12 +45,8 @@ class TeamService implements TeamContract
     }
     public function create($data)
     {
-        // dd($data->tournamentId);
-       
-
-        // $data = $data->all();
         $data['country_id'] = $this->getCountryIdFromName($data['country']);
-
+        // dd($data);
         $data = $this->teamRepoObj->create($data);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
@@ -71,6 +67,19 @@ class TeamService implements TeamContract
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
+    }
+
+    public function assignTeams($data)
+    {
+        // dd($data);
+        foreach ($data['data']['teamdata'] as $key => $value) {
+            // dd($value);
+            $team_id = str_replace('sel_', '', $value['name']);
+            // $team_id = str_replace('sel_', '', $value['value']);
+            $this->teamRepoObj->assignGroup($team_id,$value['value']);
+            # code...
+        }
+        return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
 
     /**

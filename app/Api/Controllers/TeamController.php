@@ -53,7 +53,6 @@ class TeamController extends BaseController
     {
 
         $file = $request->file('fileUpload');
-        dd($request->all());
         $this->data['teamSize'] =  $request['teamSize'];
         $this->data['tournamentId'] = $request['tournamentId'];
         $this->data['ageCategory'] = $request['ageCategory'];
@@ -70,13 +69,12 @@ class TeamController extends BaseController
                     $this->teamObj->create($row);
 
                 });
-
             });
         });
-
-        
+    }
+    public function assignTeam(Request $request) {
         // dd($request->all());
-        // return $this->teamObj->create($request);
+         $this->teamObj->assignTeams($request->all());
     }
 
     /**

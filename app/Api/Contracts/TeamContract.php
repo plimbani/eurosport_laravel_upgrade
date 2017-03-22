@@ -18,5 +18,8 @@ interface TeamContract
 
     public function deleteFromTournament($tournamentId);
 
+    public function assignTeams($request);
+    
     public function delete($request);
+    
 }
