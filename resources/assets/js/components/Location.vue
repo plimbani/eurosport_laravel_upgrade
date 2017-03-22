@@ -1,0 +1,91 @@
+<template>
+<div>
+<div v-for="(location, index) in locations">
+<div class="">
+<h6><strong>{{$lang.tournament_location}}</strong></h6>
+</div>
+<div class="form-group row">
+<label class="col-sm-2 form-control-label">{{$lang.tournament_venue}} *</label>
+
+<div class="col-sm-4">
+<input type="text" class="form-control" v-model="location.tournament_venue_name" 
+placeholder="">
+</div>
+</div>
+
+
+<div class="form-group row">
+<label class="col-sm-2 form-control-label">{{$lang.tournament_address}}</label>
+
+<div class="col-sm-4">
+<input type="text" class="form-control" 
+v-model="location.touranment_venue_address"
+placeholder="">
+</div>
+</div>
+<div class="form-group row">
+<label class="col-sm-2 form-control-label">{{$lang.tournament_town_city}}</label>
+
+<div class="col-sm-4">
+<input type="text" class="form-control" 
+v-model="location.tournament_venue_city"
+placeholder="">
+</div>
+</div>
+<div class="form-group row">
+<label class="col-sm-2 form-control-label">{{$lang.tournament_postcode}}</label>
+
+<div class="col-sm-4">
+<input type="text" class="form-control" 
+v-model="location.tournament_venue_postcode"
+placeholder="">
+</div>
+</div>
+<div class="form-group row">
+<label class="col-sm-2 form-control-label">{{$lang.tournament_state}}</label>
+
+<div class="col-sm-4">
+<input type="text" class="form-control"
+v-model="location.tournament_venue_state"
+placeholder="">
+</div>
+</div>
+<div class="form-group row">
+<label class="col-sm-2 form-control-label">{{$lang.tournament_country}}</label>
+
+<div class="col-sm-4">
+<div class="form-group">
+<select class="form-control ls-select2" v-model="location.tournament_venue_country">
+<option value="">{{$lang.tournament_country_please_select}}</option>
+<option value="Andorra">{{$lang.tournament_andorra}}</option>
+<option value="Belgium">{{$lang.tournament_belgium}}</option>
+<option value="France">{{$lang.tournament_france}} </option>
+<option value="Germany">{{$lang.tournament_germany}}</option>
+<option value="Italy">{{$lang.tournament_italy}}	</option>
+<option value="Spain">{{$lang.tournament_spain}}</option>
+<option value="United Kingdom">{{$lang. tournament_united_kingdom}}</option>    	                           
+</select>
+</div>
+</div>
+</div>
+<div class="form-group row">
+<label class="col-sm-2 form-control-label">{{$lang.tournament_organiser}}</label>
+<div class="col-sm-4">
+<input type="text" class="form-control" placeholder="">
+</div>
+</div>
+<button class="btn btn-success" @click.prevent="removeLocation(index)" v-if="index > 0">+ Remove Location</button>
+</div>
+
+</div>
+</template>
+<script type="text/babel">
+export default {
+     props: ['locations'],
+     methods: {
+     	removeLocation (index){
+     		this.locations.splice(index,1)
+     	}
+     }
+}
+</script>
