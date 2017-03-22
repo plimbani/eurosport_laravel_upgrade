@@ -9,7 +9,7 @@
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <select class="form-control ls-select2" v-model="age_category">
+                            <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory">
 	                            <option value="">{{$lang.teams_select_age_category}}</option>
 	                            <option v-for="option in options" 
                                v-bind:value="option"> {{option.group_name}}</option>
@@ -22,17 +22,15 @@
   				<div class="d-flex justify-content-center align-items-center">
   					<div v-for="(group, index) in grps">
             
-            <div class="col-sm-3">
-  						<div class="m_card hoverable">
-                <div class="card-content">
-    							  <span class="card-title">
-                    {{group['groups']['group_name']}}</span>
-                    <p v-for="n in group['group_count']">
-                     {{group['groups']['group_name']}}{{n}}
-                    </p>
-      						</div>
-  						</div>
-  					</div>
+              <div class="m_card hoverablex ">
+  						  <div class="card-content">
+  							  <span class="card-title">
+                  {{group['groups']['group_name']}}</span>
+                  <p v-for="n in group['group_count']">
+                   {{group['groups']['group_name']}}{{n}}
+                  </p>
+      					</div>
+    					</div>
             </div>
             </div>
   			</div>
@@ -46,7 +44,7 @@
               <input type="file" name="fileUpload"  id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
               <p class="help-block">Only excel and csv allowed.</p>
             </div>
-	  				<button type="button" @click="csvImport()" :disabled="age_category=''"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
+	  				<button type="button" @click="csvImport()" :disabled="age_category==''"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
             </form>
             
 	  			</div>
@@ -96,17 +94,12 @@
                                 <td>{{team.esr_reference}}</td>
                                 <td>{{team.name}}</td>
                                 <td>
-                                	<img src="/assets/img/flag.png" width="20">{{team.country_name}} 
+                                	<img :src="team.logo" width="20">{{team.country_name}} 
                                 </td>
                                 <td>{{team.country_name}}</td>
                                 <td>
                                 	<select class="form-control ls-select2">
-			                            <option value="">Select a location</option>
-			                            <option value="">Location 1</option>
-			                            <option value="">Location 2</option>
-			                            <option value="">Location 3</option>
-			                            <option value="">Location 4</option>
-			                            <option value="">Etc...</option>
+			                            <option  v-for="group in grps"  :value="group.groups.group_name">{{group.groups.group_name}}</option>
 			                        </select>
                                 </td>
                             </tr>
@@ -145,14 +138,7 @@
       //                           // this.pitchId = response.data.pitchId
       // }).catch(error => {
       // });
-      Tournament.getTeams(this.tournament_id).then(
-        (response) => {           
-          this.teams = response.data.data                     
-        },
-        (error) => {
-           console.log('Error occured during Tournament api ', error)
-        }
-        )
+      this.getTeams()
       let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
         (response) => {           
@@ -166,6 +152,16 @@
 
     },
     methods: {
+      getTeams() {
+        Tournament.getTeams(this.tournament_id).then(
+          (response) => {           
+            this.teams = response.data.data                     
+          },
+          (error) => {
+             console.log('Error occured during Tournament api ', error)
+          }
+        )
+      },
       onSelectAgeCategory() {
         let tournamentTemplateId = this.age_category.tournament_template_id
 
@@ -190,16 +186,32 @@
 
       },
       csvImport() {
-        let files  = new FormData($("#frmCsvImport")[0]);
-        files.append('ageCategory', this.age_category.id);
-        files.append('tournamentId', this.tournamentId);
-        // console.log(document.getElementById('fileUpload').files[0])
-        return axios.post('/api/team/create',files).then(response =>  {
+        if($('#fileUpload').val()!=''){
+          let files  = new FormData($("#frmCsvImport")[0]);
+          // console.log(files->)
+          files.append('ageCategory', this.age_category.id);
+          files.append('tournamentId', this.tournament_id);
+          files.append('teamSize', this.teamSize);
+          // let uploadFile = document.getElementById('frmCsvImport');
+           
+          // console.log(document.getElementById('frmCsvImport'))
+          // Tournament.createTeam(TData).then(
+          //   (response) => {           
+          //    this.getTeams()                     
+          //   },
+          //   (error) => {
+          //      console.log('Error occured during Tournament api ', error)
+          //   }
+          // )
+          return axios.post('/api/team/create',files).then(response =>  {
           console.log(response)
+          this.getTeams()
                                 // this.pitchId = response.data.pitchId
           }).catch(error => {
               
-          });
+          });  
+        }
+
       }
 
     }
