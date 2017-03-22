@@ -12,13 +12,13 @@ class TeamRepository
                         $join->on('teams.country_id', '=', 'countries.id');
                     })
                  ->where('tournament_id',$tournamentId)
-                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name')
+                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo')
                  ->get();
     }
 
     public function create($data)
     {
-        return Team::create([
+            return Team::create([
             'name' => $data['team_name'],
             'esr_reference' => $data['reference_no'],
             'country_id' => $data['country_id'],

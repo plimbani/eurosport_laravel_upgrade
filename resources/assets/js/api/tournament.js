@@ -34,5 +34,11 @@ export default {
   },
   getTeams(tournamentId) {
     return api.get('teams/'+tournamentId)
+  },
+  createTeam(teamData) {
+    // console.log(teamData)
+    return api.post('team/create',{'teamData': teamData})
+    
   }
+
 }

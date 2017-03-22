@@ -51,16 +51,14 @@ class TeamController extends BaseController
 
     public function createTeam(Request $request)
     {
+
         $file = $request->file('fileUpload');
-
-        // dd($file->getRealPath());
-        $teamSize = 2;
-        $request->tournamentId = 1;
-        $this->data['teamSize'] =  $teamSize;
-        $this->data['tournamentId'] = 1;
-
+        dd($request->all());
+        $this->data['teamSize'] =  $request['teamSize'];
+        $this->data['tournamentId'] = $request['tournamentId'];
+        $this->data['ageCategory'] = $request['ageCategory'];
         // $this->teamObj->deleteFromTournament($request->tournamentId);
-        $this->teamObj->deleteFromTournament(1);
+        $this->teamObj->deleteFromTournament($this->data['tournamentId'] );
         $filepath = storage_path().'/Book1.xlsx';
         \Excel::load($file->getRealPath(), function($reader) {
             // dd($reader->count());
