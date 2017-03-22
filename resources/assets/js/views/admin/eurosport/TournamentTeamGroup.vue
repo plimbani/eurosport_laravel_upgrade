@@ -9,12 +9,10 @@
 
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <select class="form-control ls-select2">
+                            <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory">
 	                            <option value="">{{$lang.teams_select_age_category}}</option>
-	                            <option value="">{{$lang.teams_u9}}</option>
-	                            <option value="">{{$lang.teams_u11}}</option>
-	                            <option value="">{{$lang.teams_u15}}</option>
-	                            <option value="">{{$lang.teams_etc}}</option>
+	                            <option v-for="option in options" 
+                               v-bind:value="option"> {{option.group_name}}</option>
 	                        </select>
 	                    </div>
                     </div>
@@ -22,51 +20,21 @@
   			</form>
   			<div class="block-bg age-category">
   				<div class="d-flex justify-content-center align-items-center">
-  					<div class="col-sm-3">
+  					<div v-for="(group, index) in grps">
+            
+            <div class="col-sm-3">
   						<div class="m_card hoverable">
                 <div class="card-content">
-    							  <span class="card-title">{{$lang.teams_group_a}}</span>
-      							<p>{{$lang.teams_group_a_Barmstedt_bv}}</p>
-      							<p>{{$lang.teams_group_a_a2}}</p>
-      							<p>{{$lang.teams_group_a_a3}}</p>
-      							<p>{{$lang.teams_group_a_a4}}</p>
-                  </div>
+    							  <span class="card-title">
+                    {{group['groups']['group_name']}}</span>
+                    <p v-for="n in group['group_count']">
+                     {{group['groups']['group_name']}}{{n}}
+                    </p>
+      						</div>
   						</div>
   					</div>
-  					<div class="col-sm-3">
-  						<div class="m_card hoverable">
-                <div class="card-content">
-    							  <span class="card-title">{{$lang.teams_group_b}}</span>
-      							<p>{{$lang.teams_group_b_Barmstedt_bv}}</p>
-      							<p>{{$lang.teams_group_b_a2}}</p>
-      							<p>{{$lang.teams_group_b_a3}}</p>
-      							<p>{{$lang.teams_group_b_a4}}</p>
-                  </div>
-  						</div>
-  					</div>
-  					<div class="col-sm-3">
-  						<div class="m_card hoverable">
-                <div class="card-content">
-    							  <span class="card-title">{{ $lang.teams_group_c }}</span>
-      							<p>{{$lang.teams_group_c_Barmstedt_bv}}</p>
-      							<p>{{$lang.teams_group_c_a2}}</p>
-      							<p>{{$lang.teams_group_c_a3}}</p>
-      							<p>{{$lang.teams_group_c_a4}}</p>
-                  </div>
-  						</div>
-  					</div>
-  					<div class="col-sm-3">
-  						<div class="m_card hoverable">
-                <div class="card-content">
-    							  <span class="card-title">{{$lang.teams_group_d}}</span>
-      							<p>{{$lang.teams_group_d_Barmstedt_bv}}</p>
-      							<p>{{$lang.teams_group_d_a2}}</p>
-      							<p>{{$lang.teams_group_d_a3}}</p>
-      							<p>{{$lang.teams_group_d_a4}}</p>
-                  </div>
-  						</div>
-  					</div>
-  				</div>
+            </div>
+            </div>
   			</div>
   			<div class="clearfix">
   				<div class="pull-left">
@@ -154,12 +122,18 @@
 </template>
 
 <script type="text/babel">
+   import Tournament from '../../../api/tournament.js'
 	export default {
     data() {
     return {
         'teamSize': 5,
         'teams': [],
         'tournament_id': this.$store.state.Tournament.tournamentId
+        'age_category': '',
+        'selected': null,
+        'value': '',
+        'options': [],
+        'grps': ''
 
         }
     },
@@ -170,9 +144,42 @@
                                 // this.pitchId = response.data.pitchId
       }).catch(error => {
       });
+      let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
+      Tournament.getCompetationFormat(TournamentData).then(
+        (response) => {           
+          this.options = response.data.data                       
+        },
+        (error) => {
+           console.log('Error occured during Tournament api ', error)
+        }
+        )
+
 
     },
     methods: {
+      onSelectAgeCategory() {
+        let tournamentTemplateId = this.age_category.tournament_template_id
+
+        // Now here Fetch the appopriate Template of it
+        let TemplateData = {tournamentTemplateId : tournamentTemplateId}
+        Tournament.getTemplate(TemplateData).then (
+          (response) => {
+            //var JsonTemplateData = JSON.stringify(eval("(" + response.data.data + ")"));
+
+            let jsonObj = JSON.parse(response.data.data)
+            console.log(jsonObj)
+            //let JsonTemplateData  = response.data.data
+            // Now here we put data over there as per group
+             let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
+            this.grps = jsonCompetationFormatDataFirstRound
+            this.teamSize = jsonObj.tournament_teams 
+          }, 
+          (error)=> {
+            alert('error in getting json data')
+          }
+        )
+
+      },
       csvImport() {
         let files  = new FormData($("#frmCsvImport")[0]);
         // console.log(document.getElementById('fileUpload').files[0])
