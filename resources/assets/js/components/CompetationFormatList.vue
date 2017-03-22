@@ -124,20 +124,36 @@ export default {
       this.TournamentId = 0;
     }
     },    
-    next() {      
+    next() {
       
-      let index = $('input[name=competationFormatTemplate]:checked').val()
+      let time_sum= 0;   
+      this.competationList.reduce(function (a,b) {
+        time_sum += b['total_time']
+      },0);
+       this.$store.dispatch('SetTournamentTotalTime', time_sum); 
+
+      /*console.log(this.competationList)
+      let s= 0;   
+      var sum = this.competationList.reduce(function (a,b) {
+        
+        s += b['total_time']
+        console.log('b is'+b['total_time'])
+        console.log('sum is'+s)
+      },0);
+      console.log('sum is'+s)*/
+
+      /*let index = $('input[name=competationFormatTemplate]:checked').val()
       if(!isNaN(index)) {
         
-        
+        console.log(this.competationList)
         let tournamentTemplateId =  this.competationList[index].tournament_template_id
         let tournamentTotalTime =  this.competationList[index].total_time      
         let tournamentData  = {'tournamentTemplateId' : tournamentTemplateId,
          'totalTime':tournamentTotalTime} 
         // Now here we set the template for it
-        this.$store.dispatch('SetTemplate', tournamentData);      
+       // this.$store.dispatch('SetTemplate', tournamentData);      
         
-      } 
+      }*/ 
 
       this.$router.push({name: 'pitch_capacity'});
     }
