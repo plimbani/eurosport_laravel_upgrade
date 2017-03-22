@@ -18,11 +18,11 @@ class TeamRepository
 
     public function create($data)
     {
-        // dd($data);
         return Team::create([
             'name' => $data['team_name'],
             'esr_reference' => $data['reference_no'],
-            'country_id' => $data['country_id']
+            'country_id' => $data['country_id'],
+            'tournament_id' => $data->tournamentData['tournamentId']
             ]);
     }
 
@@ -34,5 +34,9 @@ class TeamRepository
     public function delete($data)
     {
         return Team::find($data['id'])->delete();
+    }
+    public function deleteFromTournament($tournamentId)
+    {
+        return Team::where('tournament_id',$tournamentId)->delete();
     }
 }

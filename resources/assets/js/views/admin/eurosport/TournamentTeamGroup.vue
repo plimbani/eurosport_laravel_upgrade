@@ -43,10 +43,10 @@
 
             <div >
             
-              <input type="file" name="fileUpload" id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+              <input type="file" name="fileUpload"  id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
               <p class="help-block">Only excel and csv allowed.</p>
             </div>
-	  				<button type="button" @click="csvImport()"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
+	  				<button type="button" @click="csvImport()" :disabled="age_category=''"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
             </form>
             
 	  			</div>
@@ -128,22 +128,31 @@
     return {
         'teamSize': 5,
         'teams': [],
-        'tournament_id': this.$store.state.Tournament.tournamentId
+        'tournament_id': this.$store.state.Tournament.tournamentId,
         'age_category': '',
         'selected': null,
         'value': '',
         'options': [],
-        'grps': ''
+        'grps': '',
+        'fileUpload' : ''
 
         }
     },
     mounted() {
-      return axios.get('/api/teams/'+this.tournament_id).then(response =>  {
-        console.log(response)
-        this.teams = response.data.data
-                                // this.pitchId = response.data.pitchId
-      }).catch(error => {
-      });
+      // return axios.get('/api/teams/'+this.tournament_id).then(response =>  {
+      //   console.log(response)
+      //   this.teams = response.data.data
+      //                           // this.pitchId = response.data.pitchId
+      // }).catch(error => {
+      // });
+      Tournament.getTeams(this.tournament_id).then(
+        (response) => {           
+          this.teams = response.data.data                     
+        },
+        (error) => {
+           console.log('Error occured during Tournament api ', error)
+        }
+        )
       let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
         (response) => {           
@@ -181,7 +190,10 @@
 
       },
       csvImport() {
+        console.log($('#fileUpload').val())
         let files  = new FormData($("#frmCsvImport")[0]);
+        files.append('ageCategory', this.age_category.id);
+        files.append('tournamentId', this.tournamentId);
         // console.log(document.getElementById('fileUpload').files[0])
         return axios.post('/api/team/create',files).then(response =>  {
           console.log(response)

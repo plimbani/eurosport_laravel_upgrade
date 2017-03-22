@@ -45,9 +45,12 @@ class TeamService implements TeamContract
     }
     public function create($data)
     {
+        // dd($data->tournamentId);
+       
 
         // $data = $data->all();
         $data['country_id'] = $this->getCountryIdFromName($data['country']);
+
         $data = $this->teamRepoObj->create($data);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
@@ -77,6 +80,9 @@ class TeamService implements TeamContract
      *
      * @return [type]
      */
+    public function deleteFromTournament($tournamentId) {
+        return  $this->teamRepoObj->deleteFromTournament($tournamentId);
+    }
     public function delete($data)
     {
         $data = $data->all();

@@ -12,29 +12,11 @@ interface TeamContract
      */
     public function getTeams($tournamentId);
 
-    /*
-     * Create New Team
-     *
-     * @param  array $api_key,$data
-     * @return response
-     */
-
     public function create($request);
 
-    /*
-     * Edit team
-     *
-     * @param  array $api_key,$tournament_id,$data
-     * @return response
-     */
     public function edit($request);
 
-    /*
-     * Delete Team
-     *
-     * @param  array $api_key,$tournament_id
-     * @return response
-     */
+    public function deleteFromTournament($tournamentId);
 
     public function delete($request);
 }
