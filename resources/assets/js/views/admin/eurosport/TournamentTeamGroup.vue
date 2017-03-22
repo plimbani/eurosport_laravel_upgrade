@@ -18,24 +18,35 @@
                     </div>
                 </div>
   			</form>
-  			<div class="block-bg age-category">
+        <div class="block-bg age-category">
+          <div class="d-flex justify-content-center align-items-center">
+          <div class="col-sm-3" v-for="(group, index) in grps">
+            <div class="m_card hoverable">
+                  <div class="card-content">
+                     <span class="card-title">{{group['groups']['group_name']}}</span>
+                     <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
+                  </div>
+            </div>      
+          </div>
+          </div>
+        </div>  
+  			<!--<div class="block-bg age-category">
   				<div class="d-flex justify-content-center align-items-center">
   					<div v-for="(group, index) in grps">
-            
-            <div class="col-sm-3">
-  						<div class="m_card hoverable">
-                <div class="card-content">
-    							  <span class="card-title">
-                    {{group['groups']['group_name']}}</span>
-                    <p v-for="n in group['group_count']">
-                     {{group['groups']['group_name']}}{{n}}
-                    </p>
-      						</div>
-  						</div>
-  					</div>
+              <div class="col-sm-3">
+    						<div class="m_card hoverable">
+                  <div class="card-content">
+      							  <span class="card-title">
+                      {{group['groups']['group_name']}}</span>
+                      <p v-for="n in group['group_count']">
+                       {{group['groups']['group_name']}}{{n}}
+                      </p>
+        					</div>
+    						</div>
+    					</div>
             </div>
             </div>
-  			</div>
+  			</div>-->
   			<div class="clearfix">
   				<div class="pull-left">
 	  				<div class="mt-4"><strong>{{$lang.teams_team_list}}</strong></div>
