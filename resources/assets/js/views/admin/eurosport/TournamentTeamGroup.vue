@@ -138,25 +138,28 @@
         }
     },
     mounted() {
+      this.getAgeCategories()
+      
       return axios.get('/api/teams/'+this.tournament_id).then(response =>  {
         console.log(response)
         this.teams = response.data.data
                                 // this.pitchId = response.data.pitchId
       }).catch(error => {
       });
-      let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
-      Tournament.getCompetationFormat(TournamentData).then(
-        (response) => {           
-          this.options = response.data.data                       
-        },
-        (error) => {
-           console.log('Error occured during Tournament api ', error)
-        }
-        )
-
-
     },
     methods: {
+      getAgeCategories() {
+        let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
+        Tournament.getCompetationFormat(TournamentData).then(
+          (response) => {    
+            alert('called')       
+            this.options = response.data.data                       
+          },
+          (error) => {
+             console.log('Error occured during Tournament api ', error)
+          }
+        )
+      },
       onSelectAgeCategory() {
         let tournamentTemplateId = this.age_category.tournament_template_id
 

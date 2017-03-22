@@ -12,7 +12,7 @@ const state = {
   currentPage: '',
   tournamentId: 1,
   currentTemplate: '',
-  currentTotalTime: 380,
+  currentTotalTime: '',
   tournamentDays: '',
   venues: [],
   tournamentStatus: ''
@@ -23,6 +23,9 @@ const getters = {
 }
 // actions
 const actions = {
+  SetTournamentTotalTime({commit}, totalTime) {    
+    commit(types.SET_TOURNAMENT_TOTAL_TIME, totalTime)
+  },
   SetTournamentName ({commit}, tournamentData) {      
     commit(types.CURRENT_TOURNAMENT, tournamentData)
   },
@@ -118,9 +121,12 @@ const mutations = {
     // state.tournamentId = tournamentData.id
     // state.currentPage = 'Competation Formats'
   },
-   [types.SET_TEMPLATE] (state, templateData) {        
+  [types.SET_TEMPLATE] (state, templateData) {        
     state.currentTemplate = templateData.json;
     state.currentTotalTime = templateData.TotalTime;
+  },
+  [types.SET_TOURNAMENT_TOTAL_TIME] (state, totalTime) {        
+    state.currentTotalTime = totalTime;
   },
  [types.SET_VENUES] (state, venueData) {        
     state.venues = venueData;
