@@ -18,7 +18,12 @@ class TeamRepository
 
     public function create($data)
     {
-        return Team::create($data);
+        // dd($data);
+        return Team::create([
+            'name' => $data['team_name'],
+            'esr_reference' => $data['reference_no'],
+            'country_id' => $data['country_id']
+            ]);
     }
 
     public function edit($data)

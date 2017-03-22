@@ -50,18 +50,23 @@ class TeamController extends BaseController
 
     public function createTeam(Request $request)
     {
-        $teamSize = 7;
-        $filepath = storage_path().'/Book1.xlsx';
-        \Excel::load($filepath, function($reader) {
-            print_r($reader->toArray()[0][0]);
-            $data[
-                '' => '',
-                
-            ]
-            $this->teamObj->create($request);
-            
+        $file = $request->file('fileUpload');
 
+        // dd($file->getRealPath());
+        $teamSize = 2;
+        $filepath = storage_path().'/Book1.xlsx';
+        \Excel::load($file->getRealPath(), function($reader) {
+            $reader->each(function($sheet) {
+
+            // Loop through all rows
+                $sheet->each(function($row) {
+                    $this->teamObj->create($row);
+                });
+
+            });
         });
+
+        
         // dd($request->all());
         // return $this->teamObj->create($request);
     }

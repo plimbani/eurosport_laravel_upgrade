@@ -40,6 +40,7 @@
   				<div class="pull-left">
 	  				<div class="mt-4"><strong>{{$lang.teams_team_list}}</strong></div>
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
+
             <div >
             
               <input type="file" name="fileUpload" id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
@@ -127,15 +128,22 @@
     return {
         'teamSize': 5,
         'teams': [],
-         age_category: '',
-          selected: null,
-          value: '',
-          options: [],
-          grps: ''
+        'tournament_id': this.$store.state.Tournament.tournamentId
+        'age_category': '',
+        'selected': null,
+        'value': '',
+        'options': [],
+        'grps': ''
 
         }
     },
     mounted() {
+      return axios.get('/api/teams/'+this.tournament_id).then(response =>  {
+        console.log(response)
+        this.teams = response.data.data
+                                // this.pitchId = response.data.pitchId
+      }).catch(error => {
+      });
       let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
         (response) => {           
@@ -146,20 +154,7 @@
         }
         )
 
-      /*return axios.get('/api/teams/1').then(response =>  {
-          console.log(response)
-          this.teams = response.data.data
-                                // this.pitchId = response.data.pitchId
-          }).catch(error => {
-              
-          });
-      return axios.get('/api/teams/1').then(response =>  {
-          console.log(response)
-          this.teams = response.data.data
-                                // this.pitchId = response.data.pitchId
-          }).catch(error => {
-              
-          }); */
+
     },
     methods: {
       onSelectAgeCategory() {
