@@ -128,7 +128,7 @@
     return {
         'teamSize': 5,
         'teams': [],
-        'tournament_id': this.$store.state.Tournament.tournamentId
+        'tournament_id': this.$store.state.Tournament.tournamentId,
         'age_category': '',
         'selected': null,
         'value': '',
