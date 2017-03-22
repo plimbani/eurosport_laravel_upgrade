@@ -127,11 +127,18 @@ export default {
     next() {
       
       let time_sum= 0;   
+      let objectLength = Object.keys(this.competationList).length
+      // Here we check length of competaion list 
+      if(objectLength > 0) {
+      
       this.competationList.reduce(function (a,b) {
         time_sum += b['total_time']
       },0);
        this.$store.dispatch('SetTournamentTotalTime', time_sum); 
-
+     } else {
+       this.$store.dispatch('SetTournamentTotalTime', 0); 
+     }
+      
       /*console.log(this.competationList)
       let s= 0;   
       var sum = this.competationList.reduce(function (a,b) {
