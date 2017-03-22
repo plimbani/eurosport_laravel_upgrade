@@ -11,21 +11,28 @@ class TeamRepository
         return Team::join('countries', function ($join) {
                         $join->on('teams.country_id', '=', 'countries.id');
                     })
-                 ->where('tournament_id',$tournamentId)
-                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name')
+                ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+                 ->where('teams.tournament_id',$tournamentId)
+                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','tournament_competation_template.group_name as age_name')
                  ->get();
     }
 
     public function create($data)
     {
-        // dd($data);
-        return Team::create([
+            return Team::create([
             'name' => $data['team_name'],
             'esr_reference' => $data['reference_no'],
-            'country_id' => $data['country_id']
+            'country_id' => $data['country_id'],
+            'tournament_id' => $data->tournamentData['tournamentId'],
+            'age_group_id' => $data->tournamentData['ageCategory']
             ]);
     }
-
+    public function assignGroup($team_id,$groupName) 
+    {
+        return Team::where('id', $team_id)->update([
+            'group_name' => $groupName
+            ]);
+    }
     public function edit($data)
     {
         return Team::where('id', $data['id'])->update($data);
@@ -34,5 +41,9 @@ class TeamRepository
     public function delete($data)
     {
         return Team::find($data['id'])->delete();
+    }
+    public function deleteFromTournament($tournamentId)
+    {
+        return Team::where('tournament_id',$tournamentId)->delete();
     }
 }
