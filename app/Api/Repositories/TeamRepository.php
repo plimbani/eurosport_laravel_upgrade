@@ -30,7 +30,9 @@ class TeamRepository
     public function assignGroup($team_id,$groupName) 
     {
         return Team::where('id', $team_id)->update([
-            'group_name' => $groupName
+            'group_name' => $groupName,
+            'assigned_group' => preg_replace('/[0-9]+/', '', $groupName)
+            
             ]);
     }
     public function edit($data)
