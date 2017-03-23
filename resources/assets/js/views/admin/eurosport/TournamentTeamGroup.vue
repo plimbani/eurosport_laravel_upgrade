@@ -106,22 +106,26 @@
                         </thead>
                         <tbody>
                             <tr :id="team.team_id" v-for="team in teams">
-                                <td>{{team.esr_reference}}</td>
-                                <td>{{team.name}}</td>
-                                <td>
-                                	<img :src="team.logo" width="20">{{team.country_name}} 
-                                </td>
-                                <td>{{team.age_name}}</td>
-                                <td>
-                                <select v-bind:data-id="team.id" v-bind:data-category-name="age_category.group_name"  :name="'sel_'+team.id" :id="team.id" class="form-control ls-select2 selTeams">
-			                            <option  v-for="group in grps"  :value="age_category.group_name+'-'+ group.groups.group_name">{{group.groups.group_name}}</option>
-			                         </select>
-                                </td>
+                              <td>{{team.esr_reference}}</td>
+                              <td>{{team.name}}</td>
+                              <td>
+                              	<img :src="team.logo" width="20">{{team.country_name}} 
+                              </td>
+                              <td>{{team.age_name}}</td>
+                              <td>
+                                <select v-bind:data-id="team.id" v-bind:data-category-name="age_category.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
+			                            <option value="">Select Team</option>
+                                  <optgroup :label="group.groups.group_name" v-for="group in grps">
+                                    <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)" :value="group['groups']['group_name']+n" >{{group['groups']['group_name']}}{{n}}</option>
+                                  </optgroup>
+                               
+		                            </select>
+                              </td>
                             </tr>
 
                         </tbody>
             </table>
-            <button type="button" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+            <button type="button" @click="groupUpdate()" :disabled="availableGroupsTeam.length>0" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
           </form>  
   				</div>
   			</div>
@@ -145,10 +149,18 @@
         'value': '',
         'options': [],
         'grps': '',
-        'fileUpload' : ''
+        'fileUpload' : '',
+        'availableGroupsTeam': [],
+        'selectedGroupsTeam': [],
+        'beforeChangeGroupName': ''
 
         }
     },
+    // computed: {
+    //   availableGroupsTeam: function() {
+    //           return this.$store.state.Tournament.currentTotalTime
+    //         },
+    // },
     mounted() {
 
       this.getAgeCategories()
@@ -164,7 +176,39 @@
         )
 
     },
+    // watch: {
+    // // whenever question changes, this function will run
+    //     selectedGroupsTeam: function (newQuestion) {
+    //     this.answer = 'Waiting for you to stop typing...'
+    //     this.getAnswer()
+    //   }
+    // },
+
     methods: {
+      isSelected(grp,index){
+        return false
+
+      },
+      beforeChange(gid) {
+        let gdata = $('#sel_'+gid).val()
+        this.beforeChangeGroupName =  gdata;
+      },
+      onAssignGroup(id) {
+        let groupValue = $('#sel_'+id).val()
+        // console.log(groupValue,'l')
+        if(groupValue!=''){
+          $(".selTeams option:contains("+$('#sel_'+id).val()+")").not( $('.sel_'+id)).attr("disabled","disabled");
+        }
+        if(this.beforeChangeGroupName!=''){
+          $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");  
+        }
+        
+        this.selectedGroupsTeam.push(groupValue)
+        var index = this.availableGroupsTeam.indexOf(groupValue);
+        if (index > -1) {
+          this.availableGroupsTeam.splice(index, 1);
+        }
+      },
        getTeams() {
         Tournament.getTeams(this.tournament_id).then(
           (response) => {           
@@ -181,7 +225,6 @@
         let teamAssign1  = $("#frmTeamAssign").serializeArray();
         let error = false
 
-        console.log(teamAssign1)
         _.find(this.grps, function(group) {
          // console.log(group)
          let grp= []
@@ -203,7 +246,7 @@
         let teamData = {'teamdata': teamAssign1,'group' : grpMain }
         if(error == false){
           Tournament.assignGroups(teamData).then(
-          (response) => {    
+          (response) => { 
             toastr['success']('Groups are assigned successfully', 'Success');                 
           },
           (error) => {
@@ -225,6 +268,7 @@
         )
       },
       onSelectAgeCategory() {
+
         let tournamentTemplateId = this.age_category.tournament_template_id
 
         // Now here Fetch the appopriate Template of it
@@ -239,6 +283,15 @@
             // Now here we put data over there as per group
              let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
             this.grps = jsonCompetationFormatDataFirstRound
+            let availGroupTeam = []
+            _.forEach(this.grps, function(group) {
+              for(var i = 1; i <= group.group_count; i++ ){
+                // let gname = group.groups.group_name+i
+                availGroupTeam.push(group.groups.group_name+i)
+              }
+                
+            });
+            this.availableGroupsTeam = availGroupTeam 
             this.teamSize = jsonObj.tournament_teams 
           }, 
           (error)=> {
@@ -266,7 +319,10 @@
           //   }
           // )
           return axios.post('/api/team/create',files).then(response =>  {
-          console.log(response)
+          if(response.data.bigFileSize == true){
+            toastr['error']('Total Team size is more than available. Only top '+this.teamSize+' teams have been added.', 'Error');
+          }
+            
           this.getTeams()
                                 // this.pitchId = response.data.pitchId
           }).catch(error => {

@@ -53,24 +53,34 @@ class TeamController extends BaseController
     {
 
         $file = $request->file('fileUpload');
+        // dd($file);
         $this->data['teamSize'] =  $request['teamSize'];
         $this->data['tournamentId'] = $request['tournamentId'];
         $this->data['ageCategory'] = $request['ageCategory'];
+
         // $this->teamObj->deleteFromTournament($request->tournamentId);
         $this->teamObj->deleteFromTournament($this->data['tournamentId'] );
-        $filepath = storage_path().'/Book1.xlsx';
         \Excel::load($file->getRealPath(), function($reader) {
-            // dd($reader->count());
+
+              $this->data['totalSize']  = $reader->getTotalRowsOfFile();  
+            
             $reader->limit($this->data['teamSize']);
             $reader->each(function($sheet) {
             // Loop through all rows
-                $sheet->each(function($row) {
-                    $row->tournamentData = $this->data; 
-                    $this->teamObj->create($row);
 
-                });
+                // $sheet->each(function($row) {
+                    // dd($sheet);
+                    $sheet->tournamentData = $this->data; 
+                    $this->teamObj->create($sheet);
+
+                // });
             });
         });
+        if($this->data['totalSize'] > $this->data['teamSize'] ){
+            return ['bigFileSize' =>  true];
+        }else{
+            return ['bigFileSize' =>  false];
+        }
     }
     public function assignTeam(Request $request) {
         // dd($request->all());
