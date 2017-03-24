@@ -113,7 +113,12 @@ export default {
       let TournamentData = {'tournament_id': this.TournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
       (response) => {          
-        this.competationList = response.data.data         
+        this.competationList = response.data.data   
+        let time_sum= 0;
+        this.competationList.reduce(function (a,b) {
+          time_sum += b['total_time']
+        },0);
+       this.$store.dispatch('SetTournamentTotalTime', time_sum);      
         // console.log(this.competationList);
       },
       (error) => {

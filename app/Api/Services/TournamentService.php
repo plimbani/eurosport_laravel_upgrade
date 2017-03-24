@@ -82,8 +82,6 @@ class TournamentService implements TournamentContract
      */
     public function create($data)
     {
-        
-         
          
          //exit;
         $data = $data->all();

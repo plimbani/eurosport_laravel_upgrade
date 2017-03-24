@@ -6,10 +6,10 @@ import Tournament from '../../api/tournament'
 // initial state
 const state = {  
   tournamentName: '',
-  tournamentStartDate:"03/01/2017",
-  tournamentEndDate:"03/04/2017",
-  tournamentDay:4,
-  tournamentId: 1,
+  tournamentStartDate:"",
+  tournamentEndDate:"",
+  tournamentDay:'',
+  tournamentId: '',
   currentTemplate: '',
   currentTotalTime: '',
   tournamentDays: '',
@@ -82,8 +82,8 @@ const actions = {
 
         if(response.data.status_code == 200) {          
           // Now here we set the tournament Id and Name
-          let data1 = {'id':response.data.data,'name':tournamentData.name}
-          commit(types.SAVE_TOURNAMENT, data1) 
+          //let data1 = {'tournamentData':response.data.data}
+          commit(types.SAVE_TOURNAMENT, response.data.data) 
         } else {
           alert('Error Occured')
         }
@@ -110,9 +110,14 @@ const mutations = {
     state.tournamentLogo = currentTournament.tournamentLogo
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {        
-    // alert('hello in mutation')
+    
     state.tournamentName = tournamentData.name
-    state.tournamentId = tournamentData.id    
+    state.tournamentId = tournamentData.id
+    state.tournamentStartDate = tournamentData.tournamentStartDate
+    state.tournamentEndDate = tournamentData.tournamentEndDate
+    state.tournamentStatus = tournamentData.tournamentStatus
+    state.tournamentLogo = tournamentData.tournamentLogo
+    state.tournamentDays = tournamentData.tournamentDays    
   },
   [types.SAVE_COMPETATION_FORMAT] (state, competationFormatData) {        
     // alert('hello in mutation')

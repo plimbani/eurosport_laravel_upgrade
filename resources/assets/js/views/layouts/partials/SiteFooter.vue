@@ -1,7 +1,7 @@
 <template>    
     <footer class="site-footer d-flex justify-content-center">
         <div class="align-self-center">
-                Copyright 2016-17 Euro-Sportring. All rights reserved.
+                Copyright {{currentYear}} Euro-Sportring. All rights reserved.
         </div>
     </footer>
 </template>
@@ -10,7 +10,8 @@
     export default {
         data() {
             return {
-                'footer' : 'footer'
+                'footer' : 'footer',
+                'currentYear': new Date().getFullYear()
             }
         },
         methods: {

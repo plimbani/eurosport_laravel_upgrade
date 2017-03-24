@@ -42,7 +42,18 @@ class TournamentRepository
         $newdata['user_id'] = 1;
 
         // Now here we Save it For Tournament
-        $tournamentId = Tournament::create($newdata)->id;   
+        if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
+           // Update Touranment Table Data 
+          $tournamentId = $data['tournamentId'];
+          unset($newdata['start_date']);
+          unset($newdata['end_date']);
+          
+          $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
+          
+        } else {      
+         $tournamentId = Tournament::create($newdata)->id;    
+        } 
+        //$tournamentId = Tournament::create($newdata)->id;   
         // Also Update the image Logo
         //Tournament::where('id',$tournamentId)->update('logo'=>'tournament_'.$tournamentId);   
         unset($newdata);  
@@ -54,13 +65,21 @@ class TournamentRepository
         $tournamentContactData['tournament_id'] = $tournamentId;
         
         // Save Tournament Contact Data
-        TournamentContact::create($tournamentContactData);
+        if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
+           // Update Touranment Table Data 
+          $updatedData = TournamentContact::where('tournament_id', $tournamentId)->update($tournamentContactData);
+          
+        } else {      
+         TournamentContact::create($tournamentContactData);
+        }
+        
         unset($tournamentContactData);
         // Save Tournament Venue Data     
         // we have to loop for according to loations
         $locationCount = $data['locationCount'];
-        $locationData = $data['locations'];
-        foreach($locationData as $location) {
+        $locData = $data['locations'];
+        $locationData = array();
+        foreach($locData as $location) {
             $locationData['name'] =$location['tournament_venue_name'] ?? ''; 
             $locationData['address1'] =$location['touranment_venue_address'] ?? '';
             $locationData['city'] =$location['tournament_venue_city'] ?? '';
@@ -69,13 +88,22 @@ class TournamentRepository
             $locationData['country'] =$location['tournament_venue_country'] ?? '';
             $locationData['tournament_id']=$tournamentId;
             // $locationData['organiser'] =$data['tournament_venue_organiser'];
-            $locationId = Venue::create($locationData)->id;   
-
+            if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
+           // Update Touranment Table Data 
+             Venue::where('tournament_id', $data['tournamentId'])->update($locationData);
+            } else {      
+           //  TournamentContact::create($tournamentContactData);
+             $locationId = Venue::create($locationData)->id;   
+            }
         }
-        
-        //TournamentVenue::create(array('tournament_id'=>$tournamentId,'venue_id'=>$locationId));
-        
-        return $tournamentId;        
+        $tournamentData = array();
+
+        $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'], 'tournamentEndDate' => $data['end_date'], 
+            'tournamentStatus'=> 'UnPublished',
+            'tournamentLogo' => $data['image_logo'], 
+            'tournamentDays'=> 2);
+
+        return $tournamentData;        
     }
 
     public function edit($data)

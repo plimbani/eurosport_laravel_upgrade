@@ -4,7 +4,7 @@
 			<div class="col-md-12">
 				<div class="pull-left col-md-6 padding0">
 					<label class="pull-left">
-						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="tournamentLogo != '' ">
+						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="tournamentLogo != null || tournamentLogo != ''">
 					</label>
 					<label class="col-md-6">
 						<h5>{{tournamentName}}</h5>
@@ -121,14 +121,20 @@
 	    			if(response.data.status_code == 200) {
 	    			this.tournamentSummary = response.data.data;
 	    			// here modified data According to display
-	    			
+	    		if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
+              	{ 	
 	    			this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+','+response.data.data.tournament_contact.last_name
+
+	    		}
 	    			let locations='';
+	    			if(response.data.data.locations != undefined || response.data.data.locations != null )
+              	{ 
 	    			response.data.data.locations.reduce(function (a,b) {
 			        locations += b.name + '(' + b.country +')'
-			      },0);
+			      	},0);
 
-	    			this.tournamentSummary.locations = locations	
+	    			this.tournamentSummary.locations = locations
+	    		}		
 
 	    			}
 	    		},

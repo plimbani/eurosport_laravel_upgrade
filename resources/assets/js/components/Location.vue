@@ -74,7 +74,12 @@ placeholder="">
 <input type="text" class="form-control" placeholder="">
 </div>
 </div>
+<div class="form-group row">
+<div class="col-sm-4">
 <button class="btn btn-success" @click.prevent="removeLocation(index)" v-if="index > 0">+ Remove Location</button>
+</div>
+</div>
+
 </div>
 
 </div>

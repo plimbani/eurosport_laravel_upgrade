@@ -195,7 +195,7 @@ export default {
   },
   mounted(){    
     Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
-      // here we dispatch methods     
+    // here we dispatch methods     
     // First we check that if tournament id is Set then dont dispatch it
     
     if(typeof this.$store.state.Tournament.tournamentId != 'undefined') {
@@ -204,10 +204,39 @@ export default {
       // we call Summary 
       Tournament.tournamentSummaryData(this.tournamentId).then(
           (response) => {
+            
             if(response.data.status_code == 200) {
-                this.tournamentSummary = response.data.data;
-                alert(JSON.stringify(response.data.data))
-                // fetch data From State
+              if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
+              {  
+              
+              this.tournament.tournament_contact_first_name = response.data.data.tournament_contact.first_name
+              this.tournament.tournament_contact_last_name = response.data.data.tournament_contact.last_name
+              this.tournament.tournament_contact_home_phone = response.data.data.tournament_contact.telephone
+            }
+              // Also Add Locations
+              
+              let locations = response.data.data.locations
+              if(locations != undefined || locations != null )
+              {  
+                  
+                  // Initially Set with Zero
+                  this.locations = []
+                  for(let i=0;i<locations.length;i++){
+                    
+                    this.locations.push ({
+                        tournament_venue_name: locations[i]['name'],
+                        touranment_venue_address: locations[i]['address1'],
+                        tournament_venue_city: locations[i]['city'],
+                        tournament_venue_postcode: locations[i]['postcode'],
+                        tournament_venue_state: locations[i]['state'],
+                        tournament_venue_country: locations[i]['country']  
+                    });
+                  }
+
+              }
+                // this.tournamentSummary = response.data.data;
+                // fetch data and set it
+                
             }
           },
           (error) => {
@@ -215,6 +244,23 @@ export default {
             // 
           }
         );
+      // here we set data from state for tournament
+      this.tournament.name = this.$store.state.Tournament.tournamentName
+      if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null) {
+        
+        this.image = '/assets/img/tournament_logo/'+this.$store.state.Tournament.tournamentLogo
+      }
+      
+      this.tournament.website ='website'
+      this.tournament.facebook ='facebook'
+      this.tournament.twitter = 'twitter'
+      document.getElementById('tournament_start_date').value 
+              = this.$store.state.Tournament.tournamentStartDate
+      document.getElementById('tournament_end_date').value 
+              = this.$store.state.Tournament.tournamentEndDate
+      let currentNavigationData = {activeTab:'tournament_add', currentPage: 
+      'Edit Tournament'}
+      this.$store.dispatch('setActiveTab', currentNavigationData)        
     } else {
       
       let tournamentAdd  = {name:'Your Tournament', 
@@ -267,7 +313,8 @@ export default {
             this.tournament.image_logo = this.image
 
             this.tournament.locations = this.locations
-
+            // here we check if tournament id is Set then 
+            this.tournament.tournamentId = this.tournamentId
             // we can take length of how much we have to move for loop
             this.tournament.locationCount = this.customCount
             this.$store.dispatch('SaveTournamentDetails', this.tournament)
@@ -275,7 +322,9 @@ export default {
               // Display Toastr Message for add Tournament
               toastr['success']('Tournament detail has been added successfully', 'Success');
               // Now redirect to Comperation Format page
-              this.$router.push({name:'competation_format'})
+              // now here also check if tournament id is set then we push it
+            
+            setTimeout(this.redirectCompetation, 3000);
 
             // commit(types.SAVE_TOURNAMENT, response.data)
           },
@@ -283,6 +332,9 @@ export default {
             console.log('Error occured during SaveTournament api ', error)
           }
       )           
+    },
+    redirectCompetation() {
+      this.$router.push({name:'competation_format'})
     },
     backward() {
         this.$router.push({name:'welcome'})

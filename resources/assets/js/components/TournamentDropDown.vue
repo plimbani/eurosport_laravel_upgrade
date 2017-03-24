@@ -49,7 +49,8 @@
 		  	tournamentStartDate:this.tournament.start_date, 
 			tournamentEndDate:this.tournament.end_date}  				
     	  this.$store.dispatch('SetTournamentName', tournamentSel)
-    	  this.$store.dispatch('setActiveTab', 'competation_format')
+    	  let currentNavigationData = {activeTab:'competation_format', currentPage: 'Competition Formats'}
+    	  this.$store.dispatch('setActiveTab', currentNavigationData)
     	  this.$router.push({name:'competation_format'})
 			// this.$store.dispatch('SetTournamentName','Your Tournament') 
 			// alert(this.option.name)

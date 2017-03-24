@@ -50,6 +50,7 @@ export default {
 		}
 	},
 	mounted() {
+
 		// if(this.tournamentId == '' ) {
 		// 	this.$router.push({name: 'welcome'})	
 		// 	}
@@ -58,6 +59,7 @@ export default {
 	},
 	methods: {
 		GetSelectComponent(componentName) {
+			
 			// here we check for Tournament Add		
 			this.$router.push({name: componentName})
 			setTimeout( function(){

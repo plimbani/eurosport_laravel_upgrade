@@ -61,7 +61,12 @@ export default {
   methods : {
     addNewTournament() {     
       // we have to Dispatch there is New Tournament 
-      let tournamentAdd  = {name:'Your Tournament', 'currentPage':'TournamentAdd'}        
+      let tournamentAdd  = {name:'Your Tournament', 
+      'currentPage':'TournamentAdd'}        
+      let currentNavigationData = {activeTab:'tournament_add', currentPage: 
+      'Add Tournament'}
+      this.$store.dispatch('setActiveTab', currentNavigationData)
+
       this.$store.dispatch('SetTournamentName', tournamentAdd)      
       this.$router.push({name: 'tournament_add'})      
     },

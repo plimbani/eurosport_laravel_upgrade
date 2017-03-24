@@ -7,6 +7,7 @@ import * as types from './mutation-types'
 
 import Tournament from './modules/tournament'
 import Pitch from './modules/pitch'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
@@ -34,6 +35,7 @@ const mutations = {
 }
 export default new Vuex.Store({
   state,
+  plugins: [createPersistedState()],
   actions,
   mutations,
   getters,

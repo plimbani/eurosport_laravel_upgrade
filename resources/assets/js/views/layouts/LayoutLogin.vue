@@ -10,7 +10,7 @@
             <router-view></router-view>
             <div class="page-copyright">
                 <p>Powered by <a href="http://aecordigital.com" target="_blank">Aecor Digital</a><br/>
-                Copyright 2016-17 Euro-Sportring. All rights reserved.</p>
+                Copyright {{currentYear}} Euro-Sportring. All rights reserved.</p>
             </div>
         </div>
     </div>
@@ -19,6 +19,11 @@
 <script type="text/babel">
 
     export default {
+        data() {
+          return {
+            'currentYear': new Date().getFullYear()
+           }
+        },
         methods: {
             setLayoutClasses(){
                 let body = $('body');
