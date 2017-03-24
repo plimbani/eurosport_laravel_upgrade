@@ -40,8 +40,9 @@
 		  let name = this.tournament.name
 		  let id = this.tournament.id
 		  let tournamentDays = Plugin.setTournamentDays(this.tournament.start_date, this.tournament.end_date)
-		  let tournamentSel  = {name:name, 
-		  	currentPage:'Competation Formats',id:id, 
+		  let tournamentSel  = {
+		  	name:name, 
+		  	id:id, 
 		  	tournamentDays: tournamentDays,
 		  	tournamentLogo: this.tournament.logo,
 		  	tournamentStatus:this.tournament.status,

@@ -13,7 +13,8 @@ Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 
 const state = {
-  activePath: 'tournament_add'
+  activePath: 'tournament_add',
+  currentPage: ''
   /*vehicleDetails: [],
   surveyDetail: [],
   multiSelectAll: false,
@@ -26,8 +27,9 @@ const state = {
 }
 
 const mutations = {
-  [types.SET_ACTIVE_TAB] (state, activeTab) {
-    state.activePath = activeTab
+  [types.SET_ACTIVE_TAB] (state, currentNavigationData) {
+    state.activePath = currentNavigationData.activeTab
+    state.currentPage = currentNavigationData.currentPage
   }
 }
 export default new Vuex.Store({

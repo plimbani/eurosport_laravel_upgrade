@@ -168,7 +168,7 @@
 
 <script type="text/babel">
 import location from '../../../components/Location.vue'
-
+import Tournament from '../../../api/tournament.js'
 export default {
   data() {
     return {
@@ -186,7 +186,8 @@ export default {
         }
       ],
       image:'',
-      customCount:0
+      customCount:0,
+      tournamentId: 0
    }   
   },
   components: {
@@ -198,9 +199,22 @@ export default {
     // First we check that if tournament id is Set then dont dispatch it
     
     if(typeof this.$store.state.Tournament.tournamentId != 'undefined') {
-
-      let tournamentAdd  = {name: this.$store.state.Tournament.tournamentName, currentPage:'TournamentAdd'}  
-      this.$store.dispatch('SetTournamentName', tournamentAdd)
+      this.tournamentId = this.$store.state.Tournament.tournamentId 
+      // Now here we call method for getting the tournament Data
+      // we call Summary 
+      Tournament.tournamentSummaryData(this.tournamentId).then(
+          (response) => {
+            if(response.data.status_code == 200) {
+                this.tournamentSummary = response.data.data;
+                alert(JSON.stringify(response.data.data))
+                // fetch data From State
+            }
+          },
+          (error) => {
+            // if no Response Set Zero
+            // 
+          }
+        );
     } else {
       
       let tournamentAdd  = {name:'Your Tournament', 

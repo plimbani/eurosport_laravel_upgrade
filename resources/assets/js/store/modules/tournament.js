@@ -9,7 +9,6 @@ const state = {
   tournamentStartDate:"03/01/2017",
   tournamentEndDate:"03/04/2017",
   tournamentDay:4,
-  currentPage: '',
   tournamentId: 1,
   currentTemplate: '',
   currentTotalTime: '',
@@ -106,7 +105,6 @@ const mutations = {
     state.tournamentStartDate = currentTournament.tournamentStartDate
     state.tournamentEndDate = currentTournament.tournamentEndDate
     state.tournamentDays = currentTournament.tournamentDays
-    state.currentPage = currentTournament.currentPage
     state.tournamentId = currentTournament.id
     state.tournamentStatus = currentTournament.tournamentStatus
     state.tournamentLogo = currentTournament.tournamentLogo
@@ -114,8 +112,7 @@ const mutations = {
   [types.SAVE_TOURNAMENT] (state, tournamentData) {        
     // alert('hello in mutation')
     state.tournamentName = tournamentData.name
-    state.tournamentId = tournamentData.id
-    state.currentPage = 'Competation Formats'
+    state.tournamentId = tournamentData.id    
   },
   [types.SAVE_COMPETATION_FORMAT] (state, competationFormatData) {        
     // alert('hello in mutation')

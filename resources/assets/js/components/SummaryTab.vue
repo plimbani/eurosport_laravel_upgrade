@@ -119,8 +119,17 @@
 	    	Tournament.tournamentSummaryData(tournamentId).then(
 	    		(response) => {
 	    			if(response.data.status_code == 200) {
-	    					this.tournamentSummary = response.data.data;
-	    					// fetch data From State
+	    			this.tournamentSummary = response.data.data;
+	    			// here modified data According to display
+	    			
+	    			this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+','+response.data.data.tournament_contact.last_name
+	    			let locations='';
+	    			response.data.data.locations.reduce(function (a,b) {
+			        locations += b.name + '(' + b.country +')'
+			      },0);
+
+	    			this.tournamentSummary.locations = locations	
+
 	    			}
 	    		},
 	    		(error) => {

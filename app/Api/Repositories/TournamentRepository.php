@@ -100,9 +100,11 @@ class TournamentRepository
        $tempData=array();
        if(count($locationData) > 0) {
         foreach($locationData as $location) {
-            $tempData['locationData'][]=$location['name'].'('.$location['country'].')';
+            $tempData['locationData'][]=$location;
         }
-        $summaryData['locations']=implode(',',$tempData['locationData']);
+        
+        $summaryData['locations']=$tempData['locationData'];
+        
        }
        $tournamentCompetaionTemplateData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
 
@@ -135,8 +137,8 @@ class TournamentRepository
 
          // means they have Data
          if(count($peopleData) > 0) {
-            
-            $summaryData['tournament_contact'] = $peopleData[0]['first_name'].','.$peopleData[0]['last_name'];
+            $summaryData['tournament_contact'] = $peopleData[0];
+            //$summaryData['tournament_contact'] = $peopleData[0]['first_name'].','.$peopleData[0]['last_name'];
          }
         
 	       //$locationData = Venue::find();
