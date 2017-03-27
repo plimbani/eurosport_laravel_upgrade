@@ -10,6 +10,8 @@ use Laraspace\Models\TournamentVenue;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Pitch;
+use Laraspace\Models\Fixture;
+use Carbon\Carbon;
 
 class TournamentRepository
 {
@@ -141,5 +143,19 @@ class TournamentRepository
          
 	       //$locationData = Venue::find();
        return $summaryData;
+    }
+    public function tournamentReport ($data) {
+        $matchData  = Fixture::where('fixtures.tournament_id',$data['tournament_id'])
+                ->where('venue_id',$data['location'])
+                ->where('pitch_id',$data['pitch'])
+                ->where('match_datetime','>=',Carbon::parse($data['start_date'])->format('m/d/Y'))
+                ->where('match_datetime','<=',Carbon::parse($data['end_date'])->format('m/d/Y'))
+                ->where('pitch_id',$data['pitch'])
+                // ->Join('tournament_competation_template', 'tournament_competation_template.tournament_id', '=', 'tournament.id')
+                ->get();
+
+            return $matchData;
+            
+
     }
 }
