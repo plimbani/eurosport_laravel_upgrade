@@ -14,9 +14,9 @@ class RefereeService implements RefereeContract
         $this->refereeRepoObj = new \Laraspace\Api\Repositories\RefereeRepository();
     }
 
-    public function getAllReferees()
+    public function getAllReferees($tournamentId)
     {
-        return $this->refereeRepoObj->getAllReferees();
+        return $this->refereeRepoObj->getAllReferees($tournamentId);
     }
 
     /**
