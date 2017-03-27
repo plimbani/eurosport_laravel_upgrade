@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="mt-4">
-                    <button type="button" class="btn btn-primary" @click="addPitch()"><i class="fa fa-plus" ></i> Add Pitch</button>
+                    <button type="button" class="btn btn-primary" @click="addPitch()"><i class="fa fa-plus" ></i>{{$lang.pitch_add}}</button>
                 </div>
                 <addPitchDetail v-if="pitchId==''" ></addPitchDetail>
                 <editPitchDetail v-if="pitchId!=''" ></editPitchDetail>

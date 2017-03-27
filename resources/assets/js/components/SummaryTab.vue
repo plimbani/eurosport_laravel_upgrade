@@ -17,12 +17,12 @@
 				</div>
 				<div class="pull-right col-md-6 padding0 text-right">
 					<span><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
-					<button type="button" data-toggle="modal" data-target="#publish_modal" class="btn btn-primary col-md-4">Publish</button><br>
+					<button type="button" data-toggle="modal" data-target="#publish_modal" class="btn btn-primary col-md-4">{{$lang.summary_button_publish}}</button><br>
 					<PublishTournament></PublishTournament>
 					<button type="button" data-toggle="modal" 
 					data-confirm-msg="Are you sure you would like to delete this user record?"
 					data-target="#delete_modal"
-					class="btn btn-danger col-md-4 mt-3">Delete</button>
+					class="btn btn-danger col-md-4 mt-3">{{$lang.summary_button_delete}}</button>
 					<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 					<!--<DeleteTournament></DeleteTournament>-->
 				</div>
@@ -34,7 +34,7 @@
 				<div class="m_card">
 					<div class="card-content">
 						<div class="card-title">{{tournamentSummary.tournament_teams}}</div>
-						<p>Teams</p>
+						<p>{{$lang.summary_teams}}</p>
 					</div>
 				</div>
 			</div>
@@ -42,7 +42,7 @@
 				<div class="m_card">
 					<div class="card-content">
 					<div class="card-title">{{tournamentSummary.tournament_age_categories}}</div>
-						<p>Age categories</p>
+						<p>{{$lang.summary_age_categories}}</p>
 					</div>
 				</div>
 			</div>
@@ -50,7 +50,7 @@
 				<div class="m_card">
 					<div class="card-content">
 						<div class="card-title">{{tournamentSummary.tournament_matches}}</div>
-						<p>Games</p>
+						<p>{{$lang.summary_games}}</p>
 					</div>
 				</div>
 			</div>
@@ -58,7 +58,7 @@
 				<div class="m_card">
 					<div class="card-content">
 						<div class="card-title">{{tournamentSummary.tournament_pitches}}</div>
-						<p>Pitches</p>
+						<p>{{$lang.summaey_pitches}}</p>
 					</div>
 				</div>
 			</div>
@@ -66,7 +66,7 @@
 				<div class="m_card">
 					<div class="card-content">
 					<div class="card-title">{{tournamentSummary.tournament_referees}}</div>
-						<p>Referees</p>
+						<p>{{$lang.summary_referees}}</p>
 					</div>
 				</div>
 			</div>
@@ -74,7 +74,7 @@
 				<div class="m_card">
 					<div class="card-content">
 					<div class="card-title">{{tournamentDays}}</div>
-						<p>Days</p>
+						<p>{{$lang.summary_days}}</p>
 					</div>
 				</div>
 			</div>

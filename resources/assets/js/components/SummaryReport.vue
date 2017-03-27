@@ -18,7 +18,7 @@
 							<label><strong>{{$lang.summary_age_category}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
-		                            <option value="">Select</option>
+		                            <option value="">{{$lang.summary_age_category_selec}}</option>
 		                            <option value="">-----------</option>
 		                        </select>
 		                    </div>
@@ -27,7 +27,7 @@
 							<label><strong>{{$lang.summary_club}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
-		                            <option value="">Select</option>
+		                            <option value="">{{$lang.summary_club_select}}</option>
 		                            <option value="">-----------</option>
 		                        </select>
 		                    </div>
@@ -36,7 +36,7 @@
 							<label><strong>{{$lang.summary_team}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
-		                        	<option value="">Select</option>
+		                        	<option value="">{{$lang.summary_team_select}}</option>
 		                            <option value="">-----------</option>                          
 		                        </select>
 		                    </div>
@@ -47,7 +47,7 @@
 							<label><strong>{{$lang.summary_from}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
-		                        	<option value="">Select</option>
+		                        	<option value="">{{$lang.summary_from_select}}</option>
 		                            <option value="">-----------</option>                          
 		                        </select>
 		                    </div>
@@ -56,7 +56,7 @@
 							<label><strong>{{$lang.summary_to}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
-		                        	<option value="">Select</option>
+		                        	<option value="">{{$lang.summary_to_select}}</option>
 		                            <option value="">-----------</option>                          
 		                        </select>
 		                    </div>
@@ -67,7 +67,7 @@
 							<label><strong>{{$lang.summary_location}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
-		                            <option value="">Select</option>
+		                            <option value="">{{$lang.summary_location_select}}</option>
 		                            <option value="">-----------</option>
 		                        </select>
 		                    </div>
@@ -76,7 +76,7 @@
 							<label><strong>{{$lang.summary_pitch}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
-		                            <option value="">Select</option>
+		                            <option value="">{{$lang.summary_pitch_select}}</option>
 		                            <option value="">-----------</option>
 		                        </select>
 		                    </div>
@@ -85,7 +85,7 @@
 							<label><strong>{{$lang.summary_referee}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
-		                        	<option value="">Select</option>
+		                        	<option value="">{{$lang.summary_referee_select}}</option>
 		                            <option value="">-----------</option>                          
 		                        </select>
 		                    </div>

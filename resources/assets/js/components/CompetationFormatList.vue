@@ -2,12 +2,12 @@
  <table class="table table-hover table-bordered add-category-table">
   <thead>
       <tr>
-          <th class="text-center">Age category</th>
-          <th>Competition format</th>
-          <th class="text-center">Total matches</th>
-          <th>Total time</th>
-          <th class="text-center">Match schedule</th>
-          <th class="text-center">Manage</th>
+          <th class="text-center">{{$lang.competation_age_category}}</th>
+          <th>{{$lang.competation_competation_format}}</th>
+          <th class="text-center">{{$lang.competation_total_matches}}</th>
+          <th>{{$lang.competation_total_time}}</th>
+          <th class="text-center">{{$lang.competation_match_schedule}}</th>
+          <th class="text-center">{{$lang.competation_manage}}</th>
       </tr>
   </thead>
   <tbody>      
@@ -28,7 +28,7 @@
           <td>{{competation.total_time | formatTime}}          
           </td>
           <td class="text-center">
-              <a href="#">View</a>
+              <a href="#"  @click="viewCompFormat(competation.tournament_template_id)">View</a> 
           </td>
           <td class="text-center">
               <div class="row">
@@ -48,24 +48,27 @@
           </td>
       </tr>     
   </tbody>
-  <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+ <!--  <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal> -->
+  <addCategoryModal :templateData="templateData"></addCategoryModal>
+
 </table>
 
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
 import DeleteModal from './DeleteModal.vue'
+import addCategoryModal from './CompetationModal.vue'
 export default {  
   data() {
   	return {
      competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
      tournamentTemplateId: '', totalTime:'',
-     deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: ''
+     del1eteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: '', templateData:''
 
     }
   },
   components: {
-    DeleteModal
+    DeleteModal,addCategoryModal
   },
   mounted () {
   	// here we load the Competation Format data Based on tournament Id
@@ -74,7 +77,7 @@ export default {
   },
    filters: {
     formatTime: function(time) {
-      var hours = Math.floor( time / 60); 
+      var hours = Math.floor( time /   60); 
       var minutes = Math.floor(time % 60);
 
       return hours+ ' Hours And '+minutes+' Minutes'
@@ -84,6 +87,23 @@ export default {
     editCompFormat(Id) {
        // Call Child Class Component Method       
       this.$root.$emit('setCompetationFormatData',  Id)   
+    },
+    viewCompFormat(id) {
+  
+        $("#competationmodal").modal('show');
+        Tournament.getTemplate(id).then(
+        (response) => {
+          if(response.data.status_code==200){
+            this.templateData = JSON.parse(response.data.data)
+             
+             $("#competationmodal").modal("show");
+            
+          }
+        },
+        (error) => {
+          alert('error occur')
+        }
+      )
     },
     prepareDeleteResource(Id) {
        this.deleteAction=Id;
@@ -114,7 +134,7 @@ export default {
       Tournament.getCompetationFormat(TournamentData).then(
       (response) => {          
         this.competationList = response.data.data         
-        // console.log(this.competationList);
+         console.log(this.competationList);
       },
       (error) => {
          console.log('Error occured during Tournament api ', error)

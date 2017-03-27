@@ -169,7 +169,6 @@
 </template>
 
 <script type="text/babel">
-import custom from '../../../components/custom.vue'
 
 export default {
   data() {
@@ -188,9 +187,6 @@ export default {
       image:'',
       customCount:0
    }   
-  },
-  components: {
-    custom: custom
   },
   mounted(){    
     Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])

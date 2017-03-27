@@ -17,7 +17,8 @@ class TournamentRepository
     {
         return Tournament::get();
     }
-    public function getTemplate($tournamentTemplateId) {      
+    public function getTemplate($tournamentTemplateId) { 
+        
         return TournamentTemplates::find($tournamentTemplateId)->json_data;
     }
     public function getAllTemplates()

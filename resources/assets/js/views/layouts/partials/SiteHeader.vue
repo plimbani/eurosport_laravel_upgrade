@@ -13,7 +13,7 @@
             <!-- <span class="offset-1"> {{TournamentName}} </span> -->
             <ul class="action-list">
                 <li>
-                    <i class="fa fa-clock-o"></i>&nbsp;<span id="timer">{{time}}</span>
+                    <i class="fa fa-clock-o"></i>&nbsp;<span id="timer">Time</span>
                 </li>
                 <li>
                     <i class="fa fa-calendar"></i>&nbsp;<span id="date">{{date}}</span>
@@ -23,16 +23,16 @@
                 </li>
                 <li>
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" aria-haspopup="true" data-close-others="true" aria-expanded="true">              
-                        <span class="username username-hide-on-mobile">Chris</span> 
+                        <span class="username username-hide-on-mobile">{{$lang.siteheader_name}}</span> 
                     </a>
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
-                        <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i> Settings</router-link>
-                        <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i> Logout</a>
+                        <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link>
+                        <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>
-                <li> <a href="#"> Help</a> </li>
-                <li><a href="#"  @click="$setLang('en')">English</a></li>
-                <li><a href="#"  @click="$setLang('fr')">French</a></li>
+                <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
+                <li><a href="#"  @click="$setLang('en')">{{$lang.siteheader_english}}</a></li>
+                <li><a href="#"  @click="$setLang('fr')">{{$lang.siteheader_french}}</a></li>
                 <!--
                 <li>
                     <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></a>
@@ -72,7 +72,7 @@
         },
 
         mounted() {
-                    var m_names = new Array("Jan", "Feb", "Mar", 
+            var m_names = new Array("Jan", "Feb", "Mar", 
             "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
             "Oct", "Nov", "Dec");
 
@@ -83,6 +83,7 @@
             this.date = curr_date + " " + m_names[curr_month] 
             + " " + curr_year;
         },
+
         methods : {
             onNavToggle(){
                 Layout.toggleSidebar()

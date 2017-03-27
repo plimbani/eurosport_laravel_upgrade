@@ -6,6 +6,7 @@ use Brotzka\DotenvEditor\DotenvEditor;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
+
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\TeamContract;
 
@@ -49,16 +50,20 @@ class TeamController extends BaseController
      */
 
     public function createTeam(Request $request)
-    {
-        // Excel::load('file.xls', function($reader) {
+    {   
+        $filepath = 
+       \Excel::load('file.xls', function($reader) {
+            dd($reader->all());
 
-    // reader methods
-
-// });
-        dd($request->all());
+    });
+        
         // return $this->teamObj->create($request);
     }
 
+    // public function importTeamlist(){
+
+
+    // }    
     /**
      * Edit  Teams.
      *
