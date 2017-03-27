@@ -31,7 +31,7 @@
                             </p>
                             <p>
                                 <label class="col-md-3"><strong>{{$lang.pitch_balance}}</strong></label>
-                                <label :class="[pitchAvailableBalance[0]<0? 'red': '','col-md-5' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}} <a href="">(Help)</a></label>
+                                <label :class="[pitchAvailableBalance[0]<0? 'red': 'text-success','col-md-5' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}} <a href="">(Help)</a></label>
                             </p>
                         </div>
                     </div>
@@ -78,9 +78,12 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 let pitchavailableBalance = []
                 let tournamentAvailableTime =  this.tournamentTime
                 let pitchCapacityTime =this.pitchCapacity
-                let availableTime = tournamentAvailableTime - pitchCapacityTime
+                let availableTime = pitchCapacityTime - tournamentAvailableTime
                 var minutes = availableTime % 60;
                 var hours = (availableTime - minutes) / 60;
+                if(minutes<0){
+                    minutes = parseInt(0- minutes)
+                }
                 pitchavailableBalance.push (hours,minutes)
                 return pitchavailableBalance
             }

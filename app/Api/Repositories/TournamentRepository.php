@@ -27,7 +27,7 @@ class TournamentRepository
     }
     public function create($data)
     {
-        //print_r($data);exit;
+       
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
@@ -60,17 +60,18 @@ class TournamentRepository
         // Save Tournament Venue Data     
         // we have to loop for according to loations
         $locationCount = $data['locationCount'];
-        for($i=1;$i<=$locationCount;$i++) {
+        $locationData = $data['locations'];
+        foreach($locationData as $location) {
+            $locationData['name'] =$location['tournament_venue_name'] ?? ''; 
+            $locationData['address1'] =$location['touranment_venue_address'] ?? '';
+            $locationData['city'] =$location['tournament_venue_city'] ?? '';
+            $locationData['postcode'] =$location['tournament_venue_postcode'] ?? '';
+            $locationData['state'] =$location['tournament_venue_state'] ?? '';
+            $locationData['country'] =$location['tournament_venue_country'] ?? '';
+            $locationData['tournament_id']=$tournamentId;
+            // $locationData['organiser'] =$data['tournament_venue_organiser'];
+            $locationId = Venue::create($locationData)->id;   
 
-        $locationData['name'] =$data['locations']['tournament_venue_name'][$i]; 
-        $locationData['address1'] =$data['locations']['touranment_venue_address'][$i];
-        $locationData['city'] =$data['locations']['tournament_venue_city'][$i];
-        $locationData['postcode'] =$data['locations']['tournament_venue_postcode'][$i];
-        $locationData['state'] =$data['locations']['tournament_venue_state'][$i];
-        $locationData['country'] =$data['locations']['tournament_venue_country'][$i];
-        $locationData['tournament_id']=$tournamentId;
-        // $locationData['organiser'] =$data['tournament_venue_organiser'];
-        $locationId = Venue::create($locationData)->id;    
         }
         
         //TournamentVenue::create(array('tournament_id'=>$tournamentId,'venue_id'=>$locationId));

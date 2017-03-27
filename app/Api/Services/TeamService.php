@@ -18,10 +18,10 @@ class TeamService implements TeamContract
      * @param  array $api_key,$state,$type
      * @return response
      */
-    public function getTeams()
+    public function getTeams($tournamentId)
     {
         // Here we send Status Code and Messages
-        $data = $this->teamRepoObj->getAll();
+        $data = $this->teamRepoObj->getAll($tournamentId);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
@@ -37,9 +37,16 @@ class TeamService implements TeamContract
      *
      * @return [type]
      */
+    public function getCountryIdFromName($countryName) {
+        $cid = \DB::table('countries')->where('name', $countryName)->select('id')->first();
+        return $cid->id;
+        
+        // return 1;
+    }
     public function create($data)
     {
-        $data = $data->all();
+        $data['country_id'] = $this->getCountryIdFromName($data['country']);
+        // dd($data);
         $data = $this->teamRepoObj->create($data);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
@@ -62,6 +69,19 @@ class TeamService implements TeamContract
         }
     }
 
+    public function assignTeams($data)
+    {
+        // dd($data);
+        foreach ($data['data']['teamdata'] as $key => $value) {
+            // dd($value);
+            $team_id = str_replace('sel_', '', $value['name']);
+            // $team_id = str_replace('sel_', '', $value['value']);
+            $this->teamRepoObj->assignGroup($team_id,$value['value']);
+            # code...
+        }
+        return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+    }
+
     /**
      * Delete Team.
      *
@@ -69,6 +89,9 @@ class TeamService implements TeamContract
      *
      * @return [type]
      */
+    public function deleteFromTournament($tournamentId) {
+        return  $this->teamRepoObj->deleteFromTournament($tournamentId);
+    }
     public function delete($data)
     {
         $data = $data->all();

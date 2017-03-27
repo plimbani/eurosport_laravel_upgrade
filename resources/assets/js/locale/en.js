@@ -186,6 +186,7 @@ module.exports = {
   teams_country: "Country",
   teams_agecategory: "Age Category",
   teams_group: "Group",
+  teams_button_updategroups: "Update",
 
 
   summary_cup: "XYZ Cup 2017",

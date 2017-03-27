@@ -22,6 +22,7 @@ class TeamController extends BaseController
     public function __construct(TeamContract $teamObj)
     {
         $this->teamObj = $teamObj;
+        $this->data = '';
     }
 
     /**
@@ -33,9 +34,9 @@ class TeamController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getTeams()
+    public function getTeams($tournamentId)
     {
-        return $this->teamObj->getTeams();
+        return $this->teamObj->getTeams($tournamentId);
     }
 
     /**
@@ -50,14 +51,41 @@ class TeamController extends BaseController
      */
 
     public function createTeam(Request $request)
-    {   
-        $filepath = 
-       \Excel::load('file.xls', function($reader) {
-            dd($reader->all());
+    {
 
-    });
-        
-        // return $this->teamObj->create($request);
+        $file = $request->file('fileUpload');
+        // dd($file);
+        $this->data['teamSize'] =  $request['teamSize'];
+        $this->data['tournamentId'] = $request['tournamentId'];
+        $this->data['ageCategory'] = $request['ageCategory'];
+
+        // $this->teamObj->deleteFromTournament($request->tournamentId);
+        $this->teamObj->deleteFromTournament($this->data['tournamentId'] );
+        \Excel::load($file->getRealPath(), function($reader) {
+
+              $this->data['totalSize']  = $reader->getTotalRowsOfFile();  
+            
+            $reader->limit($this->data['teamSize']);
+            $reader->each(function($sheet) {
+            // Loop through all rows
+
+                // $sheet->each(function($row) {
+                    // dd($sheet);
+                    $sheet->tournamentData = $this->data; 
+                    $this->teamObj->create($sheet);
+
+                // });
+            });
+        });
+        if($this->data['totalSize'] > $this->data['teamSize'] ){
+            return ['bigFileSize' =>  true];
+        }else{
+            return ['bigFileSize' =>  false];
+        }
+    }
+    public function assignTeam(Request $request) {
+        // dd($request->all());
+         $this->teamObj->assignTeams($request->all());
     }
 
     // public function importTeamlist(){

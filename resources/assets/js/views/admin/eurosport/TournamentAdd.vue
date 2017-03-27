@@ -145,10 +145,8 @@
                         </div>
                     </div>
 
-                     <custom v-for="n in customCount" :tournament="tournament"
-                     :customCount="customCount" :locations="locations"></custom> 
-                     <button class="btn btn-success" @click.prevent="customCount++">+ Add Location</button>
-                     <button class="btn btn-success" @click.prevent="customCount--" v-if="customCount > 0">+ Remove Location</button>
+                     <location :locations="locations"></location> 
+                     <button class="btn btn-success" @click.prevent="addLocationClick">+ Add Location</button>                     
                 </form>                
             </div>
         </div>       
@@ -169,24 +167,30 @@
 </template>
 
 <script type="text/babel">
+import location from '../../../components/Location.vue'
 
 export default {
   data() {
     return {
       tournament: {name:' ',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
-        image_logo:''
+        image_logo:'',test_value:''
       },
-      locations: {
-        tournament_venue_name: {},
-        touranment_venue_address:{},
-        tournament_venue_city:{},
-        tournament_venue_postcode:{},
-        tournament_venue_state:{},
-        tournament_venue_country:{}
-      },
+      locations: [
+        {
+          tournament_venue_name: "",
+          touranment_venue_address: "",
+          tournament_venue_city: "",
+          tournament_venue_postcode: "",
+          tournament_venue_state: "",
+          tournament_venue_country: ""  
+        }
+      ],
       image:'',
       customCount:0
    }   
+  },
+ components: {
+     location: location
   },
   mounted(){    
     Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
@@ -207,6 +211,16 @@ export default {
     //this.handleValidation()
   },
   methods: {
+    addLocationClick() {
+      this.locations.push ({
+          tournament_venue_name: "",
+          touranment_venue_address: "",
+          tournament_venue_city: "",
+          tournament_venue_postcode: "",
+          tournament_venue_state: "",
+          tournament_venue_country: ""  
+      });
+    },
     onFileChange(e) {        
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length)
