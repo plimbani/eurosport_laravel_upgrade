@@ -35,7 +35,7 @@ $api->version('v1', function ($api) {
     $api->post('team/group/assign', 'Laraspace\Api\Controllers\TeamController@assignTeam');
 
     //Referee api
-    $api->get('referees', 'Laraspace\Api\Controllers\RefereeController@getReferees');
+    $api->get('referees/{tournamentId}', 'Laraspace\Api\Controllers\RefereeController@getReferees');
     $api->post('referee/create', 'Laraspace\Api\Controllers\RefereeController@createReferee');
     $api->post('referee/edit/{id}', 'Laraspace\Api\Controllers\RefereeController@edit');
     $api->post('referee/delete/{deleteid}', 'Laraspace\Api\Controllers\RefereeController@deleteReferee');
@@ -90,6 +90,8 @@ $api->version('v1', function ($api) {
     // Role Stuff
     $api->get('roles', 'Laraspace\Api\Controllers\RoleController@getRoles');
     $api->get('roles-for-select', 'Laraspace\Api\Controllers\RoleController@getRolesForSelect');
+
+    $api->post('tournament/report/generate', 'Laraspace\Api\Controllers\TournamentController@generateReport');
 });
 
 

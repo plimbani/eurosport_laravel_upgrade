@@ -47,8 +47,9 @@ export default {
     return api.post('team/group/assign',{ data})
  },
  getAllReportsData(data) {
-    // console.log(data)
-    return api.post('tournament/report/generate',{ data})
+     return api.post('tournament/report/generate',{ data})
+     console.log('msg')
  }
+
 
 }

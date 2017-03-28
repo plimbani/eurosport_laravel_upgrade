@@ -5,25 +5,8 @@ use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 
 class Common {
-    /**
-     * Send mail
-     * @param  [type] $email_details    Email detail
-     * @param  [type] $email_recipients Email recipients
-     * @param  [type] $email_subject    Email subject
-     * @param  [type] $email_view       Email view
-     * @return JSON
-     */
-    static function sendMail($email_details, $email_recipients, $email_subject, $email_view)
-    {        
-        $contact_details = $email_details;
-        $recipient = $email_recipients;
-        Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view));
-        return response()->json([
-            'status' => 'suceess'
-        ]);
-    }
 
-      static function toExcel($lableArray, $dataArray, $otherParams,$output = 'xlsx',$download='yes',$columnFormat=''){
+    static function toExcel($lableArray, $dataArray, $otherParams,$output = 'xlsx',$download='yes',$columnFormat=''){
         $excelCreateObj = \Excel::create(str_slug($otherParams['sheetTitle']), function($excel) use($lableArray, $dataArray, $otherParams,$columnFormat) {
             $excel->setTitle($otherParams['sheetTitle']);
             $excel->sheet($otherParams['sheetName'], function($sheet) use($lableArray, $dataArray, $otherParams,$columnFormat) {
@@ -52,8 +35,7 @@ class Common {
                 }
             });
         });
-         $excelCreateObj->export($output);
-          // $excelCreateObj->store($output);    
-        
+         $excelCreateObj->export($output);   
+       
     }
 }
