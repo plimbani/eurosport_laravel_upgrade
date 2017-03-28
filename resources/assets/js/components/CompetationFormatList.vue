@@ -89,9 +89,9 @@ export default {
       this.$root.$emit('setCompetationFormatData',  Id)   
     },
     viewCompFormat(id) {
-  
         $("#competationmodal").modal('show');
-        Tournament.getTemplate(id).then(
+        let TemplateData = {tournamentTemplateId : id}
+        Tournament.getTemplate(TemplateData).then(
         (response) => {
           if(response.data.status_code==200){
             this.templateData = JSON.parse(response.data.data)

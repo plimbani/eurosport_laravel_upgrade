@@ -58,7 +58,7 @@
                             </p>
                             <p class="row">
                                 <label class="col-md-9"><strong>Remarks</strong></label>
-                                <label class="col-md-3">{{ templateData['tournament_min_match'] }}</label>
+                                <label class="col-md-3"></label>
                             </p>
                         </div>
                     </div>
