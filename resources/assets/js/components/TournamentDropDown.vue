@@ -40,14 +40,17 @@
 		  let name = this.tournament.name
 		  let id = this.tournament.id
 		  let tournamentDays = Plugin.setTournamentDays(this.tournament.start_date, this.tournament.end_date)
-		  let tournamentSel  = {name:name, 
-		  	currentPage:'Competation Formats',id:id, 
+		  let tournamentSel  = {
+		  	name:name, 
+		  	id:id, 
 		  	tournamentDays: tournamentDays,
+		  	tournamentLogo: this.tournament.logo,
 		  	tournamentStatus:this.tournament.status,
 		  	tournamentStartDate:this.tournament.start_date, 
 			tournamentEndDate:this.tournament.end_date}  				
     	  this.$store.dispatch('SetTournamentName', tournamentSel)
-    	  this.$store.dispatch('setActiveTab', 'competation_format')
+    	  let currentNavigationData = {activeTab:'competation_format', currentPage: 'Competition Formats'}
+    	  this.$store.dispatch('setActiveTab', currentNavigationData)
     	  this.$router.push({name:'competation_format'})
 			// this.$store.dispatch('SetTournamentName','Your Tournament') 
 			// alert(this.option.name)

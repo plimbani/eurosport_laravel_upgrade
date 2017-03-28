@@ -191,7 +191,7 @@ module.exports = {
   summary_message_button_send: "Send",
 
   tournament_label: "Tournament Details",
-  competation_label: "Competation Formats",
+  competation_label: "Competition Formats",
   pitch_capacity_label: "Pitch Capacity",
   pitch_planner_label: "Pitch Planner",
   teams_groups_label: "Teams And Groups",

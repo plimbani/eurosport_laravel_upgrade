@@ -192,7 +192,7 @@ module.exports = {
 
 
   tournament_label: "FTournament Details",
-  competation_label: "FCompetation Formats",
+  competation_label: "FCompetition Formats",
   pitch_capacity_label: "FPitch Capacity",
   pitch_planner_label: "FPitch Planner",
   teams_groups_label: "FTeams And Groups",

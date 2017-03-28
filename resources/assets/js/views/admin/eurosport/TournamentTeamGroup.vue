@@ -162,7 +162,14 @@
     //         },
     // },
     mounted() {
-
+      let tournamentId = this.$store.state.Tournament.tournamentId
+        if(tournamentId == null || tournamentId == '') {
+          this.$router.push({name: 'welcome'});
+        } else {
+            // First Set Menu and ActiveTab
+          let currentNavigationData = {activeTab:'teams_groups', currentPage: 'Teams And Groups'}
+            this.$store.dispatch('setActiveTab', currentNavigationData)
+        }
       this.getAgeCategories()
       // this.getTeams()
       let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}

@@ -45,8 +45,12 @@ $api->version('v1', function ($api) {
     $api->post('match/create', 'Laraspace\Api\Controllers\MatchController@createMatch');
     $api->post('match/edit/{id}', 'Laraspace\Api\Controllers\MatchController@edit');
     $api->post('match/delete/{deleteid}', 'Laraspace\Api\Controllers\MatchController@deleteMatch');
+    $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
+    
+    $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
 
-    //MatchResult api
+
+    //pitch api
     $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');
     $api->get('pitch/show/{pitchId}', 'Laraspace\Api\Controllers\PitchController@show');
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');

@@ -4,7 +4,7 @@
 			<div class="col-md-12">
 				<div class="pull-left col-md-6 padding0">
 					<label class="pull-left">
-						<img src="/assets/img/flag.png" width="30">
+						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="tournamentLogo != null || tournamentLogo != ''">
 					</label>
 					<label class="col-md-6">
 						<h5>{{tournamentName}}</h5>
@@ -103,7 +103,7 @@
 	    data(){
 	    	return {
 	    		tournamentSummary:{tournament_logo:'', name: '', locations: '',tournament_dates: '', tournament_status: '',tournament_teams:'0',tournament_age_categories:'0',tournament_matches:'0',tournament_pitches:'0',tournament_referees:'0',tournament_days:'',tournament_groups:'-',tournament_countries:'-',tournament_contact:'-'},
-	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:'',tournamentId:'',
+	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:'',tournamentId:'',tournamentLogo:'',
 
 	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
                 deleteAction: ''
@@ -119,8 +119,23 @@
 	    	Tournament.tournamentSummaryData(tournamentId).then(
 	    		(response) => {
 	    			if(response.data.status_code == 200) {
-	    					this.tournamentSummary = response.data.data;
-	    					// fetch data From State
+	    			this.tournamentSummary = response.data.data;
+	    			// here modified data According to display
+	    		if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
+              	{ 	
+	    			this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+','+response.data.data.tournament_contact.last_name
+
+	    		}
+	    			let locations='';
+	    			if(response.data.data.locations != undefined || response.data.data.locations != null )
+              	{ 
+	    			response.data.data.locations.reduce(function (a,b) {
+			        locations += b.name + '(' + b.country +')'
+			      	},0);
+
+	    			this.tournamentSummary.locations = locations
+	    		}		
+
 	    			}
 	    		},
 	    		(error) => {
@@ -131,8 +146,9 @@
 	    	this.tournamentId = this.$store.state.Tournament.tournamentId
 	    	this.tournamentName = this.$store.state.Tournament.tournamentName
 	    	this.tournamentStatus = this.$store.state.Tournament.tournamentStatus
-			  this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
-			  this.tournamentDays= this.$store.state.Tournament.tournamentDays
+			this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
+			this.tournamentDays= this.$store.state.Tournament.tournamentDays
+			this.tournamentLogo= this.$store.state.Tournament.tournamentLogo
 	    },
 	    methods: {
 		deleteConfirmed() {
