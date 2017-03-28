@@ -49,7 +49,7 @@
       </tr>     
   </tbody>
  <!--  <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal> -->
-  <addCategoryModal :templateData="templateData"></addCategoryModal>
+  <competationModal :templateData="templateData"></competationModal>
 
 </table>
 
@@ -57,7 +57,7 @@
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
 import DeleteModal from './DeleteModal.vue'
-import addCategoryModal from './CompetationModal.vue'
+import CompetationModal from './CompetationModal.vue'
 export default {  
   data() {
   	return {
@@ -65,12 +65,12 @@ export default {
      competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
      tournamentTemplateId: '', totalTime:'', 
      vtournamentTemplateId: '', totalTime:'',
-     deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: ''
-
+     deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: '',
+     templateData:[]
     }
   },
   components: {
-    DeleteModal,addCategoryModal
+    DeleteModal,CompetationModal
   },
   mounted () {
   	// here we load the Competation Format data Based on tournament Id
@@ -92,21 +92,20 @@ export default {
     },
     viewCompFormat(id) {
         $("#competationmodal").modal('show');
-        let TemplateData = {tournamentTemplateId : id}
-        Tournament.getTemplate(TemplateData).then(
-        (response) => {
+         let TemplateData = {tournamentTemplateId : id}
+         Tournament.getTemplate(TemplateData).then(
+          (response) => {
           if(response.data.status_code==200){
             this.templateData = JSON.parse(response.data.data)
-             
              $("#competationmodal").modal("show");
-            
           }
         },
         (error) => {
           alert('error occur')
         }
       )
-    },
+    },  
+
     prepareDeleteResource(Id) {
        this.deleteAction=Id;
     },

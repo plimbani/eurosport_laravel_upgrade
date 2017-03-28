@@ -21,9 +21,8 @@
 	                            <select name="sel_ageCategory" id="sel_ageCategory" class="form-control ls-select2">
 	                            	<option value="">{{$lang.summary_age_category_select}}</option>
 		                            <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
-		                            <!-- <option value="">-----------</option> -->
-
-		                        </select>
+		                             <option value="">-----------</option>
+									</select>
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
@@ -38,16 +37,11 @@
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_team}}</strong></label>
 							<div class="form-group">
-<<<<<<< HEAD
-	                            <select class="form-control ls-select2">
-		                        	<option value="">{{$lang.summary_team_select}}</option>
-		                            <option value="">-----------</option>                          
-=======
+
 	                            <select name="sel_teams" id="sel_teams" class="form-control ls-select2">
-	                            	<option value="">Select</option>
+	                            	<option value="">{{$lang.summary_team_select}}</option>
 		                        	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
-		                                                      
->>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
+
 		                        </select>
 		                    </div>
 						</div>
@@ -56,29 +50,15 @@
 						<div class="col-md-6 mb-5">
 							<label><strong>{{$lang.summary_from}}</strong></label>
 							<div class="form-group">
-<<<<<<< HEAD
-	                            <select class="form-control ls-select2">
-		                        	<option value="">{{$lang.summary_from_select}}</option>
-		                            <option value="">-----------</option>                          
-		                        </select>
-=======
 							 <input type="text" 
 							 name="start_date" id="start_date" value="" class="form-control ls-datepicker " >
->>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                    </div>
 						</div>
 						<div class="col-md-6 mb-5">
 							<label><strong>{{$lang.summary_to}}</strong></label>
 							<div class="form-group">
-<<<<<<< HEAD
-	                            <select class="form-control ls-select2">
-		                        	<option value="">{{$lang.summary_to_select}}</option>
-		                            <option value="">-----------</option>                          
-		                        </select>
-=======
 	                             <input type="text" 
 							 name="end_date" id="end_date" value="" class="form-control ls-datepicker " >
->>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                    </div>
 						</div>
 					</div>
@@ -86,48 +66,29 @@
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_location}}</strong></label>
 							<div class="form-group">
-<<<<<<< HEAD
-	                            <select class="form-control ls-select2">
-		                            <option value="">{{$lang.summary_location_select}}</option>
-		                            <option value="">-----------</option>
-=======
+
 	                           <select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
 	                           		<option value="">Select</option>
 		                        	<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
-		                                                      
->>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                        </select>
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_pitch}}</strong></label>
 							<div class="form-group">
-<<<<<<< HEAD
-	                            <select class="form-control ls-select2">
-		                            <option value="">{{$lang.summary_pitch_select}}</option>
-		                            <option value="">-----------</option>
-		                        </select>
-=======
 							<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
 								<option value="">Select</option>
 		                        <option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
 		                    </select>
 	                            
->>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_referee}}</strong></label>
 							<div class="form-group">
-<<<<<<< HEAD
-	                            <select class="form-control ls-select2">
-		                        	<option value="">{{$lang.summary_referee_select}}</option>
-		                            <option value="">-----------</option>                          
-=======
 	                           	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
 	                           		<option value="">Select</option>
 		                        	<option v-for="(referee, index) in referees" :value="referee.id">{{referee.first_name}}</option>
->>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                        </select>
 		                    </div>
 						</div>
