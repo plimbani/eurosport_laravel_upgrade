@@ -4,6 +4,8 @@ namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\MatchResult;
 use Laraspace\Models\Competition;
+use Laraspace\Models\Fixture;
+
 use DB;
 
 class MatchRepository
@@ -36,4 +38,8 @@ class MatchRepository
     public function getDraws($tournamentId) {
         return Competition::find($tournamentId)->get();
     }
+    public function getFixtures($tournamentId) {
+        return Fixture::find($tournamentId)->get();
+    }
+       
 }

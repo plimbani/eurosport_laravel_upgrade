@@ -76,4 +76,8 @@ class MatchController extends Controller
     public function getDraws(Request $request){
         return $this->matchObj->getDraws($request);
     }
+    public function getFixtures(Request $request){
+        return $this->matchObj->getFixtures($request);
+    }
+       
 }
