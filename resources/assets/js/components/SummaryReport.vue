@@ -6,20 +6,23 @@
 				<span>{{$lang.summary_message}}</span>
 			</div>
 			<div class="col-md-6 text-right">
-				<button type="button" class="btn btn-primary">{{$lang.summary_button_download}}</button>
+				<button type="button" class="btn btn-primary" @click='exportReport()'>{{$lang.summary_button_download}}</button>
                 <button type="submit" class="btn btn-primary">{{$lang.summary_button_print}}</button>
 			</div>
 		</div>
 		<div class="block-bg mt-4">
-			<form class="col-md-12 report_form">
+			<form name="frmReport" id="frmReport" class="col-md-12 report_form">
 				<div class="form-group row text-left">
 					<div class="col-md-7 row">
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_age_category}}</strong></label>
 							<div class="form-group">
-	                            <select class="form-control ls-select2">
-		                            <option value="">{{$lang.summary_age_category_selec}}</option>
-		                            <option value="">-----------</option>
+
+	                            <select name="sel_ageCategory" id="sel_ageCategory" class="form-control ls-select2">
+	                            	<option value="">{{$lang.summary_age_category_select}}</option>
+		                            <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
+		                            <!-- <option value="">-----------</option> -->
+
 		                        </select>
 		                    </div>
 						</div>
@@ -35,9 +38,16 @@
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_team}}</strong></label>
 							<div class="form-group">
+<<<<<<< HEAD
 	                            <select class="form-control ls-select2">
 		                        	<option value="">{{$lang.summary_team_select}}</option>
 		                            <option value="">-----------</option>                          
+=======
+	                            <select name="sel_teams" id="sel_teams" class="form-control ls-select2">
+	                            	<option value="">Select</option>
+		                        	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
+		                                                      
+>>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                        </select>
 		                    </div>
 						</div>
@@ -46,19 +56,29 @@
 						<div class="col-md-6 mb-5">
 							<label><strong>{{$lang.summary_from}}</strong></label>
 							<div class="form-group">
+<<<<<<< HEAD
 	                            <select class="form-control ls-select2">
 		                        	<option value="">{{$lang.summary_from_select}}</option>
 		                            <option value="">-----------</option>                          
 		                        </select>
+=======
+							 <input type="text" 
+							 name="start_date" id="start_date" value="" class="form-control ls-datepicker " >
+>>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                    </div>
 						</div>
 						<div class="col-md-6 mb-5">
 							<label><strong>{{$lang.summary_to}}</strong></label>
 							<div class="form-group">
+<<<<<<< HEAD
 	                            <select class="form-control ls-select2">
 		                        	<option value="">{{$lang.summary_to_select}}</option>
 		                            <option value="">-----------</option>                          
 		                        </select>
+=======
+	                             <input type="text" 
+							 name="end_date" id="end_date" value="" class="form-control ls-datepicker " >
+>>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                    </div>
 						</div>
 					</div>
@@ -66,34 +86,55 @@
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_location}}</strong></label>
 							<div class="form-group">
+<<<<<<< HEAD
 	                            <select class="form-control ls-select2">
 		                            <option value="">{{$lang.summary_location_select}}</option>
 		                            <option value="">-----------</option>
+=======
+	                           <select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
+	                           		<option value="">Select</option>
+		                        	<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
+		                                                      
+>>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                        </select>
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_pitch}}</strong></label>
 							<div class="form-group">
+<<<<<<< HEAD
 	                            <select class="form-control ls-select2">
 		                            <option value="">{{$lang.summary_pitch_select}}</option>
 		                            <option value="">-----------</option>
 		                        </select>
+=======
+							<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
+								<option value="">Select</option>
+		                        <option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
+		                    </select>
+	                            
+>>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_referee}}</strong></label>
 							<div class="form-group">
+<<<<<<< HEAD
 	                            <select class="form-control ls-select2">
 		                        	<option value="">{{$lang.summary_referee_select}}</option>
 		                            <option value="">-----------</option>                          
+=======
+	                           	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
+	                           		<option value="">Select</option>
+		                        	<option v-for="(referee, index) in referees" :value="referee.id">{{referee.first_name}}</option>
+>>>>>>> 368385c24dee4ce57218c9213f2ae54c29b3f889
 		                        </select>
 		                    </div>
 						</div>
 					</div>
 					<div class="col-md-5 text-right">
-						<button type="button" class="btn btn-primary">{{$lang.summary_button_clear}}</button>
-                		<button type="submit" class="btn btn-primary">{{$lang.summary_button_generate}}</button>
+						<button type="button" name="clearButton" id="clearButton" class="btn btn-primary" @click="clearForm()">{{$lang.summary_button_clear}}</button>
+                		<button type="button" name="generateReport" id="generateReport" class="btn btn-primary" @click="generateReport()">{{$lang.summary_button_generate}}</button>
 					</div>
 				</div>
 			</form>
@@ -111,38 +152,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                	<tr>
-                		<td>Sat 21.04.2017 (10:30)</td>
-                		<td>U17</td>
-                		<td>Cadiz Real Sports Club</td>
-                		<td>Pitch 1</td>
-                		<td>Paul Jones</td>
-                		<td>Jerez FC   Vs  Schleswig Holstein SV</td>
+                	<tr v-for="(report,index) in reports">
+                		<td>{{report.match_datetime}}</td>
+                		<td>{{report.group_name}}</td>
+                		<td>{{report.venue_name}}</td>
+                		<td>{{report.pitch_number}}</td>
+                		<td>{{report.referee_name}}</td>
+                		<td>{{report.full_game}}</td>
                 	</tr>
-                	<tr>
-                		<td>Sat 21.04.2017 (10:00)</td>
-                		<td>U15</td>
-                		<td>Cadiz Real Sports Club</td>
-                		<td>Pitch 2</td>
-                		<td>John Smith</td>
-                		<td>Jerez FC   Vs  Schleswig Holstein SV</td>
-                	</tr>
-                	<tr>
-                		<td>Sat 21.04.2017 (12:45)</td>
-                		<td>U17</td>
-                		<td>Jerez FC</td>
-                		<td>Pitch 3</td>
-                		<td>Johan Seeker</td>
-                		<td>Jerez FC   Vs  Schleswig Holstein SV</td>
-                	</tr>
-                	<tr>
-                		<td>Etc...</td>
-                		<td>Etc...</td>
-                		<td>Etc...</td>
-                		<td>Etc...</td>
-                		<td>Etc...</td>
-                		<td>Etc...</td>
-                	</tr>
+                	
                 </tbody>
 			</table>
 		</div>
@@ -151,6 +169,154 @@
 </template>
 
 <script type="text/babel">
-	
+	import Tournament from '../api/tournament.js'
+	import Pitch from '../api/pitch.js'
+export default {
+
+    data() {
+       return {
+       	competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
+       	teams:{},
+       	pitches: {},
+       	venues: {},
+       	referees: {},
+       	reports: {},
+        currentView:'summaryTab'
+       	}
+    },	
+    mounted() {
+    	this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
+    	this.displayTournamentCompetationList()
+    	this.getTeams()
+    	this.getLocation()
+    	this.getPitches()
+    	this.getReferees()
+    	$('.ls-datepicker').datepicker()
+    	$('#start_date').datepicker().on('changeDate',function(){
+            $('#end_date').datepicker('setStartDate', $('#start_date').val())
+        });
+        // $('#end_date').datepicker().on('changeDate',function(){
+        //     $('#start_date').datepicker('setEndDate', $('#end_date').val())
+        // });
+    },
+    methods: {
+    	displayTournamentCompetationList () {
+      		// Only called if valid tournament id is Present
+		    if (!isNaN(this.TournamentId)) {
+		      // here we add data for 
+		      let TournamentData = {'tournament_id': this.TournamentId}
+		      Tournament.getCompetationFormat(TournamentData).then(
+		      (response) => {          
+		        this.competationList = response.data.data         
+		        // console.log(this.competationList);
+		      },
+		      (error) => {
+		         console.log('Error occured during Tournament api ', error)
+		      }
+		      )
+		    } else {
+		      this.TournamentId = 0;
+		    }
+    	},
+    	getTeams() {
+    		if (!isNaN(this.TournamentId)) {
+		      // here we add data for 
+		      let TournamentData = {'tournament_id': this.TournamentId}
+		      Tournament.getTeams(this.TournamentId).then(
+		      (response) => {          
+		        this.teams = response.data.data         
+		        // console.log(this.competationList);
+		      },
+		      (error) => {
+		         console.log('Error occured during Tournament api ', error)
+		      }
+		      )
+		    } else {
+		      this.TournamentId = 0;
+		    }
+    	},
+    	getLocation() {
+    		if (!isNaN(this.TournamentId)) {
+		      // here we add data for 
+		      let TournamentData = {'tournament_id': this.TournamentId}
+		      Tournament.getAllVenues(this.TournamentId).then(
+		      (response) => {          
+		        this.venues = response.data.data         
+		        // console.log(this.competationList);
+		      },
+		      (error) => {
+		         console.log('Error occured during Tournament api ', error)
+		      }
+		      )
+		    } else {
+		      this.TournamentId = 0;
+		    }
+    	},
+    	getPitches() {
+    		if (!isNaN(this.TournamentId)) {
+		      // here we add data for 
+		      let TournamentData = {'tournament_id': this.TournamentId}
+		      Pitch.getAllPitches(this.TournamentId).then(
+		      (response) => {          
+		        this.pitches = response.data.pitches         
+		        // console.log(this.competationList);
+		      },
+		      (error) => {
+		         console.log('Error occured during Tournament api ', error)
+		      }
+		      )
+		    } else {
+		      this.TournamentId = 0;
+		    }	
+    	},
+    	getReferees() {
+    		if (!isNaN(this.TournamentId)) {
+		      // here we add data for 
+		      let TournamentData = {'tournament_id': this.TournamentId}
+		      Tournament.getReferees(this.TournamentId).then(
+		      (response) => {          
+		        this.referees = response.data.referees         
+		        // console.log(this.competationList);
+		      },
+		      (error) => {
+		         console.log('Error occured during Tournament api ', error)
+		      }
+		      )
+		    } else {
+		      this.TournamentId = 0;
+		    }	
+    	},
+    	clearForm() {
+    		$('#frmReport')[0].reset()
+    	},
+    	generateReport($export='') {
+    		if (!isNaN(this.TournamentId)) {
+		      // here we add data for 
+		      let ReportData = {'tournament_id': this.TournamentId,'age_category': $('#sel_ageCategory').val(),'team': $('#sel_teams').val(),'start_date': $('#start_date').val(),'end_date': $('#end_date').val(),'location': $('#sel_venues').val(),'pitch': $('#sel_pitches').val(),'referee': $('#sel_referees').val(),'report_download':$export}
+		      Tournament.getAllReportsData(ReportData).then(
+		      (response) => {  
+		      if($export == ''){
+		      		this.reports = response.data.data 
+		      } 
+		        
+		        // this.referees = response.data.referees         
+		        // console.log(this.competationList);
+		      },
+		      (error) => {
+		         console.log('Error occured during Tournament api ', error)
+		      }
+		      )
+		    } else {
+		      this.TournamentId = 0;
+		    }	
+    	},
+    	exportReport() {
+    		this.generateReport('yes')
+
+    	}
+
+
+    }  
+}
 	
 </script>

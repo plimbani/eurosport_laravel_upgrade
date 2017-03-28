@@ -36,13 +36,19 @@ export default {
   getTeams(tournamentId) {
     return api.get('teams/'+tournamentId)
   },
+  getReferees(tournamentId) {
+    return api.get('referees/'+tournamentId)
+  },
   createTeam(teamData) {
     // console.log(teamData)
     return api.post('team/create',{'teamData': teamData})
   },
   assignGroups(data) {
-    console.log(data)
     return api.post('team/group/assign',{ data})
+ },
+ getAllReportsData(data) {
+    // console.log(data)
+    return api.post('tournament/report/generate',{ data})
  }
 
 }

@@ -4,6 +4,8 @@ namespace Laraspace\Api\Services;
 
 use Laraspace\Api\Contracts\TournamentContract;
 use Laraspace\Api\Repositories\TournamentRepository;
+use DB;
+use Carbon\Carbon;
 
 class TournamentService implements TournamentContract
 {
@@ -160,4 +162,91 @@ class TournamentService implements TournamentContract
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted','data'=>$tournamentData];
         }
     }
+
+    public function generateReport($data)
+    {
+        $data=$data['data'];
+        // dd($data);
+        $reportQuery = DB::table('fixtures')
+            // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
+            ->leftjoin('venues', 'fixtures.venue_id', '=', 'venues.id')
+            ->leftjoin('teams as home_team', function ($join) {
+                $join->on('home_team.id', '=', 'fixtures.home_team');
+            })
+            ->leftjoin('teams as away_team', function ($join) {
+                $join->on('away_team.id', '=', 'fixtures.away_team');
+            })
+            ->leftjoin('pitches', 'fixtures.pitch_id', '=', 'pitches.id')
+            ->leftjoin('competitions', 'competitions.id', '=', 'fixtures.competition_id')
+            ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
+           
+            ->leftjoin('match_results', 'fixtures.match_result_id', '=', 'match_results.id')
+            ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
+            ->groupBy('fixtures.id')
+            ->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'));
+            if($data['age_category']!= ''){
+                $reportQuery->where('tournament_competation_template.id',$data['age_category']);
+            }
+            if($data['start_date']!= '' ){
+                $start_date = Carbon::createFromFormat('m/d/Y', $data['start_date']);
+                // dd($start_date);
+               $reportQuery = $reportQuery->where('fixtures.match_datetime','>=',$start_date);
+            }
+            if($data['end_date']!= '' ){
+                $reportQuery = $reportQuery->where('fixtures.match_datetime','<=',Carbon::createFromFormat('m/d/Y', $data['end_date']));
+            }
+            if($data['location']!= '' ){
+                $reportQuery = $reportQuery->where('fixtures.venue_id',$data['location']);
+            }
+            if($data['team']!= '' ){
+                $reportQuery = $reportQuery->where('fixtures.home_team',$data['team'])
+                            ->orWhere('fixtures.away_team',$data['team']);
+            }
+            if($data['pitch']!= '' ){
+                $reportQuery = $reportQuery->where('fixtures.pitch_id',$data['pitch']);
+            }
+            if($data['referee']!= '' ){
+                $reportQuery = $reportQuery->where('match_results.referee_id',$data['referee']);
+            }
+            
+            // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
+        $reportData = $reportQuery->get();
+         // $tournamentData = $this->tournamentRepoObj->tournamentReport($data);
+        // $billings = $billings->get();
+
+        $dataArray = array();
+        
+         if($data['report_download'] == 'yes') {
+            foreach ($reportData as $reportRec) {
+                $ddata = [
+                    $reportRec->match_datetime,
+                    $reportRec->group_name,
+                    $reportRec->venue_name,
+                    $reportRec->pitch_number,
+                    $reportRec->referee_name,
+                    $reportRec->full_game,
+                ];
+                array_push($dataArray, $ddata);
+            }   
+             $otherParams = [
+                    'sheetTitle' => "Report",
+                    'sheetName' => "Report",
+                    'boldLastRow' => false
+                ];
+
+            $lableArray = [
+                'Date(time)','Age category' ,'Location', 'Pitch','Referee', 'Game'
+            ];
+
+            //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
+
+
+            \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
+         }
+
+        if ($reportData) {
+            return ['status_code' => '200', 'message' => '','data'=>$reportData];
+        }
+    }
+       
 }

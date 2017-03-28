@@ -12,9 +12,9 @@ class RefereeRepository
         $this->dbObj = DB::table('referee');
     }
 
-    public function getAllReferees()
+    public function getAllReferees($tournamentId)
     {
-        return Referee::all();
+        return Referee::where('tournament_id',$tournamentId)->get();
     }
 
     public function createReferee($refereeData)

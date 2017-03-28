@@ -61,9 +61,11 @@ import addCategoryModal from './CompetationModal.vue'
 export default {  
   data() {
   	return {
+
      competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
-     tournamentTemplateId: '', totalTime:'',
-     del1eteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: '', templateData:''
+     tournamentTemplateId: '', totalTime:'', 
+     vtournamentTemplateId: '', totalTime:'',
+     deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: ''
 
     }
   },
