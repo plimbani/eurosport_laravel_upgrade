@@ -89,6 +89,14 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
             }
         },
         mounted(){
+            let tournamentId = this.$store.state.Tournament.tournamentId
+            if(tournamentId == null || tournamentId == '') {
+              this.$router.push({name: 'welcome'});
+            } else {
+                // First Set Menu and ActiveTab
+              let currentNavigationData = {activeTab:'pitch_capacity', currentPage: 'Pitch Capacity'}
+                this.$store.dispatch('setActiveTab', currentNavigationData)
+            }
             Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles', 'addstage'])
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';

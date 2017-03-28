@@ -23,7 +23,7 @@ export default  {
   		return this.$store.state.Tournament.tournamentName
   	},
     currentPage() {
-    return (this.$store.state.Tournament.currentPage == '') ? '' : this.$store.state.Tournament.currentPage      
+    return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
     }
   }
 }

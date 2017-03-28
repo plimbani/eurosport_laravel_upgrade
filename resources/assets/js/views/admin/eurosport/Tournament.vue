@@ -48,6 +48,16 @@ export default {
     },	
     components: {
         SummaryTab, SummaryReport, ScheduleResults, Messages
+    },
+    mounted() {
+    	let tournamentId = this.$store.state.Tournament.tournamentId
+      if(tournamentId == null || tournamentId == '') {
+        this.$router.push({name: 'welcome'});
+      } else {
+          // First Set Menu and ActiveTab
+        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Summary'}
+          this.$store.dispatch('setActiveTab', currentNavigationData)
+      }
     }  
 }
 </script>

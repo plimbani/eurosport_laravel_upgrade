@@ -110,7 +110,10 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->tournamentSummary($request);
     }
+
     public function generateReport(Request $request) {
+
        return $this->tournamentObj->generateReport($request->all());
+
     }
 }

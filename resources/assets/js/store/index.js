@@ -7,13 +7,16 @@ import * as types from './mutation-types'
 
 import Tournament from './modules/tournament'
 import Pitch from './modules/pitch'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 
 const state = {
-  activePath: 'tournament_add'
+  activePath: 'tournament_add',
+  currentPage: '',
+  currentScheduleView: ''
   /*vehicleDetails: [],
   surveyDetail: [],
   multiSelectAll: false,
@@ -26,12 +29,17 @@ const state = {
 }
 
 const mutations = {
-  [types.SET_ACTIVE_TAB] (state, activeTab) {
-    state.activePath = activeTab
-  }
+  [types.SET_ACTIVE_TAB] (state, currentNavigationData) {
+    state.activePath = currentNavigationData.activeTab
+    state.currentPage = currentNavigationData.currentPage
+  },
+  [types.SET_CURRENT_SCHEDULE_VIEW] (state, currentScheduleView) {
+    state.currentScheduleView = currentScheduleView
+  },
 }
 export default new Vuex.Store({
   state,
+  plugins: [createPersistedState()],
   actions,
   mutations,
   getters,

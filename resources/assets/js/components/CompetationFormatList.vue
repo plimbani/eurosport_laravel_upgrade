@@ -60,8 +60,8 @@ export default {
   	return {
       competationList: '',
      vtournamentTemplateId: '', totalTime:'',
-     deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: ''
-
+     deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: '',
+     competationList:{},TournamentId: 0, competation_id: ''
     }
   },
   components: {
@@ -110,10 +110,16 @@ export default {
     // Only called if valid tournament id is Present
     if (!isNaN(this.TournamentId)) {
       // here we add data for 
+      
       let TournamentData = {'tournament_id': this.TournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
       (response) => {          
-        this.competationList = response.data.data         
+        this.competationList = response.data.data   
+        let time_sum= 0;
+        this.competationList.reduce(function (a,b) {
+          time_sum += b['total_time']
+        },0);
+       this.$store.dispatch('SetTournamentTotalTime', time_sum);      
         // console.log(this.competationList);
       },
       (error) => {
