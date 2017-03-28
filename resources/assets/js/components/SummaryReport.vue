@@ -119,12 +119,13 @@
                 		<td>{{report.referee_name}}</td>
                 		<td>{{report.full_game}}</td>
                 	</tr>
-                	
+                	<tr v-if="reports.length==0">
+                		<td colspan="6">No Record Found</td>
+                	</tr>
                 </tbody>
 			</table>
 		</div>
 	</div>
-
 </template>
 
 <script type="text/babel">
@@ -140,7 +141,9 @@ export default {
        	venues: {},
        	referees: {},
        	reports: {},
-        currentView:'summaryTab'
+        currentView:'summaryTab',
+        reportQuery:{}
+
        	}
     },	
     mounted() {
@@ -251,16 +254,12 @@ export default {
     	generateReport($export='') {
     		if (!isNaN(this.TournamentId)) {
 		      // here we add data for 
-		      let ReportData = {'tournament_id': this.TournamentId,'age_category': $('#sel_ageCategory').val(),'team': $('#sel_teams').val(),'start_date': $('#start_date').val(),'end_date': $('#end_date').val(),'location': $('#sel_venues').val(),'pitch': $('#sel_pitches').val(),'referee': $('#sel_referees').val(),'report_download':$export}
+		      let ReportData = {'tournament_id': this.TournamentId,'age_category': $('#sel_ageCategory').val(),'team': $('#sel_teams').val(),'start_date': $('#start_date').val(),'end_date': $('#end_date').val(),'location': $('#sel_venues').val(),'pitch': $('#sel_pitches').val(),'referee': $('#sel_referees').val(),'report_download':''}
+		      this.reportQuery = ReportData
 		      Tournament.getAllReportsData(ReportData).then(
 		      (response) => {  
-		      if($export == ''){
-		      		this.reports = response.data.data 
-		      } 
-		        
-		        // this.referees = response.data.referees         
-		        // console.log(this.competationList);
-		      },
+		      	this.reports = response.data.data 
+		       },
 		      (error) => {
 		         console.log('Error occured during Tournament api ', error)
 		      }
@@ -270,7 +269,19 @@ export default {
 		    }	
     	},
     	exportReport() {
-    		this.generateReport('yes')
+    		let ReportData = this.reportQuery 
+    		ReportData.report_download = 'yes'
+    		Tournament.getAllReportsData(ReportData).then(
+		      (response) => {  
+		      	
+		        // this.referees = response.data.referees         
+		        // console.log(this.competationList);
+		      },
+		      (error) => {
+		         console.log('Error occured during Tournament api ', error)
+		      }
+		      )
+    		// this.generateReport('yes')
 
     	}
 
