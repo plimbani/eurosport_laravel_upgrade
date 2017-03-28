@@ -46,6 +46,13 @@ export default {
   assignGroups(data) {
     return api.post('team/group/assign',{ data})
  },
+ getAllDraws(tournamentData) {
+    return api.post('match/getDraws',{'tournamentId': tournamentData})
+ },
+ getFixtures(tournamentId) {
+    return api.post('match/getFixtures',{'tournamentId': tournamentId})
+ },
+
  getAllReportsData(data) {
      return api.post('tournament/report/generate',{ data})
      console.log('msg')

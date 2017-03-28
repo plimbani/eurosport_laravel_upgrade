@@ -59,6 +59,7 @@ export default {
 	},
 	methods: {
 		GetSelectComponent(componentName) {
+			
 			// here we check for Tournament Add		
 			this.$router.push({name: componentName})
 			setTimeout( function(){
