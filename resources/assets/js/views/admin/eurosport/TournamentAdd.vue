@@ -254,8 +254,14 @@ export default {
       this.tournament.website ='website'
       this.tournament.facebook ='facebook'
       this.tournament.twitter = 'twitter'
+
+      var start_date = new Date(this.$store.state.Tournament.tournamentStartDate);
+
+      console.log('start date'+start_date)
+      var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
+      alert(start_format_date)
       document.getElementById('tournament_start_date').value 
-              = this.$store.state.Tournament.tournamentStartDate
+              = start_format_date
       document.getElementById('tournament_end_date').value 
               = this.$store.state.Tournament.tournamentEndDate
       let currentNavigationData = {activeTab:'tournament_add', currentPage: 

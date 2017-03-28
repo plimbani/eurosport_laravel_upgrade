@@ -110,4 +110,5 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->tournamentSummary($request);
     }
+    
 }

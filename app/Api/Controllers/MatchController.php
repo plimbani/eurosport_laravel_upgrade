@@ -73,4 +73,7 @@ class MatchController extends Controller
     {
         return $this->matchObj->deleteMatch($deleteId);
     }
+    public function getDraws(Request $request){
+        return $this->matchObj->getDraws($request);
+    }
 }
