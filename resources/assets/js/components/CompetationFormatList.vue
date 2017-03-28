@@ -58,6 +58,7 @@ import DeleteModal from './DeleteModal.vue'
 export default {  
   data() {
   	return {
+      competationList: '',
      vtournamentTemplateId: '', totalTime:'',
      deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: ''
 

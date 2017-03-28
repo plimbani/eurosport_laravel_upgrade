@@ -142,7 +142,7 @@ export default {
        	referees: {},
        	reports: {},
         currentView:'summaryTab',
-        reportQuery:{}
+        reportQuery:''
 
        	}
     },	
@@ -251,14 +251,17 @@ export default {
     	clearForm() {
     		$('#frmReport')[0].reset()
     	},
-    	generateReport($export='') {
+    	generateReport() {
     		if (!isNaN(this.TournamentId)) {
 		      // here we add data for 
-		      let ReportData = {'tournament_id': this.TournamentId,'age_category': $('#sel_ageCategory').val(),'team': $('#sel_teams').val(),'start_date': $('#start_date').val(),'end_date': $('#end_date').val(),'location': $('#sel_venues').val(),'pitch': $('#sel_pitches').val(),'referee': $('#sel_referees').val(),'report_download':''}
+		      // let ReportData = {'tournament_id': this.TournamentId,'age_category': $('#sel_ageCategory').val(),'team': $('#sel_teams').val(),'start_date': $('#start_date').val(),'end_date': $('#end_date').val(),'location': $('#sel_venues').val(),'pitch': $('#sel_pitches').val(),'referee': $('#sel_referees').val(),'report_download':''}
+		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
+		     // let ReportData =  $('#frmReport').serializeArray()
 		      this.reportQuery = ReportData
 		      Tournament.getAllReportsData(ReportData).then(
-		      (response) => {  
-		      	this.reports = response.data.data 
+		      (response) => { 
+		      // console.log(response.data.data,'hi') 
+		      	this.reports = response.data.data
 		       },
 		      (error) => {
 		         console.log('Error occured during Tournament api ', error)
@@ -270,18 +273,17 @@ export default {
     	},
     	exportReport() {
     		let ReportData = this.reportQuery 
-    		ReportData.report_download = 'yes'
-    		Tournament.getAllReportsData(ReportData).then(
-		      (response) => {  
-		      	
-		        // this.referees = response.data.referees         
-		        // console.log(this.competationList);
-		      },
-		      (error) => {
-		         console.log('Error occured during Tournament api ', error)
-		      }
-		      )
-    		// this.generateReport('yes')
+    		// console.log(ReportData)
+    		// let newdata = $.parseHTML( ReportData )
+    		// let newdata =  $(ReportData).parse();
+    		// let newdata = $('#frmReport').serialize()
+    		if(ReportData!=''){
+				ReportData += '&report_download=yes'
+    			window.location = "/tournament/report/reportExport?"+ReportData;
+    		}
+    		
+    		
+    		
 
     	}
 

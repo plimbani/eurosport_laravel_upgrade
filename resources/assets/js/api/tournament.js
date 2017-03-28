@@ -46,8 +46,12 @@ export default {
     return api.post('team/group/assign',{ data})
  },
  getAllReportsData(data) {
-     return api.post('tournament/report/generate',{ data})
-     console.log('msg')
+   // let updatedata = JSON.stringify(data)
+     return api.get('tournament/report/generate?'+ data)
+ },
+ saveReferee(data) {
+     return api.post('referee/create',{ data})
+  
  }
 
 
