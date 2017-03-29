@@ -14,6 +14,7 @@ module.exports = {
   siteheader_settings: "Settings",
   siteheader_logout: "Logout",
   siteheader_help: "Help",
+  siteheader_time: "Time",
   siteheader_english: "English",
   siteheader_french: "French",
 

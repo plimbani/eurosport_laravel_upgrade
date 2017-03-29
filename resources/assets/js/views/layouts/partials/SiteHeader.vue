@@ -13,7 +13,7 @@
             <!-- <span class="offset-1"> {{TournamentName}} </span> -->
             <ul class="action-list">
                 <li>
-                    <i class="fa fa-clock-o"></i>&nbsp;<span id="timer">Time</span>
+                    <i class="fa fa-clock-o"></i>&nbsp;<span id="timer">{{$lang.siteheader_time}}</span>
                 </li>
                 <li>
                     <i class="fa fa-calendar"></i>&nbsp;<span id="date">{{date}}</span>
@@ -83,7 +83,6 @@
             this.date = curr_date + " " + m_names[curr_month] 
             + " " + curr_year;
         },
-
         methods : {
             onNavToggle(){
                 Layout.toggleSidebar()

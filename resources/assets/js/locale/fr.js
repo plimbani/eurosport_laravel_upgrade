@@ -14,6 +14,7 @@ module.exports = {
   siteheader_settings: "FSettings",
   siteheader_logout: "FLogout",
   siteheader_help: "FHelp",
+  siteheader_time: "FTime",
   siteheader_english: "FEnglish",
   siteheader_french: "FFrench",
 
