@@ -49,6 +49,7 @@ $api->version('v1', function ($api) {
     
     $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
 
+    $api->post('match/getStanding','Laraspace\Api\Controllers\MatchController@getStanding');
 
     //pitch api
     $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');

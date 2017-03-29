@@ -67,7 +67,7 @@ export default {
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
-
+						
 						this.matchData = response.data.data
 						// here we add extra Field Fot Not Displat Location
 					}
@@ -76,6 +76,10 @@ export default {
 					alert('Error in Getting Draws')
 				}
 			)
+
+			// Also Called Standings Data
+			
+			
 		},
 		getTeamDetails(teamId, teamName) {
 			let TournamentId = this.$store.state.Tournament.tournamentId

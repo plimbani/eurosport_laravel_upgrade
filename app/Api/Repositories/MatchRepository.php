@@ -61,7 +61,7 @@ class MatchRepository
             ->leftjoin('match_results', 'fixtures.match_result_id', '=', 'match_results.id')
             ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
             ->groupBy('fixtures.id')
-            ->select('fixtures.id as fid','competitions.name as competation_name' ,'fixtures.match_datetime',
+            ->select('fixtures.id as fid','competitions.name as competation_name' , 'competitions.team_size as team_size','fixtures.match_datetime',
                 'venues.id as venueId', 'competitions.id as competitionId',
                 'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
@@ -93,6 +93,28 @@ class MatchRepository
           }  
 
         return $reportQuery->get();
+    }
+    public function getStanding($tournamentData) 
+    {
+
+        $reportQuery = DB::table('match_standing')
+          ->leftjoin('teams', 'match_standing.team_id', '=', 'teams.id')
+          ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
+          ->leftjoin('competitions', 'match_standing.competition_id', '=', 'competitions.id')
+          ->select('match_standing.*','teams.*','countries.logo as teamFlag');
+
+          if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '') 
+          {            
+						$reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competitionId']);
+          }
+
+          if(isset($tournamentData['tournamentId']) && 
+          	$tournamentData['tournamentId'] !== '') 
+          {
+          $reportQuery = $reportQuery->where('match_standing.tournament_id', $tournamentData['tournamentId']);
+          }
+          
+          return $reportQuery->get();
     }
        
 }
