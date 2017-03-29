@@ -103,5 +103,24 @@ class MatchService implements MatchContract
             return ['status_code' => '200', 'data' => $fixtureResData,'message' => 'Match Fixture data'];
         }
     }
+    /**
+     * Get Standing  Details For Tournament.
+     *
+     * @param array $data
+     * @param mixed $deleteId
+     *
+     * @return [type]
+     */
+    public function getStanding($data)
+    {
+        $data = $data->all();
+
+        $standingResData = $this->matchRepoObj->getStanding($data['tournamentData']);
+
+        if ($standingResData) {
+            return ['status_code' => '200', 'data' => $standingResData,'message' => 'Match Standing data'];
+        }
+    }
+    
     
 }
