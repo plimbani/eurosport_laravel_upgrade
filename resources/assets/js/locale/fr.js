@@ -18,6 +18,7 @@ module.exports = {
   siteheader_english: "FEnglish",
   siteheader_french: "FFrench",
 
+  sitefooter_message: "FCopyright",
 
   tournament_information: "FTourment information",
   tournament_name: "FTournament name",
@@ -187,6 +188,7 @@ module.exports = {
   teams_country: "FCountry",
   teams_agecategory: "FAge Category",
   teams_group: "FGroup",
+  teams_button_updategroups: "FUpdate",
 
   summary_cup: "FXYZ Cup 2017",
   summary_location: "FLocations",

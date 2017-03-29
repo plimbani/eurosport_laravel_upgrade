@@ -18,6 +18,8 @@ module.exports = {
   siteheader_english: "English",
   siteheader_french: "French",
 
+  sitefooter_message: "Copyright",
+
   tournament_information: "Tourment information",
   tournament_name: "Tournament name",
   tournament_start_date: "Tournament start date",

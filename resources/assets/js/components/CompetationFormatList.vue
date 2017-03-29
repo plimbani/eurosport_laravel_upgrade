@@ -25,7 +25,7 @@
               </div>
           </td>
           <td class="text-center">{{competation.total_match}}</td>
-          <td>{{competation.total_time | formatTime}}          
+          <td>{{competation.total_time | formatTime}}            
           </td>
           <td class="text-center">
               <a href="#"  @click="viewCompFormat(competation.tournament_template_id)">View</a> 

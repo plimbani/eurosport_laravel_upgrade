@@ -31,7 +31,7 @@
                     </div>
                 </li>
                 <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
-                <li><a href="#"  @click="$setLang('en')">{{$lang.siteheader_english}}</a></li>
+                <li><a href="#"  @click="$setLang('en')">English</a></li>
                 <li><a href="#"  @click="$setLang('fr')">{{$lang.siteheader_french}}</a></li>
                 <!--
                 <li>
