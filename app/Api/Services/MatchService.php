@@ -95,7 +95,9 @@ class MatchService implements MatchContract
      */
     public function getFixtures($data)
     {
-        $fixtureResData = $this->matchRepoObj->getFixtures($data);
+        $data = $data->all();
+
+        $fixtureResData = $this->matchRepoObj->getFixtures($data['tournamentData']);
 
         if ($fixtureResData) {
             return ['status_code' => '200', 'data' => $fixtureResData,'message' => 'Match Fixture data'];

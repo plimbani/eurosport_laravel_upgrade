@@ -39,6 +39,7 @@ class MatchRepository
         return Competition::find($tournamentId)->get();
     }
     public function getFixtures($tournamentData) {
+
          $reportQuery = DB::table('fixtures')
             // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
             ->leftjoin('venues', 'fixtures.venue_id', '=', 'venues.id')
@@ -61,18 +62,36 @@ class MatchRepository
             ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
             ->groupBy('fixtures.id')
             ->select('fixtures.id as fid','competitions.name as competation_name' ,'fixtures.match_datetime',
-                'venues.id as venueId',
+                'venues.id as venueId', 'competitions.id as competitionId',
                 'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
                 'fixtures.home_team as Home_id','fixtures.away_team as Away_id','HomeFlag.logo as HomeFlagLogo','AwayFlag.logo as AwayFlagLogo','fixtures.hometeam_score as homeScore',
                 'fixtures.awayteam_score as AwayScore',
+                'fixtures.pitch_id as pitchId',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
                 DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
                 )
             ->where('fixtures.tournament_id', $tournamentData['tournamentId']);
-          if(isset($tournamentData['pitchId']) != '' && $tournamentData['pitchId']){
+
+          if(isset($tournamentData['pitchId']) && $tournamentData['pitchId'] !== '' )
+          {
             $reportQuery = $reportQuery->where('fixtures.pitch_id',$tournamentData['pitchId']);
+
+          }
+          
+          if(isset($tournamentData['teamId']) && $tournamentData['teamId'] !== '')
+          {
+            
+            $reportQuery = $reportQuery->where('fixtures.home_team',$tournamentData['teamId'])
+                ->orWhere('fixtures.away_team',$tournamentData['teamId']);
+          } 
+          if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
+          {
+            
+            $reportQuery = $reportQuery->where('fixtures.competition_id',
+                $tournamentData['competitionId']);               
           }  
+
         return $reportQuery->get();
     }
        

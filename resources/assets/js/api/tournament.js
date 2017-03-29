@@ -49,7 +49,7 @@ export default {
     return api.post('match/getDraws',{'tournamentId': tournamentData})
  },
  getFixtures(tournamentId) {
-    return api.post('match/getFixtures',{'tournamentId': tournamentId})
+    return api.post('match/getFixtures',{'tournamentData': tournamentId})
  },
 
  getAllReportsData(data) {
