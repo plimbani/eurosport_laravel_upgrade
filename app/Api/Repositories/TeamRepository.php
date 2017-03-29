@@ -12,8 +12,12 @@ class TeamRepository
                         $join->on('teams.country_id', '=', 'countries.id');
                     })
                 ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+                ->leftjoin('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
                  ->where('teams.tournament_id',$tournamentId)
-                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','tournament_competation_template.group_name as age_name')
+                 
+                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo',
+                    'competitions.name as competationName','competitions.id as competationId',
+                    'tournament_competation_template.group_name as age_name')
                  ->get();
     }
 

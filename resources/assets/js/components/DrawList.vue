@@ -1,21 +1,22 @@
 <template>
 <div class="col-md-6 row mt-4">
-<h3> Teams </h3>
-<table class="table match_overview">
+<table class="table draw_table">
 	<thead>
-		<th>Team</th>
-		<th>Draw</th>
-	</thead>
-	<tbody>
-		<tr v-for="team in matchData">
-			<td><img :src="team.logo" width="20">&nbsp;
-			<a href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></td>
-			<td class="text-center">
-				<a href="" class="pull-left text-left" 
-				@click.prevent="changeGroup(team.age_group_id)">{{team.competationName}}</a>
-			</td>
-		</tr>
-	</tbody>
+        <tr>
+            <th>{{$lang.summary_schedule_draw}}</th>
+            <th>{{$lang.summary_schedule_type}}</th>
+            <th>{{$lang.summary_schedule_team}}</th>
+        </tr>
+    </thead>
+    <tbody>
+    	<tr v-for="drawData in matchData">
+    		<td> 
+    			<a @click="drawDetails(drawData)"> {{ drawData.name }} </a>
+    		</td>
+    		<td>{{ drawData.competation_type }}</td>
+    		<td>{{ drawData.team_size }}</td>
+    	</tr>
+    </tbody>
 </table>
 </div>
 </template>
