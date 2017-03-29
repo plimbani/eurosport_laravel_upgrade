@@ -37,10 +37,14 @@ export default {
 	components: {
 		DrawsListing, MatchListing, TeamListing
 	},
-	mounted() {
-		 this.$store.dispatch('setCurrentScheduleView','drawsListing')
-	},
+	created: function() {
+       this.$root.$on('changeComp1', this.setMatchData1); 
+  	},
 	methods: {
+		setMatchData1() {
+			this.currentView = 'matchListing'
+			//this.$store.dispatch('setCurrentScheduleView','matchListing')
+		}
 	}
 }
 </script>

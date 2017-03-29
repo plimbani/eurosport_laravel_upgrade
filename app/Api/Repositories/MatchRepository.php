@@ -36,7 +36,7 @@ class MatchRepository
     }
 
     public function getDraws($tournamentId) {
-        return Competition::find($tournamentId)->get();
+        return Competition::where('tournament_id',$tournamentId)->get();
     }
     public function getFixtures($tournamentData) {
 

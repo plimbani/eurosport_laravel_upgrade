@@ -25,7 +25,7 @@
 				</a>
 			</td>
 			<td>{{match.homeScore}}-{{match.AwayScore}}</td>
-			<td v-if="isHideLocation !=  false"><a @click.prevent="changeLocation(match.pitchId)" 
+			<td v-if="isHideLocation !=  false"><a @click.prevent="changeLocation(match)" 
 			href="">{{match.venue_name}} - {{match.pitch_number}}</a></td>
 		</tr>
 	</tbody>
@@ -43,17 +43,18 @@ export default {
 	},
 	computed: {
 		isHideLocation() {
-			if(this.$store.state.currentScheduleView == 'locationList'){
+			if(this.$store.state.currentScheduleView == 'locationList' || 
+				this.$store.state.currentScheduleView == 'teamDetails'){
 				this.dispLocation = false
 				return this.dispLocation 
 			}
 		}
 	},
 	methods: {
-		changeLocation(Id) {
+		changeLocation(matchData) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','locationList')
-			this.$root.$emit('changeComp',Id);
+			this.$root.$emit('changeComp',matchData);
 			//this.$store.dispatch('setCurrentScheduleView','locationList')
 		},
 		changeTeam(Id, Name) {

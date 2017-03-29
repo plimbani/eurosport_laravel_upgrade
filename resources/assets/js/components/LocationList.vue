@@ -1,6 +1,6 @@
 <template>
 <div class="col-md-12">
-  <h3>  {{venueName}} </h3>
+  <h3>  {{otherData.Name}} </h3>
   <matchList :matchData="matchData"></matchList>
 </div>
 </template>
@@ -8,7 +8,7 @@
 import MatchList from './MatchList.vue'
 
 export default {
-	props: ['matchData'],
+	props: ['matchData', 'otherData'],
 	data() {
 		return {
 			VenueName: ''

@@ -49,7 +49,10 @@
 </div>
 </template>
 <script type="text/babel">
+import MatchListing from './MatchListing.vue'
 import MatchList from './MatchList.vue'
+import LocationList from'./LocationList.vue'
+
 export default {
 	props: ['matchData','otherData'],
 	mounted() {
@@ -57,7 +60,7 @@ export default {
 		//this.getAllDraws()
 	},
 	components: {
-        MatchList
+        MatchList,LocationList,MatchListing
 	}
 }
 </script>

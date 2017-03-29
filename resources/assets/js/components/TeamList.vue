@@ -12,7 +12,8 @@
 			<a href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></td>
 			<td class="text-center">
 				<a href="" class="pull-left text-left" 
-				@click.prevent="changeGroup(team.age_group_id)">{{team.competationName}}</a>
+				@click.prevent="changeGroup(team)">
+				{{team.age_name}}-{{team.competationName}}</a>
 			</td>
 		</tr>
 	</tbody>
@@ -21,15 +22,15 @@
 </template>
 <script type="text/babel">
 
-import Tournament from '../api/tournament.js'
+
 import TeamDetails from './TeamDetails.vue'
-import TeamList from './TeamList.vue'
 import DrawDetails from './DrawDetails.vue'
+import LocationList from './LocationList.vue'
 
 export default {
 	props:['matchData'],
 	components: {
-		TeamDetails, DrawDetails
+		TeamDetails, DrawDetails,LocationList
 	},
 	methods: {
 		changeTeam(Id, Name) {
@@ -38,10 +39,13 @@ export default {
 			this.$root.$emit('changeComp',Id,Name);
 			//this.$emit('changeComp', Id);
 		},
-		changeGroup(Id) {
+		changeGroup(team) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
-			this.$root.$emit('changeComp',Id);
+			Id = team.id
+			Name = team.age_name+'-'+team.competationName
+			alert(Name)
+			this.$root.$emit('changeComp',Id, Name);
 			//this.$emit('changeComp',Id);
 		},
 				

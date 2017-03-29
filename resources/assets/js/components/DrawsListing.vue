@@ -1,5 +1,6 @@
 <template>
 <div class="col-md-6 row mt-4">
+
 <table class="table draw_table">
 	<thead>
         <tr>
@@ -11,7 +12,7 @@
     <tbody>
     	<tr v-for="drawData in drawsData">
     		<td> 
-    			<a @click="drawDetails(drawData)"> {{ drawData.name }} </a>
+    			<a @click.prevent="drawDetails(drawData)" href=""> {{ drawData.name }} </a>
     		</td>
     		<td>{{ drawData.competation_type }}</td>
     		<td>{{ drawData.team_size }}</td>
@@ -22,8 +23,10 @@
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
+import MatchListing from './MatchListing.vue'
 
 export default {
+	props: ['currentView'],
 	data() {
 		return {
 			drawsData:[],
@@ -32,6 +35,9 @@ export default {
 	mounted() {
 		// here we call function to get all the Draws Listing
 		this.getAllDraws()
+	},
+	components: {
+		MatchListing
 	},
 	methods: {
 		getAllDraws() {
@@ -48,8 +54,9 @@ export default {
 			)
 		},
 		drawDetails(drawData) {
-			this.$router.push({name: 'draw_details', params: {tournamentId:
-				'1', drawId: drawData.id}})
+			
+		    //this.$store.dispatch('setCurrentScheduleView','matchListing')
+			this.$root.$emit('changeComp1', 'matchListing');
 		}
 	}
 }
