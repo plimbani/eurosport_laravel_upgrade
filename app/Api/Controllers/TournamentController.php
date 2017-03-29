@@ -63,7 +63,7 @@ class TournamentController extends BaseController
      */
     public function getTemplate(Request $request)
     {
-        return $this->tournamentObj->getTemplate($request);
+        return $this->tournamentObj->getTemplate($request->all());
     }
     
     /**
