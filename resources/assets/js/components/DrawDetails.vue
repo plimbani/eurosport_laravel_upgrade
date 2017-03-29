@@ -1,7 +1,7 @@
 <template>
-<div class="col-md-6 row mt-4">
-<h3>U15-Group A</h3>
-Dropdown
+<div>
+<h3>{{otherData.DrawName}}</h3>
+
 
 <table class="table draw_table">
 	<thead>
@@ -44,39 +44,20 @@ Dropdown
     	</tr>
     </tbody>
 </table>
+<h4> Matches</h4>
+<matchList :matchData="matchData"></matchList>
 </div>
 </template>
 <script type="text/babel">
-import Tournament from '../api/tournament.js'
-
+import MatchList from './MatchList.vue'
 export default {
-	data() {
-		return {
-			drawsData:[],
-		}
-	},
+	props: ['matchData','otherData'],
 	mounted() {
 		// here we call function to get all the Draws Listing
-		this.getAllDraws()
+		//this.getAllDraws()
 	},
-	methods: {
-		getAllDraws() {
-			let TournamentId = this.$store.state.Tournament.tournamentId
-			Tournament.getAllDraws(TournamentId).then(
-				(response)=> {
-					if(response.data.status_code == 200) {
-						this.drawsData = response.data.data
-					}
-				},
-				(error) => {
-					alert('Error in Getting Draws')
-				}
-			)
-		},
-		drawDetails(drawData) {
-			this.$router.push({name: 'draw_details', params: {tournamentId:
-				'1', drawId: drawData.id}})
-		}
+	components: {
+        MatchList
 	}
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
 <div class="col-md-12">
-  <h3> SportSpark Heimsteen-Pitch 3</h3>
+  <h3>  {{venueName}} </h3>
   <matchList :matchData="matchData"></matchList>
 </div>
 </template>
@@ -11,7 +11,18 @@ export default {
 	props: ['matchData'],
 	data() {
 		return {
-			data: []
+			VenueName: ''
+		}
+	},
+	computed:{
+		venueName() {
+			if(typeof this.matchData[0].venue_name !== 'undefined' || 
+				this.matchData[0].venue_name !== null) 
+			{
+
+			 let venueName = this.matchData[0].venue_name + '-'+ this.matchData[0].pitch_number 
+			return venueName	
+			}
 		}
 	},
 	components: {
