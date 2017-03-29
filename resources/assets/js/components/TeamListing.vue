@@ -1,7 +1,7 @@
 <template>
 <div>
    <!-- <component :is="currentScheduleView" :matchData="matchData"></component>-->
-   <teamList :matchData="matchData"></teamList>
+   <component :is="currentScheduleView" :matchData="matchData" :otherData="otherData"></component>
 </div>
 
 </template>
@@ -10,7 +10,7 @@
 import Tournament from '../api/tournament.js'
 import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
-
+import MatchList from './MatchList.vue'
 import DrawDetails from './DrawDetails.vue'
 import DrawsListing from './DrawsListing.vue'
 
@@ -19,6 +19,7 @@ export default {
 	data() {
 		return {
 			matchData:[],
+			otherData:[]
 		}
 	},
 	mounted() {
@@ -27,25 +28,56 @@ export default {
 		this.getAllTournamentTeams()
 	},
 	components: {
-		TeamDetails,DrawsListing,TeamList
+		TeamDetails,DrawsListing,TeamList,MatchList,DrawDetails
 	},
+	created: function() {
+       this.$root.$on('changeComp', this.setMatchData); 
+  	},
 	computed: {
 		currentScheduleView() {
 			return this.$store.state.currentScheduleView
 		}
 	},
 	methods: {
+		setMatchData(id, Name='') {
+			
+			let comp = this.$store.state.currentScheduleView
+			
+			if(comp == 'locationList') {
+				// Now here we call Function get all match for location
+				this.getAllMatchesLocation(id)
+			} 
+			if(comp == 'teamDetails') {
+				this.getTeamDetails(id, Name)
+			}	
+		},
+		getTeamDetails(teamId, teamName) {
+			
+			let TournamentId = this.$store.state.Tournament.tournamentId
+			let tournamentData = {'tournamentId': TournamentId, 
+			'teamId':teamId}
+			this.otherData.TeamName = teamName
+			Tournament.getFixtures(tournamentData).then(
+				(response)=> {
+					if(response.data.status_code == 200) {
+						this.matchData = response.data.data
+						// here we add extra Field Fot Not Displat Location
+					}
+				},
+				(error) => {
+					alert('Error in Getting Draws')
+				}
+			)
+		},
 		teamDetails() {
-			this.$store.dispatch('setCurrentScheduleView','teamDetails')
+			//this.$store.dispatch('setCurrentScheduleView','teamDetails')
 		},
 		getAllTournamentTeams() {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			Tournament.getTeams(TournamentId).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
-						alert(JSON.stringify(response.data))
 						this.matchData = response.data.data
-						// Hello Teams
 					}
 				},
 				(error) => {

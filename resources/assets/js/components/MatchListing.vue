@@ -1,7 +1,7 @@
 <template>
   <div>
     <component :is="currentScheduleView" 
-    :matchData="matchData" 
+    :matchData="matchData" :otherData="otherData"
     > </component>
   </div>
 </template>
@@ -20,7 +20,7 @@ import Tournament from '../api/tournament.js'
 export default {
 	data() {
 		return {
-			matchData: []
+			matchData: [],otherData:[]
 		}
 	},
 	mounted() {
@@ -31,7 +31,7 @@ export default {
 	  this.getAllMatches()
 	},
 	created: function() {
-     this.$root.$on('changeComp', this.setMatchData); 
+       this.$root.$on('changeComp', this.setMatchData); 
   	},
 	computed: {
 		currentScheduleView() {
@@ -42,21 +42,69 @@ export default {
 		MatchList,TeamDetails,LocationList,DrawsListing,DrawDetails,TeamList
 	},
 	methods: {
-		setMatchData(id) {
+		setMatchData(id, Name='') {
+			
 			let comp = this.$store.state.currentScheduleView
+			
 			if(comp == 'locationList') {
 				// Now here we call Function get all match for location
 				this.getAllMatchesLocation(id)
-			}	
+			} 
+			if(comp == 'teamDetails') {
+				this.getTeamDetails(id, Name)
+			}
+			if(comp == 'drawDetails') {
+				this.getDrawDetails(id, Name)
+			}
+		},
+		getDrawDetails(drawId, drawName) {
+			let TournamentId = this.$store.state.Tournament.tournamentId
+			let tournamentData = {'tournamentId': TournamentId, 
+			'competitionId':drawId}
+			
+			this.otherData.DrawName = drawName
 
+			Tournament.getFixtures(tournamentData).then(
+				(response)=> {
+					if(response.data.status_code == 200) {
+
+						this.matchData = response.data.data
+						// here we add extra Field Fot Not Displat Location
+					}
+				},
+				(error) => {
+					alert('Error in Getting Draws')
+				}
+			)
+		},
+		getTeamDetails(teamId, teamName) {
+			let TournamentId = this.$store.state.Tournament.tournamentId
+			let tournamentData = {'tournamentId': TournamentId, 
+			'teamId':teamId}
+			this.otherData.TeamName = teamName
+			Tournament.getFixtures(tournamentData).then(
+				(response)=> {
+					if(response.data.status_code == 200) {
+
+						this.matchData = response.data.data
+						// here we add extra Field Fot Not Displat Location
+					}
+				},
+				(error) => {
+					alert('Error in Getting Draws')
+				}
+			)
 		},
 		getAllMatchesLocation(locationId){
+			alert('calledLoc')
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId, 'pitchId':locationId}
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
+
 						this.matchData = response.data.data
+						// here we add extra Field Fot Not Displat Location
 					}
 				},
 				(error) => {
@@ -78,18 +126,7 @@ export default {
 					alert('Error in Getting Draws')
 				}
 			)
-		},
-		changeComp(Id){
-			
-			alert(Id)
-			// here we check and called according to it
-			let comp = this.$store.state.currentScheduleView
-			if(comp == 'locationList') {
-				//console.log(Data)
-				//this.getLocationmatches()
-			}
 		}
-
 	}
 }
 </script>
