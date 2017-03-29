@@ -190,7 +190,7 @@ export default {
       tournamentId: 0
    }   
   },
-  components: {
+ components: {
      location: location
   },
   mounted(){    
@@ -259,7 +259,6 @@ export default {
 
       console.log('start date'+start_date)
       var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
-      alert(start_format_date)
       document.getElementById('tournament_start_date').value 
               = start_format_date
       document.getElementById('tournament_end_date').value 

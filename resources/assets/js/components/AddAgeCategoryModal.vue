@@ -29,7 +29,7 @@ data-animation="false"
                   name="tournamentTemplate"
                   v-validate="'required'" :class="{'is-danger': errors.has('tournamentTemplate') }"
                   v-model="competation_format.tournamentTemplate">
-                      <option value="">Select templates</option>
+                      <option value="">{{$lang.competation_modal_select_template_list}}</option>
                       <option v-for="option in options" 
                       v-bind:value="option">     
                      {{option.name}} 
@@ -49,11 +49,11 @@ data-animation="false"
                       <option value="30">15</option>
                       <option value="40">20</option>                      
                   </select>
-                  <span class="col-md-2 minutes-div">minutes</span>
+                  <span class="col-md-2 minutes-div">{{$lang.competation_modal_duration_final_minutes}}</span>
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_game_duration_final}}</label>
+              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_duration_minutes}}</label> 
               <div class="col-sm-6">
                   <span class="col-sm-2 pull-left multi-number padding0">2 <small>X</small></span>
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.game_duration_FM">
@@ -61,7 +61,7 @@ data-animation="false"
                       <option value="30">15</option>
                       <option value="40">20</option>                     
                   </select>
-                  <span class="col-md-2 minutes-div">minutes</span>
+                  <span class="col-md-2 minutes-div">{{$lang.competation_modal_duration_final_minutes}}</span>
               </div>
           </div>
           <div class="form-group row">
@@ -83,7 +83,7 @@ data-animation="false"
                       <option value="5">5</option>
                       <option value="10">10</option>                     
                   </select>
-                  <span class="col-md-2 minutes-div">minutes</span>
+                  <span class="col-md-2 minutes-div">{{$lang.competation_modal_match_minutes}}</span>
               </div>
           </div>
             <div class="form-group row">
@@ -93,14 +93,14 @@ data-animation="false"
                         <option value="5">5</option>
                         <option value="10">10</option>                       
                     </select>
-                    <span class="col-md-2 minutes-div">minutes</span>
+                    <span class="col-md-2 minutes-div">{{$lang.competation_modal_match_interval_final_minutes}}</span>
                 </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click="saveAgeCategory" id="saveAge">Save</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
+            <button type="button" class="btn btn-primary" @click="saveAgeCategory" id="saveAge">{{$lang.competation_modal_button_save}}</button>
         </div>
     </div>
   </div>
