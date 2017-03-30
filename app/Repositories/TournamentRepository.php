@@ -18,7 +18,7 @@ class TournamentRepository
 
         $startDate = Carbon::createFromFormat('m/d/Y', $tournamentData['tournaments_start_date']);
 
-        //$start_date =  Carbon::now()->format('Y-m-d', $tournamentData['tournaments_start_date']);
+ 
         $data['name'] = $tournamentData['tournaments_name'];
         $data['start_date'] = $startDate;
         $data['website'] = $tournamentData['tournaments_website'];

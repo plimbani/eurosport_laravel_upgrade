@@ -79,5 +79,8 @@ class MatchController extends Controller
     public function getFixtures(Request $request){
         return $this->matchObj->getFixtures($request);
     }
+    public function getStanding(Request $request){
+        return $this->matchObj->getStanding($request);
+    }
        
 }

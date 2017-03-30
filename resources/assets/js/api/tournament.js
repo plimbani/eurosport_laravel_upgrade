@@ -22,6 +22,7 @@ export default {
   getTemplate(templateData) {
     let templateId = templateData['tournamentTemplateId']
     return api.post('tournaments/getTemplate', {'tournamentTemplateId': templateId});
+     // return api.post('tournaments/getTemplate', {'tournamentTemplateId': templateId});
   },
   deleteCompetation(competationId) {
     return api.post('age_group/deleteCompetationFormat', {'tournamentCompetationTemplateId': competationId});
@@ -58,8 +59,9 @@ export default {
  },
  saveReferee(data) {
      return api.post('referee/create',{ data})
-  
+ },
+ getStanding(tournamentData) {
+  return api.post('match/getStanding',{'tournamentData': tournamentData})
  }
-
 
 }

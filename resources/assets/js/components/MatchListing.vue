@@ -7,15 +7,14 @@
 </template>
 <script type="text/babel">
 
-import MatchList from './MatchList.vue'
-import DrawDetails from './DrawDetails.vue'
+import Tournament from '../api/tournament.js'
 import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
-
-import LocationList from'./LocationList.vue'
+import MatchList from './MatchList.vue'
+import DrawDetails from './DrawDetails.vue'
 import DrawsListing from './DrawsListing.vue'
-
-import Tournament from '../api/tournament.js'
+import DrawList from './DrawList.vue'
+import LocationList from'./LocationList.vue'
 
 export default {
 	data() {
@@ -39,7 +38,8 @@ export default {
 		}
 	},
 	components: {
-		MatchList,TeamDetails,LocationList,DrawsListing,DrawDetails,TeamList
+		MatchList,TeamDetails,LocationList,DrawList,DrawsListing,
+		DrawDetails,TeamList
 	},
 	methods: {
 		setMatchData(id, Name='') {
@@ -67,7 +67,7 @@ export default {
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
-
+						
 						this.matchData = response.data.data
 						// here we add extra Field Fot Not Displat Location
 					}
@@ -76,6 +76,10 @@ export default {
 					alert('Error in Getting Draws')
 				}
 			)
+
+			// Also Called Standings Data
+			
+			
 		},
 		getTeamDetails(teamId, teamName) {
 			let TournamentId = this.$store.state.Tournament.tournamentId
@@ -95,10 +99,13 @@ export default {
 				}
 			)
 		},
-		getAllMatchesLocation(locationId){
-			alert('calledLoc')
+		getAllMatchesLocation(fixtureData){
+			
 			let TournamentId = this.$store.state.Tournament.tournamentId
-			let tournamentData = {'tournamentId': TournamentId, 'pitchId':locationId}
+			let PitchId = fixtureData.pitchId
+			let tournamentData = {'tournamentId': TournamentId, 'pitchId':PitchId}
+			this.otherData.Name = fixtureData.venue_name+'-'+fixtureData.pitch_number
+			
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {

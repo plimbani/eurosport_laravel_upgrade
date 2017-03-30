@@ -17,18 +17,19 @@
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_age_category}}</strong></label>
 							<div class="form-group">
+
 	                            <select name="sel_ageCategory" id="sel_ageCategory" class="form-control ls-select2">
-	                            	<option value="">Select</option>
+	                            	<option value="">{{$lang.summary_age_category_select}}</option>
 		                            <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
-		                            <!-- <option value="">-----------</option> -->
-		                        </select>
+		                             <option value="">-----------</option>
+									</select>
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_club}}</strong></label>
 							<div class="form-group">
 	                            <select class="form-control ls-select2">
-		                            <option value="">Select</option>
+		                            <option value="">{{$lang.summary_club_select}}</option>
 		                            <option value="">-----------</option>
 		                        </select>
 		                    </div>
@@ -36,10 +37,11 @@
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_team}}</strong></label>
 							<div class="form-group">
+
 	                            <select name="sel_teams" id="sel_teams" class="form-control ls-select2">
-	                            	<option value="">Select</option>
+	                            	<option value="">{{$lang.summary_team_select}}</option>
 		                        	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
-		                                                      
+
 		                        </select>
 		                    </div>
 						</div>
@@ -64,10 +66,10 @@
 						<div class="col-md-4 mb-7">
 							<label><strong>{{$lang.summary_location}}</strong></label>
 							<div class="form-group">
+
 	                           <select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
 	                           		<option value="">Select</option>
 		                        	<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
-		                                                      
 		                        </select>
 		                    </div>
 						</div>
@@ -88,7 +90,7 @@
 	                           		<option value="">Select</option>
 		                        	<option v-for="(referee, index) in referees" :value="referee.id">{{referee.first_name}}</option>
 		                        </select>
-		                    </div>
+		                    </div>	
 						</div>
 					</div>
 					<div class="col-md-5 text-right">
@@ -119,13 +121,12 @@
                 		<td>{{report.referee_name}}</td>
                 		<td>{{report.full_game}}</td>
                 	</tr>
-                	<tr v-if="reports.length==0">
-                		<td colspan="6">No Record Found</td>
-                	</tr>
+                	
                 </tbody>
 			</table>
 		</div>
 	</div>
+
 </template>
 
 <script type="text/babel">
@@ -253,8 +254,6 @@ export default {
     	},
     	generateReport() {
     		if (!isNaN(this.TournamentId)) {
-		      // here we add data for 
-		      // let ReportData = {'tournament_id': this.TournamentId,'age_category': $('#sel_ageCategory').val(),'team': $('#sel_teams').val(),'start_date': $('#start_date').val(),'end_date': $('#end_date').val(),'location': $('#sel_venues').val(),'pitch': $('#sel_pitches').val(),'referee': $('#sel_referees').val(),'report_download':''}
 		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
 		     // let ReportData =  $('#frmReport').serializeArray()
 		      this.reportQuery = ReportData
@@ -263,6 +262,7 @@ export default {
 		      // console.log(response.data.data,'hi') 
 		      	this.reports = response.data.data
 		       },
+
 		      (error) => {
 		         console.log('Error occured during Tournament api ', error)
 		      }
@@ -272,6 +272,7 @@ export default {
 		    }	
     	},
     	exportReport() {
+
     		let ReportData = this.reportQuery 
     		// console.log(ReportData)
     		// let newdata = $.parseHTML( ReportData )
@@ -281,9 +282,7 @@ export default {
 				ReportData += '&report_download=yes'
     			window.location = "/tournament/report/reportExport?"+ReportData;
     		}
-    		
-    		
-    		
+
 
     	}
 
