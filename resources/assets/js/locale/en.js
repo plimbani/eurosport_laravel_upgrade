@@ -20,7 +20,7 @@ module.exports = {
 
   sitefooter_message: "Copyright",
 
-  tournament_information: "Tourment information",
+  tournament_information: "Tournament information",
   tournament_name: "Tournament name",
   tournament_start_date: "Tournament start date",
   tournament_end_date: "Tournament end date",
@@ -256,7 +256,7 @@ module.exports = {
   summary_message_button_send: "Send",
 
   tournament_label: "Tournament Details",
-  competation_label: "Competition Formats",
+  competation_label: "Competation Formats",
   pitch_capacity_label: "Pitch Capacity",
   pitch_planner_label: "Pitch Planner",
   teams_groups_label: "Teams And Groups",

@@ -72,6 +72,24 @@
             }
         },
         mounted() {
+        let this1 = this
+        setInterval(function(){this1.tick() },1000)
+            
+        },
+        methods : {
+            onNavToggle(){
+                Layout.toggleSidebar()
+            },
+            logout(){
+                Auth.logout().then(() => {
+                    this.$router.replace('/login')
+                })
+            },
+            home() {
+                this.$router.push({'name':'welcome'})
+            },
+            tick(){
+            console.log('hi');
             var m_names = new Array("Jan", "Feb", "Mar", 
             "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
             "Oct", "Nov", "Dec");
@@ -87,25 +105,12 @@
             curr_hours = curr_hours ? curr_hours : 12;
             var curr_minutes = d.getMinutes();
             var ampm = curr_hours >= 12 ? 'pm' : 'am';
-            curr_hours = curr_hours % 12;
+            curr_hours = curr_hours >= 13 ? parseInt(curr_hours-12) : curr_hours;
             if (curr_minutes < 10) {
                 curr_minutes = "0" + curr_minutes;
             }
             this.curTime = curr_hours + " : " + curr_minutes + " " + ampm;
-        },
-
-        methods : {
-            onNavToggle(){
-                Layout.toggleSidebar()
-            },
-            logout(){
-                Auth.logout().then(() => {
-                    this.$router.replace('/login')
-                })
-            },
-            home() {
-                this.$router.push({'name':'welcome'})
-            }
+        }
         },
         computed: {
             TournamentName() {                

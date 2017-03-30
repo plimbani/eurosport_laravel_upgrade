@@ -48,7 +48,7 @@
           </td>
       </tr>     
   </tbody>
- <!--  <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal> -->
+  <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
   <competationModal :templateData="templateData"></competationModal>
 
 </table>
