@@ -83,99 +83,119 @@
                                             <form method="post" name="frmPitchAvailable" id="frmPitchAvailable" class="form-inline">
                                                 <div v-for="day in tournamentDays">
                                                     <div class="stage" :id="'stage'+day" v-if="displayDay(day)">
-                                                        <div class="col-md-12 padding0">
-                                                            <div class="form-group">
-                                                                <label for="nameInput" class="control-label col-md-4">stage {{day}} start</label>
-                                                                <div class="input-group col-md-4">
-                                                                    <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </span>
-                                                                    <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control ls-datepicker datestage'+day] " >
-                                                                         <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
-                                                                         <span class="help is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
-                                                                    <!-- <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name"> -->
-                                                                </div>
-                                                                <div class="input-group col-md-2">
-                                                                <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker']"  :id="'stage_start_time'+day"  type="text" >
+                                                        <div class="row justify-content-center">
+                                                <div class="card col-md-12">
+                                                    <h3 class="card-header">Stage {{day}}</h3>
+                                                    <div class="card-block">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <h5 class="card-title">Start</h5>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <label for="">Date</label>
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </span>
+                                                                             <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control ls-datepicker datestage'+day] " >
+                                                                                 <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
+                                                                                 <span class="help is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
+                                                                            <!-- <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name"> -->
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label for="">Time</label>
+                                                                        <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker']"  :id="'stage_start_time'+day"  type="text" >
                                                                     <i v-show="errors.has('stage_start_time'+day)" class="fa fa-warning"></i>
                                                                     <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span>
+                                                                    </div>
                                                                 </div>
-                                                                 
                                                             </div>
-                                                            <div class="col-md-2">
-                                                                &nbsp;
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-12 padding0">
-                                                            <div class="form-group">
-                                                                <label for="nameInput" class="control-label col-md-4">Break start</label>
-                                                                <div class="input-group col-md-4">
-                                                                    &nbsp;
-                                                                </div>
-                                                                <div class="input-group col-md-2">
-                                                                 <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker']" :id="'stage_break_start'+day" >
+                                                            <div class="col-md-6">
+                                                                <div class="row justify-content-between">
+                                                                    <div class="col-md-12">
+                                                                        <h5 class="card-title">Break</h5>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label for="">Time</label>
+                                                                        <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker']" :id="'stage_break_start'+day" >
                                                                     <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning"></i>
                                                                     <span class="help is-danger" v-show="errors.has('stage_break_start'+day)">Break start time is required</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                &nbsp;
-                                                            </div>
-                                                        </div>
-                                                    
-                                                        <div class="col-md-12 padding0">
-                                                            <div class="form-group">
-
-                                                                <label for="nameInput" class="control-label col-md-4">stage {{day}} continued</label>
-                                                                <div class="input-group col-md-4">
-                                                                    <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </span>
-                                                                    <input type="text" :name="'stage_continue_date'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]">
-                                                                </div>
-                                                                <div class="input-group col-md-2">
-                                                                    <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker']"  :id="'stage_continue_time'+day">
-                                                                    <br>
-                                                                        <i v-show="errors.has('stage_continue_time'+day)" class="fa fa-warning"></i>
-                                                                        <span class="help is-danger" v-show="errors.has('stage_continue_time'+day)">Continue time is required</span>
-
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    &nbsp;
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12 padding0">
-                                                            <div class="form-group">
-                                                                <label for="nameInput" class="control-label col-md-4">Stage {{day}} end</label>
-                                                                <div class="input-group col-md-4">
-                                                                    <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
-                                                                    </span>
-                                                                    <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control  ls-datepicker datestage'+ day]">
-                                                                </div>
-                                                                <div class="input-group col-md-2">
-
-                                                                     <input :name="'stage_end_time'+day" :id="'stage_end_time'+day" type="text"  v-validate="'required'" :class="[errors.has('stage_end_time'+day)?'is-danger': '', 'form-control ls-timepicker']">
-                                                                     <br>
-                                                                    <i v-show="errors.has('stage_end_time'+day)" class="fa fa-warning"></i>
-                                                                        <span class="help is-danger" v-show="errors.has('stage_end_time'+day)">Stage end time is required</span>
-
-                                                                </div>
-                                                                <div class="col-md-1">
-                                                                    <span :id="'stage_capacity_span'+day" >0.00</span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label>Capacity</label>
+                                                                        <h3>
+                                                                         <span :id="'stage_capacity_span'+day" lass="badge badge-pill badge-info" >0.00</span>
                                                                     <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity'+day" value="0.00">
 
                                                                     <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity_min'+day" value="0">
-                                                                    
-                                                                   
+                                                                        <!-- <span class="badge badge-pill badge-info">123</span> --></h3>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-12 padding0">
-                                                            <span @click="stageRemove(day)">X Delete stage</span>
+                                                    </div>
+                                                    <div class="card-block">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <h5 class="card-title">Continued</h5>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <label for="">Date</label>
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </span>
+                                                                            <input type="text" :name="'stage_continue_date'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]">
+                                                                                 <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
+                                                                                 <span class="help is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
+                                                                            <!-- <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name"> -->
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label for="">Time</label>
+                                                                        <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker']"  :id="'stage_continue_time'+day">
+                                                                        <i v-show="errors.has('stage_continue_time'+day)" class="fa fa-warning"></i>
+                                                                        <span class="help is-danger" v-show="errors.has('stage_continue_time'+day)">Continue time is required</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <h5 class="card-title">End</h5>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <label for="">Date</label>
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </span>
+                                                                            <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control  ls-datepicker datestage'+ day]">
+                                                                                 <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
+                                                                                 <span class="help is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
+                                                                            <!-- <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name"> -->
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label for="">Time</label>
+                                                                        <input :name="'stage_end_time'+day" :id="'stage_end_time'+day" type="text"  v-validate="'required'" :class="[errors.has('stage_end_time'+day)?'is-danger': '', 'form-control ls-timepicker']">
+                                                                        <i v-show="errors.has('stage_end_time'+day)" class="fa fa-warning"></i>
+                                                                        <span class="help is-danger" v-show="errors.has('stage_end_time'+day)">Stage end time is required</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                    </div>
+                                                    <div class="card-footer text-right">
+                                                        <a href="javascript:void(0)" class="btn btn-danger" @click="stageRemove(day)">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                                     </div>
 
                                                 </div>
@@ -203,10 +223,10 @@ import _ from 'lodash'
             return {
                 'tournamentId': this.$store.state.Tournament.tournamentId,
                 
-                'tournamentDays': 3,
+                'tournamentDays': this.$store.state.Tournament.tournamentDays,
                 'stage_date':[],
-                'tournamentStartDate': '03/01/2017',
-                'tournamentEndDate': '03/03/2017',
+                'tournamentStartDate': this.$store.state.Tournament.tournamentStartDate,
+                'tournamentEndDate': this.$store.state.Tournament.tournamentEndDate,
                 'removeStage': [],
                 'disableDate': [],
                 'stage_capacity' : [],
@@ -307,44 +327,112 @@ import _ from 'lodash'
             this1.stage_date.push(obj)
             $('.ls-datepicker').datepicker('setDatesDisabled', this1.disableDate);
             this1.stage_capacity.push(capacity)
-            $('.ls-timepicker').timepicker()
-            
-                $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
-                   // this.stageCapacityCalc(1)
-                   // console.log($(this)[0].class)
-                   let stage = $(this)[0].id;
-                   stage = stage.replace('stage_start_time','')
-                   stage = stage.replace('stage_break_start','')
-                   stage = stage.replace('stage_continue_time','')
-                   stage = stage.replace('stage_end_time','')
-                   if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage).val() == '' || $('#stage_continue_time'+stage).val() == ''  ) {
+            $('.ls-timepicker').timepicker({
+                    minTime: '08:00:00',
+                    maxTime: '18:00:00'
+                });    
+            $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
+               // this.stageCapacityCalc(1)
+               // console.log($(this)[0].class)
+               let curId = $(this)[0].id
+               let stage = $(this)[0].id;
+               let curTime = ''
+               
+               // console.log(stage_id)
+               stage = stage.replace('stage_start_time','')
+               stage = stage.replace('stage_break_start','')
+               stage = stage.replace('stage_continue_time','')
+               stage = stage.replace('stage_end_time','')
+
+                if( curId.indexOf('stage_start_time') >= 0){
+                    curTime = $('#stage_start_time'+stage).val()
+                }else if(curId.indexOf('stage_break_start') >= 0) {
+                    curTime = $('#stage_break_start'+stage).val()
+                }else if(curId.indexOf('stage_continue_time') >= 0) {
+                    curTime = $('#stage_continue_time'+stage).val()
+                }else if(curId.indexOf('stage_end_time') >= 0) {
+                    curTime = $('#stage_end_time'+stage).val()
+                }
+                let newTime = ''
+                 let updatedTime =  curTime.split(':')
+                if(curTime.indexOf('pm') >= 0 && (updatedTime[0]!= '12')) {
+                    updatedTime
+                   console.log(updatedTime[1])
+                    let hrs = parseInt(updatedTime[0])+12
+                    let min = updatedTime[1].split(' ')[0] == '30' ? '30' : '00'
+                     newTime = hrs+':'+min
+                }else{
+                    // let updatedTime =  curTime.split(':')
+                    let hrs = parseInt(updatedTime[0])
+                    let min = updatedTime[1].split(' ')[0]  == '30' ? '30' : '00'
+                    newTime = hrs+':'+min+':00'
+                }
+                if(curId.indexOf('stage_start_time') >= 0){
+                    console.log('stage_start_time',newTime)
+
+                    $('#stage_break_start'+stage).timepicker({
+                        minTime:  newTime,
+                        maxTime: '18:00:00'
+                    });
+                    $('#stage_break_start'+stage).val('')  
+
+                    
+                    $('#stage_continue_time'+stage).val('') 
+
+                     
+                    $('#stage_end_time'+stage).val('')  
+                }
+                if(curId.indexOf('stage_break_start') >= 0){
+                    console.log('stage_break_start',newTime)
+
+                   $('#stage_continue_time'+stage).timepicker({
+                        minTime: newTime,
+                        maxTime: '18:00:00'
+                    });
+                    $('#stage_continue_time'+stage).val('') 
+
+                    $('#stage_end_time'+stage).val('')  
+                    
+                }
+                if(curId.indexOf('stage_continue_time') >= 0 ){
+                    console.log('stage_continue_time',newTime)
+
+                    $('#stage_end_time'+stage).timepicker({
+                        minTime:  newTime,
+                        maxTime: '18:00:00'
+                    }); 
+                    $('#stage_end_time'+stage).val('') 
+                }
+
+                if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage).val() == '' || $('#stage_continue_time'+stage).val() == ''  ) {
                     $('#stage_capacity_span'+stage).text('0.00 hrs');
-
                     $('#stage_capacity'+stage).val('0.00');
-                   }else {
-                     var stageTimeStart = new Date($('#stage_start_date'+stage).val() + " "+ $('#stage_start_time'+stage).val());
-                    var stageTimeEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_end_time'+stage).val());
-                    var stageBreakStart = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_break_start'+stage).val());
-                    var stageBreakEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_continue_time'+stage).val());
+                }else {
+                 var stageTimeStart = new Date($('#stage_start_date'+stage).val() + " "+ $('#stage_start_time'+stage).val());
+                var stageTimeEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_end_time'+stage).val());
+                var stageBreakStart = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_break_start'+stage).val());
+                var stageBreakEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_continue_time'+stage).val());
 
-                        var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
-                        var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
-                        var diff = diff1 + diff2
+                    var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
+                    var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
+                    var diff = diff1 + diff2
+                    if(diff > 0){
+                      var minutes = diff % 60;
+                    var hours = (diff - minutes) / 60;
+                    var time_val = hours+ '.' +minutes
+                    var time = hours+ ':' +minutes +' hrs'  
+                }else {
+                    var time_val = '0.0'
+                    var time = '00:00 hrs'
+                }     
+                $('#stage_capacity'+stage).val(time_val);
+                $('#stage_capacity_min'+stage).val(diff);
+                $('#stage_capacity_span'+stage).text(time);
+               
+                }
+               
+            })
 
-                        var minutes = diff % 60;
-                        var hours = (diff - minutes) / 60;
-                        var time_val = hours+ '.' +minutes
-                        var time = hours+ ':' +minutes +' hrs'
-                    $('#stage_capacity'+stage).val(time_val);
-                    $('#stage_capacity_min'+stage).val(diff);
-                    $('#stage_capacity_span'+stage).text(time);
-                   }
-                   
-                })
-
-            // $(".ls-datepicker").on("change", function(e) {
-            //         console.log('msg')
-            // });
             var that = this1
                 $('.ls-datepicker').datepicker().on('changeDate',function(){
                     var stage = this.id
@@ -411,7 +499,7 @@ import _ from 'lodash'
                         $('#editPitch').modal('hide')
                     }).catch(error => {
                         if (error.response.status == 401) {
-                            toastr['error']('Invalid Credentials', 'Error');
+                            // toastr['error']('Invalid Credentials', 'Error');
                         } else {
                             //   happened in setting up the request that triggered an Error
                             console.log('Error', error.message);
@@ -496,10 +584,22 @@ import _ from 'lodash'
                             
                         
                         
-                        $('#stage_start_time'+stage).timepicker()
-                        $('#stage_break_start'+stage).timepicker()
-                        $('#stage_continue_time'+stage).timepicker()
-                        $('#stage_end_time'+stage).timepicker()
+                        $('#stage_start_time'+stage).timepicker({
+                            minTime: '08:00:00',
+                            maxTime: '18:00:00'
+                        })
+                        $('#stage_break_start'+stage).timepicker({
+                            minTime: '08:00:00',
+                            maxTime: '18:00:00'
+                        })
+                        $('#stage_continue_time'+stage).timepicker({
+                            minTime: '08:00:00',
+                            maxTime: '18:00:00'
+                        })
+                        $('#stage_end_time'+stage).timepicker({
+                            minTime: '08:00:00',
+                            maxTime: '18:00:00'
+                        })
                         },1000)
                     }
                    
