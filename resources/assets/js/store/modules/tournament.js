@@ -8,7 +8,6 @@ const state = {
   tournamentName: '',
   tournamentStartDate:"",
   tournamentEndDate:"",
-  tournamentDay:'',
   tournamentId: '',
   currentTemplate: '',
   currentTotalTime: '',
@@ -104,7 +103,7 @@ const mutations = {
     state.tournamentName = currentTournament.name
     state.tournamentStartDate = currentTournament.tournamentStartDate
     state.tournamentEndDate = currentTournament.tournamentEndDate
-    state.tournamentDays = currentTournament.tournamentDays
+    state.tournamentDays = parseInt(currentTournament.tournamentDays) + 1
     state.tournamentId = currentTournament.id
     state.tournamentStatus = currentTournament.tournamentStatus
     state.tournamentLogo = currentTournament.tournamentLogo
@@ -117,7 +116,7 @@ const mutations = {
     state.tournamentEndDate = tournamentData.tournamentEndDate
     state.tournamentStatus = tournamentData.tournamentStatus
     state.tournamentLogo = tournamentData.tournamentLogo
-    state.tournamentDays = tournamentData.tournamentDays    
+    state.tournamentDays = parseInt(tournamentData.tournamentDays )+ 1   
   },
   [types.SAVE_COMPETATION_FORMAT] (state, competationFormatData) {        
     // alert('hello in mutation')

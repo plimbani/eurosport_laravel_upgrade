@@ -84,6 +84,7 @@ import TournamentAdd from './views/admin/eurosport/TournamentAdd.vue'
 import Summary from './views/admin/eurosport/Summary.vue'
 import CompetationFormat from './views/admin/eurosport/CompetationFormat.vue'
 import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
+import Referee from './views/admin/eurosport/Referee.vue'
 
 
 // UserManagement Layout
@@ -176,6 +177,11 @@ const routes = [
                 path: 'pitch_capacity',
                 component: PitchCapacity,
                 name: 'pitch_capacity'
+            },  
+            {
+                path: 'referee',
+                component: Referee,
+                name: 'referee'
             },            
             // {
             //     path: '/pitch',
