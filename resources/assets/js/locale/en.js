@@ -85,7 +85,7 @@ module.exports = {
   competation_modal_button_cancle: "Cancle",
   competation_modal_button_save: "Save",  
 
-
+ 
   pitch_capacity: "Pitch Capacity",
   pitch_add: "Add Pitch",
   pitch_details: "Pitch Details",
