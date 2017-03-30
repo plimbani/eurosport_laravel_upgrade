@@ -79,7 +79,7 @@
                                             </div>
                                         </div>
 
-                                        <form method="post" name="frmPitchAvailable" id="frmPitchAvailable" class="form-inline">
+                                        <form method="post" name="frmPitchAvailable" id="frmPitchAvailable" >
                                             <div v-for="day in tournamentDays">
                                             <div class="row justify-content-center">
 
@@ -205,13 +205,13 @@
 
                                             </div>
                                             <div class="col-md-12">
-<<<<<<< HEAD
+
                                                <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">{{$lang.pitch_modal_availability_button_addstage}}</button>
                                             </div>
 
                                         </form>
                                          <div class="modal-footer">
-<<<<<<< HEAD
+
                                             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.pitch_modal_availability_button_cancle}}</button>
                                             <button type="button" class="btn btn-primary" @click="savePitchDetails()">{{$lang.pitch_modal_availability_button_save}}</button> 
 
@@ -424,12 +424,13 @@
                     that.availableDate.push($('#stage_end_date'+stage).val())
                     that.availableDate.splice(that.availableDate.indexOf($('#'+this.id).val()),1)
                     // that.disableDate = disableDate
-                    $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                    console.log(that.disableDate)
+                    
 
                     // disableDate
                 }
                 that.disableDate.push( $('#'+this.id).val());
-                
+                $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
                 $('.datestage'+stage).val($('#'+this.id).val())
                 }
                 
@@ -483,7 +484,7 @@
                         
                        
                 }).catch(() => {
-                    toastr['error']('Please ', 'Error')
+                    toastr['error']('Please fill all required fields ', 'Error')
                  });
                 // let pitchData = { 
                 //     'pitchId' : this.pitchId,
@@ -556,14 +557,30 @@
                         $('.datestage'+stage).datepicker('setEndDate', tEndDate)
                         $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
                          $('.datestage'+stage).datepicker('setDate', availDate)
-                            
+                         // console.log(that.disableDate)
+                         // ('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                        // 
                         // $('.ls-timepicker').timepicker({ 'setTime': 300})
                         
-                        $('#stage_start_time'+stage).timepicker()
-                        $('#stage_break_start'+stage).timepicker()
-                        $('#stage_continue_time'+stage).timepicker()
-                        $('#stage_end_time'+stage).timepicker()
+                        $('#stage_start_time'+stage).timepicker({
+                            minTime:  '08:00:00',
+                            maxTime: '18:00:00'
+                        })
+                        $('#stage_break_start'+stage).timepicker({
+                            minTime:  '08:00:00',
+                            maxTime: '18:00:00'
+                        })
+                        $('#stage_continue_time'+stage).timepicker({
+                            minTime:  '08:00:00',
+                            maxTime: '18:00:00'
+                        })
+                        $('#stage_end_time'+stage).timepicker({
+                            minTime:  '08:00:00',
+                            maxTime: '18:00:00'
+                        })
+
                         },1000)
+
                     }
                    
 
@@ -580,6 +597,7 @@
                     this.removeStage = removeStageArr
                      var that = this
                      that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,that.disableDate,that.availableDate,stage);
+
                 
                 }
 
