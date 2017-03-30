@@ -56,7 +56,9 @@ export default {
  getAllReportsData(data) {
      return api.post('tournament/report/generate',{ data})
      console.log('msg')
+ },
+ getStanding(tournamentData) {
+  return api.post('match/getStanding',{'tournamentData': tournamentData})
  }
-
 
 }

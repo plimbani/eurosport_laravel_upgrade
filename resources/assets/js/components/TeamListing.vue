@@ -1,7 +1,8 @@
 <template>
 <div>
    <!-- <component :is="currentScheduleView" :matchData="matchData"></component>-->
-   <component :is="currentScheduleView" :matchData="matchData" :otherData="otherData"></component>
+   <component :is="currentScheduleView" :matchData="matchData" 
+   :otherData="otherData"></component>
 </div>
 
 </template>
@@ -13,13 +14,13 @@ import TeamList from './TeamList.vue'
 import MatchList from './MatchList.vue'
 import DrawDetails from './DrawDetails.vue'
 import DrawsListing from './DrawsListing.vue'
-
+import LocationList from './LocationList.vue'
+import MatchListing from './MatchListing.vue'
 
 export default {
 	data() {
 		return {
-			matchData:[],
-			otherData:[]
+			matchData:[], otherData:[]
 		}
 	},
 	mounted() {
@@ -28,7 +29,7 @@ export default {
 		this.getAllTournamentTeams()
 	},
 	components: {
-		TeamDetails,DrawsListing,TeamList,MatchList,DrawDetails
+		TeamDetails,DrawsListing,TeamList,MatchList,DrawDetails,MatchListing,LocationList
 	},
 	created: function() {
        this.$root.$on('changeComp', this.setMatchData); 
@@ -49,7 +50,49 @@ export default {
 			} 
 			if(comp == 'teamDetails') {
 				this.getTeamDetails(id, Name)
+			}
+			if(comp == 'drawDetails') {
+				this.getDrawDetails(id, Name)
 			}	
+		},
+		getAllMatchesLocation(fixtureData){
+			
+			let TournamentId = this.$store.state.Tournament.tournamentId
+			let PitchId = fixtureData.pitchId
+			let tournamentData = {'tournamentId': TournamentId, 'pitchId':PitchId}
+			this.otherData.Name = fixtureData.venue_name+'-'+fixtureData.pitch_number
+			Tournament.getFixtures(tournamentData).then(
+				(response)=> {
+					if(response.data.status_code == 200) {
+
+						this.matchData = response.data.data
+						// here we add extra Field Fot Not Displat Location
+					}
+				},
+				(error) => {
+					alert('Error in Getting Draws')
+				}
+			)	
+		},
+		getDrawDetails(drawId, drawName) {
+			let TournamentId = this.$store.state.Tournament.tournamentId
+			let tournamentData = {'tournamentId': TournamentId, 
+			'competitionId':drawId}
+			
+			this.otherData.DrawName = drawName
+			
+			Tournament.getFixtures(tournamentData).then(
+				(response)=> {
+					if(response.data.status_code == 200) {
+
+						this.matchData = response.data.data
+						// here we add extra Field Fot Not Displat Location
+					}
+				},
+				(error) => {
+					alert('Error in Getting Draws')
+				}
+			)
 		},
 		getTeamDetails(teamId, teamName) {
 			

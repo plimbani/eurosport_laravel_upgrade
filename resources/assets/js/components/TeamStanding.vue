@@ -1,5 +1,5 @@
 <template>
-<div class="col-md-6 row mt-4">
+<div>
 
 <table class="table match_overview">
 	<thead>
@@ -14,40 +14,65 @@
 		<th>Goals Against</th>
 	</thead>
 	<tbody>
-		<tr>
-			<td>1</td>
+		<tr v-for="stand in standingData">
+		<td></td>
 			<td class="text-center">
 				<a href="" @click.prevent="teamDetails('')">
-					 <img src="/assets/img/flag.png" width="20"> CS Pays Vert 1
+					 <img :src="stand.teamFlag" width="20"> 
+					<span>
+					{{stand.name}}
 					</span>
 				</a>
 			</td>
-			<td>6</td>
-			<td>2</td>
-			<td>2</td>
-			<td>0</td>
-			<td>0</td>
-			<td>3</td>
-			<td>0</td>
+			<td>{{stand.points}}</td>
+			<td>{{stand.played}}</td>
+			<td>{{stand.won}}</td>
+			<td>{{stand.draws}}</td>
+			<td>{{stand.lost}}</td>
+			<td>{{stand.goal_for}}</td>
+			<td>{{stand.goal_against}}</td>
 		</tr>
 	</tbody>
 </table>
 </div>
 </template>
 <script type="text/babel">
+import Tournament from '../api/tournament.js'
 
 export default {
+	props: ['currentCompetationId'],
 	data() {
 		return {
-			drawsData:[],
+			standingData:[],
 		}
 	},
 	mounted() {
 		// here we call function to get all the Draws Listing
-		alert('called TeamStaing')		
+		this.getData()
 	},
 	methods: {
-		
+		getData() {
+			if(this.currentCompetationId != 0) {
+				
+				let TournamentId = this.$store.state.Tournament.tournamentId
+				let tournamentData = {'tournamentId': TournamentId, 
+			'competitionId':this.currentCompetationId }
+
+				Tournament.getStanding(tournamentData).then(
+				(response)=> {
+					if(response.data.status_code == 200) {
+						this.standingData = response.data.data
+						// here we add extra Field Fot Not Displat Location
+					}
+				},
+				(error) => {
+					alert('Error in Getting Standing Data')
+				}
+			) 	
+			}
+			
+		}
 	}
+	
 }
 </script>
