@@ -80,7 +80,7 @@
                                                 </div>
                                             </div>
 
-                                            <form method="post" name="frmPitchAvailable" id="frmPitchAvailable" class="form-inline">
+                                            <form method="post" name="frmPitchAvailable" id="frmPitchAvailable" >
                                                 <div v-for="day in tournamentDays">
                                                     <div class="stage" :id="'stage'+day" v-if="displayDay(day)">
                                                         <div class="row justify-content-center">
@@ -508,7 +508,7 @@ import _ from 'lodash'
                        
                        
                 }).catch(() => {
-                    // toastr['error']('Invalid Credentials', 'Error')
+                    toastr['error']('Please fill all required fields', 'Error')
                  });
                 // let pitchData = { 
                 //     'pitchId' : this.pitchId,
@@ -581,6 +581,7 @@ import _ from 'lodash'
                         $('.datestage'+stage).datepicker('setEndDate', tEndDate)
                         $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
                          $('.datestage'+stage).datepicker('setDate', availDate)
+                        // ('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
                             
                         
                         
