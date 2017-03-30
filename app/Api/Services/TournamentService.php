@@ -175,7 +175,8 @@ class TournamentService implements TournamentContract
 
     public function generateReport($data)
     {
-        $data=$data['data'];
+        // dd($data);
+        // $data=$data['data'];
          // dd($data);
         $reportQuery = DB::table('fixtures')
             // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
@@ -194,8 +195,8 @@ class TournamentService implements TournamentContract
             ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
             ->groupBy('fixtures.id')
             ->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'));
-            if(isset($data['age_category'])  && $data['age_category']!= ''){
-                $reportQuery->where('tournament_competation_template.id',$data['age_category']);
+            if(isset($data['sel_ageCategory'])  && $data['sel_ageCategory']!= ''){
+                $reportQuery->where('tournament_competation_template.id',$data['sel_ageCategory']);
             }
             if(isset($data['start_date'])  && $data['start_date']!= '' ){
                 $start_date = Carbon::createFromFormat('m/d/Y', $data['start_date']);
@@ -206,18 +207,18 @@ class TournamentService implements TournamentContract
                 // dd(Carbon::createFromFormat('m/d/Y', $data['end_date']));
                 $reportQuery = $reportQuery->where('fixtures.match_datetime','<=',Carbon::createFromFormat('m/d/Y', $data['end_date']));
             }
-            if(isset($data['location'])  && $data['location']!= '' ){
-                $reportQuery = $reportQuery->where('fixtures.venue_id',$data['location']);
+            if(isset($data['sel_venues'])  && $data['sel_venues']!= '' ){
+                $reportQuery = $reportQuery->where('fixtures.venue_id',$data['sel_venues']);
             }
-            if(isset($data['team'])  && $data['team']!= '' ){
-                $reportQuery = $reportQuery->where('fixtures.home_team',$data['team'])
-                            ->orWhere('fixtures.away_team',$data['team']);
+            if(isset($data['sel_teams'])  && $data['sel_teams']!= '' ){
+                $reportQuery = $reportQuery->where('fixtures.home_team',$data['sel_teams'])
+                            ->orWhere('fixtures.away_team',$data['sel_teams']);
             }
-            if(isset($data['pitch'])  && $data['pitch']!= '' ){
-                $reportQuery = $reportQuery->where('fixtures.pitch_id',$data['pitch']);
+            if(isset($data['sel_pitches'])  && $data['sel_pitches']!= '' ){
+                $reportQuery = $reportQuery->where('fixtures.pitch_id',$data['sel_pitches']);
             }
-            if(isset($data['referee'])  && $data['referee']!= '' ){
-                $reportQuery = $reportQuery->where('match_results.referee_id',$data['referee']);
+            if(isset($data['sel_referees'])  && $data['sel_referees']!= '' ){
+                $reportQuery = $reportQuery->where('match_results.referee_id',$data['sel_referees']);
             }
             
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
@@ -227,7 +228,7 @@ class TournamentService implements TournamentContract
 
         $dataArray = array();
         
-         if($data['report_download'] == 'yes') {
+         if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
             foreach ($reportData as $reportRec) {
                 $ddata = [
                     $reportRec->match_datetime,

@@ -19,7 +19,18 @@ class RefereeRepository
 
     public function createReferee($refereeData)
     {
-        return Referee::create($refereeData);
+        // dd($refereeData);
+        return Referee::create([
+            'tournament_id' => $refereeData['tournament_id'],
+            'first_name' => $refereeData['first_name'],
+            'last_name' => $refereeData['last_name'],
+            'telephone' => $refereeData['telephone'],
+            'email' => $refereeData['email'],
+            'comments' => $refereeData['available'],
+            'age_group_id' =>  $refereeData['age_category']
+            
+        ]);
+        // return Referee::create($refereeData);
     }
 
     public function edit($data,$refereeId)

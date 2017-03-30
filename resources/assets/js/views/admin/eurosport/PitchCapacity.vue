@@ -178,6 +178,12 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
              // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
              // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
              this.getAllPitches()
+             $("#addPitchModal").on('hidden.bs.modal', function () {
+                $('#frmPitchDetail')[0].reset()
+                $('#frmPitchAvailable')[0].reset()
+                this.getAllPitches()
+
+            });
         },
         methods: {
             getAllPitches() {
@@ -311,7 +317,6 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
             addPitch() {
                 this.pitchId = ''
                 setTimeout(function(){
-                    console.log('msg')
                     $('#addPitchModal').modal('show')
                 },1000)
             },
