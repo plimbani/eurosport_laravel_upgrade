@@ -6,6 +6,7 @@
 </template>
 <script type="text/babel">
 import MatchList from './MatchList.vue'
+import MatchListing from './MatchListing.vue'
 
 export default {
 	props: ['matchData', 'otherData'],
@@ -26,7 +27,7 @@ export default {
 		}
 	},
 	components: {
-		MatchList
+		MatchList,MatchListing
 	}
 }
 </script>

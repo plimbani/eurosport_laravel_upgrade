@@ -116,5 +116,266 @@ class MatchRepository
           
           return $reportQuery->get();
     }
+    public function getDrawTable($tournamentData){
+
+       $totalMatches = DB::table('fixtures')
+                ->where('fixtures.tournament_id',2)
+                ->where('fixtures.competition_id',5)
+                    ->select(
+                DB::raw('CONCAT(fixtures.hometeam_score, "-", fixtures.awayteam_score) AS scoresFix'),
+                DB::raw('CONCAT(fixtures.home_team, "-", fixtures.away_team) AS teamsFix')
+                  )
+
+                    ->get();
+      $matchArr = array();
+      //print_r($teamData);exit;
+      foreach($totalMatches as $data) {
+        $newkey = sprintf('%s',$data->teamsFix);
+        $matchArr[$data->teamsFix] = $data->scoresFix;
+      }
+      $teamData = DB::table('teams')
+                    ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
+                    
+                    ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+
+                    ->leftjoin('competitions', 'competitions.tournament_competation_template_id', '=', 'tournament_competation_template.id')
+                    
+                    ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo')
+                    ->where('teams.tournament_id',2)
+                    ->where('competitions.id',5)
+                    ->get();
+      $numTeamsArray = array();
+      $teamDetails=array();
+      foreach($teamData as $Tdata) {
+        $numTeamsArray[]=$Tdata->TeamId;
+        $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
+        $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
+         
+      }
+      
+      //$table=array();
+      $htmlData='';
+      $arr1=array();
+      for($i=0;$i<count($numTeamsArray);$i++)
+      {
+       // $htmlData.= '<tr>';
+        $arr1[$i]['id'] = $numTeamsArray[$i];
+        $arr1[$i]['TeamName'] = $teamDetails[$numTeamsArray[$i]]['TeamName'];
+        $arr1[$i]['TeamFlag'] = $teamDetails[$numTeamsArray[$i]]['TeamFlag'];
+
+       
+        for($j=0;$j<count($numTeamsArray);$j++)
+        {
+          if($i==$j)
+          {
+            $arr1[$i]['matches'][$j] ='X';                        
+          }
+          else 
+          {
+            //echo '<br>Team id'.
+            $teamId = $numTeamsArray[$i];
+            
+            $rowKey=$numTeamsArray[$i];
+            $colKey=$numTeamsArray[$j];
+
+            // Now here we explode it and check
+            if($teamId == $rowKey) {
+              // Its HomeTeam
+              //echo '||TeamId'.$teamId;
+              //echo '||val||'.$val=$rowKey.'-'.$colKey;
+              //print_r($matchArr);
+              //exit;
+              if(array_key_exists($rowKey.'-'.$colKey, $matchArr)) {
+                //echo 'yes';
+                $arr1[$i]['matches'][$j]['score']= $matchArr[$rowKey.'-'.$colKey];
+                // here we check status
+                
+              } else {
+                // Flip it
+                
+                $nwArr = explode('-',$matchArr[$colKey.'-'.$rowKey]);
+                //print_r($nwArr);exit;
+
+
+                $arr1[$i]['matches'][$j]['score']= $nwArr[1].'-'.$nwArr[0]; 
+              }
+              //$arr1[$i]['matches'][$j]= $matchArr[$rowKey.'-'.$colKey];
+            } else {
+              // Its Away Team
+            }
+            //echo 'fixture'.$fixArrKeyval=$rowKey.",".$colKey;
+    
+          }
+        }
+        
+      }
+
+      
+      return $arr1;
+      //print_r($arr1);
+      
+      
+      /*
+      exit;
+      foreach($numTeamsArray as $teamKey=>$team) {
+          
+          $htmlData.='<td>'.$team.'</td>';
+          foreach($matchArr as $teamsKey=>$teamScore) {
+            
+            $teams = explode('-',$teamsKey);
+            
+            $homeTeam = $teams[0];
+            $awayTeam = $teams[1];
+            
+            if($team == $homeTeam){
+              $htmlData.='<td>-</td>';
+            } else {
+              if($homeTeam == $team || $awayTeam == $team) {
+                $htmlData.='<td>'.$matchArr[$teamsKey].'</td>';    
+              }
+            } 
+            // Only Accept fixtures which are there
+          }
+          
+      }
+      $htmlData.='</tr>';
+      echo $htmlData;exit;
+      return $htmlData;
+      // echo $htmlData;exit;
+      // exit;
+      // for($i=1; $i <= count($numTeamsArray); $i++){
+
+      //    for($j=1; $j <= count($matchArr); $j++){
+
+      //       echo $matchArr[$j];
+      //       exit;
+      //       if ( $i == $j ) {
+      //        echo "";print_r("-");      
+      //       }
+      //       else {
+      //         $rowkey=$numTeamsArray[$i];
+      //         //$colKey=$matchArr[$j];
+      //         //$rowkey = $numberArray[$i];
+      //         //$colKey = $teamArr[$j];
+      //         echo 'RKey--'.$rowkey;
+      //         //echo 'CKey'.$colKey;
+      //     }
+      //    }
+      // }
+
+      // exit;
+     */
+    }
+    public function getDrawTable12($tournamentData)
+    {
+      // Now here we have to Arrange Table Team wise
+      $teamData = DB::table('teams')
+                    ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
+                    ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+
+                    ->leftjoin('competitions', 'competitions.tournament_competation_template_id', '=', 'tournament_competation_template.id')
+                    
+                    ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo')
+                    ->where('teams.tournament_id',2)
+                    ->where('competitions.id',5)
+                    ->get();
+      // we get Matches for group              
+      $matches =  DB::table('fixtures')
+                    ->where('fixtures.tournament_id',2)
+                    ->where('fixtures.competition_id',5)
+                    ->get()
+                    ->toArray();            
+
+    // Here we get Teams For Groups Now we have to Iterate it for matches
+    $teamArray = array();
+    //$matchArray = (array) $matches;
+    
+    //print_r($teamData);exit;
+    foreach($teamData as $key=>$team) {
+      
+      $teamArray[$key]['TeamId']= $team->TeamId;
+      $teamArray[$key]['Teamname']= $team->TeamName;
+      $teamArray[$key]['TeamFlag']= $team->TeamLogo;
+      
+      // Now here we find match for it in for that team
+      $param = $team->TeamId;
+      
+      $ids = array_map(
+      function($item) use ($param) { 
+         // Here we get Single Match Record And insert in Team Array
+         $tmmatchArray = array();
+         
+
+         $homeScore=0;
+         $awayScore=0;
+      
+         if($param == $item->home_team ) {
+        //  echo 'HomeTeam id'.$item->home_team;
+            // Its His Match
+            //$tmmatchArray['home']['home_score'] = $item->hometeam_score;
+            //$tmmatchArray['home']['away_score'] = $item->awayteam_score;
+            $homeScore = $item->hometeam_score.'-'.$item->awayteam_score;
+          }
+         else if($param == $item->away_team)
+         {
+
+          $awayScore = $item->awayteam_score.'-'.$item->hometeam_score;
+         // $tmmatchArray['away']['home_score'] = $item->hometeam_score;
+         // $tmmatchArray['away']['away_score'] = $item->awayteam_score;
+         } 
+         
+         // Also Append Status by comma
+         
+         //$result_h = ($homeScore > $awayScore) ? 'Loss' : 'Won';
+         //$result_a = ($awayScore > $homeScore) ? 'Won' : 'Loss';
+
+        //$tmmatchArray['score_h'] = $homeScore.','.$result_h;
+        //$tmmatchArray['score_a'] = $awayScore.','.$result_a;          
+        
+        $tmmatchArray['score_h'] = $homeScore;
+        $tmmatchArray['score_a'] = $awayScore;          
+                 
+      // $tmmatchArray['result_h'] =$result_h;
+      // $tmmatchArray['result_a'] = $result_a;
+         //$tmmatchArray['score_a'] = $homescore;
+         
+      return $tmmatchArray;
+         
+         
+      },$matches);
+
+      
+      // Now here we have to Set it for Particular Match
+      $aw=array();
+      
+      foreach($ids as $key1=>$elm) {
+
+        
+        if(is_array($elm) && count($elm) > 0) {
+        
+          if($elm['score_h'] == 0 )
+            $aw[] = $elm['score_a'];
+          if($elm['score_a'] == 0 )
+            $aw[] = $elm['score_h'];
+
+        }          
+      }
+      
+       // Remove zero Element
+       $remove = array(0);
+      
+       $result = array_diff($aw, $remove);  
+       // hre we append the zero the value
+       
+       //exit;
+       
+       $teamArray[$key]['matches'] = $result;      
+       $teamArray[$key]['matches']['tId'] = $param;      
+    } 
+
+      return $teamArray;
+    }
+
+    
        
 }
