@@ -16,7 +16,7 @@ module.exports = {
   siteheader_help: "FHelp",
   siteheader_time: "FTime",
   siteheader_english: " English",
-  siteheader_french: "FFrench",
+  siteheader_french: "French",
 
   sitefooter_message: "FCopyright",
 
@@ -37,6 +37,9 @@ module.exports = {
   user_management_user_type: "FUser type",
   user_management_user_cancle: "FCancle",
   user_management_user_save: "FSave",
+  user_management_confirmation: "FConfirmation",
+  user_management_cancel: "FCancel",
+  user_management_yes: "FYes",
 
   tournament_manage_edition: "FSelect an existing edition",
   tournament_information: "FTourment information",

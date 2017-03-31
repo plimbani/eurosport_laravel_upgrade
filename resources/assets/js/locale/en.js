@@ -37,6 +37,9 @@ module.exports = {
   user_management_user_type: "User type",
   user_management_user_cancle: "Cancle",
   user_management_user_save: "Save",
+  user_management_confirmation: "Confirmation",
+  user_management_cancel: "Cancel",
+  user_management_save: "Save",
 
   tournament_manage_edition: "Select an existing edition",
   tournament_information: "Tournament information",

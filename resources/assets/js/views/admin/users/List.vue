@@ -103,7 +103,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-                            <button type="submit" class="btn btn-primary">{{$lang.user_management_user_save}}</button> 
+                            <button type="submit" class="btn btn-primary">{{$lang.user_management_save}}</button> 
                         </div>
                     </form>
                 </div>
