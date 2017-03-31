@@ -320,7 +320,7 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 this.$store.dispatch('SetPitchId',0);
                 setTimeout(function(){
                     $('#addPitchModal').modal('show')
-                },1000)
+                },500)
             },
             editPitch(pitchId) {
                 this.$store.dispatch('SetPitchId',pitchId);
@@ -328,7 +328,7 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 let this1 = this
                 setTimeout(function(){
                     this1.$store.dispatch('PitchData',pitchId)
-                },1000)
+                },500)
                 
             },
             removePitch(pitchId) {
