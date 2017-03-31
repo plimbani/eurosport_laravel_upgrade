@@ -40,6 +40,7 @@ export default {
     // Here if tournament Id is Not Set Redirect to Login page
     let tournamentId = this.$store.state.Tournament.tournamentId
     if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
+      toastr['error']('Please Select Tournament', 'Error');
       this.$router.push({name: 'welcome'});
     } else {
       // Means Set Here
