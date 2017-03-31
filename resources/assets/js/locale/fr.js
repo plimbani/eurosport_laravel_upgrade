@@ -20,6 +20,24 @@ module.exports = {
 
   sitefooter_message: "FCopyright",
 
+  user_management_desktopuser: "FDesktop users",
+  user_management_mobileuser: "FMobile User",
+  user_desktop_name: "FName",
+  user_desktop_surname: "FSurname",
+  user_desktop_email: "FEmail address",
+  user_desktop_organisation: "FOrganisation",
+  user_desktop_usertype: "FUser type",
+  user_desktop_action: "FAction",
+
+  user_management_add_new_user: "FAdd New User",
+  user_management_add_name: "FName",
+  user_management_add_surname: "FSurname",
+  user_management_email: "FEmail address",
+  user_management_organisation: "FOrganisation",
+  user_management_user_type: "FUser type",
+  user_management_user_cancle: "FCancle",
+  user_management_user_save: "FSave",
+
   tournament_manage_edition: "FSelect an existing edition",
   tournament_information: "FTourment information",
   tournament_name: "FTournament name",

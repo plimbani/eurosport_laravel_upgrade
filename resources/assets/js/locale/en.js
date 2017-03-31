@@ -20,6 +20,23 @@ module.exports = {
 
   sitefooter_message: "Copyright",
 
+  user_management_desktopuser: "Desktop users",
+  user_management_mobileuser: "Mobile User",
+  user_desktop_name: "Name",
+  user_desktop_surname: "Surname",
+  user_desktop_email: "Email address",
+  user_desktop_organisation: "Organisation",
+  user_desktop_usertype: "User type",
+  user_desktop_action: "Action",
+
+  user_management_add_new_user: "Add New User",
+  user_management_add_name: "Name",
+  user_management_add_surname: "Surname",
+  user_management_email: "Email address",
+  user_management_organisation: "Organisation",
+  user_management_user_type: "User type",
+  user_management_user_cancle: "Cancle",
+  user_management_user_save: "Save",
 
   tournament_manage_edition: "Select an existing edition",
   tournament_information: "Tournament information",
