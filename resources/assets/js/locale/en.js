@@ -20,6 +20,8 @@ module.exports = {
 
   sitefooter_message: "Copyright",
 
+
+  tournament_manage_edition: "Select an existing edition",
   tournament_information: "Tournament information",
   tournament_name: "Tournament name",
   tournament_start_date: "Tournament start date",
@@ -152,7 +154,7 @@ module.exports = {
   pitch_modal_availability_time: "Time",
   pitch_modal_availability_capacity: "Capacity",
   pitch_modal_availability_button_addstage: "Add Stage",
-  pitch_modal_availability_button_cancle: "Cancle",
+  pitch_modal_availability_button_close: "Close",
   pitch_modal_availability_button_save: "Save",
 
 

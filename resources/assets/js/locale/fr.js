@@ -20,6 +20,7 @@ module.exports = {
 
   sitefooter_message: "FCopyright",
 
+  tournament_manage_edition: "FSelect an existing edition",
   tournament_information: "FTourment information",
   tournament_name: "FTournament name",
   tournament_start_date: "FTournament start date",
@@ -152,7 +153,7 @@ module.exports = {
   pitch_modal_availability_time: "FTime",
   pitch_modal_availability_capacity: "FCapacity",
   pitch_modal_availability_button_addstage: "FAdd Stage",
-  pitch_modal_availability_button_cancle: "FCancle",
+  pitch_modal_availability_button_close: "FClose",
   pitch_modal_availability_button_save: "FSave",
 
   teams_terms_groups: "FTerms and groups",
