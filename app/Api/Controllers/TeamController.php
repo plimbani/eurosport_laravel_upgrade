@@ -34,9 +34,9 @@ class TeamController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getTeams($tournamentId)
+    public function getTeams($tournamentId,$ageGroup='')
     {
-        return $this->teamObj->getTeams($tournamentId);
+        return $this->teamObj->getTeams($tournamentId,$ageGroup);
     }
 
     public function getAllTournamentTeams(Request $request)
@@ -57,7 +57,6 @@ class TeamController extends BaseController
 
     public function createTeam(Request $request)
     {
-
         $file = $request->file('fileUpload');
         $this->data['teamSize'] =  $request['teamSize'];
         $this->data['tournamentId'] = $request['tournamentId'];
@@ -65,7 +64,7 @@ class TeamController extends BaseController
 
         // $this->teamObj->deleteFromTournament($request->tournamentId);
         // dd($this->data['tournamentId']);
-        $this->teamObj->deleteFromTournament($this->data['tournamentId'] );
+        $this->teamObj->deleteFromTournament($this->data['tournamentId'],$request['ageCategory'] );
         \Excel::load($file->getRealPath(), function($reader) {
             // dd($reader->getTotalRowsOfFile() - 1);
               $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;  
