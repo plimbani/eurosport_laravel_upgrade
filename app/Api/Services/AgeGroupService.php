@@ -50,6 +50,8 @@ class AgeGroupService implements AgeGroupContract
         
         $data = $this->ageGroupObj->createCompeationFormat($data);
 
+        // Here also add in competation table data number of groups 
+        
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }                
@@ -70,6 +72,7 @@ class AgeGroupService implements AgeGroupContract
         // Move For loop and take count -1 for round robin        
         $totalRound = count($json_data->tournament_competation_format->format_name);
         $total_rr_time = 0; $total_final_time=0;$total_time=0;
+        // we use -1 loop for not only consider round robin matches
         for($i=0;$i<$totalRound-1;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
@@ -102,13 +105,23 @@ class AgeGroupService implements AgeGroupContract
         
         return array($total_time,$total_matches,$disp_format_name);
     }
-    public function GetCompetationFormat($data) {        
-        $data = $this->ageGroupObj->getCompeationFormat($data['tournamentId']);
+    public function GetCompetationFormat($data) {
+
+        $data = $this->ageGroupObj->getCompeationFormat($data['tournamentData']);
         
         if ($data) {
             return ['status_code' => '200', 'message' => 'Competation Data', 'data' => $data];
         }
     }
+    public function deleteCompetationFormat($data) {
+
+        $data = $this->ageGroupObj->deleteCompeationFormat($data['tournamentCompetationTemplateId']);
+        
+        if ($data) {
+            return ['status_code' => '200', 'message' => 'Competation Data delete successfully'];
+        }
+    }
+    
     /**
      * create New AgeGroup.
      *

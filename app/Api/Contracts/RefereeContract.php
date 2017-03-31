@@ -11,7 +11,7 @@ interface RefereeContract
      * @return response
      */
 
-    public function getAllReferees();
+    public function getAllReferees($tournamentId);
 
     /*
      * Create New Referee

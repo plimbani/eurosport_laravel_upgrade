@@ -1,0 +1,161 @@
+<template>
+<div>
+<h3>{{otherData.DrawName}} </h3>
+<table class="table draw_table" border=1>
+	<thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th v-for="(match,index) in match1Data">{{index+1}}</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+    	<tr v-for="(match,index) in match1Data">
+      
+    		<td>{{index+1}}</td>
+    		<td> 
+    			<a> 
+    			  <img :src="match.TeamFlag" width="20"> &nbsp;
+    			    <span>{{match.TeamName}}</span>
+    			</a>
+    		</td>
+        
+
+          <td v-for="(teamMatch, ind2) in match.matches">
+            {{teamMatch.score}} 
+            <div v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
+          </td>
+        
+      </tr>
+  
+    	<!--<tr>
+    		<td>2</td>
+    		<td> 
+    			<a @click="teamDetails('')" href=""> 
+    			  <img src="/assets/img/flag.png" width="20"> &nbsp;
+    			  <span>CVC Reujwik 1 </span>
+    			</a>
+    		</td>
+    		<td>0-2 Lost</td>
+    		<td></td>
+    		<td>1-0 Won</td>
+    		<td>3-0 Won</td>
+    	</tr>-->
+    </tbody>
+</table>
+<h4>Standings of {{otherData.DrawName}} </h4>
+  <teamStanding :currentCompetationId="currentCompetationId" 
+  v-if="currentCompetationId != 0"></teamStanding>
+<h4> Matches</h4>
+<matchList :matchData="matchData"></matchList>
+</div>
+</template>
+<script type="text/babel">
+import MatchListing from './MatchListing.vue'
+import MatchList from './MatchList.vue'
+import LocationList from'./LocationList.vue'
+import TeamStanding from './TeamStanding.vue'
+import Tournament from '../api/tournament.js'
+
+export default {
+	props: ['matchData','otherData'],
+    data() {
+        return {
+            teamData: [],
+            standingData:[],
+            currentCompetationId: 0,
+            match1Data:[]
+        }
+    },
+	mounted() {
+		// here we call function to get all the Draws Listing
+		//this.getAllDraws()
+    
+        this.setTeamData()        
+        // here we get the competation id         
+	},
+  filters: {
+    getStatus: function(teamName) {
+      // Now here we change it accoring to
+      if(typeof teamName == 'string')
+      {  
+        let strArr = teamName.split("-")
+        if(strArr[0] < strArr[1])  {
+           return "Lost"
+        } else if(strArr[0] == strArr[1]){
+           return "Tie"
+        } else {
+           return "Won"
+        }
+
+      } else {
+        return '<td></td>'
+      }
+      //return 'hello12'+teamName
+    }
+  },
+    computed: {
+        teamSize() {
+            if(this.matchData[0].team_size !== 'undefined')  {
+              return this.matchData[0].team_size
+            }
+            
+        }
+    },
+	components: {
+        MatchList,LocationList,MatchListing,TeamStanding
+	},
+    methods: {
+        checkTeamId(teamId) {
+            return teamId.Home_id
+        },
+        setTeamData() {
+            
+            if(Object.keys(this.matchData).length !== 0) {
+
+               let TeamData = []
+               let ResultData = []
+
+               let size = this.matchData[0].team_size
+               let competationId = this.matchData[0].competitionId
+               this.currentCompetationId = competationId
+               
+               // Here call Function for getting result
+               let tournamentData = {'tournamentId':'2','CompetationId':'1'}
+               Tournament.getDrawTable(tournamentData).then(
+                (response)=> {
+                  alert(JSON.stringify(response.data.data))
+                  this.match1Data = response.data.data
+                },
+                (error)=> {
+                  alert('caller')
+                }
+
+               )
+
+               //{
+                //console.log(data)
+               //});
+               /* for(let i=0;i<size;i++){
+                  // Now here we have to Move to match By match
+                  let TeamId = this.matchData[i].Home_id
+
+
+                  let TeamName = this.matchData[i].HomeTeam
+                  let TeamScore = this.matchData[i].homeScore
+                  
+
+                  TeamData.push({'id':TeamId,'Name':TeamName,'Score':TeamScore})
+               }*/
+
+
+               // Now here we fetch values from compeationId
+               
+               
+            }
+
+        }
+    }
+}
+</script>

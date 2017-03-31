@@ -4,12 +4,17 @@ import Tournament from '../../api/tournament'
 
 
 // initial state
-const state = {
- tournamentName: 'Welcome',
-  currentPage: '',
+const state = {  
+  tournamentName: '',
+  tournamentStartDate:"",
+  tournamentEndDate:"",
   tournamentId: '',
   currentTemplate: '',
-  currentTotalTime: ''
+  currentTotalTime: '',
+  tournamentDays: '',
+  venues: [],
+  tournamentStatus: '',
+  tournamentLogo: ''
 }
 // getters
 const getters = {
@@ -17,8 +22,25 @@ const getters = {
 }
 // actions
 const actions = {
-  SetTournamentName ({commit}, tournamentName) {  
-    commit(types.CURRENT_TOURNAMENT, tournamentName)
+  SetTournamentTotalTime({commit}, totalTime) {    
+    commit(types.SET_TOURNAMENT_TOTAL_TIME, totalTime)
+  },
+  SetTournamentName ({commit}, tournamentData) {      
+    commit(types.CURRENT_TOURNAMENT, tournamentData)
+  },
+  SetVenues ({commit},tournamentId) { 
+    Tournament.getAllVenues(tournamentId).then (
+      (response) => {
+        commit(types.SET_VENUES, response.data.data)
+        
+        // dispatch(Pitch.PitchData,156)
+         // Pitch.PitchData(pitches[0].id)
+        
+      },
+      (error) => {
+        console.log('Error occured during Get pitches detail ', error)
+      }
+    )
   },
   SetTemplate ({commit}, tournamentData) { 
 
@@ -35,8 +57,9 @@ const actions = {
   SaveCompeationFormatDetails  ({commit}, competationFormatData) { 
     
     Tournament.saveCompetationFormat(competationFormatData).then(
+
       (response) => {        
-        console.log(response)
+
         if(response.data.status_code == 200) {          
           // Now here we set the template 
           // let data1 = {'id':response.data.data,'name':tournamentData.name}          
@@ -53,12 +76,13 @@ const actions = {
   },  
   SaveTournamentDetails ({commit}, tournamentData) {      
     Tournament.saveTournament(tournamentData).then(
-      (response) => {        
-        console.log(response)
+
+      (response) => {                
+
         if(response.data.status_code == 200) {          
           // Now here we set the tournament Id and Name
-          let data1 = {'id':response.data.data,'name':tournamentData.name}
-          commit(types.SAVE_TOURNAMENT, data1) 
+          //let data1 = {'tournamentData':response.data.data}
+          commit(types.SAVE_TOURNAMENT, response.data.data) 
         } else {
           alert('Error Occured')
         }
@@ -74,17 +98,25 @@ const actions = {
 
 // mutations
 const mutations = {  
-  [types.CURRENT_TOURNAMENT] (state, currentTournamentName) {        
+  [types.CURRENT_TOURNAMENT] (state, currentTournament) {        
     //alert(JSON.stringify(currentTournamentName))
-    state.tournamentName = currentTournamentName.name
-    state.currentPage = currentTournamentName.currentPage
-    state.tournamentId = currentTournamentName.id
+    state.tournamentName = currentTournament.name
+    state.tournamentStartDate = currentTournament.tournamentStartDate
+    state.tournamentEndDate = currentTournament.tournamentEndDate
+    state.tournamentDays = parseInt(currentTournament.tournamentDays) + 1
+    state.tournamentId = currentTournament.id
+    state.tournamentStatus = currentTournament.tournamentStatus
+    state.tournamentLogo = currentTournament.tournamentLogo
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {        
-    // alert('hello in mutation')
+    
     state.tournamentName = tournamentData.name
     state.tournamentId = tournamentData.id
-    state.currentPage = 'Competation Formats'
+    state.tournamentStartDate = tournamentData.tournamentStartDate
+    state.tournamentEndDate = tournamentData.tournamentEndDate
+    state.tournamentStatus = tournamentData.tournamentStatus
+    state.tournamentLogo = tournamentData.tournamentLogo
+    state.tournamentDays = parseInt(tournamentData.tournamentDays )+ 1   
   },
   [types.SAVE_COMPETATION_FORMAT] (state, competationFormatData) {        
     // alert('hello in mutation')
@@ -92,10 +124,18 @@ const mutations = {
     // state.tournamentId = tournamentData.id
     // state.currentPage = 'Competation Formats'
   },
-   [types.SET_TEMPLATE] (state, templateData) {        
+  [types.SET_TEMPLATE] (state, templateData) {        
     state.currentTemplate = templateData.json;
     state.currentTotalTime = templateData.TotalTime;
-  }  
+  },
+  [types.SET_TOURNAMENT_TOTAL_TIME] (state, totalTime) {        
+    state.currentTotalTime = totalTime;
+  },
+ [types.SET_VENUES] (state, venueData) {        
+    state.venues = venueData;
+    
+  },
+
 }
 
 export default {

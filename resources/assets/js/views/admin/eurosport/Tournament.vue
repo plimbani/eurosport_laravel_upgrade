@@ -8,19 +8,19 @@
 							<ul class="nav nav-tabs" role="tablist">
 								<li class="nav-item">
 									<a class="nav-link active" data-toggle="tab" 
-									 role="tab" @click="currentView='summaryTab'">Summary</a>
+									 role="tab" @click="currentView='summaryTab'">{{$lang.summary_label_summary}}</a>
 								</li>					  		 
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
-									role="tab" @click="currentView='summaryReport'">Reports</a>
+									role="tab" @click="currentView='summaryReport'">{{$lang.summary_label_reports}}</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
-									role="tab" @click="currentView='scheduleResults'">Schedule and results</a>
+									role="tab" @click="currentView='scheduleResults'">{{$lang.summary_label_schedule}}</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
-									role="tab" @click="currentView='messages'">Messages</a>
+									role="tab" @click="currentView='messages'">{{$lang.summary_label_message}}</a>
 								</li>
 							</ul>
 							<component :is="currentView"> </component>
@@ -40,6 +40,7 @@ import ScheduleResults from '../../../components/ScheduleResults.vue'
 import Messages from '../../../components/Messages.vue'
 
 export default {
+
     data() {
        return {
          currentView:'summaryTab'
@@ -47,6 +48,18 @@ export default {
     },	
     components: {
         SummaryTab, SummaryReport, ScheduleResults, Messages
+    },
+    mounted() {
+    	let tournamentId = this.$store.state.Tournament.tournamentId
+      if(tournamentId == null || tournamentId == '') {
+        this.$router.push({name: 'welcome'});
+      } else {
+          // First Set Menu and ActiveTab
+        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Summary'}
+          this.$store.dispatch('setActiveTab', currentNavigationData)
+      }
+      // Here we set currenct Schedule view null
+      this.$store.dispatch('setCurrentScheduleView','') 
     }  
 }
 </script>

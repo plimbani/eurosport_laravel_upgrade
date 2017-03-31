@@ -1,7 +1,8 @@
 <template>
     <form id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
-            <input type="email" class="form-control form-control-danger" placeholder="Enter email" name="email"
+        
+            <input type="email" class="form-control form-control-danger" placeholder="Enter Email" name="email"
                    v-model="loginData.email" v-validate data-vv-rules="required|email">
         </div>
         <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
@@ -41,7 +42,7 @@
         methods: {
             validateBeforeSubmit(e){
                 this.$validator.validateAll();
-
+                
                 if (!this.errors.any()) {
                     Auth.login(this.loginData).then(() => {
                         // here we have to change where we have to redirect

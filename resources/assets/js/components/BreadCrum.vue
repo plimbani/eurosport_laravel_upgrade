@@ -4,7 +4,7 @@
     <div class="page-header">
       <ol class="breadcrumb">
         <li><a href="#">Welcome</a></li>
-        <li><a href="#">{{TournamentName}}</a></li>
+        <li v-if="TournamentName != ''"><a href="#">{{TournamentName}}</a></li>
         <li class="active"><span>{{currentPage}}</span></li>
       </ol>
     </div>
@@ -23,7 +23,7 @@ export default  {
   		return this.$store.state.Tournament.tournamentName
   	},
     currentPage() {
-    return (this.$store.state.Tournament.currentPage == '') ? '' : this.$store.state.Tournament.currentPage      
+    return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
     }
   }
 }

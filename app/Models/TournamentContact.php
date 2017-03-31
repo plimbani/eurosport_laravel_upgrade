@@ -9,5 +9,5 @@ class TournamentContact extends Model
     protected $table = 'tournament_contact';
     protected $primaryKey = 'id';  
     
-    protected $fillable = ['tournament_id', 'people_id','updated_at'];  
+    protected $fillable = ['tournament_id', 'first_name', 'last_name','telephone','updated_at'];  
 }

@@ -38,9 +38,10 @@ class PitchService implements PitchContract
 
         if($pitchdata){
             $data1 = $this->pitchAvailableRepoObj->createPitch($dataArr, $pitchdata->id);
+           
         }
         if ($data1) {
-            return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
+            return ['code' => '200','pitchId'=>$pitchdata->id, 'message' => 'Data Sucessfully Inserted'];
         }  
     }
 
@@ -51,15 +52,35 @@ class PitchService implements PitchContract
      *
      * @return [type]
      */
-    public function edit($data)
+    public function edit($data,$pitchId)
     {
-        $data = $data->all();
-        $data = $this->pitchRepoObj->edit($data);
+
+        $dataArr = $data->all();
+        // dd($dataArr);
+        $pitchdata = $this->pitchRepoObj->edit($dataArr,$pitchId);
+        if($pitchdata){
+            $this->pitchAvailableRepoObj->removePitchAvailability($pitchId);
+            $data1 = $this->pitchAvailableRepoObj->createPitch($dataArr, $pitchId);
+           
+        }
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
     }
 
+    public function getPitchData($pitchId)
+    {
+        $pitchdata = $this->pitchRepoObj->getPitchData($pitchId);
+        if($pitchdata){
+            $pitchAvailable = $this->pitchAvailableRepoObj->getPitchData($pitchId);
+           
+        }
+        $data = ['pitchdetail' => $pitchdata,'pitchAvailable' => $pitchAvailable];
+        if ($pitchdata) {
+           return ['status_code' => '200', 'data' => $data, 'message' => 'Data Successfully Updated'];
+        }
+    }
+    
     /**
      * Delete Pitch.
      *

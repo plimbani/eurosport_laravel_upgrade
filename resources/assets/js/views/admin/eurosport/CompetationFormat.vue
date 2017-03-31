@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
             <div class="card-block">
-                <h6 class="mt4"><strong>Age categories</strong></h6>            	
+                <h6 class="mt4"><strong>{{$lang.competation_age_categories}}</strong></h6>            	
                 <div class="row">
                     <div class="col-md-12">                       
                         <competationFormatList></competationFormatList>
@@ -10,7 +10,7 @@
                 </div>
             	<div class="row">
                     <div class="col-md-12">
-            		     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Add Age Category</button>
+            		     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>{{$lang.competation_add_age_category}}</button>
                     </div>
             	</div>                
             	<AddAgeCateogryModel></AddAgeCateogryModel>
@@ -19,10 +19,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-left">
-                    <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>  Back</button>
+                    <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>{{$lang.competation_button_back}}</button>
                 </div>
                 <div class="pull-right">
-                  <button class="btn btn-primary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>  Next</button>
+                  <button class="btn btn-primary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>{{$lang.competation_button_next}}</button>
                 </div>
             </div>
         </div>
@@ -36,9 +36,21 @@ export default {
   components: {
       AddAgeCateogryModel, CompetationFormatList
   },
+  mounted() {
+    // Here if tournament Id is Not Set Redirect to Login page
+    let tournamentId = this.$store.state.Tournament.tournamentId
+    if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
+      this.$router.push({name: 'welcome'});
+    } else {
+      // Means Set Here
+      
+       let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
+      this.$store.dispatch('setActiveTab', currentNavigationData)
+    }
+  },
   methods: {
     next() {
-      this.$root.$emit('setTemplate')
+       this.$root.$emit('setTemplate')
     },
     backward() {
      // this.$router.push({name: 'tournament_add'})   

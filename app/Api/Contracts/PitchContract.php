@@ -27,7 +27,9 @@ interface PitchContract
      * @param  array $request
      * @return response
      */
-    public function edit($request);
+    public function edit($request,$pitchId);
+    
+    public function getPitchData($pitchId);
 
     /*
      * Delete Pitch

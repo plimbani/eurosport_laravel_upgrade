@@ -29,27 +29,6 @@
         },
         components : {
             SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, TournamentTabbed
-        },
-        mounted() {
-        return axios.get('/api/matches').then(response =>  {
-            console.log(response)
-            
-            }).catch(error => {
-                if (error.response.status == 401) {
-                    toastr['error']('Invalid Credentials', 'Error');
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.log('Error', error.message);
-                }
-            });
-            // // alert('hello')
-            //     return axios.get('/api/matches').then(response =>  {
-            //         console.log(response);
-            //     }).catch(error => {
-            //         console.log('Error', error.message);
-            //     });
-            // Layout.set('layout-horizontal')
         }
-
     }
 </script>

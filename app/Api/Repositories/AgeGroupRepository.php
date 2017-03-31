@@ -4,6 +4,7 @@ namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\TournamentTemplate;
 
 class AgeGroupRepository
 {
@@ -28,11 +29,13 @@ class AgeGroupRepository
     }
     public function createCompeationFormat($data){
       // here first we save the Age Group            
-      $ageGroupData['name'] = $data['ageCategory_name'];
-      $ageGroupId = AgeGroup::create($ageGroupData)->id;
+      // $ageGroupData['name'] = $data['ageCategory_name'];
+      // $ageGroupId = AgeGroup::create($ageGroupData)->id;
       
       // here we save the tournament_competation_template      
-      $tournamentCompeationTemplate['age_group_id'] = $ageGroupId;
+      $tournamentCompeationTemplate = array();
+      $tournamentCompeationTemplate['group_name'] = 
+      $data['ageCategory_name'];
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
       $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
@@ -45,13 +48,37 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['match_interval_RR']= $data['match_interval_RR'];
       $tournamentCompeationTemplate['match_interval_FM']= $data['match_interval_FM'];
 
-      // Insert value in Database             
-      return TournamentCompetationTemplates::create($tournamentCompeationTemplate);  
+      // Insert value in Database   
+      // here we check value for Edit as Well
+      
+      if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
+      return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
+      } else {      
+      
+     	return TournamentCompetationTemplates::create($tournamentCompeationTemplate);    
+      }          
+      
       // Now here we return the appropriate Data
     }
-    public function getCompeationFormat($tournamentId) {    
-
-    
-    return TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
+    /*
+      This Function will Fetch Data For tournament_competation_table
+      We pass tournamentId
+     */
+    public function getCompeationFormat($tournamentData) {  
+     // print_r($tournamentData);
+      $fieldName = key($tournamentData);
+      $value = $tournamentData[$fieldName];
+      
+      return TournamentCompetationTemplates::where($fieldName, $value)->get();
     }
+    /*
+      This Function will Fetch Data For tournament_competation_table
+      We pass tournamentId
+     */
+    public function deleteCompeationFormat($tournamentCompetationTemplateId) {  
+     return TournamentCompetationTemplates::find($tournamentCompetationTemplateId)->delete();
+    }
+
+
+    //deleteCompeationFormat
 }
