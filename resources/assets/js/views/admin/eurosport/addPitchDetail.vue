@@ -326,7 +326,6 @@
                  let updatedTime =  curTime.split(':')
                 if(curTime.indexOf('pm') >= 0 && (updatedTime[0]!= '12')) {
                     updatedTime
-                   console.log(updatedTime[1])
                     let hrs = parseInt(updatedTime[0])+12
                     let min = updatedTime[1].split(' ')[0] == '30' ? '30' : '00'
                      newTime = hrs+':'+min
@@ -337,8 +336,7 @@
                     newTime = hrs+':'+min+':00'
                 }
                 if(curId.indexOf('stage_start_time') >= 0){
-                    console.log('stage_start_time',newTime)
-
+                    
                     $('#stage_break_start'+stage).timepicker({
                         minTime:  newTime,
                         maxTime: '18:00:00'
@@ -352,8 +350,7 @@
                     $('#stage_end_time'+stage).val('')  
                 }
                 if(curId.indexOf('stage_break_start') >= 0){
-                    console.log('stage_break_start',newTime)
-
+                    
                    $('#stage_continue_time'+stage).timepicker({
                         minTime: newTime,
                         maxTime: '18:00:00'
@@ -364,8 +361,7 @@
                     
                 }
                 if(curId.indexOf('stage_continue_time') >= 0 ){
-                    console.log('stage_continue_time',newTime)
-
+                    
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
                         maxTime: '18:00:00'
@@ -424,9 +420,6 @@
                     that.availableDate.push($('#stage_end_date'+stage).val())
                     that.availableDate.splice(that.availableDate.indexOf($('#'+this.id).val()),1)
                     // that.disableDate = disableDate
-                    console.log(that.disableDate)
-                    
-
                     // disableDate
                 }
                 that.disableDate.push( $('#'+this.id).val());
@@ -461,11 +454,11 @@
                     $( ".stage_capacity_all" ).each(function( index ) {
                       time = time + parseInt($(this).val())
                     });
-                     var minutes = time % 60;
-                    var hours = (time - minutes) / 60;
-                    var time_val = hours+ '.' +minutes
+                    //  var minutes = time % 60;
+                    // var hours = (time - minutes) / 60;
+                    // var time_val = hours+ '.' +minutes
                    
-                    let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time_val
+                    let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time
                             // this.$store.dispatch('AddPitch',pitchData)
                             return axios.post('/api/pitch/create',pitchData).then(response =>  {
                                 this.pitchId = response.data.pitchId

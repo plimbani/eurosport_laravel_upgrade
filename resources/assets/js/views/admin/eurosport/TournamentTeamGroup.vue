@@ -122,10 +122,11 @@
 		                            </select>
                               </td>
                             </tr>
+                           
 
                         </tbody>
             </table>
-            <button type="button" @click="groupUpdate()" :disabled="availableGroupsTeam.length>0" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+            <button type="button" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
           </form>  
   				</div>
   			</div>
@@ -218,7 +219,7 @@
       },
        getTeams() {
         Tournament.getTeams(this.tournament_id).then(
-          (response) => {           
+          (response) => { 
             this.teams = response.data.data        
           },
         (error) => {
@@ -300,6 +301,7 @@
             });
             this.availableGroupsTeam = availGroupTeam 
             this.teamSize = jsonObj.tournament_teams 
+
           }, 
           (error)=> {
             alert('error in getting json data')

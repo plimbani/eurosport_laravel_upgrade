@@ -305,12 +305,21 @@ import _ from 'lodash'
                         // this1.availableDate.splice(index, 1);
                         $('.datestage'+i).datepicker('setDate', pitchAvailable.stage_start_date)
                         $('#stage_capacity'+i).val(pitchAvailable.stage_capacity)
-                        $('#stage_capacity_span'+i).text(pitchAvailable.stage_capacity+ ' hrs')
-                        // var pitchCapacity = pitchAvailable.stage_capacity
-                        var pitchCapacity = '7.3'
+                        $('#stage_capacity_min'+i).val(pitchAvailable.stage_capacity)
+                        // $('#stage_capacity_span'+i).text(pitchAvailable.stage_capacity+ ' hrs')
+                        var pitchCapacity = pitchAvailable.stage_capacity
+                        // var pitchCapacity = '7.3'
+                        pitchCapacity = pitchCapacity.toString()
                         var pitchTimeArr = pitchCapacity.split('.');
-                        var pitchTime = parseInt(pitchTimeArr[0]*60)+parseInt(pitchTimeArr[1])
-                        $('#stage_capacity_min'+i).val(pitchTime)
+                        // console.log(pitchTimeArr)
+                         var minutes = pitchCapacity % 60;
+                        var hours = (pitchCapacity - minutes) / 60;
+                        var time_val = hours+ '.' +minutes
+
+                        // var pitchTime = parseInt(pitchTimeArr[0]*60)+parseInt(pitchTimeArr[1])
+                        $('#stage_capacity_span'+i).text(time_val+ ' hrs')
+
+                        // $('#stage_capacity_min'+i).val(pitchTime)
 
                         this1.removeStage.splice(this1.removeStage.indexOf(i), 1);
                         
@@ -357,7 +366,6 @@ import _ from 'lodash'
                  let updatedTime =  curTime.split(':')
                 if(curTime.indexOf('pm') >= 0 && (updatedTime[0]!= '12')) {
                     updatedTime
-                   console.log(updatedTime[1])
                     let hrs = parseInt(updatedTime[0])+12
                     let min = updatedTime[1].split(' ')[0] == '30' ? '30' : '00'
                      newTime = hrs+':'+min
@@ -368,8 +376,7 @@ import _ from 'lodash'
                     newTime = hrs+':'+min+':00'
                 }
                 if(curId.indexOf('stage_start_time') >= 0){
-                    console.log('stage_start_time',newTime)
-
+                    
                     $('#stage_break_start'+stage).timepicker({
                         minTime:  newTime,
                         maxTime: '18:00:00'
@@ -383,8 +390,7 @@ import _ from 'lodash'
                     $('#stage_end_time'+stage).val('')  
                 }
                 if(curId.indexOf('stage_break_start') >= 0){
-                    console.log('stage_break_start',newTime)
-
+                    
                    $('#stage_continue_time'+stage).timepicker({
                         minTime: newTime,
                         maxTime: '18:00:00'
@@ -395,8 +401,7 @@ import _ from 'lodash'
                     
                 }
                 if(curId.indexOf('stage_continue_time') >= 0 ){
-                    console.log('stage_continue_time',newTime)
-
+                    
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
                         maxTime: '18:00:00'
@@ -462,8 +467,18 @@ import _ from 'lodash'
                     
                 });
             },2000)
-           
-            
+            let this5 = this
+            $("#editPitch").on('hidden.bs.modal', function () {
+                 this5.$store.dispatch('SetPitchId',0);  
+            });
+            // $("#addPitchModal").on('hidden.bs.modal', function () {
+            //     console.log('msg')
+            //     $('#frmPitchDetail')[0].reset()
+            //     $('#frmPitchAvailable')[0].reset()
+            //     this.getAllPitches()
+
+            // });
+             
              // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
              // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
 
@@ -484,16 +499,17 @@ import _ from 'lodash'
                     var time = 0
                     $( ".stage_capacity_all" ).each(function( index ) {
                       time = time + parseInt($(this).val())
+                      
                     });
                     if(time < 0) {
                         time = 0
                     }
-                    var minutes = time % 60;
-                    var hours = (time - minutes) / 60;
-                    var time_val = hours+ '.' +minutes
+                    // var minutes = time % 60;
+                    // var hours = (time - minutes) / 60;
+                    // var time_val = hours+ '.' +minutes
                     
-                    $("#frmPitchAvailable").serialize()
-                    let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time_val
+                    // $("#frmPitchAvailable").serialize()
+                    let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time
                     return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
                         toastr['success']('Pitch detail has been updated successfully', 'Success');
                         $('#editPitch').modal('hide')

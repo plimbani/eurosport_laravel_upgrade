@@ -54,16 +54,16 @@ class TeamController extends BaseController
     {
 
         $file = $request->file('fileUpload');
-        // dd($file);
         $this->data['teamSize'] =  $request['teamSize'];
         $this->data['tournamentId'] = $request['tournamentId'];
         $this->data['ageCategory'] = $request['ageCategory'];
 
         // $this->teamObj->deleteFromTournament($request->tournamentId);
+        // dd($this->data['tournamentId']);
         $this->teamObj->deleteFromTournament($this->data['tournamentId'] );
         \Excel::load($file->getRealPath(), function($reader) {
-
-              $this->data['totalSize']  = $reader->getTotalRowsOfFile();  
+            // dd($reader->getTotalRowsOfFile() - 1);
+              $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;  
             
             $reader->limit($this->data['teamSize']);
             $reader->each(function($sheet) {
