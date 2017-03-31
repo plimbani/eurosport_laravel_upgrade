@@ -73,7 +73,7 @@
         },
         mounted() {
         let this1 = this
-        setInterval(function(){this1.tick() },1000)
+        setInterval(function(){this1.clock() },1000)
             
         },
         methods : {
@@ -88,8 +88,7 @@
             home() {
                 this.$router.push({'name':'welcome'})
             },
-            tick(){
-            console.log('hi');
+            clock(){     
             var m_names = new Array("Jan", "Feb", "Mar", 
             "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
             "Oct", "Nov", "Dec");
