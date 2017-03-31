@@ -3,28 +3,6 @@
 <component :is="currentScheduleView" :matchData="matchData" 
    :otherData="otherData"></component>
 </div>
-
-<!--<div class="col-md-6 row mt-4">
-
-<table class="table draw_table">
-	<thead>
-        <tr>
-            <th>{{$lang.summary_schedule_draw}}</th>
-            <th>{{$lang.summary_schedule_type}}</th>
-            <th>{{$lang.summary_schedule_team}}</th>
-        </tr>
-    </thead>
-    <tbody>
-    	<tr v-for="drawData in drawsData">
-    		<td> 
-    			<a @click.prevent="drawDetails(drawData)" href="" class="pull-left text-left"> {{ drawData.name }} </a>
-    		</td>
-    		<td>{{ drawData.competation_type }}</td>
-    		<td>{{ drawData.team_size }}</td>
-    	</tr>
-    </tbody>
-</table>
-</div>-->
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
@@ -95,7 +73,8 @@ export default {
 			'competitionId':drawId}
 			
 			this.otherData.DrawName = drawName
-			
+			this.otherData.DrawId = drawId
+
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
