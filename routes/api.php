@@ -38,6 +38,10 @@ $api->version('v1', function ($api) {
     $api->post('team/delete/{deleteid}', 'Laraspace\Api\Controllers\TeamController@deleteTeam');
     $api->post('team/group/assign', 'Laraspace\Api\Controllers\TeamController@assignTeam');
 
+    // Method for get All TournamentTeams
+    $api->post('teams/teamsTournament', 
+        'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
+
     //Referee api
     $api->get('referees/{tournamentId}', 'Laraspace\Api\Controllers\RefereeController@getReferees');
     $api->post('referee/create', 'Laraspace\Api\Controllers\RefereeController@createReferee');

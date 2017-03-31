@@ -13,7 +13,7 @@
 			<td class="text-center">
 				<a href="" class="pull-left text-left" 
 				@click.prevent="changeGroup(team)">
-				{{team.age_name}}-{{team.competationName}}</a>
+				{{team.competationName}}</a>
 			</td>
 		</tr>
 	</tbody>

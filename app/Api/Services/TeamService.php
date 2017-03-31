@@ -30,6 +30,21 @@ class TeamService implements TeamContract
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
+    public function getAllTournamentTeams($data)
+    {
+
+      // Here we send Status Code and Messages
+        $data = $data->all();
+        
+        $data = $this->teamRepoObj->getAllTournamentTeams($data['tournamentData']['tournamentId']);
+        // dd($data);
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
+        }
+
+        return ['status_code' => '505', 'message' => 'Error in Data'];  
+    }
+
     /**
      * create New Team.
      *

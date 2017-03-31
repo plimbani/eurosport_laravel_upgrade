@@ -131,14 +131,14 @@ class MatchService implements MatchContract
      */
     public function getDrawTable($data)
     {
-        $data = $data->all();
-        $data['tournamentData']['tournamentId'] ='2';
-        $data['tournamentData']['competitionId'] ='5';
+       $data = $data->all();
         
        $drawTableResData = $this->matchRepoObj->getDrawTable($data['tournamentData']);
 
-        if ($drawTableResData) {
+        if (is_array($drawTableResData)) {
             return ['status_code' => '200', 'data' => $drawTableResData,'message' => 'Match Draw data'];
+        } else {
+            return ['status_code' => '300', 'message' => $drawTableResData];
         }
     }
     
