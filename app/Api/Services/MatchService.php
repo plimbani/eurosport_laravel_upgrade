@@ -121,6 +121,26 @@ class MatchService implements MatchContract
             return ['status_code' => '200', 'data' => $standingResData,'message' => 'Match Standing data'];
         }
     }
+    /**
+     * Get Draw Table  Details For Tournament.
+     *
+     * @param array $data
+     * @param mixed $deleteId
+     *
+     * @return [type]
+     */
+    public function getDrawTable($data)
+    {
+        $data = $data->all();
+        $data['tournamentData']['tournamentId'] ='2';
+        $data['tournamentData']['competitionId'] ='5';
+        
+       $drawTableResData = $this->matchRepoObj->getDrawTable($data['tournamentData']);
+
+        if ($drawTableResData) {
+            return ['status_code' => '200', 'data' => $drawTableResData,'message' => 'Match Draw data'];
+        }
+    }
     
     
 }

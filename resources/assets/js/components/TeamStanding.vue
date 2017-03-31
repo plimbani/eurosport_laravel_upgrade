@@ -16,8 +16,8 @@
 	<tbody>
 		<tr v-for="stand in standingData">
 		<td></td>
-			<td class="text-center">
-				<a href="" @click.prevent="teamDetails('')">
+			<td align="left">
+				<a href="" @click.prevent="changeTeam(stand.team_id, stand.name)">
 					 <img :src="stand.teamFlag" width="20"> 
 					<span>
 					{{stand.name}}
@@ -71,7 +71,13 @@ export default {
 			) 	
 			}
 			
-		}
+		},
+		changeTeam(Id, Name) {
+			// here we dispatch Method
+			
+			this.$store.dispatch('setCurrentScheduleView','teamDetails')
+			this.$root.$emit('changeComp', Id, Name);
+		},
 	}
 	
 }

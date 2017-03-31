@@ -8,7 +8,8 @@
   },
   "devDependencies": {
     "laravel-mix": "0.6.3",
-    "vue-axios": "^2.0.0"
+    "vue-axios": "^2.0.0",
+    "webpack": "2.2.0"
   },
   "dependencies": {
     "axios": "^0.15.3",
