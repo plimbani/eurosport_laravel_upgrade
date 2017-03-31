@@ -39,7 +39,7 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-5 form-control-label">Location *</label>
                                                     <div class="col-sm-6">
-                                                    <select name="location" id="location" class="form-control ls-select2">
+                                                    <select name="location" id="location" class="form-control"  v-model = "pitchData.pitchdetail.venue_id" >
                                                         <option :value="venue.id"  v-model = "pitchData.pitchdetail.venue_id"   v-for="(venue,key) in venues">{{venue.name}}</option>
                                                         
                                                     </select>
@@ -291,11 +291,13 @@ import _ from 'lodash'
             for(let i=1;i<=this1.tournamentDays;i++){
                 capacity['day'+i]= '0.00'
                 $('.datestage'+i).datepicker('setDate', startDate)
+                
                  this1.availableDate.push($('.datestage'+i).val())
                  this1.removeStage.push(i)
-                 
                     _.find(this1.pitchData.pitchAvailable, function (pitchAvailable) {
+                       
                     if(pitchAvailable.stage_no == i){
+                        
                         $('#stage_start_time'+pitchAvailable.stage_no).val(pitchAvailable.stage_start_time)
                         $('#stage_break_start'+pitchAvailable.stage_no).val(pitchAvailable.break_start_time)
                         $('#stage_continue_time'+pitchAvailable.stage_no).val(pitchAvailable.break_end_time)
@@ -324,11 +326,11 @@ import _ from 'lodash'
                         this1.removeStage.splice(this1.removeStage.indexOf(i), 1);
                         
                     }
-                
-                startDate.setDate(new Date(this1.tournamentStartDate).getDate() + i)
-                obj['date'+i] = $('.datestage'+i).val();
+                 obj['date'+i] = $('.datestage'+i).val();
                 capacity['day'+i]= pitchAvailable.stage_start_date
                 });
+                startDate.setDate(new Date(this1.tournamentStartDate).getDate() + i)
+
             }
             this1.availableDate = _.difference(this1.availableDate, this1.disableDate);
             // console.log(avail_date,this1.availableDate,this1.disableDate,'jj')
@@ -466,7 +468,7 @@ import _ from 'lodash'
                     }
                     
                 });
-            },2000)
+            },1500)
             let this5 = this
             $("#editPitch").on('hidden.bs.modal', function () {
                  this5.$store.dispatch('SetPitchId',0);  
@@ -597,7 +599,7 @@ import _ from 'lodash'
                         $('.datestage'+stage).datepicker('setEndDate', tEndDate)
                         $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
                          $('.datestage'+stage).datepicker('setDate', availDate)
-                        // ('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                        $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
                             
                         
                         
