@@ -1,29 +1,34 @@
 <template>
 <div>
 <h3>{{otherData.DrawName}} </h3>
-<table class="table draw_table" border=1>
+<table class="table draw_table" border="1">
 	<thead>
         <tr>
             <th></th>
             <th></th>
-            <th v-for="n in teamSize">{{n}}</th>
+            <th v-for="(match,index) in match1Data">{{index+1}}</th>
         </tr>
     </thead>
     <tbody>
-    	<tr v-for="(match,index) in teamSize">
+    
+    	<tr v-for="(match,index) in match1Data">
+      
     		<td>{{index+1}}</td>
     		<td> 
-    			<a @click="teamDetails('')" href=""> 
-    			  <img src="/assets/img/flag.png" width="20"> &nbsp;
-    			  <span>SV Heimstetten U12 </span>
+    			<a> 
+    			  <img :src="match.TeamFlag" width="20"> &nbsp;
+    			    <span>{{match.TeamName}}</span>
     			</a>
     		</td>
+        
 
-    		<td v-for="match in matchData">
-              <span v-if="">3-0 won</span>
-            </td>    	
-    	</tr>
-
+          <td v-for="(teamMatch, ind2) in match.matches">
+            {{teamMatch.score}} 
+            <div v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
+          </td>
+        
+      </tr>
+  
     	<!--<tr>
     		<td>2</td>
     		<td> 
@@ -51,21 +56,45 @@ import MatchListing from './MatchListing.vue'
 import MatchList from './MatchList.vue'
 import LocationList from'./LocationList.vue'
 import TeamStanding from './TeamStanding.vue'
+import Tournament from '../api/tournament.js'
+
 export default {
 	props: ['matchData','otherData'],
     data() {
         return {
             teamData: [],
             standingData:[],
-            currentCompetationId: 0
+            currentCompetationId: 0,
+            match1Data:[],error:false,errorMsg:''
         }
     },
 	mounted() {
 		// here we call function to get all the Draws Listing
 		//this.getAllDraws()
+    
         this.setTeamData()        
         // here we get the competation id         
 	},
+  filters: {
+    getStatus: function(teamName) {
+      // Now here we change it accoring to
+      if(typeof teamName == 'string' && teamName != '')
+      {  
+        let strArr = teamName.split("-")
+        if(strArr[0] < strArr[1])  {
+           return "Lost"
+        } else if(strArr[0] == strArr[1]){
+           return "Tie"
+        } else {
+           return "Won"
+        }
+
+      } else {
+        return ''
+      }
+      //return 'hello12'+teamName
+    }
+  },
     computed: {
         teamSize() {
             if(this.matchData[0].team_size !== 'undefined')  {
@@ -86,12 +115,41 @@ export default {
             if(Object.keys(this.matchData).length !== 0) {
 
                let TeamData = []
-
+               let ResultData = []
+             
                let size = this.matchData[0].team_size
-               let competationId = this.matchData[0].competitionId
-               this.currentCompetationId = competationId
+               let competationId = this.matchData[0].id
+
+               //let currentCompetationId = this.otherData.DrawId
+               this.currentCompetationId = this.otherData.DrawId
+               let tournamentId = this.$store.state.Tournament.tournamentId
+               // Here call Function for getting result
                
-               for(let i=0;i<size;i++){
+               let tournamentData = {'tournamentId':tournamentId,
+               'competationId':this.currentCompetationId}
+             
+               Tournament.getDrawTable(tournamentData).then(
+                (response)=> {
+                  if(response.data.status_code == 200){
+                    this.match1Data = response.data.data
+                  }
+
+                  if(response.data.status_code == 300){
+                    this.errorMsg = response.data.message
+                    this.error=true
+                  } 
+                  
+                },
+                (error)=> {
+                  alert('caller')
+                }
+
+               )
+
+               //{
+                //console.log(data)
+               //});
+               /* for(let i=0;i<size;i++){
                   // Now here we have to Move to match By match
                   let TeamId = this.matchData[i].Home_id
 
@@ -101,7 +159,8 @@ export default {
                   
 
                   TeamData.push({'id':TeamId,'Name':TeamName,'Score':TeamScore})
-               }
+               }*/
+
 
                // Now here we fetch values from compeationId
                

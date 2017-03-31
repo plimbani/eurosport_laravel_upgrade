@@ -39,6 +39,11 @@ class TeamController extends BaseController
         return $this->teamObj->getTeams($tournamentId,$ageGroup);
     }
 
+    public function getAllTournamentTeams(Request $request)
+    {
+      return $this->teamObj->getAllTournamentTeams($request);
+    }
+
     /**
      * Create  Torunament.
      *

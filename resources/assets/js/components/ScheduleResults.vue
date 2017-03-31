@@ -6,12 +6,12 @@
 			<div class="col-md-8">
 				<ul class="schedule_list">
 					<li class="active">
-					<a  @click="currentView='drawsListing'">{{$lang.summary_schedule_draws}}</a></li>
+					<a  @click="setCurrentView('drawsListing')">{{$lang.summary_schedule_draws}}</a></li>
 					<li>
-					<a @click="currentView='matchListing'">{{$lang.summary_schedule_matches}}</a>
+					<a @click="setCurrentView('matchListing')">{{$lang.summary_schedule_matches}}</a>
 					</li>
 					<li>
-					<a @click="currentView='teamListing'">{{$lang.summary_schedule_teams}}</a>
+					<a @click="setCurrentView('teamListing')">{{$lang.summary_schedule_teams}}</a>
 					</li>
 				</ul>
 			</div>
@@ -26,6 +26,7 @@
 import DrawsListing from './DrawsListing.vue'
 import MatchListing from './MatchListing.vue'
 import TeamListing from './TeamListing.vue'
+import DrawDetails from './DrawDetails.vue'
 
 export default {
 	data() {
@@ -34,16 +35,35 @@ export default {
 			currentView: 'drawsListing'
 		}
 	},
+	
 	components: {
-		DrawsListing, MatchListing, TeamListing
+		DrawsListing, MatchListing, TeamListing,DrawDetails
 	},
 	created: function() {
        this.$root.$on('changeComp1', this.setMatchData1); 
   	},
 	methods: {
-		setMatchData1() {
+		setMatchData1(data) {
+			
 			this.currentView = 'matchListing'
-			//this.$store.dispatch('setCurrentScheduleView','matchListing')
+			this.$store.dispatch('setCurrentScheduleView','drawDetails')
+		},
+		setCurrentView(currentView) {
+			// Before Select component we make it nul so it cant refer parent component
+			let currentScheduleView = this.$store.state.currentScheduleView
+			
+			if(currentScheduleView == 'locationList') {
+				
+				this.currentView = 'matchListing'
+				this.$store.dispatch('setCurrentScheduleView','matchList')	
+			} else  {
+				
+			  this.$store.dispatch('setCurrentScheduleView','')	
+			  this.currentView = currentView
+			}
+			
+			
+			// Here we again 			
 		}
 	}
 }

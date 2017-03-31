@@ -82,5 +82,8 @@ class MatchController extends Controller
     public function getStanding(Request $request){
         return $this->matchObj->getStanding($request);
     }
+    public function getDrawTable(Request $request) {
+        return $this->matchObj->getDrawTable($request);
+    }
        
 }

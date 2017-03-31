@@ -63,6 +63,12 @@ export default {
  },
  getStanding(tournamentData) {
   return api.post('match/getStanding',{'tournamentData': tournamentData})
- }
+ },
+ getDrawTable(tournamentData) {
+  return api.post('match/getDrawTable',{'tournamentData': tournamentData})
+ },
+  getTournamentTeams(tournamentData) {
+    return api.post('teams/teamsTournament',{'tournamentData': tournamentData})
+  },
 
 }

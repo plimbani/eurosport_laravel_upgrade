@@ -58,6 +58,8 @@ export default {
         let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Summary'}
           this.$store.dispatch('setActiveTab', currentNavigationData)
       }
+      // Here we set currenct Schedule view null
+      this.$store.dispatch('setCurrentScheduleView','') 
     }  
 }
 </script>

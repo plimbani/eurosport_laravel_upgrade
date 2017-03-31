@@ -16,7 +16,7 @@
             	<AddAgeCateogryModel></AddAgeCateogryModel>
             </div>
 		</div>	
-        <div class="row">
+        <!--<div class="row">
             <div class="col-md-12">
                 <div class="pull-left">
                     <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>{{$lang.competation_button_back}}</button>
@@ -25,7 +25,7 @@
                   <button class="btn btn-primary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>{{$lang.competation_button_next}}</button>
                 </div>
             </div>
-        </div>
+        </div>-->
 	</div>
 </template>
 

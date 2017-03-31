@@ -4,7 +4,7 @@
 	<thead>
 		<th>Time</th>
 		<th>Draw</th>
-		<th align="right">Home</th>
+		<th class="text-right">Home</th>
 		<th>Score</th>
 		<th>Away</th>
 		<th v-if="isHideLocation !=  false">Location</th>

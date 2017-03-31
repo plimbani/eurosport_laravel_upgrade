@@ -11,7 +11,7 @@
     <tbody>
     	<tr v-for="drawData in matchData">
     		<td> 
-    			<a @click="drawDetails(drawData)"> {{ drawData.name }} </a>
+    			<a @click.prevent="changeGroup(drawData)" href=""> {{ drawData.name }} </a>
     		</td>
     		<td>{{ drawData.competation_type }}</td>
     		<td>{{ drawData.team_size }}</td>
@@ -36,13 +36,15 @@ export default {
 		changeTeam(Id, Name) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
-			this.$root.$emit('changeComp',Id,Name);
+			this.$root.$emit('changeDrawListComp',Id,Name);
 			//this.$emit('changeComp', Id);
 		},
-		changeGroup(Id) {
+		changeGroup(data) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
-			this.$root.$emit('changeComp',Id);
+			let Id = data.id
+			let Name = data.name
+			this.$root.$emit('changeDrawListComp',Id, Name);
 			//this.$emit('changeComp',Id);
 		},
 				
