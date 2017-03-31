@@ -551,7 +551,7 @@
                         $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
                          $('.datestage'+stage).datepicker('setDate', availDate)
                          // console.log(that.disableDate)
-                         // ('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                         $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
                         // 
                         // $('.ls-timepicker').timepicker({ 'setTime': 300})
                         

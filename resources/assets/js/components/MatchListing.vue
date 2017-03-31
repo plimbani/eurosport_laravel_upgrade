@@ -13,8 +13,8 @@ import TeamList from './TeamList.vue'
 import MatchList from './MatchList.vue'
 import DrawDetails from './DrawDetails.vue'
 import DrawsListing from './DrawsListing.vue'
-import DrawList from './DrawList.vue'
 import LocationList from'./LocationList.vue'
+import DrawList from './DrawList.vue'
 
 export default {
 	data() {
@@ -38,8 +38,8 @@ export default {
 		}
 	},
 	components: {
-		MatchList,TeamDetails,LocationList,DrawList,DrawsListing,
-		DrawDetails,TeamList
+		MatchList,TeamDetails,LocationList,DrawsListing,
+		DrawDetails,TeamList,DrawList
 	},
 	methods: {
 		setMatchData(id, Name='') {
