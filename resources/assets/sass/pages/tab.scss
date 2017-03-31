@@ -11,7 +11,22 @@ button, input, optgroup, select, textarea {
 .clearfix {
 	clear: both;
 }
-
+.grey_bg {
+	background-color: $ls-color-gray--dark;
+	padding: 5px;
+}
+.dark_grey_bg {
+	background-color: $ls-color-gray--very-dark;
+	padding: 5px;
+}
+.green_bg {
+	background-color: $ls-color-green--light;
+	padding: 5px;
+}
+.yellow_bg {
+	background-color: $ls-color-yellow--light;
+	padding: 5px;
+}
 
 /****************************
 	tournament_add
@@ -301,4 +316,86 @@ button, input, optgroup, select, textarea {
 }
 .match_overview tr td a{
 	color: $ls-color-blue;
+}
+
+/****************************
+	Pitch Planner
+****************************/
+
+.pitch_planner_div {
+	width: 100%;
+	height: 500px;
+	overflow: auto;
+}
+.pitch_planner_table tr th,
+.pitch_planner_table tr td {
+	border-right: 2px dotted #000;
+}
+
+.pitch_planner_table tr td {
+	width: 148px;
+}
+.pitch_planner_table tr td div span {
+	display: block;
+	font-size: 13px;
+}
+.pitch_planner_table tr td div label:first-child {
+	background-color: $ls-color-gray--very-dark;
+	padding: 0px 5px;
+}
+.pitch_planner_table tr td div label {
+	margin-bottom: 0;
+}
+.pitch_planner_table tr td div label i {
+	color: $ls-color-red;
+}
+.planner_list {
+	width: 100%;
+	height: 500px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+.tabs-primary.planner_list .nav-tabs {
+	border-bottom: 0;
+}
+.planner_list .nav-tabs {
+	width: 90%;
+    margin: 0 auto;
+    background-color: $ls-color-gray--very-dark;
+}
+.planner_list .nav-tabs li{
+	width: 50%;
+	padding: 0 10px;
+}
+.planner_list .nav-tabs li.active {
+	background-color: $ls-color-gray--dark;
+}
+.planner_list_content div {
+	font-size: 13px;
+}
+.planner_list_content div span {
+	display: block;
+}
+.planner_list_content {
+	width: 90%;
+	margin: 0 auto;
+}
+.raferee_details {
+	width: 100%;
+	background-color: #fff;
+	padding: 10px;
+	border:1px solid #b9b9b9;
+	margin-bottom: 10px;
+}
+.raferee_details img {
+	float: left;
+}
+.raferee_details p {
+	font-size: 15px;
+	margin: 9px 0;
+    text-align: center;
+}
+#refreesModal form label,
+#refreesModal form input{
+	font-size: 15px;
 }
