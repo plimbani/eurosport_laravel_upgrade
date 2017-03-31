@@ -7,7 +7,6 @@ import Pitch from '../../api/pitch'
 const state = {
   pitches: [],
   pitchCapacity: '',
-  pitchId: '',
   pitchData: ''
  }
 // getters
@@ -42,22 +41,24 @@ const actions = {
   AddPitch ({commit},pitchData) { 
     Pitch.addPitch(pitchData).then (
       (response) => {
-        commit(types.SET_PITCH_ID, response.data.pitchId)
+        // console.log(response.data.pitchId,'hh')
+        // commit(types.SET_PITCH_ID, response.data.pitchId)
       },
       (error) => {
         console.log('Error occured during Add new pitch', error)
       }
-    )````
+    )
   },
   PitchData ({commit},pitchId) {
     Pitch.getPitchData(pitchId).then (
       (response) => {
-        commit(types.SET_PITCH_DATA, response)
+        commit(types.SET_PITCH_DATA, response.data.data)
         setTimeout( function(){
-          commit(types.SET_PITCH_ID, response.data.data.pitchdetail.id)
+
+          // commit(types.SET_PITCH_ID, response.data.data.pitchdetail.id)
         
           $('#editPitch').modal('show')
-        },1000)
+        },500)
         
       },
       (error) => {
@@ -66,8 +67,10 @@ const actions = {
     )    
   }, 
 
-  
-
+SetPitchId ({commit},pitchId) { 
+    commit(types.SET_PITCH_ID, pitchId)
+  },
+ 
 }
 
 // mutations
@@ -82,16 +85,18 @@ const mutations = {
   },
   [types.SET_PITCH_DATA] (state, response) {        
     //alert(JSON.stringify(currentTournamentName))
-    state.pitchData = response.data.data
+    state.pitchData = response
   }, 
   [types.SET_PITCH_CAPACITY] (state, pitches) {        
     // alert('hello in mutation')
       let pitchCapacity = []
         var pitchTime = 0
         $.each(pitches,function( i,pitch){
-            var pitchCapacity = pitch.pitch_capacity
-            var pitchTimeArr = pitchCapacity.split('.');
-            pitchTime = parseInt(pitchTime + parseInt(pitchTimeArr[0]*60)+parseInt(pitchTimeArr[1]))
+          // console.log(pitchTime,pitch.pitch_capacity)
+            // var pitchCapacity = pitch.pitch_capacity
+            // var pitchTimeArr = pitchCapacity.split('.');
+            // pitchTime = parseInt(pitchTime + parseInt(pitchTimeArr[0]*60)+parseInt(pitchTimeArr[1]))
+            pitchTime = parseInt(pitchTime + parseInt(pitch.pitch_capacity))
             
           
         });

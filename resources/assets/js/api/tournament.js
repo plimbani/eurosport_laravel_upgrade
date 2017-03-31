@@ -54,8 +54,11 @@ export default {
  },
 
  getAllReportsData(data) {
-     return api.post('tournament/report/generate',{ data})
-     console.log('msg')
+   // let updatedata = JSON.stringify(data)
+     return api.get('tournament/report/generate?'+ data)
+ },
+ saveReferee(data) {
+     return api.post('referee/create',{ data})
  },
  getStanding(tournamentData) {
   return api.post('match/getStanding',{'tournamentData': tournamentData})

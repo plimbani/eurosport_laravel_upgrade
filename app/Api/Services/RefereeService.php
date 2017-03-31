@@ -29,7 +29,7 @@ class RefereeService implements RefereeContract
      */
     public function createReferee($data)
     {
-        $data = $data->all();
+        $data = $data->all()['data'];
         $data = $this->refereeRepoObj->createReferee($data);
         if ($data) {
             return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
@@ -64,7 +64,6 @@ class RefereeService implements RefereeContract
      public function deleteReferee($deleteId)
      {
         $referee = $this->refereeRepoObj->getRefereeFromId($deleteId);
-        dd($referee);
         $refereeRes = $referee->delete();
         if ($refereeRes) {
             return ['code' => '200', 'message' => 'Referee Sucessfully Deleted'];

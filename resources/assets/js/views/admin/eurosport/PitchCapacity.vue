@@ -55,7 +55,9 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 'disableDate': [],
                 'stage_capacity' : [],
                 'availableDate': [],
-                'pitchId': _.cloneDeep(this.$store.getters.curPitchId)
+                // 'pitchId': _.cloneDeep(this.$store.getters.curPitchId)
+                // 'pitchId': _.cloneDeep(this.$store.getters.curPitchId)
+
                 }
         },
         components: {
@@ -64,6 +66,9 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
         computed: {
             tournamentTime: function() {
                 return this.$store.state.Tournament.currentTotalTime
+            },
+            pitchId: function(){
+                return _.cloneDeep(this.$store.getters.curPitchId)
             },
             pitches: function() {
                 return this.$store.state.Pitch.pitches
@@ -156,7 +161,7 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 var stage = this.id
                stage = stage.replace("stage_start_date", "");
                if (stage.search('stage_end_date') != -1 || stage.search('stage_continue_date') != -1 ) {
-                return false
+               return false
                }
                if($.inArray( parseInt(stage), that.removeStage ) !== -1  ){
                     return false
@@ -175,69 +180,74 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 $('.datestage'+stage).val($('#'+this.id).val())
                 }
             });
-             // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
-             // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
-             this.getAllPitches()
+            // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
+            // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
+            let this3 = this 
+            $("#addPitchModal").on('hidden.bs.modal', function () {
+                $('#frmPitchDetail')[0].reset()
+                $('#frmPitchAvailable')[0].reset()
+                this3.getAllPitches()
+            });
+            
         },
         methods: {
             getAllPitches() {
-
                 this.$store.dispatch('SetPitches',this.tournamentId);
                 this.$store.dispatch('SetVenues',this.tournamentId);
             },
-            savePitchDetails () {
-                this.$validator.validateAll().then(() => {
-                    var time = 0
-                    $( ".stage_capacity_all" ).each(function( index ) {
-                      time = time + parseInt($(this).val())
-                    });
-                     var minutes = time % 60;
-                    var hours = (time - minutes) / 60;
-                    var time_val = hours+ '.' +minutes
-                    let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time_val
-                        if(this.pitchId == '') {
-                            // this.$store.dispatch('AddPitch',pitchData)
-                            return axios.post('/api/pitch/create',pitchData).then(response =>  {
-                                this.pitchId = response.data.pitchId
-                                toastr['success']('Pitch detail has been added successfully', 'Success');
-                            }).catch(error => {
-                                if (error.response.status == 401) {
-                                    toastr['error']('Invalid Credentials', 'Error');
-                                } else {
-                                    //   happened in setting up the request that triggered an Error
-                                    console.log('Error', error.message);
-                                }
-                            });
-                        }else{
-                           // pitchData += '&id='+this.pitchId;
-                           return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
-                                this.pitchId = response.data.pitchId
-                                toastr['success']('Pitch detail has been added successfully', 'Success');
-                                $('#exampleModal').modal('close')
-                            }).catch(error => {
-                                if (error.response.status == 401) {
-                                    toastr['error']('Invalid Credentials', 'Error');
-                                } else {
-                                    //   happened in setting up the request that triggered an Error
-                                    console.log('Error', error.message);
-                                }
-                            });
-                        }
-                }).catch(() => {
-                    // toastr['error']('Invalid Credentials', 'Error')
-                 });
-                // let pitchData = {
-                //     'pitchId' : this.pitchId,
-                //     'number': '123',
-                //     'type' : 'Grass',
-                //     'location' : '1',
-                //     'Size' : '5-a-side'
-                //     }
-                     // let pitchData = new FormData($("#frmPitchDetail")[0]$("#frmPitchAvailable")[0]);
-            },
+            // savePitchDetails () {
+            //     this.$validator.validateAll().then(() => {
+            //         var time = 0
+            //         $( ".stage_capacity_all" ).each(function( index ) {
+            //           time = time + parseInt($(this).val())
+            //         });
+            //          var minutes = time % 60;
+            //         var hours = (time - minutes) / 60;
+            //         var time_val = hours+ '.' +minutes
+            //         let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time_val
+            //             if(this.pitchId == '') {
+            //                 // this.$store.dispatch('AddPitch',pitchData)
+            //                 return axios.post('/api/pitch/create',pitchData).then(response =>  {
+            //                     this.pitchId = response.data.pitchId
+            //                     toastr['success']('Pitch detail has been added successfully', 'Success');
+            //                     this.getAllPitches()
+            //                 }).catch(error => {
+            //                     if (error.response.status == 401) {
+            //                         toastr['error']('Invalid Credentials', 'Error');
+            //                     } else {
+            //                         //   happened in setting up the request that triggered an Error
+            //                         console.log('Error', error.message);
+            //                     }
+            //                 });
+            //             }else{
+            //                // pitchData += '&id='+this.pitchId;
+            //                return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
+            //                     this.pitchId = response.data.pitchId
+            //                     toastr['success']('Pitch detail has been added successfully', 'Success');
+            //                     $('#exampleModal').modal('close')
+            //                 }).catch(error => {
+            //                     if (error.response.status == 401) {
+            //                         toastr['error']('Invalid Credentials', 'Error');
+            //                     } else {
+            //                         //   happened in setting up the request that triggered an Error
+            //                         console.log('Error', error.message);
+            //                     }
+            //                 });
+            //             }
+            //     }).catch(() => {
+            //         // toastr['error']('Invalid Credentials', 'Error')
+            //      });
+            //     // let pitchData = {
+            //     //     'pitchId' : this.pitchId,
+            //     //     'number': '123',
+            //     //     'type' : 'Grass',
+            //     //     'location' : '1',
+            //     //     'Size' : '5-a-side'
+            //     //     }
+            //          // let pitchData = new FormData($("#frmPitchDetail")[0]$("#frmPitchAvailable")[0]);
+            // },
             stageRemove (day) {
                 this.removeStage.push(day)
-                // this.disableDate;
                 var index = this.disableDate.indexOf($('#stage_start_date'+day).val());
                 if (index > -1) {
                     this.disableDate.splice(index, 1);
@@ -245,8 +255,6 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                     $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
                     $('.datestage'+day).datepicker('clearDates')
                 }
-                // this.stageShowday = false
-                // console.log(this.stageShow+day)
             },
             displayDay (day) {
                 if($.inArray( day,this.removeStage) != -1 ) {
@@ -309,18 +317,23 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
             },
 
             addPitch() {
-                this.pitchId = ''
+                this.$store.dispatch('SetPitchId',0);
                 setTimeout(function(){
-                    console.log('msg')
                     $('#addPitchModal').modal('show')
-                },1000)
+                },500)
             },
             editPitch(pitchId) {
-                this.pitchId = pitchId
-                this.$store.dispatch('PitchData',pitchId)
+                this.$store.dispatch('SetPitchId',pitchId);
+                // this.pitchId = pitchId
+                let this1 = this
+                setTimeout(function(){
+                    this1.$store.dispatch('PitchData',pitchId)
+                },500)
+                
             },
             removePitch(pitchId) {
                 // this.$store.dispatch('removePitch',pitchId)
+                toastr['warning']('All schedules with this pitch will be removerd', 'Warning');
                 return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
                     this.getAllPitches()
                     toastr['success']('Pitch Successfully removed', 'Success');

@@ -36,10 +36,10 @@ class PitchAvailableRepository
                     'stage_start_time' => $pitchData['stage_start_time'.$i],
                     'break_start_time' => $pitchData['stage_break_start'.$i],
                     'stage_continue_date' => $pitchData['stage_start_date'.$i],
-                    'break_end_time' => $pitchData['stage_end_time'.$i],
+                    'break_end_time' => $pitchData['stage_continue_time'.$i],
                     'stage_end_date' => $pitchData['stage_start_date'.$i],
                     'stage_end_time' => $pitchData['stage_end_time'.$i],
-                    'stage_capacity' => $pitchData['stage_capacity'.$i]
+                    'stage_capacity' => $pitchData['stage_capacity_min'.$i]
                 ]);
             }
         }

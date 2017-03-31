@@ -18,7 +18,11 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login','AuthController@authenticate');
     Route::get('logout','AuthController@logout');
     Route::get('check','AuthController@check');
+    
+
 });
+
+
 
 $api = app('Dingo\Api\Routing\Router');
 
@@ -98,7 +102,7 @@ $api->version('v1', function ($api) {
     $api->get('roles', 'Laraspace\Api\Controllers\RoleController@getRoles');
     $api->get('roles-for-select', 'Laraspace\Api\Controllers\RoleController@getRolesForSelect');
 
-    $api->post('tournament/report/generate', 'Laraspace\Api\Controllers\TournamentController@generateReport');
+    $api->get('tournament/report/generate', 'Laraspace\Api\Controllers\TournamentController@generateReport');
 });
 
 

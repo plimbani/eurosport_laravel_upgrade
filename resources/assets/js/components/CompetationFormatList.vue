@@ -63,7 +63,6 @@ export default {
   	return {
      competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
      tournamentTemplateId: '', totalTime:'', 
-     vtournamentTemplateId: '', totalTime:'',
      deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: '',
      templateData:[]
     }
