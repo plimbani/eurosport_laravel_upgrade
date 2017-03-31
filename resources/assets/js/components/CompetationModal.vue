@@ -45,19 +45,19 @@
                     <div class="result col-md-12">
                         <div class="dashbox">
                             <p class="row">
-                                <label class="col-md-9"><strong>Teams</strong></label>
+                                <label class="col-md-9"><strong>{{$lang.competation_modal_format_team}}</strong></label>
                                 <label class="col-md-3">{{ templateData['tournament_teams'] }}</label>
                             </p>
                             <p class="row">
-                                <label class="col-md-9"><strong>Competition formats</strong></label>
+                                <label class="col-md-9"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
                                 <label class="col-md-3">{{ templateData['competation_format'] }}</label>
                             </p>
                             <p class="row">
-                                <label class="col-md-9"><strong>Minimum matches</strong></label>
+                                <label class="col-md-9"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
                                 <label class="col-md-3">{{ templateData['tournament_min_match'] }}</label>
                             </p>
                             <p class="row">
-                                <label class="col-md-9"><strong>Remarks</strong></label>
+                                <label class="col-md-9"><strong>{{$lang.competation_modal_format_remark}}</strong></label>
                                 <label class="col-md-3"></label>
                             </p>
                         </div>
@@ -67,19 +67,19 @@
                     <div class="result col-md-12">
                         <div class="dashbox">
                             <p class="row">
-                                <label class="col-md-9"><strong>Number of matches of day 1:</strong></label>
+                                <label class="col-md-9"><strong>{{$lang.competation_modal_matches_number_matches}}</strong></label>
                                 <label class="col-md-3"></label>
                             </p>
                             <p class="row">
-                                <label class="col-md-9"><strong>Number of matches of day 2:</strong></label>
+                                <label class="col-md-9"><strong>{{$lang.competation_modal_matches_number_matches_day}}</strong></label>
                                 <label class="col-md-3"></label>
                             </p>
                             <p class="row">
-                                <label class="col-md-9"><strong>Total matches:</strong></label>
+                                <label class="col-md-9"><strong>{{$lang.competation_modal_matches_total_matches}}</strong></label>
                                 <label class="col-md-3">{{ templateData['total_matches'] }}</label>
                             </p>
                             <p class="row">
-                                <label class="col-md-9"><strong>Average matches per team:</strong></label>
+                                <label class="col-md-9"><strong>{{$lang.competation_modal_matches_average_matches}}</strong></label>
                                 <label class="col-md-3"></label>
                             </p>
                         </div>
@@ -89,7 +89,7 @@
                     <div class="result col-md-12">
                         <div class="dashbox">
                             <p class="row">
-                                <label class="col-md-9"><strong>Total time required:</strong></label>
+                                <label class="col-md-9"><strong>{{$lang.competation_modal_time}}</strong></label>
                                 <label class="col-md-3"></label>
                             </p>
                            

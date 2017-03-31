@@ -73,7 +73,7 @@ module.exports = {
   competation_modal_select_template_list: "Select templates",
   competation_modal_select_templates_required: "Template is required.",
   competation_modal_game_duration: "Game duration RR/PM/EM *",
-  competation_modal_duration_minutes: "minutes",
+  competation_modal_duration_minutes: "Minutes",
   competation_modal_duration_final_minutes: "minutes",
   competation_modal_game_duration_final: "Game duration Final *",
   competation_modal_half_time_break: "Half-time break RR/PM/EM *",
@@ -84,6 +84,18 @@ module.exports = {
   competation_modal_match_interval_final_minutes: "minutes",
   competation_modal_button_cancle: "Cancle",
   competation_modal_button_save: "Save",  
+
+  competation_modal_format_team: "Teams:",
+  competation_modal_foramt_competation_foramt: "Competation format:",
+  competation_modal_minimum_matches: "Minimum matches:",
+  competation_modal_format_remark: "Remark:",
+
+  competation_modal_matches_number_matches: "Number of matches day 1:",
+  competation_modal_matches_number_matches_day: "Number of matches day 2:",
+  competation_modal_matches_total_matches: "Total matches:",
+  competation_modal_matches_average_matches: "Average matches per team:",
+  
+  competation_modal_time: "Total time required:",
 
  
   pitch_capacity: "Pitch Capacity",

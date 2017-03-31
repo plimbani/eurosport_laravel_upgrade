@@ -15,7 +15,7 @@ module.exports = {
   siteheader_logout: "FLogout",
   siteheader_help: "FHelp",
   siteheader_time: "FTime",
-  siteheader_english: "FEnglish",
+  siteheader_english: " English",
   siteheader_french: "FFrench",
 
   sitefooter_message: "FCopyright",
@@ -74,8 +74,8 @@ module.exports = {
   competation_modal_select_template_list: "FSelect templates",
   competation_modal_select_templates_required: "FTemplate is required.",
   competation_modal_game_duration: "FGame duration RR/PM/EM *",
-  competation_modal_duration_minutes: "Fminutes",
-  competation_modal_duration_final_minutes: "Fminutes",
+  competation_modal_duration_minutes: "FMinutes",
+  competation_modal_duration_final_minutes: "FMinutes",
   competation_modal_game_duration_final: "FGame duration Final *",
   competation_modal_half_time_break: "FHalf-time break RR/PM/EM *",
   competation_modal_half_time_break_final: "FHalf-time break Final *",
@@ -85,6 +85,18 @@ module.exports = {
   competation_modal_match_interval_final_minutes: "Fminutes",
   competation_modal_button_cancle: "FCancle",
   competation_modal_button_save: "FSave",  
+
+  competation_modal_format_team: "FTeams:",
+  competation_modal_foramt_competation_foramt: "FCompetation format:",
+  competation_modal_minimum_matches: "FMinimum matches:",
+  competation_modal_format_remark: "FRemark:",
+
+  competation_modal_matches_number_matches: "FNumber of matches day 1:",
+  competation_modal_matches_number_matches_day: "FNumber of matches day 2:",
+  competation_modal_matches_total_matches: "FTotal matches:",
+  competation_modal_matches_average_matches: "FAverage matches per team:",
+  
+  competation_modal_time: "FTotal time required:",
 
 
   pitch_capacity: "FPitch Capacity",
