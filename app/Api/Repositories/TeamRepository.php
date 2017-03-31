@@ -6,16 +6,32 @@ use Laraspace\Models\Team;
 
 class TeamRepository
 {
-    public function getAll($tournamentId)
+    public function getAll($tournamentId,$ageGroup='')
     {
         return  Team::join('countries', function ($join) {
                         $join->on('teams.country_id', '=', 'countries.id');
                     })
                 ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
                 // ->join('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
+                 ->where('teams.age_group_id',$ageGroup)
                  ->where('teams.tournament_id',$tournamentId)
                  ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo',
                     // 'competitions.name as competationName','competitions.id as competationId',
+                    'tournament_competation_template.group_name as age_name')
+                 ->get();
+        
+    }
+
+public function getAllFromTournamentId($tournamentId)
+    {
+        return  Team::join('countries', function ($join) {
+                        $join->on('teams.country_id', '=', 'countries.id');
+                    })
+                ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+                ->join('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
+                 ->where('teams.tournament_id',$tournamentId)
+                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo',
+                    'competitions.name as competationName','competitions.id as competationId',
                     'tournament_competation_template.group_name as age_name')
                  ->get();
         
@@ -48,9 +64,10 @@ class TeamRepository
     {
         return Team::find($data['id'])->delete();
     }
-    public function deleteFromTournament($tournamentId)
+    public function deleteFromTournament($tournamentId,$ageGroup)
     {
         // dd($tournamentId);
-        return Team::where('tournament_id',$tournamentId)->delete();
+        return Team::where('tournament_id',$tournamentId)
+                    ->where('age_group_id',$ageGroup)->delete();
     }
 }

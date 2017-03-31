@@ -3,15 +3,16 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="pull-left col-md-6 padding0">
-					<label class="pull-left">
-						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="tournamentLogo != null || tournamentLogo != ''">
+					<label class="pull-left">{{tournamentLogo}}
+						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="tournamentLogo != null ">
+					
 					</label>
 					<label class="col-md-6">
 						<h5>{{tournamentName}}</h5>
 					</label>
 					<div class="clearfix"></div>
 
-					<span><strong>{{$lang.summary_location}}:</strong> {{tournamentSummary.locations}}</span>
+					<span><strong>{{$lang.summary_location}}:</strong> </span>
 					<span><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</span>
 
 				</div>
@@ -99,6 +100,7 @@
 	
 	import DeleteModal from './DeleteModal.vue'
 	import Tournament from '../api/tournament.js'
+
 	export default {	
 	    data(){
 	    	return {
