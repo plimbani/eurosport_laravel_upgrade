@@ -5,19 +5,19 @@
 		<div class="row mt-4">
 			<div class="col-md-8">
 				<ul class="schedule_list">
-					<li class="active">
+					<li :class="[currentView == 'drawsListing' ? 'active' : '']">
 					<a  @click="setCurrentView('drawsListing')">{{$lang.summary_schedule_draws}}</a></li>
-					<li>
+					<li :class="[currentView == 'matchListing' ? 'active' : '']">
 					<a @click="setCurrentView('matchListing')">{{$lang.summary_schedule_matches}}</a>
 					</li>
-					<li>
+					<li :class="[currentView == 'teamListing' ? 'active' : '']">
 					<a @click="setCurrentView('teamListing')">{{$lang.summary_schedule_teams}}</a>
 					</li>
 				</ul>
 			</div>
-			<div class="col-md-4">
+			<!--<div class="col-md-4">
 				<button type="button" class="btn btn-primary pull-right">{{$lang.summary_schedule_button_print}}</button>
-			</div>
+			</div>-->
 		</div>
 		<component :is="currentView" :currentView="currentView"></component></div>
 </template>

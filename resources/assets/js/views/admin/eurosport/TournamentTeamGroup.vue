@@ -165,6 +165,7 @@
     mounted() {
       let tournamentId = this.$store.state.Tournament.tournamentId
         if(tournamentId == null || tournamentId == '') {
+          toastr['error']('Please Select Tournament', 'Error');
           this.$router.push({name: 'welcome'});
         } else {
             // First Set Menu and ActiveTab

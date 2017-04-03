@@ -42,8 +42,8 @@ export default {
 		changeGroup(team) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
-			let Id = team.id
-			let Name = team.age_name+'-'+team.competationName
+			let Id = team.competationId
+			let Name = team.competationName
 			this.$root.$emit('changeComp',Id, Name);
 			//this.$emit('changeComp',Id);
 		},
