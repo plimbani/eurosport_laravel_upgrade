@@ -75,12 +75,13 @@ export default {
 			)	
 		},
 		getDrawDetails(drawId, drawName) {
+
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId, 
 			'competitionId':drawId}
 			
 			this.otherData.DrawName = drawName
-			
+			this.otherData.DrawId = drawId
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
@@ -117,7 +118,9 @@ export default {
 		},
 		getAllTournamentTeams() {
 			let TournamentId = this.$store.state.Tournament.tournamentId
-			Tournament.getTeams(TournamentId).then(
+			let tournamentData={'tournamentId':TournamentId}
+			
+			Tournament.getTournamentTeams(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
 						this.matchData = response.data.data

@@ -47,7 +47,7 @@
                     Auth.login(this.loginData).then(() => {
                         // here we have to change where we have to redirect
                         // this.$router.push('/admin/dashboard/basic')
-                        this.$router.push('/')
+                        this.$router.push({'name':'welcome'})
                     })
                 }
             }

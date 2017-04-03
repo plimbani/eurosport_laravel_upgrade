@@ -3,15 +3,16 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="pull-left col-md-6 padding0">
-					<label class="pull-left">
-						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="tournamentLogo != null || tournamentLogo != ''">
+					<label class="pull-left">{{tournamentLogo}}
+						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="tournamentLogo != null ">
+					
 					</label>
 					<label class="col-md-6">
 						<h5>{{tournamentName}}</h5>
 					</label>
 					<div class="clearfix"></div>
 
-					<span><strong>{{$lang.summary_location}}:</strong> {{tournamentSummary.locations}}</span>
+					<span><strong>{{$lang.summary_location}}:</strong> </span>
 					<span><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</span>
 
 				</div>
@@ -99,6 +100,7 @@
 	
 	import DeleteModal from './DeleteModal.vue'
 	import Tournament from '../api/tournament.js'
+
 	export default {	
 	    data(){
 	    	return {
@@ -113,9 +115,18 @@
 	        PublishTournament, DeleteModal
 	    },
 	    mounted() {
+	    
+	          // First Set Menu and ActiveTab
+	       this.getSummaryData()
+	      
+	    },
+	    methods: {
+	    getSummaryData() {
 	    	let tournamentId = this.$store.state.Tournament.tournamentId;
-	    	// here we call Api to get All Summary Data
 	    	
+	    	if(tournamentId != undefined)
+	    	{	
+	    		
 	    	Tournament.tournamentSummaryData(tournamentId).then(
 	    		(response) => {
 	    			if(response.data.status_code == 200) {
@@ -149,8 +160,8 @@
 			this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
 			this.tournamentDays= this.$store.state.Tournament.tournamentDays
 			this.tournamentLogo= this.$store.state.Tournament.tournamentLogo
-	    },
-	    methods: {
+		 }
+	    },	
 		deleteConfirmed() {
 			Tournament.deleteTournament(this.tournamentId).then(
 	        (response) => {

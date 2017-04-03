@@ -13,7 +13,7 @@
 			<td class="text-center">
 				<a href="" class="pull-left text-left" 
 				@click.prevent="changeGroup(team)">
-				{{team.age_name}}-{{team.competationName}}</a>
+				{{team.competationName}}</a>
 			</td>
 		</tr>
 	</tbody>
@@ -42,8 +42,8 @@ export default {
 		changeGroup(team) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
-			let Id = team.id
-			let Name = team.age_name+'-'+team.competationName
+			let Id = team.competationId
+			let Name = team.competationName
 			this.$root.$emit('changeComp',Id, Name);
 			//this.$emit('changeComp',Id);
 		},

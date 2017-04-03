@@ -32,11 +32,15 @@ $api->version('v1', function ($api) {
 
     // Team Stuff
 
-    $api->get('teams/{tournamentId}', 'Laraspace\Api\Controllers\TeamController@getTeams');
+    $api->get('teams/{tournamentId}/{ageGroup}', 'Laraspace\Api\Controllers\TeamController@getTeams');
     $api->post('team/create', 'Laraspace\Api\Controllers\TeamController@createTeam');
     $api->post('team/edit/{id}', 'Laraspace\Api\Controllers\TeamController@edit');
     $api->post('team/delete/{deleteid}', 'Laraspace\Api\Controllers\TeamController@deleteTeam');
     $api->post('team/group/assign', 'Laraspace\Api\Controllers\TeamController@assignTeam');
+
+    // Method for get All TournamentTeams
+    $api->post('teams/teamsTournament', 
+        'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
 
     //Referee api
     $api->get('referees/{tournamentId}', 'Laraspace\Api\Controllers\RefereeController@getReferees');

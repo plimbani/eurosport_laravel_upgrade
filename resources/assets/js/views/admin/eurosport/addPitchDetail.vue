@@ -129,7 +129,7 @@
                                                                     </div>
                                                                     <div>
                                                                         <label>Capacity</label>
-                                                                        <span :id="'stage_capacity_span'+day" >0.00</span>
+                                                                        <span :id="'stage_capacity_span'+day"  lass="badge badge-pill badge-info">0.00</span>
                                                                 <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity'+day" value="0.00">
 
                                                                 <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity_min'+day" value="0">

@@ -54,7 +54,10 @@ class AgeGroupRepository
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
       return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {      
+      //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
+      // Here also Save in competations table
       
+
      	return TournamentCompetationTemplates::create($tournamentCompeationTemplate);    
       }          
       

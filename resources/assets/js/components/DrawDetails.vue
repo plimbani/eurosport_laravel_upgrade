@@ -1,7 +1,7 @@
 <template>
 <div>
 <h3>{{otherData.DrawName}} </h3>
-<table class="table draw_table" border=1>
+<table class="table draw_table" border="1">
 	<thead>
         <tr>
             <th></th>
@@ -65,7 +65,7 @@ export default {
             teamData: [],
             standingData:[],
             currentCompetationId: 0,
-            match1Data:[]
+            match1Data:[],error:false,errorMsg:''
         }
     },
 	mounted() {
@@ -78,7 +78,7 @@ export default {
   filters: {
     getStatus: function(teamName) {
       // Now here we change it accoring to
-      if(typeof teamName == 'string')
+      if(typeof teamName == 'string' && teamName != '')
       {  
         let strArr = teamName.split("-")
         if(strArr[0] < strArr[1])  {
@@ -90,7 +90,7 @@ export default {
         }
 
       } else {
-        return '<td></td>'
+        return ''
       }
       //return 'hello12'+teamName
     }
@@ -116,17 +116,29 @@ export default {
 
                let TeamData = []
                let ResultData = []
-
+             
                let size = this.matchData[0].team_size
-               let competationId = this.matchData[0].competitionId
-               this.currentCompetationId = competationId
-               
+               let competationId = this.matchData[0].id
+
+               //let currentCompetationId = this.otherData.DrawId
+               this.currentCompetationId = this.otherData.DrawId
+               let tournamentId = this.$store.state.Tournament.tournamentId
                // Here call Function for getting result
-               let tournamentData = {'tournamentId':'2','CompetationId':'1'}
+               
+               let tournamentData = {'tournamentId':tournamentId,
+               'competationId':this.currentCompetationId}
+             
                Tournament.getDrawTable(tournamentData).then(
                 (response)=> {
-                  alert(JSON.stringify(response.data.data))
-                  this.match1Data = response.data.data
+                  if(response.data.status_code == 200){
+                    this.match1Data = response.data.data
+                  }
+
+                  if(response.data.status_code == 300){
+                    this.errorMsg = response.data.message
+                    this.error=true
+                  } 
+                  
                 },
                 (error)=> {
                   alert('caller')

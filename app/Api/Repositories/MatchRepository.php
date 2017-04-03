@@ -36,7 +36,15 @@ class MatchRepository
     }
 
     public function getDraws($tournamentId) {
-        return Competition::where('tournament_id',$tournamentId)->get();
+         
+         //$data = Competition::where('tournament_id',$tournamentId)->get();
+      $reportQuery = DB::table('competitions')
+                     ->leftjoin('tournament_competation_template', 
+                'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
+                    ->where('competitions.tournament_id', $tournamentId)
+                   ->select('competitions.*','tournament_competation_template.group_name')
+                   ->get();  
+      return $reportQuery;
     }
     public function getFixtures($tournamentData) {
 
@@ -118,21 +126,30 @@ class MatchRepository
     }
     public function getDrawTable($tournamentData){
 
+       $isMatchExist = false;
        $totalMatches = DB::table('fixtures')
-                ->where('fixtures.tournament_id',2)
-                ->where('fixtures.competition_id',5)
+                ->where('fixtures.tournament_id',$tournamentData['tournamentId'])
+                ->where('fixtures.competition_id',$tournamentData['competationId'])
                     ->select(
                 DB::raw('CONCAT(fixtures.hometeam_score, "-", fixtures.awayteam_score) AS scoresFix'),
                 DB::raw('CONCAT(fixtures.home_team, "-", fixtures.away_team) AS teamsFix')
-                  )
+                  ) ->get();
 
-                    ->get();
       $matchArr = array();
       //print_r($teamData);exit;
-      foreach($totalMatches as $data) {
-        $newkey = sprintf('%s',$data->teamsFix);
-        $matchArr[$data->teamsFix] = $data->scoresFix;
-      }
+      
+      if(!$totalMatches->isEmpty() && $totalMatches->count() > 0)
+      {
+        $isMatchExist = true;
+        foreach($totalMatches as $data) {
+
+          $newkey = sprintf('%s',$data->teamsFix);
+          $matchArr[$data->teamsFix] = $data->scoresFix;
+        }
+      }  else {
+          $errorMsg= 'No Matches';
+      }     
+      
       $teamData = DB::table('teams')
                     ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
                     
@@ -141,16 +158,25 @@ class MatchRepository
                     ->leftjoin('competitions', 'competitions.tournament_competation_template_id', '=', 'tournament_competation_template.id')
                     
                     ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo')
-                    ->where('teams.tournament_id',2)
-                    ->where('competitions.id',5)
+                    ->where('teams.tournament_id',$tournamentData['tournamentId'])
+                    ->where('competitions.id',$tournamentData['competationId'])
                     ->get();
       $numTeamsArray = array();
       $teamDetails=array();
-      foreach($teamData as $Tdata) {
-        $numTeamsArray[]=$Tdata->TeamId;
-        $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
-        $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
-         
+
+      if(!$teamData->isEmpty() && $teamData->count() > 0)
+      { 
+
+        foreach($teamData as $Tdata) {
+          $numTeamsArray[]=$Tdata->TeamId;
+          $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
+          $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
+           
+        }
+      } else {
+      
+        $errorMsg= 'No Team Assigned Yet';
+        return $errorMsg;        
       }
       
       //$table=array();
@@ -166,46 +192,46 @@ class MatchRepository
        
         for($j=0;$j<count($numTeamsArray);$j++)
         {
+
+          // Here we check if Result is Declare or not
+          if($isMatchExist ==  true) 
+        { 
+
           if($i==$j)
           {
             $arr1[$i]['matches'][$j] ='X';                        
           }
           else 
           {
-            //echo '<br>Team id'.
             $teamId = $numTeamsArray[$i];
-            
             $rowKey=$numTeamsArray[$i];
             $colKey=$numTeamsArray[$j];
 
             // Now here we explode it and check
-            if($teamId == $rowKey) {
-              // Its HomeTeam
-              //echo '||TeamId'.$teamId;
-              //echo '||val||'.$val=$rowKey.'-'.$colKey;
-              //print_r($matchArr);
-              //exit;
-              if(array_key_exists($rowKey.'-'.$colKey, $matchArr)) {
-                //echo 'yes';
+            if($teamId == $rowKey) 
+            {
+              if(array_key_exists($rowKey.'-'.$colKey, $matchArr)) 
+              {
                 $arr1[$i]['matches'][$j]['score']= $matchArr[$rowKey.'-'.$colKey];
-                // here we check status
-                
-              } else {
-                // Flip it
-                
+              } 
+              else 
+              {
+              // Flip it
                 $nwArr = explode('-',$matchArr[$colKey.'-'.$rowKey]);
-                //print_r($nwArr);exit;
-
-
                 $arr1[$i]['matches'][$j]['score']= $nwArr[1].'-'.$nwArr[0]; 
               }
               //$arr1[$i]['matches'][$j]= $matchArr[$rowKey.'-'.$colKey];
-            } else {
-              // Its Away Team
-            }
+            } 
             //echo 'fixture'.$fixArrKeyval=$rowKey.",".$colKey;
-    
           }
+         }
+
+         // Match is Not Exist Yet
+         else 
+         {
+            $arr1[$i]['matches'][$j]['score'] = '';
+            
+         }
         }
         
       }
@@ -266,6 +292,7 @@ class MatchRepository
       // exit;
      */
     }
+    //  below are dummy implemetation
     public function getDrawTable12($tournamentData)
     {
       // Now here we have to Arrange Table Team wise
