@@ -113,9 +113,18 @@
 	        PublishTournament, DeleteModal
 	    },
 	    mounted() {
+	    
+	          // First Set Menu and ActiveTab
+	       this.getSummaryData()
+	      
+	    },
+	    methods: {
+	    getSummaryData() {
 	    	let tournamentId = this.$store.state.Tournament.tournamentId;
-	    	// here we call Api to get All Summary Data
 	    	
+	    	if(tournamentId != undefined)
+	    	{	
+	    		
 	    	Tournament.tournamentSummaryData(tournamentId).then(
 	    		(response) => {
 	    			if(response.data.status_code == 200) {
@@ -149,8 +158,8 @@
 			this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
 			this.tournamentDays= this.$store.state.Tournament.tournamentDays
 			this.tournamentLogo= this.$store.state.Tournament.tournamentLogo
-	    },
-	    methods: {
+		 }
+	    },	
 		deleteConfirmed() {
 			Tournament.deleteTournament(this.tournamentId).then(
 	        (response) => {
