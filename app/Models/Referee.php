@@ -12,7 +12,7 @@ class Referee extends Model
     protected $table = 'referee';
 
     protected $fillable = [
-        'user_id', 'availability', 'tournament_id','first_name','last_name','telephone','email','comments', 'age_group_id',
+        'user_id', 'availability', 'tournament_id','first_name','last_name','telephone','email','comments', 'age_group_id'
     ];
     /**
      * The attributes that should be mutated to dates.

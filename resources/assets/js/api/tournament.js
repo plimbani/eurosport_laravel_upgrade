@@ -61,6 +61,9 @@ export default {
  saveReferee(data) {
      return api.post('referee/create',{ data})
  },
+  updateReferee(data) {
+     return api.post('referee/update',{ data})
+ },
  getStanding(tournamentData) {
   return api.post('match/getStanding',{'tournamentData': tournamentData})
  },
@@ -70,5 +73,11 @@ export default {
   getTournamentTeams(tournamentData) {
     return api.post('teams/teamsTournament',{'tournamentData': tournamentData})
   },
+  getRefereeDetail(refereeId) {
+    return api.post('referee/refereeDetail',{'refereeId': refereeId})
+  },
+  getAllMatches(tournamentId) {
+    return api.post('match/getFixtures',{'tournamentId': tournamentId})
+  }
 
 }

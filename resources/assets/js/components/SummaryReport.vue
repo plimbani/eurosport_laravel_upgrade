@@ -21,8 +21,7 @@
 	                            <select name="sel_ageCategory" id="sel_ageCategory" class="form-control ls-select2">
 	                            	<option value="">{{$lang.summary_age_category_select}}</option>
 		                            <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
-		                             <option value="">-----------</option>
-									</select>
+		                            </select>
 		                    </div>
 						</div>
 						<div class="col-md-4 mb-7">
