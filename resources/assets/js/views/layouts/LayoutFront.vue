@@ -7,9 +7,9 @@
             </a>
 
             <ul class="action-list">
-               <!-- <li>
-                    <router-link to="/admin/dashboard/basic">Admin Dashboard</router-link>
-                </li>-->
+              <li>
+               <router-link to="/login">Admin Dashboard</router-link>
+                </li>
             </ul>
         </header>
         <transition name="fade" mode="out-in">

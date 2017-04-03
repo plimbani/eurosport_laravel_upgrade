@@ -37,7 +37,6 @@ export default {
 	},
 	mounted(){
 		// here we set drawsListing as currentView
-		alert('hello')
 		this.currentView = 'drawsListing'
 	},
 	components: {

@@ -1,6 +1,7 @@
 <template>
-<div class="col-md-6 row mt-4">
-<table class="table draw_table">
+<div class="col-md-4">
+<h3> Draws </h3>
+<table class="table draw_table" v-if="matchData.length > 0">
 	<thead>
         <tr>
             <th>{{$lang.summary_schedule_draw}}</th>
@@ -18,6 +19,7 @@
     	</tr>
     </tbody>
 </table>
+<span v-else>No Draw Data Found </span>
 </div>
 </template>
 <script type="text/babel">

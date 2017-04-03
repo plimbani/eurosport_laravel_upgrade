@@ -28,8 +28,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 
 $api->version('v1', function ($api) {
-    $api->get('users/test', 'Laraspace\Api\Controllers\EnvController@test2');
-
+    $api->get('users/test', 'Laraspace\Api\Controllers\EnvController@test2');    
     // Team Stuff
 
     $api->get('teams/{tournamentId}/{ageGroup}', 'Laraspace\Api\Controllers\TeamController@getTeams');
@@ -98,6 +97,10 @@ $api->version('v1', function ($api) {
 
     // User Stuff
     $api->get('users', 'Laraspace\Api\Controllers\UserController@getUsers');
+    $api->get('users1',function() {
+        echo 'Hello'.$_SERVER['REMOTE_ADDR'];
+    });
+
     $api->get('getUsersByRegisterType/{registerType}', 'Laraspace\Api\Controllers\UserController@getUsersByRegisterType');
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
     $api->get('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('edit.users');
@@ -109,6 +112,7 @@ $api->version('v1', function ($api) {
     $api->get('roles-for-select', 'Laraspace\Api\Controllers\RoleController@getRolesForSelect');
 
     $api->get('tournament/report/generate', 'Laraspace\Api\Controllers\TournamentController@generateReport');
+
 });
 
 
