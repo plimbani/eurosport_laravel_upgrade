@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-5 form-control-label">Password</label>
+                                <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Your password">
                                     <i v-show="errors.has('pass')" class="fa fa-warning"></i>
@@ -89,17 +89,17 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-md-4 control-label">Image</label>
-                                <div class="pull-right">
+                                <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
+                                <div class="col-sm-6">
                                       <div v-if="!image">
-                                          <input type="file">
+                                          <input type="file" @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.</p>
                                       </div>
-                                     <div v-else>
-                                          <img :src="image" width="40px" height="50px"/>
-                                          <button>Remove image</button>
-                                    </div>
-                                </div>    
+                                       <div v-else>
+                                              <img :src="image" width="40px" height="50px"/>
+                                              <button>Remove image</button>
+                                      </div>
+                                </div>      
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
@@ -123,7 +123,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
                             <button type="submit" class="btn btn-primary">{{$lang.user_management_save}}</button> 
                         </div>
                     </form>
@@ -148,7 +148,7 @@
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
                 deleteAction: '',
-                image: '',
+                image: ''
             }
         },
         created() {
@@ -167,7 +167,7 @@
                     password: '',   
                     organisation: '',
                     userType: '',
-                    image: '',
+                    user_image: '',
                 }
             },
             getRoles() {
@@ -182,23 +182,30 @@
             editUser(id) {
                 this.userModalTitle="Edit User";
                 axios.get("/api/user/edit/"+id).then((response) => {
+                console.log(response.data);
                     this.$data.formValues = response.data;
                 });
             },
+            onFileChange(e) {        
+              var files = e.target.files || e.dataTransfer.files;
+              if (!files.length)
+                return;
+              this.createImage(files[0]);
+            },  
             createImage(file) {
-              var image = new Image();
+              var user_image = new Image();
               var reader = new FileReader();
               var vm = this;
 
             reader.onload = (e) => {
-                vm.image = e.target.result;
+                vm.user_image = e.target.result;
               };
               reader.readAsDataURL(file);
             },
             removeImage: function (e) {
-              this.image = '';
-              e.preventDefault();
-            },
+              this.user_image = '';
+               e.preventDefault();
+            },      
 
             prepareDeleteResource(id) {
                 this.deleteAction="/api/user/delete/"+id;
@@ -224,12 +231,18 @@
                             this.updateUserList();
                         });
                     } else {
-                        axios.post("/api/user/update/"+this.formValues.id, this.formValues).then((response) => {
+                    this.formValues.user_image = this.user_image;
+                   let that = this
+                    setTimeout(function(){
+                        axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
-                            this.$data.formValues = this.initialState();
-                            this.updateUserList();
+                            that.$data.formValues = that.initialState();
+                            that.updateUserList();
                         });
+                    },1000)
+                   
+                       
                     }
                 }).catch(() => { });
             },

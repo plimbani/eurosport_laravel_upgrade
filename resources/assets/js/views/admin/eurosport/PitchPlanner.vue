@@ -92,11 +92,14 @@
 			  							<tr>
 			  								<td>9:30</td>
 			  								<td>
-			  									<div class="green_bg text-center">
-			  										<span>U19-RR1-01</span>
-			  										<span>U19-A-1 v U19-A-2</span>
-			  										<span>09:00 (45 mins)</span>
-			  									</div>
+			  									<a href="#" data-toggle="modal" data-target="#pitchModal">
+				  									<div class="green_bg text-center">
+				  										<span>U19-RR1-01</span>
+				  										<span>U19-A-1 v U19-A-2</span>
+				  										<span>09:00 (45 mins)</span>
+				  									</div>
+			  									</a>
+			  									<PitchModal></PitchModal>
 			  								</td>
 			  								<td></td>
 			  								<td>
@@ -258,6 +261,8 @@
 <script type="text/babel">
 	import GamesTab from '../../../components/GamesTab.vue'
 	import RefereesTab from '../../../components/RefereesTab.vue'
+	import PitchModal from '../../../components/PitchModal.vue'
+	
 
 	export default {
     data() {
@@ -279,7 +284,7 @@
     }
     },	
     components: {
-        GamesTab, RefereesTab
+        GamesTab, RefereesTab, PitchModal
     }  
 }
 </script>

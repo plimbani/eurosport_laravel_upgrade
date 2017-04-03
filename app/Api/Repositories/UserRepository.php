@@ -23,6 +23,7 @@ class UserRepository {
 
     public function create($data)
     {
+      
         return User::create($data);
     }
 
@@ -36,7 +37,7 @@ class UserRepository {
         $user=DB::table('users')
             ->join('people', 'users.person_id', '=', 'people.id')
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
-            ->select("users.id as id", "users.email as emailAddress", "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
+            ->select("users.id as id", "users.email as emailAddress","users.user_image as image", "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
             ->where("users.id", "=", $userId)
             ->first();
         return json_encode($user);

@@ -34,6 +34,8 @@ module.exports = {
   user_management_add_surname: "FSurname",
   user_management_email: "FEmail address",
   user_management_organisation: "FOrganisation",
+   user_management_image: "FImage",
+  user_management_password: "FPassword",
   user_management_user_type: "FUser type",
   user_management_user_cancle: "FCancle",
   user_management_user_save: "FSave",

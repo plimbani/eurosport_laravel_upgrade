@@ -33,6 +33,8 @@ module.exports = {
   user_management_add_name: "Name",
   user_management_add_surname: "Surname",
   user_management_email: "Email address",
+  user_management_image: "Image",
+  user_management_password: "Password",
   user_management_organisation: "Organisation",
   user_management_user_type: "User type",
   user_management_user_cancle: "Cancle",
