@@ -32,10 +32,14 @@ export default {
 	data() {
 		return {
 			// here we dispatch method for set currentView
-			currentView: 'drawsListing'
+			currentView: ''
 		}
 	},
-	
+	mounted(){
+		// here we set drawsListing as currentView
+		alert('hello')
+		this.currentView = 'drawsListing'
+	},
 	components: {
 		DrawsListing, MatchListing, TeamListing,DrawDetails
 	},
@@ -49,19 +53,27 @@ export default {
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 		},
 		setCurrentView(currentView) {
+		  if(currentView != this.currentView)
+		  {	
+			//alert('param CurrentView'+currentView)
+			//alert('current CurrentView'+this.currentView)
 			// Before Select component we make it nul so it cant refer parent component
 			let currentScheduleView = this.$store.state.currentScheduleView
-			
+			//alert('curscvw'+currentScheduleView)
 			if(currentScheduleView == 'locationList') {
 				
 				this.currentView = 'matchListing'
 				this.$store.dispatch('setCurrentScheduleView','matchList')	
-			} else  {
-				
+			} 
+
+			//this.$store.dispatch('setCurrentScheduleView','matchList')	
+			this.currentView = currentView
+			/*else  {
+			  
 			  this.$store.dispatch('setCurrentScheduleView','')	
 			  this.currentView = currentView
-			}
-			
+			}*/
+		  }	
 			
 			// Here we again 			
 		}

@@ -15,6 +15,11 @@ use Carbon\Carbon;
 
 class TournamentRepository
 {
+    public function getTournamentsByStatus($tournamentData)
+    {
+       $status = $tournamentData['status'];
+       return Tournament::where('status',$status)->get();   
+    }
     public function getAll()
     {
         return Tournament::get();

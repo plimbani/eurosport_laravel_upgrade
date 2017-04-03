@@ -84,6 +84,8 @@ $api->version('v1', function ($api) {
     //Tournament Api CRUD Routes
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
+    // Get Tournament Details By Status
+    $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
     // Get All Templates 
     $api->get('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates');
 
