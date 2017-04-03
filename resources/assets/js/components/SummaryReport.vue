@@ -271,6 +271,7 @@ export default {
 		      )
 		    } else {
 		      this.TournamentId = 0;
+		      // toastr['error']('Invalid Credentials', 'Error');
 		    }	
     	},
     	exportReport() {
@@ -283,6 +284,8 @@ export default {
     		if(ReportData!=''){
 				ReportData += '&report_download=yes'
     			window.location = "/tournament/report/reportExport?"+ReportData;
+    		}else{
+    			toastr['error']('Records not available', 'Error');
     		}
 
 

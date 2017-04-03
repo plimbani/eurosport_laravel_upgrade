@@ -257,12 +257,12 @@ export default {
 
       var start_date = new Date(this.$store.state.Tournament.tournamentStartDate);
 
-      console.log('start date'+start_date)
-      var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
-      document.getElementById('tournament_start_date').value 
-              = start_format_date
-      document.getElementById('tournament_end_date').value 
-              = this.$store.state.Tournament.tournamentEndDate
+      // console.log('start date'+start_date)
+      // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
+      // document.getElementById('tournament_start_date').value 
+      //         = start_format_date
+      // document.getElementById('tournament_end_date').value 
+      //         = this.$store.state.Tournament.tournamentEndDate
       let currentNavigationData = {activeTab:'tournament_add', currentPage: 
       'Edit Tournament'}
       this.$store.dispatch('setActiveTab', currentNavigationData)        
@@ -272,7 +272,20 @@ export default {
       currentPage:'TournamentAdd'}  
       this.$store.dispatch('SetTournamentName', tournamentAdd)
     }
+    // $('#tournament_start_date').val()
+    if(start_date != ''){
+
+      $('#tournament_start_date').datepicker('setDate', start_date)
+    }
+    let tEndDate = this.$store.state.Tournament.tournamentEndDate
+    if(tEndDate!= ''){
+        $('#tournament_end_date').datepicker('setDate', tEndDate)
+    }
     
+    $('#tournament_start_date').datepicker().on('changeDate',function(){
+      $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
+      $('#tournament_end_date').datepicker('clearDates')
+    });
     //this.handleValidation()
   },
   methods: {

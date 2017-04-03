@@ -67,7 +67,7 @@ const actions = {
     )    
   }, 
 
-SetPitchId ({commit},pitchId) { 
+  SetPitchId ({commit},pitchId) { 
     commit(types.SET_PITCH_ID, pitchId)
   },
  

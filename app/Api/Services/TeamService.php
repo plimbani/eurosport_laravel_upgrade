@@ -18,10 +18,14 @@ class TeamService implements TeamContract
      * @param  array $api_key,$state,$type
      * @return response
      */
-    public function getTeams($tournamentId)
+    public function getTeams($tournamentId,$ageGroup)
     {
         // Here we send Status Code and Messages
-        $data = $this->teamRepoObj->getAll($tournamentId);
+        if($ageGroup!= ""){
+            $data = $this->teamRepoObj->getAll($tournamentId,$ageGroup);
+        }else{
+            $data = $this->teamRepoObj->getAllFromTournamentId($tournamentId);
+        }
         // dd($data);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
@@ -104,8 +108,8 @@ class TeamService implements TeamContract
      *
      * @return [type]
      */
-    public function deleteFromTournament($tournamentId) {
-        return  $this->teamRepoObj->deleteFromTournament($tournamentId);
+    public function deleteFromTournament($tournamentId,$ageGroup) {
+        return  $this->teamRepoObj->deleteFromTournament($tournamentId,$ageGroup);
     }
     public function delete($data)
     {

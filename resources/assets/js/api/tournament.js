@@ -33,8 +33,9 @@ export default {
   deleteTournament(tournamentId) {
     return api.post('tournament/delete/'+tournamentId)
   },
-  getTeams(tournamentId) {
-    return api.get('teams/'+tournamentId)
+  getTeams(tournamentId,age_group) {
+
+    return api.get('teams/'+tournamentId+'/'+age_group)
   },
   getReferees(tournamentId) {
     return api.get('referees/'+tournamentId)
