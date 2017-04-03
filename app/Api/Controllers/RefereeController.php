@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\RefereeContract;
-
+use Laraspace\Api\Repositories\RefereeRepository;
 /**
  * Referees Resource Description.
  *
@@ -19,9 +19,10 @@ use Laraspace\Api\Contracts\RefereeContract;
  */
 class RefereeController extends BaseController
 {
-    public function __construct(RefereeContract $refereeObj)
+    public function __construct(RefereeContract $refereeObj,RefereeRepository $refereeRepoObj)
     {
         $this->refereeObj = $refereeObj;
+        $this->refereeRepoObj  =  $refereeRepoObj;
         // $this->middleware('jwt.auth');
     }
 
@@ -52,6 +53,20 @@ class RefereeController extends BaseController
     public function createReferee(Request $request)
     {
         return $this->refereeObj->createReferee($request);
+    }
+    public function updateReferee(Request $request)
+    {
+        $data = $request->all()['data'];
+        // dd($data);
+
+        return $this->refereeObj->edit($data, $data['refereeId']);   
+    }
+    public function refereeDetail(Request $request)
+    {
+        return $this->refereeRepoObj->getRefereeFromId($request->refereeId); 
+        // dd($request->refereeId);
+        // return $this->refereeObj->refereeDetail($request);
+
     }
 
     /**
