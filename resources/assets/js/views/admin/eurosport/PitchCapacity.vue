@@ -95,7 +95,8 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
         },
         mounted(){
             let tournamentId = this.$store.state.Tournament.tournamentId
-            if(tournamentId == null || tournamentId == '') {
+            if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
+              toastr['error']('Please Select Tournament', 'Error');
               this.$router.push({name: 'welcome'});
             } else {
                 // First Set Menu and ActiveTab

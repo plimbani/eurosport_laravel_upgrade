@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <component :is="currentScheduleView" 
     :matchData="matchData" :otherData="otherData"
     > </component>
@@ -63,7 +64,7 @@ export default {
 			'competitionId':drawId}
 			
 			this.otherData.DrawName = drawName
-
+			this.otherData.DrawId = drawId
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {

@@ -39,7 +39,6 @@ class TeamService implements TeamContract
 
       // Here we send Status Code and Messages
         $data = $data->all();
-        
         $data = $this->teamRepoObj->getAllTournamentTeams($data['tournamentData']['tournamentId']);
         // dd($data);
         if ($data) {
