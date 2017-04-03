@@ -212,7 +212,7 @@
                                         </form>
                                          <div class="modal-footer">
 
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.pitch_modal_availability_button_cancle}}</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.pitch_modal_availability_button_close}}</button>
                                             <button type="button" class="btn btn-primary" @click="savePitchDetails()">{{$lang.pitch_modal_availability_button_save}}</button> 
 
                                         </div>

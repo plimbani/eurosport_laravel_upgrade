@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="add_user_btn">
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#user_form_modal" @click="addUser()">Add New User</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#user_form_modal" @click="addUser()">{{$lang.user_management_add_new_user}}</button>
         </div>
         <div class="tab-content">
             <div class="card">
@@ -14,12 +14,12 @@
                             <table class="table add-category-table">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Surname</th>
-                                        <th>Email address</th>
-                                        <th>Organisation</th>
-                                        <th>User type</th>
-                                        <th>Action</th>
+                                        <th>{{$lang.user_desktop_name}}</th>
+                                        <th>{{$lang.user_desktop_surname}}</th>
+                                        <th>{{$lang.user_user_desktop_email}}</th>
+                                        <th>{{$lang.user_desktop_organisation}}</th>
+                                        <th>{{$lang.user_desktop_usertype}}</th>
+                                        <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,7 +57,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group row">
-                                <label class="col-sm-5 form-control-label">Name</label>
+                                <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name">
                                     <i v-show="errors.has('name')" class="fa fa-warning"></i>
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-5 form-control-label">Surname</label>
+                                <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Your surname">
                                     <i v-show="errors.has('surname')" class="fa fa-warning"></i>
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-5 form-control-label">Email address</label>
+                                <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Your email address">
                                     <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
@@ -81,7 +81,28 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-5 form-control-label">Organisation</label>
+                                <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
+                                <div class="col-sm-6">
+                                    <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Your password">
+                                    <i v-show="errors.has('pass')" class="fa fa-warning"></i>
+                                    <span class="help is-danger" v-show="errors.has('password')">{</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
+                                <div class="col-sm-6">
+                                      <div v-if="!image">
+                                          <input type="file" @change="onFileChange">
+                                          <p class="help-block">Maximum size of 1 MB.</p>
+                                      </div>
+                                       <div v-else>
+                                              <img :src="image" width="40px" height="50px"/>
+                                              <button>Remove image</button>
+                                      </div>
+                                </div>      
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Your organisation">
                                     <i v-show="errors.has('organisation')" class="fa fa-warning"></i>
@@ -89,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-5 form-control-label">User type</label>
+                                <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                                 <div class="col-sm-6">
                                     <select v-validate="'required'":class="{'is-danger': errors.has('organisation') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
                                         <option value="">Select</option>
@@ -102,8 +123,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save</button> 
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
+                            <button type="submit" class="btn btn-primary">{{$lang.user_management_save}}</button> 
                         </div>
                     </form>
                 </div>
@@ -126,7 +147,8 @@
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
-                deleteAction: ''
+                deleteAction: '',
+                image: ''
             }
         },
         created() {
@@ -142,8 +164,10 @@
                     name: '',
                     surname: '',
                     emailAddress: '',
+                    password: '',   
                     organisation: '',
-                    userType: ''
+                    userType: '',
+                    user_image: '',
                 }
             },
             getRoles() {
@@ -158,9 +182,31 @@
             editUser(id) {
                 this.userModalTitle="Edit User";
                 axios.get("/api/user/edit/"+id).then((response) => {
+                console.log(response.data);
                     this.$data.formValues = response.data;
                 });
             },
+            onFileChange(e) {        
+              var files = e.target.files || e.dataTransfer.files;
+              if (!files.length)
+                return;
+              this.createImage(files[0]);
+            },  
+            createImage(file) {
+              var image = new Image();
+              var reader = new FileReader();
+              var vm = this;
+
+            reader.onload = (e) => {
+                vm.image = e.target.result;
+              };
+              reader.readAsDataURL(file);
+            },
+            removeImage: function (e) {
+              this.user_image = '';
+               e.preventDefault();
+            },      
+
             prepareDeleteResource(id) {
                 this.deleteAction="/api/user/delete/"+id;
             },
@@ -185,12 +231,19 @@
                             this.updateUserList();
                         });
                     } else {
-                        axios.post("/api/user/update/"+this.formValues.id, this.formValues).then((response) => {
+                    this.formValues.user_image = this.image;
+                   let that = this
+                    setTimeout(function(){
+
+                        axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
-                            this.$data.formValues = this.initialState();
-                            this.updateUserList();
+                            that.$data.formValues = that.initialState();
+                            that.updateUserList();
                         });
+                    },1000)
+                   
+                       
                     }
                 }).catch(() => { });
             },

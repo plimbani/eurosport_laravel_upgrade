@@ -22,6 +22,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
     protected $fillable = [
         'person_id',
         'username',
+        'image',
         'name',
         'email',
         'organisation',
