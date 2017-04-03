@@ -53,7 +53,7 @@ data-animation="false"
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_duration_minutes}}</label> 
+              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_duration_final}}</label> 
               <div class="col-sm-6">
                   <span class="col-sm-2 pull-left multi-number padding0">2 <small>X</small></span>
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.game_duration_FM">

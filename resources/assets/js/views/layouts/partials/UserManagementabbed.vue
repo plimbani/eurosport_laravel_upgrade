@@ -7,11 +7,11 @@
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link" :class="{'active' : this.$route.params.registerType=='desktop'}" data-toggle="tab" 
-								href="#desktop" role="tab" @click="getSelectComponent('desktop')">Desktop users</a>
+								href="#desktop" role="tab" @click="getSelectComponent('desktop')">{{$lang.user_management_desktopuser}}</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" :class="{'active' : this.$route.params.registerType=='mobile'}" data-toggle="tab" 
-								href="#mobile" role="tab" @click="getSelectComponent('mobile')">Mobile users</a>
+								href="#mobile" role="tab" @click="getSelectComponent('mobile')">{{$lang.user_management_mobileuser}}</a>
 							</li>							
 						</ul>
 						<router-view :userList="userList"></router-view>

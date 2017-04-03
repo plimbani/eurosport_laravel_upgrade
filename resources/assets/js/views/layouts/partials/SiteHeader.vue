@@ -13,7 +13,7 @@
             <!-- <span class="offset-1"> {{TournamentName}} </span> -->
             <ul class="action-list">
                 <li>
-                    <i class="fa fa-clock-o"></i>&nbsp;<span id="timer">{{$lang.siteheader_time}}</span>
+                    <i class="fa fa-clock-o"></i>&nbsp;<span id="timer">{{curTime}}</span>
                 </li>
                 <li>
                     <i class="fa fa-calendar"></i>&nbsp;<span id="date">{{date}}</span>
@@ -31,7 +31,7 @@
                     </div>
                 </li>
                 <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
-                <li><a href="#"  @click="$setLang('en')">English</a></li>
+                <li><a href="#"  @click="$setLang('en')">{{$lang.siteheader_english}}</a></li>
                 <li><a href="#"  @click="$setLang('fr')">{{$lang.siteheader_french}}</a></li>
                 <!--
                 <li>
@@ -67,21 +67,14 @@
         data() {
             return {
                 'header' : 'header',
-               'date': '' 
+               'date': '',
+               curTime: '' 
             }
         },
-
         mounted() {
-            var m_names = new Array("Jan", "Feb", "Mar", 
-            "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
-            "Oct", "Nov", "Dec");
-
-            var d = new Date();
-            var curr_date = d.getDate();
-            var curr_month = d.getMonth();
-            var curr_year = d.getFullYear();
-            this.date = curr_date + " " + m_names[curr_month] 
-            + " " + curr_year;
+        let this1 = this
+        setInterval(function(){this1.clock() },1000)
+            
         },
         methods : {
             onNavToggle(){
@@ -94,7 +87,29 @@
             },
             home() {
                 this.$router.push({'name':'welcome'})
+            },
+            clock(){     
+            var m_names = new Array("Jan", "Feb", "Mar", 
+            "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+            "Oct", "Nov", "Dec");
+
+            var d = new Date();
+            var curr_date = d.getDate();
+            var curr_month = d.getMonth();
+            var curr_year = d.getFullYear();
+            this.date = curr_date + " " + m_names[curr_month] 
+            + " " + curr_year
+
+            var curr_hours = d.getHours();  
+            curr_hours = curr_hours ? curr_hours : 12;
+            var curr_minutes = d.getMinutes();
+            var ampm = curr_hours >= 12 ? 'pm' : 'am';
+            curr_hours = curr_hours >= 13 ? parseInt(curr_hours-12) : curr_hours;
+            if (curr_minutes < 10) {
+                curr_minutes = "0" + curr_minutes;
             }
+            this.curTime = curr_hours + " : " + curr_minutes + " " + ampm;
+        }
         },
         computed: {
             TournamentName() {                

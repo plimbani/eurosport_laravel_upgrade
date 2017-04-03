@@ -5,8 +5,7 @@
 				<div class="pull-left col-md-6 padding0">
 					<label class="pull-left">
 						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="(tournamentLogo != null && tournamentLogo != '' )">
-					
-					</label>
+				</label>
 					<label class="col-md-6">
 						<h5>{{tournamentName}}</h5>
 					</label>

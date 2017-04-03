@@ -44,7 +44,10 @@ $api->version('v1', function ($api) {
     //Referee api
     $api->get('referees/{tournamentId}', 'Laraspace\Api\Controllers\RefereeController@getReferees');
     $api->post('referee/create', 'Laraspace\Api\Controllers\RefereeController@createReferee');
+    $api->post('referee/update', 'Laraspace\Api\Controllers\RefereeController@updateReferee');
+
     $api->post('referee/edit/{id}', 'Laraspace\Api\Controllers\RefereeController@edit');
+    $api->post('referee/refereeDetail', 'Laraspace\Api\Controllers\RefereeController@refereeDetail');
     $api->post('referee/delete/{deleteid}', 'Laraspace\Api\Controllers\RefereeController@deleteReferee');
 
     //MatchResult api
