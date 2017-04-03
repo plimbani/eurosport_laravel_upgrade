@@ -65,6 +65,7 @@ class UserController extends BaseController
      */
     public function createUser(Request $request)
     {
+          dd($request->all());
         return $this->userObj->create($request);
     }
 
@@ -89,6 +90,7 @@ class UserController extends BaseController
      */
     public function update(Request $request, $userId)
     {
+
         return $this->userObj->update($request, $userId);
     }
 

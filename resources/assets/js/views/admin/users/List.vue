@@ -81,6 +81,27 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="col-sm-5 form-control-label">Password</label>
+                                <div class="col-sm-6">
+                                    <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Your password">
+                                    <i v-show="errors.has('pass')" class="fa fa-warning"></i>
+                                    <span class="help is-danger" v-show="errors.has('password')">{</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-4 control-label">Image</label>
+                                <div class="pull-right">
+                                      <div v-if="!image">
+                                          <input type="file">
+                                          <p class="help-block">Maximum size of 1 MB.</p>
+                                      </div>
+                                     <div v-else>
+                                          <img :src="image" width="40px" height="50px"/>
+                                          <button>Remove image</button>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Your organisation">
@@ -126,7 +147,8 @@
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
-                deleteAction: ''
+                deleteAction: '',
+                image: '',
             }
         },
         created() {
@@ -142,8 +164,10 @@
                     name: '',
                     surname: '',
                     emailAddress: '',
+                    password: '',   
                     organisation: '',
-                    userType: ''
+                    userType: '',
+                    image: '',
                 }
             },
             getRoles() {
@@ -161,6 +185,21 @@
                     this.$data.formValues = response.data;
                 });
             },
+            createImage(file) {
+              var image = new Image();
+              var reader = new FileReader();
+              var vm = this;
+
+            reader.onload = (e) => {
+                vm.image = e.target.result;
+              };
+              reader.readAsDataURL(file);
+            },
+            removeImage: function (e) {
+              this.image = '';
+              e.preventDefault();
+            },
+
             prepareDeleteResource(id) {
                 this.deleteAction="/api/user/delete/"+id;
             },

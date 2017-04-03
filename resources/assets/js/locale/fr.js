@@ -41,7 +41,7 @@ module.exports = {
   user_management_cancel: "FCancel",
   user_management_yes: "FYes",
 
-  tournament_manage_edition: "FSelect an existing edition",
+  tournament_manage_edition: "FSelect and Existing Edition",
   tournament_information: "FTourment information",
   tournament_name: "FTournament name",
   tournament_start_date: "FTournament start date",
@@ -89,7 +89,7 @@ module.exports = {
   competation_match_schedule: "FMatch schedule",
   competation_manage: "FManage",
 
-  competation_modal_age_category: "FCompetation View",
+  competation_modal_age_category: "FAge category",
   competation_label_age_category: "FAge category *",
   competation_modal_age_category_required: "FAge Category is Required",
   competation_modal_select_templates: "FSelect templates *",
