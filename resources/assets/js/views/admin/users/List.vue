@@ -193,12 +193,12 @@
               this.createImage(files[0]);
             },  
             createImage(file) {
-              var user_image = new Image();
+              var image = new Image();
               var reader = new FileReader();
               var vm = this;
 
             reader.onload = (e) => {
-                vm.user_image = e.target.result;
+                vm.image = e.target.result;
               };
               reader.readAsDataURL(file);
             },
@@ -231,9 +231,10 @@
                             this.updateUserList();
                         });
                     } else {
-                    this.formValues.user_image = this.user_image;
+                    this.formValues.user_image = this.image;
                    let that = this
                     setTimeout(function(){
+
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
