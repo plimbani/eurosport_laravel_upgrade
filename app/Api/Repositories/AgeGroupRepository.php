@@ -123,8 +123,6 @@ class AgeGroupRepository
       $data= Competition::where('tournament_id',$data['tournament_id'])
              ->where('tournament_competation_template_id',$data['competation_format_id'])
              ->delete();
-      
-      
     }
     //deleteCompeationFormat
 }
