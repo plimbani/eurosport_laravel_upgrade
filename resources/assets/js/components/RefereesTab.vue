@@ -5,19 +5,11 @@
 				<div class="text-center">
 					<button type="button" data-toggle="modal" data-target="#refreesModal" class="btn btn-primary mb-3">Add Referee</button>
 				</div>
-				<AddRefereesModel></AddRefereesModel>
+				<AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId"></AddRefereesModel>
 				<div class="raferee_list">
-					<div class="raferee_details">
+					<div class="raferee_details" @click="editReferee(referee.id)" v-for="referee in referees">
 						<img src="/assets/img/user_icon.png" width="40">
-						<p>Paul Jones</p>
-					</div>
-					<div class="raferee_details">
-						<img src="/assets/img/user_icon.png" width="40">
-						<p>John Smith</p>
-					</div>
-					<div class="raferee_details">
-						<img src="/assets/img/user_icon.png" width="40">
-						<p>Jane Dodd</p>
+						<p>{{referee.first_name}}</p>
 					</div>
 				</div>
 			</div>
@@ -27,10 +19,94 @@
 
 <script type="text/babel">
 	import AddRefereesModel from './AddRefereesModel.vue'
+	import addReferee from '../components/AddReferee.vue'
+	import Tournament from '../api/tournament.js'
 
 	export default { 
+		data() {
+            return {
+            	formValues: this.initialState(),
+                'tournamentId': this.$store.state.Tournament.tournamentId,
+                'referees': {},
+                refereeId: '',
+                competationList: {}
+                }
+        },
 		components: {
 		    AddRefereesModel
-		}
+		},
+		mounted(){
+            this.getAllReferee()
+            $("#addReferee").on('hidden.bs.modal', function () {
+                $('#frmAddReferee')[0].reset()
+            });
+            this.displayTournamentCompetationList()
+            let this1 = this
+            $("#refreesModal").on('hidden.bs.modal', function () {
+                 $('#frmReferee')[0].reset();
+                 this1.refereeId = ''
+            	this1.formValues = this1.initialState()
+            });
+        },
+		methods: {
+			initialState() {
+				return {
+                    first_name: '',
+                    last_name: '',
+                    telephone: '',
+                    email: '',
+                    age_group_id: '',
+                    availability: ''
+                }
+			},
+			displayTournamentCompetationList () {
+            // Only called if valid tournament id is Present
+                if (!isNaN(this.tournamentId)) {
+                  // here we add data for 
+                  let TournamentData = {'tournament_id': this.tournamentId}
+                  Tournament.getCompetationFormat(TournamentData).then(
+                  (response) => {          
+                    this.competationList = response.data.data         
+                    // console.log(this.competationList);
+                  },
+                  (error) => {
+                     console.log('Error occured during Tournament api ', error)
+                  }
+                  )
+                } else {
+                  this.TournamentId = 0;
+                }
+            },
+            getAllReferee() {
+                // Tournament.getReferees(this.tournamentId)rnamentId);
+                Tournament.getReferees(this.tournamentId).then(
+                  (response) => { 
+                  this.referees = response.data.referees 
+                  },
+                  (error) => {
+                     console.log('Error occured during Tournament api ', error)
+                  }
+                  )
+            },
+            
+            addReferee(){
+            	
+                $('#addReferee').modal('show')
+            },
+             editReferee (rId){
+		      this.refereeId = rId
+		      Tournament.getRefereeDetail(rId).then(
+		      	(response) => { 
+		      		// console.log(response.data.referee)
+                  this.formValues = response.data.referee 
+                  $('#refreesModal').modal('show')
+                  }
+		      	)
+		    }
+            // editPitch(pitchId) {
+            //     this.pitchId = pitchId
+            //     this.$store.dispatch('PitchData',pitchId)
+            // },
+        }
 	}
 </script>

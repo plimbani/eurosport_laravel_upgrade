@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <component :is="currentScheduleView" 
     :matchData="matchData" :otherData="otherData"
     > </component>

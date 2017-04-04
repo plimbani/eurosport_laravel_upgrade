@@ -49,14 +49,28 @@
 </template>
 <script>
 import TournamentDropDown from '../../../components/TournamentDropDown.vue'
+import Ls from '../../../services/ls'
 export default {    
   components : {
     TournamentDropDown
   },
   mounted() {
     // Here we set Default Value For Tournament
-    let tournamentAdd  = {name:'', 'currentPage':'Home'}        
-    this.$store.dispatch('SetTournamentName', tournamentAdd)
+    let userDetails = this.$store.state.Users.userDetails
+    
+    if(Object.keys(userDetails).length == 0)
+    {
+      
+      let email = Ls.get('email');
+      
+      // Now here we are call and fetch user details
+      let userData = {'email':email}
+      this.$store.dispatch('getUserDetails', userData);
+
+    }
+     let tournamentAdd  = {name:'', 'currentPage':'Home'}        
+      this.$store.dispatch('SetTournamentName', tournamentAdd)
+     
   },
   methods : {
     addNewTournament() {     

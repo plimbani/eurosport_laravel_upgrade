@@ -282,6 +282,7 @@
      currentPage: 'Pitch Planner'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
     }
+    
     },	
     components: {
         GamesTab, RefereesTab, PitchModal

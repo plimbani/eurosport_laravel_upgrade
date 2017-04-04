@@ -37,6 +37,20 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->index();
     }
+    
+    /**
+     * Show all Tournament Details By Status.
+     *
+     * Get a JSON representation of all the Age Groups.
+     *
+     * @Get("/tournament/status")
+     * @Versions({"v1"})
+     * @Response(200, body={"id": 10, "club_id": "foo"})
+     */
+    public function getTournamentByStatus(Request $request)
+    {
+        return $this->tournamentObj->getTournamentByStatus($request);
+    }
 
     /**
      * Show all Tournament Templates.
@@ -112,8 +126,10 @@ class TournamentController extends BaseController
     }
 
     public function generateReport(Request $request) {
-
        return $this->tournamentObj->generateReport($request->all());
-
     }
+    public function updateStatus(Request $request) {
+       return $this->tournamentObj->updateStatus($request->all());
+    }
+       
 }

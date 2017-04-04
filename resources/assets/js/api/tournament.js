@@ -61,14 +61,29 @@ export default {
  saveReferee(data) {
      return api.post('referee/create',{ data})
  },
+  updateReferee(data) {
+     return api.post('referee/update',{ data})
+ },
  getStanding(tournamentData) {
   return api.post('match/getStanding',{'tournamentData': tournamentData})
  },
  getDrawTable(tournamentData) {
   return api.post('match/getDrawTable',{'tournamentData': tournamentData})
  },
-  getTournamentTeams(tournamentData) {
-    return api.post('teams/teamsTournament',{'tournamentData': tournamentData})
+ getTournamentTeams(tournamentData) {
+  return api.post('teams/teamsTournament',{'tournamentData': tournamentData})
+ },
+ getTournamentByStatus(tournamentData) {
+  return api.post('tournaments/getTournamentByStatus',{'tournamentData': tournamentData})
+ },
+ 
+  getRefereeDetail(refereeId) {
+    return api.post('referee/refereeDetail',{'refereeId': refereeId})
   },
-
+  getAllMatches(tournamentId) {
+    return api.post('match/getFixtures',{'tournamentId': tournamentId})
+  },
+  updateStatus(tournamentData) {
+    return api.post('tournament/updateStatus',{'tournamentData': tournamentData})
+  }
 }

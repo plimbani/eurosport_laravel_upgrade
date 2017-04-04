@@ -232,6 +232,8 @@ module.exports = {
   summary_dates: "FDates",
   summary_status: "FStatus",
   summary_button_publish: "FPublish",
+  summary_button_unpublish: "FUnPublish",
+
   summary_button_delete: "FDelete",
   summary_age_groups: "FAge Groups",
   summary_participating_countries: "FParticipating countries",

@@ -26,16 +26,25 @@ class RefereeRepository
             'last_name' => $refereeData['last_name'],
             'telephone' => $refereeData['telephone'],
             'email' => $refereeData['email'],
-            'comments' => $refereeData['available'],
+            'availability' => $refereeData['available'],
             'age_group_id' =>  $refereeData['age_category']
             
         ]);
         // return Referee::create($refereeData);
     }
 
-    public function edit($data,$refereeId)
+    public function edit($refereeData,$refereeId)
     {
-        return Referee::where('id', $refereeId)->update($data);
+        return Referee::where('id', $refereeId)->update([
+            'tournament_id' => $refereeData['tournament_id'],
+            'first_name' => $refereeData['first_name'],
+            'last_name' => $refereeData['last_name'],
+            'telephone' => $refereeData['telephone'],
+            'email' => $refereeData['email'],
+            'availability' => $refereeData['available'],
+            'age_group_id' =>  $refereeData['age_category']
+            
+        ]);
     }
 
     public function getRefereeFromId($refereeId)

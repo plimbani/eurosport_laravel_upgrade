@@ -42,3 +42,23 @@
 		</div>
 	</div>
 </template>
+<script type="text/babel">
+	import Tournament from '../api/tournament.js'
+
+export default {
+	data() {
+		return {
+			'tournamentId': this.$store.state.Tournament.tournamentId,
+			matches: ''
+		}
+	},
+	mounted() {
+		Tournament.getAllMatches(this.tournamentId).then(
+			(response)=> {
+				console.log(response)
+			}
+		)
+	}
+}
+	
+</script>

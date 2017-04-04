@@ -1,6 +1,7 @@
 <template>
 <div class="col-md-12">
-<table class="table match_overview">
+<h3> Matches </h3>
+<table class="table match_overview" v-if="matchData.length > 0">
 	<thead>
 		<th>Time</th>
 		<th>Draw</th>
@@ -36,6 +37,7 @@
 		</tr>
 	</tbody>
 </table>
+<span v-else>No Matches Found</span>
 </div>
 </template>
 <script type="text/babel">

@@ -1,7 +1,7 @@
 <template>
 <div>
 
-<table class="table match_overview">
+<table class="table match_overview" v-if="standingData.length > 0">
 	<thead>
 		<th></th>
 		<th></th>
@@ -34,6 +34,7 @@
 		</tr>
 	</tbody>
 </table>
+<span v-else>No Standing Data Found</span>
 </div>
 </template>
 <script type="text/babel">
