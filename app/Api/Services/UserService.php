@@ -104,6 +104,17 @@ class UserService implements UserContract
         return $this->userRepoObj->edit($userId);
     }
 
+    public function getUserDetails($data)
+    {
+        
+        $data =  $this->userRepoObj->getUserDetails($data);
+        
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
+        }
+        
+    }
+
     /**
      * Update User.
      *

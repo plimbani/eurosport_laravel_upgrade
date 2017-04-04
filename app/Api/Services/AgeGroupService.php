@@ -39,7 +39,6 @@ class AgeGroupService implements AgeGroupContract
     {
         // Now here we set and Calculate and Save Data in 
         //  tournament_competation_template Table
-        
         $data = $data['compeationFormatData'];
         
         list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data);
@@ -58,12 +57,17 @@ class AgeGroupService implements AgeGroupContract
             // here we check if template data is changed if changed 
             // delete all data and insert new one
             // TODO: Here we check if there is change then and then change Data
-            
-            $this->ageGroupObj->deleteCompetationData($data);
-            $id = $data['competation_format_id'];
+            if($data['tournament_template_id'] != $data['tournamentTemplate']['id']) {
+                $this->ageGroupObj->deleteCompetationData($data);
+                $id = $data['competation_format_id'];        
+                $this->addCompetationGroups($id,$data);    
+            }
+
+        } else {
+             $this->addCompetationGroups($id,$data);
         }   
         
-        $this->addCompetationGroups($id,$data);    
+        
         //$competationData['tournament_competation_template_id'] = $data;
         //$competationData['tournament_id'] = $data['tournament_id'];
         //$competationData['name'] = $data['ageCategory_name'].'-'.$group_name;
