@@ -48,7 +48,26 @@ class AgeGroupService implements AgeGroupContract
         $data['total_match'] = $totalmatch;
         $data['disp_format_name'] = $dispFormatname;            
         
-        $data = $this->ageGroupObj->createCompeationFormat($data);
+        $id = $this->ageGroupObj->createCompeationFormat($data);
+        
+        
+        // here we insert Groups in Competation Formats
+        // First we check if its Edit or Update
+        if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0)
+        {
+            // here we check if template data is changed if changed 
+            // delete all data and insert new one
+            // TODO: Here we check if there is change then and then change Data
+            
+            $this->ageGroupObj->deleteCompetationData($data);
+            $id = $data['competation_format_id'];
+        }   
+        
+        $this->addCompetationGroups($id,$data);    
+        //$competationData['tournament_competation_template_id'] = $data;
+        //$competationData['tournament_id'] = $data['tournament_id'];
+        //$competationData['name'] = $data['ageCategory_name'].'-'.$group_name;
+
 
         // Here also add in competation table data number of groups 
         
@@ -56,7 +75,35 @@ class AgeGroupService implements AgeGroupContract
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }                
     }
+    private function addCompetationGroups($tournament_competation_template_id, 
+        $data){
+        // Here we set data
+       // $json_data = json_decode($jsonTemplateData);
+        // Below are Fixed Data
+        
+        $competationData['tournament_competation_template_id'] = $tournament_competation_template_id;
+        $competationData['tournament_id'] = $data['tournament_id'];
+        $competationData['age_group_name'] = $data['ageCategory_name'];
+        $json_data = json_decode($data['tournamentTemplate']['json_data']);
 
+
+        //$competationData['name'] = $data['ageCategory_name'].'-'.$group_name;
+        $totalRound = count($json_data->tournament_competation_format->format_name);
+        $group_name=array();
+        for($i=0;$i<$totalRound;$i++){
+            // Now here we calculate followng fields
+            $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
+            foreach($rounds as $key=>$round) {
+                $val = $key.'-'.$i;
+                $group_name[$val]['group_name']=$round->groups->group_name;
+                if(isset($round->group_count))
+                  $group_name[$val]['group_count']=$round->group_count;
+                //if(isset($round->))
+            }    
+        }
+        
+        $this->ageGroupObj->addCompetations($competationData,$group_name);
+    }
     private function calculateTime($data) {
         // We calculate the Following over here
         // Total Time
@@ -72,7 +119,7 @@ class AgeGroupService implements AgeGroupContract
         // Move For loop and take count -1 for round robin        
         $totalRound = count($json_data->tournament_competation_format->format_name);
         $total_rr_time = 0; $total_final_time=0;$total_time=0;
-        // we use -1 loop for not only consider round robin matches
+        // we use -1 loop for only consider round robin matches
         for($i=0;$i<$totalRound-1;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;

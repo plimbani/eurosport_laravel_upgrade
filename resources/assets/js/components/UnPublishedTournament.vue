@@ -3,12 +3,12 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Publish Tournament</h4>
+                    <h4 class="modal-title" id="myModalLabel">UnPublished Tournament</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                    
                 </div>
                 <div class="modal-body text-left">
                     <p>
-                        Hit "Confirm" to Publishe your tournament details.
+                        Hit "Confirm" to UnPublish your tournament details.
                     </p>
                 </div>
                 <div class="modal-footer">
@@ -25,8 +25,7 @@
       methods: {
         updateStatus() {
             // here we set status to Publish For Tournament
-            $('#publish_modal').attr('data-dismiss','modal')
-            //this.$root.$emit('StatusUpdate','Published');
+            this.$root.$emit('StatusUpdate','UnPublished');
         }
       }
     }

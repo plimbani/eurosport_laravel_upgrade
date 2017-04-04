@@ -1,7 +1,7 @@
 <template>
 <div>
 <h3>{{otherData.DrawName}} </h3>
-<table class="table draw_table" border="1">
+<table class="table match_overview" border="1" v-if="match1Data.length > 0">
 	<thead>
         <tr>
             <th></th>
@@ -44,11 +44,13 @@
     	</tr>-->
     </tbody>
 </table>
+<span v-else> No Draw data Found </span>
 <h4>Standings of {{otherData.DrawName}} </h4>
   <teamStanding :currentCompetationId="currentCompetationId" 
   v-if="currentCompetationId != 0"></teamStanding>
-<h4> Matches</h4>
+
 <matchList :matchData="matchData"></matchList>
+
 </div>
 </template>
 <script type="text/babel">

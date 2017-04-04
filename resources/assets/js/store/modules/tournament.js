@@ -25,6 +25,9 @@ const actions = {
   SetTournamentTotalTime({commit}, totalTime) {    
     commit(types.SET_TOURNAMENT_TOTAL_TIME, totalTime)
   },
+  setTournamentStatus({commit}, status) {
+    commit(types.SET_TOURNAMENT_STATUS, status)
+  },
   SetTournamentName ({commit}, tournamentData) {      
     commit(types.CURRENT_TOURNAMENT, tournamentData)
   },
@@ -98,6 +101,9 @@ const actions = {
 
 // mutations
 const mutations = {  
+  [types.SET_TOURNAMENT_STATUS] (state, tournamentField) {    
+    state.tournamentStatus = tournamentField.tournamentStatus
+  },
   [types.CURRENT_TOURNAMENT] (state, currentTournament) {        
     //alert(JSON.stringify(currentTournamentName))
     state.tournamentName = currentTournament.name

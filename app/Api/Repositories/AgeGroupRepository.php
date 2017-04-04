@@ -5,6 +5,7 @@ namespace Laraspace\Api\Repositories;
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\TournamentTemplate;
+use Laraspace\Models\Competition;
 
 class AgeGroupRepository
 {
@@ -26,6 +27,41 @@ class AgeGroupRepository
     public function delete($data)
     {
         return AgeGroup::find($data['id'])->delete();
+    }
+    public function addCompetations($competation_data,$group_data)
+    {
+      // Now here we have to For Loop to insert all data in competations table
+      //print_r($competation_data);
+     // print_r($group_data);
+      //exit;
+      $i=1;
+      $competations=array();
+      $age_group = $competation_data['age_group_name'];
+      
+      $cntGroups = count($group_data);
+
+      foreach($group_data as $groups){
+
+       $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
+       $competations['tournament_id'] = $competation_data['tournament_id'];
+       $comp_group = $groups['group_name'];
+       $competations['name'] = $age_group.'-'.$comp_group;
+       $competations['team_size'] = $groups['group_count'];
+       // here last group we consider as Final or Elimination Match
+       // Means Last one
+       if($cntGroups == $i) {
+        $competaon_type = 'Elimination'; 
+       } else {
+        $competaon_type = 'Round Robin'; 
+       }
+
+       $competations['competation_type'] = $competaon_type;
+       
+       Competition::create($competations);   
+       $i++;
+      }
+      
+     return true;
     }
     public function createCompeationFormat($data){
       // here first we save the Age Group            
@@ -58,7 +94,7 @@ class AgeGroupRepository
       // Here also Save in competations table
       
 
-     	return TournamentCompetationTemplates::create($tournamentCompeationTemplate);    
+     	return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;    
       }          
       
       // Now here we return the appropriate Data
@@ -82,6 +118,13 @@ class AgeGroupRepository
      return TournamentCompetationTemplates::find($tournamentCompetationTemplateId)->delete();
     }
 
-
+    public function deleteCompetationData($data)
+    {
+      $data= Competition::where('tournament_id',$data['tournament_id'])
+             ->where('tournament_competation_template_id',$data['competation_format_id'])
+             ->delete();
+      
+      
+    }
     //deleteCompeationFormat
 }
