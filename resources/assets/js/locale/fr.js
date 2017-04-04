@@ -12,6 +12,7 @@ module.exports = {
 
   siteheader_name: "FChris",
   siteheader_settings: "FSettings",
+  siteheader_userprofile: "FUser Profile",
   siteheader_logout: "FLogout",
   siteheader_help: "FHelp",
   siteheader_time: "FTime",

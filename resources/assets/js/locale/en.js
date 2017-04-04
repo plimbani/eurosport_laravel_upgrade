@@ -12,6 +12,7 @@ module.exports = {
 
   siteheader_name: "Chris",
   siteheader_settings: "Settings",
+  siteheader_userprofile: "User Profile",
   siteheader_logout: "Logout",
   siteheader_help: "Help",
   siteheader_time: "Time",

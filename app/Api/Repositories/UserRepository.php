@@ -22,9 +22,8 @@ class UserRepository {
     }
 
     public function create($data)
-    {
-      
-        return User::create($data);
+    {  
+      return User::create($data);
     }
 
     public function delete($id)

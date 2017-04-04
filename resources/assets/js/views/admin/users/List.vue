@@ -78,9 +78,9 @@
                                     <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Your email address">
                                     <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('email_address')">The email address field is required.</span>
-                                </div>
+                                </div> 
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row" v-if="$lang.user_id !== 'null'" >
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Your password">
@@ -224,6 +224,7 @@
             validateBeforeSubmit(){
                 this.$validator.validateAll().then(() => {
                     if(this.$data.formValues.id=="") {
+                        this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {
                             toastr.success('User has been added succesfully.', 'Add User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
@@ -234,7 +235,6 @@
                     this.formValues.user_image = this.image;
                    let that = this
                     setTimeout(function(){
-
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
@@ -242,7 +242,6 @@
                             that.updateUserList();
                         });
                     },1000)
-                   
                        
                     }
                 }).catch(() => { });

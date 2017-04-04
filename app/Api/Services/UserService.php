@@ -54,13 +54,19 @@ class UserService implements UserContract
         $userData['user']['name']=$data['name']." ".$data['surname'];
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
+
+       if($data['user_image']!='')
+        {
+            $imagename = $this->saveUsersLogo($data);
+        }
+
+        $userData['user']['user_image']=$imagename;
         $userData['user']['password']=Hash::make('password');
 
         $userObj=$this->userRepoObj->create($userData['user']);
 
         $userObj->attachRole($data['userType']);
-        $data['tournamentData']['image_logo']=$this->saveTournamentLogo($data);
-
+        
         /*$email_details = array();
         $email_details['name'] = $data['name'];
         $recipient = $data['emailAddress'];
