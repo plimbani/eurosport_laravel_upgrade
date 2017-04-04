@@ -278,5 +278,12 @@ class TournamentService implements TournamentContract
             return ['status_code' => '200', 'message' => '','data'=>$reportData];
         }
     }
-       
+    public function updateStatus($data)
+    {
+        $data = $this->tournamentRepoObj->updateStatus($data['tournamentData']);
+
+        if ($data) {
+            return ['status_code' => '200', 'message' => self::SUCCESS_MSG];
+        }
+    }   
 }

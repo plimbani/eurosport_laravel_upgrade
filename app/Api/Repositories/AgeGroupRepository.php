@@ -37,6 +37,7 @@ class AgeGroupRepository
       $i=1;
       $competations=array();
       $age_group = $competation_data['age_group_name'];
+      
       $cntGroups = count($group_data);
 
       foreach($group_data as $groups){
@@ -119,8 +120,11 @@ class AgeGroupRepository
 
     public function deleteCompetationData($data)
     {
-      return Competition::where('tournament_id',$data['tournament_id'])
-             ->where('tournament_competation_template_id',$data['competation_format_id'])->delete();
+      $data= Competition::where('tournament_id',$data['tournament_id'])
+             ->where('tournament_competation_template_id',$data['competation_format_id'])
+             ->delete();
+      
+      
     }
     //deleteCompeationFormat
 }

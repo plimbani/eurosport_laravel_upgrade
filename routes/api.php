@@ -88,6 +88,8 @@ $api->version('v1', function ($api) {
 
     // Get Tournament Details By Status
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
+    $api->post('tournament/updateStatus', 'Laraspace\Api\Controllers\TournamentController@updateStatus');
+    
     // Get All Templates 
     $api->get('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates');
 

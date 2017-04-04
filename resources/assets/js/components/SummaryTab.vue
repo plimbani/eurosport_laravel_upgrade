@@ -17,8 +17,24 @@
 				</div>
 				<div class="pull-right col-md-6 padding0 text-right">
 					<span><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
-					<button type="button" data-toggle="modal" data-target="#publish_modal" class="btn btn-primary col-md-4">{{$lang.summary_button_publish}}</button><br>
-					<PublishTournament></PublishTournament>
+					
+					<span v-if="tournamentStatus == 'Published'">
+					   <button type="button" data-toggle="modal" 
+					data-target="#publish_modal" 
+					class="btn btn-primary col-md-4">
+					{{$lang.summary_button_unpublish}}</button><br>					 
+					<UnPublishedTournament>
+					</UnPublishedTournament>
+					</span>
+					<span v-else>
+					  <button type="button" data-toggle="modal" 
+					data-target="#publish_modal" 
+					class="btn btn-primary col-md-4">
+					{{$lang.summary_button_publish}}</button><br>
+					<PublishTournament :tournamentStatus='tournamentStatus'>
+					</PublishTournament>
+					</span>
+					
 					<button type="button" data-toggle="modal" 
 					data-confirm-msg="Are you sure you would like to delete this user record?"
 					data-target="#delete_modal"
@@ -96,7 +112,8 @@
 <script type="text/babel">
 	
 	import PublishTournament from './PublishTournament.vue'
-	
+	import UnPublishedTournament from './UnPublishedTournament.vue'
+
 	import DeleteModal from './DeleteModal.vue'
 	import Tournament from '../api/tournament.js'
 
@@ -111,16 +128,40 @@
 	    	}
 	    },
 	    components: {
-	        PublishTournament, DeleteModal
+	        PublishTournament, DeleteModal,UnPublishedTournament
 	    },
-	    mounted() {
-	    
-	          // First Set Menu and ActiveTab
-	       this.getSummaryData()
-	      
+	    mounted() {	    
+	       // First Set Menu and ActiveTab
+	       this.getSummaryData()	      
 	    },
+	    created: function() {
+       		this.$root.$on('StatusUpdate', this.updateStatus); 
+  		},
 	    methods: {
-	    getSummaryData() {
+	      updateStatus(status){
+	      	// here we call method to update Status
+	      	let tournamentId = this.$store.state.Tournament.tournamentId;
+	      	let tournamentData = {'tournamentId': tournamentId, 'status': status}
+	      	if(tournamentId != undefined)
+	    	{
+	    		Tournament.updateStatus(tournamentData).then(
+	    		(response) => {
+	    			if(response.data.status_code == 200) {
+	    				this.tournamentStatus = status	
+	    				toastr['success']('Tournament has Been '+status, 'Success');
+	    				let tournamentField = {'tournamentStatus': status}
+	    				this.$store.dispatch('setTournamentStatus',tournamentField)
+	    			}
+	    		},
+	    		(error) => {
+	    			console.log('Errr in status update')
+	    		}
+	    		);
+
+	    		$('#publish_modal').attr('data-dismiss','modal') 
+	    	}
+	      },	
+	      getSummaryData() {
 	    	let tournamentId = this.$store.state.Tournament.tournamentId;
 	    	
 	    	if(tournamentId != undefined)

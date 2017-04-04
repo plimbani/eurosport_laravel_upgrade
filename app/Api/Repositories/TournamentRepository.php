@@ -194,4 +194,11 @@ class TournamentRepository
             
 
     }
+    public function updateStatus($tournamentData)
+    {    
+        $newdata = array();
+        $newdata['status'] = $tournamentData['status'];
+        $tournamentId =   $tournamentData['tournamentId'];
+        return Tournament::where('id', $tournamentId)->update($newdata);
+    }
 }

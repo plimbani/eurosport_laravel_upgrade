@@ -57,7 +57,10 @@ class AgeGroupService implements AgeGroupContract
         {
             // here we check if template data is changed if changed 
             // delete all data and insert new one
+            // TODO: Here we check if there is change then and then change Data
+            
             $this->ageGroupObj->deleteCompetationData($data);
+            $id = $data['competation_format_id'];
         }   
         
         $this->addCompetationGroups($id,$data);    

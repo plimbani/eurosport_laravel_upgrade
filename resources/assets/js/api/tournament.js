@@ -82,7 +82,8 @@ export default {
   },
   getAllMatches(tournamentId) {
     return api.post('match/getFixtures',{'tournamentId': tournamentId})
+  },
+  updateStatus(tournamentData) {
+    return api.post('tournament/updateStatus',{'tournamentData': tournamentData})
   }
-
-
 }
