@@ -122,9 +122,20 @@ class AgeGroupRepository
 
     public function deleteCompetationData($data)
     {
-      $data= Competition::where('tournament_id',$data['tournament_id'])
+      return Competition::where('tournament_id',$data['tournament_id'])
              ->where('tournament_competation_template_id',$data['competation_format_id'])
              ->delete();
+
+      /*$competationId = array();
+      $competationId= Competition::where('tournament_id',$data['tournament_id'])
+             ->where('tournament_competation_template_id',$data['competation_format_id'])
+             ->select('id')
+             ->get()->toArray();*/
+
+     //        ->delete();
+      // Here we also Delete the Fixtures which related to it in temp_fixtures
+      //$query = DB::table('temp_fixtures')
+        //        ->where('')
     } 
     public function addFixturesIntoTemp($fixtureArray,$competationArr)
     {
