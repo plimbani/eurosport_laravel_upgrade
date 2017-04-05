@@ -47,7 +47,7 @@ class MatchRepository
       return $reportQuery;
     }
     public function getFixtures($tournamentData) {
-
+        // dd($tournamentData);
          $reportQuery = DB::table('fixtures')
             // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
             ->leftjoin('venues', 'fixtures.venue_id', '=', 'venues.id')

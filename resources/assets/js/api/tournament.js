@@ -50,8 +50,8 @@ export default {
  getAllDraws(tournamentData) {
     return api.post('match/getDraws',{'tournamentId': tournamentData})
  },
- getFixtures(tournamentId) {
-    return api.post('match/getFixtures',{'tournamentData': tournamentId})
+ getFixtures(tournamentData) {
+    return api.post('match/getFixtures',{'tournamentData': tournamentData})
  },
 
  getAllReportsData(data) {
@@ -76,8 +76,8 @@ export default {
   getRefereeDetail(refereeId) {
     return api.post('referee/refereeDetail',{'refereeId': refereeId})
   },
-  getAllMatches(tournamentId) {
-    return api.post('match/getFixtures',{'tournamentId': tournamentId})
-  }
+  // getAllMatches(tournamentId) {
+  //   return api.post('match/getFixtures',{'tournamentId': tournamentId})
+  // }
 
 }

@@ -4,12 +4,12 @@
             <div class="card-block">
                 <h6 class=""><strong>{{$lang.pitch_capacity}}</strong></h6>
                 <div class="row">
-                    <div class="col-md-1 pitch-capaciry" v-for="pitch in pitches">
+                    <div class="col-md-1 pitch-capaciry"    v-for="pitch in pitches">
                         <p><strong>{{pitch.pitch_number}}</strong></p>
                         <img src="/assets/img/pitch.png">
                         <p>
                             <span><a href="javascript:void(0)" @click="editPitch(pitch.id)">Edit</a></span>
-                            <span><a href="javascript:void(0)" @click="removePitch(pitch.id)">Remove</a></span>
+                            <span><a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)">Remove</a></span>
                         </p>
                     </div>
                 </div>
@@ -18,6 +18,8 @@
                 </div>
                 <addPitchDetail v-if="pitchId==''" ></addPitchDetail>
                 <editPitchDetail v-if="pitchId!=''" ></editPitchDetail>
+                <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+                
                 <div class="row mt-4">
                     <div class="result col-md-12">
                         <div class="dashbox">
@@ -43,6 +45,7 @@
 <script type="text/babel">
 import editPitchDetail from '../../../views/admin/eurosport/editPitchDetail.vue'
 import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
+import DeleteModal from '../../../components/DeleteModal.vue'
     export default {
         data() {
             return {
@@ -55,13 +58,13 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                 'disableDate': [],
                 'stage_capacity' : [],
                 'availableDate': [],
-                // 'pitchId': _.cloneDeep(this.$store.getters.curPitchId)
-                // 'pitchId': _.cloneDeep(this.$store.getters.curPitchId)
+                'deleteConfirmMsg': 'All schedules with this pitch will be removerd. Are you sure you would like to delete this pitch record?',
+                'deletePitchId': ''
 
                 }
         },
         components: {
-            editPitchDetail,addPitchDetail
+            editPitchDetail,addPitchDetail,DeleteModal
         },
         computed: {
             tournamentTime: function() {
@@ -192,61 +195,14 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
             
         },
         methods: {
+
             getAllPitches() {
                 this.$store.dispatch('SetPitches',this.tournamentId);
                 this.$store.dispatch('SetVenues',this.tournamentId);
             },
-            // savePitchDetails () {
-            //     this.$validator.validateAll().then(() => {
-            //         var time = 0
-            //         $( ".stage_capacity_all" ).each(function( index ) {
-            //           time = time + parseInt($(this).val())
-            //         });
-            //          var minutes = time % 60;
-            //         var hours = (time - minutes) / 60;
-            //         var time_val = hours+ '.' +minutes
-            //         let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time_val
-            //             if(this.pitchId == '') {
-            //                 // this.$store.dispatch('AddPitch',pitchData)
-            //                 return axios.post('/api/pitch/create',pitchData).then(response =>  {
-            //                     this.pitchId = response.data.pitchId
-            //                     toastr['success']('Pitch detail has been added successfully', 'Success');
-            //                     this.getAllPitches()
-            //                 }).catch(error => {
-            //                     if (error.response.status == 401) {
-            //                         toastr['error']('Invalid Credentials', 'Error');
-            //                     } else {
-            //                         //   happened in setting up the request that triggered an Error
-            //                         console.log('Error', error.message);
-            //                     }
-            //                 });
-            //             }else{
-            //                // pitchData += '&id='+this.pitchId;
-            //                return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
-            //                     this.pitchId = response.data.pitchId
-            //                     toastr['success']('Pitch detail has been added successfully', 'Success');
-            //                     $('#exampleModal').modal('close')
-            //                 }).catch(error => {
-            //                     if (error.response.status == 401) {
-            //                         toastr['error']('Invalid Credentials', 'Error');
-            //                     } else {
-            //                         //   happened in setting up the request that triggered an Error
-            //                         console.log('Error', error.message);
-            //                     }
-            //                 });
-            //             }
-            //     }).catch(() => {
-            //         // toastr['error']('Invalid Credentials', 'Error')
-            //      });
-            //     // let pitchData = {
-            //     //     'pitchId' : this.pitchId,
-            //     //     'number': '123',
-            //     //     'type' : 'Grass',
-            //     //     'location' : '1',
-            //     //     'Size' : '5-a-side'
-            //     //     }
-            //          // let pitchData = new FormData($("#frmPitchDetail")[0]$("#frmPitchAvailable")[0]);
-            // },
+            deletePitch (pitchId) {
+                this.deletePitchId = pitchId
+            },
             stageRemove (day) {
                 this.removeStage.push(day)
                 var index = this.disableDate.indexOf($('#stage_start_date'+day).val());
@@ -277,8 +233,6 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                     var hours = (diff - minutes) / 60;
                    this.stage_capacity['day'+stage] = hours+ ':' +minutes
                 }
-                // return hours+ ':' +minutes
-                // return 10.30 *stage
             },
 
             setDatepicker(tStartDate,tEndDate,disableDate,availableDate,stage) {
@@ -334,10 +288,12 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
             },
             removePitch(pitchId) {
                 // this.$store.dispatch('removePitch',pitchId)
-                toastr['warning']('All schedules with this pitch will be removerd', 'Warning');
+                // toastr['warning']('All schedules with this pitch will be removerd', 'Warning');
                 return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
                     this.getAllPitches()
-                    toastr['success']('Pitch Successfully removed', 'Success');
+                   $("#delete_modal").modal("hide");
+                    toastr.success('Pitch Successfully removed', 'Delete User', {timeOut: 5000});
+                    // toastr['success']('Pitch Successfully removed', 'Success');
                     this.getAllPitches()
                     }).catch(error => {
                     if (error.response.status == 401) {
@@ -347,6 +303,15 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
                         console.log('Error', error.message);
                     }
                 });
+            },
+            deleteConfirmed() {
+                console.log(' delete ')
+                this.removePitch(this.deletePitchId)
+                // axios.post(this.deleteAction).then((response) => {
+                //     $("#delete_modal").modal("hide");
+                //     toastr.success('User has been deleted succesfully.', 'Delete User', {timeOut: 5000});
+                //     this.updateUserList();
+                // });
             }
         }
     }
