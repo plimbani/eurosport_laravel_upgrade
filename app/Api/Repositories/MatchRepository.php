@@ -81,6 +81,15 @@ class MatchRepository
                 )
             ->where('fixtures.tournament_id', $tournamentData['tournamentId']);
 
+          if(isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' )
+          {
+            //echo 'Hello Date is'.$tournamentData['tournamentDate'];
+            $dd1= date('Y-m-d',strtotime($tournamentData['tournamentDate']));
+            //echo $dd1;
+            $reportQuery = $reportQuery->whereDate('fixtures.match_datetime',
+              '=',$dd1);               
+          }
+
           if(isset($tournamentData['pitchId']) && $tournamentData['pitchId'] !== '' )
           {
             $reportQuery = $reportQuery->where('fixtures.pitch_id',$tournamentData['pitchId']);
@@ -182,6 +191,9 @@ class MatchRepository
       //$table=array();
       $htmlData='';
       $arr1=array();
+      print_r($numTeamsArray);
+      print_r($matchArr);
+      //exit;
       for($i=0;$i<count($numTeamsArray);$i++)
       {
        // $htmlData.= '<tr>';
@@ -204,6 +216,7 @@ class MatchRepository
           else 
           {
             $teamId = $numTeamsArray[$i];
+            echo 'Team id is'.$teamId;
             $rowKey=$numTeamsArray[$i];
             $colKey=$numTeamsArray[$j];
 
@@ -217,8 +230,11 @@ class MatchRepository
               else 
               {
               // Flip it
-                $nwArr = explode('-',$matchArr[$colKey.'-'.$rowKey]);
-                $arr1[$i]['matches'][$j]['score']= $nwArr[1].'-'.$nwArr[0]; 
+                
+                if(isset($matchArr[$colKey.'-'.$rowKey])){
+                     $nwArr = explode('-',$matchArr[$colKey.'-'.$rowKey]);
+                     $arr1[$i]['matches'][$j]['score']= $nwArr[1].'-'.$nwArr[0]; 
+                }
               }
               //$arr1[$i]['matches'][$j]= $matchArr[$rowKey.'-'.$colKey];
             } 

@@ -32,7 +32,6 @@
   	  methods: {
         selectTournament(tournament) {
          // here we set the tournaments and add Schedule & Results
-         
          let name = tournament.name
 		 let id = tournament.id
 		  //let tournamentDays = Plugin.setTournamentDays(this.tournament.start_date, this.tournament.end_date)
@@ -40,7 +39,9 @@
 		  	name:name, 
 		  	id:id, 		  	
 		  	tournamentLogo: tournament.logo,
-		  	tournamentStatus:tournament.status
+		  	tournamentStatus:tournament.status,
+		  	tournamentStartDate:tournament.start_date,
+		  	tournamentEndDate:tournament.end_date		  	
 		  	}  				
     	  this.$store.dispatch('SetTournamentName', tournamentSel)
     	  // After Set We have to change Schedule View

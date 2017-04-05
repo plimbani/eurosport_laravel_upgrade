@@ -94,19 +94,30 @@ class AgeGroupService implements AgeGroupContract
         //$competationData['name'] = $data['ageCategory_name'].'-'.$group_name;
         $totalRound = count($json_data->tournament_competation_format->format_name);
         $group_name=array();
+        $fixture_array = array();
         for($i=0;$i<$totalRound;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
             foreach($rounds as $key=>$round) {
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
-                if(isset($round->group_count))
-                  $group_name[$val]['group_count']=$round->group_count;
-                //if(isset($round->))
+                $group_name[$val]['team_count']=$round->group_count;
+                // Now here For Loop for create Fixture array
+                foreach($round->groups->match as $key1=>$matches) {
+                    $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key1;
+                    $fixture_array[$newVal] = $matches->match_number;
+                }
             }    
-        }
+        }        
+        $competation_array = array();
+        $competation_array=$this->ageGroupObj->addCompetations($competationData,$group_name);
+        //print_r($fixture_array);
+        //print_r($competation_array);
+
+        // Now here we insert Fixtures
+        $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array);
+        //exit;
         
-        $this->ageGroupObj->addCompetations($competationData,$group_name);
     }
     private function calculateTime($data) {
         // We calculate the Following over here

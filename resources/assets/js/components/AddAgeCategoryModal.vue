@@ -118,15 +118,19 @@ export default {
       options: []
     }
   },
+
   mounted() {   
     // here we call A function to delete all data
-     
     this.TournamentCompetationList();   
   },
   created: function() {
      this.$root.$on('setCompetationFormatData', this.setEdit); 
+     this.$root.$on('createAgeCategory', this.createAgeCategory); 
   },
   methods: {
+    createAgeCategory(){
+      this.competation_format = this.initialState()
+    },
     initialState() {
       return {
          ageCategory_name:'',game_duration_RR:'20',game_duration_FM:'20',
