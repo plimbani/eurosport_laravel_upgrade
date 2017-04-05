@@ -2,17 +2,17 @@
 	<div class="tab-content planner_list_content">
 		<div class="row">
 			<div class="col-md-12">
-				<div v-for="(competition,index) in competationList">
+				<div v-if="competition.matchList.length > 0" v-for="(competition,index) in competitionWithGames">
 					<h6><strong>{{competition.group_name}}</strong></h6>
-					<div class="yellow_bg text-center mt-3"   v-for="match in matches.data">
-						<span>{{match.full_game}}</span>
-						<span>U11-A-1 v U19-A-2</span>
-						<span>09:00 (45 mins)</span>
+					<div class="yellow_bg text-center mt-3"   v-for="match in competition.matchList">
+						<span>{{match.matchName}}</span>
+						<span>{{match.fullGame}}</span>
+						<span>{{match.matchTime}} min</span>
 					</div>
 					
 				</div>
 				
-				<h6 class="mt-4"><strong>U19</strong></h6>
+				
 				<div class="dark_grey_bg text-center">
 					Unavailable 60 mins
 				</div>
@@ -27,10 +27,51 @@ export default {
 	data() {
 		return {
 			tournamentId: this.$store.state.Tournament.tournamentId,
-			matches: '',
-			competationList: '',
+			matches: [],
+			competationList: [],
 			matchGame: []
 
+		}
+	},
+	computed: {
+		competitionWithGames(){
+			let competitionGroup = this.competationList
+			// console.log(this.competationList.length,this.matches.length)
+			let allMatches = this.matches
+			if(this.competationList.length > 0 && this.matches.length > 0){
+				_.forEach(this.competationList, function(competition ) {
+				let cname = competition.group_name
+				let comp = []
+				let that = this
+					_.find(allMatches, function (match) {
+						let round = ''
+						let matchTime = 0
+						if(match.group_name == competition.group_name){
+							if(match.round == 'Round robin'){
+								round = 'RR-'
+								matchTime = parseInt(competition.game_duration_RR) +parseInt(competition.halftime_break_RR)
+
+							}else if(match.round == 'Elimination'){
+								round = 'EL-'
+							}else if(match.round == 'Final'){
+								round = 'FN-'
+								matchTime = parseInt(competition.game_duration_FM) +parseInt(halftime_break_FM)
+							}
+							var person = {'fullGame':match.full_game,'matchName':cname+'-'+round+match.match_number,'matchTime':matchTime};
+							comp.push(person)
+						}
+					})
+				// groupMatch.push(comp)
+				competition.matchList = comp
+			}) 
+			// console.log('msg23333')	
+
+			 return this.competationList
+			}else{
+				// console.log('msg',this.competationList,this.matches)
+			 return	this.competationList
+			}
+			
 		}
 	},
 	mounted() {
@@ -53,7 +94,7 @@ export default {
 			  Tournament.getCompetationFormat(TournamentData).then(
 			  (response) => {          
 				this.competationList = response.data.data   
-				this.matchFixture()      
+				// this.matchFixture()      
 				// console.log(this.competationList);
 			  },
 			  (error) => {
@@ -64,24 +105,24 @@ export default {
 			  this.TournamentId = 0;
 			}
 		},
-		matchFixture() {
-			let that = this
-			let groupMatch=[]
-			_.forEach(that.competationList, function(competition ) {
-				let cname = competition.group_name
-				let comp = []
-				_.find(that.matches, function (match) {
-				if(match.group_name == competition.group_name){
-						var person = {'fullGame':match.full_game};
-						comp.push(person)
-					}
-				})
-				// groupMatch.push(comp)
-				competition.matches = comp
-			}) ,
+		// matchFixture() {
+		// 	let that = this
+		// 	let groupMatch=[]
+		// 	_.forEach(that.competationList, function(competition ) {
+		// 		let cname = competition.group_name
+		// 		let comp = []
+		// 		_.find(that.matches, function (match) {
+		// 		if(match.group_name == competition.group_name){
+		// 				var person = {'fullGame':match.full_game};
+		// 				comp.push(person)
+		// 			}
+		// 		})
+		// 		// groupMatch.push(comp)
+		// 		competition.matches = comp
+		// 	}) ,
 
-			this.matchGame = groupMatch
-		}
+		// 	// this.matchGame = groupMatch
+		// }
 	}
 }
 

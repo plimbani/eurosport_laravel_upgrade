@@ -69,7 +69,7 @@ class MatchRepository
             ->leftjoin('match_results', 'fixtures.match_result_id', '=', 'match_results.id')
             ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
             ->groupBy('fixtures.id')
-            ->select('fixtures.id as fid','competitions.name as competation_name' , 'competitions.team_size as team_size','fixtures.match_datetime',
+            ->select('fixtures.id as fid','fixtures.match_number as match_number' ,'fixtures.round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','fixtures.match_datetime',
                 'venues.id as venueId', 'competitions.id as competitionId',
                 'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
