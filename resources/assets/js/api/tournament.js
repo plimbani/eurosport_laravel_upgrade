@@ -50,8 +50,8 @@ export default {
  getAllDraws(tournamentData) {
     return api.post('match/getDraws',{'tournamentId': tournamentData})
  },
- getFixtures(tournamentId) {
-    return api.post('match/getFixtures',{'tournamentData': tournamentId})
+ getFixtures(tournamentData) {
+    return api.post('match/getFixtures',{'tournamentData': tournamentData})
  },
 
  getAllReportsData(data) {
