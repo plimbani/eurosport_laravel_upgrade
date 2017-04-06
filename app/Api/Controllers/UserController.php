@@ -40,6 +40,10 @@ class UserController extends BaseController
     {
         return $this->userObj->getAllUsers();
     }
+    public function getUserDetails(Request $request)
+    {
+        return $this->userObj->getUserDetails($request->all());
+    }
 
     /**
      * Show all User Results Details.

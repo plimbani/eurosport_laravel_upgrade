@@ -1,5 +1,6 @@
 <template>
 <div>
+
 <component :is="currentScheduleView" :matchData="matchData" 
    :otherData="otherData"></component>
 </div>
@@ -17,7 +18,8 @@ export default {
 	data() {
 		return {
 			drawsData:[],
-			matchData:[], otherData:[]
+			matchData:[], otherData:[],
+			drawsList: [],draw:''
 		}
 	},
 	computed: {
@@ -37,6 +39,9 @@ export default {
        this.$root.$on('changeDrawListComp', this.setMatchData); 
   	},
 	methods: {
+		onChangeDraw() {
+			alert(this.draw)
+		},
 		setMatchData(id, Name='') {
 			
 			let comp = this.$store.state.currentScheduleView

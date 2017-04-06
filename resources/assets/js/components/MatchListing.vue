@@ -1,6 +1,15 @@
 <template>
   <div>
-    
+  	<div v-if="currentScheduleView == 'matchList'">
+    <h3>Match OverView </h3>
+	    <select class="form-control ls-select2 col-sm-4 offset-sm-2" 
+	    v-on:change="onChangeMatchDate"
+		v-model="matchDate">
+		<option v-for="option in tournamentDates" v-bind:value="option" 
+		>{{option}} 
+		</option>                                
+		</select>
+	</div>
     <component :is="currentScheduleView" 
     :matchData="matchData" :otherData="otherData"
     > </component>
@@ -17,18 +26,29 @@ import DrawsListing from './DrawsListing.vue'
 import LocationList from'./LocationList.vue'
 import DrawList from './DrawList.vue'
 
+import moment from 'moment';
+
 export default {
 	data() {
 		return {
-			matchData: [],otherData:[]
+			matchData: [],otherData:[],matchDate:this.$store.state.Tournament.tournamentStartDate,tournamentDates:[],
+			currentComponent: this.$store.state.currentScheduleView
 		}
 	},
 	mounted() {
 	  // First Called match Listing Data and then passed
 	  
  	  // here we call by Default Match Listing Function to display matchlist
+ 	  let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate
+ 	  let tournamentEndDate = this.$store.state.Tournament.tournamentEndDate
+ 	  
+ 	  this.tournamentDates = this.getDateRange(tournamentStartDate,tournamentEndDate,'mm/dd/yyyy')
+
+ 	  console.log(this.getDateRange(tournamentStartDate,tournamentEndDate,'mm/dd/yyyy'))
+
 	  this.$store.dispatch('setCurrentScheduleView','matchList')
-	  this.getAllMatches()
+	  // By Default Set for ot Todays Date
+	  this.getAllMatches(tournamentStartDate)
 	},
 	created: function() {
        this.$root.$on('changeComp', this.setMatchData); 
@@ -43,6 +63,23 @@ export default {
 		DrawDetails,TeamList,DrawList
 	},
 	methods: {
+		onChangeMatchDate(){
+			let matchDate = this.matchDate
+			this.getAllMatches(matchDate)
+		},
+
+		getDateRange(startDate, stopDate, dateFormat)
+		{
+			
+			var dateArray = []
+		    var currentDate = moment(new Date(startDate));
+		    var stopDate = moment(new Date(stopDate));
+		    while (currentDate <= stopDate) {
+		        dateArray.push( moment(currentDate).format('MM/DD/YYYY') )
+		        currentDate = moment(currentDate).add(1, 'days');
+		    }
+		    return dateArray;
+		},
 		setMatchData(id, Name='') {
 			
 			let comp = this.$store.state.currentScheduleView
@@ -120,10 +157,10 @@ export default {
 				}
 			)	
 		},
-		getAllMatches() {
-
+		getAllMatches(date) {
 			let TournamentId = this.$store.state.Tournament.tournamentId
-			let tournamentData = {'tournamentId': TournamentId}			
+			let tournamentData = {'tournamentId': TournamentId,
+			'tournamentDate':date}			
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {

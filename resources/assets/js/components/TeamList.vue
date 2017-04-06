@@ -1,7 +1,7 @@
 <template>
-<div class="col-md-6 row mt-4">
+<div class="col-md-4">
 <h3> Teams </h3>
-<table class="table match_overview">
+<table class="table match_overview" v-if="matchData.length > 0">
 	<thead>
 		<th>Team</th>
 		<th>Draw</th>
@@ -18,6 +18,7 @@
 		</tr>
 	</tbody>
 </table>
+<span v-else> No Team Data</span>
 </div>
 </template>
 <script type="text/babel">

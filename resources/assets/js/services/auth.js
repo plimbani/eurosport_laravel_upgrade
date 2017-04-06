@@ -3,9 +3,10 @@ import Ls from './ls'
 export default {
 
     login(loginData){
-
         return axios.post('/api/auth/login', loginData).then(response =>  {
             Ls.set('auth.token',response.data.token)
+            // We set Email Over here 
+            Ls.set('email',loginData.email)
             toastr['success']('Logged In!', 'Success');
         }).catch(error => {
             if (error.response.status == 401) {

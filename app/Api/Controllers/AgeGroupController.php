@@ -86,7 +86,7 @@ class AgeGroupController extends BaseController
      */
     public function createCompetationFomat(Request $request)
     {        
-        return $this->ageGroupObj->createCompetationFomat($request);
+        return $this->ageGroupObj->createCompetationFomat($request->all());
     }
     public function getCompetationFormat(Request $request) {
         return $this->ageGroupObj->GetCompetationFormat($request);   

@@ -53,7 +53,7 @@ data-animation="false"
               </div>
           </div>
           <div class="form-group row">
-              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_duration_minutes}}</label> 
+              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_duration_final}}</label> 
               <div class="col-sm-6">
                   <span class="col-sm-2 pull-left multi-number padding0">2 <small>X</small></span>
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.game_duration_FM">
@@ -118,15 +118,19 @@ export default {
       options: []
     }
   },
+
   mounted() {   
     // here we call A function to delete all data
-     
     this.TournamentCompetationList();   
   },
   created: function() {
      this.$root.$on('setCompetationFormatData', this.setEdit); 
+     this.$root.$on('createAgeCategory', this.createAgeCategory); 
   },
   methods: {
+    createAgeCategory(){
+      this.competation_format = this.initialState()
+    },
     initialState() {
       return {
          ageCategory_name:'',game_duration_RR:'20',game_duration_FM:'20',

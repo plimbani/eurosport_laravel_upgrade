@@ -4,13 +4,13 @@
         <div class="modal-content">
             <form method="delete" class="js-delete-modal-form">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                    <h4 class="modal-title" id="myModalLabel">{{$lang.user_management_confirmation}}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body js-delete-confirmation-msg">{{ deleteConfirmMsg }}</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{$lang.user_management_cancel}}</button>
+                    <button type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">{{$lang.user_management_yes}}</button>
                 </div>
                 <input name="_method" value="DELETE" type="hidden" />
             </form>

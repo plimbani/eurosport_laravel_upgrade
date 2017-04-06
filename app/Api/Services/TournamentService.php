@@ -37,6 +37,24 @@ class TournamentService implements TournamentContract
 
         return ['status_code' => '505', 'message' => self::ERROR_MSG];
     }
+    /*
+     * Get All Tournaments By Status
+     *
+     * @param  array $api_key,$state,$type
+     * @return response
+     */
+    public function getTournamentByStatus($data)
+    {
+        // Here we send Status Code and Messages        
+        $tournamentData = $data->all();
+        $data = $this->tournamentRepoObj->getTournamentsByStatus($tournamentData['tournamentData']);
+
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
+        }
+
+        return ['status_code' => '505', 'message' => self::ERROR_MSG];
+    }
 
     /*
      * Get All Templates
@@ -260,5 +278,12 @@ class TournamentService implements TournamentContract
             return ['status_code' => '200', 'message' => '','data'=>$reportData];
         }
     }
-       
+    public function updateStatus($data)
+    {
+        $data = $this->tournamentRepoObj->updateStatus($data['tournamentData']);
+
+        if ($data) {
+            return ['status_code' => '200', 'message' => self::SUCCESS_MSG];
+        }
+    }   
 }

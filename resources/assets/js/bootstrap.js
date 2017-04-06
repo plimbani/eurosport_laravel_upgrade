@@ -63,7 +63,6 @@ axios.interceptors.request.use(function (config) {
 
 
 Vue.use(VueRouter)
-
 Vue.use(VeeValidate);
 Vue.component('multiselect',Multiselect);
 

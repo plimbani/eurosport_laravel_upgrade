@@ -20,7 +20,31 @@ module.exports = {
 
   sitefooter_message: "Copyright",
 
-  tournament_information: "Tourment information",
+  user_management_desktopuser: "Desktop users",
+  user_management_mobileuser: "Mobile User",
+  user_desktop_name: "Name",
+  user_desktop_surname: "Surname",
+  user_desktop_email: "Email address",
+  user_desktop_organisation: "Organisation",
+  user_desktop_usertype: "User type",
+  user_desktop_action: "Action",
+
+  user_management_add_new_user: "Add New User",
+  user_management_add_name: "Name",
+  user_management_add_surname: "Surname",
+  user_management_email: "Email address",
+  user_management_image: "Image",
+  user_management_password: "Password",
+  user_management_organisation: "Organisation",
+  user_management_user_type: "User type",
+  user_management_user_cancle: "Cancle",
+  user_management_user_save: "Save",
+  user_management_confirmation: "Confirmation",
+  user_management_cancel: "Cancel",
+  user_management_save: "Save",
+
+  tournament_manage_edition: "Select and Existing Edition",
+  tournament_information: "Tournament information",
   tournament_name: "Tournament name",
   tournament_start_date: "Tournament start date",
   tournament_end_date: "Tournament end date",
@@ -66,14 +90,14 @@ module.exports = {
   competation_match_schedule: "Match schedule",
   competation_manage: "Manage",
 
-  competation_modal_age_category: "Competation View",
+  competation_modal_age_category: "Age category",
   competation_label_age_category: "Age category *",
   competation_modal_age_category_required: "Age Category is Required",
   competation_modal_select_templates: "Select templates *",
   competation_modal_select_template_list: "Select templates",
   competation_modal_select_templates_required: "Template is required.",
   competation_modal_game_duration: "Game duration RR/PM/EM *",
-  competation_modal_duration_minutes: "minutes",
+  competation_modal_duration_final: "Game duration Final *",
   competation_modal_duration_final_minutes: "minutes",
   competation_modal_game_duration_final: "Game duration Final *",
   competation_modal_half_time_break: "Half-time break RR/PM/EM *",
@@ -85,7 +109,19 @@ module.exports = {
   competation_modal_button_cancle: "Cancle",
   competation_modal_button_save: "Save",  
 
+  competation_modal_format_team: "Teams:",
+  competation_modal_foramt_competation_foramt: "Competation format:",
+  competation_modal_minimum_matches: "Minimum matches:",
+  competation_modal_format_remark: "Remark:",
 
+  competation_modal_matches_number_matches: "Number of matches day 1:",
+  competation_modal_matches_number_matches_day: "Number of matches day 2:",
+  competation_modal_matches_total_matches: "Total matches:",
+  competation_modal_matches_average_matches: "Average matches per team:",
+  
+  competation_modal_time: "Total time required:",
+
+ 
   pitch_capacity: "Pitch Capacity",
   pitch_add: "Add Pitch",
   pitch_details: "Pitch Details",
@@ -140,7 +176,7 @@ module.exports = {
   pitch_modal_availability_time: "Time",
   pitch_modal_availability_capacity: "Capacity",
   pitch_modal_availability_button_addstage: "Add Stage",
-  pitch_modal_availability_button_cancle: "Cancle",
+  pitch_modal_availability_button_close: "Close",
   pitch_modal_availability_button_save: "Save",
 
 
@@ -197,6 +233,8 @@ module.exports = {
   summary_dates: "Dates",
   summary_status: "Status",
   summary_button_publish: "Publish",
+  summary_button_unpublish: "UnPublish",
+  
   summary_button_delete: "Delete",
   summary_age_groups: "Age Groups",
   summary_participating_countries: "Participating countries",
@@ -256,7 +294,7 @@ module.exports = {
   summary_message_button_send: "Send",
 
   tournament_label: "Tournament Details",
-  competation_label: "Competition Formats",
+  competation_label: "Competation Formats",
   pitch_capacity_label: "Pitch Capacity",
   pitch_planner_label: "Pitch Planner",
   teams_groups_label: "Teams And Groups",
