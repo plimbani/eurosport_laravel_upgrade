@@ -9,10 +9,7 @@
 						<span>{{match.fullGame}}</span>
 						<span>{{match.matchTime}} min</span>
 					</div>
-					
 				</div>
-				
-				
 				<div class="dark_grey_bg text-center">
 					Unavailable 60 mins
 				</div>
@@ -30,13 +27,11 @@ export default {
 			matches: [],
 			competationList: [],
 			matchGame: []
-
 		}
 	},
 	computed: {
 		competitionWithGames(){
 			let competitionGroup = this.competationList
-			// console.log(this.competationList.length,this.matches.length)
 			let allMatches = this.matches
 			if(this.competationList.length > 0 && this.matches.length > 0){
 				_.forEach(this.competationList, function(competition ) {
@@ -50,7 +45,6 @@ export default {
 							if(match.round == 'Round robin'){
 								round = 'RR-'
 								matchTime = parseInt(competition.game_duration_RR) +parseInt(competition.halftime_break_RR)
-
 							}else if(match.round == 'Elimination'){
 								round = 'EL-'
 							}else if(match.round == 'Final'){
@@ -61,15 +55,12 @@ export default {
 							comp.push(person)
 						}
 					})
-				// groupMatch.push(comp)
 				competition.matchList = comp
-			}) 
-			// console.log('msg23333')	
-
-			 return this.competationList
+				}) 
+				return this.competationList
 			}else{
 				// console.log('msg',this.competationList,this.matches)
-			 return	this.competationList
+				return	this.competationList
 			}
 			
 		}
