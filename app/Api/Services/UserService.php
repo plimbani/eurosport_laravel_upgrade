@@ -135,6 +135,7 @@ class UserService implements UserContract
         $userData['people']=array();
         $userData['user']=array();
 
+        $imagename ='';
         if($data['user_image']!='')
         {
             $imagename = $this->saveUsersLogo($data);

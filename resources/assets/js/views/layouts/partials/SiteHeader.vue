@@ -72,15 +72,13 @@
         },
         data() {
             return {
-                id: '1',       
+                id: this.$store.state.Users.userDetails.id,       
                 'header' : 'header',
                 'date': '',
                 'curTime': '' ,
                 'name': '',
                 'image': '',
                 'userData':{}
-
-
             }
         },
         mounted() {

@@ -8,7 +8,7 @@
                 <div class="card-block">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>Add, edit and remove users of Euro-Sportring Tournament Planner.</p>
+                            <p>{{$lang.user_management_sentence}}</p>
                         </div>
                         <div class="col-md-12">
                             <table class="table add-category-table">
@@ -16,7 +16,7 @@
                                     <tr>
                                         <th>{{$lang.user_desktop_name}}</th>
                                         <th>{{$lang.user_desktop_surname}}</th>
-                                        <th>{{$lang.user_user_desktop_email}}</th>
+                                        <th>{{$lang.user_desktop_email}}</th>
                                         <th>{{$lang.user_desktop_organisation}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
@@ -80,7 +80,7 @@
                                     <span class="help is-danger" v-show="errors.has('email_address')">The email address field is required.</span>
                                 </div> 
                             </div>
-                            <div class="form-group row" v-if="$lang.user_id !== 'null'" >
+                            <div class="form-group row" v-if="formValues.id === ''">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Your password">

@@ -21,8 +21,15 @@
                         <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                         <div class="col-sm-6">
                             <div v-if="!image">
-                                <input type="file" @change="onFileChange">
-                                <p class="help-block">Maximum size of 1 MB.</p>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <img v-bind:src="'/assets/img/users/' + userData.image" width="60px" height="60px"/>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input type="file" @change="onFileChange">
+                                        <p class="help-block">Maximum size of 1 MB.</p> 
+                                    </div>
+                                </div>
                             </div>
                             <div v-else>
                                 <img :src="image" width="40px" height="50px"/>
@@ -42,14 +49,20 @@
 </template>
 <script type="text/babel">
    export default {
-     props: ['userData','userId'],
+   data() {
+        return {
+        'image': '',
+        'name': ''
+        }
+    },
+    props: ['userData','userId'],
     methods : {
         updateUser(){
         let that = this;
         this.userData.user_image = this.image;
              axios.post("/api/user/update/"+this.userId,this.userData).then((response) => {
                 toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
-                $("#user_form_modal").modal("hide");
+                $("#user_profile").modal("hide");
             });
         },
              onFileChange(e) {        
