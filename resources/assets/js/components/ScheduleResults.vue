@@ -1,8 +1,8 @@
 <template>
 	<div class="tab-content summary-report-content">
 		<h6><strong>{{$lang.summary_schedule}}</strong></h6>
-		<span>{{$lang.summary_schedule_last_update}}</span>
-		<div class="row mt-4">
+		<!--<span>{{$lang.summary_schedule_last_update}}</span>-->
+		<div class="row md-4">
 			<div class="col-md-8">
 				<ul class="schedule_list">
 					<li :class="[currentView == 'drawsListing' ? 'active' : '']">
@@ -19,7 +19,8 @@
 				<button type="button" class="btn btn-primary pull-right">{{$lang.summary_schedule_button_print}}</button>
 			</div>-->
 		</div>
-		<component :is="currentView" :currentView="currentView"></component></div>
+		<component :is="currentView" :currentView="currentView"></component>
+		</div>
 </template>
 <script type="text/babel">
 
