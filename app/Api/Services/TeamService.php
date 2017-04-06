@@ -90,12 +90,11 @@ class TeamService implements TeamContract
 
     public function assignTeams($data)
     {
-        // dd($data);
         foreach ($data['data']['teamdata'] as $key => $value) {
             // dd($value);
             $team_id = str_replace('sel_', '', $value['name']);
             // $team_id = str_replace('sel_', '', $value['value']);
-            $this->teamRepoObj->assignGroup($team_id,$value['value']);
+            $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);
             # code...
         }
         return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
