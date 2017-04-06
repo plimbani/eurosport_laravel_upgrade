@@ -31,6 +31,7 @@ module.exports = {
   user_desktop_action: "Action",
 
   user_management_add_new_user: "Add New User",
+  user_management_sentence: "Add, edit and remove users of Euro-Sportring Tournament Planner.",
   user_management_add_name: "Name",
   user_management_add_surname: "Surname",
   user_management_email: "Email address",

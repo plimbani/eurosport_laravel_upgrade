@@ -51,11 +51,12 @@
    export default {
    data() {
         return {
+         userId:this.$store.state.Users.userDetails.id? this.$store.state.Users.userDetails.id : 1,
         'image': '',
         'name': ''
         }
     },
-    props: ['userData','userId'],
+    props: ['userData'],
     methods : {
         updateUser(){
         let that = this;

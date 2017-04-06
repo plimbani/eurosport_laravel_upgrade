@@ -34,7 +34,7 @@
                 <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
                 <li><a href="#"  @click="$setLang('en')">{{$lang.siteheader_english}}</a></li>
                 <li><a href="#"  @click="$setLang('fr')">{{$lang.siteheader_french}}</a></li>
-                <user :userData="userData" :userId="id"></user>
+                <user :userData="userData"  ></user>
                 <!--
                 <li>
                     <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></a>
@@ -72,7 +72,7 @@
         },
         data() {
             return {
-                id: this.$store.state.Users.userDetails.id,       
+                'id':this.$store.state.Users.userDetails.id? this.$store.state.Users.userDetails.id : 1,
                 'header' : 'header',
                 'date': '',
                 'curTime': '' ,
@@ -81,12 +81,18 @@
                 'userData':{}
             }
         },
+
+
         mounted() {
         let this1 = this
         setInterval(function(){this1.clock() },1000)
-        this.editUser(this.id);
-        
-        },
+        let that = this
+        if(this.id!=''){
+        setTimeout(function(){
+            that.editUser(that.id)
+        },2000)
+        }
+         },
         methods : {
             onNavToggle(){
                 Layout.toggleSidebar()
