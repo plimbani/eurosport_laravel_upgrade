@@ -6,7 +6,7 @@ use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\TournamentTemplate;
 use Laraspace\Models\Competition;
-
+use DB;
 class AgeGroupRepository
 {
     public function getAll()
@@ -39,14 +39,14 @@ class AgeGroupRepository
       $age_group = $competation_data['age_group_name'];
       
       $cntGroups = count($group_data);
-
+      $competationIds = array();
       foreach($group_data as $groups){
 
        $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
        $competations['tournament_id'] = $competation_data['tournament_id'];
        $comp_group = $groups['group_name'];
        $competations['name'] = $age_group.'-'.$comp_group;
-       $competations['team_size'] = $groups['group_count'];
+       $competations['team_size'] = $groups['team_count'];
        // here last group we consider as Final or Elimination Match
        // Means Last one
        if($cntGroups == $i) {
@@ -56,12 +56,14 @@ class AgeGroupRepository
        }
 
        $competations['competation_type'] = $competaon_type;
-       
-       Competition::create($competations);   
+       $competationIds[$i]['id'] = Competition::create($competations)->id;   
+       $competationIds[$i]['name'] = $comp_group;
+       $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];
+       $competationIds[$i]['ageGroup'] = $age_group;
        $i++;
       }
       
-     return true;
+     return $competationIds;
     }
     public function createCompeationFormat($data){
       // here first we save the Age Group            
@@ -120,9 +122,50 @@ class AgeGroupRepository
 
     public function deleteCompetationData($data)
     {
-      $data= Competition::where('tournament_id',$data['tournament_id'])
+      return Competition::where('tournament_id',$data['tournament_id'])
              ->where('tournament_competation_template_id',$data['competation_format_id'])
              ->delete();
-    }
-    //deleteCompeationFormat
+
+      /*$competationId = array();
+      $competationId= Competition::where('tournament_id',$data['tournament_id'])
+             ->where('tournament_competation_template_id',$data['competation_format_id'])
+             ->select('id')
+             ->get()->toArray();*/
+
+     //        ->delete();
+      // Here we also Delete the Fixtures which related to it in temp_fixtures
+      //$query = DB::table('temp_fixtures')
+        //        ->where('')
+    } 
+    public function addFixturesIntoTemp($fixtureArray,$competationArr)
+    {
+      $teampfixtureTable=DB::table('temp_fixtures');
+
+      foreach($fixtureArray as $key=>$fixture) {
+          
+          
+          $groupArr = explode('|',$key);
+          $groupName = $groupArr[1];
+          foreach($competationArr as $group) {
+            $tournamentId = $group['tournamentId'];
+            $ageGroup = $group['ageGroup'];
+            if($groupName == $group['name']) {
+              $competationId = $group['id'];
+            }
+          }
+          // Team Assignement
+          $fixtu=explode('.',$fixture);
+          $teams = explode('-',$fixtu[count($fixtu)-1]);
+
+          $homeTeam = $teams[0];
+          $away_team = $teams[1];
+
+          // replace Fixture Name with Actual Group Name
+          $fixture_n = str_replace('U17', $ageGroup,$fixture);  
+          $teampfixtureTable->insert(
+            ['match_number'=>$fixture_n,'tournament_id'=>$tournamentId,'competition_id'=>$competationId,'home_team'=>$homeTeam,'away_team'=>$away_team]
+          );
+      }
+      return true;
+    }   
 }
