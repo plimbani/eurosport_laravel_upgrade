@@ -117,6 +117,11 @@ module.exports = {
   competation_modal_button_cancle: "Cancle",
   competation_modal_button_save: "Save",  
 
+  competation_label_number_teams: "Number of teams*",
+  competation_modal_number_teams_required: "Number of teams required",
+  competation_label_minimum_matches: "Minimum matches*",
+  competation_modal_minimum_matches_required: "Minimum matches required",
+
   competation_modal_format_team: "Teams:",
   competation_modal_foramt_competation_foramt: "Competation format:",
   competation_modal_minimum_matches: "Minimum matches:",
