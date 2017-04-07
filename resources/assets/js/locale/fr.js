@@ -117,6 +117,11 @@ module.exports = {
   competation_modal_button_cancle: "FCancle",
   competation_modal_button_save: "FSave",  
 
+  competation_label_number_teams: "FNumber of teams*",
+  competation_modal_number_teams_required: "FNumber of teams required",
+  competation_label_minimum_matches: "FMinimum matches*",
+  competation_modal_minimum_matches_required: "FMinimum matches required",
+
   competation_modal_format_team: "FTeams:",
   competation_modal_foramt_competation_foramt: "FCompetation format:",
   competation_modal_minimum_matches: "FMinimum matches:",
