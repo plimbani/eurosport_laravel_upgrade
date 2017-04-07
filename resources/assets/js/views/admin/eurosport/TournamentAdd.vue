@@ -146,7 +146,7 @@
                     </div>
 
                      <location :locations="locations"></location> 
-                     <button class="btn btn-success" @click.prevent="addLocationClick">+ Add Location</button>                     
+                     <button class="btn btn-success" @click.prevent="addLocationClick">+ Add location</button>                     
                 </form>                
             </div>
         </div>       

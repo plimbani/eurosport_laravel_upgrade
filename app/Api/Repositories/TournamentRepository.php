@@ -38,12 +38,12 @@ class TournamentRepository
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
-        $newdata['start_date'] = $data['start_date'];
-        $newdata['end_date'] = $data['end_date'];
-        $newdata['website'] = $data['website'];
-        $newdata['facebook'] = $data['facebook'];
-        $newdata['twitter'] = $data['twitter'];
-        $newdata['logo'] = $data['image_logo'];
+        $newdata['start_date'] = $data['start_date'] ? $data['start_date'] : '';
+        $newdata['end_date'] = $data['end_date'] ? $data['end_date'] : '';
+        $newdata['website'] = $data['website'] ? $data['website'] : '';
+        $newdata['facebook'] = $data['facebook'] ? $data['facebook'] : '';
+        $newdata['twitter'] = $data['twitter'] ? $data['twitter'] : '';
+        $newdata['logo'] = $data['image_logo'] ? $data['image_logo'] : '';
 
         // For New One We set Status as Unpublished
         $newdata['status'] = 'UnPublished';

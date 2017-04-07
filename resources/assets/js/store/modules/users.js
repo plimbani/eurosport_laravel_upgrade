@@ -32,7 +32,8 @@ const actions = {
 const mutations = {  
   [types.GET_USER_DETAILS] (state, userDetails) {        
     //alert(JSON.stringify(currentTournamentName))
-    state.userDetails = userDetails
+    console.log(userDetails)
+    // state.userDetails = userDetails
   }   
 }
 

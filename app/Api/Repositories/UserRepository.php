@@ -13,7 +13,8 @@ class UserRepository {
     public function getUserDetails($data)
     {
        $email = $data['userData']['email'];
-        return User::where('email',trim($email))->first(); 
+        return User::join()
+        where('email',trim($email))->first(); 
     }
     public function getUsersByRegisterType($registerType)
     {
