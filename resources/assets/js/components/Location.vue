@@ -5,7 +5,7 @@
 <h6><strong>{{$lang.tournament_location}}</strong></h6>
 </div>
 <div class="form-group row">
-<label class="col-sm-2 form-control-label">{{$lang.tournament_venue}} *</label>
+<label class="col-sm-2 form-control-label">{{$lang.tournament_venue}}*</label>
 
 <div class="col-sm-4">
 <input type="text" class="form-control" v-model="location.tournament_venue_name" 

@@ -59,7 +59,7 @@ module.exports = {
   tournament_website: "FEnter website",
   tournament_facebook: "FEnter Facebook",
   tournament_twitter: "FTwitter",
-  tournament_tournament_logo: "FChoose logo",
+  tournament_tournament_logo: "FChoose filters",
   tournament_eurosporting: "FEuro-Sportring",
   tournament_first_name: "FFirst name",
   tournament_validation_first_name: "FFirst Name Required",
