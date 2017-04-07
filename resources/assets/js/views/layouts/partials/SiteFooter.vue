@@ -1,7 +1,7 @@
 <template>    
     <footer class="site-footer d-flex justify-content-center">
         <div class="align-self-center">
-                {{$lang.sitefooter_message }} {{currentYear}} Euro-Sportring. All rights reserved.
+                {{$lang.sitefooter_message }} {{currentYear}} Euro-Sportring. All rights reserved. .
         </div>
     </footer>
 </template>

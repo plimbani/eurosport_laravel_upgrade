@@ -319,4 +319,5 @@ module.exports = {
   summary_label_reports: "FReports",
   summary_label_schedule: "FSchedule and results",
   summary_label_message: "FMessages"
+  
 }
