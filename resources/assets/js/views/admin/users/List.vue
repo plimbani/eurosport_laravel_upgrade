@@ -8,7 +8,7 @@
                 <div class="card-block">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>Add, edit and remove users of Euro-Sportring Tournament Planner.</p>
+                            <p>{{$lang.user_management_sentence}}</p>
                         </div>
                         <div class="col-md-12">
                             <table class="table add-category-table">
@@ -16,7 +16,7 @@
                                     <tr>
                                         <th>{{$lang.user_desktop_name}}</th>
                                         <th>{{$lang.user_desktop_surname}}</th>
-                                        <th>{{$lang.user_user_desktop_email}}</th>
+                                        <th>{{$lang.user_desktop_email}}</th>
                                         <th>{{$lang.user_desktop_organisation}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
@@ -59,7 +59,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name">
+                                    <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Enter first name">
                                     <i v-show="errors.has('name')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
                                 </div>
@@ -67,7 +67,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Your surname">
+                                    <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
                                     <i v-show="errors.has('surname')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
                                 </div>
@@ -75,15 +75,15 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Your email address">
+                                    <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
                                     <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('email_address')">The email address field is required.</span>
-                                </div>
+                                </div> 
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row" v-if="formValues.id === ''">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Your password">
+                                    <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
                                     <i v-show="errors.has('pass')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('password')">{</span>
                                 </div>
@@ -104,7 +104,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Your organisation">
+                                    <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
                                     <i v-show="errors.has('organisation')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('organisation')">{{ errors.first('organisation') }}</span>
                                 </div>
@@ -224,6 +224,7 @@
             validateBeforeSubmit(){
                 this.$validator.validateAll().then(() => {
                     if(this.$data.formValues.id=="") {
+                        this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {
                             toastr.success('User has been added succesfully.', 'Add User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
@@ -234,7 +235,6 @@
                     this.formValues.user_image = this.image;
                    let that = this
                     setTimeout(function(){
-
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
@@ -242,7 +242,6 @@
                             that.updateUserList();
                         });
                     },1000)
-                   
                        
                     }
                 }).catch(() => { });

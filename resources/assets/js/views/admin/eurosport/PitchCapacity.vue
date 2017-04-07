@@ -33,7 +33,7 @@
                             </p>
                             <p>
                                 <label class="col-md-3"><strong>{{$lang.pitch_balance}}</strong></label>
-                                <label :class="[pitchAvailableBalance[0]<0? 'red': 'text-success','col-md-5' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}} <a href="">(Help)</a></label>
+                                <label :class="[pitchAvailableBalance[0]<0? 'red': 'text-success','col-md-5' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
                             </p>
                         </div>
                     </div>

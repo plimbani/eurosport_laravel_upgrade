@@ -28,21 +28,21 @@
           <td>{{competation.total_time | formatTime}}            
           </td>
           <td class="text-center">
-              <a href="#"  @click="viewCompFormat(competation.tournament_template_id)">View</a> 
+              <a href="#"  @click="viewCompFormat(competation.tournament_template_id)"><u>View</u></a> 
           </td>
           <td class="text-center">
-              <div class="row">
-                <div class="col-sm-6">
-                  <a class="text-primary" href="#" @click="editCompFormat(competation.id)"><i class="fa fa-edit"></i></a>
+              <div class="btn-group">
+                <div class="btn btn-sm">
+                  <a class="text-primary" href="#" @click="editCompFormat(competation.id)"><i class="fa fa-edit fa-lg"></i></a>
                   
                 </div>
-                <div class="col-sm-6">                  
+                <div class="btn btn-sm">                  
                   <a href="javascript:void(0)" 
                   data-confirm-msg="Are you sure you would like to delete this user record?" 
                   data-toggle="modal" 
                   data-target="#delete_modal" 
                   @click="prepareDeleteResource(competation.id)">
-                  <i class="fa fa-trash-o"></i></a>
+                  <i class="fa fa-trash-o fa-lg"></i></a>
                 </div>
               </div>
           </td>
