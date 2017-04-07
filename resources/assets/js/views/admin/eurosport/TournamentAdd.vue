@@ -8,7 +8,7 @@
                     <div class="row">
                       <div class="col-sm-12">
                         <div class="form-group" :class="{'has-error': errors.has('tournament.name') }">
-                            <label>{{$lang.tournament_name}} *</label>
+                            <label>{{$lang.tournament_name}}*</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"
                                  v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
@@ -21,7 +21,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label for="tournament_end_date">{{$lang. tournament_start_date}} *</label>
+                          <label for="tournament_end_date">{{$lang. tournament_start_date}}*</label>
                           <div class="input-group">
                               <span class="input-group-addon">
                                   <i class="fa fa-calendar"></i>
@@ -33,7 +33,7 @@
                       </div>
                       <div class="col-sm-6">
                         <div class="form-group">
-                          <label for="tournament_end_date">{{$lang. tournament_end_date}} *</label>
+                          <label for="tournament_end_date">{{$lang. tournament_end_date}}*</label>
                           <div class="input-group">
                               <span class="input-group-addon">
                                   <i class="fa fa-calendar"></i>
@@ -108,7 +108,7 @@
                         <h6><strong>{{$lang.tournament_eurosporting}}</strong></h6>
                     </div>
                     <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_first_name') }">
-                        <label class="col-sm-2 form-control-label">{{$lang.tournament_first_name}} *</label>
+                        <label class="col-sm-2 form-control-label">{{$lang.tournament_first_name}}*</label>
 
                         <div class="col-sm-4">
                             <input type="text" class="form-control" placeholder=""
@@ -122,7 +122,7 @@
                         
                     </div>
                     <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_last_name') }">
-                        <label class="col-sm-2 form-control-label">{{$lang.tournament_last_name}} *</label>
+                        <label class="col-sm-2 form-control-label">{{$lang.tournament_last_name}}*</label>
 
                         <div class="col-sm-4" >
                             <input type="text" class="form-control" placeholder=""

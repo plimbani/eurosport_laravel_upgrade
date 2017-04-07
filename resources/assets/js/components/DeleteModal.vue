@@ -9,8 +9,8 @@
                 </div>
                 <div class="modal-body js-delete-confirmation-msg">{{ deleteConfirmMsg }}</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{$lang.user_management_cancel}}</button>
-                    <button type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">{{$lang.user_management_yes}}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_cancel}}</button>
+                    <button type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">{{$lang.user_management_save}}</button>
                 </div>
                 <input name="_method" value="DELETE" type="hidden" />
             </form>
