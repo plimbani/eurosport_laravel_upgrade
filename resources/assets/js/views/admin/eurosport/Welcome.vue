@@ -21,7 +21,7 @@
               </div>
               <button class="btn btn-primary col-sm-8 btn-theme" 
               @click="addNewTournament()">
-              {{$lang.welcome_add_new_tournament}}</button>            
+              {{$lang.welcome_add_button_new_tournament}}</button>
           </div>
         </div>
       </div>
@@ -40,7 +40,6 @@
             </div>
             <button class="btn btn-primary col-sm-8 btn-theme" @click="userList">{{$lang.welcome_add_new_user}}</button>
             <br>          
-          <a href="" class="text-left">{{$lang.welcome_see_tournament_admin_view}}</a>
         </div>
       </div>
       </div>

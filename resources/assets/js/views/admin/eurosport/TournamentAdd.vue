@@ -49,7 +49,7 @@
                         <div class="row">
                       		<div class="panel-heading col-md-12" role="tab" id="headingOne">
                             <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                               aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-plus"></i> {{$lang. tournament_show_optional_details}}
+                               aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-minus"></i> {{$lang.tournament_show_optional_details}}
                             </a>
                           </div>
                         </div>
@@ -59,7 +59,7 @@
                             	<div class="form-group col-md-12 padding0">
 		                            <div class="col-md-6 padding0">
 		                            	<div class="form-group row">
-			                                <label class="col-md-4 control-label">{{$lang. tournament_website}}</label>
+			                                <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
 			                                <input type="text" class="col-md-7 form-control" placeholder="Enter Website" v-model="tournament.website">
 			                            </div>
 			                            <div class="form-group row">
@@ -79,7 +79,7 @@
 		                            </div>
 		                            <div class="col-md-6 padding0">
 		                            	<div class="form-group row">
-			                                <label class="col-md-4 control-label">{{$lang. tournament_tournament_logo}}</label>
+			                                <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
 			                                <div class="pull-right">
                                           <div v-if="!image">
                                               <input type="file" @change="onFileChange">
@@ -141,12 +141,12 @@
                         <div class="col-sm-4">
                             <input type="text" class="form-control" 
                             v-model="tournament.tournament_contact_home_phone"
-                            placeholder="Enter Telephone">
+                            placeholder="Enter telephone number">
                         </div>
                     </div>
 
                      <location :locations="locations"></location> 
-                     <button class="btn btn-success" @click.prevent="addLocationClick">+ Add Location</button>                     
+                     <button class="btn btn-success" @click.prevent="addLocationClick">{{$lang.tournament_location_button}}</button>                     
                 </form>                
             </div>
         </div>       
