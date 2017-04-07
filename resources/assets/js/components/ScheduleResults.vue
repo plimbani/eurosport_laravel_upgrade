@@ -1,25 +1,54 @@
 <template>
-	<div class="tab-content summary-report-content">
-		<h6><strong>{{$lang.summary_schedule}}</strong></h6>
-		<span>{{$lang.summary_schedule_last_update}}</span>
-		<div class="row mt-4">
-			<div class="col-md-8">
-				<ul class="schedule_list">
-					<li :class="[currentView == 'drawsListing' ? 'active' : '']">
-					<a  @click="setCurrentView('drawsListing')">{{$lang.summary_schedule_draws}}</a></li>
-					<li :class="[currentView == 'matchListing' ? 'active' : '']">
-					<a @click="setCurrentView('matchListing')">{{$lang.summary_schedule_matches}}</a>
-					</li>
-					<li :class="[currentView == 'teamListing' ? 'active' : '']">
-					<a @click="setCurrentView('teamListing')">{{$lang.summary_schedule_teams}}</a>
-					</li>
-				</ul>
+<div class="container">
+	<div class="row">
+    	<div class="col-sm-12">
+        	<div class="page-header">
+          		<ol class="breadcrumb">
+            		<li><a href="" @click.prevent="AllTournament" v-if="currentScheduleView != 'allPublishedTournaments'">Home</a></li>
+          		</ol>
+        	</div>
+      	</div>
+    </div>
+    <div class="row">
+    	<div class="col-sm-12">
+			<div class="card">
+				<div class="card-block">
+					<h4 class="card-title">{{$lang.summary_schedule}}</h4>
+					<p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}</small></p>
+					<div class="tab-content summary-report-content">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="tabs tabs-primary">
+									<ul class="nav nav-tabs">
+										<li @click="setCurrentView('drawsListing')" class="nav-item">
+											<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_draws}}</a>
+										</li>
+										<li @click="setCurrentView('matchListing')" class="nav-item">
+											<a :class="[currentView == 'matchListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_matches}}</a>
+										</li>
+										<li @click="setCurrentView('teamListing')" class="nav-item">
+											<a :class="[currentView == 'teamListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_teams}}</a>
+										</li>
+									</ul>
+									<div class="tab-content">
+										<div class="card">
+											<div class="card-block">
+												<component :is="currentView" :currentView="currentView"></component>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+							<!--<div class="col-md-4">
+								<button type="button" class="btn btn-primary pull-right">{{$lang.summary_schedule_button_print}}</button>
+							</div>-->
+					</div>
+				</div>
 			</div>
-			<!--<div class="col-md-4">
-				<button type="button" class="btn btn-primary pull-right">{{$lang.summary_schedule_button_print}}</button>
-			</div>-->
 		</div>
-		<component :is="currentView" :currentView="currentView"></component></div>
+	</div>
+</div>
 </template>
 <script type="text/babel">
 
