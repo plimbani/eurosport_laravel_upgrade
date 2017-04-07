@@ -120,7 +120,7 @@ module.exports = {
   competation_modal_select_minimum_matches: "Select minimum matches",
 
   competation_label_number_teams: "Number of teams*",
-  competation_modal_number_teams_required: "Number of teams required",
+  competation_modal_number_teams_require: "Number of teams required",
   competation_label_minimum_matches: "Minimum matches*",
   competation_modal_minimum_matches_required: "Minimum matches required",
 
