@@ -31,9 +31,9 @@
                         <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>
-                <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
+              <!--   <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
                 <li><a href="#"  @click="$setLang('en')">{{$lang.siteheader_english}}</a></li>
-                <li><a href="#"  @click="$setLang('fr')">{{$lang.siteheader_french}}</a></li>
+                <li><a href="#"  @click="$setLang('fr')">{{$lang.siteheader_french}}</a></li> -->
                 <user :userData="userData"  ></user>
                 <!--
                 <li>
