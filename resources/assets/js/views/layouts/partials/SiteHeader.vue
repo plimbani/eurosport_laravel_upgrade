@@ -127,14 +127,11 @@
             + " " + curr_year
 
             var curr_hours = d.getHours();  
-            curr_hours = curr_hours ? curr_hours : 12;
             var curr_minutes = d.getMinutes();
-            var ampm = curr_hours >= 12 ? 'pm' : 'am';
-            curr_hours = curr_hours >= 13 ? parseInt(curr_hours-12) : curr_hours;
             if (curr_minutes < 10) {
                 curr_minutes = "0" + curr_minutes;
             }
-            this.curTime = curr_hours + " : " + curr_minutes + " " + ampm;
+            this.curTime = curr_hours + " : " + curr_minutes;
         }
         },
         computed: {

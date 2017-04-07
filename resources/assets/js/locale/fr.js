@@ -116,6 +116,8 @@ module.exports = {
   competation_modal_match_interval_final_minutes: "Fminutes",
   competation_modal_button_cancle: "FCancle",
   competation_modal_button_save: "FSave",  
+  competation_modal_select_number_teams: "FSelect number of teams",
+  competation_modal_select_minimum_matches: "FSelect minimum matches",
 
   competation_label_number_teams: "FNumber of teams*",
   competation_modal_number_teams_required: "FNumber of teams required",
