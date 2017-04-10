@@ -1,4 +1,4 @@
-<template> 
+aa<template> 
   <div class="tab-content">
   	<div class="card">
   		<div class="card-block">
@@ -280,7 +280,7 @@
           grpMain.push(grp.join(','))
           
         });
-        let teamData = {'teamdata': teamAssign1,'group' : grpMain }
+        let teamData = {'teamdata': teamAssign1,'group' : grpMain ,'tournament_id':this.tournament_id, 'age_group':this.age_category.id }
         if(error == false){
           Tournament.assignGroups(teamData).then(
           (response) => { 

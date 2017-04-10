@@ -146,7 +146,9 @@
                     </div>
 
                      <location :locations="locations"></location> 
+
                      <button class="btn btn-success" @click.prevent="addLocationClick">{{$lang.tournament_location_button}}</button>                     
+
                 </form>                
             </div>
         </div>       

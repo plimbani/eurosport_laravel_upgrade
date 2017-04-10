@@ -145,7 +145,8 @@ const routes = [
                 component: PitchPlanner,
                 name: 'pitch_planner'
 
-            }  
+            } 
+             
         ]
     },
     {
