@@ -28,7 +28,7 @@
           <td>{{competation.total_time | formatTime}}            
           </td>
           <td class="text-center">
-              <a href="#"  @click="viewCompFormat(competation.tournament_template_id)"><u>View</u></a> 
+              <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)"><u>View</u></a> 
           </td>
           <td class="text-center">
               <div class="btn-group">
@@ -49,7 +49,7 @@
       </tr>     
   </tbody>
   <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-  <competationModal :templateData="templateData"></competationModal>
+  <competationModal :templateData="templateData" :totalTime="totalTime"></competationModal>
 
 </table>
 
@@ -64,7 +64,8 @@ export default {
       competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
       tournamentTemplateId: '', totalTime:'', 
       deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: '',
-      templateData:[]
+      templateData:[],
+      totalTime: ''
     }
   },
   components: {
@@ -88,13 +89,14 @@ export default {
        // Call Child Class Component Method       
       this.$root.$emit('setCompetationFormatData',  Id)   
     },
-    viewCompFormat(id) {
+    viewCompFormat(id,tTime) {
         $("#competationmodal").modal('show');
          let TemplateData = {tournamentTemplateId : id}
          Tournament.getTemplate(TemplateData).then(
           (response) => {
           if(response.data.status_code==200){
             this.templateData = JSON.parse(response.data.data)
+            this.totalTime = tTime
              $("#competationmodal").modal("show");
           }
         },
