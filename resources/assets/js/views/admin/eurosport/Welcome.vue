@@ -54,7 +54,14 @@ export default {
   components : {
     TournamentDropDown
   },
-  mounted() {
+  computed: {
+           
+    
+    userDetails: function() {
+      return this.$store.state.Users.userDetails
+    },    
+  }, 
+    mounted() {
 
     // Here we set Default Value For Tournament
     let userDetails = this.$store.state.Users.userDetails
