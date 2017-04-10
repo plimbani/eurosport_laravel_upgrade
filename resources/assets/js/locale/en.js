@@ -52,7 +52,7 @@ module.exports = {
 
   tournament_manage_edition: "Select an existing edition",
   tournament_information: "Tournament information",
-  tournament_name: "Tournamentname",
+  tournament_name: "Tournament name",
   tournament_start_date: "Tournament start date",
   tournament_end_date: "Tournament end date",
   tournament_show_optional_details: "Show optional details",
@@ -99,7 +99,7 @@ module.exports = {
   competation_manage: "Manage",
 
   competation_modal_age_category: "Age Category",
-  competation_label_age_category: "Age category *",
+  competation_label_age_category: "Age category*",
   competation_modal_age_category_required: "Age category is required",
   competation_modal_select_templates: "Select template*",
   competation_modal_select_template_list: "Select template",
@@ -108,8 +108,8 @@ module.exports = {
   competation_modal_duration_final: "Game duration final*",
   competation_modal_duration_final_minutes: "minutes",
   competation_modal_game_duration_final: "Game duration final*",
-  competation_modal_half_time_break: "Half-time break RR/PM/EM *",
-  competation_modal_half_time_break_final: "Half-time break Final *",
+  competation_modal_half_time_break: "Half-time break RR/PM/EM*",
+  competation_modal_half_time_break_final: "Half-time break final*",
   competation_modal_match_interval: "Match interval RR/PM/EM *",
   competation_modal_match_minutes: "minutes",
   competation_modal_match_interval_final: "Match interval Final *",
