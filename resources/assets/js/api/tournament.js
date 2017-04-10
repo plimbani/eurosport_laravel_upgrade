@@ -86,4 +86,5 @@ export default {
   updateStatus(tournamentData) {
     return api.post('tournament/updateStatus',{'tournamentData': tournamentData})
   }
+
 }

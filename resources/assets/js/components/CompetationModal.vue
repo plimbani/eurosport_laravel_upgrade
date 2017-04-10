@@ -78,7 +78,7 @@
                         <div class="dashbox">
                             <p class="row">
                                 <label class="col-md-9"><strong>{{$lang.competation_modal_time}}</strong></label>
-                                <label class="col-md-3"></label>
+                                <label class="col-md-3">{{totalTime | formatTime}} </label>
                             </p>
                            
                         </div>
@@ -94,6 +94,14 @@
 </template>
 <script type="text/babel">
    export default {
-     props: ['templateData']
+     props: ['templateData','totalTime'],
+     filters: {
+    formatTime: function(time) {
+      var hours = Math.floor( time /   60); 
+      var minutes = Math.floor(time % 60);
+
+      return hours+ ' Hours And '+minutes+' Minutes'
+    }
    }
+ }
 </script>

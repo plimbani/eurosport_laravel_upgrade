@@ -19,6 +19,7 @@
               <div class="form-group">
                 <tournamentDropDown></tournamentDropDown>              
               </div>
+              
               <button class="btn btn-primary col-sm-8 btn-theme" 
               @click="addNewTournament()">
               {{$lang.welcome_add_button_new_tournament}}</button>
@@ -54,21 +55,27 @@ export default {
     TournamentDropDown
   },
   mounted() {
+
     // Here we set Default Value For Tournament
     let userDetails = this.$store.state.Users.userDetails
-    
-    if(Object.keys(userDetails).length == 0)
-    {
-      
-      let email = Ls.get('email');
-      
-      // Now here we are call and fetch user details
-      let userData = {'email':email}
-      this.$store.dispatch('getUserDetails', userData);
+   
+    let that = this
+    setTimeout(function(){
+      // console.log(userDetails.length,'hh')
+      if(userDetails.length == 0)
+      {
+        
+        let email = Ls.get('email');
+          
+        // Now here we are call and fetch user details
+        let userData = {'email':email}
+        that.$store.dispatch('getUserDetails', userData);
 
-    }
-     let tournamentAdd  = {name:'', 'currentPage':'Home'}        
-      this.$store.dispatch('SetTournamentName', tournamentAdd)
+      }
+       let tournamentAdd  = {name:'', 'currentPage':'Home'}        
+      that.$store.dispatch('SetTournamentName', tournamentAdd)
+    },1000)
+
      
   },
   methods : {
