@@ -61,11 +61,13 @@ import CompetationModal from './CompetationModal.vue'
 export default {  
   data() {
   	return {
+
       competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
       tournamentTemplateId: '', totalTime:'', 
       deleteConfirmMsg: 'Are you sure you would like to delete competation Format?',deleteAction: '',
       templateData:[],
       totalTime: ''
+
     }
   },
   components: {
