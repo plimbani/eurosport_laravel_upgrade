@@ -19,7 +19,9 @@ const actions = {
     Users.getUserDetails(userDetails).then (
       (response) => {      
         if(response.data.status_code == 200)
-            commit(types.GET_USER_DETAILS, response.data.data)      
+          console.log(response.data.data[0])
+            commit(types.GET_USER_DETAILS, response.data.data[0])   
+
       },
       (error) => {
         console.log('Error occured during Get pitches detail ', error)
@@ -33,7 +35,7 @@ const mutations = {
   [types.GET_USER_DETAILS] (state, userDetails) {        
     //alert(JSON.stringify(currentTournamentName))
     console.log(userDetails)
-    // state.userDetails = userDetails
+    state.userDetails = userDetails
   }   
 }
 
