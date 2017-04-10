@@ -21,7 +21,7 @@
               </div>
               
               <button class="btn btn-primary col-sm-8 btn-theme" 
-              @click="addNewTournament()">
+              @click="addNewTournament()" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Tournament administrator')">
               {{$lang.welcome_add_button_new_tournament}}</button>
           </div>
         </div>
@@ -29,17 +29,19 @@
       <div class="col-sm-6">
       <div class="card">
         <div class="card-header">
-          <h5 class="text-center"><strong>{{$lang.welcome_add_new_tournament}}</strong></h5>
+          <h5 class="text-center" v-if="userDetails.role_name == 'Tournament administrator'"><strong>{{$lang.welcome_add_tournament}}</strong></h5>
+          <h5 class="text-center" v-else="userDetails.role_name != 'Internal administrator'"><strong>{{$lang. welcome_add_new_tournament}}</strong></h5>
         </div>
         <div class="card-block text-center">          
-            <div class="form-group">
+            <div class="form-group" v-if="userDetails.role_name == 'Internal administrator'">
               <ol class="col-sm-8 offset-sm-2">
                 <li class="text-left">{{$lang.welcome_add_new_tournament_edition_details}}</li>
                 <li class="text-left">{{$lang.welcome_add_new_tournament_review}}</li>
                 <li class="text-left">{{$lang.welcome_add_new_tournament_publish}}!</li>
               </ol>
             </div>
-            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList">{{$lang.welcome_add_new_user}}</button>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList" v-if="userDetails.role_name == 'Tournament administrator'">{{$lang.welcome_add_user}}</button>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList" v-else="userDetails.role_name != 'Internal administrator'">{{$lang.welcome_add_new_user}}</button>
             <br>          
         </div>
       </div>
@@ -54,10 +56,21 @@ export default {
   components : {
     TournamentDropDown
   },
+  data() {
+    return { 
+      // userDetails: []
+    }
+  },
+computed: {
+    userDetails: function() {
+      return this.$store.state.Users.userDetails
+    },    
+  },
   mounted() {
 
     // Here we set Default Value For Tournament
     let userDetails = this.$store.state.Users.userDetails
+        // this.userDetails = this.$store.state.Users.userDetails
    
     let that = this
     setTimeout(function(){
@@ -70,11 +83,12 @@ export default {
         // Now here we are call and fetch user details
         let userData = {'email':email}
         that.$store.dispatch('getUserDetails', userData);
-
+        // this.userDetails = this.$store.state.Users.userDetails
       }
        let tournamentAdd  = {name:'', 'currentPage':'Home'}        
       that.$store.dispatch('SetTournamentName', tournamentAdd)
     },1000)
+
 
      
   },
