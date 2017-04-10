@@ -3,10 +3,12 @@ module.exports = {
   welcome_text: "Hi {0}, Welcome to Tournament Planner. Got a question? Check the {{<strong>}}Help page or contact us for assistance.",
   welcome_manage_tournament: "Manage Editions",
   welcome_add_new_tournament: "Manage Users",
+  welcome_add_tournament: "Add New Edition",
   welcome_add_new_tournament_edition_details: "Add your edition detail",
   welcome_add_new_tournament_review: "Review",
   welcome_add_new_tournament_publish: "Publish",
   welcome_add_new_user: 'Manage users',
+  welcome_add_user: 'Add new edition',
   welcome_see_tournament_admin_view: 'See tournament administrator view',
   welcome_add_button_new_tournament: 'Add new tournament',
 
