@@ -21,7 +21,7 @@
               </div>
               
               <button class="btn btn-primary col-sm-8 btn-theme" 
-              @click="addNewTournament()" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Tournament administrator')">
+              @click="addNewTournament()" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')">
               {{$lang.welcome_add_button_new_tournament}}</button>
           </div>
         </div>
@@ -29,19 +29,19 @@
       <div class="col-sm-6">
       <div class="card">
         <div class="card-header">
-          <h5 class="text-center" v-if="userDetails.role_name == 'Tournament administrator'"><strong>{{$lang.welcome_add_tournament}}</strong></h5>
-          <h5 class="text-center" v-else="userDetails.role_name != 'Internal administrator'"><strong>{{$lang. welcome_add_new_tournament}}</strong></h5>
+          <h5 class="text-center" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')"><strong>{{$lang.welcome_add_new_tournament}}</strong></h5>
+          <h5 class="text-center" v-else>{{$lang.welcome_add_tournament}}</strong></h5>
         </div>
         <div class="card-block text-center">          
-            <div class="form-group" v-if="userDetails.role_name == 'Internal administrator'">
+            <div class="form-group" v-if="(userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Tournament administrator') ">
               <ol class="col-sm-8 offset-sm-2">
                 <li class="text-left">{{$lang.welcome_add_new_tournament_edition_details}}</li>
                 <li class="text-left">{{$lang.welcome_add_new_tournament_review}}</li>
                 <li class="text-left">{{$lang.welcome_add_new_tournament_publish}}!</li>
               </ol>
             </div>
-            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList" v-if="userDetails.role_name == 'Tournament administrator'">{{$lang.welcome_add_user}}</button>
-            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList" v-else="userDetails.role_name != 'Internal administrator'">{{$lang.welcome_add_new_user}}</button>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList" v-if="(userDetails.role_name == 'Tournament administrator' || userDetails.role_name == 'Internal administrator') ">{{$lang.welcome_add_user}}</button>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList" v-else>{{$lang.welcome_add_new_user}}</button>
             <br>          
         </div>
       </div>
