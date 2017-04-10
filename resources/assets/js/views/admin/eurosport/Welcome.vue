@@ -19,6 +19,7 @@
               <div class="form-group">
                 <tournamentDropDown></tournamentDropDown>              
               </div>
+              
               <button class="btn btn-primary col-sm-8 btn-theme" 
               @click="addNewTournament()">
               {{$lang.welcome_add_button_new_tournament}}</button>
