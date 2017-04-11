@@ -41,14 +41,8 @@
                  email" value=""/>
             </div>
             <div class="form-actions">
-            <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn green uppercase ">RESET PASSWORD</button>
-                <button type="button" id="back-btn" class="btn sbold default">CANCEL</button>
-                
+            <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase ">RESET PASSWORD</button>
             </div>
-            <div class="create-account">
-                <div class="copyright"> 2016 &copy; MCB
-                    <a href="http://myclubbetting.com" title="MCB" target="_blank">MyClubbetting.com</a> </div>
-                </div>
         </form>
     </div>
 </template>
