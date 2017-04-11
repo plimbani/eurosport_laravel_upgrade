@@ -21,6 +21,12 @@
     .form-control {
         margin-top: 20px;
     }
+    
+    .reset-password {
+        .form-control {
+            margin-top: 0;
+        }
+    }
 
     .other-actions {
         margin-bottom: 10px;

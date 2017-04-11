@@ -182,7 +182,6 @@
             editUser(id) {
                 this.userModalTitle="Edit User";
                 axios.get("/api/user/edit/"+id).then((response) => {
-                console.log(response.data);
                     this.$data.formValues = response.data;
                 });
             },
