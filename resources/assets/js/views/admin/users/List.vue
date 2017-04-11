@@ -91,8 +91,9 @@
                             <div class="form-group row">
                                 <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                                 <div class="col-sm-6">
-                                      <div v-if="!image">
-                                          <input type="file" @change="onFileChange">
+                                     <label id="profile_image_file">Choose file</label>  
+                                      <div v-if="!image" style="display:none;">
+                                          <input type="file" name="userImg" id="userImg" @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.</p>
                                       </div>
                                        <div v-else>
@@ -133,8 +134,7 @@
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
     </div>
 </template>
-
-<script type="text/babel">
+<script type="text/babel">    
     import DeleteModal from '../../../components/DeleteModal.vue'
 
     export default {
@@ -156,6 +156,11 @@
         },
         props: {
             userList: Object
+        },
+        mounted(){
+            $('#profile_image_file').click(function(){
+                $('#userImg').trigger('click')
+            })
         },
         methods: {
             initialState() {
