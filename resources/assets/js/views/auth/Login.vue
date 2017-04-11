@@ -1,4 +1,5 @@
 <template>
+    <div v-if="loginData.forgotpassword==''">
     <form id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
         
@@ -19,11 +20,31 @@
                 </div>
             </div>
             <div class="col-sm-6 text-sm-right">
-                <a href="#" class="forgot-link">Forgot password?</a>
+                <a href="#" class="forgot-link" @click="forgotPasswordOpen()">Forgot password?</a>
             </div>
         </div>
         <button class="btn btn-login btn-full euro-button">Login</button>
     </form>
+    </div>
+    <div v-else>
+     <!-- BEGIN FORGOT PASSWORD FORM -->
+        <form class="forget-form"  method="post">
+        <!-- {!! csrf_field() !!} -->
+            <div class=" form-group logo mcb_logo">
+                <img src="" alt="" width="200" />
+            </div>
+           
+            <p> Enter your e-mail address below to reset your password. </p>
+            <div class="form-group">
+                <!-- <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> -->
+                 <input class="form-control" type="email" autocomplete="off" v-model="loginData.email"  placeholder="Email address" name="email" id="
+                 email" value=""/>
+            </div>
+            <div class="form-actions">
+            <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase ">RESET PASSWORD</button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script type="text/babel">
@@ -35,7 +56,9 @@
                 loginData: {
                     email: '',
                     password: '',
-                    remember: ''
+                    remember: '',
+                    forgotpassword: ''
+
                 }
             }
         },
@@ -45,11 +68,31 @@
                 
                 if (!this.errors.any()) {
                     Auth.login(this.loginData).then(() => {
-                        // here we have to change where we have to redirect
-                        // this.$router.push('/admin/dashboard/basic')
-                        this.$router.push({'name':'welcome'})
+                         this.$router.push({'name':'welcome'})
                     })
                 }
+            },
+            forgotPasswordOpen() {
+                this.loginData.forgotpassword = 1
+            },
+            sendResetLink() {
+                let formData = {'email': this.loginData.email}
+                return axios.post('/password/email',formData).then(response =>  {
+                    // console.log(response.status)
+                    if(response.data == 'success'){
+                        toastr['success']('Reset password link has been sent', 'Success');
+                    }else{
+                        toastr['error']('Invalid Credentials', 'Error');
+                    }
+                    }).catch(error => {
+                        if (error.response.status == 401) {
+                                    toastr['error']('Invalid Credentials', 'Error');
+                    } else {
+                            //   happened in setting up the request that triggered an Error
+                            console.log('Error', error.message);
+                        }
+                    });
+
             }
         },
     }

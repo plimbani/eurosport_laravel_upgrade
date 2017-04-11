@@ -1,6 +1,6 @@
 <template>
     <section class="section section-hero-area">
-         <a href="" @click.prevent="AllTournament" v-if="currentScheduleView != 'allPublishedTournaments'">Home</a><br>
+         <!-- <a href="" @click.prevent="AllTournament" v-if="currentScheduleView != 'allPublishedTournaments'">Home</a><br> -->
         <component :is="currentScheduleView"></component>
         <!--<allPublishedTournaments>
         </allPublishedTournaments>-->
