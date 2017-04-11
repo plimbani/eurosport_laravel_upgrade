@@ -13,7 +13,12 @@ class UserRepository {
     public function getUserDetails($data)
     {
        $email = $data['userData']['email'];
-        return User::where('email',trim($email))->first(); 
+        $user = User:: join('role_user', 'users.id', '=', 'role_user.user_id')
+                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                ->where('email',trim($email))
+                ->select("users.*", "roles.name as role_name","roles.slug as role_slug")
+                ->get(); 
+        return $user;
     }
     public function getUsersByRegisterType($registerType)
     {
@@ -26,9 +31,8 @@ class UserRepository {
     }
 
     public function create($data)
-    {
-      
-        return User::create($data);
+    {  
+      return User::create($data);
     }
 
     public function delete($id)

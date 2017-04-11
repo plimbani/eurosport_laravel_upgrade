@@ -1,10 +1,16 @@
 <template>
-  <div class="container text-sm-center">
-        <h1>EuroSport Tournaments</h1>
-        <div v-for="tournament in tournaments">
-          <a href="" @click.prevent="selectTournament(tournament)">{{tournament.name}}</a>
-        </div>
-  </div>
+	<div class="container">
+		<div class="d-flex justify-content-center">
+			<div class="card">
+				<div class="card-block">
+			        <h4 class="card-title">EuroSport Tournaments</h4>
+			        <div v-for="tournament in tournaments">
+			          <a href="" @click.prevent="selectTournament(tournament)" class="card-link text-primary">{{tournament.name}}</a>
+			        </div>
+			  	</div>
+			</div>
+		</div>
+	</div>
 </template>
 <script type="text/babel">
   import Tournament from '../api/tournament.js'

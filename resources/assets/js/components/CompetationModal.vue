@@ -67,20 +67,8 @@
                     <div class="result col-md-12">
                         <div class="dashbox">
                             <p class="row">
-                                <label class="col-md-9"><strong>{{$lang.competation_modal_matches_number_matches}}</strong></label>
-                                <label class="col-md-3"></label>
-                            </p>
-                            <p class="row">
-                                <label class="col-md-9"><strong>{{$lang.competation_modal_matches_number_matches_day}}</strong></label>
-                                <label class="col-md-3"></label>
-                            </p>
-                            <p class="row">
                                 <label class="col-md-9"><strong>{{$lang.competation_modal_matches_total_matches}}</strong></label>
                                 <label class="col-md-3">{{ templateData['total_matches'] }}</label>
-                            </p>
-                            <p class="row">
-                                <label class="col-md-9"><strong>{{$lang.competation_modal_matches_average_matches}}</strong></label>
-                                <label class="col-md-3"></label>
                             </p>
                         </div>
                     </div>
@@ -90,7 +78,7 @@
                         <div class="dashbox">
                             <p class="row">
                                 <label class="col-md-9"><strong>{{$lang.competation_modal_time}}</strong></label>
-                                <label class="col-md-3"></label>
+                                <label class="col-md-3">{{totalTime | formatTime}} </label>
                             </p>
                            
                         </div>
@@ -106,6 +94,14 @@
 </template>
 <script type="text/babel">
    export default {
-     props: ['templateData']
+     props: ['templateData','totalTime'],
+     filters: {
+    formatTime: function(time) {
+      var hours = Math.floor( time /   60); 
+      var minutes = Math.floor(time % 60);
+
+      return hours+ ' Hours And '+minutes+' Minutes'
+    }
    }
+ }
 </script>

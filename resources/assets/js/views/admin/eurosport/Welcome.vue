@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <div class="alert alert-info alert-dismissible" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
-          Hi Chris, Welcome to Tournament Planner. Got a question? Check the <strong> Help </strong>page or <strong> contact us </strong>        for assistance.
+          Hi Chris, Welcome to Tournament Planner. Got a question? Check the <strong> Help </strong>page or <strong> contact us </strong>for assistance.
 
         </div>
       </div>
@@ -19,28 +19,30 @@
               <div class="form-group">
                 <tournamentDropDown></tournamentDropDown>              
               </div>
+              
               <button class="btn btn-primary col-sm-8 btn-theme" 
-              @click="addNewTournament()">
-              {{$lang.welcome_add_new_tournament}}</button>            
+              @click="addNewTournament()" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')">
+              {{$lang.welcome_add_button_new_tournament}}</button>
           </div>
         </div>
       </div>
       <div class="col-sm-6">
       <div class="card">
         <div class="card-header">
-          <h5 class="text-center"><strong>{{$lang.welcome_add_new_tournament}}</strong></h5>
+          <h5 class="text-center" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')"><strong>{{$lang.welcome_add_new_tournament}}</strong></h5>
+          <h5 class="text-center" v-else>{{$lang.welcome_add_tournament}}</strong></h5>
         </div>
         <div class="card-block text-center">          
-            <div class="form-group">
+            <div class="form-group" v-if="(userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Tournament administrator') ">
               <ol class="col-sm-8 offset-sm-2">
                 <li class="text-left">{{$lang.welcome_add_new_tournament_edition_details}}</li>
                 <li class="text-left">{{$lang.welcome_add_new_tournament_review}}</li>
                 <li class="text-left">{{$lang.welcome_add_new_tournament_publish}}!</li>
               </ol>
             </div>
-            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList">{{$lang.welcome_add_new_user}}</button>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList" v-if="(userDetails.role_name == 'Tournament administrator' || userDetails.role_name == 'Internal administrator') ">{{$lang.welcome_add_user}}</button>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList" v-else>{{$lang.welcome_add_new_user}}</button>
             <br>          
-          <a href="" class="text-left">{{$lang.welcome_see_tournament_admin_view}}</a>
         </div>
       </div>
       </div>
@@ -54,22 +56,40 @@ export default {
   components : {
     TournamentDropDown
   },
+  data() {
+    return { 
+      // userDetails: []
+    }
+  },
+computed: {
+    userDetails: function() {
+      return this.$store.state.Users.userDetails
+    },    
+  },
   mounted() {
+
     // Here we set Default Value For Tournament
     let userDetails = this.$store.state.Users.userDetails
-    
-    if(Object.keys(userDetails).length == 0)
-    {
-      
-      let email = Ls.get('email');
-      
-      // Now here we are call and fetch user details
-      let userData = {'email':email}
-      this.$store.dispatch('getUserDetails', userData);
+        // this.userDetails = this.$store.state.Users.userDetails
+   
+    let that = this
+    setTimeout(function(){
+      // console.log(userDetails.length,'hh')
+      if(userDetails.length == 0)
+      {
+        
+        let email = Ls.get('email');
+          
+        // Now here we are call and fetch user details
+        let userData = {'email':email}
+        that.$store.dispatch('getUserDetails', userData);
+        // this.userDetails = this.$store.state.Users.userDetails
+      }
+       let tournamentAdd  = {name:'', 'currentPage':'Home'}        
+      that.$store.dispatch('SetTournamentName', tournamentAdd)
+    },1000)
 
-    }
-     let tournamentAdd  = {name:'', 'currentPage':'Home'}        
-      this.$store.dispatch('SetTournamentName', tournamentAdd)
+
      
   },
   methods : {

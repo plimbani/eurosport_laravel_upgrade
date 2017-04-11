@@ -3,6 +3,8 @@
 namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\Team;
+use Laraspace\Models\TempFixture;
+use DB;
 
 class TeamRepository
 {
@@ -62,13 +64,30 @@ public function getAllFromTournamentId($tournamentId)
             'age_group_id' => $data->tournamentData['ageCategory']
             ]);
     }
-    public function assignGroup($team_id,$groupName) 
-    {
-        return Team::where('id', $team_id)->update([
+    public function assignGroup($team_id,$groupName,$data='') 
+    {   
+        // dd($data,'hi');
+        $team = Team::find($team_id);
+        $gname = explode('-',$groupName);
+         Team::where('id', $team_id)->update([
             'group_name' => $groupName,
             'assigned_group' => preg_replace('/[0-9]+/', '', $groupName)
-            
             ]);
+        TempFixture::where('home_team', $gname[1])
+            ->where('tournament_id',$data['tournament_id'])
+            // ->where('age_group_id',$data['age_group'])
+            ->update([
+                'home_team' => $team_id,
+                'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
+            ]);
+        TempFixture::where('away_team', $gname[1])
+            ->where('tournament_id',$data['tournament_id'])
+            // ->where('age_group_id',$data['age_group'])
+            ->update([
+            'away_team' => $team_id,
+            'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
+        ]);
+
     }
     public function edit($data)
     {

@@ -7,7 +7,7 @@ export default {
             Ls.set('auth.token',response.data.token)
             // We set Email Over here 
             Ls.set('email',loginData.email)
-            toastr['success']('Logged In!', 'Success');
+           
         }).catch(error => {
             if (error.response.status == 401) {
                 toastr['error']('Invalid Credentials', 'Error');
