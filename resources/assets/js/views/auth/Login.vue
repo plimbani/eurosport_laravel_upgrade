@@ -28,7 +28,7 @@
     </div>
     <div v-else>
      <!-- BEGIN FORGOT PASSWORD FORM -->
-        <form class="forget-form" action="/password/email" method="post">
+        <form class="forget-form"  method="post">
         <!-- {!! csrf_field() !!} -->
             <div class=" form-group logo mcb_logo">
                 <img src="" alt="" width="200" />
@@ -74,9 +74,7 @@
                 
                 if (!this.errors.any()) {
                     Auth.login(this.loginData).then(() => {
-                        // here we have to change where we have to redirect
-                        // this.$router.push('/admin/dashboard/basic')
-                        this.$router.push({'name':'welcome'})
+                         this.$router.push({'name':'welcome'})
                     })
                 }
             },
