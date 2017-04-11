@@ -172,7 +172,7 @@ export default {
       return {
          ageCategory_name:'',game_duration_RR:'20',game_duration_FM:'20',
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:'',
-        tournament_id: '', competation_format_id:'0' 
+        tournament_id: '', competation_format_id:'0',id:'' 
       }
     },
     setEdit(id) {
@@ -219,9 +219,8 @@ export default {
     },
     saveAgeCategory() {
       // Now here we have to Save it Age Catgory   
-      
       this.competation_format.tournament_id = this.$store.state.Tournament.tournamentId;
-      
+      let that = this
       this.$validator.validateAll().then(
           (response) => {    
             // Add tournament Id as well
@@ -229,6 +228,7 @@ export default {
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {      
                   if(response.data.status_code == 200) {    
+                    that.
                     toastr.success('Age Category has been added succesfully.', 'Add AgeCategory', {timeOut: 5000});
                     //this.$router.push({name: 'competation_format'}) 
                     $('#saveAge').attr('data-dismiss','modal')  
@@ -239,7 +239,6 @@ export default {
               
               },
               (error) => {
-                console.log('hello weeoe')
                 console.log('Error occured during Save Compeation Fomat api ', error)
               }
             )
