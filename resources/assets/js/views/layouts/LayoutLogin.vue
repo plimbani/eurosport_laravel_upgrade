@@ -9,7 +9,8 @@
             </div>
             <router-view></router-view>
             <div class="page-copyright">
-                <p>Powered by <a href="http://aecordigital.com" target="_blank">Aecor Digital</a><br/>
+
+                <p>Developed by <a href="http://aecordigital.com" target="_blank">aecor</a><br/>
                 Copyright {{currentYear}} Euro-Sportring. All rights reserved.</p>
             </div>
         </div>

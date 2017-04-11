@@ -21,7 +21,9 @@ Route::group(['prefix' => 'auth'], function () {
     
 
 });
-
+Route::get('password/reset/{token}', 'Laraspace\Api\Controllers\PasswordController@getReset');
+Route::post('password/reset', 'Laraspace\Api\Controllers\PasswordController@postReset');
+Route::post('password/email', 'Laraspace\Api\Controllers\PasswordController@postEmail');
 
 
 $api = app('Dingo\Api\Routing\Router');
