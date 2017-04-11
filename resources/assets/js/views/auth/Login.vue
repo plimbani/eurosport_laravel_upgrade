@@ -30,6 +30,7 @@
      <!-- BEGIN FORGOT PASSWORD FORM -->
         <form class="forget-form"  method="post">
         <!-- {!! csrf_field() !!} -->
+        <!-- {{ csrf_field() }} -->
             <div class=" form-group logo mcb_logo">
                 <img src="" alt="" width="200" />
             </div>
@@ -76,13 +77,16 @@
                 this.loginData.forgotpassword = 1
             },
             sendResetLink() {
+                
+                
                 let formData = {'email': this.loginData.email}
                 return axios.post('/password/email',formData).then(response =>  {
                     // console.log(response.status)
                     if(response.data == 'success'){
-                        toastr['success']('Reset password link has been sent', 'Success');
+                        this.loginData.forgotpassword = ''
+                        toastr['success']('We have emailed you a password reset link!', 'Success');
                     }else{
-                        toastr['error']('Invalid Credentials', 'Error');
+                        toastr['error']('email address does not exist', 'Error');
                     }
                     }).catch(error => {
                         if (error.response.status == 401) {
