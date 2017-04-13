@@ -17,17 +17,17 @@ class CreateVenuesTable extends Migration
             $table->increments('id');
             $table->integer('tournament_id')->unsigned()->index();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
-            $table->string('name');
-            $table->string('address1');
-            $table->string('address2');
-            $table->string('address3');
-            $table->string('state');
-            $table->string('county');
-            $table->string('city');
-            $table->string('country');
-            $table->string('postcode');
-            $table->string('contact_no');
-            $table->string('email_address');
+            $table->string('name')->nullable();
+            $table->string('address1')->nullable();
+            $table->string('address2')->nullable();
+            $table->string('address3')->nullable();
+            $table->string('state')->nullable();
+            $table->string('county')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
+            $table->string('postcode')->nullable();
+            $table->string('contact_no')->nullable();
+            $table->string('email_address')->nullable();
             $table->timestamps();
         });
     }

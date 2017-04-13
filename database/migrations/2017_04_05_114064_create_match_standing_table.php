@@ -21,13 +21,13 @@ class CreateMatchStandingTable extends Migration
             $table->foreign('competition_id')->references('id')->on('competitions');
             $table->integer('team_id')->unsigned()->index();
             $table->foreign('team_id')->references('id')->on('teams');
-            $table->integer('points');
-            $table->integer('played');
-            $table->integer('won');
-            $table->integer('draws');
-            $table->integer('lost');
-            $table->integer('goal_for');
-            $table->integer('goal_against');
+            $table->integer('points')->nullable();
+            $table->integer('played')->nullable();
+            $table->integer('won')->nullable();
+            $table->integer('draws')->nullable();
+            $table->integer('lost')->nullable();
+            $table->integer('goal_for')->nullable();
+            $table->integer('goal_against')->nullable();
             $table->timestamps();
         });
     }
