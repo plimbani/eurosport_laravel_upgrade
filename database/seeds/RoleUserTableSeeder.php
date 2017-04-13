@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class RoleUserTableSeeder extends Seeder
 {
@@ -10,12 +11,15 @@ class RoleUserTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {   
         DB::table('role_user')->truncate();
+        $role = DB::table('roles')->take(3)->get()->toArray();
+        $users = DB::table('users')->take(3)->select('id')->get()->toArray();
+        
         DB::table('role_user')->insert([
-        	[ 'roel_id' => '1', 'user_id' => '1'],
-        	[ 'roel_id' => '2', 'user_id' => '2'],
-        	[ 'roel_id' => '3', 'user_id' => '3'],
+        	['role_id' => array_rand($role), 'user_id' => array_rand($users), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	['role_id' => array_rand($role), 'user_id' => array_rand($users), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	['role_id' => array_rand($role), 'user_id' => array_rand($users), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
     }
 }

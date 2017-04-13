@@ -20,10 +20,10 @@ class CreateRefereeTable extends Migration
             $table->string('availability');
             $table->integer('tournament_id')->unsigned()->index();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('telephone');
-            $table->string('email');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('email')->nullable();
             $table->text('comments');
             $table->integer('age_group_id');
             $table->timestamps();

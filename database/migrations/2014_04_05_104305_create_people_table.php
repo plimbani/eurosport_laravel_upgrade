@@ -15,22 +15,22 @@ class CreatePeopleTable extends Migration
     {
         Schema::create('people', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('first_name',60);
-            $table->string('last_name',60);
-            $table->string('display_name',50);
-            $table->text('address');
-            $table->string('dob');
-            $table->text('bio');
-            $table->string('avatar');
+            $table->string('first_name',60)->nullable();
+            $table->string('last_name',60)->nullable();
+            $table->string('display_name',50)->nullable();
+            $table->text('address')->nullable();
+            $table->timestamp('dob');
+            $table->text('bio')->nullable();
+            $table->string('avatar')->nullable();
             $table->enum('gender', array('m', 'f', 'n'))->default('n');
-            $table->string('primary_email',100);
-            $table->string('secondary_email',100);
-            $table->string('home_phone',50);
-            $table->string('work_phone',50);
-            $table->string('mobile_number',30);
-            $table->text('v_card');
-            $table->string('extra_info');
-            $table->string('settings');
+            $table->string('primary_email',100)->nullable();
+            $table->string('secondary_email',100)->nullable();
+            $table->string('home_phone',50)->nullable();
+            $table->string('work_phone',50)->nullable();
+            $table->string('mobile_number',30)->nullable();
+            $table->text('v_card')->nullable();
+            $table->string('extra_info')->nullable();
+            $table->string('settings')->nullable();
             $table->timestamps();
         });
     }

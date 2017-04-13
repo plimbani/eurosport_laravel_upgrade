@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class ClubsSeeder extends Seeder
 {
@@ -11,11 +12,13 @@ class ClubsSeeder extends Seeder
      */
     public function run()
     { 
-        DB::table('permission_role')->truncate();
-        DB::table('permission_role')->insert([
-        	[ 'user_id' => '1', 'name' => 'Kamal'],
-        	[ 'user_id' => '2', 'name' => 'Krunal'],
-        	[ 'user_id' => '3', 'name' => 'Rishabh'],
-        ]);
+        DB::table('clubs')->truncate();
+        $users = DB::table('users')->take(3)->select('id')->get()->toArray();
+        
+        DB::table('clubs')->insert(
+        	[ 'user_id' => array_rand($users), 'name' => 'test1', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	[ 'user_id' => array_rand($users), 'name' => 'test2', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	[ 'user_id' => array_rand($users), 'name' => 'test3', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
+        );
     }
 }
