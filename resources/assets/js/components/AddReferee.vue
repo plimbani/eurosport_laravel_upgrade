@@ -124,7 +124,6 @@ import Tournament from '../api/tournament.js'
                 this.$validator.validateAll().then(() => {
                     
                     let ReportData = {'tournament_id': this.tournamentId,'age_category': $('#sel_ageCategory').val(),'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'available': $('#available').val()}
-                    console.log(ReportData)
                     Tournament.saveReferee(ReportData).then(
                     (response) => {  
                         this.reports = response.data.data 

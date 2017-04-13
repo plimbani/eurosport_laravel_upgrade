@@ -74,6 +74,10 @@ export default {
     DeleteModal,CompetationModal
   },
   mounted () {
+    let that = this
+     $("#exampleModal").on('hidden.bs.modal', function () {
+               that.displayTournamentCompetationList()
+            });
   	// here we load the Competation Format data Based on tournament Id
     this.displayTournamentCompetationList()
     

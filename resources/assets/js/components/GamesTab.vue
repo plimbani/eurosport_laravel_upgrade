@@ -4,10 +4,10 @@
 			<div class="col-md-12">
 				<div v-if="competition.matchList.length > 0" v-for="(competition,index) in competitionWithGames">
 					<h6><strong>{{competition.group_name}}</strong></h6>
-					<div class="yellow_bg text-center mt-3"   v-for="match in competition.matchList">
+					<div class="yellow_bg text-center mt-3"  v-for="match in competition.matchList">
 						<span>{{match.matchName}}</span>
 						<span>{{match.fullGame}}</span>
-						<span>{{match.matchTime}} min</span>
+						<span>({{match.matchTime}} min)</span>
 					</div>
 				</div>
 				<div class="dark_grey_bg text-center">
@@ -33,8 +33,9 @@ export default {
 		competitionWithGames(){
 			let competitionGroup = this.competationList
 			let allMatches = this.matches
+
 			if(this.competationList.length > 0 && this.matches.length > 0){
-				_.forEach(this.competationList, function(competition ) {
+				_.forEach(this.competationList, function(competition) {
 				let cname = competition.group_name
 				let comp = []
 				let that = this
@@ -42,7 +43,7 @@ export default {
 						let round = ''
 						let matchTime = 0
 						if(match.group_name == competition.group_name){
-							if(match.round == 'Round robin'){
+							if(match.round == 'Round Robin'){
 								round = 'RR-'
 								matchTime = parseInt(competition.game_duration_RR) +parseInt(competition.halftime_break_RR)
 							}else if(match.round == 'Elimination'){
@@ -60,7 +61,7 @@ export default {
 				return this.competationList
 			}else{
 				// console.log('msg',this.competationList,this.matches)
-				return	this.competationList
+				return this.competationList
 			}
 			
 		}
@@ -70,11 +71,9 @@ export default {
 		Tournament.getFixtures(tournamentData).then(
 			(response)=> {
 				this.matches = response.data.data
-				// console.log(response.data)
 			}
 		)
 		this.displayTournamentCompetationList()
-		
 	},
 	methods: {
 		displayTournamentCompetationList () {

@@ -111,6 +111,76 @@ class MatchRepository
 
         return $reportQuery->get();
     }
+
+    public function getTempFixtures($tournamentData) {
+        // dd($tournamentData);
+         $reportQuery = DB::table('temp_fixtures')
+            // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
+            ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
+            ->leftjoin('teams as home_team', function ($join) {
+                $join->on('home_team.id', '=', 'temp_fixtures.home_team');
+            })
+            ->leftjoin('teams as away_team', function ($join) {
+                $join->on('away_team.id', '=', 'temp_fixtures.away_team');
+            })
+            ->leftjoin('countries as HomeFlag', 'home_team.country_id', '=', 
+                'HomeFlag.id')
+            ->leftjoin('countries as AwayFlag', 'away_team.country_id', '=', 
+                'AwayFlag.id')
+            ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
+            ->leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
+            ->leftjoin('tournament_competation_template', 
+                'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
+           
+            ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
+            ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
+            ->groupBy('temp_fixtures.id')
+            ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime',
+                'venues.id as venueId', 'competitions.id as competitionId',
+                'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',
+                'home_team.name as HomeTeam','away_team.name as AwayTeam',
+                'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id','HomeFlag.logo as HomeFlagLogo','AwayFlag.logo as AwayFlagLogo','temp_fixtures.hometeam_score as homeScore',
+                'temp_fixtures.awayteam_score as AwayScore',
+                'temp_fixtures.pitch_id as pitchId',
+                'home_team.name as HomeTeam','away_team.name as AwayTeam',
+                'tournament_competation_template.game_duration_RR',
+                'tournament_competation_template.game_duration_FM',
+                'tournament_competation_template.halftime_break_RR',
+                'tournament_competation_template.halftime_break_FM',
+                DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
+                )
+            ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
+
+          if(isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' )
+          {
+            //echo 'Hello Date is'.$tournamentData['tournamentDate'];
+            $dd1= date('Y-m-d',strtotime($tournamentData['tournamentDate']));
+            //echo $dd1;
+            $reportQuery = $reportQuery->whereDate('fixtures.match_datetime',
+              '=',$dd1);               
+          }
+
+          if(isset($tournamentData['pitchId']) && $tournamentData['pitchId'] !== '' )
+          {
+            $reportQuery = $reportQuery->where('fixtures.pitch_id',$tournamentData['pitchId']);
+
+          }
+          
+          if(isset($tournamentData['teamId']) && $tournamentData['teamId'] !== '')
+          {
+            
+            $reportQuery = $reportQuery->where('fixtures.home_team',$tournamentData['teamId'])
+                ->orWhere('fixtures.away_team',$tournamentData['teamId']);
+          } 
+          if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
+          {
+            
+            $reportQuery = $reportQuery->where('fixtures.competition_id',
+                $tournamentData['competitionId']);               
+          }  
+
+        return $reportQuery->get();
+    }
     public function getStanding($tournamentData) 
     {
 

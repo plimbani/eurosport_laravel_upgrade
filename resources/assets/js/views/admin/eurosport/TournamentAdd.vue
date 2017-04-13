@@ -49,7 +49,7 @@
                         <div class="row">
                       		<div class="panel-heading col-md-12" role="tab" id="headingOne">
                             <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                               aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-minus"></i> {{$lang.tournament_show_optional_details}}
+                               aria-expanded="true" aria-controls="collapseOne"><i id="opt_icon"  class="fa fa-plus"></i> {{$lang.tournament_show_optional_details}}
                             </a>
                           </div>
                         </div>
@@ -287,6 +287,15 @@ export default {
       $('#tournament_end_date').datepicker('clearDates')
     });
     //this.handleValidation()
+    $('.panel-title').on('click',function(){
+      if($(this).hasClass('collapsed') == true){
+        $('#opt_icon').addClass('fa-minus')
+        $('#opt_icon').removeClass('fa-plus')
+      }else{
+        $('#opt_icon').addClass('fa-plus')
+        $('#opt_icon').removeClass('fa-minus')
+      }    
+    });
   },
   methods: {
     addLocationClick() {

@@ -78,24 +78,24 @@
             },
             sendResetLink() {
                 
-                
+                $('#resetPassword').attr("disabled","disabled");
                 let formData = {'email': this.loginData.email}
                 return axios.post('/password/email',formData).then(response =>  {
                     // console.log(response.status)
                     if(response.data == 'success'){
                         this.loginData.forgotpassword = ''
                         toastr['success']('We have emailed you a password reset link!', 'Success');
+                        $('#resetPassword').attr("disabled","");
                     }else{
                         toastr['error']('email address does not exist', 'Error');
                     }
-                    }).catch(error => {
-                        if (error.response.status == 401) {
-                                    toastr['error']('Invalid Credentials', 'Error');
-                    } else {
-                            //   happened in setting up the request that triggered an Error
-                            console.log('Error', error.message);
-                        }
-                    });
+                }).catch(error => {
+                    if (error.response.status == 401) {
+                                // toastr['error']('Invalid Credentials', 'Error');
+                    }else{
+                        console.log('Error', error.message);
+                    }
+                });
 
             }
         },
