@@ -19,13 +19,13 @@ class CreatePitchesTable extends Migration
             $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->string('pitch_number',100);
             $table->enum('type', array('grass', 'artificial', 'Indoor', 'Other'));
-            $table->string('size',50);
-             $table->integer('venue_id')->unsigned()->index();
+            $table->string('size',50)->nullable();
+            $table->integer('venue_id')->unsigned()->index();
             $table->foreign('venue_id')->references('id')->on('venues');
-            $table->integer('time_slot');
-            $table->string('availabiblity');
-            $table->text('comment');
-            $table->string('pitch_capacity');
+            $table->integer('time_slot')->nullable();
+            $table->string('availabiblity')->nullable();
+            $table->text('comment')->nullable();
+            $table->string('pitch_capacity')->nullable();
             $table->timestamps();
         });
     }

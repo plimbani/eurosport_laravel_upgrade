@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -11,11 +12,11 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('permissoins')->truncate();
+        DB::table('permissions')->truncate();
         DB::table('permissions')->insert([
-        	[ 'name' => 'Kamal', 'slug' => 'kamal', 'description' => 'euro', 'model' => ''],
-        	[ 'name' => 'Krunal', 'slug' => 'krunal', 'description' => 'euro', 'model' => ''],
-        	[ 'name' => 'Rishabh', 'slug' => 'rishabh', 'description' => 'euro', 'model' => ''],
+        	[ 'name' => 'Create users', 'slug' => 'create.users', 'description' => 'euro', 'model' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	[ 'name' => 'Delete users', 'slug' => 'delete.users', 'description' => 'euro', 'model' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	[ 'name' => 'Update users', 'slug' => 'update.users', 'description' => 'euro', 'model' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         ]);
     }
 }
