@@ -160,10 +160,11 @@ class AgeGroupRepository
           $homeTeam = $teams[0];
           $away_team = $teams[1];
 
+          // Todo   column
           // replace Fixture Name with Actual Group Name
           $fixture_n = str_replace('U17', $ageGroup,$fixture);  
           $teampfixtureTable->insert(
-            ['match_number'=>$fixture_n,'tournament_id'=>$tournamentId,'competition_id'=>$competationId,'home_team'=>$homeTeam,'away_team'=>$away_team]
+            ['match_number'=>$fixture_n,'tournament_id'=>$tournamentId,'competition_id'=>$competationId,'home_team'=>$homeTeam,'match_result_id'=> 0,'away_team'=>$away_team]
           );
       }
       return true;

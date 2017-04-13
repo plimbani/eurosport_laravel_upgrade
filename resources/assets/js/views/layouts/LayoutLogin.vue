@@ -2,7 +2,7 @@
     <div class="login-wrapper">
         <div class="login-box">
             <div class="brand-main">
-                <a href="/admin">
+                <a href="/">
                     <!-- <img src="http://www.euro-sportring.com/sites/default/files/euro-sportring_1.png" alt="Laraspace Logo"> -->
                     <img src="/assets/img/logo-desk.svg" alt="Laraspace Logo">
                 </a>

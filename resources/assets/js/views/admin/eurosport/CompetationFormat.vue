@@ -10,7 +10,7 @@
                 </div>
             	<div class="row">
                     <div class="col-md-12">
-            		     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i>{{$lang.competation_add_age_category}}</button>
+            		     <button type="button" class="btn btn-primary" @click="addCategory()"><i class="fa fa-plus"></i>{{$lang.competation_add_age_category}}</button>
                     </div>
             	</div>                
             	<AddAgeCateogryModel></AddAgeCateogryModel>
@@ -36,7 +36,13 @@ export default {
   components: {
       AddAgeCateogryModel, CompetationFormatList
   },
+  data() {
+    return {
+      type : 'edit'
+    }
+  },
   mounted() {
+           
     // Here if tournament Id is Not Set Redirect to Login page
     let tournamentId = this.$store.state.Tournament.tournamentId
     if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
@@ -55,7 +61,11 @@ export default {
     },
     backward() {
      // this.$router.push({name: 'tournament_add'})   
-    }
+    },
+    addCategory() {
+      this.type='add'
+      $('#exampleModal').modal('show')
+    },
   }
 }
 </script>

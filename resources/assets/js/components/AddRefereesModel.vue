@@ -83,7 +83,6 @@ export default {
                      if(this.refereeId != ''){
                       Tournament.updateReferee(ReportData).then(
                       (response) => {  
-                           console.log('msg')
                           toastr['success']('Referee detail has been updated successfully', 'Success');
                           $('#refreesModal').modal('hide')
                       }

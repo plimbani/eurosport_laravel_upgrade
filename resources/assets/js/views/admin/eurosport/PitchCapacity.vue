@@ -187,7 +187,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
             // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
             let this3 = this 
-            $("#addPitchModal").on('hidden.bs.modal', function () {
+            $("#exampleModal").on('hidden.bs.modal', function () {
                 $('#frmPitchDetail')[0].reset()
                 $('#frmPitchAvailable')[0].reset()
                 this3.getAllPitches()

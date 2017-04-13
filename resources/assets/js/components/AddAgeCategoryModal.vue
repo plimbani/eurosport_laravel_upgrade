@@ -12,7 +12,7 @@ data-animation="false"
             </button>
         </div>
         <div class="modal-body">
-        <form name="ageCategoryName">
+        <form name="ageCategoryName" id="ageCategoryName">
           <div class="form-group row" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
               <label class="col-sm-5 form-control-label">{{$lang.competation_label_age_category}}</label>
               <div class="col-sm-6">
@@ -155,10 +155,15 @@ export default {
       minimum_matches: '',
     }
   },
-
   mounted() {   
     // here we call A function to delete all data
     this.TournamentCompetationList();   
+    let this1 = this
+    $("#exampleModal").on('hide.bs.modal', function () {
+       this1.competation_format = this1.initialState()
+      
+    });
+
   },
   created: function() {
      this.$root.$on('setCompetationFormatData', this.setEdit); 
@@ -221,17 +226,24 @@ export default {
       // Now here we have to Save it Age Catgory   
       this.competation_format.tournament_id = this.$store.state.Tournament.tournamentId;
       let that = this
-      this.$validator.validateAll().then(
+      let comp_id = that.competation_format.id
+     this.$validator.validateAll(comp_id).then(
           (response) => {    
             // Add tournament Id as well
-              
               Tournament.saveCompetationFormat(this.competation_format).then(
-                (response) => {      
+                (response) => {
+                
+                    
                   if(response.data.status_code == 200) {    
-                    that.
-                    toastr.success('Age Category has been added succesfully.', 'Add AgeCategory', {timeOut: 5000});
+                    if (comp_id==''){
+                      toastr.success('Age Category has been added succesfully.', 'Add AgeCategory', {timeOut: 5000}); 
+                    }else{
+                      toastr.success('Age Category has been updated succesfully.', 'Update AgeCategory', {timeOut: 5000});
+                    }
+                    
                     //this.$router.push({name: 'competation_format'}) 
-                    $('#saveAge').attr('data-dismiss','modal')  
+                    $('#ageCategoryName').reset()
+                    // $('#saveAge').attr('data-dismiss','modal')  
                     this.$root.$emit('displayCompetationList')   
                   } else {
                     alert('Error Occured')

@@ -39,7 +39,9 @@ export default {
 	methods: {
 		getSelectComponent(registerType) {
 			axios.get("/api/getUsersByRegisterType/"+registerType).then((response) => {
+
 				if('users' in response.data) {
+					
 					this.userList.userData = response.data.users;
                 	this.userList.userCount = response.data.users.length;
 				} else {
