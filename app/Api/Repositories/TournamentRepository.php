@@ -34,7 +34,7 @@ class TournamentRepository
     }
     public function create($data)
     {
-       
+      
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];

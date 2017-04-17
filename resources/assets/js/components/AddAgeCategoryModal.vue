@@ -22,45 +22,8 @@ data-animation="false"
                                     <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_age_category_required}}</span>
               </div>
           </div>
-          <div class="form-group row" :class="{'has-error': errors.has('number_teams') }">
-              <label class="col-sm-5 form-control-label">{{$lang.competation_label_number_teams}}</label>
-              <div class="col-sm-6">
-              <select class="form-control ls-select2"
-                  name="number_teams"
-                  v-validate="'required'" :class="{'is-danger': errors.has('number_teams') }"
-                  v-model="number_teams">
-
-                      <option value="">{{$lang.competation_modal_select_number_teams}}</option>
-                      <option v-if="n > 5" v-for="n in (28)" 
-                      v-bind:value="n">     
-                     {{n}} 
-                    </option>
-                  </select>
-                   <span class="help is-danger" v-show="errors.has('number_teams')">{{$lang.competation_modal_number_teams_required}}</span>
-              </div>
-          </div>
-          <div class="form-group row" :class="{'has-error': errors.has('competation_format.minimum_matches') }">
-              <label class="col-sm-5 form-control-label">{{$lang.competation_label_minimum_matches}}</label>
-              <div class="col-sm-6">
-                  <select class="form-control ls-select2"
-                  name="minimum_matches"
-                  v-validate="'required'" :class="{'is-danger': errors.has('minimum_matches') }"
-                  v-model="minimum_matches">
-
-                      <option value="">{{$lang.competation_modal_select_minimum_matches}}</option> 
-                      <option v-if="n > 2" v-for="n in (6)" 
-                      v-bind:value="n">     
-                     {{n}} 
-                    </option>
-                  </select>
-                  
-                  
-                  <span class="help is-danger" v-show="errors.has('minimum_matches')">{{$lang.competation_modal_minimum_matches_required}}</span>
-              </div>
-          </div>
-
          
-          <div class="form-group row" >
+          <!-- <div class="form-group row" >
               <label class="col-sm-5 form-control-label">{{$lang.competation_modal_select_templates}}</label>
               <div class="col-sm-6">
                   <select class="form-control ls-select2"
@@ -74,7 +37,7 @@ data-animation="false"
                   <span class="help is-danger" v-show="errors.has('tournamentTemplate')">{{$lang.competation_modal_select_templates_required}}</span>
 
               </div>
-          </div>
+          </div> -->
           <div class="form-group row">
               <label class="col-sm-5 form-control-label">{{$lang.competation_modal_game_duration}}</label>
               <div class="col-sm-6">
@@ -131,6 +94,43 @@ data-animation="false"
                     <span class="col-md-2 minutes-div">{{$lang.competation_modal_match_interval_final_minutes}}</span>
                 </div>
             </div>
+
+            <div class="form-group row" :class="{'has-error': errors.has('number_teams') }">
+              <label class="col-sm-5 form-control-label">{{$lang.competation_label_number_teams}}</label>
+              <div class="col-sm-6">
+              <select class="form-control ls-select2"
+                  name="number_teams"
+                  v-validate="'required'" :class="{'is-danger': errors.has('number_teams') }"
+                  v-model="number_teams">
+
+                      <option value="">{{$lang.competation_modal_select_number_teams}}</option>
+                      <option v-if="n > 5" v-for="n in (28)" 
+                      v-bind:value="n">     
+                     {{n}} 
+                    </option>
+                  </select>
+                   <span class="help is-danger" v-show="errors.has('number_teams')">{{$lang.competation_modal_number_teams_required}}</span>
+              </div>
+          </div>
+          <div class="form-group row" :class="{'has-error': errors.has('competation_format.minimum_matches') }">
+              <label class="col-sm-5 form-control-label">{{$lang.competation_label_minimum_matches}}</label>
+              <div class="col-sm-6">
+                  <select class="form-control ls-select2"
+                  name="minimum_matches"
+                  v-validate="'required'" :class="{'is-danger': errors.has('minimum_matches') }"
+                  v-model="minimum_matches">
+
+                      <option value="">{{$lang.competation_modal_select_minimum_matches}}</option> 
+                      <option v-if="n > 2" v-for="n in (7)" 
+                      v-bind:value="n">     
+                     {{n}} 
+                    </option>
+                  </select>
+                  
+                  
+                  <span class="help is-danger" v-show="errors.has('minimum_matches')">{{$lang.competation_modal_minimum_matches_required}}</span>
+              </div>
+          </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -226,21 +226,19 @@ export default {
       // Now here we have to Save it Age Catgory   
       this.competation_format.tournament_id = this.$store.state.Tournament.tournamentId;
       let that = this
-      let comp_id = that.competation_format.id
-     this.$validator.validateAll(comp_id).then(
-          (response) => {    
-            // Add tournament Id as well
+      let comp_id = that.competation_format.id?that.competation_format.id:''
+      
+     this.$validator.validateAll().then(
+          (response) => {   
+          
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {
-                
-                    
                   if(response.data.status_code == 200) {    
                     if (comp_id==''){
                       toastr.success('Age Category has been added succesfully.', 'Add AgeCategory', {timeOut: 5000}); 
                     }else{
                       toastr.success('Age Category has been updated succesfully.', 'Update AgeCategory', {timeOut: 5000});
                     }
-                    
                     //this.$router.push({name: 'competation_format'}) 
                     $('#ageCategoryName').reset()
                     // $('#saveAge').attr('data-dismiss','modal')  
@@ -248,7 +246,6 @@ export default {
                   } else {
                     alert('Error Occured')
                   }
-              
               },
               (error) => {
                 console.log('Error occured during Save Compeation Fomat api ', error)

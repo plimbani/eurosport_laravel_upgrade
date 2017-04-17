@@ -102,10 +102,10 @@ class TournamentService implements TournamentContract
      */
     public function create($data)
     {
-         
+          
          //exit;
         $data = $data->all();
-        // dd($data);
+
         // here first we save the tournament related Data
         // here we have to precprocess the image
         // Save the image
@@ -123,11 +123,13 @@ class TournamentService implements TournamentContract
     }
     private function saveTournamentLogo($data)
     {
+
+
        if($data['tournamentData']['image_logo'] != '')
        {
             $image_string = $data['tournamentData']['image_logo']; 
 
-            $img = explode(',', $image_string);        
+            $img = explode(',', $image_string); 
             $imgData = base64_decode($img[1]);        
 
             $name = $data['tournamentData']['name'];
@@ -136,7 +138,7 @@ class TournamentService implements TournamentContract
             $timeStamp = $now->getTimestamp();
             $path = public_path().'/assets/img/tournament_logo/'.$timeStamp.'.png';        
             file_put_contents($path, $imgData);      
-            return $timeStamp.'.png';
+                return $timeStamp.'.png';
         } else {
             return '';
         }

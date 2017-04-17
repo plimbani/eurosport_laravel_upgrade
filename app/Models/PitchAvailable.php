@@ -20,6 +20,8 @@ class PitchAvailable extends Model
 
     public function setStageStartDateAttribute($value)
     {
+
+
         $new_val = $value." 00:00:00";
         $this->attributes['stage_start_date'] =   Carbon::createFromFormat('d/m/Y', $value);
 

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loginData.forgotpassword==''">
+    <div v-if="loginData.forgotpassword==0">
     <form id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
         
@@ -42,7 +42,8 @@
                  email" value=""/>
             </div>
             <div class="form-actions">
-            <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase ">RESET PASSWORD</button>
+            <button type="button" name="resetPassword" id="resetPassword" @click="backToLogin()" class="btn btn-login uppercase ">Back to login</button>
+            <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase ">Reset </button>
             </div>
         </form>
     </div>
@@ -58,7 +59,7 @@
                     email: '',
                     password: '',
                     remember: '',
-                    forgotpassword: ''
+                    forgotpassword: 0
 
                 }
             }
@@ -75,6 +76,10 @@
             },
             forgotPasswordOpen() {
                 this.loginData.forgotpassword = 1
+            },
+            backToLogin() {
+                this.loginData.forgotpassword = 0
+
             },
             sendResetLink() {
                 

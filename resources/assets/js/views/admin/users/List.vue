@@ -23,7 +23,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="" v-for="user in userList.userData">
+                                <tr class="" v-for="user in userList.userData">
                                         <td>{{ user.person_detail.first_name }}</td>
                                         <td>{{ user.person_detail.last_name }}</td>
                                         <td>{{ user.email }}</td>
@@ -91,7 +91,7 @@
                             <div class="form-group row">
                                 <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                                 <div class="col-sm-6">
-                                     <label id="profile_image_file">Choose file</label>  
+                                     <button id="profile_image_file">Choose file</button>  
                                       <div v-if="!image" style="display:none;">
                                           <input type="file" name="userImg" id="userImg" @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.</p>
@@ -125,7 +125,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-                            <button type="submit" class="btn btn-primary">{{$lang.user_management_save}}</button> 
+                            <button type="button"  @click= "validateBeforeSubmit()" class="btn btn-primary">{{$lang.user_management_save}}</button> 
                         </div>
                     </form>
                 </div>
@@ -227,6 +227,7 @@
             },
             validateBeforeSubmit(){
                 this.$validator.validateAll().then(() => {
+                    console.log('msg')
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {
@@ -236,6 +237,7 @@
                             this.updateUserList();
                         });
                     } else {
+
                     this.formValues.user_image = this.image;
                    let that = this
                     setTimeout(function(){
@@ -248,7 +250,9 @@
                     },1000)
                        
                     }
-                }).catch(() => { });
+                }).catch(() => {
+                    toastr['error']('Please fill all required fields ', 'Error')
+                 });
             },
             deleteConfirmed() {
                 axios.post(this.deleteAction).then((response) => {
