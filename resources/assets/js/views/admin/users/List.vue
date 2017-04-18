@@ -20,10 +20,11 @@
                                         <th>{{$lang.user_desktop_organisation}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
+                                         <th>{{$lang.user_desktop_status}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="" v-for="user in userList.userData">
+                                <tr class="" v-for="user in userList.userData">
                                         <td>{{ user.person_detail.first_name }}</td>
                                         <td>{{ user.person_detail.last_name }}</td>
                                         <td>{{ user.email }}</td>
@@ -48,7 +49,7 @@
         <div class="modal fade" id="user_form_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form @submit.prevent="validateBeforeSubmit">
+                    <form name="frmUser" id="frmUser" method="POST">
                         <div class="modal-header">
                             <h5 class="modal-title">{{ userModalTitle }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -61,7 +62,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Enter first name">
                                     <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
+                                    <span class="help is-danger" v-show="errors.has('name')">This field is required</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -69,7 +70,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
                                     <i v-show="errors.has('surname')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
+                                    <span class="help is-danger" v-show="errors.has('surname')">This field is required</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -80,12 +81,22 @@
                                     <span class="help is-danger" v-show="errors.has('email_address')">The email address field is required.</span>
                                 </div> 
                             </div>
+
+                            <div class="form-group row" v-if="formValues.id === ''">
+                                <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
+                                <div class="col-sm-6">
+                                    <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
+                                    <i v-show="errors.has('pass')" class="fa fa-warning"></i>
+                                    <span class="help is-danger" v-show="errors.has('pass')">{</span>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                                 <div class="col-sm-6">
-                                      <div v-if="!image">
-                                        <button type="button" name="profile_image_file" id="profile_image_file">Choose file</button>
-                                          <input type="file" id="userImg" style="display:none;" @change="onFileChange">
+                                     <button type="button" id="profile_image_file">Choose file</button>  
+                                      <div v-if="!image" style="display:none;">
+                                          <input type="file" name="userImg" id="userImg" @change="onFileChange">
+
                                           <p class="help-block">Maximum size of 1 MB.</p>
                                       </div>
                                        <div v-else>
@@ -117,7 +128,9 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-                            <button type="submit" class="btn btn-primary">{{$lang.user_management_save}}</button> 
+
+                            <button type="button" class="btn btn-primary" @click="validateBeforeSubmit()">{{$lang.user_management_save}}</button> 
+
                         </div>
                     </form>
                 </div>
@@ -161,7 +174,6 @@
                     name: '',
                     surname: '',
                     emailAddress: '',
-                    password: '',   
                     organisation: '',
                     userType: '',
                     user_image: '',
@@ -200,9 +212,9 @@
             },
             removeImage: function (e) {
               this.image = '';
-               e.preventDefault();
+              e.preventDefault();
             },      
-
+            
             prepareDeleteResource(id) {
                 this.deleteAction="/api/user/delete/"+id;
             },
@@ -218,10 +230,12 @@
                 });
             },
             validateBeforeSubmit(){
+                console.log('hi')
                 this.$validator.validateAll().then(() => {
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {
+                            console.log(hi);
                             toastr.success('User has been added succesfully.', 'Add User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                             this.$data.formValues = this.initialState();
@@ -229,7 +243,7 @@
                         });
                     } else {
                     this.formValues.user_image = this.image;
-                   let that = this
+                    let that = this
                     setTimeout(function(){
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
@@ -240,7 +254,10 @@
                     },1000)
                        
                     }
-                }).catch(() => { });
+                }).catch((errors) => {
+                     console.log(errors)
+                    // toastr['error']('Please fill all required fields ', 'Error')
+                 });
             },
             deleteConfirmed() {
                 axios.post(this.deleteAction).then((response) => {

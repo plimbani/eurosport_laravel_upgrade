@@ -1,28 +1,29 @@
 <template>
   <div class="main-content container" id="dashboardPage">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-12">
         <div class="alert alert-info alert-dismissible" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
           Hi Chris, Welcome to Tournament Planner. Got a question? Check the <strong> Help </strong>page or <strong> contact us </strong>for assistance.
 
         </div>
-      </div>
-    </div>
+      </div>  
+    </div> -->
     <div class="row home-content">
       <div class="col-sm-6">
         <div class="card">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
           </div>
-          <div class="card-block text-center">            
-              <div class="form-group">
-                <tournamentDropDown></tournamentDropDown>              
-              </div>
-              
+          <div class="card-block text-center">  
+            <div class= "form-group">
               <button class="btn btn-primary col-sm-8 btn-theme" 
               @click="addNewTournament()" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')">
               {{$lang.welcome_add_button_new_tournament}}</button>
+            </div>          
+              <div class="form-group">
+                <tournamentDropDown></tournamentDropDown>              
+              </div>
           </div>
         </div>
       </div>
@@ -81,7 +82,8 @@ computed: {
         that.$store.dispatch('getUserDetails', userData);
         // this.userDetails = this.$store.state.Users.userDetails
       }
-       let tournamentAdd  = {name:'', 'currentPage':'Home'}        
+       let tournamentAdd  = {name:'', 'currentPage':'Home'}  
+             
       that.$store.dispatch('SetTournamentName', tournamentAdd)
     },1000)
 

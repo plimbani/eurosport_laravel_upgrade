@@ -274,6 +274,7 @@ import _ from 'lodash'
            
         },  
         mounted(){
+            console.log('msg')
             Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles', 'addstage'])
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';
@@ -415,10 +416,10 @@ import _ from 'lodash'
                     $('#stage_capacity_span'+stage).text('0.00 hrs');
                     $('#stage_capacity'+stage).val('0.00');
                 }else {
-                 var stageTimeStart = new Date($('#stage_start_date'+stage).val() + " "+ $('#stage_start_time'+stage).val());
-                var stageTimeEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_end_time'+stage).val());
-                var stageBreakStart = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_break_start'+stage).val());
-                var stageBreakEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_continue_time'+stage).val());
+                 var stageTimeStart = new Date("01/01/2017 "+ $('#stage_start_time'+stage).val());
+                var stageTimeEnd = new Date("01/01/2017 " + $('#stage_end_time'+stage).val());
+                var stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage).val());
+                var stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage).val());
 
                     var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
                     var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
@@ -570,8 +571,8 @@ import _ from 'lodash'
                 let stage_start_time = $('#stage_start_time'+stage).val();
                 let stage_end_date = $('#stage_end_date'+stage).val();
                 let stage_end_time = $('#stage_end_time'+stage).val();
-                var timeStart = new Date(stage_start_date + stage_start_time);
-                var timeEnd = new Date(stage_end_date + stage_end_time);
+                var timeStart = new Date("01/01/2017 " + stage_start_time);
+                var timeEnd = new Date("01/01/2017 " + stage_end_time);
                 if(timeStart && timeEnd) {
                     var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
                     var minutes = diff % 60;
