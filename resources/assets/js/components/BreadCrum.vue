@@ -3,7 +3,7 @@
   <div class="col-sm-12">
     <div class="page-header">
       <ol class="breadcrumb">
-        <li> <router-link class="btn btn-lg bg-yellow" to="/"> Home </router-link></li>
+        <li><a href="#">Home</a></li>
         <li v-if="TournamentName != ''"><a href="#">{{TournamentName}}</a></li>
         <li class="active"><span>{{currentPage}}</span></li>
       </ol>

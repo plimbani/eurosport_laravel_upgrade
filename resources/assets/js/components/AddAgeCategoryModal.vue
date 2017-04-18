@@ -13,13 +13,22 @@ data-animation="false"
         </div>
         <div class="modal-body">
         <form name="ageCategoryName" id="ageCategoryName">
+         
           <div class="form-group row" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
-              <label class="col-sm-5 form-control-label">{{$lang.competation_label_age_category}}</label>
+            <label class="col-sm-5 form-control-label">{{$lang.competation_label_age_category}}</label>
               <div class="col-sm-6">
-                  <input type="text" class="form-control" 
-                  placeholder="e.g. U11, U16-A"  v-validate="'required'" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
-                  <i v-show="errors.has('ageCategory_name')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_age_category_required}}</span>
+                <select class="form-control ls-select2"
+                name="minimum_matches"
+                v-validate="'required'" :class="{'is-danger': errors.has('ageCategory_name') }"
+                v-model="competation_format.ageCategory_name">
+
+                    <option value=""></option> 
+                    <option v-if="n > 4" v-for="n in (21)" 
+                    v-bind:value="n">     
+                   {{n}} 
+                  </option>
+                </select>
+                <span class="help is-danger" v-show="errors.has('minimum_matches')">{{$lang.competation_modal_age_category_required}}</span>
               </div>
           </div>
           <div class="form-group row" :class="{'has-error': errors.has('number_teams') }">
@@ -48,18 +57,14 @@ data-animation="false"
                   v-model="minimum_matches">
 
                       <option value="">{{$lang.competation_modal_select_minimum_matches}}</option> 
-                      <option v-if="n > 2" v-for="n in (6)" 
+                      <option v-if="n > 2" v-for="n in (7)" 
                       v-bind:value="n">     
                      {{n}} 
                     </option>
                   </select>
-                  
-                  
                   <span class="help is-danger" v-show="errors.has('minimum_matches')">{{$lang.competation_modal_minimum_matches_required}}</span>
               </div>
           </div>
-
-         
           <div class="form-group row" >
               <label class="col-sm-5 form-control-label">{{$lang.competation_modal_select_templates}}</label>
               <div class="col-sm-6">
@@ -82,7 +87,8 @@ data-animation="false"
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.game_duration_RR">
                       <option value="20">10</option>
                       <option value="30">15</option>
-                      <option value="40">20</option>                      
+                      <option value="40">20</option>
+                      <option value="40">Other</option>                       
                   </select>
                   <span class="col-md-2 minutes-div">{{$lang.competation_modal_duration_final_minutes}}</span>
               </div>
@@ -94,7 +100,8 @@ data-animation="false"
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.game_duration_FM">
                       <option value="20">10</option>
                       <option value="30">15</option>
-                      <option value="40">20</option>                     
+                      <option value="40">20</option> 
+                      <option value="40">Other</option>                     
                   </select>
                   <span class="col-md-2 minutes-div">{{$lang.competation_modal_duration_final_minutes}}</span>
               </div>
@@ -102,13 +109,16 @@ data-animation="false"
           <div class="form-group row">
               <label class="col-sm-5 form-control-label">{{$lang.competation_modal_half_time_break}}</label>
               <div class="col-sm-6">
-                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_RR" min="0">
+                  <input type="number" class="form-control col-sm-4 pull-left" placeholder="" v-model="competation_format.halftime_break_RR" min="0">
+                   <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_minutes}}</span>
               </div>
+
           </div>
           <div class="form-group row">
               <label class="col-sm-5 form-control-label">{{$lang.competation_modal_half_time_break_final}}</label>
               <div class="col-sm-6">
-                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_FM" min="0">
+                  <input type="number" class="form-control col-sm-4 pull-left" placeholder="" v-model="competation_format.halftime_break_FM" min="0">
+                  <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_final_minutes}}</span>
               </div>
           </div>
           <div class="form-group row">
@@ -116,17 +126,19 @@ data-animation="false"
               <div class="col-sm-6">
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.match_interval_RR">
                       <option value="5">5</option>
-                      <option value="10">10</option>                     
+                      <option value="10">10</option>
+                      <option value="10">Other</option>                         
                   </select>
                   <span class="col-md-2 minutes-div">{{$lang.competation_modal_match_minutes}}</span>
               </div>
           </div>
             <div class="form-group row">
-                <label class="col-sm-5 form-control-label">{{$lang.competation_modal_match_interval}}</label>
+                <label class="col-sm-5 form-control-label">{{$lang.competation_modal_match_interval_final}}</label>
                 <div class="col-sm-6">
                     <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.match_interval_FM">
                         <option value="5">5</option>
-                        <option value="10">10</option>                       
+                        <option value="10">10</option>
+                        <option value="10">Other</option>                           
                     </select>
                     <span class="col-md-2 minutes-div">{{$lang.competation_modal_match_interval_final_minutes}}</span>
                 </div>
@@ -236,9 +248,9 @@ export default {
                     
                   if(response.data.status_code == 200) {    
                     if (comp_id==''){
-                      toastr.success('Age Category has been added succesfully.', 'Add AgeCategory', {timeOut: 5000}); 
+                      toastr.success('Age category has been added successfully.', 'Add age category', {timeOut: 5000}); 
                     }else{
-                      toastr.success('Age Category has been updated succesfully.', 'Update AgeCategory', {timeOut: 5000});
+                      toastr.success('Age category has been edited successfully.', 'Edit age category', {timeOut: 5000});
                     }
                     
                     //this.$router.push({name: 'competation_format'}) 
