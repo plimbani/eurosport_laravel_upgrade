@@ -41,6 +41,7 @@
                  <input class="form-control" type="email" autocomplete="off" v-model="loginData.email"  placeholder="Email address" name="email" id="
                  email" value=""/>
             </div>
+
             <div class="form-actions text-sm-right">
             <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase ">Back to login</button>
             <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase ">Reset password</button>
@@ -77,7 +78,6 @@
                 this.loginData.forgotpassword = 1
             },
             backtologin() {
-
                  this.loginData.forgotpassword = 0
             },
             sendResetLink() {

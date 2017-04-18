@@ -294,6 +294,7 @@
                 this.disableDate.push( $('.datestage'+i).val());
                 startDate.setDate(new Date(this.tournamentStartDate).getDate() + i)
                 obj['date'+i] = $('.datestage'+i).val();
+                
             }
             let disableDate = this.disableDate;
             this.stage_date.push(obj)
@@ -372,10 +373,10 @@
                     $('#stage_capacity_span'+stage).text('0.00 hrs');
                     $('#stage_capacity'+stage).val('0.00');
                 }else {
-                 var stageTimeStart = new Date($('#stage_start_date'+stage).val() + " "+ $('#stage_start_time'+stage).val());
-                var stageTimeEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_end_time'+stage).val());
-                var stageBreakStart = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_break_start'+stage).val());
-                var stageBreakEnd = new Date($('#stage_start_date'+stage).val() + " " + $('#stage_continue_time'+stage).val());
+                 var stageTimeStart = new Date("01/01/2017 "+ $('#stage_start_time'+stage).val());
+                var stageTimeEnd = new Date("01/01/2017 " + $('#stage_end_time'+stage).val());
+                var stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage).val());
+                var stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage).val());
 
                     var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
                     var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
@@ -453,6 +454,7 @@
                     $( ".stage_capacity_all" ).each(function( index ) {
                       time = time + parseInt($(this).val())
                     });
+                    console.log(time)
                     //  var minutes = time % 60;
                     // var hours = (time - minutes) / 60;
                     // var time_val = hours+ '.' +minutes
@@ -520,7 +522,7 @@
                 let stage_start_time = $('#stage_start_time'+stage).val();
                 let stage_end_date = $('#stage_end_date'+stage).val();
                 let stage_end_time = $('#stage_end_time'+stage).val();
-                var timeStart = new Date(stage_start_date + stage_start_time);
+                var timeStart = new Date('' + stage_start_time);
                 var timeEnd = new Date(stage_end_date + stage_end_time);
                 if(timeStart && timeEnd) {
                     var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds

@@ -33,7 +33,7 @@ class Tournament extends Model
 
     public function getStartDateAttribute($value)
     {
-         return Carbon::parse($value)->format('d/m/Y');
+         return Carbon::parse($value)->format('m/d/Y');
     }
      public function setStartDateAttribute($value)
     {
@@ -43,7 +43,7 @@ class Tournament extends Model
     }
     public function getEndDateAttribute($value)
     {
-        return Carbon::parse($value)->format('d/m/Y');
+        return Carbon::parse($value)->format('m/d/Y');
     }
 
     public function setEndDateAttribute($value)

@@ -82,7 +82,8 @@ computed: {
         that.$store.dispatch('getUserDetails', userData);
         // this.userDetails = this.$store.state.Users.userDetails
       }
-       let tournamentAdd  = {name:'', 'currentPage':'Home'}        
+       let tournamentAdd  = {name:'', 'currentPage':'Home'}  
+             
       that.$store.dispatch('SetTournamentName', tournamentAdd)
     },1000)
 
