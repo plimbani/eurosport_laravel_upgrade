@@ -50,6 +50,7 @@
                       		<div class="panel-heading col-md-12" role="tab" id="headingOne">
                             <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
                                aria-expanded="true" aria-controls="collapseOne"><i id="opt_icon"  class="fa fa-plus"></i> {{$lang.tournament_show_optional_details}}
+                             </a>
                             <div id="collapseOne" class="panel-collapse collapse panel-content in" role="tabpanel"
                             aria-labelledby="headingOne">
                             <div class="form-inline">
@@ -97,7 +98,7 @@
                             </div>
                             </div>
                           </div>
-                            </a>
+                           
                           </div>
                         </div>
                         
