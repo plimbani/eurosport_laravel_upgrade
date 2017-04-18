@@ -2,7 +2,7 @@
     <div class="login-wrapper">
         <div class="login-box">
             <div class="brand-main">
-                <a href="/admin">
+                <a href="/">
                     <!-- <img src="http://www.euro-sportring.com/sites/default/files/euro-sportring_1.png" alt="Laraspace Logo"> -->
                     <img src="/assets/img/logo-desk.svg" alt="Laraspace Logo">
                 </a>
@@ -10,8 +10,8 @@
             <router-view></router-view>
             <div class="page-copyright">
 
-                <p>Developed by <a href="http://aecordigital.com" target="_blank">aecor</a><br/>
-                Copyright {{currentYear}} Euro-Sportring. All rights reserved.</p>
+                <p>Copyright {{currentYear}} Euro-Sportring. All rights reserved.<br/>
+                developed by <a href="http://aecordigital.com" target="_blank">aecor</a></p>
             </div>
         </div>
     </div>

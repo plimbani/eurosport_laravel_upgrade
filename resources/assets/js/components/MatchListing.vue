@@ -46,8 +46,7 @@ export default {
  	  
  	  this.tournamentDates = this.getDateRange(tournamentStartDate,tournamentEndDate,'mm/dd/yyyy')
 
- 	  console.log(this.getDateRange(tournamentStartDate,tournamentEndDate,'mm/dd/yyyy'))
-
+ 	  
 	  this.$store.dispatch('setCurrentScheduleView','matchList')
 	  // By Default Set for ot Todays Date
 	  this.getAllMatches(tournamentStartDate)

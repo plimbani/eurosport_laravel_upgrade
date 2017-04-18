@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class PermissionUserTableSeeder extends Seeder
 {
@@ -10,12 +11,15 @@ class PermissionUserTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {   
         DB::table('permission_user')->truncate();
+        $permission = DB::table('permissions')->take(3)->get()->toArray();
+        $users = DB::table('users')->take(3)->select('id')->get()->toArray();
+        
         DB::table('permission_user')->insert([
-        	[ 'permission_id' => '1', 'user_id' => '1'],
-        	[ 'permission_id' => '1', 'user_id' => '2'],
-        	[ 'permission_id' => '2', 'user_id' => '3'],
+        	[ 'permission_id' => array_rand($permission) , 'user_id' => array_rand($users), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	[ 'permission_id' => array_rand($permission) , 'user_id' => array_rand($users), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	[ 'permission_id' => array_rand($permission) , 'user_id' => array_rand($users), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         ]);
     }
 }

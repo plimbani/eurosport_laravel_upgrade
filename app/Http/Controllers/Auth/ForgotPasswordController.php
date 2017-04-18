@@ -20,6 +20,13 @@ class ForgotPasswordController extends Controller
     |`
     */
      use SendsPasswordResetEmails;
+
+    // protected $resetView="auth.passwords.reset";
+
+    /**
+     * Get the e-mail subject line to be used for the reset link email.
+     */
+    protected $subject="Password Reset Link";
     /**
      * Create a new controller instance.
      *
@@ -27,7 +34,7 @@ class ForgotPasswordController extends Controller
      */
     public function __construct()
     {
-        // dd('111');
+         // dd($this->broker());
         // $this->middleware('guest');
     }
      public function resetLink(Request $request)
@@ -39,8 +46,8 @@ class ForgotPasswordController extends Controller
         // need to show to the user. Finally, we'll send out a proper response.
         $response = $this->broker()->sendResetLink(
             $request->only('email')
+            // $this->resetEmailBuilder()
         );
-
         return $response == Password::RESET_LINK_SENT
                     ? 'success'
                     : 'error';

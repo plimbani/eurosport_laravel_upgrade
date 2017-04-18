@@ -77,8 +77,8 @@
                     <div class="result col-md-12">
                         <div class="dashbox">
                             <p class="row">
-                                <label class="col-md-9"><strong>{{$lang.competation_modal_time}}</strong></label>
-                                <label class="col-md-3">{{totalTime | formatTime}} </label>
+                                <label class="col-md-3"><strong>{{$lang.competation_modal_time}}</strong></label>
+                                <label class="col-md-9">{{totalTime | formatTime}} </label>
                             </p>
                            
                         </div>

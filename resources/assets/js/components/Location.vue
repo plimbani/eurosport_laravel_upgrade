@@ -4,13 +4,15 @@
 <div class="">
 <h6><strong>{{$lang.tournament_location}}</strong></h6>
 </div>
-<div class="form-group row">
+<div class="form-group row" :class="{'has-error': errors.has('tournamemt_validation_venue') }">
 <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}}*</label>
 
-<div class="col-sm-4">
-<input type="text" class="form-control" v-model="location.tournament_venue_name" 
-placeholder="">
-</div>
+	<div class="col-sm-4">
+		<input type="text" class="form-control" placeholder="" name="tournamemt_validation_venue"
+		 v-model="location.tournament_venue_name" v-validate="'required'" :class="{'is-danger': errors.has('tournamemt_validation_venue') }">
+		 <i v-show="errors.has('tournamemt_validation_venue')" class="fa fa-warning"></i>
+		 <span class="help is-danger" v-show="errors.has('tournamemt_validation_venue')">{{$lang.tournamemt_validation_venue}}</span>
+	</div>
 </div>
 
 
@@ -75,8 +77,8 @@ placeholder="">
 </div>
 </div>
 <div class="form-group row">
-<div class="col-sm-4">
-<button class="btn btn-danger" @click.prevent="removeLocation(index)" v-if="index > 0">- Remove location</button>
+<div class="col-sm-3">
+<button class="btn btn-danger w-75" @click.prevent="removeLocation(index)" v-if="index > 0">- Remove location</button>
 </div>
 </div>
 

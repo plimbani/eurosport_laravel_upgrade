@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loginData.forgotpassword==''">
+    <div v-if="loginData.forgotpassword==0">
     <form id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
         
@@ -8,7 +8,7 @@
         </div>
         <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
             <input type="password" class="form-control form-control-danger" placeholder="Enter password" name="password"
-                   v-model="loginData.password" v-validate data-vv-rules="required">
+                v-model="loginData.password" v-validate data-vv-rules="required">
         </div>
         <div class="other-actions row">
             <div class="col-sm-6">
@@ -41,8 +41,9 @@
                  <input class="form-control" type="email" autocomplete="off" v-model="loginData.email"  placeholder="Email address" name="email" id="
                  email" value=""/>
             </div>
-            <div class="form-actions">
-            <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase ">RESET PASSWORD</button>
+            <div class="form-actions text-sm-right">
+            <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase ">Back to login</button>
+            <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase ">Reset password</button>
             </div>
         </form>
     </div>
@@ -58,8 +59,7 @@
                     email: '',
                     password: '',
                     remember: '',
-                    forgotpassword: ''
-
+                    forgotpassword: 0
                 }
             }
         },
@@ -76,26 +76,30 @@
             forgotPasswordOpen() {
                 this.loginData.forgotpassword = 1
             },
+            backtologin() {
+
+                 this.loginData.forgotpassword = 0
+            },
             sendResetLink() {
                 
-                
+                $('#resetPassword').attr("disabled","disabled");
                 let formData = {'email': this.loginData.email}
                 return axios.post('/password/email',formData).then(response =>  {
                     // console.log(response.status)
                     if(response.data == 'success'){
                         this.loginData.forgotpassword = ''
                         toastr['success']('We have emailed you a password reset link!', 'Success');
+                        $('#resetPassword').attr("disabled","");
                     }else{
                         toastr['error']('email address does not exist', 'Error');
                     }
-                    }).catch(error => {
-                        if (error.response.status == 401) {
-                                    toastr['error']('Invalid Credentials', 'Error');
-                    } else {
-                            //   happened in setting up the request that triggered an Error
-                            console.log('Error', error.message);
-                        }
-                    });
+                }).catch(error => {
+                    if (error.response.status == 401) {
+                                // toastr['error']('Invalid Credentials', 'Error');
+                    }else{
+                        console.log('Error', error.message);
+                    }
+                });
 
             }
         },

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class TournamentsTemplateTableSeeder extends Seeder
 {
@@ -13,9 +14,14 @@ class TournamentsTemplateTableSeeder extends Seeder
     {
         DB::table('tournament_template')->truncate();
         DB::table('tournament_template')->insert([
-        	[ 'name' => 'Kamal', 'json_data' => ''],
-        	[ 'name' => 'Krunal', 'json_data' => ''],
-        	[ 'name' => 'Rishabh', 'json_data' => ''],
+        	[ 'name' => 'template001', 'json_data' => '', 'total_teams' => '6', 'minimum_matches' => '6', 
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+            
+        	[ 'name' => 'template002', 'json_data' => '', 'total_teams' => '7', 'minimum_matches' => '5', 
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+            [ 'name' => 'template003', 'json_data' => '', 'total_teams' => '7', 'minimum_matches' => '5', 
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
     }
 }

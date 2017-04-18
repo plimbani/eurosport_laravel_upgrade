@@ -21,19 +21,20 @@
                         <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                         <div class="col-sm-6">
                             <div v-if="!image">
+                                <button type="button" name="btnImage" id="btnImage">Choose file</button>
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <img v-bind:src="'/assets/img/users/' + userData.image" width="60px" height="60px"/>
                                     </div>
                                     <div class="col-sm-8">
-                                        <input type="file" @change="onFileChange">
+                                        <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
                                         <p class="help-block">Maximum size of 1 MB.</p> 
                                     </div>
                                 </div>
                             </div>
                             <div v-else>
                                 <img :src="image" width="40px" height="50px"/>
-                                <button>Remove image</button>
+                                <button @click="removeImage">Remove image</button>
                             </div>
                         </div>      
                     </div>  
@@ -55,6 +56,11 @@
         'image': '',
         'name': ''
         }
+    },
+    mounted(){
+        $('#btnImage').on('click',function(){
+        $('#selectFile').trigger('click')
+    })
     },
     props: ['userData'],
     methods : {
@@ -82,7 +88,7 @@
               reader.readAsDataURL(file);
             },
             removeImage: function (e) {
-              this.user_image = '';
+              this.image = '';
                e.preventDefault();
             },      
    }

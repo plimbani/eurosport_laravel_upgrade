@@ -58,9 +58,10 @@ class UserService implements UserContract
        if($data['user_image']!='')
         {
             $imagename = $this->saveUsersLogo($data);
+            $userData['user']['user_image']=$imagename;
         }
 
-        $userData['user']['user_image']=$imagename;
+        
         $userData['user']['password']=Hash::make('password');
 
         $userObj=$this->userRepoObj->create($userData['user']);

@@ -97,6 +97,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             }
         },
         mounted(){
+            this.getAllPitches()
             let tournamentId = this.$store.state.Tournament.tournamentId
             if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
               toastr['error']('Please Select Tournament', 'Error');
@@ -187,7 +188,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
             // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
             let this3 = this 
-            $("#addPitchModal").on('hidden.bs.modal', function () {
+            $("#exampleModal").on('hidden.bs.modal', function () {
                 $('#frmPitchDetail')[0].reset()
                 $('#frmPitchAvailable')[0].reset()
                 this3.getAllPitches()
