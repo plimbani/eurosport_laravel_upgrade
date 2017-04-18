@@ -31,6 +31,7 @@ module.exports = {
   user_desktop_organisation: "Organisation",
   user_desktop_usertype: "User type",
   user_desktop_action: "Action",
+  user_desktop_status: "Status",
 
   user_management_add_new_user: "Add new user",
   user_management_sentence: "Add, edit and remove Euro-Sportring Tournament Planner users.",

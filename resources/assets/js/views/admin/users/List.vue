@@ -20,6 +20,7 @@
                                         <th>{{$lang.user_desktop_organisation}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
+                                         <th>{{$lang.user_desktop_status}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,7 +49,7 @@
         <div class="modal fade" id="user_form_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form @submit.prevent="validateBeforeSubmit">
+                    <form name="frmUser" id="frmUser" method="POST">
                         <div class="modal-header">
                             <h5 class="modal-title">{{ userModalTitle }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -117,7 +118,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-                            <button type="submit" class="btn btn-primary">{{$lang.user_management_save}}</button> 
+                            <button type="button" class="btn btn-primary" @click="validateBeforeSubmit()">{{$lang.user_management_save}}</button> 
                         </div>
                     </form>
                 </div>
@@ -161,7 +162,6 @@
                     name: '',
                     surname: '',
                     emailAddress: '',
-                    password: '',   
                     organisation: '',
                     userType: '',
                     user_image: '',
@@ -200,9 +200,9 @@
             },
             removeImage: function (e) {
               this.image = '';
-               e.preventDefault();
+              e.preventDefault();
             },      
-
+            
             prepareDeleteResource(id) {
                 this.deleteAction="/api/user/delete/"+id;
             },
@@ -222,6 +222,7 @@
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {
+                            console.log(hi);
                             toastr.success('User has been added succesfully.', 'Add User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                             this.$data.formValues = this.initialState();
@@ -229,7 +230,7 @@
                         });
                     } else {
                     this.formValues.user_image = this.image;
-                   let that = this
+                    let that = this
                     setTimeout(function(){
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
