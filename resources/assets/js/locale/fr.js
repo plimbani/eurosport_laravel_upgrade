@@ -31,6 +31,7 @@ module.exports = {
   user_desktop_organisation: "FOrganisation",
   user_desktop_usertype: "FUser type",
   user_desktop_action: "FAction",
+  user_desktop_status: "FStatus",
 
   user_management_add_new_user: "FAdd new user",
   user_management_sentence: "FAdd, edit and remove Euro-Sportring Tournament Planner users.",
