@@ -48,7 +48,7 @@
         <div class="modal fade" id="user_form_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form @submit.prevent="validateBeforeSubmit">
+                    <form name="frmUser" id="frmUser" method="POST">
                         <div class="modal-header">
                             <h5 class="modal-title">{{ userModalTitle }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -61,7 +61,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Enter first name">
                                     <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
+                                    <span class="help is-danger" v-show="errors.has('name')">This field is required</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -69,7 +69,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
                                     <i v-show="errors.has('surname')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
+                                    <span class="help is-danger" v-show="errors.has('surname')">This field is required</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -85,13 +85,13 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
                                     <i v-show="errors.has('pass')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('password')">{</span>
+                                    <span class="help is-danger" v-show="errors.has('pass')">{</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                                 <div class="col-sm-6">
-                                     <button id="profile_image_file">Choose file</button>  
+                                     <button type="button" id="profile_image_file">Choose file</button>  
                                       <div v-if="!image" style="display:none;">
                                           <input type="file" name="userImg" id="userImg" @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.</p>
@@ -226,8 +226,8 @@
                 });
             },
             validateBeforeSubmit(){
+                console.log('hi')
                 this.$validator.validateAll().then(() => {
-                    console.log('msg')
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {
@@ -237,9 +237,8 @@
                             this.updateUserList();
                         });
                     } else {
-
                     this.formValues.user_image = this.image;
-                   let that = this
+                    let that = this
                     setTimeout(function(){
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
@@ -250,8 +249,9 @@
                     },1000)
                        
                     }
-                }).catch(() => {
-                    toastr['error']('Please fill all required fields ', 'Error')
+                }).catch((errors) => {
+                     console.log(errors)
+                    // toastr['error']('Please fill all required fields ', 'Error')
                  });
             },
             deleteConfirmed() {
