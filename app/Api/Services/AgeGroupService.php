@@ -40,7 +40,9 @@ class AgeGroupService implements AgeGroupContract
         // Now here we set and Calculate and Save Data in 
         //  tournament_competation_template Table
         $data = $data['compeationFormatData'];
-        
+        // Todo : change For New Template
+        $data['tournamentTemplate'] = $data['nwTemplate'];
+        unset($data['nwTemplate']);
         list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data);
 
         $data['total_time'] = $totalTime;
