@@ -80,6 +80,7 @@
                                     <span class="help is-danger" v-show="errors.has('email_address')">The email address field is required.</span>
                                 </div> 
                             </div>
+
                             <div class="form-group row" v-if="formValues.id === ''">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
                                 <div class="col-sm-6">
@@ -94,11 +95,12 @@
                                      <button type="button" id="profile_image_file">Choose file</button>  
                                       <div v-if="!image" style="display:none;">
                                           <input type="file" name="userImg" id="userImg" @change="onFileChange">
+
                                           <p class="help-block">Maximum size of 1 MB.</p>
                                       </div>
                                        <div v-else>
                                               <img :src="image" width="40px" height="50px"/>
-                                              <button>Remove image</button>
+                                              <button @click="removeImage">Remove image</button>
                                       </div>
                                 </div>      
                             </div>
@@ -207,7 +209,7 @@
               reader.readAsDataURL(file);
             },
             removeImage: function (e) {
-              this.user_image = '';
+              this.image = '';
                e.preventDefault();
             },      
 

@@ -8,7 +8,7 @@
         </div>
         <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
             <input type="password" class="form-control form-control-danger" placeholder="Enter password" name="password"
-                   v-model="loginData.password" v-validate data-vv-rules="required">
+                v-model="loginData.password" v-validate data-vv-rules="required">
         </div>
         <div class="other-actions row">
             <div class="col-sm-6">
@@ -41,9 +41,10 @@
                  <input class="form-control" type="email" autocomplete="off" v-model="loginData.email"  placeholder="Email address" name="email" id="
                  email" value=""/>
             </div>
-            <div class="form-actions">
-            <button type="button" name="resetPassword" id="resetPassword" @click="backToLogin()" class="btn btn-login uppercase ">Back to login</button>
-            <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase ">Reset </button>
+
+            <div class="form-actions text-sm-right">
+            <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase ">Back to login</button>
+            <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase ">Reset password</button>
             </div>
         </form>
     </div>
@@ -60,7 +61,6 @@
                     password: '',
                     remember: '',
                     forgotpassword: 0
-
                 }
             }
         },
@@ -77,9 +77,8 @@
             forgotPasswordOpen() {
                 this.loginData.forgotpassword = 1
             },
-            backToLogin() {
-                this.loginData.forgotpassword = 0
-
+            backtologin() {
+                 this.loginData.forgotpassword = 0
             },
             sendResetLink() {
                 

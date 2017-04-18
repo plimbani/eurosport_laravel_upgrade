@@ -40,6 +40,7 @@
 		  let name = this.tournament.name
 		  let id = this.tournament.id
 		  let tournamentDays = Plugin.setTournamentDays(this.tournament.start_date, this.tournament.end_date)
+		  console.log(tournamentDays,this.tournament.start_date,this.tournament.end_date,'tournamentDays')
 		  let tournamentSel  = {
 		  	name:name, 
 		  	id:id, 
