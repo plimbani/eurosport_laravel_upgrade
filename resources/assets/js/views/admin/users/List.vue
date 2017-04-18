@@ -80,25 +80,17 @@
                                     <span class="help is-danger" v-show="errors.has('email_address')">The email address field is required.</span>
                                 </div> 
                             </div>
-                            <div class="form-group row" v-if="formValues.id === ''">
-                                <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
-                                <div class="col-sm-6">
-                                    <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
-                                    <i v-show="errors.has('pass')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('password')">{</span>
-                                </div>
-                            </div>
                             <div class="form-group row">
                                 <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                                 <div class="col-sm-6">
-                                     <label id="profile_image_file">Choose file</label>  
-                                      <div v-if="!image" style="display:none;">
-                                          <input type="file" name="userImg" id="userImg" @change="onFileChange">
+                                      <div v-if="!image">
+                                        <button type="button" name="profile_image_file" id="profile_image_file">Choose file</button>
+                                          <input type="file" id="userImg" style="display:none;" @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.</p>
                                       </div>
                                        <div v-else>
                                               <img :src="image" width="40px" height="50px"/>
-                                              <button>Remove image</button>
+                                              <button @click="removeImage">Remove image</button>
                                       </div>
                                 </div>      
                             </div>
@@ -207,7 +199,7 @@
               reader.readAsDataURL(file);
             },
             removeImage: function (e) {
-              this.user_image = '';
+              this.image = '';
                e.preventDefault();
             },      
 

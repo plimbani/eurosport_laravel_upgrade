@@ -97,6 +97,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             }
         },
         mounted(){
+            this.getAllPitches()
             let tournamentId = this.$store.state.Tournament.tournamentId
             if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
               toastr['error']('Please Select Tournament', 'Error');
