@@ -45,6 +45,7 @@
 							</div>-->
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</div>
@@ -102,7 +103,6 @@ export default {
 			  this.currentView = currentView
 			}*/
 		  }	
-			
 			// Here we again 			
 		}
 	}

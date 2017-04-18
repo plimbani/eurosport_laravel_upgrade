@@ -66,21 +66,16 @@ data-animation="false"
                   <span class="help is-danger" v-show="errors.has('minimum_matches')">{{$lang.competation_modal_minimum_matches_required}}</span>
               </div>
           </div>
-          <div class="form-group row" >
+          <div class="form-group row" style="display:none">
               <label class="col-sm-5 form-control-label">{{$lang.competation_modal_select_templates}}</label>
               <div class="col-sm-6">
                   <select class="form-control ls-select2"
                   name="tournamentTemplate"
-                  v-validate="'required'" :class="{'is-danger': errors.has('tournamentTemplate') }"
                   v-model="competation_format.tournamentTemplate">
-                      <option value="">{{$lang.competation_modal_select_template_list}}</option>
                       <option v-for="option in options" v-if="(option.minimum_matches >=  minimum_matches && option.total_teams >= number_teams)"  v-bind:value="option"> {{option.name}} </option>
                   </select>
-
-                  <span class="help is-danger" v-show="errors.has('tournamentTemplate')">{{$lang.competation_modal_select_templates_required}}</span>
-
-              </div>
-          </div> -->
+            </div>
+          </div> 
           <div class="form-group row">
               <label class="col-sm-5 form-control-label">{{$lang.competation_modal_game_duration}}</label>
               <div class="col-sm-6">
@@ -196,8 +191,7 @@ import Tournament from '../api/tournament.js'
 
 export default {
   data() {
-    return  {
-      
+    return  {      
       competation_format: this.initialState(),
       game_duration_stage: 2,
       options: [],
@@ -227,7 +221,8 @@ export default {
       return {
          ageCategory_name:'',game_duration_RR:'20',game_duration_FM:'20',
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:'',
-        tournament_id: '', competation_format_id:'0',id:'' 
+        tournament_id: '', competation_format_id:'0',id:'',
+        nwTemplate:[] 
       }
     },
     setEdit(id) {
@@ -277,7 +272,12 @@ export default {
       this.competation_format.tournament_id = this.$store.state.Tournament.tournamentId;
       let that = this
       let comp_id = that.competation_format.id?that.competation_format.id:''
-      
+      // TODO: select First Template From  Selection
+      // this.competation_format.tournamentTemplate = this.options[0]
+    // console.log(this.competation_format)
+     console.log(this.options[0])
+     this.competation_format.nwTemplate =  this.options[0]
+     
      this.$validator.validateAll().then(
           (response) => {   
           
