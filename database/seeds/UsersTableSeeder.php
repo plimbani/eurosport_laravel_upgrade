@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Laraspace\User;
 use Carbon\Carbon;
+
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -18,21 +19,21 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             ['person_id' => array_rand($people), 'username' => 'superadmin', 'user_image' => '1491572922.png',
             'name' => 'SuperAdmin', 'email' => 'superadmin@superadmin.com', 'organisation' => 'Euro-Sportring',
-            'password' => '', 'token' => '1', 'is_verified' => '1', 'timezone' => '', 
+            'password' => bcrypt('password'), 'token' => '1', 'is_verified' => '1', 'timezone' => '', 
             'is_online' => 0, 'last_login_time' => '', 'is_active' => 0, 'last_active_time' => '', 
             'is_blocked' => 0, 'is_mobile_user' => 0, 'blocked_time' => '', 'blocker_id' => 0,
             'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
             
             ['person_id' => array_rand($people), 'username' => 'superadmin1', 'user_image' => '1491572922.png',
             'name' => 'SuperAdmin', 'email' => 'admin@admin.com', 'organisation' => 'Euro-Sportring',
-            'password' => '', 'token' => '1', 'is_verified' => '1', 'timezone' => '', 
+            'password' => bcrypt('password'), 'token' => '1', 'is_verified' => '1', 'timezone' => '', 
             'is_online' => 0, 'last_login_time' => '', 'is_active' => 0, 'last_active_time' => '', 
             'is_blocked' => 0, 'is_mobile_user' => 0, 'blocked_time' => '', 'blocker_id' => 0,
             'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['person_id' => array_rand($people), 'username' => 'superadmin2', 'user_image' => '1491572922.png',
             'name' => 'SuperAdmin', 'email' => 'moderator@moderator.com', 'organisation' => 'Euro-Sportring',
-            'password' => '', 'token' => '1', 'is_verified' => '1', 'timezone' => '', 
+            'password' => bcrypt('password'), 'token' => '1', 'is_verified' => '1', 'timezone' => '', 
             'is_online' => 0, 'last_login_time' => '', 'is_active' => 0, 'last_active_time' => '', 
             'is_blocked' => 0, 'is_mobile_user' => 0, 'blocked_time' => '', 'blocker_id' => 0,
             'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
