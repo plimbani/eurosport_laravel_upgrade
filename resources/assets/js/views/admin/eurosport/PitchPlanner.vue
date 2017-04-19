@@ -263,14 +263,16 @@
 	import RefereesTab from '../../../components/RefereesTab.vue'
 	import PitchModal from '../../../components/PitchModal.vue'
 	
-
 	export default {
     data() {
        return {
-         currentView:'gamesTab'
+         'currentView':'gamesTab',
+         'tournamentId': this.$store.state.Tournament.tournamentId
+
        }
     },
     mounted() {
+    	this.$store.dispatch('SetPitches',this.tournamentId);
     	// Here we put validation check
     let tournamentId = this.$store.state.Tournament.tournamentId
     if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
