@@ -13,10 +13,10 @@
             <!-- <span class="offset-1"> {{TournamentName}} </span> -->
             <ul class="action-list">
                 <li>
-                    <i class="fa fa-clock-o" style="font-size:18px"></i>&nbsp;<span id="timer">{{curTime}}</span>
+                    <i class="jv-icon jv-clock"></i>&nbsp;<span id="timer">{{curTime}}</span>
                 </li>
                 <li>
-                    <i class="fa fa-calendar"></i>&nbsp;<span id="date">{{date}}</span>
+                    <i class="jv-icon jv-calendar"></i>&nbsp;<span id="date">{{date}}</span>
                 </li>
                 <li>
                     <a href="#" data-toggle="dropdown"  class="avatar"><img src="/assets/img/avatars/avatar.png" alt="Avatar"></a>
