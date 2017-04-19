@@ -7,7 +7,7 @@ use DB;
 use Laraspace\Api\Contracts\UserContract;
 use Validator;
 use Illuminate\Support\Facades\Password;
-use App\Custom\Helper\Common;
+use Laraspace\Custom\Helper\Common;
 use Illuminate\Mail\Message;
 use Laraspace\Models\User;
 use Hash;
@@ -63,6 +63,7 @@ class UserService implements UserContract
             $userData['user']['user_image']=$imagename;
         }
         
+
         $userData['user']['password'] = Hash::make('password');
         // dd($userData['user']);
         $userObj = $this->userRepoObj->create($userData['user']);
@@ -72,6 +73,7 @@ class UserService implements UserContract
         if ($data) {
             $email_details = array();
             $email_details['name'] = $data['name'];
+
             $recipient = $data['emailAddress'];
             // echo "<pre>";print_r($recipient);echo "</pre>";exit;
             // $mailSent = Mail::to('kparikh@aecordigital.com')->send('Hello');

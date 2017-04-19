@@ -1,4 +1,5 @@
 <template>
+<div>
     <header class="site-header">
         <div class="container">
             <a href="#" class="brand-main" @click="home">
@@ -34,7 +35,7 @@
               <!--   <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
                 <li><a href="#"  @click="$setLang('en')">{{$lang.siteheader_english}}</a></li>
                 <li><a href="#"  @click="$setLang('fr')">{{$lang.siteheader_french}}</a></li> -->
-                <user :userData="userData"  ></user>
+               
                 <!--
                 <li>
                     <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></a>
@@ -57,6 +58,8 @@
             </ul>
         </div>
     </header>
+     <user :userData="userData"  ></user>
+</div>
 </template>
 
 
