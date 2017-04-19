@@ -417,5 +417,5 @@ $('#btnSelect').on('click',function(){
         this.$router.push({name:'welcome'})
     }
   }
-}
+} 
 </script>
