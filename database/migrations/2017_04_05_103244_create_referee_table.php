@@ -27,6 +27,7 @@ class CreateRefereeTable extends Migration
             $table->text('comments');
             $table->integer('age_group_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

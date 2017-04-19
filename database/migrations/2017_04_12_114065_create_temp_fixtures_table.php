@@ -24,7 +24,7 @@ class CreateTempFixturesTable extends Migration
             $table->integer('pitch_id')->unsigned()->index();
             $table->foreign('pitch_id')->references('id')->on('pitches');
             $table->datetime('match_datetime');
-            $table->integer('match_number');
+            $table->string('match_number');
             $table->string('round');
             $table->integer('home_team');
             $table->integer('away_team');
@@ -36,6 +36,8 @@ class CreateTempFixturesTable extends Migration
             $table->double('awayteam_point',8,2);
             $table->text('bracket_json');
             $table->timestamps();
+            $table->softDeletes();
+            $table->->onDelete('cascade');
         });
     }
 

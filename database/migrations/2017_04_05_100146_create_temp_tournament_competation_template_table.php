@@ -15,12 +15,15 @@ class CreateTempTournamentCompetationTemplateTable extends Migration
     {
         Schema::create('tournament_competation_template', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('total_teams')->nullable();
             $table->integer('tournament_id')->unsigned()->index();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->string('group_name')->nullable();
             $table->integer('tournament_template_id')->unsigned()->index();
             $table->foreign('tournament_template_id')->references('id')->on('tournament_template');
+            $table->integer('min_matches')->nullable();
             $table->integer('total_match');
+            $table->string('category_age');
             $table->string('disp_format_name')->nullable();
             $table->integer('total_time')->nullable();
             $table->integer('game_duration_RR')->nullable();
@@ -30,6 +33,7 @@ class CreateTempTournamentCompetationTemplateTable extends Migration
             $table->integer('match_interval_RR')->nullable();
             $table->integer('match_interval_FM')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

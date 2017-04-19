@@ -15,7 +15,6 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->truncate();
         $people = DB::table('people')->take(3)->select('id')->get()->toArray();
-    
         DB::table('users')->insert([
             ['person_id' => array_rand($people), 'username' => 'superadmin', 'user_image' => '1491572922.png',
             'name' => 'SuperAdmin', 'email' => 'superadmin@superadmin.com', 'organisation' => 'Euro-Sportring',
