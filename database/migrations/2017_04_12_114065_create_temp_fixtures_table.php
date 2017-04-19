@@ -16,13 +16,13 @@ class CreateTempFixturesTable extends Migration
         Schema::create('temp_fixtures', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('tournament_id')->unsigned()->index();
-            $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
             $table->integer('competition_id')->unsigned()->index();
-            $table->foreign('competition_id')->references('id')->on('competitions');
+            $table->foreign('competition_id')->references('id')->on('competitions')->onDelete('cascade');
             $table->integer('venue_id')->unsigned()->index();
             $table->foreign('venue_id')->references('id')->on('venues');
             $table->integer('pitch_id')->unsigned()->index();
-            $table->foreign('pitch_id')->references('id')->on('pitches');
+            $table->foreign('pitch_id')->references('id')->on('pitches')->onDelete('cascade');
             $table->datetime('match_datetime');
             $table->string('match_number');
             $table->string('round');
@@ -36,8 +36,7 @@ class CreateTempFixturesTable extends Migration
             $table->double('awayteam_point',8,2);
             $table->text('bracket_json');
             $table->timestamps();
-            $table->softDeletes();
-            $table->->onDelete('cascade');
+            $table->softDeletes(); 
         });
     }
 

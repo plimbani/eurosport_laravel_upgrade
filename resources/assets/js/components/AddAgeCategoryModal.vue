@@ -209,8 +209,7 @@ export default {
     this.TournamentCompetationList();   
     let this1 = this
     $("#exampleModal").on('hide.bs.modal', function () {
-       this1.competation_format = this1.initialState()
-      
+       this1.competation_format = this1.initialState()      
     });
 
   },
@@ -295,7 +294,7 @@ export default {
                       toastr.success('Age category has been edited successfully.', 'Edit age category', {timeOut: 5000});
                     }
                     //this.$router.push({name: 'competation_format'}) 
-                    $('#ageCategoryName').reset()
+                   // $('#ageCategoryName').reset()
                     // $('#saveAge').attr('data-dismiss','modal')  
                     this.$root.$emit('displayCompetationList')   
                   } else {
