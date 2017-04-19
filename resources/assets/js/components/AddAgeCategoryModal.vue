@@ -148,39 +148,6 @@ data-animation="false"
                     <span class="col-md-2 minutes-div">{{$lang.competation_modal_match_interval_final_minutes}}</span>
                 </div>
             </div>
-
-            <div class="form-group row" :class="{'has-error': errors.has('number_teams') }">
-              <label class="col-sm-5 form-control-label">{{$lang.competation_label_number_teams}}</label>
-              <div class="col-sm-6">
-              <select class="form-control ls-select2"
-                  name="number_teams"
-                  v-validate="'required'" :class="{'is-danger': errors.has('number_teams') }"
-                  v-model="number_teams">
-                      <option value="">{{$lang.competation_modal_select_number_teams}}</option>
-                      <option v-if="n > 5" v-for="n in (28)" 
-                      v-bind:value="n">     
-                     {{n}} 
-                    </option>
-                  </select>
-                   <span class="help is-danger" v-show="errors.has('number_teams')">{{$lang.competation_modal_number_teams_required}}</span>
-              </div>
-          </div>
-          <div class="form-group row" :class="{'has-error': errors.has('competation_format.minimum_matches') }">
-              <label class="col-sm-5 form-control-label">{{$lang.competation_label_minimum_matches}}</label>
-              <div class="col-sm-6">
-                  <select class="form-control ls-select2"
-                  name="minimum_matches"
-                  v-validate="'required'" :class="{'is-danger': errors.has('minimum_matches') }"
-                  v-model="minimum_matches">
-                      <option value="">{{$lang.competation_modal_select_minimum_matches}}</option> 
-                      <option v-if="n > 2" v-for="n in (7)" 
-                      v-bind:value="n">     
-                     {{n}} 
-                    </option>
-                  </select>
-                  <span class="help is-danger" v-show="errors.has('minimum_matches')">{{$lang.competation_modal_minimum_matches_required}}</span>
-              </div>
-          </div>
           </form>
         </div>
         <div class="modal-footer">
