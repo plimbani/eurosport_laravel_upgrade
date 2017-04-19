@@ -198,7 +198,7 @@ module.exports = {
   pitch_modal_availability_capacity: "Capacity",
   pitch_modal_availability_button_addstage: "Add Stage",
   pitch_modal_availability_button_close: "Close",
-  pitch_modal_availability_button_save: "Next",
+  pitch_modal_availability_button_save: "Save",
 
 
   teams_terms_groups: "Terms and groups",
