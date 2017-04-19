@@ -173,7 +173,6 @@ class AgeGroupService implements AgeGroupContract
         return array($total_time,$total_matches,$disp_format_name);
     }
     public function GetCompetationFormat($data) {
-
         $data = $this->ageGroupObj->getCompeationFormat($data['tournamentData']);
         
         if ($data) {
