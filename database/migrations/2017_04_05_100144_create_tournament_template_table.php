@@ -20,6 +20,7 @@ class CreateTournamentTemplateTable extends Migration
             $table->string('total_teams',10);
             $table->string('minimum_matches',10);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
