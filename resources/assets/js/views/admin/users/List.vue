@@ -82,14 +82,14 @@
                                 </div> 
                             </div>
 
-                            <div class="form-group row" v-if="formValues.id === ''">
+                            <!-- <div class="form-group row" v-if="formValues.id === ''">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
                                     <i v-show="errors.has('pass')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('pass')">{</span>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="form-group row">
                                 <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                                 <div class="col-sm-6">

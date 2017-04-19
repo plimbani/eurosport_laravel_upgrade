@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -23,6 +23,8 @@ class CreateCompetitionsTable extends Migration
             $table->integer('team_size');
             $table->string('competation_type');
             $table->timestamps();
+            $table->softDeletes();
+            $table->->onDelete('cascade');
         });
     }
 

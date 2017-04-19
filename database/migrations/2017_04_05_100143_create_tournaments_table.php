@@ -16,22 +16,23 @@ class CreateTournamentsTable extends Migration
         Schema::create('tournaments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('website')->nullabe();
-            $table->string('facebook')->nullabe();
-            $table->string('twitter')->nullabe();
-            $table->string('logo')->nullabe();
-            $table->enum('competition_type', array('Group Games', 'Single Elimination', 'Double Elimination'))->nullabe();
-            $table->enum('status', array('Published', 'UnPublished', 'Closed'))->nullabe();
+            $table->string('website')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('logo')->nullable();
+            $table->enum('competition_type', array('Group Games', 'Single Elimination', 'Double Elimination'))->nullable();
+            $table->enum('status', array('Published', 'UnPublished', 'Closed'))->nullable();
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users');
             $table->datetime('start_date');
             $table->datetime('end_date');
-            $table->integer('no_of_pitches')->nullabe();
-            $table->integer('no_of_match_per_day_pitch')->nullabe();
-            $table->double('points_per_match_win',8,2)->nullabe();
-            $table->double('points_per_match_tie',8,2)->nullabe();
-            $table->double('points_per_bye',8,2)->nullabe();
+            $table->integer('no_of_pitches')->nullable();
+            $table->integer('no_of_match_per_day_pitch')->nullable();
+            $table->double('points_per_match_win',8,2)->nullable();
+            $table->double('points_per_match_tie',8,2)->nullable();
+            $table->double('points_per_bye',8,2)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -77,6 +77,7 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
       $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
+      $tournamentCompeationTemplate['category_age'] = $data['category_age'];
       $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
       $tournamentCompeationTemplate['total_time'] =$data['total_time'];
       $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR'];

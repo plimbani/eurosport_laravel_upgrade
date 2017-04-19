@@ -22,6 +22,7 @@ class CreateTournamentContactTable extends Migration
             $table->string('telephone')->nullable();
             $table->string('email')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
