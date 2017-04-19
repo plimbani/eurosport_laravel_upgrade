@@ -96,7 +96,6 @@
                                       </div>
                                   </div>-->
                                 </div>
-44
                             </div>
                             <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
                                 <div class="card-block">
@@ -417,5 +416,5 @@ $('#btnSelect').on('click',function(){
         this.$router.push({name:'welcome'})
     }
   }
-}
+} 
 </script>
