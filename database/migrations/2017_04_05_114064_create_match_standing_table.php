@@ -29,6 +29,7 @@ class CreateMatchStandingTable extends Migration
             $table->integer('goal_for')->nullable();
             $table->integer('goal_against')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

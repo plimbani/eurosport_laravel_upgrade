@@ -25,8 +25,8 @@
       methods: {
         updateStatus() {
             // here we set status to Publish For Tournament
-            $('#publish_modal').attr('data-dismiss','modal')
-            //this.$root.$emit('StatusUpdate','Published');
+           // $('#publish_modal').attr('data-dismiss','modal')
+            this.$root.$emit('StatusUpdate','Published');
         }
       }
     }

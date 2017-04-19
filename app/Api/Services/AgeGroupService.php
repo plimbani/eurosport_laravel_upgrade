@@ -40,7 +40,9 @@ class AgeGroupService implements AgeGroupContract
         // Now here we set and Calculate and Save Data in 
         //  tournament_competation_template Table
         $data = $data['compeationFormatData'];
-        
+        // Todo : change For New Template
+        $data['tournamentTemplate'] = $data['nwTemplate'];
+        unset($data['nwTemplate']);
         list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data);
 
         $data['total_time'] = $totalTime;
@@ -127,7 +129,6 @@ class AgeGroupService implements AgeGroupContract
         // Total Time
         // Total Match
         // display Format Name
-        
         $json_data = json_decode($data['tournamentTemplate']['json_data']);
         
         $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
@@ -171,7 +172,6 @@ class AgeGroupService implements AgeGroupContract
         return array($total_time,$total_matches,$disp_format_name);
     }
     public function GetCompetationFormat($data) {
-
         $data = $this->ageGroupObj->getCompeationFormat($data['tournamentData']);
         
         if ($data) {

@@ -12,6 +12,9 @@ use Illuminate\Mail\Message;
 use Laraspace\Models\User;
 use Hash;
 
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
+
 class UserService implements UserContract
 {
     public function __construct()
@@ -41,7 +44,6 @@ class UserService implements UserContract
     public function create($data)
     {
         $data = $data->all();
-
         $userData=array();
         $userData['people']=array();
         $userData['user']=array();
@@ -61,20 +63,24 @@ class UserService implements UserContract
             $userData['user']['user_image']=$imagename;
         }
         
-        $userData['user']['password']=Hash::make('password');
-        $token = str_random(30);
-        $userData['user']['token'] = $token;
 
-        $userObj=$this->userRepoObj->create($userData['user']);
-
+        $userData['user']['password'] = Hash::make('password');
+        // dd($userData['user']);
+        $userObj = $this->userRepoObj->create($userData['user']);
+        
         $userObj->attachRole($data['userType']);
 
         if ($data) {
             $email_details = array();
             $email_details['name'] = $data['name'];
-            $email_details['token'] = $token;
+
             $recipient = $data['emailAddress'];
-            Common::sendMail($email_details, $recipient, 'Eurosport - Set Password', 'emails.users.create');
+            // echo "<pre>";print_r($recipient);echo "</pre>";exit;
+            // $mailSent = Mail::to('kparikh@aecordigital.com')->send('Hello');
+            // dd($mailSent);
+            // $email_sent = Common::sendMail($email_details, $recipient, 'Eurosport - Set Password', 'emails.users.create');
+            // $email_sent = Mail::to($recipient)->send(new SendMail($email_details));
+            
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }

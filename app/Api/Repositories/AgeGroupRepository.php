@@ -4,7 +4,7 @@ namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\TournamentTemplate;
+use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\Competition;
 use DB;
 class AgeGroupRepository
@@ -77,6 +77,7 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
       $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
+      $tournamentCompeationTemplate['category_age'] = $data['category_age'];
       $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
       $tournamentCompeationTemplate['total_time'] =$data['total_time'];
       $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR'];
@@ -86,6 +87,10 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['match_interval_RR']= $data['match_interval_RR'];
       $tournamentCompeationTemplate['match_interval_FM']= $data['match_interval_FM'];
 
+      // TODO: Add total_teams and min_matches For particular Age Category
+      $tournamentCompeationTemplate['total_teams'] =$data['tournamentTemplate']['total_teams'];
+      $tournamentCompeationTemplate['min_matches']= $data['tournamentTemplate']['minimum_matches'];
+      
       // Insert value in Database   
       // here we check value for Edit as Well
       
@@ -110,6 +115,59 @@ class AgeGroupRepository
       $fieldName = key($tournamentData);
       $value = $tournamentData[$fieldName];
       
+      // TODO: here we call function to Display All Templates Related to
+      // compeation Format
+      $reportQuery = DB::table('tournament_competation_template')
+                ->leftjoin('tournament_template',
+                function($join) {
+                  $join->on('tournament_competation_template.total_teams','<=','tournament_template.total_teams');
+                  $join->on('tournament_competation_template.min_matches','<=','tournament_template.minimum_matches');                  
+                }) 
+                ->having(DB::raw('COUNT(`tournament_template`.`id`)'),'>=',1)
+                ->where('tournament_competation_template.tournament_id',$value)
+                ->groupBy('tournament_competation_template.id')
+                ->select('tournament_competation_template.*',
+                  DB::raw('COUNT(tournament_template.id) as cnt')
+                  )
+                ->get();
+     // Now here we find all Templates And Arrange it By id
+     $templData = TournamentTemplates::get();   
+     $templatesArr = array();
+
+     foreach($reportQuery as $key=>$data) {
+
+        // here we check if count is greater than 2 then change it
+        if($data->cnt >= 2)  {
+          // We assign Multiple values and Iterate Loop 
+          // For All templates
+          $templatesArr[$key]['id'] = $data->id;
+          for($i=0;$i<$data->cnt;$i++) {
+          
+          $templatesArr[$key]['templates'][$i]['group_name'] = $data->group_name;
+          $templatesArr[$key]['templates'][$i]['disp_format_name'] = 
+          'DISPFORMAT';
+          $templatesArr[$key]['templates'][$i]['total_match'] = 
+          'TOTALMATCH';
+          $templatesArr[$key]['templates'][$i]['total_time'] = 
+          'TOTALTIME';
+          }
+                   
+
+        } else {
+
+          // Its Single Value
+         $templatesArr[$key]['group_name'] = $data->group_name;
+          $templatesArr[$key]['disp_format_name'] = $data->disp_format_name;
+          $templatesArr[$key]['total_match'] = $data->total_match;
+          $templatesArr[$key]['total_time'] = $data->total_time;  
+        }
+     }
+     return $templatesArr;
+     print_r($templatesArr);
+     exit;
+     
+      return  $reportQuery;         
+      print_r($data->toArray());exit; 
       return TournamentCompetationTemplates::where($fieldName, $value)->get();
     }
     /*

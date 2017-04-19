@@ -18,17 +18,20 @@ class RefereeTableSeeder extends Seeder
         $tournaments = DB::table('tournament_competation_template')->select('id')->take(3)->get()->toArray(); 
 
         DB::table('referee')->insert([
-        	[ 'user_id' => array_rand($users), 'availability' => '100', 'tournament_id' => array_rand($tournament), 'first_name' => 'test1fname', 
-        	'last_name' => 'test1lname', 'telephone' => '1234567890', 'email' => 'test1@gmail.com', 'comments' => 'Labore quidem voluptas modi similique. Velit nisi blanditiis molestiae ipsum at. Assumenda enim quaerat cum sapiente nihil aut sit omnis.', 
-        	'age_group_id' => array_rand($tournaments), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	[ 'user_id' => $users[array_rand($users)]->id,'availability' => '100', 
+            'tournament_id' => $tournament[array_rand($tournament)]->id,'first_name' => 'test1fname',
+            'last_name' => 'test1lname', 'telephone' => '1234567890','email' => 'test1@gmail.com', 'comments' => 'Labore quidem voluptas modi similique. Velit nisi blanditiis molestiae ipsum at. Assumenda enim quaerat cum sapiente nihil aut sit omnis.', 
+        	'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
-        	['user_id' => array_rand($users), 'availability' => '100', 'tournament_id' => array_rand($tournament), 'first_name' => 'test1fname', 
+        	['user_id' => $users[array_rand($users)]->id,'availability' => '100', 
+            'tournament_id' => $tournament[array_rand($tournament)]->id,'first_name' => 'test1fname', 
         	'last_name' => 'test1lname', 'telephone' => '1234567890', 'email' => 'test1@gmail.com', 'comments' => 'Labore quidem voluptas modi similique. Velit nisi blanditiis molestiae ipsum at. Assumenda enim quaerat cum sapiente nihil aut sit omnis.', 
-        	'age_group_id' => array_rand($tournaments), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
-        	['user_id' => array_rand($users), 'availability' => '100', 'tournament_id' => array_rand($tournament), 'first_name' => 'test1fname', 
+        	['user_id' => $users[array_rand($users)]->id,'availability' => '100', 
+            'tournament_id' => $tournament[array_rand($tournament)]->id,'first_name' =>'test1fname', 
         	'last_name' => 'test1lname', 'telephone' => '1234567890', 'email' => 'test1@gmail.com', 'comments' => 'Labore quidem voluptas modi similique. Velit nisi blanditiis molestiae ipsum at. Assumenda enim quaerat cum sapiente nihil aut sit omnis.', 
-        	'age_group_id' => array_rand($tournaments), 'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
+        	'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
     }
 }

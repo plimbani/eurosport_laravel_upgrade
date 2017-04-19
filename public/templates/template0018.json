@@ -1,0 +1,123 @@
+{
+	"total_matches": 24,
+	"tournament_id": "0018",
+	"tournament_teams": 9,
+	"competation_format": "RR,PM/F",
+	"tournament_min_match": 6,
+	"tournament_competation_format": {
+		"format_name": [{
+			"name": "Round 1",
+			"match_type": [{
+				"name": "RR1*4",
+				"total_match": 6,
+                "group_count": 4,
+				"groups": {
+					"group_name": "Group-A",
+					"match": [{
+						"in_between": "1-2",
+						"match_number": "U17.RR1.01.A1-A2"
+					}, {
+						"in_between": "3-4",
+						"match_number": "U17.RR1.01.A3-A4"
+					}, {
+						"in_between": "1-3",
+						"match_number": "U17.RR1.02.A1-A3"
+					}, {
+						"in_between": "2-4",
+						"match_number": "U17.RR1.02.A2-A4"
+					}, {
+						"in_between": "1-4",
+						"match_number": "U17.RR1.03.A1-A4"
+					}, {
+						"in_between": "2-3",
+						"match_number": "U17.RR1.03.A2-A3"
+					}]
+				}
+			},{
+				"name": "RR1*5",
+				"total_match": 10,
+                "group_count": 4,
+				"groups": {
+					"group_name": "Group-B",
+					"match": [{
+						"in_between": "1-5",
+						"match_number": "U17.RR1.01.B1-B5"
+					}, {
+						"in_between": "2-3",
+						"match_number": "U17.RR1.01.B2-B3"
+					}, {
+						"in_between": "1-4",
+						"match_number": "U17.RR1.02.B1-B4"
+					}, {
+						"in_between": "2-5",
+						"match_number": "U17.RR1.02.B2-B5"
+					}, {
+						"in_between": "1-3",
+						"match_number": "U17.RR1.03.B1-B3"
+					}, {
+						"in_between": "2-4",
+						"match_number": "U17.RR1.03.B2-B4"
+					},
+					{
+						"in_between": "3-5",
+						"match_number": "U17.RR1.02.B3-B5"
+					}, {
+						"in_between": "1-2",
+						"match_number": "U17.RR1.02.B1-B2"
+					}, {
+						"in_between": "3-4",
+						"match_number": "U17.RR1.03.B3-B4"
+					}, {
+						"in_between": "4-5",
+						"match_number": "U17.RR1.03.B4-B5"
+					}]
+				}
+			}]
+		}, {
+			"name": "Round 2",
+			"match_type": [{
+				"name": "PM1*4",
+                "group_count": 4,
+				"groups": {
+					"group_name": "PM1*4",
+                	"match": [{
+						"in_between": "1A - 2B",
+						"match_number": "U17.PM2.G1.C1-C2"
+					}, {
+						"in_between": "1B - 2A",
+						"match_number": "U17.PM2.G2.C3-C4"
+					}, {
+						"in_between": "3A - 3B",
+						"match_number": "U17.PM2.G2.CW"
+					}, {
+						"in_between": "4A - 4B",
+						"match_number": "U17.PM2.G2.Cl"
+					}]
+				},
+				"total_match": 4
+			},
+		{
+				"name": "PM5*8",
+                "group_count": 4,
+				"groups": {
+					"group_name": "PM5*8",
+                	"match": [{
+						"in_between": "3A - 4B",
+						"match_number": "U17.PM2.G1.D1-D2"
+					}, {
+						"in_between": "3B - 4A",
+						"match_number": "U17.PM2.G2.D3-D4"
+					}, {
+						"in_between": "3A.4B.W - 3B.4A.w",
+						"match_number": "U17.PM2.G2.DW"
+					}, {
+						"in_between": "3A.4B.L - 3B.4A.L",
+						"match_number": "U17.PM2.G2.Dl"
+					}]
+				},
+				"total_match": 4
+			}	
+		]
+		}]
+	}
+}

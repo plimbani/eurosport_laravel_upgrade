@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,11 +18,12 @@ class CreateCompetitionsTable extends Migration
             $table->integer('tournament_competation_template_id')->unsigned()->index();
             $table->foreign('tournament_competation_template_id')->references('id')->on('competitions');
             $table->integer('tournament_id')->unsigned()->index();
-            $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
             $table->string('name');
             $table->integer('team_size');
             $table->string('competation_type');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

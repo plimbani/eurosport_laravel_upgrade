@@ -45,13 +45,58 @@
                       </div>
                     </div>
                     <div class="panel-group optional_details" id="accordion" role="tablist" aria-multiselectable="true">
-                    	
 
-                      <div class="card">
-                            <div class="card-header" role="tab" id="headingOne">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="panel-title" aria-controls="collapseOne">
-                                    <i id="opt_icon"  class="fa fa-plus"></i> {{$lang.tournament_show_optional_details}}
-                                </a>
+                    	<div class="panel panel-default">
+                        <div class="row">
+                      		<div class="panel-heading col-md-12" role="tab" id="headingOne">
+                            <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                               aria-expanded="true" aria-controls="collapseOne"><i id="opt_icon"  class="fa fa-plus"></i> {{$lang.tournament_show_optional_details}}
+                             </a>
+                            <div id="collapseOne" class="panel-collapse collapse panel-content in" role="tabpanel"
+                            aria-labelledby="headingOne">
+                            <div class="form-inline">
+                              <div class="form-group col-md-12 padding0">
+                                <div class="col-md-6 padding0">
+                                  <div class="form-group row">
+                                      <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
+                                      <input type="text" class="col-md-7 form-control" v-model="tournament.website">
+                                  </div>
+                                  <div class="form-group row">
+                                      <label class="col-md-4 control-label">{{$lang. tournament_facebook}}</label>
+                                      <input type="text" class="col-md-7 form-control" v-model="tournament.facebook"
+                                     >
+                                  </div>
+                                  <div class="form-group row">
+                                      <label class="col-md-4 control-label">{{$lang. tournament_twitter}}</label>
+                                      <input type="text"
+                                      v-model="tournament.twitter"
+                                      class="col-md-7 form-control">
+                                  </div>
+                                </div>
+                                <div class="col-md-6 padding0">
+                                  <div class="form-group row">
+                                      <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
+                                      <div class="pull-right">
+                                          <div v-if="!image">
+                                            <button type="button" name="btnSelect" id="btnSelect">Choose file</button>
+                                              <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
+                                              <p class="help-block">Maximum size of 1 MB.</p>
+                                          </div>
+                                           <div v-else>
+                                          <img :src="image" width="40px" height="50px"/>
+                                          <button @click="removeImage">Remove image</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!--<div class="form-group row">
+                                      <label class="col-md-4 control-label">Sponsor banner</label>
+                                      <div class="pull-right">
+                                          <input type="file" value="Upload">
+                                          <p class="help-block">Maximum size of 1 MB.</p>
+                                      </div>
+                                  </div>-->
+                                </div>
+44
                             </div>
                             <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
                                 <div class="card-block">
@@ -98,6 +143,11 @@
                                     </div>
                                 </div>
                             </div>
+
+                          </div>
+                           
+                          </div>
+
                         </div>
                     </div>
                     <div class="">

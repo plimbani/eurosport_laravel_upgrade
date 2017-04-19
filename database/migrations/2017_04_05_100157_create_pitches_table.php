@@ -27,6 +27,7 @@ class CreatePitchesTable extends Migration
             $table->text('comment')->nullable();
             $table->string('pitch_capacity')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

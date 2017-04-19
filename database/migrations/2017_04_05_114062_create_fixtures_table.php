@@ -36,6 +36,7 @@ class CreateFixturesTable extends Migration
             $table->foreign('match_result_id')->references('id')->on('match_results');
             $table->text('bracket_json');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

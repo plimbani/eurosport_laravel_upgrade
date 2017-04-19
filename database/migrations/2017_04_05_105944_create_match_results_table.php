@@ -25,6 +25,7 @@ class CreateMatchResultsTable extends Migration
             $table->foreign('referee_id')->references('id')->on('referee');
             $table->text('notes');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
