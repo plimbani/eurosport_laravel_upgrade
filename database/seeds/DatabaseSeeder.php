@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
          $this->call(CountriesTableSeeder::class);
          $this->call(VenuesTableSeeder::class);
          $this->call(PitchesTableSeeder::class);
+         $this->call(PitchAvailibilityTableSeeder::class);
          $this->call(FixturesTableSeeder::class);
          $this->call(TempFixturesTableSeeder::class);
          $this->call(TeamsTableSeeder::class);

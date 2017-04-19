@@ -32,6 +32,7 @@ class CreatePeopleTable extends Migration
             $table->string('extra_info')->nullable();
             $table->string('settings')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

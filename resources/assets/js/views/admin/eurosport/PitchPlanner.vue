@@ -34,224 +34,7 @@
 	  			</div>
 
 	  			<div class="mt-4">
-	  				<div class="row">
-	  					<div class="col-md-9">
-	  						<div class="pitch_planner_div">
-			  					<table class="table pitch_planner_table">
-			  						<thead>
-			  							<tr>
-			  								<th colspan="5" class="text-center" style="border-right:0">Stage 1</th>
-			  							</tr>
-			  							<tr>
-			  								&nbsp;
-			  							</tr>
-			  							<tr>
-			  								<th class="text-center">TIme</th>
-			  								<th class="text-center">Pitch 1</th>
-			  								<th class="text-center">Pitch 2</th>
-			  								<th class="text-center">Pitch 3</th>
-			  								<th class="text-center">Etc...</th>
-			  							</tr>
-			  						</thead>
-			  						<tbody>
-			  							<tr>
-			  								<td>8:00</td>
-			  								<td></td>
-			  								<td></td>
-			  								<td></td>
-			  								<td></td>
-			  							</tr>
-			  							<tr>
-			  								<td>8:30</td>
-			  								<td></td>
-			  								<td></td>
-			  								<td></td>
-			  								<td></td>
-			  							</tr>
-			  							<tr>
-			  								<td>9:00</td>
-			  								<td>
-			  									<div class="grey_bg text-center">
-			  										<span class="clearfix">
-			  											<label class="pull-left">R</label>
-			  											<label class="pull-right"><i class="fa fa-exclamation-triangle"></i></label>
-			  										</span>
-			  										<span>U19-RR1-01</span>
-			  										<span>U19-A-1 v U19-A-2</span>
-			  										<span>09:00 (45 mins)</span>
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  								<td>
-			  									<div class="dark_grey_bg text-center">
-			  										Unavailable 60 mins
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  							</tr>
-			  							<tr>
-			  								<td>9:30</td>
-			  								<td>
-			  									<a href="#" data-toggle="modal" data-target="#pitchModal">
-				  									<div class="green_bg text-center">
-				  										<span>U19-RR1-01</span>
-				  										<span>U19-A-1 v U19-A-2</span>
-				  										<span>09:00 (45 mins)</span>
-				  									</div>
-			  									</a>
-			  									<PitchModal></PitchModal>
-			  								</td>
-			  								<td></td>
-			  								<td>
-			  									<div class="yellow_bg text-center">
-			  										<span>U19-RR1-01</span>
-			  										<span>U19-A-1 v U19-A-2</span>
-			  										<span>09:00 (45 mins)</span>
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  							</tr>
-			  							<tr>
-			  								<td>10:00</td>
-			  								<td></td>
-			  								<td>
-			  									<div class="yellow_bg text-center">
-			  										<span>U19-RR1-01</span>
-			  										<span>U19-A-1 v U19-A-2</span>
-			  										<span>09:00 (45 mins)</span>
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  								<td></td>
-			  							</tr>
-			  							<tr>
-			  								<td>10:30</td>
-			  								<td>
-			  									<div class="yellow_bg text-center">
-			  										<span>U19-RR1-01</span>
-			  										<span>U19-A-1 v U19-A-2</span>
-			  										<span>09:00 (45 mins)</span>
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  								<td></td>
-			  								<td></td>
-			  							</tr>
-			  						</tbody>
-			  					</table>
-			  					<table class="table pitch_planner_table">
-			  						<thead>
-			  							<tr>
-			  								<th colspan="5" class="text-center" style="border-right:0">Stage 2</th>
-			  							</tr>
-			  							<tr>
-			  								&nbsp;
-			  							</tr>
-			  							<tr>
-			  								<th class="text-center">TIme</th>
-			  								<th class="text-center">Pitch 1</th>
-			  								<th class="text-center">Pitch 2</th>
-			  								<th class="text-center">Pitch 3</th>
-			  								<th class="text-center">Etc...</th>
-			  							</tr>
-			  						</thead>
-			  						<tbody>
-			  							<tr>
-			  								<td>8:00</td>
-			  								<td></td>
-			  								<td></td>
-			  								<td></td>
-			  								<td></td>
-			  							</tr>
-			  							<tr>
-			  								<td>8:30</td>
-			  								<td></td>
-			  								<td></td>
-			  								<td></td>
-			  								<td></td>
-			  							</tr>
-			  							<tr>
-			  								<td>9:00</td>
-			  								<td>
-			  									<div class="grey_bg text-center">
-			  										<span>U19-RR1-01</span>
-			  										<span>U19-A-1 v U19-A-2</span>
-			  										<span>09:00 (45 mins)</span>
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  								<td>
-			  									<div class="dark_grey_bg text-center">
-			  										Unavailable 60 mins
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  							</tr>
-			  							<tr>
-			  								<td>9:30</td>
-			  								<td>
-			  									<div class="green_bg text-center">
-			  										<span>U19-RR1-01</span>
-			  										<span>U19-A-1 v U19-A-2</span>
-			  										<span>09:00 (45 mins)</span>
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  								<td>
-			  									<div class="yellow_bg text-center">
-			  										<span>U19-RR1-01</span>
-			  										<span>U19-A-1 v U19-A-2</span>
-			  										<span>09:00 (45 mins)</span>
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  							</tr>
-			  							<tr>
-			  								<td>10:00</td>
-			  								<td></td>
-			  								<td>
-			  									<div class="yellow_bg text-center">
-			  										<span>U19-RR1-01</span>
-			  										<span>U19-A-1 v U19-A-2</span>
-			  										<span>09:00 (45 mins)</span>
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  								<td></td>
-			  							</tr>
-			  							<tr>
-			  								<td>10:30</td>
-			  								<td>
-			  									<div class="yellow_bg text-center">
-			  										<span>U19-RR1-01</span>
-			  										<span>U19-A-1 v U19-A-2</span>
-			  										<span>09:00 (45 mins)</span>
-			  									</div>
-			  								</td>
-			  								<td></td>
-			  								<td></td>
-			  								<td></td>
-			  							</tr>
-			  						</tbody>
-			  					</table>
-		  					</div>
-	  					</div>
-	  					<div class="col-md-3">
-	  						<div class="grey_bg">
-		  						<div class="tabs tabs-primary planner_list">
-		  							<ul class="nav nav-tabs" role="tablist">
-		  								<li class="nav-item active">
-		  									<a href="" data-toggle="tab" @click="currentView='gamesTab'">Games</a>
-		  								</li>
-		  								<li class="nav-item">
-		  									<a href="" data-toggle="tab" @click="currentView='refereesTab'">Referees</a>
-		  								</li>
-		  							</ul>
-		  							<component :is="currentView"> </component>
-		  						</div>
-		  					</div>
-	  					</div>
-	  				</div>
+	  				pitch-planner-table></pitch-planner-table>	  					
 	  			</div>
 			</div>
 		</div>
@@ -262,13 +45,12 @@
 	import GamesTab from '../../../components/GamesTab.vue'
 	import RefereesTab from '../../../components/RefereesTab.vue'
 	import PitchModal from '../../../components/PitchModal.vue'
+	import PitchPlannerTable from '../../../components/PitchPlannerTable.vue'
 	
 	export default {
     data() {
-       return {
-         'currentView':'gamesTab',
+       return {         
          'tournamentId': this.$store.state.Tournament.tournamentId
-
        }
     },
     mounted() {
@@ -287,7 +69,7 @@
     
     },	
     components: {
-        GamesTab, RefereesTab, PitchModal
+        GamesTab, RefereesTab, PitchModal, PitchPlannerTable
     }  
 }
 </script>

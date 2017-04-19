@@ -29,6 +29,7 @@ class CreatePitchesAvailibilityTable extends Migration
             $table->date('stage_end_date');
             $table->float('stage_capacity',10,2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

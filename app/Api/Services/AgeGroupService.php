@@ -129,7 +129,6 @@ class AgeGroupService implements AgeGroupContract
         // Total Time
         // Total Match
         // display Format Name
-        
         $json_data = json_decode($data['tournamentTemplate']['json_data']);
         
         $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
