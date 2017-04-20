@@ -69,7 +69,7 @@ module.exports = {
   tournament_last_name: "Last name",
   tournament_validation_last_name: "Last name required",
   tournament_telephone: "Telephone",
-  tournament_location_button: "+ Add location",
+  tournament_location_button: "Add location",
   tournament_location: "Location",
   tournament_venue: "Venue",
   tournamemt_validation_venue: "Veune required",

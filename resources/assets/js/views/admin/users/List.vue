@@ -29,11 +29,12 @@
                                         <td>{{ user.person_detail.last_name }}</td>
                                         <td>{{ user.email }}</td>
                                         <td>{{ user.organisation }}</td>
-                                        <td>{{ user.roles[0].name }}</td>
+                                        <td v-if="(user.roles).length>0">{{ user.roles[0].name }}</td>
+                                        <td v-else></td>
                                         <td>
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#user_form_modal" @click="editUser(user.id)"><i class="fa fa-edit"></i></a>
+                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#user_form_modal" @click="editUser(user.id)"><i class="jv-icon jv-edit"></i></a>
                                             &nbsp;
-                                            <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this user record?" data-toggle="modal" data-target="#delete_modal" @click="prepareDeleteResource(user.id)"><i class="fa fa-trash-o"></i></a>
+                                            <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this user record?" data-toggle="modal" data-target="#delete_modal" @click="prepareDeleteResource(user.id)"><i class="jv-icon jv-dustbin"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
