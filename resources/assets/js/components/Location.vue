@@ -59,14 +59,13 @@ placeholder="">
 <div class="form-group">
 <select class="form-control ls-select2" v-model="location.tournament_venue_country">
 <option value="">{{$lang.tournament_country_please_select}}</option>
-<option value="Andorra">{{$lang.tournament_andorra}}</option>
-<option value="Belgium">{{$lang.tournament_belgium}}</option>
-<option value="France">{{$lang.tournament_france}} </option>
-<option value="Germany">{{$lang.tournament_germany}}</option>
-<option value="Italy">{{$lang.tournament_italy}}	</option>
-<option value="Spain">{{$lang.tournament_spain}}</option>
-<option value="United Kingdom">{{$lang. tournament_united_kingdom}}</option>    	                           
-</select>
+<option value="Andorra">Andorra</option>
+<option value="Belgium">Belgium</option>
+<option value="France">France </option>
+<option value="Germany">Germany</option>
+<option value="Italy">Italy</option>
+<option value="Spain">Spain</option>
+<option value="United Kingdom">United Kingdom</option></select>
 </div>
 </div>
 </div>

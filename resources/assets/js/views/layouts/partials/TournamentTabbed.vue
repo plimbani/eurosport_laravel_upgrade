@@ -6,13 +6,11 @@
 					<div class="tabs tabs-primary">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
-
 								<a :class="[activePath == 'tournament_add' ? 'active' : '', 'nav-link']" data-toggle="tab"  href="#tournament_add" role="tab" @click="GetSelectComponent('tournament_add')">{{$lang.tournament_label}}</a>
-
 							</li>					  		 
 							<li class="nav-item">
-								<a :class="[activePath == 'competation_format' ? 'active' : '', 'nav-link']" data-toggle="tab" 
-								href="#competation_format" role="tab" @click="GetSelectComponent('competation_format')">{{$lang.competation_label}}</a>
+						<a :class="[activePath == 'competition_format' ? 'active' : '', 'nav-link']" data-toggle="tab" 
+						href="#competation_format" role="tab" @click="GetSelectComponent('competation_format')">{{$lang.competation_label}}</a>
 							</li>
 							<li class="nav-item">
 								<a :class="[activePath == 'pitch_capacity' ? 'active' : '', 'nav-link']" data-toggle="tab" 
@@ -45,8 +43,12 @@ export default {
 	data() {
 		return {
 			'header' : 'header',
-			'activePath' :  this.$store.state.activePath,
 			'tournamentId' : this.$store.state.Tournament.tournamentId,
+		}
+	},
+	computed: {
+		activePath() {
+			return this.$store.state.activePath
 		}
 	},
 	mounted() {
