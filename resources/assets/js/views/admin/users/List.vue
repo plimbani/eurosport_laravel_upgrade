@@ -195,12 +195,19 @@
                     this.userRolesOptions = response.data;
                 });
             },
+            resendConfirmed() {
+                axios.get("/api/passwordactivate").then((response) => {
+                    $("#resend_modal").modal("hide");
+                 toastr.success('Mail has been send succesfully.', 'Mail sent', {timeOut: 5000});
+                });
+            },
             addUser() {
                 this.$data.formValues = this.initialState();
                 this.userModalTitle="Add User";
             },
             resendModalOpen() {
-                $('#resend_modal').modal('show')
+                $('#resend_modal').modal('show');
+                
             },
             editUser(id) {
                 this.userModalTitle="Edit User";
@@ -280,13 +287,6 @@
                     this.updateUserList();
                 });
             },
-            resendConfirmed() {
-                axios.post(this.deleteAction).then((response) => {
-                    $("#resend_modal").modal("hide");
-                    toastr.success('Mail has been send succesfully.', 'Delete User', {timeOut: 5000});
-                    this.updateUserList();
-                });
-            }
         }
     }
 </script>
