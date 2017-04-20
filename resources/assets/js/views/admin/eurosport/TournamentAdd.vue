@@ -45,11 +45,11 @@
                     </div>
                     <div class="card">
                         <div class="card-header" role="tab" id="headingOne">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-controls="collapseOne">
+                            <a data-toggle="collapse" data-parent="#headingOne" href="#collapseOne" aria-controls="collapseOne">
                                 <i id="opt_icon"  class="fa fa-plus"></i> {{$lang.tournament_show_optional_details}}
                             </a>
                         </div>
-                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
                             <div class="card-block">
                                 <div class="form">
                                     <div class="row">

@@ -26,8 +26,8 @@ class CreateTempFixturesTable extends Migration
             $table->datetime('match_datetime');
             $table->string('match_number');
             $table->string('round');
-            $table->integer('home_team');
-            $table->integer('away_team');
+            $table->string('home_team')->nullable();
+            $table->string('away_team')->nullable();
             $table->tinyInteger('hometeam_score');
             $table->tinyInteger('awayteam_score');
             $table->double('hometeam_point',8,2);
