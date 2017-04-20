@@ -227,7 +227,7 @@ $('#btnSelect').on('click',function(){
       this.tournament.website ='website'
       this.tournament.facebook ='facebook'
       this.tournament.twitter = 'twitter'
-      if(this.$store.state.Tournament.tournamentStartDate!= '')
+      if(this.$store.state.Tournament.tournamentStartDate!= '' && typeof(this.$store.state.Tournament.tournamentStartDate) != 'undefined')
       var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
     else{
       var start_date = new Date();
@@ -242,21 +242,17 @@ $('#btnSelect').on('click',function(){
       this.$store.dispatch('setActiveTab', currentNavigationData)
     } else {
       let tournamentAdd  = {name:'Your Tournament',
-      currentPage:'TournamentAdd'}
+      currentPage:'TournamentAdd','tournamentStartDate': '','tournamentEndDate':'','tournamentDays': 0,'tournamentStatus': ''}
       this.$store.dispatch('SetTournamentName', tournamentAdd)
     }
     // $('#tournament_start_date').val()
     if(start_date != ''){
       $('#tournament_start_date').datepicker('setDate', start_date)
     }
-    if(this.$store.state.Tournament.tournamentEndDate!= ''){
-          let tEndDate = new Date(moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
-    }else{
-       let tEndDate = new Date()
-    }
-
+    let tEndDate = this.$store.state.Tournament.tournamentEndDate
     if(tEndDate!= ''){
         $('#tournament_end_date').datepicker('setDate', tEndDate)
+          $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
     }
     $('#tournament_start_date').datepicker().on('changeDate',function(){
       $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())

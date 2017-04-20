@@ -246,7 +246,6 @@ export default {
       // TODO: select First Template From  Selection
       // this.competation_format.tournamentTemplate = this.options[0]
     // console.log(this.competation_format)
-     console.log(this.options[0])
      this.competation_format.nwTemplate =  this.options[0]
      
      this.$validator.validateAll().then(

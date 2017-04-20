@@ -70,22 +70,22 @@ computed: {
         // this.userDetails = this.$store.state.Users.userDetails
    
     let that = this
-    setTimeout(function(){
-      // console.log(userDetails.length,'hh')
-      if(userDetails.length == 0)
-      {
+    // setTimeout(function(){
+    //   // console.log(userDetails.length,'hh')
+    //   if(userDetails.length == 0)
+    //   {
         
-        let email = Ls.get('email');
+    //     let email = Ls.get('email');
           
-        // Now here we are call and fetch user details
-        let userData = {'email':email}
-        that.$store.dispatch('getUserDetails', userData);
-        // this.userDetails = this.$store.state.Users.userDetails
-      }
-       let tournamentAdd  = {name:'', 'currentPage':'Home'}  
+    //     // Now here we are call and fetch user details
+    //     let userData = {'email':email}
+    //     that.$store.dispatch('getUserDetails', userData);
+    //     // this.userDetails = this.$store.state.Users.userDetails
+    //   }
+    //    let tournamentAdd  = {name:'', 'currentPage':'Home'}  
              
-      that.$store.dispatch('SetTournamentName', tournamentAdd)
-    },1000)
+    //   that.$store.dispatch('SetTournamentName', tournamentAdd)
+    // },1000)
 
 
      
@@ -94,7 +94,7 @@ computed: {
     addNewTournament() {     
       // we have to Dispatch there is New Tournament 
       let tournamentAdd  = {name:'Your Tournament', 
-      'currentPage':'TournamentAdd'}        
+      'currentPage':'TournamentAdd','tournamentStartDate': '','tournamentEndDate':'','tournamentDays': 0,'tournamentStatus': '','id': ''}        
       let currentNavigationData = {activeTab:'tournament_add', currentPage: 
       'Add Tournament'}
       this.$store.dispatch('setActiveTab', currentNavigationData)

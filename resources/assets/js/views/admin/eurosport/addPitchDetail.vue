@@ -371,6 +371,7 @@ var moment = require('moment');
                     $('#stage_capacity_span'+stage).text('0.00 hrs');
                     $('#stage_capacity'+stage).val('0.00');
                 }else {
+
                  var stageTimeStart = new Date(moment($('#stage_start_date'+stage).val(),'DD/MM/YYYY').format('MM/DD/YYYY') + " "+ $('#stage_start_time'+stage).val());
                 var stageTimeEnd = new Date(moment($('#stage_start_date'+stage).val(),'DD/MM/YYYY').format('MM/DD/YYYY') + " " + $('#stage_end_time'+stage).val());
                 var stageBreakStart = new Date(moment($('#stage_start_date'+stage).val(),'DD/MM/YYYY').format('MM/DD/YYYY') + " " + $('#stage_break_start'+stage).val());
@@ -378,12 +379,15 @@ var moment = require('moment');
 
                     var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
                     var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
+                    
                     var diff = diff1 + diff2
                     if(diff > 0){
                       var minutes = diff % 60;
                     var hours = (diff - minutes) / 60;
-                    var time_val = hours+ '.' +minutes
-                    var time = hours+ ':' +minutes +' hrs'
+                    
+                    var time_val = parseInt(hours)+ '.' +parseInt(minutes)
+                    var time = parseInt(hours)+ ':' +parseInt(minutes) +' hrs'
+                    
                 }else {
                     var time_val = '0.0'
                     var time = '00:00 hrs'
@@ -391,8 +395,9 @@ var moment = require('moment');
                 $('#stage_capacity'+stage).val(time_val);
                 $('#stage_capacity_min'+stage).val(diff);
                 $('#stage_capacity_span'+stage).text(time);
-
+                
                 }
+                
 
             })
 
@@ -437,6 +442,11 @@ var moment = require('moment');
                     maxTime: '18:00:00'
                 });
              this.getAllPitches()
+             if(this.tournamentDays> 2) {
+                    for(let i=3;i<=this.tournamentDays;i++){
+                        this.stageRemove(i)
+                    }
+                }
         },
         methods: {
             getAllPitches() {
