@@ -129,8 +129,13 @@ class TournamentService implements TournamentContract
        {
             $image_string = $data['tournamentData']['image_logo']; 
 
-            $img = explode(',', $image_string); 
-            $imgData = base64_decode($img[1]);        
+            $img = explode(',', $image_string);
+            if(count($img)>1) {
+
+                $imgData = base64_decode($img[1]);        
+            }else{
+                return '';
+            }
 
             $name = $data['tournamentData']['name'];
             $now = new \DateTime();
