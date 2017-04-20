@@ -28,7 +28,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                         <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
-                         <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#user_profile"><i class="fa fa-user"></i>User Profile</a>
+                         <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#user_profile"><i class="fa fa-user"></i>User profile</a>
                         <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>
