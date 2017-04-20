@@ -180,7 +180,8 @@ export default {
 $('#btnSelect').on('click',function(){
   $('#selectFile').trigger('click')
 })
-    if(typeof this.$store.state.Tournament.tournamentId != 'undefined') {
+    let tId = this.$store.state.Tournament.tournamentId
+    if(tId.length != 0) {
       this.tournamentId = this.$store.state.Tournament.tournamentId
       // Now here we call method for getting the tournament Data
       // we call Summary
@@ -303,9 +304,11 @@ $('#btnSelect').on('click',function(){
       e.preventDefault();
     },
     next() {
+      alert('Hello1234')
       // this.handleValidation()
       // First Validate it
       // SET The Date Value for tournament
+      console.log(this.tournament)
       this.$validator.validateAll().then(
           (response) => {
             // if its return true then proceed
