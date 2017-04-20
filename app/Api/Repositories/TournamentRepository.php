@@ -88,6 +88,7 @@ class TournamentRepository
         $locData = $data['locations'];
         $locationData = array();
         foreach($locData as $location) {
+            $locationData['id'] =$location['tournament_location_id'] ?? '';
             $locationData['name'] =$location['tournament_venue_name'] ?? ''; 
             $locationData['address1'] =$location['touranment_venue_address'] ?? '';
             $locationData['city'] =$location['tournament_venue_city'] ?? '';
@@ -98,7 +99,8 @@ class TournamentRepository
             // $locationData['organiser'] =$data['tournament_venue_organiser'];
             if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
            // Update Touranment Table Data 
-             Venue::where('tournament_id', $data['tournamentId'])->update($locationData);
+
+             Venue::where('id', $location['tournament_location_id'])->update($locationData);
             } else {      
            //  TournamentContact::create($tournamentContactData);
              $locationId = Venue::create($locationData)->id;   
