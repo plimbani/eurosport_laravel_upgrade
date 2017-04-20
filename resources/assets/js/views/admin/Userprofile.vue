@@ -26,7 +26,9 @@
                                     <div class="col-sm-4">
                                         <img v-bind:src="'/assets/img/users/' + userData.image" width="60px" height="60px"/>
                                     </div>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
                                         <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
                                         <p class="help-block">Maximum size of 1 MB.</p> 
                                     </div>

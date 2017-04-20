@@ -42,9 +42,15 @@
                  email" value=""/>
             </div>
 
-            <div class="form-actions text-sm-right">
-            <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase ">Back to login</button>
-            <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase ">Reset password</button>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase w-100 ">Back to login</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase w-100 ">Reset password</button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
