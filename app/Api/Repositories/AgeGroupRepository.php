@@ -114,10 +114,12 @@ class AgeGroupRepository
      // print_r($tournamentData);
       $fieldName = key($tournamentData);
       $value = $tournamentData[$fieldName];
+      return TournamentCompetationTemplates::where($fieldName, $value)->get();
+
       
       // TODO: here we call function to Display All Templates Related to
       // compeation Format
-      $reportQuery = DB::table('tournament_competation_template')
+     /* $reportQuery = DB::table('tournament_competation_template')
                 ->leftjoin('tournament_template',
                 function($join) {
                   $join->on('tournament_competation_template.total_teams','<=','tournament_template.total_teams');
@@ -169,6 +171,7 @@ class AgeGroupRepository
       return  $reportQuery;         
       print_r($data->toArray());exit; 
       return TournamentCompetationTemplates::where($fieldName, $value)->get();
+      */
     }
     /*
       This Function will Fetch Data For tournament_competation_table
