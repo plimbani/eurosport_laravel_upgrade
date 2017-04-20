@@ -1,7 +1,7 @@
 <?php
 namespace Laraspace\Custom\Helper;
 
-use App\Mail\SendMail;
+use Laraspace\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 
 class Common {
@@ -38,4 +38,20 @@ class Common {
          $excelCreateObj->export($output);   
        
     }
+
+    static function sendMail($email_details, $email_recipients, $email_subject, $email_view, $email_from = null)
+       {        
+           $contact_details = $email_details;        
+           $recipient = $email_recipients;
+           if ($email_from != null && !empty($email_from)) {
+              Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view, $email_from));
+           }
+           else{
+               Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view));
+           }
+           return response()->json([
+               'status' => 'suceess',
+               'message' => 'Thank you for your message. We will aim to get back to you within the next 24 hours.'
+           ]);
+       }
 }
