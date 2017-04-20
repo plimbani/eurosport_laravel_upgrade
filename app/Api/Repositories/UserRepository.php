@@ -4,6 +4,7 @@ namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\User;
 use DB;
+use Hash;
 
 class UserRepository {
     public function getAllUsers()
@@ -12,10 +13,11 @@ class UserRepository {
     }
     public function getUserDetails($data)
     {
+        // dd($data);
        $email = $data['userData']['email'];
         $user = User:: join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                ->where('email',trim($email))
+                ->where('users.email',trim($email))
                 ->select("users.*", "roles.name as role_name","roles.slug as role_slug")
                 ->get(); 
         return $user;
@@ -59,5 +61,21 @@ class UserRepository {
     public function getUserById($userId)
     {
         return User::with(["personDetail", "roles"])->findOrFail($userId);
+    }
+
+    public function createPassword($usersDetail)
+    {
+        $key = $usersDetail['key'];
+        $password = $usersDetail['password']; 
+        $usersPassword = User::where('token', $key)->first();
+        // echo "<pre>";print_r($usersPassword);echo "</pre>";exit;
+        $users = User:: where("id", $usersPassword->id)->first();
+        $users->is_verified = 1;
+        $users->is_active = 1;
+        $users->token = '';
+        $users->password = Hash::make($password);
+        // $users->password = $password;
+        $user =  $users->save();
+       
     }
 }
