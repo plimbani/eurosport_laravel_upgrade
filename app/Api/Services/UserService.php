@@ -30,6 +30,7 @@ class UserService implements UserContract
 
     public function getUsersByRegisterType($registerType)
     {
+        
         return $this->userRepoObj->getUsersByRegisterType($registerType);
     }
 
