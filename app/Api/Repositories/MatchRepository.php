@@ -156,26 +156,26 @@ class MatchRepository
             //echo 'Hello Date is'.$tournamentData['tournamentDate'];
             $dd1= date('Y-m-d',strtotime($tournamentData['tournamentDate']));
             //echo $dd1;
-            $reportQuery = $reportQuery->whereDate('fixtures.match_datetime',
+            $reportQuery = $reportQuery->whereDate('temp_fixtures.match_datetime',
               '=',$dd1);               
           }
 
           if(isset($tournamentData['pitchId']) && $tournamentData['pitchId'] !== '' )
           {
-            $reportQuery = $reportQuery->where('fixtures.pitch_id',$tournamentData['pitchId']);
+            $reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$tournamentData['pitchId']);
 
           }
           
           if(isset($tournamentData['teamId']) && $tournamentData['teamId'] !== '')
           {
             
-            $reportQuery = $reportQuery->where('fixtures.home_team',$tournamentData['teamId'])
-                ->orWhere('fixtures.away_team',$tournamentData['teamId']);
+            $reportQuery = $reportQuery->where('temp_fixtures.home_team',$tournamentData['teamId'])
+                ->orWhere('temp_fixtures.away_team',$tournamentData['teamId']);
           } 
           if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
           {
             
-            $reportQuery = $reportQuery->where('fixtures.competition_id',
+            $reportQuery = $reportQuery->where('temp_fixtures.competition_id',
                 $tournamentData['competitionId']);               
           }  
 

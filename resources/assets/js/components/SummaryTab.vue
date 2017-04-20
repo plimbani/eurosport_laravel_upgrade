@@ -45,7 +45,7 @@
 			</div>
 		</div>
 		<div class="clearfix mt-4"></div>
-		<div class="d-flex justify-content-between align-items-center text-center flex-wrap">	
+		<div class="d-flex justify-content-between align-items-center text-center flex-wrap row">	
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
@@ -121,7 +121,7 @@
 	    data(){
 	    	return {
 	    		tournamentSummary:{tournament_logo:'', name: '', locations: '',tournament_dates: '', tournament_status: '',tournament_teams:'0',tournament_age_categories:'0',tournament_matches:'0',tournament_pitches:'0',tournament_referees:'0',tournament_days:'',tournament_groups:'-',tournament_countries:'-',tournament_contact:'-'},
-	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:'',tournamentId:'',tournamentLogo:'',
+	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:0,tournamentId:'',tournamentLogo:'',
 
 	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
                 deleteAction: ''
@@ -198,7 +198,9 @@
 	    	this.tournamentName = this.$store.state.Tournament.tournamentName
 	    	this.tournamentStatus = this.$store.state.Tournament.tournamentStatus
 			this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
-			this.tournamentDays= this.$store.state.Tournament.tournamentDays
+			let tournamentDays = this.$store.state.Tournament.tournamentDays || 0
+			
+			this.tournamentDays= parseInt(tournamentDays)
 			this.tournamentLogo= this.$store.state.Tournament.tournamentLogo
 		 }
 	    },	

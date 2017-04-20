@@ -11,8 +11,9 @@
       </tr>
   </thead>
   <tbody>
+
       <tr v-for="(competation, index) in competationList">
-          <td class="text-left">{{competation.group_name}}</td>
+          <td class="text-left">{{competation.group_name}} </td>                   
           <td>
               <label class="form-check-label">
                   <input type="radio" class="form-check-input" 
@@ -30,7 +31,7 @@
           </td>
           <td class="text-center">
               <span class="align-middle">
-                <a class="text-primary" href="#" @click="editCompFormat(competation.id)"><i class="fa fa-edit fa-lg"></i></a>
+                <a class="text-primary" href="#" @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
               </span>
               <span class="align-middle">
                 <a href="javascript:void(0)"
@@ -38,9 +39,10 @@
                 data-toggle="modal"
                 data-target="#delete_modal"
                 @click="prepareDeleteResource(competation.id)">
-                <i class="fa fa-trash-o fa-lg"></i></a>
+                <i class="jv-icon jv-dustbin"></i></a>
               </span>
           </td>
+          
       </tr>
   </tbody>
   <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
