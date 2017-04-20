@@ -138,7 +138,7 @@
                 <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
             </div>
             <div class="pull-right">
-                <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;<small><i class="fa fa-angle-double-right" aria-hidden="true"></i></small></button>
+                <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;<small><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>

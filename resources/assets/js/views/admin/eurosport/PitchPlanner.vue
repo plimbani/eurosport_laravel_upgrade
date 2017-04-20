@@ -34,18 +34,16 @@
 	  			</div>
 
 	  			<div class="mt-4">
-	  				pitch-planner-table></pitch-planner-table>	  					
+	  				<pitch-planner-table></pitch-planner-table>	  					
 	  			</div>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script type="text/babel">
-	import GamesTab from '../../../components/GamesTab.vue'
-	import RefereesTab from '../../../components/RefereesTab.vue'
-	import PitchModal from '../../../components/PitchModal.vue'
-	import PitchPlannerTable from '../../../components/PitchPlannerTable.vue'
+<script type="text/babel">	
+	import PitchModal from '../../../components/PitchModal.vue';
+	import PitchPlannerTable from '../../../components/PitchPlannerTable.vue';
 	
 	export default {
     data() {
@@ -69,7 +67,7 @@
     
     },	
     components: {
-        GamesTab, RefereesTab, PitchModal, PitchPlannerTable
+        PitchModal, PitchPlannerTable
     }  
 }
 </script>
