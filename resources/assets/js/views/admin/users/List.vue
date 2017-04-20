@@ -19,8 +19,8 @@
                                         <th>{{$lang.user_desktop_email}}</th>
                                         <th>{{$lang.user_desktop_organisation}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
+                                        <th>{{$lang.user_desktop_status}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
-                                         <th>{{$lang.user_desktop_status}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -31,6 +31,11 @@
                                         <td>{{ user.organisation }}</td>
                                         <td v-if="(user.roles).length>0">{{ user.roles[0].name }}</td>
                                         <td v-else></td>
+                                        <td v-if="user.is_verified == 1">Accepted</td>
+                                      
+                                        <td class="text-center" v-else>
+                                        <a href="#"  @click="resendModalOpen()" class="btn btn-primary btn-sm">Re-send</a>
+                                        </td> 
                                         <td>
                                             <a href="javascript:void(0)" data-toggle="modal" data-target="#user_form_modal" @click="editUser(user.id)"><i class="jv-icon jv-edit"></i></a>
                                             &nbsp;
@@ -138,14 +143,17 @@
             </div>
         </div>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+        <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
     </div>
 </template>
 <script type="text/babel">    
     import DeleteModal from '../../../components/DeleteModal.vue'
+    import ResendModal from '../../../components/Resendmail.vue'
 
     export default {
         components: {
-            DeleteModal
+            DeleteModal,
+            ResendModal
         },
         data() {
             return {
@@ -153,6 +161,8 @@
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
+                resendConfirm: 'Are you sure you would like to send this user another invite?',
+
                 deleteAction: '',
                 image: ''
             }
@@ -188,6 +198,9 @@
             addUser() {
                 this.$data.formValues = this.initialState();
                 this.userModalTitle="Add User";
+            },
+            resendModalOpen() {
+                $('#resend_modal').modal('show')
             },
             editUser(id) {
                 this.userModalTitle="Edit User";
@@ -264,6 +277,13 @@
                 axios.post(this.deleteAction).then((response) => {
                     $("#delete_modal").modal("hide");
                     toastr.success('User has been deleted succesfully.', 'Delete User', {timeOut: 5000});
+                    this.updateUserList();
+                });
+            },
+            resendConfirmed() {
+                axios.post(this.deleteAction).then((response) => {
+                    $("#resend_modal").modal("hide");
+                    toastr.success('Mail has been send succesfully.', 'Delete User', {timeOut: 5000});
                     this.updateUserList();
                 });
             }

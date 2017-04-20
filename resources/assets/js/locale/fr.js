@@ -8,7 +8,7 @@ module.exports = {
   welcome_add_new_tournament_review: "la revue",
   welcome_add_new_tournament_publish: "Publier",
   welcome_add_new_user: 'Ajouter un nouvel utilisateu',
-  welcome_add_user: 'FAdd new edition',
+  welcome_add_user: 'Add new edition',
   welcome_see_tournament_admin_view: "voir la vue de l'administrateur du tournoi",
   welcome_add_new_tournament: 'Ajouter un nouveau tournoi',
 
@@ -52,6 +52,8 @@ module.exports = {
   user_management_confirmation: "FConfirmation",
   user_management_cancel: "FCancel",
   user_management_save: "FConfirm",
+  user_management_resend: "FRe-send",
+  user_management_save: "FCancel",
 
   tournament_manage_edition: "FSelect an existing edition",
   tournament_information: "FTournament information",
@@ -103,8 +105,10 @@ module.exports = {
   competation_manage: "FManage",
 
   competation_modal_age_category: "FMatch Schedule",
-  competation_label_age_category: "FCategory name*",
-  competation_modal_age_category_required: "FAge category is required",
+  competation_label_name_category: "FCategory name*",
+  competation_label_age_category: "FCategory age*",
+  competation_modal_name_category_required: "FCategory name is required",
+  competation_modal_age_category_required: "FCategory age is required",
   competation_modal_select_templates: "FSelect template*",
   competation_modal_select_template_list: "FSelect template",
   competation_modal_select_templates_required: "FA template is required",
@@ -118,11 +122,12 @@ module.exports = {
   competation_modal_half_time_break_final_minutes: "Fminutes",
   competation_modal_match_interval: "FMatch interval RR/PM/EM*",
   competation_modal_match_minutes: "Fminutes",
-  competation_modal_match_interval_final: "FMatch interval function() {}inal*",
+  competation_modal_match_interval_final: "FMatch interval final*",
   competation_modal_match_interval_final_minutes: "Fminutes",
   competation_modal_button_cancle: "FCancel",
   competation_modal_button_save: "FSave",  
   competation_modal_select_number_teams: "FSelect number of teams",
+  competation_modal_select_category_age: "FSelect category age",
   competation_modal_select_minimum_matches: "FSelect minimum matches",
 
   competation_label_number_teams: "FNumber of teams*",
@@ -198,7 +203,7 @@ module.exports = {
   pitch_modal_availability_capacity: "FCapacity",
   pitch_modal_availability_button_addstage: "FAdd Stage",
   pitch_modal_availability_button_close: "FClose",
-  pitch_modal_availability_button_save: "FNext",
+  pitch_modal_availability_button_save: "FSave",
 
 
   teams_terms_groups: "FTerms and groups",
