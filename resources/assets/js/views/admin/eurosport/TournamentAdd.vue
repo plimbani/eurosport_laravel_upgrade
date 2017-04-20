@@ -11,8 +11,8 @@
                             <label>{{$lang.tournament_name}}*</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
+                                <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
                             </div>
-                            <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
                             <span class="help is-danger" v-show="errors.has('tournament_name')">Tournament name required</span>
                         </div>
                       </div>
@@ -55,7 +55,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
-                                                <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
+                                                <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>  
                                                 <input type="text" class="col-md-7 form-control" v-model="tournament.website">
                                             </div>
                                             <div class="form-group row">
@@ -105,8 +105,7 @@
                     <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_last_name') }">
                         <label class="col-sm-2 form-control-label">{{$lang.tournament_last_name}}*</label>
                         <div class="col-sm-4" >
-                            <input type="text" class="form-control" placeholder=""
-                            name="tournament_contact_last_name"
+                            <input type="text" class="form-control" name="tournament_contact_last_name"
                             v-validate="'required'" :class="{'is-danger': errors.has('tournament_contact_last_name') }"
                             v-model="tournament.tournament_contact_last_name"
                             >
@@ -138,7 +137,7 @@
                 <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
             </div>
             <div class="pull-right">
-                <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;<small><i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+                <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;<small><i class="fa fa-angle-double-right" aria-hidden="true"></i></small></button>
             </div>
         </div>
     </div>
