@@ -57,7 +57,7 @@
                                                 <option value="7-a-side">{{$lang.pitch_modal_details_size_side_one}}</option>
                                                 <option value="8-a-side">{{$lang.pitch_modal_details_size_side_two}}</option>
                                                 <option value="9-a-side">{{$lang.pitch_modal_details_size_side_three}}</option>
-                                                <option value="10-a-side">{{$lang.pitch_modal_details_size_side_fou}}</option>
+                                                <option value="10-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
                                                 <option value="Handball">{{$lang.pitch_modal_details_size_side_handball}}</option>
                                             </select>
                                         </div>

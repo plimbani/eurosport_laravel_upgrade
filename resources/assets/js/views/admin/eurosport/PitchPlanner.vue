@@ -1,3 +1,4 @@
+
 <template>
 	<div class="tab-content">
 		<div class="card">
@@ -34,7 +35,7 @@
 	  			</div>
 
 	  			<div class="mt-4">
-	  				pitch-planner-table></pitch-planner-table>	  					
+	  				<pitch-planner-table></pitch-planner-table>	  					
 	  			</div>
 			</div>
 		</div>
