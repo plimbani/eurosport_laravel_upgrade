@@ -50,9 +50,8 @@ export default {
       this.$router.push({name: 'welcome'});
     } else {
       // Means Set Here
-      
-       let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
-      this.$store.dispatch('setActiveTab', currentNavigationData)
+      // let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
+      //this.$store.dispatch('setActiveTab', currentNavigationData)
     }
   },
   methods: {

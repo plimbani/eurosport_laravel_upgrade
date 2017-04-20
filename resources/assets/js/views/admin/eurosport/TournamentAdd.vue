@@ -221,8 +221,11 @@ $('#btnSelect').on('click',function(){
         );
       // here we set data from state for tournament
       this.tournament.name = this.$store.state.Tournament.tournamentName
-      if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null) {
-        this.image = '/assets/img/tournament_logo/'+this.$store.state.Tournament.tournamentLogo
+      let tournaLogo = this.$store.state.Tournament.tournamentLogo
+      
+      
+      if(tournaLogo.length != '0') {
+         this.image = '/assets/img/tournament_logo/'+this.$store.state.Tournament.tournamentLogo
       }
       this.tournament.website ='website'
       this.tournament.facebook ='facebook'
@@ -314,12 +317,21 @@ $('#btnSelect').on('click',function(){
             this.tournament.tournamentId = this.tournamentId
             // we can take length of how much we have to move for loop
             this.tournament.locationCount = this.customCount
+            let msg=''
+            if(this.tournament.tournamentId == 0){
+              msg = 'Tournament details added successfully.'
+            } else {
+              msg = 'Tournament details edited successfully.'
+            }
             this.$store.dispatch('SaveTournamentDetails', this.tournament)
               // Display Toastr Message for add Tournament
-              toastr['success']('Tournament details added successfully.', 'Success');
+              
+            toastr['success'](msg, 'Success');
               // Now redirect to Comperation Format page
               // now here also check if tournament id is set then we push it
-            setTimeout(this.redirectCompetation, 3000);
+            
+            //this.$router.push({name:'competation_format'})
+             setTimeout(this.redirectCompetation, 3000);
             // commit(types.SAVE_TOURNAMENT, response.data)
           },
           (error) => {
@@ -328,6 +340,8 @@ $('#btnSelect').on('click',function(){
       )
     },
     redirectCompetation() {
+      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
+      this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name:'competation_format'})
     },
     backward() {
