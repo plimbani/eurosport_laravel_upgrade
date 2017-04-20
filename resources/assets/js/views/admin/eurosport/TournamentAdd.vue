@@ -175,6 +175,8 @@
 <script type="text/babel">
 import location from '../../../components/Location.vue'
 import Tournament from '../../../api/tournament.js'
+var moment = require('moment');
+
 export default {
   data() {
     return {
@@ -263,7 +265,7 @@ $('#btnSelect').on('click',function(){
       this.tournament.facebook ='facebook'
       this.tournament.twitter = 'twitter'
 
-      var start_date = new Date(this.$store.state.Tournament.tournamentStartDate);
+      var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
       // console.log('start date'+start_date)
       // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
       // document.getElementById('tournament_start_date').value
@@ -284,7 +286,7 @@ $('#btnSelect').on('click',function(){
 
       $('#tournament_start_date').datepicker('setDate', start_date)
     }
-    let tEndDate = this.$store.state.Tournament.tournamentEndDate
+    let tEndDate = moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY')
     if(tEndDate!= ''){
         $('#tournament_end_date').datepicker('setDate', tEndDate)
     }
