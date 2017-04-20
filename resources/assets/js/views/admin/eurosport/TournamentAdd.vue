@@ -227,9 +227,11 @@ $('#btnSelect').on('click',function(){
       this.tournament.website ='website'
       this.tournament.facebook ='facebook'
       this.tournament.twitter = 'twitter'
-
+      if(this.$store.state.Tournament.tournamentStartDate!= '')
       var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
-      // console.log('start date'+start_date)
+    else{
+      var start_date = new Date();
+    }
       // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
       // document.getElementById('tournament_start_date').value
       //         = start_format_date
@@ -247,7 +249,12 @@ $('#btnSelect').on('click',function(){
     if(start_date != ''){
       $('#tournament_start_date').datepicker('setDate', start_date)
     }
-    let tEndDate = moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY')
+    if(this.$store.state.Tournament.tournamentEndDate!= ''){
+          let tEndDate = new Date(moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
+    }else{
+       let tEndDate = new Date()
+    }
+
     if(tEndDate!= ''){
         $('#tournament_end_date').datepicker('setDate', tEndDate)
     }
