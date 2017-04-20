@@ -11,4 +11,6 @@ class UserRepository
         /*  Use Join for Fetch Club Income Data with Club Table */
         return User::all();
     }
+
+
 }

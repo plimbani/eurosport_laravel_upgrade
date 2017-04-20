@@ -191,6 +191,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-3">
+
                                                                 <span :id="'stage_capacity_span'+day"  lass="badge badge-pill badge-info">0.00</span>
                                                                 <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity'+day" value="0.00">
                                                                 <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity_min'+day" value="0">
@@ -372,30 +373,27 @@ var moment = require('moment');
                     $('#stage_capacity'+stage).val('0.00');
                 }else {
 
-                 var stageTimeStart = new Date(moment($('#stage_start_date'+stage).val(),'DD/MM/YYYY').format('MM/DD/YYYY') + " "+ $('#stage_start_time'+stage).val());
-                var stageTimeEnd = new Date(moment($('#stage_start_date'+stage).val(),'DD/MM/YYYY').format('MM/DD/YYYY') + " " + $('#stage_end_time'+stage).val());
-                var stageBreakStart = new Date(moment($('#stage_start_date'+stage).val(),'DD/MM/YYYY').format('MM/DD/YYYY') + " " + $('#stage_break_start'+stage).val());
-                var stageBreakEnd = new Date(moment($('#stage_start_date'+stage).val(),'DD/MM/YYYY').format('MM/DD/YYYY') + " " + $('#stage_continue_time'+stage).val());
+                var stageTimeStart = new Date("01/01/2017 "+ $('#stage_start_time'+stage).val());
+                var stageTimeEnd = new Date("01/01/2017 " + $('#stage_end_time'+stage).val());
+                var stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage).val());
+                var stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage).val());
 
                     var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
                     var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
-                    
                     var diff = diff1 + diff2
                     if(diff > 0){
                       var minutes = diff % 60;
-                    var hours = (diff - minutes) / 60;
-                    
-                    var time_val = parseInt(hours)+ '.' +parseInt(minutes)
-                    var time = parseInt(hours)+ ':' +parseInt(minutes) +' hrs'
-                    
+                    var hours = parseInt(diff - minutes) / 60;
+                    var time_val = hours+ '.' +minutes
+                    var time = hours+ ':' +minutes +' hrs'  
                 }else {
                     var time_val = '0.0'
                     var time = '00:00 hrs'
-                }
+                }     
                 $('#stage_capacity'+stage).val(time_val);
                 $('#stage_capacity_min'+stage).val(diff);
                 $('#stage_capacity_span'+stage).text(time);
-                
+               
                 }
                 
 

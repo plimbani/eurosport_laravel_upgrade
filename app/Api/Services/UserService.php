@@ -64,23 +64,29 @@ class UserService implements UserContract
         }
         
 
-        $userData['user']['password'] = Hash::make('password');
-        // dd($userData['user']);
-        $userObj = $this->userRepoObj->create($userData['user']);
+        // $userData['user']['password'] = Hash::make('password');
+        // // dd($userData['user']);
+        // $userObj = $this->userRepoObj->create($userData['user']);
+
+        $userData['user']['password']=Hash::make('password');
+        $token = str_random(30);
+        $userData['user']['token'] = $token;
+
+        $userObj=$this->userRepoObj->create($userData['user']);
         
         $userObj->attachRole($data['userType']);
 
         if ($data) {
             $email_details = array();
             $email_details['name'] = $data['name'];
-
+            $email_details['token'] = $token;
             $recipient = $data['emailAddress'];
+            Common::sendMail($email_details, $recipient, 'Eurosport - Set Password', 'emails.users.create');
             // echo "<pre>";print_r($recipient);echo "</pre>";exit;
             // $mailSent = Mail::to('kparikh@aecordigital.com')->send('Hello');
             // dd($mailSent);
             // $email_sent = Common::sendMail($email_details, $recipient, 'Eurosport - Set Password', 'emails.users.create');
             // $email_sent = Mail::to($recipient)->send(new SendMail($email_details));
-            
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
@@ -122,7 +128,7 @@ class UserService implements UserContract
     {
         
         $data =  $this->userRepoObj->getUserDetails($data);
-        
+            
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
