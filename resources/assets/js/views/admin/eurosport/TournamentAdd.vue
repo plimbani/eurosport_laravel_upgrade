@@ -23,7 +23,7 @@
                           <label for="tournament_end_date">{{$lang. tournament_start_date}}*</label>
                           <div class="input-group">
                               <span class="input-group-addon">
-                                  <i class="fa fa-calendar"></i>
+                                  <i class="jv-icon jv-calendar"></i>
                               </span>
                               <input type="text" class="form-control ls-datepicker"
                                id="tournament_start_date">
@@ -35,7 +35,7 @@
                           <label for="tournament_end_date">{{$lang. tournament_end_date}}*</label>
                           <div class="input-group">
                               <span class="input-group-addon">
-                                  <i class="fa fa-calendar"></i>
+                                  <i class="jv-icon jv-calendar"></i>
                               </span>
                               <input type="text" class="form-control ls-datepicker"
                                id="tournament_end_date">
@@ -125,7 +125,7 @@
                     <location :locations="locations"></location>
                     <div class="row">
                         <div class="col-sm-3">
-                          <button class="btn btn-success w-75" @click.prevent="addLocationClick">{{$lang.tournament_location_button}}</button>
+                          <button class="btn btn-success w-75" @click.prevent="addLocationClick"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.tournament_location_button}}</button>
                         </div>
                     </div>
                 </form>
@@ -135,10 +135,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-left">
-                <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>{{$lang.tournament_button_home}}</button>
+                <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
             </div>
             <div class="pull-right">
-                <button class="btn btn-primary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>{{$lang.tournament_button_next}}</button>
+                <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;<small><i class="fa fa-angle-double-right" aria-hidden="true"></i></small></button>
             </div>
         </div>
     </div>
@@ -230,9 +230,11 @@ $('#btnSelect').on('click',function(){
       this.tournament.website ='website'
       this.tournament.facebook ='facebook'
       this.tournament.twitter = 'twitter'
-
+      if(this.$store.state.Tournament.tournamentStartDate!= '' && typeof(this.$store.state.Tournament.tournamentStartDate) != 'undefined')
       var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
-      // console.log('start date'+start_date)
+    else{
+      var start_date = new Date();
+    }
       // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
       // document.getElementById('tournament_start_date').value
       //         = start_format_date
@@ -243,16 +245,17 @@ $('#btnSelect').on('click',function(){
       this.$store.dispatch('setActiveTab', currentNavigationData)
     } else {
       let tournamentAdd  = {name:'Your Tournament',
-      currentPage:'TournamentAdd'}
+      currentPage:'TournamentAdd','tournamentStartDate': '','tournamentEndDate':'','tournamentDays': 0,'tournamentStatus': ''}
       this.$store.dispatch('SetTournamentName', tournamentAdd)
     }
     // $('#tournament_start_date').val()
     if(start_date != ''){
       $('#tournament_start_date').datepicker('setDate', start_date)
     }
-    let tEndDate = moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY')
+    let tEndDate = this.$store.state.Tournament.tournamentEndDate
     if(tEndDate!= ''){
         $('#tournament_end_date').datepicker('setDate', tEndDate)
+          $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
     }
     $('#tournament_start_date').datepicker().on('changeDate',function(){
       $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())

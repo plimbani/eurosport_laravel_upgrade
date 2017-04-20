@@ -100,12 +100,11 @@ const mutations = {
 	state.tournamentStatus = tournamentField.tournamentStatus
   },
   [types.CURRENT_TOURNAMENT] (state, currentTournament) {   
-  console.log(currentTournament)     
-	//alert(JSON.stringify(currentTournamentName))
+ 	//alert(JSON.stringify(currentTournamentName))
 	state.tournamentName = currentTournament.name
-	state.tournamentStartDate = currentTournament.tournamentStartDate
-	state.tournamentEndDate = currentTournament.tournamentEndDate
-	state.tournamentDays = parseInt(currentTournament.tournamentDays) + 1
+	state.tournamentStartDate = currentTournament.tournamentStartDate!='' ? currentTournament.tournamentStartDate: '' 
+	state.tournamentEndDate = currentTournament.tournamentEndDate != '' ? currentTournament.tournamentEndDate: ''
+	state.tournamentDays = currentTournament.tournamentDays ? parseInt(currentTournament.tournamentDays) + 1 : 1
 	state.tournamentId = currentTournament.id
 	state.tournamentStatus = currentTournament.tournamentStatus
 	state.tournamentLogo = currentTournament.tournamentLogo
