@@ -45,6 +45,7 @@
                       </div>
                     </div>
                     <div class="panel-group optional_details" id="accordion" role="tablist" aria-multiselectable="true">
+
                     	<div class="panel panel-default">
                         <div class="row">
                       		<div class="panel-heading col-md-12" role="tab" id="headingOne">
@@ -53,56 +54,58 @@
                              </a>
                             <div id="collapseOne" class="panel-collapse collapse panel-content in" role="tabpanel"
                             aria-labelledby="headingOne">
-                            <div class="form-inline">
-                              <div class="form-group col-md-12 padding0">
-                                <div class="col-md-6 padding0">
-                                  <div class="form-group row">
-                                      <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
-                                      <input type="text" class="col-md-7 form-control" v-model="tournament.website">
+                              <div class="form-inline">
+                                <div class="form-group col-md-12 padding0">
+                                  <div class="col-md-6 padding0">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
+                                        <input type="text" class="col-md-7 form-control" v-model="tournament.website">
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label">{{$lang. tournament_facebook}}</label>
+                                        <input type="text" class="col-md-7 form-control" v-model="tournament.facebook"
+                                       >
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label">{{$lang. tournament_twitter}}</label>
+                                        <input type="text"
+                                        v-model="tournament.twitter"
+                                        class="col-md-7 form-control">
+                                    </div>
                                   </div>
-                                  <div class="form-group row">
-                                      <label class="col-md-4 control-label">{{$lang. tournament_facebook}}</label>
-                                      <input type="text" class="col-md-7 form-control" v-model="tournament.facebook"
-                                     >
+                                  <div class="col-md-6 padding0">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
+                                        <div class="pull-right">
+                                            <div v-if="!image">
+                                              <button type="button" name="btnSelect" id="btnSelect">Choose file</button>
+                                                <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
+                                                <p class="help-block">Maximum size of 1 MB.</p>
+                                            </div>
+                                             <div v-else>
+                                            <img :src="image" width="40px" height="50px"/>
+                                            <button @click="removeImage">Remove image</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="form-group row">
+                                        <label class="col-md-4 control-label">Sponsor banner</label>
+                                        <div class="pull-right">
+                                            <input type="file" value="Upload">
+                                            <p class="help-block">Maximum size of 1 MB.</p>
+                                        </div>
+                                    </div>-->
                                   </div>
-                                  <div class="form-group row">
-                                      <label class="col-md-4 control-label">{{$lang. tournament_twitter}}</label>
-                                      <input type="text"
-                                      v-model="tournament.twitter"
-                                      class="col-md-7 form-control">
                                   </div>
-                                </div>
-                                <div class="col-md-6 padding0">
-                                  <div class="form-group row">
-                                      <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
-                                      <div class="pull-right">
-                                          <div v-if="!image">
-                                            <button type="button" name="btnSelect" id="btnSelect">Choose file</button>
-                                              <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
-                                              <p class="help-block">Maximum size of 1 MB.</p>
-                                          </div>
-                                           <div v-else>
-                                          <img :src="image" width="40px" height="50px"/>
-                                          <button @click="removeImage">Remove image</button>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <!--<div class="form-group row">
-                                      <label class="col-md-4 control-label">Sponsor banner</label>
-                                      <div class="pull-right">
-                                          <input type="file" value="Upload">
-                                          <p class="help-block">Maximum size of 1 MB.</p>
-                                      </div>
-                                  </div>-->
-                                </div>
+                              </div>
+
                             </div>
-                            </div>
+
                           </div>
                            
                           </div>
+
                         </div>
-                        
-                    	</div>
                     </div>
                     <div class="">
                         <h6><strong>{{$lang.tournament_eurosporting}}</strong></h6>
@@ -261,7 +264,6 @@ $('#btnSelect').on('click',function(){
       this.tournament.twitter = 'twitter'
 
       var start_date = new Date(this.$store.state.Tournament.tournamentStartDate);
-      console.log(start_date,'sdate');
       // console.log('start date'+start_date)
       // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
       // document.getElementById('tournament_start_date').value
@@ -293,7 +295,7 @@ $('#btnSelect').on('click',function(){
     });
     //this.handleValidation()
     $('.panel-title').on('click',function(){
-      if($(this).hasClass('collapsed') == true){
+      if($('#opt_icon').hasClass('fa-plus') == true){
         $('#opt_icon').addClass('fa-minus')
         $('#opt_icon').removeClass('fa-plus')
       }else{
@@ -372,5 +374,5 @@ $('#btnSelect').on('click',function(){
         this.$router.push({name:'welcome'})
     }
   }
-}
+} 
 </script>

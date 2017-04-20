@@ -1,4 +1,5 @@
 <template>
+<div>
     <header class="site-header">
         <div class="container">
             <a href="#" class="brand-main" @click="home">
@@ -13,10 +14,10 @@
             <!-- <span class="offset-1"> {{TournamentName}} </span> -->
             <ul class="action-list">
                 <li>
-                    <i class="fa fa-clock-o" style="font-size:18px"></i>&nbsp;<span id="timer">{{curTime}}</span>
+                    <i class="jv-icon jv-clock"></i>&nbsp;<span id="timer">{{curTime}}</span>
                 </li>
                 <li>
-                    <i class="fa fa-calendar"></i>&nbsp;<span id="date">{{date}}</span>
+                    <i class="jv-icon jv-calendar"></i>&nbsp;<span id="date">{{date}}</span>
                 </li>
                 <li>
                     <a href="#" data-toggle="dropdown"  class="avatar"><img src="/assets/img/avatars/avatar.png" alt="Avatar"></a>
@@ -34,7 +35,7 @@
               <!--   <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
                 <li><a href="#"  @click="$setLang('en')">{{$lang.siteheader_english}}</a></li>
                 <li><a href="#"  @click="$setLang('fr')">{{$lang.siteheader_french}}</a></li> -->
-                <user :userData="userData"  ></user>
+               
                 <!--
                 <li>
                     <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></a>
@@ -57,6 +58,8 @@
             </ul>
         </div>
     </header>
+     <user :userData="userData"  ></user>
+</div>
 </template>
 
 

@@ -17,13 +17,13 @@ class PermissionRoleTableSeeder extends Seeder
         $role = DB::table('roles')->take(3)->get()->toArray();        
 
         DB::table('permission_role')->insert([
-        	[ 'permission_id' => array_rand($permission), 'role_id' => array_rand($role), 
+        	[ 'permission_id' => $permission[array_rand($permission)]->id, 'role_id' => $role[array_rand($role)]->id, 
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
-        	[ 'permission_id' => array_rand($permission), 'role_id' => array_rand($role), 
+        	[ 'permission_id' => $permission[array_rand($permission)]->id, 'role_id' => $role[array_rand($role)]->id, 
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
-        	[ 'permission_id' => array_rand($permission), 'role_id' => array_rand($role), 
+        	[ 'permission_id' => $permission[array_rand($permission)]->id, 'role_id' => $role[array_rand($role)]->id, 
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
     }
