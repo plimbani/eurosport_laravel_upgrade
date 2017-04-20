@@ -8,7 +8,6 @@ export default {
     return api.get('pitch/show/'+pitchId)
   },
   addPitch(pitchData) { 
-  console.log(pitchData)  
     return api.post('pitch/create/',pitchData)
   },
   editPitch(pitchData) {   
