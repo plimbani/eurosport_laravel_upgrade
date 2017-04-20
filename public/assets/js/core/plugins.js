@@ -43535,6 +43535,7 @@ $.validator.addMethod( "ziprange", function( value, element ) {
 
 }));
 
+
 /*!
  * Datepicker for Bootstrap v1.7.0-dev (https://github.com/eternicode/bootstrap-datepicker)
  *
@@ -45269,7 +45270,7 @@ $.validator.addMethod( "ziprange", function( value, element ) {
 		datesDisabled: [],
 		endDate: Infinity,
 		forceParse: true,
-		format: 'mm/dd/yyyy',
+		format: 'dd/mm/yyyy',
 		keyboardNavigation: true,
 		language: 'en',
 		minViewMode: 0,
@@ -45649,10 +45650,10 @@ $.validator.addMethod( "ziprange", function( value, element ) {
 }(function ($) {
 	var _ONE_DAY = 86400;
 	var _lang = {
-		am: 'am',
-		pm: 'pm',
-		AM: 'AM',
-		PM: 'PM',
+		am: ' am',
+		pm: ' pm',
+		AM: ' AM',
+		PM: ' PM',
 		decimal: '.',
 		mins: 'mins',
 		hr: 'hr',
