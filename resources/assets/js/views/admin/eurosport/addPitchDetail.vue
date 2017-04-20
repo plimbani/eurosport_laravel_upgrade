@@ -96,7 +96,7 @@
                                                             <div class="col-md-3">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
+                                                                        <i class="jv-icon jv-calendar"></i>  
                                                                     </span>
                                                                     <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control ls-datepicker datestage'+day] " >
                                                                          <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
@@ -147,7 +147,7 @@
                                                             <div class="col-md-3">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
+                                                                        <i class="jv-icon jv-calendar"></i>
                                                                     </span>
                                                                     <input type="text" :name="'stage_continue_date'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]">
                                                                 </div>
@@ -174,7 +174,7 @@
                                                             <div class="col-md-3">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
+                                                                        <i class="jv-icon jv-calendar"></i>
                                                                     </span>
                                                                     <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control  ls-datepicker datestage'+ day]">
                                                                 </div>
