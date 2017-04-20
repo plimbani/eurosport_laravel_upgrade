@@ -11,6 +11,9 @@ export default {
         }).catch(error => {
             if (error.response.status == 401) {
                 toastr['error']('Invalid Credentials', 'Error');
+                
+                Ls.remove('auth.token')
+                Ls.remove('email')
             } else {
                 // Something happened in setting up the request that triggered an Error
                 console.log('Error', error.message);

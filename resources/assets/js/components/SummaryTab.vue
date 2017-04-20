@@ -3,10 +3,10 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="pull-left col-md-6 padding0">
-					<label class="pull-left">
-						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="(tournamentLogo != null && tournamentLogo != '' )">
-				</label>
-					<label class="col-md-6">
+					<label>
+						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="(tournamentLogo != null && tournamentLogo != '' )"  class="mr-2">
+					</label>
+					<label>
 						<h5>{{tournamentName}}</h5>
 					</label>
 					<div class="clearfix"></div>

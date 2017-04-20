@@ -147,6 +147,8 @@
 <script type="text/babel">
 import location from '../../../components/Location.vue'
 import Tournament from '../../../api/tournament.js'
+var moment = require('moment');
+
 export default {
   data() {
     return {
@@ -219,14 +221,20 @@ $('#btnSelect').on('click',function(){
         );
       // here we set data from state for tournament
       this.tournament.name = this.$store.state.Tournament.tournamentName
-      if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null) {
-        this.image = '/assets/img/tournament_logo/'+this.$store.state.Tournament.tournamentLogo
+      let tournaLogo = this.$store.state.Tournament.tournamentLogo
+      
+      
+      if(tournaLogo.length != '0') {
+         this.image = '/assets/img/tournament_logo/'+this.$store.state.Tournament.tournamentLogo
       }
       this.tournament.website ='website'
       this.tournament.facebook ='facebook'
       this.tournament.twitter = 'twitter'
-      var start_date = new Date(this.$store.state.Tournament.tournamentStartDate);
-      // console.log('start date'+start_date)
+      if(this.$store.state.Tournament.tournamentStartDate!= '' && typeof(this.$store.state.Tournament.tournamentStartDate) != 'undefined')
+      var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+    else{
+      var start_date = new Date();
+    }
       // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
       // document.getElementById('tournament_start_date').value
       //         = start_format_date
@@ -237,7 +245,7 @@ $('#btnSelect').on('click',function(){
       this.$store.dispatch('setActiveTab', currentNavigationData)
     } else {
       let tournamentAdd  = {name:'Your Tournament',
-      currentPage:'TournamentAdd'}
+      currentPage:'TournamentAdd','tournamentStartDate': '','tournamentEndDate':'','tournamentDays': 0,'tournamentStatus': ''}
       this.$store.dispatch('SetTournamentName', tournamentAdd)
     }
     // $('#tournament_start_date').val()
@@ -247,6 +255,7 @@ $('#btnSelect').on('click',function(){
     let tEndDate = this.$store.state.Tournament.tournamentEndDate
     if(tEndDate!= ''){
         $('#tournament_end_date').datepicker('setDate', tEndDate)
+          $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
     }
     $('#tournament_start_date').datepicker().on('changeDate',function(){
       $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
@@ -308,12 +317,21 @@ $('#btnSelect').on('click',function(){
             this.tournament.tournamentId = this.tournamentId
             // we can take length of how much we have to move for loop
             this.tournament.locationCount = this.customCount
+            let msg=''
+            if(this.tournament.tournamentId == 0){
+              msg = 'Tournament details added successfully.'
+            } else {
+              msg = 'Tournament details edited successfully.'
+            }
             this.$store.dispatch('SaveTournamentDetails', this.tournament)
               // Display Toastr Message for add Tournament
-              toastr['success']('Tournament details added successfully.', 'Success');
+              
+            toastr['success'](msg, 'Success');
               // Now redirect to Comperation Format page
               // now here also check if tournament id is set then we push it
-            setTimeout(this.redirectCompetation, 3000);
+            
+            //this.$router.push({name:'competation_format'})
+             setTimeout(this.redirectCompetation, 3000);
             // commit(types.SAVE_TOURNAMENT, response.data)
           },
           (error) => {
@@ -322,6 +340,8 @@ $('#btnSelect').on('click',function(){
       )
     },
     redirectCompetation() {
+      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
+      this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name:'competation_format'})
     },
     backward() {

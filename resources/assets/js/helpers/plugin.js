@@ -115,11 +115,11 @@ export default {
     },
     setTournamentDays(date1, date2){
 
-        // date1 = new Date(date1.split('/')[2],date1.split('/')[1]-1,date1.split('/')[0]);
-        // date2 = new Date(date2.split('/')[2],date2.split('/')[1]-1,date2.split('/')[0]);
-        // var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-        // var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-        // return diffDays
-return Math.floor(( Date.parse(date2) - Date.parse(date1) ) / 86400000);            
+        date1 = new Date(date1.split('/')[2],date1.split('/')[1]-1,date1.split('/')[0]);
+        date2 = new Date(date2.split('/')[2],date2.split('/')[1]-1,date2.split('/')[0]);
+        var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+        return diffDays
+// return Math.floor(( Date.parse(date2) - Date.parse(date1) ) / 86400000);            
     }
 }
