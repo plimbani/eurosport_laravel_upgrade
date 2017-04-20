@@ -80,13 +80,27 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['category_age'] = $data['category_age'];
       $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
       $tournamentCompeationTemplate['total_time'] =$data['total_time'];
+
       $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR'];
       $tournamentCompeationTemplate['game_duration_FM']= $data['game_duration_FM'];
       $tournamentCompeationTemplate['halftime_break_RR']= $data['halftime_break_RR'];
       $tournamentCompeationTemplate['halftime_break_FM']= $data['halftime_break_FM'];
       $tournamentCompeationTemplate['match_interval_RR']= $data['match_interval_RR'];
       $tournamentCompeationTemplate['match_interval_FM']= $data['match_interval_FM'];
-
+      // TODO: Add New Code For more Other Options
+      // Impliclityly Add 2 For Multiplication
+      if($data['game_duration_RR'] == 'other') {
+        $tournamentCompeationTemplate['game_duration_RR'] = 2 * $data['game_duration_RR_other'];  
+      }
+      if($data['game_duration_FM'] == 'other') {
+        $tournamentCompeationTemplate['game_duration_FM'] = 2 * $data['game_duration_FM_other'];  
+      }
+      if($data['match_interval_RR'] == 'other') {
+        $tournamentCompeationTemplate['match_interval_RR'] = 2 * $data['match_interval_RR_other'];  
+      }
+      if($data['match_interval_FM'] == 'other') {
+        $tournamentCompeationTemplate['match_interval_FM'] = 2 * $data['match_interval_FM_other'];  
+      }
       // TODO: Add total_teams and min_matches For particular Age Category
       $tournamentCompeationTemplate['total_teams'] =$data['tournamentTemplate']['total_teams'];
       $tournamentCompeationTemplate['min_matches']= $data['tournamentTemplate']['minimum_matches'];
