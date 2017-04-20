@@ -10,7 +10,7 @@
                 </div>
             	<div class="row">
                     <div class="col-md-12">
-            		     <button type="button" class="btn btn-primary" @click="addCategory()"><i class="fa fa-plus"></i>{{$lang.competation_add_age_category}}</button>
+            		     <button type="button" class="btn btn-primary" @click="addCategory()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.competation_add_age_category}}</button>
                     </div>
             	</div>                
             	<AddAgeCateogryModel></AddAgeCateogryModel>
