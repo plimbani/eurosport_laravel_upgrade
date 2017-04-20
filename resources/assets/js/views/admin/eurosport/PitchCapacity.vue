@@ -274,6 +274,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
 
             addPitch() {
                 this.$store.dispatch('SetPitchId',0);
+                 
                 setTimeout(function(){
                     $('#addPitchModal').modal('show')
                 },500)
@@ -281,10 +282,11 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             editPitch(pitchId) {
                 this.$store.dispatch('SetPitchId',pitchId);
                 // this.pitchId = pitchId
+                    // this1.$store.dispatch('PitchData',pitchId)
                 let this1 = this
                 setTimeout(function(){
                     this1.$store.dispatch('PitchData',pitchId)
-                },500)
+                },1000)
                 
             },
             removePitch(pitchId) {
@@ -306,7 +308,6 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 });
             },
             deleteConfirmed() {
-                console.log(' delete ')
                 this.removePitch(this.deletePitchId)
                 // axios.post(this.deleteAction).then((response) => {
                 //     $("#delete_modal").modal("hide");
