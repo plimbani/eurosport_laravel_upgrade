@@ -1,5 +1,5 @@
 <template>
-<div class="col-md-4">
+<div class="">
 <h3> Draws </h3>
 <table class="table draw_table" v-if="matchData.length > 0">
 	<thead>

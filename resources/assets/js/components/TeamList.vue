@@ -1,24 +1,28 @@
 <template>
-<div class="col-md-4">
-<h3> Teams </h3>
-<table class="table match_overview" v-if="matchData.length > 0">
-	<thead>
-		<th>Team</th>
-		<th>Draw</th>
-	</thead>
-	<tbody>
-		<tr v-for="team in matchData">
-			<td><img :src="team.logo" width="20">&nbsp;
-			<a href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></td>
-			<td class="text-center">
-				<a href="" class="pull-left text-left" 
-				@click.prevent="changeGroup(team)">
-				{{team.competationName}}</a>
-			</td>
-		</tr>
-	</tbody>
-</table>
-<span v-else> No Team Data</span>
+<div class="row">
+	<div class="col-md-12">
+		<h3> Teams </h3>
+	</div>
+	<div class="col-md-12">
+	<table class="table match_overview" v-if="matchData.length > 0">
+		<thead>
+			<th>Team</th>
+			<th>Draw</th>
+		</thead>
+		<tbody>
+			<tr v-for="team in matchData">
+				<td><img :src="team.logo" width="20">&nbsp;
+				<a href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></td>
+				<td class="text-center">
+					<a href="" class="pull-left text-left" 
+					@click.prevent="changeGroup(team)">
+					{{team.competationName}}</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<span v-else> No Team Data</span>
+	</div>
 </div>
 </template>
 <script type="text/babel">
