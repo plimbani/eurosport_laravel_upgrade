@@ -1,7 +1,7 @@
 <template>
 <div class="tab-content" id="tournament_details">
     <div>
-    	<div class="card">
+        <div class="card">
             <div class="card-block">
                 <h6><strong>{{$lang.tournament_information}}</strong></h6>
                 <form name="tournamentName" enctype="multipart/form-data">
@@ -10,8 +10,7 @@
                         <div class="form-group" :class="{'has-error': errors.has('tournament.name') }">
                             <label>{{$lang.tournament_name}}*</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"
-                                 v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
+                                <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
                             </div>
                             <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
                             <span class="help is-danger" v-show="errors.has('tournament_name')">Tournament name required</span>
@@ -44,67 +43,49 @@
                         </div>
                       </div>
                     </div>
-                    <div class="panel-group optional_details" id="accordion" role="tablist" aria-multiselectable="true">
-
-                    	<div class="panel panel-default">
-                        <div class="row">
-                      		<div class="panel-heading col-md-12" role="tab" id="headingOne">
-                            <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                               aria-expanded="true" aria-controls="collapseOne"><i id="opt_icon"  class="fa fa-plus"></i> {{$lang.tournament_show_optional_details}}
-                             </a>
-                            <div id="collapseOne" class="panel-collapse collapse panel-content in" role="tabpanel"
-                            aria-labelledby="headingOne">
-                              <div class="form-inline">
-                                <div class="form-group col-md-12 padding0">
-                                  <div class="col-md-6 padding0">
-                                    <div class="form-group row">
-                                        <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
-                                        <input type="text" class="col-md-7 form-control" v-model="tournament.website">
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 control-label">{{$lang. tournament_facebook}}</label>
-                                        <input type="text" class="col-md-7 form-control" v-model="tournament.facebook"
-                                       >
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 control-label">{{$lang. tournament_twitter}}</label>
-                                        <input type="text"
-                                        v-model="tournament.twitter"
-                                        class="col-md-7 form-control">
-                                    </div>
-                                  </div>
-                                  <div class="col-md-6 padding0">
-                                    <div class="form-group row">
-                                        <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
-                                        <div class="pull-right">
-                                            <div v-if="!image">
-                                              <button type="button" name="btnSelect" id="btnSelect">Choose file</button>
-                                                <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
-                                                <p class="help-block">Maximum size of 1 MB.</p>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingOne">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-controls="collapseOne">
+                                <i id="opt_icon"  class="fa fa-plus"></i> {{$lang.tournament_show_optional_details}}
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="card-block">
+                                <div class="form">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
+                                                <input type="text" class="col-md-7 form-control" v-model="tournament.website">
                                             </div>
-                                             <div v-else>
-                                            <img :src="image" width="40px" height="50px"/>
-                                            <button @click="removeImage">Remove image</button>
+                                            <div class="form-group row">
+                                                <label class="col-md-4 control-label">{{$lang. tournament_facebook}}</label>
+                                                <input type="text" class="col-md-7 form-control" v-model="tournament.facebook">
+                                            </div>
+                                            <div class="form-group row mb-0">
+                                                <label class="col-md-4 control-label">{{$lang. tournament_twitter}}</label>
+                                                <input type="text" v-model="tournament.twitter" class="col-md-7 form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
+                                                <div class="pull-right">
+                                                    <div v-if="!image">
+                                                        <button type="button" name="btnSelect" id="btnSelect">Choose file</button>
+                                                        <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
+                                                        <p class="help-block">Maximum size of 1 MB.</p>
+                                                    </div>
+                                                   <div v-else>
+                                                        <img :src="image" width="40px" height="50px"/>
+                                                        <button @click="removeImage">Remove image</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!--<div class="form-group row">
-                                        <label class="col-md-4 control-label">Sponsor banner</label>
-                                        <div class="pull-right">
-                                            <input type="file" value="Upload">
-                                            <p class="help-block">Maximum size of 1 MB.</p>
-                                        </div>
-                                    </div>-->
-                                  </div>
-                                  </div>
-                              </div>
-
+                                </div>
                             </div>
-
-                          </div>
-                           
-                          </div>
-
                         </div>
                     </div>
                     <div class="">
@@ -112,7 +93,6 @@
                     </div>
                     <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_first_name') }">
                         <label class="col-sm-2 form-control-label">{{$lang.tournament_first_name}}*</label>
-
                         <div class="col-sm-4">
                             <input type="text" class="form-control" name="tournament_contact_first_name"
                             v-model="tournament.tournament_contact_first_name"
@@ -121,11 +101,9 @@
                             <i v-show="errors.has('tournament_contact_first_name')" class="fa fa-warning"></i>
                             <span class="help is-danger" v-show="errors.has('tournament_contact_first_name')">{{$lang.tournament_validation_first_name}}</span>
                         </div>
-
                     </div>
                     <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_last_name') }">
                         <label class="col-sm-2 form-control-label">{{$lang.tournament_last_name}}*</label>
-
                         <div class="col-sm-4" >
                             <input type="text" class="form-control" placeholder=""
                             name="tournament_contact_last_name"
@@ -135,43 +113,37 @@
                             <i v-show="errors.has('tournament_contact_first_name')" class="fa fa-warning"></i>
                             <span class="help is-danger" v-show="errors.has('tournament_contact_first_name')">{{$lang.tournament_validation_last_name}}</span>
                         </div>
-
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label">{{$lang.tournament_telephone}}</label>
-
                         <div class="col-sm-4">
                             <input type="text" class="form-control"
                             v-model="tournament.tournament_contact_home_phone"
                             >
                         </div>
                     </div>
-
-                     <location :locations="locations"></location>
-                     <div class="row">
-                       <div class="col-sm-3">
+                    <location :locations="locations"></location>
+                    <div class="row">
+                        <div class="col-sm-3">
                           <button class="btn btn-success w-75" @click.prevent="addLocationClick">{{$lang.tournament_location_button}}</button>
-                      </div>
-                     </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <div class="pull-left">
-          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>{{$lang.tournament_button_home}}</button>
+        <div class="col-md-12">
+            <div class="pull-left">
+                <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>{{$lang.tournament_button_home}}</button>
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-primary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>{{$lang.tournament_button_next}}</button>
+            </div>
         </div>
-        <div class="pull-right">
-          <button class="btn btn-primary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>{{$lang.tournament_button_next}}</button>
-        </div>
-      </div>
     </div>
-
 </div>
-
 </template>
-
 <script type="text/babel">
 import location from '../../../components/Location.vue'
 import Tournament from '../../../api/tournament.js'
@@ -212,25 +184,20 @@ $('#btnSelect').on('click',function(){
       // we call Summary
       Tournament.tournamentSummaryData(this.tournamentId).then(
           (response) => {
-
             if(response.data.status_code == 200) {
               if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
               {
-
               this.tournament.tournament_contact_first_name = response.data.data.tournament_contact.first_name
               this.tournament.tournament_contact_last_name = response.data.data.tournament_contact.last_name
               this.tournament.tournament_contact_home_phone = response.data.data.tournament_contact.telephone
             }
               // Also Add Locations
-
               let locations = response.data.data.locations
               if(locations != undefined || locations != null )
               {
-
                   // Initially Set with Zero
                   this.locations = []
                   for(let i=0;i<locations.length;i++){
-
                     this.locations.push ({
                         tournament_venue_name: locations[i]['name'],
                         touranment_venue_address: locations[i]['address1'],
@@ -240,11 +207,9 @@ $('#btnSelect').on('click',function(){
                         tournament_venue_country: locations[i]['country']
                     });
                   }
-
               }
                 // this.tournamentSummary = response.data.data;
                 // fetch data and set it
-
             }
           },
           (error) => {
@@ -255,14 +220,11 @@ $('#btnSelect').on('click',function(){
       // here we set data from state for tournament
       this.tournament.name = this.$store.state.Tournament.tournamentName
       if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null) {
-
         this.image = '/assets/img/tournament_logo/'+this.$store.state.Tournament.tournamentLogo
       }
-
       this.tournament.website ='website'
       this.tournament.facebook ='facebook'
       this.tournament.twitter = 'twitter'
-
       var start_date = new Date(this.$store.state.Tournament.tournamentStartDate);
       // console.log('start date'+start_date)
       // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
@@ -274,21 +236,18 @@ $('#btnSelect').on('click',function(){
       'Edit Tournament'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
     } else {
-
       let tournamentAdd  = {name:'Your Tournament',
       currentPage:'TournamentAdd'}
       this.$store.dispatch('SetTournamentName', tournamentAdd)
     }
     // $('#tournament_start_date').val()
     if(start_date != ''){
-
       $('#tournament_start_date').datepicker('setDate', start_date)
     }
     let tEndDate = this.$store.state.Tournament.tournamentEndDate
     if(tEndDate!= ''){
         $('#tournament_end_date').datepicker('setDate', tEndDate)
     }
-
     $('#tournament_start_date').datepicker().on('changeDate',function(){
       $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
       $('#tournament_end_date').datepicker('clearDates')
@@ -325,7 +284,6 @@ $('#btnSelect').on('click',function(){
       var image = new Image();
       var reader = new FileReader();
       var vm = this;
-
       reader.onload = (e) => {
         vm.image = e.target.result;
       };
@@ -345,21 +303,17 @@ $('#btnSelect').on('click',function(){
            this.tournament.start_date = document.getElementById('tournament_start_date').value
             this.tournament.end_date = document.getElementById('tournament_end_date').value
             this.tournament.image_logo = this.image
-
             this.tournament.locations = this.locations
             // here we check if tournament id is Set then
             this.tournament.tournamentId = this.tournamentId
             // we can take length of how much we have to move for loop
             this.tournament.locationCount = this.customCount
             this.$store.dispatch('SaveTournamentDetails', this.tournament)
-
               // Display Toastr Message for add Tournament
               toastr['success']('Tournament details added successfully.', 'Success');
               // Now redirect to Comperation Format page
               // now here also check if tournament id is set then we push it
-
             setTimeout(this.redirectCompetation, 3000);
-
             // commit(types.SAVE_TOURNAMENT, response.data)
           },
           (error) => {
@@ -374,5 +328,5 @@ $('#btnSelect').on('click',function(){
         this.$router.push({name:'welcome'})
     }
   }
-} 
+}
 </script>
