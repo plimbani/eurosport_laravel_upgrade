@@ -55,12 +55,12 @@
                                         <label class="col-sm-5 form-control-label">Size *</label>
                                         <div class="col-sm-6">
                                             <select name="pitch_size" id="pitch_size"  v-model = "pitchData.pitchdetail.size"  class="form-control pull-left">
-                                                <option value="5-a-side" >5-a-side</option>
-                                                <option value="7-a-side">7-a-side</option>
-                                                <option value="8-a-side">8-a-side</option>
-                                                <option value="9-a-side">9-a-side</option>
-                                                <option value="11-a-side">11-a-side</option>
-                                                <option value="Handball">Handball</option>
+                                                 <option value="5-a-side" >{{$lang.pitch_modal_details_size_side}}</option>
+                                                <option value="7-a-side">{{$lang.pitch_modal_details_size_side_one}}</option>
+                                                <option value="8-a-side">{{$lang.pitch_modal_details_size_side_two}}</option>
+                                                <option value="9-a-side">{{$lang.pitch_modal_details_size_side_three}}</option>
+                                                <option value="10-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
+                                                <option value="Handball">{{$lang.pitch_modal_details_size_side_handball}}</option>
                                             </select>
                                         </div>
                                     </div>
