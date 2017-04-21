@@ -53,8 +53,9 @@ module.exports = {
   user_management_cancel: "Cancel",
   user_management_save: "Confirm",
   user_management_resend: "Re-send",
-  user_management_save: "Cancel",
   user_management_user_save:"Save",
+  user_management_user_cancle: "Cancel",
+
 
   tournament_manage_edition: "Select an existing edition",
   tournament_information: "Tournament information",
@@ -75,7 +76,7 @@ module.exports = {
   tournament_location_button: "Add location",
   tournament_location: "Location",
   tournament_venue: "Venue",
-  tournamemt_validation_venue: "Veune required",
+  tournamemt_validation_venue: "Venue required",
   tournament_validation_venue: "Venue name required",
   tournament_address: "Address",
   tournament_town_city: "Town/City",
