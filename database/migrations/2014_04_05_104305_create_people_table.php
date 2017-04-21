@@ -19,7 +19,7 @@ class CreatePeopleTable extends Migration
             $table->string('last_name',60)->nullable();
             $table->string('display_name',50)->nullable();
             $table->text('address')->nullable();
-            $table->timestamp('dob');
+            $table->timestamp('dob')->nullable();
             $table->text('bio')->nullable();
             $table->string('avatar')->nullable();
             $table->enum('gender', array('m', 'f', 'n'))->default('n');

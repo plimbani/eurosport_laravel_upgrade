@@ -24,7 +24,7 @@ class CreateFixturesTable extends Migration
             $table->integer('pitch_id')->unsigned()->index();
             $table->foreign('pitch_id')->references('id')->on('pitches');
             $table->datetime('match_datetime');
-            $table->integer('match_number');
+            $table->integer('match_number')->unsigned();
             $table->string('round');
             $table->string('home_team')->nullable();
             $table->string('away_team')->nullable();
