@@ -48,7 +48,7 @@ class UserRepository {
         'is_online' => 0,
         'is_active' => 0,
         'is_blocked' => 0 ,
-        'is_mobile_user' => 1
+        'is_mobile_user' => 0
         ];
         return User::create($userData);
     }
