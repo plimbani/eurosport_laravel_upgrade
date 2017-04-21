@@ -14,7 +14,7 @@ class CreateTournamentTemplateTable extends Migration
     public function up()
     {
         Schema::create('tournament_template', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned(10);
             $table->string('name')->nullable();
             $table->text('json_data');
             $table->string('total_teams',10);

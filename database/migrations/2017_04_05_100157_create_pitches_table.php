@@ -15,7 +15,7 @@ class CreatePitchesTable extends Migration
     {
         Schema::create('pitches', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('tournament_id')->unsigned()->index();
+            $table->integer('tournament_id')->unsigned()->index()->nullable();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->string('pitch_number',100);
             $table->enum('type', array('grass', 'artificial', 'Indoor', 'Other'));
@@ -23,7 +23,7 @@ class CreatePitchesTable extends Migration
             $table->integer('venue_id')->unsigned()->index();
             $table->foreign('venue_id')->references('id')->on('venues');
             $table->integer('time_slot')->nullable();
-            $table->string('availabiblity')->nullable();
+            $table->string('availability')->nullable();
             $table->text('comment')->nullable();
             $table->string('pitch_capacity')->nullable();
             $table->timestamps();

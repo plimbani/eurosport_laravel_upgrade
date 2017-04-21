@@ -26,8 +26,8 @@ class CreateTournamentsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->datetime('start_date');
             $table->datetime('end_date');
-            $table->integer('no_of_pitches')->nullable();
-            $table->integer('no_of_match_per_day_pitch')->nullable();
+            $table->integer('no_of_pitches')->nullable()->unsigned(10);
+            $table->integer('no_of_match_per_day_pitch')->nullable()->unsigned(10);
             $table->double('points_per_match_win',8,2)->nullable();
             $table->double('points_per_match_tie',8,2)->nullable();
             $table->double('points_per_bye',8,2)->nullable();
