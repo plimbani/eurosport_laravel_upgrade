@@ -228,6 +228,7 @@
 </div>
 </template>
 <script type="text/babel">
+var moment = require('moment');
 import location from '../../../components/Location.vue'
 import Tournament from '../../../api/tournament.js'
 export default {
@@ -311,7 +312,7 @@ $('#btnSelect').on('click',function(){
       this.tournament.website ='website'
       this.tournament.facebook ='facebook'
       this.tournament.twitter = 'twitter'
-      var start_date = new Date(this.$store.state.Tournament.tournamentStartDate);
+      var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
       // console.log('start date'+start_date)
       // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
       // document.getElementById('tournament_start_date').value
@@ -328,11 +329,15 @@ $('#btnSelect').on('click',function(){
     }
     // $('#tournament_start_date').val()
     if(start_date != ''){
+
       $('#tournament_start_date').datepicker('setDate', start_date)
     }
-    let tEndDate = this.$store.state.Tournament.tournamentEndDate
-    if(tEndDate!= ''){
+ let tEndDate = ''
+    if(this.$store.state.Tournament.tournamentEndDate!= ''){
+           tEndDate = new Date(moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
+          
         $('#tournament_end_date').datepicker('setDate', tEndDate)
+        
     }
     $('#tournament_start_date').datepicker().on('changeDate',function(){
       $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
@@ -412,7 +417,7 @@ $('#btnSelect').on('click',function(){
               toastr['success'](msg, 'Success');
               // Now redirect to Comperation Format page
               // now here also check if tournament id is set then we push it
-            setTimeout(this.redirectCompetation, 3000);
+            setTimeout(this.redirectCompetation, 2000);
             // commit(types.SAVE_TOURNAMENT, response.data)
           },
           (error) => {
