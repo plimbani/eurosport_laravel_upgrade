@@ -77,7 +77,7 @@
 																	<tr>
 																		<td>
 																			<p>
-																				<a hrfe="@php echo url('user/setpassword/'.$email_details['token']) @endphp" style="color: #0069ac;text-decoration: none;">@php echo url('user/setpassword/'.$email_details['token']) @endphp
+																				<a href="@php echo url('user/setpassword/'.$email_details['token']) @endphp" style="color: #0069ac;text-decoration: none;">@php echo url('user/setpassword/'.$email_details['token']) @endphp
 																				</a>
 																			</p>
 																		</td>
