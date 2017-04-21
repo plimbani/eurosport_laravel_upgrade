@@ -31,7 +31,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('is_active')->nullable();
             $table->timestamp('last_active_time')->nullable();
             $table->tinyInteger('is_blocked')->nullable();
-            $table->tinyInteger('is_mobile_user')->nullable();
+            $table->tinyInteger('is_mobile_user')->default(0)->nullable();
             $table->string('blocked_time')->nullable();
             $table->integer('blocker_id')->nullable();
             $table->string('settings')->nullable();
