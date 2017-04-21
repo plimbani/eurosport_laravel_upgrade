@@ -30,7 +30,7 @@ class UserRepository {
         } else if($registerType=="mobile") {
             $isMobileUser=1;
         }
-        return User::with(["personDetail", "roles"])->where('is_mobile_user', 0)->get();
+        return User::with(["personDetail", "roles"])->where('is_mobile_user', $isMobileUser)->get();
 
     }
 
