@@ -128,7 +128,7 @@ data-animation="false"
                   == 'other' "  class="form-group col-sm-3">
                    <input type="number" class="form-control" placeholder="" v-model="competation_format.game_duration_FM_other"min="0">
                   </span> 
-                  <span class="col-md-2 minutes-div">{{$lang.competation_modal_duration_final_minutes}}</span>
+                  <span class="col-md-2 minutes-div text-right">{{$lang.competation_modal_duration_final_minutes}}</span>
                   </div>
               </div>
           </div>
@@ -158,9 +158,14 @@ data-animation="false"
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.match_interval_RR">
                       <option value="5">5</option>
                       <option value="10">10</option>
-                      <option value="10">Other</option>                         
+                      <option value="other">Other</option>                         
                   </select>
-                  <span class="col-md-2 minutes-div">{{$lang.competation_modal_match_minutes}}</span>
+                  <span v-if="competation_format.match_interval_RR 
+                  == 'other' " class="form-group col-sm-3">
+                   <input type="number" placeholder="" v-model="competation_format.match_interval_RR_other" 
+                   min="0" class="form-control">
+                  </span>
+                  <span class="col-md-2 minutes-div text-right">{{$lang.competation_modal_match_minutes}}</span>
                   </div>
               </div>
           </div>
@@ -171,8 +176,13 @@ data-animation="false"
                     <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.match_interval_FM">
                         <option value="5">5</option>
                         <option value="10">10</option>
-                        <option value="10">Other</option>                           
+                        <option value="other">Other</option>                           
                     </select>
+                    <span v-if="competation_format.match_interval_FM 
+                  == 'other' " class="form-group col-sm-3">
+                   <input type="number" placeholder="" v-model="competation_format.match_interval_FM_other" 
+                   min="0" class="form-control">
+                  </span>
                     <span class="col-md-2 minutes-div">{{$lang.competation_modal_match_interval_final_minutes}}</span>
                     </div>
                 </div>
