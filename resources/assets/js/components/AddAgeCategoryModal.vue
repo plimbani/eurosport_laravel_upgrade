@@ -94,15 +94,18 @@ data-animation="false"
             </div>
           </div> 
           <div class="form-group row">
-              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_game_duration}}</label>
+              <label class="col-sm-5 form-control-label">{{$lang.competation_modal_game_duration}}2</label>
               <div class="col-sm-6">
                 <div class="row">
                   <span class="col-sm-2 multi-number padding0">2 <small>X</small></span>
-                  <select class="form-control ls-select2 col-sm-4" v-model="competation_format.game_duration_RR">
-                      <option value="20">10</option>
+                  <select class="form-control ls-select2 col-sm-4" v-model="competation_format.game_duration_RR" 
+                  >
+                  <option v-for="(item,key) in game_duration_rr_array[0]"
+                   v-bind:value="item">{{key}}</option>
+                      <!--<option value="20">10</option>
                       <option value="30">15</option>
                       <option value="40">20</option>
-                      <option value="other">Other</option>
+                      <option value="other">Other</option>-->
                       </select>
                   <span v-if="competation_format.game_duration_RR 
                   == 'other' " class="form-group col-sm-3">
@@ -119,10 +122,8 @@ data-animation="false"
                 <div class="row">
                   <span class="col-sm-2 multi-number padding0">2 <small>X</small></span>
                   <select class="form-control ls-select2 col-sm-4 " v-model="competation_format.game_duration_FM">
-                      <option value="20">10</option>
-                      <option value="30">15</option>
-                      <option value="40">20</option> 
-                      <option value="other">Other</option>
+                      <option v-for="(item,key) in game_duration_fm_array[0]"
+                   v-bind:value="item">{{key}}</option>
                     </select>
                    <span v-if="competation_format.game_duration_FM 
                   == 'other' "  class="form-group col-sm-3">
@@ -207,7 +208,9 @@ export default {
       game_duration_stage: 2,
       options: [],
       number_teams: '',
-      minimum_matches: ''
+      minimum_matches: '',
+      game_duration_rr_array:[],
+      game_duration_fm_array:[]
     }
   },
   mounted() {   
@@ -217,7 +220,18 @@ export default {
     $("#exampleModal").on('hide.bs.modal', function () {
        this1.competation_format = this1.initialState()      
     });
-
+    this.game_duration_rr_array.push ({
+      '10':'20',
+      '15':'30',
+      '20':'40',
+      'Other':'other' 
+    }); 
+     this.game_duration_fm_array.push ({
+      '10':'20',
+      '15':'30',
+      '20':'40',
+      'Other':'other' 
+    }); 
   },
   created: function() {
      this.$root.$on('setCompetationFormatData', this.setEdit); 
@@ -247,7 +261,33 @@ export default {
             // here we set some of values for Edit Form 
             this.competation_format = resp
             this.competation_format.ageCategory_name = resp.group_name;
-            this.competation_format.tournamentTemplate = this.getTemplateFromTemplates(resp.tournament_template_id);            
+            this.competation_format.tournamentTemplate = this.getTemplateFromTemplates(resp.tournament_template_id); 
+            
+            // Now here we have to append the value of game_duration
+            //this.game_duration_rr_array.push(['130':'320'])
+            if(this.competation_format.game_duration_RR != '20' && this.competation_format.game_duration_RR != '30' && this.competation_format.game_duration_RR != '40')
+            {  
+              let obj1=this.game_duration_rr_array[0]              
+              // Set Value in Array
+              obj1['other'] = this.competation_format.game_duration_RR
+              let gameRval = this.competation_format.game_duration_RR
+              // set option other for game_duration_rr
+              this.competation_format.game_duration_RR = 'other'
+              // set value in for other
+              this.competation_format.game_duration_RR_other = Math.floor(gameRval/2)
+            }
+            if(this.competation_format.game_duration_FM != '20' && this.competation_format.game_duration_FM != '30' && this.competation_format.game_duration_FM != '40')
+            {  
+              let obj1=this.game_duration_fm_array[0]              
+              // Set Value in Array
+              obj1['other'] = this.competation_format.game_duration_FM
+              let gameRval1 = this.competation_format.game_duration_FM
+              // set option other for game_duration_rr
+              this.competation_format.game_duration_FM = 'other'
+              // set value in for other
+              this.competation_format.game_duration_FM_other = Math.floor(gameRval1/2)
+            } 
+            
             this.competation_format.competation_format_id = resp.id
 
           },
