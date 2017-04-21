@@ -99,7 +99,10 @@ class TournamentRepository
             // $locationData['organiser'] =$data['tournament_venue_organiser'];
             if(isset($locationData['id']) && $locationData['id'] != 0){
            // Update Touranment Table Data 
-
+             if(isset($data['del_location']) && $data['del_location'] != 0)
+             {
+                $data = Venue::find($data['del_location'])->delete();
+             }   
              Venue::where('id', $locationData['id'])->update($locationData);
             } else {      
            //  TournamentContact::create($tournamentContactData);
