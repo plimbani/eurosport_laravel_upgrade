@@ -30,7 +30,6 @@ class CreateTempFixturesTable extends Migration
             $table->tinyInteger('awayteam_score')->nullable();
             $table->double('hometeam_point',8,2)->nullable();
             $table->integer('match_result_id')->unsigned()->nullable()->index();
-            $table->foreign('match_result_id')->references('id')->on('match_results');
             $table->double('awayteam_point',8,2)->nullable();
             $table->text('bracket_json')->nullable();
             $table->timestamps();
