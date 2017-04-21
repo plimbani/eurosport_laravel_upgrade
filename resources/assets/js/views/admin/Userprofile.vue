@@ -22,7 +22,7 @@
                         <div class="col-sm-6">
                             <div v-if="!image">
                              <img v-bind:src="'/assets/img/users/' + userData.image" width="60px" height="60px"/>
-                                    <button type="button" class="pull-right" name="btnImage" id="btnImage">Choose file</button>
+                                    <button type="button" name="btnImage" id="btnImage">Choose file</button>
                                     <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
                                     <p class="help-block">Maximum size of 1 MB.</p>
                             </div>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" @click="updateUser()">
-                        {{$lang.user_management_save}}
+                        {{$lang.user_management_user_save}}
                     </button>
                 </div>
             </div>
