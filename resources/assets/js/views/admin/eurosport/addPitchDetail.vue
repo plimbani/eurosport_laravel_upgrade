@@ -434,11 +434,13 @@ var moment = require('moment');
              // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
 
 
-
+             setTimeout(function(){
                 $('.ls-timepicker').timepicker({
                     minTime: '08:00:00',
                     maxTime: '18:00:00'
                 });
+             },1000)
+                
              this.getAllPitches()
              if(this.tournamentDays> 2) {
                     for(let i=3;i<=this.tournamentDays;i++){

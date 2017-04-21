@@ -53,9 +53,10 @@ class TournamentRepository
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
            // Update Touranment Table Data 
           $tournamentId = $data['tournamentId'];
-          unset($newdata['start_date']);
-          unset($newdata['end_date']);
-          
+          // unset($newdata['start_date']);
+          // unset($newdata['end_date']);
+          $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
+          $newdata['end_date'] = Carbon::createFromFormat('d/m/Y', $newdata['end_date']);
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
           
         } else {      
@@ -99,7 +100,10 @@ class TournamentRepository
             // $locationData['organiser'] =$data['tournament_venue_organiser'];
             if(isset($locationData['id']) && $locationData['id'] != 0){
            // Update Touranment Table Data 
-
+             if(isset($data['del_location']) && $data['del_location'] != 0)
+             {
+                $data = Venue::find($data['del_location'])->delete();
+             }   
              Venue::where('id', $locationData['id'])->update($locationData);
             } else {      
            //  TournamentContact::create($tournamentContactData);
