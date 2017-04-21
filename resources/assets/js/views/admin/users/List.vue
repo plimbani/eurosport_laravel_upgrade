@@ -241,6 +241,7 @@
             },
             updateUserList() {
                 axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
+                    console.log(response)
                     if('users' in response.data) {
                         this.userList.userData = response.data.users;
                         this.userList.userCount = response.data.users.length;
@@ -248,6 +249,9 @@
                         this.userList.userData = [];
                         this.userList.userCount = 0;
                     }
+                },
+                (error) => {
+                    console.log(error)
                 });
             },
             validateBeforeSubmit(){
@@ -256,7 +260,6 @@
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {
-                            console.log(hi);
                             toastr.success('User has been added succesfully.', 'Add User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                             this.$data.formValues = this.initialState();

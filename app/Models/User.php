@@ -38,6 +38,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
         'blocked_time',
         'blocker_id',
         'settings',
+        'is_mobile_user'
     ];
 
     /**

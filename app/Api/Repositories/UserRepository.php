@@ -24,17 +24,33 @@ class UserRepository {
     }
     public function getUsersByRegisterType($registerType)
     {
+
         if($registerType=="desktop") {
             $isMobileUser=0;
         } else if($registerType=="mobile") {
             $isMobileUser=1;
         }
         return User::with(["personDetail", "roles"])->where('is_mobile_user', $isMobileUser)->get();
+
     }
 
     public function create($data)
     {        
-        return User::create($data);
+        $userData = [
+        'person_id' => $data['person_id'],
+        'username' => $data['username'],
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'organisation' => $data['organisation'],
+        'password' => $data['password'],
+        'token' => $data['token'],
+        'is_verified' => 0,
+        'is_online' => 0,
+        'is_active' => 0,
+        'is_blocked' => 0 ,
+        'is_mobile_user' => 1
+        ];
+        return User::create($userData);
     }
 
     public function delete($id)
