@@ -88,19 +88,7 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['match_interval_RR']= $data['match_interval_RR'];
       $tournamentCompeationTemplate['match_interval_FM']= $data['match_interval_FM'];
       // TODO: Add New Code For more Other Options
-      // Impliclityly Add 2 For Multiplication
-      if($data['game_duration_RR'] == 'other') {
-        $tournamentCompeationTemplate['game_duration_RR'] = 2 * $data['game_duration_RR_other'];  
-      }
-      if($data['game_duration_FM'] == 'other') {
-        $tournamentCompeationTemplate['game_duration_FM'] = 2 * $data['game_duration_FM_other'];  
-      }
-      if($data['match_interval_RR'] == 'other') {
-        $tournamentCompeationTemplate['match_interval_RR'] = 2 * $data['match_interval_RR_other'];  
-      }
-      if($data['match_interval_FM'] == 'other') {
-        $tournamentCompeationTemplate['match_interval_FM'] = 2 * $data['match_interval_FM_other'];  
-      }
+      
       // TODO: Add total_teams and min_matches For particular Age Category
       $tournamentCompeationTemplate['total_teams'] =$data['tournamentTemplate']['total_teams'];
       $tournamentCompeationTemplate['min_matches']= $data['tournamentTemplate']['minimum_matches'];
@@ -239,7 +227,7 @@ class AgeGroupRepository
           // replace Fixture Name with Actual Group Name
           $fixture_n = str_replace('U17', $ageGroup,$fixture);  
           $teampfixtureTable->insert(
-            ['match_number'=>$fixture_n,'tournament_id'=>$tournamentId,'competition_id'=>$competationId,'home_team'=>$homeTeam,'match_result_id'=> 0,'away_team'=>$away_team]
+            ['match_number'=>$fixture_n,'tournament_id'=>$tournamentId,'competition_id'=>$competationId,'home_team'=>$homeTeam,'match_result_id'=> 0,'away_team'=>$away_team,'venue_id'=>0,'pitch_id'=>0]
           );
       }
       return true;

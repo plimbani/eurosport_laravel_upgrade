@@ -40,6 +40,20 @@ class AgeGroupService implements AgeGroupContract
         // Now here we set and Calculate and Save Data in 
         //  tournament_competation_template Table
         $data = $data['compeationFormatData'];
+        // TODO: Here we set the value for Other Data
+        // Impliclityly Add 2 For Multiplication
+        if($data['game_duration_RR'] == 'other') {
+          $data['game_duration_RR'] = 2 * $data['game_duration_RR_other'];  
+        }
+        if($data['game_duration_FM'] == 'other') {
+          $data['game_duration_FM'] = 2 * $data['game_duration_FM_other'];  
+        }
+        if($data['match_interval_RR'] == 'other') {
+          $data['match_interval_RR'] = 2 * $data['match_interval_RR_other'];  
+        }
+        if($data['match_interval_FM'] == 'other') {
+          $data['match_interval_FM'] = 2 * $data['match_interval_FM_other'];  
+        }
         // Todo : change For New Template
         $data['tournamentTemplate'] = $data['nwTemplate'];
         unset($data['nwTemplate']);
