@@ -97,10 +97,10 @@ class TournamentRepository
             $locationData['country'] =$location['tournament_venue_country'] ?? '';
             $locationData['tournament_id']=$tournamentId;
             // $locationData['organiser'] =$data['tournament_venue_organiser'];
-            if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
+            if(isset($locationData['id']) && $locationData['id'] != 0){
            // Update Touranment Table Data 
 
-             Venue::where('id', $location['tournament_location_id'])->update($locationData);
+             Venue::where('id', $locationData['id'])->update($locationData);
             } else {      
            //  TournamentContact::create($tournamentContactData);
              $locationId = Venue::create($locationData)->id;   

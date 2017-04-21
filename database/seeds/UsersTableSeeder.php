@@ -28,6 +28,7 @@ class UsersTableSeeder extends Seeder
             ['person_id' => '3','username' => 'superadmin2', 'user_image' => '1491572922.png',
             'name' => 'SuperAdmin', 'email' => 'moderator@moderator.com', 'organisation' => 'Euro-Sportring',
             'password' => bcrypt('password'), 'token' => '1','timezone' => '', 'is_mobile_user' => '0', 'settings' => '', 'remember_token' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
+
         ]);
     }
 }
