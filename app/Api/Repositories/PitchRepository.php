@@ -14,7 +14,7 @@ class PitchRepository
 
     public function getAllPitches($tournamentId)
     {
-        return Pitch::where('tournament_id',$tournamentId)->get();
+        return Pitch::with('pitchAvailability')->where('tournament_id',$tournamentId)->get();
     }
 
     public function createPitch($pitchData)

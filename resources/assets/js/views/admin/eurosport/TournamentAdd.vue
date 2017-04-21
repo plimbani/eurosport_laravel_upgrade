@@ -395,6 +395,7 @@ $('#btnSelect').on('click',function(){
             this.tournament.end_date = document.getElementById('tournament_end_date').value
             this.tournament.image_logo = this.image
             this.tournament.locations = this.locations
+            console.log(this.tournament.image_logo)
             // here we check if tournament id is Set then
             this.tournament.tournamentId = this.tournamentId
             // we can take length of how much we have to move for loop

@@ -56,7 +56,9 @@ class UserController extends BaseController
      */
     public function getUsersByRegisterType($registerType)
     {
-        return $this->userObj->getUsersByRegisterType($registerType);
+
+        return $userData =  $this->userObj->getUsersByRegisterType($registerType);
+
     }
 
     /**
