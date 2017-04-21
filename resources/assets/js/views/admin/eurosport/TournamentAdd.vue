@@ -234,7 +234,7 @@ export default {
   data() {
     return {
       tournament: {name:' ',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
-        image_logo:'',test_value:''
+        image_logo:'',test_value:'',del_location:'0'
       },
       locations: [
         {
@@ -381,7 +381,9 @@ $('#btnSelect').on('click',function(){
       e.preventDefault();
     },
     removeLocation (index){
-        this.locations.splice(index,1)
+       // here first we get the location id of it
+      this.tournament.del_location = this.locations[index].tournament_location_id
+      this.locations.splice(index,1)
     },
     next() {
       
