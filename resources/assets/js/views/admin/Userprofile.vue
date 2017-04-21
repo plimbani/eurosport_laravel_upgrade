@@ -27,8 +27,8 @@
                                     <p class="help-block">Maximum size of 1 MB.</p>
                             </div>
                             <div v-else>
-                                <img :src="image" width="40px" height="50px"/>
-                                <button @click="removeImage">Remove image</button>
+                                <img :src="image" width="60px" height="60px"/>
+                                <button class="pull-right" @click="removeImage">Remove image</button>
                             </div>
                         </div>      
                     </div>  
