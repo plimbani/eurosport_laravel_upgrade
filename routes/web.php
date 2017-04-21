@@ -15,7 +15,16 @@ Route::get('tournament/report/reportExport','\Laraspace\Api\Controllers\Tourname
     
     Route::post('password/email', '\Laraspace\Http\Controllers\Auth\ForgotPasswordController@resetlink' );
 
+    Route::get('user/setpassword/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
+    Route::post('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
+
 Route::get('/{vue?}', function () {
     return view('app');
-})->where('vue', '[\/\w\.-]*')->name('home123');
 
+})->where('vue', '[\/\w\.-]*')->name('home');
+
+// Route::get('setpassword/{sstoken}', '\Laraspace\Api\Controllers\UserController@setPassword');
+
+/*Route::post('/passwordactivate', [
+    'as' => 'password', 'uses' => 'UsersController@passwordActivate'
+]);*/

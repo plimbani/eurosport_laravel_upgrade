@@ -11,8 +11,8 @@
                             <label>{{$lang.tournament_name}}*</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
+                                <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
                             </div>
-                            <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
                             <span class="help is-danger" v-show="errors.has('tournament_name')">Tournament name required</span>
                         </div>
                       </div>
@@ -55,7 +55,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
-                                                <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
+                                                <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>  
                                                 <input type="text" class="col-md-7 form-control" v-model="tournament.website">
                                             </div>
                                             <div class="form-group row">
@@ -105,8 +105,7 @@
                     <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_last_name') }">
                         <label class="col-sm-2 form-control-label">{{$lang.tournament_last_name}}*</label>
                         <div class="col-sm-4" >
-                            <input type="text" class="form-control" placeholder=""
-                            name="tournament_contact_last_name"
+                            <input type="text" class="form-control" name="tournament_contact_last_name"
                             v-validate="'required'" :class="{'is-danger': errors.has('tournament_contact_last_name') }"
                             v-model="tournament.tournament_contact_last_name"
                             >
@@ -231,8 +230,6 @@
 <script type="text/babel">
 import location from '../../../components/Location.vue'
 import Tournament from '../../../api/tournament.js'
-var moment = require('moment');
-
 export default {
   data() {
     return {
@@ -308,20 +305,14 @@ $('#btnSelect').on('click',function(){
         );
       // here we set data from state for tournament
       this.tournament.name = this.$store.state.Tournament.tournamentName
-      let tournaLogo = this.$store.state.Tournament.tournamentLogo
-      
-      
-      if(tournaLogo.length != '0') {
-         this.image = '/assets/img/tournament_logo/'+this.$store.state.Tournament.tournamentLogo
+      if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null) {
+        this.image = '/assets/img/tournament_logo/'+this.$store.state.Tournament.tournamentLogo
       }
       this.tournament.website ='website'
       this.tournament.facebook ='facebook'
       this.tournament.twitter = 'twitter'
-      if(this.$store.state.Tournament.tournamentStartDate!= '' && typeof(this.$store.state.Tournament.tournamentStartDate) != 'undefined')
-      var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
-    else{
-      var start_date = new Date();
-    }
+      var start_date = new Date(this.$store.state.Tournament.tournamentStartDate);
+      // console.log('start date'+start_date)
       // var start_format_date = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear()
       // document.getElementById('tournament_start_date').value
       //         = start_format_date
@@ -332,7 +323,7 @@ $('#btnSelect').on('click',function(){
       this.$store.dispatch('setActiveTab', currentNavigationData)
     } else {
       let tournamentAdd  = {name:'Your Tournament',
-      currentPage:'TournamentAdd','tournamentStartDate': '','tournamentEndDate':'','tournamentDays': 0,'tournamentStatus': ''}
+      currentPage:'TournamentAdd'}
       this.$store.dispatch('SetTournamentName', tournamentAdd)
     }
     // $('#tournament_start_date').val()
@@ -342,7 +333,6 @@ $('#btnSelect').on('click',function(){
     let tEndDate = this.$store.state.Tournament.tournamentEndDate
     if(tEndDate!= ''){
         $('#tournament_end_date').datepicker('setDate', tEndDate)
-          $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
     }
     $('#tournament_start_date').datepicker().on('changeDate',function(){
       $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
@@ -409,21 +399,12 @@ $('#btnSelect').on('click',function(){
             this.tournament.tournamentId = this.tournamentId
             // we can take length of how much we have to move for loop
             this.tournament.locationCount = this.customCount
-            let msg=''
-            if(this.tournament.tournamentId == 0){
-              msg = 'Tournament details added successfully.'
-            } else {
-              msg = 'Tournament details edited successfully.'
-            }
             this.$store.dispatch('SaveTournamentDetails', this.tournament)
               // Display Toastr Message for add Tournament
-              
-            toastr['success'](msg, 'Success');
+              toastr['success']('Tournament details added successfully.', 'Success');
               // Now redirect to Comperation Format page
               // now here also check if tournament id is set then we push it
-            
-            //this.$router.push({name:'competation_format'})
-             setTimeout(this.redirectCompetation, 3000);
+            setTimeout(this.redirectCompetation, 3000);
             // commit(types.SAVE_TOURNAMENT, response.data)
           },
           (error) => {
@@ -432,8 +413,6 @@ $('#btnSelect').on('click',function(){
       )
     },
     redirectCompetation() {
-      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
-      this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name:'competation_format'})
     },
     backward() {
