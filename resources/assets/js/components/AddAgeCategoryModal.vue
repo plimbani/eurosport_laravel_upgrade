@@ -41,7 +41,7 @@ data-animation="false"
                   </option>
                   <option>Adults</option>
                 </select>
-                 <span class="help is-danger" v-show="errors.has('minimum_matches')">{{$lang.competation_modal_age_category_required}}</span>
+                 <span class="help is-danger" v-show="errors.has('category_age')">{{$lang.competation_modal_age_category_required}}</span>
               </div>  
               </div>
           </div>
@@ -157,9 +157,8 @@ data-animation="false"
               <div class="col-sm-6">
                  <div class="row">
                   <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.match_interval_RR">
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="other">Other</option>                         
+                     <option v-for="(item,key) in match_interval_rr_array[0]"
+                   v-bind:value="item">{{key}}</option>                        
                   </select>
                   <span v-if="competation_format.match_interval_RR 
                   == 'other' " class="form-group col-sm-3">
@@ -175,9 +174,8 @@ data-animation="false"
                 <div class="col-sm-6">
                  <div class="row">
                     <select class="form-control ls-select2 col-sm-4 pull-left" v-model="competation_format.match_interval_FM">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="other">Other</option>                           
+                     <option v-for="(item,key) in match_interval_fm_array[0]"
+                   v-bind:value="item">{{key}}</option>                              
                     </select>
                     <span v-if="competation_format.match_interval_FM 
                   == 'other' " class="form-group col-sm-3">
@@ -206,11 +204,12 @@ export default {
     return  {      
       competation_format: this.initialState(),
       game_duration_stage: 2,
-      options: [],
-      number_teams: '',
-      minimum_matches: '',
+      options: [], 
       game_duration_rr_array:[],
-      game_duration_fm_array:[]
+      game_duration_fm_array:[],
+      match_interval_rr_array:[],
+      match_interval_fm_array:[],
+      minimum_matches:'', number_teams: '',
     }
   },
   mounted() {   
@@ -231,7 +230,17 @@ export default {
       '15':'30',
       '20':'40',
       'Other':'other' 
+    });
+    this.match_interval_rr_array.push ({
+      '5':'5',
+      '10':'10',
+      'Other':'other' 
     }); 
+    this.match_interval_fm_array.push ({
+      '5':'5',
+      '10':'10',
+      'Other':'other' 
+    });
   },
   created: function() {
      this.$root.$on('setCompetationFormatData', this.setEdit); 
@@ -247,7 +256,7 @@ export default {
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:'',
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20' 
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:''
       }
     },
     setEdit(id) {
@@ -286,8 +295,32 @@ export default {
               this.competation_format.game_duration_FM = 'other'
               // set value in for other
               this.competation_format.game_duration_FM_other = Math.floor(gameRval1/2)
-            } 
+            }
             
+            if(this.competation_format.match_interval_RR != '5' && this.competation_format.match_interval_RR != '10')
+            {  
+              
+              let obj1=this.match_interval_rr_array[0]              
+              // Set Value in Array
+              obj1['other'] = this.competation_format.match_interval_RR
+              let matchRR = this.competation_format.match_interval_RR
+              // set option other for game_duration_rr
+              this.competation_format.match_interval_RR = 'other'
+              // set value in for other
+              this.competation_format.match_interval_RR_other = matchRR
+            }  
+            if(this.competation_format.match_interval_FM != '5' && this.competation_format.match_interval_FM != '10')
+            {  
+              
+              let obj1=this.match_interval_fm_array[0]              
+              // Set Value in Array
+              obj1['other'] = this.competation_format.match_interval_FM
+              let matchFM = this.competation_format.match_interval_FM
+              // set option other for game_duration_rr
+              this.competation_format.match_interval_FM = 'other'
+              // set value in for other
+              this.competation_format.match_interval_FM_other = matchFM
+            } 
             this.competation_format.competation_format_id = resp.id
 
           },
@@ -320,6 +353,7 @@ export default {
     },
     saveAgeCategory() {
       // Now here we have to Save it Age Catgory   
+      
       this.competation_format.tournament_id = this.$store.state.Tournament.tournamentId;
       let that = this
       let comp_id = that.competation_format.id?that.competation_format.id:''
@@ -328,6 +362,9 @@ export default {
       // this.competation_format.tournamentTemplate = this.options[0]
     // console.log(this.competation_format)
      this.competation_format.nwTemplate =  this.options[0]
+     // TODO : add minimum_matches and number_teams with competation format
+     this.competation_format.min_matches = this.minimum_matches
+     this.competation_format.total_teams = this.number_teams
      this.$validator.validateAll().then(
           (response) => {   
               Tournament.saveCompetationFormat(this.competation_format).then(
