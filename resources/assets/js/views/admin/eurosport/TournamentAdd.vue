@@ -357,7 +357,8 @@ $('#btnSelect').on('click',function(){
           tournament_venue_city: "",
           tournament_venue_postcode: "",
           tournament_venue_state: "",
-          tournament_venue_country: ""
+          tournament_venue_country: "",
+          tournament_location_id: ""
       });
     },
     onFileChange(e) {
