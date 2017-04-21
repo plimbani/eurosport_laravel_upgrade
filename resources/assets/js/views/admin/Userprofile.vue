@@ -28,7 +28,7 @@
                             </div>
                             <div v-else>
                                 <img :src="image" width="60px" height="60px"/>
-                                <button class="pull-right" @click="removeImage">Remove image</button>
+                                <button @click="removeImage">Remove image</button>
                             </div>
                         </div>      
                     </div>  

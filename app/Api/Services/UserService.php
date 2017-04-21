@@ -91,6 +91,10 @@ class UserService implements UserContract
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
+
+    public function resendEmail($data) {
+
+    }
     public function saveUsersLogo($data)
     { 
        if($data['user_image'] != '')
