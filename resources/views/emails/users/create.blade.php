@@ -36,7 +36,7 @@
 																				<tbody>
 																					<tr>
 																						<td>
-																							<img alt="Logo" src="{{ asset('assets/img/logo-desk.svg') }}" style="border-style:solid; border-width:0px; display:block; height:80px; width:250px" />
+																							<img alt="Logo" src="http://esr.aecordigitalqa.com/assets/img/logo-desk.svg" style="border-style:solid; border-width:0px; display:block; height:80px; width:250px" />
 																						</td>
 																					</tr>
 																				</tbody>
