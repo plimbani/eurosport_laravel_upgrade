@@ -25,7 +25,7 @@ class CreatePitchesTable extends Migration
             $table->integer('time_slot')->nullable();
             $table->string('availability')->nullable();
             $table->text('comment')->nullable();
-            $table->string('pitch_capacity')->nullable();
+            $table->string('pitch_capacity',20)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
