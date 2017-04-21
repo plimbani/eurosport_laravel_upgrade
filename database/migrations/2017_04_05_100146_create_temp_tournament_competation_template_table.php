@@ -14,7 +14,7 @@ class CreateTempTournamentCompetationTemplateTable extends Migration
     public function up()
     {
         Schema::create('tournament_competation_template', function (Blueprint $table) {
-            $table->increments('id')->nullable(10);
+            $table->increments('id')->unsigned(10);
             $table->integer('total_teams')->nullable();
             $table->integer('tournament_id')->unsigned()->index();
             $table->foreign('tournament_id')->references('id')->on('tournaments');

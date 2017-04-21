@@ -25,8 +25,7 @@ class CreateRefereeTable extends Migration
             $table->string('telephone')->nullable();
             $table->string('email')->nullable();
             $table->text('comments');
-            $table->integer('age_group_id')->index();
-            $table->foreign('age_group_id')->references('id')->on('tournament_competation_template');
+            $table->integer('age_group_id')->unsigned(10)->index();
             $table->timestamps();
             $table->softDeletes();
         });

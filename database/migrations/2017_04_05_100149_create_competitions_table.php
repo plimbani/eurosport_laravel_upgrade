@@ -16,7 +16,7 @@ class CreateCompetitionsTable extends Migration
         Schema::create('competitions', function (Blueprint $table) {
             $table->increments('id')->unsigned(10);
             $table->integer('tournament_competation_template_id')->unsigned()->index();
-            $table->foreign('tournament_competation_template_id')->references('id')->on('competitions');
+            $table->foreign('tournament_competation_template_id')->references('id')->on('tournament_competation_template');
             $table->integer('tournament_id')->unsigned()->index();
             $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade');
             $table->string('name');
