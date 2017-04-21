@@ -99,10 +99,9 @@
                             <div class="form-group row">
                                 <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                                 <div class="col-sm-6">
-                                     <button type="button" id="profile_image_file">Choose file</button>  
-                                      <div v-if="!image" style="display:none;">
-                                          <input type="file" name="userImg" id="userImg" @change="onFileChange">
-
+                                      <div v-if="!image">
+                                          <button type="button" id="profile_image_file">Choose file</button>  
+                                          <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.</p>
                                       </div>
                                        <div v-else>
@@ -134,8 +133,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-
-                            <button type="button" class="btn btn-primary" @click="validateBeforeSubmit()">{{$lang.user_management_save}}</button> 
+                            <button type="button" class="btn btn-primary" @click="validateBeforeSubmit()">{{$lang.user_management_user_save}}</button> 
 
                         </div>
                     </form>
