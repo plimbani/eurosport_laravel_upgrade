@@ -271,7 +271,9 @@ export default {
             this.competation_format = resp
             this.competation_format.ageCategory_name = resp.group_name;
             this.competation_format.tournamentTemplate = this.getTemplateFromTemplates(resp.tournament_template_id); 
-            
+            // set minimum matches and number of teams
+            this.number_teams = resp.total_teams
+            this.minimum_matches  = resp.min_matches
             // Now here we have to append the value of game_duration
             //this.game_duration_rr_array.push(['130':'320'])
             if(this.competation_format.game_duration_RR != '20' && this.competation_format.game_duration_RR != '30' && this.competation_format.game_duration_RR != '40')
