@@ -11,7 +11,7 @@
                 <div class="modal-footer">
 
                     <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-                    <button type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">{{$lang.user_management_resend}}</button>
+                    <button type="submit" class="btn btn-primary" @click.prevent="confirmResend()">{{$lang.user_management_resend}}</button>
                 </div>
                 <input name="_method" value="DELETE" type="hidden"/>
             </form>
