@@ -15,7 +15,7 @@ class CreateRefereeTable extends Migration
     {
         Schema::create('referee', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->nullable()->index();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('availability');
             $table->integer('tournament_id')->unsigned(10)->nullable()->index();
