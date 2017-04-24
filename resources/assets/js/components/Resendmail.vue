@@ -9,6 +9,7 @@
                 </div>
                 <div class="modal-body js-delete-confirmation-msg">{{ resendConfirm }}</div>
                 <div class="modal-footer">
+
                     <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
                     <button type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">{{$lang.user_management_resend}}</button>
                 </div>
@@ -24,7 +25,7 @@
             resendConfirm: String
         },
         methods: {
-            confirmDelete() {
+            confirmResend() {
                 this.$emit('confirmed');                
             }
         }
