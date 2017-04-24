@@ -112,7 +112,7 @@ data-animation="false"
                    <input type="number" placeholder="" v-model="competation_format.game_duration_RR_other" 
                    min="0" class="form-control">
                   </span>    
-                  <span class="col-md-3 minutes-div text-right">{{$lang.competation_modal_duration_final_minutes}}</span>
+                  <span class="col-md-2 minutes-div text-right">{{$lang.competation_modal_duration_final_minutes}}</span>
                 </div>
               </div>
           </div>
