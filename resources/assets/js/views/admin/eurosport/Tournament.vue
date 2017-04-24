@@ -16,7 +16,7 @@
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
-									role="tab" @click="currentView='scheduleResults'">{{$lang.summary_label_schedule}}</a>
+									role="tab" @click="currentView='scheduleResultsAdmin'">{{$lang.summary_label_schedule}}</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" 
@@ -36,7 +36,7 @@
 
 import SummaryTab from '../../../components/SummaryTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
-import ScheduleResults from '../../../components/ScheduleResults.vue'
+import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
 
 export default {
@@ -47,7 +47,7 @@ export default {
        }
     },	
     components: {
-        SummaryTab, SummaryReport, ScheduleResults, Messages
+        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages
     },
     mounted() {
     	let tournamentId = this.$store.state.Tournament.tournamentId
