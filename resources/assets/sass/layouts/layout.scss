@@ -134,7 +134,7 @@
             }
             a,
             &:not(:first-child) span {
-                height: 36px;
+                // height: 36px;
                 padding: 0 10px 0 25px;
                 line-height: 36px;
             }
@@ -146,7 +146,7 @@
                 color: #fff;
                 text-decoration: none;
                 background-color: $ls-color-primary;
-                border: 1px solid $ls-color-primary;
+                // border: 1px solid $ls-color-primary;
             }
             &:first-child a {
                 padding-left: 10px;
@@ -154,36 +154,36 @@
             a {
                 &:after {
                     position: absolute;
-                    top: -1px;
+                    top: 0px;
                     width: 0;
                     height: 0;
                     content: '';
                     border-top: 18px solid transparent;
                     border-bottom: 18px solid transparent;
+                    border-left: 13px solid darken($ls-color-primary,20%);
                 }
                 &:before {
                     position: absolute;
-                    top: -1px;
+                    top: 0px;
                     width: 0;
                     height: 0;
                     content: '';
                     border-top: 18px solid transparent;
                     border-bottom: 18px solid transparent;
-                    right: -12px;
+                    right: -11px;
                     z-index: 3;
                     border-left-color: $ls-color-primary;
                     border-left-style: solid;
-                    border-left-width: 11px;
+                    border-left-width: 13px;
                 }
                 &:after {
                     right: -13px;
                     z-index: 2;
-                    border-left: 12px solid darken($ls-color-primary,20%);
                 }
                 &:focus,
                 &:hover {
                     background-color: darken($ls-color-primary,5%);
-                    border: 1px solid darken($ls-color-primary,5%);
+                    // border: 1px solid darken($ls-color-primary,5%);
                 }
                 &:focus:before,
                 &:hover:before {
@@ -191,7 +191,7 @@
                 }
                 &:active {
                     background-color: darken($ls-color-primary,5%);
-                    border: 1px solid darken($ls-color-primary,5%);
+                    // border: 1px solid darken($ls-color-primary,5%);
                     &:after,
                     &:before {
                         border-left-color: darken($ls-color-primary,5%);
