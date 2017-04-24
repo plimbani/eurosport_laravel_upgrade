@@ -4,7 +4,7 @@
             <div class="card-block">
                 <h6 class=""><strong>{{$lang.pitch_capacity}}</strong></h6>
                 <div class="row">
-                    <div class="col-md-1 pitch-capaciry"    v-for="pitch in pitches">
+                    <div class="col-md-1 pitch-capaciry" v-for="pitch in pitches">
                         <p><strong>{{pitch.pitch_number}}</strong></p>
                         <img src="/assets/img/pitch.png">
                         <p>
