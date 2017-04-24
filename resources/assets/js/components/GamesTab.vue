@@ -4,10 +4,9 @@
 			<div class="col-md-12">
 				<div v-if="competition.matchList.length > 0" v-for="(competition,index) in competitionWithGames">
 					<h6><strong>{{competition.group_name}}</strong></h6>
-					<div class="yellow_bg text-center mt-3"  v-for="match in competition.matchList">
-						<span>{{match.matchName}}</span>
-						<span>{{match.fullGame}}</span>
-						<span>({{match.matchTime}} min)</span>
+					<div class="text-center mt-3" v-for="match in competition.matchList" 
+						:data-text="match.matchName">
+						<draggable-match-event :match="match"></draggable-match-event>
 					</div>
 				</div>
 				<div class="dark_grey_bg text-center">
@@ -18,9 +17,13 @@
 	</div>
 </template>
 <script type="text/babel">
+	import DraggableMatchEvent from './DraggableMatchEvent';
 	import Tournament from '../api/tournament.js'
 	import _ from 'lodash'
 export default {
+	components: {
+		DraggableMatchEvent
+	},
 	data() {
 		return {
 			tournamentId: this.$store.state.Tournament.tournamentId,
@@ -73,16 +76,17 @@ export default {
 				this.matches = response.data.data
 			}
 		)
-		this.displayTournamentCompetationList()
+		this.displayTournamentCompetationList();	
 	},
-	methods: {
+	methods: {		
 		displayTournamentCompetationList () {
 		// Only called if valid tournament id is Present
 			if (!isNaN(this.tournamentId)) {
 			  // here we add data for 
 			  let TournamentData = {'tournament_id': this.tournamentId}
 			  Tournament.getCompetationFormat(TournamentData).then(
-			  (response) => {          
+			  (response) => {     
+			  // console.log(response.data,'hi');     
 				this.competationList = response.data.data   
 				// this.matchFixture()      
 				// console.log(this.competationList);
