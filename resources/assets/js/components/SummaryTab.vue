@@ -1,48 +1,46 @@
 <template>
 	<div class="tab-content summary-content">
 		<div class="row">
-			<div class="col-md-12">
-				<div class="pull-left col-md-6 padding0">
-					<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
-						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" 
-						class="mr-2">
-					</label>
-					<label>
-						<h5>{{tournamentName}}</h5>
-					</label>
-					<div class="clearfix"></div>
+			<div class="col-md-6">
+				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
+					<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" 
+					class="mr-2">
+				</label>
+				<label>
+					<h5>{{tournamentName}}</h5>
+				</label>
+				<div class="clearfix"></div>
 
-					<span><strong>{{$lang.summary_location}}:</strong> </span>
-					<span><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</span>
+				<span><strong>{{$lang.summary_location}}:</strong> </span>
+				<span><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</span>
 
-				</div>
-				<div class="pull-right col-md-6 padding0 text-right">
-					<span><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
-					
-					<span v-if="tournamentStatus == 'Published'">
-					   <button type="button" data-toggle="modal" 
-					data-target="#publish_modal" 
-					class="btn btn-primary col-md-4">
-					{{$lang.summary_button_unpublish}}</button><br>					 
-					<UnPublishedTournament>
-					</UnPublishedTournament>
-					</span>
-					<span v-else>
-					  <button type="button" data-toggle="modal" 
-					data-target="#publish_modal" 
-					class="btn btn-primary col-md-4">
-					{{$lang.summary_button_publish}}</button><br>
-					<PublishTournament :tournamentStatus='tournamentStatus'>
-					</PublishTournament>
-					</span>
-					
-					<button type="button" data-toggle="modal" 
-					data-confirm-msg="Are you sure you would like to delete this user record?"
-					data-target="#delete_modal"
-					class="btn btn-danger col-md-4 mt-3">{{$lang.summary_button_delete}}</button>
-					<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-					<!--<DeleteTournament></DeleteTournament>-->
-				</div>
+			</div>
+			<div class="col-md-6 text-right">
+				<span><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
+				
+				<span v-if="tournamentStatus == 'Published'">
+				   <button type="button" data-toggle="modal" 
+				data-target="#publish_modal" 
+				class="btn btn-primary col-md-4">
+				{{$lang.summary_button_unpublish}}</button><br>					 
+				<UnPublishedTournament>
+				</UnPublishedTournament>
+				</span>
+				<span v-else>
+				  <button type="button" data-toggle="modal" 
+				data-target="#publish_modal" 
+				class="btn btn-primary col-md-4">
+				{{$lang.summary_button_publish}}</button><br>
+				<PublishTournament :tournamentStatus='tournamentStatus'>
+				</PublishTournament>
+				</span>
+				
+				<button type="button" data-toggle="modal" 
+				data-confirm-msg="Are you sure you would like to delete this user record?"
+				data-target="#delete_modal"
+				class="btn btn-danger col-md-4 mt-3">{{$lang.summary_button_delete}}</button>
+				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+				<!--<DeleteTournament></DeleteTournament>-->
 			</div>
 		</div>
 		<div class="clearfix mt-4"></div>
