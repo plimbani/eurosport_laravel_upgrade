@@ -42,6 +42,10 @@ mix.combine([
     pluginPath + 'alertify/alertify.js',
     pluginPath + 'easypiecharts/jquery.easypiechart.js',
     pluginPath + 'metisMenu/metisMenu.js',
+    pluginPath + 'fullcalendar/lib/moment.min.js',
+    pluginPath + 'fullcalendar/fullcalendar.js',
+    pluginPath + 'fullcalendar-scheduler/scheduler.js',
+    pluginPath + 'fullcalendar/draggable.js'
 ],'public/assets/js/core/plugins.js')
 
 .js('resources/assets/js/app.js','public/assets/js/')
