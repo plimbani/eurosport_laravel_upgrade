@@ -22,11 +22,12 @@
 											</li>
 										</ul>
 										<div class="tab-content summary-content">
-											<div class="card">
+										<component :is="currentView" :currentView="currentView"></component>
+											<!--<div class="card">
 												<div class="card-block">
 													<component :is="currentView" :currentView="currentView"></component>
 												</div>
-											</div>
+											</div> -->
 										</div>
 									</div>
 								</div>
