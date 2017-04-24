@@ -20,11 +20,15 @@
                     <i class="jv-icon jv-calendar"></i>&nbsp;<span id="date">{{date}}</span>
                 </li>
                 <li>
-                    <a href="#" data-toggle="dropdown"  class="avatar"><img src="/assets/img/avatars/avatar.png" alt="Avatar"></a>
+                    <a href="#" data-toggle="dropdown"  class="avatar">
+                        <img v-if="userData.image" :src="'/assets/img/users/'+userData.image" alt="Avatar">
+                        <img v-else src="/assets/img/avatars/avatar.png" alt="Avatar">
+
+                        </a>
                 </li>
                 <li>
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" aria-haspopup="true" data-close-others="true" aria-expanded="true">              
-                        <span class="username username-hide-on-mobile">{{$lang.siteheader_name}}</span> 
+                        <span class="username username-hide-on-mobile">{{userData.name}}</span> 
                     </a>
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                         <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
@@ -81,22 +85,41 @@
                 'curTime': '' ,
                 'name': '',
                 'image': '',
-                'userData':{}
+                'userData':this.$store.state.Users.userDetails
             }
         },
-
-
+        // computed: {
+        //     userData: function() {
+        //         if(this.$store.state.Users.userDetails) {
+        //             return this.$store.state.Users.userDetails
+        //         }else{
+        //             return this.initialState()
+        //         }
+                
+        //     }
+        // },
         mounted() {
         let this1 = this
         setInterval(function(){this1.clock() },1000)
         let that = this
         if(this.id!=''){
-        setTimeout(function(){
-            that.editUser(that.id)
-        },2000)
+            setTimeout(function(){
+                that.editUser(that.id)
+            },2000)
         }
          },
         methods : {
+            initialState() {
+                return {
+                    id: '',
+                    name: '',
+                    surname: '',
+                    emailAddress: '',
+                    organisation: '',
+                    userType: '',
+                    user_image: ''
+                }
+            },
             onNavToggle(){
                 Layout.toggleSidebar()
             },
@@ -108,7 +131,6 @@
             editUser(id) {
                 this.userModalTitle="Edit User";
                 axios.get("/api/user/edit/"+id).then((response) => {
-                console.log(response.data);
                     this.$data.userData = response.data;
                     
                 });

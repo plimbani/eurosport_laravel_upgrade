@@ -80,7 +80,7 @@ computed: {
          // Now here we are call and fetch user details
          let userData = {'email':email}
          that.$store.dispatch('getUserDetails', userData);
-          this.userDetails = this.$store.state.Users.userDetails          
+          that.userDetails = that.$store.state.Users.userDetails          
        }
         let tournamentAdd  = {name:'', 'currentPage':'Home'}  
              
