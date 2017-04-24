@@ -21,8 +21,10 @@
                         <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                         <div class="col-sm-6">
                             <div v-if="!image">
-                             <img v-bind:src="'/assets/img/users/' + userData.image" width="60px" height="60px"/>
-                                    <button type="button" name="btnImage" id="btnImage">Choose file</button>
+                             <img v-if="userData.image" v-bind:src="'/assets/img/users/' + userData.image" width="60px" height="60px"/>
+                            <img v-else src="http://placehold.it/60x60" width="60px" height="60px"/>
+
+                                    <button type="button" class="pull-right" name="btnImage" id="btnImage">Choose file</button>
                                     <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
                                     <p class="help-block">Maximum size of 1 MB.</p>
                             </div>

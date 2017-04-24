@@ -15,11 +15,9 @@ const getters = {
 const actions = {
  
   getUserDetails ({commit},userDetails) { 
-    
     Users.getUserDetails(userDetails).then (
       (response) => {      
         if(response.data.status_code == 200)
-          console.log(response.data.data[0])
             commit(types.GET_USER_DETAILS, response.data.data[0])   
 
       },
@@ -34,7 +32,6 @@ const actions = {
 const mutations = {  
   [types.GET_USER_DETAILS] (state, userDetails) {        
     //alert(JSON.stringify(currentTournamentName))
-    console.log(userDetails)
     state.userDetails = userDetails
   }   
 }

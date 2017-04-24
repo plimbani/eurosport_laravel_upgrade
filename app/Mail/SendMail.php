@@ -9,31 +9,36 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendMail extends Mailable
 {
-    use Queueable, SerializesModels;
+   use Queueable, SerializesModels;
+   
+   public $email_details;
+   public $view_name;
+   public $from_email;
+   public $subject = "Eurosport | Support";
 
-    public $email_details;
-    public $view_name;
-    public $subject = "Eurosport | Support";
+   /**
+    * Create a new message instance.
+    *
+    * @return void
+    */
+   public function __construct($email_details, $subject, $view_name, $from_email = null)
+   {
+       $this->subject = $subject;
+       $this->view_name = $view_name;
+       $this->email_details = $email_details;
+       $this->from_email = $from_email;
+   }
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct($email_details, $subject, $view_name)
-    {
-        $this->subject = $subject;
-        $this->view_name = $view_name;
-        $this->email_details = $email_details;
-    }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this->view($this->view_name);
-    }
+   /**
+    * Build the message.
+    *
+    * @return $this
+    */
+   public function build()
+   {
+       if (!empty($this->from_email)) {
+           return $this->from($this->from_email)->view($this->view_name);
+       }
+       return $this->view($this->view_name);
+   }
 }

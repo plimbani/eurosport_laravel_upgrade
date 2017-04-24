@@ -345,10 +345,13 @@ var moment = require('moment');
             this1.stage_date.push(obj)
             $('.ls-datepicker').datepicker('setDatesDisabled', this1.disableDate);
             this1.stage_capacity.push(capacity)
-            $('.ls-timepicker').timepicker({
+            setTimeout(function(){
+                $('.ls-timepicker').timepicker({
                     minTime: '08:00:00',
                     maxTime: '18:00:00'
-                });    
+                });
+             },500)
+             
             $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
                // this.stageCapacityCalc(1)
                // console.log($(this)[0].class)
