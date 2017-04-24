@@ -277,7 +277,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                  
                 setTimeout(function(){
                     $('#addPitchModal').modal('show')
-                },500)
+                },1000)
             },
             editPitch(pitchId) {
                 this.$store.dispatch('SetPitchId',pitchId);
