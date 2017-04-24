@@ -116,10 +116,10 @@ $api->version('v1', function ($api) {
     
     $api->post('user/update/{id}', 'Laraspace\Api\Controllers\UserController@update')->name('update.users');
     $api->post('user/delete/{id}', 'Laraspace\Api\Controllers\UserController@deleteUser')->name('delete.users');
+
    
     $api->get('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');    
     //resend email
-
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
 
 
