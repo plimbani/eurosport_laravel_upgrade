@@ -3,8 +3,9 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="pull-left col-md-6 padding0">
-					<label>
-						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" v-if="(tournamentLogo != null && tournamentLogo != '' )"  class="mr-2">
+					<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
+						<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" 
+						class="mr-2">
 					</label>
 					<label>
 						<h5>{{tournamentName}}</h5>
