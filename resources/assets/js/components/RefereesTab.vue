@@ -8,8 +8,7 @@
 				<AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId"></AddRefereesModel>
 				<div class="raferee_list">
 					<div class="raferee_details" @click="editReferee(referee.id)" v-for="referee in referees">
-						<img src="/assets/img/user_icon.png" width="40">
-						<p>{{referee.first_name}}</p>
+						<draggable-referee :referee="referee"></draggable-referee>
 					</div>
 				</div>
 			</div>
@@ -18,6 +17,7 @@
 </template>
 
 <script type="text/babel">
+  import DraggableReferee from './DraggableReferee';
 	import AddRefereesModel from './AddRefereesModel.vue'
 	import addReferee from '../components/AddReferee.vue'
 	import Tournament from '../api/tournament.js'
@@ -33,7 +33,7 @@
                 }
         },
 		components: {
-		    AddRefereesModel
+		    AddRefereesModel, DraggableReferee
 		},
 		mounted(){
             this.getAllReferee()
