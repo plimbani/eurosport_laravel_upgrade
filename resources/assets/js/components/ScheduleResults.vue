@@ -39,13 +39,9 @@
 									</div>
 								</div>
 							</div>
-						</div>
-							<!--<div class="col-md-4">
-								<button type="button" class="btn btn-primary pull-right">{{$lang.summary_schedule_button_print}}</button>
-							</div>-->
+						</div>						
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
