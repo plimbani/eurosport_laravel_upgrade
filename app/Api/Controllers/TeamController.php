@@ -58,9 +58,9 @@ class TeamController extends BaseController
     public function createTeam(Request $request)
     {
         $file = $request->file('fileUpload');
-        $this->data['teamSize'] =  $request['teamSize'];
-        $this->data['tournamentId'] = $request['tournamentId'];
-        $this->data['ageCategory'] = $request['ageCategory'];
+        $this->data['teamSize'] =  $request->teamSize;
+        $this->data['tournamentId'] = $request->tournamentId;
+        $this->data['ageCategory'] = $request->ageCategory;
 
         // $this->teamObj->deleteFromTournament($request->tournamentId);
         // dd($this->data['tournamentId']);

@@ -41,7 +41,7 @@
                 <li class="text-left">{{$lang.welcome_add_new_tournament_publish}}!</li>
               </ol> 
             </div>
-            <button class="btn btn-primary col-sm-8 btn-theme" @click="addNewTournament()" v-if="(userDetails.role_name == 'Tournament administrator' || userDetails.role_name == 'Internal administrator') ">{{$lang.welcome_add_user}}</button>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="addNewTournament()" v-if="(userDetails.role_name == 'Tournament administrator' || userDetails.role_name == 'Internal administrator') ">{{$lang.welcome_add_user}} </button>
             <button class="btn btn-primary col-sm-8 btn-theme" @click="userList()" v-else>{{$lang.welcome_add_new_user}}</button>
             <br>          
         </div>

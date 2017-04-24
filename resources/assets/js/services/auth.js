@@ -25,6 +25,7 @@ export default {
     logout(){
         return axios.get('/api/auth/logout').then(response =>  {
             Ls.remove('auth.token')
+            Ls.remove('email')
             toastr['success']('Logged out!', 'Success');
         }).catch(error => {
             console.log('Error', error.message);
