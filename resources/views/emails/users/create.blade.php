@@ -36,7 +36,7 @@
 																				<tbody>
 																					<tr>
 																						<td>
-																							<img alt="Logo" src="{{ asset('assets/img/logo-desk.svg') }}" style="border-style:solid; border-width:0px; display:block; height:80px; width:250px" />
+																							<img alt="Logo" src="http://esr.aecordigitalqa.com/assets/img/logo-desk.svg" style="border-style:solid; border-width:0px; display:block; height:80px; width:250px" />
 																						</td>
 																					</tr>
 																				</tbody>
@@ -77,7 +77,7 @@
 																	<tr>
 																		<td>
 																			<p>
-																				<a hrfe="@php echo url('user/setpassword/'.$email_details['token']) @endphp" style="color: #0069ac;text-decoration: none;">@php echo url('user/setpassword/'.$email_details['token']) @endphp
+																				<a href="@php echo url('user/setpassword/'.$email_details['token']) @endphp" style="color: #0069ac;text-decoration: none;">@php echo url('user/setpassword/'.$email_details['token']) @endphp
 																				</a>
 																			</p>
 																		</td>

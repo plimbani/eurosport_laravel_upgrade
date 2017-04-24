@@ -70,22 +70,22 @@ computed: {
         // this.userDetails = this.$store.state.Users.userDetails
    
     let that = this
-    // setTimeout(function(){
+     setTimeout(function(){
     //   // console.log(userDetails.length,'hh')
-    //   if(userDetails.length == 0)
-    //   {
+       if(userDetails.length == 0)
+       {
         
-    //     let email = Ls.get('email');
+         let email = Ls.get('email');
           
-    //     // Now here we are call and fetch user details
-    //     let userData = {'email':email}
-    //     that.$store.dispatch('getUserDetails', userData);
-    //     // this.userDetails = this.$store.state.Users.userDetails
-    //   }
-    //    let tournamentAdd  = {name:'', 'currentPage':'Home'}  
+         // Now here we are call and fetch user details
+         let userData = {'email':email}
+         that.$store.dispatch('getUserDetails', userData);
+          this.userDetails = this.$store.state.Users.userDetails          
+       }
+        let tournamentAdd  = {name:'', 'currentPage':'Home'}  
              
-    //   that.$store.dispatch('SetTournamentName', tournamentAdd)
-    // },1000)
+       that.$store.dispatch('SetTournamentName', tournamentAdd)
+     },1000)
 
 
      
