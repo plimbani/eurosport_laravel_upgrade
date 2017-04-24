@@ -36,7 +36,8 @@
 																				<tbody>
 																					<tr>
 																						<td>
-																							<img alt="Logo" src="http://esr.aecordigitalqa.com/assets/img/logo-desk.svg" style="border-style:solid; border-width:0px; display:block; height:80px; width:250px" />
+																							<img alt="Logo" 
+																							src="http://esr.aecordigitalqa.com/assets/img/logo-desk.svg" style="border-style:solid; border-width:0px; display:block; height:80px; width:250px" />
 																						</td>
 																					</tr>
 																				</tbody>
@@ -99,32 +100,7 @@
 													</tr>
 													<tr>
 														<td>
-															<p>Copyright 2017 Euro-Sportring. All rights reserved. Developer by aecor.</p>
-															{{-- <p>Kind regards
-																<br />
-																<br />
-																The Admin Team
-																<br />
-																&nbsp;
-															</p>
-															<p>
-																<span style="color:#008000">
-																	<strong>My</strong>
-																</span>
-																<strong>Club Betting</strong>
-															</p>
-															<p>
-																<span style="color:#333333; font-size:13px">
-																	<strong>Tel:</strong> 01883 772930
-																	<br />
-																	<strong>Email:</strong> admin@myclubbetting.com 
-																	<br />
-																	<strong>Web:</strong>
-																	<a href="http://www.myclubbetting.com ">www.myclubbetting.com </a>
-																	<br />
-																	<strong>Address:</strong> Ground Floor South, Maybrook House, 97 Godstone Road, Caterham CR3 6RE
-																</span>
-															</p> --}}
+															<p>Copyright 2017 Euro-Sportring. All rights reserved. Developer by aecor.</p>															
 														</td>
 													</tr>
 												</tbody>
