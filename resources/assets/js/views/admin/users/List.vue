@@ -34,7 +34,7 @@
                                         <td v-if="user.is_verified == 1">Accepted</td>
                                       
                                         <td class="text-center" v-else>
-                                        <a href="#"  @click="resendModalOpen()"><u>Re-send</u></a>
+                                        <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                         </td> 
                                         <td>
                                             <a href="javascript:void(0)" data-toggle="modal" data-target="#user_form_modal" @click="editUser(user.id)"><i class="jv-icon jv-edit"></i></a>
@@ -188,6 +188,7 @@
                     organisation: '',
                     userType: '',
                     user_image: '',
+                    resendEmail: ''
                 }
             },
             getRoles() {
@@ -196,7 +197,9 @@
                 });
             },
             resendConfirmed() {
-                axios.get("/api/passwordactivate").then((response) => {
+                let emailData = this.resendEmail
+
+                axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
                     $("#resend_modal").modal("hide");
                      toastr.success('Mail has been send succesfully.', 'Mail sent', {timeOut: 5000});
                 });
@@ -205,7 +208,8 @@
                 this.$data.formValues = this.initialState();
                 this.userModalTitle="Add User";
             },
-            resendModalOpen() {
+            resendModalOpen(data) {
+                this.resendEmail = data
                 $('#resend_modal').modal('show');
 
             },
