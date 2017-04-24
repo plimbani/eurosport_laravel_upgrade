@@ -2,24 +2,23 @@
 
     th,
     td {
-        font-size: 0.9rem;
-        vertical-align: middle;
+        padding: 1.25em;
     }
 
-    th {
-        color: $heading-font-color;
-        font-weight: 600;
-        background-color: #F2F2F2;
-    }
-    td {
-    border-top: 0;
-    }
+    // th {
+    //     color: $heading-font-color;
+    //     font-weight: 600;
+    //     background-color: #F2F2F2;
+    // }
+    // td {
+    // border-top: 0;
+    // }
 }
 
-.card-block .table {
-    /*margin-top: -10px;*/
+// .card-block .table {
+//     /*margin-top: -10px;*/
 
-    th {
-        border-top: none;
-    }
-}
+//     th {
+//         border-top: none;
+//     }
+// }

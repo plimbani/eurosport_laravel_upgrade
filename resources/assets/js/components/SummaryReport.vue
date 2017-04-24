@@ -1,7 +1,7 @@
 <template>
 	<div class="tab-content summary-report-content">
-		<h6><strong>{{$lang.summary_reports}}</strong></h6>
-		<div class="row">
+		<h5>{{$lang.summary_reports}}</h5>
+		<div class="row align-items-center">
 			<div class="col-md-6">
 				<span>{{$lang.summary_message}}</span>
 			</div>
@@ -12,108 +12,114 @@
 		</div>
 		<div class="block-bg mt-4">
 			<form name="frmReport" id="frmReport" class="report_form">
-				<div class="form-group row text-left">
-					<div class="col-md-7">
-						<div class="row">
-							<div class="col-md-4">
-								<label><strong>{{$lang.summary_age_category}}</strong></label>
-								<div class="">
+				<div class="form-group text-left mb-0">
+					<div class="row mb-4">
+						<div class="col-md-7">
+							<div class="row">
+								<div class="col-md-4">
+									<label><strong>{{$lang.summary_age_category}}</strong></label>
+									<div class="">
 
-		                            <select name="sel_ageCategory" id="sel_ageCategory" class="form-control ls-select2">
-		                            	<option value="">{{$lang.summary_age_category_select}}</option>
-			                            <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
-			                            </select>
-			                    </div>
+			                            <select name="sel_ageCategory" id="sel_ageCategory" class="form-control ls-select2">
+			                            	<option value="">{{$lang.summary_age_category_select}}</option>
+				                            <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
+				                            </select>
+				                    </div>
+								</div>
+								<div class="col-md-4">
+									<label><strong>{{$lang.summary_club}}</strong></label>
+									<div class="">
+			                            <select class="form-control ls-select2">
+				                            <option value="">{{$lang.summary_club_select}}</option>
+				                            <option value="">-----------</option>
+				                        </select>
+				                    </div>
+								</div>
+								<div class="col-md-4">
+									<label><strong>{{$lang.summary_team}}</strong></label>
+									<div class="">
+
+			                            <select name="sel_teams" id="sel_teams" class="form-control ls-select2">
+			                            	<option value="">{{$lang.summary_team_select}}</option>
+				                        	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
+
+				                        </select>
+				                    </div>
+								</div>
 							</div>
-							<div class="col-md-4">
-								<label><strong>{{$lang.summary_club}}</strong></label>
-								<div class="">
-		                            <select class="form-control ls-select2">
-			                            <option value="">{{$lang.summary_club_select}}</option>
-			                            <option value="">-----------</option>
-			                        </select>
-			                    </div>
-							</div>
-							<div class="col-md-4">
-								<label><strong>{{$lang.summary_team}}</strong></label>
-								<div class="">
-
-		                            <select name="sel_teams" id="sel_teams" class="form-control ls-select2">
-		                            	<option value="">{{$lang.summary_team_select}}</option>
-			                        	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
-
-			                        </select>
-			                    </div>
+						</div>
+						<div class="col-md-5">
+							<div class="row">
+								<div class="col-md-6">
+									<label><strong>{{$lang.summary_from}}</strong></label>
+									<div class="">
+									 <input type="text" 
+									 name="start_date" id="start_date" value="" class="form-control ls-datepicker " >
+				                    </div>
+								</div>
+								<div class="col-md-6">
+									<label><strong>{{$lang.summary_to}}</strong></label>
+									<div class="">
+			                             <input type="text" 
+									 name="end_date" id="end_date" value="" class="form-control ls-datepicker " >
+				                    </div>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-5">
-						<div class="row">
-							<div class="col-md-6 mb-5">
-								<label><strong>{{$lang.summary_from}}</strong></label>
-								<div class="">
-								 <input type="text" 
-								 name="start_date" id="start_date" value="" class="form-control ls-datepicker " >
-			                    </div>
-							</div>
-							<div class="col-md-6 mb-5">
-								<label><strong>{{$lang.summary_to}}</strong></label>
-								<div class="">
-		                             <input type="text" 
-								 name="end_date" id="end_date" value="" class="form-control ls-datepicker " >
-			                    </div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-7">
-						<div class="row">
-							<div class="col-md-4">
-								<label><strong>{{$lang.summary_location}}</strong></label>
-								<div class="">
+					<div class="row mb-4">
+						<div class="col-md-7">
+							<div class="row">
+								<div class="col-md-4">
+									<label><strong>{{$lang.summary_location}}</strong></label>
+									<div class="">
 
-		                           <select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
-		                           		<option value="">Select</option>
-			                        	<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
-			                        </select>
-			                    </div>
-							</div>
-							<div class="col-md-4">
-								<label><strong>{{$lang.summary_pitch}}</strong></label>
-								<div class="">
-								<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
-									<option value="">Select</option>
-			                        <option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
-			                    </select>
-		                            
-			                    </div>
-							</div>
-							<div class="col-md-4">
-								<label><strong>{{$lang.summary_referee}}</strong></label>
-								<div class="">
-		                           	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
-		                           		<option value="">Select</option>
-			                        	<option v-for="(referee, index) in referees" :value="referee.id">{{referee.first_name}}</option>
-			                        </select>
-			                    </div>	
+			                           <select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
+			                           		<option value="">Select</option>
+				                        	<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
+				                        </select>
+				                    </div>
+								</div>
+								<div class="col-md-4">
+									<label><strong>{{$lang.summary_pitch}}</strong></label>
+									<div class="">
+									<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
+										<option value="">Select</option>
+				                        <option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
+				                    </select>
+			                            
+				                    </div>
+								</div>
+								<div class="col-md-4">
+									<label><strong>{{$lang.summary_referee}}</strong></label>
+									<div class="">
+			                           	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
+			                           		<option value="">Select</option>
+				                        	<option v-for="(referee, index) in referees" :value="referee.id">{{referee.first_name}}</option>
+				                        </select>
+				                    </div>	
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-5 d-flex align-items-end justify-content-end">
-						<div class="row justify-content-end w-100">
-							<div class="col-sm-4">
-								<button type="button" name="clearButton" id="clearButton" class="btn btn-primary w-100" @click="clearForm()">{{$lang.summary_button_clear}}</button>
-							</div>
-							<div class="col-sm-4">
-								<button type="button" name="generateReport" id="generateReport" class="btn btn-primary w-100" @click="generateReport()">{{$lang.summary_button_generate}}</button>
-							</div>
-	                	</div>
+					<div class="row">
+						<div class="col-md-5">
+							<div class="row">
+								<div class="col-sm-4">
+									<button type="button" name="clearButton" id="clearButton" class="btn btn-primary w-100" @click="clearForm()">{{$lang.summary_button_clear}}</button>
+								</div>
+								<div class="col-sm-4">
+									<button type="button" name="generateReport" id="generateReport" class="btn btn-primary w-100" @click="generateReport()">{{$lang.summary_button_generate}}</button>
+								</div>
+		                	</div>
+						</div>
 					</div>
 				</div>
 			</form>
 		</div>
 		<div class="row mt-4">
 			<div class="col-md-12">
-				<table class="table">
+				<table class="table mb-0">
 					<thead>
 	                    <tr>
 	                        <th>{{$lang.summary_reports_date}}</th>
