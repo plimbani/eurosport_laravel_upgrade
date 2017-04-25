@@ -17,7 +17,7 @@ const actions = {
   getUserDetails ({commit},userDetails) { 
     Users.getUserDetails(userDetails).then (
       (response) => {      
-        if(response.data.status_code == 200)
+       // if(response.data.status_code == 200)
             commit(types.GET_USER_DETAILS, response.data.data[0])   
 
       },

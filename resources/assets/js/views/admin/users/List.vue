@@ -66,9 +66,13 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Enter first name">
+                                    <input v-model="formValues.name" v-validate="'required'" 
+                                    :class="{'is-danger': errors.has('name') }" 
+                                    name="name" type="text" 
+                                    class="form-control" placeholder="Enter first name">
                                     <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('name')">This field is required</span>
+                                    <span class="help is-danger" 
+                                    v-show="errors.has('name')">This field is required</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -101,7 +105,8 @@
                                 <div class="col-sm-6">
                                       <div v-if="!image">
                                           <button type="button" id="profile_image_file">Choose file</button>  
-                                          <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
+                                          <input type="file" name="userImg" id="userImg" style="display:none;" 
+                                          @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.</p>
                                       </div>
                                        <div v-else>
@@ -155,7 +160,15 @@
         },
         data() {
             return {
-                formValues: this.initialState(),
+                formValues: {id: '',
+                    name: '',
+                    surname: '',
+                    emailAddress: '',
+                    organisation: '',
+                    userType: '',
+                    user_image: '',
+                    resendEmail: ''
+                },
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
@@ -178,17 +191,15 @@
         },
         methods: {
             initialState() {
-                return {
-                    id: '',
-                    name: '',
-                    surname: '',
-                    emailAddress: '',
-                    organisation: '',
-                    userType: '',
-                    user_image: '',
-                    resendEmail: ''
-                }
-            },
+                this.formValues.id = '',
+                this.formValues.name =  '',
+                this.formValues.surname= '',
+                this.formValues.emailAddress= '',
+                this.formValues.organisation= '',
+                this.formValues.userType= '',
+                this.formValues.user_image= '',
+                this.formValues.resendEmail= ''
+        },
             getRoles() {
                 axios.get("/api/roles-for-select").then((response) => {
                     this.userRolesOptions = response.data;
@@ -203,13 +214,12 @@
                 });
             },
             addUser() {
-                this.$data.formValues = this.initialState();
+               // this.$data.formValues = this.initialState();
                 this.userModalTitle="Add User";
             },
             resendModalOpen(data) {
                 this.resendEmail = data
                 $('#resend_modal').modal('show');
-
             },
             editUser(id) {
                 this.userModalTitle="Edit User";
@@ -257,7 +267,7 @@
                 });
             },
             validateBeforeSubmit(){
-                console.log('hi')
+                
                 this.$validator.validateAll().then(() => {
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;

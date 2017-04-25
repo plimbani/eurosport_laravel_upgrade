@@ -292,11 +292,14 @@ export default {
             this.minimum_matches  = resp.min_matches
             // Now here we have to append the value of game_duration
             //this.game_duration_rr_array.push(['130':'320'])
+            
             if(this.competation_format.game_duration_RR != '20' && this.competation_format.game_duration_RR != '30' && this.competation_format.game_duration_RR != '40')
             {  
+
               let obj1=this.game_duration_rr_array[0]              
+              
               // Set Value in Array
-              obj1['other'] = this.competation_format.game_duration_RR
+              // obj1['other'] = this.competation_format.game_duration_RR
               let gameRval = this.competation_format.game_duration_RR
               // set option other for game_duration_rr
               this.competation_format.game_duration_RR = 'other'
@@ -307,7 +310,7 @@ export default {
             {  
               let obj1=this.game_duration_fm_array[0]              
               // Set Value in Array
-              obj1['other'] = this.competation_format.game_duration_FM
+             // obj1['other'] = this.competation_format.game_duration_FM
               let gameRval1 = this.competation_format.game_duration_FM
               // set option other for game_duration_rr
               this.competation_format.game_duration_FM = 'other'
@@ -320,7 +323,7 @@ export default {
               
               let obj1=this.match_interval_rr_array[0]              
               // Set Value in Array
-              obj1['other'] = this.competation_format.match_interval_RR
+             // obj1['other'] = this.competation_format.match_interval_RR
               let matchRR = this.competation_format.match_interval_RR
               // set option other for game_duration_rr
               this.competation_format.match_interval_RR = 'other'
@@ -332,7 +335,7 @@ export default {
               
               let obj1=this.match_interval_fm_array[0]              
               // Set Value in Array
-              obj1['other'] = this.competation_format.match_interval_FM
+            //  obj1['other'] = this.competation_format.match_interval_FM
               let matchFM = this.competation_format.match_interval_FM
               // set option other for game_duration_rr
               this.competation_format.match_interval_FM = 'other'
