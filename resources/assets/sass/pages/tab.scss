@@ -1,286 +1,358 @@
-.tab-content .card{
-	/*padding: 20px 0;*/
+.tab-content .card {
+    /*padding: 20px 0;*/
 }
-button, input, optgroup, select, textarea {
-	font-family: $base-font-family;
-	font-size: 15px;
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: $base-font-family;
+    font-size: 15px;
 }
+
 .select2-container {
-	width: 100% !important;
+    width: 100% !important;
 }
+
 .clearfix {
-	clear: both;
+    clear: both;
 }
+
 .grey_bg {
-	background-color: $ls-color-gray--dark;
-	padding: 5px;
+    background-color: $ls-color-gray--dark;
+    padding: 5px;
 }
+
 .dark_grey_bg {
-	background-color: $ls-color-gray--very-dark;
-	padding: 5px;
+    background-color: $ls-color-gray--very-dark;
+    padding: 5px;
 }
+
 .green_bg {
-	background-color: $ls-color-green--light;
-	padding: 5px;
+    background-color: $ls-color-green--light;
+    padding: 5px;
 }
+
 .yellow_bg {
-	background-color: $ls-color-yellow--light;
-	padding: 5px;
+    background-color: $ls-color-yellow--light;
+    padding: 5px;
 }
+
 
 /****************************
 	tournament_add
 ****************************/
 
+
 /* form accordian */
+
 .optional_details .panel {
-	box-shadow: none;
-	/*border: 1px solid #ccc;*/
-	margin-bottom: 27px;
+    box-shadow: none;
+    /*border: 1px solid #ccc;*/
+    margin-bottom: 27px;
 }
-.optional_details .panel a.panel-title{
-	padding: 10px;
-     border: 1px solid #ccc; 
+
+.optional_details .panel a.panel-title {
+    padding: 10px;
+    border: 1px solid #ccc;
 }
+
 .optional_details .panel .panel-content {
-	margin-top: 2%;
-	padding: 0;
+    margin-top: 2%;
+    padding: 0;
 }
-.padding0{
-	padding: 0;
+
+.padding0 {
+    padding: 0;
 }
+
 .optional_details .panel .panel-content .form-inline label {
-	-webkit-box-align: start;
-	align-items: flex-start;
-	-webkit-box-pack: start;
-	justify-content: flex-start;
+    -webkit-box-align: start;
+    align-items: flex-start;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
 }
+
 .optional_details .panel .panel-content .form-inline .form-group {
-	-webkit-box-align: start;
-	align-items: flex-start;
+    -webkit-box-align: start;
+    align-items: flex-start;
 }
-.optional_details .panel .panel-content .form-inline .form-group .form-group{
-	margin-bottom: 1rem;
-	margin-right: 0;
+
+.optional_details .panel .panel-content .form-inline .form-group .form-group {
+    margin-bottom: 1rem;
+    margin-right: 0;
 }
+
 
 /****************************
 	competation_format
 ****************************/
+
 .competition_list {
-	background-color: #F2F2F2;
-	padding: 10px;
-	margin-bottom: 20px;
+    background-color: #F2F2F2;
+    padding: 10px;
+    margin-bottom: 20px;
 }
+
 .competition_list span {
-	font-weight: 600;
+    font-weight: 600;
 }
+
 .multi-number {
-	margin-top: 10px;
+    margin-top: 10px;
 }
-.multi-number small{
-	margin-left: 20%;
+
+.multi-number small {
+    margin-left: 20%;
 }
+
 .minutes-div {
-	line-height: 2.6;
+    line-height: 2.6;
 }
+
 .radio label {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
+
 .add-text {
-	margin-top: 20px;
-	font-weight: 600;
+    margin-top: 20px;
+    font-weight: 600;
 }
+
+
 /****************************
 	pitch_capacity
 ****************************/
+
 .pitch-capaciry {
-	width: 63px;
-	text-align: center;
+    width: 63px;
+    text-align: center;
 }
-.pitch-capaciry p{
-	text-align: center;
-	margin-bottom: 5px;
-	font-size: 13px;
+
+.pitch-capaciry p {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 13px;
 }
-.pitch-capaciry p span{
-	display: block;
+
+.pitch-capaciry p span {
+    display: block;
 }
+
 .pitch-capaciry img {
-	margin-bottom: 5px;
-	cursor: pointer;
+    margin-bottom: 5px;
+    cursor: pointer;
 }
+
 .pitch-capaciry.disable-div p,
 .pitch-capaciry.disable-div p span {
-	color: #C2BCBC;
+    color: #C2BCBC;
 }
+
 .pitch-capaciry.disable-div img {
-	cursor: default;
+    cursor: default;
 }
+
 #availability {
-	width: 95%;
-	margin: 0 auto;	
+    width: 95%;
+    margin: 0 auto;
 }
+
 #availability form.form-inline label {
-	-webkit-box-align: start;
-	align-items: flex-start;
-	-webkit-box-pack: start;
-	justify-content: flex-start;
+    -webkit-box-align: start;
+    align-items: flex-start;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
 }
-#availability form.form-inline .col-md-12
-{
-	margin-bottom: 1rem;
+
+#availability form.form-inline .col-md-12 {
+    margin-bottom: 1rem;
 }
-#availability form.form-inline .col-md-12 span.delete-stage{
-	font-size: 14px;
-	color: #A9A9A9;
-	text-decoration: underline;
+
+#availability form.form-inline .col-md-12 span.delete-stage {
+    font-size: 14px;
+    color: #A9A9A9;
+    text-decoration: underline;
 }
+
 #availability form.form-inline label.col-md-3 {
-	padding: 0;
-	font-weight: 600;
-} 
+    padding: 0;
+    font-weight: 600;
+}
+
 #availability form.form-inline div.col-md-3 {
-	padding: 0 5px;
+    padding: 0 5px;
 }
+
 #availability form.form-inline div.col-md-2 {
-	padding: 0 5px;
-	text-align: right;
+    padding: 0 5px;
+    text-align: right;
 }
+
 .stage {
-	width: 100%;
+    width: 100%;
 }
+
 .result .dashbox {
-	background-color: #F2F2F2;
+    background-color: #F2F2F2;
 }
-.result .dashbox p{
-	text-align: left;
+
+.result .dashbox p {
+    text-align: left;
 }
+
 .red {
-	color: $ls-color-red;
+    color: $ls-color-red;
 }
+
 .result .dashbox p label {
-	width: 20%;
+    width: 20%;
 }
+
 .result .dashbox p label a {
-	color: #595959;
+    color: #595959;
 }
+
 
 /****************************
 	teams_groups
 ****************************/
 
 .block-bg {
-	padding: 20px;
-	background-color: #F8F8F8;
-	text-align: center;
-	width: 100%;
+    padding: 1.25em;
+    background-color: #F8F8F8;
+    text-align: center;
+    width: 100%;
     margin: 0 auto;
 }
-.category-list {
-	width: auto;
-	margin: 0 auto;
-	padding: 0;
-}
-.category-list li {
-	background-color: #F2F2F2;
-	list-style-type: none;
-	text-align: left;
-	padding: 10px;
-	float: left;
-	margin-right: 20px;
-	width: 144px;
-}
-.category-list li:last-child {
-	margin-right: 0;;
-}
-.category-list li h6 {
-	margin-bottom: 5px;
-	text-decoration: underline;
 
+.category-list {
+    width: auto;
+    margin: 0 auto;
+    padding: 0;
 }
+
+.category-list li {
+    background-color: #F2F2F2;
+    list-style-type: none;
+    text-align: left;
+    padding: 10px;
+    float: left;
+    margin-right: 20px;
+    width: 144px;
+}
+
+.category-list li:last-child {
+    margin-right: 0;
+    ;
+}
+
+.category-list li h6 {
+    margin-bottom: 5px;
+    text-decoration: underline;
+}
+
 .category-list li p {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
+
 .filter-category-form.form-inline {
-	border: 1px solid #ccc;
-	padding: 10px 15px;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
 }
+
 .filter-category-form.form-inline .form-group {
-	margin-right: 0;
+    margin-right: 0;
 }
+
 .filter-category-form.form-inline label.control-label,
-.filter-category-form.form-inline select.form-control
-{
-	margin-right: 15px;
+.filter-category-form.form-inline select.form-control {
+    margin-right: 15px;
 }
+
 .filter-category-form.form-inline label.control-label:last-child {
-	margin-right: 0;
+    margin-right: 0;
 }
+
 .filter-category-form.form-inline label.control-label input {
-	margin-right: 5px;
+    margin-right: 5px;
 }
+
 .add-category-table {
-	max-height: 250px;
-	// overflow-y: scroll;
+    max-height: 250px;
+    // overflow-y: scroll;
 }
+
 
 /****************************
 	competation_format
 ****************************/
-.summary-tab.tabs-primary .nav-link.active{
-	background-color: transparent;
-	color: #9c9c9c;
-	border: 1px solid transparent;
+
+.summary-tab.tabs-primary .nav-link.active {
+    background-color: transparent;
+    color: #9c9c9c;
+    border: 1px solid transparent;
 }
-.summary-tab .nav-tabs .nav-item{
-	border-left: 1px solid;
+
+.summary-tab .nav-tabs .nav-item {
+    border-left: 1px solid;
 }
+
 .summary-tab .nav-tabs .nav-item:first-child {
-	border-left: 0;
+    border-left: 0;
 }
+
 .summary-tab .nav-tabs .nav-item:first-child a {
-	padding-left: 0;
+    padding-left: 0;
 }
+
 .summary-tab.tabs-primary .nav-link {
-	padding: 0px 10px;
+    padding: 0px 10px;
     border-radius: 0;
 }
+
 .summary-tab.tabs-primary .nav-tabs {
-	border-bottom: 1px solid #9c9c9c;
-	padding-bottom: 10px;
+    border-bottom: 1px solid #9c9c9c;
+    padding-bottom: 10px;
 }
+
 .summary-tab.tabs-primary .nav-link:hover {
-	border: 1px solid transparent;
-	color: #9c9c9c;
-	text-decoration: none;
+    border: 1px solid transparent;
+    color: #9c9c9c;
+    text-decoration: none;
 }
 
 .summary-content {
-	border: none;
+    border: none;
 }
+
 .summary-content span {
-	display: block;
-	margin-bottom: 15px;
+    display: block;
+    margin-bottom: 15px;
 }
+
 .blog .bolg-div {
-	background-color: #F2F2F2;
-	padding: 20px;
-	float: left;
-	margin-right: 19px;
+    background-color: #F2F2F2;
+    padding: 20px;
+    float: left;
+    margin-right: 19px;
     width: 15%;
 }
+
 .blog .bolg-div:last-child {
-	margin-right: 0;
+    margin-right: 0;
 }
-.blog .bolg-div span
-{
-	margin-bottom: 0
+
+.blog .bolg-div span {
+    margin-bottom: 0
 }
+
 
 /****************************
 	Summary Report
 ****************************/
+
 // .report_form .col-md-7{
 // 	margin-left: 1.5%;
 // }
@@ -290,71 +362,84 @@ button, input, optgroup, select, textarea {
 // .report_form .form-group .form-group {
 // 	margin-bottom: 0;
 // }
+
 /****************************
 	draw_details
 ****************************/
-.draw_table a:hover{
-	text-decoration: underline;
+
+.draw_table a:hover {
+    text-decoration: underline;
 }
+
 .schedule_list {
-	padding: 0;
+    padding: 0;
 }
+
 .schedule_list li {
-	list-style-type: none;
-	display: inline-block;
-	padding: 5px 45px;
-	background-color: $ls-color-gray--dark;
-	cursor: pointer;
+    list-style-type: none;
+    display: inline-block;
+    padding: 5px 45px;
+    background-color: $ls-color-gray--dark;
+    cursor: pointer;
 }
+
 .schedule_list li.active {
-	background-color: $ls-color-gray--very-dark;
-
+    background-color: $ls-color-gray--very-dark;
 }
+
 .schedule_list li:hover {
-	background-color: $ls-color-gray--very-dark;
+    background-color: $ls-color-gray--very-dark;
+}
 
+.match_overview tr td a {
+    color: $ls-color-blue;
 }
-.match_overview tr td a{
-	color: $ls-color-blue;
-}
+
 
 /****************************
 	Pitch Planner
 ****************************/
 
 .pitch_planner_div {
-	width: 100%;
-	height: 500px;
-	overflow: auto;
+    width: 100%;
+    height: 500px;
+    overflow: auto;
 }
+
 .pitch_planner_table tr th,
 .pitch_planner_table tr td {
-	border-right: 2px dotted #000;
+    border-right: 2px dotted #000;
 }
 
 .pitch_planner_table tr td {
-	width: 148px;
+    width: 148px;
 }
+
 .pitch_planner_table tr td div span {
-	display: block;
-	font-size: 13px;
+    display: block;
+    font-size: 13px;
 }
+
 .pitch_planner_table tr td div label:first-child {
-	background-color: $ls-color-gray--very-dark;
-	padding: 0px 5px;
+    background-color: $ls-color-gray--very-dark;
+    padding: 0px 5px;
 }
+
 .pitch_planner_table tr td div label {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
+
 .pitch_planner_table tr td div label i {
-	color: $ls-color-red;
+    color: $ls-color-red;
 }
+
 .planner_list {
-	width: 100%;
-	height: 500px;
-	overflow-y: scroll;
-	overflow-x: hidden;
+    width: 100%;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
+
 // .tabs-primary.planner_list .nav-tabs {
 // 	border-bottom: 0;
 // }
@@ -381,42 +466,50 @@ button, input, optgroup, select, textarea {
 // 	margin: 0 auto;
 // }
 .raferee_details {
-	width: 100%;
-	background-color: #fff;
-	padding: 10px;
-	border:1px solid #b9b9b9;
-	margin-bottom: 10px;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #b9b9b9;
+    margin-bottom: 10px;
 }
+
 .raferee_details img {
-	float: left;
+    float: left;
 }
+
 .raferee_details p {
-	font-size: 15px;
-	margin: 9px 0;
+    font-size: 15px;
+    margin: 9px 0;
     text-align: center;
 }
+
 #refreesModal form label,
-#refreesModal form input{
-	font-size: 15px;
+#refreesModal form input {
+    font-size: 15px;
 }
 
 #pitchModal {
-	font-size: 15px;
+    font-size: 15px;
 }
+
 #pitchModal span {
-	font-size: 15px;
+    font-size: 15px;
 }
-#pitchModal button.close span{
-	font-size: 24px;
+
+#pitchModal button.close span {
+    font-size: 24px;
 }
+
 #pitchModal label {
-	background-color: transparent;
-	padding: 0.375rem 0.9375rem;
-	font-size: 15px;
+    background-color: transparent;
+    padding: 0.375rem 0.9375rem;
+    font-size: 15px;
 }
+
 .refree_name a {
-	margin-left: 20px;
+    margin-left: 20px;
 }
+
 .refree_name a:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }

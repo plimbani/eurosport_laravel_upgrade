@@ -17,12 +17,12 @@
                         <h4 class="card-title">{{grp.name}}</h4>
                       </div>
                       <div class="card-block">
-                        <p class="card-text">{{ grp.match_type[0].name }}</p>
+                        <p class="card-text badge badge-info">{{ grp.match_type[0].name }}</p>
                         <table class="table">
                           <thead>
                             <tr>
                               <th>Match Number:</th>
-                              <th>{{ grp.match_type[0].groups.group_name }}</th>
+                              <th class="text-center">{{ grp.match_type[0].groups.group_name }}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -39,52 +39,42 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
+                <div class="row align-items-center">
                   
                   <div class="col-md-6">
-                    <div class="result col-md-12">
-                        <div class="dashbox">
-                            <p class="row">
-                                <label class="col-md-9"><strong>{{$lang.competation_modal_format_team}}</strong></label>
-                                <label class="col-md-3">{{ templateData['tournament_teams'] }}</label>
-                            </p>
-                            <p class="row">
-                                <label class="col-md-9"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
-                                <label class="col-md-3">{{ templateData['competation_format'] }}</label>
-                            </p>
-                            <p class="row">
-                                <label class="col-md-9"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
-                                <label class="col-md-3">{{ templateData['tournament_min_match'] }}</label>
-                            </p>
-                            <p class="row">
-                                <label class="col-md-9"><strong>{{$lang.competation_modal_format_remark}}</strong></label>
-                                <label class="col-md-3"></label>
-                            </p>
-                        </div>
+                    <div class="jumbotron p-4 m-0">
+                          <p class="row">
+                              <label class="col-md-8"><strong>{{$lang.competation_modal_format_team}}</strong></label>
+                              <label class="col-md-4">{{ templateData['tournament_teams'] }}</label>
+                          </p>
+                          <p class="row">
+                              <label class="col-md-8"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
+                              <label class="col-md-4">{{ templateData['competation_format'] }}</label>
+                          </p>
+                          <p class="row">
+                              <label class="col-md-8"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
+                              <label class="col-md-4">{{ templateData['tournament_min_match'] }}</label>
+                          </p>
+                          <p class="row mb-0">
+                              <label class="col-md-8"><strong>{{$lang.competation_modal_format_remark}}</strong></label>
+                              <label class="col-md-4"></label>
+                          </p>
                     </div>
-                </div>
-                  <div class="col-md-6">
-                    <div class="result col-md-12">
-                        <div class="dashbox">
-                            <p class="row">
-                                <label class="col-md-9"><strong>{{$lang.competation_modal_matches_total_matches}}</strong></label>
-                                <label class="col-md-3">{{ templateData['total_matches'] }}</label>
-                            </p>
-                        </div>
+                  </div>
+                  <div class="col-md-6 d-flex flex-column justify-content-between">
+                    <div class="jumbotron p-4">
+                      <div class="row mb-0">
+                          <label class="col-md-9"><strong>{{$lang.competation_modal_matches_total_matches}}</strong></label>
+                          <label class="col-md-3">{{ templateData['total_matches'] }}</label>
+                      </div>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="result col-md-12">
-                        <div class="dashbox">
-                            <p class="row">
-                                <label class="col-md-3"><strong>{{$lang.competation_modal_time}}</strong></label>
-                                <label class="col-md-9">{{totalTime | formatTime}} </label>
-                            </p>
-                           
-                        </div>
+                    <div class="jumbotron p-4 mb-0">
+                      <div class="row">
+                          <label class="col-md-6"><strong>{{$lang.competation_modal_time}}</strong></label>
+                          <label class="col-md-6">{{totalTime | formatTime}} </label>
+                      </div>
                     </div>
-                </div>
-
+                  </div>
                 </div>
                </form>
             </div>
