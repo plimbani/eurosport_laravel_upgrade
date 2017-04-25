@@ -117,7 +117,7 @@
 				</div>
 			</form>
 		</div>
-		<div class="row mt-4">
+		<div class="row mt-4" id="summary_report_table">
 			<div class="col-md-12">
 				<table class="table mb-0">
 					<thead>
