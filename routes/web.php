@@ -24,6 +24,6 @@ Route::get('/{vue?}', function () {
 
 // Route::get('setpassword/{sstoken}', '\Laraspace\Api\Controllers\UserController@setPassword');
 
-/*Route::post('/passwordactivate', [
-    'as' => 'password', 'uses' => 'UsersController@passwordActivate'
-]);*/
+Route::post('/passwordactivate', [
+    'as' => 'password', 'uses' => '\Laraspace\Api\Controllers\UserController@passwordActivate'
+]);
