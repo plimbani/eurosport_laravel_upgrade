@@ -10,8 +10,7 @@ export default {
            
         }).catch(error => {
             if (error.response.status == 401) {
-                toastr['error']('Invalid Credentials', 'Error');
-                
+                toastr['error']('Invalid Credentials', 'Error');                
                 Ls.remove('auth.token')
                 Ls.remove('email')
             } else {
@@ -25,12 +24,19 @@ export default {
     logout(){
         return axios.get('/api/auth/logout').then(response =>  {
             Ls.remove('auth.token')
+            Ls.remove('email')
+            Ls.remove('vuex')
+            // here we have to reload the page
             toastr['success']('Logged out!', 'Success');
+            setTimeout(this.reloadPage, 1000);
         }).catch(error => {
             console.log('Error', error.message);
         });
+        // Reload        
     },
-
+    reloadPage() {
+        location.reload()
+    },
     check(){
         return axios.get('/api/auth/check').then(response =>  {
             return !!response.data.authenticated;
