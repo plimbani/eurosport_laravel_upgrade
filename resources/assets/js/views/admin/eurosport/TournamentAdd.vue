@@ -72,8 +72,11 @@
                                                 <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
                                                 <div class="pull-right">
                                                     <div v-if="!image">
-                                                        <button type="button" name="btnSelect" id="btnSelect">Choose file</button>
-                                                        <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
+                                                        <button type="button" name="btnSelect" id="btnSelect" @click="selectImage">
+                                                        Choose file</button>
+                                                        <input type="file" id="selectFile" 
+                                                        style="display:none;" 
+                                                        @change="onFileChange">
                                                         <p class="help-block">Maximum size of 1 MB.</p>
                                                     </div>
                                                    <div v-else>
@@ -260,9 +263,9 @@ export default {
     Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
     // here we dispatch methods
     // First we check that if tournament id is Set then dont dispatch it
-$('#btnSelect').on('click',function(){
-  $('#selectFile').trigger('click')
-})
+   /* $('#btnSelect').on('click',function(){
+      $('#selectFile').trigger('click')
+    }) */
     let tId = this.$store.state.Tournament.tournamentId
     if(tId.length != 0) {
       this.tournamentId = this.$store.state.Tournament.tournamentId
@@ -355,6 +358,9 @@ $('#btnSelect').on('click',function(){
     });
   },
   methods: {
+    selectImage() {
+      $('#selectFile').trigger('click') 
+    },
     addLocationClick() {
       this.locations.push ({
           tournament_venue_name: "",
@@ -367,6 +373,8 @@ $('#btnSelect').on('click',function(){
       });
     },
     onFileChange(e) {
+      alert('hellofilechanghe')
+      alert(JSON.stringify(e))
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length)
         return;
