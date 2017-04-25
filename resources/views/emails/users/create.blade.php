@@ -37,7 +37,7 @@
 																					<tr>
 																						<td>
 																							<img alt="Logo" 
-																							src="{{ asset('img/logo-desk.svg') }}" style="border-style:solid; border-width:0px; display:block; height:80px; width:250px" />
+																							src="/assets/img/logo-desk.svg" style="border-style:solid; border-width:0px; display:block; height:80px; width:250px" />
 																						</td>
 																					</tr>
 																				</tbody>
