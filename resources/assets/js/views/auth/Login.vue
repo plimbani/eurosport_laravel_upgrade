@@ -35,7 +35,7 @@
                 <img src="" alt="" width="200" />
             </div>
            
-            <p> Enter your e-mail address below to reset your password. </p>
+            <p style="font-size:14px;">Enter your e-mail address below to reset your password.</p>
             <div class="form-group">
                 <!-- <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> -->
                  <input class="form-control" type="email" autocomplete="off" v-model="loginData.email"  placeholder="Email address" name="email" id="

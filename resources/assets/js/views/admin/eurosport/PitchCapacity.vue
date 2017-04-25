@@ -2,38 +2,36 @@
     <div class="tab-content">
         <div class="card">
             <div class="card-block">
-                <h6 class=""><strong>{{$lang.pitch_capacity}}</strong></h6>
-                <div class="row">
-                    <div class="col-md-1 pitch-capaciry"    v-for="pitch in pitches">
+                <h6 class="mb-4"><strong>{{$lang.pitch_capacity}}</strong></h6>
+                <div class="row mb-4">
+                    <div class="col-md-1 pitch-capaciry" v-for="pitch in pitches">
                         <p><strong>{{pitch.pitch_number}}</strong></p>
                         <img src="/assets/img/pitch.png">
-                        <p>
+                        <p class="mb-0">
                             <span><a href="javascript:void(0)" @click="editPitch(pitch.id)">Edit</a></span>
                             <span><a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)">Remove</a></span>
                         </p>
                     </div>
                 </div>
-                <div class="mt-4">
-                    <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
-                </div>
+                <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
                 <addPitchDetail v-if="pitchId==''" ></addPitchDetail>
                 <editPitchDetail v-if="pitchId!=''" ></editPitchDetail>
                 <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
                 
                 <div class="row mt-4">
                     <div class="result col-md-12">
-                        <div class="dashbox">
-                            <p>
+                        <div class="dashbox mb-2">
+                            <p class="row">
                                 <label class="col-md-3"><strong>{{$lang.pitch_totaL_time}}</strong></label>
                                 <label class="col-md-5">{{((tournamentTime - (tournamentTime % 60)) / 60)+ ' hrs ' + (tournamentTime % 60) + ' mins '}}</label>
                             </p>
-                            <p>
+                            <p class="row">
                                 <label class="col-md-3"><strong>{{$lang.pitch_total_capacity}}</strong></label>
                                 <label class="col-md-5">{{((pitchCapacity - (pitchCapacity % 60)) / 60)+ ' hrs ' + (pitchCapacity % 60) + ' mins '}}</label>
                             </p>
-                            <p>
-                                <label class="col-md-3"><strong>{{$lang.pitch_balance}}</strong></label>
-                                <label :class="[pitchAvailableBalance[0]<0? 'red': 'text-success','col-md-5' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
+                            <p class="row mb-0">
+                                <label class="col-md-3 m-0"><strong>{{$lang.pitch_balance}}</strong></label>
+                                <label :class="[pitchAvailableBalance[0]<0? 'red': 'text-success','col-md-5 m-0' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
                             </p>
                         </div>
                     </div>
@@ -277,7 +275,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                  
                 setTimeout(function(){
                     $('#addPitchModal').modal('show')
-                },500)
+                },1000)
             },
             editPitch(pitchId) {
                 this.$store.dispatch('SetPitchId',pitchId);
