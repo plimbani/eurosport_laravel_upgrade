@@ -53,7 +53,6 @@ import DrawsListing from './DrawsListing.vue'
 import MatchListing from './MatchListing.vue'
 import TeamListing from './TeamListing.vue'
 import DrawDetails from './DrawDetails.vue'
-import AllPublishedTournaments from './AllPublishedTournaments.vue'
 
 export default {
 	props: ['currentScheduleView'],
@@ -68,19 +67,16 @@ export default {
 		this.currentView = 'drawsListing'
 	},
 	components: {
-		DrawsListing, MatchListing, TeamListing,DrawDetails,AllPublishedTournaments
+		DrawsListing, MatchListing, TeamListing,DrawDetails
 	},
 	created: function() {
        this.$root.$on('changeComp1', this.setMatchData1); 
   	},
 	methods: {
 		AllTournament(){
-			console.log(this)
-		  this.$root.options.push({'name':'home'})
-     	// this.currentScheduleView = this.$store.state.currentScheduleView
+		 this.$router.push({'name':'home'})
 		},
-		setMatchData1(data) {
-			
+		setMatchData1(data) {			
 			this.currentView = 'matchListing'
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 		},
