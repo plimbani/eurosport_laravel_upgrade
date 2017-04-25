@@ -190,7 +190,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <span :id="'stage_capacity_span'+day"  lass="badge badge-pill badge-info">0.00</span>
+                                                                <span :id="'stage_capacity_span'+day"  class="badge badge-pill badge-info">0.00</span>
                                                                 <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity'+day" value="0.00">
                                                                 <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity_min'+day" value="0">
                                                             </div>
@@ -227,8 +227,7 @@ var moment = require('moment');
     export default {
         data() {
             return {
-                'tournamentId': this.$store.state.Tournament.tournamentId,
-                
+                'tournamentId': this.$store.state.Tournament.tournamentId,                
                 'tournamentDays': this.$store.state.Tournament.tournamentDays,
                 'stage_date':[],
                 'tournamentStartDate': this.$store.state.Tournament.tournamentStartDate,
@@ -237,7 +236,6 @@ var moment = require('moment');
                 'disableDate': [],
                 'stage_capacity' : [],
                 'availableDate': []
-                
                 }
         },
         computed: {
@@ -255,7 +253,6 @@ var moment = require('moment');
             },
             pitchData: function () {
                 return _.cloneDeep(this.$store.state.Pitch.pitchData)
-
             },
             stageAvailable: function () {
                 return _.cloneDeep(this.$store.getters.availableStage)
