@@ -125,7 +125,7 @@ class UserService implements UserContract
      */
     public function edit($userId)
     {
-
+        
         return $this->userRepoObj->edit($userId);
     }
 

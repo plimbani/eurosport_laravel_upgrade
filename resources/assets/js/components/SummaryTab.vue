@@ -208,7 +208,7 @@
 	        (response) => {
 	          if(response.data.status_code==200){
 	             $("#delete_modal").modal("hide");
-	             toastr.success('Tournament has been deleted succesfully.', 'Delete Tournament', {timeOut: 5000});
+	             toastr.success('Tournament has been deleted successfully.', 'Delete Tournament', {timeOut: 5000});
 	             this.displayTournamentCompetationList();
 	          }
 	        },

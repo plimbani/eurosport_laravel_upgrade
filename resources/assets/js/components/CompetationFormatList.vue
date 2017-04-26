@@ -2,6 +2,7 @@
  <table class="table table-hover table-bordered add-category-table">
   <thead>
       <tr>
+          <th class="text-center">{{$lang.competation_name_category}}</th>
           <th class="text-center">{{$lang.competation_age_category}}</th>
           <th class="text-center">{{$lang.competation_competation_format}}</th>
           <th class="text-center">{{$lang.competation_total_matches}}</th>
@@ -13,7 +14,8 @@
   <tbody>
 
       <tr v-for="(competation, index) in competationList">
-          <td class="text-left">{{competation.group_name}} </td>                   
+          <td class="text-left">{{competation.group_name}} </td>
+          <td class="text-left">{{competation.category_age}} </td>                   
           <td>
               <label class="form-check-label">
                   <input type="radio" class="form-check-input" 
@@ -78,7 +80,7 @@ export default {
     formatTime: function(time) {
       var hours = Math.floor( time /   60);
       var minutes = Math.floor(time % 60);
-      return hours+ ' Hours And '+minutes+' Minutes'
+      return hours+ ' Hours and '+minutes+' Minutes'
     }
   },
   methods: {
@@ -110,7 +112,7 @@ export default {
         (response) => {
           if(response.data.status_code==200){
              $("#delete_modal").modal("hide");
-             toastr.success('Competation has been deleted succesfully.', 'Delete Compeation', {timeOut: 5000});
+             toastr.success('Competation has been deleted successfully.', 'Delete Compeation', {timeOut: 5000});
              this.displayTournamentCompetationList();
           }
         },

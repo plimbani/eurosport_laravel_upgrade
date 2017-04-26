@@ -28,6 +28,7 @@ import NotFoundPage from './views/errors/404.vue'
  */
 
 import Home from './views/front/Home.vue'
+import FrontSchedule from './views/front/FrontScheduleResults.vue'
 
 /*
  |--------------------------------------------------------------------------
@@ -84,6 +85,12 @@ const routes = [
                 component: Home,
                 name: 'home'
             },
+            {
+                path: '/schedule_results',
+                component: FrontSchedule,
+                name: 'front_schedule'
+            },
+               
         ]
     },
 

@@ -37,6 +37,7 @@
   	  },
   	  methods: {
         selectTournament(tournament) {
+
          // here we set the tournaments and add Schedule & Results
          let name = tournament.name
 		 let id = tournament.id
@@ -52,8 +53,9 @@
     	  this.$store.dispatch('SetTournamentName', tournamentSel)
     	  // After Set We have to change Schedule View
     	  if(this.$store.state.Tournament.tournamentId != undefined) {
+    	  	 this.$router.push({'name':'front_schedule'})
     	  	// here we go to parent 
-    	  	this.$root.$emit('changeTourComp')
+    	  	// this.$root.$emit('changeTourComp')
     	  	//this.$store.dispatch('setCurrentScheduleView','scheduleResults')
     	  }
         }

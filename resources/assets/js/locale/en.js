@@ -100,14 +100,17 @@ module.exports = {
   competation_add_age_category: "Add age category",
   competation_button_back: "Back",
   competation_button_next: "Next",
-  competation_age_category: "Category name",
+
+  competation_name_category: "Category name",
+
+  competation_age_category: "Category age",
   competation_competation_format: "Competition format",
   competation_total_matches: "Total matches",
   competation_total_time: "Total time",
   competation_match_schedule: "Match schedule",
   competation_manage: "Manage",
 
-  competation_modal_age_category: "Match Schedule",
+  competation_modal_age_category: "Age Category",
   competation_label_name_category: "Category name*",
   competation_label_age_category: "Category age*",
   competation_modal_name_category_required: "Category name is required",

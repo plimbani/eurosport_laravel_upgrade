@@ -66,7 +66,10 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Enter first name">
+                                    <input v-model="formValues.name" v-validate="'required'" 
+                                    :class="{'is-danger': errors.has('name') }" 
+                                    name="name" type="text" 
+                                    class="form-control" placeholder="Enter first name">
                                     <i v-show="errors.has('name')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('name')">This field is required.</span>
                                 </div>
@@ -101,7 +104,8 @@
                                 <div class="col-sm-6">
                                       <div v-if="!image">
                                           <button type="button" id="profile_image_file">Choose file</button>  
-                                          <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
+                                          <input type="file" name="userImg" id="userImg" style="display:none;" 
+                                          @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.</p>
                                       </div>
                                        <div v-else>
@@ -155,7 +159,15 @@
         },
         data() {
             return {
-                formValues: this.initialState(),
+                formValues: {id: '',
+                    name: '',
+                    surname: '',
+                    emailAddress: '',
+                    organisation: '',
+                    userType: '',
+                    user_image: '',
+                    resendEmail: ''
+                },
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
@@ -178,17 +190,15 @@
         },
         methods: {
             initialState() {
-                return {
-                    id: '',
-                    name: '',
-                    surname: '',
-                    emailAddress: '',
-                    organisation: '',
-                    userType: '',
-                    user_image: '',
-                    resendEmail: ''
-                }
-            },
+                this.formValues.id = '',
+                this.formValues.name =  '',
+                this.formValues.surname= '',
+                this.formValues.emailAddress= '',
+                this.formValues.organisation= '',
+                this.formValues.userType= '',
+                this.formValues.user_image= '',
+                this.formValues.resendEmail= ''
+        },
             getRoles() {
                 axios.get("/api/roles-for-select").then((response) => {
                     this.userRolesOptions = response.data;
@@ -199,17 +209,16 @@
 
                 axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
                     $("#resend_modal").modal("hide");
-                     toastr.success('Mail has been send succesfully.', 'Mail sent', {timeOut: 5000});
+                     toastr.success('Mail has been send successfully.', 'Mail sent', {timeOut: 5000});
                 });
             },
             addUser() {
-                this.$data.formValues = this.initialState();
+               // this.$data.formValues = this.initialState();
                 this.userModalTitle="Add User";
             },
             resendModalOpen(data) {
                 this.resendEmail = data
                 $('#resend_modal').modal('show');
-
             },
             editUser(id) {
                 this.userModalTitle="Edit User";
@@ -261,7 +270,7 @@
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {
-                            toastr.success('User has been added succesfully.', 'Add User', {timeOut: 5000});
+                            toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                             this.$data.formValues = this.initialState();
                             this.updateUserList();
@@ -271,7 +280,7 @@
                     let that = this
                     setTimeout(function(){          
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
-                            toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
+                            toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                             that.$data.formValues = that.initialState();
                             that.updateUserList();
@@ -287,7 +296,7 @@
             deleteConfirmed() {
                 axios.post(this.deleteAction).then((response) => {
                     $("#delete_modal").modal("hide");
-                    toastr.success('User has been deleted succesfully.', 'Delete User', {timeOut: 5000});
+                    toastr.success('User has been deleted successfully.', 'Delete User', {timeOut: 5000});
                     this.updateUserList();
                 });
             },
