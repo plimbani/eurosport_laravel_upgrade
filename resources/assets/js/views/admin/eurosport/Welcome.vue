@@ -30,8 +30,10 @@
       <div class="col-sm-6">
       <div class="card">
         <div class="card-header">
-          <h5 class="text-center" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')"><strong>{{$lang.welcome_add_new_tournament}}</strong></h5>
-          <h5 class="text-center" v-else>{{$lang.welcome_add_tournament}}</strong></h5>
+          <h5 class="text-center" 
+          v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')"><strong>{{$lang.welcome_add_new_tournament}}</strong></h5>
+          <h5 class="text-center" v-else>{{$lang.welcome_add_tournament}}</strong>
+          </h5>
         </div>
         <div class="card-block text-center">          
             <div class="form-group" v-if="(userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Tournament administrator') ">
@@ -64,12 +66,12 @@ computed: {
     },    
   },
   mounted() {
+    
     let tournamentAdd  = {name:'', 'currentPage':'Home'}  
     this.$store.dispatch('SetTournamentName', tournamentAdd)
 
     // Here we set Default Value For Tournament
-    let UserData  = JSON.parse(Ls.get('userData'))
-    this.$store.dispatch('getUserDetails', UserData);
+    
     /*let userDetails = this.$store.state.Users.userDetails
         // this.userDetails = this.$store.state.Users.userDetails
    

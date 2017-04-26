@@ -137,6 +137,8 @@
                             },1000)*/
                         }
                     });
+             let UserData  = JSON.parse(Ls.get('userData'))
+             this.$store.dispatch('getUserDetails', UserData);
             },
             initialState() {
                 return {
