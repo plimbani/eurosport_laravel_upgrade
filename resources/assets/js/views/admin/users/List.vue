@@ -126,7 +126,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                                 <div class="col-sm-6">
-                                    <select v-validate="'required'":class="{'is-danger': errors.has('organisation') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
+                                    <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
                                         <option value="">Select</option>
                                         <option v-for="(role, id) in userRolesOptions" v-bind:value="id">
                                             {{ role }}
@@ -191,10 +191,10 @@
         },
         methods: {
             initialState() {
-                this.formValues.id = '',
-                this.formValues.name =  '',
-                this.formValues.surname= '',
-                this.formValues.emailAddress= '',
+                this.$data.formValues.id = '',
+                this.$data.formValues.name =  '',
+                this.$data.formValues.surname= '',
+                this.$data.formValues.emailAddress= '',
                 this.formValues.organisation= '',
                 this.formValues.userType= '',
                 this.formValues.user_image= '',
@@ -216,6 +216,7 @@
             addUser() {
                // this.$data.formValues = this.initialState();
                 this.userModalTitle="Add User";
+                this.initialState()               
             },
             resendModalOpen(data) {
                 this.resendEmail = data
@@ -267,7 +268,9 @@
                 });
             },
             validateBeforeSubmit() {
-                this.$validator.validateAll().then(() => {
+                alert(JSON.stringify(this.$data.formValues))
+                alert(JSON.stringify(this.formValues))
+                this.$validator.validateAll(this.$data.formValues).then(() => {
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {

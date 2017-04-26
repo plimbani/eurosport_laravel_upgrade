@@ -39,7 +39,7 @@
                         <div class="col-sm-6">
                             <div v-if="!image">
                              <img v-if="userData.image" v-bind:src="'/assets/img/users/' + userData.image" width="60px" height="60px"/>
-                            <img v-else src="http://placehold.it/60x60" width="60px" height="60px"/>
+                            <img v-else src="http://placehold.it/60x60" width="100px" height="100px"/>
                                     <button type="button" name="btnImage" id="btnImage">Choose file</button>
                                     <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
                                     <p class="help-block">Maximum size of 1 MB.</p>
@@ -84,19 +84,29 @@
                 $("#user_profile").modal("hide");
             });
         },
-             onFileChange(e) {        
+             onFileChange(e) {   
+
               var files = e.target.files || e.dataTransfer.files;
+              
               if (!files.length)
                 return;
-              this.createImage(files[0]);
+              // Here also Call function
+              if(Plugin.ValidateImageSize(files) == true) {
+                this.createImage(files[0]);  
+              }   
+              
             },  
             createImage(file) {
-              var image = new Image();
+
+              
+            // here we validate the Image Dimensions
               var reader = new FileReader();
               var vm = this;
-            reader.onload = (e) => {
+              reader.onload = (e) => {
+                var image = new Image();
                 vm.image = e.target.result;
               };
+
               reader.readAsDataURL(file);
             },
             removeImage: function (e) {
