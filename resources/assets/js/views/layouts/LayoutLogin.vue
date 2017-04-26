@@ -11,7 +11,7 @@
             <div class="page-copyright">
 
                 <p>Copyright {{currentYear}} Euro-Sportring. All rights reserved.<br/>
-                developed by <a href="http://aecordigital.com" target="_blank">aecor</a></p>
+                Developed by <a href="http://aecordigital.com" target="_blank">aecor.</a></p>
             </div>
         </div>
     </div>
