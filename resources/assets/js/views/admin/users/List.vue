@@ -104,8 +104,7 @@
                                 <div class="col-sm-6">
                                       <div v-if="!image">
                                           <button type="button" id="profile_image_file">Choose file</button>
-                                          <input type="file" name="userImg" id="userImg" style="display:none;"
-                                          @change="onFileChange">
+                                          <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.<br/>
                                           Image dimensions 100 x 100.</p>
                                       </div>
@@ -126,7 +125,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                                 <div class="col-sm-6">
-                                    <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
+                                    <select v-validate="'required'":class="{'is-danger': errors.has('organisation') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
                                         <option value="">Select</option>
                                         <option v-for="(role, id) in userRolesOptions" v-bind:value="id">
                                             {{ role }}
@@ -191,10 +190,10 @@
         },
         methods: {
             initialState() {
-                this.$data.formValues.id = '',
-                this.$data.formValues.name =  '',
-                this.$data.formValues.surname= '',
-                this.$data.formValues.emailAddress= '',
+                this.formValues.id = '',
+                this.formValues.name =  '',
+                this.formValues.surname= '',
+                this.formValues.emailAddress= '',
                 this.formValues.organisation= '',
                 this.formValues.userType= '',
                 this.formValues.user_image= '',
@@ -211,12 +210,12 @@
                 axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
                     $("#resend_modal").modal("hide");
                      toastr.success('Mail has been send successfully.', 'Mail sent', {timeOut: 5000});
+
                 });
             },
             addUser() {
                // this.$data.formValues = this.initialState();
                 this.userModalTitle="Add User";
-                this.initialState()
             },
             resendModalOpen(data) {
                 this.resendEmail = data
@@ -226,6 +225,7 @@
                 this.userModalTitle="Edit User";
                 axios.get("/api/user/edit/"+id).then((response) => {
                     this.$data.formValues = response.data;
+                    this.image =  '/assets/img/users/'+this.$data.formValues.image;
                 });
             },
             onFileChange(e) {
@@ -268,7 +268,7 @@
                 });
             },
             validateBeforeSubmit() {
-                this.$validator.validateAll(this.$data.formValues).then(() => {
+                this.$validator.validateAll().then(() => {
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {

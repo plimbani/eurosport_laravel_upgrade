@@ -65,7 +65,7 @@
    export default {
    data() {
         return {
-         userId:this.$store.state.Users.userDetails.id? this.$store.state.Users.userDetails.id : 1,
+        'userId': 1,
         'image': '',
         'name': ''
         }
@@ -78,6 +78,7 @@
     props: ['userData'],
     methods : {
         updateUser(){
+        this.userId = this.userData.id
         let that = this;
         this.userData.user_image = this.image;
              axios.post("/api/user/update/"+this.userId,this.userData).then((response) => {
