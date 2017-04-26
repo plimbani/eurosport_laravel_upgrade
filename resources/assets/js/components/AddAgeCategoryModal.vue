@@ -37,9 +37,10 @@
                       <option value="">{{$lang.competation_modal_select_category_age}}</option> 
                       <option v-if="n > 4" v-for="n in (21)" 
                       v-bind:value="n">     
-                     under {{n}}s 
+                     Under {{n}}s 
                     </option>
-                    <option>Adults</option>
+                    <option>Men open age</option>
+                    <option>Women open age</option>
                   </select>
                   <span class="help is-danger" v-show="errors.has('category_age')">{{$lang.competation_modal_age_category_required}}</span>
                 </div>
@@ -103,7 +104,7 @@
             </div>
           </div> 
           <div class="form-group row align-items-center">
-              <div class="col-sm-6 form-control-label">{{$lang.competation_modal_game_duration}}2</div>
+              <div class="col-sm-6 form-control-label">{{$lang.competation_modal_game_duration}}</div>
               <div class="col-sm-6">
                 <div class="row align-items-center">
                   <span class="col-sm-2">2 <small>X</small></span>
