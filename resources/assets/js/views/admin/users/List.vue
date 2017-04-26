@@ -68,7 +68,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Enter first name">
                                     <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('name')">This field is required</span>
+                                    <span class="help is-danger" v-show="errors.has('name')">This field is required.</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -76,7 +76,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
                                     <i v-show="errors.has('surname')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('surname')">This field is required</span>
+                                    <span class="help is-danger" v-show="errors.has('surname')">This field is required.</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -84,7 +84,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
                                     <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('email_address')">The email address field is required.</span>
+                                    <span class="help is-danger" v-show="errors.has('email_address')">This field is required.</span>
                                 </div> 
                             </div>
 
@@ -115,7 +115,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
                                     <i v-show="errors.has('organisation')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('organisation')">{{ errors.first('organisation') }}</span>
+                                    <span class="help is-danger" v-show="errors.has('organisation')">This field is required.</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -127,7 +127,7 @@
                                             {{ role }}
                                         </option>
                                     </select>
-                                    <span class="help is-danger" v-show="errors.has('user_type')">The user type field is required.</span>
+                                    <span class="help is-danger" v-show="errors.has('user_type')">This field is required.</span>
                                 </div>
                             </div>
                         </div>
@@ -256,8 +256,7 @@
                     console.log(error)
                 });
             },
-            validateBeforeSubmit(){
-                console.log('hi')
+            validateBeforeSubmit() {
                 this.$validator.validateAll().then(() => {
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
@@ -270,7 +269,7 @@
                     } else {
                     this.formValues.user_image = this.image;
                     let that = this
-                    setTimeout(function(){
+                    setTimeout(function(){          
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");

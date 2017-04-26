@@ -11,6 +11,7 @@ module.exports = {
   welcome_add_user: 'Add new edition',
   welcome_see_tournament_admin_view: 'See tournament administrator view',
   welcome_add_button_new_tournament: 'Add new tournament',
+  welcome_add_button_new_edition: 'Add new edition',
 
   siteheader_name: "Chris",
   siteheader_settings: "Settings",
@@ -63,8 +64,8 @@ module.exports = {
   tournament_start_date: "Tournament start date",
   tournament_end_date: "Tournament end date",
   tournament_show_optional_details: "Show optional details",
-  tournament_website: "Enter website",
-  tournament_facebook: "Enter Facebook",
+  tournament_website: "Website",
+  tournament_facebook: "Facebook",
   tournament_twitter: "Twitter",
   tournament_tournament_logo: "Choose file",
   tournament_eurosporting: "Euro-Sportring contact",
