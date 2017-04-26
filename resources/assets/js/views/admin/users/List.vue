@@ -32,10 +32,10 @@
                                         <td v-if="(user.roles).length>0">{{ user.roles[0].name }}</td>
                                         <td v-else></td>
                                         <td v-if="user.is_verified == 1">Accepted</td>
-                                      
+
                                         <td class="text-left" v-else>
                                         <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
-                                        </td> 
+                                        </td>
                                         <td>
                                             <a href="javascript:void(0)" data-toggle="modal" data-target="#user_form_modal" @click="editUser(user.id)"><i class="jv-icon jv-edit"></i></a>
                                             &nbsp;
@@ -66,9 +66,9 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.name" v-validate="'required'" 
-                                    :class="{'is-danger': errors.has('name') }" 
-                                    name="name" type="text" 
+                                    <input v-model="formValues.name" v-validate="'required'"
+                                    :class="{'is-danger': errors.has('name') }"
+                                    name="name" type="text"
                                     class="form-control" placeholder="Enter first name">
                                     <i v-show="errors.has('name')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('name')">{{$lang.user_management_add_name_required}}</span>
@@ -88,7 +88,7 @@
                                     <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
                                     <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
-                                </div> 
+                                </div>
                             </div>
 
                             <!-- <div class="form-group row" v-if="formValues.id === ''">
@@ -103,8 +103,8 @@
                                 <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                                 <div class="col-sm-6">
                                       <div v-if="!image">
-                                          <button type="button" id="profile_image_file">Choose file</button>  
-                                          <input type="file" name="userImg" id="userImg" style="display:none;" 
+                                          <button type="button" id="profile_image_file">Choose file</button>
+                                          <input type="file" name="userImg" id="userImg" style="display:none;"
                                           @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.<br/>
                                           Image dimensions 100 x 100.</p>
@@ -113,7 +113,7 @@
                                               <img :src="image" width="40px" height="50px"/>
                                               <button @click="removeImage">Remove image</button>
                                       </div>
-                                </div>      
+                                </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
@@ -138,7 +138,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-                            <button type="button" class="btn btn-primary" @click="validateBeforeSubmit()">{{$lang.user_management_user_save}}</button> 
+                            <button type="button" class="btn btn-primary" @click="validateBeforeSubmit()">{{$lang.user_management_user_save}}</button>
 
                         </div>
                     </form>
@@ -149,7 +149,7 @@
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
     </div>
 </template>
-<script type="text/babel">    
+<script type="text/babel">
     import DeleteModal from '../../../components/DeleteModal.vue'
     import ResendModal from '../../../components/Resendmail.vue'
 
@@ -216,7 +216,7 @@
             addUser() {
                // this.$data.formValues = this.initialState();
                 this.userModalTitle="Add User";
-                this.initialState()               
+                this.initialState()
             },
             resendModalOpen(data) {
                 this.resendEmail = data
@@ -228,12 +228,12 @@
                     this.$data.formValues = response.data;
                 });
             },
-            onFileChange(e) {        
+            onFileChange(e) {
               var files = e.target.files || e.dataTransfer.files;
               if (!files.length)
                 return;
               this.createImage(files[0]);
-            },  
+            },
             createImage(file) {
               var image = new Image();
               var reader = new FileReader();
@@ -247,8 +247,8 @@
             removeImage: function (e) {
               this.image = '';
               e.preventDefault();
-            },      
-            
+            },
+
             prepareDeleteResource(id) {
                 this.deleteAction="/api/user/delete/"+id;
             },
@@ -268,8 +268,6 @@
                 });
             },
             validateBeforeSubmit() {
-                alert(JSON.stringify(this.$data.formValues))
-                alert(JSON.stringify(this.formValues))
                 this.$validator.validateAll(this.$data.formValues).then(() => {
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
@@ -282,7 +280,7 @@
                     } else {
                     this.formValues.user_image = this.image;
                     let that = this
-                    setTimeout(function(){          
+                    setTimeout(function(){
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
@@ -290,7 +288,7 @@
                             that.updateUserList();
                         });
                     },1000)
-                       
+
                     }
                 }).catch((errors) => {
                      console.log(errors)
