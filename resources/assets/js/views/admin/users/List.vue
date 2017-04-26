@@ -71,7 +71,7 @@
                                     name="name" type="text" 
                                     class="form-control" placeholder="Enter first name">
                                     <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('name')">This field is required.</span>
+                                    <span class="help is-danger" v-show="errors.has('name')">{{$lang.user_management_add_name_required}}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -79,7 +79,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
                                     <i v-show="errors.has('surname')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('surname')">This field is required.</span>
+                                    <span class="help is-danger" v-show="errors.has('surname')">{{$lang.user_management_add_surname_required}}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -87,7 +87,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
                                     <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('email_address')">This field is required.</span>
+                                    <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
                                 </div> 
                             </div>
 
@@ -120,7 +120,7 @@
                                 <div class="col-sm-6">
                                     <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
                                     <i v-show="errors.has('organisation')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('organisation')">This field is required.</span>
+                                    <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -132,7 +132,7 @@
                                             {{ role }}
                                         </option>
                                     </select>
-                                    <span class="help is-danger" v-show="errors.has('user_type')">This field is required.</span>
+                                    <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
                                 </div>
                             </div>
                         </div>
