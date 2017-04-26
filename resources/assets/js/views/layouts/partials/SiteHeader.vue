@@ -72,6 +72,7 @@
     import Layout from '../../../helpers/layout'
     import Auth from '../../../services/auth'
     import User from '../../../views/admin/Userprofile.vue'
+    import Ls from '../../../services/ls'
 
     export default {
     components: {
@@ -79,13 +80,13 @@
         },
         data() {
             return {
-                'id':this.$store.state.Users.userDetails.id? this.$store.state.Users.userDetails.id : 1,
+                'id':0,
                 'header' : 'header',
                 'date': '',
                 'curTime': '' ,
                 'name': '',
                 'image': '',
-                'userData':this.$store.state.Users.userDetails
+                'userData':[]
             }
         },
         // computed: {
@@ -98,17 +99,45 @@
                 
         //     }
         // },
+
         mounted() {
+        
+        let email = Ls.get('email');
+        // Here we call Function to get User Details
+        let userData = {'email':email}
+        this.getUserDetails(userData)
+
+        /*
+        alert('aft'+this.$store.state.Users.userDetails.id)
+        alert(JSON.stringify(this.$store.state.Users.userDetails))
         let this1 = this
         setInterval(function(){this1.clock() },1000)
         let that = this
         if(this.id!=''){
             setTimeout(function(){
+                alert('helloid'+this.id)
                 that.editUser(that.id)
             },2000)
-        }
+        } */
          },
         methods : {
+            getUserDetails(emailData){
+                axios.post("/api/user/getDetails",{'userData':emailData}).then((response) => {
+                      this.userData = response.data.data;
+                      Ls.set('userData',JSON.stringify(this.userData[0]))                      
+                      this.id = this.userData[0].id
+                      let Id = this.id                     
+                      let this1 = this
+                      setInterval(function(){this1.clock() },1000)
+                        let that = this
+                        if(Id!=''){
+                            that.editUser(Id)
+                            /*setTimeout(function(){
+                                that.editUser(Id)
+                            },1000)*/
+                        }
+                    });
+            },
             initialState() {
                 return {
                     id: '',
@@ -162,6 +191,12 @@
         computed: {
             TournamentName() {                
                 return this.$store.state.Tournament.tournamentName
+            },
+            userId() {
+                return this.$store.state.Users.userDetails.id
+            },
+            userData() {
+                return this.$store.state.Users.userDetails
             }
         }
 
