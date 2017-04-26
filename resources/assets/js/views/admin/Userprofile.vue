@@ -18,6 +18,23 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-sm-5 form-control-label">{{$lang.user_desktop_surname}}</label>
+                        <div class="col-sm-6">
+                            <input  v-validate="'required|alpha'" v-model="userData.surname" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
+                            <i v-show="errors.has('surname')" class="fa fa-warning"></i>
+                            <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
+                        </div>
+                    </div>
+                     <div class="form-group row">
+                        <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
+                        <div class="col-sm-6">
+                            
+                            <input v-model="userData.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
+                            <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
+                            <span class="help is-danger" v-show="errors.has('email_address')">{{ errors.first('email_address') }}</span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                         <div class="col-sm-6">
                             <div v-if="!image">
@@ -63,7 +80,7 @@
         let that = this;
         this.userData.user_image = this.image;
              axios.post("/api/user/update/"+this.userId,this.userData).then((response) => {
-                toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
+                toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                 $("#user_profile").modal("hide");
             });
         },

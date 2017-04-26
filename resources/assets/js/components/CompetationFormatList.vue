@@ -112,7 +112,7 @@ export default {
         (response) => {
           if(response.data.status_code==200){
              $("#delete_modal").modal("hide");
-             toastr.success('Competation has been deleted succesfully.', 'Delete Compeation', {timeOut: 5000});
+             toastr.success('Competation has been deleted successfully.', 'Delete Compeation', {timeOut: 5000});
              this.displayTournamentCompetationList();
           }
         },
