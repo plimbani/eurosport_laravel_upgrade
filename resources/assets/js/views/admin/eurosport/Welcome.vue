@@ -64,9 +64,13 @@ computed: {
     },    
   },
   mounted() {
+    let tournamentAdd  = {name:'', 'currentPage':'Home'}  
+    this.$store.dispatch('SetTournamentName', tournamentAdd)
 
     // Here we set Default Value For Tournament
-    let userDetails = this.$store.state.Users.userDetails
+    let UserData  = JSON.parse(Ls.get('userData'))
+    this.$store.dispatch('getUserDetails', UserData);
+    /*let userDetails = this.$store.state.Users.userDetails
         // this.userDetails = this.$store.state.Users.userDetails
    
     let that = this
@@ -88,7 +92,7 @@ computed: {
      },1000)
 
 
-     
+     */
   },
   methods : {
     addNewTournament() {     
