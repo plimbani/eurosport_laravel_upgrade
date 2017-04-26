@@ -19,7 +19,7 @@
             <div class= "form-group">
               <button class="btn btn-primary col-sm-8 btn-theme" 
               @click="addNewTournament()" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')">
-              {{$lang.welcome_add_button_new_tournament}}</button>
+              {{$lang.welcome_add_button_new_edition}}</button>
             </div>          
               <div class="form-group">
                 <tournamentDropDown></tournamentDropDown>              

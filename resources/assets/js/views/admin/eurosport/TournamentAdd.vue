@@ -205,7 +205,7 @@
                       </div>
                       <div class="form-group row">
                       <div class="col-sm-3">
-                      <button class="btn btn-danger w-75" @click.prevent="removeLocation(index)" v-if="index > 0">- Remove location</button>
+                      <button class="btn btn-danger w-75" @click.prevent="removeLocation(index)" v-if="index > 0">&#8212; Remove location</button>
                       </div>
                       </div>
                       </div>
@@ -373,8 +373,6 @@ export default {
       });
     },
     onFileChange(e) {
-      alert('hellofilechanghe')
-      alert(JSON.stringify(e))
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length)
         return;
