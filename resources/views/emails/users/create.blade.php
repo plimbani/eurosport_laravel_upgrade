@@ -201,8 +201,8 @@
                     <tr>
                       <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px;" align="left">
                         <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;">
-                          <h4 padding="5px">Hi {{ $email_details['name'] }},</h4>
-                          <h4 padding-bottom="0">Your Eurosport account has been created. Please click the link below and set your password to finalise your account set up.</h4></div>
+                          <p padding="5px">Hi {{ $email_details['name'] }},</p>
+                          <p padding-bottom="0">Your Eurosport account has been created. Please click the link below and set your password to finalise your account set up.</p></div>
                       </td>
                     </tr>
                     <tr>

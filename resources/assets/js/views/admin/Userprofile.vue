@@ -42,7 +42,8 @@
                             <img v-else src="http://placehold.it/60x60" width="100px" height="100px"/>
                                     <button type="button" name="btnImage" id="btnImage">Choose file</button>
                                     <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
-                                    <p class="help-block">Maximum size of 1 MB.</p>
+                                    <p class="help-block">Maximum size of 1 MB.<br/>
+                                    Image dimensions 100 x 100.</p>
                             </div>
                             <div v-else>
                                 <img :src="image" width="60px" height="60px"/>
