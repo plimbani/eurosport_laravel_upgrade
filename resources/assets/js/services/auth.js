@@ -5,12 +5,12 @@ export default {
     login(loginData){
         return axios.post('/api/auth/login', loginData).then(response =>  {
             Ls.set('auth.token',response.data.token)
-            // We set Email Over here 
+            // We set Email Over here
             Ls.set('email',loginData.email)
-           
+
         }).catch(error => {
             if (error.response.status == 401) {
-                toastr['error']('Invalid Credentials', 'Error');                
+                toastr['error']('Invalid Credentials', 'Error');
                 Ls.remove('auth.token')
                 Ls.remove('email')
             } else {
@@ -28,14 +28,11 @@ export default {
             Ls.remove('vuex')
             // here we have to reload the page
             toastr['success']('Logged out!', 'Success');
-            setTimeout(this.reloadPage, 1000);
+            setTimeout(Plugin.reloadPage, 1000);
         }).catch(error => {
             console.log('Error', error.message);
         });
-        // Reload        
-    },
-    reloadPage() {
-        location.reload()
+        // Reload
     },
     check(){
         return axios.get('/api/auth/check').then(response =>  {
