@@ -84,8 +84,8 @@
 }
 
 .site-footer {
-    background-color: $white;
-    color: #818a91;
+    background-color: $ls-color-gray--very-dark;
+    color: $white;
     font-size: 13px;
     font-weight: normal;
     min-height: 60px;
@@ -96,7 +96,7 @@
         width: 100%;
     }
     a {
-        color: $ls-color-black--light;
+        color: $white;
     }
 }
 
