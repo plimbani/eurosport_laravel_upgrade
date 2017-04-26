@@ -210,7 +210,7 @@
 
                 axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
                     $("#resend_modal").modal("hide");
-                     toastr.success('Mail has been send succesfully.', 'Mail sent', {timeOut: 5000});
+                     toastr.success('Mail has been send successfully.', 'Mail sent', {timeOut: 5000});
                 });
             },
             addUser() {
@@ -272,7 +272,7 @@
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
                         axios.post("/api/user/create", this.formValues).then((response) => {
-                            toastr.success('User has been added succesfully.', 'Add User', {timeOut: 5000});
+                            toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                             this.$data.formValues = this.initialState();
                             this.updateUserList();
@@ -282,7 +282,7 @@
                     let that = this
                     setTimeout(function(){
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
-                            toastr.success('User has been updated succesfully.', 'Update User', {timeOut: 5000});
+                            toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                             that.$data.formValues = that.initialState();
                             that.updateUserList();
@@ -298,7 +298,7 @@
             deleteConfirmed() {
                 axios.post(this.deleteAction).then((response) => {
                     $("#delete_modal").modal("hide");
-                    toastr.success('User has been deleted succesfully.', 'Delete User', {timeOut: 5000});
+                    toastr.success('User has been deleted successfully.', 'Delete User', {timeOut: 5000});
                     this.updateUserList();
                 });
             },
