@@ -195,9 +195,9 @@
                                                           </div>
                                                           <div class="col-md-3">
 
-                                                              <span :id="'stage_capacity_s1pan'+day"  class="badge badge-pill badge-info">0.00 hrs</span>
-                                                              <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity'+day" value="0.00">
-                                                              <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity_min'+day" value="0">
+                                                              <span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill badge-info">0.00 hrs</span>
+                                                              <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity1'+day" value="0.00">
+                                                              <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity1_min'+day" value="0">
                                                           </div>
                                                       </div>
                                                   </div>
@@ -372,8 +372,8 @@ var moment = require('moment');
               }
 
               if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage).val() == '' || $('#stage_continue_time'+stage).val() == ''  ) {
-                  $('#stage_capacity_s1pan'+stage).text('0.00 hrs');
-                  $('#stage_capacity'+stage).val('0.00');
+                  $('#stage_capacity1_s1pan'+stage).text('0.00 hrs');
+                  $('#stage_capacity1'+stage).val('0.00');
               }else {
 
               var stageTimeStart = new Date("01/01/2017 "+ $('#stage_start_time'+stage).val());
@@ -393,9 +393,9 @@ var moment = require('moment');
                       var time_val = '0.0'
                       var time = '00:00 hrs'
                   }     
-              $('#stage_capacity'+stage).val(time_val);
-              $('#stage_capacity_min'+stage).val(diff);
-              $('#stage_capacity_s1pan'+stage).text(time);             
+              $('#stage_capacity1'+stage).val(time_val);
+              $('#stage_capacity1_min'+stage).val(diff);
+              $('#stage_capacity1_s1pan'+stage).text(time);             
               }
        
           })
