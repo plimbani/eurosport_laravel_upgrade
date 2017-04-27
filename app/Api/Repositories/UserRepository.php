@@ -19,7 +19,7 @@ class UserRepository {
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
                 ->where('users.email',trim($email))
                 ->select("users.*", "roles.name as role_name","roles.slug as role_slug")
-                ->get(); 
+                ->get();
         return $user;
     }
     public function getUsersByRegisterType($registerType)
@@ -35,7 +35,7 @@ class UserRepository {
     }
 
     public function create($data)
-    {        
+    {
         $userData = [
         'person_id' => $data['person_id'],
         'username' => $data['username'],
@@ -48,7 +48,8 @@ class UserRepository {
         'is_online' => 0,
         'is_active' => 0,
         'is_blocked' => 0 ,
-        'is_mobile_user' => 0
+        'is_mobile_user' => 0,
+        'user_image'=>$data['user_image']
         ];
         return User::create($userData);
     }
@@ -65,7 +66,7 @@ class UserRepository {
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
             ->select("users.id as id", "users.email as emailAddress","users.user_image as image", "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
             ->where("users.id", "=", $userId)
-            ->first();                    
+            ->first();
        return json_encode($user);
     }
 
@@ -82,7 +83,7 @@ class UserRepository {
     public function createPassword($usersDetail)
     {
         $key = $usersDetail['key'];
-        $password = $usersDetail['password']; 
+        $password = $usersDetail['password'];
         $usersPassword = User::where('token', $key)->first();
         // echo "<pre>";print_r($usersPassword);echo "</pre>";exit;
         $users = User:: where("id", $usersPassword->id)->first();
@@ -92,6 +93,6 @@ class UserRepository {
         $users->password = Hash::make($password);
         // $users->password = $password;
         $user =  $users->save();
-       
+
     }
 }
