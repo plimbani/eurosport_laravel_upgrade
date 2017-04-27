@@ -113,6 +113,8 @@
             getUserDetails(emailData){
                 axios.post("/api/user/getDetails",{'userData':emailData}).then((response) => {
                       this.userData = response.data.data;
+                      //console.log('InuserDetails')
+                      //console.log(this.userData[0])
                       Ls.set('userData',JSON.stringify(this.userData[0]))
                       this.id = this.userData[0].id
                       let Id = this.id
@@ -125,9 +127,14 @@
                                 that.editUser(Id)
                             },1000)*/
                         }
+
+                        let UserData  = JSON.parse(Ls.get('userData'))
+                       //console.log(UserData)
+                       this.$store.dispatch('getUserDetails', UserData);
+
                     });
-             let UserData  = JSON.parse(Ls.get('userData'))
-             this.$store.dispatch('getUserDetails', UserData);
+
+
             },
             initialState() {
                 return {
