@@ -18,14 +18,14 @@ class TournamentRepository
     public function getTournamentsByStatus($tournamentData)
     {
        $status = $tournamentData['status'];
-       return Tournament::where('status',$status)->get();   
+       return Tournament::where('status',$status)->get();
     }
     public function getAll()
     {
         return Tournament::get();
     }
-    public function getTemplate($tournamentTemplateId) { 
-        
+    public function getTemplate($tournamentTemplateId) {
+
         return TournamentTemplates::find($tournamentTemplateId)->json_data;
     }
     public function getAllTemplates()
@@ -34,7 +34,7 @@ class TournamentRepository
     }
     public function create($data)
     {
-      
+
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
@@ -51,46 +51,46 @@ class TournamentRepository
 
         // Now here we Save it For Tournament
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
-           // Update Touranment Table Data 
+           // Update Touranment Table Data
           $tournamentId = $data['tournamentId'];
           // unset($newdata['start_date']);
           // unset($newdata['end_date']);
           $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
           $newdata['end_date'] = Carbon::createFromFormat('d/m/Y', $newdata['end_date']);
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
-          
-        } else {      
-         $tournamentId = Tournament::create($newdata)->id;    
-        } 
-        //$tournamentId = Tournament::create($newdata)->id;   
+
+        } else {
+         $tournamentId = Tournament::create($newdata)->id;
+        }
+        //$tournamentId = Tournament::create($newdata)->id;
         // Also Update the image Logo
-        //Tournament::where('id',$tournamentId)->update('logo'=>'tournament_'.$tournamentId);   
-        unset($newdata);  
+        //Tournament::where('id',$tournamentId)->update('logo'=>'tournament_'.$tournamentId);
+        unset($newdata);
         // Now here we save the eurosport contact details
         $tournamentContactData =  array();
         $tournamentContactData['first_name'] = $data['tournament_contact_first_name'];
         $tournamentContactData['last_name'] = $data['tournament_contact_last_name'];
         $tournamentContactData['telephone'] = $data['tournament_contact_home_phone'];
         $tournamentContactData['tournament_id'] = $tournamentId;
-        
+
         // Save Tournament Contact Data
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
-           // Update Touranment Table Data 
+           // Update Touranment Table Data
           $updatedData = TournamentContact::where('tournament_id', $tournamentId)->update($tournamentContactData);
-          
-        } else {      
+
+        } else {
          TournamentContact::create($tournamentContactData);
         }
-        
+
         unset($tournamentContactData);
-        // Save Tournament Venue Data     
+        // Save Tournament Venue Data
         // we have to loop for according to loations
         $locationCount = $data['locationCount'];
         $locData = $data['locations'];
         $locationData = array();
         foreach($locData as $location) {
             $locationData['id'] =$location['tournament_location_id'] ?? '';
-            $locationData['name'] =$location['tournament_venue_name'] ?? ''; 
+            $locationData['name'] =$location['tournament_venue_name'] ?? '';
             $locationData['address1'] =$location['touranment_venue_address'] ?? '';
             $locationData['city'] =$location['tournament_venue_city'] ?? '';
             $locationData['postcode'] =$location['tournament_venue_postcode'] ?? '';
@@ -99,27 +99,39 @@ class TournamentRepository
             $locationData['tournament_id']=$tournamentId;
             // $locationData['organiser'] =$data['tournament_venue_organiser'];
             if(isset($locationData['id']) && $locationData['id'] != 0){
-           // Update Touranment Table Data 
+           // Update Touranment Table Data
              if(isset($data['del_location']) && $data['del_location'] != 0)
              {
                 $data = Venue::find($data['del_location'])->delete();
-             }   
+             }
              Venue::where('id', $locationData['id'])->update($locationData);
-            } else {      
+            } else {
            //  TournamentContact::create($tournamentContactData);
-             $locationId = Venue::create($locationData)->id;   
+             $locationId = Venue::create($locationData)->id;
             }
         }
         $tournamentData = array();
 
-        $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'], 'tournamentEndDate' => $data['end_date'], 
+        $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'], 'tournamentEndDate' => $data['end_date'],
             'tournamentStatus'=> 'UnPublished',
-            'tournamentLogo' => $data['image_logo'], 
-            'tournamentDays'=> 2);
+            'tournamentLogo' => $data['image_logo'],
+            'tournamentDays'=> $this->getTournamentDays($data['start_date'],$data['end_date']),
+            'facebook' => $data['facebook'],
+            'twitter' => $data['twitter'],
+            'website' => $data['website'],
+            );
 
-        return $tournamentData;        
+        return $tournamentData;
     }
+    private function getTournamentDays ($startDate,$endDate)
+    {
 
+      $created = Carbon::createFromFormat('d/m/Y', $startDate);
+      $now = Carbon::createFromFormat('d/m/Y', $endDate);
+
+      $days = ($created->diff($now)->days < 1) ? 1 : $created->diffForHumans($now)+1;
+      return $days;
+    }
     public function edit($data)
     {
         return Tournament::where('id', $data['id'])->update($data);
@@ -133,8 +145,8 @@ class TournamentRepository
 
         // here we put validation for tournament id is exist
         $summaryData = array();
-       
-        // we only consider relevent table data 
+
+        // we only consider relevent table data
        $locationData = Venue::where('tournament_id', $tournamentId)->get();
 
        // we get Multiple LocationIds
@@ -144,20 +156,20 @@ class TournamentRepository
         foreach($locationData as $location) {
             $tempData['locationData'][]=$location;
         }
-        
+
         $summaryData['locations']=$tempData['locationData'];
-        
+
        }
        $tournamentCompetaionTemplateData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
 
-         
+
        if(count($tournamentCompetaionTemplateData) > 0 )
-       {	
+       {
 	       foreach($tournamentCompetaionTemplateData as $tournamentData) {
-	       	// here we consider whole string for total teams	
+	       	// here we consider whole string for total teams
 	       	$tempData['total_teams'][] =  $tournamentData['disp_format_name'];
-	       	$tempData['total_match'][] =  $tournamentData['total_match'];  
-	       	$tempData['age_group'][]=$tournamentData['group_name'];    	
+	       	$tempData['total_match'][] =  $tournamentData['total_match'];
+	       	$tempData['age_group'][]=$tournamentData['group_name'];
 	       }
 	      $summaryData['tournament_matches'] = array_sum($tempData['total_match']);
         $summaryData['tournament_teams'] = array_sum($tempData['total_teams']);
@@ -167,11 +179,11 @@ class TournamentRepository
        $tournamentPitch = Pitch::where('tournament_id', $tournamentId)->get();
 
        $summaryData['tournament_age_categories'] = count($tournamentCompetaionTemplateData);
-        
+
          $summaryData['tournament_pitches'] = count($tournamentPitch);
          // TODO: referee is remaining
          $summaryData['tournament_referees'] = '--';
-        
+
         // TODO: country  is remaining depends on team
          $summaryData['tournament_countries'] = '--';
 
@@ -182,7 +194,7 @@ class TournamentRepository
             $summaryData['tournament_contact'] = $peopleData[0];
             //$summaryData['tournament_contact'] = $peopleData[0]['first_name'].','.$peopleData[0]['last_name'];
          }
-        
+
 	       //$locationData = Venue::find();
        return $summaryData;
     }
@@ -197,11 +209,11 @@ class TournamentRepository
                 ->get();
 
             return $matchData;
-            
+
 
     }
     public function updateStatus($tournamentData)
-    {    
+    {
         $newdata = array();
         $newdata['status'] = $tournamentData['status'];
         $tournamentId =   $tournamentData['tournamentId'];
