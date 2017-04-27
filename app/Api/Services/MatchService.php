@@ -130,18 +130,36 @@ class MatchService implements MatchContract
      *
      * @return [type]
      */
-    public function getDrawTable($data)
+    public function getDrawTable($Data)
     {
-       $data = $data->all();
+       $Data = $Data->all();
         
        $drawTableResData = $this->matchRepoObj->getDrawTable($data['tournamentData']);
 
         if (is_array($drawTableResData)) {
-            return ['status_code' => '200', 'data' => $drawTableResData,'message' => 'Match Draw data'];
+            return ['status_code' => '200', 'data' => $drawTableResData, 'message' => 'Match Draw data'];
         } else {
             return ['status_code' => '300', 'message' => $drawTableResData];
         }
     }
-    
-    
+
+    public function scheduleMatch($matchData) {
+        $scheduledResult = $this->matchRepoObj->setMatchSchedule($matchData->all()['tournamentData']);
+        if ($scheduledResult) {
+            return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match scheduled successfully'];
+        } else {
+            return ['status_code' => '300', 'message' => $scheduledResult];
+        }
+    }  
+
+    public function getAllScheduledMatch($matchData) {
+        $scheduledResult = $this->matchRepoObj->getAllScheduledMatches($matchData->all());
+        if ($scheduledResult) {
+            return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match scheduled successfully'];
+        } else {
+            return ['status_code' => '300', 'message' => $scheduledResult];
+        }
+    }  
+
+
 }

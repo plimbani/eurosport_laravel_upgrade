@@ -64,6 +64,8 @@ $api->version('v1', function ($api) {
     $api->post('match/getStanding','Laraspace\Api\Controllers\MatchController@getStanding');
     
     $api->post('match/getDrawTable','Laraspace\Api\Controllers\MatchController@getDrawTable');
+    $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
+    $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
 
     //pitch api
     $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');

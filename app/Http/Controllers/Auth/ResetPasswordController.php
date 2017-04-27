@@ -48,6 +48,7 @@ class ResetPasswordController extends Controller
     // }
     public function showResetForm(Request $request, $token = null)
     {
+        dd($token);
         // dd($request->all(),$token);
          $password_reset = \DB::table('password_resets')->where('token', $token)->first();
         // if(empty($password_reset)){

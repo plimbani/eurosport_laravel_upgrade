@@ -36,4 +36,7 @@ interface MatchContract
      * @return response
      */
     public function deleteMatch($deleteId);
+    public function scheduleMatch($matchData);
+    public function getAllScheduledMatch($matchData);
+
 }

@@ -43,6 +43,7 @@
 </template>
 
 <script type="text/babel">	
+var moment = require('moment');
 	import PitchModal from '../../../components/PitchModal.vue';
 	import PitchPlannerTable from '../../../components/PitchPlannerTable.vue';
 	

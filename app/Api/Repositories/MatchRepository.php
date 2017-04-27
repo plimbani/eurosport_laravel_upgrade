@@ -5,6 +5,7 @@ namespace Laraspace\Api\Repositories;
 use Laraspace\Models\MatchResult;
 use Laraspace\Models\Competition;
 use Laraspace\Models\Fixture;
+use Laraspace\Models\TempFixture;
 
 use DB;
 
@@ -142,11 +143,14 @@ class MatchRepository
                 'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id','HomeFlag.logo as HomeFlagLogo','AwayFlag.logo as AwayFlagLogo','temp_fixtures.hometeam_score as homeScore',
                 'temp_fixtures.awayteam_score as AwayScore',
                 'temp_fixtures.pitch_id as pitchId',
+                'temp_fixtures.is_scheduled',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
                 'tournament_competation_template.game_duration_RR',
                 'tournament_competation_template.game_duration_FM',
                 'tournament_competation_template.halftime_break_RR',
                 'tournament_competation_template.halftime_break_FM',
+                'tournament_competation_template.match_interval_RR',
+                'tournament_competation_template.match_interval_FM',
                 DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
                 )
             ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -489,6 +493,24 @@ class MatchRepository
       return $teamArray;
     }
 
-    
+    public function setMatchSchedule($data) 
+    {
+      $updateData = [
+        'pitch_id' => $data['pitchId'],
+        'match_datetime' => $data['matchStartDate'],
+        'match_endtime' => $data['matchEndDate'],
+        'is_scheduled' => 1,
+      ];
+     return DB::table('temp_fixtures')
+            ->where('id', $data['matchId'])
+            ->update($updateData);
+    }
+
+    public function getAllScheduledMatches($data) 
+    {
+      return TempFixture::where('tournament_id',$data['tournamentId'])
+                  ->where('is_scheduled','1')
+                  ->get(); 
+    }
        
 }

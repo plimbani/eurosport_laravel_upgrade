@@ -85,5 +85,12 @@ class MatchController extends Controller
     public function getDrawTable(Request $request) {
         return $this->matchObj->getDrawTable($request);
     }
+    public function scheduleMatch(Request $request) {
+         return $this->matchObj->scheduleMatch($request);
+    }
+    public function getAllScheduledMatch(Request $request) {
+        return $this->matchObj->getAllScheduledMatch($request);
+    }
+    
        
 }

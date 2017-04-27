@@ -1,4 +1,4 @@
-import api from './siteconfig'
+ import api from './siteconfig'
 
 export default {  
   getAllTournaments() {  	
@@ -84,6 +84,12 @@ export default {
   },
   updateStatus(tournamentData) {
     return api.post('tournament/updateStatus',{'tournamentData': tournamentData})
-  }
-
+  },
+  setMatchSchedule(tournamentData) {
+    console.log(tournamentData,'tournamentData')
+    return api.post('match/schedule',{'tournamentData': tournamentData})
+ },
+  getAllScheduledMatch(tournamentId) {
+    return api.post('match/getScheduledMatch',{'tournamentId': tournamentId})
+ },
 }
