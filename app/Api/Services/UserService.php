@@ -30,7 +30,7 @@ class UserService implements UserContract
 
     public function getUsersByRegisterType($registerType)
     {
-        
+
         return $this->userRepoObj->getUsersByRegisterType($registerType);
     }
 
@@ -60,10 +60,11 @@ class UserService implements UserContract
 
        if($data['user_image']!='')
         {
+
             $imagename = $this->saveUsersLogo($data);
+
             $userData['user']['user_image']=$imagename;
         }
-        
 
         // $userData['user']['password'] = Hash::make('password');
         // // dd($userData['user']);
@@ -74,7 +75,7 @@ class UserService implements UserContract
         $userData['user']['token'] = $token;
 
         $userObj=$this->userRepoObj->create($userData['user']);
-        
+
         $userObj->attachRole($data['userType']);
 
         if ($data) {
@@ -96,21 +97,21 @@ class UserService implements UserContract
 
     }
     public function saveUsersLogo($data)
-    { 
+    {
        if($data['user_image'] != '')
-       {    
-            $image_string = $data['user_image']; 
+       {
+            $image_string = $data['user_image'];
 
-            $img = explode(',', $image_string);        
-            $imgData = base64_decode($img[1]);        
+            $img = explode(',', $image_string);
+            $imgData = base64_decode($img[1]);
 
             $name = $data['name'];
-            
+
             $now = new \DateTime();
-            
+
             $timeStamp = $now->getTimestamp();
-            $path = public_path().'/assets/img/users/'.$timeStamp.'.png';      
-            file_put_contents($path, $imgData);      
+            $path = public_path().'/assets/img/users/'.$timeStamp.'.png';
+            file_put_contents($path, $imgData);
             return $timeStamp.'.png';
         } else {
             return '';
@@ -125,19 +126,19 @@ class UserService implements UserContract
      */
     public function edit($userId)
     {
-        
+
         return $this->userRepoObj->edit($userId);
     }
 
     public function getUserDetails($data)
     {
-        
+
         $data =  $this->userRepoObj->getUserDetails($data);
-            
+
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
-        
+
     }
 
     /**
@@ -157,13 +158,22 @@ class UserService implements UserContract
         $imagename ='';
         if($data['user_image']!='')
         {
-            $imagename = $this->saveUsersLogo($data);
+         // echo \Route::current();
+            if(file_exists($_SERVER['DOCUMENT_ROOT'].$data['user_image'])) {
+              // $imagename = $data['user_image'];
+            } else {
+              $imagename = $this->saveUsersLogo($data);
+              $userData['user']['user_image']=$imagename;
+            }
+        } else {
+          $userData['user']['user_image']=$imagename;
         }
+
 
         $userData['user']['name']=$data['name']." ".$data['surname'];
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
-        $userData['user']['user_image']=$imagename;
+
 
         $this->userRepoObj->update($userData['user'], $userId);
 
@@ -175,7 +185,7 @@ class UserService implements UserContract
         $userData['people']['last_name']=$data['surname'];
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
 
-        
+
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
