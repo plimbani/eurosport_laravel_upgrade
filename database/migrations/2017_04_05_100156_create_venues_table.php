@@ -25,6 +25,7 @@ class CreateVenuesTable extends Migration
             $table->string('county')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
+            $table->string('organiser')->nullable();
             $table->string('postcode')->nullable();
             $table->string('contact_no')->nullable();
             $table->string('email_address')->nullable();
