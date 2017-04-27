@@ -17,11 +17,32 @@ export default {
             });
         });
     },
-
+    reloadPage(){
+      location.reload()
+    },
     MetisMenu(){
         $("#menu").metisMenu();
     },
+    ValidateImageSize(fdata) {
 
+      var maxSize = '1024';
+       if (fdata && fdata[0]) {
+        var fsize = fdata[0].size/1024;
+        if(fsize > maxSize) {
+           alert('Maximum file size exceed');
+           return false;
+        }
+        else {
+          return true;
+        }
+      }
+    },
+    ValidateImageDimension(fdata) {
+      // Function used for Check image Dimensions
+      let width = fdata.width
+      let height = fdata.height
+      alert('Wiodt'+width+'Height'+height)
+    },
     Select2(){
         $(".ls-select2").select2();
     },
@@ -109,7 +130,7 @@ export default {
         });
     },
 
-    setCurrentDate() {        
+    setCurrentDate() {
         $("#tournament_start_date").datepicker().datepicker("setDate", new Date());
         $("#tournament_end_date").datepicker().datepicker("setDate", new Date());
     },
@@ -117,8 +138,8 @@ export default {
          date1 = new Date(date1.split('/')[2],date1.split('/')[1]-1,date1.split('/')[0]);
         date2 = new Date(date2.split('/')[2],date2.split('/')[1]-1,date2.split('/')[0]);
         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
         return diffDays
-// return Math.floor(( Date.parse(date2) - Date.parse(date1) ) / 86400000);            
+// return Math.floor(( Date.parse(date2) - Date.parse(date1) ) / 86400000);
     }
 }
