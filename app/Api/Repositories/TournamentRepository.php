@@ -125,8 +125,12 @@ class TournamentRepository
     }
     private function getTournamentDays ($startDate,$endDate)
     {
-      // TODO : Need to implememnt functionaluity for tournament days
-      return 2;
+
+      $created = Carbon::createFromFormat('d/m/Y', $startDate);
+      $now = Carbon::createFromFormat('d/m/Y', $endDate);
+
+      $days = ($created->diff($now)->days < 1) ? 1 : $created->diffForHumans($now)+1;
+      return $days;
     }
     public function edit($data)
     {

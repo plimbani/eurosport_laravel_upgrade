@@ -108,7 +108,7 @@ const mutations = {
 	state.tournamentName = currentTournament.name
 	state.tournamentStartDate = currentTournament.tournamentStartDate!='' ? currentTournament.tournamentStartDate: ''
 	state.tournamentEndDate = currentTournament.tournamentEndDate != '' ? currentTournament.tournamentEndDate: ''
-	state.tournamentDays = currentTournament.tournamentDays ? parseInt(currentTournament.tournamentDays) + 1 : 1
+	state.tournamentDays = currentTournament.tournamentDays ? parseInt(currentTournament.tournamentDays)  : 1
 	state.tournamentId = currentTournament.id
 	state.tournamentStatus = currentTournament.tournamentStatus
 	state.tournamentLogo = currentTournament.tournamentLogo
