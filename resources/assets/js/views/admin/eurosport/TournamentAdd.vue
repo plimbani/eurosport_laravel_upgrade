@@ -55,7 +55,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
-                                                <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>  
+                                                <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
                                                 <input type="text" class="col-md-7 form-control" v-model="tournament.website">
                                             </div>
                                             <div class="form-group row">
@@ -74,8 +74,8 @@
                                                     <div v-if="!image">
                                                         <button type="button" name="btnSelect" id="btnSelect" @click="selectImage">
                                                         Choose file</button>
-                                                        <input type="file" id="selectFile" 
-                                                        style="display:none;" 
+                                                        <input type="file" id="selectFile"
+                                                        style="display:none;"
                                                         @change="onFileChange">
                                                         <p class="help-block">Maximum size of 1 MB.<br/>
                                                         Image dimensions 100 x 100.</p>
@@ -134,13 +134,13 @@
                       <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}}*</label>
 
                         <div class="col-sm-4">
-                          <input type="text" class="form-control" placeholder="" 
+                          <input type="text" class="form-control" placeholder=""
                           :name="'tournament_validation_venue'+index"
-                           v-model="location.tournament_venue_name" v-validate="'required'" 
+                           v-model="location.tournament_venue_name" v-validate="'required'"
                            :class="{'is-danger':errors.has('tournament_validation_venue'+index) }">
                            <i v-show="errors.has('tournament_validation_venue'+index)" class="fa fa-warning">
                            </i>
-                           <span class="help is-danger" 
+                           <span class="help is-danger"
                            v-show="errors.has('tournament_validation_venue'+index)">{{$lang.tournamemt_validation_venue}}
                            </span>
                         </div>
@@ -149,7 +149,7 @@
                       <label class="col-sm-2 form-control-label">{{$lang.tournament_address}}</label>
 
                       <div class="col-sm-4">
-                      <input type="text" class="form-control" 
+                      <input type="text" class="form-control"
                       v-model="location.touranment_venue_address"
                       placeholder="">
                       </div>
@@ -158,7 +158,7 @@
                       <label class="col-sm-2 form-control-label">{{$lang.tournament_town_city}}</label>
 
                       <div class="col-sm-4">
-                      <input type="text" class="form-control" 
+                      <input type="text" class="form-control"
                       v-model="location.tournament_venue_city"
                       placeholder="">
                       </div>
@@ -167,7 +167,7 @@
                       <label class="col-sm-2 form-control-label">{{$lang.tournament_postcode}}</label>
 
                       <div class="col-sm-4">
-                      <input type="text" class="form-control" 
+                      <input type="text" class="form-control"
                       v-model="location.tournament_venue_postcode"
                       placeholder="">
                       </div>
@@ -201,7 +201,7 @@
                       <div class="form-group row">
                       <label class="col-sm-2 form-control-label">{{$lang.tournament_organiser}}</label>
                       <div class="col-sm-4">
-                      <input type="text" class="form-control" placeholder="">
+                      <input type="text" class="form-control" placeholder="" v-model="location.tournament_venue_organiser">
                       </div>
                       </div>
                       <div class="form-group row">
@@ -249,6 +249,7 @@ export default {
           tournament_venue_postcode: "",
           tournament_venue_state: "",
           tournament_venue_country: "",
+          tournament_venue_organiser: "",
           tournament_location_id:0
         }
       ],
@@ -295,6 +296,7 @@ export default {
                         tournament_venue_postcode: locations[i]['postcode'],
                         tournament_venue_state: locations[i]['state'],
                         tournament_venue_country: locations[i]['country'],
+                        tournament_venue_organiser: locations[i]['organiser'],
                         tournament_location_id: locations[i]['id']
                     });
                   }
@@ -333,15 +335,14 @@ export default {
     }
     // $('#tournament_start_date').val()
     if(start_date != ''){
-
       $('#tournament_start_date').datepicker('setDate', start_date)
     }
- let tEndDate = ''
+    let tEndDate = ''
     if(this.$store.state.Tournament.tournamentEndDate!= ''){
            tEndDate = new Date(moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
-          
+
         $('#tournament_end_date').datepicker('setDate', tEndDate)
-        
+
     }
     $('#tournament_start_date').datepicker().on('changeDate',function(){
       $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
@@ -360,7 +361,7 @@ export default {
   },
   methods: {
     selectImage() {
-      $('#selectFile').trigger('click') 
+      $('#selectFile').trigger('click')
     },
     addLocationClick() {
       this.locations.push ({
@@ -370,6 +371,7 @@ export default {
           tournament_venue_postcode: "",
           tournament_venue_state: "",
           tournament_venue_country: "",
+          tournament_venue_organiser: "",
           tournament_location_id: ""
       });
     },
@@ -398,11 +400,11 @@ export default {
       this.locations.splice(index,1)
     },
     next() {
-      
+
       // this.handleValidation()
       // First Validate it
       // SET The Date Value for tournament
-     
+
       this.$validator.validateAll().then(
           (response) => {
             // if its return true then proceed
@@ -415,11 +417,11 @@ export default {
             this.tournament.tournamentId = this.tournamentId
             // we can take length of how much we have to move for loop
             this.tournament.locationCount = this.customCount
-            let msg=''    
-            if(this.tournament.tournamentId == 0){    
-              msg = 'Tournament details added successfully.'    
-            } else {    
-              msg = 'Tournament details edited successfully.'   
+            let msg=''
+            if(this.tournament.tournamentId == 0){
+              msg = 'Tournament details added successfully.'
+            } else {
+              msg = 'Tournament details edited successfully.'
             }
             this.$store.dispatch('SaveTournamentDetails', this.tournament)
               // Display Toastr Message for add Tournament
@@ -435,7 +437,7 @@ export default {
       )
     },
     redirectCompetation() {
-      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}   
+      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name:'competation_format'})
     },

@@ -260,7 +260,7 @@
             },
             updateUserList() {
                 axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
-                    console.log(response)
+                    // console.log(response)
                     if('users' in response.data) {
                         this.userList.userData = response.data.users;
                         this.userList.userCount = response.data.users.length;
