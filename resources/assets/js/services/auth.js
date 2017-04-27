@@ -26,6 +26,7 @@ export default {
             Ls.remove('auth.token')
             Ls.remove('email')
             Ls.remove('vuex')
+            Ls.remove('userData')
             // here we have to reload the page
             toastr['success']('Logged out!', 'Success');
             setTimeout(Plugin.reloadPage, 1000);
