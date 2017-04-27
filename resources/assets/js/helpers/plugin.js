@@ -131,8 +131,8 @@ export default {
     },
 
     setCurrentDate() {
-        $("#tournament_start_date").datepicker().datepicker("setDate", new Date());
-        $("#tournament_end_date").datepicker().datepicker("setDate", new Date());
+      $("#tournament_start_date").datepicker().datepicker("setDate", new Date());
+      $("#tournament_end_date").datepicker().datepicker("setDate", new Date());
     },
     setTournamentDays(date1, date2){
 
@@ -140,6 +140,8 @@ export default {
         date2 = new Date(date2.split('/')[2],date2.split('/')[1]-1,date2.split('/')[0]);
         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        // TODO: here we add extra one day
+        diffDays = diffDays + 1
         return diffDays
 // return Math.floor(( Date.parse(date2) - Date.parse(date1) ) / 86400000);
     }
