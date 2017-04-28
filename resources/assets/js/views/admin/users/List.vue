@@ -225,7 +225,13 @@
                 this.userModalTitle="Edit User";
                 axios.get("/api/user/edit/"+id).then((response) => {
                     this.$data.formValues = response.data;
-                    this.image =  '/assets/img/users/'+this.$data.formValues.image;
+                    let image = this.$data.formValues.image
+                    if(image != null && image != '') {
+                      this.image =  '/assets/img/users/'+this.$data.formValues.image;
+                    } else {
+                      this.image=''
+                    }
+
                 });
             },
             onFileChange(e) {
@@ -254,7 +260,7 @@
             },
             updateUserList() {
                 axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
-                    console.log(response)
+                    // console.log(response)
                     if('users' in response.data) {
                         this.userList.userData = response.data.users;
                         this.userList.userCount = response.data.users.length;
