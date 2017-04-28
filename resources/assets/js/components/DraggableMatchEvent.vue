@@ -1,8 +1,8 @@
 <template>
-    <div class="draggable-event dashbox">
-        <span>{{match.matchName}}</span>
-        <span>{{match.fullGame}}</span>
-        <span>({{match.matchTime}} min)</span>    
+    <div class="draggable-event dashbox p-2 text-center">
+        <p>{{match.matchName}}</p>
+        <p>{{match.fullGame}}</p>
+        <p class="m-0">({{match.matchTime}} min)</p>    
     </div>    
 </template>
 
