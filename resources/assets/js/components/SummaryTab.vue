@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
-					<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" 
+					<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30"
 					class="mr-2">
 				</label>
 				<label>
@@ -11,31 +11,31 @@
 				</label>
 				<div class="clearfix"></div>
 
-				<span><strong>{{$lang.summary_location}}:</strong> </span>
+				<span><strong>{{$lang.summary_location}}:</strong>{{tournamentSummary.locations}}</span>
 				<span><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</span>
 
 			</div>
 			<div class="col-md-6 text-right">
 				<span><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
-				
+
 				<span v-if="tournamentStatus == 'Published'">
-				   <button type="button" data-toggle="modal" 
-				data-target="#publish_modal" 
+				   <button type="button" data-toggle="modal"
+				data-target="#publish_modal"
 				class="btn btn-primary col-md-4">
-				{{$lang.summary_button_unpublish}}</button><br>					 
+				{{$lang.summary_button_unpublish}}</button><br>
 				<UnPublishedTournament>
 				</UnPublishedTournament>
 				</span>
 				<span v-else>
-				  <button type="button" data-toggle="modal" 
-				data-target="#publish_modal" 
+				  <button type="button" data-toggle="modal"
+				data-target="#publish_modal"
 				class="btn btn-primary col-md-4">
 				{{$lang.summary_button_publish}}</button><br>
 				<PublishTournament :tournamentStatus='tournamentStatus'>
 				</PublishTournament>
 				</span>
-				
-				<button type="button" data-toggle="modal" 
+
+				<button type="button" data-toggle="modal"
 				data-confirm-msg="Are you sure you would like to delete this user record?"
 				data-target="#delete_modal"
 				class="btn btn-danger col-md-4 mt-3">{{$lang.summary_button_delete}}</button>
@@ -44,7 +44,7 @@
 			</div>
 		</div>
 		<div class="clearfix mt-4"></div>
-		<div class="d-flex justify-content-between align-items-center text-center flex-wrap row">	
+		<div class="d-flex justify-content-between align-items-center text-center flex-wrap row">
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
@@ -96,27 +96,27 @@
 		</div>
 		<div class="clearfix mt-4"></div>
 		<div class="row">
-			<div class="col-md-12">				
+			<div class="col-md-12">
 			<span><strong>{{$lang.summary_age_groups}}: </strong>{{tournamentSummary.tournament_groups}}</span>
 				<span><strong>{{$lang.summary_participating_countries}}: </strong> {{tournamentSummary.tournament_countries}}</span>
 				<span><strong>{{$lang.summary_euro_supporting_contact}}: </strong> {{tournamentSummary.tournament_contact}}</span>
 
 			</div>
 		</div>
-		
+
 	</div>
 
 </template>
 
 <script type="text/babel">
-	
+
 	import PublishTournament from './PublishTournament.vue'
 	import UnPublishedTournament from './UnPublishedTournament.vue'
 
 	import DeleteModal from './DeleteModal.vue'
 	import Tournament from '../api/tournament.js'
 
-	export default {	
+	export default {
 	    data(){
 	    	return {
 	    		tournamentSummary:{tournament_logo:'', name: '', locations: '',tournament_dates: '', tournament_status: '',tournament_teams:'0',tournament_age_categories:'0',tournament_matches:'0',tournament_pitches:'0',tournament_referees:'0',tournament_days:'',tournament_groups:'-',tournament_countries:'-',tournament_contact:'-'},
@@ -129,12 +129,12 @@
 	    components: {
 	        PublishTournament, DeleteModal,UnPublishedTournament
 	    },
-	    mounted() {	    
+	    mounted() {
 	       // First Set Menu and ActiveTab
-	       this.getSummaryData()	      
+	       this.getSummaryData()
 	    },
 	    created: function() {
-       		this.$root.$on('StatusUpdate', this.updateStatus); 
+       		this.$root.$on('StatusUpdate', this.updateStatus);
   		},
 	    methods: {
 	      updateStatus(status){
@@ -146,7 +146,7 @@
 	    		Tournament.updateStatus(tournamentData).then(
 	    		(response) => {
 	    			if(response.data.status_code == 200) {
-	    				this.tournamentStatus = status	
+	    				this.tournamentStatus = status
 	    				toastr['success']('Tournament has Been '+status, 'Success');
 	    				let tournamentField = {'tournamentStatus': status}
 	    				this.$store.dispatch('setTournamentStatus',tournamentField)
@@ -157,52 +157,52 @@
 	    		}
 	    		);
 
-	    		$('#publish_modal').attr('data-dismiss','modal') 
+	    		$('#publish_modal').attr('data-dismiss','modal')
 	    	}
-	      },	
+	      },
 	      getSummaryData() {
 	    	let tournamentId = this.$store.state.Tournament.tournamentId;
-	    	
+
 	    	if(tournamentId != undefined)
-	    	{	
-	    		
+	    	{
+
 	    	Tournament.tournamentSummaryData(tournamentId).then(
 	    		(response) => {
 	    			if(response.data.status_code == 200) {
 	    			this.tournamentSummary = response.data.data;
 	    			// here modified data According to display
 	    		if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
-              	{ 	
+              	{
 	    			this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+','+response.data.data.tournament_contact.last_name
-
 	    		}
 	    			let locations='';
 	    			if(response.data.data.locations != undefined || response.data.data.locations != null )
-              	{ 
-	    			response.data.data.locations.reduce(function (a,b) {
-			        locations += b.name + '(' + b.country +')'
-			      	},0);
+              {
+    	    			response.data.data.locations.reduce(function (a,b) {
+    			        locations += b.name + '(' + b.country +')'
+    			      	},0);
 
-	    			this.tournamentSummary.locations = locations
-	    		}		
+    	    			this.tournamentSummary.locations = locations
+	    		   }
 
 	    			}
 	    		},
 	    		(error) => {
 	    			// if no Response Set Zero
-	    			// 
+	    			//
 	    		}
 	    	);
 	    	this.tournamentId = this.$store.state.Tournament.tournamentId
 	    	this.tournamentName = this.$store.state.Tournament.tournamentName
 	    	this.tournamentStatus = this.$store.state.Tournament.tournamentStatus
-			this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
+			  this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
 			let tournamentDays = this.$store.state.Tournament.tournamentDays || 0
-			
+
 			this.tournamentDays= parseInt(tournamentDays)
 			this.tournamentLogo= this.$store.state.Tournament.tournamentLogo
+
 		 }
-	    },	
+	    },
 		deleteConfirmed() {
 			Tournament.deleteTournament(this.tournamentId).then(
 	        (response) => {
