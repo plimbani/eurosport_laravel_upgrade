@@ -163,6 +163,9 @@ class TournamentRepository
        $tournamentCompetaionTemplateData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
 
 
+        $summaryData['tournament_teams'] = 0;
+        $summaryData['tournament_matches'] = 0;
+
        if(count($tournamentCompetaionTemplateData) > 0 )
        {
 	       foreach($tournamentCompetaionTemplateData as $tournamentData) {
@@ -173,12 +176,14 @@ class TournamentRepository
 	       }
 	      $summaryData['tournament_matches'] = array_sum($tempData['total_match']);
         $summaryData['tournament_teams'] = array_sum($tempData['total_teams']);
+
          $summaryData['tournament_groups']= implode(',',$tempData['age_group']);
      	}
 
        $tournamentPitch = Pitch::where('tournament_id', $tournamentId)->get();
 
        $summaryData['tournament_age_categories'] = count($tournamentCompetaionTemplateData);
+
 
          $summaryData['tournament_pitches'] = count($tournamentPitch);
          // TODO: referee is remaining
