@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div class="tab-content">
   	<div class="card">
   		<div class="card-block">
@@ -10,7 +10,7 @@
               <div class="form-group">
                   <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory">
                     <option value="">{{$lang.teams_select_age_category}}</option>
-                    <option v-for="option in options" 
+                    <option v-for="option in options"
                      v-bind:value="option"> {{option.group_name}}</option>
                   </select>
               </div>
@@ -25,15 +25,15 @@
                      <span class="card-title">{{group['groups']['group_name']}}</span>
                      <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
                   </div>
-            </div>      
+            </div>
           </div>
           </div>
-        </div>  
+        </div>
 <!--   			<div class="block-bg age-category">
   				<div class="d-flex justify-content-center align-items-center">
   					<div v-for="(group, index) in grps">
 
-            
+
               <div class="m_card hoverablex ">
   						  <div class="card-content">
   							  <span class="card-title">
@@ -58,33 +58,7 @@
 	  				<button type="button" @click="csvImport()" :disabled="age_category==''"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
             </form>
 	  			</div>
-	  			<div class="pull-right mt-4">
-	  				<form  class="form-inline filter-category-form" >
-	  					<div class="form-group">
-	  						<label for="nameInput" class="control-label"><strong>{{$lang.teams_filter}}</strong></label> 
-	  						<label class="radio-inline control-label">
-  								<input type="radio" name="gender" value="team" checked="checked">{{$lang.teams_team}}
-                </label>
-                <label class="radio-inline control-label">
-                  	<input type="radio" name="gender" value="country">{{$lang.teams_country}}
-                </label>
-                <label class="radio-inline control-label">
-                  	<input type="radio" name="gender" value="age category">{{$lang.teams_age}}
-                </label>
-                <select class="form-control ls-select2">
-                    <option value="">{{$lang.teams_select_location}}</option>
-                    <option value="">{{$lang.teams_select_location_1}}</option>
-                    <option value="">{{$lang.teams_select_location_2}}</option>
-                    <option value="">{{$lang.teams_select_location_3}}</option>
-                    <option value="">{{$lang.teams_select_location_4}}</option>
-                    <option value="">{{$lang.teams_select_etc}}</option>
-                </select>
-                <label class="control-label">
-                	<a href="#">{{$lang.teams_clear}}</a>
-                </label>
-	  					</div> 
-	  				</form>
-	  			</div>
+	  			  <tournamentFilter></tournamentFilter>
   			</div>
   			<div class="row mt-4">
   				<div class="col-md-12">
@@ -104,7 +78,7 @@
                       <td>{{team.esr_reference}}</td>
                       <td>{{team.name}}</td>
                       <td>
-                      	<img :src="team.logo" width="20">{{team.country_name}} 
+                      	<img :src="team.logo" width="20">{{team.country_name}}
                       </td>
                       <td>{{team.age_name}} </td>
                       <td>
@@ -112,14 +86,14 @@
                           <option value="">Select Team</option>
                           <optgroup :label="group.groups.group_name" v-for="group in grps">
                             <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)"  :value="group['groups']['group_name']+n" >{{group['groups']['group_name']}}{{n}} </option>
-                          </optgroup> 
+                          </optgroup>
                         </select>
                       </td>
                     </tr>
                 </tbody>
             </table>
             <button type="button" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
-          </form>  
+          </form>
   				</div>
   			</div>
   		</div>
@@ -130,7 +104,7 @@
 <script type="text/babel">
    import Tournament from '../../../api/tournament.js'
    import _ from 'lodash'
-
+   import TournamentFilter from '../../../components/TournamentFilter.vue'
 	export default {
     data() {
     return {
@@ -148,6 +122,9 @@
         'beforeChangeGroupName': ''
 
         }
+    },
+    components: {
+      TournamentFilter
     },
     // computed: {
     //   availableGroupsTeam: function() {
@@ -168,16 +145,16 @@
       // this.getTeams()
       let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
-        (response) => {           
-          this.options = response.data.data                       
+        (response) => {
+          this.options = response.data.data
         },
         (error) => {
            console.log('Error occured during Tournament api ', error)
         }
         )
-     
+
     },
-    
+
     // watch: {
     // // whenever question changes, this function will run
     //     selectedGroupsTeam: function (newQuestion) {
@@ -202,9 +179,9 @@
       //    if($( "select#"+this.id+" option:checked" ).val()!= '' && typeof($( "select#"+this.id+" option:checked" ).val()) != "undefined"){
       //     that.
       //    }
-         
+
       //     // console.log($(this).val())
-      //   }) 
+      //   })
        },
       selectTrue(team_group,index,assigned_group){
         console.log(team_group,assigned_group)
@@ -222,32 +199,32 @@
       onAssignGroup(id) {
         let groupValue = $('#sel_'+id).val()
         // console.log(groupValue,'l')
-        
+
           if(groupValue!=''){
             $(".selTeams option:contains("+$('#sel_'+id).val()+")").not( $('.sel_'+id)).attr("disabled","disabled");
             }
             if(this.beforeChangeGroupName!=''){
-              $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");  
+              $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");
             }
-            
+
             this.selectedGroupsTeam.push(groupValue)
             var index = this.availableGroupsTeam.indexOf(groupValue);
             if (index > -1) {
               this.availableGroupsTeam.splice(index, 1);
-            } 
-        
-        
+            }
+
+
       },
        getTeams() {
         Tournament.getTeams(this.tournament_id,this.age_category.id).then(
-          (response) => { 
-            this.teams = response.data.data        
+          (response) => {
+            this.teams = response.data.data
           },
         (error) => {
            console.log('Error occured during Tournament api ', error)
         }
-        ) 
-      }, 
+        )
+      },
       groupUpdate() {
         let grpMain=[]
         // let teamAssign  = new FormData($("#frmTeamAssign")[0]);
@@ -262,7 +239,7 @@
               grp.push($(this).data('id'))
             }
             // console.log($(this).val())
-          }) 
+          })
           if(grp.length > group.group_count){
             error = true
             toastr['error']('You are assigning more team  in '+ group.groups.group_name+' . please reassign team.', 'Error');
@@ -270,26 +247,26 @@
           }
           // console.log(grp.length,group.group_count,'11')
           grpMain.push(grp.join(','))
-          
+
         });
         let teamData = {'teamdata': teamAssign1,'group' : grpMain ,'tournament_id':this.tournament_id, 'age_group':this.age_category.id }
         if(error == false){
           Tournament.assignGroups(teamData).then(
-          (response) => { 
-            toastr['success']('Groups are assigned successfully', 'Success');                 
+          (response) => {
+            toastr['success']('Groups are assigned successfully', 'Success');
           },
           (error) => {
              console.log('Error occured during Tournament api ', error)
           }
         )
         }
-        
+
       },
       getAgeCategories() {
         let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
         Tournament.getCompetationFormat(TournamentData).then(
-          (response) => {    
-            this.options = response.data.data                       
+          (response) => {
+            this.options = response.data.data
           },
           (error) => {
              console.log('Error occured during Tournament api ', error)
@@ -318,14 +295,14 @@
                 // let gname = group.groups.group_name+i
                 availGroupTeam.push(group.groups.group_name+i)
               }
-                
+
             });
-            this.availableGroupsTeam = availGroupTeam 
-            this.teamSize = jsonObj.tournament_teams 
+            this.availableGroupsTeam = availGroupTeam
+            this.teamSize = jsonObj.tournament_teams
             this.getTeams()
             let that = this
             // setTimeout(function(){ that.initialfunc()},1000)
-          }, 
+          },
           (error)=> {
             alert('error in getting json data')
           }
@@ -340,11 +317,11 @@
           files.append('tournamentId', this.tournament_id);
           files.append('teamSize', this.teamSize);
           // let uploadFile = document.getElementById('frmCsvImport');
-           
+
           // console.log(document.getElementById('frmCsvImport'))
           // Tournament.createTeam(TData).then(
-          //   (response) => {           
-          //    this.getTeams()                     
+          //   (response) => {
+          //    this.getTeams()
           //   },
           //   (error) => {
           //      console.log('Error occured during Tournament api ', error)
@@ -354,12 +331,12 @@
           if(response.data.bigFileSize == true){
             toastr['error']('Total Team size is more than available. Only top '+this.teamSize+' teams have been added.', 'Error');
           }
-            
+
           this.getTeams()
                                 // this.pitchId = response.data.pitchId
           }).catch(error => {
-              
-          });  
+
+          });
         }
 
       }

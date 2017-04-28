@@ -1,19 +1,19 @@
  import api from './siteconfig'
 
-export default {  
-  getAllTournaments() {  	
+export default {
+  getAllTournaments() {
   	return api.get('tournaments')
   },
   getAllVenues(tournamentId) {
    return api.get('venues/getAll/'+tournamentId)
   },
-  saveTournament(tournamentData) {  	  	
+  saveTournament(tournamentData) {
   	return api.post('tournament/create', {'tournamentData': tournamentData})
   },
-  getAllTournamentTemplate(){  	
+  getAllTournamentTemplate(){
   	return api.get('tournaments/templates')
   },
-  saveCompetationFormat(compeationFormatData) {    
+  saveCompetationFormat(compeationFormatData) {
   	return api.post('age_group/createCompetationFomat', {'compeationFormatData': compeationFormatData})
   },
   getCompetationFormat(tournamentData) {
@@ -84,7 +84,7 @@ assignReferee(data) {
  getTournamentByStatus(tournamentData) {
   return api.post('tournaments/getTournamentByStatus',{'tournamentData': tournamentData})
  },
- 
+
   getRefereeDetail(refereeId) {
     return api.post('referee/refereeDetail',{'refereeId': refereeId})
   },
@@ -93,6 +93,10 @@ assignReferee(data) {
   },
   updateStatus(tournamentData) {
     return api.post('tournament/updateStatus',{'tournamentData': tournamentData})
+  },
+
+  getDropDownData(tournamentData) {
+    return api.post('tournament/getDropDownData',{'tournamentData': tournamentData})
   },
   setMatchSchedule(matchData) {
     return api.post('match/schedule',{'matchData': matchData})

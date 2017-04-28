@@ -37,6 +37,26 @@ class TournamentService implements TournamentContract
 
         return ['status_code' => '505', 'message' => self::ERROR_MSG];
     }
+
+    /*
+     * Get Filter Data
+     *
+     * @param  array $api_key,$state,$type
+     * @return response
+     */
+    public function tournamentFilter($data)
+    {
+        // Here we send Status Code and Messages
+        $data = $this->tournamentRepoObj->tournamentFilter($data);
+
+        if ($data) {
+          return ['status_code' => '200', 'data' => $data];
+        } else {
+          return ['status_code' => '505', 'message' => 'No Data Found'];;
+        }
+
+
+    }
     /*
      * Get All Tournaments By Status
      *
