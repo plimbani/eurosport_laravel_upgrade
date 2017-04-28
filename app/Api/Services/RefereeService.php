@@ -30,8 +30,9 @@ class RefereeService implements RefereeContract
     public function createReferee($data)
     {
         $data = $data->all()['data'];
-        $data = $this->refereeRepoObj->createReferee($data);
-        if ($data) {
+
+        $dataResult = $this->refereeRepoObj->createReferee($data);
+        if ($dataResult) {
             return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }

@@ -7,6 +7,7 @@ use Laraspace\Models\Competition;
 use Laraspace\Models\Fixture;
 use Laraspace\Models\TempFixture;
 
+
 use DB;
 
 class MatchRepository
@@ -154,6 +155,7 @@ class MatchRepository
                 DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
                 )
             ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
+           
 
           if(isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' )
           {
@@ -169,7 +171,13 @@ class MatchRepository
             $reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$tournamentData['pitchId']);
 
           }
-          
+
+          if(isset($tournamentData['is_scheduled']) && $tournamentData['is_scheduled'] !== '' )
+          {
+            $reportQuery = $reportQuery->where('temp_fixtures.is_scheduled',$tournamentData['is_scheduled']);
+
+          }
+
           if(isset($tournamentData['teamId']) && $tournamentData['teamId'] !== '')
           {
             
@@ -505,12 +513,53 @@ class MatchRepository
             ->where('id', $data['matchId'])
             ->update($updateData);
     }
+    public function matchUnschedule($matchId) 
+    {
+      $updateData = [
+        'is_scheduled' => 0,
+      ];
+     return DB::table('temp_fixtures')
+            ->where('id', $matchId)
+            ->update($updateData);
+    }
 
     public function getAllScheduledMatches($data) 
     {
+      this->
       return TempFixture::where('tournament_id',$data['tournamentId'])
                   ->where('is_scheduled','1')
                   ->get(); 
     }
+    public function removeAssignedReferee($matchId) 
+    {
+      return TempFixture::where('id',$matchId)
+                  ->update(
+                    ['referee_id' => '0']
+                    ); 
+    }
+    public function assignReferee($data) 
+    {
+      return TempFixture::where('id',$matchId)
+                  ->update(['referee_id' => '0']); 
+    }
+    public function saveResult($data) 
+    {
+      $updateData = [
+        'referee_id' => $data['refereeId'],
+        'hometeam_score' => $data['homeTeamScore'],
+        'awayteam_score' => $data['awayTeamScore'],
+        'match_status' => $data['matchStatus'],
+        'match_winner' => $data['matchWinner'],
+        'comments' => $data['comments'],
+      ];
+      return TempFixture::where('id',$data['matchId'])
+                  ->update($updateData); 
+    }
+    
+    public function getMatchDetail($matchId)
+    {
+        return TempFixture::with('referee')->find($matchId);
+    }
+
        
 }

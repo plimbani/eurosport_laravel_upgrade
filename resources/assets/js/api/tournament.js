@@ -60,10 +60,19 @@ export default {
  saveReferee(data) {
      return api.post('referee/create',{ data})
  },
-  updateReferee(data) {
+ updateReferee(data) {
      return api.post('referee/update',{ data})
  },
- getStanding(tournamentData) {
+ removeReferee(data) {
+     return api.post('referee/delete',{ data})
+ },
+ removeAssignedReferee(data) {
+     return api.post('match/removeAssignedReferee',{ data})
+   },
+assignReferee(data) {
+     return api.post('match/assignReferee',{ data})
+   },
+  getStanding(tournamentData) {
   return api.post('match/getStanding',{'tournamentData': tournamentData})
  },
  getDrawTable(tournamentData) {
@@ -85,11 +94,19 @@ export default {
   updateStatus(tournamentData) {
     return api.post('tournament/updateStatus',{'tournamentData': tournamentData})
   },
-  setMatchSchedule(tournamentData) {
-    console.log(tournamentData,'tournamentData')
-    return api.post('match/schedule',{'tournamentData': tournamentData})
- },
+  setMatchSchedule(matchData) {
+    return api.post('match/schedule',{'matchData': matchData})
+  },
+  matchUnschedule(matchData) {
+    return api.post('match/unschedule',{'matchData': matchData})
+  },
   getAllScheduledMatch(tournamentId) {
     return api.post('match/getScheduledMatch',{'tournamentId': tournamentId})
- },
+  },
+  getMatchFixtureDetail(matchId) {
+    return api.post('match/detail',{'matchId': matchId})
+  },
+  saveMatchResult(matchData) {
+    return api.post('match/saveResult',{'matchData': matchData})
+ }
 }

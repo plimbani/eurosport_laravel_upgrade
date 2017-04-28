@@ -1,19 +1,29 @@
 <template>
-    <div class='pitchPlanner'></div>
+    <div>
+        <div class='pitchPlanner'></div>
+        <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal"></pitch-modal> 
+    </div>
 </template>
 
 <script>
  import moment from 'moment'
 import Tournament from '../api/tournament.js'
+import PitchModal from '../components/PitchModal.vue';
+
 import _ from 'lodash'
     export default {
         data() {
             return {
                 'tournamentId': this.$store.state.Tournament.tournamentId,
-                'scheduledMatches': []
+                'scheduledMatches': [],
+                'setPitchModal': 0,
+                'matchFixture': {}
             }
         },
         props: [ 'stage' ],
+        components: {
+            PitchModal
+        },
         computed: {
             pitchesData() {
                 return _.forEach(this.stage.pitches, (pitch) => {
@@ -25,27 +35,8 @@ import _ from 'lodash'
             }
         },
         mounted() {
-            Tournament.getAllScheduledMatch(this.tournamentId).then(
-                (response) => { 
-                // this.scheduledMatches = response.data.data
-                let rdata = response.data.data 
-                    // this.reports = response.data.data 
-                    let sMatches = []
-                    _.forEach(rdata, function(match) {
-                        let mData =  {'id': match.id, 'resourceId': match.pitch_id,'start':moment.utc(match.match_datetime,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(match.match_endtime,'YYYY-MM-DD hh:mm:ss'),'title':match.match_number,
-                        matchId:match.id}
-                        sMatches.push(mData)
-                    });
-                    
-                   // console.log(sMatches)
-                    this.scheduledMatches =sMatches
-                    this.initScheduler();
-                    // conole.log(response,'response')
-                },
-                (error) => {
-                    console.log('Error occured during Tournament api ', error)
-                }
-            ) 
+            this.getScheduledMatch()
+
             // console.log('eventReceive', event);
             
             // console.log('this.stage', this.stage);
@@ -105,7 +96,7 @@ import _ from 'lodash'
                     },
                     eventDrop: function(event) { // called when an event (already on the calendar) is moved
                         // update api call
-                         let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': event.matchId, matchStartDate: moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
+                         let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': event.matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
                     
                         Tournament.setMatchSchedule(matchData).then(
                             (response) => {  
@@ -119,13 +110,46 @@ import _ from 'lodash'
                         // console.log('eventDrop', event);
                     },
                     eventClick: function(calEvent, jsEvent, view) {
-                        vm.handleEventClick(calEvent, jsEvent, view);
+                        vm.setPitchModal = 1
+                        vm.matchFixture = calEvent
+                        setTimeout(function() {
+                        $('#matchScheduleModal').modal('show')
+                        $("#matchScheduleModal").on('hidden.bs.modal', function () {
+                                vm.setPitchModal = 0
+                                vm.matchFixture = {}
+                                vm.getScheduledMatch()
+                                console.log('msg')
+                        });
+                        },500);
                     },
                     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
                 });
             },
             handleEventClick(calEvent, jsEvent, view) {
                 // console.log(calEvent);
+            },
+            getScheduledMatch() {
+                let tournamentData ={'tournamentId':this.tournamentId }
+                Tournament.getFixtures(tournamentData).then(
+                    (response)=> {
+                        // console.log(response,'asssss')
+                       
+                         let rdata = response.data.data 
+                            // this.reports = response.data.data 
+                            let sMatches = []
+                            _.forEach(rdata, function(match) {
+                                let mData =  {'id': match.id, 'resourceId': match.pitch_id,'start':moment.utc(match.match_datetime,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(match.match_endtime,'YYYY-MM-DD hh:mm:ss'),'title':match.match_number,
+                                matchId:match.id}
+                                sMatches.push(mData)
+                            });
+                            
+                           console.log('sMatches')
+                            this.scheduledMatches =sMatches
+                            this.initScheduler();
+                            // conole.log(response,'response')
+                    }
+                )
+               
             }
         }
     };

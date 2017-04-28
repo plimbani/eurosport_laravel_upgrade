@@ -88,8 +88,28 @@ class MatchController extends Controller
     public function scheduleMatch(Request $request) {
          return $this->matchObj->scheduleMatch($request);
     }
+    public function unscheduleMatch(Request $request) {
+        return $this->matchObj->unscheduleMatch($request);
+    }
+    
     public function getAllScheduledMatch(Request $request) {
         return $this->matchObj->getAllScheduledMatch($request);
+    }
+    public function getMatchDetail(Request $request)
+    {
+        return $this->matchObj->getMatchDetail($request);   
+    }
+    public function removeAssignedReferee(Request $request)
+    {
+        return $this->matchObj->removeAssignedReferee($request);   
+    }
+    public function assignReferee(Request $request)
+    {
+        return $this->matchObj->assignReferee($request);   
+    }
+    public function saveResult(Request $request)
+    {
+        return $this->matchObj->saveResult($request);   
     }
     
        
