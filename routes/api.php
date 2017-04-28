@@ -65,7 +65,13 @@ $api->version('v1', function ($api) {
     
     $api->post('match/getDrawTable','Laraspace\Api\Controllers\MatchController@getDrawTable');
     $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
+    $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
     $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
+    $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
+    $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
+    $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
+    $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
+    
 
     //pitch api
     $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');
