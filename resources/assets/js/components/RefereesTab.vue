@@ -93,15 +93,15 @@
             	
                 $('#addReferee').modal('show')
             },
-             editReferee (rId){
-		      this.refereeId = rId
-		      Tournament.getRefereeDetail(rId).then(
-		      	(response) => { 
-		      		// console.log(response.data.referee)
-                  this.formValues = response.data.referee 
-                  $('#refreesModal').modal('show')
-                  }
-		      	)
+            editReferee (rId){
+    		      this.refereeId = rId
+    		      Tournament.getRefereeDetail(rId).then(
+  		      	(response) => { 
+  		      		// console.log(response.data.referee)
+                    this.formValues = response.data.referee 
+                    $('#refreesModal').modal('show')
+                    }
+		      	 )
 		    }
             // editPitch(pitchId) {
             //     this.pitchId = pitchId

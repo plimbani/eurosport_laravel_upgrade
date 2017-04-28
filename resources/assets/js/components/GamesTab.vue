@@ -3,8 +3,9 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div v-if="competition.matchList.length > 0" v-for="(competition,index) in competitionWithGames">
+
 					<h6 class="mb-0"><strong>{{competition.group_name}}</strong></h6>
-					<div  v-for="match in competition.matchList" 
+					<div class="text-center mt-3" v-if="match.isScheduled!=1" v-for="match in competition.matchList" 
 						:data-text="match.matchName">
 						<draggable-match-event :match="match"></draggable-match-event>
 					</div>
@@ -48,14 +49,14 @@ export default {
 						if(match.group_name == competition.group_name){
 							if(match.round == 'Round Robin'){
 								round = 'RR-'
-								matchTime = parseInt(competition.game_duration_RR) +parseInt(competition.halftime_break_RR)
+								matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
 							}else if(match.round == 'Elimination'){
 								round = 'EL-'
 							}else if(match.round == 'Final'){
 								round = 'FN-'
-								matchTime = parseInt(competition.game_duration_FM) +parseInt(halftime_break_FM)
+								matchTime = parseInt(competition.game_duration_FM) + parseInt(halftime_break_FM) + parseInt(match_interval_FM)
 							}
-							var person = {'fullGame':match.full_game,'matchName':cname+'-'+round+match.match_number,'matchTime':matchTime};
+							var person = {'fullGame':match.full_game,'matchName':cname+'-'+round+match.match_number,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
 							comp.push(person)
 						}
 					})
@@ -66,13 +67,13 @@ export default {
 				// console.log('msg',this.competationList,this.matches)
 				return this.competationList
 			}
-			
 		}
 	},
 	mounted() {
 		let tournamentData ={'tournamentId':this.tournamentId }
 		Tournament.getFixtures(tournamentData).then(
 			(response)=> {
+				// console.log(response,'asssss')
 				this.matches = response.data.data
 			}
 		)
@@ -86,10 +87,7 @@ export default {
 			  let TournamentData = {'tournament_id': this.tournamentId}
 			  Tournament.getCompetationFormat(TournamentData).then(
 			  (response) => {     
-			  // console.log(response.data,'hi');     
 				this.competationList = response.data.data   
-				// this.matchFixture()      
-				// console.log(this.competationList);
 			  },
 			  (error) => {
 				 console.log('Error occured during Tournament api ', error)
@@ -99,24 +97,6 @@ export default {
 			  this.TournamentId = 0;
 			}
 		},
-		// matchFixture() {
-		// 	let that = this
-		// 	let groupMatch=[]
-		// 	_.forEach(that.competationList, function(competition ) {
-		// 		let cname = competition.group_name
-		// 		let comp = []
-		// 		_.find(that.matches, function (match) {
-		// 		if(match.group_name == competition.group_name){
-		// 				var person = {'fullGame':match.full_game};
-		// 				comp.push(person)
-		// 			}
-		// 		})
-		// 		// groupMatch.push(comp)
-		// 		competition.matches = comp
-		// 	}) ,
-
-		// 	// this.matchGame = groupMatch
-		// }
 	}
 }
 

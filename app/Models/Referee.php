@@ -20,4 +20,9 @@ class Referee extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    public function matchFixture()
+    {
+        return $this->hasMany('Laraspace\Models\TempFixture');
+    }
 }

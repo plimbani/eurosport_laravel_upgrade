@@ -130,18 +130,77 @@ class MatchService implements MatchContract
      *
      * @return [type]
      */
-    public function getDrawTable($data)
+    public function getDrawTable($Data)
     {
-       $data = $data->all();
+       $Data = $Data->all();
         
        $drawTableResData = $this->matchRepoObj->getDrawTable($data['tournamentData']);
 
         if (is_array($drawTableResData)) {
-            return ['status_code' => '200', 'data' => $drawTableResData,'message' => 'Match Draw data'];
+            return ['status_code' => '200', 'data' => $drawTableResData, 'message' => 'Match Draw data'];
         } else {
             return ['status_code' => '300', 'message' => $drawTableResData];
         }
     }
-    
-    
+
+    public function scheduleMatch($matchData) {
+        $scheduledResult = $this->matchRepoObj->setMatchSchedule($matchData->all()['matchData']);
+        if ($scheduledResult) {
+            return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match scheduled successfully'];
+        } else {
+            return ['status_code' => '300', 'message' => $scheduledResult];
+        }
+    }  
+
+    public function getAllScheduledMatch($matchData) {
+        $scheduledResult = $this->matchRepoObj->getAllScheduledMatches($matchData->all());
+        if ($scheduledResult) {
+            return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match scheduled successfully'];
+        } else {
+            return ['status_code' => '300', 'message' => $scheduledResult];
+        }
+    }  
+    public function getMatchDetail($matchData) {
+        
+        $matchResult = $this->matchRepoObj->getMatchDetail($matchData->all()['matchId']);
+        if ($matchResult) {
+            return ['status_code' => '200', 'data' => $matchResult];
+        } else {
+            return ['status_code' => '300'];
+        }
+    }  
+    public function removeAssignedReferee($matchData) {
+        $matchResult = $this->matchRepoObj->removeAssignedReferee($matchData->all()['data']);
+        if ($matchResult) {
+            return ['status_code' => '200', 'data' => $matchResult];
+        } else {
+            return ['status_code' => '300'];
+        }
+    }  
+    public function assignReferee($matchData) {
+        $matchResult = $this->matchRepoObj->assignReferee($matchData->all()['data']);
+        if ($matchResult) {
+            return ['status_code' => '200', 'data' => $matchResult];
+        } else {
+            return ['status_code' => '300'];
+        }
+    }  
+    public function saveResult($matchData) {
+        $matchResult = $this->matchRepoObj->saveResult($matchData->all()['matchData']);
+        if ($matchResult) {
+            return ['status_code' => '200', 'data' => $matchResult];
+        } else {
+            return ['status_code' => '300'];
+        }
+    }  
+        public function unscheduleMatch($matchData) {
+        $scheduledResult = $this->matchRepoObj->matchUnschedule($matchData->all()['matchData']);
+        if ($scheduledResult) {
+            return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match scheduled successfully'];
+        } else {
+            return ['status_code' => '300', 'message' => $scheduledResult];
+        }
+    }  
+
+
 }

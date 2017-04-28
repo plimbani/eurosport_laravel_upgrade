@@ -38,16 +38,16 @@
                         <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                         <div class="col-sm-6">
                             <div v-if="!image">
-                             <img v-if="userData.image" v-bind:src="'/assets/img/users/' + userData.image" width="60px" height="60px"/>
-                            <img v-else src="http://placehold.it/60x60" width="100px" height="100px"/>
-                                    <button type="button" name="btnImage" id="btnImage">Choose file</button>
+                             <img v-if="userData.image" v-bind:src="'/assets/img/users/' + userData.image" width="100px" height="100px"/>
+                            <img v-else src="http://placehold.it/100x100" width="100px" height="100px"/>
+                                    <button type="button" class="btn-sm" name="btnImage" id="btnImage">Choose file</button>
                                     <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
                                     <p class="help-block">Maximum size of 1 MB.<br/>
                                     Image dimensions 100 x 100.</p>
                             </div>
                             <div v-else>
-                                <img :src="image" width="60px" height="60px"/>
-                                <button @click="removeImage">Remove image</button>
+                                <img :src="image" width="100px" height="100px"/>
+                                <button class="btn-sm" @click="removeImage">Remove image</button>
                             </div>
                         </div>
                     </div>
@@ -87,21 +87,15 @@
                 setTimeout(Plugin.reloadPage, 1000);
             });
         },
-             onFileChange(e) {
-
+            onFileChange(e) {
               var files = e.target.files || e.dataTransfer.files;
-
               if (!files.length)
                 return;
               // Here also Call function
               if(Plugin.ValidateImageSize(files) == true) {
                 this.createImage(files[0]);
-              }
-
-            },
+              }            },
             createImage(file) {
-
-
             // here we validate the Image Dimensions
               var reader = new FileReader();
               var vm = this;

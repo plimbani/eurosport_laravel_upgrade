@@ -53,8 +53,8 @@
             <div class="form-group row">
               <label class="col-sm-5 form-control-label">Availability *</label>
               <div class="col-sm-6">
-                <textarea name="available" id="available" v-validate="'required'" :class="{'is-danger': errors.has('available') }"  v-model="formValues.availability" class="form-control" placeholder="e.g. Day 1 all day. Day 2 from 11 onwords"></textarea>
-                <i v-show="errors.has('available')" class="fa fa-warning">Please </i>
+                <textarea name="availability" id="availability" v-validate="'required'" :class="{'is-danger': errors.has('availability') }"  v-model="formValues.availability" class="form-control" placeholder="e.g. Day 1 all day. Day 2 from 11 onwords"></textarea>
+                <i v-show="errors.has('availability')" class="fa fa-warning">Please </i>
               </div>
             </div>
           </form>
@@ -79,7 +79,7 @@ export default {
     saveReferee () {
                 this.$validator.validateAll().then(() => {
                     
-                    let ReportData = {'tournament_id': this.tournamentId,'age_category': $('#sel_ageCategory').val(),'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'available': $('#available').val(),'refereeId':this.refereeId}
+                    let ReportData = {'tournament_id': this.tournamentId,'age_category': $('#sel_ageCategory').val(),'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
                      if(this.refereeId != ''){
                       Tournament.updateReferee(ReportData).then(
                       (response) => {  
@@ -90,8 +90,8 @@ export default {
                      }else{
                       Tournament.saveReferee(ReportData).then(
                       (response) => {  
-
-              
+                           toastr['success']('Referee detail has been added successfully', 'Success');
+                          $('#refreesModal').modal('hide')
                       }
                       )
                      }

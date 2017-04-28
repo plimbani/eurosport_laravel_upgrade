@@ -37,6 +37,7 @@
     </div>
 </template>
 <script>
+    import moment from 'moment'
     import GamesTab from './GamesTab.vue'
     import RefereesTab from './RefereesTab.vue'
     import PitchPlannerStage from './PitchPlannerStage.vue'
