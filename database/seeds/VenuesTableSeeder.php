@@ -20,15 +20,15 @@ class VenuesTableSeeder extends Seeder
         	'address2' => 'test', 'address3' => 'test', 
             'state' => 'Bayern', 
             'county' => 'Bhutan', 'city' => 'Heimstetten', 
-        	'country' => 'Germany', 'postcode' => '85551', 
+        	'country' => 'Germany', 'organiser' => '', 'postcode' => '85551', 
             'contact_no' => '7418529630', 
             'email_address' => 'test@aecordigital.com', 
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
         	['tournament_id' => 2, 'name' => 'RC Hades', 'address1' => 'Tulpinstraat 81',
         	 'address2' => 'test', 'address3' => 'test',
-              'state' => 'Limburg', 'county' => 'Holy See (Vatican City State)', 'city' => 'Hasselt', 
-        	 'country' => 'Belgium', 'postcode' => '3500', 'contact_no' => '7418529630', 'email_address' => 'test@aecordigital.com', 
+              'state' => 'Limburg', 'county' => 'Holy See (Vatican City State)',  'city' => 'Hasselt', 
+        	 'country' => 'Belgium', 'organiser' => '', 'postcode' => '3500', 'contact_no' => '7418529630', 'email_address' => 'test@aecordigital.com', 
              'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
         	['tournament_id' => 3, 'name' => 'De Schorre',
@@ -36,7 +36,7 @@ class VenuesTableSeeder extends Seeder
         	 'address2' => 'test', 'address3' => 'test', 
              'state' => 'West-Vlaanderen', 
              'county' => 'United States of America', 'city' => 'Oostende', 
-        	 'country' => 'Belgium', 'postcode' => '8400', 'contact_no' => '0498623343', 'email_address' => 'test@aecordigital.com', 
+        	 'country' => 'Belgium', 'organiser' => '', 'postcode' => '8400', 'contact_no' => '0498623343', 'email_address' => 'test@aecordigital.com', 
              'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
     }
