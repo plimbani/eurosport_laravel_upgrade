@@ -27,8 +27,8 @@
                         </a>
                 </li>
                 <li>
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" aria-haspopup="true" data-close-others="true" aria-expanded="true">              
-                        <span class="username username-hide-on-mobile">{{userData.name}}</span> 
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" aria-haspopup="true" data-close-others="true" aria-expanded="true">
+                        <span class="username username-hide-on-mobile">{{userData.name}}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                         <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
@@ -39,7 +39,7 @@
               <!--   <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
                 <li><a href="#"  @click="$setLang('en')">{{$lang.siteheader_english}}</a></li>
                 <li><a href="#"  @click="$setLang('fr')">{{$lang.siteheader_french}}</a></li> -->
-               
+
                 <!--
                 <li>
                     <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></a>
@@ -72,6 +72,7 @@
     import Layout from '../../../helpers/layout'
     import Auth from '../../../services/auth'
     import User from '../../../views/admin/Userprofile.vue'
+    import Ls from '../../../services/ls'
 
     export default {
     components: {
@@ -79,13 +80,13 @@
         },
         data() {
             return {
-                'id':this.$store.state.Users.userDetails.id? this.$store.state.Users.userDetails.id : 1,
+                'id':0,
                 'header' : 'header',
                 'date': '',
                 'curTime': '' ,
                 'name': '',
                 'image': '',
-                'userData':this.$store.state.Users.userDetails
+                'userData':[]
             }
         },
         // computed: {
@@ -95,20 +96,46 @@
         //         }else{
         //             return this.initialState()
         //         }
-                
+
         //     }
         // },
+
         mounted() {
-        let this1 = this
-        setInterval(function(){this1.clock() },1000)
-        let that = this
-        if(this.id!=''){
-            setTimeout(function(){
-                that.editUser(that.id)
-            },2000)
-        }
+
+        let email = Ls.get('email');
+        // Here we call Function to get User Details
+        let userData = {'email':email}
+        this.getUserDetails(userData)
+
+
          },
         methods : {
+            getUserDetails(emailData){
+                axios.post("/api/user/getDetails",{'userData':emailData}).then((response) => {
+                      this.userData = response.data.data;
+                      //console.log('InuserDetails')
+                      //console.log(this.userData[0])
+                      Ls.set('userData',JSON.stringify(this.userData[0]))
+                      this.id = this.userData[0].id
+                      let Id = this.id
+                      let this1 = this
+                      setInterval(function(){this1.clock() },1000)
+                        let that = this
+                        if(Id!=''){
+                            that.editUser(Id)
+                            /*setTimeout(function(){
+                                that.editUser(Id)
+                            },1000)*/
+                        }
+
+                        let UserData  = JSON.parse(Ls.get('userData'))
+                       //console.log(UserData)
+                       this.$store.dispatch('getUserDetails', UserData);
+
+                    });
+
+
+            },
             initialState() {
                 return {
                     id: '',
@@ -132,26 +159,26 @@
                 this.userModalTitle="Edit User";
                 axios.get("/api/user/edit/"+id).then((response) => {
                     this.$data.userData = response.data;
-                    
+
                 });
-            },  
-            
+            },
+
             home() {
                 this.$router.push({'name':'welcome'})
             },
-            clock(){     
-            var m_names = new Array("Jan", "Feb", "Mar", 
-            "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+            clock(){
+            var m_names = new Array("Jan", "Feb", "Mar",
+            "Apr", "May", "Jun", "Jul", "Aug", "Sep",
             "Oct", "Nov", "Dec");
 
             var d = new Date();
             var curr_date = d.getDate();
             var curr_month = d.getMonth();
             var curr_year = d.getFullYear();
-            this.date = curr_date + " " + m_names[curr_month] 
+            this.date = curr_date + " " + m_names[curr_month]
             + " " + curr_year
 
-            var curr_hours = d.getHours();  
+            var curr_hours = d.getHours();
             var curr_minutes = d.getMinutes();
             if (curr_minutes < 10) {
                 curr_minutes = "0" + curr_minutes;
@@ -160,8 +187,14 @@
         }
         },
         computed: {
-            TournamentName() {                
+            TournamentName() {
                 return this.$store.state.Tournament.tournamentName
+            },
+            userId() {
+                return this.$store.state.Users.userDetails.id
+            },
+            userData() {
+                return this.$store.state.Users.userDetails
             }
         }
 

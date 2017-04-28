@@ -16,14 +16,14 @@ class TournamentsContactTableSeeder extends Seeder
         $tournament = DB::table('tournaments')->take(3)->select('id')->get()->toArray();
        
         DB::table('tournament_contact')->insert([
-        	['tournament_id' => $tournament[array_rand($tournament)]->id, 'first_name' => 'Selmir', 'last_name' => 'Sabic', 
-            'telephone' => '7418529630', 'email' => 'test@aecordigital.com', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	['tournament_id' => 2, 'first_name' => 'Ivan', 'last_name' => 'Vanrykel', 
+            'telephone' => '+32 475 25 73 39', 'email' => 'tivanrykel@gmail.com', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
-        	['tournament_id' => $tournament[array_rand($tournament)]->id, 'first_name' => 'Ivan', 'last_name' => 'Vanrykel', 
-            'telephone' => '7418529630', 'email' => 'test1@aecordigital.com', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	['tournament_id' =>1, 'first_name' => 'Selmir', 'last_name' => 'Sabic', 
+            'telephone' => '0172 4192 144', 'email' => 'selmir.sabic@gmail.com', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
-        	['tournament_id' => $tournament[array_rand($tournament)]->id, 'first_name' => 'Smith', 'last_name' => 'Venture', 
-            'telephone' => '7418529630', 'email' => 'test2@aecordigital.com', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
+        	['tournament_id' => 3, 'first_name' => 'Peter', 'last_name' => 'Deseyn', 
+            'telephone' => '0498623343', 'email' => 'peterdeseyn@gmail.com', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
     }
 }

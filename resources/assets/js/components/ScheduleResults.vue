@@ -4,7 +4,7 @@
     	<div class="col-sm-12">
         	<div class="page-header">
           		<ol class="breadcrumb">
-            		<li><a href="" @click.prevent="AllTournament" v-if="currentScheduleView != 'allPublishedTournaments'">Home</a></li>
+            		<li><a href="" @click.prevent="AllTournament">Home</a></li>
           		</ol>
         	</div>
       	</div>
@@ -55,6 +55,7 @@ import TeamListing from './TeamListing.vue'
 import DrawDetails from './DrawDetails.vue'
 
 export default {
+	props: ['currentScheduleView'],
 	data() {
 		return {
 			// here we dispatch method for set currentView
@@ -72,8 +73,10 @@ export default {
        this.$root.$on('changeComp1', this.setMatchData1); 
   	},
 	methods: {
-		setMatchData1(data) {
-			
+		AllTournament(){
+		 this.$router.push({'name':'home'})
+		},
+		setMatchData1(data) {			
 			this.currentView = 'matchListing'
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 		},

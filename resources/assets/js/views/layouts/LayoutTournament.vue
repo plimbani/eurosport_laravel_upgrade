@@ -20,7 +20,7 @@
     import Layout from '../../helpers/layout'
     import BreadCrum from '../../components/BreadCrum.vue'
     import TournamentTabbed from './partials/TournamentTabbed.vue'
-
+    
     export default {
         data() {
             return {

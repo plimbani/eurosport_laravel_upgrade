@@ -37,9 +37,10 @@
                       <option value="">{{$lang.competation_modal_select_category_age}}</option> 
                       <option v-if="n > 4" v-for="n in (21)" 
                       v-bind:value="n">     
-                     under {{n}}s 
+                     Under {{n}}s 
                     </option>
-                    <option>Adults</option>
+                    <option>Men open age</option>
+                    <option>Women open age</option>
                   </select>
                   <span class="help is-danger" v-show="errors.has('category_age')">{{$lang.competation_modal_age_category_required}}</span>
                 </div>
@@ -103,7 +104,7 @@
             </div>
           </div> 
           <div class="form-group row align-items-center">
-              <div class="col-sm-6 form-control-label">{{$lang.competation_modal_game_duration}}2</div>
+              <div class="col-sm-6 form-control-label">{{$lang.competation_modal_game_duration}}</div>
               <div class="col-sm-6">
                 <div class="row align-items-center">
                   <span class="col-sm-2">2 <small>X</small></span>
@@ -292,11 +293,14 @@ export default {
             this.minimum_matches  = resp.min_matches
             // Now here we have to append the value of game_duration
             //this.game_duration_rr_array.push(['130':'320'])
+            
             if(this.competation_format.game_duration_RR != '20' && this.competation_format.game_duration_RR != '30' && this.competation_format.game_duration_RR != '40')
             {  
+
               let obj1=this.game_duration_rr_array[0]              
+              
               // Set Value in Array
-              obj1['other'] = this.competation_format.game_duration_RR
+              // obj1['other'] = this.competation_format.game_duration_RR
               let gameRval = this.competation_format.game_duration_RR
               // set option other for game_duration_rr
               this.competation_format.game_duration_RR = 'other'
@@ -307,7 +311,7 @@ export default {
             {  
               let obj1=this.game_duration_fm_array[0]              
               // Set Value in Array
-              obj1['other'] = this.competation_format.game_duration_FM
+             // obj1['other'] = this.competation_format.game_duration_FM
               let gameRval1 = this.competation_format.game_duration_FM
               // set option other for game_duration_rr
               this.competation_format.game_duration_FM = 'other'
@@ -320,7 +324,7 @@ export default {
               
               let obj1=this.match_interval_rr_array[0]              
               // Set Value in Array
-              obj1['other'] = this.competation_format.match_interval_RR
+             // obj1['other'] = this.competation_format.match_interval_RR
               let matchRR = this.competation_format.match_interval_RR
               // set option other for game_duration_rr
               this.competation_format.match_interval_RR = 'other'
@@ -332,7 +336,7 @@ export default {
               
               let obj1=this.match_interval_fm_array[0]              
               // Set Value in Array
-              obj1['other'] = this.competation_format.match_interval_FM
+            //  obj1['other'] = this.competation_format.match_interval_FM
               let matchFM = this.competation_format.match_interval_FM
               // set option other for game_duration_rr
               this.competation_format.match_interval_FM = 'other'

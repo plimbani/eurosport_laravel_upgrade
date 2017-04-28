@@ -81,13 +81,12 @@ class UserController extends BaseController
     /**
      * Edit User
      *
-     * @Post("/user/edit/{$id}")
+     * @GET("/user/edit/{$id}")
      *
-     * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function edit($userId)
+    public function edit(Request $request, $userId)
     {
-        return $this->userObj->edit($userId);
+        return $this->userObj->edit($userId);        
     }
 
     /**

@@ -1,46 +1,64 @@
 <template>
-    <section class="section section-hero-area">
-         <!-- <a href="" @click.prevent="AllTournament" v-if="currentScheduleView != 'allPublishedTournaments'">Home</a><br> -->
-        <component :is="currentScheduleView"></component>
-        <!--<allPublishedTournaments>
-        </allPublishedTournaments>-->
-        
-    </section>
+  <section class="section section-hero-area">
+    <div class="container">
+      <div class="d-flex justify-content-center">
+        <div class="card">
+          <div class="card-block">
+                <h4 class="card-title">EuroSport Tournaments</h4>
+                <div v-for="tournament in tournaments">
+                  <a href="" @click.prevent="selectTournament(tournament)" class="card-link text-primary">{{tournament.name}}</a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 <script type="text/babel">
+
 import Tournament from '../../api/tournament.js'
-import AllPublishedTournaments from '../../components/AllPublishedTournaments.vue'
-import ScheduleResults from '../../components/ScheduleResults.vue'
 
 export default {
   data() {
     return {
-      'currentScheduleView' : ''
+      'tournaments' : []
     }
   },
   created: function() {
-       this.$root.$on('changeTourComp', this.setTournamentData); 
+      // this.$root.$on('changeTourComp', this.setTournamentData); 
   },
   mounted() {
-    this.reset()
-  },
-  components: {
-    AllPublishedTournaments,ScheduleResults
+   // Display All Published Tournaments 
+   let TournamentData = {'status':'Published'}
+    Tournament.getTournamentByStatus(TournamentData).then(
+      (response) => {
+        this.tournaments = response.data.data                       
+      },
+      (error) => {
+         console.log('Error occured during Tournament api ', error)
+      }
+    )   
   },
   methods: {
-    setTournamentData() {
-      // Here we have to change it to Schedule Results
-      this.$store.dispatch('setCurrentScheduleView','scheduleResults')
-      this.currentScheduleView = this.$store.state.currentScheduleView  
-    },
-    AllTournament() {
-      this.reset()
-    },
-    reset() {
-     this.$store.dispatch('setCurrentScheduleView','allPublishedTournaments')
-     this.currentScheduleView = this.$store.state.currentScheduleView
+    selectTournament(tournament) {
+
+     // here we set the tournaments and add Schedule & Results
+     let name = tournament.name
+     let id = tournament.id      
+     let tournamentSel  = {
+        name:name, 
+        id:id,        
+        tournamentLogo: tournament.logo,
+        tournamentStatus:tournament.status,
+        tournamentStartDate:tournament.start_date,
+        tournamentEndDate:tournament.end_date       
+      }         
+      this.$store.dispatch('SetTournamentName', tournamentSel)
+        // After Set We have to Redirect to Schedule View
+      if(this.$store.state.Tournament.tournamentId != undefined) {
+        this.$router.push({'name':'front_schedule'})
+      }
     }
   }
-    
 }
 </script>

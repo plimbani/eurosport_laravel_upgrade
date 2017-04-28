@@ -3,11 +3,11 @@
 	v-model="tournament">
 		<option value="">{{$lang.tournament_manage_edition}}</option>
 	<option value="">--------------</option>
-		<option v-for="option in options" 
-		v-bind:value="option" v-if="option.status != null" 
-		>		  
-		 {{option.name}} ({{option.status}})                                 
-		</option>                                
+		<option v-for="option in options"
+		v-bind:value="option" v-if="option.status != null"
+		>
+		 {{option.name}} ({{option.status}})
+		</option>
 	</select>
 </template>
 <script>
@@ -21,12 +21,12 @@
 	        options: []
 	     }
     },
-	
-	mounted() {		    		
+
+	mounted() {
     	// this.$store.dispatch('SetTournamentName','test')
       	Tournament.getAllTournaments().then(
-	      (response) => {           
-	        this.options = response.data.data                       
+	      (response) => {
+	        this.options = response.data.data
 	      },
 	      (error) => {
 	         console.log('Error occured during Tournament api ', error)
@@ -36,27 +36,31 @@
 	methods: {
 		onChange() {
 			// Now here we have to Set the TournamentId for Tournament
-			// After Selecting it we redirect to Competaion Formats		 
+			// After Selecting it we redirect to Competaion Formats
 		  let name = this.tournament.name
 		  let id = this.tournament.id
 		  let tournamentDays = Plugin.setTournamentDays(this.tournament.start_date, this.tournament.end_date)
 		  let tournamentSel  = {
-		  	name:name, 
-		  	id:id, 
+		  	name:name,
+		  	id:id,
 		  	tournamentDays: tournamentDays,
 		  	tournamentLogo: this.tournament.logo,
 		  	tournamentStatus:this.tournament.status,
-		  	tournamentStartDate:this.tournament.start_date, 
-			tournamentEndDate:this.tournament.end_date}  				
+		  	tournamentStartDate:this.tournament.start_date,
+			  tournamentEndDate:this.tournament.end_date,
+        facebook:this.tournament.facebook,
+        website:this.tournament.website,
+        twitter:this.tournament.twitter
+      }
     	  this.$store.dispatch('SetTournamentName', tournamentSel)
     	  let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Formats'}
     	  this.$store.dispatch('setActiveTab', currentNavigationData)
     	  this.$router.push({name:'competation_format'})
-			// this.$store.dispatch('SetTournamentName','Your Tournament') 
+			// this.$store.dispatch('SetTournamentName','Your Tournament')
 			// alert(this.option.name)
-			// alert(this.tournament)		
+			// alert(this.tournament)
 		},
-		
-	}    
+
+	}
 }
 </script>

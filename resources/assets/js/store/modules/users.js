@@ -15,16 +15,17 @@ const getters = {
 const actions = {
  
   getUserDetails ({commit},userDetails) { 
-    Users.getUserDetails(userDetails).then (
+    commit(types.GET_USER_DETAILS, userDetails) 
+    /* Users.getUserDetails(userDetails).then (
       (response) => {      
-        if(response.data.status_code == 200)
+       // if(response.data.status_code == 200)
             commit(types.GET_USER_DETAILS, response.data.data[0])   
 
       },
       (error) => {
         console.log('Error occured during Get pitches detail ', error)
       }
-    )
+    ) */
   }
 }
 

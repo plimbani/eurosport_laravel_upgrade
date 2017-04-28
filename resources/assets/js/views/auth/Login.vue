@@ -4,11 +4,13 @@
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
         
             <input type="email" class="form-control form-control-danger" placeholder="Enter email" name="email"
-                   v-model="loginData.email" v-validate data-vv-rules="required|email">
+                   v-model="loginData.email" v-validate="'required'">
+            <span class="help is-danger" v-show="errors.has('email')">This field is required.</span>       
         </div>
         <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
             <input type="password" class="form-control form-control-danger" placeholder="Enter password" name="password"
                 v-model="loginData.password" v-validate data-vv-rules="required">
+            <span class="help is-danger" v-show="errors.has('password')">This field is required.</span>    
         </div>
         <div class="other-actions row">
             <div class="col-sm-6">
@@ -38,8 +40,9 @@
             <p style="font-size:14px;">Enter your e-mail address below to reset your password.</p>
             <div class="form-group">
                 <!-- <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> -->
-                 <input class="form-control" type="email" autocomplete="off" v-model="loginData.email"  placeholder="Email address" name="email" id="
+                 <input class="form-control" type="email" autocomplete="off" v-model="loginData.email" v-validate="'required'" placeholder="Email address" name="email" id="
                  email" value=""/>
+                 <span class="help is-danger" v-show="errors.has('email')">This field is required.</span>
             </div>
 
             <div class="form-actions">
@@ -87,7 +90,7 @@
                  this.loginData.forgotpassword = 0
             },
             sendResetLink() {
-                
+                this.$validator.validateAll().then(() => {
                 $('#resetPassword').attr("disabled","disabled");
                 let formData = {'email': this.loginData.email}
                 return axios.post('/password/email',formData).then(response =>  {
@@ -106,7 +109,7 @@
                         console.log('Error', error.message);
                     }
                 });
-
+            });    
             }
         },
     }

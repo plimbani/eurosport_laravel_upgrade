@@ -19,7 +19,7 @@
             <div class= "form-group">
               <button class="btn btn-primary col-sm-8 btn-theme" 
               @click="addNewTournament()" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')">
-              {{$lang.welcome_add_button_new_tournament}}</button>
+              {{$lang.welcome_add_button_new_edition}}</button>
             </div>          
               <div class="form-group">
                 <tournamentDropDown></tournamentDropDown>              
@@ -30,8 +30,10 @@
       <div class="col-sm-6">
       <div class="card">
         <div class="card-header">
-          <h5 class="text-center" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')"><strong>{{$lang.welcome_add_new_tournament}}</strong></h5>
-          <h5 class="text-center" v-else>{{$lang.welcome_add_tournament}}</strong></h5>
+          <h5 class="text-center" 
+          v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')"><strong>{{$lang.welcome_add_new_tournament}}</strong></h5>
+          <h5 class="text-center" v-else>{{$lang.welcome_add_tournament}}</strong>
+          </h5>
         </div>
         <div class="card-block text-center">          
             <div class="form-group" v-if="(userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Tournament administrator') ">
@@ -64,9 +66,13 @@ computed: {
     },    
   },
   mounted() {
+    
+    let tournamentAdd  = {name:'', 'currentPage':'Home'}  
+    this.$store.dispatch('SetTournamentName', tournamentAdd)
 
     // Here we set Default Value For Tournament
-    let userDetails = this.$store.state.Users.userDetails
+    
+    /*let userDetails = this.$store.state.Users.userDetails
         // this.userDetails = this.$store.state.Users.userDetails
    
     let that = this
@@ -88,7 +94,7 @@ computed: {
      },1000)
 
 
-     
+     */
   },
   methods : {
     addNewTournament() {     
