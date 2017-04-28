@@ -195,7 +195,7 @@
 
               <div class="col-sm-4">
               <div class="form-group">
-              <select class="form-control ls-select2"
+              <select class="form-control"
               name="venue_country[]"
               v-model="location.tournament_venue_country">
                 <option value="">{{$lang.tournament_country_please_select}}</option>
