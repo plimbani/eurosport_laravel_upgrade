@@ -3,10 +3,9 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div v-if="competition.matchList.length > 0" v-for="(competition,index) in competitionWithGames">
-<<<<<<< HEAD
+
 					<h6 class="mb-0"><strong>{{competition.group_name}}</strong></h6>
 					<div class="text-center mt-3" v-if="match.isScheduled!=1" v-for="match in competition.matchList" 
-
 						:data-text="match.matchName">
 						<draggable-match-event :match="match"></draggable-match-event>
 					</div>
@@ -68,7 +67,6 @@ export default {
 				// console.log('msg',this.competationList,this.matches)
 				return this.competationList
 			}
-			
 		}
 	},
 	mounted() {
@@ -99,24 +97,6 @@ export default {
 			  this.TournamentId = 0;
 			}
 		},
-		// matchFixture() {
-		// 	let that = this
-		// 	let groupMatch=[]
-		// 	_.forEach(that.competationList, function(competition ) {
-		// 		let cname = competition.group_name
-		// 		let comp = []
-		// 		_.find(that.matches, function (match) {
-		// 		if(match.group_name == competition.group_name){
-		// 				var person = {'fullGame':match.full_game};
-		// 				comp.push(person)
-		// 			}
-		// 		})
-		// 		// groupMatch.push(comp)
-		// 		competition.matches = comp
-		// 	}) ,
-
-		// 	// this.matchGame = groupMatch
-		// }
 	}
 }
 
