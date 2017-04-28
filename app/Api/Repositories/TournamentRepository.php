@@ -11,6 +11,7 @@ use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\TempFixture;
+use Laraspace\Models\Team;
 use Carbon\Carbon;
 
 class TournamentRepository
@@ -230,5 +231,32 @@ class TournamentRepository
         $newdata['status'] = $tournamentData['status'];
         $tournamentId =   $tournamentData['tournamentId'];
         return Tournament::where('id', $tournamentId)->update($newdata);
+    }
+    public function tournamentFilter($tournamentData)
+    {
+
+      $tournamentId = $tournamentData['tournamentData']['tournamentId'];
+      $key = $tournamentData['tournamentData']['keyData'];
+      $resultData = array();
+      // now here we fetch data for specefic key
+      $reportQuery = Team::where('teams.tournament_id','=' ,$tournamentId);
+      switch($key) {
+        case 'team' :
+          $resultData = $reportQuery->select('id','name as Name')
+                      ->get();
+          break;
+        case 'country' :
+          $resultData = $reportQuery->join('countries','countries.id','=','teams.country_id')
+                      ->select('countries.id as Cid','countries.name as Name')
+                      ->distinct('Name')
+                      ->get();
+          break;
+        case 'age_category' :
+          $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
+                      ->select('tournament_competation_template.id as TCTid','tournament_competation_template.group_name as Name')
+                      ->get();
+          break;
+      }
+      return $resultData;
     }
 }
