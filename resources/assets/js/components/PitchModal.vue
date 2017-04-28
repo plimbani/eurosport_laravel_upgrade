@@ -116,8 +116,6 @@ var moment = require('moment');
         })
       this.matchFixtureDetail()   
 
-
-    console.log('PtichModal is mounted')
   },
   methods: {
     initialState() {
