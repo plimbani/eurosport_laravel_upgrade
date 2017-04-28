@@ -10,7 +10,7 @@
 		  			<div class="pull-right">
 		  				<form class="form-inline filter-category-form">
 		  					<div class="form-group">
-		  						<label for="nameInput" class="control-label"><strong>Filter by:</strong></label> 
+		  						<label for="nameInput" class="control-label"><strong>Filter by:</strong></label>
 		  						<label class="radio-inline control-label">
 	  								<input type="radio" name="gender" value="team" checked="checked"> Team
 	                            </label>
@@ -28,28 +28,28 @@
 		                        <label class="control-label">
 		                        	<a href="#">Clear</a>
 		                        </label>
-		  					</div> 
-		  					
+		  					</div>
+
 		  				</form>
 		  			</div>
 	  			</div>
 
 	  			<div class="mt-4">
-	  				<pitch-planner-table></pitch-planner-table>	  					
+	  				<pitch-planner-table></pitch-planner-table>
 	  			</div>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script type="text/babel">	
+<script type="text/babel">
 var moment = require('moment');
 	import PitchModal from '../../../components/PitchModal.vue';
 	import PitchPlannerTable from '../../../components/PitchPlannerTable.vue';
-	
+
 	export default {
     data() {
-       return {         
+       return {
          'tournamentId': this.$store.state.Tournament.tournamentId
        }
     },
@@ -62,14 +62,14 @@ var moment = require('moment');
       this.$router.push({name: 'welcome'});
     } else {
       // Means Set Here
-     let currentNavigationData = {activeTab:'pitch_planner', 
+     let currentNavigationData = {activeTab:'pitch_planner',
      currentPage: 'Pitch Planner'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
     }
-    
-    },	
+
+    },
     components: {
         PitchModal, PitchPlannerTable
-    }  
+    }
 }
 </script>

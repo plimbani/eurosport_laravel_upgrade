@@ -113,13 +113,12 @@ import _ from 'lodash'
                         vm.setPitchModal = 1
                         vm.matchFixture = calEvent
                         setTimeout(function() {
-                        $('#matchScheduleModal').modal('show')
-                        $("#matchScheduleModal").on('hidden.bs.modal', function () {
+                            $('#matchScheduleModal').modal('show')
+                            $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                 vm.setPitchModal = 0
                                 vm.matchFixture = {}
                                 vm.getScheduledMatch()
-                                console.log('msg')
-                        });
+                            });
                         },500);
                     },
                     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
@@ -138,12 +137,14 @@ import _ from 'lodash'
                             // this.reports = response.data.data 
                             let sMatches = []
                             _.forEach(rdata, function(match) {
-                                let mData =  {'id': match.id, 'resourceId': match.pitch_id,'start':moment.utc(match.match_datetime,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(match.match_endtime,'YYYY-MM-DD hh:mm:ss'),'title':match.match_number,
+                                if(match.is_scheduled == 1){
+                                    let mData =  {'id': match.fid, 'resourceId': match.pitchId,'start':moment.utc(match.match_datetime,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(match.match_endtime,'YYYY-MM-DD hh:mm:ss'),'title':match.match_number,
                                 matchId:match.id}
-                                sMatches.push(mData)
+                                sMatches.push(mData)   
+                                }
                             });
                             
-                           console.log('sMatches')
+                           // console.log(sMatches,'sMatches')
                             this.scheduledMatches =sMatches
                             this.initScheduler();
                             // conole.log(response,'response')

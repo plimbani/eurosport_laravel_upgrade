@@ -18,12 +18,21 @@
             </div>
             <p class="mt-4 refree_name">
             <div v-if="matchDetail.referee">
-            <strong>Referee:</strong> {{matchDetail.referee.first_name}} 
-              <a href="javascript:void(0)" @click="removeReferee()">Remove</a>
+              <div class="form-group row">
+                  <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                    <strong>Referee:</strong>
+                  </label>
+                  <div class="col-sm-6 align-self-center">
+                      <input class="form-control" type="text" v-model="matchDetail.referee.first_name" readonly>
+                  </div>
+                  <div class="col-sm-3 align-self-center">
+                      <a class="btn btn-danger btn-sm w-100" href="javascript:void(0)" @click="removeReferee()">Remove</a>
+                  </div>
+              </div>
             </div>
             <div class="row" v-else>
             <label class="col-sm-3 form-control-label"><strong>Referee:</strong></label>
-              <div class="col-sm-8">
+              <div class="col-sm-9">
                 <select  v-model="matchDetail.referee_id" class="form-control ls-select2" name="selReferee">
                   <option value="0">Select referee</option>
                   <option :value="referee.id" v-for="referee in referees">{{referee.first_name}}</option>
@@ -45,7 +54,7 @@
               </div>
               <div class="form-group row">
                 <label class="col-sm-3 form-control-label"><strong>Status</strong></label>
-                <div class="col-sm-8">
+                <div class="col-sm-9">
                   <select v-model="matchDetail.match_status" name="match_status" id="match_status" class="form-control ls-select2">
                       <option value="Full-time">Full-time</option>
                       <option value="Penalties">Penalties</option>
@@ -56,7 +65,7 @@
               </div>
               <div class="form-group row">
                 <label class="col-sm-3 form-control-label"><strong>Winner</strong></label>
-                <div class="col-sm-8">
+                <div class="col-sm-9">
                   <select name="match_winner"  v-model="matchDetail.match_winner"  id="match_winner" class="form-control ls-select2">
                       <option value="">Please Select</option>
                       <option :value="matchDetail.home_team">{{matchDetail.home_team}}</option>
@@ -66,16 +75,20 @@
               </div>
               <div class="form-group row">
                 <label class="col-sm-3 form-control-label"><strong>Comments</strong></label>
-                <div class="col-sm-8">
+                <div class="col-sm-9">
                   <textarea class="form-control" name="comments" id="comments">{{matchDetail.comments}}</textarea>
                 </div>
               </div>
             </form>
           </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()" >Unschedule</button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" @click="saveFixtureDetail()">Save</button>
+          <div class="modal-footer justify-content-between">
+              <div class="">
+                <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()" >Unschedule</button>
+              </div>
+              <div class="">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" @click="saveFixtureDetail()">Save</button>
+              </div>
           </div>
       </div>
     </div>
@@ -91,7 +104,8 @@ var moment = require('moment');
        return {         
          'tournamentId': this.$store.state.Tournament.tournamentId,
          'matchDetail':{},
-         'referees': {}
+         'referees': {},
+         'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId
        }
     },
     props: ['matchFixture'],
@@ -112,7 +126,7 @@ var moment = require('moment');
       }
     },
     matchFixtureDetail(){
-      Tournament.getMatchFixtureDetail(this.matchFixture.matchId).then(
+      Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
           this.matchDetail = response.data.data
           this.matchDetail.matchTime = moment(response.data.data.match_datetime,'DD-MM-YYYY hh:mm"ss').format('DD.MM.YYYY (hh:mm a)')
@@ -137,7 +151,7 @@ var moment = require('moment');
         )
     },
     assignReferee(refereeId){
-      let data = {'refereeId': refereeId,'matchId': this.matchDetail.id}
+      let data = {'refereeId': refereeId,'matchId': this.matchId}
       Tournament.assignReferee(data).then(
         (response) => {
           // this.matchFixtureDetail()
@@ -146,7 +160,7 @@ var moment = require('moment');
         )
     },
     matchUnschedule() {
-      Tournament.matchUnschedule(this.matchFixture.id).then(
+      Tournament.matchUnschedule(this.matchId).then(
         (response) => {
            $('#matchScheduleModal').modal('hide')
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
