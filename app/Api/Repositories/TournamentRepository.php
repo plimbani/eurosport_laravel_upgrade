@@ -42,13 +42,16 @@ class TournamentRepository
         $newdata['website'] = $data['website'] ? $data['website'] : '';
         $newdata['facebook'] = $data['facebook'] ? $data['facebook'] : '';
         $newdata['twitter'] = $data['twitter'] ? $data['twitter'] : '';
-        $newdata['logo'] = $data['image_logo'] ? $data['image_logo'] : '';
 
         // For New One We set Status as Unpublished
         $newdata['status'] = 'UnPublished';
         $newdata['user_id'] = 1;
 
+        if($data['image_logo'] != ''){
+            $newdata['logo'] = $data['image_logo'];
+        }
         // Now here we Save it For Tournament
+        $imageChanged = true;
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
            // Update Touranment Table Data
           $tournamentId = $data['tournamentId'];
@@ -56,9 +59,12 @@ class TournamentRepository
           // unset($newdata['end_date']);
           $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
           $newdata['end_date'] = Carbon::createFromFormat('d/m/Y', $newdata['end_date']);
+          // here we check for image Logo is exist
+          // means nothing need to updated it
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
+
          $tournamentId = Tournament::create($newdata)->id;
         }
         //$tournamentId = Tournament::create($newdata)->id;
@@ -112,14 +118,15 @@ class TournamentRepository
         }
         $tournamentData = array();
 
-        $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'], 'tournamentEndDate' => $data['end_date'],
+        $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'],
+          'tournamentEndDate' => $data['end_date'],
             'tournamentStatus'=> 'UnPublished',
-            'tournamentLogo' => $data['image_logo'],
+            'tournamentLogo'=>$data['image_logo'],
             'tournamentDays'=> $this->getTournamentDays($data['start_date'],$data['end_date']),
             'facebook' => $data['facebook'],
             'twitter' => $data['twitter'],
             'website' => $data['website'],
-            );
+        );
 
         return $tournamentData;
     }

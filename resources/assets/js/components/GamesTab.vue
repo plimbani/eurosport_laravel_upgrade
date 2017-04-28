@@ -3,13 +3,15 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div v-if="competition.matchList.length > 0" v-for="(competition,index) in competitionWithGames">
-					<h6><strong>{{competition.group_name}}</strong></h6>
+<<<<<<< HEAD
+					<h6 class="mb-0"><strong>{{competition.group_name}}</strong></h6>
 					<div class="text-center mt-3" v-if="match.isScheduled!=1" v-for="match in competition.matchList" 
+
 						:data-text="match.matchName">
 						<draggable-match-event :match="match"></draggable-match-event>
 					</div>
 				</div>
-				<div class="dark_grey_bg text-center">
+				<div class="dark_grey_bg card p-2 m-0 text-center">
 					Unavailable 60 mins
 				</div>
 			</div>
