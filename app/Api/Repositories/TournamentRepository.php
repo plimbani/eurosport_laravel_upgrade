@@ -254,6 +254,7 @@ class TournamentRepository
         case 'age_category' :
           $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
                       ->select('tournament_competation_template.id as TCTid','tournament_competation_template.group_name as Name')
+                      ->distinct('Name')
                       ->get();
           break;
       }
