@@ -28,7 +28,7 @@ class TournamentService implements TournamentContract
      */
     public function index()
     {
-        // Here we send Status Code and Messages        
+        // Here we send Status Code and Messages
         $data = $this->tournamentRepoObj->getAll();
 
         if ($data) {
@@ -45,7 +45,7 @@ class TournamentService implements TournamentContract
      */
     public function getTournamentByStatus($data)
     {
-        // Here we send Status Code and Messages        
+        // Here we send Status Code and Messages
         $tournamentData = $data->all();
         $data = $this->tournamentRepoObj->getTournamentsByStatus($tournamentData['tournamentData']);
 
@@ -64,7 +64,7 @@ class TournamentService implements TournamentContract
      */
     public function templates()
     {
-        // Here we send Status Code and Messages        
+        // Here we send Status Code and Messages
         $data = $this->tournamentRepoObj->getAllTemplates();
 
         if ($data) {
@@ -82,9 +82,9 @@ class TournamentService implements TournamentContract
      */
     public function getTemplate($data)
     {
-        // Here we send Status Code and Messages        
+        // Here we send Status Code and Messages
         $data = $data['tournamentTemplateId'];
-        $data = $this->tournamentRepoObj->getTemplate($data);        
+        $data = $this->tournamentRepoObj->getTemplate($data);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
@@ -102,7 +102,7 @@ class TournamentService implements TournamentContract
      */
     public function create($data)
     {
-          
+
          //exit;
         $data = $data->all();
 
@@ -110,9 +110,9 @@ class TournamentService implements TournamentContract
         // here we have to precprocess the image
         // Save the image
         $data['tournamentData']['image_logo']=$this->saveTournamentLogo($data);
-        
+
         //\File::put($path , $imgData);
-        //print_r($imgData);        
+        //print_r($imgData);
 
         $data = $this->tournamentRepoObj->create($data['tournamentData']);
 
@@ -127,24 +127,37 @@ class TournamentService implements TournamentContract
 
        if($data['tournamentData']['image_logo'] != '')
        {
-            $image_string = $data['tournamentData']['image_logo']; 
+            // here we check it for edit purpose and if image is
+            // already there we will return it
+            if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/img/tournament_logo/'.$data['tournamentData']['image_logo']))
+            {
+              // $imagename = $data['user_image'];
+              //exit;
+            $image_string = $data['tournamentData']['image_logo'];
 
             $img = explode(',', $image_string);
             if(count($img)>1) {
 
-                $imgData = base64_decode($img[1]);        
+                $imgData = base64_decode($img[1]);
             }else{
                 return '';
             }
 
             $name = $data['tournamentData']['name'];
             $now = new \DateTime();
-            
+
             $timeStamp = $now->getTimestamp();
-            $path = public_path().'/assets/img/tournament_logo/'.$timeStamp.'.png';        
-            file_put_contents($path, $imgData);      
+            $path = public_path().'/assets/img/tournament_logo/'.$timeStamp.'.png';
+            file_put_contents($path, $imgData);
                 return $timeStamp.'.png';
+
+          } else {
+            // if its exist then nothing have to update
+            //exit;
+            return $data['tournamentData']['image_logo'];
+          }
         } else {
+            // If its Edit
             return '';
         }
     }
@@ -163,9 +176,9 @@ class TournamentService implements TournamentContract
         // here we have to precprocess the image
         // Save the image
        // $this->saveTournamentLogo($data);
-        
+
         //\File::put($path , $imgData);
-        //print_r($imgData);        
+        //print_r($imgData);
 
         $data = $this->tournamentRepoObj->edit($data['tournamentData']);
 
@@ -189,7 +202,7 @@ class TournamentService implements TournamentContract
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
     }
-    public function tournamentSummary($data) 
+    public function tournamentSummary($data)
     {
         $data = $data->all();
         $tournamentData = $this->tournamentRepoObj->tournamentSummary($data['tournamentId']);
@@ -215,7 +228,7 @@ class TournamentService implements TournamentContract
             ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
             ->leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
             ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
-           
+
             ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
             ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
             ->groupBy('temp_fixtures.id')
@@ -245,14 +258,14 @@ class TournamentService implements TournamentContract
             if(isset($data['sel_referees'])  && $data['sel_referees']!= '' ){
                 $reportQuery = $reportQuery->where('match_results.referee_id',$data['sel_referees']);
             }
-            
+
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
         $reportData = $reportQuery->get();
          // $tournamentData = $this->tournamentRepoObj->tournamentReport($data);
         // $billings = $billings->get();
 
         $dataArray = array();
-        
+
          if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
             foreach ($reportData as $reportRec) {
                 $ddata = [
@@ -264,7 +277,7 @@ class TournamentService implements TournamentContract
                     $reportRec->full_game,
                 ];
                 array_push($dataArray, $ddata);
-            }   
+            }
              $otherParams = [
                     'sheetTitle' => "Report3",
                     'sheetName' => "Report2",
@@ -292,5 +305,5 @@ class TournamentService implements TournamentContract
         if ($data) {
             return ['status_code' => '200', 'message' => self::SUCCESS_MSG];
         }
-    }   
+    }
 }
