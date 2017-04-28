@@ -97,8 +97,7 @@ assignReferee(data) {
 
   getDropDownData(tournamentData) {
     return api.post('tournament/getDropDownData',{'tournamentData': tournamentData})
-  }
-
+  },
   setMatchSchedule(matchData) {
     return api.post('match/schedule',{'matchData': matchData})
   },
@@ -114,5 +113,4 @@ assignReferee(data) {
   saveMatchResult(matchData) {
     return api.post('match/saveResult',{'matchData': matchData})
  }
-
 }
