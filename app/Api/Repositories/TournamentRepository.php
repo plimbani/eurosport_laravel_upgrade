@@ -34,7 +34,6 @@ class TournamentRepository
     }
     public function create($data)
     {
-
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
@@ -96,6 +95,7 @@ class TournamentRepository
             $locationData['postcode'] =$location['tournament_venue_postcode'] ?? '';
             $locationData['state'] =$location['tournament_venue_state'] ?? '';
             $locationData['country'] =$location['tournament_venue_country'] ?? '';
+            $locationData['organiser'] =$location['tournament_venue_organiser'] ?? '';
             $locationData['tournament_id']=$tournamentId;
             // $locationData['organiser'] =$data['tournament_venue_organiser'];
             if(isset($locationData['id']) && $locationData['id'] != 0){
