@@ -26,7 +26,7 @@ class RefereeRepository
             'last_name' => $refereeData['last_name'],
             'telephone' => $refereeData['telephone'],
             'email' => $refereeData['email'],
-            'availability' => $refereeData['available'],
+            'comments' => $refereeData['comments'],
             'age_group_id' =>  $refereeData['age_category']
             
         ]);
@@ -41,7 +41,7 @@ class RefereeRepository
             'last_name' => $refereeData['last_name'],
             'telephone' => $refereeData['telephone'],
             'email' => $refereeData['email'],
-            'availability' => $refereeData['available'],
+            'comments' => $refereeData['comments'],
             'age_group_id' =>  $refereeData['age_category']
             
         ]);
