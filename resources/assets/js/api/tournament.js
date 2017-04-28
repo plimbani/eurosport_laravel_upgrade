@@ -1,19 +1,19 @@
-import api from './siteconfig'
+ import api from './siteconfig'
 
-export default {  
-  getAllTournaments() {  	
+export default {
+  getAllTournaments() {
   	return api.get('tournaments')
   },
   getAllVenues(tournamentId) {
    return api.get('venues/getAll/'+tournamentId)
   },
-  saveTournament(tournamentData) {  	  	
+  saveTournament(tournamentData) {
   	return api.post('tournament/create', {'tournamentData': tournamentData})
   },
-  getAllTournamentTemplate(){  	
+  getAllTournamentTemplate(){
   	return api.get('tournaments/templates')
   },
-  saveCompetationFormat(compeationFormatData) {    
+  saveCompetationFormat(compeationFormatData) {
   	return api.post('age_group/createCompetationFomat', {'compeationFormatData': compeationFormatData})
   },
   getCompetationFormat(tournamentData) {
@@ -60,10 +60,19 @@ export default {
  saveReferee(data) {
      return api.post('referee/create',{ data})
  },
-  updateReferee(data) {
+ updateReferee(data) {
      return api.post('referee/update',{ data})
  },
- getStanding(tournamentData) {
+ removeReferee(data) {
+     return api.post('referee/delete',{ data})
+ },
+ removeAssignedReferee(data) {
+     return api.post('match/removeAssignedReferee',{ data})
+   },
+assignReferee(data) {
+     return api.post('match/assignReferee',{ data})
+   },
+  getStanding(tournamentData) {
   return api.post('match/getStanding',{'tournamentData': tournamentData})
  },
  getDrawTable(tournamentData) {
@@ -75,7 +84,7 @@ export default {
  getTournamentByStatus(tournamentData) {
   return api.post('tournaments/getTournamentByStatus',{'tournamentData': tournamentData})
  },
- 
+
   getRefereeDetail(refereeId) {
     return api.post('referee/refereeDetail',{'refereeId': refereeId})
   },
@@ -84,6 +93,24 @@ export default {
   },
   updateStatus(tournamentData) {
     return api.post('tournament/updateStatus',{'tournamentData': tournamentData})
-  }
+  },
 
+  getDropDownData(tournamentData) {
+    return api.post('tournament/getDropDownData',{'tournamentData': tournamentData})
+  },
+  setMatchSchedule(matchData) {
+    return api.post('match/schedule',{'matchData': matchData})
+  },
+  matchUnschedule(matchData) {
+    return api.post('match/unschedule',{'matchData': matchData})
+  },
+  getAllScheduledMatch(tournamentId) {
+    return api.post('match/getScheduledMatch',{'tournamentId': tournamentId})
+  },
+  getMatchFixtureDetail(matchId) {
+    return api.post('match/detail',{'matchId': matchId})
+  },
+  saveMatchResult(matchData) {
+    return api.post('match/saveResult',{'matchData': matchData})
+ }
 }

@@ -37,7 +37,7 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->index();
     }
-    
+
     /**
      * Show all Tournament Details By Status.
      *
@@ -79,7 +79,7 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->getTemplate($request->all());
     }
-    
+
     /**
      * Create  Torunament.
      *
@@ -91,7 +91,7 @@ class TournamentController extends BaseController
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
     public function create(Request $request)
-    {                
+    {
         return $this->tournamentObj->create($request);
     }
 
@@ -131,5 +131,8 @@ class TournamentController extends BaseController
     public function updateStatus(Request $request) {
        return $this->tournamentObj->updateStatus($request->all());
     }
-       
+    public function tournamentFilter(Request $request)
+    {
+      return $this->tournamentObj->tournamentFilter($request->all());
+    }
 }

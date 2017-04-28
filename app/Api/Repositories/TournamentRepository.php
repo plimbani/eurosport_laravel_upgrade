@@ -11,6 +11,7 @@ use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\TempFixture;
+use Laraspace\Models\Team;
 use Carbon\Carbon;
 
 class TournamentRepository
@@ -42,13 +43,16 @@ class TournamentRepository
         $newdata['website'] = $data['website'] ? $data['website'] : '';
         $newdata['facebook'] = $data['facebook'] ? $data['facebook'] : '';
         $newdata['twitter'] = $data['twitter'] ? $data['twitter'] : '';
-        $newdata['logo'] = $data['image_logo'] ? $data['image_logo'] : '';
 
         // For New One We set Status as Unpublished
         $newdata['status'] = 'UnPublished';
         $newdata['user_id'] = 1;
 
+        if($data['image_logo'] != ''){
+            $newdata['logo'] = $data['image_logo'];
+        }
         // Now here we Save it For Tournament
+        $imageChanged = true;
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
            // Update Touranment Table Data
           $tournamentId = $data['tournamentId'];
@@ -56,9 +60,12 @@ class TournamentRepository
           // unset($newdata['end_date']);
           $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
           $newdata['end_date'] = Carbon::createFromFormat('d/m/Y', $newdata['end_date']);
+          // here we check for image Logo is exist
+          // means nothing need to updated it
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
+
          $tournamentId = Tournament::create($newdata)->id;
         }
         //$tournamentId = Tournament::create($newdata)->id;
@@ -112,14 +119,15 @@ class TournamentRepository
         }
         $tournamentData = array();
 
-        $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'], 'tournamentEndDate' => $data['end_date'],
+        $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'],
+          'tournamentEndDate' => $data['end_date'],
             'tournamentStatus'=> 'UnPublished',
-            'tournamentLogo' => $data['image_logo'],
+            'tournamentLogo'=>$data['image_logo'],
             'tournamentDays'=> $this->getTournamentDays($data['start_date'],$data['end_date']),
             'facebook' => $data['facebook'],
             'twitter' => $data['twitter'],
             'website' => $data['website'],
-            );
+        );
 
         return $tournamentData;
     }
@@ -163,6 +171,9 @@ class TournamentRepository
        $tournamentCompetaionTemplateData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
 
 
+        $summaryData['tournament_teams'] = 0;
+        $summaryData['tournament_matches'] = 0;
+
        if(count($tournamentCompetaionTemplateData) > 0 )
        {
 	       foreach($tournamentCompetaionTemplateData as $tournamentData) {
@@ -173,12 +184,14 @@ class TournamentRepository
 	       }
 	      $summaryData['tournament_matches'] = array_sum($tempData['total_match']);
         $summaryData['tournament_teams'] = array_sum($tempData['total_teams']);
+
          $summaryData['tournament_groups']= implode(',',$tempData['age_group']);
      	}
 
        $tournamentPitch = Pitch::where('tournament_id', $tournamentId)->get();
 
        $summaryData['tournament_age_categories'] = count($tournamentCompetaionTemplateData);
+
 
          $summaryData['tournament_pitches'] = count($tournamentPitch);
          // TODO: referee is remaining
@@ -218,5 +231,33 @@ class TournamentRepository
         $newdata['status'] = $tournamentData['status'];
         $tournamentId =   $tournamentData['tournamentId'];
         return Tournament::where('id', $tournamentId)->update($newdata);
+    }
+    public function tournamentFilter($tournamentData)
+    {
+
+      $tournamentId = $tournamentData['tournamentData']['tournamentId'];
+      $key = $tournamentData['tournamentData']['keyData'];
+      $resultData = array();
+      // now here we fetch data for specefic key
+      $reportQuery = Team::where('teams.tournament_id','=' ,$tournamentId);
+      switch($key) {
+        case 'team' :
+          $resultData = $reportQuery->select('id','name as Name')
+                      ->get();
+          break;
+        case 'country' :
+          $resultData = $reportQuery->join('countries','countries.id','=','teams.country_id')
+                      ->select('countries.id as Cid','countries.name as Name')
+                      ->distinct('Name')
+                      ->get();
+          break;
+        case 'age_category' :
+          $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
+                      ->select('tournament_competation_template.id as TCTid','tournament_competation_template.group_name as Name')
+                      ->distinct('Name')
+                      ->get();
+          break;
+      }
+      return $resultData;
     }
 }

@@ -17,8 +17,9 @@ class RefereeRepository
         return Referee::all();
     }
 
-    public function createReferee($refereeData)
+    public function createReferee1($refereeData)
     {
+        dd('hi');
         return Referee::create($refereeData);
     }
 

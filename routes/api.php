@@ -18,7 +18,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login','AuthController@authenticate');
     Route::get('logout','AuthController@logout');
     Route::get('check','AuthController@check');
-    
+
 
 });
 Route::get('password/reset/{token}', 'Laraspace\Api\Controllers\PasswordController@getReset');
@@ -30,7 +30,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 
 $api->version('v1', function ($api) {
-    $api->get('users/test', 'Laraspace\Api\Controllers\EnvController@test2');    
+    $api->get('users/test', 'Laraspace\Api\Controllers\EnvController@test2');
     // Team Stuff
 
     $api->get('teams/{tournamentId}/{ageGroup}', 'Laraspace\Api\Controllers\TeamController@getTeams');
@@ -40,7 +40,7 @@ $api->version('v1', function ($api) {
     $api->post('team/group/assign', 'Laraspace\Api\Controllers\TeamController@assignTeam');
 
     // Method for get All TournamentTeams
-    $api->post('teams/teamsTournament', 
+    $api->post('teams/teamsTournament',
         'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
 
     //Referee api
@@ -58,12 +58,20 @@ $api->version('v1', function ($api) {
     $api->post('match/edit/{id}', 'Laraspace\Api\Controllers\MatchController@edit');
     $api->post('match/delete/{deleteid}', 'Laraspace\Api\Controllers\MatchController@deleteMatch');
     $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
-    
+
     $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
 
     $api->post('match/getStanding','Laraspace\Api\Controllers\MatchController@getStanding');
-    
+
     $api->post('match/getDrawTable','Laraspace\Api\Controllers\MatchController@getDrawTable');
+    $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
+    $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
+    $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
+    $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
+    $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
+    $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
+    $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
+    
 
     //pitch api
     $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');
@@ -91,34 +99,35 @@ $api->version('v1', function ($api) {
     // Get Tournament Details By Status
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
     $api->post('tournament/updateStatus', 'Laraspace\Api\Controllers\TournamentController@updateStatus');
-    
-    // Get All Templates 
+
+    // Get All Templates
     $api->get('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates');
 
     $api->post('tournaments/getTemplate', 'Laraspace\Api\Controllers\TournamentController@getTemplate');
-    
+
     $api->post('tournament/create', 'Laraspace\Api\Controllers\TournamentController@create');
     $api->post('tournament/edit/{id}', 'Laraspace\Api\Controllers\TournamentController@edit');
     $api->post('tournament/delete/{id}', 'Laraspace\Api\Controllers\TournamentController@delete');
     $api->post('tournaments/tournamentSummary','Laraspace\Api\Controllers\TournamentController@tournamentSummary');
+    $api->post('tournament/getDropDownData','Laraspace\Api\Controllers\TournamentController@tournamentFilter');
 
     // User Stuff
     $api->get('users', 'Laraspace\Api\Controllers\UserController@getUsers');
     $api->get('users1',function() {
        // echo 'Hello'.$_SERVER['REMOTE_ADDR'];
-        
+
     });
 
     $api->get('getUsersByRegisterType/{registerType}', 'Laraspace\Api\Controllers\UserController@getUsersByRegisterType');
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
     $api->get('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('edit.users');
     $api->post('user/getDetails', 'Laraspace\Api\Controllers\UserController@getUserDetails');
-    
+
     $api->post('user/update/{id}', 'Laraspace\Api\Controllers\UserController@update')->name('update.users');
     $api->post('user/delete/{id}', 'Laraspace\Api\Controllers\UserController@deleteUser')->name('delete.users');
 
-   
-    $api->get('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');    
+
+    $api->get('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
     //resend email
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
 
