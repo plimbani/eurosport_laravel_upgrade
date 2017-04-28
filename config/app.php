@@ -178,7 +178,8 @@ return [
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Duro85\Roles\RolesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        
+        Intervention\Image\ImageServiceProvider::class,
+
         /*
          *  Custom Service Providers
          */
@@ -190,8 +191,8 @@ return [
         Laraspace\Providers\TournamentServiceProvider::class,
         Laraspace\Providers\ApiServiceProvider::class,
         Laraspace\Providers\PitchServiceProvider::class,
-       
-        
+
+
         /*
          *  Api Service Providers
          */
@@ -252,8 +253,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class
-
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

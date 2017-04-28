@@ -169,7 +169,12 @@ class TournamentService implements TournamentContract
             $timeStamp = $now->getTimestamp();
             $path = public_path().'/assets/img/tournament_logo/'.$timeStamp.'.png';
             file_put_contents($path, $imgData);
-                return $timeStamp.'.png';
+
+            // Resize image to 100*100
+            $img = \Image::make($path)->resize(100, 100);
+            // Save it
+            $img->save($path);
+            return $timeStamp.'.png';
 
           } else {
             // if its exist then nothing have to update
