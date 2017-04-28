@@ -72,16 +72,25 @@
                                         <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
                                         <div class="pull-right">
                                             <div v-if="!image">
-                                                <button type="button" name="btnSelect" id="btnSelect" @click="selectImage">
+
+                                                <img v-if="image"
+                                                v-bind:src="userData.image"
+                                                width="60px" height="60px"/>
+                                                 <img v-else src="http://placehold.it/60x60" width="100px" height="100px"/>
+
+                                                <!--<button type="button" name="btnSelect" id="btnSelect">-->
+
+                                                <button type="button" name="btnSelect" id="btnSelect">Choose file</button>
                                                 Choose file</button>
-                                                <input type="file" id="selectFile"
+
+                                                <input type="file" id="selectFileT"
                                                 style="display:none;"
-                                                @change="onFileChange">
+                                                @change="onFileChangeT">
                                                 <p class="help-block">Maximum size of 1 MB.<br/>
                                                 Image dimensions 100 x 100.</p>
                                             </div>
                                            <div v-else>
-                                                <img :src="image" width="40px" height="50px"/>
+                                                <img :src="image" width="60px" height="60px"/>
                                                 <button @click="removeImage">Remove image</button>
                                             </div>
                                         </div>
@@ -186,15 +195,18 @@
 
               <div class="col-sm-4">
               <div class="form-group">
-              <select class="form-control ls-select2" v-model="location.tournament_venue_country">
-              <option value="">{{$lang.tournament_country_please_select}}</option>
-              <option value="Andorra">Andorra</option>
-              <option value="Belgium">Belgium</option>
-              <option value="France">France </option>
-              <option value="Germany">Germany</option>
-              <option value="Italy">Italy</option>
-              <option value="Spain">Spain</option>
-              <option value="United Kingdom">United Kingdom</option></select>
+              <select class="form-control ls-select2"
+              name="venue_country[]"
+              v-model="location.tournament_venue_country">
+                <option value="">{{$lang.tournament_country_please_select}}</option>
+                <option value="Andorra">Andorra</option>
+                <option value="Belgium">Belgium</option>
+                <option value="France">France </option>
+                <option value="Germany">Germany</option>
+                <option value="Italy">Italy</option>
+                <option value="Spain">Spain</option>
+                <option value="United Kingdom">United Kingdom</option>
+              </select>
               </div>
               </div>
               </div>
@@ -265,9 +277,10 @@ mounted(){
 Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
 // here we dispatch methods
 // First we check that if tournament id is Set then dont dispatch it
-/* $('#btnSelect').on('click',function(){
-$('#selectFile').trigger('click')
-}) */
+  $('#btnSelect').on('click',function(){
+    $('#selectFileT').trigger('click')
+  })
+
 let tId = this.$store.state.Tournament.tournamentId
 if(tId.length != 0) {
 this.tournamentId = this.$store.state.Tournament.tournamentId
@@ -378,11 +391,13 @@ this.locations.push ({
   tournament_location_id: ""
 });
 },
-onFileChange(e) {
-var files = e.target.files || e.dataTransfer.files;
-if (!files.length)
-return;
-this.createImage(files[0]);
+onFileChangeT(e) {
+  var files = e.target.files || e.dataTransfer.files;
+  if (!files.length)
+  return;
+  if(Plugin.ValidateImageSize(files) == true) {
+    this.createImage(files[0]);
+  }
 },
 createImage(file) {
 var image = new Image();
