@@ -75,9 +75,10 @@ import _ from 'lodash'
                         // console.log('drop', resourceId);
                         $(this).remove();
                     },
-                    eventReceive: function(event,view ) { // called when a proper external event is dropped
+                    eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                          // add match to scheduled matches table - api call
-                        
+                        console.log(ui,'ui')
+                        console.log(view,'view')
                          // $( ".inner" ).before( "<p>Test</p>" );
                          let matchId = event.id?event.id:event.matchId
                         let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
@@ -93,8 +94,10 @@ import _ from 'lodash'
                         ) 
                         // console.log('eventReceive', event);
                     },
-                    eventDrop: function(event) { // called when an event (already on the calendar) is moved
+                    eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
+                         console.log(ui,'ui')
+                        console.log(view,'view')
                         let matchId = event.id?event.id:event.matchId
                          let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
                         Tournament.setMatchSchedule(matchData).then(
