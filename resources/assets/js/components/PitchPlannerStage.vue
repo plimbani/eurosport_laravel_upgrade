@@ -27,7 +27,7 @@ import _ from 'lodash'
         computed: {
             pitchesData() {
                 return _.forEach(this.stage.pitches, (pitch) => {
-                    pitch.title = 'Pitch ' + pitch.id;
+                    pitch.title = 'Pitch ' + pitch.pitch_number;
                 });
             },
             stageDate() {
@@ -36,10 +36,6 @@ import _ from 'lodash'
         },
         mounted() {
             this.getScheduledMatch()
-
-            // console.log('eventReceive', event);
-            
-            // console.log('this.stage', this.stage);
         },
         methods: {
             initScheduler() {
@@ -79,9 +75,10 @@ import _ from 'lodash'
                         // console.log('drop', resourceId);
                         $(this).remove();
                     },
-                    eventReceive: function(event) { // called when a proper external event is dropped
+                    eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                          // add match to scheduled matches table - api call
-                    let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': event.matchId, matchStartDate: moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
+                        let matchId = event.id?event.id:event.matchId
+                        let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
                     
                         Tournament.setMatchSchedule(matchData).then(
                             (response) => {  
@@ -94,10 +91,10 @@ import _ from 'lodash'
                         ) 
                         // console.log('eventReceive', event);
                     },
-                    eventDrop: function(event) { // called when an event (already on the calendar) is moved
+                    eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
-                         let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': event.matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
-                    
+                        let matchId = event.id?event.id:event.matchId
+                         let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
                         Tournament.setMatchSchedule(matchData).then(
                             (response) => {  
                                 // console.log(response)

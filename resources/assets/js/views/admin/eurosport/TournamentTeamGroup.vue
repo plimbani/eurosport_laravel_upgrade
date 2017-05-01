@@ -58,7 +58,7 @@
 	  				<button type="button" @click="csvImport()" :disabled="age_category==''"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
             </form>
 	  			</div>
-	  			  <tournamentFilter></tournamentFilter>
+	  			  <tournamentFilter :section="section"></tournamentFilter>
   			</div>
   			<div class="row mt-4">
   				<div class="col-md-12">
@@ -119,7 +119,8 @@
         'fileUpload' : '',
         'availableGroupsTeam': [],
         'selectedGroupsTeam': [],
-        'beforeChangeGroupName': ''
+        'beforeChangeGroupName': '',
+        'section': 'teams'
 
         }
     },

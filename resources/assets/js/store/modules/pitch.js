@@ -7,7 +7,9 @@ import Pitch from '../../api/pitch'
 const state = {
   pitches: [],
   pitchCapacity: '',
-  pitchData: ''
+  pitchData: '',
+  pitchId:0
+
  }
 // getters
 const getters = {
