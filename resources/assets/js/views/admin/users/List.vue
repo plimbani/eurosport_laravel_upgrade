@@ -63,31 +63,35 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div class="form-group row">
+                            <div class="form-group row" :class="{'has-error': errors.has('formValues.name') }">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.name" v-validate="'required'"
-                                    :class="{'is-danger': errors.has('name') }"
+                                    :class="{'is-danger': errors.has('formValues.name') }"
                                     name="name" type="text"
                                     class="form-control" placeholder="Enter first name">
-                                    <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('name')">{{$lang.user_management_add_name_required}}</span>
+                                    <i v-show="errors.has('formValues.name')" class="fa fa-warning"></i>
+
                                 </div>
+                                <span class="help is-danger"
+                                    v-show="errors.has('formValues.name')">
+                                    {{$lang.user_management_add_name_required}}
+                                    </span>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
-                                    <i v-show="errors.has('surname')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('surname')">{{$lang.user_management_add_surname_required}}</span>
+                                    <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('formValues.surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
+                                    <i v-show="errors.has('formValues.surname')" class="fa fa-warning"></i>
+                                    <span class="help is-danger" v-show="errors.has('formValues.surname')">{{$lang.user_management_add_surname_required}}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
-                                    <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
+                                    <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('formValues.email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
+                                    <i v-show="errors.has('formValues.email_address')" class="fa fa-warning"></i>
+                                    <span class="help is-danger" v-show="errors.has('formValues.email_address')">{{$lang.user_management_email_required}}</span>
                                 </div>
                             </div>
 
@@ -117,27 +121,27 @@
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
-                                    <i v-show="errors.has('organisation')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
+                                    <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('formValues.organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
+                                    <i v-show="errors.has('formValues.organisation')" class="fa fa-warning"></i>
+                                    <span class="help is-danger" v-show="errors.has('formValues.organisation')">{{$lang.user_management_organisation_required}}</span>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                                 <div class="col-sm-6">
-                                    <select v-validate="'required'":class="{'is-danger': errors.has('organisation') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
+                                    <select v-validate="'required'":class="{'is-danger': errors.has('formValues.user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
                                         <option value="">Select</option>
                                         <option v-for="(role, id) in userRolesOptions" v-bind:value="id">
                                             {{ role }}
                                         </option>
                                     </select>
-                                    <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
+                                    <span class="help is-danger" v-show="errors.has('user_type.user_type')">{{$lang.user_management_user_type_required}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-                            <button type="button" class="btn btn-primary" @click="validateBeforeSubmit()">{{$lang.user_management_user_save}}</button>
+                            <button type="button" class="btn btn-primary" @click="validateBeforeSubmit1()">{{$lang.user_management_user_save}}</button>
 
                         </div>
                     </form>
@@ -190,8 +194,8 @@
         },
         methods: {
             initialState() {
-                this.formValues.id = '',
-                this.formValues.name =  '',
+                this.$data.formValues.id = '',
+                this.$data.formValues.name =  '',
                 this.formValues.surname= '',
                 this.formValues.emailAddress= '',
                 this.formValues.organisation= '',
@@ -214,7 +218,14 @@
                 });
             },
             addUser() {
-               // this.$data.formValues = this.initialState();
+                //this.initialState();
+                this.$data.formValues.name = ''
+                this.$data.formValues.id = ''
+                this.$data.formValues.emailAddress = ''
+                this.$data.formValues.image = ''
+                this.$data.formValues.organisation = ''
+                this.$data.formValues.surname = ''
+                this.$data.formValues.userType = ''
                 this.userModalTitle="Add User";
             },
             resendModalOpen(data) {
@@ -273,7 +284,7 @@
                     console.log(error)
                 });
             },
-            validateBeforeSubmit() {
+            validateBeforeSubmit1() {
                 this.$validator.validateAll().then(() => {
                     if(this.$data.formValues.id=="") {
                         this.formValues.user_image = this.image;
