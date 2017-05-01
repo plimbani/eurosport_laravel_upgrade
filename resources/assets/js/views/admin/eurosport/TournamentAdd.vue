@@ -403,6 +403,7 @@ if(Plugin.ValidateImageSize(files) == true) {
 }
 },
 createImage(file) {
+this.imagePath='';
 var image = new Image();
 var reader = new FileReader();
 var vm = this;

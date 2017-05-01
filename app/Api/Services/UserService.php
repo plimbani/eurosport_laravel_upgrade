@@ -112,6 +112,10 @@ class UserService implements UserContract
             $timeStamp = $now->getTimestamp();
             $path = public_path().'/assets/img/users/'.$timeStamp.'.png';
             file_put_contents($path, $imgData);
+            // Resize image to 100*100
+            $img = \Image::make($path)->resize(100, 100);
+            // Save it
+            $img->save($path);
             return $timeStamp.'.png';
         } else {
             return '';
