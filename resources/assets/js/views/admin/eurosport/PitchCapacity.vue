@@ -17,7 +17,7 @@
                 <addPitchDetail v-if="pitchId==''" ></addPitchDetail>
                 <editPitchDetail v-if="pitchId!=''" ></editPitchDetail>
                 <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-                
+
                 <div class="row mt-4">
                     <div class="result col-md-12">
                         <div class="dashbox mb-2">
@@ -185,13 +185,13 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             });
             // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
             // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
-            let this3 = this 
+            let this3 = this
             $("#exampleModal").on('hidden.bs.modal', function () {
                 $('#frmPitchDetail')[0].reset()
                 $('#frmPitchAvailable')[0].reset()
                 this3.getAllPitches()
             });
-            
+
         },
         methods: {
 
@@ -272,7 +272,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
 
             addPitch() {
                 this.$store.dispatch('SetPitchId',0);
-                 
+
                 setTimeout(function(){
                     $('#addPitchModal').modal('show')
                 },1000)
@@ -285,7 +285,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 setTimeout(function(){
                     this1.$store.dispatch('PitchData',pitchId)
                 },1000)
-                
+
             },
             removePitch(pitchId) {
                 // this.$store.dispatch('removePitch',pitchId)

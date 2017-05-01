@@ -99,7 +99,7 @@
                                                           <div class="col-md-3">
                                                               <div class="input-group">
                                                                   <span class="input-group-addon">
-                                                                      <i class="jv-icon jv-calendar"></i>  
+                                                                      <i class="jv-icon jv-calendar"></i>
                                                                   </span>
                                                                   <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control ls-datepicker datestage'+day] " >
                                                                        <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
@@ -388,16 +388,16 @@ var moment = require('moment');
                     var minutes = diff % 60;
                   var hours = parseInt(diff - minutes) / 60;
                   var time_val = hours+ '.' +minutes
-                  var time = hours+ ':' +minutes +' hrs'  
+                  var time = hours+ ':' +minutes +' hrs'
                   }else {
                       var time_val = '0.0'
                       var time = '00:00 hrs'
-                  }     
+                  }
               $('#stage_capacity1'+stage).val(time_val);
               $('#stage_capacity1_min'+stage).val(diff);
-              $('#stage_capacity1_s1pan'+stage).text(time);             
+              $('#stage_capacity1_s1pan'+stage).text(time);
               }
-       
+
           })
 
           // $(".ls-datepicker").on("change", function(e) {
@@ -441,7 +441,7 @@ var moment = require('moment');
                   maxTime: '18:00:00'
               });
            },1000)
-              
+
            this.getAllPitches()
            if(this.tournamentDays> 2) {
                   for(let i=3;i<=this.tournamentDays;i++){
@@ -486,6 +486,7 @@ var moment = require('moment');
 
 
               }).catch(() => {
+                console.log('msg123')
                   toastr['error']('Please fill all required fields ', 'Error')
                });
               // let pitchData = {

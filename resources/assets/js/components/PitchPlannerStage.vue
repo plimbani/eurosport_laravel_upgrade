@@ -27,7 +27,7 @@ import _ from 'lodash'
         computed: {
             pitchesData() {
                 return _.forEach(this.stage.pitches, (pitch) => {
-                    pitch.title = 'Pitch ' + pitch.id;
+                    pitch.title = 'Pitch ' + pitch.pitch_number;
                 });
             },
             stageDate() {
@@ -77,10 +77,7 @@ import _ from 'lodash'
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                          // add match to scheduled matches table - api call
-                        console.log(ui,'ui')
-                        console.log(view,'view')
-                         // $( ".inner" ).before( "<p>Test</p>" );
-                         let matchId = event.id?event.id:event.matchId
+                        let matchId = event.id?event.id:event.matchId
                         let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
                     
                         Tournament.setMatchSchedule(matchData).then(
@@ -96,8 +93,6 @@ import _ from 'lodash'
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
-                         console.log(ui,'ui')
-                        console.log(view,'view')
                         let matchId = event.id?event.id:event.matchId
                          let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
                         Tournament.setMatchSchedule(matchData).then(

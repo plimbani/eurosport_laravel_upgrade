@@ -76,7 +76,6 @@
                     tournamentStartDate = tournamentStartDate.add(i, 'days');
                 }
 
-                console.log('tournamentStages', stages);
                 return stages;
             }       
         },

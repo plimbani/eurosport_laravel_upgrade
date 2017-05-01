@@ -7,7 +7,7 @@
 	  				<div class="pull-left">
 		  				<div class="mt-4"><strong>Pitch Planner</strong></div>
 		  			</div>
-		  			<div class="pull-right">
+<!-- 		  			<div class="pull-right">
 		  				<form class="form-inline filter-category-form">
 		  					<div class="form-group">
 		  						<label for="nameInput" class="control-label"><strong>Filter by:</strong></label>
@@ -31,7 +31,8 @@
 		  					</div>
 
 		  				</form>
-		  			</div>
+		  			</div> -->
+             <tournamentFilter :section="section"></tournamentFilter>
 	  			</div>
 
 	  			<div class="mt-4">
@@ -46,11 +47,13 @@
 var moment = require('moment');
 	import PitchModal from '../../../components/PitchModal.vue';
 	import PitchPlannerTable from '../../../components/PitchPlannerTable.vue';
+  import TournamentFilter from '../../../components/TournamentFilter.vue';
 
 	export default {
     data() {
        return {
-         'tournamentId': this.$store.state.Tournament.tournamentId
+         'tournamentId': this.$store.state.Tournament.tournamentId,
+         'section':'pitchPlanner'
        }
     },
     mounted() {
@@ -69,7 +72,7 @@ var moment = require('moment');
 
     },
     components: {
-        PitchModal, PitchPlannerTable
+        PitchModal, PitchPlannerTable, TournamentFilter
     }
 }
 </script>
