@@ -265,6 +265,7 @@ module.exports = {
   teams_group: "Group",
   teams_button_updategroups: "Update",
   teams_location: "Location",
+  teams_place: "Place",
 
   summary_cup: "XYZ Cup 2017",
   summary_location: "Locations",
