@@ -36,8 +36,8 @@
                   v-model="competation_format.category_age">
                       <option value="">{{$lang.competation_modal_select_category_age}}</option>
                       <option v-if="n > 4" v-for="n in (21)"
-                      :value="'Under'+ n">
-                     Under {{n}}s
+                      :value="'Under '+ n + 's'">  
+                     Under {{n}} s
                     </option>
                     <option>Men open age</option>
                     <option>Women open age</option>
