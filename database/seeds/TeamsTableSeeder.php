@@ -22,17 +22,17 @@ class TeamsTableSeeder extends Seeder
         
         DB::table('teams')->insert([
         	['assigned_group' => 'Group-A', 'tournament_id' => $tournament[array_rand($tournament)]->id, 'user_id' => $users[array_rand($users)]->id, 
-            'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A1', 
+            'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A1','place' => 'place1', 
             'name' => 'Humlebæk Boldklub-2', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red', 
         	'esr_reference' => '3456789', 'country_id' => $countries[array_rand($countries)]->id],	
 
         	['assigned_group' => 'Group-A', 'tournament_id' => $tournament[array_rand($tournament)]->id, 'user_id' => $users[array_rand($users)]->id, 
-            'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A2', 
+            'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A2','place' => 'place1', 
             'name' => 'RC-Hades 4', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red', 
         	 'esr_reference' => '234567', 'country_id' => $countries[array_rand($countries)]->id],
 
         	['assigned_group' => 'Group-A', 'tournament_id' => $tournament[array_rand($tournament)]->id, 'user_id' => $users[array_rand($users)]->id, 
-            'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A3', 
+            'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A3','place' => 'place1', 
             'name' => 'FC de Bilt', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red', 
         	'esr_reference' => '123456', 'country_id' => $countries[array_rand($countries)]->id]
         ]);

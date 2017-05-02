@@ -69,6 +69,7 @@
                       <th>{{$lang.teams_reference}}</th>
                       <th>{{$lang.teams_name}}</th>
                       <th>{{$lang.teams_country}}</th>
+                      <th>{{$lang.teams_place}}</th>
                       <th>{{$lang.teams_agecategory}}</th>
                       <th>{{$lang.teams_group}}</th>
                   </tr>
@@ -80,6 +81,7 @@
                       <td>
                       	<img :src="team.logo" width="20">{{team.country_name}}
                       </td>
+                      <td>{{team.place}} </td>
                       <td>{{team.age_name}} </td>
                       <td>
                         <select  v-bind:data-id="team.id" v-model="team.group_name"  v-bind:data-name.once="initialfunc(team.id)" v-bind:data-category-name="age_category.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
