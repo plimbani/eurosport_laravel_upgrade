@@ -1,7 +1,7 @@
 module.exports = {
   "hello": "World",
   welcome_text: "Hi {0}, Welcome to Tournament Planner. Got a question? Check the {{<strong>}}Help page or contact us for assistance.",
-  welcome_manage_tournament: "Manage Editions",
+  welcome_manage_tournament: "Manage Tournaments",
   welcome_add_new_tournament: "Manage Users",
   welcome_add_tournament: "Add New Edition",
   welcome_add_new_tournament_edition_details: "Add your edition detail",
@@ -63,7 +63,7 @@ module.exports = {
   user_management_user_cancle: "Cancel",
 
 
-  tournament_manage_edition: "Select an existing edition",
+  tournament_manage_edition: "Select an existing tournament",
   tournament_information: "Tournament information",
   tournament_name: "Tournament name",
   tournament_start_date: "Tournament start date",
@@ -159,7 +159,7 @@ module.exports = {
   competation_modal_time: "Total time required:",
 
  
-  pitch_capacity: "Pitch Capacity",
+  pitch_capacity: "Pitch capacity",
   pitch_add: "Add pitch",
   pitch_details: "Pitch Details",
   pitch_availability: "Availability",
