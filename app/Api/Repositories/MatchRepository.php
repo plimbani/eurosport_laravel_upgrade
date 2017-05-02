@@ -499,7 +499,6 @@ class MatchRepository
     public function setMatchSchedule($data) 
     {
       $pitchData = Pitch::find($data['pitchId']);
-      dd($pitchData);
       $updateData = [
         'venue_id' => $pitchData->venue_id,
         'pitch_id' => $data['pitchId'],

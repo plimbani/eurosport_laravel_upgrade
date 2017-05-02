@@ -25,6 +25,7 @@ class CreateTeamsTable extends Migration
             $table->foreign('club_id')->references('id')->on('clubs');
             $table->string('group_name')->nullable();
             $table->string('name')->nullable();
+            $table->string('place')->nullable();
             $table->string('website')->nullable();
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();

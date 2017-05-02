@@ -56,9 +56,10 @@ public function getAllFromTournamentId($tournamentId)
 
     public function create($data)
     {
-            return Team::create([
+        return Team::create([
             'name' => $data['team_name'],
             'esr_reference' => $data['reference_no'],
+            'place' => $data['place'],
             'country_id' => $data['country_id'],
             'tournament_id' => $data->tournamentData['tournamentId'],
             'age_group_id' => $data->tournamentData['ageCategory']
