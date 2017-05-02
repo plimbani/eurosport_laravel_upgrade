@@ -43,7 +43,7 @@
                                     <button type="button" name="btnImage" id="btnImage">Choose file</button>
                                     <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
                                     <p class="help-block">Maximum size of 1 MB.<br/>
-                                    Image dimensions 100 x 100.</p>
+                                    Image dimensions 250 x 250.</p>
                             </div>
                             <div v-else>
                                 <img :src="image" width="100px" height="100px"/>
