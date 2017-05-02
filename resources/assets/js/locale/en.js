@@ -115,7 +115,7 @@ module.exports = {
   competation_match_schedule: "Match schedule",
   competation_manage: "Manage",
 
-  competation_modal_age_category: "Age Category",
+  competation_modal_age_category: "Match Schedule",
   competation_label_name_category: "Category name*",
   competation_label_age_category: "Category age*",
   competation_modal_name_category_required: "Category name is required",
@@ -136,7 +136,7 @@ module.exports = {
   competation_modal_match_interval_final: "Match interval final*",
   competation_modal_match_interval_final_minutes: "minutes",
   competation_modal_button_cancle: "Cancel",
-  competation_modal_button_save: "Save",  
+  competation_modal_button_save: "Save",
   competation_modal_select_number_teams: "Select number of teams",
   competation_modal_select_category_age: "Select category age",
   competation_modal_select_minimum_matches: "Select minimum matches",
@@ -147,7 +147,7 @@ module.exports = {
   competation_modal_minimum_matches_required: "Minimum matches required",
 
   competation_modal_format_team: "Teams:",
-  competation_modal_foramt_competation_foramt: "Competation format:",
+  competation_modal_foramt_competation_foramt: "Competition format:",
   competation_modal_minimum_matches: "Minimum matches:",
   competation_modal_format_remark: "Remark:",
 
@@ -155,10 +155,10 @@ module.exports = {
   competation_modal_matches_number_matches_day: "Number of matches day 2:",
   competation_modal_matches_total_matches: "Total matches:",
   competation_modal_matches_average_matches: "Average matches per team:",
-  
+
   competation_modal_time: "Total time required:",
 
- 
+
   pitch_capacity: "Pitch Capacity",
   pitch_add: "Add pitch",
   pitch_details: "Pitch Details",
@@ -259,7 +259,7 @@ module.exports = {
   teams_select_etc: "Etc...",
   teams_clear: "Clear",
   teams_reference: "Reference",
-  teams_name: "Name", 
+  teams_name: "Name",
   teams_country: "Country",
   teams_agecategory: "Age Category",
   teams_group: "Group",
@@ -272,7 +272,7 @@ module.exports = {
   summary_status: "Status",
   summary_button_publish: "Publish",
   summary_button_unpublish: "UnPublish",
-  
+
   summary_button_delete: "Delete",
   summary_age_groups: "Age Groups",
   summary_participating_countries: "Participating countries",
@@ -307,7 +307,7 @@ module.exports = {
   summary_location_select: "Select",
   summary_pitch_select: "Select",
   summary_referee_select: "Select",
-  
+
   summary_reports_date: "Date(time)",
   summary_reports_age_catrgory: "Age category",
   summary_reports_location: "Location",
@@ -320,7 +320,7 @@ module.exports = {
   summary_schedule_draws: "Draws",
   summary_schedule_matches: "Matches",
   summary_schedule_teams: "Teams",
-  
+
   summary_schedule_button_print: "Print",
   summary_schedule_draw: "Draw",
   summary_schedule_type: "Type",
@@ -335,7 +335,7 @@ module.exports = {
   competation_label: "Competition formats",
   pitch_capacity_label: "Pitch capacity",
   pitch_planner_label: "Pitch planner",
-  teams_groups_label: "Teams and groups", 
+  teams_groups_label: "Teams and groups",
   summary_label: "Summary",
 
   summary_label_summary: "Summary",

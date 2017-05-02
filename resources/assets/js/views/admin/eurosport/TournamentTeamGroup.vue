@@ -277,37 +277,40 @@
 
         let tournamentTemplateId = this.age_category.tournament_template_id
 
-        // Now here Fetch the appopriate Template of it
-        let TemplateData = {tournamentTemplateId : tournamentTemplateId}
-        Tournament.getTemplate(TemplateData).then (
-          (response) => {
-            //var JsonTemplateData = JSON.stringify(eval("(" + response.data.data + ")"));
+        if(tournamentTemplateId != undefined)
+        {
+          // Now here Fetch the appopriate Template of it
+          let TemplateData = {tournamentTemplateId : tournamentTemplateId}
 
-            let jsonObj = JSON.parse(response.data.data)
-            // console.log(jsonObj)
-            //let JsonTemplateData  = response.data.data
-            // Now here we put data over there as per group
-             let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
-            this.grps = jsonCompetationFormatDataFirstRound
-            let availGroupTeam = []
-            _.forEach(this.grps, function(group) {
-              for(var i = 1; i <= group.group_count; i++ ){
-                // let gname = group.groups.group_name+i
-                availGroupTeam.push(group.groups.group_name+i)
-              }
+          Tournament.getTemplate(TemplateData).then (
+            (response) => {
+              //var JsonTemplateData = JSON.stringify(eval("(" + response.data.data + ")"));
 
-            });
-            this.availableGroupsTeam = availGroupTeam
-            this.teamSize = jsonObj.tournament_teams
-            this.getTeams()
-            let that = this
-            // setTimeout(function(){ that.initialfunc()},1000)
-          },
-          (error)=> {
-            alert('error in getting json data')
-          }
-        )
+              let jsonObj = JSON.parse(response.data.data)
+              // console.log(jsonObj)
+              //let JsonTemplateData  = response.data.data
+              // Now here we put data over there as per group
+               let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
+              this.grps = jsonCompetationFormatDataFirstRound
+              let availGroupTeam = []
+              _.forEach(this.grps, function(group) {
+                for(var i = 1; i <= group.group_count; i++ ){
+                  // let gname = group.groups.group_name+i
+                  availGroupTeam.push(group.groups.group_name+i)
+                }
 
+              });
+              this.availableGroupsTeam = availGroupTeam
+              this.teamSize = jsonObj.tournament_teams
+              this.getTeams()
+              let that = this
+              // setTimeout(function(){ that.initialfunc()},1000)
+            },
+            (error)=> {
+              alert('error in getting json data')
+            }
+           )
+       }
       },
       csvImport() {
         if($('#fileUpload').val()!=''){

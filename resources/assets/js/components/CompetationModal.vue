@@ -18,7 +18,7 @@
                       </div>
                       <div class="card-block">
                         <p class="card-text badge badge-info">{{ grp.match_type[0].name }}</p>
-                        <table class="table">
+                        <table class="table" id="test">
                           <thead>
                             <tr>
                               <th>Match Number:</th>
@@ -40,7 +40,7 @@
                   </div>
                 </div>
                 <div class="row align-items-center">
-                  
+
                   <div class="col-md-6">
                     <div class="jumbotron p-4 m-0">
                           <p class="row">
@@ -48,12 +48,12 @@
                               <label class="col-md-4">{{ templateData['tournament_teams'] }}</label>
                           </p>
                           <p class="row">
-                              <label class="col-md-8"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
-                              <label class="col-md-4">{{ templateData['competation_format'] }}</label>
-                          </p>
-                          <p class="row">
                               <label class="col-md-8"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
                               <label class="col-md-4">{{ templateData['tournament_min_match'] }}</label>
+                          </p>
+                          <p class="row">
+                              <label class="col-md-8"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
+                              <label class="col-md-4">{{ templateData['competation_format'] }}</label>
                           </p>
                           <p class="row mb-0">
                               <label class="col-md-8"><strong>{{$lang.competation_modal_format_remark}}</strong></label>
@@ -87,7 +87,7 @@
      props: ['templateData','totalTime'],
      filters: {
     formatTime: function(time) {
-      var hours = Math.floor( time /   60); 
+      var hours = Math.floor( time /   60);
       var minutes = Math.floor(time % 60);
 
       return hours+ ' Hours And '+minutes+' Minutes'

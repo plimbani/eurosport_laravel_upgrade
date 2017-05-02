@@ -71,7 +71,7 @@ $api->version('v1', function ($api) {
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
-    
+
 
     //pitch api
     $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');
@@ -101,7 +101,7 @@ $api->version('v1', function ($api) {
     $api->post('tournament/updateStatus', 'Laraspace\Api\Controllers\TournamentController@updateStatus');
 
     // Get All Templates
-    $api->get('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates');
+    $api->post('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates');
 
     $api->post('tournaments/getTemplate', 'Laraspace\Api\Controllers\TournamentController@getTemplate');
 

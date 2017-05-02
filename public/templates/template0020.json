@@ -146,12 +146,12 @@
 		}, {
 			"name": "Round 3",
 			"match_type": [{
-				"name": "Placing Match",                                 
+				"name": "Placing Match",
                 "group_count": 2,
 				"groups": {
 					"group_name": "PM",
 					"match": [{
-						"in_between": "U17.PM3.G1",
+						"in_between": "U17.PM3.G1.1C-2C",
 						"match_number": "1C-2C"
 					}]
 				},

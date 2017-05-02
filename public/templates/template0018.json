@@ -3,7 +3,7 @@
 	"tournament_id": "0018",
 	"tournament_teams": 9,
 	"competation_format": "RR,PM/F",
-	"tournament_min_match": 6,
+	"tournament_min_match": 5,
 	"tournament_competation_format": {
 		"format_name": [{
 			"name": "Round 1",
@@ -88,10 +88,10 @@
 						"match_number": "U17.PM2.G2.C3-C4"
 					}, {
 						"in_between": "3A - 3B",
-						"match_number": "U17.PM2.G2.CW"
+						"match_number": "U17.PM2.G2.C12W-C34W"
 					}, {
 						"in_between": "4A - 4B",
-						"match_number": "U17.PM2.G2.Cl"
+						"match_number": "U17.PM2.G2.C12L-C34L"
 					}]
 				},
 				"total_match": 4
@@ -109,14 +109,14 @@
 						"match_number": "U17.PM2.G2.D3-D4"
 					}, {
 						"in_between": "3A.4B.W - 3B.4A.w",
-						"match_number": "U17.PM2.G2.DW"
+						"match_number": "U17.PM2.G2.D12W-D34W"
 					}, {
 						"in_between": "3A.4B.L - 3B.4A.L",
-						"match_number": "U17.PM2.G2.Dl"
+						"match_number": "U17.PM2.G2.D12L-D34L"
 					}]
 				},
 				"total_match": 4
-			}	
+			}
 		]
 		}]
 	}

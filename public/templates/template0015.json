@@ -72,21 +72,21 @@
 						"match_number": "U17.RR1.03.B4-B5"
 					}]
 				}
-			}]			
+			}]
 		}, {
 			"name": "Round 2",
 			"match_type": [{
 				"name": "Placing Matches",
-                "group_count": 2,
-                "total_match": 1,
+        "group_count": 2,
+        "total_match": 1,
 				"groups": {
-					"group_name": "PM",                                        
+					"group_name": "PM",
 					"match": [
 					{
 						"in_between": "1A - 1B",
-						"match_number": "U17.PM2.G1"
+						"match_number": "U17.PM2.G1.1A-1B"
 					}]
-				},				
+				}
 			}]
 		}]
 	}
