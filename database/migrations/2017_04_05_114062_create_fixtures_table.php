@@ -18,7 +18,7 @@ class CreateFixturesTable extends Migration
             $table->integer('tournament_id')->unsigned()->index();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->integer('competition_id')->unsigned()->index();
-            $table->foreign('competition_id')->references('id')->on('competitions');
+            $table->foreign('competition_id')->references('id')->on('competitions')->onDelete('cascade');
             $table->integer('venue_id')->unsigned()->index();
             $table->foreign('venue_id')->references('id')->on('venues');
             $table->integer('pitch_id')->unsigned()->index();
