@@ -62,7 +62,7 @@ module.exports = {
   user_management_user_cancle: "FCancel",
 
 
-  tournament_manage_edition: "FSelect an existing edition",
+  tournament_manage_edition: "FSelect an existing tournament",
   tournament_information: "FTournament information",
   tournament_name: "FTournament name",
   tournament_start_date: "FTournament start date",

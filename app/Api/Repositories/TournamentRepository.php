@@ -242,30 +242,67 @@ class TournamentRepository
     }
     public function tournamentFilter($tournamentData)
     {
-
       $tournamentId = $tournamentData['tournamentData']['tournamentId'];
       $key = $tournamentData['tournamentData']['keyData'];
       $resultData = array();
       // now here we fetch data for specefic key
-      $reportQuery = Team::where('teams.tournament_id','=' ,$tournamentId);
-      switch($key) {
-        case 'team' :
-          $resultData = $reportQuery->select('id','name as Name')
-                      ->get();
-          break;
-        case 'country' :
-          $resultData = $reportQuery->join('countries','countries.id','=','teams.country_id')
-                      ->select('countries.id as Cid','countries.name as Name')
-                      ->distinct('Name')
-                      ->get();
-          break;
-        case 'age_category' :
-          $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
-                      ->select('tournament_competation_template.id as TCTid','tournament_competation_template.group_name as Name')
-                      ->distinct('Name')
-                      ->get();
-          break;
+      if($tournamentData['tournamentData']['type'] == 'teams'){
+        $reportQuery = Team::where('teams.tournament_id','=' ,$tournamentId);
+        switch($key) {
+          case 'team' :
+            $resultData = $reportQuery->select('id','name as Name')
+                        ->get();
+            break;
+          case 'country' :
+            $resultData = $reportQuery->join('countries','countries.id','=','teams.country_id')
+                        ->select('countries.id as Cid','countries.name as Name')
+                        ->distinct('Name')
+                        ->get();
+            break;
+
+          case 'country' :
+            $resultData = $reportQuery->join('countries','countries.id','=','teams.country_id')
+                        ->select('countries.id as Cid','countries.name as Name')
+                        ->distinct('Name')
+                        ->get();
+            break;
+          case 'age_category' :
+            $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
+                        ->select('tournament_competation_template.id as TCTid','tournament_competation_template.group_name as Name')
+                        ->distinct('Name')
+                        ->get();
+            break;
+        }
+      }else{
+        $reportQuery = TempFixture::where('temp_fixture.tournament_id','=' ,$tournamentId);
+
+        switch($key) {
+          case 'team' :
+            $resultData = $reportQuery->leftjoin('teams as home_team', function ($join) {
+                $join->on('home_team.id', '=', 'temp_fixtures.home_team');
+            })
+            ->leftjoin('teams as away_team', function ($join) {
+                $join->on('away_team.id', '=', 'temp_fixtures.away_team');
+            })
+            ->select('teams.id','teams.name as Name')
+                        ->distinct('teams.id')
+                        ->get();
+            break;
+          case 'location' :
+            $resultData = $reportQuery->join('venues','venues.id','=','temp_fixture.venue_id')
+                        ->select('venues.id as Vid','venues.name as Name')
+                        ->distinct('Name')
+                        ->get();
+            break;
+          case 'age_category' :
+            $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','temp_fixture.competition_id')
+                        ->select('tournament_competation_template.id as TCTid','tournament_competation_template.group_name as Name')
+                        ->distinct('Name')
+                        ->get();
+            break;
+        }  
       }
+      
       return $resultData;
     }
 }

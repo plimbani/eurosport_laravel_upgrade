@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <div class="pull-right mt-4">
@@ -7,14 +8,18 @@
             <strong>{{$lang.teams_filter}}</strong>
           </label>
           <label class="radio-inline control-label">
-            <input type="radio" name="gender" value="team" checked="checked"
+            <input type="radio" name="filter" value="team" checked="checked"
             @click="getDropDownData('team')">{{$lang.teams_team}}
           </label>
-          <label class="radio-inline control-label">
-              <input type="radio" name="gender" value="country" @click="getDropDownData('country')">{{$lang.teams_country}}
+          <label class="radio-inline control-label" v-if="section=='pitchPlanner'">
+            <input type="radio" name="filter" value="location"
+            @click="getDropDownData('location')">{{$lang.teams_location}}
+          </label>
+          <label class="radio-inline control-label" v-if="section=='teams'">
+              <input type="radio" name="filter" value="country" @click="getDropDownData('country')">{{$lang.teams_country}}
           </label>
           <label class="radio-inline control-label">
-              <input type="radio" name="gender" value="age_category" @click="getDropDownData('age_category')">{{$lang.teams_age}}
+              <input type="radio" name="filter" value="age_category" @click="getDropDownData('age_category')">{{$lang.teams_age}}
           </label>
           <select class="form-control ls-select2" v-model="dropDown">
             <option value="">{{selectMsg}}</option>
@@ -43,6 +48,7 @@ export default {
       selectMsg: 'Select a Team'
     }
   },
+  props:['section'],
   mounted() {
     // By Default Called with Team
     this.getDropDownData('team')
@@ -52,7 +58,7 @@ export default {
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key
       let tournamentData = {'tournamentId':tournamentId,
-      'keyData':tourament_key}
+      'keyData':tourament_key,'type':this.section}
       Tournament.getDropDownData(tournamentData).then(
         (response) => {
           // here we fill the options

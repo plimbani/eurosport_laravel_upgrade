@@ -21,7 +21,7 @@ class CreateTournamentsTable extends Migration
             $table->string('twitter')->nullable();
             $table->string('logo')->nullable();
             $table->enum('competition_type', array('Group Games', 'Single Elimination', 'Double Elimination'))->nullable();
-            $table->enum('status', array('Published', 'UnPublished', 'Closed'))->nullable();
+            $table->enum('status', array('Published', 'Unpublished', 'Closed'))->nullable();
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users');
             $table->datetime('start_date');

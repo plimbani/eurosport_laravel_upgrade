@@ -36,7 +36,7 @@
                   v-model="competation_format.category_age">
                       <option value="">{{$lang.competation_modal_select_category_age}}</option>
                       <option v-if="n > 4" v-for="n in (21)"
-                      :value="n">
+                      :value="'Under'+ n">
                      Under {{n}}s
                     </option>
                     <option>Men open age</option>
@@ -283,7 +283,8 @@ export default {
 
     let this1 = this
     $("#exampleModal").on('hide.bs.modal', function () {
-       this1.competation_format = this1.initialState()
+      this1.competation_format = this1.initialState()
+      setTimeout(Plugin.reloadPage, 1000);
     });
     $("#exampleModal").on('show.bs.modal', function () {
       let tournamentData = this1.competation_format

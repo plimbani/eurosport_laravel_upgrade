@@ -6,6 +6,8 @@ use Laraspace\Models\MatchResult;
 use Laraspace\Models\Competition;
 use Laraspace\Models\Fixture;
 use Laraspace\Models\TempFixture;
+use Laraspace\Models\Pitch;
+
 
 
 use DB;
@@ -496,7 +498,9 @@ class MatchRepository
 
     public function setMatchSchedule($data) 
     {
+      $pitchData = Pitch::find($data['pitchId']);
       $updateData = [
+        'venue_id' => $pitchData->venue_id,
         'pitch_id' => $data['pitchId'],
         'match_datetime' => $data['matchStartDate'],
         'match_endtime' => $data['matchEndDate'],
