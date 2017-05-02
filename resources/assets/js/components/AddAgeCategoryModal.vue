@@ -203,16 +203,26 @@
               </div>
             </div>
           </div>
-           <div class="form-group row align-items-center">
+           <div class="form-group row align-items-center"
+           :class="{'has-error': errors.has('tournamentTemplate') }">
             <div class="col-sm-4 form-control-label">Templates</div>
             <div class="col-sm-8">
               <div class="row align-items-center">
+
+                <div class="col-sm-8" v-show="errors.has('tournamentTemplate')">
+                <span class="help is-danger"
+                v-show="errors.has('tournamentTemplate')">
+                  Template is required
+                </span>
+                </div>
+
                 <div class="col-sm-8" v-for="option in options">
 
                     <input type="radio"
                     :value="option"
                     name="tournamentTemplate"
                     v-model="competation_format.tournamentTemplate"
+                    v-validate="'required'" :class="{'is-danger': errors.has('tournamentTemplate') }"
                     v-if="checkTemplate(option)"
                     >
                     <label for="one" v-if="checkTemplate(option)">{{option.name}}->{{option.disp_format}}->{{option.total_match}} matches->{{option.total_time | formatTime}}</label>
@@ -342,6 +352,7 @@ export default {
       // Now here we check data
 
         let TournamentData = {'id': id}
+
         Tournament.getCompetationFormat(TournamentData).then(
           (response) => {
 
@@ -417,8 +428,9 @@ export default {
     },
     getTemplateFromTemplates(id) {
       // Now here we find the
+      let that = this
       let templates = this.options
-      let data
+      let data =[]
 
       templates.forEach(function(template, index) {
           if(id === template.id) {

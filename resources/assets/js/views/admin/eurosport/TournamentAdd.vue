@@ -74,7 +74,7 @@
                                           <div v-if="!image">
 
 
-                                               <img  src="http://placehold.it/60x60"
+                                               <img  src="http://placehold.it/100x100"
                                                width="100px" height="100px"/>
 
                                               <!--<button type="button" name="btnSelect" id="btnSelect">-->
@@ -87,11 +87,11 @@
                                               style="display:none;"
                                               @change="onFileChangeT">
                                               <p class="help-block">Maximum size of 1 MB.<br/>
-                                              Image dimensions 100 x 100.</p>
+                                              Image dimensions 250 x 250.</p>
                                           </div>
                                          <div v-else>
                                               <img :src="imagePath + image"
-                                               width="60px" height="60px"/>
+                                               width="100px" height="100px"/>
                                               <button @click="removeImage">Remove image</button>
                                           </div>
                                       </div>

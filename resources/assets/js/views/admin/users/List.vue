@@ -74,7 +74,7 @@
                                     <span class="help is-danger" v-show="errors.has('name')">{{$lang.user_management_add_name_required}}
                                     </span>
                                 </div>
-                                
+
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
@@ -108,7 +108,7 @@
                                           <button type="button" id="profile_image_file">Choose file</button>
                                           <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.<br/>
-                                          Image dimensions 100 x 100.</p>
+                                          Image dimensions 250 x 250.</p>
                                       </div>
                                        <div v-else>
                                               <img :src="image" width="40px" height="50px"/>
