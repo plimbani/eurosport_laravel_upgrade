@@ -82,16 +82,97 @@ class TournamentService implements TournamentContract
      * @param  array $api_key,$state,$type
      * @return response
      */
-    public function templates()
+    public function templates($data=array())
     {
         // Here we send Status Code and Messages
-        $data = $this->tournamentRepoObj->getAllTemplates();
+        $data1 = $this->tournamentRepoObj->getAllTemplates($data);
 
-        if ($data) {
-            return ['status_code' => '200', 'data' => $data];
+        if ($data1) {
+          //TODO: here we Add Some Extra Fields For merge with TemplateData
+          $newData=array();
+
+
+          foreach($data1 as $key=>$value){
+
+            // Now here we call a function
+            $newData[$key]=$value;
+            $jsonVal = $value->json_data;
+
+            list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data['tournamentData'],$value);
+            $newData[$key]['total_time'] = $totalTime;
+            $newData[$key]['total_match'] = $totalmatch;
+            $newData[$key]['disp_format'] = $dispFormatname;
+          }
+
+
+          //exit;
+          return ['status_code' => '200', 'data' => $newData];
         }
 
         return ['status_code' => '505', 'message' => self::ERROR_MSG];
+    }
+    private function calculateTime($data,$jsonData) {
+        // We calculate the Following over here
+        // Total Time
+        // Total Match
+        // display Format Name
+        if($data['game_duration_RR'] == 'other') {
+          $data['game_duration_RR'] = 2 * $data['game_duration_RR_other'];
+        }
+        if($data['game_duration_FM'] == 'other') {
+          $data['game_duration_FM'] = 2 * $data['game_duration_FM_other'];
+        }
+        if($data['match_interval_RR'] == 'other') {
+          $data['match_interval_RR'] = $data['match_interval_RR_other'];
+        }
+        if($data['match_interval_FM'] == 'other') {
+          $data['match_interval_FM'] = $data['match_interval_FM_other'];
+        }
+
+        $jsonData = $jsonData->json_data;
+
+        $json_data = json_decode($jsonData);
+
+        $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
+
+        $total_matches = $json_data->total_matches;
+
+        // Now here we calculate total time for a Compeation format For RR
+        // Move For loop and take count -1 for round robin
+        $totalRound = count($json_data->tournament_competation_format->format_name);
+        $total_rr_time = 0; $total_final_time=0;$total_time=0;
+        // we use -1 loop for only consider round robin matches
+        for($i=0;$i<$totalRound-1;$i++){
+            // Now here we calculate followng fields
+            $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
+            // Now here we have to for loop for match_type
+
+            foreach($rounds as $round) {
+               $total_round_match = $round->total_match;
+               // Calculate Game Duration for RR
+               $total_rr_time+= $data['game_duration_RR'] * $total_round_match;
+               // Calculate  half Time Break for RR
+               $total_rr_time+= $data['halftime_break_RR'] * $total_round_match;
+              // Calculate Match Interval
+               $total_rr_time+= $data['match_interval_RR'] * $total_round_match;
+           }
+
+        }
+
+        // Now we calculate final match time
+        $final_round = array_pop($json_data->tournament_competation_format->format_name);
+
+        // we know that we have only one Final Round Over here
+        $total_final_match = $final_round->match_type[0]->total_match;
+
+        $total_final_time  = $data['game_duration_FM']  * $total_final_match;
+        $total_final_time += $data['halftime_break_FM'] * $total_final_match;
+        $total_final_time += $data['match_interval_FM'] * $total_final_match;
+
+        // Now we sum up round robin and final match
+        $total_time = $total_rr_time + $total_final_time;
+
+        return array($total_time,$total_matches,$disp_format_name);
     }
 
     /*

@@ -3,7 +3,7 @@
 	"tournament_id": "0017",
 	"tournament_teams": 9,
 	"competation_format": "RR,PM/F",
-	"tournament_min_match": 6,
+	"tournament_min_match": 4,
 	"tournament_competation_format": {
 		"format_name": [{
 			"name": "Round 1",
@@ -80,18 +80,18 @@
                 "group_count": 8,
 				"groups": {
 					"group_name": "PM",
-                	"match": [{
+            "match": [{
 						"in_between": "1A - 1B",
-						"match_number": "U17.PM2.G1"
+						"match_number": "U17.PM2.G1.1A-1B"
 					}, {
 						"in_between": "2A - 2B",
-						"match_number": "U17.PM2.G2"
+						"match_number": "U17.PM2.G2.2A-2B"
 					}, {
 						"in_between": "3A - 3B",
-						"match_number": "U17.PM2.G3"
+						"match_number": "U17.PM2.G3.3A-3B"
 					}, {
 						"in_between": "4A - 4B",
-						"match_number": "U17.PM2.G4"
+						"match_number": "U17.PM2.G4.4A-4B"
 					}]
 				},
 				"total_match": 4

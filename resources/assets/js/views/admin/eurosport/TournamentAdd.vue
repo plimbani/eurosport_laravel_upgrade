@@ -72,20 +72,11 @@
                                       <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
                                       <div class="pull-right">
                                           <div v-if="!image">
-
-
-                                               <img  src="http://placehold.it/60x60"
+                                               <img  src="http://placehold.it/100x100"
                                                width="100px" height="100px"/>
-
                                               <!--<button type="button" name="btnSelect" id="btnSelect">-->
-
-                                              <button type="button" name="btnSelect" id="btnSelect">
-                                              Choose file</button>
-
-
-                                              <input type="file" id="selectFileT"
-                                              style="display:none;"
-                                              @change="onFileChangeT">
+                                              <button type="button" name="btnSelect" id="btnSelect">Choose file</button>
+                                              <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
                                               <p class="help-block">Maximum size of 1 MB.<br/>
                                               Image dimensions 100 x 100.</p>
                                           </div>
@@ -201,10 +192,56 @@
               <option value="">{{$lang.tournament_country_please_select}}</option>
               <option value="Andorra">Andorra</option>
               <option value="Belgium">Belgium</option>
+              <option value="Belarus">Belarus</option>
+              <option value="Bulgaria">Bulgaria</option>
+              <option value="Canada">Canada</option>
+              <option value="Croatia">Croatia</option>
+              <option value="Czech Republic">Czech Republic</option>
+              <option value="Denmark">Denmark</option>
+              <option value="Cyprus">Cyprus</option>
+              <option value="Estonia">Estonia</option>
+              <option value="Finland">Finland</option>
+              <option value="Faroe Islands">Faroe Islands</option>
               <option value="France">France </option>
+              <option value="France">France </option>
+              <option value="Georgia">Georgia</option>
               <option value="Germany">Germany</option>
+              <option value="Gibraltar">Gibraltar</option>
+              <option value="Greece">Greece</option>
+              <option value="Hungary">Hungary</option>
+              <option value="Iceland">Iceland</option>
+              <option value="Ireland">Ireland</option>
+              <option value="Isle of man">Isle of man</option>
               <option value="Italy">Italy</option>
+              <option value="Japan">Japan</option>
+              <option value="Latvia">Latvia</option>
+              <option value="Liechtenstein">Liechtenstein</option>
+              <option value="Lithuania">Lithuania</option>
+              <option value="Luxembourg">Luxembourg</option>
+              <option value="Macedonia">Macedonia</option>
+              <option value="Malta">Malta</option>
+              <option value="Moldava">Moldava</option>
+              <option value="Monaco">Monaco</option>
+              <option value="Montenegro">Montenegro</option>
+              <option value="Netherlands">Netherlands</option>
+              <option value="Northern Ireland">Northern Ireland</option>
+              <option value="Norway">Norway</option>
+              <option value="Poland">Poland</option>
+              <option value="Portugal">Portugal</option>
+              <option value="Romania">Romania</option>
+              <option value="San Marino">San Marino</option>
+              <option value="Scotland">Scotland</option>
+              <option value="Serbia">Serbia</option>
+              <option value="Slovakia">Slovakia</option>
+              <option value="Slovenia">Slovenia</option>
+              <option value="South Africa">South Africa</option>
               <option value="Spain">Spain</option>
+              <option value="Sweden">Sweden</option>
+              <option value="Switzerland">Switzerland</option>
+              <option value="Ukraine">Ukraine</option>
+              <option value="United States">United States</option>
+              <option value="England">England</option>
+              <option value="Wales">Wales</option>
               <option value="United Kingdom">United Kingdom</option>
             </select>
             </div>

@@ -15,7 +15,7 @@
 
       <tr v-for="(competation, index) in competationList">
           <td class="text-left">{{competation.group_name}} </td>
-          <td class="text-left">{{competation.category_age}} </td>                   
+          <td class="text-left">{{competation.category_age}}</td>                   
           <td>
               <label class="form-check-label">
                   <input type="radio" class="form-check-input" 
@@ -80,7 +80,7 @@ export default {
     formatTime: function(time) {
       var hours = Math.floor( time /   60);
       var minutes = Math.floor(time % 60);
-      return hours+ ' Hours and '+minutes+' Minutes'
+      return hours+ ' hours and '+minutes+' minutes'
     }
   },
   methods: {

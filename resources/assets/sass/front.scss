@@ -1,3 +1,4 @@
+@import 'components/colors';
 .section-head {
     margin-bottom: 40px;
     border-bottom: 2px solid #FFDE00;
@@ -32,4 +33,19 @@ select.form-control {
         -webkit-appearance: none;
         appearance: none;
     }
+}
+
+#test tbody > tr{
+  &:nth-of-type(3n+1) {
+    background: #FFFF00;
+  }
+  &:nth-of-type(3n+2) {
+    background: #B2A1C7;
+  }
+  &:nth-of-type(3n+3) {
+    background: #BFBFBF;
+  }
+  &:last-child {
+    background: $white;
+  }
 }
