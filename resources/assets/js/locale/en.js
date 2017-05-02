@@ -264,7 +264,7 @@ module.exports = {
   teams_agecategory: "Age Category",
   teams_group: "Group",
   teams_button_updategroups: "Update",
-
+  teams_location: "Location",
 
   summary_cup: "XYZ Cup 2017",
   summary_location: "Locations",

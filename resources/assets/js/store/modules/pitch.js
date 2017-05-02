@@ -17,7 +17,7 @@ const getters = {
   availableStage: function(state) {
     let availableStage = []
     _.forEach(state.pitchData.pitchAvailable, function (pitchAvailable) {
-     availableStage.push(pitchAvailable.stage_no)
+      availableStage.push(pitchAvailable.stage_no)
    });
     return availableStage
   } 
