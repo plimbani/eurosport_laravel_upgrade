@@ -61,9 +61,9 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "json": "foo"})
      */
-    public function templates()
+    public function templates(Request $request)
     {
-        return $this->tournamentObj->templates();
+        return $this->tournamentObj->templates($request->all());
     }
 
     /**

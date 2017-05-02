@@ -29,9 +29,17 @@ class TournamentRepository
 
         return TournamentTemplates::find($tournamentTemplateId)->json_data;
     }
-    public function getAllTemplates()
+    public function getAllTemplates($data=array())
     {
+
+      if(is_array($data) && count($data['tournamentData'])>0){
+        // TODO: need to Add
         return TournamentTemplates::get();
+      } else {
+        // here we modified the data
+        return TournamentTemplates::get();
+      }
+
     }
     public function create($data)
     {

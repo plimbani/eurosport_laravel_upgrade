@@ -88,10 +88,10 @@
 						"match_number": "U17.PM2.G2.C3-C4"
 					}, {
 						"in_between": "1A.2B.W - 1B.2A.W",
-						"match_number": "U17.PM2.G2.CW"
+						"match_number": "U17.PM2.G2.C12W-C34W"
 					}, {
 						"in_between": "1A.2B.L - 1B.2A.L",
-						"match_number": "U17.PM2.G2.Cl"
+						"match_number": "U17.PM2.G2.Cl2L-C34L"
 					}]
 				},
 				"total_match": 4
@@ -135,7 +135,7 @@
 					}]
 				},
 				"total_match": 10
-			}	
+			}
 		]
 		}]
 	}

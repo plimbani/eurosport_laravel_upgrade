@@ -10,8 +10,8 @@ export default {
   saveTournament(tournamentData) {
   	return api.post('tournament/create', {'tournamentData': tournamentData})
   },
-  getAllTournamentTemplate(){
-  	return api.get('tournaments/templates')
+  getAllTournamentTemplate(tournamentData){
+  	return api.post('tournaments/templates', {'tournamentData': tournamentData})
   },
   saveCompetationFormat(compeationFormatData) {
   	return api.post('age_group/createCompetationFomat', {'compeationFormatData': compeationFormatData})
