@@ -300,6 +300,7 @@
                         axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
+                             setTimeout(Plugin.reloadPage, 500);
                             that.$data.formValues = that.initialState();
                             that.updateUserList();
                         });
@@ -314,6 +315,7 @@
             deleteConfirmed() {
                 axios.post(this.deleteAction).then((response) => {
                     $("#delete_modal").modal("hide");
+                     setTimeout(Plugin.reloadPage, 500);
                     toastr.success('User has been deleted successfully.', 'Delete User', {timeOut: 5000});
                     this.updateUserList();
                 });
