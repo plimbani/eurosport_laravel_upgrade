@@ -44,7 +44,7 @@
             </div>
           </div>
           <div class="card">
-              <div class="card-header" role="tab" id="headingOne">
+              <div class="card-header border-bottom-0" role="tab" id="headingOne">
                   <a data-toggle="collapse" data-parent="#headingOne" href="#collapseOne" aria-controls="collapseOne" class="panel-title">
                       <i id="opt_icon"  class="fa fa-plus"></i> {{$lang.tournament_show_optional_details}}
                   </a>
