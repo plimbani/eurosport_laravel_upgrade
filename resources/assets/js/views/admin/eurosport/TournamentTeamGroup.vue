@@ -70,7 +70,7 @@
                       <th>{{$lang.teams_name}}</th>
                       <th>{{$lang.teams_country}}</th>
                       <th>{{$lang.teams_place}}</th>
-                      <th>{{$lang.teams_agecategory}}</th>
+                      <th>{{$lang.teams_event}}</th>
                       <th>{{$lang.teams_group}}</th>
                   </tr>
               </thead>

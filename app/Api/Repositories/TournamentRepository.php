@@ -242,55 +242,50 @@ class TournamentRepository
         $reportQuery = Team::where('teams.tournament_id','=' ,$tournamentId);
         switch($key) {
           case 'team' :
-            $resultData = $reportQuery->select('id','name as Name')
-                        ->get();
-            break;
-          case 'country' :
-            $resultData = $reportQuery->join('countries','countries.id','=','teams.country_id')
-                        ->select('countries.id as Cid','countries.name as Name')
-                        ->distinct('Name')
+            $resultData = $reportQuery->select('id','name as name')
                         ->get();
             break;
 
           case 'country' :
             $resultData = $reportQuery->join('countries','countries.id','=','teams.country_id')
-                        ->select('countries.id as Cid','countries.name as Name')
-                        ->distinct('Name')
+                        ->select('countries.id as id','countries.name as name')
+                        ->distinct('name')
                         ->get();
             break;
+          
           case 'age_category' :
             $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
-                        ->select('tournament_competation_template.id as TCTid','tournament_competation_template.group_name as Name')
-                        ->distinct('Name')
+                        ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name')
+                        ->distinct('name')
                         ->get();
             break;
         }
       }else{
-        $reportQuery = TempFixture::where('temp_fixture.tournament_id','=' ,$tournamentId);
+        $reportQuery = TempFixture::where('temp_fixtures.tournament_id','=' ,$tournamentId);
 
         switch($key) {
           case 'team' :
             $resultData = $reportQuery->leftjoin('teams as home_team', function ($join) {
-                $join->on('home_team.id', '=', 'temp_fixtures.home_team');
+                $join->on('home_team.id', '=', 'temp_fixtures.home_team')
+                   ->orOn('home_team.id', '=', 'temp_fixtures.away_team');
             })
-            ->leftjoin('teams as away_team', function ($join) {
-                $join->on('away_team.id', '=', 'temp_fixtures.away_team');
-            })
-            ->select('teams.id','teams.name as Name')
-                        ->distinct('teams.id')
+            ->select('home_team.id','home_team.name')
+                        ->distinct('home_team.id')
+                        ->where('home_team.id','!=','')
                         ->get();
             break;
           case 'location' :
-            $resultData = $reportQuery->join('venues','venues.id','=','temp_fixture.venue_id')
-                        ->select('venues.id as Vid','venues.name as Name')
-                        ->distinct('Name')
+            $resultData = $reportQuery->join('venues','venues.id','=','temp_fixtures.venue_id')
+                        ->select('venues.id as id','venues.name as name')
+                        ->distinct('name')
                         ->get();
             break;
           case 'age_category' :
-            $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','temp_fixture.competition_id')
-                        ->select('tournament_competation_template.id as TCTid','tournament_competation_template.group_name as Name')
-                        ->distinct('Name')
-                        ->get();
+            $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','temp_fixtures.competition_id')
+                        ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name')
+                        ->distinct('name')
+                        ->toSql();
+                      dd($resultData);
             break;
         }  
       }

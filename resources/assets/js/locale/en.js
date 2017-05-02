@@ -218,7 +218,7 @@ module.exports = {
   pitch_modal_availability_button_save: "Save",
 
 
-  teams_terms_groups: "Terms and groups",
+  teams_terms_groups: "Teams and groups",
   teams_age_category: "Age category",
   teams_select_age_category: "Select age category",
   teams_u9: "U9",
@@ -258,14 +258,15 @@ module.exports = {
   teams_select_location_4: "Location 4",
   teams_select_etc: "Etc...",
   teams_clear: "Clear",
-  teams_reference: "Reference",
-  teams_name: "Name", 
+  teams_reference: "TeamID",
+  teams_name: "Team", 
   teams_country: "Country",
   teams_agecategory: "Age Category",
   teams_group: "Group",
   teams_button_updategroups: "Update",
   teams_location: "Location",
   teams_place: "Place",
+  teams_event: "Event",
 
   summary_cup: "XYZ Cup 2017",
   summary_location: "Locations",
