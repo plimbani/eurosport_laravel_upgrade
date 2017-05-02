@@ -40,14 +40,14 @@
                             <div v-if="!image">
                              <img v-if="userData.image" v-bind:src="'/assets/img/users/' + userData.image" width="100px" height="100px"/>
                             <img v-else src="http://placehold.it/100x100" width="100px" height="100px"/>
-                                    <button type="button" class="btn-sm" name="btnImage" id="btnImage">Choose file</button>
+                                    <button type="button" name="btnImage" id="btnImage">Choose file</button>
                                     <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
                                     <p class="help-block">Maximum size of 1 MB.<br/>
                                     Image dimensions 100 x 100.</p>
                             </div>
                             <div v-else>
                                 <img :src="image" width="100px" height="100px"/>
-                                <button class="btn-sm" @click="removeImage">Remove image</button>
+                                <button @click="removeImage">Remove image</button>
                             </div>
                         </div>
                     </div>

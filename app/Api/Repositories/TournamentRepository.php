@@ -45,7 +45,7 @@ class TournamentRepository
         $newdata['twitter'] = $data['twitter'] ? $data['twitter'] : '';
 
         // For New One We set Status as Unpublished
-        $newdata['status'] = 'UnPublished';
+        $newdata['status'] = 'Unpublished';
         $newdata['user_id'] = 1;
 
         if($data['image_logo'] != ''){
