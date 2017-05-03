@@ -2,7 +2,7 @@
 <div class="row">
 	<div class="col-md-12">
 	<h3> Matches </h3>
-	<table class="table match_overview" v-if="matchData.length > 0">
+	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
 			<th>Time</th>
 			<th>Draw</th>
@@ -15,25 +15,25 @@
 			<tr v-for="match in matchData">
 				<td>{{match.match_datetime}}</td>
 				<td class="text-center">
-					<a class="pull-left text-left" href="" 
+					<a class="pull-left text-left" href=""
 					@click.prevent="changeDrawDetails(match)">{{match.competation_name}}</a>
 				</td>
-				<td align="right">	
+				<td align="right">
 					<a href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
-						
+
 						<span>{{match.HomeTeam}} </span>
 						<img :src="match.HomeFlagLogo" width="20">
 					</a>
 				</td>
-				<td class="text-center">{{match.homeScore}}-{{match.AwayScore}}</td>	
-				<td align="left">		
-					<a href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">	
+				<td class="text-center">{{match.homeScore}}-{{match.AwayScore}}</td>
+				<td align="left">
+					<a href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
 							  <img :src="match.AwayFlagLogo" width="20">
 							   <span>{{match.AwayTeam}}</span>
 					</a>
 				</td>
-				
-				<td v-if="isHideLocation !=  false"><a @click.prevent="changeLocation(match)" 
+
+				<td v-if="isHideLocation !=  false"><a @click.prevent="changeLocation(match)"
 				href="">{{match.venue_name}} - {{match.pitch_number}}</a></td>
 			</tr>
 		</tbody>
@@ -53,10 +53,10 @@ export default {
 	},
 	computed: {
 		isHideLocation() {
-			if(this.$store.state.currentScheduleView == 'locationList' || 
+			if(this.$store.state.currentScheduleView == 'locationList' ||
 				this.$store.state.currentScheduleView == 'teamDetails'){
 				this.dispLocation = false
-				return this.dispLocation 
+				return this.dispLocation
 			}
 		}
 	},
@@ -80,7 +80,7 @@ export default {
 			this.$root.$emit('changeComp', Id, Name);
 			//this.$emit('changeComp',Id);
 		},
-				
+
 	},
 
 }

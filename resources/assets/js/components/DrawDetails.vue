@@ -1,7 +1,7 @@
 <template>
 <div>
 <h3>{{otherData.DrawName}} </h3>
-<table class="table match_overview" border="1" v-if="match1Data.length > 0">
+<table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0">
 	<thead>
         <tr>
             <th></th>

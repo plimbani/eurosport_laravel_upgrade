@@ -1,7 +1,7 @@
 <template>
 <div>
 
-<table class="table match_overview" v-if="standingData.length > 0">
+<table class="table table-hover table-bordered" v-if="standingData.length > 0">
 	<thead>
 		<th></th>
 		<th></th>
@@ -18,7 +18,7 @@
 		<td></td>
 			<td align="left">
 				<a href="" @click.prevent="changeTeam(stand.team_id, stand.name)">
-					 <img :src="stand.teamFlag" width="20"> 
+					 <img :src="stand.teamFlag" width="20">
 					<span>
 					{{stand.name}}
 					</span>
@@ -54,9 +54,9 @@ export default {
 	methods: {
 		getData() {
 			if(this.currentCompetationId != 0) {
-				
+
 				let TournamentId = this.$store.state.Tournament.tournamentId
-				let tournamentData = {'tournamentId': TournamentId, 
+				let tournamentData = {'tournamentId': TournamentId,
 			'competitionId':this.currentCompetationId }
 
 				Tournament.getStanding(tournamentData).then(
@@ -69,17 +69,17 @@ export default {
 				(error) => {
 					alert('Error in Getting Standing Data')
 				}
-			) 	
+			)
 			}
-			
+
 		},
 		changeTeam(Id, Name) {
 			// here we dispatch Method
-			
+
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
 			this.$root.$emit('changeComp', Id, Name);
 		},
 	}
-	
+
 }
 </script>
