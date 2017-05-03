@@ -2,8 +2,8 @@
   <div>
   	<div v-if="currentScheduleView == 'matchList'" class="form-group row">
     	<label class="col-sm-4"><h3>Match OverView</h3></label>
-    	<div class="col-sm-4">
-		    <select class="form-control ls-select2 col-sm-4 offset-sm-2"
+    	<div class="col-sm-8">
+		    <select class="form-control ls-select2 col-sm-4"
 		    v-on:change="onChangeMatchDate"
 			v-model="matchDate">
 			<option v-for="option in tournamentDates" v-bind:value="option"
@@ -28,7 +28,7 @@ import DrawsListing from './DrawsListing.vue'
 import LocationList from'./LocationList.vue'
 import DrawList from './DrawList.vue'
 
-import moment from 'moment';
+var moment = require('moment')
 
 export default {
 	data() {
@@ -43,8 +43,7 @@ export default {
  	  // here we call by Default Match Listing Function to display matchlist
  	  let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate
  	  let tournamentEndDate = this.$store.state.Tournament.tournamentEndDate
-
- 	  this.tournamentDates = this.getDateRange(tournamentStartDate,tournamentEndDate,'mm/dd/yyyy')
+    this.tournamentDates = this.getDateRange(tournamentStartDate,tournamentEndDate,'mm/dd/yyyy')
 	  this.$store.dispatch('setCurrentScheduleView','matchList')
 	  // By Default Set for ot Todays Date
 	  this.getAllMatches(tournamentStartDate)
@@ -66,35 +65,32 @@ export default {
 			let matchDate = this.matchDate
 			this.getAllMatches(matchDate)
 		},
-
-    getDateRange2(startDate, endDate)
-    {
-      startDate = moment(startDate);
-      endDate = moment(endDate);
-
-      var now = startDate, dates = [];
-
-      while (now.isBefore(endDate) || now.isSame(endDate)) {
-          dates.push(now.format('YYYY-MM-DD'));
-          now.add(1, 'days');
-      }
-
-      return dates;
-
-    },
-		getDateRange(startDate, endDate, dateFormat)
+		getDateRange(startDate, stopDate, dateFormat)
 		{
 
-			  var dateArray = []
-		    var currentDate = moment(new Date(startDate));
-		    var stopDate = moment(new Date(endDate));
+          var dateArray = [];
 
+          var currentDate = new Date(moment(startDate, 'DD/MM/YYYY'))
+          var stopDate = new Date(moment(stopDate,'DD/MM/YYYY'))
+
+          while (currentDate <= stopDate) {
+              dateArray.push( moment(currentDate).format('DD/MM/YYYY') )
+              currentDate = moment(currentDate).add(1, 'days');
+          }
+        return dateArray;
+
+			  /*var dateArray = []
+		    var currentDate = moment(startDate).format('MM/DD/YYYY');
+        alert(currentDate)
+		    var stopDate = moment(endDate).format('MM/DD/YYYY');
+        alert('helo')
+        alert(currentDate)
 		    while (currentDate <= stopDate) {
 		        dateArray.push( moment(currentDate).format('MM/DD/YYYY') )
 		        currentDate = moment(currentDate).add(1, 'days');
 		    }
 
-		    return dateArray;
+		    return dateArray;*/
 		},
 		setMatchData(id, Name='') {
 
