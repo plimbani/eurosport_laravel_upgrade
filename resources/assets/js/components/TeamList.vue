@@ -4,7 +4,7 @@
 		<h3> Teams </h3>
 	</div>
 	<div class="col-md-12">
-	<table class="table match_overview" v-if="matchData.length > 0">
+	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
 			<th>Team</th>
 			<th>Draw</th>
@@ -14,7 +14,7 @@
 				<td><img :src="team.logo" width="20">&nbsp;
 				<a href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></td>
 				<td class="text-center">
-					<a href="" class="pull-left text-left" 
+					<a href="" class="pull-left text-left"
 					@click.prevent="changeGroup(team)">
 					{{team.competationName}}</a>
 				</td>
@@ -52,7 +52,7 @@ export default {
 			this.$root.$emit('changeComp',Id, Name);
 			//this.$emit('changeComp',Id);
 		},
-				
-	}	
+
+	}
 }
 </script>

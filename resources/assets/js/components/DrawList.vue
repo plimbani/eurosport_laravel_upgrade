@@ -1,7 +1,7 @@
 <template>
 <div class="">
 <h3> Draws </h3>
-<table class="table draw_table" v-if="matchData.length > 0">
+<table class="table table-hover table-bordered" v-if="matchData.length > 0">
 	<thead>
         <tr>
             <th>{{$lang.summary_schedule_draw}}</th>
@@ -11,7 +11,7 @@
     </thead>
     <tbody>
     	<tr v-for="drawData in matchData">
-    		<td> 
+    		<td>
     			<a @click.prevent="changeGroup(drawData)" href=""> {{ drawData.name }} </a>
     		</td>
     		<td>{{ drawData.competation_type }}</td>
@@ -49,7 +49,7 @@ export default {
 			this.$root.$emit('changeDrawListComp',Id, Name);
 			//this.$emit('changeComp',Id);
 		},
-				
-	}	
+
+	}
 }
 </script>
