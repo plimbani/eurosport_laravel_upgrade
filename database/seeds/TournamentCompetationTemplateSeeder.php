@@ -11,10 +11,10 @@ class TournamentCompetationTemplateSeeder extends Seeder
      * @return void
      */
     public function run()
-    {   
+    {
         DB::table('tournament_competation_template')->truncate();
         $tournament = DB::table('tournaments')->take(3)->select('id')->get()->toArray();
-        $tournaments = DB::table('tournament_template')->take(3)->select('id')->get()->toArray(); 
+        $tournaments = DB::table('tournament_template')->take(3)->select('id')->get()->toArray();
 
         DB::table('tournament_competation_template')->insert([
         	['tournament_id' => $tournament[array_rand($tournament)]->id, 'total_teams' => '6',  'group_name' => 'U1012345', 'min_matches' => '5', 'tournament_template_id' => $tournaments[array_rand($tournaments)]->id, 'total_match' => '19',
@@ -27,7 +27,32 @@ class TournamentCompetationTemplateSeeder extends Seeder
 
             ['tournament_id' => $tournament[array_rand($tournament)]->id, 'total_teams' => '9', 'group_name' => 'U11', 'min_matches' => '5', 'tournament_template_id' => $tournaments[array_rand($tournaments)]->id, 'total_match' => '18',
             'category_age' => 'Under 7s', 'disp_format_name' => '7 TEAMS,RR1,RR2,F', 'total_time' => '570', 'game_duration_RR' => '20', 'game_duration_FM' => '20', 'halftime_break_RR' => '5',
+            'halftime_break_FM' => '5', 'match_interval_RR' => '5', 'match_interval_FM' => '5'],
+           [
+
+           'tournament_id' => 5,
+           'total_teams' => '9',
+           'group_name' => 'U19',
+           'min_matches' => '5',
+           'tournament_template_id' => $tournaments[array_rand($tournaments)]->id, 'total_match' => '18',
+            'category_age' => 'Under 19th',
+             'disp_format_name' => '7 TEAMS,RR1,RR2,F', 'total_time' => '570',
+             'game_duration_RR' => '20',
+             'game_duration_FM' => '20', 'halftime_break_RR' => '5',
+            'halftime_break_FM' => '5', 'match_interval_RR' => '5', 'match_interval_FM' => '5'],
+             [
+
+            'tournament_id' => 4,
+           'total_teams' => '9',
+           'group_name' => 'U15',
+           'min_matches' => '5',
+           'tournament_template_id' => $tournaments[array_rand($tournaments)]->id, 'total_match' => '18',
+            'category_age' => 'Under 15th',
+             'disp_format_name' => '7 TEAMS,RR1,RR2,F', 'total_time' => '570',
+             'game_duration_RR' => '20',
+             'game_duration_FM' => '20', 'halftime_break_RR' => '5',
             'halftime_break_FM' => '5', 'match_interval_RR' => '5', 'match_interval_FM' => '5']
+
         ]);
     }
 }
