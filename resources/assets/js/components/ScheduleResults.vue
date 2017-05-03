@@ -5,6 +5,7 @@
         	<div class="page-header">
           		<ol class="breadcrumb">
             		<li><a href="" @click.prevent="AllTournament">Home</a></li>
+                <li v-if="TournamentName != ''"><a href="#">{{TournamentName}}</a></li>
           		</ol>
         	</div>
       	</div>
@@ -39,7 +40,7 @@
 									</div>
 								</div>
 							</div>
-						</div>						
+						</div>
 					</div>
 				</div>
 			</div>
@@ -70,39 +71,44 @@ export default {
 		DrawsListing, MatchListing, TeamListing,DrawDetails
 	},
 	created: function() {
-       this.$root.$on('changeComp1', this.setMatchData1); 
-  	},
+       this.$root.$on('changeComp1', this.setMatchData1);
+  },
+  computed: {
+    TournamentName() {
+      return this.$store.state.Tournament.tournamentName
+    }
+  },
 	methods: {
 		AllTournament(){
 		 this.$router.push({'name':'home'})
 		},
-		setMatchData1(data) {			
+		setMatchData1(data) {
 			this.currentView = 'matchListing'
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 		},
 		setCurrentView(currentView) {
 		  if(currentView != this.currentView)
-		  {	
+		  {
 			//alert('param CurrentView'+currentView)
 			//alert('current CurrentView'+this.currentView)
 			// Before Select component we make it nul so it cant refer parent component
 			let currentScheduleView = this.$store.state.currentScheduleView
 			//alert('curscvw'+currentScheduleView)
 			if(currentScheduleView == 'locationList') {
-				
-				this.currentView = 'matchListing'
-				this.$store.dispatch('setCurrentScheduleView','matchList')	
-			} 
 
-			//this.$store.dispatch('setCurrentScheduleView','matchList')	
+				this.currentView = 'matchListing'
+				this.$store.dispatch('setCurrentScheduleView','matchList')
+			}
+
+			//this.$store.dispatch('setCurrentScheduleView','matchList')
 			this.currentView = currentView
 			/*else  {
-			  
-			  this.$store.dispatch('setCurrentScheduleView','')	
+
+			  this.$store.dispatch('setCurrentScheduleView','')
 			  this.currentView = currentView
 			}*/
-		  }	
-			// Here we again 			
+		  }
+			// Here we again
 		}
 	}
 }
