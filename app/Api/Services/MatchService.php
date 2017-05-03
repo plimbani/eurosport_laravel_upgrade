@@ -133,8 +133,8 @@ class MatchService implements MatchContract
     public function getDrawTable($Data)
     {
        $Data = $Data->all();
-        
-       $drawTableResData = $this->matchRepoObj->getDrawTable($data['tournamentData']);
+
+       $drawTableResData = $this->matchRepoObj->getDrawTable($Data['tournamentData']);
 
         if (is_array($drawTableResData)) {
             return ['status_code' => '200', 'data' => $drawTableResData, 'message' => 'Match Draw data'];
@@ -150,7 +150,7 @@ class MatchService implements MatchContract
         } else {
             return ['status_code' => '300', 'message' => $scheduledResult];
         }
-    }  
+    }
 
     public function getAllScheduledMatch($matchData) {
         $scheduledResult = $this->matchRepoObj->getAllScheduledMatches($matchData->all());
@@ -159,16 +159,16 @@ class MatchService implements MatchContract
         } else {
             return ['status_code' => '300', 'message' => $scheduledResult];
         }
-    }  
+    }
     public function getMatchDetail($matchData) {
-        
+
         $matchResult = $this->matchRepoObj->getMatchDetail($matchData->all()['matchId']);
         if ($matchResult) {
             return ['status_code' => '200', 'data' => $matchResult];
         } else {
             return ['status_code' => '300'];
         }
-    }  
+    }
     public function removeAssignedReferee($matchData) {
         $matchResult = $this->matchRepoObj->removeAssignedReferee($matchData->all()['data']);
         if ($matchResult) {
@@ -176,7 +176,7 @@ class MatchService implements MatchContract
         } else {
             return ['status_code' => '300'];
         }
-    }  
+    }
     public function assignReferee($matchData) {
         $matchResult = $this->matchRepoObj->assignReferee($matchData->all()['data']);
         if ($matchResult) {
@@ -184,7 +184,7 @@ class MatchService implements MatchContract
         } else {
             return ['status_code' => '300'];
         }
-    }  
+    }
     public function saveResult($matchData) {
         $matchResult = $this->matchRepoObj->saveResult($matchData->all()['matchData']);
         if ($matchResult) {
@@ -192,7 +192,7 @@ class MatchService implements MatchContract
         } else {
             return ['status_code' => '300'];
         }
-    }  
+    }
         public function unscheduleMatch($matchData) {
         $scheduledResult = $this->matchRepoObj->matchUnschedule($matchData->all()['matchData']);
         if ($scheduledResult) {
@@ -200,7 +200,7 @@ class MatchService implements MatchContract
         } else {
             return ['status_code' => '300', 'message' => $scheduledResult];
         }
-    }  
+    }
 
 
 }

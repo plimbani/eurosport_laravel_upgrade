@@ -44,8 +44,8 @@
             </div>
           </div>
           <div class="card">
-              <div class="p-3" role="tab" id="headingOne">
-                  <a data-toggle="collapse" data-parent="#headingOne" href="#collapseOne" aria-controls="collapseOne">
+              <div class="card-header border-bottom-0" role="tab" id="headingOne">
+                  <a data-toggle="collapse" data-parent="#headingOne" href="#collapseOne" aria-controls="collapseOne" class="panel-title">
                       <i id="opt_icon"  class="fa fa-plus"></i> {{$lang.tournament_show_optional_details}}
                   </a>
               </div>
@@ -72,17 +72,17 @@
                                       <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
                                       <div class="pull-right">
                                           <div v-if="!image">
-                                               <img  src="http://placehold.it/100x100"
+                                          <img  src="http://placehold.it/100x100"
                                                width="100px" height="100px"/>
                                               <!--<button type="button" name="btnSelect" id="btnSelect">-->
                                               <button type="button" name="btnSelect" id="btnSelect">Choose file</button>
                                               <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
                                               <p class="help-block">Maximum size of 1 MB.<br/>
-                                              Image dimensions 100 x 100.</p>
+                                              Image dimensions 250 x 250.</p>
                                           </div>
                                          <div v-else>
                                               <img :src="imagePath + image"
-                                               width="60px" height="60px"/>
+                                               width="100px" height="100px"/>
                                               <button @click="removeImage">Remove image</button>
                                           </div>
                                       </div>
@@ -407,13 +407,13 @@ $('#tournament_end_date').datepicker('clearDates')
 });
 //this.handleValidation()
 $('.panel-title').on('click',function(){
-if($('#opt_icon').hasClass('fa-plus') == true){
-$('#opt_icon').addClass('fa-minus')
-$('#opt_icon').removeClass('fa-plus')
-}else{
-$('#opt_icon').addClass('fa-plus')
-$('#opt_icon').removeClass('fa-minus')
-}
+  if($('#opt_icon').hasClass('fa-plus') == true){
+    $('#opt_icon').addClass('fa-minus')
+    $('#opt_icon').removeClass('fa-plus')
+  }else{
+    $('#opt_icon').addClass('fa-plus')
+    $('#opt_icon').removeClass('fa-minus')
+  }
 });
 },
 methods: {

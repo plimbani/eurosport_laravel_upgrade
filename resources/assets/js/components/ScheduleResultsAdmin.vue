@@ -5,7 +5,7 @@
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
 						<h5>{{$lang.summary_schedule}}</h5>
-						<p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}</small></p>
+
 						<div class="tab-content summary-report-content">
 							<div class="row">
 								<div class="col-md-12">
@@ -66,37 +66,37 @@ export default {
 		DrawsListing, MatchListing, TeamListing,DrawDetails
 	},
 	created: function() {
-       this.$root.$on('changeComp1', this.setMatchData1); 
+       this.$root.$on('changeComp1', this.setMatchData1);
   	},
 	methods: {
 		setMatchData1(data) {
-			
+
 			this.currentView = 'matchListing'
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 		},
 		setCurrentView(currentView) {
 		  if(currentView != this.currentView)
-		  {	
+		  {
 			//alert('param CurrentView'+currentView)
 			//alert('current CurrentView'+this.currentView)
 			// Before Select component we make it nul so it cant refer parent component
 			let currentScheduleView = this.$store.state.currentScheduleView
 			//alert('curscvw'+currentScheduleView)
 			if(currentScheduleView == 'locationList') {
-				
-				this.currentView = 'matchListing'
-				this.$store.dispatch('setCurrentScheduleView','matchList')	
-			} 
 
-			//this.$store.dispatch('setCurrentScheduleView','matchList')	
+				this.currentView = 'matchListing'
+				this.$store.dispatch('setCurrentScheduleView','matchList')
+			}
+
+			//this.$store.dispatch('setCurrentScheduleView','matchList')
 			this.currentView = currentView
 			/*else  {
-			  
-			  this.$store.dispatch('setCurrentScheduleView','')	
+
+			  this.$store.dispatch('setCurrentScheduleView','')
 			  this.currentView = currentView
 			}*/
-		  }	
-			// Here we again 			
+		  }
+			// Here we again
 		}
 	}
 }
