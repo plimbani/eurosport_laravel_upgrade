@@ -63,15 +63,17 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div class="form-group row"  :class="{ 'form-group--error': $v.formValues.name.$error }">
+                            <div class="form-group row" :class="{'has-error': errors.has('name') }">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
                                 <div class="col-sm-6">
-                                    <input v-model="formValues.name"
-                                    name="name" type="text" @input="$v.formValues.name.$touch()"
+                                    <input v-model="formValues.name" v-validate="'required'"
+                                    :class="{'is-danger': errors.has('name') }"
+                                    name="name" type="text"
                                     class="form-control" placeholder="Enter first name">
-
+                                    <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                                    <span class="help is-danger" v-show="errors.has('name')">{{$lang.user_management_add_name_required}}
+                                    </span>
                                 </div>
-                                <span class="help is-danger" v-if="!$v.formValues.name.required">New validation</span>
 
                             </div>
                             <div class="form-group row">
@@ -151,7 +153,6 @@
 <script type="text/babel">
     import DeleteModal from '../../../components/DeleteModal.vue'
     import ResendModal from '../../../components/Resendmail.vue'
-    import Vue from 'vue'
 
     export default {
         components: {
@@ -160,8 +161,7 @@
         },
         data() {
             return {
-                formValues: {
-                    id: '',
+                formValues: {id: '',
                     name: '',
                     surname: '',
                     emailAddress: '',
@@ -179,26 +179,6 @@
                 image: ''
             }
         },
-        validations: {
-          formValues: {
-            name: {
-              required,
-            },
-          },
-          $dirty: true,
-           $invalid:false
-        },
-
-        $v: {
-          formValues: {
-            name: {
-              required: true,
-              $dirty: false,
-              $pending: false,
-            },
-          },
-
-        },
         created() {
             this.getRoles();
         },
@@ -209,10 +189,6 @@
             $('#profile_image_file').click(function(){
                 $('#userImg').trigger('click')
             })
-            $("#user_form_modal").on("hidden.bs.modal", function () {
-                console.log('hellooooo')
-                $('#frmUser')[0].reset()
-            });
         },
         methods: {
             initialState() {
