@@ -56,10 +56,15 @@ public function getAllFromTournamentId($tournamentId)
 
     public function create($data)
     {
+       $reference_no =  $data['TeamID'] ? $data['TeamID'] : '';
+       $teamName =  $data['Team'] ? $data['Team'] : '';
+       $place =  $data['Place'] ? $data['Place'] : '';
+       
+
         return Team::create([
-            'name' => $data['team_name'],
-            'esr_reference' => $data['reference_no'],
-            'place' => $data['place'],
+            'name' => $teamName,
+            'esr_reference' => $reference_no,
+            'place' => $place,
             'country_id' => $data['country_id'],
             'tournament_id' => $data->tournamentData['tournamentId'],
             'age_group_id' => $data->tournamentData['ageCategory']
@@ -78,6 +83,7 @@ public function getAllFromTournamentId($tournamentId)
             ->where('tournament_id',$data['tournament_id'])
             // ->where('age_group_id',$data['age_group'])
             ->update([
+                'home_team_name' => $team_name,
                 'home_team' => $team_id,
                 'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
             ]);
@@ -85,6 +91,7 @@ public function getAllFromTournamentId($tournamentId)
             ->where('tournament_id',$data['tournament_id'])
             // ->where('age_group_id',$data['age_group'])
             ->update([
+            'away_team_name' => $team_name,
             'away_team' => $team_id,
             'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
         ]);
