@@ -41,14 +41,15 @@
                              <img v-if="userData.image" v-bind:src="'/assets/img/users/' + userData.image" width="100px" height="100px"/>
                             <img v-else src="http://placehold.it/100x100" width="100px" height="100px"/>
                                     <button type="button" name="btnImage" id="btnImage">Choose file</button>
-                                    <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
-                                    <p class="help-block">Maximum size of 1 MB.<br/>
-                                    Image dimensions 250 x 250.</p>
+
                             </div>
                             <div v-else>
                                 <img :src="image" width="100px" height="100px"/>
                                 <button @click="removeImage">Remove image</button>
                             </div>
+                            <input type="file" id="selectFile" style="display:none;" @change="onFileChange">
+                                    <p class="help-block">Maximum size of 1 MB.<br/>
+                                    Image dimensions 250 x 250.</p>
                         </div>
                     </div>
                 </div>
@@ -84,7 +85,7 @@
              axios.post("/api/user/update/"+this.userId,this.userData).then((response) => {
                 toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                 $("#user_profile").modal("hide");
-                setTimeout(Plugin.reloadPage, 1000);
+                // setTimeout(Plugin.reloadPage, 1000);
             });
         },
             onFileChange(e) {
