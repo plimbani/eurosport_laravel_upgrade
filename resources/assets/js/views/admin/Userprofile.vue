@@ -39,7 +39,7 @@
                         <div class="col-sm-6">
                             <div v-if="!image">
                              <img v-if="userData.image" v-bind:src="'/assets/img/users/' + userData.image" width="100px" height="100px"/>
-                            <img v-else src="http://placehold.it/100x100" width="100px" height="100px"/>
+                            <img v-else src="http://placehold.it/250x250" width="100px" height="100px"/>
                                     <button type="button" name="btnImage" id="btnImage">Choose file</button>
 
                             </div>
