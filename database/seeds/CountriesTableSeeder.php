@@ -11,12 +11,18 @@ class CountriesTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {   
-        DB::table('countries')->truncate();   
+    {
+        DB::table('countries')->truncate();
         DB::table('countries')->insert([
         	[ 'name' => 'Poland', 'country_code' => 'PL', 'logo' => 'http://static.tournamentsoftware.com/images/flags/16/POL.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-        	[ 'name' => 'Netherlands', 'country_code' => 'NL', 'logo' => 'http://static.tournamentsoftware.com/images/flags/16/FRA.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        	[ 'name' => 'France', 'country_code' => 'NL', 'logo' => 'http://static.tournamentsoftware.com/images/flags/16/FRA.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         	[ 'name' => 'Germany', 'country_code' => 'GE', 'logo' => 'https://static.tournamentsoftware.com/images/flags/16/GER.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'England', 'country_code' => 'ENG', 'logo' => 'http://static.tournamentsoftware.com/images/flags/16/ENG.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'Belgium', 'country_code' => 'BEL', 'logo' => 'http://static.tournamentsoftware.com/images/flags/16/BEL.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'Denmark', 'country_code' => 'DEN', 'logo' => 'http://static.tournamentsoftware.com/images/flags/16/DEN.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'Netherland', 'country_code' => 'NED', 'logo' => 'http://static.tournamentsoftware.com/images/flags/16/NED.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+
         ]);
     }
 }
