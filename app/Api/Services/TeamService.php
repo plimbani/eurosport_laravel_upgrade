@@ -64,8 +64,11 @@ class TeamService implements TeamContract
     }
     public function create($data)
     {
-        $data['country_id'] = $this->getCountryIdFromName($data['country']);
-        // dd($data);
+        if($data['Country']!=''){
+            $data['country_id'] = $this->getCountryIdFromName($data['Country']);
+        }else{
+            $data['country_id'] = '';
+        }
         $data = $this->teamRepoObj->create($data);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];

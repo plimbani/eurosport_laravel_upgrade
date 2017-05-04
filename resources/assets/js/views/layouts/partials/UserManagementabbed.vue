@@ -29,7 +29,10 @@ export default {
 			'header' : 'header',
 			'userList': {
 				'userData': [],
-				'userCount': 0
+				'userCount': 0,
+				'registerType': '',
+				'listStatus': 1
+
 			}
 		}
 	},
@@ -38,6 +41,7 @@ export default {
 	},
 	methods: {
 		getSelectComponent(registerType) {
+			this.registerType = registerType
 			axios.get("/api/getUsersByRegisterType/"+registerType).then((response) => {
 
 				if('users' in response.data) {

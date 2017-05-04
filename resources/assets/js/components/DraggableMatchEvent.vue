@@ -18,7 +18,7 @@ export default {
             // store data so the calendar knows to render an event upon drop                
             $(this.$el).data('event', {
                 id: this.match.id,
-                title: this.match.matchName+' Total Time:'+this.match.matchTime, // use the element's text as the event title
+                title: this.match.matchName, // use the element's text as the event title
                 stick: true, // maintain when user navigates (see docs on the renderEvent method),                
                 duration: moment.duration(this.match.matchTime, 'minutes'),
                 matchId: this.match.matchId,

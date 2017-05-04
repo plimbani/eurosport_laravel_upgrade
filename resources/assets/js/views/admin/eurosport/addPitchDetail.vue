@@ -341,7 +341,7 @@ var moment = require('moment');
 
                   $('#stage_break_start'+stage).timepicker({
                       minTime:  newTime,
-                      maxTime: '18:00:00'
+                      maxTime: '19:00:00'
                   });
                   $('#stage_break_start'+stage).val('')
 
@@ -355,7 +355,7 @@ var moment = require('moment');
 
                  $('#stage_continue_time'+stage).timepicker({
                       minTime: newTime,
-                      maxTime: '18:00:00'
+                      maxTime: '19:00:00'
                   });
                   $('#stage_continue_time'+stage).val('')
 
@@ -366,7 +366,7 @@ var moment = require('moment');
 
                   $('#stage_end_time'+stage).timepicker({
                       minTime:  newTime,
-                      maxTime: '18:00:00'
+                      maxTime: '19:00:00'
                   });
                   $('#stage_end_time'+stage).val('')
               }
@@ -438,7 +438,7 @@ var moment = require('moment');
            setTimeout(function(){
               $('.ls-timepicker').timepicker({
                   minTime: '08:00:00',
-                  maxTime: '18:00:00'
+                  maxTime: '19:00:00'
               });
            },1000)
 
@@ -567,19 +567,19 @@ var moment = require('moment');
 
                       $('#stage_start_time'+stage).timepicker({
                           minTime:  '08:00:00',
-                          maxTime: '18:00:00'
+                          maxTime: '19:00:00'
                       })
                       $('#stage_break_start'+stage).timepicker({
                           minTime:  '08:00:00',
-                          maxTime: '18:00:00'
+                          maxTime: '19:00:00'
                       })
                       $('#stage_continue_time'+stage).timepicker({
                           minTime:  '08:00:00',
-                          maxTime: '18:00:00'
+                          maxTime: '19:00:00'
                       })
                       $('#stage_end_time'+stage).timepicker({
                           minTime:  '08:00:00',
-                          maxTime: '18:00:00'
+                          maxTime: '19:00:00'
                       })
 
                       },1000)
