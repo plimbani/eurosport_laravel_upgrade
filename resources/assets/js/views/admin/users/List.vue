@@ -152,9 +152,6 @@
     import DeleteModal from '../../../components/DeleteModal.vue'
     import ResendModal from '../../../components/Resendmail.vue'
     import Vue from 'vue'
-    import Vuelidate from 'vuelidate'
-    Vue.use(Vuelidate)
-    import { required, minLength, between } from 'vuelidate/lib/validators'
 
     export default {
         components: {
