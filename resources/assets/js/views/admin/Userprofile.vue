@@ -85,7 +85,7 @@
              axios.post("/api/user/update/"+this.userId,this.userData).then((response) => {
                 toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                 $("#user_profile").modal("hide");
-                // setTimeout(Plugin.reloadPage, 1000);
+                 setTimeout(Plugin.reloadPage, 2000);
             });
         },
             onFileChange(e) {
