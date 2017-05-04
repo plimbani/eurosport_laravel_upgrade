@@ -38,7 +38,8 @@ class VenuesTableSeeder extends Seeder
              'county' => 'United States of America', 'city' => 'Oostende',
         	 'country' => 'Belgium', 'organiser' => '', 'postcode' => '8400', 'contact_no' => '0498623343', 'email_address' => 'test@aecordigital.com',
              'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-          ['tournament_id' => 4, 'name' => 'Tordera',
+
+          ['tournament_id' => 4, 'name' => 'Top Ten',
              'address1' => 'Tordera',
            'address2' => 'test', 'address3' => 'test',
              'state' => 'West-Vlaanderen',
@@ -47,8 +48,8 @@ class VenuesTableSeeder extends Seeder
            'contact_no' => '0498623343', 'email_address' => 'test@aecordigital.com',
              'created_at' => Carbon::now()->format('Y-m-d H:i:s')
           ],
-          ['tournament_id' => 5, 'name' => 'Klein Brandt',
-             'address1' => 'Sportpark 7',
+          ['tournament_id' => 5, 'name' => 'As 80',
+             'address1' => 'Klein Brandt Sportpark 7',
            'address2' => 'test', 'address3' => 'test',
              'state' => 'Almere',
              'county' => 'Spain', 'city' => 'Top Ten',
