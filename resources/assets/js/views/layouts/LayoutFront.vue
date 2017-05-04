@@ -14,8 +14,19 @@
                 </ul>
             </div>
         </header>
+         <site-footer></site-footer>
         <transition name="fade" mode="out-in">
             <router-view></router-view>
         </transition>
+          
     </div>
 </template>
+<script type="text/babel">
+import SiteFooter from './partials/SiteFooter.vue'
+
+export default {
+        components : {
+             SiteFooter
+        }
+    }
+</script>
