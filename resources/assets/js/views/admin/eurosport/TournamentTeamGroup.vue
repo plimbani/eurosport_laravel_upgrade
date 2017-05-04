@@ -84,7 +84,7 @@
                       <td>{{team.place}} </td>
                       <td>{{team.age_name}} </td>
                       <td>
-                        <select  v-bind:data-id="team.id" v-model="team.group_name"  v-bind:data-name.once="initialfunc(team.id)" v-bind:data-category-name="age_category.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
+                        <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="">Select Team</option>
                           <optgroup :label="group.groups.group_name" v-for="group in grps">
                             <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)"  :value="group['groups']['group_name']+n" >{{group['groups']['group_name']}}{{n}} </option>
@@ -171,23 +171,12 @@
         return false
 
       },
-       initialfunc(id){
-        // console.log(msg)
+      initialfunc(id){
         if($('#sel_'+id).val()!=''){
-          // console.log(id)
           this.onAssignGroup(id)
         }
-      //   let this1  = this
-      //   $('.selTeams').each( function() {
-      //    if($( "select#"+this.id+" option:checked" ).val()!= '' && typeof($( "select#"+this.id+" option:checked" ).val()) != "undefined"){
-      //     that.
-      //    }
-
-      //     // console.log($(this).val())
-      //   })
-       },
+      },
       selectTrue(team_group,index,assigned_group){
-        console.log(team_group,assigned_group)
         if(team_group+index == assigned_group){
           return true
         }else{
@@ -196,6 +185,7 @@
         beforeChange()
       },
       beforeChange(gid) {
+
         let gdata = $('#sel_'+gid).val()
         this.beforeChangeGroupName =  gdata;
       },
@@ -307,7 +297,13 @@
               this.teamSize = jsonObj.tournament_teams
               this.getTeams()
               let that = this
-              // setTimeout(function(){ that.initialfunc()},1000)
+
+
+              setTimeout(function(){
+                $('.selTeams').each(function( index ) {
+                  that.initialfunc($(this).data('id'))
+                })
+              },1000)
             },
             (error)=> {
               alert('error in getting json data')
@@ -318,21 +314,11 @@
       csvImport() {
         if($('#fileUpload').val()!=''){
           let files  = new FormData($("#frmCsvImport")[0]);
-          // console.log(files->)
           files.append('ageCategory', this.age_category.id);
           files.append('tournamentId', this.tournament_id);
           files.append('teamSize', this.teamSize);
           // let uploadFile = document.getElementById('frmCsvImport');
 
-          // console.log(document.getElementById('frmCsvImport'))
-          // Tournament.createTeam(TData).then(
-          //   (response) => {
-          //    this.getTeams()
-          //   },
-          //   (error) => {
-          //      console.log('Error occured during Tournament api ', error)
-          //   }
-          // )
           return axios.post('/api/team/create',files).then(response =>  {
           if(response.data.bigFileSize == true){
             toastr['error']('Total Team size is more than available. Only top '+this.teamSize+' teams have been added.', 'Error');

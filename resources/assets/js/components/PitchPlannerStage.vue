@@ -17,7 +17,8 @@ import _ from 'lodash'
                 'tournamentId': this.$store.state.Tournament.tournamentId,
                 'scheduledMatches': [],
                 'setPitchModal': 0,
-                'matchFixture': {}
+                'matchFixture': {},
+                'pitchBreak':{}
             }
         },
         props: [ 'stage' ],
@@ -28,6 +29,7 @@ import _ from 'lodash'
             pitchesData() {
                 return _.forEach(this.stage.pitches, (pitch) => {
                     pitch.title = 'Pitch ' + pitch.pitch_number;
+
                 });
             },
             stageDate() {
@@ -35,6 +37,14 @@ import _ from 'lodash'
             }
         },
         mounted() {
+                let sPitch = []
+                // _.forEach(this.stage.pitches, (pitch) => {
+                // _.forEach(pitch.pitch_availability, (availability) => {
+
+                //     sPitch.push({'id': '', 'resourceId': availability.id,'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'YYYY-MM-DD hh:mm:ss'),'referee': 'unavailable','title':'pitch is not available', 'matchId':''}) 
+                //     });
+                // });
+                // this.pitchBreak = sPitch
             this.getScheduledMatch()
         },
         methods: {
@@ -54,7 +64,7 @@ import _ from 'lodash'
                     views: {
                         agendaDay: {
                             minTime: '08:00:00',
-                            maxTime: '18:00:00',
+                            maxTime: '19:00:00',
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15'
                         }
@@ -64,7 +74,6 @@ import _ from 'lodash'
 
                     resources: vm.pitchesData,
                     // events: [
-
                     //     { id: '2', resourceId: '1', start: '2017-03-28T09:00:00', end: '2017-03-28T14:00:00', title: 'event 2' },
                     //     { id: '3', resourceId: '1', start: '2017-03-28T12:00:00', end: '2017-03-28T06:00:00', title: 'event 3' },
                     //     { id: '4', resourceId: '10', start: '2017-03-28T07:30:00', end: '2017-03-28T09:30:00', title: 'event 4' },
@@ -79,6 +88,7 @@ import _ from 'lodash'
                          // add match to scheduled matches table - api call
                         let matchId = event.id?event.id:event.matchId
                         let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
+
                     
                         Tournament.setMatchSchedule(matchData).then(
                             (response) => {  
@@ -135,12 +145,11 @@ import _ from 'lodash'
                             let sMatches = []
                             _.forEach(rdata, function(match) {
                                 if(match.is_scheduled == 1){
-                                    let mData =  {'id': match.fid, 'resourceId': match.pitchId,'start':moment.utc(match.match_datetime,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(match.match_endtime,'YYYY-MM-DD hh:mm:ss'),'title':match.match_number,
-                                matchId:match.id}
+                                    let mData =  {'id': match.fid, 'resourceId': match.pitchId,'start':moment.utc(match.match_datetime,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(match.match_endtime,'YYYY-MM-DD hh:mm:ss'),'referee': 'refree','title':match.match_number, matchId:match.id}
                                 sMatches.push(mData)   
                                 }
                             });
-                            
+                            // sMatches.push(this.pitchBreak)   
                            // console.log(sMatches,'sMatches')
                             this.scheduledMatches =sMatches
                             this.initScheduler();
