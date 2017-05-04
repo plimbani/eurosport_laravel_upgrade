@@ -76,6 +76,7 @@
         $('#selectFile').trigger('click')
     })
     },
+
     props: ['userData'],
     methods : {
         updateUser(){
