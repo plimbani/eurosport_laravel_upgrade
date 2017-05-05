@@ -200,6 +200,7 @@
               <option value="Denmark">Denmark</option>
               <option value="Cyprus">Cyprus</option>
               <option value="Estonia">Estonia</option>
+              <option value="England">England</option>
               <option value="Finland">Finland</option>
               <option value="Faroe Islands">Faroe Islands</option>
               <option value="France">France </option>
@@ -240,7 +241,6 @@
               <option value="Switzerland">Switzerland</option>
               <option value="Ukraine">Ukraine</option>
               <option value="United States">United States</option>
-              <option value="England">England</option>
               <option value="Wales">Wales</option>
               <option value="United Kingdom">United Kingdom</option>
             </select>
