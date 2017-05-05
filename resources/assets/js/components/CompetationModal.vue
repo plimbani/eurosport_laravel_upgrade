@@ -16,22 +16,22 @@
                       <div class="card-header">
                         <h4 class="card-title">{{grp.name}}</h4>
                       </div>
-                      <div class="card-block">
-                        <p class="card-text badge badge-info">{{ grp.match_type[0].name }}</p>
+                      <div class="card-block" v-for="mtchtype in grp.match_type">
+                        <p class="card-text badge badge-info">{{ mtchtype.name }}</p>
                         <table class="table" id="test">
                           <thead>
                             <tr>
                               <th>Match Number:</th>
-                              <th class="text-center">{{ grp.match_type[0].groups.group_name }}</th>
+                               <th class="text-center">{{ mtchtype.groups.group_name }}</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr  v-for="match in grp.match_type[0].groups.match">
+                            <tr  v-for="match in mtchtype.groups.match">
                               <th>{{ match.match_number }}</th>
                               <td>{{ match.in_between }}</td>
                             </tr>
                             <tr>
-                            <td colspan="2">{{ grp.match_type[0].total_match }}</td>
+                            <td colspan="2">{{ mtchtype.total_match }}</td>
                             </tr>
                           </tbody>
                         </table>
