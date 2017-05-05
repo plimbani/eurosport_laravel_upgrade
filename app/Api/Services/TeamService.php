@@ -57,7 +57,9 @@ class TeamService implements TeamContract
      * @return [type]
      */
     public function getCountryIdFromName($countryName) {
+
         $cid = \DB::table('countries')->where('name', $countryName)->select('id')->first();
+
         return $cid->id;
         
         // return 1;
@@ -65,8 +67,11 @@ class TeamService implements TeamContract
     public function create($data)
     {
         if($data['Country']!=''){
+
             $data['country_id'] = $this->getCountryIdFromName($data['Country']);
+
         }else{
+
             $data['country_id'] = '';
         }
         $data = $this->teamRepoObj->create($data);

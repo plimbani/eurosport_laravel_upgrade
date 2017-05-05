@@ -30,7 +30,7 @@ class CreateTeamsTable extends Migration
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();
             $table->string('shirt_color')->nullable();
-            $table->integer('esr_reference')->nullable();
+            $table->string('esr_reference')->nullable();
             $table->integer('country_id')->nullable()->unsigned()->index();
             $table->foreign('country_id')->references('id')->on('countries');
             $table->timestamps();
