@@ -1,21 +1,14 @@
-<template> 
+<template>
 	<div class="tab-content">
 		<div class="card">
             <div class="card-block">
-                <h6 class="mt4"><strong>{{$lang.competation_age_categories}}</strong></h6>            	
-                <div class="row">
-                    <div class="col-md-12">                       
+                <h6 class="mt4"><strong>{{$lang.competation_age_categories}}</strong></h6>
+
                         <competationFormatList></competationFormatList>
-                    </div>
-                </div>
-            	<div class="row">
-                    <div class="col-md-12">
-            		     <button type="button" class="btn btn-primary" @click="addCategory()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.competation_add_age_category}}</button>
-                    </div>
-            	</div>                
-            	<AddAgeCateogryModel></AddAgeCateogryModel>
+
+
             </div>
-		</div>	
+		</div>
         <!--<div class="row">
             <div class="col-md-12">
                 <div class="pull-left">
@@ -30,11 +23,10 @@
 </template>
 
 <script type="text/babel">
-import AddAgeCateogryModel from '../../../components/AddAgeCategoryModal.vue'
 import CompetationFormatList from '../../../components/CompetationFormatList.vue'
-export default {	  
+export default {
   components: {
-      AddAgeCateogryModel, CompetationFormatList
+      CompetationFormatList
   },
   data() {
     return {
@@ -42,7 +34,7 @@ export default {
     }
   },
   mounted() {
-           
+
     // Here if tournament Id is Not Set Redirect to Login page
     let tournamentId = this.$store.state.Tournament.tournamentId
     if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
@@ -53,18 +45,11 @@ export default {
       // let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
       //this.$store.dispatch('setActiveTab', currentNavigationData)
     }
+
   },
   methods: {
-    next() {
-       this.$root.$emit('setTemplate')
-    },
-    backward() {
-     // this.$router.push({name: 'tournament_add'})   
-    },
-    addCategory() {
-      this.type='add'
-      $('#exampleModal').modal('show')
-    },
+
+
   }
 }
 </script>

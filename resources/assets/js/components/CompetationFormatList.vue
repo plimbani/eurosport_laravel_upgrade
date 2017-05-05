@@ -1,60 +1,74 @@
 <template>
- <table class="table table-hover table-bordered add-category-table">
-  <thead>
-      <tr>
-          <th class="text-center">{{$lang.competation_name_category}}</th>
-          <th class="text-center">{{$lang.competation_age_category}}</th>
-          <th class="text-center">{{$lang.competation_competation_format}}</th>
-          <th class="text-center">{{$lang.competation_total_matches}}</th>
-          <th class="text-center">{{$lang.competation_total_time}}</th>
-          <th class="text-center">{{$lang.competation_match_schedule}}</th>
-          <th class="text-center">{{$lang.competation_manage}}</th>
-      </tr>
-  </thead>
-  <tbody>
+<div>
+  <div class="row">
+    <div class="col-md-12">
+     <table class="table table-hover table-bordered add-category-table">
+      <thead>
+          <tr>
+              <th class="text-center">{{$lang.competation_name_category}}</th>
+              <th class="text-center">{{$lang.competation_age_category}}</th>
+              <th class="text-center">{{$lang.competation_competation_format}}</th>
+              <th class="text-center">{{$lang.competation_total_matches}}</th>
+              <th class="text-center">{{$lang.competation_total_time}}</th>
+              <th class="text-center">{{$lang.competation_match_schedule}}</th>
+              <th class="text-center">{{$lang.competation_manage}}</th>
+          </tr>
+      </thead>
+      <tbody>
 
-      <tr v-for="(competation, index) in competationList">
-          <td class="text-left">{{competation.group_name}} </td>
-          <td class="text-left">{{competation.category_age}}</td>                   
-          <td>
-              <label class="form-check-label">
-                  <input type="radio" class="form-check-input" 
-                  name="competationFormatTemplate"
-                  :value="index"
-                         checked>
-                  {{competation.disp_format_name}}
-              </label>
-          </td>
-          <td class="text-center">{{competation.total_match}}</td>
-          <td>{{competation.total_time | formatTime}}
-          </td>
-          <td class="text-center">
-              <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm">View</a>
-          </td>
-          <td class="text-center">
-              <span class="align-middle">
-                <a class="text-primary" href="#" @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
-              </span>
-              <span class="align-middle">
-                <a href="javascript:void(0)"
-                data-confirm-msg="Are you sure you would like to delete this user record?"
-                data-toggle="modal"
-                data-target="#delete_modal"
-                @click="prepareDeleteResource(competation.id)">
-                <i class="jv-icon jv-dustbin"></i></a>
-              </span>
-          </td>
-          
-      </tr>
-  </tbody>
-  <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-  <competationModal :templateData="templateData" :totalTime="totalTime"></competationModal>
-</table>
+          <tr v-for="(competation, index) in competationList">
+              <td class="text-left">{{competation.group_name}} </td>
+              <td class="text-left">{{competation.category_age}}</td>                   
+              <td>
+                  <label class="form-check-label">
+                      <input type="radio" class="form-check-input" 
+                      name="competationFormatTemplate"
+                      :value="index"
+                             checked>
+                      {{competation.disp_format_name}}
+                  </label>
+              </td>
+              <td class="text-center">{{competation.total_match}}</td>
+              <td>{{competation.total_time | formatTime}}
+              </td>
+              <td class="text-center">
+                  <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm">View</a>
+              </td>
+              <td class="text-center">
+                  <span class="align-middle">
+                    <a class="text-primary" href="#" @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
+                  </span>
+                  <span class="align-middle">
+                    <a href="javascript:void(0)"
+                    data-confirm-msg="Are you sure you would like to delete this user record?"
+                    data-toggle="modal"
+                    data-target="#delete_modal"
+                    @click="prepareDeleteResource(competation.id)">
+                    <i class="jv-icon jv-dustbin"></i></a>
+                  </span>
+              </td>
+              
+          </tr>
+      </tbody>
+      <AddAgeCateogryModel v-if="categoryStatus"></AddAgeCateogryModel>
+      <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+      <competationModal :templateData="templateData" :totalTime="totalTime"></competationModal>
+    </table>
+    </div>
+  </div>
+  <div class="row">
+        <div class="col-md-12">
+         <button type="button" class="btn btn-primary" @click="addCategory()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.competation_add_age_category}}</button>
+        </div>
+  </div>
+</div>
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
 import DeleteModal from './DeleteModal.vue'
 import CompetationModal from './CompetationModal.vue'
+import AddAgeCateogryModel from './AddAgeCategoryModal.vue'
+
 export default {
   data() {
     return {
@@ -62,11 +76,12 @@ export default {
       tournamentTemplateId: '', totalTime:'',
       deleteConfirmMsg: 'Are you sure you would like to delete this age category?',deleteAction: '',
       templateData:[],
-      totalTime: ''
+      totalTime: '',
+      categoryStatus: false
     }
   },
   components: {
-    DeleteModal,CompetationModal
+    DeleteModal,CompetationModal,AddAgeCateogryModel
   },
   mounted () {
     let that = this
@@ -85,8 +100,28 @@ export default {
   },
   methods: {
     editCompFormat(Id) {
+       let vm =this
        // Call Child Class Component Method
-      this.$root.$emit('setCompetationFormatData',  Id)
+      this.categoryStatus = true
+        setTimeout(function(){
+          vm.$root.$emit('setCompetationFormatData',  Id)
+          $("#exampleModal").on('hidden.bs.modal', function () {
+            console.log('hi')
+             vm.categoryStatus = false
+        });
+        },1000)
+    },
+    addCategory() {
+      let vm =this
+      this.categoryStatus = true
+      this.type='add'
+      setTimeout(function(){
+        $('#exampleModal').modal('show')
+          $("#exampleModal").on('hidden.bs.modal', function () {
+            console.log('hi')
+             vm.categoryStatus = false
+        });
+      },500)
     },
     viewCompFormat(id,tTime) {
         $("#competationmodal").modal('show');
@@ -183,5 +218,6 @@ export default {
      this.$root.$on('setTemplate', this.next);
      this.$root.$on('displayCompetationList', this.displayTournamentCompetationList);
   },
+
 }
 </script>
