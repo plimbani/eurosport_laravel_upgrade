@@ -530,7 +530,7 @@ class MatchRepository
 
     public function getAllScheduledMatches($data)
     {
-      return TempFixture::where('tournament_id',$data['tournamentId'])
+        return TempFixture::where('tournament_id',$data['tournamentId'])
                   ->where('is_scheduled','1')
                   ->get();
     }

@@ -22,11 +22,11 @@
               <input type="radio" name="filter" value="age_category" @click="getDropDownData('age_category')">{{$lang.teams_age}}
           </label>
           <select class="form-control ls-select2" v-model="dropDown">
-            <option value="">{{selectMsg}}</option>
-            <option
+            <option value="" >{{selectMsg}}</option>
+            <option :value="option.id"
             v-for="option in options"
             v-bind:value="option">
-              {{option.Name}}
+              {{option.name}}
             </option>
           </select>
           <label class="control-label">
@@ -76,6 +76,7 @@ export default {
               this.selectMsg = 'Select a location'
               break
           }
+          console.log(response)
           this.options =response.data.data
         },
         (error) => {
