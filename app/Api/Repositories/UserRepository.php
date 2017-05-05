@@ -49,7 +49,7 @@ class UserRepository {
         'is_active' => 0,
         'is_blocked' => 0 ,
         'is_mobile_user' => 0,
-        'user_image'=>$data['user_image']
+        'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
         ];
         return User::create($userData);
     }
