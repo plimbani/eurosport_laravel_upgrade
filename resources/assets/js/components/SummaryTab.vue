@@ -209,7 +209,9 @@
 	          if(response.data.status_code==200){
 	             $("#delete_modal").modal("hide");
 	             toastr.success('Tournament has been deleted successfully.', 'Delete Tournament', {timeOut: 5000});
-	             this.displayTournamentCompetationList();
+               //Redirect on Login Page
+               setTimeout(Plugin.reloadPage, 2000);
+	             //this.displayTournamentCompetationList();
 	          }
 	        },
 	        (error) => {
