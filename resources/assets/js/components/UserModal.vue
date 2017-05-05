@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="user_form_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal" id="user_form_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <form name="frmUser" id="frmUser" method="POST">
@@ -144,7 +144,6 @@
                  this.formValues.resendEmail= ''
             },
            editUser(id) {
-            console.log('hi');
                 axios.get("/api/user/edit/"+id).then((response) => {
                 this.userModalTitle="Edit User";
                     this.$data.formValues = response.data;
@@ -164,11 +163,9 @@
             },
             resendConfirmed() {
                 let emailData = this.resendEmail
-
                 axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
                     $("#resend_modal").modal("hide");
                      toastr.success('Mail has been send successfully.', 'Mail sent', {timeOut: 5000});
-
                 });
             },
             
@@ -202,7 +199,7 @@
             },
             updateUserList() {
                 axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
-                    // console.log(response)
+                   
                     if('users' in response.data) {
                         this.userList.userData = response.data.users;
                         this.userList.userCount = response.data.users.length;
