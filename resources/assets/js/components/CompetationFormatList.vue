@@ -106,8 +106,7 @@ export default {
         setTimeout(function(){
           vm.$root.$emit('setCompetationFormatData',  Id)
           $("#exampleModal").on('hidden.bs.modal', function () {
-            console.log('hi')
-             vm.categoryStatus = false
+            vm.categoryStatus = false
         });
         },1000)
     },
@@ -118,8 +117,7 @@ export default {
       setTimeout(function(){
         $('#exampleModal').modal('show')
           $("#exampleModal").on('hidden.bs.modal', function () {
-            console.log('hi')
-             vm.categoryStatus = false
+            vm.categoryStatus = false
         });
       },500)
     },

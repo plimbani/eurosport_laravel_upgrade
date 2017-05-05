@@ -186,12 +186,6 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
             // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
             let this3 = this
-            $("#exampleModal").on('hidden.bs.modal', function () {
-                $('#frmPitchDetail')[0].reset()
-                $('#frmPitchAvailable')[0].reset()
-                this3.getAllPitches()
-            });
-
         },
         methods: {
 
@@ -272,9 +266,12 @@ import DeleteModal from '../../../components/DeleteModal.vue'
 
             addPitch() {
                 this.$store.dispatch('SetPitchId',0);
-
+                let vm = this
                 setTimeout(function(){
                     $('#addPitchModal').modal('show')
+                    $("#addPitchModal").on('hidden.bs.modal', function () {
+                       vm.getAllPitches()
+                  });
                 },1000)
             },
             editPitch(pitchId) {
@@ -284,6 +281,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 let this1 = this
                 setTimeout(function(){
                     this1.$store.dispatch('PitchData',pitchId)
+                    this1.getAllPitches()
                 },1000)
 
             },

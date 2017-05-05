@@ -338,7 +338,8 @@ class TournamentService implements TournamentContract
             ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
             ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
             ->groupBy('temp_fixtures.id')
-            ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'));
+            ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
+            ->where('temp_fixtures.tournament_id',$data['tournament_id']);
             if(isset($data['sel_ageCategory'])  && $data['sel_ageCategory']!= ''){
                 $reportQuery->where('tournament_competation_template.id',$data['sel_ageCategory']);
             }

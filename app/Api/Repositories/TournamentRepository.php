@@ -292,8 +292,8 @@ class TournamentRepository
             $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','temp_fixtures.competition_id')
                         ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name')
                         ->distinct('name')
-                        ->toSql();
-                      dd($resultData);
+                        ->get();
+                      
             break;
         }  
       }

@@ -17,7 +17,6 @@ class CreateRefereeTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable()->index();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('availability');
             $table->integer('tournament_id')->unsigned(10)->nullable()->index();
             $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->string('first_name')->nullable();

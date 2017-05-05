@@ -13,14 +13,18 @@
             <div class="form-group row">
               <label class="col-sm-5 form-control-label">First name *</label>
               <div class="col-sm-6">
-                <input type="text" name="first_name" id="first_name" v-model="formValues.first_name" class="form-control" >
+                <input type="text" name="first_name" id="first_name"  v-validate="'required'" v-model="formValues.first_name" class="form-control"  :class="{'is-danger': errors.has('ageCategory_name') }" >
+                <i v-show="errors.has('first_name')" class="fa fa-warning"> </i>
               </div>
+               <span class="help is-danger" v-show="errors.has('first_name')">This field is required</span>
             </div>
             <div class="form-group row">
               <label class="col-sm-5 form-control-label">Last name *</label>
               <div class="col-sm-6">
-                <input type="text" name="last_name" id="last_name" v-model="formValues.last_name"  class="form-control" >
+                <input type="text" name="last_name" id="last_name"  v-validate="'required'" v-model="formValues.last_name"  class="form-control" >
+                <i v-show="errors.has('last_name')" class="fa fa-warning"> </i>
               </div>
+               <span class="help is-danger" v-show="errors.has('last_name')">This field is required</span>
             </div>
             <div class="form-group row">
               <label class="col-sm-5 form-control-label">Telephone</label>
@@ -48,14 +52,17 @@
                         <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
                         
                     </select>
+                     <i v-show="errors.has('sel_ageCategory')" class="fa fa-warning"></i>
               </div>
+               <span class="help is-danger" v-show="errors.has('sel_ageCategory')">This field is required</span>
             </div>
             <div class="form-group row">
               <label class="col-sm-5 form-control-label">Availability *</label>
               <div class="col-sm-6">
                 <textarea name="availability" id="availability" v-validate="'required'" :class="{'is-danger': errors.has('availability') }"  v-model="formValues.availability" class="form-control" placeholder="e.g. Day 1 all day. Day 2 from 11 onwords"></textarea>
-                <i v-show="errors.has('availability')" class="fa fa-warning">Please </i>
+                <i v-show="errors.has('availability')" class="fa fa-warning"></i>
               </div>
+               <span class="help is-danger" v-show="errors.has('availability')">This field is required</span>
             </div>
           </form>
         </div>
