@@ -146,11 +146,15 @@
 	    		Tournament.updateStatus(tournamentData).then(
 	    		(response) => {
 	    			if(response.data.status_code == 200) {
+
+              $("#publish_modal").modal("hide");
 	    				this.tournamentStatus = status
 	    				toastr['success']('Tournament has Been '+status, 'Success');
 	    				let tournamentField = {'tournamentStatus': status}
 	    				this.$store.dispatch('setTournamentStatus',tournamentField)
-	    			}
+              setTimeout(this.redirectToHomePage, 3000);
+
+            }
 	    		},
 	    		(error) => {
 	    			console.log('Errr in status update')
@@ -160,6 +164,9 @@
 	    		$('#publish_modal').attr('data-dismiss','modal')
 	    	}
 	      },
+        redirectToHomePage(){
+          this.$router.push({name: 'welcome'})
+        },
 	      getSummaryData() {
 	    	let tournamentId = this.$store.state.Tournament.tournamentId;
 
