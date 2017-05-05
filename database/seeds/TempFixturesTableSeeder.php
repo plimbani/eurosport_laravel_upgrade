@@ -141,7 +141,7 @@ class TempFixturesTableSeeder extends Seeder
           ],
           ['tournament_id' =>  4,
           'competition_id' => 5,
-            'venue_id' => 4,
+            'venue_id' => 5,
             'referee_id' => $referee[array_rand($referee)]->id,
             'pitch_id' => 2,
             'is_scheduled' => '0',

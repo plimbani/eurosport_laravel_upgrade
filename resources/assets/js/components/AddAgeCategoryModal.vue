@@ -304,7 +304,7 @@ export default {
     let this1 = this
     $("#exampleModal").on('hide.bs.modal', function () {
       this1.competation_format = this1.initialState()
-      setTimeout(Plugin.reloadPage, 1000);
+      // setTimeout(Plugin.reloadPage, 1000);
     });
     $("#exampleModal").on('show.bs.modal', function () {
       let tournamentData = this1.competation_format
