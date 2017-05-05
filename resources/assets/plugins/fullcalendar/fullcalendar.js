@@ -6952,12 +6952,11 @@ DayGrid.mixin({
 		if (seg.isStart) {
 			timeText = this.getEventTimeText(event);
 			if (timeText) {
-				timeHtml = '<span class="fc-time">' + htmlEscape(timeText) + '</span>';
+				timeHtml = '<span class="fc-referee " id="'+ event.refereeId+'">'+ event.refereeText+'</span>' + '<span class="fc-time">' + htmlEscape(timeText) + '</span>';
 			}
 		}
 
 		titleHtml =
-			'<span class="fc-referee '+ event.referee+'"></span>' +
 			'<span class="fc-title ">' +
 				(htmlEscape(event.title || '') || '&nbsp;') + // we always want one line of height
 			'</span>';
@@ -7451,7 +7450,6 @@ DayGrid.mixin({
 				'<span class="fc-close ' +
 					(isTheme ? 'ui-icon ui-icon-closethick' : 'fc-icon fc-icon-x') +
 				'"></span>' +
-				'<span class="fc-referee '+ event.referee+'"></span>' +
 				'<span class="fc-title">' +
 					htmlEscape(title) +
 				'</span>' +
@@ -8355,6 +8353,7 @@ TimeGrid.mixin({
 			'>' +
 				'<div class="fc-content">' +
 					(timeText ?
+						'<span class="fc-referee " id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
 						'<div class="fc-time"' +
 						' data-start="' + htmlEscape(startTimeText) + '"' +
 						' data-full="' + htmlEscape(fullTimeText) + '"' +
@@ -8364,7 +8363,7 @@ TimeGrid.mixin({
 						''
 						) +
 					(event.title ?
-						'<span class="fc-referee '+ event.referee+'"></span>' +
+						
 						'<div class="fc-title">' +
 							htmlEscape(event.title) +
 						'</div>' :

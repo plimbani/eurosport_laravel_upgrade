@@ -14,7 +14,7 @@
               <p>Match number: {{matchFixture.title}}</p>
               <p>Team 1 {{matchDetail.home_team}} v Team 2 {{matchDetail.away_team}} </p>
               <p>Date: {{matchDetail.matchTime}} </p>
-              <p>Pitch: {{matchFixture.resourceId}} (Location 2)</p>
+              <p>Pitch: {{matchDetail.pitch.pitch_number}} </p>
             </div>
             <p class="mt-4 refree_name">
             <div v-if="matchDetail.referee">
@@ -43,13 +43,13 @@
             </p>
             <form class="mt-4">
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label"><Strong>Team 1 {{matchDetail.home_team}}</Strong></label>
+                <label class="col-sm-3 form-control-label"><Strong>Team 1 {{matchDetail.home_team_name}}</Strong></label>
                 <div class="col-sm-2">
-                  <input type="number" name="home_team_score" :value="matchDetail.hometeam_score" id="home_team_score" class="form-control" >
+                  <input type="number" min="0" name="home_team_score" :value="matchDetail.hometeam_score" id="home_team_score" class="form-control" >
                 </div>
-                <label class="col-sm-4 form-control-label"><Strong>Team 2 {{matchDetail.away_team}}</Strong></label>
+                <label class="col-sm-4 form-control-label"><Strong>Team 2 {{matchDetail.away_team_name}}</Strong></label>
                 <div class="col-sm-2">
-                  <input type="number" name="away_team_score" :value="matchDetail.awayteam_score" id="away_team_score" class="form-control" >
+                  <input type="number" min="0" name="away_team_score" :value="matchDetail.awayteam_score" id="away_team_score" class="form-control" >
                 </div>
               </div>
               <div class="form-group row">
@@ -68,8 +68,8 @@
                 <div class="col-sm-9">
                   <select name="match_winner"  v-model="matchDetail.match_winner"  id="match_winner" class="form-control ls-select2">
                       <option value="">Please Select</option>
-                      <option :value="matchDetail.home_team">{{matchDetail.home_team}}</option>
-                      <option :value="matchDetail.away_team">{{matchDetail.away_team}}</option>
+                      <option :value="matchDetail.home_team">{{matchDetail.home_team_name}}</option>
+                      <option :value="matchDetail.away_team">{{matchDetail.away_team_name}}</option>
                   </select>
                 </div>
               </div>

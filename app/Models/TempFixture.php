@@ -21,4 +21,12 @@ class TempFixture extends Model
     {
         return $this->belongsTo('Laraspace\Models\Referee');
     }
+        public function pitch()
+    {
+        return $this->belongsTo('Laraspace\Models\Pitch');
+    }
+        public function matchVenue()
+    {
+        return $this->belongsTo('Laraspace\Models\Venue');
+    }
 }

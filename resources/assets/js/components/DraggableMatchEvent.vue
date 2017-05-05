@@ -19,6 +19,9 @@ export default {
             $(this.$el).data('event', {
                 id: this.match.id,
                 title: this.match.matchName, // use the element's text as the event title
+                refereeId: '', // use the element's text as the event title
+                refereeText: '', // use the element's text as the event title
+
                 stick: true, // maintain when user navigates (see docs on the renderEvent method),                
                 duration: moment.duration(this.match.matchTime, 'minutes'),
                 matchId: this.match.matchId,

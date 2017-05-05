@@ -56,9 +56,9 @@ public function getAllFromTournamentId($tournamentId)
 
     public function create($data)
     {
-       $reference_no =  $data['TeamID'] ? $data['TeamID'] : '';
-       $teamName =  $data['Team'] ? $data['Team'] : '';
-       $place =  $data['Place'] ? $data['Place'] : '';
+        $reference_no =  isset($data['TeamID']) ? $data['TeamID'] : '';
+       $teamName =  isset($data['Team']) ? $data['Team'] : '';
+       $place =  isset($data['Place']) ? $data['Place'] : '';
        
 
         return Team::create([
@@ -67,7 +67,7 @@ public function getAllFromTournamentId($tournamentId)
             'place' => $place,
             'country_id' => $data['country_id'],
             'tournament_id' => $data->tournamentData['tournamentId'],
-            'age_group_id' => $data->tournamentData['ageCategory']
+            'age_group_id' => isset($data->tournamentData['ageCategory']) ? $data->tournamentData['ageCategory'] : ''
             ]);
     }
     public function assignGroup($team_id,$groupName,$data='') 
