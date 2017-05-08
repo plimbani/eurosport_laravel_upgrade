@@ -99,7 +99,7 @@ module.exports = {
   tournament_united_kingdom: "United Kingdom",
   tournament_organiser: "Organiser",
   tournament_button_home: "Home",
-  tournament_button_next: "Next",
+  tournament_button_next: "Save/Next",
 
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",
@@ -115,7 +115,7 @@ module.exports = {
   competation_match_schedule: "Match schedule",
   competation_manage: "Manage",
 
-  competation_modal_age_category: "Match Schedule",
+  competation_modal_age_category: "Match Schedule – Template",
   competation_label_name_category: "Category name*",
   competation_label_age_category: "Category age*",
   competation_modal_name_category_required: "Category name is required",
@@ -142,9 +142,9 @@ module.exports = {
   competation_modal_select_minimum_matches: "Select minimum matches",
 
   competation_label_number_teams: "Number of teams*",
-  competation_modal_number_teams_required: "Number of teams required",
+  competation_modal_number_teams_required: "Number of teams is required",
   competation_label_minimum_matches: "Minimum matches*",
-  competation_modal_minimum_matches_required: "Minimum matches required",
+  competation_modal_minimum_matches_required: "Minimum matches is required",
 
   competation_modal_format_team: "Teams:",
   competation_modal_foramt_competation_foramt: "Competition format:",
@@ -161,7 +161,7 @@ module.exports = {
 
   pitch_capacity: "Pitch capacity",
   pitch_add: "Add pitch",
-  pitch_details: "Pitch Details",
+  pitch_details: "Pitch details",
   pitch_availability: "Availability",
   pitch_number: "Number",
   pitch_type: "Type",
@@ -208,7 +208,7 @@ module.exports = {
   pitch_modal_details_size_side_handball: "Handball",
   pitch_modal_button_next: "Next",
 
-  pitch_modal_availability: "Pitch Availability",
+  pitch_modal_availability: "Pitch availability",
   pitch_modal_availability_stage: "Stage",
   pitch_modal_availability_date: "Date",
   pitch_modal_availability_time: "Time",
