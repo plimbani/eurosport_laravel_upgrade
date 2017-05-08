@@ -2,6 +2,9 @@
 	"total_matches": 18,
 	"tournament_id": "0016",
 	"tournament_teams": 9,
+	"tournament_name": "T.9.4 (v1)",
+	"competition_round": "RR1-3/4-6/7-9",
+	"competition_group_round": "3x3",
 	"competation_format": "RR1,RR2",
 	"tournament_min_match": 4,
 	"tournament_competation_format": {
