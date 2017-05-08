@@ -6,7 +6,7 @@
 	"competition_round": "RR1-4/5-9",
 	"competition_group_round": "1x4,1x5",
 	"competation_format": "RR1,RR2,RR3",
-	"tournament_min_match": 6,
+	"tournament_min_match": 6, 
 	"tournament_competation_format": {
 		"format_name": [{
 			"name": "Round 1",
