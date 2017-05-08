@@ -205,30 +205,27 @@
           </div>
            <div class="form-group row align-items-center"
            :class="{'has-error': errors.has('tournamentTemplate') }">
-            <div class="col-sm-4 form-control-label">Templates</div>
+            <div class="col-sm-4 form-control-label">{{$lang.competation_label_template}}*</div>
             <div class="col-sm-8">
               <div class="row align-items-center">
-
                 <div class="col-sm-12" v-show="errors.has('tournamentTemplate')">
-                <span class="help is-danger"
-                v-show="errors.has('tournamentTemplate')">
-                  Template is required
-                </span>
+                  <span class="help is-danger"
+                  v-show="errors.has('tournamentTemplate')">
+                    {{$lang.competation_validation_template}}
+                  </span>
                 </div>
-
-
                 <div class="col-sm-12" v-for="option in options">
                   <div class="card" v-if="checkTemplate(option)">
                     <div class="card-block">
                       <div class="row d-flex">
                         <div class="col align-self-center text-center">
                           <input type="radio"
-                    :value="option"
-                    name="tournamentTemplate"
-                    v-model="competation_format.tournamentTemplate"
-                    v-validate="'required'" :class="{'is-danger': errors.has('tournamentTemplate') }"
-                    v-if="checkTemplate(option)"
-                    >
+                            :value="option"
+                            name="tournamentTemplate"
+                            v-model="competation_format.tournamentTemplate"
+                            v-validate="'required'" :class="{'is-danger': errors.has('tournamentTemplate') }"
+                            v-if="checkTemplate(option)"
+                          >
                         </div>
                         <div class="col-sm-10 align-self-center">
                           <span for="one" v-if="checkTemplate(option)">{{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}</span>
@@ -237,15 +234,9 @@
                     </div>
                   </div>
                 </div>
-                <!--<select class="form-control ls-select2"
-                  name="tournamentTemplate"
-                  v-model="competation_format.tournamentTemplate">
-                      <option v-for="option in options" v-if="(option.minimum_matches >=  minimum_matches && option.total_teams >= number_teams)"  v-bind:value="option"> {{option.name}} </option>
-                  </select>-->
               </div>
             </div>
           </div>
-
           </form>
         </div>
         <div class="modal-footer">
@@ -270,6 +261,7 @@ export default {
       match_interval_rr_array:[],
       match_interval_fm_array:[],
       minimum_matches:'', number_teams: '',
+      optEdit: []
     }
   },
   watch: {
@@ -293,9 +285,9 @@ export default {
   },
    filters: {
     formatTime: function(time) {
-      var hours = Math.floor( time /   60);
+      var hours = Math.floor( time / 60);
       var minutes = Math.floor(time % 60);
-      return hours+ ' Hours and '+minutes+' Minutes'
+      return hours+ ' hours and '+minutes+' minutes'
     }
   },
   mounted() {
@@ -307,8 +299,13 @@ export default {
       // setTimeout(Plugin.reloadPage, 1000);
     });
     $("#exampleModal").on('show.bs.modal', function () {
+
       let tournamentData = this1.competation_format
-      this1.TournamentCompetationList(tournamentData)
+      // if its Add
+      if(!tournamentData.tournament_id == "" ) {
+        this1.TournamentCompetationList(tournamentData)
+      }
+
     });
     this.game_duration_rr_array.push ({
       '10':'20',
@@ -363,6 +360,9 @@ export default {
 
         let TournamentData = {'id': id}
 
+        // Called For All Templates
+        // this.TournamentCompetationList(this.competation_format)
+
         Tournament.getCompetationFormat(TournamentData).then(
           (response) => {
 
@@ -371,7 +371,8 @@ export default {
             this.competation_format = resp
             this.competation_format.ageCategory_name = resp.group_name;
 
-            this.competation_format.tournamentTemplate = this.getTemplateFromTemplates(resp.tournament_template_id);
+
+
             // set minimum matches and number of teams
             this.number_teams = resp.total_teams
             this.minimum_matches  = resp.min_matches
@@ -427,6 +428,9 @@ export default {
               // set value in for other
               this.competation_format.match_interval_FM_other = matchFM
             }
+
+            this.competation_format.tournamentTemplate = resp.tournament_template_id;
+
             this.competation_format.competation_format_id = resp.id
 
           },
@@ -434,11 +438,13 @@ export default {
              console.log('Error occured during Tournament api ', error)
           }
         )
+
         $('#exampleModal').modal('show');
     },
     getTemplateFromTemplates(id) {
       // Now here we find the
       let that = this
+
       let templates = this.options
       let data =[]
 
@@ -450,11 +456,14 @@ export default {
 
       return data
     },
+
     TournamentCompetationList(tournamentData=[]) {
 
       Tournament.getAllTournamentTemplate(tournamentData).then(
       (response) => {
+
         this.options = response.data.data
+
       },
       (error) => {
          console.log('Error occured during Tournament Templates api ', error)

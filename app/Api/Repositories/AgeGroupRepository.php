@@ -227,7 +227,10 @@ class AgeGroupRepository
           // replace Fixture Name with Actual Group Name
           $fixture_n = str_replace('U17', $ageGroup,$fixture);
           $teampfixtureTable->insert(
-            ['match_number'=>$fixture_n,'tournament_id'=>$tournamentId,'competition_id'=>$competationId,'home_team'=>$homeTeam,'match_result_id'=> 0,'away_team'=>$away_team,'venue_id'=>0,'pitch_id'=>0]
+            ['match_number'=>$fixture_n,
+            'tournament_id'=>$tournamentId,'competition_id'=>$competationId,
+            'home_team_name'=>$homeTeam,'match_result_id'=> 0,
+            'away_team_name'=>$away_team,'venue_id'=>0,'pitch_id'=>0]
           );
       }
       return true;
