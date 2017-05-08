@@ -487,7 +487,7 @@ var moment = require('moment');
 
               }).catch(() => {
                 console.log('msg123')
-                  toastr['error']('Please fill all required fields ', 'Error')
+                  toastr['error']('Please complete all required fields on both tabs ', 'Error')
                });
               // let pitchData = {
               //     'pitchId' : this.pitchId,

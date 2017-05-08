@@ -1,4 +1,3 @@
-
 <template>
 	<div class="tab-content">
 		<div class="card">
@@ -6,6 +5,7 @@
 				  <div class="clearfix">
 	  				<tournamentFilter :section="section"></tournamentFilter>
             <h6 class="mb-4"><strong>{{$lang.pitch_planner_label}}</strong></h6>
+
 	  			</div>
 
 	  			<div class="mt-4">

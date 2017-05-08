@@ -37,7 +37,7 @@
                                         <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                         </td>
                                         <td>
-                                            <a href="javascript:void(0)" @click="editUser(user.id)"><i class="jv-icon jv-edit"></i></a>
+                                            <a class="text-primary" href="javascript:void(0)" @click="editUser(user.id)"><i class="jv-icon jv-edit"></i></a>
                                             &nbsp;
                                             <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this user record?" data-toggle="modal" data-target="#delete_modal" @click="prepareDeleteResource(user.id)"><i class="jv-icon jv-dustbin"></i></a>
                                         </td>
@@ -106,12 +106,23 @@
                 setTimeout(function(){
                     $('#user_form_modal').modal('show')
                     $("#user_form_modal").on('hidden.bs.modal', function () {
-                 
                      vm.userStatus = false
                 });
                 },1000)
             },
-
+             resendConfirmed() {
+                let emailData = this.resendEmail
+                axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
+                    $("#resend_modal").modal("hide");
+                     toastr.success('Mail has been send successfully.', 'Mail sent', {timeOut: 5000});
+                });
+            },
+            
+            resendModalOpen(data) {
+                this.resendEmail = data
+                $('#resend_modal').modal('show');
+            },
+           
             prepareDeleteResource(id) {
                 this.deleteAction="/api/user/delete/"+id;
             },

@@ -8,7 +8,7 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group" :class="{'has-error': errors.has('tournament.name') }">
-                  <label>{{$lang.tournament_name}}*</label>
+                  <label class="col-sm-2 form-control-label">{{$lang.tournament_name}}*</label>
                   <div class="input-group">
                       <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
                       <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
@@ -274,7 +274,7 @@
       <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
   </div>
   <div class="pull-right">
-      <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;<small><i class="fa fa-angle-double-right" aria-hidden="true"></i></small></button>
+      <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
   </div>
 </div>
 </div>
