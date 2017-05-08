@@ -68,7 +68,7 @@
                                         </div>
 
                                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                            <label for="password-confirm">Confirm Password</label>
+                                            <label for="password-confirm">Confirm password</label>
                                             <input id="password-confirm" type="password" class="form-control" name="confirm_password" required>
                                             @if ($errors->has('password_confirmation'))
                                                 <!-- <span class="help-block">
@@ -79,7 +79,7 @@
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary">
-                                                Set Password
+                                                Set password
                                             </button>
                                         </div>
                                     </form>
@@ -89,8 +89,8 @@
                 </div>
                  
                 <div class="page-copyright">
-                    <p>Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a><br/>
-                    Copyright 2017 Euro-Sportring. All rights reserved.</p>
+                     <p>Copyright 2017 Euro-Sportring. All rights reserved.<br/>
+                    Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a></p>
                 </div>
             </div>
         </div>

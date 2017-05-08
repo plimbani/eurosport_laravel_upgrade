@@ -1,6 +1,5 @@
 <template>
 <div class="">
-<h3> Draws </h3>
 <table class="table table-hover table-bordered" v-if="matchData.length > 0">
 	<thead>
         <tr>

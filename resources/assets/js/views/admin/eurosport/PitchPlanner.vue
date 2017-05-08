@@ -5,7 +5,7 @@
 			<div class="card-block">
 				<div class="clearfix">
 	  				<div class="pull-left">
-		  				<div class="mt-4"><strong>Pitch Planner</strong></div>
+		  				<div class="mt-4"><strong>Pitch planner</strong></div>
 		  			</div>
 <!-- 		  			<div class="pull-right">
 		  				<form class="form-inline filter-category-form">

@@ -1,8 +1,8 @@
 <template>
   <div>
   	<div v-if="currentScheduleView == 'matchList'" class="form-group row">
-    	<label class="col-sm-4"><h3>Match OverView</h3></label>
-    	<div class="col-sm-8">
+    	<label class="col-sm-2"><h6>Match overview</h6></label>
+    	<div class="col-sm-10">
 		    <select class="form-control ls-select2 col-sm-4"
 		    v-on:change="onChangeMatchDate"
 			v-model="matchDate">

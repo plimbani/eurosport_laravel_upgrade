@@ -56,7 +56,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 'disableDate': [],
                 'stage_capacity' : [],
                 'availableDate': [],
-                'deleteConfirmMsg': 'All schedules with this pitch will be removerd. Are you sure you would like to delete this pitch record?',
+                'deleteConfirmMsg': 'Are you sure you would like to delete this pitch? All schedules will be permanently deleted.',
                 'deletePitchId': ''
 
                 }

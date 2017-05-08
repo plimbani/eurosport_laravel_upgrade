@@ -3,7 +3,7 @@
       <div class="modal-dialog modal-lg" role="document">
          <div class="modal-content">
             <div class="modal-header">
-               <h5 class="modal-title" id="competationmodalLabel">{{$lang.competation_modal_age_category}}</h5>
+               <h5 class="modal-title" id="competationmodalLabel">{{$lang.competation_modal_age_category}} {{templateData.tournament_name}}</h5>
                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">×</span>
                </button>
@@ -64,8 +64,8 @@
                   <div class="col-md-6 d-flex flex-column justify-content-between">
                     <div class="jumbotron p-4">
                       <div class="row mb-0">
-                          <label class="col-md-9"><strong>{{$lang.competation_modal_matches_total_matches}}</strong></label>
-                          <label class="col-md-3">{{ templateData['total_matches'] }}</label>
+                          <label class="col-md-6"><strong>{{$lang.competation_modal_matches_total_matches}}</strong></label>
+                          <label class="col-md-6">{{ templateData['total_matches'] }}</label>
                       </div>
                     </div>
                     <div class="jumbotron p-4 mb-0">
@@ -90,7 +90,7 @@
       var hours = Math.floor( time /   60);
       var minutes = Math.floor(time % 60);
 
-      return hours+ ' Hours And '+minutes+' Minutes'
+      return hours+ 'h '+minutes+'mins'
     }
    }
  }
