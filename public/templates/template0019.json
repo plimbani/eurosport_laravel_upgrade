@@ -7,6 +7,105 @@
 	"competition_group_round": "1x4,1x5",
 	"competation_format": "RR,PM/F",
 	"tournament_min_match": 5,
+	"tournament_competition_graphic_view": {
+	    "format_name": [{
+	        "name": "Round 1",
+	        "groups": [{
+	            "group_name": "Group A",
+	            "match": [{
+	                "match_number": "1A",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "2A",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "3A",
+	                "color": "rgb(191, 191, 191)"
+	              },
+	              {
+	                "match_number": "4A",
+	                "color": "rgb(191, 191, 191)"
+	              }
+	            ]
+	          },
+	          {
+	            "group_name": "Group B",
+	            "match": [{
+	                "match_number": "1B",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "2B",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "3B",
+	                "color": "rgb(191, 191, 191)"
+	              },
+	              {
+	                "match_number": "4B",
+	                "color": "rgb(191, 191, 191)"
+	              },
+	              {
+	                "match_number": "5B",
+	                "color": "rgb(191, 191, 191)"
+	              }
+	            ]
+	          }
+	        ]
+	      },
+	      {
+	        "name": "Round 2",
+	        "groups": [{
+	            "group_name": "Placing Matches 1-4",
+	            "match": [{
+	                "match_number": "1A-2B",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "1B-2A",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "Winners > PM 1-2",
+	                "color": "white"
+	              },
+	              {
+	                "match_number": "Losers > PM 3-4",
+	                "color": "white"
+	              }
+	            ]
+	          },
+	          {
+	            "group_name": "RR 5-9 / Group C",
+	            "match": [{
+	                "match_number": "1C > 5th",
+	                "color": "rgb(191, 191, 191)"
+	              },
+	              {
+	                "match_number": "2C > 6th",
+	                "color": "rgb(191, 191, 191)"
+	              },
+	              {
+	                "match_number": "3C > 7th",
+	                "color": "rgb(191, 191, 191)"
+	              },
+	              {
+	                "match_number": "4C > 8th",
+	                "color": "rgb(191, 191, 191)"
+	              },
+	              {
+	                "match_number": "5C > 9th",
+	                "color": "rgb(191, 191, 191)"
+	              }
+	            ]
+	          }
+	        ]
+	      }
+	    ]
+	},
 	"tournament_competation_format": {
 		"format_name": [{
 			"name": "Round 1",
