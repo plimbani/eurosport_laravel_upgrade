@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <div class="pull-right mt-4">
+    <div class="pull-right mt-2">
       <form  class="form-inline filter-category-form" >
         <div class="form-group">
           <label for="nameInput" class="control-label">

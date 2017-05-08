@@ -124,7 +124,7 @@
                                                       </div>
                                                       <div class="row align-items-center mb-3">
                                                           <div class="col-md-3">
-                                                              Break 
+                                                             {{$lang.pitch_capacity_break_start}}
                                                           </div>
                                                           <div class="col-md-3">
                                                           </div>
