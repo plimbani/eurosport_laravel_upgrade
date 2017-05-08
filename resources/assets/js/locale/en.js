@@ -123,6 +123,9 @@ module.exports = {
   competation_modal_select_templates: "Select template*",
   competation_modal_select_template_list: "Select template",
   competation_modal_select_templates_required: "A template is required",
+
+  competation_label_template: "Template",
+  competation_validation_template: "Template selection is required",
   competation_modal_game_duration: "Game duration RR/PM/EM *",
   competation_modal_duration_final: "Game duration final*",
   competation_modal_duration_final_minutes: "minutes",
@@ -259,7 +262,7 @@ module.exports = {
   teams_select_etc: "Etc...",
   teams_clear: "Clear",
   teams_reference: "TeamID",
-  teams_name: "Team", 
+  teams_name: "Team",
   teams_country: "Country",
   teams_agecategory: "Age Category",
   teams_group: "Group",
