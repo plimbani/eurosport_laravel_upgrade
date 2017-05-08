@@ -44,20 +44,21 @@
                   <div class="col-md-6">
                     <div class="jumbotron p-4 m-0">
                           <p class="row">
-                              <label class="col-md-8"><strong>{{$lang.competation_modal_format_team}}</strong></label>
-                              <label class="col-md-4">{{ templateData['tournament_teams'] }}</label>
+                              <label class="col-md-6"><strong>{{$lang.competation_modal_format_team}}</strong></label>
+                              <label class="col-md-6">{{ templateData['tournament_teams'] }}</label>
                           </p>
                           <p class="row">
-                              <label class="col-md-8"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
-                              <label class="col-md-4">{{ templateData['tournament_min_match'] }}</label>
+                              <label class="col-md-6"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
+                              <label class="col-md-6">{{ templateData['tournament_min_match'] }}</label>
                           </p>
                           <p class="row">
-                              <label class="col-md-8"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
-                              <label class="col-md-4">{{ templateData['competation_format'] }}</label>
+                              <label class="col-md-6"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
+                              <!-- <label class="col-md-4">{{ templateData['competation_format'] }}</label> -->
+                              <label class="col-md-6">{{templateData.tournament_teams}} teams: {{templateData.competition_group_round}} - {{templateData.competition_round}}</label> 
                           </p>
                           <p class="row mb-0">
-                              <label class="col-md-8"><strong>{{$lang.competation_modal_format_remark}}</strong></label>
-                              <label class="col-md-4"></label>
+                              <label class="col-md-6"><strong>{{$lang.competation_modal_format_remark}}</strong></label>
+                              <label class="col-md-6"></label>
                           </p>
                     </div>
                   </div>
