@@ -89,6 +89,7 @@
             backtologin() {
                  this.loginData.forgotpassword = 0
             },
+            
             sendResetLink() {
                 this.$validator.validateAll().then(() => {
                 $('#resetPassword').attr("disabled","disabled");

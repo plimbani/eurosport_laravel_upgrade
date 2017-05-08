@@ -95,7 +95,7 @@ export default {
     formatTime: function(time) {
       var hours = Math.floor( time /   60);
       var minutes = Math.floor(time % 60);
-      return hours+ ' hours and '+minutes+' minutes'
+      return hours+ ' h '+minutes+' minutes'
     }
   },
   methods: {
@@ -145,7 +145,7 @@ export default {
         (response) => {
           if(response.data.status_code==200){
              $("#delete_modal").modal("hide");
-             toastr.success('Competation has been deleted successfully.', 'Delete Compeation', {timeOut: 5000});
+             toastr.success('Competition has been deleted successfully.', 'Delete Competition', {timeOut: 5000});
              this.displayTournamentCompetationList();
           }
         },

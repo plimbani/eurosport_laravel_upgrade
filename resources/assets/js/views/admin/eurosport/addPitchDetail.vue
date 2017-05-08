@@ -124,7 +124,7 @@
                                                       </div>
                                                       <div class="row align-items-center mb-3">
                                                           <div class="col-md-3">
-                                                              Break Start
+                                                              Break 
                                                           </div>
                                                           <div class="col-md-3">
                                                           </div>
@@ -487,7 +487,7 @@ var moment = require('moment');
 
               }).catch(() => {
                 console.log('msg123')
-                  toastr['error']('Please fill all required fields ', 'Error')
+                  toastr['error']('Please complete all required fields on both tabs ', 'Error')
                });
               // let pitchData = {
               //     'pitchId' : this.pitchId,

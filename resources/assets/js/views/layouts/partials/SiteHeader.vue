@@ -23,8 +23,7 @@
                     <a href="#" data-toggle="dropdown"  class="avatar">
                         <img v-if="userData.image" :src="'/assets/img/users/'+userData.image" alt="Avatar">
                         <img v-else src='/assets/img/profile.png' alt="Avatar">
-
-                        </a>
+                    </a>
                 </li>
                 <li>
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" aria-haspopup="true" data-close-others="true" aria-expanded="true">
