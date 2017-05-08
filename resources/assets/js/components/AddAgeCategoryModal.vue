@@ -57,7 +57,7 @@
                   name="number_teams"
                   v-validate="'required'" :class="{'is-danger': errors.has('number_teams') }"
                   v-model="number_teams">
-                      <option value="">{{$lang.competation_modal_select_number_teams}}</option>
+                      <option value="0">{{$lang.competation_modal_select_number_teams}}</option>
                       <option v-if="n > 5" v-for="n in (28)"
                       v-bind:value="n">
                      {{n}}
@@ -78,7 +78,7 @@
                   name="minimum_matches"
                   v-validate="'required'" :class="{'is-danger': errors.has('minimum_matches') }"
                   v-model="minimum_matches">
-                      <option value="">{{$lang.competation_modal_select_minimum_matches}}</option>
+                      <option value="0">{{$lang.competation_modal_select_minimum_matches}}</option>
                       <option v-if="n > 2" v-for="n in (7)"
                       v-bind:value="n">
                      {{n}}
@@ -260,27 +260,53 @@ export default {
       game_duration_fm_array:[],
       match_interval_rr_array:[],
       match_interval_fm_array:[],
-      minimum_matches:'', number_teams: '',
-      optEdit: []
+      minimum_matches:'0', number_teams: '0',
+      optEdit: [],
+      trempVal:false
     }
   },
   watch: {
+
     competation_format: {
       handler: function (val,oldval){
         // here we watch for changes for data
-        this.TournamentCompetationList(val)
+        if(this.number_teams != '' && this.minimum_matches != '')
+          this.TournamentCompetationList(val)
       },
       deep:true
     },
     // here call methods which checkd for options values
+
     minimum_matches: function(val){
       let tournamentData={'minimum_matches':val,'total_teams':this.number_teams}
+
+      if(val != '0' && this.number_teams != '0') {
+        this.trempVal = true
+        this.competation_format.minimum_matches = val
+        this.competation_format.total_teams = this.number_teams
+
+        this.TournamentCompetationList(this.competation_format)
+      } else {
+        this.trempVal = false
+      }
       //this.TournamentCompetationList(tournamentData)
     },
     number_teams: function(val){
       let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
+
+
+      if(this.minimum_matches != '0' && val != '0') {
+        this.trempVal = true
+        this.competation_format.minimum_matches = val
+        this.competation_format.total_teams = this.number_teams
+
+        this.TournamentCompetationList(this.competation_format)
+      } else {
+        this.trempVal = false
+      }
      // this.TournamentCompetationList(tournamentData)
     }
+
 
   },
    filters: {
