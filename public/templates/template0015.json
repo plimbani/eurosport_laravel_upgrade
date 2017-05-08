@@ -7,6 +7,69 @@
 	"competition_group_round": "(1x4),(1x5)",
 	"competation_format": "RR,PM/F",
 	"tournament_min_match": 3,
+	"tournament_competition_graphic_view": {
+	    "format_name": [{
+	        "name": "Round 1",
+	        "groups": [{
+	            "group_name": "Group A",
+	            "match": [{
+	                "match_number": "1A",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "2A",
+	                "color": "white"
+	              },
+	              {
+	                "match_number": "3A",
+	                "color": "white"
+	              },
+	              {
+	                "match_number": "4A",
+	                "color": "white"
+	              }
+	            ]
+	          },
+	          {
+	            "group_name": "Group B",
+	            "match": [{
+	                "match_number": "1B",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "2B",
+	                "color": "white"
+	              },
+	              {
+	                "match_number": "3B",
+	                "color": "white"
+	              },
+	              {
+	                "match_number": "4B",
+	                "color": "white"
+	              },
+	              {
+	                "match_number": "5B",
+	                "color": "white"
+	              }
+	            ]
+	          }
+	        ]
+	      },
+	      {
+	        "name": "Round 2",
+	        "groups": [{
+	            "group_name": "Placing Matches",
+	            "match": [{
+	                "match_number": "1A-1B > PM 1-2",
+	                "color": "rgb(255, 255, 0)"
+	              }
+	            ]
+	          }
+	        ]
+	      }
+    	]
+	},
 	"tournament_competation_format": {
 		"format_name": [{
 			"name": "Round 1",
