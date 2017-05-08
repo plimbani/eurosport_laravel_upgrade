@@ -2,6 +2,9 @@
 	"total_matches": 24,
 	"tournament_id": "0018",
 	"tournament_teams": 9,
+	"tournament_name": "T.9.5 (v1)",
+	"competition_round": "PM1-4/5-8",
+	"competition_group_round": "1x4,1x5",
 	"competation_format": "RR,PM/F",
 	"tournament_min_match": 5,
 	"tournament_competation_format": {
