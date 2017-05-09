@@ -261,26 +261,52 @@ export default {
       match_interval_rr_array:[],
       match_interval_fm_array:[],
       minimum_matches:'', number_teams: '',
-      optEdit: []
+      optEdit: [],
+      trempVal:false
     }
   },
   watch: {
+
     competation_format: {
       handler: function (val,oldval){
         // here we watch for changes for data
-        this.TournamentCompetationList(val)
+        if(this.number_teams != '' && this.minimum_matches != '')
+          this.TournamentCompetationList(val)
       },
       deep:true
     },
     // here call methods which checkd for options values
+
     minimum_matches: function(val){
       let tournamentData={'minimum_matches':val,'total_teams':this.number_teams}
+
+      if(val != '' && this.number_teams != '') {
+        this.trempVal = true
+        this.competation_format.minimum_matches = val
+        this.competation_format.total_teams = this.number_teams
+
+        this.TournamentCompetationList(this.competation_format)
+      } else {
+        this.trempVal = false
+      }
       //this.TournamentCompetationList(tournamentData)
     },
     number_teams: function(val){
       let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
+
+
+      if(this.minimum_matches != '' && val != '') {
+        this.trempVal = true
+        this.competation_format.minimum_matches = val
+        this.competation_format.total_teams = this.number_teams
+
+        this.TournamentCompetationList(this.competation_format)
+      } else {
+        this.trempVal = false
+      }
      // this.TournamentCompetationList(tournamentData)
     }
+
 
   },
    filters: {
@@ -337,7 +363,8 @@ export default {
 
   methods: {
     checkTemplate(option){
-      if(option.minimum_matches >=  this.minimum_matches && option.total_teams >= this.number_teams) {
+      if(option.minimum_matches ==  this.minimum_matches
+        && option.total_teams == this.number_teams) {
         return true
       } else {
         return false
@@ -483,13 +510,18 @@ export default {
     // TODO: Comment code for Pickup first template
      // this.competation_format.nwTemplate =  this.options[0]
      // this.competation_format.nwTemplate =  this.options[0]
-
      this.competation_format.nwTemplate =  this.competation_format.tournamentTemplate
      // TODO : add minimum_matches and number_teams with competation format
      this.competation_format.min_matches = this.minimum_matches
      this.competation_format.total_teams = this.number_teams
      this.$validator.validateAll().then(
           (response) => {
+              if(Object.keys(this.competation_format.tournamentTemplate).length == 0)
+              {
+
+                // this.$validator.errors.error='adsasd'
+                return false
+              }
 
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {
