@@ -7,41 +7,44 @@
 					class="mr-2">
 				</label>
 				<label>
-					<h5>{{tournamentName}}</h5>
+					<h6>{{tournamentName}}</h6>
 				</label>
 				<div class="clearfix"></div>
 
-				<span><strong>{{$lang.summary_location}}:</strong>{{tournamentSummary.locations}}</span>
-				<span><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</span>
+				<label><strong>{{$lang.summary_location}}:</strong>{{tournamentSummary.locations}}</label><br>
+				<label><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</label>
 
 			</div>
-			<div class="col-md-6 text-right">
-				<span><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
+			<td class="col-md-6">
+			<div class="row">
+				<span class="col-sm-4"><strong>{{$lang.summary_status}}:</strong>{{tournamentStatus}}</span>
 
-				<span v-if="tournamentStatus == 'Published'">
+				<span class="col-md-4" v-if="tournamentStatus == 'Published'">
 				   <button type="button" data-toggle="modal"
 				data-target="#publish_modal"
-				class="btn btn-primary col-md-4">
-				{{$lang.summary_button_unpublish}}</button><br>
+				class="btn btn-primary w-100">
+				{{$lang.summary_button_unpublish}}</button>
 				<UnPublishedTournament>
 				</UnPublishedTournament>
 				</span>
-				<span v-else>
+				<span class="col-sm-4" v-else>
 				  <button type="button" data-toggle="modal"
 				data-target="#publish_modal"
-				class="btn btn-primary col-md-4">
-				{{$lang.summary_button_publish}}</button><br>
+				class="btn btn-primary w-100">
+				{{$lang.summary_button_publish}}</button>
 				<PublishTournament :tournamentStatus='tournamentStatus'>
 				</PublishTournament>
 				</span>
-
+				<span class="col-sm-4">
 				<button type="button" data-toggle="modal"
 				data-confirm-msg="Are you sure you would like to delete this user record?"
 				data-target="#delete_modal"
-				class="btn btn-danger col-md-4 mt-3">{{$lang.summary_button_delete}}</button>
+				class="btn btn-danger w-100">{{$lang.summary_button_delete}}</button>
 				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 				<!--<DeleteTournament></DeleteTournament>-->
-			</div>
+				</span>
+				</div>
+			</td>
 		</div>
 		<div class="clearfix mt-4"></div>
 		<div class="d-flex justify-content-between align-items-center text-center flex-wrap row">
@@ -180,13 +183,13 @@
 	    			// here modified data According to display
 	    		if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
               	{
-	    			this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+','+response.data.data.tournament_contact.last_name
+	    			this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+' '+response.data.data.tournament_contact.last_name
 	    		}
 	    			let locations='';
 	    			if(response.data.data.locations != undefined || response.data.data.locations != null )
               {
     	    			response.data.data.locations.reduce(function (a,b) {
-    			        locations += b.name + '(' + b.country +')'
+    			        locations += b.name + ' (' +b.country +')'
     			      	},0);
 
     	    			this.tournamentSummary.locations = locations
@@ -209,6 +212,7 @@
 
 			 this.tournamentDates = SDate.format('DD MMM YYYY')+'-'+EDate.format('DD MMM YYYY')
 			 let tournamentDays = this.$store.state.Tournament.tournamentDays || 0
+
 
 			this.tournamentDays= parseInt(tournamentDays)
 			this.tournamentLogo= this.$store.state.Tournament.tournamentLogo

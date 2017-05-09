@@ -1,6 +1,6 @@
 <template>
 <div class="col-md-12">
-<h3>{{otherData.TeamName}}</h3>
+<h6>{{otherData.TeamName}}</h6>
 	<div class="col-md-8">
 	<ul class="schedule_list">
 	  <li :class="[teamView == 'matchList' ? 'active' : '']"> <a @click="setTeamView('matchList')">Matches</a></li>
