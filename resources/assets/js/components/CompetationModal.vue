@@ -10,14 +10,16 @@
             </div>
             <div class="modal-body">
                <form name="ageCategoryName">
-                <div  v-for="format in templateData.tournament_competation_format" class="row">
+                <div  v-for="format in templateData.tournament_competition_graphic_view" class="row">
+                {{format}}
                   <div v-for="grp in format"  class="col-sm-6">
+
                     <div class="card text-center">
                       <div class="card-header">
                         <h4 class="card-title">{{grp.name}}</h4>
                       </div>
-                      <div class="card-block" v-for="mtchtype in grp.match_type">
-                        <p class="card-text badge badge-info">{{ mtchtype.name }}</p>
+                      <div class="card-block" v-for="mtchtype in grp.groups">
+                        <p class="card-text badge badge-info">{{ mtchtype.group_name }}</p>
                         <table class="table" id="test">
                           <thead>
                             <tr>
@@ -26,12 +28,12 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr  v-for="match in mtchtype.groups.match">
+                            <tr  v-for="match in mtchtype.match">
                               <th>{{ match.match_number }}</th>
-                              <td>{{ match.in_between }}</td>
+                              <td>{{ match.color }}</td>
                             </tr>
                             <tr>
-                            <td colspan="2">{{ mtchtype.total_match }}</td>
+                         <!--  <td colspan="2">{{ mtchtype.total_match }}</td>-->
                             </tr>
                           </tbody>
                         </table>
@@ -54,7 +56,7 @@
                           <p class="row">
                               <label class="col-md-6"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
                               <!-- <label class="col-md-4">{{ templateData['competation_format'] }}</label> -->
-                              <label class="col-md-6">{{templateData.tournament_teams}} teams: {{templateData.competition_group_round}} - {{templateData.competition_round}}</label> 
+                              <label class="col-md-6">{{templateData.tournament_teams}} teams: {{templateData.competition_group_round}} - {{templateData.competition_round}}</label>
                           </p>
                           <p class="row mb-0">
                               <label class="col-md-6"><strong>{{$lang.competation_modal_format_remark}}</strong></label>
