@@ -217,7 +217,7 @@
 	             $("#delete_modal").modal("hide");
 	             toastr.success('Tournament has been deleted successfully.', 'Delete Tournament', {timeOut: 5000});
                //Redirect on Login Page
-               setTimeout(Plugin.reloadPage, 2000);
+               setTimeout(this.$router.push({name: 'welcome'}), 5000);
 	             //this.displayTournamentCompetationList();
 	          }
 	        },

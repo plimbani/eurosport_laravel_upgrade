@@ -2,8 +2,110 @@
 	"total_matches": 33,
 	"tournament_id": "0020",
 	"tournament_teams": 9,
+	"tournament_name": "T.9.6",
+	"competition_round": "RR1-4/5-9",
+	"competition_group_round": "1x4,1x5",
 	"competation_format": "RR1,RR2,RR3",
 	"tournament_min_match": 6,
+	"tournament_competition_graphic_view": {
+	    "format_name": [{
+	        "name": "Round 1",
+	        "groups": [{
+	            "group_name": "Group A",
+	            "match": [{
+	                "match_number": "1A",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "2A",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "3A",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "4A",
+	                "color": "rgb(178, 161, 199)"
+	              }
+	            ]
+	          },
+	          {
+	            "group_name": "Group B",
+	            "match": [{
+	                "match_number": "1B",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "2B",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "3B",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "4B",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "5B",
+	                "color": "rgb(178, 161, 199)"
+	              }
+	            ]
+	          }
+	        ]
+	      },
+	      {
+	        "name": "Round 2",
+	        "groups": [{
+	            "group_name": "RR 1-4 / Group C",
+	            "match": [{
+	                "match_number": "1C > 1st",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "2C > 2nd",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "3C > 3rd",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "4C > 4th",
+	                "color": "rgb(255, 255, 0)"
+	              }
+	            ]
+	          },
+	          {
+	            "group_name": "RR 5-9 / Group D",
+	            "match": [{
+	                "match_number": "1D > 5th",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "2D > 6th",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "3D > 7th",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "4D > 8th",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "5D > 9th",
+	                "color": "rgb(178, 161, 199)"
+	              }
+	            ]
+	          }
+	        ]
+	      }
+	    ]
+	},
 	"tournament_competation_format": {
 		"format_name": [{
 			"name": "Round 1",

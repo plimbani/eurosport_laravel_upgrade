@@ -129,8 +129,6 @@
                 this.editUser(this.userId)
             }
         },
-
-
         props:['userId'],
         methods: {
             initialState() {
@@ -160,18 +158,6 @@
                 axios.get("/api/roles-for-select").then((response) => {
                     this.userRolesOptions = response.data;
                 });
-            },
-            resendConfirmed() {
-                let emailData = this.resendEmail
-                axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
-                    $("#resend_modal").modal("hide");
-                     toastr.success('Mail has been send successfully.', 'Mail sent', {timeOut: 5000});
-                });
-            },
-            
-            resendModalOpen(data) {
-                this.resendEmail = data
-                $('#resend_modal').modal('show');
             },
            
             onFileChange(e) {

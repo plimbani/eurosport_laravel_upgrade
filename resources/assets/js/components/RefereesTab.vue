@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="text-center">
-					<button type="button" data-toggle="modal" data-target="#refreesModal" class="btn btn-primary mb-3">Add Referee</button>
+					<button type="button" data-toggle="modal" data-target="#refreesModal" class="btn btn-primary mb-3">Add referee</button>
 				</div>
 				<AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId"></AddRefereesModel>
 				<div class="raferee_list">

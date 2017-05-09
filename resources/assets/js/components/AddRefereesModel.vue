@@ -3,7 +3,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Referee details</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Referee Details</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -11,20 +11,21 @@
         <div class="modal-body">
           <form name="frmReferee" id="frmReferee" >
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">First name *</label>
+              <label class="col-sm-5 form-control-label">First name*</label>
               <div class="col-sm-6">
                 <input type="text" name="first_name" id="first_name"  v-validate="'required'" v-model="formValues.first_name" class="form-control"  :class="{'is-danger': errors.has('ageCategory_name') }" >
                 <i v-show="errors.has('first_name')" class="fa fa-warning"> </i>
-              </div>
+             
                <span class="help is-danger" v-show="errors.has('first_name')">This field is required</span>
+              </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Last name *</label>
+              <label class="col-sm-5 form-control-label">Last name*</label>
               <div class="col-sm-6">
                 <input type="text" name="last_name" id="last_name"  v-validate="'required'" v-model="formValues.last_name"  class="form-control" >
                 <i v-show="errors.has('last_name')" class="fa fa-warning"> </i>
-              </div>
                <span class="help is-danger" v-show="errors.has('last_name')">This field is required</span>
+               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-5 form-control-label">Telephone</label>
@@ -39,7 +40,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Age categories *</label>
+              <label class="col-sm-5 form-control-label">Age categories*</label>
               <div class="col-sm-6">
                 <!-- <select  name="ageCategories" id="ageCategories" v-model="formValues.age_group_id"  class="form-control ls-select2">
                       <option value="">Please Select</option>
@@ -50,19 +51,18 @@
                    <select name="sel_ageCategory" v-model="formValues.age_group_id"  v-validate="'required'" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
                         <option value="">Select</option>
                         <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
-                        
                     </select>
                      <i v-show="errors.has('sel_ageCategory')" class="fa fa-warning"></i>
-              </div>
                <span class="help is-danger" v-show="errors.has('sel_ageCategory')">This field is required</span>
+              </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Availability *</label>
+              <label class="col-sm-5 form-control-label">Availability*</label>
               <div class="col-sm-6">
-                <textarea name="availability" id="availability" v-validate="'required'" :class="{'is-danger': errors.has('availability') }"  v-model="formValues.availability" class="form-control" placeholder="e.g. Day 1 all day. Day 2 from 11 onwords"></textarea>
+                <textarea name="availability" id="availability" v-validate="'required'" :class="{'is-danger': errors.has('availability') }"  v-model="formValues.availability" class="form-control" placeholder="e.g. Day 1 all day"></textarea>
                 <i v-show="errors.has('availability')" class="fa fa-warning"></i>
-              </div>
                <span class="help is-danger" v-show="errors.has('availability')">This field is required</span>
+              </div>
             </div>
           </form>
         </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="addPitchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true" data-animation="false">
+  <div class="modal" id="addPitchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true" data-animation="false">
       <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
               <div class="tabs tabs-primary">
@@ -124,7 +124,7 @@
                                                       </div>
                                                       <div class="row align-items-center mb-3">
                                                           <div class="col-md-3">
-                                                              Break Start
+                                                             {{$lang.pitch_capacity_break_start}}
                                                           </div>
                                                           <div class="col-md-3">
                                                           </div>
@@ -209,7 +209,7 @@
                                       </div>
                                   </div>
                                   <div class="row mt-3">
-                                      <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">Add Stage</button>
+                                      <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">{{$lang.pitch_modal_availability_button_addstage}}</button>
                                   </div>
                               </form>
                           </div>
@@ -487,7 +487,7 @@ var moment = require('moment');
 
               }).catch(() => {
                 console.log('msg123')
-                  toastr['error']('Please fill all required fields ', 'Error')
+                  toastr['error']('Please complete all required fields on both tabs ', 'Error')
                });
               // let pitchData = {
               //     'pitchId' : this.pitchId,

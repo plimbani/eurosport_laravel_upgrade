@@ -3,8 +3,86 @@
 	"total_matches": 11,
 	"tournament_id": "002",
 	"tournament_teams": 6,
+	"tournament_name": "T.6.4",
+	"competition_round": "PM 1-4/5-6",
+	"competition_group_round": "2x3",
 	"competation_format": "RR1,RR2,F",
 	"tournament_min_match": 4,
+	"tournament_competition_graphic_view": {
+	    "format_name": [{
+	        "name": "Round 1",
+	        "groups": [{
+	            "group_name": "Group A",
+	            "match": [{
+	                "match_number": "1A > PM G1",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "2A > PM G2",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "3A > PM G3",
+	                "color": "rgb(191, 191, 191)"
+	              }
+	            ]
+	          },
+	          {
+	            "group_name": "Group B",
+	            "match": [{
+	                "match_number": "1B > PM G1",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "2B > PM G2",
+	                "color": "rgb(178, 161, 199)"
+	              },
+	              {
+	                "match_number": "3B > PM G3",
+	                "color": "rgb(191, 191, 191)"
+	              }
+	            ]
+	          }
+	        ]
+	      },
+	      {
+	        "name": "Round 2",
+	        "groups": [{
+	            "group_name": "Placing Matches",
+	            "match": [{
+	                "match_number": "1A-2B",
+	                "color": "rgb(255, 255, 0)"
+	              },
+	              {
+	                "match_number": "2A-1B",
+	                "color": "rgb(178, 161, 199)"
+	              }
+	            ]
+	          }
+	        ]
+	      },
+	      {
+	        "name": "Round 3",
+	        "groups": [{
+	            "group_name": "Placing Matches",
+	            "match": [{
+	                "match_number": "Round 2 PM winners > PM 1-2",
+	                "color": "blue"
+	              },
+	              {
+	                "match_number": "Round 2 PM losers > PM 3-4",
+	                "color": "blue"
+	              },
+	              {
+	                "match_number": "3A-3B > PM 5-6",
+	                "color": "rgb(191, 191, 191)"
+	              }
+	            ]
+	          }
+	        ]
+	      }
+	    ]
+	},
 	"tournament_competation_format": {
 		"format_name": [{
 			"name": "Round 1",

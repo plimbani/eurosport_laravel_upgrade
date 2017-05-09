@@ -258,8 +258,12 @@ textarea {
 }
 
 .filter-category-form.form-inline {
-    border: 1px solid #ccc;
+  //  border: 1px solid #ccc;
     padding: 10px 15px;
+}
+
+.filter-category-form.form-inline .wborder {
+    border: 1px solid #ccc;
 }
 
 .filter-category-form.form-inline .form-group {

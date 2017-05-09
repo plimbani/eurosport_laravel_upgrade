@@ -1,38 +1,10 @@
-
 <template>
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<div class="clearfix">
-	  				<div class="pull-left">
-		  				<div class="mt-4"><strong>Pitch Planner</strong></div>
-		  			</div>
-<!-- 		  			<div class="pull-right">
-		  				<form class="form-inline filter-category-form">
-		  					<div class="form-group">
-		  						<label for="nameInput" class="control-label"><strong>Filter by:</strong></label>
-		  						<label class="radio-inline control-label">
-	  								<input type="radio" name="gender" value="team" checked="checked"> Team
-	                            </label>
-	                             <label class="radio-inline control-label">
-	                            	<input type="radio" name="gender" value="country"> Location
-	                            </label>
-	                            <label class="radio-inline control-label">
-	                            	<input type="radio" name="gender" value="age category"> Age Category
-	                            </label>
-	                            <select class="form-control ls-select2">
-		                            <option value="">Select a team</option>
-		                            <option value="">-------</option>
-		                            <option value="">Etc...</option>
-		                        </select>
-		                        <label class="control-label">
-		                        	<a href="#">Clear</a>
-		                        </label>
-		  					</div>
-
-		  				</form>
-		  			</div> -->
-             <tournamentFilter :section="section"></tournamentFilter>
+				  <div class="clearfix">
+	  				<tournamentFilter :section="section"></tournamentFilter>
+            <h6 class="mb-4"><strong>{{$lang.pitch_planner_label}}</strong></h6>
 	  			</div>
 
 	  			<div class="mt-4">

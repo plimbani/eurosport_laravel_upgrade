@@ -1,7 +1,6 @@
 <template>
 <div class="row">
 	<div class="col-md-12">
-		<h3> Teams </h3>
 	</div>
 	<div class="col-md-12">
 	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
@@ -21,7 +20,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<span v-else> No Team Data</span>
+	<span v-else>No information to display</span>
 	</div>
 </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class='pitchPlanner'></div>
-        <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal"></pitch-modal> 
+        <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal"></pitch-modal>
     </div>
 </template>
 
@@ -28,7 +28,7 @@ import _ from 'lodash'
         computed: {
             pitchesData() {
                 return _.forEach(this.stage.pitches, (pitch) => {
-                    pitch.title = 'Pitch ' + pitch.pitch_number;
+                    pitch.title =  pitch.pitch_number;
 
                 });
             },
@@ -41,7 +41,7 @@ import _ from 'lodash'
                 // _.forEach(this.stage.pitches, (pitch) => {
                 // _.forEach(pitch.pitch_availability, (availability) => {
 
-                //     sPitch.push({'id': '', 'resourceId': availability.id,'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'YYYY-MM-DD hh:mm:ss'),'referee': 'unavailable','title':'pitch is not available', 'matchId':''}) 
+                //     sPitch.push({'id': '', 'resourceId': availability.id,'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'YYYY-MM-DD hh:mm:ss'),'referee': 'unavailable','title':'pitch is not available', 'matchId':''})
                 //     });
                 // });
                 // this.pitchBreak = sPitch
@@ -68,7 +68,7 @@ import _ from 'lodash'
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15'
                         }
-                    },                    
+                    },
                     //// uncomment this line to hide the all-day slot
                     allDaySlot: false,
 
@@ -89,16 +89,16 @@ import _ from 'lodash'
                         let matchId = event.id?event.id:event.matchId
                         let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
 
-                    
+
                         Tournament.setMatchSchedule(matchData).then(
-                            (response) => {  
+                            (response) => {
                                 // console.log(response)
                                 toastr.success('Match has been scheduled successfully', 'Schedule match', {timeOut: 5000});
                             },
                             (error) => {
                                 console.log('Error occured during Tournament api ', error)
                             }
-                        ) 
+                        )
                         // console.log('eventReceive', event);
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
@@ -106,14 +106,14 @@ import _ from 'lodash'
                         let matchId = event.id?event.id:event.matchId
                         let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
                         Tournament.setMatchSchedule(matchData).then(
-                            (response) => {  
+                            (response) => {
                                 // console.log(response)
                                 toastr.success('Match schedule has been updated successfully', 'Schedule match', {timeOut: 5000});
                             },
                             (error) => {
                                 console.log('Error occured during Tournament api ', error)
                             }
-                        ) 
+                        )
                         // console.log('eventDrop', event);
                     },
                     eventClick: function(calEvent, jsEvent, view) {
@@ -139,25 +139,25 @@ import _ from 'lodash'
                 Tournament.getFixtures(tournamentData).then(
                     (response)=> {
                         // console.log(response,'asssss')
-                       
-                         let rdata = response.data.data 
-                            // this.reports = response.data.data 
+
+                         let rdata = response.data.data
+                            // this.reports = response.data.data
                             let sMatches = []
                             _.forEach(rdata, function(match) {
                                 if(match.is_scheduled == 1){
                                     console.log(match.referee_id)
                                     let mData =  {'id': match.fid, 'resourceId': match.pitchId,'start':moment.utc(match.match_datetime,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(match.match_endtime,'YYYY-MM-DD hh:mm:ss'),'refereeId': match.referee_id,'refereeText': 'Referee', 'title':match.match_number, matchId:match.id}
-                                sMatches.push(mData)   
+                                sMatches.push(mData)
                                 }
                             });
-                            // sMatches.push(this.pitchBreak)   
+                            // sMatches.push(this.pitchBreak)
                            // console.log(sMatches,'sMatches')
                             this.scheduledMatches =sMatches
                             this.initScheduler();
                             // conole.log(response,'response')
                     }
                 )
-               
+
             }
         }
     };

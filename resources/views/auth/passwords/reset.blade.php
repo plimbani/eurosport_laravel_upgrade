@@ -44,7 +44,7 @@
                         <div class="col-md-12">
                             <div class="panel panel-default reset-password">
                                 <div class="panel-heading">
-                                    <p class="h4 text-center mt-4">Reset Password</p>
+                                    <p class="h4 text-center mt-4">Reset password</p>
                                 </div>
 
                                 <div class="panel-body">
@@ -60,7 +60,7 @@
                                         <input type="hidden" name="token" value="{{ $token }}">
 
                                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                            <label for="email">E-Mail Address</label>
+                                            <label for="email">Email address</label>
                                             <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
                                             @if ($errors->has('email'))
                                                 <!-- <span class="help-block">
@@ -83,7 +83,7 @@
                                         </div>
 
                                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                            <label for="password-confirm">Confirm Password</label>
+                                            <label for="password-confirm">Confirm password</label>
                                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
 
                                             @if ($errors->has('password_confirmation'))
@@ -106,8 +106,8 @@
                 </div>
                  
                 <div class="page-copyright">
-                    <p>Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a><br/>
-                    Copyright 2017 Euro-Sportring. All rights reserved.</p>
+                    <p>Copyright 2017 Euro-Sportring. All rights reserved.</br>
+                    Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a></p>
                 </div>
             </div>
         </div>

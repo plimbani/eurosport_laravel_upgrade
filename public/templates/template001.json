@@ -1,68 +1,131 @@
 {
-	"total_matches": 9,
-	"tournament_id": "001",
-	"tournament_teams": 6,
-	"competation_format": "RR,PM/F",
-	"tournament_min_match": 3,
-	"tournament_competation_format": {
-		"format_name": [{
-			"name": "Round 1",
-			"match_type": [{
-				"name": "RR1*3",
-				"total_match": 3,
-        "group_count": 3,
-				"groups": {
-					"group_name": "Group-A",
-					"match": [{
-						"in_between": "1-2",
-						"match_number": "CAT.RR1.01.A1-A2"
-					}, {
-						"in_between": "1-3",
-						"match_number": "CAT.RR1.01.A1-A3"
-					}, {
-						"in_between": "2-3",
-						"match_number": "CAT.RR1.02.A2-A3"
-					}]
-				}
-			},
+  "total_matches": 9,
+  "tournament_id": "001",
+  "tournament_teams": 6,
+  "tournament_name": "T.6.3",
+  "competition_round": "PM 1-2/3-4/5-6",
+  "competition_group_round": "2x3",
+  "competation_format": "RR,PM/F",
+  "tournament_min_match": 3,
+  "tournament_competition_graphic_view": {
+    "format_name": [{
+        "name": "Round 1",
+        "groups": [{
+            "group_name": "Group A",
+            "match": [{
+                "match_number": "1A > PM G1",
+                "color": "yello"
+              },
+              {
+                "match_number": "2A > PM G2",
+                "color": "purple"
+              },
+              {
+                "match_number": "3A > PM G3",
+                "color": "grey"
+              }
+            ]
+          },
+          {
+            "group_name": "Group B",
+            "match": [{
+                "match_number": "1B > PM G1",
+                "color": "yello"
+              },
+              {
+                "match_number": "2B > PM G2",
+                "color": "purple"
+              },
+              {
+                "match_number": "3B > PM G3",
+                "color": "grey"
+              }
+            ]
+          }
+        ]
+      },
       {
-        "name": "RR1*3",
-        "total_match": 3,
-        "group_count": 3,
-        "groups": {
-          "group_name": "Group-B",
-          "match": [{
-            "in_between": "1-2",
-            "match_number": "CAT.RR1.01.B1-A2"
-          }, {
-            "in_between": "1-3",
-            "match_number": "CAT.RR1.01.B1-B3"
-          }, {
-            "in_between": "2-3",
-            "match_number": "CAT.RR1.02.B2-B3"
-          }]
-        }
+        "name": "Round 2",
+        "groups": [{
+            "group_name": "Placing Matches",
+            "match": [{
+                "match_number": "1A-1B > PM1-2",
+                "color": "yello"
+              },
+              {
+                "match_number": "2A-2B > PM3-4",
+                "color": "purple"
+              },
+              {
+                "match_number": "3A-3B> PM 5-6",
+                "color": "grey"
+              }
+            ]
+          }
+        ]
       }
-    ]}, {
-			"name": "Round 2",
-			"match_type": [{
-				"name": "Placing Matches",
+    ]
+  },
+  "tournament_competation_format": {
+    "format_name": [{
+      "name": "Round 1",
+      "match_type": [{
+          "name": "RR1*3",
+          "total_match": 3,
+          "group_count": 3,
+          "groups": {
+            "group_name": "Group-A",
+            "match": [{
+              "in_between": "1-2",
+              "match_number": "CAT.RR1.01.A1-A2"
+            }, {
+              "in_between": "1-3",
+              "match_number": "CAT.RR1.01.A1-A3"
+            }, {
+              "in_between": "2-3",
+              "match_number": "CAT.RR1.02.A2-A3"
+            }]
+          }
+        },
+        {
+          "name": "RR1*3",
+          "total_match": 3,
+          "group_count": 3,
+          "groups": {
+            "group_name": "Group-B",
+            "match": [{
+              "in_between": "1-2",
+              "match_number": "CAT.RR1.01.B1-A2"
+            }, {
+              "in_between": "1-3",
+              "match_number": "CAT.RR1.01.B1-B3"
+            }, {
+              "in_between": "2-3",
+              "match_number": "CAT.RR1.02.B2-B3"
+            }]
+          }
+        }
+      ]
+    }, {
+      "name": "Round 2",
+      "match_type": [{
+        "name": "Placing Matches",
         "group_count": 6,
-				"groups": {
-					"group_name": "PM",
-					"match": [{
-						"in_between": "1A - 1B",
-						"match_number": "CAT.PM2.G1.1A-2B"
-					}, {
-						"in_between": "2A-2B",
-						"match_number": "CAT.PM2.G2.2A-2B"
-					}, {
-						"in_between": "3A-3B",
-						"match_number": "CAT.PM2.G3.3A-3B"
-					}]
-				},
-				"total_match": 3
-			}]
-		}]
-	}
+        "groups": {
+          "group_name": "PM",
+          "match": [{
+            "in_between": "1A - 1B",
+            "match_number": "CAT.PM2.G1.1A-2B"
+          }, {
+            "in_between": "2A-2B",
+            "match_number": "CAT.PM2.G2.2A-2B"
+          }, {
+            "in_between": "3A-3B",
+            "match_number": "CAT.PM2.G3.3A-3B"
+          }]
+        },
+        "total_match": 3
+      }]
+    }]
+  }
 }

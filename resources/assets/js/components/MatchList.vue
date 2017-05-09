@@ -1,7 +1,6 @@
 <template>
 <div class="row">
 	<div class="col-md-12">
-	<h3> Matches </h3>
 	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
 			<th>Time</th>
