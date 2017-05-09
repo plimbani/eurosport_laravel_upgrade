@@ -5,10 +5,11 @@
                 <div class="pitch-planner-item" v-for="stage in tournamentStages">
                     <div class="card">
                       <div class="card-block text-center">
-                        <h4>Stage - {{ stage.stageNumber }}</h4>                        
+                        <h4>Stage {{ stage.stageNumber }}:{{dispDate(stage.tournamentStartDate)}}</h4>
                       </div>
+                      <pitch-planner-stage :stage="stage"></pitch-planner-stage>
                     </div>
-                    <pitch-planner-stage :stage="stage"></pitch-planner-stage>        
+
                 </div>
             </div>
         </div>
@@ -41,7 +42,7 @@
     import GamesTab from './GamesTab.vue'
     import RefereesTab from './RefereesTab.vue'
     import PitchPlannerStage from './PitchPlannerStage.vue'
-    
+
     export default  {
         components: {
             GamesTab, RefereesTab, PitchPlannerStage
@@ -52,19 +53,19 @@
             },
             tournamentStartDate() {
                 return this.$store.state.Tournament.tournamentStartDate;
-            },            
+            },
             pitches() {
                 return this.$store.state.Pitch.pitches;
-            },     
+            },
             tournamentStages() {
                 let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
                 let stages = [];
 
                 for (var i = 1; i <= this.tournamentDays; i++) {
-                    // fetch pitches available for this day                    
-                    let currentDateString  = tournamentStartDate.format('DD/MM/YYYY');                    
+                    // fetch pitches available for this day
+                    let currentDateString  = tournamentStartDate.format('DD/MM/YYYY');
                     let availablePitchesForStage = _.filter(this.pitches, (pitch) => {
-                        return _.find(pitch.pitch_availability, { 'stage_start_date': currentDateString});                        
+                        return _.find(pitch.pitch_availability, { 'stage_start_date': currentDateString});
                     });
 
                     stages.push({
@@ -77,7 +78,7 @@
                 }
 
                 return stages;
-            }       
+            }
         },
         data() {
             return {
@@ -88,7 +89,11 @@
         },
         mounted() {
         },
-        methods: {          
+        methods: {
+          dispDate(date) {
+            var date1 = moment(date, 'DD/MM/YYYY')
+            return date1.format('ddd DD MMM YYYY')
+          }
         }
     }
 </script>

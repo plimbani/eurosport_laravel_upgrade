@@ -4,25 +4,26 @@
     <div class="pull-right mt-2">
       <form  class="form-inline filter-category-form" >
         <div class="form-group">
+
           <label for="nameInput" class="control-label">
             <strong>{{$lang.teams_filter}}</strong>
           </label>
-          <label class="radio-inline control-label">
-            <input type="radio" name="filter" value="team" checked="checked"
+          <label class="radio-inline control-label" v-if="section != 'pitchPlanner'">
+            <input type="radio" id="team" name="filter" value="team"
             @click="getDropDownData('team')">{{$lang.teams_team}}
           </label>
           <label class="radio-inline control-label" v-if="section=='pitchPlanner'">
-            <input type="radio" name="filter" value="location"
+            <input type="radio" id="location" name="filter" value="location"
             @click="getDropDownData('location')">{{$lang.teams_location}}
           </label>
           <label class="radio-inline control-label" v-if="section=='teams'">
-              <input type="radio" name="filter" value="country" @click="getDropDownData('country')">{{$lang.teams_country}}
+              <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')">{{$lang.teams_country}}
           </label>
           <label class="radio-inline control-label">
-              <input type="radio" name="filter" value="age_category" @click="getDropDownData('age_category')">{{$lang.teams_age}}
+              <input type="radio" id="age_category" name="filter" value="age_category" @click="getDropDownData('age_category')">{{$lang.tournament_filter_age_category}}
           </label>
           <select class="form-control ls-select2" v-model="dropDown">
-            <option value="" >{{selectMsg}}</option>
+            <option value="" >Select</option>
             <option :value="option.id"
             v-for="option in options"
             v-bind:value="option">
@@ -51,7 +52,14 @@ export default {
   props:['section'],
   mounted() {
     // By Default Called with Team
-    this.getDropDownData('team')
+    if(this.section != 'pitchPlanner'){
+      this.getDropDownData('team')
+      $('#team').prop("checked",true)
+    }
+    else{
+      this.getDropDownData('location')
+      $('#location').prop("checked",true)
+    }
   },
   methods: {
     getDropDownData(tourament_key) {
@@ -64,16 +72,16 @@ export default {
           // here we fill the options
           switch(tourament_key){
             case 'country':
-              this.selectMsg = 'Select a country'
+              this.selectMsg = 'Select'
               break
             case 'team':
-              this.selectMsg = 'Select team'
+              this.selectMsg = 'Select'
               break
             case 'age_category':
-              this.selectMsg = 'Select age category'
+              this.selectMsg = 'Select'
               break
             case 'location':
-              this.selectMsg = 'Select a location'
+              this.selectMsg = 'Select'
               break
           }
           console.log(response)
