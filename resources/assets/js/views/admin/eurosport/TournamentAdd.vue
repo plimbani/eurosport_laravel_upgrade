@@ -204,7 +204,6 @@
               <option value="Finland">Finland</option>
               <option value="Faroe Islands">Faroe Islands</option>
               <option value="France">France </option>
-              <option value="France">France </option>
               <option value="Georgia">Georgia</option>
               <option value="Germany">Germany</option>
               <option value="Gibraltar">Gibraltar</option>
