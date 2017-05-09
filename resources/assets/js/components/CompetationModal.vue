@@ -10,15 +10,15 @@
             </div>
             <div class="modal-body">
                <form name="ageCategoryName">
-                <div  v-for="format in templateData.tournament_competation_format" class="row">
-                  <div v-for="grp in format"  class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
                     <div class="card text-center">
-                      <div class="card-header">
+                      <!-- <div class="card-header">
                         <h4 class="card-title">{{grp.name}}</h4>
-                      </div>
-                      <div class="card-block" v-for="mtchtype in grp.match_type">
-                        <p class="card-text badge badge-info">{{ mtchtype.name }}</p>
-                        <table class="table" id="test">
+                      </div> -->
+                      <div class="card-block">
+                        <!-- <p class="card-text badge badge-info">{{ mtchtype.name }}</p> -->
+                        <!-- <table class="table" id="test">
                           <thead>
                             <tr>
                               <th>Match Number:</th>
@@ -34,7 +34,60 @@
                             <td colspan="2">{{ mtchtype.total_match }}</td>
                             </tr>
                           </tbody>
-                        </table>
+                        </table> -->
+                        <div class="table-responsive">
+                          <table class="table" id="Competition-modal-table">
+                            <tbody class="competition-modal-table-body">
+                              <tr v-for="format in templateData.tournament_competition_graphic_view">
+                                <td class="p-0" v-for="(grp,index1) in format">
+                                  <tr class="group-name">
+                                    <td><strong>{{ grp.name }}</strong></td>
+                                  </tr>
+                                  <tr class="grp-data">
+                                    <td class="p-0">
+                                      <tr>
+                                        <td v-for="(gros,index2) in grp.groups">
+                                        <strong>{{ gros.group_name}}</strong>
+                                        </td>
+                                        <!-- <td><strong>Group B</strong></td> -->
+                                      </tr>
+                                    </td>
+                                  </tr>
+                                  <tr class="grp-data">
+                                    <td class="p-0">
+                                       <tr>
+                                        <td v-for="(gros1,index3) in grp.groups">
+                                        <strong>{{ gros1[index1]}}</strong>
+                                        </td>
+                                        <!-- <td><strong>Group B</strong></td> -->
+                                      </tr>
+                                    </td>
+                                  </tr>
+                                </td>
+                                <!-- <td class="p-0">
+                                  <tr class="group-name">
+                                    <td><strong>Round 2</strong></td>
+                                  </tr>
+                                  <tr class="grp-data">
+                                    <td class="p-0">
+                                      <tr>
+                                        <td><strong>Placing Matches</strong></td>
+                                      </tr>
+                                    </td>
+                                  </tr>
+                                  <tr class="grp-data">
+                                    <td class="p-0">
+                                      <tr>
+                                        <td>1A-1B> PM 1-2</td>
+                                      </tr>
+                                    </td>
+                                  </tr>
+                                </td> -->
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
                       </div>
                     </div>
                   </div>
