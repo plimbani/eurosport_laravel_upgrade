@@ -2,11 +2,14 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				  <div class="clearfix">
-	  				<tournamentFilter :section="section"></tournamentFilter>
-            <h6 class="mb-4"><strong>{{$lang.pitch_planner_label}}</strong></h6>
-	  			</div>
-
+          <div class="row align-items-center justify-content-start">
+            <div class="col-3 align-self-center">
+              <h6 class="m-0"><strong>{{$lang.pitch_planner_label}}</strong></h6>
+            </div>
+            <div class="col-9 align-self-center">
+              <tournamentFilter :section="section"></tournamentFilter>
+            </div>
+          </div>
 	  			<div class="mt-4">
 	  				<pitch-planner-table></pitch-planner-table>
 	  			</div>

@@ -25,7 +25,6 @@
                  <span class="card-title">{{group['groups']['group_name']}}</span>
                  <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
               </div>
-
           </div>
           </div>
         </div>
@@ -48,8 +47,7 @@
             </div>
   			</div> -->
   			<div class="clearfix">
-  				<div class="pull-left">
-	  				<div class="mt-4"><strong>{{$lang.teams_team_list}}</strong></div></br>
+  				<div class="pull-left"><div><strong>{{$lang.teams_team_list}}</strong></div>
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
             <button type="button" id="profile_image_file">Choose file</button>
