@@ -17,7 +17,7 @@
             </div>
           </div>
   			</form>
-        <div class="block-bg age-category">
+        <div class="block-bg age-category mb-4">
           <div class="d-flex justify-content-center align-items-center">
           <div class="col-sm-3" v-for="(group, index) in grps">
             <div class="m_card hoverable">
@@ -49,7 +49,7 @@
   			</div> -->
   			<div class="clearfix">
   				<div class="pull-left">
-	  				<div class="mt-4"><strong>{{$lang.teams_team_list}}</strong></div>
+	  				<div><strong>{{$lang.teams_team_list}}</strong></div>
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
               <input type="file" name="fileUpload"  id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
