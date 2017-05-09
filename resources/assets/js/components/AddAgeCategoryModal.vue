@@ -57,7 +57,7 @@
                   name="number_teams"
                   v-validate="'required'" :class="{'is-danger': errors.has('number_teams') }"
                   v-model="number_teams">
-                      <option value="0">{{$lang.competation_modal_select_number_teams}}</option>
+                      <option value="">{{$lang.competation_modal_select_number_teams}}</option>
                       <option v-if="n > 5" v-for="n in (28)"
                       v-bind:value="n">
                      {{n}}
@@ -78,7 +78,7 @@
                   name="minimum_matches"
                   v-validate="'required'" :class="{'is-danger': errors.has('minimum_matches') }"
                   v-model="minimum_matches">
-                      <option value="0">{{$lang.competation_modal_select_minimum_matches}}</option>
+                      <option value="">{{$lang.competation_modal_select_minimum_matches}}</option>
                       <option v-if="n > 2" v-for="n in (7)"
                       v-bind:value="n">
                      {{n}}
@@ -260,7 +260,7 @@ export default {
       game_duration_fm_array:[],
       match_interval_rr_array:[],
       match_interval_fm_array:[],
-      minimum_matches:'0', number_teams: '0',
+      minimum_matches:'', number_teams: '',
       optEdit: [],
       trempVal:false
     }
@@ -280,7 +280,7 @@ export default {
     minimum_matches: function(val){
       let tournamentData={'minimum_matches':val,'total_teams':this.number_teams}
 
-      if(val != '0' && this.number_teams != '0') {
+      if(val != '' && this.number_teams != '') {
         this.trempVal = true
         this.competation_format.minimum_matches = val
         this.competation_format.total_teams = this.number_teams
@@ -295,7 +295,7 @@ export default {
       let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
 
 
-      if(this.minimum_matches != '0' && val != '0') {
+      if(this.minimum_matches != '' && val != '') {
         this.trempVal = true
         this.competation_format.minimum_matches = val
         this.competation_format.total_teams = this.number_teams
@@ -363,7 +363,8 @@ export default {
 
   methods: {
     checkTemplate(option){
-      if(option.minimum_matches >=  this.minimum_matches && option.total_teams >= this.number_teams) {
+      if(option.minimum_matches ==  this.minimum_matches
+        && option.total_teams == this.number_teams) {
         return true
       } else {
         return false
@@ -509,13 +510,18 @@ export default {
     // TODO: Comment code for Pickup first template
      // this.competation_format.nwTemplate =  this.options[0]
      // this.competation_format.nwTemplate =  this.options[0]
-
      this.competation_format.nwTemplate =  this.competation_format.tournamentTemplate
      // TODO : add minimum_matches and number_teams with competation format
      this.competation_format.min_matches = this.minimum_matches
      this.competation_format.total_teams = this.number_teams
      this.$validator.validateAll().then(
           (response) => {
+              if(Object.keys(this.competation_format.tournamentTemplate).length == 0)
+              {
+
+                // this.$validator.errors.error='adsasd'
+                return false
+              }
 
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {
