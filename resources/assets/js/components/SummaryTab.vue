@@ -11,36 +11,39 @@
 				</label>
 				<div class="clearfix"></div>
 
-				<span><strong>{{$lang.summary_location}}:</strong>{{tournamentSummary.locations}}</span>
-				<span><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</span>
+				<label><strong>{{$lang.summary_location}}:</strong>{{tournamentSummary.locations}}</label><br>
+				<label><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</label>
 
 			</div>
 			<td class="col-md-6">
-				<span><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
+			<div class="row">
+				<span class="col-sm-4"><strong>{{$lang.summary_status}}:</strong>{{tournamentStatus}}</span>
 
-				<span v-if="tournamentStatus == 'Published'">
+				<span class="col-md-4" v-if="tournamentStatus == 'Published'">
 				   <button type="button" data-toggle="modal"
 				data-target="#publish_modal"
-				class="btn btn-primary col-md-4">
-				{{$lang.summary_button_unpublish}}</button><br>
+				class="btn btn-primary w-100">
+				{{$lang.summary_button_unpublish}}</button>
 				<UnPublishedTournament>
 				</UnPublishedTournament>
 				</span>
-				<span v-else>
+				<span class="col-sm-4" v-else>
 				  <button type="button" data-toggle="modal"
 				data-target="#publish_modal"
-				class="btn btn-primary col-md-4">
-				{{$lang.summary_button_publish}}</button><br>
+				class="btn btn-primary w-100">
+				{{$lang.summary_button_publish}}</button>
 				<PublishTournament :tournamentStatus='tournamentStatus'>
 				</PublishTournament>
 				</span>
-
+				<span class="col-sm-4">
 				<button type="button" data-toggle="modal"
 				data-confirm-msg="Are you sure you would like to delete this user record?"
 				data-target="#delete_modal"
-				class="btn btn-danger col-md-4 mt-3">{{$lang.summary_button_delete}}</button>
+				class="btn btn-danger w-100">{{$lang.summary_button_delete}}</button>
 				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 				<!--<DeleteTournament></DeleteTournament>-->
+				</span>
+				</div>
 			</td>
 		</div>
 		<div class="clearfix mt-4"></div>

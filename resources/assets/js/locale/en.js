@@ -281,7 +281,7 @@ module.exports = {
   summary_dates: "Dates",
   summary_status: "Status",
   summary_button_publish: "Publish",
-  summary_button_unpublish: "UnPublish",
+  summary_button_unpublish: "Unpublish",
 
   summary_button_delete: "Delete",
   summary_age_groups: "Age group",
