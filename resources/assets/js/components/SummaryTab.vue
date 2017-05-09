@@ -7,7 +7,7 @@
 					class="mr-2">
 				</label>
 				<label>
-					<h5>{{tournamentName}}</h5>
+					<h6>{{tournamentName}}</h6>
 				</label>
 				<div class="clearfix"></div>
 
@@ -15,7 +15,7 @@
 				<span><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</span>
 
 			</div>
-			<div class="col-md-6 text-right">
+			<td class="col-md-6">
 				<span><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
 
 				<span v-if="tournamentStatus == 'Published'">
@@ -41,7 +41,7 @@
 				class="btn btn-danger col-md-4 mt-3">{{$lang.summary_button_delete}}</button>
 				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 				<!--<DeleteTournament></DeleteTournament>-->
-			</div>
+			</td>
 		</div>
 		<div class="clearfix mt-4"></div>
 		<div class="d-flex justify-content-between align-items-center text-center flex-wrap row">
@@ -180,13 +180,13 @@
 	    			// here modified data According to display
 	    		if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
               	{
-	    			this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+','+response.data.data.tournament_contact.last_name
+	    			this.tournamentSummary.tournament_contact = response.data.data.tournament_contact.first_name+' '+response.data.data.tournament_contact.last_name
 	    		}
 	    			let locations='';
 	    			if(response.data.data.locations != undefined || response.data.data.locations != null )
               {
     	    			response.data.data.locations.reduce(function (a,b) {
-    			        locations += b.name + '(' + b.country +')'
+    			        locations += b.name + ' (' +b.country +')' 
     			      	},0);
 
     	    			this.tournamentSummary.locations = locations
@@ -202,7 +202,7 @@
 	    	this.tournamentId = this.$store.state.Tournament.tournamentId
 	    	this.tournamentName = this.$store.state.Tournament.tournamentName
 	    	this.tournamentStatus = this.$store.state.Tournament.tournamentStatus
-			  this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
+			this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
 			let tournamentDays = this.$store.state.Tournament.tournamentDays || 0
 
 			this.tournamentDays= parseInt(tournamentDays)

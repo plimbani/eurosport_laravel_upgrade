@@ -11,21 +11,19 @@
                   <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory">
                     <option value="">{{$lang.teams_select_age_category}}</option>
                     <option v-for="option in options"
-                     v-bind:value="option"> {{option.group_name}}</option>
+                     v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
                   </select>
               </div>
             </div>
           </div>
   			</form>
         <div class="block-bg age-category">
-          <div class="d-flex justify-content-center align-items-center">
-          <div class="col-sm-3" v-for="(group, index) in grps">
-            <div class="m_card hoverable">
-                  <div class="card-content">
-                     <span class="card-title">{{group['groups']['group_name']}}</span>
-                     <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
-                  </div>
-            </div>
+          <div class="d-flex justify-content-center">
+          <div class="col-sm-3 m_card hoverable m-2" v-for="(group, index) in grps">
+              <div class="card-content">
+                 <span class="card-title">{{group['groups']['group_name']}}</span>
+                 <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
+              </div>
           </div>
           </div>
         </div>
@@ -49,11 +47,12 @@
   			</div> -->
   			<div class="clearfix">
   				<div class="pull-left">
-	  				<div class="mt-4"><strong>{{$lang.teams_team_list}}</strong></div>
+	  				<div class="mt-4"><strong>{{$lang.teams_team_list}}</strong></div></br>
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
-              <input type="file" name="fileUpload"  id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
-              <p class="help-block">Only excel and csv allowed.</p>
+            <button type="button" id="profile_image_file">Choose file</button>
+              <input type="file" name="fileUpload"  id="fileUpload" style="display:none;" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+              <p class="help-block">Excel and CSV files only</p>
             </div>
 	  				<button type="button" @click="csvImport()" :disabled="age_category==''"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
             </form>
@@ -155,7 +154,9 @@
            console.log('Error occured during Tournament api ', error)
         }
         )
-
+         $('#profile_image_file').click(function(){
+                $('#fileUpload').trigger('click')
+            })
     },
 
     // watch: {
