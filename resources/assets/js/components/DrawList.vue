@@ -11,7 +11,7 @@
     <tbody>
     	<tr v-for="drawData in matchData">
     		<td>
-    			<a @click.prevent="changeGroup(drawData)" href=""> {{ drawData.name }} </a>
+    			<a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""> {{ drawData.name }} </a>
     		</td>
     		<td>{{ drawData.competation_type }}</td>
     		<td>{{ drawData.team_size }}</td>
