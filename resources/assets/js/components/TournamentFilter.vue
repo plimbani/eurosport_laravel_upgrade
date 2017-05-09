@@ -22,8 +22,10 @@
           <label class="radio-inline control-label">
               <input type="radio" id="age_category" name="filter" value="age_category" @click="getDropDownData('age_category')">{{$lang.tournament_filter_age_category}}
           </label>
-          <select class="form-control ls-select2" v-model="dropDown">
-            <option value="" >Select</option>
+
+          <select name="selFilter" id="selFilter" @change="setFilterValue()" class="form-control ls-select2" v-model="dropDown">
+            <option value="" >{{selectMsg}}</option>
+
             <option :value="option.id"
             v-for="option in options"
             v-bind:value="option">
@@ -31,7 +33,7 @@
             </option>
           </select>
           <label class="control-label">
-            <a href="#">{{$lang.teams_clear}}</a>
+            <a href="javascript:void(0)" @click="clearFilter()">{{$lang.teams_clear}}</a>
           </label>
         </div>
       </form>
@@ -46,7 +48,9 @@ export default {
       dropDownData: [],
       dropDown: '',
       options:[],
-      selectMsg: 'Select a Team'
+      selectMsg: 'Select a Team',
+      filterKey: 'team',
+      filterValue: ''
     }
   },
   props:['section'],
@@ -62,9 +66,21 @@ export default {
     }
   },
   methods: {
+    clearFilter(){
+      // this.dropDown = ''
+      // this.setFilterValue()
+    },
+    setFilterValue() {
+
+      this.filterValue = this.dropDown
+      let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
+      // this.$store.dispatch('setTournamentFilter', tournamentFilter);
+      this.$root.$emit('getTeamsByTournamentFilter',this.filterKey,this.filterValue);
+    },
     getDropDownData(tourament_key) {
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key
+      this.filterKey = tourament_key
       let tournamentData = {'tournamentId':tournamentId,
       'keyData':tourament_key,'type':this.section}
       Tournament.getDropDownData(tournamentData).then(
@@ -84,8 +100,7 @@ export default {
               this.selectMsg = 'Select'
               break
           }
-          console.log(response)
-          this.options =response.data.data
+           this.options =response.data.data
         },
         (error) => {
            console.log('Error occured during Tournament api ', error)

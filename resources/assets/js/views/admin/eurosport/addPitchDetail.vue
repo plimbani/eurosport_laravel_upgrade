@@ -435,12 +435,12 @@ var moment = require('moment');
            // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
 
 
-           setTimeout(function(){
-              $('.ls-timepicker').timepicker({
-                  minTime: '08:00:00',
-                  maxTime: '19:00:00'
-              });
-           },1000)
+           // setTimeout(function(){
+           //    $('.ls-timepicker').timepicker({
+           //        minTime: '08:00:00',
+           //        maxTime: '19:00:00'
+           //    });
+           // },1000)
 
            this.getAllPitches()
            if(this.tournamentDays> 2) {
