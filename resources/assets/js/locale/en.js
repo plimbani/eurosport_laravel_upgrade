@@ -227,7 +227,7 @@ module.exports = {
 
 
   teams_terms_groups: "Teams and groups",
-  teams_age_category: "Age category",
+  teams_age_category: "Category name",
   teams_select_age_category: "Select age category",
   teams_u9: "U9",
   teams_u11: "U11",
@@ -253,7 +253,7 @@ module.exports = {
   teams_group_d_a2: "A2",
   teams_group_d_a3: "A3",
   teams_group_d_a4: "A4",
-  teams_team_list: "Team List",
+  teams_team_list: "Team list",
   teams_upload_team: "Upload teams",
   teams_filter: "Filter by:",
   teams_team: "Team",
@@ -270,7 +270,7 @@ module.exports = {
   teams_name: "Team",
   teams_country: "Country",
   teams_agecategory: "Age Category",
-  teams_group: "Group",
+  teams_group: "Category name",
   teams_button_updategroups: "Update",
   teams_location: "Location",
   teams_place: "Place",
@@ -284,7 +284,7 @@ module.exports = {
   summary_button_unpublish: "UnPublish",
 
   summary_button_delete: "Delete",
-  summary_age_groups: "Age Groups",
+  summary_age_groups: "Age group",
   summary_participating_countries: "Participating countries",
   summary_euro_supporting_contact: "Euro-Sportring contact",
   summary_teams: "Teams",
@@ -351,5 +351,7 @@ module.exports = {
   summary_label_summary: "Summary",
   summary_label_reports: "Reports",
   summary_label_schedule: "Schedule and results",
-  summary_label_message: "Messages"
+  summary_label_message: "Messages",
+
+  tournament_filter_age_category: "Category name"
 }
