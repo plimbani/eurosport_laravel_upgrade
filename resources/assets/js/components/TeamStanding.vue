@@ -34,7 +34,7 @@
 		</tr>
 	</tbody>
 </table>
-<span v-else>No Standing Data Found</span>
+<span v-else>No information available</span>
 </div>
 </template>
 <script type="text/babel">

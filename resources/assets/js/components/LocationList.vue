@@ -1,6 +1,6 @@
 <template>
 <div class="col-md-12">
-  <h3>  {{otherData.Name}} </h3>
+  <h6>{{otherData.Name}}</h6>
   <matchList :matchData="matchData"></matchList>
 </div>
 </template>

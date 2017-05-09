@@ -1,6 +1,6 @@
 <template>
 <div>
-<h3>{{otherData.DrawName}} </h3>
+<h6>{{otherData.DrawName}} results grid</h6>
 <table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0">
 	<thead>
         <tr>
@@ -44,8 +44,8 @@
     	</tr>-->
     </tbody>
 </table>
-<span v-else> No Draw data Found </span>
-<h4>Standings of {{otherData.DrawName}} </h4>
+<span v-else> No information available </span>
+<h6> {{otherData.DrawName}} standings</h6>
   <teamStanding :currentCompetationId="currentCompetationId"
   v-if="currentCompetationId != 0"></teamStanding>
 
