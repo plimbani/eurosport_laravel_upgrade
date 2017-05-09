@@ -10,7 +10,7 @@ interface TeamContract
      * @param  array $api_key,$state,$type
      * @return response
      */
-    public function getTeams($tournamentId,$ageGroup);
+    public function getTeams($teamData);
 
     public function create($request);
 
