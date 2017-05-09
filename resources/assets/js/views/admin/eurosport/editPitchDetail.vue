@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="editPitch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal" id="editPitch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="tabs tabs-primary">
@@ -16,7 +16,7 @@
                                 <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active text-center">{{$lang.pitch_modal_details}}</a>
                             </li>
                             <li class="nav-item col-md-6 padding0">
-                                <a data-toggle="tab" href="#availability" role="tab" class="nav-link text-center">{{$lang.pitch_modal_availability}}</a>
+                              <a data-toggle="tab" href="#availability" role="tab" class="nav-link text-center">{{$lang.pitch_modal_availability}}</a>
                             </li>
                         </ul>
                         <div class="tab-content">

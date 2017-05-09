@@ -17,7 +17,11 @@ const state = {
   tournamentLogo: '',
   facebook:'facebook',
   twitter:'twitter',
-  website:'website'
+  website:'website',
+  tournamentFiler:{
+  	filterKey:'',
+  	filterValue: ''
+  }
 }
 // getters
 const getters = {
@@ -96,6 +100,9 @@ const actions = {
 	)
 
   },
+  setTournamentFilter({commit}, filterData) {
+  	commit(types.SET_TOURNAMENT_FILTER, filterData)
+  }
 }
 
 // mutations
@@ -143,6 +150,12 @@ const mutations = {
   },
  [types.SET_VENUES] (state, venueData) {
 	state.venues = venueData;
+
+  },
+  [types.SET_TOURNAMENT_FILTER] (state, filterData) {
+  	
+	state.tournamentFiler.filterKey = filterData.filterKey;
+	state.tournamentFiler.filterValue = filterData.filterValue;
 
   },
 

@@ -3,41 +3,41 @@
 	<div class="col-md-12">
 	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
-			<th>Time</th>
-			<th>Draw</th>
-			<th class="text-right">Home</th>
+			<th class="text-center">Time</th>
+			<th class="text-center">Draw</th>
+			<th class="text-center">Team</th>
 			<th class="text-center">Score</th>
-			<th>Away</th>
-			<th v-if="isHideLocation !=  false">Location</th>
+			<th class="text-center">Team</th>
+			<th class="text-center" v-if="isHideLocation !=  false">Location</th>
 		</thead>
 		<tbody>
 			<tr v-for="match in matchData">
 				<td>{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
-					<a class="pull-left text-left" href=""
-					@click.prevent="changeDrawDetails(match)">{{match.competation_name}}</a>
+					<a class="pull-left text-left text-primary" href=""
+					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name}}</u></a>
 				</td>
 				<td align="right">
-					<a href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
+					<a  class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
 
-						<span>{{match.HomeTeam}} </span>
+						<span><u>{{match.HomeTeam}}</u></span>
 						<img :src="match.HomeFlagLogo" width="20">
 					</a>
 				</td>
 				<td class="text-center">{{match.homeScore}}-{{match.AwayScore}}</td>
 				<td align="left">
-					<a href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
+					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
 							  <img :src="match.AwayFlagLogo" width="20">
-							   <span>{{match.AwayTeam}}</span>
+							   <span><u>{{match.AwayTeam}}</u></span>
 					</a>
 				</td>
 
-				<td v-if="isHideLocation !=  false"><a @click.prevent="changeLocation(match)"
-				href="">{{match.venue_name}} - {{match.pitch_number}}</a></td>
+				<td v-if="isHideLocation !=  false"><a class="pull-left text-left text-primary" href="" @click.prevent="changeLocation(match)"
+				><u>{{match.venue_name}} - {{match.pitch_number}}</u></a></td>
 			</tr>
 		</tbody>
 	</table>
-	<span v-else>No Matches Found</span>
+	<span v-else>No information available</span>
 	</div>
 </div>
 </template>

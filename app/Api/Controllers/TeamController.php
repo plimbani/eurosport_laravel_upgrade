@@ -34,14 +34,15 @@ class TeamController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getTeams($tournamentId,$ageGroup='')
+    public function getTeams(Request $request)
     {
-        return $this->teamObj->getTeams($tournamentId,$ageGroup);
+        // dd($request->all());
+        return $this->teamObj->getTeams($request);
     }
 
     public function getAllTournamentTeams(Request $request)
     {
-      return $this->teamObj->getAllTournamentTeams($request);
+      return $this->teamObj->getAllTournamentTeams($request->all());
     }
 
     /**
@@ -57,6 +58,7 @@ class TeamController extends BaseController
 
     public function createTeam(Request $request)
     {
+        // dd($request->all());
         $teamData = $request->toArray();
        
         $file = $request->file('fileUpload');
@@ -71,7 +73,7 @@ class TeamController extends BaseController
             // dd($reader->getTotalRowsOfFile() - 1);
               $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;  
             
-            $reader->limit($this->data['teamSize']);
+            // $reader->limit($this->data['teamSize']);
             $reader->each(function($sheet) {
             // Loop through all rows
 

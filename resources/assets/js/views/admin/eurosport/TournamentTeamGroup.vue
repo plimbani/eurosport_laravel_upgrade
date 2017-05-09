@@ -8,24 +8,23 @@
             <label class="col-sm-2 form-control-label">{{$lang.teams_age_category}}</label>
             <div class="col-sm-4">
               <div class="form-group">
-                  <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory">
+                  <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
                     <option value="">{{$lang.teams_select_age_category}}</option>
                     <option v-for="option in options"
-                     v-bind:value="option"> {{option.group_name}}</option>
+                     v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
                   </select>
               </div>
             </div>
           </div>
   			</form>
-        <div class="block-bg age-category mb-4">
-          <div class="d-flex justify-content-center align-items-center">
-          <div class="col-sm-3" v-for="(group, index) in grps">
-            <div class="m_card hoverable">
-                  <div class="card-content">
-                     <span class="card-title">{{group['groups']['group_name']}}</span>
-                     <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
-                  </div>
-            </div>
+        <div class="block-bg age-category">
+
+          <div class="d-flex justify-content-center">
+          <div class="col-sm-3 m_card hoverable m-2" v-for="(group, index) in grps">
+              <div class="card-content">
+                 <span class="card-title">{{group['groups']['group_name']}}</span>
+                 <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
+              </div>
           </div>
           </div>
         </div>
@@ -48,17 +47,17 @@
             </div>
   			</div> -->
   			<div class="clearfix">
-  				<div class="pull-left">
-	  				<div><strong>{{$lang.teams_team_list}}</strong></div>
+  				<div class="pull-left"><div><strong>{{$lang.teams_team_list}}</strong></div>
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
-              <input type="file" name="fileUpload"  id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
-              <p class="help-block">Only excel and csv allowed.</p>
+            <button type="button" id="profile_image_file">Choose file</button>
+              <input type="file" name="fileUpload"  id="fileUpload" style="display:none;" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+              <p class="help-block">Excel and CSV files only</p>
             </div>
-	  				<button type="button" @click="csvImport()" :disabled="age_category==''"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
+	  				<button type="button" @click="csvImport()"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
             </form>
 	  			</div>
-	  			  <tournamentFilter :section="section"></tournamentFilter>
+	  			  <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
   			</div>
   			<div class="row mt-4">
   				<div class="col-md-12">
@@ -114,15 +113,22 @@
         'teams': [],
         'tournament_id': this.$store.state.Tournament.tournamentId,
         'age_category': '',
+        'age_category_filter': '',
         'selected': null,
         'value': '',
         'options': [],
+        'grpsView': '',
         'grps': '',
         'fileUpload' : '',
         'availableGroupsTeam': [],
         'selectedGroupsTeam': [],
         'beforeChangeGroupName': '',
-        'section': 'teams'
+        'section': 'teams',
+        'filterStatus': true,
+        'tournamentFilter':{
+          'filterKey':'team',
+          'filterValue': ''
+        }
 
         }
     },
@@ -134,6 +140,8 @@
     //           return this.$store.state.Tournament.currentTotalTime
     //         },
     // },
+
+
     mounted() {
       let tournamentId = this.$store.state.Tournament.tournamentId
         if(tournamentId == null || tournamentId == '') {
@@ -155,7 +163,14 @@
            console.log('Error occured during Tournament api ', error)
         }
         )
+         $('#profile_image_file').click(function(){
+                $('#fileUpload').trigger('click')
+            })
 
+      this.getTeams(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue)
+    },
+    created: function() {
+      this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
     },
 
     // watch: {
@@ -176,6 +191,12 @@
           this.onAssignGroup(id)
         }
       },
+      setFilter(filterKey,filterValue) {
+        if(filterKey == 'age_category'){
+          this.onSelectAgeCategory('filter',filterValue.tournament_template_id)
+        }
+        this.getTeams(filterKey,filterValue)
+      },
       selectTrue(team_group,index,assigned_group){
         if(team_group+index == assigned_group){
           return true
@@ -185,31 +206,32 @@
         beforeChange()
       },
       beforeChange(gid) {
-
         let gdata = $('#sel_'+gid).val()
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
         let groupValue = $('#sel_'+id).val()
-        // console.log(groupValue,'l')
-
-          if(groupValue!=''){
+        if(groupValue!='' ){
             $(".selTeams option:contains("+$('#sel_'+id).val()+")").not( $('.sel_'+id)).attr("disabled","disabled");
-            }
-            if(this.beforeChangeGroupName!=''){
-              $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");
-            }
+        }
+        if(this.beforeChangeGroupName!=''){
+          $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");
+        }
+        if(groupValue != null)  {
+          this.selectedGroupsTeam.push(groupValue)
+        }
 
-            this.selectedGroupsTeam.push(groupValue)
-            var index = this.availableGroupsTeam.indexOf(groupValue);
-            if (index > -1) {
-              this.availableGroupsTeam.splice(index, 1);
-            }
+        var index = this.availableGroupsTeam.indexOf(groupValue);
+        if (index > -1) {
+          this.availableGroupsTeam.splice(index, 1);
+        }
 
 
       },
-       getTeams() {
-        Tournament.getTeams(this.tournament_id,this.age_category.id).then(
+       getTeams(filterKey,filterValue) {
+         let teamData = {'tournamentId':this.tournament_id,'filterKey':filterKey, 'filterValue': filterValue};
+        // console.log(teamData,'td')
+        Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
           },
@@ -266,10 +288,13 @@
           }
         )
       },
-      onSelectAgeCategory() {
-
-        let tournamentTemplateId = this.age_category.tournament_template_id
-
+      onSelectAgeCategory(type,templateId = '') {
+        let tournamentTemplateId = ''
+        if(type == 'view'){
+          tournamentTemplateId = this.age_category.tournament_template_id
+        }else{
+          tournamentTemplateId = templateId
+        }
         if(tournamentTemplateId != undefined)
         {
           // Now here Fetch the appopriate Template of it
@@ -284,18 +309,31 @@
               //let JsonTemplateData  = response.data.data
               // Now here we put data over there as per group
                let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
-              this.grps = jsonCompetationFormatDataFirstRound
-              let availGroupTeam = []
-              _.forEach(this.grps, function(group) {
-                for(var i = 1; i <= group.group_count; i++ ){
-                  // let gname = group.groups.group_name+i
-                  availGroupTeam.push(group.groups.group_name+i)
-                }
+               let availGroupTeam = []
+               if(type == 'filter'){
+                  this.grps = jsonCompetationFormatDataFirstRound
+                  _.forEach(this.grps, function(group) {
+                    for(var i = 1; i <= group.group_count; i++ ){
+                      // let gname = group.groups.group_name+i
+                      availGroupTeam.push(group.groups.group_name+i)
+                    }
 
-              });
+                  });
+               }else{
+                  this.grpsView = jsonCompetationFormatDataFirstRound
+                  _.forEach(this.grpsView, function(group) {
+                    for(var i = 1; i <= group.group_count; i++ ){
+                      // let gname = group.groups.group_name+i
+                      availGroupTeam.push(group.groups.group_name+i)
+                    }
+
+                  });
+               }
+
+
               this.availableGroupsTeam = availGroupTeam
               this.teamSize = jsonObj.tournament_teams
-              this.getTeams()
+
               let that = this
 
 
@@ -313,22 +351,25 @@
       },
       csvImport() {
         if($('#fileUpload').val()!=''){
+
           let files  = new FormData($("#frmCsvImport")[0]);
           files.append('ageCategory', this.age_category.id);
           files.append('tournamentId', this.tournament_id);
           files.append('teamSize', this.teamSize);
           // let uploadFile = document.getElementById('frmCsvImport');
-
+          this.filterStatus = false
           return axios.post('/api/team/create',files).then(response =>  {
           if(response.data.bigFileSize == true){
             toastr['error']('Total Team size is more than available. Only top '+this.teamSize+' teams have been added.', 'Error');
           }
-
-          this.getTeams()
+          this.filterStatus = true
+          this.getTeams(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue)
                                 // this.pitchId = response.data.pitchId
           }).catch(error => {
 
           });
+        }else{
+           toastr['error']('Please upload csv file.', 'Error');
         }
 
       }

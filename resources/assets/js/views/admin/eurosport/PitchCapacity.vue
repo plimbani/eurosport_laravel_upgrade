@@ -7,10 +7,10 @@
                     <div class="col-md-1 pitch-capaciry" v-for="pitch in pitches">
                         <p><strong>{{pitch.pitch_number}}</strong></p>
                         <img src="/assets/img/pitch.png">
-                        <p class="mb-0">
-                            <span><a href="javascript:void(0)" @click="editPitch(pitch.id)">Edit</a></span>
-                            <span><a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)">Remove</a></span>
-                        </p>
+                        <td>
+                            <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
+                            <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="jv-icon jv-dustbin"></i></a>
+                        </td>
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
@@ -291,7 +291,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
                     this.getAllPitches()
                    $("#delete_modal").modal("hide");
-                    toastr.success('Pitch Successfully removed', 'Delete User', {timeOut: 5000});
+                    toastr.success('Pitch successfully deleted', 'Delete Pitch', {timeOut: 5000});
                     // toastr['success']('Pitch Successfully removed', 'Success');
                     this.getAllPitches()
                     }).catch(error => {

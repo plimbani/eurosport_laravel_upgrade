@@ -53,7 +53,9 @@ export default {
       dropDownData: [],
       dropDown: '',
       options:[],
-      selectMsg: 'Select a Team'
+      selectMsg: 'Select a Team',
+      filterKey: 'team',
+      filterValue: ''
     }
   },
   props:['section'],
@@ -69,9 +71,21 @@ export default {
     }
   },
   methods: {
+    clearFilter(){
+      // this.dropDown = ''
+      // this.setFilterValue()
+    },
+    setFilterValue() {
+
+      this.filterValue = this.dropDown
+      let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
+      // this.$store.dispatch('setTournamentFilter', tournamentFilter);
+      this.$root.$emit('getTeamsByTournamentFilter',this.filterKey,this.filterValue);
+    },
     getDropDownData(tourament_key) {
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key
+      this.filterKey = tourament_key
       let tournamentData = {'tournamentId':tournamentId,
       'keyData':tourament_key,'type':this.section}
       Tournament.getDropDownData(tournamentData).then(
@@ -91,8 +105,7 @@ export default {
               this.selectMsg = 'Select'
               break
           }
-          console.log(response)
-          this.options =response.data.data
+           this.options =response.data.data
         },
         (error) => {
            console.log('Error occured during Tournament api ', error)
