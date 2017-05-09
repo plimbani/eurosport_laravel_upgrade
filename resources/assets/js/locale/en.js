@@ -220,7 +220,8 @@ module.exports = {
   pitch_modal_availability_date: "Date",
   pitch_modal_availability_time: "Time",
   pitch_modal_availability_capacity: "Capacity",
-  pitch_modal_availability_button_addstage: "Add Stage",
+  pitch_modal_availability_button_addstage: "Add stage",
+
   pitch_modal_availability_button_close: "Close",
   pitch_modal_availability_button_save: "Save",
 
