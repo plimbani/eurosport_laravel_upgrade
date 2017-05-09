@@ -189,7 +189,7 @@
 	    			if(response.data.data.locations != undefined || response.data.data.locations != null )
               {
     	    			response.data.data.locations.reduce(function (a,b) {
-    			        locations += b.name + ' (' +b.country +')' 
+    			        locations += b.name + ' (' +b.country +')'
     			      	},0);
 
     	    			this.tournamentSummary.locations = locations
@@ -205,8 +205,14 @@
 	    	this.tournamentId = this.$store.state.Tournament.tournamentId
 	    	this.tournamentName = this.$store.state.Tournament.tournamentName
 	    	this.tournamentStatus = this.$store.state.Tournament.tournamentStatus
-			this.tournamentDates = this.$store.state.Tournament.tournamentStartDate+'--'+this.$store.state.Tournament.tournamentEndDate
-			let tournamentDays = this.$store.state.Tournament.tournamentDays || 0
+
+        let SDate = moment(this.$store.state.Tournament.tournamentStartDate,'DD/MM/YYYY')
+
+        let EDate = moment(this.$store.state.Tournament.tournamentEndDate,'DD/MM/YYYY')
+
+			 this.tournamentDates = SDate.format('DD MMM YYYY')+'-'+EDate.format('DD MMM YYYY')
+			 let tournamentDays = this.$store.state.Tournament.tournamentDays || 0
+
 
 			this.tournamentDays= parseInt(tournamentDays)
 			this.tournamentLogo= this.$store.state.Tournament.tournamentLogo
