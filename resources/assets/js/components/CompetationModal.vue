@@ -8,40 +8,64 @@
                <span aria-hidden="true">×</span>
                </button>
             </div>
-            <div class="modal-body">
-               <form name="ageCategoryName">
-                <div  v-for="format in templateData.tournament_competition_graphic_view" class="row">
-                {{format}}
-                  <div v-for="grp in format"  class="col-sm-6">
+    <div class="modal-body">
+       <form name="ageCategoryName">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card text-center">
+              <div class="card-block">
+                <div class="table-responsive">
+                  <table class="table" id="Competition-modal-table">
+                    <tbody class="competition-modal-table-body">
+                      <tr v-for="format in templateData.tournament_competition_graphic_view">
+                        <td class="p-0" v-for="(grp,index1) in format">
+                          <tr class="group-name">
+                            <td><strong>{{ grp.name }}</strong></td>
+                          </tr>
+                          <tr class="grp-data">
+                            <td class="p-0">
+                              <tr>
+                                <td v-for="(gros,index2) in grp.groups">
+                                <strong>{{ gros.group_name}}</strong>
+                                  <tr class="grp-data">
+                                     <td class="p-0">
+                                      <tr  v-for="gg in gros.match">
+                                       <td :style="'background:'+gg.color">
+                                        <strong>{{gg.match_number}}</strong>
+                                       </td>
+                                    </tr>
+                                  </td>
+                                </tr>
+                                <!--<tr class="grp-data" v-for="gg in gros.match">
+                                  <td class="p-0" :style="'background:'+gg.color">
+                                  {{gg.match_number}}
+                                  </td>
+                                </tr>-->
+                                </td>
+                                <!-- <td><strong>Group B</strong></td> -->
+                              </tr>
+                            </td>
+                          </tr>
+                        <!-- <tr class="grp-data">
+                            <td class="p-0">
+                               <tr  v-for="(gros1,index3) in grp.groups">
+                                <td v-for="grs1 in gros1">
+                                <strong></strong>
+                                </td>
 
-                    <div class="card text-center">
-                      <div class="card-header">
-                        <h4 class="card-title">{{grp.name}}</h4>
-                      </div>
-                      <div class="card-block" v-for="mtchtype in grp.groups">
-                        <p class="card-text badge badge-info">{{ mtchtype.group_name }}</p>
-                        <table class="table" id="test">
-                          <thead>
-                            <tr>
-                              <th>Match Number:</th>
-                               <th class="text-center">{{ mtchtype.groups.group_name }}</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr  v-for="match in mtchtype.match">
-                              <th>{{ match.match_number }}</th>
-                              <td>{{ match.color }}</td>
-                            </tr>
-                            <tr>
-                         <!--  <td colspan="2">{{ mtchtype.total_match }}</td>-->
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
+                              </tr>
+                            </td>
+                          </tr> -->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="row align-items-center">
+              </div>
+            </div>
+          </div>
+        </div>
+            <div class="row align-items-center">
 
                   <div class="col-md-6">
                     <div class="jumbotron p-4 m-0">
