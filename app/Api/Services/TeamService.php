@@ -4,6 +4,8 @@ namespace Laraspace\Api\Services;
 
 use Laraspace\Api\Contracts\TeamContract;
 use Laraspace\Api\Repositories\TeamRepository;
+use Laraspace\Models\TournamentCompetationTemplates;
+
 
 class TeamService implements TeamContract
 {
@@ -18,14 +20,12 @@ class TeamService implements TeamContract
      * @param  array $api_key,$state,$type
      * @return response
      */
-    public function getTeams($tournamentId,$ageGroup)
+    public function getTeams($teamData)
     {
+        $data = $teamData->toArray()['teamData'];
         // Here we send Status Code and Messages
-        if($ageGroup!= ""){
-            $data = $this->teamRepoObj->getAll($tournamentId,$ageGroup);
-        }else{
-            $data = $this->teamRepoObj->getAllFromTournamentId($tournamentId);
-        }
+        $data = $this->teamRepoObj->getAllFromFilter($data);
+        
         // dd($data);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
@@ -33,6 +33,7 @@ class TeamService implements TeamContract
 
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
+
 
     public function getAllTournamentTeams($data)
     {
@@ -59,22 +60,54 @@ class TeamService implements TeamContract
     public function getCountryIdFromName($countryName) {
 
         $cid = \DB::table('countries')->where('name', $countryName)->select('id')->first();
-
-        return $cid->id;
+        if($cid){
+            return $cid->id;
+        }else{
+            return "error";    
+        }
+        
         
         // return 1;
     }
     public function create($data)
     {
-        if($data['Country']!=''){
+        if($data['country']!=''){
 
-            $data['country_id'] = $this->getCountryIdFromName($data['Country']);
-
+            $data['country_id'] = $this->getCountryIdFromName($data['country']) != 'error' ? $this->getCountryIdFromName($data['country']) : '1';
         }else{
-
-            $data['country_id'] = '';
+            $data['country_id'] = '1';
         }
-        $data = $this->teamRepoObj->create($data);
+         $data['age_group_id'] = 0;
+         $ageCategory = trim($data['event']) ;
+        if($ageCategory!= ''){
+            \Log::info($ageCategory);
+            
+            $ageCategory = str_replace(strstr($ageCategory, '/'),'',$ageCategory);
+            // dd($ageCategory);
+            $competitionData = TournamentCompetationTemplates::where('tournament_id', $data->tournamentData['tournamentId'])
+                ->where('group_name',$ageCategory)
+                ->first();
+            // dd($competitionData,$data->tournamentData['tournamentId'],$ageCategory);
+            if($competitionData){
+               $data['age_group_id'] = $competitionData['id'];
+            }
+
+        }
+        $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid']);
+        if(isset($teamData['id'])){
+
+            $editData =  [
+                'id' => $teamData['id'],
+                'name' => $data['team'],
+                'place' => $data['place'] ,
+                'country_id' => $data['country_id'],
+                'age_group_id' => $data['age_group_id']
+            ];
+            $data = $this->teamRepoObj->edit($editData);
+        }else{
+             $data = $this->teamRepoObj->create($data);
+        }
+        // \Log::info($data);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }

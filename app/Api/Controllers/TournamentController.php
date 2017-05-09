@@ -1,5 +1,4 @@
 <?php
-
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;

@@ -227,7 +227,7 @@ module.exports = {
 
 
   teams_terms_groups: "Teams and groups",
-  teams_age_category: "Age category",
+  teams_age_category: "Category name",
   teams_select_age_category: "Select age category",
   teams_u9: "U9",
   teams_u11: "U11",
@@ -351,5 +351,7 @@ module.exports = {
   summary_label_summary: "Summary",
   summary_label_reports: "Reports",
   summary_label_schedule: "Schedule and results",
-  summary_label_message: "Messages"
+  summary_label_message: "Messages",
+
+  tournament_filter_age_category: "Category name"
 }

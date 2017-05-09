@@ -1,5 +1,4 @@
 <?php
-
 namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\Tournament;
@@ -242,6 +241,7 @@ class TournamentRepository
     }
     public function tournamentFilter($tournamentData)
     {
+      // dd($tournamentData);
       $tournamentId = $tournamentData['tournamentData']['tournamentId'];
       $key = $tournamentData['tournamentData']['keyData'];
       $resultData = array();
@@ -263,7 +263,7 @@ class TournamentRepository
           
           case 'age_category' :
             $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
-                        ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name')
+                        ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name','tournament_competation_template.tournament_template_id')
                         ->distinct('name')
                         ->get();
             break;
@@ -297,7 +297,6 @@ class TournamentRepository
             break;
         }  
       }
-      
       return $resultData;
     }
 }

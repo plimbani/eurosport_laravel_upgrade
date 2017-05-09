@@ -113,6 +113,7 @@ class AgeGroupRepository
      */
     public function getCompeationFormat($tournamentData) {
      // print_r($tournamentData);
+
       $fieldName = key($tournamentData);
       $value = $tournamentData[$fieldName];
       return TournamentCompetationTemplates::where($fieldName, $value)->get();
