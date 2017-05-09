@@ -15,7 +15,7 @@
 
     		<td>{{index+1}}</td>
     		<td>
-    			<a>
+    			<a href="" class="pull-left text-left text-primary">
     			  <img :src="match.TeamFlag" width="20"> &nbsp;
     			    <span>{{match.TeamName}}</span>
     			</a>
