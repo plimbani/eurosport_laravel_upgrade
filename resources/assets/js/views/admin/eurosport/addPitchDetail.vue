@@ -209,7 +209,7 @@
                                       </div>
                                   </div>
                                   <div class="row mt-3">
-                                      <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">Add Stage</button>
+                                      <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">{{$lang.pitch_modal_availability_button_addstage}}</button>
                                   </div>
                               </form>
                           </div>
