@@ -113,7 +113,7 @@ module.exports = {
   competation_total_time: "FTotal time",
   competation_match_schedule: "FMatch schedule",
   competation_manage: "FManage",
-  compeattion_template: "FTemplate name"
+  compeattion_template: "FTemplate name",
 
   competation_modal_age_category: "FMatch Schedule – Template",
   competation_label_name_category: "FCategory name*",
