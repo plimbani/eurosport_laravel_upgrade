@@ -354,4 +354,5 @@ module.exports = {
   summary_label_schedule: "FSchedule and results",
   summary_label_message: "FMessages",
 
-  tournament_filter_age_category: "FCategory name"
+  tournament_filter_age_category: "FCategory name",
+ } 
