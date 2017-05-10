@@ -108,25 +108,7 @@
         <tbody>
           <tr>
             <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:10px 0px 20px 0px;">
-              <!--[if mso | IE]>
-      <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
-      <![endif]-->
-              <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
-                <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                  <tbody>
-                    <tr>
-                      <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;" align="center">
-                        <div class="" style="cursor:auto;color:#9B9B9B;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:300;line-height:24px;text-align:center;">
-                          <p>Euro Sporting</p>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!--[if mso | IE]>
-      </td></tr></table>
-      <![endif]-->
+              
             </td>
           </tr>
         </tbody>
@@ -202,16 +184,16 @@
                       <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px;" align="left">
                         <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;">
                           <p padding="5px">Hi {{ $email_details['name'] }},</p>
-                          <p padding-bottom="0">Your Eurosport account has been created. Please click the link below and set your password to finalise your account set up.</p></div>
+                          <p padding-bottom="0">Your Euro-Sportring Tournament Planner has been created. Please click on the button below to set you password and complete your account registration.</p></div>
                       </td>
                     </tr>
                     <tr>
-                      <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-bottom:20px;" align="center">
-                        <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="center" border="0">
+                      <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-bottom:20px;" align="left">
+                        <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="left" border="0">
                           <tbody>
                             <tr>
                               <td style="border:none;border-radius:3px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#2196f3"><a href="@php echo url('user/setpassword/'.$email_details['token']) @endphp" style="text-decoration:none;line-height:100%;background:#2196f3;color:white;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:13px;font-weight:300;text-transform:none;margin:0px;"
-                                  target="_blank">Set Password</a></td>
+                                  target="_blank">Set password</a></td>
                             </tr>
                           </tbody>
                         </table>
@@ -219,23 +201,15 @@
                     </tr>
                   </tbody>
                 </table>
+                <div><div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:12px;word-wrap:break-word;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px" align="left"><p>Regards,</p>
+                <p>Euro-Sportring</p></div>
+                </div>
               </div>
-              <!--[if mso | IE]>
-      </td></tr></table>
-      <![endif]-->
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <!--[if mso | IE]>
-      </td></tr></table>
-      <![endif]-->
-    <!--[if mso | IE]>
-      <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" align="center" style="width:600px;">
-        <tr>
-          <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
-      <![endif]-->
     <div style="margin:0px auto;max-width:600px;">
       <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
         <tbody>
@@ -250,7 +224,7 @@
                     <tr>
                       <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;" align="center">
                         <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;">
-                          <p style="line-height:14px"><small>Copyright 2017 Euro-Sportring.<br>All rights reserved. Developer by aecor.</small></p>
+                          <p style="line-height:14px"><small>Copyright 2017 Euro-Sportring.</br>All rights reserved. Developer by <a style="text-decoration: none;" href="http://aecordigital.com" target="_blank"><font color="#2196f3">aecor.</font></a></small></p>
                         </div>
                       </td>
                     </tr>
