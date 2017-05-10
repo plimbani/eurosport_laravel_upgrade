@@ -6,8 +6,9 @@
 		    <select class="form-control ls-select2 col-sm-4"
 		    v-on:change="onChangeMatchDate"
 			v-model="matchDate">
-			<option v-for="option in tournamentDates" v-bind:value="option"
-			>{{option}}
+			<option v-for="option in tournamentDates"
+      v-bind:value="option"
+			>{{option | formatDate}}
 			</option>
 			</select>
 		</div>
@@ -37,6 +38,13 @@ export default {
 			currentComponent: this.$store.state.currentScheduleView
 		}
 	},
+  filters: {
+    formatDate: function(date) {
+      // return moment(date).format("ddd DD/MM/YYYY h:mm");
+      let SDate = moment(date,'DD/MM/YYYY')
+      return moment(SDate).format("DD MMM YYYY");
+    }
+  },
 	mounted() {
 	  // First Called match Listing Data and then passed
 
