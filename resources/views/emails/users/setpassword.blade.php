@@ -30,7 +30,7 @@
 </head>
 <body class="login-page pace-done">
 <div id="app" class="template-container">
-    
+
         <div class="login-wrapper">
             <div class="login-box">
                 <div class="brand-main">
@@ -39,12 +39,12 @@
                         <img src="/assets/img/logo-desk.svg" alt="Laraspace Logo">
                     </a>
                 </div>
-                
+
                 <div class="row">
                         <div class="col-md-12">
                             <div class="panel panel-default reset-password">
                                 <div class="panel-heading">
-                                    <p class="h4 text-center mt-4">Set Password</p>
+                                    <p class="h4 text-center mt-4" style="color:#757575">Set password</p>
                                 </div>
 
                                 <div class="panel-body">
@@ -57,7 +57,7 @@
                                     <form id="js-frm-password-activation" class="js-frm-password-activation" method="POST" action="/passwordactivate">
                                         <input type="hidden" id="key" name="key" value="{{$usersPasswords[0]['token']}}">
                                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                            <label for="password">Password</label>
+                                            <label for="password" style="color:'#757575'">Password</label>
                                             <input id="password" type="password" class="form-control" name="password" required>
                                             @if ($errors->has('password'))
                                                 <!-- <span class="help-block">
@@ -77,7 +77,7 @@
                                                 <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small>
                                             @endif
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group text-center">
                                             <button type="submit" class="btn btn-primary">
                                                 Set password
                                             </button>
@@ -87,14 +87,14 @@
                             </div>
                         </div>
                 </div>
-                 
+
                 <div class="page-copyright">
                      <p>Copyright 2017 Euro-Sportring. All rights reserved.<br/>
                     Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a></p>
                 </div>
             </div>
         </div>
-   
+
 </div>
 </body>
 <script type="text/javascript">
