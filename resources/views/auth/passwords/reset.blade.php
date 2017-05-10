@@ -29,90 +29,142 @@
     <meta name="theme-color" content="#333333">
 </head>
 <body class="login-page pace-done">
-<div id="app" class="template-container">
-    
-        <div class="login-wrapper">
-            <div class="login-box">
-                <div class="brand-main">
-                    <a href="/admin">
-                        <!-- <img src="http://www.euro-sportring.com/sites/default/files/euro-sportring_1.png" alt="Laraspace Logo"> -->
-                        <img src="/assets/img/logo-desk.svg" alt="Laraspace Logo">
-                    </a>
-                </div>
-                
-                <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel panel-default reset-password">
-                                <div class="panel-heading">
-                                    <p class="h4 text-center mt-4">Reset password</p>
-                                </div>
-
-                                <div class="panel-body">
-                                    @if (session('status'))
-                                        <div class="alert alert-success">
-                                            {{ session('status') }}
-                                        </div>
-                                    @endif
-
-                                    <form role="form" method="POST" action="{{ route('password.request') }}">
-                                        {{ csrf_field() }}
-
-                                        <input type="hidden" name="token" value="{{ $token }}">
-
-                                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                            <label for="email">Email address</label>
-                                            <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
-                                            @if ($errors->has('email'))
-                                                <!-- <span class="help-block">
-                                                    <strong>{{ $errors->first('email') }}</strong>
-                                                </span> -->
-                                                <small class="form-text text-danger">{{ $errors->first('email') }}</small>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                            <label for="password">Password</label>
-                                            <input id="password" type="password" class="form-control" name="password" required>
-
-                                            @if ($errors->has('password'))
-                                                <!-- <span class="help-block">
-                                                    <strong>{{ $errors->first('password') }}</strong>
-                                                </span> -->
-                                                <small class="form-text text-danger">{{ $errors->first('password') }}</small>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                            <label for="password-confirm">Confirm password</label>
-                                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
-                                            @if ($errors->has('password_confirmation'))
-                                                <!-- <span class="help-block">
-                                                    <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                                </span> -->
-                                                <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary">
-                                                Reset Password
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+<div id="app" class="template-container">  
+    <div class="login-wrapper">
+        <div class="login-box">
+            <div class="brand-main">
+                <a href="/admin">
+                    <!-- <img src="http://www.euro-sportring.com/sites/default/files/euro-sportring_1.png" alt="Laraspace Logo"> -->
+                    <img src="/assets/img/logo-desk.svg" alt="Laraspace Logo">
+                </a>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default reset-password">
+                        <div class="panel-heading">
+                            <p class="h4 text-center mt-4" style="color:#757575">Reset password</p>
                         </div>
+
+                        <div class="panel-body">
+                            @if (session('status'))
+                                <div class="alert alert-success">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+
+                            <form role="form" method="POST" action="{{ route('password.request') }}">
+                                {{ csrf_field() }}
+
+                                <input type="hidden" name="token" value="{{ $token }}">
+
+                                <div class="form-group">
+                                    <input id="email" type="email" class="form-control" placeholder="Enter email" name="email">
+                            
+                                    <small class="form-text text-danger">{{ $errors->first('email') }}</small>
+                                </div>
+
+                                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                    <input id="password" type="password" class="form-control" placeholder="Enter password" name="password" required>
+
+                                    @if ($errors->has('password'))
+                                        <!-- <span class="help-block">
+                                            <strong>{{ $errors->first('password') }}</strong>
+                                        </span> -->
+                                        <small class="form-text text-danger">{{ $errors->first('password') }}</small>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                                    <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" required>
+
+                                    @if ($errors->has('password_confirmation'))
+                                        <!-- <span class="help-block">
+                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                        </span> -->
+                                        <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small>
+                                    @endif
+                                </div>
+
+                                <div class="h4 text-center mt-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        Set password
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                 
-                <div class="page-copyright">
-                    <p>Copyright 2017 Euro-Sportring. All rights reserved.</br>
-                    Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a></p>
-                </div>
+            </div>    
+            <div class="page-copyright">
+                <p>Copyright 2017 Euro-Sportring. All rights reserved.</br>
+                Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a></p>
             </div>
         </div>
-   
+    </div>
 </div>
 </body>
-
 </html>
+<script type="text/javascript">
+var vueUser;
+var User = function() {
+    var handleValidation = function() {
+        $('.js-frm-create-user,.js-frm-edit-user').validate({
+            ignore: [],
+            debug: false,
+            messages: {
+                email:{
+                    remote:'Email Already Exists',
+                },
+                phone_number: {
+                    required: "This field is required.",
+                    digits: "This field is invalid."
+                }     
+            },
+            rules: {
+                first_name: {
+                    required: true
+                },
+                last_name: {
+                    required: true
+                },
+                email: {
+                    required: true,
+                    remote: {
+                                url: "/admin/validateEmail",
+                                type: "post",
+                                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                                data: {   
+                                      id: function() {
+                                        return $('input[name="user_id"]').val();
+                                      }
+                                }  
+                            }
+                },
+            },
+            errorPlacement: function (error, element) { // render error placement for each input type     
+                // if(element.prop("name")=="dob") {
+                //     element.parent().parent().append(error);
+                // } else {
+                //     element.parent().append(error);
+                // }
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    };
+    var formInitialization = function() {
+        
+    };
+    var formEvents = function() {
+        
+    };
+    return {
+        init: function() {
+            handleValidation();
+            formInitialization();
+            formEvents();
+        }
+    }
+}();
+</script>
