@@ -4,7 +4,7 @@
           <div class="modal-content">
               <div class="tabs tabs-primary">
                   <div class="modal-header">
-                      <h5 class="modal-title">Pitch Details</h5>
+                      <h5 class="modal-title">Pitch details</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">×</span>
                       </button>
@@ -12,7 +12,7 @@
                   <div class="modal-body">
                       <ul class="nav nav-tabs col-md-12" role="tablist">
                           <li class="nav-item col-md-6 padding0">
-                              <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active text-center">{{$lang.pitch_modal_details}}</a>
+                              <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active text-center">{{$lang.pitch_details}}</a>
                           </li>
                           <li class="nav-item col-md-6 padding0">
                               <a data-toggle="tab" href="#availability" role="tab" class="nav-link text-center">{{$lang.pitch_modal_availability}}</a>
