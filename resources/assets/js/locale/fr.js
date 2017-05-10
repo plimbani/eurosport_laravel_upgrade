@@ -9,7 +9,7 @@ module.exports = {
   welcome_add_new_tournament_publish: "Publier",
   welcome_add_new_user: 'Ajouter un nouvel utilisateu',
   welcome_add_user: 'Add new edition',
-  welcome_see_tournament_admin_view: "voir la vue de l'administrateur du tournoi",
+  welcome_see_tournament_admin_view: "Fvoir la vue de l'administrateur du tournoi",
   welcome_add_new_tournament: 'Ajouter un nouveau tournoi',
 
   siteheader_name: "FChris",
@@ -98,7 +98,7 @@ module.exports = {
   tournament_united_kingdom: "FUnited Kingdom",
   tournament_organiser: "FOrganiser",
   tournament_button_home: "FHome",
-  tournament_button_next: "FNext",
+  tournament_button_next: "FSave/Next",
 
   competation_age_categories: "FAge categories",
   competation_add_age_category: "FAdd age category",
@@ -113,8 +113,9 @@ module.exports = {
   competation_total_time: "FTotal time",
   competation_match_schedule: "FMatch schedule",
   competation_manage: "FManage",
+  compeattion_template: "FTemplate name",
 
-  competation_modal_age_category: "FAge Category",
+  competation_modal_age_category: "FMatch Schedule – Template",
   competation_label_name_category: "FCategory name*",
   competation_label_age_category: "FCategory age*",
   competation_modal_name_category_required: "FCategory name is required",
@@ -122,6 +123,9 @@ module.exports = {
   competation_modal_select_templates: "FSelect template*",
   competation_modal_select_template_list: "FSelect template",
   competation_modal_select_templates_required: "FA template is required",
+
+  competation_label_template: "FTemplate",
+  competation_validation_template: "FTemplate selection is required",
   competation_modal_game_duration: "FGame duration RR/PM/EM *",
   competation_modal_duration_final: "FGame duration final*",
   competation_modal_duration_final_minutes: "Fminutes",
@@ -130,23 +134,28 @@ module.exports = {
   competation_modal_half_time_break_minutes: "Fminutes",
   competation_modal_half_time_break_final: "FHalf-time break final*",
   competation_modal_half_time_break_final_minutes: "Fminutes",
+
+
+  pitch_capacity_break:"Break",
+  pitch_capacity_break_start:"Break start",
+
   competation_modal_match_interval: "FMatch interval RR/PM/EM*",
   competation_modal_match_minutes: "Fminutes",
   competation_modal_match_interval_final: "FMatch interval final*",
   competation_modal_match_interval_final_minutes: "Fminutes",
   competation_modal_button_cancle: "FCancel",
-  competation_modal_button_save: "FSave",  
+  competation_modal_button_save: "FSave",
   competation_modal_select_number_teams: "FSelect number of teams",
   competation_modal_select_category_age: "FSelect category age",
   competation_modal_select_minimum_matches: "FSelect minimum matches",
 
   competation_label_number_teams: "FNumber of teams*",
-  competation_modal_number_teams_required: "FNumber of teams required",
+  competation_modal_number_teams_required: "FNumber of teams is required",
   competation_label_minimum_matches: "FMinimum matches*",
-  competation_modal_minimum_matches_required: "FMinimum matches required",
+  competation_modal_minimum_matches_required: "FMinimum matches is required",
 
   competation_modal_format_team: "FTeams:",
-  competation_modal_foramt_competation_foramt: "FCompetation format:",
+  competation_modal_foramt_competation_foramt: "FCompetition format:",
   competation_modal_minimum_matches: "FMinimum matches:",
   competation_modal_format_remark: "FRemark:",
 
@@ -154,13 +163,13 @@ module.exports = {
   competation_modal_matches_number_matches_day: "FNumber of matches day 2:",
   competation_modal_matches_total_matches: "FTotal matches:",
   competation_modal_matches_average_matches: "FAverage matches per team:",
-  
+
   competation_modal_time: "FTotal time required:",
 
- 
-  pitch_capacity: "FPitch Capacity",
+
+  pitch_capacity: "FPitch capacity",
   pitch_add: "FAdd pitch",
-  pitch_details: "FPitch Details",
+  pitch_details: "FPitch details",
   pitch_availability: "FAvailability",
   pitch_number: "FNumber",
   pitch_type: "FType",
@@ -207,18 +216,19 @@ module.exports = {
   pitch_modal_details_size_side_handball: "FHandball",
   pitch_modal_button_next: "FNext",
 
-  pitch_modal_availability: "FPitch Availability",
+  pitch_modal_availability: "FPitch availability",
   pitch_modal_availability_stage: "FStage",
   pitch_modal_availability_date: "FDate",
   pitch_modal_availability_time: "FTime",
   pitch_modal_availability_capacity: "FCapacity",
-  pitch_modal_availability_button_addstage: "FAdd Stage",
+  pitch_modal_availability_button_addstage: "FAdd stage",
+
   pitch_modal_availability_button_close: "FClose",
   pitch_modal_availability_button_save: "FSave",
 
 
-  teams_terms_groups: "FTerms and groups",
-  teams_age_category: "FAge category",
+  teams_terms_groups: "FTeams and groups",
+  teams_age_category: "FCategory name",
   teams_select_age_category: "FSelect age category",
   teams_u9: "FU9",
   teams_u11: "FU11",
@@ -244,7 +254,7 @@ module.exports = {
   teams_group_d_a2: "FA2",
   teams_group_d_a3: "FA3",
   teams_group_d_a4: "FA4",
-  teams_team_list: "FTeam List",
+  teams_team_list: "FTeam list",
   teams_upload_team: "FUpload teams",
   teams_filter: "FFilter by:",
   teams_team: "FTeam",
@@ -257,23 +267,25 @@ module.exports = {
   teams_select_location_4: "FLocation 4",
   teams_select_etc: "FEtc...",
   teams_clear: "FClear",
-  teams_reference: "FReference",
-  teams_name: "FName", 
+  teams_reference: "FTeamID",
+  teams_name: "FTeam",
   teams_country: "FCountry",
   teams_agecategory: "FAge Category",
-  teams_group: "FGroup",
+  teams_group: "FCategory name",
   teams_button_updategroups: "FUpdate",
-
+  teams_location: "FLocation",
+  teams_place: "FPlace",
+  teams_event: "FEvent",
 
   summary_cup: "FXYZ Cup 2017",
   summary_location: "FLocations",
   summary_dates: "FDates",
   summary_status: "FStatus",
   summary_button_publish: "FPublish",
-  summary_button_unpublish: "FUnPublish",
-  
+  summary_button_unpublish: "FUnpublish",
+
   summary_button_delete: "FDelete",
-  summary_age_groups: "FAge Groups",
+  summary_age_groups: "FAge group",
   summary_participating_countries: "FParticipating countries",
   summary_euro_supporting_contact: "FEuro-Sportring contact",
   summary_teams: "FTeams",
@@ -306,7 +318,7 @@ module.exports = {
   summary_location_select: "FSelect",
   summary_pitch_select: "FSelect",
   summary_referee_select: "FSelect",
-  
+
   summary_reports_date: "FDate(time)",
   summary_reports_age_catrgory: "FAge category",
   summary_reports_location: "FLocation",
@@ -319,7 +331,7 @@ module.exports = {
   summary_schedule_draws: "FDraws",
   summary_schedule_matches: "FMatches",
   summary_schedule_teams: "FTeams",
-  
+
   summary_schedule_button_print: "FPrint",
   summary_schedule_draw: "FDraw",
   summary_schedule_type: "FType",
@@ -334,11 +346,13 @@ module.exports = {
   competation_label: "FCompetition formats",
   pitch_capacity_label: "FPitch capacity",
   pitch_planner_label: "FPitch planner",
-  teams_groups_label: "FTeams and groups", 
+  teams_groups_label: "FTeams and groups",
   summary_label: "FSummary",
 
   summary_label_summary: "FSummary",
   summary_label_reports: "FReports",
   summary_label_schedule: "FSchedule and results",
-  summary_label_message: "FMessages"
-}
+  summary_label_message: "FMessages",
+
+  tournament_filter_age_category: "FCategory name",
+ } 

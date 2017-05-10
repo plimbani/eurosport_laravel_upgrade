@@ -114,6 +114,7 @@ module.exports = {
   competation_total_time: "Total time",
   competation_match_schedule: "Match schedule",
   competation_manage: "Manage",
+  compeattion_template: "Template name",
 
   competation_modal_age_category: "Match Schedule – Template",
   competation_label_name_category: "Category name*",
@@ -354,5 +355,5 @@ module.exports = {
   summary_label_schedule: "Schedule and results",
   summary_label_message: "Messages",
 
-  tournament_filter_age_category: "Category name"
+  tournament_filter_age_category: "Category name",
 }
