@@ -60,12 +60,12 @@ class TeamController extends BaseController
     {
         // dd($request->all());
         $teamData = $request->toArray();
-       
+        // dd($teamData['tournamentId']);
         $file = $request->file('fileUpload');
         // $this->data['teamSize'] =  $teamData['teamSize'];
-        $this->data['tournamentId'] = $teamData['tournamentId'];
+        $this->data['tournamentId'] = (int)$teamData['tournamentId'];
         // $this->data['ageCategory'] = $teamData['ageCategory'];
-
+        // dd($this->data['tournamentId']);
         // $this->teamObj->deleteFromTournament($request->tournamentId);
         // dd($this->data['tournamentId']);
         // $this->teamObj->deleteFromTournament($this->data['tournamentId'], $request['ageCategory'] );
