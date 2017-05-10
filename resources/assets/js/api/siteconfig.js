@@ -3,12 +3,11 @@ import NProgress from 'nprogress'
 // var NProgress = require("nprogress")
 // var PulseLoader = require('vue-spinner/src/PulseLoader.vue');
 // EndPoint API
-import { PulseLoader } from 'vue-spinner/dist/vue-spinner.min.js'
 
 var instance = axios.create({
   // baseURL: 'http://krunal-eurosport.dev.aecortech.com/api/',
   baseURL: 'http://esr.aecordigitalqa.com/api/',
-  
+
   timeout: 50000
 })
 
