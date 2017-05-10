@@ -18,7 +18,7 @@
     	</tr>
     </tbody>
 </table>
-<span v-else>No Draw Data Found </span>
+<span v-else>No information available</span>
 </div>
 </template>
 <script type="text/babel">
