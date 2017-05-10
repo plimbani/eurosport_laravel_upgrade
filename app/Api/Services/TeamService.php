@@ -25,7 +25,7 @@ class TeamService implements TeamContract
         $data = $teamData->toArray()['teamData'];
         // Here we send Status Code and Messages
         $data = $this->teamRepoObj->getAllFromFilter($data);
-        
+
         // dd($data);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
@@ -39,14 +39,14 @@ class TeamService implements TeamContract
     {
 
       // Here we send Status Code and Messages
-        $data = $data->all();
+
         $data = $this->teamRepoObj->getAllTournamentTeams($data['tournamentData']['tournamentId']);
         // dd($data);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
 
-        return ['status_code' => '505', 'message' => 'Error in Data'];  
+        return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
     /**
@@ -63,10 +63,10 @@ class TeamService implements TeamContract
         if($cid){
             return $cid->id;
         }else{
-            return "error";    
+            return "error";
         }
-        
-        
+
+
         // return 1;
     }
     public function create($data)
@@ -81,7 +81,7 @@ class TeamService implements TeamContract
          $ageCategory = trim($data['event']) ;
         if($ageCategory!= ''){
             \Log::info($ageCategory);
-            
+
             $ageCategory = str_replace(strstr($ageCategory, '/'),'',$ageCategory);
             // dd($ageCategory);
             $competitionData = TournamentCompetationTemplates::where('tournament_id', $data->tournamentData['tournamentId'])
@@ -159,5 +159,5 @@ class TeamService implements TeamContract
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
     }
-    
+
 }
