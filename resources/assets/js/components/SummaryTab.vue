@@ -189,9 +189,11 @@
 	    			if(response.data.data.locations != undefined || response.data.data.locations != null )
               {
     	    			response.data.data.locations.reduce(function (a,b) {
-    			        locations += b.name + ' (' +b.country +')'
-    			      	},0);
-
+    			        locations += b.name + ' (' +b.country +')'+','
+                  },0);
+                // remove last comma
+                if(locations.length > 0)
+                    locations = locations.substring(0,locations.length-1)
     	    			this.tournamentSummary.locations = locations
 	    		   }
 
