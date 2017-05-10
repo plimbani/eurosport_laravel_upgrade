@@ -187,12 +187,12 @@ class TournamentRepository
 	       	// here we consider whole string for total teams
 	       	$tempData['total_teams'][] =  $tournamentData['disp_format_name'];
 	       	$tempData['total_match'][] =  $tournamentData['total_match'];
-	       	$tempData['age_group'][]=$tournamentData['group_name'];
+	       	$tempData['category_age'][]=  $tournamentData['category_age'];
 	       }
 	      $summaryData['tournament_matches'] = array_sum($tempData['total_match']);
         $summaryData['tournament_teams'] = array_sum($tempData['total_teams']);
 
-         $summaryData['tournament_groups']= implode(',',$tempData['age_group']);
+         $summaryData['tournament_groups']= implode(',',array_unique($tempData['category_age']));
      	}
 
        $tournamentPitch = Pitch::where('tournament_id', $tournamentId)->get();
@@ -205,7 +205,22 @@ class TournamentRepository
          $summaryData['tournament_referees'] = '--';
 
         // TODO: country  is remaining depends on team
-         $summaryData['tournament_countries'] = '--';
+         $teamsCountries = Team::join('countries', function ($join) {
+                            $join->on('teams.country_id', '=', 'countries.id');
+                           })
+                          ->where('teams.tournament_id',$tournamentId)
+                          ->select('countries.name as country_name')
+                          ->get();
+          $summaryData['tournament_countries'] =  '';
+          if(count($teamsCountries) > 0 )
+          {
+            foreach($teamsCountries as $teamCountry) {
+              $tempData['tournament_countries'][]=  $teamCountry['country_name'];
+            }
+
+            $summaryData['tournament_countries'] = implode(', ',array_unique($tempData['tournament_countries']));
+          }
+
 
          $peopleData = TournamentContact::where('tournament_id',$tournamentId)->get();
 
@@ -260,7 +275,7 @@ class TournamentRepository
                         ->distinct('name')
                         ->get();
             break;
-          
+
           case 'age_category' :
             $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
                         ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name','tournament_competation_template.tournament_template_id')
@@ -293,9 +308,9 @@ class TournamentRepository
                         ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name')
                         ->distinct('name')
                         ->get();
-                      
+
             break;
-        }  
+        }
       }
       return $resultData;
     }
