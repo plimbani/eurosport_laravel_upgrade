@@ -192,7 +192,7 @@ class TournamentRepository
 	      $summaryData['tournament_matches'] = array_sum($tempData['total_match']);
         $summaryData['tournament_teams'] = array_sum($tempData['total_teams']);
 
-         $summaryData['tournament_groups']= implode(',',array_unique($tempData['category_age']));
+         $summaryData['tournament_groups']= implode(' , ',array_unique($tempData['category_age']));
      	}
 
        $tournamentPitch = Pitch::where('tournament_id', $tournamentId)->get();
@@ -218,7 +218,7 @@ class TournamentRepository
               $tempData['tournament_countries'][]=  $teamCountry['country_name'];
             }
 
-            $summaryData['tournament_countries'] = implode(', ',array_unique($tempData['tournament_countries']));
+            $summaryData['tournament_countries'] = implode(' , ',array_unique($tempData['tournament_countries']));
           }
 
 
