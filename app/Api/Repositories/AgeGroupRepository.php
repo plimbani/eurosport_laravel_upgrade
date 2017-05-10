@@ -116,7 +116,11 @@ class AgeGroupRepository
 
       $fieldName = key($tournamentData);
       $value = $tournamentData[$fieldName];
-      return TournamentCompetationTemplates::where($fieldName, $value)->get();
+      return TournamentCompetationTemplates::
+               leftjoin('tournament_template', 'tournament_template.id', '=',
+                'tournament_competation_template.tournament_template_id')
+               ->select('tournament_competation_template.*','tournament_template.name as template_name')
+              ->where($fieldName, $value)->get();
 
 
       // TODO: here we call function to Display All Templates Related to

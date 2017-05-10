@@ -7,6 +7,7 @@
           <tr>
               <th class="text-center">{{$lang.competation_name_category}}</th>
               <th class="text-center">{{$lang.competation_age_category}}</th>
+              <th class="text-center">Template name</th>
               <th class="text-center">{{$lang.competation_competation_format}}</th>
               <th class="text-center">{{$lang.competation_total_matches}}</th>
               <th class="text-center">{{$lang.competation_total_time}}</th>
@@ -18,10 +19,11 @@
 
           <tr v-for="(competation, index) in competationList">
               <td class="text-left">{{competation.group_name}} </td>
-              <td class="text-left">{{competation.category_age}}</td>                   
+              <td class="text-left">{{competation.category_age}}</td>
+              <td class="text-left">{{competation.template_name}}</td>
               <td>
                   <label class="form-check-label">
-                      <input type="radio" class="form-check-input" 
+                      <input type="radio" class="form-check-input"
                       name="competationFormatTemplate"
                       :value="index"
                              checked>
@@ -47,7 +49,7 @@
                     <i class="jv-icon jv-dustbin"></i></a>
                   </span>
               </td>
-              
+
           </tr>
       </tbody>
       <AddAgeCateogryModel v-if="categoryStatus"></AddAgeCateogryModel>
