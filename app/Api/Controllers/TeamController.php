@@ -22,7 +22,7 @@ class TeamController extends BaseController
     public function __construct(TeamContract $teamObj)
     {
         $this->teamObj = $teamObj;
-        $this->data = '';
+        $this->data = [];
     }
 
     /**
@@ -59,7 +59,7 @@ class TeamController extends BaseController
     public function createTeam(Request $request)
     {
         $teamData = $request->all();
-        dd($teamData);
+        // dd($teamData);
         $file = $request->file('fileUpload');
         // $this->data['teamSize'] =  $teamData['teamSize'];
         $this->data['tournamentId'] = $teamData['tournamentId'];
