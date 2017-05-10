@@ -16,7 +16,7 @@
             <div class="col-sm-6">
                 <div class="checkbox">
                     <div class="c-input">
-                        <input type="checkbox" class="euro-checkbox" id="1" name="remember" v-model="loginData.remember" >
+                        <input type="checkbox" class="euro-checkbox" id="1" name="remember" v-model="loginData.remember">
                         <label for="1">Remember me</label>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                 <img src="" alt="" width="200" />
             </div>
            
-            <p style="font-size:14px;">Enter your e-mail address below to reset your password.</p>
+            <p style="font-size:14px; color:#464a4c;">Enter your e-mail address below to reset your password.</p>
             <div class="form-group">
                 <!-- <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> -->
                  <input class="form-control" type="email" autocomplete="off" v-model="loginData.email" v-validate="'required'" placeholder="Email address" name="email" id="
