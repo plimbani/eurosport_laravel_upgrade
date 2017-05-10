@@ -62,7 +62,7 @@ class TeamController extends BaseController
         $teamData = $request->toArray();
        
         $file = $request->file('fileUpload');
-        $this->data['teamSize'] =  $teamData['teamSize'];
+        // $this->data['teamSize'] =  $teamData['teamSize'];
         $this->data['tournamentId'] = $teamData['tournamentId'];
         // $this->data['ageCategory'] = $teamData['ageCategory'];
 
@@ -85,11 +85,11 @@ class TeamController extends BaseController
                 // });
             });
         });
-        if($this->data['totalSize'] > $this->data['teamSize'] ){
-            return ['bigFileSize' =>  true];
-        }else{
+        // if($this->data['totalSize'] > $this->data['teamSize'] ){
+        //     return ['bigFileSize' =>  true];
+        // }else{
             return ['bigFileSize' =>  false];
-        }
+        // }
     }
     public function assignTeam(Request $request) {
         // dd($request->all());
