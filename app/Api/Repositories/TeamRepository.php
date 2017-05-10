@@ -47,9 +47,10 @@ class TeamRepository
                         
                     }
                 }
-            return $teamData->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo',
+            return $teamData->distinct('teams.id')->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo',
                     'competitions.name as competationName','competitions.id as competationId',
                     'tournament_competation_template.group_name as age_name')
+
                 ->get();  
        
         
@@ -116,8 +117,9 @@ public function getAllFromTournamentId($tournamentId)
 
     public function assignGroup($team_id,$groupName,$data='') 
     {   
-        // dd($data,'hi');
+        // dd($team_id,$groupName,$data,'hi');
         $team = Team::find($team_id);
+        // dd($team->name);
         $gname = explode('-',$groupName);
          Team::where('id', $team_id)->update([
             'group_name' => $groupName,
@@ -127,7 +129,7 @@ public function getAllFromTournamentId($tournamentId)
             ->where('tournament_id',$data['tournament_id'])
             // ->where('age_group_id',$data['age_group'])
             ->update([
-                'home_team_name' => $team_name,
+                'home_team_name' => $team->name,
                 'home_team' => $team_id,
                 'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
             ]);
@@ -135,7 +137,7 @@ public function getAllFromTournamentId($tournamentId)
             ->where('tournament_id',$data['tournament_id'])
             // ->where('age_group_id',$data['age_group'])
             ->update([
-                'away_team_name' => $team_name,
+                'away_team_name' => $team->name,
                 'away_team' => $team_id,
                 'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
             ]);
