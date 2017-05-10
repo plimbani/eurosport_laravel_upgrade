@@ -1,5 +1,4 @@
 <?php
-
 namespace Laraspace\Models;
 
 use Illuminate\Database\Eloquent\Model;

@@ -19,5 +19,16 @@ class Team extends Model
      *
      * @var array
      */
+
+    public function getName($value)
+    {
+        return stripslashes($value);
+    }
+     public function setName($value)
+    {
+        return addslashes($value);
+
+    }
+
     protected $dates = ['deleted_at'];
 }
