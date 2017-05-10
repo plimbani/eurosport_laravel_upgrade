@@ -58,8 +58,7 @@ class TeamController extends BaseController
 
     public function createTeam(Request $request)
     {
-        // dd($request->all());
-        $teamData = $request->toArray();
+        $teamData = $request->all();
         // dd($teamData['tournamentId']);
         $file = $request->file('fileUpload');
         // $this->data['teamSize'] =  $teamData['teamSize'];
