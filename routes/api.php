@@ -33,7 +33,7 @@ $api->version('v1', function ($api) {
     $api->get('users/test', 'Laraspace\Api\Controllers\EnvController@test2');
     // Team Stuff
 
-    $api->get('teams/{tournamentId}/{ageGroup}', 'Laraspace\Api\Controllers\TeamController@getTeams');
+    $api->post('teams', 'Laraspace\Api\Controllers\TeamController@getTeams');
     $api->post('team/create', 'Laraspace\Api\Controllers\TeamController@createTeam');
     $api->post('team/edit/{id}', 'Laraspace\Api\Controllers\TeamController@edit');
     $api->post('team/delete/{deleteid}', 'Laraspace\Api\Controllers\TeamController@deleteTeam');
