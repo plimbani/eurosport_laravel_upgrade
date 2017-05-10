@@ -1,7 +1,7 @@
 <template>    
     <footer class="site-footer d-flex justify-content-center">
         <div class="page-copyright">
-                <small>{{$lang.sitefooter_message }} {{currentYear}} Euro-Sportring. All rights reserved.  Developed  by <a href="http://aecordigital.com" target="_blank"><font color="#2196f3">aecor.</font></a></small>
+            <small>{{$lang.sitefooter_message }} {{currentYear}} Euro-Sportring. All rights reserved.  Developed  by <a href="http://aecordigital.com" target="_blank"><font color="#2196f3">aecor.</font></a></small>
         </div>
     </footer>
 </template>

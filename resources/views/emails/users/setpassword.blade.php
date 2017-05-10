@@ -54,27 +54,21 @@
                                         </div>
                                     @endif
 
-                                    <form id="js-frm-password-activation" class="js-frm-password-activation">
+                                    <form id="js-frm-password-activation" name="js-frm-password-activation"  class="js-frm-password-activation">
                                         <input type="hidden" id="key" name="key" value="{{$usersPasswords[0]['token']}}">
-                                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                            <input id="password" type="password" class="form-control" placeholder="Enter password" name="password" required>
+                                        <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
+                                            <input id="password" type="password" class="form-control" placeholder="Enter password" name="password">
 
-                                            @if ($errors->has('password'))
-                                                <!-- <span class="help-block">
-                                                    <strong>{{ $errors->first('password') }}</strong>
-                                                </span> -->
-                                                <small class="form-text text-danger">{{ $errors->first('password') }}</small>
-                                            @endif
+                                            <span class="help is-danger" v-show="errors.has('password')">This field is required.</span> 
+                                           
                                         </div>
 
                                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password" required>
-                                            @if ($errors->has('password_confirmation'))
-                                                <!-- <span class="help-block">
-                                                    <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                                </span> -->
-                                                <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small>
-                                            @endif
+                                            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password">
+                                       
+                                                <span class="help is-danger" v-show="errors.has('password_confirmation')">This field is required.</span> 
+                                                <!-- <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small> -->
+                                           
                                         </div>
                                         <div class="h4 text-center mt-4">
                                             <button type="submit" class="btn btn-primary">
@@ -96,37 +90,57 @@
 
 </div>
 </body>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
-    // $.ajax({
-    //     type: "POST",
-    //     url: "/passwordactivate",
-    //     data: $('#js-frm-password-activation').serialize(),
-    //     success: function(response) {
-    //         window.location.href = "/passwordconfirmation";
-    //         // $('.js-frm-password-activation').removeClass('ajax-loader');
-    //         if(response.status=="success") {
-    //             $('.form-message1').removeClass('alert-danger').addClass('alert-success');
-    //         } else {
-    //             $('.form-message1').removeClass('alert-success').addClass('alert-danger');
-    //         }
-    //         $('.form-message1 .message').html(response.message);
-    //         $('.form-message1').show();
-    //         submitButton.removeAttr("disabled");
-    //         $("#password").next(".form-control-feedback").removeClass('glyphicon glyphicon-ok');
-    //         $("#password").next(".form-control-feedback").hide();
-    //         $('#js-frm-password-activation').bootstrapValidator('resetForm', true);
-    //         setTimeout(function() {
-    //             $('.form-message1').fadeOut('slow');
-    //         }, 3000);
-    //     },
-    //     error: function(msg) {
-    //         $('.js-frm-password-activation').removeClass('ajax-loader');
-    //         $('.form-message1').html(msg);
-    //         $('.form-message1').show();
-    //         submitButton.removeAttr("disabled");
-    //         $('#js-frm-password-activation').bootstrapValidator('resetForm', true);
-    //     }
-    // });
+// $(function(){
+//     $("#js-frm-password-activation").validate({
+//         rules: {
+//             password: true,
+//             confirm_password: true
+//         },
+//         messages: {
+//             password: "This field is required",
+//             confirm_password: "This field is required"
+//         },
+//         submitHandler: function(){
+//             $.ajax({
+//                 type: "POST",
+//                 url: "/passwordactivate",
+//                 data: $('#js-frm-password-activation').serialize(),
+//                 success: function(response) {
+//                     window.location.href = "/passwordconfirmation";
+//                     // $('.js-frm-password-activation').removeClass('ajax-loader');
+//                     if(response.status=="success") {
+//                         $('.form-message1').removeClass('alert-danger').addClass('alert-success');
+//                     } else {
+//                         $('.form-message1').removeClass('alert-success').addClass('alert-danger');
+//                     }
+//                     $('.form-message1 .message').html(response.message);
+//                     $('.form-message1').show();
+//                     submitButton.removeAttr("disabled");
+//                     $("#password").next(".form-control-feedback").removeClass('glyphicon glyphicon-ok');
+//                     $("#password").next(".form-control-feedback").hide();
+//                     $('#js-frm-password-activation').bootstrapValidator('resetForm', true);
+//                     setTimeout(function() {
+//                         $('.form-message1').fadeOut('slow');
+//                     }, 3000);
+//                 },
+//                 error: function(msg) {
+//                     $('.js-frm-password-activation').removeClass('ajax-loader');
+//                     $('.form-message1').html(msg);
+//                     $('.form-message1').show();
+//                     submitButton.removeAttr("disabled");
+//                     $('#js-frm-password-activation').bootstrapValidator('resetForm', true);
+//                 }
+//             });
+//         }
+//     });
+// });
+
+
+
+
+    
 </script>
 </html>
