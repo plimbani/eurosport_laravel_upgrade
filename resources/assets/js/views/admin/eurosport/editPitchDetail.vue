@@ -106,7 +106,7 @@
                                                             <div class="col-md-3">
                                                                 <div class="d-flex flex-nowrap justify-content-between align-items-center">
                                                                     <div class="align-self-center w-100">
-                                                                        <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker']"  :id="'stage_start_time'+day"  type="text" >
+                                                                        <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_start_time']"  :id="'stage_start_time'+day"  type="text" >
                                                                     </div>
                                                                     <div class="align-self-center p-1">
                                                                         <i v-show="errors.has('stage_start_time'+day)" class="fa fa-warning text-danger" data-toggle="tooltip" data-placement="top" title="Start time is required"></i>
@@ -364,9 +364,15 @@ var moment = require('moment');
 
                 if( curId.indexOf('stage_start_time') >= 0){
                     curTime = $('#stage_start_time'+stage).val()
+                    $('#stage_break_start'+stage).removeAttr('disabled')
+                    $('#stage_continue_time'+stage).attr('disabled','disabled')
+                    $('#stage_end_time'+stage).attr('disabled','disabled')
                 }else if(curId.indexOf('stage_break_start') >= 0) {
+                    $('#stage_continue_time'+stage).removeAttr('disabled')
+                    $('#stage_end_time'+stage).attr('disabled','disabled')
                     curTime = $('#stage_break_start'+stage).val()
                 }else if(curId.indexOf('stage_continue_time') >= 0) {
+                    $('#stage_end_time'+stage).removeAttr('disabled')
                     curTime = $('#stage_continue_time'+stage).val()
                 }else if(curId.indexOf('stage_end_time') >= 0) {
                     curTime = $('#stage_end_time'+stage).val()
@@ -613,18 +619,19 @@ var moment = require('moment');
                             minTime: '08:00:00',
                             maxTime: '19:00:00'
                         })
-                        $('#stage_break_start'+stage).timepicker({
-                            minTime: '08:00:00',
-                            maxTime: '19:00:00'
-                        })
-                        $('#stage_continue_time'+stage).timepicker({
-                            minTime: '08:00:00',
-                            maxTime: '19:00:00'
-                        })
-                        $('#stage_end_time'+stage).timepicker({
-                            minTime: '08:00:00',
-                            maxTime: '19:00:00'
-                        })
+                        $('#stage_break_start'+stage+',#stage_continue_time'+stage+',#stage_end_time'+stage).attr('disabled','disabled');
+                        // $('#stage_break_start'+stage).timepicker({
+                        //     minTime: '08:00:00',
+                        //     maxTime: '19:00:00'
+                        // })
+                        // $('#stage_continue_time'+stage).timepicker({
+                        //     minTime: '08:00:00',
+                        //     maxTime: '19:00:00'
+                        // })
+                        // $('#stage_end_time'+stage).timepicker({
+                        //     minTime: '08:00:00',
+                        //     maxTime: '19:00:00'
+                        // })
                         },1000)
                     }
 

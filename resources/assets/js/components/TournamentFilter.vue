@@ -73,7 +73,9 @@ export default {
   methods: {
     clearFilter(){
       this.dropDown = ''
-      this.setFilterValue()
+      // this.setFilterValue()
+      $('#team').trigger('click')
+      this.getDropDownData('team')
     },
     setFilterValue() {
       
