@@ -62,7 +62,7 @@ class TeamController extends BaseController
         // dd($teamData);
         $file = $request->file('fileUpload');
         // $this->data['teamSize'] =  $teamData['teamSize'];
-        $this->data['tournamentId'] = (int)$teamData['tournamentId'];
+        $this->data['tournamentId'] = $teamData['tournamentId'];
         
         \Excel::load($file->getRealPath(), function($reader) {
             // dd($reader->getTotalRowsOfFile() - 1);
