@@ -110,7 +110,7 @@
                                                       <div class="col-md-3">
                                                           <div class="d-flex flex-nowrap justify-content-between align-items-center">
                                                               <div class="align-self-center w-100">
-                                                                  <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker']"  :id="'stage_start_time'+day"  type="text" >
+                                                                  <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_start_time']"  :id="'stage_start_time'+day"  type="text" >
                                                               </div>
                                                               <div class="align-self-center p-1">
                                                                   <i v-show="errors.has('stage_start_time'+day)" class="fa fa-warning text-danger" data-toggle="tooltip" data-placement="top" title="Start time is required"></i>
@@ -304,12 +304,10 @@ export default {
       this.stage_capacity.push(capacity)
       $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
          // this.stageCapacityCalc(1)
-         // console.log($(this)[0].class)
          let curId = $(this)[0].id
          let stage = $(this)[0].id;
          let curTime = ''
 
-         // console.log(stage_id)
          stage = stage.replace('stage_start_time','')
          stage = stage.replace('stage_break_start','')
          stage = stage.replace('stage_continue_time','')
@@ -317,9 +315,15 @@ export default {
 
           if( curId.indexOf('stage_start_time') >= 0){
               curTime = $('#stage_start_time'+stage).val()
+              $('#stage_break_start'+stage).removeAttr('disabled')
+              $('#stage_continue_time'+stage).attr('disabled','disabled')
+              $('#stage_end_time'+stage).attr('disabled','disabled')
           }else if(curId.indexOf('stage_break_start') >= 0) {
+              $('#stage_continue_time'+stage).removeAttr('disabled')
+              $('#stage_end_time'+stage).attr('disabled','disabled')
               curTime = $('#stage_break_start'+stage).val()
           }else if(curId.indexOf('stage_continue_time') >= 0) {
+              $('#stage_end_time'+stage).removeAttr('disabled')
               curTime = $('#stage_continue_time'+stage).val()
           }else if(curId.indexOf('stage_end_time') >= 0) {
               curTime = $('#stage_end_time'+stage).val()
@@ -435,12 +439,9 @@ export default {
        // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
 
 
-       // setTimeout(function(){
-       //    $('.ls-timepicker').timepicker({
-       //        minTime: '08:00:00',
-       //        maxTime: '19:00:00'
-       //    });
-       // },1000)
+       setTimeout(function(){
+          $('.ls-timepicker').not('.stage_start_time').attr('disabled','disabled');
+       },1000)
 
        this.getAllPitches()
        if(this.tournamentDays> 2) {
@@ -486,8 +487,7 @@ export default {
 
 
           }).catch(() => {
-            console.log('msg123')
-              toastr['error']('Please complete all required fields on both tabs ', 'Error')
+            toastr['error']('Please complete all required fields on both tabs ', 'Error')
            });
           // let pitchData = {
           //     'pitchId' : this.pitchId,
@@ -501,7 +501,7 @@ export default {
 
       },
       stageRemove (day) {
-          this.removeStage.push(day)
+        this.removeStage.push(day)
           // this.disableDate;
 
           var index = this.disableDate.indexOf($('#stage_start_date'+day).val());
@@ -569,18 +569,20 @@ export default {
                       minTime:  '08:00:00',
                       maxTime: '19:00:00'
                   })
-                  $('#stage_break_start'+stage).timepicker({
-                      minTime:  '08:00:00',
-                      maxTime: '19:00:00'
-                  })
-                  $('#stage_continue_time'+stage).timepicker({
-                      minTime:  '08:00:00',
-                      maxTime: '19:00:00'
-                  })
-                  $('#stage_end_time'+stage).timepicker({
-                      minTime:  '08:00:00',
-                      maxTime: '19:00:00'
-                  })
+                  // $('.ls-timepicker').not('.stage_start_time').attr('disabled','disabled');
+                  $('#stage_break_start'+stage+',#stage_continue_time'+stage+',#stage_end_time'+stage).attr('disabled','disabled');
+                  // $('#stage_break_start'+stage).timepicker({
+                  //     minTime:  '08:00:00',
+                  //     maxTime: '19:00:00'
+                  // })
+                  // $('#stage_continue_time'+stage).timepicker({
+                  //     minTime:  '08:00:00',
+                  //     maxTime: '19:00:00'
+                  // })
+                  // $('#stage_end_time'+stage).timepicker({
+                  //     minTime:  '08:00:00',
+                  //     maxTime: '19:00:00'
+                  // })
 
                   },1000)
 

@@ -19,14 +19,23 @@
   			</form>
         <div class="block-bg age-category mb-4">
 
-          <div class="d-flex justify-content-center">
-          <div class="col-sm-3 m_card hoverable m-2" v-for="(group, index) in grpsView">
-              <div class="card-content">
-                 <span class="card-title">{{group['groups']['group_name']}}</span>
-                 <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
-              </div>
+          <div class="d-flex justify-content-center" v-if="grpsView.length != 0">
+            <div class="col-sm-3 m_card hoverable m-2"  v-for="(group, index) in grpsView">
+                <div class="card-content">
+                   <span class="card-title">{{group['groups']['group_name']}}</span>
+                   <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
+                </div>
+            </div>
           </div>
+          <div v-else class="d-flex justify-content-center">
+            <div class="col-sm-9  m-8">
+                <div class="card-content">
+                   <span class="card-title"> Select a category name above to view information</span>
+
+                </div>
+            </div>
           </div>
+
         </div>
 <!--   			<div class="block-bg age-category">
   				<div class="d-flex justify-content-center align-items-center">
@@ -93,7 +102,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button type="button" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+            <button type="button"  v-if="tournamentFilter.filterKey == 'age_category'" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
           </form>
   				</div>
   			</div>
@@ -221,7 +230,7 @@
         if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)
         }
-        var index = this.availableGroupsTeam.indexOf(groupValue.trim());
+        var index = this.availableGroupsTeam.indexOf(groupValue);
         if (index > -1) {
           this.availableGroupsTeam.splice(index, 1);
         }
@@ -251,13 +260,11 @@
 
          let grp= []
           $('.selTeams').each( function() {
-             console.log(group.groups.group_name,$(this).find('option:selected').text())
             if(group.groups.group_name == $(this).find('option:selected').text()){
               grp.push($(this).data('id'))
             }
             // console.log($(this).val())
           })
-          console.log(grp)
           if(grp.length > group.group_count){
             error = true
             toastr['error']('You are assigning more team  in '+ group.groups.group_name+' . please reassign team.', 'Error');
@@ -293,12 +300,17 @@
       },
       onSelectAgeCategory(type,templateId = '') {
         let tournamentTemplateId = ''
+
         if(type == 'view'){
+          if(this.age_category == ''){
+            this.grpsView = ''
+            return false;
+          }
           tournamentTemplateId = this.age_category.tournament_template_id
         }else{
           tournamentTemplateId = templateId
         }
-        if(tournamentTemplateId != undefined)
+        if(tournamentTemplateId != undefined && tournamentTemplateId != '' )
         {
           // Now here Fetch the appopriate Template of it
           let TemplateData = {tournamentTemplateId : tournamentTemplateId}

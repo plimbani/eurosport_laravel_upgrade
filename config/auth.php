@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Laraspace\User::class,
+            'model' => Laraspace\Models\User::class,
         ],
 
         // 'users' => [
