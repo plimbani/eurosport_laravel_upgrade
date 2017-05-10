@@ -1,6 +1,6 @@
 <template>
 	<div class="tab-content summary-report-content">
-		<h5>{{$lang.summary_messages}}</h5>
+		<h6>{{$lang.summary_messages}}</h6>
 		<span>{{$lang.summary_message_text}}</span>
 		<div class="row">
 			<form class="col-md-5 mt-4">

@@ -135,7 +135,8 @@ module.exports = {
   competation_modal_half_time_break_final: "Half-time break final*",
   competation_modal_half_time_break_final_minutes: "minutes",
 
-  pitch_capacity_break_start:"Break start",
+
+  pitch_capacity_break:"Break",
   pitch_capacity_break_start:"Break start",
 
   competation_modal_match_interval: "Match interval RR/PM/EM*",

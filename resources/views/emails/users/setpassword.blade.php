@@ -30,7 +30,7 @@
 </head>
 <body class="login-page pace-done">
 <div id="app" class="template-container">
-    
+
         <div class="login-wrapper">
             <div class="login-box">
                 <div class="brand-main">
@@ -39,12 +39,12 @@
                         <img src="/assets/img/logo-desk.svg" alt="Laraspace Logo">
                     </a>
                 </div>
-                
+
                 <div class="row">
                         <div class="col-md-12">
                             <div class="panel panel-default reset-password">
                                 <div class="panel-heading">
-                                    <p class="h4 text-center mt-4">Set Password</p>
+                                    <p class="h4 text-center mt-4" style="color:#757575">Set password</p>
                                 </div>
 
                                 <div class="panel-body">
@@ -54,11 +54,11 @@
                                         </div>
                                     @endif
 
-                                    <form id="js-frm-password-activation" class="js-frm-password-activation" method="POST" action="/passwordactivate">
+                                    <form id="js-frm-password-activation" class="js-frm-password-activation">
                                         <input type="hidden" id="key" name="key" value="{{$usersPasswords[0]['token']}}">
                                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                            <label for="password">Password</label>
-                                            <input id="password" type="password" class="form-control" name="password" required>
+                                            <input id="password" type="password" class="form-control" placeholder="Enter password" name="password" required>
+
                                             @if ($errors->has('password'))
                                                 <!-- <span class="help-block">
                                                     <strong>{{ $errors->first('password') }}</strong>
@@ -68,8 +68,7 @@
                                         </div>
 
                                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                            <label for="password-confirm">Confirm password</label>
-                                            <input id="password-confirm" type="password" class="form-control" name="confirm_password" required>
+                                            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password" required>
                                             @if ($errors->has('password_confirmation'))
                                                 <!-- <span class="help-block">
                                                     <strong>{{ $errors->first('password_confirmation') }}</strong>
@@ -77,7 +76,7 @@
                                                 <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small>
                                             @endif
                                         </div>
-                                        <div class="form-group">
+                                        <div class="h4 text-center mt-4">
                                             <button type="submit" class="btn btn-primary">
                                                 Set password
                                             </button>
@@ -87,46 +86,47 @@
                             </div>
                         </div>
                 </div>
-                 
+
                 <div class="page-copyright">
                      <p>Copyright 2017 Euro-Sportring. All rights reserved.<br/>
                     Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a></p>
                 </div>
             </div>
         </div>
-   
+
 </div>
 </body>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 <script type="text/javascript">
-    /*$.ajax({
-        type: "POST",
-        url: "/passwordactivate",
-        data: $('#js-frm-password-activation').serialize(),
-        success: function(response) {
-            window.location.href = "/passwordconfirmation";
-            // $('.js-frm-password-activation').removeClass('ajax-loader');
-            if(response.status=="success") {
-                $('.form-message1').removeClass('alert-danger').addClass('alert-success');
-            } else {
-                $('.form-message1').removeClass('alert-success').addClass('alert-danger');
-            }
-            $('.form-message1 .message').html(response.message);
-            $('.form-message1').show();
-            submitButton.removeAttr("disabled");
-            $("#password").next(".form-control-feedback").removeClass('glyphicon glyphicon-ok');
-            $("#password").next(".form-control-feedback").hide();
-            $('#js-frm-password-activation').bootstrapValidator('resetForm', true);
-            setTimeout(function() {
-                $('.form-message1').fadeOut('slow');
-            }, 3000);
-        },
-        error: function(msg) {
-            $('.js-frm-password-activation').removeClass('ajax-loader');
-            $('.form-message1').html(msg);
-            $('.form-message1').show();
-            submitButton.removeAttr("disabled");
-            $('#js-frm-password-activation').bootstrapValidator('resetForm', true);
-        }
-    });*/
+    // $.ajax({
+    //     type: "POST",
+    //     url: "/passwordactivate",
+    //     data: $('#js-frm-password-activation').serialize(),
+    //     success: function(response) {
+    //         window.location.href = "/passwordconfirmation";
+    //         // $('.js-frm-password-activation').removeClass('ajax-loader');
+    //         if(response.status=="success") {
+    //             $('.form-message1').removeClass('alert-danger').addClass('alert-success');
+    //         } else {
+    //             $('.form-message1').removeClass('alert-success').addClass('alert-danger');
+    //         }
+    //         $('.form-message1 .message').html(response.message);
+    //         $('.form-message1').show();
+    //         submitButton.removeAttr("disabled");
+    //         $("#password").next(".form-control-feedback").removeClass('glyphicon glyphicon-ok');
+    //         $("#password").next(".form-control-feedback").hide();
+    //         $('#js-frm-password-activation').bootstrapValidator('resetForm', true);
+    //         setTimeout(function() {
+    //             $('.form-message1').fadeOut('slow');
+    //         }, 3000);
+    //     },
+    //     error: function(msg) {
+    //         $('.js-frm-password-activation').removeClass('ajax-loader');
+    //         $('.form-message1').html(msg);
+    //         $('.form-message1').show();
+    //         submitButton.removeAttr("disabled");
+    //         $('#js-frm-password-activation').bootstrapValidator('resetForm', true);
+    //     }
+    // });
 </script>
 </html>

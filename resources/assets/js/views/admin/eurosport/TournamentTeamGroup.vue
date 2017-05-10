@@ -17,7 +17,7 @@
             </div>
           </div>
   			</form>
-        <div class="block-bg age-category">
+        <div class="block-bg age-category mb-4">
 
           <div class="d-flex justify-content-center">
           <div class="col-sm-3 m_card hoverable m-2" v-for="(group, index) in grpsView">

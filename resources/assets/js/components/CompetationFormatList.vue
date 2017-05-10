@@ -95,7 +95,7 @@ export default {
     formatTime: function(time) {
       var hours = Math.floor( time /   60);
       var minutes = Math.floor(time % 60);
-      return hours+ ' h '+minutes+' minutes'
+      return hours+ 'h '+minutes+'m'
     }
   },
   methods: {
