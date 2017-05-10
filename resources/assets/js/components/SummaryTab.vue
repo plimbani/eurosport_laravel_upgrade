@@ -100,8 +100,8 @@
 		<div class="clearfix mt-4"></div>
 		<div class="row">
 			<div class="col-md-12">
-			<span><strong>{{$lang.summary_age_groups}}: </strong>{{tournamentSummary.tournament_groups}}</span>
-				<span><strong>{{$lang.summary_participating_countries}}: </strong> {{tournamentSummary.tournament_countries}}</span>
+			<span><strong>{{$lang.summary_age_groups}}: </strong>{{tournamentSummary.tournament_groups}}</span><br>
+				<span><strong>{{$lang.summary_participating_countries}}: </strong> {{tournamentSummary.tournament_countries}}</span><br>
 				<span><strong>{{$lang.summary_euro_supporting_contact}}: </strong> {{tournamentSummary.tournament_contact}}</span>
 
 			</div>
