@@ -355,5 +355,5 @@ module.exports = {
   summary_label_schedule: "Schedule and results",
   summary_label_message: "Messages",
 
-  tournament_filter_age_category: "Category name"
+  tournament_filter_age_category: "Category name",
 }
