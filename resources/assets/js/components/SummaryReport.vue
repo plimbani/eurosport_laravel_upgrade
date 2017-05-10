@@ -1,6 +1,6 @@
 <template>
 	<div class="tab-content summary-report-content">
-		<h5>{{$lang.summary_reports}}</h5>
+		<h6>{{$lang.summary_reports}}</h6>
 		<div class="row align-items-center">
 			<div class="col-md-6">
 				<span>{{$lang.summary_message}}</span>
