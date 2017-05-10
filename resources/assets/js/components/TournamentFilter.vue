@@ -29,7 +29,7 @@
       </label>
     </div>
     <div class="form-group">
-      <select class="form-control ls-select2" v-model="dropDown" style="width:130px">
+      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:130px">
         <option value="" >Select</option>
         <option :value="option.id"
         v-for="option in options"
@@ -40,7 +40,7 @@
     </div>
     <div class="form-group">
       <label class="control-label">
-        <a href="#">{{$lang.teams_clear}}</a>
+        <a href="javascript:void(0)" @click="clearFilter()">{{$lang.teams_clear}}</a>
       </label>
     </div>
   </form>
@@ -72,11 +72,11 @@ export default {
   },
   methods: {
     clearFilter(){
-      // this.dropDown = ''
-      // this.setFilterValue()
+      this.dropDown = ''
+      this.setFilterValue()
     },
     setFilterValue() {
-
+      
       this.filterValue = this.dropDown
       let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
       // this.$store.dispatch('setTournamentFilter', tournamentFilter);
@@ -87,7 +87,7 @@ export default {
       // Here Call method to get Tournament Data for key
       this.filterKey = tourament_key
       let tournamentData = {'tournamentId':tournamentId,
-      'keyData':tourament_key,'type':this.section}
+      'keyData':tourament_key,'type':this.section} 
       Tournament.getDropDownData(tournamentData).then(
         (response) => {
           // here we fill the options

@@ -184,7 +184,7 @@ class TournamentService implements TournamentContract
      */
     public function getTemplate($data)
     {
-        // Here we send Status Code and Messages
+       // Here we send Status Code and Messages
         $data = $data['tournamentTemplateId'];
         $data = $this->tournamentRepoObj->getTemplate($data);
         if ($data) {
