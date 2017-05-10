@@ -52,7 +52,7 @@ export default {
 	},
   filters: {
     formatDate: function(date) {
-      return moment(date).format("ddd DD/MM/YYYY h:mm");
+     return moment(date).format("hh:mm ddd DD MMM YYYY");
     }
   },
 	computed: {

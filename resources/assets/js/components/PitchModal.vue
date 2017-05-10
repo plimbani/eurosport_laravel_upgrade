@@ -133,7 +133,7 @@ var moment = require('moment');
       Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
           this.matchDetail = response.data.data
-          this.matchDetail.matchTime = moment(response.data.data.match_datetime,'DD-MM-YYYY hh:mm"ss').format('DD.MM.YYYY (hh:mm a)')
+          this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' (hh:mm a) DD MMM YYYY ')
       })
     },
     removeReferee(){

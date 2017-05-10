@@ -4,8 +4,8 @@
 	    	<div class="col-sm-12">
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
-						<h5>{{$lang.summary_schedule}}</h5>
-
+						<h6>{{$lang.summary_schedule}}</h6>
+						
 						<div class="tab-content summary-report-content">
 							<div class="row">
 								<div class="col-md-12">
