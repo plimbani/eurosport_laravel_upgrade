@@ -20,7 +20,7 @@
         <div class="block-bg age-category mb-4">
 
           <div class="d-flex justify-content-center">
-          <div class="col-sm-3 m_card hoverable m-2" v-for="(group, index) in grps">
+          <div class="col-sm-3 m_card hoverable m-2" v-for="(group, index) in grpsView">
               <div class="card-content">
                  <span class="card-title">{{group['groups']['group_name']}}</span>
                  <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
@@ -70,7 +70,7 @@
                       <th>{{$lang.teams_country}}</th>
                       <th>{{$lang.teams_place}}</th>
                       <th>{{$lang.teams_event}}</th>
-                      <th>{{$lang.teams_group}}</th>
+                      <th v-if="tournamentFilter.filterKey == 'age_category'">{{$lang.teams_group}}</th>
                   </tr>
               </thead>
                 <tbody>
@@ -82,8 +82,8 @@
                       </td>
                       <td>{{team.place}} </td>
                       <td>{{team.age_name}} </td>
-                      <td>
-                        <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
+                      <td v-if="tournamentFilter.filterKey == 'age_category'">
+                        <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:click="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="">Select Team</option>
                           <optgroup :label="group.groups.group_name" v-for="group in grps">
                             <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)"  :value="group['groups']['group_name']+n" >{{group['groups']['group_name']}}{{n}} </option>
@@ -187,11 +187,12 @@
 
       },
       initialfunc(id){
-        if($('#sel_'+id).val()!=''){
+        if($('#sel_'+id).find('option:selected').text()!=''){
           this.onAssignGroup(id)
         }
       },
       setFilter(filterKey,filterValue) {
+        this.tournamentFilter.filterKey = filterKey
         if(filterKey == 'age_category'){
           this.onSelectAgeCategory('filter',filterValue.tournament_template_id)
         }
@@ -206,22 +207,21 @@
         beforeChange()
       },
       beforeChange(gid) {
-        let gdata = $('#sel_'+gid).val()
+        let gdata = $('#sel_'+gid).find('option:selected').val()
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
-        let groupValue = $('#sel_'+id).val()
-        if(groupValue!='' ){
+        let groupValue = $('#sel_'+id).find('option:selected').val()
+        if(groupValue!='' && groupValue!= undefined ){
             $(".selTeams option:contains("+$('#sel_'+id).val()+")").not( $('.sel_'+id)).attr("disabled","disabled");
         }
         if(this.beforeChangeGroupName!=''){
           $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");
         }
-        if(groupValue != null)  {
+        if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)
         }
-
-        var index = this.availableGroupsTeam.indexOf(groupValue);
+        var index = this.availableGroupsTeam.indexOf(groupValue.trim());
         if (index > -1) {
           this.availableGroupsTeam.splice(index, 1);
         }
@@ -248,13 +248,16 @@
 
         _.find(this.grps, function(group) {
          // console.log(group)
+
          let grp= []
           $('.selTeams').each( function() {
+             console.log(group.groups.group_name,$(this).find('option:selected').text())
             if(group.groups.group_name == $(this).find('option:selected').text()){
               grp.push($(this).data('id'))
             }
             // console.log($(this).val())
           })
+          console.log(grp)
           if(grp.length > group.group_count){
             error = true
             toastr['error']('You are assigning more team  in '+ group.groups.group_name+' . please reassign team.', 'Error');
@@ -344,7 +347,8 @@
               },1000)
             },
             (error)=> {
-              alert('error in getting json data')
+              toastr['error']('error in getting json data.', 'Error');
+              // alert('error in getting json data')
             }
            )
        }
