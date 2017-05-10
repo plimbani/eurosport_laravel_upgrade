@@ -11,7 +11,7 @@
 		<tbody>
 			<tr v-for="team in matchData">
 				<td><img :src="team.logo" width="20">&nbsp;
-				<a href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></td>
+				<a href="" @click.prevent="changeTeam(team.id, team.name)"><u>{{team.name}}</u></a></td>
 				<td class="text-center">
 					<a href="" class="pull-left text-left"
 					@click.prevent="changeGroup(team)">
