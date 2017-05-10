@@ -95,7 +95,9 @@
                 let vm = this
                  setTimeout(function(){
                 $('#user_form_modal').modal('show')
-
+                $("#user_form_modal").on('hidden.bs.modal', function () {
+                     vm.userStatus = false
+                });
               },1000)
             },
             editUser(id) {
