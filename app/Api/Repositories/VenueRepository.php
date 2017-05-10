@@ -14,8 +14,8 @@ class VenueRepository
 
     public function getAllVenues($tournamentId)
     {
-        return Venue::where('tournament_id',$tournamentId)->get();
+        return Venue::orderBy('name','ASC')->where('tournament_id',$tournamentId)->get();
     }
 
-    
+
 }
