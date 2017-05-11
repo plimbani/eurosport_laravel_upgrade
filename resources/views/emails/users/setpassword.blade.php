@@ -27,6 +27,14 @@
     <meta name="msapplication-TileImage" content="/assets/admin/img/favicons/mstile-144x144.png">
     <meta name="msapplication-config" content="/assets/admin/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#333333">
+    <style>
+        #password-error {
+            color: #ff3860;
+        }
+        #password-confirm-error{
+            color: #ff3860;
+        }
+    </style>
 </head>
 <body class="login-page pace-done">
 <div id="app" class="template-container">
@@ -54,21 +62,26 @@
                                         </div>
                                     @endif
 
-                                    <form id="js-frm-password-activation" name="js-frm-password-activation"  class="js-frm-password-activation">
+                                    <form id="js-frm-password-activation"
+                                     name="js-frm-password-activation"
+                                     class="js-frm-password-activation" method="post" action="/passwordactivate">
                                         <input type="hidden" id="key" name="key" value="{{$usersPasswords[0]['token']}}">
                                         <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
                                             <input id="password" type="password" class="form-control" placeholder="Enter password" name="password">
 
-                                            <span class="help is-danger" v-show="errors.has('password')">This field is required.</span> 
-                                           
+                                          <!--  <span class="help is-danger"
+                                            v-show="errors.has('password')">
+                                            This field is required.
+                                            </span> -->
+
                                         </div>
 
                                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                                             <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password">
-                                       
-                                                <span class="help is-danger" v-show="errors.has('password_confirmation')">This field is required.</span> 
-                                                <!-- <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small> -->
-                                           
+
+                                               <!-- <span class="help is-danger" v-show="errors.has('password_confirmation')">This field is required.</span>
+                                                <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small> -->
+
                                         </div>
                                         <div class="h4 text-center mt-4">
                                             <button type="submit" class="btn btn-primary">
@@ -90,9 +103,38 @@
 
 </div>
 </body>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
+$("#js-frm-password-activation").validate({
+  rules: {
+        password: {
+            required: true,
+            minlength: 5
+        },
+        confirm_password: {
+            required: true,
+            minlength: 5,
+            equalTo: "#password"
+        },
+
+    },
+    messages: {
+        password: {
+            required: "Please provide a password",
+            minlength: "Your password must be at least 5 characters long"
+        },
+        confirm_password: {
+            required: "Please provide a password",
+            minlength: "Your password must be at least 5 characters long",
+            equalTo: "Please enter the same password as above"
+        }
+    },
+      submitHandler: function(form) {
+        form.submit();
+      }
+ });
 // $(function(){
 //     $("#js-frm-password-activation").validate({
 //         rules: {
@@ -141,6 +183,6 @@
 
 
 
-    
+
 </script>
 </html>
