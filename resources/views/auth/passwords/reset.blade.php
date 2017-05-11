@@ -27,6 +27,17 @@
     <meta name="msapplication-TileImage" content="/assets/admin/img/favicons/mstile-144x144.png">
     <meta name="msapplication-config" content="/assets/admin/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#333333">
+    <style>
+        #password-error {
+            color: #ff3860;
+        }
+        #password-confirm-error{
+            color: #ff3860;
+        }
+        #email-error{
+            color: #ff3860;
+        }
+    </style>
 </head>
 <body class="login-page pace-done">
 
@@ -53,7 +64,7 @@
                                 </div>
                             @endif
 
-                            <form role="form" method="POST" action="{{ route('password.request') }}">
+                            <form id="js-frm-resetpassword-activation" name="js-frm-resetpassword-activation" class="js-frm-resetpassword-activation" role="form" method="POST" action="{{ route('password.request') }}">
                                 {{ csrf_field() }}
 
                                 <input type="hidden" name="token" value="{{ $token }}">
@@ -61,29 +72,29 @@
                                 <div class="form-group">
                                     <input id="email" type="email" class="form-control" placeholder="Enter email" name="email">
 
-                                    <small class="form-text text-danger">{{ $errors->first('email') }}</small>
+                                  <!--   <small class="form-text text-danger">{{ $errors->first('email') }}</small> -->
                                 </div>
 
-                                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                    <input id="password" type="password" class="form-control" placeholder="Enter password" name="password" required>
+                                <div class="form-group">
+                                    <input id="password" type="password" class="form-control" placeholder="Enter password" name="password">
 
-                                    @if ($errors->has('password'))
-                                        <!-- <span class="help-block">
+                                    <!-- @if ($errors->has('password'))
+                                         <span class="help-block">
                                             <strong>{{ $errors->first('password') }}</strong>
-                                        </span> -->
+                                        </span> 
                                         <small class="form-text text-danger">{{ $errors->first('password') }}</small>
-                                    @endif
+                                    @endif -->
                                 </div>
 
-                                <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                    <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" required>
+                                <div class="form-group">
+                                    <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password">
 
-                                    @if ($errors->has('password_confirmation'))
-                                        <!-- <span class="help-block">
+                                   <!-- @if ($errors->has('password_confirmation'))
+                                        <span class="help-block">
                                             <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                        </span> -->
+                                        </span> 
                                         <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small>
-                                    @endif
+                                    @endif -->
                                 </div>
 
                                 <div class="h4 text-center mt-4">
@@ -104,69 +115,43 @@
     </div>
 </div>
 </body>
-</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
-var vueUser;
-var User = function() {
-    var handleValidation = function() {
-        $('.js-frm-create-user,.js-frm-edit-user').validate({
-            ignore: [],
-            debug: false,
-            messages: {
-                email:{
-                    remote:'Email Already Exists',
-                },
-                phone_number: {
-                    required: "This field is required.",
-                    digits: "This field is invalid."
-                }
-            },
-            rules: {
-                first_name: {
-                    required: true
-                },
-                last_name: {
-                    required: true
-                },
-                email: {
-                    required: true,
-                    remote: {
-                                url: "/admin/validateEmail",
-                                type: "post",
-                                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                                data: {
-                                      id: function() {
-                                        return $('input[name="user_id"]').val();
-                                      }
-                                }
-                            }
-                },
-            },
-            errorPlacement: function (error, element) { // render error placement for each input type
-                // if(element.prop("name")=="dob") {
-                //     element.parent().parent().append(error);
-                // } else {
-                //     element.parent().append(error);
-                // }
-            },
-            submitHandler: function (form) {
-                form.submit();
-            }
-        });
-    };
-    var formInitialization = function() {
+$("#js-frm-resetpassword-activation").validate({
+  rules: {
+        email: {
+            required: true,
+        },
+        password: {
+            required: true,
+            minlength: 5
+        },
+        confirm_password: {
+            required: true,
+            equalTo: "#password"
+        },
 
-    };
-    var formEvents = function() {
-
-    };
-    return {
-        init: function() {
-            handleValidation();
-            formInitialization();
-            formEvents();
+    },
+    messages: {
+        email: {
+            required: "Please provide a email",
+            
+        },
+        password: {
+            required: "Please provide a password",
+            minlength: "Your password must be at least 5 characters long"
+        },
+        confirm_password: {
+            required: "Please provide a password",
+            equalTo: "Please enter the same password as above"
         }
-    }
-}();
+    },
+      submitHandler: function(form) {
+        form.submit();
+      }
+ });
 </script>
+</html>
+
 
