@@ -143,8 +143,8 @@ $("#js-frm-resetpassword-activation").validate({
             minlength: "Your password must be at least 5 characters long"
         },
         confirm_password: {
-            required: "Please provide a password",
-            equalTo: "Please enter the same password as above"
+            required: "Please provide a confirm password",
+            equalTo: "The passwords do match, please re-enter."
         }
     },
       submitHandler: function(form) {
