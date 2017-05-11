@@ -209,4 +209,23 @@ class UserService implements UserContract
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
     }
+    /**
+     * Change User Status
+     *
+     * @param array $data
+     *
+     * @return [type]
+     */
+    public function changeUserStatus($id)
+    {
+        $data = $this->userRepoObj->changeUserStatus($id);
+        if ($data) {
+
+            $status = ($data['userData']['status'] == 1) ? 'User has been In active Successfully' : 'User has been active Successfully';
+            return ['status_code' => '200',
+            'message' => $status];
+        }
+    }
+
+
 }
