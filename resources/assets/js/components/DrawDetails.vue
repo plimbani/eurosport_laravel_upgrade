@@ -1,6 +1,22 @@
 <template>
 <div>
-<h6>{{otherData.DrawName}} results grid</h6>
+<div class="form-group row">
+<label class="col-sm-3"><h6>{{otherData.DrawName}} results grid</h6></label>
+<div class="col-sm-9">
+        <select class="form-control ls-select2 col-sm-4"
+      v-on:change="onChangeDrawDetails"
+      v-model="DrawName">
+      <option value="">Select</option>
+      <option
+      v-for="option in drawList"
+      v-bind:value="option"
+      >{{option.name}}
+      </option>
+      </select>
+    </div>
+</div>
+<!--<h6>{{otherData.DrawName}} results grid</h6>-->
+
 <table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0">
 	<thead>
         <tr>
@@ -26,31 +42,15 @@
             {{teamMatch.score}}
             <div v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
           </td>
-
       </tr>
-
-    	<!--<tr>
-    		<td>2</td>
-    		<td>
-    			<a @click="teamDetails('')" href="">
-    			  <img src="/assets/img/flag.png" width="20"> &nbsp;
-    			  <span>CVC Reujwik 1 </span>
-    			</a>
-    		</td>
-    		<td>0-2 Lost</td>
-    		<td></td>
-    		<td>1-0 Won</td>
-    		<td>3-0 Won</td>
-    	</tr>-->
     </tbody>
 </table>
 <span v-else> No information available </span>
 <h6> {{otherData.DrawName}} standings</h6>
   <teamStanding :currentCompetationId="currentCompetationId"
   v-if="currentCompetationId != 0"></teamStanding>
-
+<h6>{{otherData.DrawName}} matches</h6>
 <matchList :matchData="matchData"></matchList>
-
 </div>
 </template>
 <script type="text/babel">
@@ -67,15 +67,25 @@ export default {
             teamData: [],
             standingData:[],
             currentCompetationId: 0,
-            match1Data:[],error:false,errorMsg:''
+            match1Data:[],error:false,errorMsg:'',
+            drawList:'',
+            DrawName:[]
         }
     },
 	mounted() {
-		// here we call function to get all the Draws Listing
-		//this.getAllDraws()
-
-        this.setTeamData()
-        // here we get the competation id
+    this.setTeamData()
+    // here call method to get All Draws
+    let TournamentId = this.$store.state.Tournament.tournamentId
+      Tournament.getAllDraws(TournamentId).then(
+        (response)=> {
+          if(response.data.status_code == 200) {
+            this.drawList = response.data.data
+          }
+        },
+        (error) => {
+          alert('Error in Getting Draws')
+        }
+      )
 	},
   filters: {
     getStatus: function(teamName) {
@@ -109,6 +119,13 @@ export default {
         MatchList,LocationList,MatchListing,TeamStanding
 	},
     methods: {
+        onChangeDrawDetails() {
+
+          let Id = this.DrawName.id
+          let Name = this.DrawName.name
+          if(Id != undefined && Name != undefined)
+            this.$root.$emit('changeDrawListComp',Id, Name);
+        },
         checkTeamId(teamId) {
             return teamId.Home_id
         },
@@ -147,24 +164,6 @@ export default {
                 }
 
                )
-
-               //{
-                //console.log(data)
-               //});
-               /* for(let i=0;i<size;i++){
-                  // Now here we have to Move to match By match
-                  let TeamId = this.matchData[i].Home_id
-
-
-                  let TeamName = this.matchData[i].HomeTeam
-                  let TeamScore = this.matchData[i].homeScore
-
-
-                  TeamData.push({'id':TeamId,'Name':TeamName,'Score':TeamScore})
-               }*/
-
-
-               // Now here we fetch values from compeationId
 
 
             }
