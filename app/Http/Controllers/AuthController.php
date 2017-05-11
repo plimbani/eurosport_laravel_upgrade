@@ -37,8 +37,16 @@ class AuthController extends Controller
         } catch (JWTException $e) {
             return response(['authenticated' => false]);
         }
+        // Here Add Functionality if use is Active then allowed to login
+        $token=JWTAuth::getToken();
+        if($token) {
+          $userData = JWTAuth::toUser($token);
+          if($userData->is_active == 0) {
+            return response(['authenticated' => false,'message'=>'Permission denied']);
+          }
+            return response(['authenticated' => true]);
+        }
 
-        return response(['authenticated' => true]);
     }
 
     public function logout()
@@ -48,6 +56,7 @@ class AuthController extends Controller
             $token = JWTAuth::getToken();
 
             if ($token) {
+
                 JWTAuth::invalidate($token);
             }
 
