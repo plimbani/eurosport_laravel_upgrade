@@ -1,28 +1,64 @@
 <template>
-<div class="col-md-12">
-  <h6>{{otherData.Name}}</h6>
-  <matchList :matchData="matchData"></matchList>
+<div>
+  <div class="form-group row">
+    <label class="col-sm-3"><h6 v-if="otherData.length != 0">{{otherData.Name}}</h6>
+    <h6 v-else>{{venueName}}</h6>
+    </label>
+    <div class="col-sm-9">
+      <select class="form-control ls-select2 col-sm-4"
+        v-on:change="onChangeLocation"
+        v-model="location">
+        <option v-for="option in locations"
+        v-bind:value="option"
+        >{{option.venue_name}}-{{option.pitch_number}}
+        </option>
+      </select>
+    </div>
+    </div>
+    <matchList :matchData="matchData"></matchList>
 </div>
 </template>
 <script type="text/babel">
 import MatchList from './MatchList.vue'
 import MatchListing from './MatchListing.vue'
+import Tournament from '../api/tournament.js'
 
 export default {
 	props: ['matchData', 'otherData'],
 	data() {
 		return {
-			VenueName: ''
+			VenueName: '',locations:[],location:''
 		}
 	},
+
+  mounted() {
+    // Display Location
+    let TournamentId = this.$store.state.Tournament.tournamentId
+      let tournamentData = {'tournamentId': TournamentId}
+      Tournament.getFixtures(tournamentData).then(
+        (response)=> {
+          if(response.data.status_code == 200) {
+            this.locations = response.data.data
+          }
+        },
+        (error) => {
+          alert('Error in Getting Draws')
+        }
+      )
+  },
+  methods: {
+    onChangeLocation() {
+      // here call function to set location
+      this.$root.$emit('changeComp',this.location);
+    }
+  },
 	computed:{
 		venueName() {
-			if(typeof this.matchData[0].venue_name !== 'undefined' || 
-				this.matchData[0].venue_name !== null) 
+			if(typeof this.matchData[0].venue_name !== 'undefined' ||
+				this.matchData[0].venue_name !== null)
 			{
-
-			 let venueName = this.matchData[0].venue_name + '-'+ this.matchData[0].pitch_number 
-			return venueName	
+			 let venueName = this.matchData[0].venue_name + '-'+ this.matchData[0].pitch_number
+			return venueName
 			}
 		}
 	},
