@@ -54,7 +54,7 @@
                                         </div>
                                     @endif
 
-                                    <form id="js-frm-password-activation" name="js-frm-password-activation"  class="js-frm-password-activation">
+                                    <form id="js-frm-password-activation" name="js-frm-password-activation"  class="js-frm-password-activation" method="POST" action="/passwordactivate">
                                         <input type="hidden" id="key" name="key" value="{{$usersPasswords[0]['token']}}">
                                         <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
                                             <input id="password" type="password" class="form-control" placeholder="Enter password" name="password">
