@@ -29,7 +29,8 @@
     <meta name="theme-color" content="#333333">
 </head>
 <body class="login-page pace-done">
-<div id="app" class="template-container">  
+
+<div id="app" class="template-container">
     <div class="login-wrapper">
         <div class="login-box">
             <div class="brand-main">
@@ -59,7 +60,7 @@
 
                                 <div class="form-group">
                                     <input id="email" type="email" class="form-control" placeholder="Enter email" name="email">
-                            
+
                                     <small class="form-text text-danger">{{ $errors->first('email') }}</small>
                                 </div>
 
@@ -94,7 +95,7 @@
                         </div>
                     </div>
                 </div>
-            </div>    
+            </div>
             <div class="page-copyright">
                 <p>Copyright 2017 Euro-Sportring. All rights reserved.</br>
                 Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a></p>
@@ -118,7 +119,7 @@ var User = function() {
                 phone_number: {
                     required: "This field is required.",
                     digits: "This field is invalid."
-                }     
+                }
             },
             rules: {
                 first_name: {
@@ -133,15 +134,15 @@ var User = function() {
                                 url: "/admin/validateEmail",
                                 type: "post",
                                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                                data: {   
+                                data: {
                                       id: function() {
                                         return $('input[name="user_id"]').val();
                                       }
-                                }  
+                                }
                             }
                 },
             },
-            errorPlacement: function (error, element) { // render error placement for each input type     
+            errorPlacement: function (error, element) { // render error placement for each input type
                 // if(element.prop("name")=="dob") {
                 //     element.parent().parent().append(error);
                 // } else {
@@ -154,10 +155,10 @@ var User = function() {
         });
     };
     var formInitialization = function() {
-        
+
     };
     var formEvents = function() {
-        
+
     };
     return {
         init: function() {
@@ -168,3 +169,4 @@ var User = function() {
     }
 }();
 </script>
+

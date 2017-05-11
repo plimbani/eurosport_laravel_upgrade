@@ -125,12 +125,13 @@ class TournamentRepository
             }
         }
         $tournamentData = array();
+        $tournamentDays = $this->getTournamentDays($data['start_date'],$data['end_date']);
 
         $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'],
           'tournamentEndDate' => $data['end_date'],
             'tournamentStatus'=> 'UnPublished',
             'tournamentLogo'=>$data['image_logo'],
-            'tournamentDays'=> $this->getTournamentDays($data['start_date'],$data['end_date']),
+            'tournamentDays'=> ($tournamentDays) ? $tournamentDays : '2',
             'facebook' => $data['facebook'],
             'twitter' => $data['twitter'],
             'website' => $data['website'],
