@@ -49,6 +49,7 @@
 <h6> {{otherData.DrawName}} standings</h6>
   <teamStanding :currentCompetationId="currentCompetationId"
   v-if="currentCompetationId != 0"></teamStanding>
+<h6>{{otherData.DrawName}} matches</h6>
 <matchList :matchData="matchData"></matchList>
 </div>
 </template>
