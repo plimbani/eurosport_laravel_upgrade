@@ -1,8 +1,8 @@
 <template>
 <div>
 <div class="form-group row">
-<label class="col-sm-2"><h6>{{otherData.DrawName}} results grid</h6></label>
-<div class="col-sm-10">
+<label class="col-sm-3"><h6>{{otherData.DrawName}} results grid</h6></label>
+<div class="col-sm-9">
         <select class="form-control ls-select2 col-sm-4"
       v-on:change="onChangeDrawDetails"
       v-model="DrawName">
@@ -119,10 +119,11 @@ export default {
 	},
     methods: {
         onChangeDrawDetails() {
+
           let Id = this.DrawName.id
           let Name = this.DrawName.name
-
-          this.$root.$emit('changeDrawListComp',Id, Name);
+          if(Id != undefined && Name != undefined)
+            this.$root.$emit('changeDrawListComp',Id, Name);
         },
         checkTeamId(teamId) {
             return teamId.Home_id
