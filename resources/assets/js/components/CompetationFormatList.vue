@@ -38,7 +38,8 @@
               </td>
               <td class="text-center">
                   <span class="align-middle">
-                    <a class="text-primary" href="#" @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
+                    <a class="text-primary" href="#"
+                    @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
                   </span>
                   <span class="align-middle">
                     <a href="javascript:void(0)"
