@@ -56,20 +56,18 @@
 
                                     <form id="js-frm-password-activation" name="js-frm-password-activation"  class="js-frm-password-activation" method="POST" action="/passwordactivate">
                                         <input type="hidden" id="key" name="key" value="{{$usersPasswords[0]['token']}}">
-                                        <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
+                                        <div class="form-group">
                                             <input id="password" type="password" class="form-control" placeholder="Enter password" name="password">
-
-                                            <span class="help is-danger" v-show="errors.has('password')">This field is required.</span> 
-                                           
+          
+                                            <small class="form-text text-danger">{{ $errors->first('password') }}</small>
                                         </div>
 
-                                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                                        <div class="form-group">
                                             <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password">
                                        
-                                                <span class="help is-danger" v-show="errors.has('password_confirmation')">This field is required.</span> 
-                                                <!-- <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small> -->
-                                           
-                                        </div>
+                                            <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small>
+                                               
+                                        </div>  
                                         <div class="h4 text-center mt-4">
                                             <button type="submit" class="btn btn-primary">
                                                 Set password
