@@ -369,12 +369,13 @@
         if($('#fileUpload').val()!=''){
 
           let files  = new FormData($("#frmCsvImport")[0]);
-          files.append('ageCategory', this.age_category.id);
+          // files.append('ageCategory', this.age_category.id);
           files.append('tournamentId', this.tournament_id);
           files.append('teamSize', this.teamSize);
           // let uploadFile = document.getElementById('frmCsvImport');
+
           this.filterStatus = false
-          return axios.post('/api/team/create',files).then(response =>  {
+           axios.post('/api/team/create',files).then(response =>  {
           if(response.data.bigFileSize == true){
             toastr['error']('Total Team size is more than available. Only top '+this.teamSize+' teams have been added.', 'Error');
           }
