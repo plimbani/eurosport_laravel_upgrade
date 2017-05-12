@@ -320,7 +320,9 @@ var moment = require('moment');
                         // console.log(pitchTimeArr)
                          var minutes = pitchCapacity % 60;
                         var hours = (pitchCapacity - minutes) / 60;
+                         minutes = (minutes == '0') ? '00' : minutes
                         var time_val = hours+ '.' +minutes
+
 
                         // var pitchTime = parseInt(pitchTimeArr[0]*60)+parseInt(pitchTimeArr[1])
                         $('#stage_capacity_span'+i).text(time_val+ ' hrs')
@@ -440,9 +442,11 @@ var moment = require('moment');
                       var minutes = diff % 60;
                     var hours = (diff - minutes) / 60;
                     var time_val = hours+ '.' +minutes
+
+                    minutes = (minutes == '0') ? '00' : minutes
                     var time = hours+ ':' +minutes +' hrs'
                 }else {
-                    var time_val = '0.0'
+                    var time_val = '0.00'
                     var time = '00:00 hrs'
                 }
                 $('#stage_capacity'+stage).val(time_val);
@@ -588,6 +592,7 @@ var moment = require('moment');
                     var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
                     var minutes = diff % 60;
                     var hours = (diff - minutes) / 60;
+                    minutes = (minutes == '0') ? '00' : minutes
                    this.stage_capacity['day'+stage] = hours+ ':' +minutes
                 }
                 // return hours+ ':' +minutes
