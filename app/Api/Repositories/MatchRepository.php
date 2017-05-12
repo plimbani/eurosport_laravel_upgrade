@@ -113,7 +113,8 @@ class MatchRepository
             $reportQuery = $reportQuery->where('temp_fixtures.competition_id',
                 $tournamentData['competitionId']);
           }
-
+        // TODO: add constraint to only Show which are Scheduled
+       // $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',1);
         return $reportQuery->get();
     }
 
@@ -192,7 +193,8 @@ class MatchRepository
             $reportQuery = $reportQuery->where('temp_fixtures.competition_id',
                 $tournamentData['competitionId']);
           }
-
+        // TODO: add constraint to only Show which are Scheduled
+        $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',1);
         return $reportQuery->get();
     }
     public function getStanding($tournamentData)
@@ -223,7 +225,8 @@ class MatchRepository
        $totalMatches = DB::table('temp_fixtures')
                 ->where('temp_fixtures.tournament_id',$tournamentData['tournamentId'])
                 ->where('temp_fixtures.competition_id',$tournamentData['competationId'])
-                    ->select(
+                ->where('temp_fixtures.is_scheduled','=',1)
+                ->select(
                 DB::raw('CONCAT(temp_fixtures.hometeam_score, "-", temp_fixtures.awayteam_score) AS scoresFix'),
                 DB::raw('CONCAT(temp_fixtures.home_team, "-", temp_fixtures.away_team) AS teamsFix')
                   ) ->get();
@@ -245,15 +248,13 @@ class MatchRepository
 
       $teamData = DB::table('teams')
                     ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
-
                     ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
-
                     ->leftjoin('competitions', 'competitions.tournament_competation_template_id', '=', 'tournament_competation_template.id')
-
                     ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo')
                     ->where('teams.tournament_id',$tournamentData['tournamentId'])
                     ->where('competitions.id',$tournamentData['competationId'])
                     ->get();
+
       $numTeamsArray = array();
       $teamDetails=array();
 
@@ -264,7 +265,6 @@ class MatchRepository
           $numTeamsArray[]=$Tdata->TeamId;
           $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
           $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
-
         }
       } else {
 
@@ -278,6 +278,7 @@ class MatchRepository
       //print_r($numTeamsArray);
      // print_r($matchArr);
       //exit;
+      $matchNotExist=false;
       for($i=0;$i<count($numTeamsArray);$i++)
       {
        // $htmlData.= '<tr>';
@@ -325,72 +326,22 @@ class MatchRepository
             //echo 'fixture'.$fixArrKeyval=$rowKey.",".$colKey;
           }
          }
-
          // Match is Not Exist Yet
          else
          {
+            $matchNotExist=true;
             $arr1[$i]['matches'][$j]['score'] = '';
 
          }
         }
 
       }
-
+      if($matchNotExist == true) {
+        return array();
+      }
 
       return $arr1;
-      //print_r($arr1);
 
-
-      /*
-      exit;
-      foreach($numTeamsArray as $teamKey=>$team) {
-
-          $htmlData.='<td>'.$team.'</td>';
-          foreach($matchArr as $teamsKey=>$teamScore) {
-
-            $teams = explode('-',$teamsKey);
-
-            $homeTeam = $teams[0];
-            $awayTeam = $teams[1];
-
-            if($team == $homeTeam){
-              $htmlData.='<td>-</td>';
-            } else {
-              if($homeTeam == $team || $awayTeam == $team) {
-                $htmlData.='<td>'.$matchArr[$teamsKey].'</td>';
-              }
-            }
-            // Only Accept fixtures which are there
-          }
-
-      }
-      $htmlData.='</tr>';
-      echo $htmlData;exit;
-      return $htmlData;
-      // echo $htmlData;exit;
-      // exit;
-      // for($i=1; $i <= count($numTeamsArray); $i++){
-
-      //    for($j=1; $j <= count($matchArr); $j++){
-
-      //       echo $matchArr[$j];
-      //       exit;
-      //       if ( $i == $j ) {
-      //        echo "";print_r("-");
-      //       }
-      //       else {
-      //         $rowkey=$numTeamsArray[$i];
-      //         //$colKey=$matchArr[$j];
-      //         //$rowkey = $numberArray[$i];
-      //         //$colKey = $teamArr[$j];
-      //         echo 'RKey--'.$rowkey;
-      //         //echo 'CKey'.$colKey;
-      //     }
-      //    }
-      // }
-
-      // exit;
-     */
     }
     //  below are dummy implemetation
     public function getDrawTable12($tournamentData)

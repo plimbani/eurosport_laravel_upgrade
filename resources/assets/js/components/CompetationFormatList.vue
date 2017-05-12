@@ -7,7 +7,7 @@
           <tr>
               <th class="text-center">{{$lang.competation_name_category}}</th>
               <th class="text-center">{{$lang.competation_age_category}}</th>
-              <th class="text-center">Template name</th>
+              <th class="text-center">{{$lang.compeattion_template}}</th>
               <th class="text-center">{{$lang.competation_competation_format}}</th>
               <th class="text-center">{{$lang.competation_total_matches}}</th>
               <th class="text-center">{{$lang.competation_total_time}}</th>
@@ -38,7 +38,8 @@
               </td>
               <td class="text-center">
                   <span class="align-middle">
-                    <a class="text-primary" href="#" @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
+                    <a class="text-primary" href="#"
+                    @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
                   </span>
                   <span class="align-middle">
                     <a href="javascript:void(0)"

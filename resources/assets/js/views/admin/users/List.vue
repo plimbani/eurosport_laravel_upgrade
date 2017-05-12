@@ -21,6 +21,7 @@
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,8 +40,29 @@
                                         <td>
                                             <a class="text-primary" href="javascript:void(0)" @click="editUser(user.id)"><i class="jv-icon jv-edit"></i></a>
                                             &nbsp;
-                                            <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this user record?" data-toggle="modal" data-target="#delete_modal" @click="prepareDeleteResource(user.id)"><i class="jv-icon jv-dustbin"></i></a>
+                                            <a href="javascript:void(0)"
+                                            data-confirm-msg="Are you sure you would like to delete
+                                            this user record?" data-toggle="modal" data-target="#delete_modal"
+                                            @click="prepareDeleteResource(user.id)">
+                                            <i class="jv-icon jv-dustbin"></i>
+                                            </a>
+                                            &nbsp;
+                                            <a v-if="IsSuperAdmin == true"
+                                            href="javascript:void(0)"
+                                            data-confirm-msg="Are you sure you
+                                            would like to
+                                            re-activate this user?"
+                                            data-toggle="modal"
+                                            data-target="#active_modal"
+                                            @click="prepareDisableResource(user.id,user.is_active)"
+                                            >
+                                            <i class="jv-icon jv-checked-arrow active"
+                                            v-if="user.is_active == true"></i>
+                                            <i class="jv-icon jv-close inActive"
+                                            v-else></i>
+                                            </a>
                                         </td>
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -55,18 +77,27 @@
         <user-modal v-if="userStatus" :userId="userId"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
+        <active-modal v-if="enb == true"
+         :activeConfirm="activeConfirm"
+         :uStatusData="uData"
+         @confirmed="activeConfirmed()"
+         @closeModal="closeConfirm()">
+
+         </active-modal>
     </div>
 </template>
 <script type="text/babel">
     import DeleteModal from '../../../components/DeleteModal.vue'
     import ResendModal from '../../../components/Resendmail.vue'
     import UserModal  from  '../../../components/UserModal.vue'
+    import ActiveModal  from  '../../../components/ActiveModal.vue'
 
     export default {
         components: {
             DeleteModal,
             ResendModal,
-            UserModal
+            UserModal,
+            ActiveModal
         },
         data() {
             return {
@@ -74,20 +105,32 @@
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
                 resendConfirm: 'Are you sure you would like to send this user another invite?',
-
+                activeConfirm: 'Are you sure you would like to de-activate this user?',
                 deleteAction: '',
                 image: '',
                 userStatus: false,
-                userId: ''
+                userId: '',
+                uStatusData:'',
+                enb: false
             }
         },
- 
+
         props: {
             userList: Object
         },
-       
+        computed: {
+            IsSuperAdmin() {
+                return this.$store.state.Users.userDetails.role_slug == 'Super.administrator';
+            },
+            uData(){
+              return this.uStatusData
+            }
+        },
         methods: {
-            addUser() {    
+            closeConfirm() {
+              this.enb =  false
+            },
+            addUser() {
                 this.userId = ''
                 this.userModalTitle = "Add User";
                 this.userStatus = true
@@ -119,14 +162,27 @@
                      toastr.success('Mail has been send successfully.', 'Mail sent', {timeOut: 5000});
                 });
             },
-            
             resendModalOpen(data) {
                 this.resendEmail = data
                 $('#resend_modal').modal('show');
             },
-           
+
             prepareDeleteResource(id) {
                 this.deleteAction="/api/user/delete/"+id;
+            },
+            prepareDisableResource(id,status){
+              this.enb =  true
+              this.uStatusData={'id':id,'status':status}
+            },
+            activeConfirmed() {
+              axios.post("/api/user/status",{'userData':this.uStatusData}).then((response) => {
+                  $("#active_modal").modal("hide");
+                  if(response.data.status_code == 200) {
+                      toastr.success(response.data.message,{timeOut: 3000});
+                      setTimeout(Plugin.reloadPage, 500);
+                  }
+
+                });
             },
             deleteConfirmed() {
                 axios.post(this.deleteAction).then((response) => {

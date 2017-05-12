@@ -83,7 +83,7 @@ class UserService implements UserContract
             $email_details['name'] = $data['name'];
             $email_details['token'] = $token;
             $recipient = $data['emailAddress'];
-            Common::sendMail($email_details, $recipient, 'Eurosport - Set Password', 'emails.users.create');
+            Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
             // echo "<pre>";print_r($recipient);echo "</pre>";exit;
             // $mailSent = Mail::to('kparikh@aecordigital.com')->send('Hello');
             // dd($mailSent);
@@ -209,4 +209,23 @@ class UserService implements UserContract
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
     }
+    /**
+     * Change User Status
+     *
+     * @param array $data
+     *
+     * @return [type]
+     */
+    public function changeUserStatus($id)
+    {
+        $data = $this->userRepoObj->changeUserStatus($id);
+        if ($data) {
+
+            $status = ($data['userData']['status'] == 1) ? 'User has been In active Successfully' : 'User has been active Successfully';
+            return ['status_code' => '200',
+            'message' => $status];
+        }
+    }
+
+
 }

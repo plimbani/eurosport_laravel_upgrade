@@ -172,9 +172,9 @@
            console.log('Error occured during Tournament api ', error)
         }
         )
-         $('#profile_image_file').click(function(){
-                $('#fileUpload').trigger('click')
-            })
+        $('#profile_image_file').click(function(){
+          $('#fileUpload').trigger('click')
+        })
 
       this.getTeams(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue)
     },

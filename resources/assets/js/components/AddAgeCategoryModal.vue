@@ -219,13 +219,23 @@
                     <div class="card-block">
                       <div class="row d-flex">
                         <div class="col align-self-center text-center">
-                          <input type="radio"
+                        <span v-if="option.id == competation_format.tournament_template_id">
+                        <input type="radio" checked='checked' :value="option"
+                        name="tournamentTemplate"
+                        v-validate="'required'"
+                        >
+                        </span>
+                        <span v-else>
+                        <input type="radio"
                             :value="option"
+                            :id="'tournament_template_'+option.id"
                             name="tournamentTemplate"
                             v-model="competation_format.tournamentTemplate"
-                            v-validate="'required'" :class="{'is-danger': errors.has('tournamentTemplate') }"
+                            v-validate="'required'"
+                            :class="{'is-danger': errors.has('tournamentTemplate') }"
                             v-if="checkTemplate(option)"
                           >
+                          </span>
                         </div>
                         <div class="col-sm-10 align-self-center">
                           <span for="one" v-if="checkTemplate(option)">{{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}</span>
@@ -362,6 +372,13 @@ export default {
   },
 
   methods: {
+    checkV(id) {
+
+      if(this.competation_format.tournament_template_id == id) {
+        $('#tournament_template_'+id).prop('checked','checked')
+      }
+      return true
+    },
     checkTemplate(option){
       if(option.minimum_matches ==  this.minimum_matches
         && option.total_teams == this.number_teams) {
@@ -518,7 +535,7 @@ export default {
           (response) => {
               if(Object.keys(this.competation_format.tournamentTemplate).length == 0)
               {
-
+                alert('hello')
                 // this.$validator.errors.error='adsasd'
                 return false
               }

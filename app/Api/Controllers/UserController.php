@@ -86,7 +86,7 @@ class UserController extends BaseController
      */
     public function edit(Request $request, $userId)
     {
-        return $this->userObj->edit($userId);        
+        return $this->userObj->edit($userId);
     }
 
     /**
@@ -103,14 +103,18 @@ class UserController extends BaseController
 
     /**
      * Delete User
-     * 
+     *
      * @param  [type] $id User Id
-     * 
+     *
      * @return [type]           [description]
      */
     public function deleteUser($id)
     {
         return $this->userObj->delete($id);
+    }
+    public function changeUserStatus(Request $request)
+    {
+      return $this->userObj->changeUserStatus($request->all());
     }
 
 
@@ -132,7 +136,7 @@ class UserController extends BaseController
       return view('emails.users.setpassword', compact('usersPasswords'));
       // return view('emails.users.setpassword');
     }
- 
+
     public function passwordActivate(Request $request)
     {
       $key = $request->key;
@@ -146,7 +150,7 @@ class UserController extends BaseController
     public function resendEmail(Request $request)
     {
       $userData = User::where(['email'=>$request->email])->first();
-      $email_details =[];  
+      $email_details =[];
       // dd($userData->name);
       $email_details['name'] = $userData->name;
       $email_details['token'] =  $userData->token;
@@ -155,8 +159,8 @@ class UserController extends BaseController
       // dd($email_details,$recipient);
 
       Common::sendMail($userData, $recipient, 'Eurosport - Set Password', 'emails.users.create');
-      
-    
+
+
 
       // return redirect('/login');
     }

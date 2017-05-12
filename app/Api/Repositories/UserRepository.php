@@ -58,7 +58,12 @@ class UserRepository {
     {
         return User::find($id)->delete();
     }
-
+    public function changeUserStatus($data)
+    {
+        $id = $data['userData']['id'];
+        $status = ($data['userData']['status'] == 1) ? '0' : '1';
+        return User::where('id',$id)->update(['is_active'=>$status]);
+    }
     public function edit($userId)
     {
        $user=DB::table('users')
