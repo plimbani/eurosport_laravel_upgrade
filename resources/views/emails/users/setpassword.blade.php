@@ -34,6 +34,9 @@
         #password-confirm-error{
             color: #ff3860;
         }
+        #divCheckPasswordMatch{
+            color: #1d771f;
+        }
     </style>
 </head>
 <body class="login-page pace-done">
@@ -72,9 +75,9 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password">
+                                            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password" onChange="checkPasswordMatch();">
                                         </div>
-
+                                        <div class="form-group" id="divCheckPasswordMatch"></div>
                                         <div class="h4 text-center mt-4">
                                             <button type="submit" class="btn btn-primary">
                                                 Set password
@@ -99,6 +102,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
+    function checkPasswordMatch() {
+        var password = $("#password").val();
+        var confirmPassword = $("#password-confirm").val();
+
+        if (password != confirmPassword)
+            $("#divCheckPasswordMatch").html("");
+        else
+            $("#divCheckPasswordMatch").html("Your user account is now complete!");
+    }
+
+    $(document).ready(function () {
+       $("#password-confirm").keyup(checkPasswordMatch);
+    });
+
 $("#js-frm-password-activation").validate({
   rules: {
         password: {
@@ -107,10 +124,8 @@ $("#js-frm-password-activation").validate({
         },
         confirm_password: {
             required: true,
-            minlength: 5,
             equalTo: "#password"
         },
-
     },
     messages: {
         password: {
@@ -119,62 +134,12 @@ $("#js-frm-password-activation").validate({
         },
         confirm_password: {
             required: "Please provide a confirm password",
-            minlength: "Your password must be at least 5 characters long",
             equalTo: "The passwords do match, please re-enter."
         }
     },
-      submitHandler: function(form) {
+    submitHandler: function(form) {
         form.submit();
-      }
+    }
  });
-// $(function(){
-//     $("#js-frm-password-activation").validate({
-//         rules: {
-//             password: true,
-//             confirm_password: true
-//         },
-//         messages: {
-//             password: "This field is required",
-//             confirm_password: "This field is required"
-//         },
-//         submitHandler: function(){
-//             $.ajax({
-//                 type: "POST",
-//                 url: "/passwordactivate",
-//                 data: $('#js-frm-password-activation').serialize(),
-//                 success: function(response) {
-//                     window.location.href = "/passwordconfirmation";
-//                     // $('.js-frm-password-activation').removeClass('ajax-loader');
-//                     if(response.status=="success") {
-//                         $('.form-message1').removeClass('alert-danger').addClass('alert-success');
-//                     } else {
-//                         $('.form-message1').removeClass('alert-success').addClass('alert-danger');
-//                     }
-//                     $('.form-message1 .message').html(response.message);
-//                     $('.form-message1').show();
-//                     submitButton.removeAttr("disabled");
-//                     $("#password").next(".form-control-feedback").removeClass('glyphicon glyphicon-ok');
-//                     $("#password").next(".form-control-feedback").hide();
-//                     $('#js-frm-password-activation').bootstrapValidator('resetForm', true);
-//                     setTimeout(function() {
-//                         $('.form-message1').fadeOut('slow');
-//                     }, 3000);
-//                 },
-//                 error: function(msg) {
-//                     $('.js-frm-password-activation').removeClass('ajax-loader');
-//                     $('.form-message1').html(msg);
-//                     $('.form-message1').show();
-//                     submitButton.removeAttr("disabled");
-//                     $('#js-frm-password-activation').bootstrapValidator('resetForm', true);
-//                 }
-//             });
-//         }
-//     });
-// });
-
-
-
-
-
 </script>
 </html>
