@@ -37,6 +37,9 @@
         #email-error{
             color: #ff3860;
         }
+        #divCheckPasswordMatch{
+            color: #1d771f;
+        }
     </style>
 </head>
 <body class="login-page pace-done">
@@ -71,32 +74,17 @@
 
                                 <div class="form-group">
                                     <input id="email" type="email" class="form-control" placeholder="Enter email" name="email">
-
-                                  <!--   <small class="form-text text-danger">{{ $errors->first('email') }}</small> -->
                                 </div>
 
                                 <div class="form-group">
                                     <input id="password" type="password" class="form-control" placeholder="Enter password" name="password">
-
-                                    <!-- @if ($errors->has('password'))
-                                         <span class="help-block">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span> 
-                                        <small class="form-text text-danger">{{ $errors->first('password') }}</small>
-                                    @endif -->
                                 </div>
 
                                 <div class="form-group">
-                                    <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password">
-
-                                   <!-- @if ($errors->has('password_confirmation'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                        </span> 
-                                        <small class="form-text text-danger">{{ $errors->first('password_confirmation') }}</small>
-                                    @endif -->
+                                    <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password" onChange="checkPasswordMatch();">
                                 </div>
 
+                                <div class="form-group" id="divCheckPasswordMatch"></div>
                                 <div class="h4 text-center mt-4">
                                     <button type="submit" class="btn btn-primary">
                                         Set password
@@ -118,6 +106,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
+ function checkPasswordMatch() {
+        var password = $("#password").val();
+        var confirmPassword = $("#password-confirm").val();
+
+        if (password != confirmPassword)
+            $("#divCheckPasswordMatch").html("");
+        else
+            $("#divCheckPasswordMatch").html("Your password has been reset!");
+    }
+
+    $(document).ready(function () {
+       $("#password-confirm").keyup(checkPasswordMatch);
+    });
+
 $("#js-frm-resetpassword-activation").validate({
   rules: {
         email: {
@@ -135,8 +137,7 @@ $("#js-frm-resetpassword-activation").validate({
     },
     messages: {
         email: {
-            required: "Please provide a email",
-            
+            required: "Please provide a email", 
         },
         password: {
             required: "Please provide a password",
