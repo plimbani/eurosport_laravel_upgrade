@@ -145,8 +145,7 @@ import _ from 'lodash'
                             let sMatches = []
                             _.forEach(rdata, function(match) {
                                 if(match.is_scheduled == 1){
-                                    console.log(match.referee_id)
-                                    let mData =  {'id': match.fid, 'resourceId': match.pitchId,'start':moment.utc(match.match_datetime,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(match.match_endtime,'YYYY-MM-DD hh:mm:ss'),'refereeId': match.referee_id,'refereeText': 'Referee', 'title':match.match_number, matchId:match.id}
+                                    let mData =  {'id': match.fid, 'resourceId': match.pitchId,'start':moment.utc(match.match_datetime,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(match.match_endtime,'YYYY-MM-DD hh:mm:ss'),'refereeId': match.referee_id,'refereeText': '', 'title':match.match_number, matchId:match.id}
                                 sMatches.push(mData)
                                 }
                             });
