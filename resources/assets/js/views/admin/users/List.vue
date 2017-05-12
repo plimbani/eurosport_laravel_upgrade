@@ -126,6 +126,15 @@
               return this.uStatusData
             }
         },
+        mounted() {
+          setTimeout( function(){
+            if ($(document).height() > $(window).height()) {
+              $('.site-footer').removeClass('sticky');
+           } else {
+             $('.site-footer').addClass('sticky');
+           }
+          },2000 )
+        },
         methods: {
             closeConfirm() {
               this.enb =  false
