@@ -81,7 +81,8 @@
                 // Tournament.getReferees(this.tournamentId)rnamentId);
                 Tournament.getReferees(this.tournamentId).then(
                   (response) => { 
-                  this.referees = response.data.referees 
+                  this.referees = response.data.referees
+                  this.$store.dispatch('SetTotalReferee', this.referees.length)
                   },
                   (error) => {
                      console.log('Error occured during Tournament api ', error)

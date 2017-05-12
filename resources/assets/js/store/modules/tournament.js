@@ -21,7 +21,9 @@ const state = {
   tournamentFiler:{
   	filterKey:'',
   	filterValue: ''
-  }
+  },
+  totalMatch:'',
+  totalReferee:'',
 }
 // getters
 const getters = {
@@ -38,6 +40,14 @@ const actions = {
   SetTournamentName ({commit}, tournamentData) {
 	commit(types.CURRENT_TOURNAMENT, tournamentData)
   },
+  SetTotalMatch ({commit}, totalMatch) {
+	commit(types.TOTAL_MATCHES, totalMatch)
+  },
+  SetTotalReferee ({commit}, totalReferee) {
+	commit(types.TOTAL_REFEREES, totalReferee)
+  },
+  
+
   SetVenues ({commit},tournamentId) {
 	Tournament.getAllVenues(tournamentId).then (
 	  (response) => {
@@ -150,8 +160,14 @@ const mutations = {
   },
  [types.SET_VENUES] (state, venueData) {
 	state.venues = venueData;
-
   },
+   [types.TOTAL_MATCHES] (state, totalMatch) {
+	state.totalMatch = totalMatch;
+  },
+  [types.TOTAL_REFEREES] (state, totalReferees) {
+	state.totalReferee = totalReferees;
+  },
+  
   [types.SET_TOURNAMENT_FILTER] (state, filterData) {
   	
 	state.tournamentFiler.filterKey = filterData.filterKey;

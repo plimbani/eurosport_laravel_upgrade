@@ -1,5 +1,5 @@
 <template>
-    <div class="referee-draggable-item">
+    <div class="">
         <img src="/assets/img/user_icon.png" width="40">
         <p>{{referee.first_name}}</p>      
     </div>    
@@ -10,7 +10,6 @@
 export default {
     props: ['referee'],
     mounted() {
-        console.log('referee mounted');
         this.initEvents();
     },
     methods: {
