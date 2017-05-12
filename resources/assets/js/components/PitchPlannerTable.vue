@@ -1,6 +1,6 @@
     <template>
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-9 pitch_planner_section ">
             <div class="pitch-planner-wrapper">
                 <div class="pitch-planner-item" v-for="stage in tournamentStages">
                     <div class="card">

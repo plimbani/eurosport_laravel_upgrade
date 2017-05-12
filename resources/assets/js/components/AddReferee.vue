@@ -44,7 +44,7 @@
                                 </div>
                                 
                                 <div class="form-group row">
-                                    <label class="col-sm-5 form-control-label">Age categories *</label>
+                                    <label class="col-sm-5 form-control-label">Age categorieasdasds *</label>
                                     <div class="col-sm-6">
                                          <select name="sel_ageCategory"  v-validate="'required'" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
                                             <option value="">Select</option>

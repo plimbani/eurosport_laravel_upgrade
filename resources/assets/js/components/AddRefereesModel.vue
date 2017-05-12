@@ -48,7 +48,7 @@
                       <option value="">U15</option>
                       <option value="">U19</option>
                   </select> -->
-                   <select name="sel_ageCategory" v-model="formValues.age_group_id"  v-validate="'required'" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
+                   <select name="sel_ageCategory" v-model="formValues.age_group_id"  v-validate="'required'" v-bind:multiple="isMultiple" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
                         <option value="">Select</option>
                         <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
                     </select>
@@ -59,7 +59,7 @@
             <div class="form-group row">
               <label class="col-sm-5 form-control-label">Availability*</label>
               <div class="col-sm-6">
-                <textarea name="availability" id="availability" v-validate="'required'" :class="{'is-danger': errors.has('availability') }"  v-model="formValues.availability" class="form-control" placeholder="e.g. Day 1 all day"></textarea>
+                <textarea name="availability" id="availability" v-validate="'required'" :class="{'is-danger': errors.has('availability') }"  v-model="formValues.comments" class="form-control" placeholder="e.g. Day 1 all day"></textarea>
                 <i v-show="errors.has('availability')" class="fa fa-warning"></i>
                <span class="help is-danger" v-show="errors.has('availability')">This field is required</span>
               </div>
@@ -82,11 +82,16 @@ export default {
    mounted() {
     
    },
+   data(){
+    return {
+      isMultiple: true
+    }
+   },
   methods: {
     saveReferee () {
                 this.$validator.validateAll().then(() => {
-                    
-                    let ReportData = {'tournament_id': this.tournamentId,'age_category': $('#sel_ageCategory').val(),'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
+                      let age_category = $('#sel_ageCategory').val()
+                    let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(),'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
                      if(this.refereeId != ''){
                       Tournament.updateReferee(ReportData).then(
                       (response) => {  
@@ -95,6 +100,7 @@ export default {
                       }
                       )
                      }else{
+                      console.log(ReportData);
                       Tournament.saveReferee(ReportData).then(
                       (response) => {  
                            toastr['success']('Referee detail has been added successfully', 'Success');
