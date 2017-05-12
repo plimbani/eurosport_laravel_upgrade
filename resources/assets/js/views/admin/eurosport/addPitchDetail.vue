@@ -392,6 +392,7 @@ export default {
                 var minutes = diff % 60;
               var hours = parseInt(diff - minutes) / 60;
               var time_val = hours+ '.' +minutes
+              console.log(minutes,'minutesas')
               var time = hours+ ':' +minutes +' hrs'
               }else {
                   var time_val = '0.0'
@@ -514,7 +515,8 @@ export default {
               $('.datestage'+day).datepicker('clearDates')
           }
           // this.stageShowday = false
-          // console.log(this.stageShow+day)
+          //
+          ole.log(this.stageShow+day)
 
       },
       displayDay (day) {
@@ -537,6 +539,7 @@ export default {
               var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
               var minutes = diff % 60;
               var hours = (diff - minutes) / 60;
+              console.log(minutes,'minutes')
              this.stage_capacity['day'+stage] = hours+ ':' +minutes
           }
           // return hours+ ':' +minutes
