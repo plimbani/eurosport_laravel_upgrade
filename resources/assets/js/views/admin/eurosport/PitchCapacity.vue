@@ -3,13 +3,15 @@
         <div class="card">
             <div class="card-block">
                 <h6 class="mb-4"><strong>{{$lang.pitch_capacity}}</strong></h6>
-                <div class="row mb-4">
-                    <div class="col-md-1 pitch-capaciry" v-for="pitch in pitches">
-                        <p><strong>{{pitch.pitch_number}}</strong></p>
+                <div class="d-flex justify-content-start flex-wrap">
+                    <div class="mr-3 pitch-capaciry mb-4" v-for="pitch in pitches">
+                        <p class="text-left"><strong>{{pitch.pitch_number}}</strong></p>
                         <img src="/assets/img/pitch.png">
+                        <div class="text-center">
                             <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
                             <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="jv-icon jv-dustbin"></i></a>
-                    </div>
+                        </div>
+                    </div>                    
                 </div>
                 <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
                 <addPitchDetail v-if="pitchId==''" ></addPitchDetail>

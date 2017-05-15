@@ -229,7 +229,7 @@
         </tbody>
       </table>
     </div>
-    <div style="margin:0px auto;max-width:600px;">
+     <div style="margin:0px auto;max-width:600px;">
       <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
         <tbody>
           <tr>
