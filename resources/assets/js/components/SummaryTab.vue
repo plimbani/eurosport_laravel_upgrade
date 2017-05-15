@@ -2,9 +2,9 @@
 	<div class="tab-content summary-content">
 		<div class="row">
 			<div class="col-md-6">
-				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
-					<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30"
-					class="mr-2">
+				<label>
+					<img v-if="tournamentLogo" :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30" class="mr-2">
+					<img v-else src="http://placehold.it/30x30" width="30px">
 				</label>
 				<label>
 					<h6>{{tournamentName}}</h6>
