@@ -6952,7 +6952,7 @@ DayGrid.mixin({
 		if (seg.isStart) {
 			timeText = this.getEventTimeText(event);
 			if (timeText) {
-				timeHtml = '<span class="fc-referee " id="'+ event.refereeId+'">'+ event.refereeText+'</span>' + '<span class="fc-time">' + htmlEscape(timeText) + '</span>';
+				timeHtml = '<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' + '<span class="fc-time">' + htmlEscape(timeText) + '</span>';
 			}
 		}
 
@@ -8353,7 +8353,7 @@ TimeGrid.mixin({
 			'>' +
 				'<div class="fc-content">' +
 					(timeText ?
-						'<span class="fc-referee " id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
+						'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
 						'<div class="fc-time"' +
 						' data-start="' + htmlEscape(startTimeText) + '"' +
 						' data-full="' + htmlEscape(fullTimeText) + '"' +
