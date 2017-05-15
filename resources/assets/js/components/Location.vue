@@ -4,7 +4,7 @@
 <div class="">
 <h6><strong>{{$lang.tournament_location}}</strong></h6>
 </div>
-<div class="form-group row" :class="{'has-error': errors.has('tournamemt_validation_venue') }">
+<div class="form-group row" :class="{'has-error': errors.has('location.venue') }">
 <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}}*</label>
 
 	<div class="col-sm-4">
