@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Notifications;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class ResetPasswordController extends Controller
 {
@@ -114,6 +116,13 @@ class ResetPasswordController extends Controller
 
         $this->guard()->login($user);
     }
+    public function toMail($notifiable) 
+    {
+        return (new MailMessage)
+            ->subject("Euro-Sportring Tournament Planner - Password Reset")
+            ->line('You are receiving this email because we received a password reset request for your account.')
+            ->action('Reset password', route('password.reset', $this->token))
+            ->line('If you did not request this password reset please ignore this email.');
+    }
  
-
 }

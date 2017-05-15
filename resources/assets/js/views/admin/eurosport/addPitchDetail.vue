@@ -113,7 +113,7 @@
                                                                   <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_start_time']"  :id="'stage_start_time'+day"  type="text" >
                                                               </div>
                                                               <div class="align-self-center p-1">
-                                                                  <i v-show="errors.has('stage_start_time'+day)" class="fa fa-warning text-danger" data-toggle="tooltip" data-placement="top" title="Start time is required"></i>
+                                                                  <i v-show="errors.has('stage_start_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
                                                               </div>
                                                               <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                                           </div>
@@ -127,14 +127,15 @@
                                                          {{$lang.pitch_capacity_break}}
                                                       </div>
                                                       <div class="col-md-3">
+                                                      <!-- <input type="checkbox" :name="'stage_break_chk'+day" class="form-control stage_break_chk" :id="day" >Check to add a break -->
                                                       </div>
                                                       <div class="col-md-3">
                                                           <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                              <div class="align-self-center w-100">
+                                                              <div   :class="'align-self-center w-100  stage_chk_active'+day">
                                                                   <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker']" :id="'stage_break_start'+day" >
                                                               </div>
                                                               <div class="align-self-center p-1">
-                                                                  <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning text-danger" data-toggle="tooltip" data-placement="top" title="Break start time is required"></i>
+                                                                  <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
                                                               </div>
                                                               <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                                           </div>
@@ -157,11 +158,11 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                           <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                              <div class="align-self-center w-100">
+                                                              <div :class="'align-self-center w-100 stage_chk_active'+day">
                                                                   <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker']"  :id="'stage_continue_time'+day">
                                                               </div>
                                                               <div class="align-self-center p-1">
-                                                                  <i v-show="errors.has('stage_continue_time'+day)" class="fa fa-warning text-danger" data-toggle="tooltip" data-placement="top" title="Continue time is required"></i>
+                                                                  <i v-show="errors.has('stage_continue_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Continue time is required"></i>
                                                               </div>
                                                               <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                                           </div>
@@ -188,7 +189,7 @@
                                                                   <input :name="'stage_end_time'+day" :id="'stage_end_time'+day" type="text"  v-validate="'required'" :class="[errors.has('stage_end_time'+day)?'is-danger': '', 'form-control ls-timepicker']">
                                                               </div>
                                                               <div class="align-self-center p-1">
-                                                                  <i v-show="errors.has('stage_end_time'+day)" class="fa fa-warning text-danger" data-toggle="tooltip" data-placement="top" title="Stage end time is required"></i>
+                                                                  <i v-show="errors.has('stage_end_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Stage end time is required"></i>
                                                               </div>
                                                               <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                                           </div>
@@ -392,6 +393,7 @@ export default {
                 var minutes = diff % 60;
               var hours = parseInt(diff - minutes) / 60;
               var time_val = hours+ '.' +minutes
+              minutes = (minutes == '0') ? '00' : minutes
               var time = hours+ ':' +minutes +' hrs'
               }else {
                   var time_val = '0.0'
@@ -449,6 +451,16 @@ export default {
                   this.stageRemove(i)
               }
           }
+    // $(document).ready(function(){
+    //   $('.stage_break_chk').on('click',function(){
+    //     if(this.checked){
+    //       $('.stage_chk_active'+this.id).show()
+    //     }else{
+    //       $('.stage_chk_active'+this.id).hide()
+
+    //     }
+    //   })
+    // })
   },
   methods: {
       getAllPitches() {
@@ -514,7 +526,8 @@ export default {
               $('.datestage'+day).datepicker('clearDates')
           }
           // this.stageShowday = false
-          // console.log(this.stageShow+day)
+          //
+
 
       },
       displayDay (day) {
@@ -537,6 +550,7 @@ export default {
               var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
               var minutes = diff % 60;
               var hours = (diff - minutes) / 60;
+              minutes = (minutes == '0') ? '00' : minutes
              this.stage_capacity['day'+stage] = hours+ ':' +minutes
           }
           // return hours+ ':' +minutes

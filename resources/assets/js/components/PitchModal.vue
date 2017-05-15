@@ -11,7 +11,7 @@
           <div class="modal-body">
             <div class="form-group row">
               <label class="col-sm-3">Match number:</label><p class="col-sm-9"> {{matchFixture.title}}</p>
-              <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{matchDetail.home_team}}) and Team 2 ({{matchDetail.away_team}}) </p>
+              <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}}) </p>
               <label class="col-sm-3">Date:</label><p class="col-sm-9">{{matchDetail.matchTime}}</p>
               <label class="col-sm-3">Pitch:</label><p class="col-sm-9">{{matchDetail.pitch.pitch_number}} </p>
             </div>
@@ -120,6 +120,7 @@ var moment = require('moment');
         (response) => {
             this.referees = response.data.referees
         })
+
       this.matchFixtureDetail()   
 
   },
@@ -133,7 +134,7 @@ var moment = require('moment');
       Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
           this.matchDetail = response.data.data
-          this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' (hh:mm a) DD MMM YYYY ')
+          this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
       })
     },
     removeReferee(){
@@ -164,8 +165,10 @@ var moment = require('moment');
         )
     },
     matchUnschedule() {
+      let vm =this
       Tournament.matchUnschedule(this.matchId).then(
         (response) => {
+          vm.$root.$emit('setPitchReset')
            $('#matchScheduleModal').modal('hide')
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
       })

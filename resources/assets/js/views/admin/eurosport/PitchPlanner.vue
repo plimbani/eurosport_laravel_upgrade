@@ -1,7 +1,9 @@
+
+
 <template>
 	<div class="tab-content">
 		<div class="card">
-			<div class="card-block">
+			<div class="card-block pb-0 ">
           <div class="row align-items-center justify-content-start">
             <div class="col-3 align-self-center">
               <h6 class="m-0"><strong>{{$lang.pitch_planner_label}}</strong></h6>
@@ -32,6 +34,7 @@ var moment = require('moment');
        }
     },
     mounted() {
+      let vm = this
     	this.$store.dispatch('SetPitches',this.tournamentId);
     	// Here we put validation check
     let tournamentId = this.$store.state.Tournament.tournamentId

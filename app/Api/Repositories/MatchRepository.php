@@ -193,8 +193,11 @@ class MatchRepository
             $reportQuery = $reportQuery->where('temp_fixtures.competition_id',
                 $tournamentData['competitionId']);
           }
+          if(isset($tournamentData['is_scheduled']) && $tournamentData['is_scheduled'] !== '')
+          {
         // TODO: add constraint to only Show which are Scheduled
-        $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',1);
+            $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',$tournamentData['is_scheduled']);
+          }
         return $reportQuery->get();
     }
     public function getStanding($tournamentData)

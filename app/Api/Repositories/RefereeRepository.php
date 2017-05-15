@@ -19,7 +19,6 @@ class RefereeRepository
 
     public function createReferee($refereeData)
     {
-        // dd($refereeData);
         return Referee::create([
             'tournament_id' => $refereeData['tournament_id'],
             'first_name' => $refereeData['first_name'],

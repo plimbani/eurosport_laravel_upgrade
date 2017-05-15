@@ -24,7 +24,7 @@ class CreateRefereeTable extends Migration
             $table->string('telephone')->nullable();
             $table->string('email')->nullable();
             $table->text('comments')->nullable();
-            $table->integer('age_group_id')->index();            
+            $table->string('age_group_id')->nullable();            
             $table->timestamps();
             $table->softDeletes();
         });

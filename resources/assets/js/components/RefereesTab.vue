@@ -55,7 +55,7 @@
                     last_name: '',
                     telephone: '',
                     email: '',
-                    age_group_id: '',
+                    age_group_id: [],
                     availability: ''
                 }
 			},
@@ -81,7 +81,8 @@
                 // Tournament.getReferees(this.tournamentId)rnamentId);
                 Tournament.getReferees(this.tournamentId).then(
                   (response) => { 
-                  this.referees = response.data.referees 
+                  this.referees = response.data.referees
+                  this.$store.dispatch('SetTotalReferee', this.referees.length)
                   },
                   (error) => {
                      console.log('Error occured during Tournament api ', error)
@@ -98,7 +99,9 @@
     		      Tournament.getRefereeDetail(rId).then(
   		      	(response) => { 
   		      		// console.log(response.data.referee)
+                
                     this.formValues = response.data.referee 
+                    this.formValues.age_group_id = JSON.parse("[" + this.formValues.age_group_id + "]");
                     $('#refreesModal').modal('show')
                     }
 		      	 )
