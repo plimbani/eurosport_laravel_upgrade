@@ -109,22 +109,8 @@
           <tr>
             <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:10px 0px 20px 0px;">
 
-              
-      <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
-              <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
-               <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                  <tbody>
-                    <tr>
-                     <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;" align="center">
-                        <div class="" style="cursor:auto;color:#9B9B9B;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:14px;font-weight:300;line-height:24px;text-align:center;">
-                          <p>Euro Sporting</p>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-      </td></tr></table>
+
+
             </td>
           </tr>
         </tbody>
@@ -225,7 +211,7 @@
                     </tr>
                   </tbody>
                 </table>
-           
+
                 </div>
               </div>
             </td>
