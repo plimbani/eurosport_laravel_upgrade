@@ -55,18 +55,25 @@
             </div>
             </div>
   			</div> -->
-  			<div class="clearfix">
-  				<div class="pull-left"><div><strong>{{$lang.teams_team_list}}</strong></div>
+          <div class="row align-items-center">
+            <div class="col-sm-3">
+              <h6 class="m-0"><strong>{{$lang.teams_team_list}}</strong></h6>
+            </div>
+            <div class="col-sm-9">      
+              <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>  
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-12"> 
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
-            <button type="button" id="profile_image_file">Choose file</button>
+            <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button>
               <input type="file" name="fileUpload"  id="fileUpload" style="display:none;" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
-              <p class="help-block">Excel and CSV files only</p>
+              <small class="form-text text-muted">Excel and CSV files only</small>
             </div>
-	  				<button type="button" @click="csvImport()"  class="btn btn-primary">{{$lang.teams_upload_team}}</button>
+	  				<button type="button" @click="csvImport()"  class="btn btn-primary mt-2">{{$lang.teams_upload_team}}</button>
             </form>
 	  			</div>
-	  			  <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
   			</div>
   			<div class="row mt-4">
   				<div class="col-md-12">
