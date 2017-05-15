@@ -158,7 +158,7 @@ class UserController extends BaseController
 
       // dd($email_details,$recipient);
 
-      Common::sendMail($userData, $recipient, 'Eurosport - Set Password', 'emails.users.create');
+      Common::sendMail($userData, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
 
 
 
