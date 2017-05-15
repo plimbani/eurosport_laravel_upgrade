@@ -79,7 +79,7 @@
                                         </div>
                                         <div class="form-group" id="divCheckPasswordMatch"></div>
                                         <div class="h4 text-center mt-4">
-                                            <button type="submit" class="btn btn-primary">
+                                            <button type="submit" id="addButton" class="btn btn-primary">
                                                 Set password
                                             </button>
                                         </div>
@@ -106,11 +106,15 @@
         var password = $("#password").val();
         var confirmPassword = $("#password-confirm").val();
 
-        if (password != confirmPassword)
+        if (password != confirmPassword) {
             $("#divCheckPasswordMatch").html("");
-        else
+            $("#addButton").html("Set password");
+        } else {
             $("#divCheckPasswordMatch").html("Your user account is now complete!");
-    }
+            $("#addButton").html("Go to login page");
+        }    
+    }   
+   
 
     $(document).ready(function () {
        $("#password-confirm").keyup(checkPasswordMatch);
