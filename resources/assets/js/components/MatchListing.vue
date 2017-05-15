@@ -118,7 +118,7 @@ export default {
 		getDrawDetails(drawId, drawName) {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'competitionId':drawId}
+			'competitionId':drawId,'is_scheduled':1}
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
@@ -142,7 +142,7 @@ export default {
 		getTeamDetails(teamId, teamName) {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'teamId':teamId}
+			'teamId':teamId,'is_scheduled':1}
 			this.otherData.TeamName = teamName
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
@@ -161,7 +161,7 @@ export default {
 
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let PitchId = fixtureData.pitchId
-			let tournamentData = {'tournamentId': TournamentId, 'pitchId':PitchId}
+			let tournamentData = {'tournamentId': TournamentId, 'pitchId':PitchId,'is_scheduled':1}
 			this.otherData.Name = fixtureData.venue_name+'-'+fixtureData.pitch_number
 
 			Tournament.getFixtures(tournamentData).then(
@@ -180,7 +180,7 @@ export default {
 		getAllMatches(date) {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'tournamentDate':date}
+			'tournamentDate':date,'is_scheduled':1}
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {

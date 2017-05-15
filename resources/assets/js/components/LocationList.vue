@@ -34,7 +34,7 @@ export default {
   mounted() {
     // Display Location
     let TournamentId = this.$store.state.Tournament.tournamentId
-      let tournamentData = {'tournamentId': TournamentId}
+      let tournamentData = {'tournamentId': TournamentId,'is_scheduled':1}
       Tournament.getFixtures(tournamentData).then(
         (response)=> {
           if(response.data.status_code == 200) {
