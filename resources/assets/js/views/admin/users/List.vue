@@ -56,9 +56,9 @@
                                             data-target="#active_modal"
                                             @click="prepareDisableResource(user.id,user.is_active)"
                                             >
-                                            <i class="jv-icon jv-checked-arrow active"
+                                            <i class="jv-icon jv-checked-arrow text-success"
                                             v-if="user.is_active == true"></i>
-                                            <i class="jv-icon jv-close inActive"
+                                            <i class="jv-icon jv-close text-danger"
                                             v-else></i>
                                             </a>
                                         </td>
