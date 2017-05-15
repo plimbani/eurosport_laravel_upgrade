@@ -141,12 +141,33 @@ class TournamentRepository
     }
     private function getTournamentDays ($startDate,$endDate)
     {
+      $startDate = str_replace('/', '-', $startDate);
+      $endDate = str_replace('/', '-', $endDate);
 
+      $days = (strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24);
+      // TODO add one day
+      $days = $days + 1;
+      return $days;
+
+    /*  $from=date_create(date('Y-m-d',strtotime($startDate)));
+      print_r($from);exit;
+      $to=date_create($endDate);
+      $diff=date_diff($to,$from);
+      print_r($diff);
+      echo $diff->format('%R%a days');
+
+      $your_date = strtotime($startDate);
+
+      echo 'hello1';
+      print_r( $date1);
+      //print_r($your_date);
+      exit;
       $created = Carbon::createFromFormat('d/m/Y', $startDate);
       $now = Carbon::createFromFormat('d/m/Y', $endDate);
 
       $days = ($created->diff($now)->days < 1) ? 1 : $created->diffForHumans($now)+1;
       return $days;
+      */
     }
     public function edit($data)
     {

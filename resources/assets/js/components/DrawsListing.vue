@@ -1,7 +1,7 @@
 <template>
 <div>
 
-<component :is="currentScheduleView" :matchData="matchData" 
+<component :is="currentScheduleView" :matchData="matchData"
    :otherData="otherData"></component>
 </div>
 </template>
@@ -36,27 +36,26 @@ export default {
 		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails
 	},
 	created: function() {
-       this.$root.$on('changeDrawListComp', this.setMatchData); 
+       this.$root.$on('changeDrawListComp', this.setMatchData);
   	},
 	methods: {
 		onChangeDraw() {
 			alert(this.draw)
 		},
 		setMatchData(id, Name='') {
-			
+
 			let comp = this.$store.state.currentScheduleView
-			
+
 			if(comp == 'locationList') {
 				// Now here we call Function get all match for location
 				this.getAllMatchesLocation(id)
-			} 
+			}
 			if(comp == 'teamDetails') {
-				alert('called')
 				this.getTeamDetails(id, Name)
 			}
 			if(comp == 'drawDetails') {
 				this.getDrawDetails(id, Name)
-			}	
+			}
 		},
 		getAllDraws() {
 			let TournamentId = this.$store.state.Tournament.tournamentId
@@ -72,11 +71,11 @@ export default {
 			)
 		},
 		getDrawDetails(drawId, drawName) {
-			
+
 			let TournamentId = this.$store.state.Tournament.tournamentId
-			let tournamentData = {'tournamentId': TournamentId, 
-			'competitionId':drawId}
-			
+			let tournamentData = {'tournamentId': TournamentId,
+			'competitionId':drawId,'is_scheduled':1}
+
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
 

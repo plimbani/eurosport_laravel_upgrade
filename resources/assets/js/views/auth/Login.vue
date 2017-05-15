@@ -33,11 +33,7 @@
         <form class="forget-form"  method="post">
         <!-- {!! csrf_field() !!} -->
         <!-- {{ csrf_field() }} -->
-            <div class=" form-group logo mcb_logo">
-                <img src="" alt="" width="200" />
-            </div>
-           
-            <p style="font-size:14px; color:#464a4c;">Enter your e-mail address below to reset your password.</p>
+        <p style="font-size:14px; color:#464a4c; margin-top:25px;">Enter your e-mail address below to reset your password.</p>
             <div class="form-group">
                 <!-- <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> -->
                  <input class="form-control" type="email" autocomplete="off" v-model="loginData.email" v-validate="'required'" placeholder="Email address" name="email" id="
@@ -102,6 +98,7 @@
                         $('#resetPassword').attr("disabled","");
                     }else{
                         toastr['error']('email address does not exist', 'Error');
+                         $('#resetPassword').removeAttr("disabled","");
                     }
                 }).catch(error => {
                     if (error.response.status == 401) {

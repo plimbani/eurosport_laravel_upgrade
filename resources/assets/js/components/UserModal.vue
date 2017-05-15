@@ -52,7 +52,7 @@
                                 <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                                 <div class="col-sm-6">
                                       <div v-if="!image">
-                                          <button type="button" id="profile_image_file">Choose file</button>
+                                          <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button>
                                           <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
                                           <p class="help-block">Maximum size of 1 MB.<br/>
                                           Image dimensions 250 x 250.</p>
