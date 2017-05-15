@@ -120,6 +120,7 @@ var moment = require('moment');
         (response) => {
             this.referees = response.data.referees
         })
+
       this.matchFixtureDetail()   
 
   },
@@ -164,8 +165,10 @@ var moment = require('moment');
         )
     },
     matchUnschedule() {
+      let vm =this
       Tournament.matchUnschedule(this.matchId).then(
         (response) => {
+          vm.$root.$emit('setPitchReset')
            $('#matchScheduleModal').modal('hide')
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
       })

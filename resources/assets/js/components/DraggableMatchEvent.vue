@@ -1,8 +1,15 @@
 <template>
-    <div class="draggable-event dashbox p-2 text-center hoverable">
-        <div>{{match.matchName}}</div>
-        <div>{{match.fullGame}}</div>
-        <div>({{match.matchTime}} min)</div>
+    <div>
+        <div v-if="match != 'unavailable'" class="draggable-event dashbox p-2 text-center hoverable">
+            <div>{{match.matchName}}</div>
+            <div>{{match.fullGame}}</div>
+            <div>({{match.matchTime}} min)</div>
+        </div>
+        <div class="dark_grey_bg card p-2 m-0 text-center" v-else>
+            <div>Unavailable 60 mins</div>
+            <div>{{match.fullGame}}</div>
+            <div>(60 min)</div>
+        </div>
     </div>
 </template>
 
@@ -18,12 +25,12 @@ export default {
             // store data so the calendar knows to render an event upon drop
             $(this.$el).data('event', {
                 id: this.match.id,
-                title: this.match.matchName, // use the element's text as the event title
-                refereeId: '', // use the element's text as the event title
+                title: this.match.matchName ? this.match.matchName : 'unavailable', // use the element's text as the event title
+                refereeId: this.match=='unavailable'?-1:'', // use the element's text as the event title
                 refereeText: '', // use the element's text as the event title
 
                 stick: true, // maintain when user navigates (see docs on the renderEvent method),
-                duration: moment.duration(this.match.matchTime, 'minutes'),
+                duration: this.match.matchTime ? moment.duration(this.match.matchTime, 'minutes') : moment.duration(60, 'minutes'),
                 matchId: this.match.matchId,
                 forceEventDuration: true
             });
@@ -32,7 +39,7 @@ export default {
             $(this.$el).draggable({
                 zIndex: 999,
                 revert: true,      // will cause the event to go back to its
-                revertDuration: 0  //  original position after the drag
+                revertDuration:0  //  original position after the drag
             });
         }
     }

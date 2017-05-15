@@ -9,10 +9,10 @@
 						:data-text="match.matchName">
 						<draggable-match-event :match="match"></draggable-match-event>
 					</div>
+
 				</div>
-				<div class="dark_grey_bg card p-2 m-0 text-center">
-					Unavailable 60 mins
-				</div>
+				<draggable-match-event match="unavailable" ></draggable-match-event>
+				
 			</div>
 		</div>
 	</div>
@@ -30,15 +30,17 @@ export default {
 			tournamentId: this.$store.state.Tournament.tournamentId,
 			matches: [],
 			competationList: [],
-			matchGame: []
+			matchGame: [],
+			totalMatch: ''
 		}
 	},
 	computed: {
 		competitionWithGames(){
 			let competitionGroup = this.competationList
 			let allMatches = this.matches
-
+			let matchCount = 0
 			if(this.competationList.length > 0 && this.matches.length > 0){
+
 				_.forEach(this.competationList, function(competition) {
 				let cname = competition.group_name
 				let comp = []
@@ -58,13 +60,22 @@ export default {
 							}
 							var person = {'fullGame':match.full_game,'matchName':cname+'-'+round+match.match_number,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
 							comp.push(person)
+							if(match.is_scheduled!=1){
+
+								matchCount = matchCount + 1 
+							}
 						}
 					})
 				competition.matchList = comp
+
 				}) 
+				this.totalMatch = matchCount 
+				this.$store.dispatch('SetTotalMatch', this.totalMatch)
 				return this.competationList
 			}else{
 				// console.log('msg',this.competationList,this.matches)
+				this.totalMatch = matchCount 
+			this.$store.dispatch('SetTotalMatch', this.totalMatch)
 				return this.competationList
 			}
 		}
@@ -77,6 +88,9 @@ export default {
 				this.matches = response.data.data
 			}
 		)
+		$("#game-list").mCustomScrollbar({
+                'autoHideScrollbar':true
+            });
 		this.displayTournamentCompetationList();	
 	},
 	methods: {		

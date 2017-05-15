@@ -535,7 +535,7 @@ export default {
           (response) => {
               if(Object.keys(this.competation_format.tournamentTemplate).length == 0)
               {
-             
+
                 // this.$validator.errors.error='adsasd'
                 return false
               }
