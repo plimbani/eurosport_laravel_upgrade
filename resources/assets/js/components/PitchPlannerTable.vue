@@ -121,13 +121,24 @@
             this.tournamentStages = ''
             let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
                 let stages = [];
-
+                 // let startTimeCalc = this.pitches[0].pitch_availability[0].stage_start_time
+                 // console.log(startTimeCalc,'kk');
                 for (var i = 1; i <= this.tournamentDays; i++) {
                     // fetch pitches available for this day
                     let currentDateString  = tournamentStartDate.format('DD/MM/YYYY');
                     let availablePitchesForStage = _.filter(this.pitches, (pitch) => {
-                        return _.find(pitch.pitch_availability, { 'stage_start_date': currentDateString});
+                        return _.find(pitch.pitch_availability, { 
+                            'stage_start_date': currentDateString
+                        });
                     });
+                   
+                    // let stageStartTime = _.forEach(this.pitches, (pitch) => {
+                    //     _.forEach(pitch.pitch_availability, (availability) => {
+                    //         if(availability.stage_start_time < startTimeCalc){
+                    //             startTimeCalc = availability.stage_start_time
+                    //         }
+                    //     });
+                    // });
 
                     stages.push({
                         stageNumber: i,

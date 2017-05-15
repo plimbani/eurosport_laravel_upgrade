@@ -299,10 +299,13 @@ class TournamentRepository
             break;
 
           case 'age_category' :
-            $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
-                        ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name','tournament_competation_template.tournament_template_id')
-                        ->distinct('name')
-                        ->get();
+          $resultData =  TournamentCompetationTemplates::where('tournament_id',$tournamentId)
+                          ->select('id','group_name as name','tournament_template_id')
+                          ->get();
+            // $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
+            //             ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name','tournament_competation_template.tournament_template_id')
+            //             ->distinct('name')
+            //             ->get();
             break;
         }
       }else{
