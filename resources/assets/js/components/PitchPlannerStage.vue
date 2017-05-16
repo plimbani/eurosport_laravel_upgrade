@@ -138,7 +138,7 @@ import _ from 'lodash'
                                         $(this).closest('.fc-event').addClass('bg-grey');
                                     }
                             })
-                            },500)
+                            },200)
                             
                         }else{
                               setTimeout(function(){
@@ -147,7 +147,7 @@ import _ from 'lodash'
                                         $(this).closest('.fc-event').addClass('bg-grey');
                                     }
                             })
-                            },500)
+                            },200)
                             let matchId = event.id?event.id:event.matchId
                             let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
                             Tournament.setMatchSchedule(matchData).then(
@@ -175,7 +175,7 @@ import _ from 'lodash'
                                     vm.matchFixture = {}
                                     vm.getScheduledMatch()
                                 });
-                            },500);  
+                            },200);  
                         }
                         
                     },

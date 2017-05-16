@@ -32,6 +32,7 @@ class PitchAvailibilityTableSeeder extends Seeder
           'stage_end_date' => '2017-04-15',
         	'stage_end_time' => '6:00 pm',
           'stage_capacity' => ' 510',
+          'break_enable' => false,
           'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
           [
@@ -47,6 +48,7 @@ class PitchAvailibilityTableSeeder extends Seeder
           'stage_end_date' => '2017-04-16',
           'stage_end_time' => '6:00 pm',
           'stage_capacity' => ' 510',
+          'break_enable' => false,
           'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
           [
@@ -62,6 +64,7 @@ class PitchAvailibilityTableSeeder extends Seeder
           'stage_end_date' => '2017-04-15',
           'stage_end_time' => '6:00 pm',
           'stage_capacity' => ' 510',
+           'break_enable' => false,
           'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
           [
@@ -77,6 +80,7 @@ class PitchAvailibilityTableSeeder extends Seeder
           'stage_end_date' => '2017-04-16',
           'stage_end_time' => '6:00 pm',
           'stage_capacity' => ' 510',
+           'break_enable' => false,
           'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         ]);
 
