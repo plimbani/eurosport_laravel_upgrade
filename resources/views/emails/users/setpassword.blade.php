@@ -75,7 +75,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password" onChange="checkPasswordMatch();">
+                                            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" onChange="checkPasswordMatch();">
                                         </div>
                                         <div class="form-group" id="divCheckPasswordMatch"></div>
                                         <div class="h4 text-center mt-4">
@@ -112,9 +112,9 @@
         } else {
             $("#divCheckPasswordMatch").html("Your user account is now complete!");
             $("#addButton").html("Go to login page");
-        }    
-    }   
-   
+        }
+    }
+
 
     $(document).ready(function () {
        $("#password-confirm").keyup(checkPasswordMatch);
@@ -126,7 +126,7 @@ $("#js-frm-password-activation").validate({
             required: true,
             minlength: 5
         },
-        confirm_password: {
+        password_confirmation: {
             required: true,
             equalTo: "#password"
         },
@@ -136,7 +136,7 @@ $("#js-frm-password-activation").validate({
             required: "Please provide a password",
             minlength: "Your password must be at least 5 characters long"
         },
-        confirm_password: {
+        password_confirmation: {
             required: "Please provide a confirm password",
             equalTo: "The passwords do match, please re-enter."
         }
