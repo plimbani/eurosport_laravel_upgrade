@@ -18,7 +18,9 @@ import _ from 'lodash'
                 'scheduledMatches': [],
                 'setPitchModal': 0,
                 'matchFixture': {},
-                'pitchBreak':{}
+                'pitchBreak':{},
+                'minDatePitch': '08:00:00',
+                'maxDatePitch': '19:00:00'
             }
         },
         props: [ 'stage' ],
@@ -38,15 +40,19 @@ import _ from 'lodash'
         },
         mounted() {
             let vm = this
-            this.getScheduledMatch()
-
+            // this.getScheduledMatch()
             setTimeout(function(){
+                vm.getScheduledMatch()
+            },200)
+            setTimeout(function(){
+
                 $('.fc-referee').each(function(referee){
                     if(this.id == -1){
                         $(this).closest('.fc-event').addClass('bg-grey');
                     }
                 })
-                },1000)
+
+            },1000)
            
         },
         methods: {
@@ -75,8 +81,8 @@ import _ from 'lodash'
                     header: false,
                     views: {
                         agendaDay: {
-                            minTime:  '08:00:00',
-                            maxTime: '19:00:00',
+                            minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
+                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'19:00:00',
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15'
                         }
@@ -138,7 +144,7 @@ import _ from 'lodash'
                                         $(this).closest('.fc-event').addClass('bg-grey');
                                     }
                             })
-                            },500)
+                            },200)
                             
                         }else{
                               setTimeout(function(){
@@ -147,7 +153,7 @@ import _ from 'lodash'
                                         $(this).closest('.fc-event').addClass('bg-grey');
                                     }
                             })
-                            },500)
+                            },200)
                             let matchId = event.id?event.id:event.matchId
                             let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
                             Tournament.setMatchSchedule(matchData).then(
@@ -175,7 +181,7 @@ import _ from 'lodash'
                                     vm.matchFixture = {}
                                     vm.getScheduledMatch()
                                 });
-                            },500);  
+                            },200);  
                         }
                         
                     },
@@ -189,6 +195,7 @@ import _ from 'lodash'
                 let tournamentData ={'tournamentId':this.tournamentId }
                 Tournament.getFixtures(tournamentData).then(
                     (response)=> {
+                        let vm = this
                         // console.log(response,'asssss')
                         let counter =999;
                          let rdata = response.data.data
@@ -201,13 +208,16 @@ import _ from 'lodash'
                                 sMatches.push(mData)
                                 }
                             });
+                            let minTimePitchAvail = []
+                            let maxTimePitchAvail = []
                             let sPitch = []
                             _.forEach(this.stage.pitches, (pitch) => {
                                 _.forEach(pitch.pitch_availability, (availability) => {
-                                    
-                                let mData = { 'id': counter, 'resourceId': pitch.id,'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm a'), 'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
-                                let mData1 = {'id': 'start_'+counter, 'resourceId': pitch.id,'start':moment.utc(availability.stage_start_date+' '+'08:00:00','DD/MM/YYYY hh:mm:ss'), 'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
-                                let mData2 = {'id': 'end_'+counter, 'resourceId': pitch.id,'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm a'), 'end': moment.utc(availability.stage_start_date+' '+'19:00:00','DD/MM/YYYY hh:mm:ss'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
+                                   minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'))
+                                   maxTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm a')) 
+                                    let mData = { 'id': counter, 'resourceId': pitch.id,'start':moment(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm a'), 'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
+                                    let mData1 = {'id': 'start_'+counter, 'resourceId': pitch.id,'start':moment.utc(availability.stage_start_date+' '+'08:00:00','DD/MM/YYYY hh:mm:ss'), 'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
+                                    let mData2 = {'id': 'end_'+counter, 'resourceId': pitch.id,'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm a'), 'end': moment.utc(availability.stage_start_date+' '+'19:00:00','DD/MM/YYYY hh:mm:ss'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
                                      
                                     sMatches.push(mData)
                                     sMatches.push(mData1)
@@ -217,6 +227,14 @@ import _ from 'lodash'
                                     });
                                
                                 });
+                            // console.log(minTimePitchAvail)
+                            let minDatePitch = moment.min(minTimePitchAvail).format()
+                            vm.minDatePitch = moment.utc(minDatePitch).format('hh:mm:ss')
+                            let maxDatePitch = moment.max(maxTimePitchAvail).format()
+                            console.log(maxDatePitch)
+                            vm.maxDatePitch = moment.utc(maxDatePitch).format('HH:mm:ss')
+                            // vm.maxDatePitch = '16:00:00'
+                            // console.log(maxDatePitch,'minDatePitch')
                             // this.pitchBreakAdd()   
                             // sMatches.push(this.pitchBreak)
                             // console.log(sMatches,'sMatches')

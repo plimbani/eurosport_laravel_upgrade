@@ -127,12 +127,13 @@
                                                          {{$lang.pitch_capacity_break}}
                                                       </div>
                                                       <div class="col-md-3">
-                                                      <!-- <input type="checkbox" :name="'stage_break_chk'+day" class="form-control stage_break_chk" :id="day" >Check to add a break -->
+                                                      <!-- <input type="checkbox" name="stage_chk_active">Check to add a break -->
+                                                      <input type="checkbox" :name="'stage_break_chk'+day" class="form-control stage_break_chk"  :id="'stage_break_chk_'+day" >Check to add a break
                                                       </div>
                                                       <div class="col-md-3">
                                                           <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                              <div   :class="'align-self-center w-100  stage_chk_active'+day">
-                                                                  <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker']" :id="'stage_break_start'+day" >
+                                                              <div   class="align-self-center w-100 ">
+                                                                  <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]" :id="'stage_break_start'+day" >
                                                               </div>
                                                               <div class="align-self-center p-1">
                                                                   <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
@@ -158,8 +159,8 @@
                                                       </div>
                                                       <div class="col-md-3">
                                                           <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                              <div :class="'align-self-center w-100 stage_chk_active'+day">
-                                                                  <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker']"  :id="'stage_continue_time'+day">
+                                                              <div class="align-self-center w-100 ">
+                                                                  <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'stage_continue_time'+day">
                                                               </div>
                                                               <div class="align-self-center p-1">
                                                                   <i v-show="errors.has('stage_continue_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Continue time is required"></i>
@@ -316,16 +317,29 @@ export default {
 
           if( curId.indexOf('stage_start_time') >= 0){
               curTime = $('#stage_start_time'+stage).val()
+            if($('#stage_break_chk_'+stage).is(':checked')){
               $('#stage_break_start'+stage).removeAttr('disabled')
               $('#stage_continue_time'+stage).attr('disabled','disabled')
               $('#stage_end_time'+stage).attr('disabled','disabled')
+            }else{
+
+              setTimeout(function(){
+                $('.stage_chk_active'+stage).val($('#stage_start_time'+stage).val())
+              },100)
+              $('#stage_end_time'+stage).removeAttr('disabled')
+            }
+
           }else if(curId.indexOf('stage_break_start') >= 0) {
+            if($('#stage_break_chk_'+stage).is(':checked')){
               $('#stage_continue_time'+stage).removeAttr('disabled')
               $('#stage_end_time'+stage).attr('disabled','disabled')
               curTime = $('#stage_break_start'+stage).val()
+            }
           }else if(curId.indexOf('stage_continue_time') >= 0) {
+            if($('#stage_break_chk_'+stage).is(':checked')){
               $('#stage_end_time'+stage).removeAttr('disabled')
               curTime = $('#stage_continue_time'+stage).val()
+            }
           }else if(curId.indexOf('stage_end_time') >= 0) {
               curTime = $('#stage_end_time'+stage).val()
           }
@@ -345,6 +359,10 @@ export default {
           if(curId.indexOf('stage_start_time') >= 0){
 
               $('#stage_break_start'+stage).timepicker({
+                  minTime:  newTime,
+                  maxTime: '19:00:00'
+              });
+              $('#stage_end_time'+stage).timepicker({
                   minTime:  newTime,
                   maxTime: '19:00:00'
               });
@@ -377,7 +395,7 @@ export default {
           }
 
           if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage).val() == '' || $('#stage_continue_time'+stage).val() == ''  ) {
-              $('#stage_capacity1_s1pan'+stage).text('0.00 hrs');
+              $('#stage_capacity1_span'+stage).text('0.00 hrs');
               $('#stage_capacity1'+stage).val('0.00');
           }else {
 
@@ -451,16 +469,25 @@ export default {
                   this.stageRemove(i)
               }
           }
-    // $(document).ready(function(){
-    //   $('.stage_break_chk').on('click',function(){
-    //     if(this.checked){
-    //       $('.stage_chk_active'+this.id).show()
-    //     }else{
-    //       $('.stage_chk_active'+this.id).hide()
+    $(document).ready(function(){
+      $("body").on('click','.stage_break_chk',function(){
+        let stageId = this.id
+        let stage = stageId.replace('stage_break_chk_','')
+        if(this.checked){
+          if($('#stage_start_time'+stage).val()!=''){
+            $('#stage_break_start'+stage)
+            $('.stage_chk_active'+stage).removeAttr('disabled','disabled')
+          }
+        }else{
+          $('.stage_chk_active'+stage).val($('#stage_start_time'+stage).val())
+          $('.stage_chk_active'+stage).attr('disabled','disabled')
+          $('#stage_end_time'+stage).removeAttr('disabled','disabled')
 
-    //     }
-    //   })
-    // })
+          // $('.stage_chk_active'+this.id).hide()
+
+        }
+      })
+    })
   },
   methods: {
       getAllPitches() {

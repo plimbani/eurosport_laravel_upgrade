@@ -9,8 +9,10 @@ use Duro85\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Laraspace\Notifications\MyOwnResetPassword as ResetPasswordNotification;
 
-class User extends Authenticatable implements HasRoleAndPermissionContract
+class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword
 {
     use Notifiable, HasRoleAndPermission, SoftDeletes;
 
@@ -129,11 +131,21 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
 
     /**
      * Person Detail
-     * 
+     *
      * @return [type] [description]
      */
     public function personDetail()
     {
         return $this->belongsTo('Laraspace\Models\Person', 'person_id');
+    }
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }
