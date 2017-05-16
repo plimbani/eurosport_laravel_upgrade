@@ -30,18 +30,18 @@
     </div>
     <div v-else>
      <!-- BEGIN FORGOT PASSWORD FORM -->
-        <form class="forget-form"  method="post">
+        <form class="forget-form" id="js-frm-resetpassword-activation" method="post">
         <!-- {!! csrf_field() !!} -->
         <!-- {{ csrf_field() }} -->
         <p style="font-size:14px; color:#464a4c; margin-top:25px;">Enter your e-mail address below to reset your password.</p>
-            <div class="form-group">
-                <!-- <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> -->
-                 <input class="form-control" type="email" autocomplete="off" v-model="loginData.email" v-validate="'required'" placeholder="Email address" name="email" id="
-                 email" value=""/>
-                 <span class="help is-danger" v-show="errors.has('email')">This field is required.</span>
+             <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
+                    <!-- <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> -->
+                 <input type="email" class="form-control form-control-danger" placeholder="Email address" name="email" id="
+                 email" v-model="loginData.email" v-validate="{ rules: { required: true, email: true } }">
+                 <span class="help is-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
             </div>
 
-            <div class="form-actions">
+            <div class="form-actions">  
                 <div class="row">
                     <div class="col-sm-6">
                         <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase w-100 ">Back to login</button>
@@ -54,7 +54,6 @@
         </form>
     </div>
 </template>
-
 <script type="text/babel">
     import Auth from '../../services/auth'
 
