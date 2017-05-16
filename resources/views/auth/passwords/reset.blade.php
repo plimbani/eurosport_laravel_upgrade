@@ -81,7 +81,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="confirm_password" onChange="checkPasswordMatch();">
+                                    <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" onChange="checkPasswordMatch();">
                                 </div>
 
                                 <div class="form-group" id="divCheckPasswordMatch"></div>
@@ -132,7 +132,7 @@ $("#js-frm-resetpassword-activation").validate({
             required: true,
             minlength: 5
         },
-        confirm_password: {
+        password_confirmation: {
             required: true,
             equalTo: "#password"
         },
@@ -140,13 +140,13 @@ $("#js-frm-resetpassword-activation").validate({
     },
     messages: {
         email: {
-            required: "Please provide a email", 
+            required: "Please provide a email",
         },
         password: {
             required: "Please provide a password",
             minlength: "Your password must be at least 5 characters long"
         },
-        confirm_password: {
+        password_confirmation: {
             required: "Please provide a confirm password",
             equalTo: "The passwords do match, please re-enter."
         }

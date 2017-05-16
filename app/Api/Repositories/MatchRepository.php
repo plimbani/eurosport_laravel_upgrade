@@ -198,11 +198,6 @@ class MatchRepository
             $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',$tournamentData['is_scheduled']);
           }
 
-          if(isset($tournamentData['only_schedule']) && $tournamentData['only_schedule'] == 1)
-          {
-            // TODO: add constraint to only Show which are Scheduled
-             $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',1);
-          }
 
         return $reportQuery->get();
     }

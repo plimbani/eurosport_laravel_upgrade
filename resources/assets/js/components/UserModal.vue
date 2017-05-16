@@ -59,7 +59,7 @@
                                       </div>
                                        <div v-else>
                                               <img :src="image" width="40px" height="50px"/>
-                                              <button @click="removeImage">Remove image</button>
+                                              <button class="btn btn-default" @click="removeImage">Remove image</button>
                                       </div>
                                 </div>
                             </div>

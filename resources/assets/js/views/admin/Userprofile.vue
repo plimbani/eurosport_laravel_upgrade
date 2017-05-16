@@ -45,7 +45,7 @@
                             </div>
                             <div v-else>
                                 <img :src="image" width="100px" height="100px"/>
-                                <button @click="removeImage">Remove image</button>
+                                <button class="btn btn-default" @click="removeImage">Remove image</button>
                             </div>
                                 <input type="file" class="btn btn-default" id="selectFile" style="display:none;" @change="onFileChange">
                                 <p class="help-block">Maximum size of 1 MB.<br/>
