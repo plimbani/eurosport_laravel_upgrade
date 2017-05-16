@@ -28,6 +28,7 @@ class CreatePitchesAvailibilityTable extends Migration
             $table->string('break_end_time',10)->nullable();
             $table->date('stage_end_date')->nullable();
             $table->float('stage_capacity',10,2)->nullable();
+            $table->boolean('break_enable')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
