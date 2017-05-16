@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
@@ -41,7 +42,10 @@ class ResetPasswordController extends Controller
     {
         // $this->middleware('guest');
     }
-
+    /*protected function guard()
+    {
+        return Auth::guard('guard-name');
+    }*/
     // public function showResetForm(Request $request, $token = null)
     // {
     //     return view('auth.passwords.reset')->with(
@@ -63,8 +67,55 @@ class ResetPasswordController extends Controller
     }
 
 
+    /**
+     * Get the guard to be used during password reset.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard();
+    }
+    /**
+     * Get the response for a successful password reset.
+     *
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendResetResponse($response)
+    {
+        return redirect($this->redirectPath())
+                            ->with('status', trans($response));
+    }
+    /**
+     * Get the response for a failed password reset.
+     *
+     * @param  \Illuminate\Http\Request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return redirect()->back()
+                    ->withInput($request->only('email'))
+                    ->withErrors(['email' => trans($response)]);
+    }
+    /**
+     * Get the broker to be used during password reset.
+     *
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     */
+    public function broker()
+    {
+        return Password::broker('users');
+    }
+   /* protected function broker()
+    {
+        return Password::broker('name');
+    } */
      public function reset(Request $request)
     {
+
 
         ///$this->validate($request, $this->rules(), $this->validationErrorMessages());
 
@@ -85,7 +136,8 @@ class ResetPasswordController extends Controller
          $response == Password::PASSWORD_RESET
                     ? $this->sendResetResponse($response)
                     : $this->sendResetFailedResponse($request, $response);
-       return redirect('/login');
+
+        return redirect('/login');
     }
 
     /**
@@ -110,13 +162,13 @@ class ResetPasswordController extends Controller
     protected function resetPassword($user, $password)
     {
         $user->forceFill([
-            'password' => bcrypt($password),
+            'password' => \Hash::make($password),
             'remember_token' => Str::random(60),
         ])->save();
 
         $this->guard()->login($user);
     }
-    public function toMail($notifiable) 
+    public function toMail($notifiable)
     {
         return (new MailMessage)
             ->subject("Euro-Sportring Tournament Planner - Password Reset")
@@ -124,5 +176,5 @@ class ResetPasswordController extends Controller
             ->action('Reset password', route('password.reset', $this->token))
             ->line('If you did not request this password reset please ignore this email.');
     }
- 
+
 }
