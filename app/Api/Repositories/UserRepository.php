@@ -46,7 +46,7 @@ class UserRepository {
         'token' => $data['token'],
         'is_verified' => 0,
         'is_online' => 0,
-        'is_active' => 0,
+        'is_active' => 1,
         'is_blocked' => 0 ,
         'is_mobile_user' => 0,
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
