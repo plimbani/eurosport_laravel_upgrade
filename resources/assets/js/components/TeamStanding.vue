@@ -45,19 +45,21 @@ export default {
 	data() {
 		return {
 			standingData:[],
+      currentLCompetationId: this.currentCompetationId
 		}
 	},
 	mounted() {
 		// here we call function to get all the Draws Listing
-		this.getData()
+		this.getData(this.currentLCompetationId)
 	},
 	methods: {
-		getData() {
-			if(this.currentCompetationId != 0) {
+		getData(currentLCompetationId) {
+
+			if(currentLCompetationId != 0) {
 
 				let TournamentId = this.$store.state.Tournament.tournamentId
 				let tournamentData = {'tournamentId': TournamentId,
-			'competitionId':this.currentCompetationId }
+			'competitionId':currentLCompetationId }
 
 				Tournament.getStanding(tournamentData).then(
 				(response)=> {

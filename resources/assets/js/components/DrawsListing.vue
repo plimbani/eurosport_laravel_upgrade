@@ -1,11 +1,11 @@
 <template>
-<div>
-
-<component :is="currentScheduleView" :matchData="matchData"
-   :otherData="otherData"></component>
-</div>
+  <div>
+    <component :is="currentScheduleView" :matchData="matchData" :otherData="otherData"></component>
+  </div>
 </template>
+
 <script type="text/babel">
+
 import Tournament from '../api/tournament.js'
 import MatchListing from './MatchListing.vue'
 import DrawList from './DrawList.vue'
@@ -36,16 +36,11 @@ export default {
 		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails
 	},
 	created: function() {
-       this.$root.$on('changeDrawListComp', this.setMatchData);
-  	},
+    this.$root.$on('changeDrawListComp', this.setMatchData);
+  },
 	methods: {
-		onChangeDraw() {
-			alert(this.draw)
-		},
 		setMatchData(id, Name='') {
-
 			let comp = this.$store.state.currentScheduleView
-
 			if(comp == 'locationList') {
 				// Now here we call Function get all match for location
 				this.getAllMatchesLocation(id)
@@ -59,16 +54,16 @@ export default {
 		},
 		getAllDraws() {
 			let TournamentId = this.$store.state.Tournament.tournamentId
-			Tournament.getAllDraws(TournamentId).then(
-				(response)=> {
-					if(response.data.status_code == 200) {
-						this.matchData = response.data.data
-					}
-				},
-				(error) => {
-					alert('Error in Getting Draws')
-				}
-			)
+  			Tournament.getAllDraws(TournamentId).then(
+  				(response)=> {
+  					if(response.data.status_code == 200) {
+  						this.matchData = response.data.data
+  					}
+  				},
+  				(error) => {
+  					alert('Error in Getting Draws')
+  				}
+  			)
 		},
 		getDrawDetails(drawId, drawName) {
 
@@ -82,9 +77,7 @@ export default {
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
-
 						this.matchData = response.data.data
-						// here we add extra Field Fot Not Displat Location
 					}
 				},
 				(error) => {
@@ -93,7 +86,8 @@ export default {
 			)
 		},
 		drawDetails(drawData) {
-			console.log(drawData)
+      alert('calle')
+			//console.log(drawData)
 		    //this.$store.dispatch('setCurrentScheduleView','matchListing')
 			this.$root.$emit('changeComp1', 'matchListing');
 		}
