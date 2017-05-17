@@ -56,7 +56,7 @@ export default {
 								matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
 							}else if(match.round == 'Elimination'){
 								round = 'EL-'
-								matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
+								matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
 								
 							}else if(match.round == 'Final'){
 								round = 'FN-'
