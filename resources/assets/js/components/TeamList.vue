@@ -17,9 +17,9 @@
 					</a>
 				</td>
 				<td class="text-center">
-					<a href="" class="pull-left text-left"
+					<a href="" class="text-primary pull-left text-left"
 					@click.prevent="changeGroup(team)">
-					{{team.competationName}}</a>
+					<u>{{team.competationName}}</u></a>
 				</td>
 			</tr>
 		</tbody>
