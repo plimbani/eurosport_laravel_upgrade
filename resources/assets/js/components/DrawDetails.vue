@@ -19,31 +19,27 @@
 
 <table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0">
 	<thead>
-        <tr>
-            <th></th>
-            <th></th>
-            <th v-for="(match,index) in match1Data">{{index+1}}</th>
-        </tr>
-    </thead>
-    <tbody>
-
-    	<tr v-for="(match,index) in match1Data">
-
-    		<td>{{index+1}}</td>
+    <tr>
+        <th></th>
+        <th></th>
+        <th v-for="(match,index) in match1Data">{{index+1}}</th>
+    </tr>
+  </thead>
+  <tbody>
+  	<tr v-for="(match,index) in match1Data">
+   		<td>{{index+1}}</td>
     		<td>
     			<a href="" class="pull-left text-left text-primary">
     			  <img :src="match.TeamFlag" width="20"> &nbsp;
     			    <span><u>{{match.TeamName}}</u></span>
     			</a>
     		</td>
-
-
-          <td v-for="(teamMatch, ind2) in match.matches">
-            {{teamMatch.score}}
-            <div v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
-          </td>
+        <td v-for="(teamMatch, ind2) in match.matches">
+          {{teamMatch.score}}
+          <div v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
+        </td>
       </tr>
-    </tbody>
+  </tbody>
 </table>
 <span v-else> No information available </span>
 <h6> {{otherData.DrawName}} standings</h6>
@@ -86,6 +82,10 @@ export default {
           alert('Error in Getting Draws')
         }
       )
+      //this.teamStand = 'true'
+      // Call child class Method
+      // this.$children[1].getData(this.currentCompetationId)
+      // console.log(this.$children[1].getData())
 	},
   filters: {
     getStatus: function(teamName) {
@@ -121,26 +121,39 @@ export default {
     methods: {
         onChangeDrawDetails() {
 
+          this.$store.dispatch('setCurrentScheduleView','drawDetails')
           let Id = this.DrawName.id
           let Name = this.DrawName.name
+
+          this.$root.$emit('changeDrawListComp',Id, Name);
+         // this.matchData = this.drawList
+          this.setTeamData()
+          this.currentCompetationId = Id
+
+          this.$children[1].getData(this.currentCompetationId)
+         /* let Id = this.DrawName.id
+          let Name = this.DrawName.name
           if(Id != undefined && Name != undefined)
-            this.$root.$emit('changeDrawListComp',Id, Name);
+            this.$root.$emit('changeDrawListComp',Id, Name); */
         },
         checkTeamId(teamId) {
             return teamId.Home_id
         },
         setTeamData() {
+            let tempMatchdata = (this.matchData.length > 0 && !this.matchData[0].hasOwnProperty('fid')) ? this.matchData : this.drawList
 
-            if(Object.keys(this.matchData).length !== 0) {
+
+            if(Object.keys(tempMatchdata).length !== 0) {
 
                let TeamData = []
                let ResultData = []
 
-               let size = this.matchData[0].team_size
-               let competationId = this.matchData[0].id
+               let size = tempMatchdata[0].team_size
+               let competationId = tempMatchdata[0].id
 
                //let currentCompetationId = this.otherData.DrawId
                this.currentCompetationId = this.otherData.DrawId
+
                let tournamentId = this.$store.state.Tournament.tournamentId
                // Here call Function for getting result
 
@@ -149,11 +162,13 @@ export default {
 
                Tournament.getDrawTable(tournamentData).then(
                 (response)=> {
+
                   if(response.data.status_code == 200){
                     this.match1Data = response.data.data
                   }
 
                   if(response.data.status_code == 300){
+                    this.match1Data = []
                     this.errorMsg = response.data.message
                     this.error=true
                   }
