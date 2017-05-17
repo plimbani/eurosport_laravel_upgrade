@@ -21,6 +21,7 @@
 	import DraggableMatchEvent from './DraggableMatchEvent';
 	import Tournament from '../api/tournament.js'
 	import _ from 'lodash'
+
 export default {
 	components: {
 		DraggableMatchEvent
@@ -55,9 +56,11 @@ export default {
 								matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
 							}else if(match.round == 'Elimination'){
 								round = 'EL-'
+								matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
+								
 							}else if(match.round == 'Final'){
 								round = 'FN-'
-								matchTime = parseInt(competition.game_duration_FM) + parseInt(halftime_break_FM) + parseInt(match_interval_FM)
+								matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
 							}
 							var person = {'fullGame':match.full_game,'matchName':cname+'-'+round+match.match_number,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
 							comp.push(person)

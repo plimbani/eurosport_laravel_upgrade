@@ -10,7 +10,7 @@
 export default {
     props: ['referee'],
     mounted() {
-        this.initEvents();
+        // this.initEvents();
     },
     methods: {
         initEvents() {
