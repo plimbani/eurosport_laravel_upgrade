@@ -89,6 +89,7 @@
           created: function() {
              this.$root.$on('setPitchReset', this.resetPitch);
              this.$root.$on('setGameReset', this.gameReset);
+             this.$root.$on('RefereeCount', this.refereeCount);
 
             
           },
@@ -98,14 +99,13 @@
                 'matchCount':'',
                 'tournamentStages': {},
                 'stageStatus':false,
-                'GameStatus':false
+                'GameStatus':false,
+                'refereeCount': ''
             };
         },
         props: {
         },
         mounted() {
-            
-            
             $('.pitch_planner_section').mCustomScrollbar({
                 'autoHideScrollbar':true
             });
@@ -114,6 +114,10 @@
             
         },
         methods: {
+          refereeCount(totReferee) {
+            console.log(totReferee,'totReferee')
+            this.refereeCount = totReferee
+          },
           resetPitch() {
             let vm = this
             this.stageStatus = false
