@@ -10,24 +10,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
-                        <div class="col-sm-6">
+                        <label class="col-sm-4 form-control-label">{{$lang.user_management_add_name}}</label>
+                        <div class="col-sm-7">
                             <input  v-validate="'required|alpha'" v-model="userData.name" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name">
                             <i v-show="errors.has('name')" class="fa fa-warning"></i>
                             <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-5 form-control-label">{{$lang.user_desktop_surname}}</label>
-                        <div class="col-sm-6">
+                        <label class="col-sm-4 form-control-label">{{$lang.user_desktop_surname}}</label>
+                        <div class="col-sm-7">
                             <input  v-validate="'required|alpha'" v-model="userData.surname" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
                             <i v-show="errors.has('surname')" class="fa fa-warning"></i>
                             <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
                         </div>
                     </div>
                      <div class="form-group row">
-                        <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
-                        <div class="col-sm-6">
+                        <label class="col-sm-4 form-control-label">{{$lang.user_management_email}}</label>
+                        <div class="col-sm-7">
 
                             <input v-model="userData.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
                             <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
@@ -35,8 +35,8 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
-                        <div class="col-sm-6">
+                        <label class="col-md-4 control-label">{{$lang.user_management_image}}</label>
+                        <div class="col-sm-7">
                             <div v-if="!image">
                              <img v-if="userData.image" v-bind:src="'/assets/img/users/' + userData.image" width="100px" height="100px"/>
                             <img v-else src="http://placehold.it/250x250" width="100px" height="100px"/>
