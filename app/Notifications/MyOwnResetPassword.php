@@ -5,7 +5,8 @@ namespace Laraspace\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
+use Laraspace\Notifications\Messages\MailMessage;
+use Laraspace\Models\User;
 
 class MyOwnResetPassword extends Notification
 {
@@ -17,15 +18,16 @@ class MyOwnResetPassword extends Notification
     * @var string
     */
     public $token;
-
+    protected $name;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct($token, $name)
     {
         $this->token = $token;
+        $this->name = $name;
     }
 
     /**
@@ -52,6 +54,7 @@ class MyOwnResetPassword extends Notification
                     ->subject("Euro-Sportring Tournament Planner - Password Reset")
                     ->line('You are receiving this email because we received a password reset request for your account. Click the button below to reset your password:')
                     ->action('Reset passwsord', route('password.reset', $this->token))
+                    ->view('notifications::email',array('name'=>$this->name))
                     ->line('Thank you for using our application!');
     }
 
