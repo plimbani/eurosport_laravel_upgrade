@@ -142,16 +142,16 @@ import _ from 'lodash'
                                    if(this.id == -1){
                                         $(this).closest('.fc-event').addClass('bg-grey');
                                     }
-                            })
+                                })
                             },200)
                             
                         }else{
-                              setTimeout(function(){
+                            setTimeout(function(){
                                 $('.fc-referee').each(function(referee){
                                     if(this.id == -1){
                                         $(this).closest('.fc-event').addClass('bg-grey');
                                     }
-                            })
+                                })
                             },200)
                             let matchId = event.id?event.id:event.matchId
                             let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
@@ -227,11 +227,11 @@ import _ from 'lodash'
                                
                                 });
                             // console.log(minTimePitchAvail)
-                            let minDatePitch = moment.min(minTimePitchAvail).format()
-                            vm.minDatePitch = moment.utc(minDatePitch).format('hh:mm:ss')
-                            let maxDatePitch = moment.max(maxTimePitchAvail).format()
+                            // let minDatePitch = moment.min(minTimePitchAvail).format()
+                            // vm.minDatePitch = moment.utc(minDatePitch).format('hh:mm:ss')
+                            // let maxDatePitch = moment.max(maxTimePitchAvail).format()
                             // console.log(maxDatePitch)
-                            vm.maxDatePitch = moment.utc(maxDatePitch).format('HH:mm:ss')
+                            // vm.maxDatePitch = moment.utc(maxDatePitch).format('HH:mm:ss')
                             // vm.maxDatePitch = '16:00:00'
                             // console.log(maxDatePitch,'minDatePitch')
                             // this.pitchBreakAdd()   
