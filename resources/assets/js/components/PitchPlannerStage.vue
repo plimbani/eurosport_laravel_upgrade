@@ -43,7 +43,7 @@ import _ from 'lodash'
             // this.getScheduledMatch()
             setTimeout(function(){
                 vm.getScheduledMatch()
-            },200)
+            },500)
             setTimeout(function(){
 
                 $('.fc-referee').each(function(referee){
@@ -126,7 +126,6 @@ import _ from 'lodash'
                             (error) => {
                                 console.log('Error occured during Tournament api ', error)
                             }
-                               
                         )
                         }
                         
@@ -231,7 +230,7 @@ import _ from 'lodash'
                             let minDatePitch = moment.min(minTimePitchAvail).format()
                             vm.minDatePitch = moment.utc(minDatePitch).format('hh:mm:ss')
                             let maxDatePitch = moment.max(maxTimePitchAvail).format()
-                            console.log(maxDatePitch)
+                            // console.log(maxDatePitch)
                             vm.maxDatePitch = moment.utc(maxDatePitch).format('HH:mm:ss')
                             // vm.maxDatePitch = '16:00:00'
                             // console.log(maxDatePitch,'minDatePitch')
