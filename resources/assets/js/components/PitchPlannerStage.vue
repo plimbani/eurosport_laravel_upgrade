@@ -208,7 +208,10 @@ import _ from 'lodash'
                             let sPitch = []
                             _.forEach(this.stage.pitches, (pitch) => {
                                 _.forEach(pitch.pitch_availability, (availability) => {
-                                    minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'))
+                                    if(availability.stage_start_time != '08:00 am' ){
+                                        minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'))  
+                                    }
+                                    
                                     maxTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm a')) 
                                     let mData = { 'id': counter, 'resourceId': pitch.id,'start':moment(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm a'), 'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
                                     let mData1 = {'id': 'start_'+counter, 'resourceId': pitch.id,'start':moment.utc(availability.stage_start_date+' '+'08:00:00','DD/MM/YYYY hh:mm:ss'), 'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
@@ -222,12 +225,10 @@ import _ from 'lodash'
                                     });
                                
                                 });
-                            // console.log(minTimePitchAvail)
-                            // let minDatePitch = moment.min(minTimePitchAvail).format()
-                            // vm.minDatePitch = moment.utc(minDatePitch).format('hh:mm:ss')
-                            // let maxDatePitch = moment.max(maxTimePitchAvail).format()
-                            // console.log(maxDatePitch)
-                            // vm.maxDatePitch = moment.utc(maxDatePitch).format('HH:mm:ss')
+                            let minDatePitch = moment.min(minTimePitchAvail).format()
+                            vm.minDatePitch = moment.utc(minDatePitch).format('hh:mm:ss')
+                            let maxDatePitch = moment.max(maxTimePitchAvail).format()
+                            vm.maxDatePitch = moment.utc(maxDatePitch).format('HH:mm:ss')
                             // vm.maxDatePitch = '16:00:00'
                             // console.log(maxDatePitch,'minDatePitch')
                             // this.pitchBreakAdd()   
