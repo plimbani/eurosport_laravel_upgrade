@@ -5,7 +5,7 @@
                 <h6 class="mb-4"><strong>{{$lang.pitch_capacity}}</strong></h6>
                 <div class="d-flex justify-content-start flex-wrap">
                     <div class="mr-3 pitch-capaciry mb-4" v-for="pitch in pitches">
-                        <p class="text-left"><strong>{{pitch.pitch_number}}</strong></p>
+                        <p class="text-center"><strong>{{pitch.pitch_number}}</strong></p>
                         <img src="/assets/img/pitch.png">
                         <div class="text-center">
                             <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
