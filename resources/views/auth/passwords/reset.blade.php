@@ -139,15 +139,10 @@ $("#js-frm-resetpassword-activation").validate({
 
     },
     messages: {
-        email: {
-            required: "Please provide a email",
-        },
         password: {
-            required: "Please provide a password",
             minlength: "Your password must be at least 5 characters long"
         },
         password_confirmation: {
-            required: "Please provide a confirm password",
             equalTo: "The passwords do match, please re-enter."
         }
     },
