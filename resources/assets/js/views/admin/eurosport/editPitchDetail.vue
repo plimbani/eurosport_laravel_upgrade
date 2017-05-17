@@ -322,8 +322,7 @@ var moment = require('moment');
                         // var pitchCapacity = '7.3'
                         pitchCapacity = pitchCapacity.toString()
                         var pitchTimeArr = pitchCapacity.split('.');
-                        // console.log(pitchTimeArr)
-                         var minutes = pitchCapacity % 60;
+                        var minutes = pitchCapacity % 60;
                         var hours = (pitchCapacity - minutes) / 60;
                          minutes = (minutes == '0') ? '00' : minutes
                         var time_val = hours+ '.' +minutes
@@ -344,7 +343,6 @@ var moment = require('moment');
 
             }
             this1.availableDate = _.difference(this1.availableDate, this1.disableDate);
-            // console.log(avail_date,this1.availableDate,this1.disableDate,'jj')
             let disableDate = this1.disableDate;
             this1.stage_date.push(obj)
             $('.ls-datepicker').datepicker('setDatesDisabled', this1.disableDate);
@@ -358,7 +356,6 @@ var moment = require('moment');
 
             $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
                // this.stageCapacityCalc(1)
-               // console.log($(this)[0].class)
                let curId = $(this)[0].id
                let stage = $(this)[0].id;
                let curTime = ''
@@ -418,13 +415,17 @@ var moment = require('moment');
                         minTime:  newTime,
                         maxTime: '19:00:00'
                     });
+                    $('#stage_end_time'+stage).timepicker({
+                        minTime:  newTime,
+                        maxTime: '19:00:00'
+                    });
                     $('#stage_break_start'+stage).val('')
 
 
                     $('#stage_continue_time'+stage).val('')
 
 
-                    $('#stage_end_time'+stage).val('')
+                    // $('#stage_end_time'+stage).val('')
                 }
                 if(curId.indexOf('stage_break_start') >= 0){
 
@@ -609,7 +610,6 @@ var moment = require('moment');
                     $('.datestage'+day).datepicker('clearDates')
                 }
                 // this.stageShowday = false
-                // console.log(this.stageShow+day)
 
             },
             displayDay (day) {
