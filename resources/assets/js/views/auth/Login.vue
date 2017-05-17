@@ -4,7 +4,7 @@
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
         
             <input type="email" class="form-control form-control-danger" placeholder="Enter email" name="email"
-                   v-model="loginData.email" v-validate="'required'">
+                   v-model="loginData.email" v-validate="{ rules: { required: true, email: true } }">
             <span class="help is-danger" v-show="errors.has('email')">This field is required.</span>       
         </div>
         <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">

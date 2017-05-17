@@ -2,7 +2,7 @@
 	<div class="tab-content planner_list_content">
 		<div class="row">
 			<div class="col-md-12">
-				<div v-if="competition.matchList.length > 0" v-for="(competition,index) in competitionWithGames">
+				<div v-if="matchCompetition[0].matchList.length > 0" v-for="(competition,index) in competitionWithGames">
 
 					<h6 class="mb-0"><strong>{{competition.group_name}}</strong></h6>
 					<div class="text-center mt-3" v-if="match.isScheduled!=1" v-for="match in competition.matchList" 
@@ -31,7 +31,8 @@ export default {
 			matches: [],
 			competationList: [],
 			matchGame: [],
-			totalMatch: ''
+			totalMatch: '',
+			matchCompetition:{'matchList':''}
 		}
 	},
 	computed: {
@@ -67,8 +68,10 @@ export default {
 						}
 					})
 				competition.matchList = comp
+				
 
 				}) 
+				this.matchCompetition = this.competationList
 				this.totalMatch = matchCount 
 				this.$store.dispatch('SetTotalMatch', this.totalMatch)
 				return this.competationList

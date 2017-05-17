@@ -316,12 +316,13 @@ export default {
          stage = stage.replace('stage_end_time','')
 
           if( curId.indexOf('stage_start_time') >= 0){
-            curTime = $('#stage_start_time'+stage).val()
+              curTime = $('#stage_start_time'+stage).val()
             if($('#stage_break_chk_'+stage).is(':checked')){
               $('#stage_break_start'+stage).removeAttr('disabled')
               $('#stage_continue_time'+stage).attr('disabled','disabled')
               $('#stage_end_time'+stage).attr('disabled','disabled')
             }else{
+
               setTimeout(function(){
                 $('.stage_chk_active'+stage).val($('#stage_start_time'+stage).val())
               },100)
@@ -394,7 +395,7 @@ export default {
           }
 
           if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage).val() == '' || $('#stage_continue_time'+stage).val() == ''  ) {
-              $('#stage_capacity1_s1pan'+stage).text('0.00 hrs');
+              $('#stage_capacity1_span'+stage).text('0.00 hrs');
               $('#stage_capacity1'+stage).val('0.00');
           }else {
 
