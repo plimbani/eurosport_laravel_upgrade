@@ -116,15 +116,18 @@ class AgeGroupRepository
 
       $fieldName = key($tournamentData);
       $value = $tournamentData[$fieldName];
-      $reportQuery = TournamentCompetationTemplates::
+      if($fieldName == 'tournament_id') {
+        return TournamentCompetationTemplates::
                leftjoin('tournament_template', 'tournament_template.id', '=',
                 'tournament_competation_template.tournament_template_id')
-               ->select('tournament_competation_template.*',
-                'tournament_template.name as template_name','tournament_template.id as TTID','tournament_template.json_data as TTJson_data','tournament_template.total_teams as TTTeams','tournament_template.minimum_matches as TTMM');
-      if($fieldName == 'tournament_id') {
-        return $reportQuery->where($fieldName, $value)->get();
+               ->select('tournament_competation_template.*','tournament_template.name as template_name')
+              ->where($fieldName, $value)->get();
       } else {
-        return $reportQuery->where('tournament_competation_template.'.$fieldName, $value)->get();
+        return TournamentCompetationTemplates::
+               leftjoin('tournament_template', 'tournament_template.id', '=',
+                'tournament_competation_template.tournament_template_id')
+               ->select('tournament_competation_template.*','tournament_template.name as template_name')
+              ->where('tournament_competation_template.'.$fieldName, $value)->get();
       }
 
 
@@ -245,8 +248,5 @@ class AgeGroupRepository
           );
       }
       return true;
-    }
-    public function FindTemplate($id) {
-      return  DB::table('tournament_template')->where('id',$id)->first();
     }
 }
