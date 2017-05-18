@@ -79,17 +79,23 @@
             },
             getAllReferee() {
                 // Tournament.getReferees(this.tournamentId)rnamentId);
+                let vm = this
                 Tournament.getReferees(this.tournamentId).then(
                   (response) => { 
-                  this.referees = response.data.referees
-                  this.$store.dispatch('SetTotalReferee', this.referees.length)
+                    if(response.data.referees){
+                      vm.referees = response.data.referees
+                      vm.$store.dispatch('SetTotalReferee', response.data.referees.length)
+                    }else{
+                      vm.referees = ''
+                      vm.$store.dispatch('SetTotalReferee', 0)
+                    }
+                  
                   },
                   (error) => {
                      console.log('Error occured during Tournament api ', error)
                   }
-                  )
+                )
             },
-            
             addReferee(){
             	
                 $('#addReferee').modal('show')

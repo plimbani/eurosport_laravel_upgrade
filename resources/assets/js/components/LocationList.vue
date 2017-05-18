@@ -34,11 +34,23 @@ export default {
   mounted() {
     // Display Location
     let TournamentId = this.$store.state.Tournament.tournamentId
-      let tournamentData = {'tournamentId': TournamentId,'is_scheduled':1}
+      let tournamentData = {'tournamentId': TournamentId,
+      'is_scheduled':1}
       Tournament.getFixtures(tournamentData).then(
         (response)=> {
           if(response.data.status_code == 200) {
-            this.locations = response.data.data
+            // this.locations = response.data.data
+            //console.log(this.locations)
+            var uniqueArray = response.data.data.filter(function(item, pos) {
+                if (!this.hasOwnProperty(item['pitchId'])) {
+                    return this[item['pitchId']] = true;
+                }
+                return false;
+            }, {});
+            console.log(uniqueArray)
+            this.locations = uniqueArray
+          //  alert(JSON.stringify(uniqueNames))
+            // Here we remove duplicate values
           }
         },
         (error) => {

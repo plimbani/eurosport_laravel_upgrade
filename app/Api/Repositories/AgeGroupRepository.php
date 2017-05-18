@@ -102,7 +102,7 @@ class AgeGroupRepository
       // Here also Save in competations table
 
 
-     	return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
+      return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
 
       // Now here we return the appropriate Data
@@ -239,7 +239,7 @@ class AgeGroupRepository
 
           // Todo   column
           // replace Fixture Name with Actual Group Name
-          $fixture_n = str_replace('U17', $ageGroup,$fixture);
+          $fixture_n = str_replace('CAT', $ageGroup,$fixture);
           $teampfixtureTable->insert(
             ['match_number'=>$fixture_n,
             'tournament_id'=>$tournamentId,'competition_id'=>$competationId,
