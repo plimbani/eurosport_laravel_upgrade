@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <img src="/assets/img/user_icon.png" width="40">
-        <p>{{referee.first_name}}</p>      
+        <p class="help-block">{{referee.first_name}}</p>      
     </div>    
 </template>
 
