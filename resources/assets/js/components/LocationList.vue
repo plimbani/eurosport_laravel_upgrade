@@ -47,7 +47,7 @@ export default {
                 }
                 return false;
             }, {});
-            console.log(uniqueArray)
+           // console.log(uniqueArray)
             this.locations = uniqueArray
           //  alert(JSON.stringify(uniqueNames))
             // Here we remove duplicate values
