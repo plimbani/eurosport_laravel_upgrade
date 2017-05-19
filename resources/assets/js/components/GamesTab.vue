@@ -5,14 +5,14 @@
 				<div   v-for="(competition,index) in competitionWithGames">
 
 					<h6 class="mb-0"><strong>{{competition.group_name}}</strong></h6>
-					<div class="text-center mt-3" v-if="match.isScheduled!=1" v-for="match in competition.matchList" 
+					<div class="text-center mt-3" v-if="match.isScheduled!=1" v-for="match in competition.matchList"
 						:data-text="match.matchName">
 						<draggable-match-event :match="match"></draggable-match-event>
 					</div>
 
 				</div>
 				<draggable-match-event match="unavailable" ></draggable-match-event>
-				
+
 			</div>
 		</div>
 	</div>
@@ -33,7 +33,12 @@ export default {
 			competationList: [],
 			matchGame: [],
 			totalMatch: '',
-			matchCompetition:{'matchList':''}
+			matchCompetition:{'matchList':''},
+      'filterStatus': true,
+         'tournamentFilter':{
+           'filterKey':'location',
+           'filterValue': ''
+      }
 		}
 	},
 	computed: {
@@ -57,7 +62,7 @@ export default {
 							}else if(match.round == 'Elimination'){
 								round = 'EL-'
 								matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
-								
+
 							}else if(match.round == 'Final'){
 								round = 'FN-'
 								matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
@@ -65,51 +70,64 @@ export default {
 							var person = {'fullGame':match.full_game,'matchName':cname+'-'+round+match.match_number,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
 							comp.push(person)
 							if(match.is_scheduled!=1){
-								matchCount = matchCount + 1 
+								matchCount = matchCount + 1
 							}
 						}
 					})
 				competition.matchList = comp
-				
 
-				}) 
+
+				})
 				this.matchCompetition = this.competationList
-				this.totalMatch = matchCount 
+				this.totalMatch = matchCount
 				this.$store.dispatch('SetTotalMatch', this.totalMatch)
 				return this.competationList
 			}else{
 				// console.log('msg',this.competationList,this.matches)
-				this.totalMatch = matchCount 
+				this.totalMatch = matchCount
 				this.$store.dispatch('SetTotalMatch', this.totalMatch)
 				return this.competationList
 			}
 		}
 	},
+  created: function() {
+      this.$root.$on('getTeamsByTournamentFilter', this.setGameFilter);
+  },
 	mounted() {
-		this.displayFixtures();
+	//	this.displayFixtures();
 		$("#game-list").mCustomScrollbar({
                 'autoHideScrollbar':true
             });
-		this.displayTournamentCompetationList();	
+		this.displayTournamentCompetationList();
 	},
-	methods: {		
-		displayFixtures(){
-			let tournamentData ={'tournamentId':this.tournamentId }
-			Tournament.getFixtures(tournamentData).then(
-				(response)=> {
-					// console.log(response,'asssss')	
-					this.matches = response.data.data
-				}
-			)
+	methods: {
+    setGameFilter(filterKey,filterValue) {
+     this.tournamentFilter.filterKey = filterKey
+     // this.tournamentFilter.filterValue = filterValue
+      this.displayFixtures(filterKey,filterValue)
+    },
+		displayFixtures(filterKey='',filterValue=''){
+      let tdata= []
+      if(filterKey != '' && filterValue != '') {
+         tdata ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id}
+      } else {
+         tdata ={'tournamentId':this.tournamentId }
+      }
+      Tournament.getFixtures(tdata).then(
+            (response)=> {
+              // console.log(response,'asssss')
+              this.matches = response.data.data
+            }
+          )
 		},
 		displayTournamentCompetationList () {
 		// Only called if valid tournament id is Present
 			if (!isNaN(this.tournamentId)) {
-			  // here we add data for 
+			  // here we add data for
 			  let TournamentData = {'tournament_id': this.tournamentId}
 			  Tournament.getCompetationFormat(TournamentData).then(
-			  (response) => {     
-				this.competationList = response.data.data   
+			  (response) => {
+				this.competationList = response.data.data
 			  },
 			  (error) => {
 				 console.log('Error occured during Tournament api ', error)
@@ -122,5 +140,5 @@ export default {
 	}
 }
 
-	
+
 </script>

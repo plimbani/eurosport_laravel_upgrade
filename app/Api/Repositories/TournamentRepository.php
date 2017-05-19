@@ -185,7 +185,7 @@ class TournamentRepository
 
         // we only consider relevent table data
        $locationData = Venue::where('tournament_id', $tournamentId)->get();
-       
+
        // we get Multiple LocationIds
        // TODO:--
        $tempData=array();
@@ -283,33 +283,29 @@ class TournamentRepository
       $key = $tournamentData['tournamentData']['keyData'];
       $resultData = array();
       // now here we fetch data for specefic key
+
       if($tournamentData['tournamentData']['type'] == 'teams'){
         $reportQuery = Team::where('teams.tournament_id','=' ,$tournamentId);
         switch($key) {
           case 'team' :
             $resultData = $reportQuery->select('id','name as name')
-                        ->get();
+                          ->get();
             break;
-
            case 'country' :
             $resultData = $reportQuery->join('countries','countries.id','=','teams.country_id')
                         ->select('countries.id as id','countries.name as name')
                         ->distinct('name')
                         ->get();
-            break;
-
-         case 'age_category' :
-            $resultData = $reportQuery->join('competitions','competitions.id','=','temp_fixtures.competition_id')
-                        ->join('tournament_competation_template','competitions.tournament_competation_template_id','=','tournament_competation_template.id')
-                        ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name')
-                        ->distinct('name')
-                        ->get();
+           break;
+           case 'age_category' :
+             $resultData = TournamentCompetationTemplates::where('tournament_id',$tournamentId)
+                            ->select('id','group_name as name','tournament_template_id')
+                             ->get();
             break;
         }
       }else{
 
         $reportQuery = TempFixture::where('temp_fixtures.tournament_id','=' ,$tournamentId);
-
         switch($key) {
 
           case 'location' :
@@ -317,6 +313,7 @@ class TournamentRepository
                         ->select('venues.id as id','venues.name as name')
                         ->distinct('name')
                         ->get();
+                        //echo $resultData;
             break;
           case 'age_category' :
             $resultData = $reportQuery->join('competitions','competitions.id','=','temp_fixtures.competition_id')
@@ -327,6 +324,7 @@ class TournamentRepository
             break;
         }
       }
+
       return $resultData;
     }
 }

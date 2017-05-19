@@ -384,10 +384,10 @@ export default {
     checkTemplate(option){
       if(option.minimum_matches ==  this.minimum_matches
         && option.total_teams == this.number_teams) {
-        
+
         return true
       } else {
-       
+
         return false
       }
     },
@@ -547,9 +547,11 @@ export default {
               //alert('3')
 	        //return false
 	      }
-                  if( $('input[name="tournamentTemplate"]')  )  {  
-			
-                   }
+
+              if(!$('input[name="tournamentTemplate"]')  )  {
+               // alert('No Template')
+              }
+
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {
                   if(response.data.status_code == 200) {
