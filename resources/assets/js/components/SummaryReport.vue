@@ -54,14 +54,14 @@
 									<label><strong>{{$lang.summary_from}}</strong></label>
 									<div class="">
 									 <input type="text" 
-									 name="start_date" id="start_date" value="" class="form-control ls-datepicker " >
+									 name="start_date" id="start_date" value="" class="form-control ls-datepicker">
 				                    </div>
 								</div>
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_to}}</strong></label>
 									<div class="">
 			                             <input type="text" 
-									 name="end_date" id="end_date" value="" class="form-control ls-datepicker " >
+									 name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
 				                    </div>
 								</div>
 							</div>
@@ -119,7 +119,7 @@
 		</div>
 		<div class="row mt-4" id="summary_report_table">
 			<div class="col-md-12">
-				<table class="table mb-0">
+				<table class="table table-hover table-bordered">
 					<thead>
 	                    <tr>
 	                        <th>{{$lang.summary_reports_date}}</th>
@@ -132,7 +132,7 @@
 	                </thead>
 	                <tbody>
 	                	<tr v-for="(report,index) in reports">
-	                		<td>{{report.match_datetime}}</td>
+	                		<td>{{report.match_datetime | formatDate }}</td>
 	                		<td>{{report.group_name}}</td>
 	                		<td>{{report.venue_name}}</td>
 	                		<td>{{report.pitch_number}}</td>
@@ -141,7 +141,7 @@
 	                	</tr>
 	                	 <tr v-if="reports.length == 0">
 	                              No records found
-	                            </tr>
+	                      </tr>
 	                </tbody>
 				</table>
 			</div> 
@@ -168,6 +168,11 @@ export default {
 
        	}
     },	
+    filters: {
+    formatDate: function(date) {
+     return moment(date).format("hh:mm ddd DD MMM YYYY");
+    }
+  },
     mounted() {
     	this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
     	this.displayTournamentCompetationList()
