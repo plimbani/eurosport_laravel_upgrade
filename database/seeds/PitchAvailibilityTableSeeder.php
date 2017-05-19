@@ -99,7 +99,7 @@ class PitchAvailibilityTableSeeder extends Seeder
           [
           'id'=>6,
           'tournament_id' => 4,
-          'pitch_id' => 1,
+          'pitch_id' => 2,
           'stage_no' => '3',
           'stage_start_date' => '2017-04-20',
           'stage_start_time' => '10:00 am',
