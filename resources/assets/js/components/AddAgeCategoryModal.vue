@@ -548,7 +548,7 @@ export default {
 	        //return false
 	      }
                   if( $('input[name="tournamentTemplate"]')  )  {  
-			alert('yes')
+			
                    }
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {
