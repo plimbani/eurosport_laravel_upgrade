@@ -31,31 +31,7 @@ var moment = require('moment');
          'section':'pitchPlanner'
        }
     },
-<<<<<<< HEAD
 
-=======
-    created: function() {
-      this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
-    },
-    methods: {
-      setFilter(filterKey,filterValue) {
-        this.tournamentFilter.filterKey = filterKey
-        this.getFixturesFilter(filterKey,filterValue)
-      },
-      getFixturesFilter(filterKey,filterValue) {
-        let teamData = {'tournamentId':this.tournament_id,'filterKey':filterKey, 'filterValue': filterValue};
-        // console.log(teamData,'td')
-        Tournament.getTeams(teamData).then(
-          (response) => {
-            this.teams = response.data.data
-          },
-          (error) => {
-             console.log('Error occured during Tournament api ', error)
-          }
-        )
-      }
-    },
->>>>>>> a6b75dc06c7afa231a646409c741920107935b01
     mounted() {
       let vm = this
     	this.$store.dispatch('SetPitches',this.tournamentId);
