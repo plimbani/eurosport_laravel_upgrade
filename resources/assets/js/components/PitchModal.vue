@@ -38,7 +38,7 @@
                 </select>
               </div>
             </div>
-              
+
             </p>
             <form class="mt-4">
               <div class="form-group row">
@@ -104,10 +104,10 @@
 import Tournament from '../api/tournament.js'
 
 var moment = require('moment');
-  
+
   export default {
     data() {
-       return {         
+       return {
          'tournamentId': this.$store.state.Tournament.tournamentId,
          'matchDetail':{},
          'referees': {},
@@ -121,7 +121,7 @@ var moment = require('moment');
             this.referees = response.data.referees
         })
 
-      this.matchFixtureDetail()   
+      this.matchFixtureDetail()
 
   },
   methods: {
@@ -173,7 +173,7 @@ var moment = require('moment');
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
       })
     }
-    
+
   }
 }
 

@@ -20,7 +20,9 @@ import _ from 'lodash'
                 'matchFixture': {},
                 'pitchBreak':{},
                 'minDatePitch': '08:00:00',
-                'maxDatePitch': '19:00:00'
+                'maxDatePitch': '19:00:00',
+                'tournamentFilter': this.$store.state.Tournament.tournamentFiler
+
             }
         },
         props: [ 'stage' ],
@@ -44,7 +46,8 @@ import _ from 'lodash'
             let vm = this
             // this.getScheduledMatch()
             setTimeout(function(){
-                vm.getScheduledMatch()
+
+                vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
             },500)
             setTimeout(function(){
                 $('.fc-referee').each(function(referee){
@@ -200,7 +203,7 @@ import _ from 'lodash'
                                 $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                     vm.setPitchModal = 0
                                     vm.matchFixture = {}
-                                    vm.getScheduledMatch()
+                                    vm.getScheduledMatch('age_category','')
                                 });
                             },200);
                         }
@@ -212,7 +215,12 @@ import _ from 'lodash'
                 // console.log(calEvent);
             },
             setPitchPlannerFilter(filterKey,filterValue) {
+              let vm =this
+
               this.getScheduledMatch(filterKey,filterValue)
+              setTimeout(function(){
+                vm.$root.$emit('setPitchReset')
+              },1000)
             },
             getScheduledMatch(filterKey='',filterValue='') {
 
@@ -226,8 +234,8 @@ import _ from 'lodash'
               // let tournamentData ={'tournamentId':this.tournamentId }
                 Tournament.getFixtures(tournamentData).then(
                     (response)=> {
+
                         let vm = this
-                        // console.log(response,'asssss')
                         let counter =999;
                          let rdata = response.data.data
                             // this.reports = response.data.data

@@ -118,8 +118,7 @@ class MatchRepository
     }
 
     public function getTempFixtures($tournamentData) {
-        // dd($tournamentData);
-         $reportQuery = DB::table('temp_fixtures')
+        $reportQuery = DB::table('temp_fixtures')
             // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
             ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
             ->leftjoin('teams as home_team', function ($join) {
@@ -209,7 +208,7 @@ class MatchRepository
                break;
             }
           }
-
+          // dd($reportQuery->get());
         return $reportQuery->get();
     }
     public function getStanding($tournamentData)

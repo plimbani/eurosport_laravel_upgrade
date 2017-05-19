@@ -35,10 +35,7 @@ export default {
 			totalMatch: '',
 			matchCompetition:{'matchList':''},
       'filterStatus': true,
-         'tournamentFilter':{
-           'filterKey':'location',
-           'filterValue': ''
-      }
+      'tournamentFilter': this.$store.state.Tournament.tournamentFiler
 		}
 	},
 	computed: {
@@ -91,21 +88,17 @@ export default {
 		}
 	},
   created: function() {
-      this.$root.$on('getTeamsByTournamentFilter', this.setGameFilter);
+      // this.$root.$on('getTeamsByTournamentFilter', this.setGameFilter);
   },
 	mounted() {
-	//	this.displayFixtures();
+		this.displayFixtures(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue);
 		$("#game-list").mCustomScrollbar({
                 'autoHideScrollbar':true
             });
 		this.displayTournamentCompetationList();
 	},
 	methods: {
-    setGameFilter(filterKey,filterValue) {
-     this.tournamentFilter.filterKey = filterKey
-     // this.tournamentFilter.filterValue = filterValue
-      this.displayFixtures(filterKey,filterValue)
-    },
+
 		displayFixtures(filterKey='',filterValue=''){
       let tdata= []
       if(filterKey != '' && filterValue != '') {
@@ -115,6 +108,7 @@ export default {
       }
       Tournament.getFixtures(tdata).then(
             (response)=> {
+              console.log(response.data.data)
               // console.log(response,'asssss')
               this.matches = response.data.data
             }
