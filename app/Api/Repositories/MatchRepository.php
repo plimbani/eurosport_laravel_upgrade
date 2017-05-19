@@ -198,7 +198,17 @@ class MatchRepository
             $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',$tournamentData['is_scheduled']);
           }
 
-
+          // Todo Added Condition For Filtering Purpose on Pitch Planner
+          if(isset($tournamentData['filterKey']) && $tournamentData['filterKey'] !='') {
+            switch($tournamentData['filterKey']) {
+              case 'location':
+               $reportQuery =  $reportQuery->where('temp_fixtures.venue_id','=',$tournamentData['filterValue']);
+               break;
+              case 'age_category':
+               $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);
+               break;
+            }
+          }
         return $reportQuery->get();
     }
     public function getStanding($tournamentData)

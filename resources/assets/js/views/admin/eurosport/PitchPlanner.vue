@@ -32,7 +32,8 @@ var moment = require('moment');
        }
     },
     created: function() {
-      this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
+
+     // this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
     },
     methods: {
       setFilter(filterKey,filterValue) {
@@ -40,6 +41,7 @@ var moment = require('moment');
         this.getFixturesFilter(filterKey,filterValue)
       },
       getFixturesFilter(filterKey,filterValue) {
+
         let teamData = {'tournamentId':this.tournament_id,'filterKey':filterKey, 'filterValue': filterValue};
         // console.log(teamData,'td')
         Tournament.getTeams(teamData).then(
