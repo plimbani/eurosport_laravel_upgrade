@@ -83,14 +83,16 @@ export default {
       this.getDropDownData('team')
     },
     setFilterValue() {
-      
+
       this.filterValue = this.dropDown
+
       let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
-      // this.$store.dispatch('setTournamentFilter', tournamentFilter);
+      this.$store.dispatch('setTournamentFilter', tournamentFilter);
       if(this.activePath == 'teams_groups'){
         this.$root.$emit('getTeamsByTournamentFilter',this.filterKey,this.filterValue);
       }else if(this.activePath == 'pitch_planner'){
-        this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
+        this.$root.$emit('getTeamsByTournamentFilter',this.filterKey,this.filterValue);
+        //this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
       }
     },
     getDropDownData(tourament_key) {
@@ -98,7 +100,7 @@ export default {
       // Here Call method to get Tournament Data for key
       this.filterKey = tourament_key
       let tournamentData = {'tournamentId':tournamentId,
-      'keyData':tourament_key,'type':this.section} 
+      'keyData':tourament_key,'type':this.section}
       Tournament.getDropDownData(tournamentData).then(
         (response) => {
           // here we fill the options

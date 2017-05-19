@@ -59,12 +59,12 @@
             <div class="col-sm-3">
               <h6 class="m-0"><strong>{{$lang.teams_team_list}}</strong></h6>
             </div>
-            <div class="col-sm-9">      
-              <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>  
+            <div class="col-sm-9">
+              <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
             </div>
           </div>
           <div class="row">
-          <div class="col-sm-12"> 
+          <div class="col-sm-12">
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
             <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button>
