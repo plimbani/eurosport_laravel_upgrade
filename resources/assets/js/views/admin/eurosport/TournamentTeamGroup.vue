@@ -78,15 +78,15 @@
   			<div class="row mt-4">
   				<div class="col-md-12">
           <form name="frmTeamAssign" id="frmTeamAssign">
-  					<table class="table add-category-table">
+  					<table class="table table-hover table-bordered">
               <thead>
                   <tr>
-                      <th>{{$lang.teams_reference}}</th>
-                      <th>{{$lang.teams_name}}</th>
-                      <th>{{$lang.teams_country}}</th>
-                      <th>{{$lang.teams_place}}</th>
-                      <th>{{$lang.teams_event}}</th>
-                      <th v-if="tournamentFilter.filterKey == 'age_category'">{{$lang.teams_group}}</th>
+                      <th class="text-center">{{$lang.teams_reference}}</th>
+                      <th class="text-center">{{$lang.teams_name}}</th>
+                      <th class="text-center">{{$lang.teams_country}}</th>
+                      <th class="text-center">{{$lang.teams_place}}</th>
+                      <th class="text-center">{{$lang.teams_event}}</th>
+                      <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category'">{{$lang.teams_group}}</th>
                   </tr>
               </thead>
                 <tbody>
