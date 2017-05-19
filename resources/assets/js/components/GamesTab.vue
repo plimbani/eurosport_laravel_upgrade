@@ -86,19 +86,22 @@ export default {
 		}
 	},
 	mounted() {
-		let tournamentData ={'tournamentId':this.tournamentId }
-		Tournament.getFixtures(tournamentData).then(
-			(response)=> {
-				// console.log(response,'asssss')
-				this.matches = response.data.data
-			}
-		)
+		this.displayFixtures();
 		$("#game-list").mCustomScrollbar({
                 'autoHideScrollbar':true
             });
 		this.displayTournamentCompetationList();	
 	},
 	methods: {		
+		displayFixtures(){
+			let tournamentData ={'tournamentId':this.tournamentId }
+			Tournament.getFixtures(tournamentData).then(
+				(response)=> {
+					// console.log(response,'asssss')	
+					this.matches = response.data.data
+				}
+			)
+		},
 		displayTournamentCompetationList () {
 		// Only called if valid tournament id is Present
 			if (!isNaN(this.tournamentId)) {

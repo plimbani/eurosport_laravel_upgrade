@@ -185,7 +185,7 @@ class TournamentRepository
 
         // we only consider relevent table data
        $locationData = Venue::where('tournament_id', $tournamentId)->get();
-
+       
        // we get Multiple LocationIds
        // TODO:--
        $tempData=array();
@@ -291,21 +291,19 @@ class TournamentRepository
                         ->get();
             break;
 
-          case 'country' :
+           case 'country' :
             $resultData = $reportQuery->join('countries','countries.id','=','teams.country_id')
                         ->select('countries.id as id','countries.name as name')
                         ->distinct('name')
                         ->get();
             break;
 
-          case 'age_category' :
-          $resultData =  TournamentCompetationTemplates::where('tournament_id',$tournamentId)
-                          ->select('id','group_name as name','tournament_template_id')
-                          ->get();
-            // $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
-            //             ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name','tournament_competation_template.tournament_template_id')
-            //             ->distinct('name')
-            //             ->get();
+         case 'age_category' :
+            $resultData = $reportQuery->join('competitions','competitions.id','=','temp_fixtures.competition_id')
+                        ->join('tournament_competation_template','competitions.tournament_competation_template_id','=','tournament_competation_template.id')
+                        ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name')
+                        ->distinct('name')
+                        ->get();
             break;
         }
       }else{
