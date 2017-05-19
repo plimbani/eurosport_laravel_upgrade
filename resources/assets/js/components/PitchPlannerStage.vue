@@ -6,7 +6,7 @@
 </template>
 
 <script>
- import moment from 'moment'
+import moment from 'moment'
 import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 
@@ -58,7 +58,16 @@ import _ from 'lodash'
                 _.forEach(this.stage.pitches, (pitch) => {
                     _.forEach(pitch.pitch_availability, (availability) => {
                         
-                    sPitch.push({'id': '', 'resourceId': availability.id,'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm a'), 'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),'refereeId': -1,refereeText: '', 'title':'pitch is not available', 'matchId':''})
+                    sPitch.push({
+                            'id': '', 
+                            'resourceId': availability.id,
+                            'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm a'), 
+                            'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),
+                            'refereeId': -1,
+                            'refereeText': '', 
+                            'title':'pitch is not available', 
+                            'matchId':''
+                        })
                     });
                 });
                 this.pitchBreak = sPitch
@@ -101,9 +110,14 @@ import _ from 'lodash'
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                          // add match to scheduled matches table - api call
-                        
                         let matchId = event.id?event.id:event.matchId
-                        let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
+                        let matchData = {
+                            'tournamentId': vm.tournamentId, 
+                            'pitchId': event.resourceId, 
+                            'matchId': matchId, 
+                            'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
+                            'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
+                        };
 
                         if(event.refereeId == -1){
                             vm.$root.$emit('setGameReset')
@@ -151,7 +165,13 @@ import _ from 'lodash'
                                 })
                             },200)
                             let matchId = event.id?event.id:event.matchId
-                            let matchData = {'tournamentId': vm.tournamentId, 'pitchId': event.resourceId, 'matchId': matchId, 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD hh:mm:ss'), 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD hh:mm:ss')};
+                            let matchData = {
+                                'tournamentId': vm.tournamentId, 
+                                'pitchId': event.resourceId, 
+                                'matchId': matchId, 
+                                'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'), 
+                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
+                            };
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
                                     // console.log(response)
@@ -198,7 +218,16 @@ import _ from 'lodash'
                             let sMatches = []
                             _.forEach(rdata, function(match) {
                                 if(match.is_scheduled == 1){
-                                    let mData =  {'id': match.fid, 'resourceId': match.pitchId,'start':moment.utc(match.match_datetime,'YYYY-MM-DD hh:mm:ss'), 'end': moment.utc(match.match_endtime,'YYYY-MM-DD hh:mm:ss'),'refereeId': match.referee_id,'refereeText': '', 'title':match.match_number, matchId:match.id}
+                                    let mData =  {
+                                        'id': match.fid, 
+                                        'resourceId': match.pitchId,
+                                        'start':moment.utc(match.match_datetime,'YYYY-MM-DD HH:mm:ss'), 
+                                        'end': moment.utc(match.match_endtime,'YYYY-MM-DD HH:mm:ss'),
+                                        'refereeId': match.referee_id,
+                                        'refereeText': '', 
+                                        'title':match.match_number, 
+                                        'matchId':match.fid
+                                    }
                                     
                                 sMatches.push(mData)
                                 }
@@ -213,20 +242,45 @@ import _ from 'lodash'
                                     }
                                     
                                     maxTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm a')) 
-                                    let mData = { 'id': counter, 'resourceId': pitch.id,'start':moment(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm a'), 'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
-                                    let mData1 = {'id': 'start_'+counter, 'resourceId': pitch.id,'start':moment.utc(availability.stage_start_date+' '+'08:00:00','DD/MM/YYYY hh:mm:ss'), 'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
-                                    let mData2 = {'id': 'end_'+counter, 'resourceId': pitch.id,'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm a'), 'end': moment.utc(availability.stage_start_date+' '+'19:00:00','DD/MM/YYYY hh:mm:ss'),'refereeId': -1,'refereeText': '', 'title':'pitch is not available', matchId:-1}
+                                    let mData = { 
+                                        'id': counter, 
+                                        'resourceId': pitch.id,
+                                        'start':moment(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm a'), 
+                                        'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),
+                                        'refereeId': -1,
+                                        'refereeText': '', 
+                                        'title':'pitch is not available', 
+                                        'matchId':-1
+                                    }
+                                    let mData1 = {
+                                        'id': 'start_'+counter, 
+                                        'resourceId': pitch.id,
+                                        'start':moment.utc(availability.stage_start_date+' '+'08:00:00','DD/MM/YYYY HH:mm:ss'), 
+                                        'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'),
+                                        'refereeId': -1,
+                                        'refereeText': '', 
+                                        'title':'pitch is not available', 
+                                        matchId:-1
+                                    }
+                                    let mData2 = {
+                                        'id': 'end_'+counter, 
+                                        'resourceId': pitch.id,
+                                        'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm a'), 
+                                        'end': moment.utc(availability.stage_start_date+' '+'19:00:00','DD/MM/YYYY HH:mm:ss'),
+                                        'refereeId': -1,
+                                        'refereeText': '', 
+                                        'title':'pitch is not available', 
+                                        'matchId':-1
+                                    }
                                      
                                     sMatches.push(mData)
                                     sMatches.push(mData1)
                                     sMatches.push(mData2)
-
                                      counter = counter+1;
                                     });
-                               
                                 });
                             let minDatePitch = moment.min(minTimePitchAvail).format()
-                            vm.minDatePitch = moment.utc(minDatePitch).format('hh:mm:ss')
+                            vm.minDatePitch = moment.utc(minDatePitch).format('HH:mm:ss')
                             let maxDatePitch = moment.max(maxTimePitchAvail).format()
                             vm.maxDatePitch = moment.utc(maxDatePitch).format('HH:mm:ss')
                             // vm.maxDatePitch = '16:00:00'
@@ -236,10 +290,8 @@ import _ from 'lodash'
                             // console.log(sMatches,'sMatches')
                             this.scheduledMatches =sMatches
                             this.initScheduler();
-                            // conole.log(response,'response')
                     }
                 )
-
             }
         }
     };

@@ -198,7 +198,7 @@ class MatchRepository
             $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',$tournamentData['is_scheduled']);
           }
 
-
+          // dd($reportQuery->toSql());
         return $reportQuery->get();
     }
     public function getStanding($tournamentData)

@@ -280,6 +280,7 @@ export default {
 		      this.reportQuery = ReportData
 		      Tournament.getAllReportsData(ReportData).then(
 		      (response) => { 
+		      	console.log(response.data.data)
 		      // console.log(response.data.data,'hi') 
 		      	this.reports = response.data.data
 		       },

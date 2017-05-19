@@ -12,7 +12,7 @@
               <tournamentFilter :section="section"></tournamentFilter>
             </div>
           </div>
-	  			<div class="mt-4">
+	  			<div class="mt-4" >
 	  				<pitch-planner-table></pitch-planner-table>
 	  			</div>
 			</div>
@@ -33,21 +33,29 @@ var moment = require('moment');
          'section':'pitchPlanner'
        }
     },
+
     mounted() {
       let vm = this
     	this.$store.dispatch('SetPitches',this.tournamentId);
     	// Here we put validation check
-    let tournamentId = this.$store.state.Tournament.tournamentId
-    if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
-      toastr['error']('Please Select Tournament', 'Error');
-      this.$router.push({name: 'welcome'});
-    } else {
-      // Means Set Here
-     let currentNavigationData = {activeTab:'pitch_planner',
-     currentPage: 'Pitch Planner'}
-      this.$store.dispatch('setActiveTab', currentNavigationData)
-    }
+      let tournamentId = this.$store.state.Tournament.tournamentId
+      if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
+        toastr['error']('Please Select Tournament', 'Error');
+        this.$router.push({name: 'welcome'});
+      } else {
+        // Means Set Here
+       let currentNavigationData = {
+        activeTab:'pitch_planner',
+        currentPage: 'Pitch Planner'
+      }
+        this.$store.dispatch('setActiveTab', currentNavigationData)
+      }
 
+    },
+    methods: {
+      setFilter() {
+        console.log('filter call')
+      }
     },
     components: {
         PitchModal, PitchPlannerTable, TournamentFilter
