@@ -19,11 +19,10 @@
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_age_category}}</strong></label>
 									<div class="">
-
 			                            <select name="sel_ageCategory" id="sel_ageCategory" class="form-control ls-select2">
 			                            	<option value="">{{$lang.summary_age_category_select}}</option>
 				                            <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
-				                            </select>
+				                        </select>
 				                    </div>
 								</div>
 								<div class="col-md-4">
@@ -38,11 +37,9 @@
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_team}}</strong></label>
 									<div class="">
-
 			                            <select name="sel_teams" id="sel_teams" class="form-control ls-select2">
 			                            	<option value="">{{$lang.summary_team_select}}</option>
 				                        	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
-
 				                        </select>
 				                    </div>
 								</div>
@@ -73,7 +70,6 @@
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_location}}</strong></label>
 									<div class="">
-
 			                           <select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
 			                           		<option value="">Select</option>
 				                        	<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
@@ -86,8 +82,7 @@
 									<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
 										<option value="">Select</option>
 				                        <option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
-				                    </select>
-			                            
+				                    </select>			                            
 				                    </div>
 								</div>
 								<div class="col-md-4">
@@ -122,12 +117,12 @@
 				<table class="table table-hover table-bordered">
 					<thead>
 	                    <tr>
-	                        <th>{{$lang.summary_reports_date}}</th>
-	                        <th>{{$lang.summary_reports_age_catrgory}}</th>
-	                        <th>{{$lang.summary_reports_location}}</th>
-	                        <th>{{$lang.summary_reports_pitch}}</th>
-	                        <th>{{$lang.summary_reports_referee}}</th>
-	                        <th>{{$lang.summary_reports_game}}</th>
+	                        <th class="text-center">{{$lang.summary_reports_date}}</th>
+	                        <th class="text-center">{{$lang.summary_reports_age_catrgory}}</th>
+	                        <th class="text-center">{{$lang.summary_reports_location}}</th>
+	                        <th class="text-center">{{$lang.summary_reports_pitch}}</th>
+	                        <th class="text-center">{{$lang.summary_reports_referee}}</th>
+	                        <th class="text-center">{{$lang.summary_reports_game}}</th>
 	                    </tr>
 	                </thead>
 	                <tbody>
@@ -139,22 +134,21 @@
 	                		<td>{{report.referee_name}}</td>
 	                		<td>{{report.full_game}}</td>
 	                	</tr>
-	                	 <tr v-if="reports.length == 0">
-	                              No information available
-	                      </tr>
 	                </tbody>
 				</table>
+				<span v-if="reports.length == 0">
+	         		 No information available
+	    		</span>
 			</div> 
-		</div>
+		</div>	
 	</div>
-
 </template>
 
 <script type="text/babel">
 	import Tournament from '../api/tournament.js'
 	import Pitch from '../api/pitch.js'
-export default {
 
+export default {
     data() {
        return {
        	competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
@@ -169,10 +163,10 @@ export default {
        	}
     },	
     filters: {
-    formatDate: function(date) {
-     return moment(date).format("hh:mm ddd DD MMM YYYY");
-    }
-  },
+    	formatDate: function(date) {
+     	return moment(date).format("hh:mm ddd DD MMM YYYY");
+   	   }
+    },
     mounted() {
     	this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
     	this.displayTournamentCompetationList()
