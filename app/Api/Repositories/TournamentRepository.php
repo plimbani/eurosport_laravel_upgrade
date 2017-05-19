@@ -309,19 +309,11 @@ class TournamentRepository
             break;
         }
       }else{
+
         $reportQuery = TempFixture::where('temp_fixtures.tournament_id','=' ,$tournamentId);
 
         switch($key) {
-          case 'team' :
-            $resultData = $reportQuery->leftjoin('teams as home_team', function ($join) {
-                $join->on('home_team.id', '=', 'temp_fixtures.home_team')
-                   ->orOn('home_team.id', '=', 'temp_fixtures.away_team');
-            })
-            ->select('home_team.id','home_team.name')
-                        ->distinct('home_team.id')
-                        ->where('home_team.id','!=','')
-                        ->get();
-            break;
+
           case 'location' :
             $resultData = $reportQuery->join('venues','venues.id','=','temp_fixtures.venue_id')
                         ->select('venues.id as id','venues.name as name')
@@ -329,11 +321,11 @@ class TournamentRepository
                         ->get();
             break;
           case 'age_category' :
-            $resultData = $reportQuery->join('tournament_competation_template','tournament_competation_template.id','=','temp_fixtures.competition_id')
+            $resultData = $reportQuery->join('competitions','competitions.id','=','temp_fixtures.competition_id')
+                        ->join('tournament_competation_template','competitions.tournament_competation_template_id','=','tournament_competation_template.id')
                         ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name')
                         ->distinct('name')
                         ->get();
-
             break;
         }
       }
