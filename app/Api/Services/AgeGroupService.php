@@ -57,6 +57,10 @@ class AgeGroupService implements AgeGroupContract
         // Todo : change For New Template
         $data['tournamentTemplate'] = $data['nwTemplate'];
         unset($data['nwTemplate']);
+        if(is_int($data['tournamentTemplate'])){
+          $nwdata = (array) $this->ageGroupObj->FindTemplate($data['tournamentTemplate']);
+          $data['tournamentTemplate'] = $nwdata;  
+        }  
         list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data);
 
         $data['total_time'] = $totalTime;
