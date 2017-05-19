@@ -1,4 +1,4 @@
-    <template>
+<template>
     <div class="row">
         <div class="col-md-9 pitch_planner_section ">
             <div class="pitch-planner-wrapper">
@@ -26,7 +26,7 @@
                     </ul>
                      <div class="tab-content">
                         <div class="tab-pane active" v-if="GameStatus" id="game-list" role="tabpanel">
-                            <games-tab ></games-tab>
+                            <games-tab></games-tab>
                         </div>
                         <div class="tab-pane" v-if="stageStatus" id="referee-list" role="tabpanel">
                             <referees-tab></referees-tab>
@@ -86,13 +86,13 @@
             //     return stages;
             // }
         },
-          created: function() {
-             this.$root.$on('setPitchReset', this.resetPitch);
-             this.$root.$on('setGameReset', this.gameReset);
-             this.$root.$on('RefereeCount', this.refereeCount);
+        created: function() {
+            this.$root.$on('setPitchReset', this.resetPitch);
+            this.$root.$on('setGameReset', this.gameReset);
+            this.$root.$on('RefereeCount', this.refereeCount);
+            this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
 
-            
-          },
+        },
         data() {
             return {
                 'currentView':'gamesTab',
@@ -111,55 +111,43 @@
             });
                             // return stages;
             this.resetPitch()
-            
         },
         methods: {
-          refereeCount(totReferee) {
-            console.log(totReferee,'totReferee')
-            this.refereeCount = totReferee
-          },
-          resetPitch() {
-            let vm = this
-            this.stageStatus = false
-            this.GameStatus = false
-            this.tournamentStages = ''
-            let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
+            refereeCount(totReferee) {
+                this.refereeCount = totReferee
+            },
+            resetPitch() {
+                let vm = this
+                this.stageStatus = false
+                this.GameStatus = false
+                this.tournamentStages = ''
+               let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
                 let stages = [];
-                 // let startTimeCalc = this.pitches[0].pitch_availability[0].stage_start_time
-                 // console.log(startTimeCalc,'kk');
                 for (var i = 1; i <= this.tournamentDays; i++) {
+                     
                     // fetch pitches available for this day
                     let currentDateString  = tournamentStartDate.format('DD/MM/YYYY');
+                    // console.log(currentDateString)
                     let availablePitchesForStage = _.filter(this.pitches, (pitch) => {
-                        return _.find(pitch.pitch_availability, { 
+                return  _.find(pitch.pitch_availability, { 
                             'stage_start_date': currentDateString
                         });
                     });
-                   
-                    // let stageStartTime = _.forEach(this.pitches, (pitch) => {
-                    //     _.forEach(pitch.pitch_availability, (availability) => {
-                    //         if(availability.stage_start_time < startTimeCalc){
-                    //             startTimeCalc = availability.stage_start_time
-                    //         }
-                    //     });
-                    // });
-
+                    
+                    tournamentStartDate = tournamentStartDate.add(1, 'days');
+                    // console.log(currentDateString,i,tournamentStartDate.add(1, 'days'))
                     stages.push({
                         stageNumber: i,
                         tournamentStartDate: currentDateString,
                         pitches: availablePitchesForStage
                     });
-
-                    tournamentStartDate = tournamentStartDate.add(i, 'days');
                 }
                 setTimeout(function(){
                     vm.stageStatus = true
                     vm.GameStatus = true
                     vm.tournamentStages = stages 
                 },500)
-                
-
-          },
+            },
           gameReset() {
             let vm =this
              vm.GameStatus = false

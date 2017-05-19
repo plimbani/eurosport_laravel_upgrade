@@ -304,6 +304,11 @@ export default {
       this.stage_date.push(obj)
       $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
       this.stage_capacity.push(capacity)
+
+      $('#stage_start_time'+stage).timepicker({
+          minTime: '08:00:00',
+          maxTime: '19:00:00'
+      })
       $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
          // this.stageCapacityCalc(1)
          let curId = $(this)[0].id

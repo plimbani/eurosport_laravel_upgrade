@@ -354,5 +354,11 @@ module.exports = {
   summary_label_schedule: "FSchedule and results",
   summary_label_message: "FMessages",
 
+  summary_schedule_matches_time: "FTime",
+  summary_schedule_matches_draw: "FDraw",
+  summary_schedule_matches_team: "FTeam",
+  summary_schedule_matches_score: "FScore",
+  summary_schedule_matches_location: "FLocation",
+
   tournament_filter_age_category: "FCategory name",
  } 

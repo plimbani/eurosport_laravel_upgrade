@@ -3,12 +3,12 @@
 	<div class="col-md-12">
 	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
-			<th class="text-center">Time</th>
-			<th class="text-center">Draw</th>
-			<th class="text-center">Team</th>
-			<th class="text-center">Score</th>
-			<th class="text-center">Team</th>
-			<th class="text-center" v-if="isHideLocation !=  false">Location</th>
+			<th class="text-center">{{$lang.summary_schedule_matches_time}}</th>
+			<th class="text-center">{{$lang.summary_schedule_matches_draw}}</th>
+			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
+			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
+			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
+			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
 		</thead>
 		<tbody>
 			<tr v-for="match in matchData">

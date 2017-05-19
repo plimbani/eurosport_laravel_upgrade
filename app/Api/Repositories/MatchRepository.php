@@ -209,6 +209,7 @@ class MatchRepository
                break;
             }
           }
+
         return $reportQuery->get();
     }
     public function getStanding($tournamentData)
