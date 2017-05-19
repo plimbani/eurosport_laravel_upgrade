@@ -140,7 +140,7 @@
 	                		<td>{{report.full_game}}</td>
 	                	</tr>
 	                	 <tr v-if="reports.length == 0">
-	                              No records found
+	                              No information available
 	                      </tr>
 	                </tbody>
 				</table>
