@@ -214,6 +214,9 @@ class AgeGroupRepository
       //$query = DB::table('temp_fixtures')
         //        ->where('')
     }
+    public function FindTemplate($id) {
+     return  DB::table('tournament_template')->where('id',$id)->first();
+    }
     public function addFixturesIntoTemp($fixtureArray,$competationArr)
     {
       $teampfixtureTable=DB::table('temp_fixtures');

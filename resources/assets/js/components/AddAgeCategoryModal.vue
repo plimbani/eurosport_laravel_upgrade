@@ -94,8 +94,8 @@
             <div class="col-sm-6">
               <div class="row">
                 <div class="col-sm-12">
-                  <select class="form-control ls-select2"
-                  name="tournamentTemplate"
+                  <select class="form-control ls-select2 "
+                  name="tournamentTemplate1"
                   v-model="competation_format.tournamentTemplate">
                       <option v-for="option in options" v-if="(option.minimum_matches >=  minimum_matches && option.total_teams >= number_teams)"  v-bind:value="option"> {{option.name}} </option>
                   </select>
@@ -221,13 +221,14 @@
                         <div class="col align-self-center text-center">
                         <span v-if="option.id == competation_format.tournament_template_id">
                         <input type="radio" checked='checked' :value="option"
-                        name="tournamentTemplate"
+                        name="tournamentTemplate" class="ttmp"
                         v-validate="'required'"
                         >
                         </span>
                         <span v-else>
                         <input type="radio"
                             :value="option"
+                            class="ttmp"
                             :id="'tournament_template_'+option.id"
                             name="tournamentTemplate"
                             v-model="competation_format.tournamentTemplate"
@@ -272,7 +273,8 @@ export default {
       match_interval_fm_array:[],
       minimum_matches:'', number_teams: '',
       optEdit: [],
-      trempVal:false
+      trempVal:false,
+      nullTemp:false
     }
   },
   watch: {
@@ -382,8 +384,10 @@ export default {
     checkTemplate(option){
       if(option.minimum_matches ==  this.minimum_matches
         && option.total_teams == this.number_teams) {
+        
         return true
       } else {
+       
         return false
       }
     },
@@ -533,13 +537,19 @@ export default {
      this.competation_format.total_teams = this.number_teams
      this.$validator.validateAll().then(
           (response) => {
-              if(Object.keys(this.competation_format.tournamentTemplate).length == 0)
+            //  if(Object.keys(this.competation_format.tournamentTemplate).length == 0)
+              if(this.competation_format.competation_format_id != '0' && typeof this.competation_format.tournamentTemplate=== 'number')
               {
-
+               //alert('1')
                 // this.$validator.errors.error='adsasd'
-                return false
-              }
-
+                //return true
+              } else {
+              //alert('3')
+	        //return false
+	      }
+                  if( $('input[name="tournamentTemplate"]')  )  {  
+			
+                   }
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {
                   if(response.data.status_code == 200) {
