@@ -58,6 +58,11 @@ export default {
       filterValue: ''
     }
   },
+  computed: {
+    activePath() {
+      return this.$store.state.activePath
+    }
+  },
   props:['section'],
   mounted() {
     // By Default Called with Team
@@ -82,7 +87,11 @@ export default {
       this.filterValue = this.dropDown
       let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
       // this.$store.dispatch('setTournamentFilter', tournamentFilter);
-      this.$root.$emit('getTeamsByTournamentFilter',this.filterKey,this.filterValue);
+      if(this.activePath == 'teams_groups'){
+        this.$root.$emit('getTeamsByTournamentFilter',this.filterKey,this.filterValue);
+      }else if(this.activePath == 'pitch_planner'){
+        this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
+      }
     },
     getDropDownData(tourament_key) {
       let tournamentId = this.$store.state.Tournament.tournamentId
