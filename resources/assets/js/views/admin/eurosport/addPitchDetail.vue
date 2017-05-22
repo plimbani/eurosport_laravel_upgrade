@@ -299,16 +299,17 @@ export default {
           this.disableDate.push( $('.datestage'+i).val());
           startDate.setDate(new Date(moment(this.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY')).getDate() + i)
           obj['date'+i] = $('.datestage'+i).val();
+          $('#stage_start_time'+i).timepicker({
+              minTime: '08:00:00',
+              maxTime: '19:00:00'
+          })
       }
       let disableDate = this.disableDate;
       this.stage_date.push(obj)
       $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
       this.stage_capacity.push(capacity)
 
-      $('#stage_start_time'+stage).timepicker({
-          minTime: '08:00:00',
-          maxTime: '19:00:00'
-      })
+
       $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
          // this.stageCapacityCalc(1)
          let curId = $(this)[0].id
@@ -400,7 +401,7 @@ export default {
           }
 
           if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage).val() == '' || $('#stage_continue_time'+stage).val() == ''  ) {
-              $('#stage_capacity1_span'+stage).text('0.00 hrs');
+              $('#stage_capacity1_s1pan'+stage).text('0.00 hrs');
               $('#stage_capacity1'+stage).val('0.00');
           }else {
 
@@ -414,10 +415,10 @@ export default {
               var diff = diff1 + diff2
               if(diff > 0){
                 var minutes = diff % 60;
-              var hours = parseInt(diff - minutes) / 60;
-              var time_val = hours+ '.' +minutes
-              minutes = (minutes == '0') ? '00' : minutes
-              var time = hours+ ':' +minutes +' hrs'
+                var hours = parseInt(diff - minutes) / 60;
+                var time_val = hours+ '.' +minutes
+                  minutes = (minutes == '0') ? '00' : minutes
+                var time = hours+ ':' +minutes +' hrs'
               }else {
                   var time_val = '0.0'
                   var time = '00:00 hrs'
