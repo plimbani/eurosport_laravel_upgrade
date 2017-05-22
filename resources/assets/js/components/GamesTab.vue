@@ -100,17 +100,16 @@ export default {
 	methods: {
 
 		displayFixtures(filterKey='',filterValue=''){
-      let tdata= []
-      if(filterKey != '' && filterValue != '') {
-         tdata ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id}
-      } else {
-         tdata ={'tournamentId':this.tournamentId }
-      }
-      Tournament.getFixtures(tdata).then(
+	    let tdata= []
+	    if(filterKey != '' && filterValue != '') {
+	        tdata ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id}
+	    } else {
+	        tdata ={'tournamentId':this.tournamentId }
+	    }
+      	Tournament.getFixtures(tdata).then(
             (response)=> {
-              console.log(response.data.data)
-              // console.log(response,'asssss')
-              this.matches = response.data.data
+             	// console.log(response,'asssss')
+              	this.matches = response.data.data
             }
           )
 		},
