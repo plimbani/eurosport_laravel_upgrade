@@ -556,9 +556,9 @@ export default {
                 (response) => {
                   if(response.data.status_code == 200) {
                     if (comp_id==''){
-                      toastr.success('Age category has been added successfully.', 'Add age category', {timeOut: 5000});
+                      toastr.success('Age category has been added successfully.', 'Add Age Category', {timeOut: 5000});
                     }else{
-                      toastr.success('Age category has been edited successfully.', 'Edit age category', {timeOut: 5000});
+                      toastr.success('Age category has been edited successfully.', 'Edit Age Category', {timeOut: 5000});
                     }
                     //this.$router.push({name: 'competation_format'})
                    // $('#ageCategoryName').reset()
