@@ -218,10 +218,11 @@ class UserService implements UserContract
      */
     public function changeUserStatus($id)
     {
+
         $data = $this->userRepoObj->changeUserStatus($id);
         if ($data) {
 
-            $status = ($data['userData']['status'] == 1) ? 'User has been In active Successfully' : 'User has been active Successfully';
+            $status = ($id['userData']['status'] == 1) ? 'User has been de-activate Successfully' : 'User has been active Successfully';
             return ['status_code' => '200',
             'message' => $status];
         }
