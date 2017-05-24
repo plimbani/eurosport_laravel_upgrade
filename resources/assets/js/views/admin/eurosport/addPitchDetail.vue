@@ -18,7 +18,7 @@
                           <a data-toggle="tab" href="#availability" role="tab" class="nav-link text-center">{{$lang.pitch_modal_availability}}</a>
                       </li>
                   </ul>
-                  <div>Please complete information on both tabs before saving</div>
+                  <span>Please complete information on both tabs before saving</span>
                   <div class="tab-content">
                       <div id="pitch" role="tabpanel" class="tab-pane active">
                           <form method="post" name="frmPitchDetail" id="frmPitchDetail">
