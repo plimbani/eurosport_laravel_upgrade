@@ -168,7 +168,7 @@
                 let emailData = this.resendEmail
                 axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
                     $("#resend_modal").modal("hide");
-                     toastr.success('Mail has been send successfully.', 'Mail sent', {timeOut: 5000});
+                     toastr.success('The invite email has been re-sent successfully.', 'Mail sent', {timeOut: 5000});
                 });
             },
             resendModalOpen(data) {
