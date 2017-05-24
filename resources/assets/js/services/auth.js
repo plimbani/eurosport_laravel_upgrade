@@ -13,7 +13,8 @@ export default {
                 toastr['error']('Invalid credentials', 'Error');
                 Ls.remove('auth.token')
                 Ls.remove('email')
-            } else {
+            }
+            else {
                 // Something happened in setting up the request that triggered an Error
                 console.log('Error', error.message);
             }
@@ -38,7 +39,7 @@ export default {
     check(){
         return axios.get('/api/auth/check').then(response =>  {
             if(response.data.authenticated == false) {
-             
+              toastr['error'](response.data.message, 'Error');
             }
             return !!response.data.authenticated;
         }).catch(error => {
