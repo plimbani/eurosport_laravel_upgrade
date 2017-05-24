@@ -203,7 +203,7 @@
               </div>
             </div>
           </div>
-           <div class="form-group row align-items-center"
+           <div class="form-group row align-items-top"
            :class="{'has-error': errors.has('tournamentTemplate') }">
             <div class="col-sm-4 form-control-label">{{$lang.competation_label_template}}*</div>
             <div class="col-sm-8">
