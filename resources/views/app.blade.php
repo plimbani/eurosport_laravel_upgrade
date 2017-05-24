@@ -6,6 +6,7 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet">
     -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <script src="/assets/js/core/pace.js"></script>
     <link href="{{mix('assets/css/laraspace.css')}}" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -29,6 +30,7 @@
     <meta name="msapplication-TileImage" content="/assets/admin/img/favicons/mstile-144x144.png">
     <meta name="msapplication-config" content="/assets/admin/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#333333">
+
 </head>
 <body class="layout-default skin-default">
 <div id="app" class="template-container">
@@ -37,7 +39,10 @@
         <router-view></router-view>
     </transition>
 </div>
+
 <script type="text/javascript" src="{{mix('/assets/js/core/plugins.js')}}"></script>
 <script type="text/javascript" src="{{mix("/assets/js/app.js")}}"></script>
+
 </body>
+
 </html>
