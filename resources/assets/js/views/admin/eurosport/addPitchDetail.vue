@@ -127,7 +127,7 @@
                                                   </div>
                                                   <div class="row align-items-center mb-3">
                                                       <div class="col-md-3">
-                                                         {{$lang.pitch_capacity_break}}
+                                                         {{$lang.pitch_capacity_break_start}}
                                                       </div>
                                                       <div class="col-md-3">
                                                       <!-- <input type="checkbox" name="stage_chk_active">Check to add a break -->
