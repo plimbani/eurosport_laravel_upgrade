@@ -11,6 +11,7 @@ use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Team;
+use Laraspace\Models\Referee;
 use Carbon\Carbon;
 
 class TournamentRepository
@@ -223,8 +224,9 @@ class TournamentRepository
 
 
          $summaryData['tournament_pitches'] = count($tournamentPitch);
-         // TODO: referee is remaining
-         $summaryData['tournament_referees'] = '--';
+         // TODO: Referee is Added
+         $refereeCount = Referee::where(['tournament_id' => $tournamentId])->count();
+         $summaryData['tournament_referees'] = $refereeCount;
 
         // TODO: country  is remaining depends on team
          $teamsCountries = Team::join('countries', function ($join) {
