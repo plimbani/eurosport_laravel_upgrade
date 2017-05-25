@@ -125,7 +125,7 @@ module.exports = {
   competation_modal_select_template_list: "Select template",
   competation_modal_select_templates_required: "A template is required",
 
-  competation_label_template: "Template",
+  competation_label_template: "Template name",
   competation_validation_template: "Template selection is required",
   competation_modal_game_duration: "Game duration RR/PM/EM *",
   competation_modal_duration_final: "Game duration final*",

@@ -124,7 +124,7 @@ module.exports = {
   competation_modal_select_template_list: "FSelect template",
   competation_modal_select_templates_required: "FA template is required",
 
-  competation_label_template: "FTemplate",
+  competation_label_template: "Template name",
   competation_validation_template: "FTemplate selection is required",
   competation_modal_game_duration: "FGame duration RR/PM/EM *",
   competation_modal_duration_final: "FGame duration final*",
