@@ -18,6 +18,7 @@
                           <a data-toggle="tab" href="#availability" role="tab" class="nav-link text-center">{{$lang.pitch_modal_availability}}</a>
                       </li>
                   </ul>
+                  <span>Please complete information on both tabs before saving</span>
                   <div class="tab-content">
                       <div id="pitch" role="tabpanel" class="tab-pane active">
                           <form method="post" name="frmPitchDetail" id="frmPitchDetail">
@@ -43,7 +44,8 @@
                                           <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_type}}*</label>
                                           <div class="col-sm-6">
                                               <select name="pitch_type" id="pitch_type" class="form-control">
-                                                  <option value="Grass" selected="">{{$lang.pitch_modal_details_grass}}</option>
+                                                  <option value="">{{$lang.pitch_modal_pitch_type}}</option>
+                                                  <option value="Grass">{{$lang.pitch_modal_details_grass}}</option>
                                                   <option value="Artificial">{{$lang.pitch_modal_details_artificial}}</option>
                                                   <option value="Indoor">{{$lang.pitch_modal_details_indoor}}</option>
                                                   <option value="Other">{{$lang.pitch_modal_details_other}}</option>
@@ -54,7 +56,8 @@
                                           <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_size}}*</label>
                                           <div class="col-sm-6">
                                               <select name="pitch_size" id="pitch_size" class="form-control pull-left">
-                                                  <option value="5-a-side" selected="">{{$lang.pitch_modal_details_size_side}}</option>
+                                                  <option value="">{{$lang.pitch_modal_pitch_size}}</option>
+                                                  <option value="5-a-side">{{$lang.pitch_modal_details_size_side}}</option>
                                                   <option value="7-a-side">{{$lang.pitch_modal_details_size_side_one}}</option>
                                                   <option value="8-a-side">{{$lang.pitch_modal_details_size_side_two}}</option>
                                                   <option value="9-a-side">{{$lang.pitch_modal_details_size_side_three}}</option>
@@ -124,7 +127,7 @@
                                                   </div>
                                                   <div class="row align-items-center mb-3">
                                                       <div class="col-md-3">
-                                                         {{$lang.pitch_capacity_break}}
+                                                         {{$lang.pitch_capacity_break_start}}
                                                       </div>
                                                       <div class="col-md-3">
                                                       <!-- <input type="checkbox" name="stage_chk_active">Check to add a break -->

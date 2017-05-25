@@ -21,15 +21,7 @@
               <td class="text-left">{{competation.group_name}} </td>
               <td class="text-left">{{competation.category_age}}</td>
               <td class="text-left">{{competation.template_name}}</td>
-              <td>
-                  <label class="form-check-label">
-                      <input type="radio" class="form-check-input"
-                      name="competationFormatTemplate"
-                      :value="index"
-                             checked>
-                      {{competation.disp_format_name}}
-                  </label>
-              </td>
+              <td class="text-left">{{competation.disp_format_name}}</td>
               <td class="text-center">{{competation.total_match}}</td>
               <td>{{competation.total_time | formatTime}}
               </td>
