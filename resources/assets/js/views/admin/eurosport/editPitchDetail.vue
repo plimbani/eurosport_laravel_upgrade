@@ -4,7 +4,7 @@
             <div class="modal-content">
                 <div class="tabs tabs-primary">
                 <div class="modal-header">
-                        <h5 class="modal-title">Pitch Details</h5>
+                        <h5 class="modal-title">Pitch Details - {{pitchData.pitchdetail.pitch_number}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
