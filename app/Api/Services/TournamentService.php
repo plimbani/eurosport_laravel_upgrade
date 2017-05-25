@@ -97,10 +97,11 @@ class TournamentService implements TournamentContract
             $newData[$key]=$value;
             $jsonVal = $value->json_data;
 
-            list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data['tournamentData'],$value);
+            list($totalTime,$totalmatch,$dispFormatname,$template_font_color) = $this->calculateTime($data['tournamentData'],$value);
             $newData[$key]['total_time'] = $totalTime;
             $newData[$key]['total_match'] = $totalmatch;
             $newData[$key]['disp_format'] = $dispFormatname;
+            $newData[$key]['template_font_color'] = $template_font_color;
           }
 
 
@@ -173,7 +174,9 @@ class TournamentService implements TournamentContract
         // Now we sum up round robin and final match
         $total_time = $total_rr_time + $total_final_time;
 
-        return array($total_time,$total_matches,$disp_format_name);
+        // Todo : Add font Color For this template
+        $template_font_color = $json_data->template_font_color;
+        return array($total_time,$total_matches,$disp_format_name, $template_font_color);
     }
 
     /*
@@ -342,7 +345,7 @@ class TournamentService implements TournamentContract
             ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
             ->where('temp_fixtures.tournament_id',$data['tournament_id'])
             ->where('temp_fixtures.is_scheduled',1);
-            
+
             if(isset($data['sel_ageCategory'])  && $data['sel_ageCategory']!= ''){
                 $reportQuery->where('tournament_competation_template.id',$data['sel_ageCategory']);
             }
