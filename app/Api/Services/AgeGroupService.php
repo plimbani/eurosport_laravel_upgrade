@@ -59,8 +59,8 @@ class AgeGroupService implements AgeGroupContract
         unset($data['nwTemplate']);
         if(is_int($data['tournamentTemplate'])){
           $nwdata = (array) $this->ageGroupObj->FindTemplate($data['tournamentTemplate']);
-          $data['tournamentTemplate'] = $nwdata;  
-        }  
+          $data['tournamentTemplate'] = $nwdata;
+        }
         list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data);
 
         $data['total_time'] = $totalTime;
@@ -110,7 +110,7 @@ class AgeGroupService implements AgeGroupContract
 
         $competationData['tournament_competation_template_id'] = $tournament_competation_template_id;
         $competationData['tournament_id'] = $data['tournament_id'];
-        $competationData['age_group_name'] = $data['ageCategory_name'];
+        $competationData['age_group_name'] = $data['ageCategory_name'].'-'.$data['category_age'];
         $json_data = json_decode($data['tournamentTemplate']['json_data']);
 
 
