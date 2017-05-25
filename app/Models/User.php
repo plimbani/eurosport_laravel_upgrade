@@ -147,6 +147,6 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     public function sendPasswordResetNotification($token)
     {
       $name = (isset($this->personDetail->first_name)) ? $this->personDetail->first_name : $this->name;
-      $this->notify(new ResetPasswordNotification($token, $name));
+      $this->notify(new ResetPasswordNotification($token, $name,$this->email));
     }
 }
