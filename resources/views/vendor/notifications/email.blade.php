@@ -198,7 +198,7 @@
                         <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="center" border="0">
                           <tbody>
                             <tr>
-                              <td style="border:none;border-radius:3px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#2196f3"><a href="{{ $actionUrl }}" style="text-decoration:none;line-height:100%;background:#2196f3;color:white;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:13px;font-weight:300;text-transform:none;margin:0px;"
+                              <td style="border:none;border-radius:3px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#2196f3"><a href="{{ $actionUrl.'?userEmail='.$userEmail }}" style="text-decoration:none;line-height:100%;background:#2196f3;color:white;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:13px;font-weight:300;text-transform:none;margin:0px;"
                                   target="_blank">Reset password</a></td>
                             </tr>
                           </tbody>
