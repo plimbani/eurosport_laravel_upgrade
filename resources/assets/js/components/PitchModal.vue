@@ -25,7 +25,7 @@
                       <input class="form-control" type="text" v-model="matchDetail.referee.first_name" readonly>
                   </div>
                   <div class="col-sm-3 align-self-center">
-                      <a class="btn btn-dange" href="javascript:void(0)" @click="removeReferee()">Remove</a>
+                      <a class="btn btn-danger" href="javascript:void(0)" @click="removeReferee()">Remove</a>
                   </div>
               </div>
             </div>
