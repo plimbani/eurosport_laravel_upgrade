@@ -203,6 +203,8 @@ module.exports = {
   pitch_modal_details_name: "Pitch name*",
   pitch_modal_details_name_required: "Pitch name is required.",
   pitch_modal_details_type: "Type",
+  pitch_modal_details_type_required: "Pitch type is required.",
+  pitch_modal_details_size_required: "Pitch size is required.",
   pitch_modal_pitch_type: "Select pitch type",
   pitch_modal_details_grass: "Grass",
   pitch_modal_details_artificial:"Artificial",
