@@ -3,9 +3,9 @@
 <table class="table table-hover table-bordered" v-if="matchData.length > 0">
 	<thead>
         <tr>
-            <th>{{$lang.summary_schedule_draw}}</th>
-            <th>{{$lang.summary_schedule_type}}</th>
-            <th>{{$lang.summary_schedule_team}}</th>
+            <th class="text-center">{{$lang.summary_schedule_draw}}</th>
+            <th class="text-center">{{$lang.summary_schedule_type}}</th>
+            <th class="text-center">{{$lang.summary_schedule_team}}</th>
         </tr>
     </thead>
     <tbody>
