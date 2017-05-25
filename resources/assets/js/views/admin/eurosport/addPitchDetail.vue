@@ -5,7 +5,7 @@
           <div class="tabs tabs-primary">
               <div class="modal-header">
                   <h5 class="modal-title">Pitch details</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="displayPitch(0)">
                       <span aria-hidden="true">×</span>
                   </button>
               </div>
@@ -320,7 +320,11 @@ export default {
       $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
       this.stage_capacity.push(capacity)
 
-
+      $('#addPitchModal').on('hidden.bs.modal', function () {
+        // Now here we have to call function for parent class
+        // this.$root.$emit('displayPitch',0)
+        //this.$emit('displayPitch',0)
+      })
       $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
          // this.stageCapacityCalc(1)
          let curId = $(this)[0].id
@@ -507,6 +511,9 @@ export default {
     })
   },
   methods: {
+      displayPitch() {
+        this.$root.$emit('displayPitch',0)
+      },
       getAllPitches() {
           this.$store.dispatch('SetPitches',this.tournamentId);
       },
