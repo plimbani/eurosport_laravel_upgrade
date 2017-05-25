@@ -7,17 +7,17 @@
 					class="mr-2">
 				</label>
 				<label>
-					<h6>{{tournamentName}}</h6>
+					<strong>{{tournamentName}}</strong>
 				</label>
 				<div class="clearfix"></div>
 
-				<label><strong>{{$lang.summary_location}}:</strong>{{tournamentSummary.locations}}</label><br>
-				<label><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}}</label>
+				<label><strong>{{$lang.summary_location}}:</strong> {{tournamentSummary.locations}}</label><br>
+				<label><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}} </label>
 
 			</div>
 			<td class="col-md-6">
 			<div class="row">
-				<span class="col-sm-4"><strong>{{$lang.summary_status}}:</strong>{{tournamentStatus}}</span>
+				<span class="col-sm-4"><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
 
 				<span class="col-md-4" v-if="tournamentStatus == 'Published'">
 				   <button type="button" data-toggle="modal"
@@ -51,48 +51,48 @@
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-						<div class="card-title">{{tournamentSummary.tournament_teams}}</div>
-						<p>{{$lang.summary_teams}}</p>
+						<div class="card-title"><b>{{tournamentSummary.tournament_teams}}</b></div>
+						<p><b>{{$lang.summary_teams}}</b></p>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-					<div class="card-title">{{tournamentSummary.tournament_age_categories}}</div>
-						<p>{{$lang.summary_age_categories}}</p>
+					<div class="card-title"><b>{{tournamentSummary.tournament_age_categories}}</b></div>
+						<p><b>{{$lang.summary_age_categories}}</b></p>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-						<div class="card-title">{{tournamentSummary.tournament_matches}}</div>
-						<p>{{$lang.summary_games}}</p>
+						<div class="card-title"><b>{{tournamentSummary.tournament_matches}}</b></div>
+						<p><b>{{$lang.summary_games}}</b></p>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-						<div class="card-title">{{tournamentSummary.tournament_pitches}}</div>
-						<p>{{$lang.summaey_pitches}}</p>
+						<div class="card-title"><b>{{tournamentSummary.tournament_pitches}}</b></div>
+						<p><b>{{$lang.summaey_pitches}}</b></p>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-					<div class="card-title">{{tournamentSummary.tournament_referees}}</div>
-						<p>{{$lang.summary_referees}}</p>
+					<div class="card-title"><b>{{tournamentSummary.tournament_referees}}</b></div>
+						<p><b>{{$lang.summary_referees}}</b></p>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-2">
 				<div class="m_card">
 					<div class="card-content">
-					<div class="card-title">{{tournamentDays}}</div>
-						<p>{{$lang.summary_days}}</p>
+					<div class="card-title"><b>{{tournamentDays}}</b></div>
+						<p><b>{{$lang.summary_days}}</b></p>
 					</div>
 				</div>
 			</div>
