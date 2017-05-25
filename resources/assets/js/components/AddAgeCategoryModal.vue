@@ -79,7 +79,7 @@
                   v-validate="'required'" :class="{'is-danger': errors.has('minimum_matches') }"
                   v-model="minimum_matches">
                       <option value="">{{$lang.competation_modal_select_minimum_matches}}</option>
-                      <option v-if="n > 2" v-for="n in (7)"
+                      <option v-if="n > 2" v-for="n in (6)"
                       v-bind:value="n">
                      {{n}}
                     </option>
@@ -203,7 +203,7 @@
               </div>
             </div>
           </div>
-           <div class="form-group row align-items-center"
+           <div class="form-group row align-items-top"
            :class="{'has-error': errors.has('tournamentTemplate') }">
             <div class="col-sm-4 form-control-label">{{$lang.competation_label_template}}*</div>
             <div class="col-sm-8">
@@ -556,9 +556,9 @@ export default {
                 (response) => {
                   if(response.data.status_code == 200) {
                     if (comp_id==''){
-                      toastr.success('Age category has been added successfully.', 'Add age category', {timeOut: 5000});
+                      toastr.success('Age category has been added successfully.', 'Add Age Category', {timeOut: 5000});
                     }else{
-                      toastr.success('Age category has been edited successfully.', 'Edit age category', {timeOut: 5000});
+                      toastr.success('Age category has been edited successfully.', 'Edit Age Category', {timeOut: 5000});
                     }
                     //this.$router.push({name: 'competation_format'})
                    // $('#ageCategoryName').reset()

@@ -140,7 +140,7 @@
                         <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0px;" align="center" border="0">
                           <tbody>
                             <tr>
-                              <td style="width:150px;"><img alt="" title="" height="auto" src="{{ asset('assets/img/logo-desk.png') }}" style="border:none;border-radius:0px;display:block;outline:none;text-decoration:none;width:100%;height:auto;" width="150"></td>
+                              <td style="width:150px;"><img alt="" title="" height="auto" src="{{ asset('assets/img/logo-deskk.png') }}" style="border:none;border-radius:0px;display:block;outline:none;text-decoration:none;width:100%;height:auto;" width="150"></td>
                             </tr>
                           </tbody>
                         </table>
@@ -190,8 +190,8 @@
                       </td>
                     </tr>
                     <tr>
-                      <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-bottom:20px;" align="left">
-                        <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="left" border="0">
+                      <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-bottom:20px;" align="center">
+                        <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="center" border="0">
                           <tbody>
                             <tr>
                               <td style="border:none;border-radius:3px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#2196f3"><a href="@php echo url('user/setpassword/'.$email_details['token']) @endphp" style="text-decoration:none;line-height:100%;background:#2196f3;color:white;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:13px;font-weight:300;text-transform:none;margin:0px;"

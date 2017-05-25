@@ -13,7 +13,6 @@
         <div class="row">
           <div class="col-sm-12">
             <div class="card text-center">
-              <div class="card-block">
                 <div class="table-responsive">
                   <table class="table" id="Competition-modal-table">
                     <tbody class="competition-modal-table-body">
@@ -61,7 +60,6 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
             </div>
           </div>
         </div>
