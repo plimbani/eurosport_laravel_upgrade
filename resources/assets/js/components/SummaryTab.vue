@@ -212,7 +212,7 @@
 
         let EDate = moment(this.$store.state.Tournament.tournamentEndDate,'DD/MM/YYYY')
 
-			 this.tournamentDates = SDate.format('DD MMM YYYY')+'-'+EDate.format('DD MMM YYYY')
+			 this.tournamentDates = SDate.format('DD MMM YYYY')+'  - '+EDate.format('DD MMM YYYY')
 			 let tournamentDays = this.$store.state.Tournament.tournamentDays || 0
 
 

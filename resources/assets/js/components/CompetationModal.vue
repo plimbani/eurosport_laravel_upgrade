@@ -80,10 +80,6 @@
                               <!-- <label class="col-md-4">{{ templateData['competation_format'] }}</label> -->
                               <label class="col-md-6">{{templateData.tournament_teams}} teams: {{templateData.competition_group_round}} - {{templateData.competition_round}}</label>
                           </p>
-                          <p class="row mb-0">
-                              <label class="col-md-6"><strong>{{$lang.competation_modal_format_remark}}</strong></label>
-                              <label class="col-md-6"></label>
-                          </p>
                     </div>
                   </div>
                   <div class="col-md-6 d-flex flex-column justify-content-between">

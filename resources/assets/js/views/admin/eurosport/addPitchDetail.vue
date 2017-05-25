@@ -43,19 +43,20 @@
                                       <div class="form-group row">
                                           <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_type}}*</label>
                                           <div class="col-sm-6">
-                                              <select name="pitch_type" id="pitch_type" class="form-control">
+                                              <select name="pitch_type" id="pitch_type" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('pitch_type') }">
                                                   <option value="">{{$lang.pitch_modal_pitch_type}}</option>
                                                   <option value="Grass">{{$lang.pitch_modal_details_grass}}</option>
                                                   <option value="Artificial">{{$lang.pitch_modal_details_artificial}}</option>
                                                   <option value="Indoor">{{$lang.pitch_modal_details_indoor}}</option>
                                                   <option value="Other">{{$lang.pitch_modal_details_other}}</option>
                                               </select>
+                                              <span class="help is-danger" v-show="errors.has('pitch_type')">Pitch type is required.</span>
                                           </div>
                                       </div>
                                       <div class="form-group row mb-0">
                                           <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_size}}*</label>
                                           <div class="col-sm-6">
-                                              <select name="pitch_size" id="pitch_size" class="form-control pull-left">
+                                              <select name="pitch_size" id="pitch_size" class="form-control pull-left" v-validate="'required'" :class="{'is-danger': errors.has('pitch_size') }">
                                                   <option value="">{{$lang.pitch_modal_pitch_size}}</option>
                                                   <option value="5-a-side">{{$lang.pitch_modal_details_size_side}}</option>
                                                   <option value="7-a-side">{{$lang.pitch_modal_details_size_side_one}}</option>
@@ -64,6 +65,7 @@
                                                   <option value="10-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
                                                   <option value="Handball">{{$lang.pitch_modal_details_size_side_handball}}</option>
                                               </select>
+                                              <span class="help is-danger" v-show="errors.has('pitch_size')">Pitch size is required.</span>
                                           </div>
                                           <!-- <div class="col-md-12">
                                               <button type="button" id="add_stage" @click="nextStage()"  class="btn btn-primary">{{$lang.pitch_modal_button_next}}</button>
