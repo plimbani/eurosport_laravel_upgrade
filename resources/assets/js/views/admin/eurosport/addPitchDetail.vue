@@ -5,7 +5,7 @@
           <div class="tabs tabs-primary">
               <div class="modal-header">
                   <h5 class="modal-title">Pitch details</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="displayPitch(0)">
                       <span aria-hidden="true">×</span>
                   </button>
               </div>
@@ -205,7 +205,7 @@
                                                                 </div>
                                                                 <div class="col-md-3">
 
-                                                                    <span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill badge-info">0.00 hrs</span>
+                                                                    <span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
                                                                     <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity1'+day" value="0.00">
                                                                     <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity1_min'+day" value="0">
                                                                 </div>
@@ -229,7 +229,7 @@
                   </div>
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.pitch_modal_availability_button_close}}</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" @click="displayPitch(0)">{{$lang.pitch_modal_availability_button_close}}</button>
                   <button type="button" class="btn btn-primary" @click="savePitchDetails()">{{$lang.pitch_modal_availability_button_save}}</button>
               </div>
           </div>
@@ -320,7 +320,11 @@ export default {
       $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
       this.stage_capacity.push(capacity)
 
-
+      $('#addPitchModal').on('hidden.bs.modal', function () {
+        // Now here we have to call function for parent class
+        // this.$root.$emit('displayPitch',0)
+        //this.$emit('displayPitch',0)
+      })
       $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
          // this.stageCapacityCalc(1)
          let curId = $(this)[0].id
@@ -507,6 +511,9 @@ export default {
     })
   },
   methods: {
+      displayPitch() {
+        this.$root.$emit('displayPitch',0)
+      },
       getAllPitches() {
           this.$store.dispatch('SetPitches',this.tournamentId);
       },
