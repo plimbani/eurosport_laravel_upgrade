@@ -31,14 +31,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-5 form-control-label">Type*</label>
+                                        <label class="col-sm-5 form-control-label">{{$lang.pitch_modal_details_type}}*</label>
                                         <div class="col-sm-6">
-                                            <select name="pitch_type" v-model = "pitchData.pitchdetail.type" id="pitch_type"   class="form-control ">
+                                            <select name="pitch_type" v-model = "pitchData.pitchdetail.type" id="pitch_type" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('pitch_type') }">
                                                 <option value="grass" >Grass</option>
                                                 <option value="artificial">Artificial</option>
                                                 <option value="Indoor">Indoor</option>
                                                 <option value="Other">Other</option>
                                             </select>
+                                            <span class="help is-danger" v-show="errors.has('pitch_type')">{{$lang.pitch_modal_details_type_required}}</span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -52,9 +53,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-5 form-control-label">Size*</label>
+                                        <label class="col-sm-5 form-control-label">{{$lang.pitch_modal_details_size}}*</label>
                                         <div class="col-sm-6">
-                                            <select name="pitch_size" id="pitch_size"  v-model = "pitchData.pitchdetail.size"  class="form-control pull-left">
+                                            <select name="pitch_size" id="pitch_size"  v-model = "pitchData.pitchdetail.size"  class="form-control pull-left" v-validate="'required'" :class="{'is-danger': errors.has('pitch_size') }">
                                                  <option value="5-a-side" >{{$lang.pitch_modal_details_size_side}}</option>
                                                 <option value="7-a-side">{{$lang.pitch_modal_details_size_side_one}}</option>
                                                 <option value="8-a-side">{{$lang.pitch_modal_details_size_side_two}}</option>
@@ -62,6 +63,7 @@
                                                 <option value="10-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
                                                 <option value="Handball">{{$lang.pitch_modal_details_size_side_handball}}</option>
                                             </select>
+                                            <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-12">

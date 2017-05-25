@@ -4,7 +4,7 @@ namespace Laraspace\Services;
 
 use Laraspace\Contracts\TournamentContract;
 use Laraspace\Repositories\TournamentRepository;
-use Laraspace\Services\VenueService;
+use Laraspace\Services\VenueTempService as VenueService;
 
 class TournamentService implements TournamentContract
 {
@@ -55,7 +55,7 @@ class TournamentService implements TournamentContract
         // $venueData = $this->venueServiceObj->create($data);
 
         // Now Save Venue Details For Tournament
-        
+
         // return ($tournamentdata ) ? ['status_code' => '200', 'message' => self::SUCCESS_MSG,'data' => $tournamentdata] : ['status_code' => '505', 'message' => self::ERROR_MSG];
     }
 

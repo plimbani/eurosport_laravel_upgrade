@@ -124,7 +124,7 @@ module.exports = {
   competation_modal_select_template_list: "FSelect template",
   competation_modal_select_templates_required: "FA template is required",
 
-  competation_label_template: "FTemplate",
+  competation_label_template: "Template name",
   competation_validation_template: "FTemplate selection is required",
   competation_modal_game_duration: "FGame duration RR/PM/EM *",
   competation_modal_duration_final: "FGame duration final*",
@@ -231,7 +231,7 @@ module.exports = {
 
   teams_terms_groups: "FTeams and groups",
   teams_age_category: "FCategory name",
-  teams_select_age_category: "FSelect age category",
+  teams_select_age_category: "FSelect category name",
   teams_u9: "FU9",
   teams_u11: "FU11",
   teams_u15: "FU15",
@@ -278,7 +278,8 @@ module.exports = {
   teams_location: "FLocation",
   teams_place: "FPlace",
   teams_event: "FEvent",
-
+  teams_category: "Category name",
+  
   summary_cup: "FXYZ Cup 2017",
   summary_location: "FLocations",
   summary_dates: "FDates",
@@ -291,7 +292,7 @@ module.exports = {
   summary_participating_countries: "FParticipating countries",
   summary_euro_supporting_contact: "FEuro-Sportring contact",
   summary_teams: "FTeams",
-  summary_age_categories: "FAge categories",
+  summary_age_categories: "FAge Categories",
   summary_games: "FGames",
   summaey_pitches: "FPitches",
   summary_referees: "FReferees",
@@ -301,7 +302,7 @@ module.exports = {
   summary_message: "FUse the filters below to generate a report.",
   summary_button_download: "FDownload",
   summary_button_print:"Print",
-  summary_age_category: "FAge Category",
+  summary_age_category: "FCategory name",
   summary_club: "FClub",
   summary_team: "FTeam",
   summary_from: "FFrom",

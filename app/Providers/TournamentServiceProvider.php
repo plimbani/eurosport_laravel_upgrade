@@ -4,7 +4,7 @@ namespace Laraspace\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Laraspace\Services\TournamentService;
-use Laraspace\Services\VenueService;
+use Laraspace\Services\VenueTempService as VenueService;
 use Laraspace\Repositories\VenueRepository;
 use Laraspace\Repositories\TournamentRepository;
 
