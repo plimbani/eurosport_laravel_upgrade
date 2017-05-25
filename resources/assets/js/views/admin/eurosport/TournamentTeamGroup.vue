@@ -85,7 +85,7 @@
                       <th class="text-center">{{$lang.teams_name}}</th>
                       <th class="text-center">{{$lang.teams_country}}</th>
                       <th class="text-center">{{$lang.teams_place}}</th>
-                      <th class="text-center">{{$lang.teams_event}}</th>
+                      <th class="text-center">{{$lang.teams_category}}</th>
                       <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category'">{{$lang.teams_group}}</th>
                   </tr>
               </thead>

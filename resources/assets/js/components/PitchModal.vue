@@ -10,27 +10,27 @@
           </div>
           <div class="modal-body">
             <div class="form-group row">
-              <label class="col-sm-3">Match number:</label><p class="col-sm-9"> {{matchFixture.title}}</p>
-              <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}}) </p>
-              <label class="col-sm-3">Date:</label><p class="col-sm-9">{{matchDetail.matchTime}}</p>
-              <label class="col-sm-3">Pitch:</label><p class="col-sm-9" v-if="matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}} </p><p class="col-sm-9" ></p>
+              <label class="col-sm-4">Match number</label><p class="col-sm-8"> {{matchFixture.title}}</p>
+              <label class="col-sm-4"></label><p class="col-sm-8">Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}}) </p>
+              <label class="col-sm-4">Date</label><p class="col-sm-8">{{matchDetail.matchTime}}</p>
+              <label class="col-sm-4">Pitch</label><p class="col-sm-8" v-if="matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}}</p>
             </div>
             <p class="mt-4 refree_name">
             <div v-if="matchDetail.referee">
               <div class="form-group row">
                   <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
-                    Referee:
+                    Referee
                   </label>
                   <div class="col-sm-6 align-self-center">
                       <input class="form-control" type="text" v-model="matchDetail.referee.first_name" readonly>
                   </div>
                   <div class="col-sm-3 align-self-center">
-                      <a class="btn btn-danger btn-sm w-100" href="javascript:void(0)" @click="removeReferee()">Remove</a>
+                      <a class="btn btn-danger" href="javascript:void(0)" @click="removeReferee()">Remove</a>
                   </div>
               </div>
             </div>
             <div class="row" v-else>
-            <label class="col-sm-3 form-control-label">Referee:</label>
+            <label class="col-sm-3 form-control-label">Referee</label>
               <div class="col-sm-9">
                 <select  v-model="matchDetail.referee_id" class="form-control ls-select2" name="selReferee">
                   <option value="0">Select referee</option>
@@ -42,16 +42,16 @@
             </p>
             <form class="mt-4">
               <div class="form-group row">
-              <label class="col-sm-3 form-control-label">Result:</label>
+              <label class="col-sm-3 form-control-label">Result</label>
                 <div class="col-sm-9">
                 <div class="row form-control-label">
-                  <label class="col-sm-6">Team 1 {{matchDetail.home_team_name}}</label>
+                  <label class="col-sm-6">Team 1 ({{matchDetail.home_team_name}})</label>
                 <div class="col-sm-6">
                   <input type="number" min="0" name="home_team_score" :value="matchDetail.hometeam_score" id="home_team_score" class="form-control" >
                 </div>
                 </div>
                 <div class="row form-control-label">
-                  <label class="col-sm-6">Team 2 {{matchDetail.away_team_name}}</label>
+                  <label class="col-sm-6">Team 2 ({{matchDetail.away_team_name}})</label>
                 <div class="col-sm-6">
                   <input type="number" min="0" name="away_team_score" :value="matchDetail.awayteam_score" id="away_team_score" class="form-control" >
                 </div>
@@ -74,8 +74,8 @@
                 <div class="col-sm-9">
                   <select name="match_winner"  v-model="matchDetail.match_winner"  id="match_winner" class="form-control ls-select2">
                       <option value="">Please select</option>
-                      <option :value="matchDetail.home_team">{{matchDetail.home_team_name}}</option>
-                      <option :value="matchDetail.away_team">{{matchDetail.away_team_name}}</option>
+                      <option :value="matchDetail.home_team">Team 1 ({{matchDetail.home_team_name}})</option>
+                      <option :value="matchDetail.away_team">Team 2 ({{matchDetail.away_team_name}})</option>
                   </select>
                 </div>
               </div>

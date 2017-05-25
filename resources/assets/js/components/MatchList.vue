@@ -12,7 +12,7 @@
 		</thead>
 		<tbody>
 			<tr v-for="match in matchData">
-				<td>{{match.match_datetime | formatDate}}</td>
+				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
 					<a class="pull-left text-left text-primary" href=""
 					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name}}</u></a>

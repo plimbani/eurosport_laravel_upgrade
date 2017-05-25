@@ -125,7 +125,7 @@ module.exports = {
   competation_modal_select_template_list: "Select template",
   competation_modal_select_templates_required: "A template is required",
 
-  competation_label_template: "Template",
+  competation_label_template: "Template name",
   competation_validation_template: "Template selection is required",
   competation_modal_game_duration: "Game duration RR/PM/EM *",
   competation_modal_duration_final: "Game duration final*",
@@ -232,7 +232,7 @@ module.exports = {
 
   teams_terms_groups: "Teams and groups",
   teams_age_category: "Category name",
-  teams_select_age_category: "Select age category",
+  teams_select_age_category: "Select category name",
   teams_u9: "U9",
   teams_u11: "U11",
   teams_u15: "U15",
@@ -279,6 +279,7 @@ module.exports = {
   teams_location: "Location",
   teams_place: "Place",
   teams_event: "Event",
+  teams_category: "Category name",
 
   summary_cup: "XYZ Cup 2017",
   summary_location: "Locations",
@@ -292,7 +293,7 @@ module.exports = {
   summary_participating_countries: "Participating countries",
   summary_euro_supporting_contact: "Euro-Sportring contact",
   summary_teams: "Teams",
-  summary_age_categories: "Age categories",
+  summary_age_categories: "Age Categories",
   summary_games: "Games",
   summaey_pitches: "Pitches",
   summary_referees: "Referees",
@@ -302,7 +303,7 @@ module.exports = {
   summary_message: "Use the filters below to generate a report.",
   summary_button_download: "Download",
   summary_button_print:"Print",
-  summary_age_category: "Age Category",
+  summary_age_category: "Category name",
   summary_club: "Club",
   summary_team: "Team",
   summary_from: "From",
