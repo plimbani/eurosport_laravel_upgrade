@@ -69,8 +69,12 @@ class UserService implements UserContract
         // $userData['user']['password'] = Hash::make('password');
         // // dd($userData['user']);
         // $userObj = $this->userRepoObj->create($userData['user']);
+        // TODO: default is vaue for password
+       // $userData['user']['password']=Hash::make('password');
 
-        $userData['user']['password']=Hash::make('password');
+        // We cant Allow untikl its set password
+        $userData['user']['password']=NULL;
+
         $token = str_random(30);
         $userData['user']['token'] = $token;
 
