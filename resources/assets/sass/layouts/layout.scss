@@ -89,6 +89,7 @@
     font-size: 13px;
     font-weight: normal;
     min-height: 60px;
+    z-index: 999;
     // padding: 10px 15px 10px 255px;
     &.sticky {
         position: fixed;
