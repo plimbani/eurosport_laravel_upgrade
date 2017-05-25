@@ -205,7 +205,7 @@
                                                                 </div>
                                                                 <div class="col-md-3">
 
-                                                                    <span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill badge-info">0.00 hrs</span>
+                                                                    <span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
                                                                     <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity1'+day" value="0.00">
                                                                     <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity1_min'+day" value="0">
                                                                 </div>
@@ -229,7 +229,7 @@
                   </div>
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.pitch_modal_availability_button_close}}</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" @click="displayPitch(0)">{{$lang.pitch_modal_availability_button_close}}</button>
                   <button type="button" class="btn btn-primary" @click="savePitchDetails()">{{$lang.pitch_modal_availability_button_save}}</button>
               </div>
           </div>
