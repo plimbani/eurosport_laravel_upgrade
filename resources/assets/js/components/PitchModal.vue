@@ -74,8 +74,8 @@
                 <div class="col-sm-9">
                   <select name="match_winner"  v-model="matchDetail.match_winner"  id="match_winner" class="form-control ls-select2">
                       <option value="">Please select</option>
-                      <option :value="matchDetail.home_team">{{matchDetail.home_team_name}}</option>
-                      <option :value="matchDetail.away_team">{{matchDetail.away_team_name}}</option>
+                      <option :value="matchDetail.home_team">Team 1 ({{matchDetail.home_team_name}})</option>
+                      <option :value="matchDetail.away_team">Team 2 ({{matchDetail.away_team_name}})</option>
                   </select>
                 </div>
               </div>
