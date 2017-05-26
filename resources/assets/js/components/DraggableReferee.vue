@@ -1,7 +1,10 @@
 <template>
     <div class="">
-        <img src="/assets/img/user_icon.png" width="40">
-        <p class="help-block">{{referee.first_name}}</p>      
+        <!-- <img src="/assets/img/user_icon.png" width="40"> -->
+        <p class="help-block">
+            {{referee.last_name}}, {{referee.first_name}}
+            <a href="#" class="text-primary right"><i class="jv-icon jv-edit"></i></a>
+        </p>      
     </div>    
 </template>
 

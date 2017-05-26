@@ -472,13 +472,22 @@ textarea {
 // 	margin: 0 auto;
 // }
 .raferee_details {
-    width: 100%;
     background-color: #fff;
-    padding: 10px;
-    border: 1px solid #b9b9b9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: block;
     margin-bottom: 10px;
+    padding: 0.5rem 0.5rem;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
 }
-
+.raferee_details:hover {
+    text-decoration: none;
+    background-color: #f8f8f8;
+    transition: box-shadow .25s;
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 .raferee_details img {
     float: left;
 }
@@ -506,6 +515,9 @@ textarea {
     font-size: 24px;
 }
 
+button.close, .fc button.close {
+    height: 24px;
+}
 #pitchModal label {
     background-color: transparent;
     padding: 0.375rem 0.9375rem;
@@ -522,4 +534,11 @@ textarea {
 .table_heading {
     font-size: 14px;
     font-weight: bold;
+}
+#game-list .mCSB_inside > .mCSB_container {
+    width: 90%;
+    margin: 0 auto;
+}
+.right {
+    float: right;
 }
