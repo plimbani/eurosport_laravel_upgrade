@@ -57,20 +57,21 @@ table#Competition-modal-table {
       &:hover {
         background-color: transparent;
       }
-      td.p-0 {
-        border: 1px solid $ls-color-black;
+      > td.p-0 {
+        border: 1px solid $table-border-color;
         &:first-child {
           border-right: 0px;
         }
-        tr.group-name {
+        > tr.group-name {
         border-bottom: 1px solid $table-border-color;
         }
-        tr.grp-data {
+        > tr.grp-data {
           border-bottom: 1px solid $table-border-color;
-          td.p-0 {
-            tr {
+          > td.p-0 {
+            > tr {
               td:first-child {
                 border-right: 1px solid $table-border-color;
+                border-left: 1px solid $table-border-color;
               }
             }
           }
@@ -80,6 +81,7 @@ table#Competition-modal-table {
           width: 100%;
           td {
             border: 0;
+            border-color: #ffffff;
             vertical-align: top;
           }
         }

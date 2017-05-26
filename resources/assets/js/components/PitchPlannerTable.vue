@@ -18,10 +18,10 @@
                 <div class="tabs tabs-primary">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" role="tab" href="#game-list">Games ({{totalMatchCount}})</a>
+                            <a class="nav-link active px-3" data-toggle="tab" role="tab" href="#game-list">Games ({{totalMatchCount}})</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" role="tab" href="#referee-list">Referees ({{totalRefereeCount}})</a>
+                            <a class="nav-link px-3" data-toggle="tab" role="tab" href="#referee-list">Referees ({{totalRefereeCount}})</a>
                         </li>
                     </ul>
                      <div class="tab-content">
