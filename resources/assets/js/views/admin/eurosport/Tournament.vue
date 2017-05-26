@@ -7,16 +7,16 @@
 						<div class="tabs tabs-primary">
 							<ul class="nav nav-tabs" role="tablist">
 								<li class="nav-item">
-									<a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'">{{$lang.summary_label_summary}}</a>
+									<a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'"><b>{{$lang.summary_label_summary}}</b></a>
 								</li>					  		 
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'">{{$lang.summary_label_reports}}</a>
+									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'"><b>{{$lang.summary_label_reports}}</b></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'">{{$lang.summary_label_schedule}}</a>
+									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'"><b>{{$lang.summary_label_schedule}}</b></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">{{$lang.summary_label_message}}</a>
+									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'"><b>{{$lang.summary_label_message}}</b></a>
 								</li>
 							</ul>
 							<component :is="currentView"> </component>
