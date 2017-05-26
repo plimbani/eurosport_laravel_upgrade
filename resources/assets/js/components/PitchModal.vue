@@ -9,13 +9,13 @@
               </button>
           </div>
           <div class="modal-body">
-            <div class="form-group row">
+            <div class="form-group row mb-0">
               <label class="col-sm-4">Match number</label><p class="col-sm-8"> {{matchFixture.title}}</p>
               <label class="col-sm-4"></label><p class="col-sm-8">Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}}) </p>
               <label class="col-sm-4">Date</label><p class="col-sm-8">{{matchDetail.matchTime}}</p>
               <label class="col-sm-4">Pitch</label><p class="col-sm-8" v-if="matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}}</p>
             </div>
-            <p class="mt-4 refree_name">
+            <p class="mt-0 refree_name">
             <div v-if="matchDetail.referee">
               <div class="form-group row">
                   <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
@@ -40,7 +40,7 @@
             </div>
 
             </p>
-            <form class="mt-4">
+            <form>
               <div class="form-group row">
               <label class="col-sm-3 form-control-label">Result</label>
                 <div class="col-sm-9">
@@ -134,7 +134,11 @@ var moment = require('moment');
       Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
           this.matchDetail = response.data.data
-          this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
+         // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
+
+          let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
+          this.matchDetail.matchTime = date.format('hh:mm ddd DD MMM YYYY')
+
       })
     },
     removeReferee(){
@@ -151,7 +155,7 @@ var moment = require('moment');
           (response) => {
             // this.matchFixtureDetail()
             $('#matchScheduleModal').modal('hide')
-            toastr.success('Referee has been assigned successfully', 'Referee assigned', {timeOut: 5000});
+            toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
           }
         )
     },
