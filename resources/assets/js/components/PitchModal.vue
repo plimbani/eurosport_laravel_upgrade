@@ -9,13 +9,13 @@
               </button>
           </div>
           <div class="modal-body">
-            <div class="form-group row">
+            <div class="form-group row mb-0">
               <label class="col-sm-4">Match number</label><p class="col-sm-8"> {{matchFixture.title}}</p>
               <label class="col-sm-4"></label><p class="col-sm-8">Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}}) </p>
               <label class="col-sm-4">Date</label><p class="col-sm-8">{{matchDetail.matchTime}}</p>
               <label class="col-sm-4">Pitch</label><p class="col-sm-8" v-if="matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}}</p>
             </div>
-            <p class="mt-4 refree_name">
+            <p class="mt-0 refree_name">
             <div v-if="matchDetail.referee">
               <div class="form-group row">
                   <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
@@ -40,7 +40,7 @@
             </div>
 
             </p>
-            <form class="mt-4">
+            <form>
               <div class="form-group row">
               <label class="col-sm-3 form-control-label">Result</label>
                 <div class="col-sm-9">
