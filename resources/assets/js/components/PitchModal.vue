@@ -134,7 +134,11 @@ var moment = require('moment');
       Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
           this.matchDetail = response.data.data
-          this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
+         // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
+
+          let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
+          this.matchDetail.matchTime = date.format('hh:mm ddd DD MMM YYYY')
+
       })
     },
     removeReferee(){
@@ -151,7 +155,7 @@ var moment = require('moment');
           (response) => {
             // this.matchFixtureDetail()
             $('#matchScheduleModal').modal('hide')
-            toastr.success('Referee has been assigned successfully', 'Referee assigned', {timeOut: 5000});
+            toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
           }
         )
     },
