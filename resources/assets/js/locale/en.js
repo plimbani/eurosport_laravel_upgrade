@@ -276,7 +276,7 @@ module.exports = {
   teams_name: "Team",
   teams_country: "Country",
   teams_agecategory: "Age Category",
-  teams_group: "Category name",
+  teams_group: "Category group",
   teams_button_updategroups: "Update",
   teams_location: "Location",
   teams_place: "Place",
