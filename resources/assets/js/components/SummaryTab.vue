@@ -1,7 +1,7 @@
 <template>
 	<div class="tab-content summary-content">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-6"><div style="line-height:1">
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
 					<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30"
 					class="mr-2">
@@ -13,36 +13,36 @@
 
 				<label><strong>{{$lang.summary_location}}:</strong> {{tournamentSummary.locations}}</label><br>
 				<label><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}} </label>
-
+			 </div>	
 			</div>
 			<td class="col-md-6">
-			<div class="row">
-				<span class="col-sm-4"><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</span>
+			<div class="row d-flex flex-row align-items-start">
+				<div class="col-sm-4"><div style="line-height:1"><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</div></div>
 
-				<span class="col-md-4" v-if="tournamentStatus == 'Published'">
+				<div class="col-md-4" v-if="tournamentStatus == 'Published'">
 				   <button type="button" data-toggle="modal"
 				data-target="#publish_modal"
 				class="btn btn-primary w-100">
 				{{$lang.summary_button_unpublish}}</button>
 				<UnPublishedTournament>
 				</UnPublishedTournament>
-				</span>
-				<span class="col-sm-4" v-else>
+				</div>
+				<div class="col-sm-4" v-else>
 				  <button type="button" data-toggle="modal"
 				data-target="#publish_modal"
 				class="btn btn-primary w-100">
 				{{$lang.summary_button_publish}}</button>
 				<PublishTournament :tournamentStatus='tournamentStatus'>
 				</PublishTournament>
-				</span>
-				<span class="col-sm-4">
+				</div>
+				<div class="col-sm-4">
 				<button type="button" data-toggle="modal"
 				data-confirm-msg="Are you sure you would like to delete this user record?"
 				data-target="#delete_modal"
 				class="btn btn-danger w-100">{{$lang.summary_button_delete}}</button>
 				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 				<!--<DeleteTournament></DeleteTournament>-->
-				</span>
+				</div>
 				</div>
 			</td>
 		</div>
