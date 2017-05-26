@@ -113,7 +113,7 @@
 			"match_type": [{
 				"name": "RR1*4",
 				"total_match": 6,
-                "group_count": 4,
+        "group_count": 4,
 				"groups": {
 					"group_name": "Group-A",
 					"match": [{
@@ -182,7 +182,7 @@
 				{
 				"name": "RR1*4",
 				"total_match": 6,
-                "group_count": 4,
+        "group_count": 4,
 				"groups": {
 					"group_name": "Group-C",
 					"match": [{
@@ -208,7 +208,7 @@
 			},{
 				"name": "RR5*9",
 				"total_match": 10,
-                "group_count": 5,
+        "group_count": 5,
 				"groups": {
 					"group_name": "Group-D",
 					"match": [{
