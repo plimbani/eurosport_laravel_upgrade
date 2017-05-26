@@ -11,11 +11,12 @@
                             <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
                             <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="jv-icon jv-dustbin"></i></a>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
-                <addPitchDetail v-if="pitchId==''" ></addPitchDetail>
-                <editPitchDetail v-if="pitchId!=''" ></editPitchDetail>
+
+                <addPitchDetail  v-if="pitchId=='' && dispPitch==true" ></addPitchDetail>
+                <editPitchDetail v-if="pitchId!=''" > </editPitchDetail>
                 <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 
                 <div class="row mt-4">
@@ -57,9 +58,13 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 'stage_capacity' : [],
                 'availableDate': [],
                 'deleteConfirmMsg': 'Are you sure you would like to delete this pitch? All schedules will be permanently deleted.',
-                'deletePitchId': ''
-
+                'deletePitchId': '',
+                'dispPitch': false
                 }
+        },
+
+        created: function() {
+             this.$root.$on('displayPitch', this.displayPitch);
         },
         components: {
             editPitchDetail,addPitchDetail,DeleteModal
@@ -188,7 +193,9 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             let this3 = this
         },
         methods: {
-
+            displayPitch(value) {
+              this.dispPitch = false
+            },
             getAllPitches() {
                 this.$store.dispatch('SetPitches',this.tournamentId);
                 this.$store.dispatch('SetVenues',this.tournamentId);
@@ -265,6 +272,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             },
 
             addPitch() {
+                this.dispPitch = true;
                 this.$store.dispatch('SetPitchId',0);
                 let vm = this
                 setTimeout(function(){
@@ -273,6 +281,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                        vm.getAllPitches()
                   });
                 },1000)
+
             },
             editPitch(pitchId) {
                 this.$store.dispatch('SetPitchId',pitchId);
