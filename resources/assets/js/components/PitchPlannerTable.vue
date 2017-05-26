@@ -5,7 +5,7 @@
                 <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
                     <div class="card">
                       <div class="card-block text-center pb-0">
-                        <h4>Stage {{ stage.stageNumber }}:{{dispDate(stage.tournamentStartDate)}}</h4>
+                        <h4 class="table_heading">Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</h4>
                       </div>
                       <pitch-planner-stage :stage="stage"></pitch-planner-stage>
                     </div>
@@ -106,7 +106,7 @@
         props: {
         },
         mounted() {
-            $('.pitch_planner_section').mCustomScrollbar({
+                $('.pitch_planner_section').mCustomScrollbar({
                 'autoHideScrollbar':true
             });
                             // return stages;

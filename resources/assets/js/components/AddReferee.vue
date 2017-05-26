@@ -1,4 +1,4 @@
-<template> 
+<template>
 <div class="modal fade" id="addReferee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
@@ -8,11 +8,11 @@
                                     <div class=" col-md-6 padding0">
                                        <p>Add Referee</p>
                                     </div>
-                                                     
+
                                 </div>
                             </div>
                             <div class="modal-body">
-                                
+
                             <form method="post" name="frmAddReferee" id="frmAddReferee">
                                 <div class="form-group row">
                                     <label class="col-sm-5 form-control-label">First name*</label>
@@ -42,14 +42,14 @@
                                         <input type="email"   name="email" id="email"   class="form-control">
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group row">
                                     <label class="col-sm-5 form-control-label">Age categories *</label>
                                     <div class="col-sm-6">
                                          <select name="sel_ageCategory"  v-validate="'required'" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
                                             <option value="">Select</option>
-                                            <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
-                                            
+                                            <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.category_age}}</option>
+
                                         </select>
                                         <i v-show="errors.has('sel_ageCategory')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('sel_ageCategory')">Please select age category.</span>
@@ -61,8 +61,8 @@
                                          <textarea name="available" id="available" class="form-control"></textarea>
                                     </div>
                                 </div>
-                                
-                                
+
+
                                 <div class="col-md-12">
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -70,10 +70,10 @@
                                         </div>
                                     </div>
                             </form>
-                                
+
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>
@@ -83,21 +83,21 @@
 import Tournament from '../api/tournament.js'
 
     export default {
-        
+
         data() {
             return {
                 competationList : {},
                 'tournamentId': this.$store.state.Tournament.tournamentId,
-                
-                
+
+
                 }
         },
         computed: {
-           
-           
-        },  
+
+
+        },
         mounted(){
-            
+
             this.displayTournamentCompetationList()
              // this.getAllPitches()
         },
@@ -105,11 +105,11 @@ import Tournament from '../api/tournament.js'
             displayTournamentCompetationList () {
             // Only called if valid tournament id is Present
                 if (!isNaN(this.tournamentId)) {
-                  // here we add data for 
+                  // here we add data for
                   let TournamentData = {'tournament_id': this.tournamentId}
                   Tournament.getCompetationFormat(TournamentData).then(
-                  (response) => {          
-                    this.competationList = response.data.data         
+                  (response) => {
+                    this.competationList = response.data.data
                     // console.log(this.competationList);
                   },
                   (error) => {
@@ -122,24 +122,24 @@ import Tournament from '../api/tournament.js'
             },
             saveReferee () {
                 this.$validator.validateAll().then(() => {
-                    
+
                     let ReportData = {'tournament_id': this.tournamentId,'age_category': $('#sel_ageCategory').val(),'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'available': $('#available').val()}
                     Tournament.saveReferee(ReportData).then(
-                    (response) => {  
-                        this.reports = response.data.data 
-                        
+                    (response) => {
+                        this.reports = response.data.data
+
                     },
                     (error) => {
                         console.log('Error occured during Tournament api ', error)
                     }
-                    )  
-                    
-                        
-                       
+                    )
+
+
+
                 }).catch(() => {
                     // toastr['error']('Invalid Credentials', 'Error')
                  });
-                // let pitchData = { 
+                // let pitchData = {
                 //     'pitchId' : this.pitchId,
                 //     'number': '123',
                 //     'type' : 'Grass',
@@ -147,13 +147,13 @@ import Tournament from '../api/tournament.js'
                 //     'Size' : '5-a-side'
                 //     }
                      // let pitchData = new FormData($("#frmPitchDetail")[0]$("#frmPitchAvailable")[0]);
-                   
- 
+
+
             },
-            
-            
+
+
 
         }
     }
-    
+
 </script>

@@ -15,7 +15,7 @@
               <div class="col-sm-6">
                 <input type="text" name="first_name" id="first_name"  v-validate="'required'" v-model="formValues.first_name" class="form-control"  :class="{'is-danger': errors.has('ageCategory_name') }" >
                 <i v-show="errors.has('first_name')" class="fa fa-warning"> </i>
-             
+
                <span class="help is-danger" v-show="errors.has('first_name')">This field is required</span>
               </div>
             </div>
@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Age categories*</label>
+              <label class="col-sm-5 form-control-label">Category age*</label>
               <div class="col-sm-6">
                 <!-- <select  name="ageCategories" id="ageCategories" v-model="formValues.age_group_id"  class="form-control ls-select2">
                       <option value="">Please Select</option>
@@ -50,7 +50,7 @@
                   </select> -->
                    <select name="sel_ageCategory" v-model="formValues.age_group_id"  v-validate="'required'" v-bind:multiple="isMultiple" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
                         <option value="">Select</option>
-                        <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
+                        <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.category_age}}</option>
                     </select>
                      <i v-show="errors.has('sel_ageCategory')" class="fa fa-warning"></i>
                <span class="help is-danger" v-show="errors.has('sel_ageCategory')">This field is required</span>
@@ -80,7 +80,7 @@ import Tournament from '../api/tournament.js'
 export default {
    props: ['formValues','tournamentId','competationList','refereeId'],
    mounted() {
-    
+
    },
    data(){
     return {
@@ -94,7 +94,7 @@ export default {
                     let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(),'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
                      if(this.refereeId != ''){
                       Tournament.updateReferee(ReportData).then(
-                      (response) => {  
+                      (response) => {
                           toastr['success']('Referee detail has been updated successfully', 'Success');
                           $('#refreesModal').modal('hide')
                       }
@@ -102,18 +102,18 @@ export default {
                      }else{
                       console.log(ReportData);
                       Tournament.saveReferee(ReportData).then(
-                      (response) => {  
+                      (response) => {
                            toastr['success']('Referee detail has been added successfully', 'Success');
                           $('#refreesModal').modal('hide')
                       }
                       )
                      }
-                      
-                    
-                        
-                       
+
+
+
+
                 })
- 
+
             },
   }
 

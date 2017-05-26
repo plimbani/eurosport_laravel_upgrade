@@ -14,7 +14,9 @@ class RefereeRepository
 
     public function getAllReferees($tournamentId)
     {
-        return Referee::where('tournament_id',$tournamentId)->get();
+        return Referee::where('tournament_id',$tournamentId)
+              ->orderBy('last_name','ASC')
+              ->get();
     }
 
     public function createReferee($refereeData)
@@ -27,7 +29,7 @@ class RefereeRepository
             'email' => $refereeData['email'],
             'comments' => $refereeData['comments'],
             'age_group_id' =>  $refereeData['age_category']
-            
+
         ]);
         // return Referee::create($refereeData);
     }
@@ -42,7 +44,7 @@ class RefereeRepository
             'email' => $refereeData['email'],
             'comments' => $refereeData['comments'],
             'age_group_id' =>  $refereeData['age_category']
-            
+
         ]);
     }
 
