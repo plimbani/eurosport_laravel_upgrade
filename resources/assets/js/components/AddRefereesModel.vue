@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Age categories*</label>
+              <label class="col-sm-5 form-control-label">Category age*</label>
               <div class="col-sm-6">
                 <!-- <select  name="ageCategories" id="ageCategories" v-model="formValues.age_group_id"  class="form-control ls-select2">
                       <option value="">Please Select</option>
