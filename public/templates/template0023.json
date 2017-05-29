@@ -162,7 +162,7 @@
 				{
 				"name": "Placing Matches (PM)",
 				"total_match": 2,
-                "group_count": 2,----
+                "group_count": 2,
 				"groups": {
 					"group_name": "PM",
 					"match": [{

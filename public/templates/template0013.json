@@ -6,7 +6,7 @@
 	"tournament_name": "T.8.5",
 	"competition_round": "PM1-4/5-8",
 	"competition_group_round": "2x4",
-	"competation_format": "RR1,RR2,F",
+	"competation_format": "RR1,RR2,F",--
 	"tournament_min_match": 5,
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
