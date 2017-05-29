@@ -156,7 +156,7 @@
 		}, {
 				"name": "Round 2",
 				"match_type": [{
-				"name": "RR 1-4",
+				"name": "RR1-4",
 				"total_match": 6,
                  "group_count": 2,
 				"groups": {

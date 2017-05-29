@@ -50,15 +50,15 @@
 		<div class="d-flex justify-content-between align-items-center text-center flex-wrap row">
 			<div class="col-md-2">
 				<div class="m_card">
-					<div class="card-content">
+					<div class="card-content text-primary">
 						<div class="card-title"><b>{{tournamentSummary.tournament_teams}}</b></div>
-						<p><b>{{$lang.summary_teams}}</b></p>
+						<p><b style="color: #0c7cd5;">{{$lang.summary_teams}}</b></p>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-2">
 				<div class="m_card">
-					<div class="card-content">
+					<div class="card-content text-primary">
 					<div class="card-title"><b>{{tournamentSummary.tournament_age_categories}}</b></div>
 						<p><b>{{$lang.summary_age_categories}}</b></p>
 					</div>
@@ -66,7 +66,7 @@
 			</div>
 			<div class="col-md-2">
 				<div class="m_card">
-					<div class="card-content">
+					<div class="card-content text-primary">
 						<div class="card-title"><b>{{tournamentSummary.tournament_matches}}</b></div>
 						<p><b>{{$lang.summary_games}}</b></p>
 					</div>
@@ -74,7 +74,7 @@
 			</div>
 			<div class="col-md-2">
 				<div class="m_card">
-					<div class="card-content">
+					<div class="card-content text-primary">
 						<div class="card-title"><b>{{tournamentSummary.tournament_pitches}}</b></div>
 						<p><b>{{$lang.summaey_pitches}}</b></p>
 					</div>
@@ -82,7 +82,7 @@
 			</div>
 			<div class="col-md-2">
 				<div class="m_card">
-					<div class="card-content">
+					<div class="card-content text-primary">
 					<div class="card-title"><b>{{tournamentSummary.tournament_referees}}</b></div>
 						<p><b>{{$lang.summary_referees}}</b></p>
 					</div>
@@ -90,7 +90,7 @@
 			</div>
 			<div class="col-md-2">
 				<div class="m_card">
-					<div class="card-content">
+					<div class="card-content text-primary">
 					<div class="card-title"><b>{{tournamentDays}}</b></div>
 						<p><b>{{$lang.summary_days}}</b></p>
 					</div>
