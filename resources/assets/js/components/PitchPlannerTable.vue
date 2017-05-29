@@ -151,12 +151,14 @@
           gameReset() {
             let vm =this
              vm.GameStatus = false
+             vm.stageStatus = false
              setTimeout(function(){
                     vm.stageStatus = true
                     vm.GameStatus = true
                    
                 },500)
           },
+          
           dispDate(date) {
             var date1 = moment(date, 'DD/MM/YYYY')
             return date1.format('ddd DD MMM YYYY')
