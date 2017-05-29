@@ -160,7 +160,7 @@
 			"match_type": [{
 				"name": "PM 1-4",
 				"total_match": 4,
-                "group_count": 4,--
+                "group_count": 4,
 				"groups": {
 					"group_name": "PM",
 					"match": [{
