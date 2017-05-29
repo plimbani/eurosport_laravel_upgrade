@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade bg-modal-color" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog delete-modal" role="document">
         <div class="modal-content">
             <form method="delete" class="js-delete-modal-form">
@@ -9,7 +9,7 @@
                 </div>
                 <div class="modal-body js-delete-confirmation-msg">{{ deleteConfirmMsg }}</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_cancel}}</button>
+                    <button type="button" class="btn btn-danger"  @click="hideModal()">{{$lang.user_management_cancel}}</button>
                     <button type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">{{$lang.user_management_save}}</button>
                 </div>
                 <input name="_method" value="DELETE" type="hidden" />
@@ -26,6 +26,9 @@
         methods: {
             confirmDelete() {
                 this.$emit('confirmed');                
+            },
+            hideModal() {
+                $('#delete_modal').modal('hide')
             }
         }
     }
