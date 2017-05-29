@@ -25,10 +25,10 @@
                             <td class="p-0">
                               <tr>
                                 <td v-for="(gros,index2) in grp.groups"> 
-                                <strong>{{ gros.group_name}}</strong>
+                                  <tr><td class="pt-0"><strong >{{ gros.group_name}}</strong></td></tr>
                                   <tr class="grp-data">
-                                     <td class="p-0" style="border-left: 1px solid #eceeef">
-                                      <tr  v-for="gg in gros.match">
+                                     <td class="a1">
+                                      <tr class="a2" v-for="gg in gros.match">
                                        <td :style="'background:'+gg.color">
                                         <strong>{{gg.match_number}}</strong>
                                        </td>

@@ -26,8 +26,8 @@
 				<td class="text-center">{{match.homeScore}}-{{match.AwayScore}}</td>
 				<td align="left">
 					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
-							  <img :src="match.AwayFlagLogo" width="20">
-							   <span><u>{{match.AwayTeam}}</u></span>
+						<img :src="match.AwayFlagLogo" width="20">
+						<span><u>{{match.AwayTeam}}</u></span>
 					</a>
 				</td>
 
