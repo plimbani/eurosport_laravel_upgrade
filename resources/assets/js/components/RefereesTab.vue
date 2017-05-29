@@ -42,9 +42,9 @@
             });
             this.displayTournamentCompetationList()
             let this1 = this
-            $("#refreesModal").on('hidden.bs.modal', function () {
-                 $('#frmReferee')[0].reset();
-                 this1.refereeId = ''
+              $("#refreesModal").on('hidden.bs.modal', function () {
+              // $('#frmReferee')[0].reset();
+              this1.refereeId = ''
             	this1.formValues = this1.initialState()
             });
         },

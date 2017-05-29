@@ -67,15 +67,18 @@
           </form>
         </div>
         <div class="modal-footer">
+             <button type="button" v-if="refereeId!=''" class="btn btn-danger pull-left"  data-toggle="modal" data-target="#delete_modal">Delete</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" @click="saveReferee()">Save</button>
         </div>
+        <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
     </div>
   </div>
 </div>
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
+import DeleteModal from '../components/DeleteModal.vue'
 
 export default {
    props: ['formValues','tournamentId','competationList','refereeId'],
@@ -84,8 +87,12 @@ export default {
    },
    data(){
     return {
-      isMultiple: true
+      isMultiple: true,
+      deleteConfirmMsg: 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
     }
+   },
+   components: {
+    DeleteModal
    },
   methods: {
     saveReferee () {
@@ -105,16 +112,25 @@ export default {
                       (response) => {
                            toastr['success']('Referee detail has been added successfully', 'Success');
                           $('#refreesModal').modal('hide')
+                          this.$root.$emit('setGameReset')
                       }
                       )
                      }
-
-
-
-
                 })
 
             },
+     deleteConfirmed() {
+      console.log(this.refereeId)
+      // return false
+        Tournament.removeReferee(this.refereeId).then(
+        (response) => {
+             toastr['success']('Referee has been removed successfully', 'Success');
+             $('#delete_modal').modal('hide')
+             $('#refreesModal').modal('hide')
+             this.$root.$emit('setGameReset')
+        }
+        )
+    }
   }
 
 }

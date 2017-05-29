@@ -63,8 +63,8 @@ export default {
  updateReferee(data) {
      return api.post('referee/update',{ data})
  },
- removeReferee(data) {
-     return api.post('referee/delete',{ data})
+ removeReferee(deleteId) {
+     return api.post('referee/delete/'+deleteId)
  },
  removeAssignedReferee(data) {
      return api.post('match/removeAssignedReferee',{ data})
