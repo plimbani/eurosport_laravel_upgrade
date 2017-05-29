@@ -192,9 +192,9 @@
             userId() {
                 return this.$store.state.Users.userDetails.id
             },
-            userData() {
-                return this.$store.state.Users.userDetails
-            }
+            // userData() {
+            //     return this.$store.state.Users.userDetails
+            // }
         }
 
     }
