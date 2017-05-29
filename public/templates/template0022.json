@@ -6,7 +6,7 @@
     "template_font_color": "rgb(146,208,80)",
 	"competition_round": "RR1-3/4-6/7-10",
 	"competition_group_round": "2x (RR1x3),(PM1x4)",
-	"competation_format": "RR1,RR4,RR7",-----
+	"competation_format": "RR1,RR4,RR7",
 	"tournament_min_match": 4,
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
@@ -39,7 +39,27 @@
 	              },
 	              {
 	                "match_number": "3B",
-	                "color": "rgb(191, 191, 191)"  ------
+	                "color": "rgb(191, 191, 191)"
+	              }
+	            ]
+	          },
+	           {
+	            "group_name": "PM 1x4 / Group C",
+	            "match": [{
+	                "match_number": "1-2",
+	                "color": "rgb(255, 255, 255)"
+	              },
+	              {
+	                "match_number": "3-4",
+	                "color": "rgb(255, 255, 255)"
+	              },
+	              {
+	                "match_number": "Winners > winner group D, loser group E",
+	                "color": "rgb(255, 255, 255)"
+	              },
+	              {
+	                "match_number": "Losers > winner group F, loser group F",
+	                "color": "rgb(255, 255, 255)"
 	              }
 	            ]
 	          }
@@ -140,28 +160,32 @@
 				}
 			},
 			{
-			"name": "RR1*4",
+			"name": "PM1*4",
 			"total_match": 3,
             "group_count": 3,
 			"groups": {
 				"group_name": "Group-C",
 				"match": [{
 					"in_between": "1-2",
-					"match_number": "CAT.PM1.G1.C1-C2"--
+					"match_number": "CAT.PM1.G1.C1-C2"
 				}, {
 					"in_between": "3-4",
-					"match_number": "CAT.PM1.G1.C3-C4"--
+					"match_number": "CAT.PM1.G1.C3-C4"
 				}, {
-					"in_between": "2-3",
-					"match_number": "CAT.RR1.03.B2-B3"
-				}]
+					"in_between": "CAT.PM1.G1.C12WR-C34WR",
+					"match_number": "CAT.PM1.G2.C5"
+				}, {
+					"in_between": "CAT.PM1.G1.C12LR-C34LR",
+					"match_number": "CAT.PM1.G3.C6"
+				}
+			]
 			}
 			}]
 		}, {
 			"name": "Round 2",
 			"match_type": [
 				{
-				"name": "RR1*3",
+				"name": "RR1-3",
 				"total_match": 3,
                 "group_count": 3,
 				"groups": {
@@ -178,7 +202,7 @@
 					}]
 				}
 			},{
-				"name": "RR4*6",
+				"name": "RR4-6",
 				"total_match": 3,
                 "group_count":3,
 				"groups": {
@@ -196,8 +220,8 @@
 				}
 			},
 			{
-				"name": "RR7*10",
-				"total_match": 3,
+				"name": "RR7-10",
+				"total_match": 6,
                 "group_count":4,
 				"groups": {
 					"group_name": "Group-F",

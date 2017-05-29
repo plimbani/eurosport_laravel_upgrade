@@ -6,7 +6,7 @@
 	"tournament_name": "T.8.6",
 	"competition_round": "RR1-4/5-8",
 	"competition_group_round": "2x4",
-	"competation_format": "RR1,RR2,F",
+	"competation_format": "RR1,RR2,F",--
 	"tournament_min_match": 6,
     "tournament_competition_graphic_view": {
 	    "format_name": [{
@@ -156,7 +156,7 @@
 		}, {
 				"name": "Round 2",
 				"match_type": [{
-				"name": "RR 1-4",
+				"name": "RR1-4",
 				"total_match": 6,
                  "group_count": 2,
 				"groups": {
@@ -186,7 +186,7 @@
 			{
 				"name": "RR5-8",
 		        "total_match": 6,
-		        "group_count": 2,
+		        "group_count": 2,--
 				"groups": {
 					"group_name": "Group-D",
 					"match": [{
