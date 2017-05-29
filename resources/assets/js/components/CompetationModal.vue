@@ -12,7 +12,7 @@
        <form name="ageCategoryName">
         <div class="row">
           <div class="col-sm-12">
-            <div class="card text-center">
+            <div class="border-0 card text-center">
                 <div class="table-responsive">
                   <table class="table" id="Competition-modal-table">
                     <tbody class="competition-modal-table-body">
@@ -24,10 +24,10 @@
                           <tr class="grp-data">
                             <td class="p-0">
                               <tr>
-                                <td v-for="(gros,index2) in grp.groups">
+                                <td v-for="(gros,index2) in grp.groups"> 
                                 <strong>{{ gros.group_name}}</strong>
                                   <tr class="grp-data">
-                                     <td class="p-0">
+                                     <td class="p-0" style="border-left: 1px solid #eceeef">
                                       <tr  v-for="gg in gros.match">
                                        <td :style="'background:'+gg.color">
                                         <strong>{{gg.match_number}}</strong>

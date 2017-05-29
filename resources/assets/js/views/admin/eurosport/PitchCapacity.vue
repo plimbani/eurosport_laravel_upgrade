@@ -6,7 +6,8 @@
                 <div class="d-flex justify-content-start flex-wrap">
                     <div class="mr-3 pitch-capaciry mb-4" v-for="pitch in pitches">
                         <p class="text-center"><strong>{{pitch.pitch_number}}</strong></p>
-                        <img src="/assets/img/pitchh.png">
+                       <a  href="javascript:void(0)" @click="editPitch(pitch.id)">
+                        <img src="/assets/img/pitchh.png"></a>
                         <div class="text-center">
                             <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
                             <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="jv-icon jv-dustbin"></i></a>
