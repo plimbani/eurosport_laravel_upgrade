@@ -29,6 +29,7 @@
             },
             hideModal() {
                 $('#delete_modal').modal('hide')
+                return false
             }
         }
     }

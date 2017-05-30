@@ -124,7 +124,7 @@ export default {
 
             },
      deleteConfirmed() {
-      console.log(this.refereeId)
+      // console.log(this.refereeId)
       // return false
         Tournament.removeReferee(this.refereeId).then(
         (response) => {
