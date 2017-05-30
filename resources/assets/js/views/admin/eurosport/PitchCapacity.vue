@@ -309,7 +309,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
                     this.getAllPitches()
                    $("#delete_modal").modal("hide");
-                    toastr.success('Pitch successfully deleted', 'Delete Pitch', {timeOut: 5000});
+                    toastr.success('Pitch successfully deleted.', 'Delete Pitch', {timeOut: 5000});
                     // toastr['success']('Pitch Successfully removed', 'Success');
                     this.getAllPitches()
                     }).catch(error => {
