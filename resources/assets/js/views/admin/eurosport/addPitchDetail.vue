@@ -535,7 +535,7 @@ export default {
                       // this.$store.dispatch('AddPitch',pitchData)
                       return axios.post('/api/pitch/create',pitchData).then(response =>  {
                           this.pitchId = response.data.pitchId
-                          toastr['success']('Pitch detail has been added successfully', 'Success');
+                          toastr['success']('Pitch detail has been added successfully.', 'Success');
                           $('#addPitchModal').modal('hide')
                           $("#frmPitchDetail")[0].reset();
 

@@ -572,7 +572,7 @@ var moment = require('moment');
                     // $("#frmPitchAvailable").serialize()
                     let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time
                     return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
-                        toastr['success']('Pitch detail has been updated successfully', 'Success');
+                        toastr['success']('Pitch detail has been updated successfully.', 'Success');
                         $('#editPitch').modal('hide')
                     }).catch(error => {
                         if (error.response.status == 401) {
