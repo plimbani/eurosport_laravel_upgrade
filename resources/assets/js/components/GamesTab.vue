@@ -65,7 +65,7 @@ export default {
                 round = 'FN-'
                 matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
               }
-              var person = {'fullGame':match.full_game,'matchName':cname+'-'+match.match_number,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
+              var person = {'fullGame':match.full_game,'matchName':match.match_number,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
               comp.push(person)
               if(match.is_scheduled!=1){
                 matchCount = matchCount + 1

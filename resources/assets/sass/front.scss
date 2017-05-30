@@ -118,6 +118,12 @@ table#Competition-modal-table {
 }
 
 .bg-grey {
+
     background-color: grey;
     border: 1px solid grey;
 }
+
+.bg-modal-color {
+  background-color: rgba($ls-color-black,0.6)
+}
+

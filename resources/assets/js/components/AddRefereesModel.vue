@@ -66,10 +66,14 @@
             </div>
           </form>
         </div>
-        <div class="modal-footer">
-             <button type="button" v-if="refereeId!=''" class="btn btn-danger pull-left"  data-toggle="modal" data-target="#delete_modal">Delete</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click="saveReferee()">Save</button>
+        <div class="modal-footer d-flex flex-row justify-content-between">
+            <div>
+              <button type="button" v-if="refereeId!=''" class="btn btn-danger pull-left"  data-toggle="modal" data-target="#delete_modal">Delete</button>
+            </div>
+            <div>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" @click="saveReferee()">Save</button>
+            </div>
         </div>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
     </div>
@@ -120,7 +124,7 @@ export default {
 
             },
      deleteConfirmed() {
-      console.log(this.refereeId)
+      // console.log(this.refereeId)
       // return false
         Tournament.removeReferee(this.refereeId).then(
         (response) => {

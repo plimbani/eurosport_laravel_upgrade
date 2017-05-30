@@ -287,6 +287,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                     $('#addPitchModal').modal('show')
                     $("#addPitchModal").on('hidden.bs.modal', function () {
                        vm.getAllPitches()
+                       vm.$root.$emit('')
                   });
                 },1000)
 
