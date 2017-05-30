@@ -6,7 +6,7 @@
 	"tournament_name": "T.8.5",
 	"competition_round": "PM1-4/5-8",
 	"competition_group_round": "2x4",
-	"competation_format": "RR1,RR2,F",--
+	"competation_format": "RR/PM",
 	"tournament_min_match": 5,
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
@@ -170,11 +170,11 @@
 						"in_between": "1B-2A",
 						"match_number": "CAT.PM2.G1.C34WR-C12WR"
 					}, {
-						"in_between": "CAT.PM2.G1.C12WR-C34WR",
-						"match_number": "CAT.PM2.G2.CW"
+						"in_between": "CAT.PM2.G1.C12WR-C3C4WR",
+						"match_number": "CAT.PM2.G2.C12WR-C34WR"
 					}, {
 						"in_between": "CAT.PM2.G1.C12LR-C34LR",
-						"match_number": "CAT.PM2.G3.CL"
+						"match_number": "CAT.PM2.G3.C12LR-C34LR"
 					}]
 				}
 			}]
@@ -183,7 +183,7 @@
 			"match_type": [{
 				"name": "PM 5-8",
 				"total_match": 4,
-                "group_count": 4,--
+                "group_count": 4,
 				"groups": {
 					"group_name": "PM",
 					"match": [{
@@ -194,10 +194,10 @@
 						"match_number": "CAT.PM2.G1.D34-D12"
 					}, {
 						"in_between": "CAT.PM2.G1.D12WR-D34WR",
-						"match_number": "CAT.PM2.G2.DW"
+						"match_number": "CAT.PM2.G2.D12WR-D34WR"
 					}, {
-						"in_between": "CAT.PM2.G1.D12LR-D34lr",
-						"match_number": "CAT.PM2.G3.DL"
+						"in_between": "CAT.PM2.G1.D12LR-D34LR",
+						"match_number": "CAT.PM2.G3.D12LR-D34LR"
 					}]
 				}
 			}]
