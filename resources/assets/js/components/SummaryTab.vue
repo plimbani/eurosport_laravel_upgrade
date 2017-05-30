@@ -52,7 +52,7 @@
 				<div class="m_card">
 					<div class="card-content text-primary">
 						<div class="card-title"><b>{{tournamentSummary.tournament_teams}}</b></div>
-						<p><b style="color: #0c7cd5;">{{$lang.summary_teams}}</b></p>
+						<p><b>{{$lang.summary_teams}}</b></p>
 					</div>
 				</div>
 			</div>
