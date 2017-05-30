@@ -273,6 +273,7 @@ module.exports = {
   teams_name: "FTeam",
   teams_country: "FCountry",
   teams_agecategory: "FAge Category",
+  teams_group: "FGroup",
   teams_group: "FCategory name",
   teams_button_updategroups: "FUpdate",
   teams_location: "FLocation",
