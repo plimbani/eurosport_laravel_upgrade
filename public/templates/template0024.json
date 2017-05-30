@@ -71,7 +71,7 @@
 	              },
 	              {
 	                "match_number": "2A-1B",
-	                "color": "rgb(178, 161, 99)"
+	                "color": "rgb(178, 161, 199)"
 	              }]
 	          }]
 	      },
@@ -179,13 +179,13 @@
 				"total_match": 2,
                 "group_count": 2,
 				"groups": {
-					"group_name": "PM",	
+					"group_name": "PM",
 					"match": [{
 						"in_between": "1A-2B",
-						"match_number": "CAT.PM2.G1"
+						"match_number": "CAT.PM2.G1.1A-2B"
 					}, {
 						"in_between": "2A-1B",
-						"match_number": "CAT.PM2.G2"
+						"match_number": "CAT.PM2.G2.2A-1B"
 					}]
 				}
 			}]
@@ -194,15 +194,15 @@
 			"match_type": [{
 				"name": "Placing Matches (PM)",
 				"total_match": 2,
-                "group_count": 4,
+        "group_count": 4,
 				"groups": {
 					"group_name": "PM",
 					"match": [{
 						"in_between": "CAT.PM2.G1WR v G2WR",
-						"match_number": "CAT.PM3.G1"
+						"match_number": "CAT.PM3.G1.G1WR-G2WR"
 					}, {
 						"in_between": "CAT.PM2.G1LR v G2LR",
-						"match_number": "CAT.PM3.G2"
+						"match_number": "CAT.PM3.G2..G1LR-G2LR"
 					}]
 				}
 			}]

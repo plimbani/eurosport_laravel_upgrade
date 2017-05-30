@@ -19,7 +19,7 @@
                 },
                 {
                   "match_number": "3-4 > PM1 or PM3",
-                  "color": "rgb(255, 255, 255)"
+                  "color": "rgb(255, 255, 0)"
                 },
                 {
                   "match_number": "5-6 > PM2 or PM4",
@@ -69,11 +69,11 @@
                   "color": "rgb(0, 176, 240)"
                 },
                {
-                  "match_number": "Round 2 Winners",
+                  "match_number": "Round 2 losers",
                   "color": "rgb(0, 176, 240)"
                 },
                 {
-                  "match_number": "Round 2 losers",
+                  "match_number": "Round 2 Winners",
                   "color": "rgb(0, 176, 240)"
                 },
                 {

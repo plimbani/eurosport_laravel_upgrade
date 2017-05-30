@@ -70,15 +70,15 @@
 	        "groups": [{
 	            "group_name": "Group D",
 	            "match": [{
-	                "match_number": "1C > 1st",
+	                "match_number": "1D > 1st",
 	                "color": "rgb(255, 255, 0)"
 	              },
 	              {
-	                "match_number": "2C > 2nd",
+	                "match_number": "2D > 2nd",
 	                "color": "rgb(255, 255, 0)"
 	              },
 	              {
-	                "match_number": "3C > 3rd",
+	                "match_number": "3D > 3rd",
 	                "color": "rgb(255, 255, 0)"
 	              }
 	            ]
@@ -148,7 +148,7 @@
 				"groups": {
 					"group_name": "Group-B",
 					"match": [{
-						"in_between": "1-2",	
+						"in_between": "1-2",
 						"match_number": "CAT.RR1.01.B1-B2"
 					}, {
 						"in_between": "1-3",
@@ -226,13 +226,13 @@
 				"groups": {
 					"group_name": "Group-F",
 					"match": [{
-						"in_between": "3A-3B",	
+						"in_between": "3A-3B",
 						"match_number": "CAT.RR2.01.F1-F2"
 					}, {
 						"in_between": "3C-4C",
 						"match_number": "CAT.RR2.01.F3-F4"
 					}, {
-						"in_between": "3A-3C",	
+						"in_between": "3A-3C",
 						"match_number": "CAT.RR2.02.F1-F3"
 					},{
 						"in_between": "3B-4C",
