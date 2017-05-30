@@ -536,6 +536,7 @@ export default {
                       return axios.post('/api/pitch/create',pitchData).then(response =>  {
                           this.pitchId = response.data.pitchId
                           toastr['success']('Pitch detail has been added successfully.', 'Success');
+                          this.displayPitch()
                           $('#addPitchModal').modal('hide')
                           $("#frmPitchDetail")[0].reset();
 
