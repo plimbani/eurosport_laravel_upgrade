@@ -89,8 +89,8 @@
                       <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category'">{{$lang.teams_group}}</th>
                   </tr>
               </thead>
-                <tbody>
-                    <tr :id="team.team_id" v-for="team in teams">
+                <tbody v-if="teams.length!=0">
+                    <tr  v-for="team in teams">
                       <td>{{team.esr_reference}}</td>
                       <td>{{team.name}}</td>
                       <td>
@@ -106,6 +106,12 @@
                           </optgroup>
                         </select>
                       </td>
+                    </tr>
+
+                </tbody>
+                <tbody v-else>
+                  <tr>
+                    <td colspan="5"> No teams available</td>
                     </tr>
                 </tbody>
             </table>
