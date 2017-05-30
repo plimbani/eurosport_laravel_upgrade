@@ -193,7 +193,8 @@
 			"name": "Round 3",
 			"match_type": [{
 				"name": "Placing Matches (PM)",
-                "group_count": 2,
+				"total_match": 2,
+                "group_count": 4,
 				"groups": {
 					"group_name": "PM",
 					"match": [{

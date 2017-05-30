@@ -15,15 +15,15 @@
             "group_name": "Group A",
             "match": [{
                 "match_number": "1A > PM G1",
-                "color": "yello"
+                "color": "rgb(255, 255, 0)"
               },
               {
                 "match_number": "2A > PM G2",
-                "color": "purple"
+                "color": "rgb(178, 161, 199)"
               },
               {
                 "match_number": "3A > PM G3",
-                "color": "grey"
+                "color": "rgb(191, 191, 191)"
               }
             ]
           },
@@ -31,15 +31,15 @@
             "group_name": "Group B",
             "match": [{
                 "match_number": "1B > PM G1",
-                "color": "yello"
+                "color": "rgb(178, 161, 199)"
               },
               {
                 "match_number": "2B > PM G2",
-                "color": "purple"
+                "color": "rgb(178, 161, 199)"
               },
               {
                 "match_number": "3B > PM G3",
-                "color": "grey"
+                "color": "rgb(191, 191, 191)"
               }
             ]
           }
@@ -51,15 +51,15 @@
             "group_name": "Placing Matches",
             "match": [{
                 "match_number": "1A-1B > PM1-2",
-                "color": "yello"
+                "color": "rgb(178, 161, 199)"
               },
               {
                 "match_number": "2A-2B > PM3-4",
-                "color": "purple"
+                "color": "rgb(178, 161, 199)"
               },
               {
                 "match_number": "3A-3B> PM 5-6",
-                "color": "grey"
+                "color": "rgb(191, 191, 191)"
               }
             ]
           }
