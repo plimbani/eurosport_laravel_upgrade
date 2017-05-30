@@ -155,7 +155,7 @@
              setTimeout(function(){
                     vm.stageStatus = true
                     vm.GameStatus = true
-                   
+                    $('.nav-tabs a[href="#game-list"]').tab('show');
                 },500)
           },
           
