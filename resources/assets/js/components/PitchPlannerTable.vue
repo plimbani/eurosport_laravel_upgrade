@@ -28,7 +28,7 @@
                         <div class="tab-pane active" v-if="GameStatus" id="game-list" role="tabpanel">
                             <games-tab></games-tab>
                         </div>
-                        <div class="tab-pane" v-if="stageStatus" id="referee-list" role="tabpanel">
+                        <div class="tab-pane" v-if="refereeStatus" id="referee-list" role="tabpanel">
                             <referees-tab></referees-tab>
                         </div>
                     </div>
@@ -100,6 +100,7 @@
                 'tournamentStages': {},
                 'stageStatus':false,
                 'GameStatus':false,
+                'refereeStatus':false,
                 'refereeCount': ''
             };
         },
@@ -120,6 +121,7 @@
                 let vm = this
                 this.stageStatus = false
                 this.GameStatus = false
+                this.refereeStatus = false
                 this.tournamentStages = ''
                let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
                 let stages = [];
@@ -145,15 +147,17 @@
                 setTimeout(function(){
                     vm.stageStatus = true
                     vm.GameStatus = true
+                    vm.refereeStatus = true
                     vm.tournamentStages = stages 
                 },500)
             },
           gameReset() {
             let vm =this
              vm.GameStatus = false
-             vm.stageStatus = false
+             vm.refereeStatus = false
+             
              setTimeout(function(){
-                    vm.stageStatus = true
+                    vm.refereeStatus = true
                     vm.GameStatus = true
                     $('.nav-tabs a[href="#game-list"]').tab('show');
                 },500)

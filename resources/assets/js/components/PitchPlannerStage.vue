@@ -72,7 +72,7 @@ import _ from 'lodash'
                             'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),
                             'refereeId': -1,
                             'refereeText': '',
-                            'title':'pitch is not available',
+                            'title':'Pitch is not available',
                             'matchId':''
                         })
                     });
@@ -140,10 +140,10 @@ import _ from 'lodash'
                             (response) => {
                                 // console.log(response)
                                 toastr.success('Match has been scheduled successfully', 'Schedule match', {timeOut: 5000});
-                                    vm.$root.$emit('setPitchReset')
+                                    vm.$root.$emit('setGameReset')
                             },
                             (error) => {
-                                console.log('Error occured during Tournament api ', error)
+                                console.log('Error occured during tournament api', error)
                             }
                         )
                         }
@@ -274,7 +274,7 @@ import _ from 'lodash'
                                         'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),
                                         'refereeId': -1,
                                         'refereeText': '',
-                                        'title':'pitch is not available',
+                                        'title':'Pitch is not available',
                                         'matchId':-1
                                     }
                                     if(availability.stage_start_time != '8:00 am'){
@@ -285,7 +285,7 @@ import _ from 'lodash'
                                             'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'),
                                             'refereeId': -1,
                                             'refereeText': '',
-                                            'title':'pitch is not available',
+                                            'title':'Pitch is not available',
                                             matchId:-1
                                         }
                                     sMatches.push(mData1)
@@ -298,7 +298,7 @@ import _ from 'lodash'
                                             'end': moment.utc(availability.stage_start_date+' '+'19:00:00','DD/MM/YYYY HH:mm:ss'),
                                             'refereeId': -1,
                                             'refereeText': '',
-                                            'title':'pitch is not available',
+                                            'title':'Pitch is not available',
                                             'matchId': -1
                                         }
                                     sMatches.push(mData2)
