@@ -563,10 +563,15 @@ export default {
                       toastr.success('Age category has been edited successfully.', 'Edit Age Category', {timeOut: 5000});
                     }
                     //this.$router.push({name: 'competation_format'})
+
                     $('#exampleModal').modal('hide')
-                    $("#ageCategoryName")[0].reset();
+                    // $("#ageCategoryName")[0].reset();
+
                    // $('#ageCategoryName').reset()
+
                     // $('#saveAge').attr('data-dismiss','modal')
+             //         $('#exampleModal').modal('hide')
+
                     this.$root.$emit('displayCompetationList')
                   } else {
                     alert('Error Occured')
