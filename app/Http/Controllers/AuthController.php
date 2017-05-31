@@ -42,7 +42,7 @@ class AuthController extends Controller
         if($token) {
           $userData = JWTAuth::toUser($token);
           if($userData->is_active == 0) {
-            return response(['authenticated' => false,'message'=>'Account de-activated please contact your administrator']);
+            return response(['authenticated' => false,'message'=>'Account de-activated please contact your administrator.']);
           }
             return response(['authenticated' => true]);
         }
