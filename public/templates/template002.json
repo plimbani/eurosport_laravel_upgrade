@@ -68,11 +68,11 @@
 	            "group_name": "Placing Matches",
 	            "match": [{
 	                "match_number": "Round 2 PM winners > PM 1-2",
-	                "color": "blue"
+	                "color": "rgb(0,176,240)"
 	              },
 	              {
 	                "match_number": "Round 2 PM losers > PM 3-4",
-	                "color": "blue"
+	                "color": "rgb(0,176,240)"
 	              },
 	              {
 	                "match_number": "3A-3B > PM 5-6",
