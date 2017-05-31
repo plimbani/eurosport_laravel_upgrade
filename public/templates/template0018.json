@@ -27,7 +27,7 @@
 	              },
 	              {
 	                "match_number": "4A",
-	                "color": "blue"
+	                "color": "rgb(0, 176, 240)"
 	              }
 	            ]
 	          },
@@ -43,7 +43,7 @@
 	              },
 	              {
 	                "match_number": "3B",
-	                "color": "blue"
+	                "color": "rgb(0, 176, 240)"
 	              },
 	              {
 	                "match_number": "4B",
@@ -87,7 +87,7 @@
 	              },
 	              {
 	                "match_number": "3B-4A",
-	                "color": "blue"
+	                "color": "rgb(0, 176, 240)"
 	              },
 	              {
 	                "match_number": "Winners > 5-6",

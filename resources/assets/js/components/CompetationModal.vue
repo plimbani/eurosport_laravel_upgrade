@@ -78,7 +78,7 @@
                           <p class="row">
                               <label class="col-md-6"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
                               <!-- <label class="col-md-4">{{ templateData['competation_format'] }}</label> -->
-                              <label class="col-md-6">{{templateData.tournament_teams}} teams: {{templateData.competition_group_round}} - {{templateData.competition_round}}</label>
+                              <label class="col-md-6">{{templateData.tournament_teams}} teams<br/> {{templateData.competition_group_round}} <br/> {{templateData.competition_round}}</label>
                           </p>
                     </div>
                   </div>

@@ -111,7 +111,7 @@
                 </tbody>
                 <tbody v-else>
                   <tr>
-                    <td colspan="5"> No teams available</td>
+                    <td colspan="6"> No teams available</td>
                     </tr>
                 </tbody>
             </table>

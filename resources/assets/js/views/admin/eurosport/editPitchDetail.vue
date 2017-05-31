@@ -5,7 +5,7 @@
                 <div class="tabs tabs-primary">
                 <div class="modal-header">
                         <h5 class="modal-title">Pitch Details - {{pitchData.pitchdetail.pitch_number}}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="displayPitch(0)">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
@@ -216,7 +216,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"  @click="displayPitch(0)">Cancel </button>
                     <button type="button" class="btn btn-primary" @click="savePitchDetails()">Save</button>
                 </div>
             </div>
@@ -551,6 +551,9 @@ var moment = require('moment');
              // this.getAllPitches()
         },
         methods: {
+            displayPitch() {
+              this.$root.$emit('displayPitch',0)
+            },
             getAllPitches() {
                 // this.$store.dispatch('SetPitches',this.tournamentId);
 
@@ -577,7 +580,8 @@ var moment = require('moment');
                     // $("#frmPitchAvailable").serialize()
                     let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time
                     return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
-                        toastr['success']('Pitch detail has been updated successfully', 'Success');
+                        toastr['success']('Pitch detail has been updated successfully.', 'Success');
+                        this.displayPitch()
                         $('#editPitch').modal('hide')
                     }).catch(error => {
                         if (error.response.status == 401) {

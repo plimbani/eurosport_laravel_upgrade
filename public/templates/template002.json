@@ -1,8 +1,8 @@
 {
 	"position": "1-7",
 	"total_matches": 11,
-	"tournament_id": "002",
-  "template_font_color": "rgb(255,192,0)",
+ 	"tournament_id": "002",
+    "template_font_color": "rgb(255,192,0)",
 	"tournament_teams": 6,
 	"tournament_name": "T.6.4",
 	"competition_round": "PM 1-4/5-6",

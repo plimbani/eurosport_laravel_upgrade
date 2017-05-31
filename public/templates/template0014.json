@@ -4,9 +4,9 @@
     "template_font_color": "rgb(146,208,80)",
 	"tournament_teams": 8,
 	"tournament_name": "T.8.6",
-	"competition_round": "RR1-4/5-8",
+	"competition_round": "RR1-4/5-8",	
 	"competition_group_round": "2x4",
-	"competation_format": "RR1,RR2,F",
+	"competation_format": "RR/RR",
 	"tournament_min_match": 6,
     "tournament_competition_graphic_view": {
 	    "format_name": [{
@@ -74,7 +74,7 @@
 	            ]
 	          },
 	          {
-	            "group_name": "RR5-6/Group D",
+	            "group_name": "RR 5-8/Group D",
 	            "match": [{
 	                "match_number": "1D > 5th",	
 	                "color": "rgb(178, 161, 199)"
@@ -158,7 +158,7 @@
 				"match_type": [{
 				"name": "RR1-4",
 				"total_match": 6,
-                 "group_count": 2,
+                 "group_count": 4,
 				"groups": {
 					"group_name": "Group C",
 					"match": [{
@@ -181,12 +181,11 @@
 						"match_number": "CAT.RR2.03.C2-C3"
 					}]
 				}
-			}]
-		},
+			},
 			{
 				"name": "RR5-8",
 		        "total_match": 6,
-		        "group_count": 2,
+		        "group_count": 4,
 				"groups": {
 					"group_name": "Group-D",
 					"match": [{
@@ -210,6 +209,10 @@
 					}]
 				}
 			}
+
+			]
+		}
+			
 		]
 		
 	}

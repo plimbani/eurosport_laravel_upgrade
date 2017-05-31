@@ -29,7 +29,7 @@
 
 select.form-control {
     &:not([size]):not([multiple]) {
-      background-color: #ffffff !important;
+        background-color: #ffffff !important;
         background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 100% 50%;
         -moz-appearance: none;
         -webkit-appearance: none;
@@ -37,75 +37,92 @@ select.form-control {
     }
 }
 
-#test tbody > tr{
-  &:nth-of-type(3n+1) {
-    background: #FFFF00;
-  }
-  &:nth-of-type(3n+2) {
-    background: #B2A1C7;
-  }
-  &:nth-of-type(3n+3) {
-    background: #BFBFBF;
-  }
-  &:last-child {
-    background: $white;
-  }
-}
-table#Competition-modal-table {
-  tbody.competition-modal-table-body {
-    tr {
-      &:hover {
-        background-color: transparent;
-      }
-      > td.p-0 {
-        border: 1px solid $table-border-color;
-        &:first-child {
-          border-right: 0px;
-        }
-        > tr.group-name {
-        border-bottom: 1px solid $table-border-color;
-        }
-        > tr.grp-data {
-          border-bottom: 1px solid $table-border-color;
-          > td.p-0 {
-            > tr {
-              td:first-child {
-                border: 1px solid $table-border-color;
-                
-              }
-            }
-          }
-        }
-        tr {
-          display: inline-table;
-          width: 100%;
-          td {
-            border: 0;
-            border-color: #ffffff;
-            vertical-align: top;
-          }
-        }
-      }
+#test tbody > tr {
+    &:nth-of-type(3n+1) {
+        background: #FFFF00;
     }
-  }
+    &:nth-of-type(3n+2) {
+        background: #B2A1C7;
+    }
+    &:nth-of-type(3n+3) {
+        background: #BFBFBF;
+    }
+    &:last-child {
+        background: $white;
+    }
 }
+
+table#Competition-modal-table {
+    tbody.competition-modal-table-body {
+        tr {
+            &:hover {
+                background-color: transparent;
+            }
+            td.p-0 {
+                border-right: 1px solid $table-border-color;
+                &:first-child {
+                    border-right: 0px;
+                }
+                tr.group-name {
+                    border-bottom: 1px solid $table-border-color;
+                }
+                tr.grp-data {
+                    border-bottom: 0px;
+                    td.a1 {
+                        padding: 0;
+                        tr.a2 {
+                            td {
+                                border-left: 1px solid $table-border-color;
+                                border-right: 1px solid $table-border-color;
+                                border-bottom: 1px solid $table-border-color;
+                            }
+                            &:first-child {
+                                td {
+                                    border-top: 1px solid $table-border-color;
+                                }
+                            }
+                        }
+                    }
+                }
+                tr {
+                    display: inline-table;
+                    width: 100%;
+                    td {
+                        border: 0;
+                        border-color: #ffffff;
+                        vertical-align: top;
+                    }
+                }
+            }
+        }
+    }
+}
+
 .fc button.close {
-  @extend .close;
+    @extend .close;
 }
-#game-list,#referee-list {
+
+#game-list,
+#referee-list {
     height: 600px;
 }
+
+
 /*.pitch_planner_section {
   height: 1200px;
 }
 */
+
 .card {
     margin-bottom: 2.5rem;
 }
+
 .bg-grey {
-  background-color:grey;
-  border: 1px solid grey;
+
+    background-color: grey;
+    border: 1px solid grey;
 }
+
 .bg-modal-color {
   background-color: rgba($ls-color-black,0.6)
 }

@@ -1,7 +1,7 @@
 {
 	"total_matches": 17,
 	"tournament_id": "0015",
-  "template_font_color": "rgb(148,208,80)",
+    "template_font_color": "rgb(148,208,80)",
 	"tournament_teams": 9,
 	"tournament_name": "T.9.3",
 	"competition_round": "F",
@@ -144,8 +144,8 @@
 			"name": "Round 2",
 			"match_type": [{
 				"name": "Placing Matches",
-        "group_count": 2,
-        "total_match": 1,
+		        "group_count": 2,
+		        "total_match": 1,
 				"groups": {
 					"group_name": "PM",
 					"match": [

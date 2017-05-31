@@ -6,7 +6,7 @@
     "template_font_color": "rgb(146,208,80)",
 	"competition_round": "RR1-3/4-6/7-10",
 	"competition_group_round": "2x (RR1x3),(PM1x4)",
-	"competation_format": "RR1,RR4,RR7",
+	"competation_format": "RR/PM",
 	"tournament_min_match": 4,
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
@@ -70,15 +70,15 @@
 	        "groups": [{
 	            "group_name": "Group D",
 	            "match": [{
-	                "match_number": "1C > 1st",
+	                "match_number": "1D > 1st",
 	                "color": "rgb(255, 255, 0)"
 	              },
 	              {
-	                "match_number": "2C > 2nd",
+	                "match_number": "2D > 2nd",
 	                "color": "rgb(255, 255, 0)"
 	              },
 	              {
-	                "match_number": "3C > 3rd",
+	                "match_number": "3D > 3rd",
 	                "color": "rgb(255, 255, 0)"
 	              }
 	            ]
@@ -148,7 +148,7 @@
 				"groups": {
 					"group_name": "Group-B",
 					"match": [{
-						"in_between": "1-2",	
+						"in_between": "1-2",
 						"match_number": "CAT.RR1.01.B1-B2"
 					}, {
 						"in_between": "1-3",
@@ -172,11 +172,11 @@
 					"in_between": "3-4",
 					"match_number": "CAT.PM1.G1.C3-C4"
 				}, {
-					"in_between": "CAT.PM1.G1.C12WR-C34WR",
-					"match_number": "CAT.PM1.G2.C5"
+					"in_between": "CAT.PM1.G1.C1-C2WR",
+					"match_number": "CAT.PM1.G2.C12WR-C34WR"
 				}, {
-					"in_between": "CAT.PM1.G1.C12LR-C34LR",
-					"match_number": "CAT.PM1.G3.C6"
+					"in_between": "CAT.PM1.G1.C1-C2LR",
+					"match_number": "CAT.PM1.G3.C12LR-C34LR"
 				}
 			]
 			}
@@ -187,7 +187,7 @@
 				{
 				"name": "RR1-3",
 				"total_match": 3,
-                "group_count": 3,
+                "group_count": 2,
 				"groups": {
 					"group_name": "Group-D",
 					"match": [{
@@ -226,13 +226,13 @@
 				"groups": {
 					"group_name": "Group-F",
 					"match": [{
-						"in_between": "3A-3B",	
+						"in_between": "3A-3B",
 						"match_number": "CAT.RR2.01.F1-F2"
 					}, {
 						"in_between": "3C-4C",
 						"match_number": "CAT.RR2.01.F3-F4"
 					}, {
-						"in_between": "3A-3C",	
+						"in_between": "3A-3C",
 						"match_number": "CAT.RR2.02.F1-F3"
 					},{
 						"in_between": "3B-4C",

@@ -24,7 +24,7 @@
                 <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
 
                 <addPitchDetail  v-if="pitchId=='' && dispPitch==true" ></addPitchDetail>
-                <editPitchDetail v-if="pitchId!=''" > </editPitchDetail>
+                <editPitchDetail v-if="pitchId!='' && dispPitch==true" > </editPitchDetail>
                 <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 
                 <div class="row mt-4">
@@ -293,6 +293,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
 
             },
             editPitch(pitchId) {
+                this.dispPitch = true;
                 this.$store.dispatch('SetPitchId',pitchId);
                 // this.pitchId = pitchId
                     // this1.$store.dispatch('PitchData',pitchId)
@@ -309,7 +310,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
                     this.getAllPitches()
                    $("#delete_modal").modal("hide");
-                    toastr.success('Pitch successfully deleted', 'Delete Pitch', {timeOut: 5000});
+                    toastr.success('Pitch successfully deleted.', 'Delete Pitch', {timeOut: 5000});
                     // toastr['success']('Pitch Successfully removed', 'Success');
                     this.getAllPitches()
                     }).catch(error => {
