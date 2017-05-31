@@ -160,7 +160,16 @@ class AgeGroupService implements AgeGroupContract
         $totalRound = count($json_data->tournament_competation_format->format_name);
         $total_rr_time = 0; $total_final_time=0;$total_time=0;
         // we use -1 loop for only consider round robin matches
-        for($i=0;$i<$totalRound-1;$i++){
+        // TODO: We change logic to Only Consider final Matches
+
+        if($json_data->competition_round == 'F') {
+          // Its Final Round
+          $roundFinal = 1;
+        } else {
+          $roundFinal = 0;
+        }
+
+        for($i=0;$i<$totalRound-$roundFinal;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
             // Now here we have to for loop for match_type
@@ -178,15 +187,20 @@ class AgeGroupService implements AgeGroupContract
         }
 
         // Now we calculate final match time
-        $final_round = array_pop($json_data->tournament_competation_format->format_name);
+        if($json_data->competition_round == 'F')
+        {
+          $final_round = array_pop($json_data->tournament_competation_format->format_name);
 
-        // we know that we have only one Final Round Over here
-        $total_final_match = $final_round->match_type[0]->total_match;
+          // we know that we have only one Final Round Over here
+          $total_final_match = $final_round->match_type[0]->total_match;
 
-        $total_final_time  = $data['game_duration_FM']  * $total_final_match;
-        $total_final_time += $data['halftime_break_FM'] * $total_final_match;
-        $total_final_time += $data['match_interval_FM'] * $total_final_match;
+          $total_final_time  = $data['game_duration_FM']  * $total_final_match;
+          $total_final_time += $data['halftime_break_FM'] * $total_final_match;
+          $total_final_time += $data['match_interval_FM'] * $total_final_match;
 
+        } else {
+          $total_final_time  = 0;
+        }
         // Now we sum up round robin and final match
         $total_time = $total_rr_time + $total_final_time;
 
