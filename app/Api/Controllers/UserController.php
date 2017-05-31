@@ -152,16 +152,12 @@ class UserController extends BaseController
       $userData = User::where(['email'=>$request->email])->first();
       $email_details =[];
       // dd($userData->name);
-      $email_details['name'] = $userData->name;
+      $email_details['name'] = $userData->personDetail->first_name;
       $email_details['token'] =  $userData->token;
       $recipient = $userData->email;
-
       // dd($email_details,$recipient);
 
-      Common::sendMail($userData, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
-
-
-
+      Common::sendMail($email_details, $recipient, 'Euuro-Sportring Tournament Planner - Set Password', 'emails.users.create');
       // return redirect('/login');
     }
 }
