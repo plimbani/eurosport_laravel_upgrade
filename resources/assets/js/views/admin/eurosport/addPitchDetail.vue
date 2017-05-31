@@ -312,7 +312,8 @@ export default {
           obj['date'+i] = $('.datestage'+i).val();
           $('#stage_start_time'+i).timepicker({
               minTime: '08:00:00',
-              maxTime: '19:00:00'
+              maxTime: '19:00:00',
+              'timeFormat': 'H:i:s'
           })
       }
       let disableDate = this.disableDate;
@@ -325,7 +326,7 @@ export default {
         // this.$root.$emit('displayPitch',0)
         //this.$emit('displayPitch',0)
       })
-      $('#frmPitchAvailable').on("change",'.ls-timepicker',function(){
+      $('#frmPitchAvailable').on("change",'.ls-timepicker ',function(){
          // this.stageCapacityCalc(1)
          let curId = $(this)[0].id
          let stage = $(this)[0].id;
@@ -381,36 +382,32 @@ export default {
 
               $('#stage_break_start'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '19:00:00'
+                  maxTime: '19:00:00',
+                  'timeFormat': 'H:i:s'
               });
               $('#stage_end_time'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '19:00:00'
+                  maxTime: '19:00:00',
+                  'timeFormat': 'H:i:s'
               });
               $('#stage_break_start'+stage).val('')
-
-
               $('#stage_continue_time'+stage).val('')
-
-
               $('#stage_end_time'+stage).val('')
           }
           if(curId.indexOf('stage_break_start') >= 0){
-
              $('#stage_continue_time'+stage).timepicker({
                   minTime: newTime,
-                  maxTime: '19:00:00'
+                  maxTime: '19:00:00',
+                  'timeFormat': 'H:i:s'
               });
               $('#stage_continue_time'+stage).val('')
-
               $('#stage_end_time'+stage).val('')
-
           }
           if(curId.indexOf('stage_continue_time') >= 0 ){
-
               $('#stage_end_time'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '19:00:00'
+                  maxTime: '19:00:00',
+                  'timeFormat': 'H:i:s'
               });
               $('#stage_end_time'+stage).val('')
           }
@@ -624,15 +621,16 @@ export default {
                   $('.datestage'+stage).datepicker('setEndDate', tEndDate)
                   $('.datestage'+stage).datepicker('setEndDate', tEndDate)
                   $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
-                   $('.datestage'+stage).datepicker('setDate', availDate)
+                  $('.datestage'+stage).datepicker('setDate', availDate)
                    // console.log(that.disableDate)
-                   $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                  $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
                   //
                   // $('.ls-timepicker').timepicker({ 'setTime': 300})
 
                   $('#stage_start_time'+stage).timepicker({
                       minTime:  '08:00:00',
-                      maxTime: '19:00:00'
+                      maxTime: '19:00:00',
+                      'timeFormat': 'H:i:s'
                   })
                   // $('.ls-timepicker').not('.stage_start_time').attr('disabled','disabled');
                   $('#stage_break_start'+stage+',#stage_continue_time'+stage+',#stage_end_time'+stage).attr('disabled','disabled');
