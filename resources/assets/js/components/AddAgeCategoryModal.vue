@@ -567,6 +567,8 @@ export default {
                     $("#ageCategoryName")[0].reset();
                    // $('#ageCategoryName').reset()
                     // $('#saveAge').attr('data-dismiss','modal')
+                      $('#exampleModal').modal('hide')
+                     //$("#ageCategoryName").reset();
                     this.$root.$emit('displayCompetationList')
                   } else {
                     alert('Error Occured')
