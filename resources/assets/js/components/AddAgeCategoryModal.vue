@@ -565,7 +565,8 @@ export default {
                     //this.$router.push({name: 'competation_format'})
 
                     $('#exampleModal').modal('hide')
-           //         $("#ageCategoryName")[0].reset();
+                    // $("#ageCategoryName")[0].reset();
+
                    // $('#ageCategoryName').reset()
 
                     // $('#saveAge').attr('data-dismiss','modal')
