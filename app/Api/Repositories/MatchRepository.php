@@ -137,11 +137,11 @@ class MatchRepository
                 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
 
             ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
-            ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
+            ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
             ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime',
                 'venues.id as venueId', 'competitions.id as competitionId',
-                'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name','referee.id as referee_id','home_team.name as HomeTeam','away_team.name as AwayTeam',
+                'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name','temp_fixtures.referee_id as referee_id','home_team.name as HomeTeam','away_team.name as AwayTeam',
                 'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id','HomeFlag.logo as HomeFlagLogo','AwayFlag.logo as AwayFlagLogo','temp_fixtures.hometeam_score as homeScore',
                 'temp_fixtures.awayteam_score as AwayScore',
                 'temp_fixtures.pitch_id as pitchId',
