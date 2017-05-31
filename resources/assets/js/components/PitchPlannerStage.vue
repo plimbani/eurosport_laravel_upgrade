@@ -68,8 +68,8 @@ import _ from 'lodash'
                     sPitch.push({
                             'id': '',
                             'resourceId': availability.id,
-                            'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm a'),
-                            'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),
+                            'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
+                            'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
                             'refereeId': -1,
                             'refereeText': 'R',
                             'title':'Pitch is not available',
@@ -263,28 +263,28 @@ import _ from 'lodash'
                             let sPitch = []
                             _.forEach(this.stage.pitches, (pitch) => {
                                 _.forEach(pitch.pitch_availability, (availability) => {
-                                    if(availability.stage_start_time != '08:00 am' ){
-                                        minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'))
+                                    if(availability.stage_start_time != '08:00:00' ){
+                                        minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'))
                                     }
-                                    if(availability.stage_start_time != '7:00 pm' ){
-                                        maxTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm a'))
+                                    if(availability.stage_start_time != '19:00:00' ){
+                                        maxTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'))
                                     }
                                     let mData = {
                                         'id': counter,
                                         'resourceId': pitch.id,
-                                        'start':moment(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm a'),
-                                        'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm a'),
+                                        'start':moment(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
+                                        'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
                                         'matchId':-1
                                     }
-                                    if(availability.stage_start_time != '8:00 am'){
+                                    if(availability.stage_start_time != '8:00:00'){
                                         let mData1 = {
                                             'id': 'start_'+counter,
                                             'resourceId': pitch.id,
                                             'start':moment.utc(availability.stage_start_date+' '+'08:00:00','DD/MM/YYYY HH:mm:ss'),
-                                            'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm a'),
+                                            'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'),
                                             'refereeId': -1,
                                             'refereeText': 'R',
                                             'title':'Pitch is not available',
@@ -292,11 +292,11 @@ import _ from 'lodash'
                                         }
                                     sMatches.push(mData1)
                                     }
-                                    if(availability.stage_end_time != '7:00 pm'){
+                                    if(availability.stage_end_time != '19:00:00'){
                                         let mData2 = {
                                             'id': 'end_'+counter,
                                             'resourceId': pitch.id,
-                                            'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm a'),
+                                            'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'),
                                             'end': moment.utc(availability.stage_start_date+' '+'19:00:00','DD/MM/YYYY HH:mm:ss'),
                                             'refereeId': -1,
                                             'refereeText': 'R',
