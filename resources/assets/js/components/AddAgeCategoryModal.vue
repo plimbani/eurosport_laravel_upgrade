@@ -564,8 +564,12 @@ export default {
                     }
                     //this.$router.push({name: 'competation_format'})
 
+                    $('#exampleModal').modal('hide')
+           //         $("#ageCategoryName")[0].reset();
+                   // $('#ageCategoryName').reset()
+
                     // $('#saveAge').attr('data-dismiss','modal')
-                      $('#exampleModal').modal('hide')
+             //         $('#exampleModal').modal('hide')
 
                     this.$root.$emit('displayCompetationList')
                   } else {
