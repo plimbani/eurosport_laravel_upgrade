@@ -118,6 +118,7 @@ class MatchRepository
     }
 
     public function getTempFixtures($tournamentData) {
+
         $reportQuery = DB::table('temp_fixtures')
             // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
             ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
@@ -137,7 +138,7 @@ class MatchRepository
                 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
 
             ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
-            ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
+            ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
             ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime',
                 'venues.id as venueId', 'competitions.id as competitionId',
