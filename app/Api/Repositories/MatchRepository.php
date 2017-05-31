@@ -70,7 +70,6 @@ class MatchRepository
             ->leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
             ->leftjoin('tournament_competation_template',
                 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
-
             ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
             ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
             ->groupBy('temp_fixtures.id')
