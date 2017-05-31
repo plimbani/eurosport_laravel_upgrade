@@ -352,7 +352,8 @@ var moment = require('moment');
             setTimeout(function(){
                 $('.ls-timepicker').timepicker({
                     minTime: '08:00:00',
-                    maxTime: '19:00:00'
+                    maxTime: '19:00:00',
+                    timeFormat: 'H:i:s'
                 });
              },500)
 
@@ -415,11 +416,13 @@ var moment = require('moment');
 
                     $('#stage_break_start'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '19:00:00'
+                        maxTime: '19:00:00',
+                        timeFormat: 'H:i:s'
                     });
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '19:00:00'
+                        maxTime: '19:00:00',
+                        timeFormat: 'H:i:s'
                     });
                     $('#stage_break_start'+stage).val('')
 
@@ -433,7 +436,8 @@ var moment = require('moment');
 
                    $('#stage_continue_time'+stage).timepicker({
                         minTime: newTime,
-                        maxTime: '19:00:00'
+                        maxTime: '19:00:00',
+                        timeFormat: 'H:i:s'
                     });
                     $('#stage_continue_time'+stage).val('')
 
@@ -444,7 +448,8 @@ var moment = require('moment');
 
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '19:00:00'
+                        maxTime: '19:00:00',
+                        'timeFormat': 'H:i:s'
                     });
                     $('#stage_end_time'+stage).val('')
                 }
@@ -668,7 +673,8 @@ var moment = require('moment');
 
                         $('#stage_start_time'+stage).timepicker({
                             minTime: '08:00:00',
-                            maxTime: '19:00:00'
+                            maxTime: '19:00:00',
+                            timeFormat: 'H:i:s'
                         })
                         $('#stage_break_start'+stage+',#stage_continue_time'+stage+',#stage_end_time'+stage).attr('disabled','disabled');
                         // $('#stage_break_start'+stage).timepicker({
