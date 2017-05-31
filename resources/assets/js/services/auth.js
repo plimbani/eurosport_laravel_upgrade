@@ -39,7 +39,10 @@ export default {
     check(){
         return axios.get('/api/auth/check').then(response =>  {
             if(response.data.authenticated == false) {
-              toastr['error'](response.data.message, 'Error');
+
+              if(response.data.message != undefined) {
+                toastr['error'](response.data.message, 'Error');
+              }
             }
             return !!response.data.authenticated;
         }).catch(error => {
