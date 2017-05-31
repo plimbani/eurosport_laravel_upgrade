@@ -52,7 +52,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="  row">
                                         <label class="col-sm-5 form-control-label">{{$lang.pitch_modal_details_size}}*</label>
                                         <div class="col-sm-6">
                                             <select name="pitch_size" id="pitch_size"  v-model = "pitchData.pitchdetail.size"  class="form-control pull-left" v-validate="'required'" :class="{'is-danger': errors.has('pitch_size') }">
@@ -129,7 +129,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                    <div class="align-self-center w-100">
+                                                                    <div :class="'align-self-center w-100  chk_disable_'+day ">
                                                                         <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]" :id="'stage_break_start'+day" >
                                                                     </div>
                                                                     <div class="align-self-center p-1">
@@ -156,7 +156,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                    <div class="align-self-center w-100">
+                                                                    <div :class="'align-self-center w-100 chk_disable_'+day ">
                                                                         <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'stage_continue_time'+day">
                                                                     </div>
                                                                     <div class="align-self-center p-1">
@@ -336,6 +336,10 @@ var moment = require('moment');
                         // $('#stage_capacity_min'+i).val(pitchTime)
 
                         this1.removeStage.splice(this1.removeStage.indexOf(i), 1);
+
+                        if(!pitchAvailable.break_enable){
+                          $('.chk_disable_'+i).addClass('stageInvisible')
+                        }
 
                     }
                  obj['date'+i] = $('.datestage'+i).val();
@@ -526,12 +530,13 @@ var moment = require('moment');
                     $('#stage_break_start'+stage)
                     $('.stage_chk_active'+stage).removeAttr('disabled','disabled')
                   }
+                  $('.chk_disable_'+stage).removeClass('stageInvisible')
                 }else{
 
                   $('.stage_chk_active'+stage).val($('#stage_start_time'+stage).val())
                   $('.stage_chk_active'+stage).attr('disabled','disabled')
                   $('#stage_end_time'+stage).removeAttr('disabled','disabled')
-
+                  $('.chk_disable_'+stage).addClass('stageInvisible')
                   // $('.stage_chk_active'+this.id).hide()
 
                 }
