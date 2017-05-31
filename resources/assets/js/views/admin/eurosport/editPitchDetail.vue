@@ -156,7 +156,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                    <div :class="'align-self-center w-100 chk_disable_'+day ">
+                                                                    <div :class="'align-self-center w-100  chk_disable_'+day ">
                                                                         <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'stage_continue_time'+day">
                                                                     </div>
                                                                     <div class="align-self-center p-1">
