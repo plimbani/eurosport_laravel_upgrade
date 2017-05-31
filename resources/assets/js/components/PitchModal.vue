@@ -155,6 +155,7 @@ var moment = require('moment');
         Tournament.saveMatchResult(data).then(
           (response) => {
             // this.matchFixtureDetail()
+            this.$root.$emit('setPitchReset')
             $('#matchScheduleModal').modal('hide')
             toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
           }
