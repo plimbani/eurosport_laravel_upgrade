@@ -3,7 +3,7 @@ module.exports = {
   welcome_text: "Hi {0}, Welcome to Tournament Planner. Got a question? Check the {{<strong>}}Help page or contact us for assistance.",
   welcome_manage_tournament: "Manage Tournaments",
   welcome_add_new_tournament: "Manage Users",
-  welcome_add_tournament: "Add new tournament",
+  welcome_add_tournament: "Add New Tournament",
   welcome_add_new_tournament_edition_details: "Add you tournament details",
   welcome_add_new_tournament_review: "Review",
   welcome_add_new_tournament_publish: "Publish",

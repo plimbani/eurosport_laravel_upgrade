@@ -240,12 +240,12 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
-
               </div>
             </div>
+          <div class="col-sm-4 form-control-label">Template key: Green = recommended, Red = not recommended, Amber = last resort</div>
           </div>
+          <d
           </form>
         </div>
         <div class="modal-footer">
