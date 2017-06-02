@@ -143,7 +143,7 @@ import _ from 'lodash'
                         Tournament.setMatchSchedule(matchData).then(
                             (response) => {
                                 // console.log(response)
-                                toastr.success('Match has been scheduled successfully', 'Schedule match', {timeOut: 5000});
+                                toastr.success('Match has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
                                     vm.$root.$emit('setGameReset')
                             },
                             (error) => {
@@ -186,7 +186,7 @@ import _ from 'lodash'
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
                                     // console.log(response)
-                                    toastr.success('Match schedule has been updated successfully', 'Schedule match', {timeOut: 5000});
+                                    toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
                                 },
                                 (error) => {
                                     console.log('Error occured during Tournament api ', error)
