@@ -6,7 +6,7 @@
   "tournament_name": "T.6.3",
   "competition_round": "PM 1-2/3-4/5-6",
   "competition_group_round": "2x3",
-  "competation_format": "RR,PM/F",
+  "competation_format": "RR, PM/F",
   "tournament_min_match": 3,
   "tournament_competition_graphic_view": {
     "format_name": [{

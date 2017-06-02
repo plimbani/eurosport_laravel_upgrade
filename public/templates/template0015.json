@@ -6,7 +6,7 @@
 	"tournament_name": "T.9.3",
 	"competition_round": "F",
 	"competition_group_round": "(1x4),(1x5)",
-	"competation_format": "RR,PM/F",
+	"competation_format": "RR, PM/F",
 	"tournament_min_match": 3,
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
