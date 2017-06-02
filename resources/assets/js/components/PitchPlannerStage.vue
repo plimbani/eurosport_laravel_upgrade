@@ -99,10 +99,11 @@ import _ from 'lodash'
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15',
                             // allDay: false,
-                            timeFormat: 'H(:mm)',
+                         //   timeFormat: 'H(:mm)',
+                            slotLabelFormat:"HH:mm"
                         }
                     },
-                    timeFormat: 'H(:mm)',
+                    timeFormat: 'H:mm',
                     //// uncomment this line to hide the all-day slot
                     allDaySlot: false,
 
