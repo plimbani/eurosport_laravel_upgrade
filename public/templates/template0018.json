@@ -3,10 +3,10 @@
 	"tournament_id": "0018",
 	"tournament_teams": 9 ,
   "template_font_color": "rgb(255,192,0)",
-	"tournament_name": " T.9.5 (v1) ",
-	"competition_round": " PM 1-4/5-8 ",
-	"competition_group_round": " 1x4,1x5 ",
-	"competation_format": "RR,PM/F",
+	"tournament_name": "T.9.5 (v1)",
+	"competition_round": "PM 1-4/5-8 ",
+	"competition_group_round": "1x4,1x5 ",
+	"competation_format": "RR, PM/F",
 	"tournament_min_match": 5,
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
@@ -35,11 +35,11 @@
 	            "group_name": "Group B",
 	            "match": [{
 	                "match_number": "1B",
-	                "color": "rgb(255, 255, 0)"
+	                "color": "rgb(178, 161, 199)"
 	              },
 	              {
 	                "match_number": "2B",
-	                "color": "rgb(178, 161, 199)"
+	                "color": "rgb(255, 255, 0)"
 	              },
 	              {
 	                "match_number": "3B",
@@ -47,11 +47,11 @@
 	              },
 	              {
 	                "match_number": "4B",
-	                "color": "191, 191, 191"
+	                "color": "rgb(191, 191, 191)"
 	              },
 	              {
 	                "match_number": "5B",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              }
 	            ]
 	          }
@@ -71,11 +71,11 @@
 	              },
 	              {
 	                "match_number": "Winners > PM 1-2",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "Losers > PM 3-4",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              }
 	            ]
 	          },
@@ -91,15 +91,15 @@
 	              },
 	              {
 	                "match_number": "Winners > 5-6",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "Losers > 7-8",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "5B > 9th",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              }
 	            ]
 	          }
