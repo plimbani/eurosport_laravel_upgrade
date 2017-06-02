@@ -1,11 +1,11 @@
 {
 	"total_matches": 22,
 	"tournament_id": "0023",
-	"tournament_teams": 10,
-	"tournament_name": "T.10.4 (v2)",
-	"competition_round": "PM1-2/3-4",
+	"tournament_teams": 10 ,
+	"tournament_name": " T.10.4 (v2) ",
+	"competition_round": " PM 1-2/3-4 ",
     "template_font_color": "rgb(146,208,80)",
-	"competition_group_round": "2x5",
+	"competition_group_round": " 2x5 ",
 	"competation_format": "RR/PM",
 	"tournament_min_match": 4,
 	"tournament_competition_graphic_view": {

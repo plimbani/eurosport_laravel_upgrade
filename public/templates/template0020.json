@@ -1,11 +1,11 @@
 {
 	"total_matches": 33,
 	"tournament_id": "0020",
-	"tournament_teams": 9,
-	"tournament_name": "T.9.6",
+	"tournament_teams": 9 ,
+	"tournament_name": " T.9.6 ",
   "template_font_color": "rgb(148,208,80)",
-	"competition_round": "RR1-4/5-9",
-	"competition_group_round": "1x4,1x5",
+	"competition_round": " RR 1-4/5-9 ",
+	"competition_group_round": " 1x4,1x5 ",
 	"competation_format": "RR1,RR2,RR3",
 	"tournament_min_match": 6,
 	"tournament_competition_graphic_view": {
