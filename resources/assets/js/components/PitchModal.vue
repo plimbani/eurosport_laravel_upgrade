@@ -22,7 +22,10 @@
                     Referee
                   </label>
                   <div class="col-sm-6 align-self-center">
-                      <input class="form-control mr-sm-2" type="text" v-model="matchDetail.referee.first_name" readonly>
+                      <input class="form-control mr-sm-2" type="text"
+                      v-model="matchDetail.referee.first_name"
+                      readonly>
+
                   </div>
                   <div class="col-sm-3 align-self-center">
                       <a class="btn btn-danger w-100" href="javascript:void(0)" @click="removeReferee()">Remove</a>
@@ -45,28 +48,30 @@
               <div class="form-group row">
                 <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
                   Result
-                </label> 
+                </label>
                 <div class="col-sm-6 align-self-center">
                   Team 1 ({{matchDetail.home_team_name}})
-                </div> 
+                </div>
                 <div class="col-sm-3 align-self-center">
                   <input type="number" min="0" name="home_team_score" :value="matchDetail.hometeam_score" id="home_team_score" class="form-control">
                 </div>
                 <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
                   &nbsp;
-                </label> 
+                </label>
                 <div class="col-sm-6 align-self-center">
                   Team 2 ({{matchDetail.away_team_name}})
-                </div> 
+                </div>
                 <div class="col-sm-3 align-self-center">
                   <input type="number" min="0" name="away_team_score" :value="matchDetail.awayteam_score" id="away_team_score" class="form-control">
                 </div>
               </div>
               <div class="form-group row">
+
                 <label class="col-sm-3 form-control-label">Status</label>
                 <div class="col-sm-9">
                   <select v-model="matchDetail.match_status" name="match_status" id="match_status" class="form-control ls-select2">
-                      <option value="">Please select</option>
+                      <option value="0">Please select</option>
+
                       <option value="Full-time">Full-time</option>
                       <option value="Penalties">Penalties</option>
                       <option value="Walk-over">Walk-over</option>
@@ -75,10 +80,11 @@
                 </div>
               </div>
               <div class="form-group row">
+
                 <label class="col-sm-3 form-control-label">Winner</label>
                 <div class="col-sm-9">
                   <select name="match_winner" v-model="matchDetail.match_winner"  id="match_winner" class="form-control ls-select2">
-                      <option value="">Please select</option>
+                      <option value="0">Please select</option>
                       <option :value="matchDetail.home_team">Team 1 ({{matchDetail.home_team_name}})</option>
                       <option :value="matchDetail.away_team">Team 2 ({{matchDetail.away_team_name}})</option>
                   </select>
@@ -139,11 +145,22 @@ var moment = require('moment');
       Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
           this.matchDetail = response.data.data
+          console.log(this.matchDetail)
+          if(this.matchDetail.referee == null) {
+
+          } else {
+          this.matchDetail.referee.first_name = this.matchDetail.referee.first_name+', '+this.matchDetail.referee.last_name
+          }
          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
 
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
           this.matchDetail.matchTime = date.format('hh:mm ddd DD MMM YYYY')
+          this.matchDetail.match_winner =  (this.matchDetail.match_winner == null) ? '0': this.matchDetail.match_winner
+          // Set Some Values
+          this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '0' : this.matchDetail.match_status
 
+          this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '0' : this.matchDetail.hometeam_score
+          this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '0' : this.matchDetail.awayteam_score
       })
     },
     removeReferee(){

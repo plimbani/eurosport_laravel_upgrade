@@ -33,7 +33,7 @@ class CreateTempFixturesTable extends Migration
             $table->string('away_team_name')->nullable();
             $table->text('comments')->nullable();
             $table->string('match_winner')->nullable();
-            $table->enum('match_status', array('Full-time', 'Penalties', 'Walk-over', 'Abandoned'))->default('Full-time')->nullable();
+            $table->enum('match_status', array('Full-time', 'Penalties', 'Walk-over', 'Abandoned'))->nullable();
             $table->integer('away_team')->unsigned()->default(0)->nullable()->index();
             $table->tinyInteger('hometeam_score')->nullable();
             $table->tinyInteger('awayteam_score')->nullable();
@@ -42,7 +42,7 @@ class CreateTempFixturesTable extends Migration
             $table->double('awayteam_point',8,2)->nullable();
             $table->text('bracket_json')->nullable();
             $table->timestamps();
-            $table->softDeletes(); 
+            $table->softDeletes();
         });
     }
 
