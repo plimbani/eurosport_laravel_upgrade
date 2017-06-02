@@ -311,9 +311,9 @@ export default {
           startDate.setDate(new Date(moment(this.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY')).getDate() + i)
           obj['date'+i] = $('.datestage'+i).val();
           $('#stage_start_time'+i).timepicker({
-              minTime: '08:00:00',
-              maxTime: '19:00:00',
-              'timeFormat': 'H:i:s'
+              minTime: '08:00',
+              maxTime: '19:00',
+              'timeFormat': 'H:i'
           })
       }
       let disableDate = this.disableDate;
@@ -382,13 +382,13 @@ export default {
 
               $('#stage_break_start'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '19:00:00',
-                  'timeFormat': 'H:i:s'
+                  maxTime: '19:00',
+                  'timeFormat': 'H:i'
               });
               $('#stage_end_time'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '19:00:00',
-                  'timeFormat': 'H:i:s'
+                  maxTime: '19:00',
+                  'timeFormat': 'H:i'
               });
               $('#stage_break_start'+stage).val('')
               $('#stage_continue_time'+stage).val('')
@@ -406,8 +406,8 @@ export default {
           if(curId.indexOf('stage_continue_time') >= 0 ){
               $('#stage_end_time'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '19:00:00',
-                  'timeFormat': 'H:i:s'
+                  maxTime: '19:00',
+                  'timeFormat': 'H:i'
               });
               $('#stage_end_time'+stage).val('')
           }
@@ -632,9 +632,9 @@ export default {
                   // $('.ls-timepicker').timepicker({ 'setTime': 300})
 
                   $('#stage_start_time'+stage).timepicker({
-                      minTime:  '08:00:00',
-                      maxTime: '19:00:00',
-                      'timeFormat': 'H:i:s'
+                      minTime:  '08:00',
+                      maxTime: '19:00',
+                      'timeFormat': 'H:i'
                   })
                   // $('.ls-timepicker').not('.stage_start_time').attr('disabled','disabled');
                   $('#stage_break_start'+stage+',#stage_continue_time'+stage+',#stage_end_time'+stage).attr('disabled','disabled');
