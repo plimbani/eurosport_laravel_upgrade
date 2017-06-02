@@ -83,7 +83,7 @@ class TeamService implements TeamContract
         if($ageCategory!= ''){
             \Log::info($ageCategory);
 
-            $ageCategory = str_replace(strstr($ageCategory, '/'),'',$ageCategory);
+            // $ageCategory = str_replace(strstr($ageCategory, '/'),'',$ageCategory);
             
             $competitionData = TournamentCompetationTemplates::where('tournament_id', $data->tournamentData['tournamentId'])
                 ->where('category_age',$ageCategory)

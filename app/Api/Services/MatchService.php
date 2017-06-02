@@ -197,7 +197,7 @@ class MatchService implements MatchContract
             return ['status_code' => '300'];
         }
     }
-        public function unscheduleMatch($matchData) {
+    public function unscheduleMatch($matchData) {
         $scheduledResult = $this->matchRepoObj->matchUnschedule($matchData->all()['matchData']);
         if ($scheduledResult) {
             return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match scheduled successfully'];
@@ -205,6 +205,29 @@ class MatchService implements MatchContract
             return ['status_code' => '300', 'message' => $scheduledResult];
         }
     }
+    public function saveUnavailableBlock($matchData) {
 
-
+        $scheduledResult = $this->matchRepoObj->setUnavailableBlock($matchData->all()['matchData']);
+        if ($scheduledResult) {
+            return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Block added successfully'];
+        } else {
+            return ['status_code' => '300', 'message' => $scheduledResult];
+        }
+    }
+    public function getUnavailableBlock($matchData) {
+        $scheduledResult = $this->matchRepoObj->getUnavailableBlock($matchData->all()['matchData']);
+        if ($scheduledResult) {
+            return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Block added successfully'];
+        } else {
+            return ['status_code' => '300', 'message' => $scheduledResult];
+        }
+    }
+    public function removeBlock($block_id) {
+         $scheduledResult = $this->matchRepoObj->removeBlock($block_id);
+        if ($scheduledResult) {
+            return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Block added successfully'];
+        } else {
+            return ['status_code' => '300', 'message' => $scheduledResult];
+        }
+    }
 }

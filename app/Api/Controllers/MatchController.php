@@ -111,6 +111,19 @@ class MatchController extends Controller
     {
         return $this->matchObj->saveResult($request);   
     }
+    public function saveUnavailableBlock(Request $request)
+    {
+        return $this->matchObj->saveUnavailableBlock($request);   
+    }
+    public function getUnavailableBlock(Request $request)
+    {
+        return $this->matchObj->getUnavailableBlock($request);   
+    }
+    public function removeBlock($blockId)
+    {
+        return $this->matchObj->removeBlock($blockId);   
+    }
+    
     
        
 }

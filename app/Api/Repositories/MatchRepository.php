@@ -7,6 +7,7 @@ use Laraspace\Models\Competition;
 use Laraspace\Models\Fixture;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Pitch;
+use Laraspace\Models\PitchUnavailable;
 
 
 
@@ -536,4 +537,24 @@ class MatchRepository
       return (isset($val['updated_at']) && $val['updated_at'] != '') ? $val['updated_at'] :new \DateTime();
     }
 
+    public function setUnavailableBlock($matchData)
+    {
+        // dd($matchData);
+        $data = [
+          'tournament_id' => $matchData['tournamentId'],
+          'pitch_id' => $matchData['pitchId'],
+          'match_start_datetime' => $matchData['matchStartDate'],
+          'match_end_datetime' => $matchData['matchEndDate'],
+        ];
+        return PitchUnavailable::create($data);
+    }
+    public function getUnavailableBlock($data)
+    {
+        return PitchUnavailable::where('tournament_id',$data['tournamentId'])
+                  ->get();
+    }
+    public function removeBlock($block_id)
+    {
+        return PitchUnavailable::find($block_id)->delete();
+    }
 }
