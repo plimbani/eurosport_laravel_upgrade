@@ -80,9 +80,13 @@ class MatchService implements MatchContract
         $tournamentId = $data['tournamentId'];
 
         $matchResData = $this->matchRepoObj->getDraws($tournamentId);
+        $timeStamp = $this->matchRepoObj->getLastUpdateValue($tournamentId);
 
         if ($matchResData) {
-            return ['status_code' => '200', 'data' => $matchResData,'message' => 'Draw data'];
+            return ['status_code' => '200', 'data' => $matchResData,
+            'message' => 'Draw data',
+            'updatedValue' => $timeStamp,
+            ];
         }
     }
     /**

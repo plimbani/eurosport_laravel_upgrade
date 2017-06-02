@@ -528,6 +528,12 @@ class MatchRepository
     {
         return TempFixture::with('referee','pitch')->find($matchId);
     }
-
+    public function getLastUpdateValue($tournamentId)
+    {
+      $val = TempFixture::where('tournament_id','=',$tournamentId)
+              ->select('id','updated_at')
+              ->orderBy('updated_at','desc')->first();
+      return (isset($val['updated_at']) && $val['updated_at'] != '') ? $val['updated_at'] :new \DateTime();
+    }
 
 }

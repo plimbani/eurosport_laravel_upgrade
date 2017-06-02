@@ -24,17 +24,17 @@ class TeamsTableSeeder extends Seeder
         	['assigned_group' => 'Group-A', 'tournament_id' => $tournament[array_rand($tournament)]->id, 'user_id' => $users[array_rand($users)]->id,
             'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A1','place' => 'place1',
             'name' => 'Humlebæk Boldklub-2', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-        	'esr_reference' => '3456789', 'country_id' => $countries[array_rand($countries)]->id],
+        	'esr_reference' => 'HM18P001', 'country_id' => $countries[array_rand($countries)]->id],
 
         	['assigned_group' => 'Group-A', 'tournament_id' => $tournament[array_rand($tournament)]->id, 'user_id' => $users[array_rand($users)]->id,
             'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A2','place' => 'place1',
             'name' => 'RC-Hades 4', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-        	 'esr_reference' => '234567', 'country_id' => $countries[array_rand($countries)]->id],
+        	 'esr_reference' => 'RC18H001', 'country_id' => $countries[array_rand($countries)]->id],
 
         	['assigned_group' => 'Group-A', 'tournament_id' => $tournament[array_rand($tournament)]->id, 'user_id' => $users[array_rand($users)]->id,
             'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A3','place' => 'place1',
             'name' => 'FC de Bilt', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-        	'esr_reference' => '123456', 'country_id' => $countries[array_rand($countries)]->id
+        	'esr_reference' => 'FC18B001', 'country_id' => $countries[array_rand($countries)]->id
           ],
 
           [
@@ -43,7 +43,7 @@ class TeamsTableSeeder extends Seeder
             'age_group_id' => 5, 'club_id' => $clubs[array_rand($clubs)]->id,
             'group_name' => 'Group-A1','place' => 'place1',
             'name' => 'Heider SV ', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-          'esr_reference' => '123456',
+          'esr_reference' => 'HS18V001',
            'country_id' => 3
           ],
           [
@@ -51,7 +51,7 @@ class TeamsTableSeeder extends Seeder
           'tournament_id' => 4, 'user_id' => $users[array_rand($users)]->id,
             'age_group_id' => 5, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A2','place' => 'place1',
             'name' => 'JFG Obere Saar-2 ', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-          'esr_reference' => '123456', 'country_id' => 3
+          'esr_reference' => 'JF18O001', 'country_id' => 3
           ],
            [
            'assigned_group' => 'Group-A',
@@ -59,7 +59,7 @@ class TeamsTableSeeder extends Seeder
             'age_group_id' => 5, 'club_id' => $clubs[array_rand($clubs)]->id,
             'group_name' => 'Group-A3','place' => 'place1',
             'name' => 'F.C. Saint Henri ', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-          'esr_reference' => '123456',
+          'esr_reference' => 'FC18S001',
            'country_id' => 2
           ],
           [
@@ -67,7 +67,7 @@ class TeamsTableSeeder extends Seeder
           'tournament_id' => 4, 'user_id' => $users[array_rand($users)]->id,
             'age_group_id' => 5, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A4','place' => 'place1',
             'name' => 'Marignier Sports-1', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-          'esr_reference' => '123456', 'country_id' => 2
+          'esr_reference' => 'MG18P001', 'country_id' => 2
           ],
 
           [
@@ -76,7 +76,7 @@ class TeamsTableSeeder extends Seeder
             'age_group_id' => 4, 'club_id' => $clubs[array_rand($clubs)]->id,
             'group_name' => 'Group-A1','place' => 'place1',
             'name' => 'Feniscowles & Pleasington FC ', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-          'esr_reference' => '123456',
+          'esr_reference' => 'FPL18C001',
            'country_id' => 4
           ],
           [
@@ -84,7 +84,7 @@ class TeamsTableSeeder extends Seeder
           'tournament_id' => 5, 'user_id' => $users[array_rand($users)]->id,
             'age_group_id' => 4, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A2','place' => 'place1',
             'name' => 'VC Groot Dilbeek ', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-          'esr_reference' => '123456', 'country_id' => 5
+          'esr_reference' => 'VC18G001', 'country_id' => 5
           ],
            [
            'assigned_group' => 'Group-A',
@@ -92,7 +92,7 @@ class TeamsTableSeeder extends Seeder
             'age_group_id' => 4, 'club_id' => $clubs[array_rand($clubs)]->id,
             'group_name' => 'Group-A3','place' => 'place1',
             'name' => 'Tjæreborg IF ', 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-          'esr_reference' => '123456',
+          'esr_reference' => 'TJ18F001',
            'country_id' => 6
           ],
           [
@@ -100,7 +100,7 @@ class TeamsTableSeeder extends Seeder
           'tournament_id' => 5, 'user_id' => $users[array_rand($users)]->id,
             'age_group_id' => 4, 'club_id' => $clubs[array_rand($clubs)]->id, 'group_name' => 'Group-A4','place' => 'place1',
             'name' => "vv AS'80 ", 'website' => 'eurosport','facebook' => 'facebook', 'twitter' => 'twitter', 'shirt_color' => 'Red',
-          'esr_reference' => '123456', 'country_id' => 7
+          'esr_reference' => 'VV18SA001', 'country_id' => 7
           ],
 
         ]);

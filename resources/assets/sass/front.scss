@@ -126,7 +126,7 @@ table#Competition-modal-table {
 .bg-modal-color {
   background-color: rgba($ls-color-black,0.6)
 }
-.fc-referee {
+  .fc-referee {
     background-color: white;
     color: black;
     padding: 1px 2px;
@@ -134,5 +134,8 @@ table#Competition-modal-table {
     border-radius: 3px;
 }
 .referee_-1, .referee_0 {
+  display:none;
+}
+.stageInvisible{
   display:none;
 }

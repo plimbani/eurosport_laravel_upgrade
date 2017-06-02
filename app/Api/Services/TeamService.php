@@ -80,36 +80,40 @@ class TeamService implements TeamContract
         $data['age_group_id'] = 0;
         $ageCategory = trim($data['event']) ;
         
-        // dd($data);
         if($ageCategory!= ''){
             \Log::info($ageCategory);
 
             $ageCategory = str_replace(strstr($ageCategory, '/'),'',$ageCategory);
-            // dd($ageCategory);
+            
             $competitionData = TournamentCompetationTemplates::where('tournament_id', $data->tournamentData['tournamentId'])
                 ->where('group_name',$ageCategory)
                 ->first();
-            // dd($competitionData,$data->tournamentData['tournamentId'],$ageCategory);
+
             if($competitionData){
                $data['age_group_id'] = $competitionData['id'];
             }
 
         }
         $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid']);
-        if(isset($teamData['id'])){
+         \Log::info($teamData);
+         if($data['age_group_id'] != 0){
+            if(isset($teamData['id'])  ){
 
-            $editData =  [
-                'id' => $teamData['id'],
-                'name' => $data['team'],
-                'place' => $data['place'] ,
-                'country_id' => $data['country_id'],
-                'age_group_id' => $data['age_group_id']
-            ];
-            $data = $this->teamRepoObj->edit($editData);
-        }else{
-             $data = $this->teamRepoObj->create($data);
-        }
-        // \Log::info($data);
+                 $editData =  [
+                    'id' => $teamData['id'],
+                    'name' => $data['team'],
+                    'place' => $data['place'] ,
+                    'country_id' => $data['country_id'],
+                    'age_group_id' => $data['age_group_id']
+                ];
+                $data = $this->teamRepoObj->edit($editData);
+            }else{
+
+                 $data = $this->teamRepoObj->create($data);
+            }
+         }
+        
+         \Log::info($data);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }

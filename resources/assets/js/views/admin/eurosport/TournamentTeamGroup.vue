@@ -37,24 +37,7 @@
           </div>
 
         </div>
-<!--   			<div class="block-bg age-category">
-  				<div class="d-flex justify-content-center align-items-center">
-  					<div v-for="(group, index) in grps">
 
-
-              <div class="m_card hoverablex ">
-  						  <div class="card-content">
-  							  <span class="card-title">
-                  {{group['groups']['group_name']}}</span>
-                  <p v-for="n in group['group_count']">
-                   {{group['groups']['group_name']}}{{n}}
-                  </p>
-      					</div>
-
-    					</div>
-            </div>
-            </div>
-  			</div> -->
           <div class="row align-items-center">
             <div class="col-sm-3">
               <h6 class="m-0"><strong>{{$lang.teams_team_list}}</strong></h6>
@@ -67,11 +50,14 @@
           <div class="col-sm-12">
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
-            <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button>
-              <input type="file" name="fileUpload"  id="fileUpload" style="display:none;" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+            <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button><span id="filename"></span>
+              <input type="file" name="fileUpload" @change="setFileName(this)"  id="fileUpload" style="display:none;" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
               <small class="form-text text-muted">Excel and CSV files only</small>
+
             </div>
-	  				<button type="button" @click="csvImport()"  class="btn btn-primary mt-2">{{$lang.teams_upload_team}}</button>
+	  				<button type="button" @click="csvImport()"  class="btn btn-primary mt-2">{{$lang.teams_upload_team}}
+
+            </button>
             </form>
 	  			</div>
   			</div>
@@ -190,6 +176,7 @@
         })
 
       this.getTeams(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue)
+
     },
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
@@ -212,6 +199,20 @@
         if($('#sel_'+id).find('option:selected').text()!=''){
           this.onAssignGroup(id)
         }
+      },
+      setFileName(file) {
+        console.log($('#fileUpload').val())
+        var filename = $('#fileUpload').val();
+        console.log(filename)
+
+        var lastIndex = filename.lastIndexOf('\\');
+        console.log(lastIndex)
+
+        if (lastIndex >= 0) {
+          filename = filename.substring(lastIndex + 1);
+        }
+        console.log(filename)
+        $('#filename').text(filename);
       },
       setFilter(filterKey,filterValue) {
         this.tournamentFilter.filterKey = filterKey

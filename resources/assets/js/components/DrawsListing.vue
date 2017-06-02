@@ -58,12 +58,16 @@ export default {
   				(response)=> {
   					if(response.data.status_code == 200) {
   						this.matchData = response.data.data
+           //   this.lastUpdateValue = response.data.updatedValue
+              this.$root.$emit('lastUpdateDate',response.data.updatedValue)
   					}
   				},
   				(error) => {
   					alert('Error in Getting Draws')
   				}
   			)
+        // Emit it to call for parent
+
 		},
 		getDrawDetails(drawId, drawName) {
 
