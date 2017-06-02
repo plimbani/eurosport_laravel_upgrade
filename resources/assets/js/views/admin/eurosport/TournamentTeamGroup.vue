@@ -22,8 +22,8 @@
           <div class="d-flex justify-content-center" v-if="grpsView.length != 0">
             <div class="col-sm-3 m_card hoverable m-2"  v-for="(group, index) in grpsView">
                 <div class="card-content">
-                   <span class="card-title text-primary">{{group['groups']['group_name']}}</span>
-                   <p v-for="n in group['group_count']">{{group['groups']['group_name']}}{{n}}</p>
+                   <span class="card-title text-primary"><strong>{{group['groups']['group_name']}}</strong></span>
+                   <p class="text-primary" v-for="n in group['group_count']"><strong>{{group['groups']['group_name']}}{{n}}</strong></p>
                 </div>
             </div>
           </div>

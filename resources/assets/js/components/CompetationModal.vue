@@ -63,10 +63,9 @@
             </div>
           </div>
         </div>
-            <div class="row align-items-center">
-
+            <div class="row d-flex">
                   <div class="col-md-6">
-                    <div class="jumbotron p-4 m-0">
+                    <div class="jumbotron mb-0">
                           <p class="row">
                               <label class="col-md-6"><strong>{{$lang.competation_modal_format_team}}</strong></label>
                               <label class="col-md-6">{{ templateData['tournament_teams'] }}</label>
@@ -82,18 +81,16 @@
                           </p>
                     </div>
                   </div>
-                  <div class="col-md-6 d-flex flex-column justify-content-between">
-                    <div class="jumbotron p-4">
-                      <div class="row mb-0">
+                  <div class="col-md-6">
+                    <div class="jumbotron mb-0 h-100">
+                      <p class="row">
                           <label class="col-md-6"><strong>{{$lang.competation_modal_matches_total_matches}}</strong></label>
                           <label class="col-md-6">{{ templateData['total_matches'] }}</label>
-                      </div>
-                    </div>
-                    <div class="jumbotron p-4 mb-0">
-                      <div class="row">
+                      </p>
+                      <p class="row">
                           <label class="col-md-6"><strong>{{$lang.competation_modal_time}}</strong></label>
                           <label class="col-md-6">{{totalTime | formatTime}} </label>
-                      </div>
+                      </p>
                     </div>
                   </div>
                 </div>

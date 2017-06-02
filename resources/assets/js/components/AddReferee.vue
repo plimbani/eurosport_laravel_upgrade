@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-5 form-control-label">Availability *</label>
+                                    <label class="col-sm-5 form-control-label">Availability</label>
                                     <div class="col-sm-6">
                                          <textarea name="available" id="available" class="form-control"></textarea>
                                     </div>
