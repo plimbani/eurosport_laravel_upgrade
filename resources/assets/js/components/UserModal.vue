@@ -92,7 +92,7 @@
                     </form>
                 </div>
             </div>
-    </div> 
+    </div>
 </template>
 <script type="text/javascript">
     export default {
@@ -115,11 +115,11 @@
 
                 deleteAction: '',
                 image: '',
-                
+
             }
         },
         created() {
-            this.getRoles();
+            // this.getRoles();
         },
         mounted(){
             $('#profile_image_file').click(function(){
@@ -128,8 +128,9 @@
             if(this.userId!=''){
                 this.editUser(this.userId)
             }
+            this.userRolesOptions =  this.userRoles
         },
-        props:['userId'],
+        props:['userId','userRoles'],
         methods: {
             initialState() {
                 this.$data.formValues.id = '',
@@ -159,7 +160,7 @@
                     this.userRolesOptions = response.data;
                 });
             },
-           
+
             onFileChange(e) {
               var files = e.target.files || e.dataTransfer.files;
               if (!files.length)
@@ -185,7 +186,7 @@
             },
             updateUserList() {
                 axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
-                   
+
                     if('users' in response.data) {
                         this.userList.userData = response.data.users;
                         this.userList.userCount = response.data.users.length;
@@ -228,7 +229,7 @@
                     // toastr['error']('Please fill all required fields ', 'Error')
                  });
             },
-            
-        }   
+
+        }
     }
 </script>
