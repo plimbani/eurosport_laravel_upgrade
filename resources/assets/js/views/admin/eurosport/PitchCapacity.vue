@@ -12,7 +12,7 @@
                         </div>
                         <div>
                             <a  href="javascript:void(0)" @click="editPitch(pitch.id)">
-                                <img src="/assets/img/pitchh.png">
+                                <img src="/assets/img/pitch.png">
                             </a>
                         </div>
                         <div class="text-center">
