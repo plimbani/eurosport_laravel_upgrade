@@ -3,7 +3,7 @@
 		<div class="card">
 			<div class="card-block pb-0 ">
           <div class="row align-items-center justify-content-start">
-            <div class="col-3 align-self-center">
+            <div class="col-3 align-self-center" style="margin-top: -22px;">
               <h6 class="m-0"><strong>{{$lang.pitch_planner_label}}</strong></h6>
             </div>
             <div class="col-9 align-self-center">

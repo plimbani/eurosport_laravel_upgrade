@@ -59,9 +59,7 @@
             <div class="form-group row">
               <label class="col-sm-5 form-control-label">Availability</label>
               <div class="col-sm-6">
-                <textarea name="availability" id="availability" v-validate="'required'" :class="{'is-danger': errors.has('availability') }"  v-model="formValues.comments" class="form-control" placeholder="e.g. Day 1 all day"></textarea>
-                <i v-show="errors.has('availability')" class="fa fa-warning"></i>
-               <span class="help is-danger" v-show="errors.has('availability')">This field is required</span>
+                <textarea name="availability" id="availability" v-model="formValues.comments" class="form-control" placeholder="e.g. Day 1 all day"></textarea>
               </div>
             </div>
           </form>
@@ -116,7 +114,7 @@ export default {
                       (response) => {
                            toastr['success']('Referee added successfully.', 'Success');
                           $('#refreesModal').modal('hide')
-                          this.$root.$emit('setGameReset')
+                          this.$root.$emit('setGameReset') 
                       }
                       )
                      }
