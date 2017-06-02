@@ -4,7 +4,7 @@
       <div class="d-flex justify-content-center">
         <div class="card">
           <div class="card-block">
-                <h4 class="card-title">EuroSport Tournaments</h4>
+                <h4 class="card-title">Euro-Sportring Tournaments</h4>
                 <div v-for="tournament in tournaments">
                   <a href="" @click.prevent="selectTournament(tournament)" class="card-link text-primary">{{tournament.name}}</a>
                 </div>

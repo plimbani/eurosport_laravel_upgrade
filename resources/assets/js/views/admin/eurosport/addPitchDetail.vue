@@ -4,7 +4,7 @@
       <div class="modal-content">
           <div class="tabs tabs-primary">
               <div class="modal-header">
-                  <h5 class="modal-title">Pitch details</h5>
+                  <h5 class="modal-title">Pitch Details</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="displayPitch(0)">
                       <span aria-hidden="true">×</span>
                   </button>
@@ -140,7 +140,7 @@
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                        <div   class="align-self-center w-100 ">
+                                                                        <div   :class="'align-self-center w-100 stageInvisible chk_disable_'+day ">
                                                                             <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]" :id="'stage_break_start'+day" >
                                                                         </div>
                                                                         <div class="align-self-center p-1">
@@ -167,7 +167,7 @@
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                        <div class="align-self-center w-100 ">
+                                                                        <div :class="'align-self-center w-100 stageInvisible  chk_disable_'+day ">
                                                                             <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'stage_continue_time'+day">
                                                                         </div>
                                                                         <div class="align-self-center p-1">
@@ -496,10 +496,13 @@ export default {
             $('#stage_break_start'+stage)
             $('.stage_chk_active'+stage).removeAttr('disabled','disabled')
           }
+          $('.chk_disable_'+stage).removeClass('stageInvisible')
         }else{
           $('.stage_chk_active'+stage).val($('#stage_start_time'+stage).val())
           $('.stage_chk_active'+stage).attr('disabled','disabled')
           $('#stage_end_time'+stage).removeAttr('disabled','disabled')
+          $('.chk_disable_'+stage).addClass('stageInvisible')
+
 
           // $('.stage_chk_active'+this.id).hide()
 

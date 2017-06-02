@@ -30,8 +30,8 @@
               </div>
             </div>
             <div class="row" v-else>
-            <label class="col-sm-3 form-control-label">Referee</label>
-              <div class="col-sm-9">
+            <label class="col-sm-4 form-control-label">Referee</label>
+              <div class="col-sm-8">
                 <select  v-model="matchDetail.referee_id" class="form-control ls-select2" name="selReferee">
                   <option value="0">Select referee</option>
                   <option :value="referee.id" v-for="referee in referees">{{referee.first_name}}</option>
@@ -43,15 +43,15 @@
 
             <form>
               <div class="form-group row">
-              <label class="col-sm-3 form-control-label">Result</label>
-                <div class="col-sm-9">
-                <div class="row form-control-label">
+              <label class="col-sm-4 form-control-label">Result</label>
+                <div class="col-sm-8">
+                <div class="row mb-2">
                   <label class="col-sm-6">Team 1 ({{matchDetail.home_team_name}})</label>
                 <div class="col-sm-6">
                   <input type="number" min="0" name="home_team_score" :value="matchDetail.hometeam_score" id="home_team_score" class="form-control" >
                 </div>
                 </div>
-                <div class="row form-control-label">
+                <div class="row">
                   <label class="col-sm-6">Team 2 ({{matchDetail.away_team_name}})</label>
                 <div class="col-sm-6">
                   <input type="number" min="0" name="away_team_score" :value="matchDetail.awayteam_score" id="away_team_score" class="form-control" >
@@ -60,9 +60,10 @@
               </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label">Status</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 form-control-label">Status</label>
+                <div class="col-sm-8">
                   <select v-model="matchDetail.match_status" name="match_status" id="match_status" class="form-control ls-select2">
+                      <option value="">Please select</option>
                       <option value="Full-time">Full-time</option>
                       <option value="Penalties">Penalties</option>
                       <option value="Walk-over">Walk-over</option>
@@ -71,8 +72,8 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label">Winner</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 form-control-label">Winner</label>
+                <div class="col-sm-8">
                   <select name="match_winner"  v-model="matchDetail.match_winner"  id="match_winner" class="form-control ls-select2">
                       <option value="">Please select</option>
                       <option :value="matchDetail.home_team">Team 1 ({{matchDetail.home_team_name}})</option>
@@ -81,8 +82,8 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label">Comments</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 form-control-label">Comments</label>
+                <div class="col-sm-8">
                   <textarea class="form-control" name="comments" id="comments">{{matchDetail.comments}}</textarea>
                 </div>
               </div>
