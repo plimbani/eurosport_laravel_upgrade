@@ -1,6 +1,6 @@
 <template>
   <div class="modal" id="matchScheduleModal" tabindex="-1" role="dialog" aria-labelledby="refreesModalLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Match Details</h5>
@@ -25,7 +25,7 @@
                       <input class="form-control mr-sm-2" type="text" v-model="matchDetail.referee.first_name" readonly>
                   </div>
                   <div class="col-sm-3 align-self-center">
-                      <a class="btn btn-danger" href="javascript:void(0)" @click="removeReferee()">Remove</a>
+                      <a class="btn btn-danger w-100" href="javascript:void(0)" @click="removeReferee()">Remove</a>
                   </div>
               </div>
             </div>
@@ -50,7 +50,7 @@
                   Team 1 ({{matchDetail.home_team_name}})
                 </div> 
                 <div class="col-sm-3 align-self-center">
-                  <input type="number" min="0" name="home_team_score" :value="matchDetail.hometeam_score" id="home_team_score" class="form-control" style="width: 94%;">
+                  <input type="number" min="0" name="home_team_score" :value="matchDetail.hometeam_score" id="home_team_score" class="form-control">
                 </div>
                 <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
                   &nbsp;
@@ -59,7 +59,7 @@
                   Team 2 ({{matchDetail.away_team_name}})
                 </div> 
                 <div class="col-sm-3 align-self-center">
-                  <input type="number" min="0" name="away_team_score" :value="matchDetail.awayteam_score" id="away_team_score" class="form-control" style="width: 94%;">
+                  <input type="number" min="0" name="away_team_score" :value="matchDetail.awayteam_score" id="away_team_score" class="form-control">
                 </div>
               </div>
               <div class="form-group row">
