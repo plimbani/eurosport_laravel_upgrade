@@ -118,24 +118,57 @@ table#Competition-modal-table {
 }
 
 .bg-grey {
-
     background-color: grey;
     border: 1px solid grey;
 }
 
 .bg-modal-color {
-  background-color: rgba($ls-color-black,0.6)
+    background-color: rgba($ls-color-black, 0.6)
 }
-  .fc-referee {
+
+.fc-referee {
     background-color: white;
     color: black;
     padding: 1px 2px;
     font-size: 10px;
     border-radius: 3px;
 }
-.referee_-1, .referee_0 {
-  display:none;
+
+.referee_-1,.referee_-2,
+.referee_0 {
+    display: none;
 }
-.stageInvisible{
-  display:none;
+
+.stageInvisible {
+    display: none;
 }
+
+// .fc-view,
+// .fc-view > table {
+//     overflow-y: scroll;
+// }
+
+// .fc {
+//     .fc-widget-header {
+//         table {
+//             thead {
+//                 tr {
+//                     th.fc-resource-cell {
+//                         width: 80px !important;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     .fc-content-skeleton {
+//         table {
+//             tbody {
+//                 tr {
+//                     td {
+//                         width: 80px !important;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }

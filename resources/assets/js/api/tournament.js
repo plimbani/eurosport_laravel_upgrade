@@ -69,7 +69,7 @@ export default {
  removeAssignedReferee(data) {
      return api.post('match/removeAssignedReferee',{ data})
    },
-assignReferee(data) {
+  assignReferee(data) {
      return api.post('match/assignReferee',{ data})
    },
   getStanding(tournamentData) {
@@ -94,7 +94,6 @@ assignReferee(data) {
   updateStatus(tournamentData) {
     return api.post('tournament/updateStatus',{'tournamentData': tournamentData})
   },
-
   getDropDownData(tournamentData) {
     return api.post('tournament/getDropDownData',{'tournamentData': tournamentData})
   },
@@ -112,8 +111,15 @@ assignReferee(data) {
   },
   saveMatchResult(matchData) {
     return api.post('match/saveResult',{'matchData': matchData})
- },
+  },
   setUnavailableBlock(matchData) {
     return api.post('match/saveUnavailableBlock',{'matchData': matchData})
+  },
+  getUnavailablePitch(matchData) {
+
+    return api.post('match/getUnavailableBlock',{'matchData': matchData})
+  },
+  removeUnavailableBlock(blockId) {
+    return api.post('match/remove_block/'+blockId)
   }
 }

@@ -89,6 +89,7 @@
         created: function() {
             this.$root.$on('setPitchReset', this.resetPitch);
             this.$root.$on('setGameReset', this.gameReset);
+            this.$root.$on('setRefereeReset', this.refereeReset);
             this.$root.$on('RefereeCount', this.refereeCount);
             this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
 
@@ -160,6 +161,17 @@
                     vm.refereeStatus = true
                     vm.GameStatus = true
                     $('.nav-tabs a[href="#game-list"]').tab('show');
+                },500)
+          },
+          refereeReset() {
+            let vm =this
+             vm.GameStatus = false
+             vm.refereeStatus = false
+             
+             setTimeout(function(){
+                    vm.refereeStatus = true
+                    // vm.GameStatus = true
+                    $('.nav-tabs a[href="#referee-list"]').tab('show');
                 },500)
           },
           

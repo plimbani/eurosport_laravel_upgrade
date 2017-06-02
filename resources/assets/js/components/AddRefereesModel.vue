@@ -116,7 +116,7 @@ export default {
                       (response) => {
                            toastr['success']('Referee detail has been added successfully', 'Success');
                           $('#refreesModal').modal('hide')
-                          this.$root.$emit('setGameReset')
+                          this.$root.$emit('setRefereeReset')
                       }
                       )
                      }
@@ -131,7 +131,7 @@ export default {
              toastr['success']('Referee has been removed successfully', 'Success');
              $('#delete_modal').modal('hide')
              $('#refreesModal').modal('hide')
-             this.$root.$emit('setGameReset')
+             this.$root.$emit('setRefereeReset')
         }
         )
     }
