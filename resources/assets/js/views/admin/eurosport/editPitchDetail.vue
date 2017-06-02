@@ -125,7 +125,7 @@
                                                                 Break Start
                                                             </div>
                                                             <div class="col-md-3">
-                                                            <input type="checkbox" :name="'stage_break_chk'+day" class="form-control stage_break_chk"  :id="'stage_break_chk_'+day" >Check to add a break
+                                                            <input type="checkbox" :name="'stage_break_chk'+day" class="mr-1 stage_break_chk"  :id="'stage_break_chk_'+day" >Check to add a break
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="d-flex flex-nowrap justify-content-between align-items-center">
