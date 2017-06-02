@@ -73,7 +73,7 @@
               <button type="button" class="btn btn-primary" @click="saveReferee()">Save</button>
             </div>
         </div>
-        <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+        <delete-modal :deleteConfirmMsg="deleteConfirmMsg"   @confirmed="deleteConfirmed()"></delete-modal>
     </div>
   </div>
 </div>
@@ -121,6 +121,7 @@ export default {
 
             },
       deleteConfirmed() {
+        
       Tournament.removeReferee(this.refereeId).then(
         (response) => {
              toastr['success']('Referee has been removed successfully', 'Success');

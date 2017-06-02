@@ -2,7 +2,7 @@
     <div>
         <div class='pitchPlanner'></div>
         <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal"></pitch-modal>
-         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
     </div>
 </template>
 
@@ -10,7 +10,7 @@
 import moment from 'moment'
 import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
-import DeleteModal from '../components/DeleteModal.vue'
+import DeleteModal1 from '../components/DeleteModalBlock.vue'
 
 import _ from 'lodash'
     export default {
@@ -33,7 +33,7 @@ import _ from 'lodash'
         props: [ 'stage' ],
         components: {
             PitchModal,
-            DeleteModal,
+            DeleteModal1,
         },
         computed: {
             pitchesData() {
@@ -223,7 +223,7 @@ import _ from 'lodash'
                             let block_id = calEvent.id
                             let block = block_id.replace('block_','')
                             vm.remBlock_id = block
-                            $("#delete_modal").modal("show");
+                            $("#delete_modal_block").modal("show");
                             
                         }else{
                             vm.setPitchModal = 1
@@ -252,11 +252,11 @@ import _ from 'lodash'
                 vm.$root.$emit('setPitchReset')
               },1000)
             },
-            deleteConfirmed() {
-                
+            deleteConfirmedBlock() {
+                    
                 Tournament.removeUnavailableBlock(this.remBlock_id).then(
                     (response) => {
-                        $("#delete_modal").modal("hide");
+                        $("#delete_modal_block").modal("hide");
                         this.$root.$emit('setPitchReset')
                         toastr.success('Block has been deleted successfully.', 'Delete Block', {timeOut: 5000});
                     },
