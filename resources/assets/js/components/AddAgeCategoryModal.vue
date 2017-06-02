@@ -195,7 +195,7 @@
           </div>
            <div class="form-group row align-items-top"
            :class="{'has-error': errors.has('tournamentTemplate') }">
-            <div class="col-sm-4 form-control-label">{{$lang.competation_label_template}}*</div>
+            <div class="col-sm-4">{{$lang.competation_label_template}}*</div>
             <div class="col-sm-8">
               <div class="row align-items-center">
                 <div class="col-sm-12" v-show="errors.has('tournamentTemplate')">
@@ -209,7 +209,7 @@
                 Select number of teams and minimum matches above to view template options
                 </div>
                 <div class="col-sm-12" v-for="option in options">
-                  <div class="card" v-if="checkTemplate(option)">
+                  <div class="card mb-1" v-if="checkTemplate(option)">
                     <div class="card-block">
                       <div class="row d-flex">
                         <div class="col align-self-center text-center">
@@ -243,7 +243,7 @@
                 </div>
               </div>
             </div>
-          <div class="col-sm-4 form-control-label">Template key: Green = recommended, Red = not recommended, Amber = last resort</div>
+          <div class="col-sm-4 form-control-label">Template key:<br/> Green = recommended,<br/> Red = not recommended,<br/> Amber = last resort</div>
           </div>
           <d
           </form>

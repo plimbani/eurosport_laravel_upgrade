@@ -6,7 +6,7 @@
             <div class="col-3 align-self-center" style="margin-top: -22px;">
               <h6 class="m-0"><strong>{{$lang.pitch_planner_label}}</strong></h6>
             </div>
-            <div class="col-9 align-self-center" style="margin-top: -22px;">
+            <div class="col-9 align-self-center">
               <tournamentFilter :section="section"></tournamentFilter>
             </div>
           </div>
