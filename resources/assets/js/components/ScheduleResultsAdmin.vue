@@ -5,7 +5,9 @@
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
 						<h6>{{$lang.summary_schedule}}</h6>
-						
+            <p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}
+            : {{lastUpdatedDateValue}}
+            </small></p>
 						<div class="tab-content summary-report-content">
 							<div class="row">
 								<div class="col-md-12">
@@ -55,22 +57,26 @@ export default {
 	data() {
 		return {
 			// here we dispatch method for set currentView
-			currentView: ''
+			currentView: '',lastUpdatedDateValue: ''
 		}
 	},
 	mounted(){
 		// here we set drawsListing as currentView
 		this.currentView = 'drawsListing'
+    // Also Call Api For Getting the last Updated Record
 	},
 	components: {
 		DrawsListing, MatchListing, TeamListing,DrawDetails
 	},
 	created: function() {
        this.$root.$on('changeComp1', this.setMatchData1);
+       this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
   	},
 	methods: {
+    lastUpdatedDate(updatedDate) {
+      this.lastUpdatedDateValue = moment(updatedDate.date).format("hh:mm ddd DD MMM YYYY")
+    },
 		setMatchData1(data) {
-
 			this.currentView = 'matchListing'
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 		},

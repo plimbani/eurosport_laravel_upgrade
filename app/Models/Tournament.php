@@ -10,7 +10,7 @@ class Tournament extends Model
 {
     use SoftDeletes;
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $table = 'tournaments';
 

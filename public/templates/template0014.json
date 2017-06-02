@@ -4,7 +4,7 @@
     "template_font_color": "rgb(146,208,80)",
 	"tournament_teams": 8,
 	"tournament_name": "T.8.6",
-	"competition_round": "RR1-4/5-8",	
+	"competition_round": "RR 1-4/5-8",
 	"competition_group_round": "2x4",
 	"competation_format": "RR/RR",
 	"tournament_min_match": 6,
@@ -56,7 +56,7 @@
 	        "groups": [{
 	            "group_name": "RR1-4/Group C",
 	            "match": [{
-	                "match_number": "1C > 1st",	
+	                "match_number": "1C > 1st",
 	                "color": "rgb(255, 255, 0)"
 	              },
 	              {
@@ -76,7 +76,7 @@
 	          {
 	            "group_name": "RR 5-8/Group D",
 	            "match": [{
-	                "match_number": "1D > 5th",	
+	                "match_number": "1D > 5th",
 	                "color": "rgb(178, 161, 199)"
 	              },
 	              {
@@ -212,8 +212,8 @@
 
 			]
 		}
-			
+
 		]
-		
+
 	}
 }
