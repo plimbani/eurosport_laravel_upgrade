@@ -355,9 +355,9 @@ var moment = require('moment');
             this1.stage_capacity.push(capacity)
             setTimeout(function(){
                 $('.ls-timepicker').timepicker({
-                    minTime: '08:00:00',
-                    maxTime: '19:00:00',
-                    timeFormat: 'H:i:s'
+                    minTime: '08:00',
+                    maxTime: '19:00',
+                    timeFormat: 'H:i'
                 });
              },500)
 
@@ -420,13 +420,13 @@ var moment = require('moment');
 
                     $('#stage_break_start'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '19:00:00',
-                        timeFormat: 'H:i:s'
+                        maxTime: '19:00',
+                        timeFormat: 'H:i'
                     });
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '19:00:00',
-                        timeFormat: 'H:i:s'
+                        maxTime: '19:00',
+                        timeFormat: 'H:i'
                     });
                     $('#stage_break_start'+stage).val('')
 
@@ -440,8 +440,8 @@ var moment = require('moment');
 
                    $('#stage_continue_time'+stage).timepicker({
                         minTime: newTime,
-                        maxTime: '19:00:00',
-                        timeFormat: 'H:i:s'
+                        maxTime: '19:00',
+                        timeFormat: 'H:i'
                     });
                     $('#stage_continue_time'+stage).val('')
 
@@ -452,8 +452,8 @@ var moment = require('moment');
 
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '19:00:00',
-                        'timeFormat': 'H:i:s'
+                        maxTime: '19:00',
+                        'timeFormat': 'H:i'
                     });
                     $('#stage_end_time'+stage).val('')
                 }
@@ -677,9 +677,9 @@ var moment = require('moment');
 
 
                         $('#stage_start_time'+stage).timepicker({
-                            minTime: '08:00:00',
-                            maxTime: '19:00:00',
-                            timeFormat: 'H:i:s'
+                            minTime: '08:00',
+                            maxTime: '19:00',
+                            timeFormat: 'H:i'
                         })
                         $('#stage_break_start'+stage+',#stage_continue_time'+stage+',#stage_end_time'+stage).attr('disabled','disabled');
                         // $('#stage_break_start'+stage).timepicker({
