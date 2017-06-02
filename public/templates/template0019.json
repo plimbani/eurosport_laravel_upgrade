@@ -2,7 +2,7 @@
   "total_matches": 30,
   "tournament_id": "0019",
   "tournament_teams": 9,
-  "template_font_color": "rgb(217,149,148)",
+   "template_font_color": "rgb(217,149,148)",
   "tournament_name": "T.9.5 (v2)",
   "competition_round": "PM 1-4/RR 5-9",
   "competition_group_round": "1x4,1x5",
@@ -113,7 +113,6 @@
       "match_type": [{
         "name": "RR1*4",
         "total_match": 6,
->>>>>>> 5fccecd1f0e50d0090a40c19bd004dd1570ca3f8
                 "group_count": 4,
         "groups": {
           "group_name": "Group-A",
