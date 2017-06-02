@@ -113,6 +113,7 @@
       "match_type": [{
         "name": "RR1*4",
         "total_match": 6,
+>>>>>>> 5fccecd1f0e50d0090a40c19bd004dd1570ca3f8
                 "group_count": 4,
         "groups": {
           "group_name": "Group-A",

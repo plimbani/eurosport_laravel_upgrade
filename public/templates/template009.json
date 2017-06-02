@@ -1,7 +1,7 @@
 {
   "total_matches": 13,
   "tournament_id": "009",
-   "template_font_color": "rgb(146,208,80)",
+    "template_font_color": "rgb(146,208,80)",
   "tournament_teams": 8,
   "tournament_name": "T.8.3 (v1)",
   "competition_round": "F",
