@@ -19,15 +19,15 @@
 	              },
 	              {
 	                "match_number": "2A",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "3A",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "4A",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              }
 	            ]
 	          },
@@ -39,19 +39,19 @@
 	              },
 	              {
 	                "match_number": "2B",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "3B",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "4B",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "5B",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              }
 	            ]
 	          }
