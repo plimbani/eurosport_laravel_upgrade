@@ -1,11 +1,11 @@
 {
 	"total_matches": 25,
 	"tournament_id": "0025",
-	"tournament_teams": 10 ,
-	"tournament_name": " T.10.5 ",
+	"tournament_teams": 10,
+	"tournament_name": "T.10.5",
     "template_font_color": "rgb(146,208,80)",
-	"competition_round": " PM 1-2/3-4/5-6/7-8/9-10 ",
-	"competition_group_round": " 2x5 ",
+	"competition_round": "PM 1-2/3-4/5-6/7-8/9-10",
+	"competition_group_round": "2x5",
 	"competation_format": "RR/PM",
 	"tournament_min_match": 5,
 	"tournament_competition_graphic_view": {
