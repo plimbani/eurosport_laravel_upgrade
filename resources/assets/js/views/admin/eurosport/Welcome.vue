@@ -32,7 +32,7 @@
         <div class="card-header">
           <h5 class="text-center" 
           v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')"><strong>{{$lang.welcome_add_new_tournament}}</strong></h5>
-          <h5 class="text-center" v-else>{{$lang.welcome_add_tournament}}</strong>
+          <h5 class="text-center" v-else><strong>{{$lang.welcome_add_tournament}}</strong>
           </h5>
         </div>
         <div class="card-block text-center">          
