@@ -24,7 +24,7 @@
               <div class="col-sm-6">
                 <input type="text" name="last_name" id="last_name"  v-validate="'required'" v-model="formValues.last_name"  class="form-control" >
                 <i v-show="errors.has('last_name')" class="fa fa-warning"> </i>
-               <span class="help is-danger" v-show="errors.has('last_name')">This field is required</span>
+                <span class="help is-danger" v-show="errors.has('last_name')">This field is required</span>
                </div>
             </div>
             <div class="form-group row">
@@ -109,28 +109,24 @@ export default {
                       }
                       )
                      }else{
-                      console.log(ReportData);
                       Tournament.saveReferee(ReportData).then(
                       (response) => {
-                           toastr['success']('Referee added successfully.', 'Success');
+                          toastr['success']('Referee added successfully.', 'Success');
                           $('#refreesModal').modal('hide')
-                          this.$root.$emit('setRefereeReset')
-
+                          this.$root.$emit('setGameReset')
                       }
                       )
                      }
                 })
 
             },
-     deleteConfirmed() {
-      // console.log(this.refereeId)
-      // return false
-        Tournament.removeReferee(this.refereeId).then(
+      deleteConfirmed() {
+      Tournament.removeReferee(this.refereeId).then(
         (response) => {
              toastr['success']('Referee has been removed successfully', 'Success');
              $('#delete_modal').modal('hide')
              $('#refreesModal').modal('hide')
-             this.$root.$emit('setRefereeReset')
+             this.$root.$emit('setGameReset')
         }
         )
     }
