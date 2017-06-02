@@ -279,8 +279,8 @@ textarea {
 }
 
 .fc-time-grid-container {
-    /*overflow-x: scroll !important;
-    width: 760px;
+    overflow-x: scroll !important;
+    /*width: 760px;
     max-width: 760px;*/
 }
 
@@ -291,11 +291,16 @@ textarea {
 .fc-view, .fc-view > table {
     width: 760px;
     max-width: 760px;
-    overflow-x: scroll;
+    /*overflow-x: scroll;*/
     /*position: absolute;*/
 }
 .fc th, .fc td {
     /*width: 80px;*/
+    border-left: 0;
+}
+.fc th:last-child, 
+.fc td:last-child {
+    border-right: 0;
 }
 .mCustomScrollBox {
     
@@ -471,4 +476,20 @@ textarea {
 #game-list .mCSB_inside > .mCSB_container {
     width: 90%;
     margin: 0 auto;
+}
+
+.fc-unthemed {
+    border-left: 0;
+    border-right: 0;
+}
+
+.site-footer {
+    position: relative;
+}
+.layout-default .main-content, .layout-icon-sidebar .main-content {
+    min-height: 0 !important
+}
+
+.fc-time-grid-container {
+    height: 594px !important;
 }

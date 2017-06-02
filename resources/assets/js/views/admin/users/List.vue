@@ -74,7 +74,8 @@
                 </div>
             </div>
         </div>
-        <user-modal v-if="userStatus" :userId="userId"></user-modal>
+        <user-modal v-if="userStatus" :userId="userId"
+        :userRoles="userRoles"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal v-if="enb == true"
@@ -111,7 +112,8 @@
                 userStatus: false,
                 userId: '',
                 uStatusData:'',
-                enb: false
+                enb: false,
+                userRoles: []
             }
         },
 
@@ -134,8 +136,14 @@
              $('.site-footer').addClass('sticky');
            }
           },2000 )
+          this.getRoles()
         },
         methods: {
+          getRoles() {
+            axios.get("/api/roles-for-select").then((response) => {
+                    this.userRoles = response.data;
+                });
+            },
             closeConfirm() {
               this.enb =  false
             },
@@ -168,7 +176,7 @@
                 let emailData = this.resendEmail
                 axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
                     $("#resend_modal").modal("hide");
-                     toastr.success('The invite email has been re-sent successfully.', 'Mail sent', {timeOut: 5000});
+                     toastr.success('The invite email has been re-sent successfully.', 'Mail Sent', {timeOut: 5000});
                 });
             },
             resendModalOpen(data) {

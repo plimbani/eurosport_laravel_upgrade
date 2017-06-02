@@ -4,7 +4,7 @@
       <div class="d-flex justify-content-center">
         <div class="card">
           <div class="card-block">
-                <h4 class="card-title">EuroSport Tournaments</h4>
+                <h4 class="card-title">Euro-Sportring Tournaments</h4>
                 <div v-for="tournament in tournaments">
                   <a href="" @click.prevent="selectTournament(tournament)" class="card-link text-primary">{{tournament.name}}</a>
                 </div>
@@ -25,34 +25,34 @@ export default {
     }
   },
   created: function() {
-      // this.$root.$on('changeTourComp', this.setTournamentData); 
+      // this.$root.$on('changeTourComp', this.setTournamentData);
   },
   mounted() {
-   // Display All Published Tournaments 
+   // Display All Published Tournaments
    let TournamentData = {'status':'Published'}
     Tournament.getTournamentByStatus(TournamentData).then(
       (response) => {
-        this.tournaments = response.data.data                       
+        this.tournaments = response.data.data
       },
       (error) => {
          console.log('Error occured during Tournament api ', error)
       }
-    )   
+    )
   },
   methods: {
     selectTournament(tournament) {
 
      // here we set the tournaments and add Schedule & Results
      let name = tournament.name
-     let id = tournament.id      
+     let id = tournament.id
      let tournamentSel  = {
-        name:name, 
-        id:id,        
+        name:name,
+        id:id,
         tournamentLogo: tournament.logo,
         tournamentStatus:tournament.status,
         tournamentStartDate:tournament.start_date,
-        tournamentEndDate:tournament.end_date       
-      }         
+        tournamentEndDate:tournament.end_date
+      }
       this.$store.dispatch('SetTournamentName', tournamentSel)
         // After Set We have to Redirect to Schedule View
       if(this.$store.state.Tournament.tournamentId != undefined) {

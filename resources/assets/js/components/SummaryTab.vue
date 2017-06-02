@@ -1,18 +1,18 @@
 <template>
 	<div class="tab-content summary-content">
+	<h6>Summary</h6>
 		<div class="row">
 			<div class="col-md-6"><div style="line-height:1">
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
 					<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30"
 					class="mr-2">
 				</label>
-				<label>
+				<h6 class="mb-2">
 					<strong>{{tournamentName}}</strong>
-				</label>
-				<div class="clearfix"></div>
+				</h6>
 
-				<label><strong>{{$lang.summary_location}}:</strong> {{tournamentSummary.locations}}</label><br>
-				<label><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}} </label>
+				<h6 class="mb-2"><strong>{{$lang.summary_location}}:</strong> {{tournamentSummary.locations}}</h6>
+				<h6 class="mb-2"><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}} </h6>
 			 </div>	
 			</div>
 			<td class="col-md-6">

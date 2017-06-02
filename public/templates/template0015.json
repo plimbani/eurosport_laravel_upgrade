@@ -1,12 +1,12 @@
 {
 	"total_matches": 17,
 	"tournament_id": "0015",
-    "template_font_color": "rgb(148,208,80)",
+     "template_font_color": "rgb(148,208,80)",
 	"tournament_teams": 9,
 	"tournament_name": "T.9.3",
 	"competition_round": "F",
 	"competition_group_round": "(1x4),(1x5)",
-	"competation_format": "RR,PM/F",
+	"competation_format": "RR, PM/F",
 	"tournament_min_match": 3,
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
@@ -19,15 +19,15 @@
 	              },
 	              {
 	                "match_number": "2A",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "3A",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "4A",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              }
 	            ]
 	          },
@@ -39,19 +39,19 @@
 	              },
 	              {
 	                "match_number": "2B",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "3B",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "4B",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              },
 	              {
 	                "match_number": "5B",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              }
 	            ]
 	          }
