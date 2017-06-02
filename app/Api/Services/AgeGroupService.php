@@ -151,7 +151,7 @@ class AgeGroupService implements AgeGroupContract
 
         // $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
         $disp_format_name = $json_data->tournament_teams .' teams: '.
-        $json_data->competition_group_round.'-'.$json_data->competition_round;
+        $json_data->competition_group_round.' - '.$json_data->competition_round;
 
         $total_matches = $json_data->total_matches;
 
