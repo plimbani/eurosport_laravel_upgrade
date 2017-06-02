@@ -86,7 +86,7 @@ class TeamService implements TeamContract
             $ageCategory = str_replace(strstr($ageCategory, '/'),'',$ageCategory);
             
             $competitionData = TournamentCompetationTemplates::where('tournament_id', $data->tournamentData['tournamentId'])
-                ->where('group_name',$ageCategory)
+                ->where('category_age',$ageCategory)
                 ->first();
 
             if($competitionData){
