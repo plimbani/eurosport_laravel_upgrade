@@ -333,7 +333,7 @@ module.exports = {
   summary_reports_game: "Game",
 
   summary_schedule: "Schedule and results",
-  summary_schedule_last_update: "Last updated: 23.04.2017",
+  summary_schedule_last_update: "Last updated",
   summary_schedule_draws: "Draws",
   summary_schedule_matches: "Matches",
   summary_schedule_teams: "Teams",
