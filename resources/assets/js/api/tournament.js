@@ -112,5 +112,8 @@ assignReferee(data) {
   },
   saveMatchResult(matchData) {
     return api.post('match/saveResult',{'matchData': matchData})
- }
+ },
+  setUnavailableBlock(matchData) {
+    return api.post('match/saveUnavailableBlock',{'matchData': matchData})
+  }
 }
