@@ -1,13 +1,10 @@
 <template>
 	<div class="tab-content">
 		<div class="card">
-            <div class="card-block">
-                <h6 class="mt4"><strong>{{$lang.competation_age_categories}}</strong></h6>
-
-                        <competationFormatList></competationFormatList>
-
-
-            </div>
+      <div class="card-block">
+          <h6 class="mt4"><strong>{{$lang.competation_age_categories}}</strong></h6>
+          <competationFormatList></competationFormatList>
+      </div>
 		</div>
         <!--<div class="row">
             <div class="col-md-12">
