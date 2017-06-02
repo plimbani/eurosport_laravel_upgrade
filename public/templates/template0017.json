@@ -51,7 +51,7 @@
 	              },
 	              {
 	                "match_number": "5B",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              }
 	            ]
 	          }
@@ -79,7 +79,7 @@
 	              },
 	              {
 	                "match_number": "5B > 9th",
-	                "color": "white"
+	                "color": "rgb(255, 255, 255)"
 	              }
 	            ]
 	          }
