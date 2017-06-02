@@ -8,7 +8,7 @@
   "competition_group_round": "2x3",
   "competation_format": "RR, PM/F",
   "tournament_min_match": 3,
-  "tournament_competition_graphic_view": {
+    "tournament_competition_graphic_view": {
     "format_name": [{
         "name": "Round 1",
         "groups": [{
