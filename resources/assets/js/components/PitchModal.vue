@@ -179,6 +179,7 @@ var moment = require('moment');
             this.$root.$emit('setPitchReset')
             $('#matchScheduleModal').modal('hide')
             toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+            vm.$root.$emit('setPitchPlanTab','gamesTab')
           }
         )
     },
@@ -188,6 +189,7 @@ var moment = require('moment');
         (response) => {
           // this.matchFixtureDetail()
           toastr.success('Referee has been assigned successfully', 'Referee assigned', {timeOut: 5000});
+          vm.$root.$emit('setPitchPlanTab','gamesTab')
         }
         )
     },
@@ -198,6 +200,7 @@ var moment = require('moment');
           vm.$root.$emit('setPitchReset')
            $('#matchScheduleModal').modal('hide')
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
+          vm.$root.$emit('setPitchPlanTab','gamesTab')
       })
     }
 

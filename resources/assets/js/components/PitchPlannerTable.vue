@@ -34,7 +34,7 @@
                         v-if="GameStatus" id="game-list" role="tabpanel">
                             <games-tab></games-tab>
                         </div>
-                        <div class="tab-pane" v-if="refereeStatus" id="referee-list" role="tabpanel">
+                        <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus" id="referee-list" role="tabpanel">
                             <referees-tab></referees-tab>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
             this.$root.$on('setRefereeReset', this.refereeReset);
             this.$root.$on('RefereeCount', this.refereeCount);
             this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
-            this.$root.$on('setRefereeTab',this.setCurrentTab)
+            this.$root.$on('setPitchPlanTab',this.setCurrentTab)
 
         },
         data() {
@@ -125,8 +125,8 @@
             this.resetPitch()
         },
         methods: {
-            setCurrentTab() {
-              this.currentView = 'refereeTab'
+            setCurrentTab(currentTab = 'gamesTab') {
+              this.currentView = currentTab
             },
             refereeCount(totReferee) {
                 this.refereeCount = totReferee
@@ -185,7 +185,7 @@
 
              setTimeout(function(){
                     vm.refereeStatus = true
-                    // vm.GameStatus = true
+                    vm.GameStatus = true
                     $('.nav-tabs a[href="#referee-list"]').tab('show');
                 },500)
           },
