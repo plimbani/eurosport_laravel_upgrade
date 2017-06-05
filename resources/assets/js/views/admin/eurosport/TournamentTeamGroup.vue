@@ -201,17 +201,12 @@
         }
       },
       setFileName(file) {
-        console.log($('#fileUpload').val())
         var filename = $('#fileUpload').val();
-        console.log(filename)
-
         var lastIndex = filename.lastIndexOf('\\');
-        console.log(lastIndex)
 
         if (lastIndex >= 0) {
           filename = filename.substring(lastIndex + 1);
         }
-        console.log(filename)
         $('#filename').text(filename);
       },
       setFilter(filterKey,filterValue) {
@@ -252,6 +247,7 @@
 
       },
        getTeams(filterKey,filterValue) {
+        this.teams = ''
          let teamData = {'tournamentId':this.tournament_id,'filterKey':filterKey, 'filterValue': filterValue};
         // console.log(teamData,'td')
         Tournament.getTeams(teamData).then(
