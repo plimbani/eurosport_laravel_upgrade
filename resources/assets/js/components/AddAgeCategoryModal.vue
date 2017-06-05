@@ -193,7 +193,7 @@
               </div>
             </div>
           </div>
-           <div class="form-group row align-items-top"
+          <div class="form-group row align-items-top"
            :class="{'has-error': errors.has('tournamentTemplate') }">
             <div class="col-sm-4">{{$lang.competation_label_template}}*</div>
             <div class="col-sm-8">
@@ -213,24 +213,24 @@
                     <div class="card-block">
                       <div class="row d-flex">
                         <div class="col align-self-center text-center">
-                        <span v-if="option.id == competation_format.tournament_template_id">
-                        <input type="radio" checked='checked' :value="option"
-                        name="tournamentTemplate" class="ttmp"
-                        v-validate="'required'"
-                        >
-                        </span>
-                        <span v-else>
-                        <input type="radio"
-                            :value="option"
-                            class="ttmp"
-                            :id="'tournament_template_'+option.id"
-                            name="tournamentTemplate"
-                            v-model="competation_format.tournamentTemplate"
-                            v-validate="'required'"
-                            :class="{'is-danger': errors.has('tournamentTemplate') }"
-                            v-if="checkTemplate(option)"
+                          <span v-if="option.id == competation_format.tournament_template_id">
+                          <input type="radio" checked='checked' :value="option"
+                          name="tournamentTemplate" class="ttmp"
+                          v-validate="'required'"
                           >
                           </span>
+                          <span v-else>
+                          <input type="radio"
+                              :value="option"
+                              class="ttmp"
+                              :id="'tournament_template_'+option.id"
+                              name="tournamentTemplate"
+                              v-model="competation_format.tournamentTemplate"
+                              v-validate="'required'"
+                              :class="{'is-danger': errors.has('tournamentTemplate') }"
+                              v-if="checkTemplate(option)"
+                            >
+                            </span>
                         </div>
                         <div class="col-sm-10 align-self-center">
                           <span for="one"
@@ -243,9 +243,12 @@
                 </div>
               </div>
             </div>
-          <div class="col-sm-4 form-control-label">Template key:<br/> Green = recommended,<br/> Red = not recommended,<br/> Amber = last resort</div>
+            <div class="col-sm-12 form-control-label">
+              <div class="form-text text-muted">
+                Template key: Green = recommended, Red = not recommended, Amber = last resort
+              </div>
+            </div>
           </div>
-          <d
           </form>
         </div>
         <div class="modal-footer">
