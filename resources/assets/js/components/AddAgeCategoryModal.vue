@@ -209,7 +209,7 @@
                 Select number of teams and minimum matches above to view template options
                 </div>
                 <div class="col-sm-12" v-for="option in options">
-                  <div class="card mb-1" v-if="checkTemplate(option)">
+                  <div class="card mb-1" v-if="checkTemplate(option)" :id="option.id">
                     <div class="card-block">
                       <div class="row d-flex">
                         <div class="col align-self-center text-center">
@@ -244,7 +244,7 @@
               </div>
             </div>
             <div class="col-sm-12 form-control-label">
-              <div class="form-text text-muted">
+              <div class="form-text text-muted dispTemplate">
                 Template key: Green = recommended, Red = not recommended, Amber = last resort
               </div>
             </div>
@@ -385,6 +385,7 @@ export default {
       return true
     },
     checkTemplate(option){
+      ($('.ttmp').length > 0) ? $('.dispTemplate').css('display','block') :  $('.dispTemplate').css('display','none')
       if(option.minimum_matches ==  this.minimum_matches
         && option.total_teams == this.number_teams) {
         this.tempTrue = 'true'
@@ -520,6 +521,7 @@ export default {
          console.log('Error occured during Tournament Templates api ', error)
       }
       )
+
     },
     saveAgeCategory() {
       // Now here we have to Save it Age Catgory
