@@ -549,6 +549,9 @@ export default {
      this.competation_format.total_teams = this.number_teams
      this.$validator.validateAll().then(
           (response) => {
+            if(this.dispTempl == true) {
+              return false;
+            }
             //  if(Object.keys(this.competation_format.tournamentTemplate).length == 0)
               if(this.competation_format.competation_format_id != '0' && typeof this.competation_format.tournamentTemplate=== 'number')
               {
