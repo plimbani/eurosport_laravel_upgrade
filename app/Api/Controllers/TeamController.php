@@ -63,23 +63,24 @@ class TeamController extends BaseController
         $file = $request->file('fileUpload');
         // $this->data['teamSize'] =  $teamData['teamSize'];
         $this->data['tournamentId'] = $teamData['tournamentId'];
-        
+        $rows = \Excel::load($file->getRealPath(), null, 'ISO-8859-1')->get();
+        //print_r($rows);
+        //exit;
         \Excel::load($file->getRealPath(), function($reader) {
             // dd($reader->getTotalRowsOfFile() - 1);
-              $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;  
-            
+            $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
+
             // $reader->limit($this->data['teamSize']);
             $reader->each(function($sheet) {
             // Loop through all rows
-
                 // $sheet->each(function($row) {
                     // dd($sheet);
-                    $sheet->tournamentData = $this->data; 
-                    $this->teamObj->create($sheet);
+              $sheet->tournamentData = $this->data;
+              $this->teamObj->create($sheet);
 
                 // });
             });
-        });
+        }, 'ISO-8859-1');
         // if($this->data['totalSize'] > $this->data['teamSize'] ){
         //     return ['bigFileSize' =>  true];
         // }else{
@@ -94,7 +95,7 @@ class TeamController extends BaseController
     // public function importTeamlist(){
 
 
-    // }    
+    // }
     /**
      * Edit  Teams.
      *
