@@ -205,7 +205,7 @@
                   </span>
                 </div>
 
-                <div v-if="options.length == 0" class="col-sm-12">
+                <div v-if=" dispTempl ==  true" class="col-sm-12">
                 Select number of teams and minimum matches above to view template options
                 </div>
                 <div class="col-sm-12" v-for="option in options">
@@ -244,7 +244,7 @@
               </div>
             </div>
             <div class="col-sm-12 form-control-label">
-              <div class="form-text text-muted dispTemplate">
+              <div class="form-text text-muted dispTemplate" style="display:none">
                 Template key: Green = recommended, Red = not recommended, Amber = last resort
               </div>
             </div>
@@ -276,6 +276,7 @@ export default {
       optEdit: [],
       tempTrue: false,
       trempVal:false,
+      dispTempl: true,
       nullTemp:false,
       categoryAgeArr: ['U08/5','U09','U09/5','U09/7','U10','U10/5','U10/7','U10/9','U10/5A','U10/7A','U10/5B','U10/7B','U11','U11/11','U11/7','U11/7A','U11/7B','U12','U12/7','U12/8','U12/9','U12-A','U12/7A','U12/8A','U12-B','U12/7B','U12/8B','U13','U13/7','U13/8','U13/9','U13-A','U13/7A','U13/8A','U13/9A','U13-B','U13/8B','U13/9B','U14','U14/7','U14-A','U14-B','U15','U15/7','U15-A','U15-B','U16','U16-A','U16-B','U17','U17-A','U17-B','U18','U19','U19-A','U19-B','U10-U9','G08/5','G09/5','G09/7','G10/5','G10/7','G10/7A','G10/7B','G11','G11/7','G12','G12/7','G12/8','G12/9','G12/7A','G12/7B','G13','G13/7','G13/8','G13/9','G13/7A','G13/7B','G14','G14/7','G14/8','G14-A','G14-B','G15','G15/7','G15/8','G15-A','G15-B','G16','G17','G17/7','G17-A','G17-B','G18','G18/7','G18-A','G18-B','G19','G19-A','G19-B','M-O','M-O/5','M-O/7','M32','M35','M35/7','W-O','W-O/7']
     }
@@ -385,7 +386,13 @@ export default {
       return true
     },
     checkTemplate(option){
-      ($('.ttmp').length > 0) ? $('.dispTemplate').css('display','block') :  $('.dispTemplate').css('display','none')
+      if ($('.ttmp').length > 0) {
+       $('.dispTemplate').css('display','block')
+       this.dispTempl = false
+      } else {
+       $('.dispTemplate').css('display','none')
+       this.dispTempl = true
+      }
       if(option.minimum_matches ==  this.minimum_matches
         && option.total_teams == this.number_teams) {
         this.tempTrue = 'true'
@@ -542,6 +549,9 @@ export default {
      this.competation_format.total_teams = this.number_teams
      this.$validator.validateAll().then(
           (response) => {
+            if(this.dispTempl == true) {
+              return false;
+            }
             //  if(Object.keys(this.competation_format.tournamentTemplate).length == 0)
               if(this.competation_format.competation_format_id != '0' && typeof this.competation_format.tournamentTemplate=== 'number')
               {
