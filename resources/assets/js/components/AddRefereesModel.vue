@@ -106,6 +106,7 @@ export default {
                       (response) => {
                           toastr['success']('Referee edited successfully.', 'Success');
                           $('#refreesModal').modal('hide')
+                          this.$root.$emit('setRefereeTab')
                       }
                       )
                      }else{
@@ -113,7 +114,9 @@ export default {
                       (response) => {
                           toastr['success']('Referee added successfully.', 'Success');
                           $('#refreesModal').modal('hide')
-                          this.$root.$emit('setGameReset')
+
+                          this.$root.$emit('refereeReset')
+                          this.$root.$emit('setRefereeTab')
                       }
                       )
                      }
@@ -121,7 +124,7 @@ export default {
 
             },
       deleteConfirmed() {
-        
+
       Tournament.removeReferee(this.refereeId).then(
         (response) => {
              toastr['success']('Referee has been removed successfully', 'Success');
