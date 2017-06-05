@@ -25,6 +25,7 @@ export default {
             // store data so the calendar knows to render an event upon drop
             $(this.$el).data('event', {
                 id: this.match.id,
+                color: 'green',
                 title: this.match.matchName ? this.match.matchName : 'unavailable', // use the element's text as the event title
                 refereeId: this.match=='unavailable'?-2:'0', // use the element's text as the event title
                 refereeText: 'R', // use the element's text as the event title
