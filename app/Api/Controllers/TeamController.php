@@ -63,7 +63,7 @@ class TeamController extends BaseController
         $file = $request->file('fileUpload');
         // $this->data['teamSize'] =  $teamData['teamSize'];
         $this->data['tournamentId'] = $teamData['tournamentId'];
-        $rows = \Excel::load($file->getRealPath(), null, 'ISO-8859-1')->get();
+       // $rows = \Excel::load($file->getRealPath(), null, 'ISO-8859-1')->get();
         //print_r($rows);
         //exit;
         \Excel::load($file->getRealPath(), function($reader) {
