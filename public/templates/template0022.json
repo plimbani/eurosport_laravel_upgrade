@@ -129,7 +129,7 @@
 				"total_match": 3,
                 "group_count": 3,
 				"groups": {
-				"group_name": "Group A",
+				"group_name": "Group-A",
 					"match": [{
 						"in_between": "1-2",
 						"match_number": "CAT.RR1.01.A1-A2"
