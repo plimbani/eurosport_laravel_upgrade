@@ -5,7 +5,13 @@
         <div class="text-center" v-for="(competition,index) in competitionWithGames">
 
           <h6 class="mb-0"><strong>{{competition.group_name}}</strong></h6>
-          <div class="text-center mt-3" v-if="match.isScheduled!=1" v-for="match in competition.matchList" :data-text="match.matchName">
+          <div v-if="competition.matchList.length == 0">
+          No Games Available
+          </div>
+          <div class="text-center mt-3"
+          v-if="match.isScheduled!=1"
+          v-for="match in competition.matchList"
+          :data-text="match.matchName">
             <draggable-match-event :match="match"></draggable-match-event>
           </div>
         </div>
@@ -16,7 +22,7 @@
     </div>
   </div>
 </template>
-<script type="text/babel">  
+<script type="text/babel">
   import DraggableMatchEvent from './DraggableMatchEvent';
   import Tournament from '../api/tournament.js'
   import _ from 'lodash'
@@ -91,9 +97,10 @@ export default {
   },
   mounted() {
     this.displayFixtures(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue);
+
     $("#game-list").mCustomScrollbar({
-                'autoHideScrollbar':true
-            });
+      'autoHideScrollbar':true
+    });
     this.displayTournamentCompetationList();
   },
   methods: {
