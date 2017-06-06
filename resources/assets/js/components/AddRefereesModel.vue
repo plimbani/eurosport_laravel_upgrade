@@ -106,7 +106,7 @@ export default {
                       (response) => {
                           toastr['success']('Referee edited successfully.', 'Success');
                           $('#refreesModal').modal('hide')
-
+                          this.$root.$emit('setRefereeReset')
                           this.$root.$emit('setPitchPlanTab','refereeTab')
                       }
                       )
