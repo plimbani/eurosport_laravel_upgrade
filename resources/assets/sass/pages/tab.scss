@@ -298,12 +298,12 @@ textarea {
     /*width: 80px;*/
     border-left: 0;
 }
-.fc th:last-child, 
+.fc th:last-child,
 .fc td:last-child {
     border-right: 0;
 }
 .mCustomScrollBox {
-    
+
 }
 
 .optional_details .panel {
@@ -477,7 +477,10 @@ textarea {
     width: 90%;
     margin: 0 auto;
 }
-
+#referee-list .mCSB_inside > .mCSB_container {
+    width: 90%;
+    margin: 0 auto;
+}
 .fc-unthemed {
     border-left: 0;
     border-right: 0;

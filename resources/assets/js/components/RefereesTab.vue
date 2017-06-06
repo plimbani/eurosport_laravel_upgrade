@@ -42,8 +42,8 @@
             });
 
             this.displayTournamentCompetationList()
-             $("#referee-list").mCustomScrollbar({
-              'autoHideScrollbar':true
+            $("#referee-list").mCustomScrollbar({
+               'autoHideScrollbar':true
             });
             let this1 = this
               $("#refreesModal").on('hidden.bs.modal', function () {
