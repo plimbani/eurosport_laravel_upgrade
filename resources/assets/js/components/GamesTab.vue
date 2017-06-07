@@ -5,8 +5,9 @@
         <div class="text-center" v-for="(competition,index) in competitionWithGames">
 
           <h6 class="mb-0"><strong>{{competition.group_name}}</strong></h6>
-          <div v-if="competition.matchList.length == 0">
-          No Games Available
+
+          <div v-if="totalMatch == 0">
+              No Games Available
           </div>
           <div class="text-center mt-3"
           v-if="match.isScheduled!=1"
@@ -17,7 +18,6 @@
         </div>
         <br>
         <draggable-match-event match="unavailable" ></draggable-match-event>
-
       </div>
     </div>
   </div>
@@ -76,9 +76,7 @@ export default {
               }
             }
           })
-        competition.matchList = comp
-
-
+          competition.matchList = comp
         })
         this.matchCompetition = this.competationList
         this.totalMatch = matchCount
