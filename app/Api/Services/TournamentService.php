@@ -353,7 +353,7 @@ class TournamentService implements TournamentContract
             ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
 
             ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
-            ->leftjoin('referee', 'referee.id', '=', 'match_results.referee_id')
+            ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
             ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
             ->where('temp_fixtures.tournament_id',$data['tournament_id'])
@@ -382,7 +382,7 @@ class TournamentService implements TournamentContract
                 $reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$data['sel_pitches']);
             }
             if(isset($data['sel_referees'])  && $data['sel_referees']!= '' ){
-                $reportQuery = $reportQuery->where('match_results.referee_id',$data['sel_referees']);
+                $reportQuery = $reportQuery->where('temp_fixtures.referee_id',$data['sel_referees']);
             }
 
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
