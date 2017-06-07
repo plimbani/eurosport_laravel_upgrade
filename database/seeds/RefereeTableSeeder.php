@@ -24,14 +24,14 @@ class RefereeTableSeeder extends Seeder
         	'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
         	['user_id' => $users[array_rand($users)]->id,
-            'tournament_id' => $tournament[array_rand($tournament)]->id,'first_name' => 'test1fname',
-        	'last_name' => 'test1lname', 'telephone' => '1234567890', 'email' => 'test1@gmail.com', 'comments' => 'Labore quidem voluptas modi similique. Velit nisi blanditiis molestiae ipsum at. Assumenda enim quaerat cum sapiente nihil aut sit omnis.',
+            'tournament_id' => $tournament[array_rand($tournament)]->id,'first_name' => 'test2fname',
+        	'last_name' => 'test2lname', 'telephone' => '1234567890', 'email' => 'test2@gmail.com', 'comments' => 'Labore quidem voluptas modi similique. Velit nisi blanditiis molestiae ipsum at. Assumenda enim quaerat cum sapiente nihil aut sit omnis.',
         	'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
         	['user_id' => $users[array_rand($users)]->id,
             'tournament_id' => $tournament[array_rand($tournament)]->id,
-          'first_name' =>'test1fname',
-        	'last_name' => 'test1lname', 'telephone' => '1234567890', 'email' => 'test1@gmail.com', 'comments' => 'Labore quidem voluptas modi similique. Velit nisi blanditiis molestiae ipsum at. Assumenda enim quaerat cum sapiente nihil aut sit omnis.',
+          'first_name' =>'test3fname',
+        	'last_name' => 'test3lname', 'telephone' => '1234567890', 'email' => 'test3@gmail.com', 'comments' => 'Labore quidem voluptas modi similique. Velit nisi blanditiis molestiae ipsum at. Assumenda enim quaerat cum sapiente nihil aut sit omnis.',
         	'age_group_id' => $tournaments[array_rand($tournaments)]->id, 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
           ['user_id' => $users[array_rand($users)]->id,

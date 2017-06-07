@@ -7,7 +7,7 @@
           <h6 class="mb-0"><strong>{{competition.group_name}}</strong></h6>
 
           <div v-if="totalMatch == 0">
-              No Games Available
+              {{$lang.pitch_planner_no_games}}
           </div>
           <div class="text-center mt-3"
           v-if="match.isScheduled!=1"
