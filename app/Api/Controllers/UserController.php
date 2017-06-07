@@ -157,7 +157,7 @@ class UserController extends BaseController
       $recipient = $userData->email;
       // dd($email_details,$recipient);
 
-      Common::sendMail($email_details, $recipient, 'Euuro-Sportring Tournament Planner - Set Password', 'emails.users.create');
+      Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
       // return redirect('/login');
     }
 }
