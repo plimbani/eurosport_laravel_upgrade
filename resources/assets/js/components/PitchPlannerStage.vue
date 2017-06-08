@@ -164,7 +164,7 @@ import _ from 'lodash'
                         Tournament.setMatchSchedule(matchData).then(
                             (response) => {
                                 // console.log(response)
-                                toastr.success('Match has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
+                                toastr.success('Match1 has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
                                     vm.$root.$emit('setGameReset')
                             },
                             (error) => {
@@ -224,7 +224,7 @@ import _ from 'lodash'
                             let block = block_id.replace('block_','')
                             vm.remBlock_id = block
                             $("#delete_modal_block").modal("show");
-                            
+
                         }else{
                             vm.setPitchModal = 1
                             vm.matchFixture = calEvent
@@ -253,7 +253,7 @@ import _ from 'lodash'
               },1000)
             },
             deleteConfirmedBlock() {
-                    
+
                 Tournament.removeUnavailableBlock(this.remBlock_id).then(
                     (response) => {
                         $("#delete_modal_block").modal("hide");
@@ -264,7 +264,7 @@ import _ from 'lodash'
                         console.log('Error occured during tournament api', error)
                     }
                 )
-              
+
             },
             getScheduledMatch(filterKey='',filterValue='') {
 
@@ -366,7 +366,7 @@ import _ from 'lodash'
                     (response) => {
                         // console.log(response)
                     _.forEach(response.data.data, (block) => {
-                         
+
                         let mData2 = {
                                     'id': 'block_'+block.id,
                                     'resourceId': block.pitch_id,
@@ -377,13 +377,13 @@ import _ from 'lodash'
                                     'title': 'Unavailable',
                                     'matchId': 'block_'+block.id
                                 }
-                               
+
 
                             this.scheduledMatches.push(mData2)
-                                
+
                         });
-                        
-                        
+
+
                     },
                     (error) => {
                         console.log('Error occured during Tournament api ', error)

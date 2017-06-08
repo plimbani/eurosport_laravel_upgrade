@@ -20,11 +20,13 @@
                         <li class="nav-item">
                             <a
                             :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link px-3']"
+                            @click="setCurrentTab('gamesTab')"
                             data-toggle="tab" role="tab" href="#game-list">Games ({{totalMatchCount}})</a>
                         </li>
                         <li class="nav-item">
                             <a
                             :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link px-3']"
+                            @click="setCurrentTab('refereeTab')"
                             data-toggle="tab" role="tab" href="#referee-list">Referees ({{totalRefereeCount}})</a>
                         </li>
                     </ul>

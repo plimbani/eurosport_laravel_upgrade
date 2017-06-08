@@ -72,6 +72,7 @@
     import Auth from '../../../services/auth'
     import User from '../../../views/admin/Userprofile.vue'
     import Ls from '../../../services/ls'
+    import UserApi from '../../../api/users.js'
 
     export default {
     components: {
@@ -110,8 +111,9 @@
          },
         methods : {
             getUserDetails(emailData){
-                axios.post("/api/user/getDetails",{'userData':emailData}).then((response) => {
-                      this.userData = response.data.data;
+                UserApi.getUserDetails(emailData).then(
+                  (response)=> {
+                     this.userData = response.data.data;
                       //console.log('InuserDetails')
                       //console.log(this.userData[0])
                       Ls.set('userData',JSON.stringify(this.userData[0]))
@@ -130,8 +132,35 @@
                         let UserData  = JSON.parse(Ls.get('userData'))
                        //console.log(UserData)
                        this.$store.dispatch('getUserDetails', UserData);
+                  },
+                  (error)=> {
+                    console.log('Error Getting User Details')
+                  }
+                );
+
+              /*  axios.post("/api/user/getDetails",{'userData':emailData}).then((response) => {
+                      this.userData = response.data.data;
+                      //console.log('InuserDetails')
+                      //console.log(this.userData[0])
+                      Ls.set('userData',JSON.stringify(this.userData[0]))
+                      this.id = this.userData[0].id
+                      let Id = this.id
+                      let this1 = this
+                      setInterval(function(){this1.clock() },1000)
+                        let that = this
+                        if(Id!=''){
+                            that.editUser(Id)
+                            //setTimeout(function(){
+                              //  that.editUser(Id)
+                            //},1000)
+                        }
+
+                        let UserData  = JSON.parse(Ls.get('userData'))
+                       //console.log(UserData)
+                       this.$store.dispatch('getUserDetails', UserData);
 
                     });
+                    */
 
 
             },
@@ -156,10 +185,18 @@
             },
             editUser(id) {
                 this.userModalTitle="Edit User";
-                axios.get("/api/user/edit/"+id).then((response) => {
+                UserApi.getEditUser(id).then(
+                  (response)=> {
+                    this.$data.userData = response.data;
+                  },
+                  (error)=> {
+                    console.log('Error in Edit User')
+                  }
+                );
+                /*axios.get("/api/user/edit/"+id).then((response) => {
                     this.$data.userData = response.data;
 
-                });
+                }); */
             },
 
             home() {
