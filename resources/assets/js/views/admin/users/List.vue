@@ -75,7 +75,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles"></user-modal>
+        :userRoles="userRoles" :userEmailData="userEmailData"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal v-if="enb == true"
@@ -92,7 +92,7 @@
     import ResendModal from '../../../components/Resendmail.vue'
     import UserModal  from  '../../../components/UserModal.vue'
     import ActiveModal  from  '../../../components/ActiveModal.vue'
-
+    import User from '../../../api/users.js'
     export default {
         components: {
             DeleteModal,
@@ -113,7 +113,8 @@
                 userId: '',
                 uStatusData:'',
                 enb: false,
-                userRoles: []
+                userRoles: [],
+                userEmailData: this.userList
             }
         },
 
@@ -129,6 +130,12 @@
             }
         },
         mounted() {
+          // here we check the permission to allowed to access users list
+          let role_slug = this.$store.state.Users.userDetails.role_slug
+          if(role_slug == 'tournament.administrator' || role_slug == 'Internal.administrator') {
+            toastr['error']('Permission denied', 'Error');
+            this.$router.push({name: 'welcome'});
+          }
           setTimeout( function(){
             if ($(document).height() > $(window).height()) {
               $('.site-footer').removeClass('sticky');
@@ -140,9 +147,17 @@
         },
         methods: {
           getRoles() {
-            axios.get("/api/roles-for-select").then((response) => {
-                    this.userRoles = response.data;
-                });
+            User.getRoles().then(
+              (response)=> {
+                this.userRoles = response.data;
+              },
+              (error)=> {
+                console.log('error in getting Roles')
+              }
+            )
+           // axios.get("/api/roles-for-select").then((response) => {
+             //       this.userRoles = response.data;
+               // });
             },
             closeConfirm() {
               this.enb =  false
@@ -173,11 +188,21 @@
                 },1000)
             },
              resendConfirmed() {
-                let emailData = this.resendEmail
-                axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
+                let resendEmail = this.resendEmail
+                let emailData = {'email':resendEmail}
+                User.resendEmail(emailData).then(
+                  (response)=> {
                     $("#resend_modal").modal("hide");
                      toastr.success('The invite email has been re-sent successfully.', 'Mail Sent', {timeOut: 5000});
-                });
+                  },
+                  (error)=> {
+
+                  }
+                )
+               /* axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
+                    $("#resend_modal").modal("hide");
+                     toastr.success('The invite email has been re-sent successfully.', 'Mail Sent', {timeOut: 5000});
+                }); */
             },
             resendModalOpen(data) {
                 this.resendEmail = data
@@ -185,29 +210,50 @@
             },
 
             prepareDeleteResource(id) {
-                this.deleteAction="/api/user/delete/"+id;
+                this.deleteAction="user/delete/"+id;
             },
             prepareDisableResource(id,status){
               this.enb =  true
               this.uStatusData={'id':id,'status':status}
             },
             activeConfirmed() {
-              axios.post("/api/user/status",{'userData':this.uStatusData}).then((response) => {
+              let userData = {'userData':this.uStatusData}
+              User.changeStatus(userData).then(
+                (response)=> {
+                  $("#active_modal").modal("hide");
+                  if(response.data.status_code == 200) {
+                      toastr.success(response.data.message,{timeOut: 3000});
+                      setTimeout(Plugin.reloadPage, 500);
+                  }
+                }
+              )
+              /*axios.post("/api/user/status",{'userData':this.uStatusData}).then((response) => {
                   $("#active_modal").modal("hide");
                   if(response.data.status_code == 200) {
                       toastr.success(response.data.message,{timeOut: 3000});
                       setTimeout(Plugin.reloadPage, 500);
                   }
 
-                });
+                }); */
             },
             deleteConfirmed() {
-                axios.post(this.deleteAction).then((response) => {
+                User.deleteUser(this.deleteAction).then(
+                  (response)=> {
+                     $("#delete_modal").modal("hide");
+                     setTimeout(Plugin.reloadPage, 500);
+                    toastr.success('User has been deleted successfully.', 'Delete User', {timeOut: 5000});
+                    this.updateUserList();
+                  },
+                  (error)=> {
+
+                  }
+                )
+               /* axios.post(this.deleteAction).then((response) => {
                     $("#delete_modal").modal("hide");
                      setTimeout(Plugin.reloadPage, 500);
                     toastr.success('User has been deleted successfully.', 'Delete User', {timeOut: 5000});
                     this.updateUserList();
-                });
+                }); */
             },
         }
     }

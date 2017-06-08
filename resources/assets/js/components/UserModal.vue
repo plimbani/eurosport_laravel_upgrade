@@ -37,6 +37,7 @@
                                     <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
                                     <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
                                     <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
+                                   <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
                                 </div>
                             </div>
 
@@ -95,6 +96,8 @@
     </div>
 </template>
 <script type="text/javascript">
+import User from '../api/users.js'
+import { ErrorBag } from 'vee-validate';
     export default {
         data() {
             return {
@@ -106,8 +109,11 @@
                     organisation: '',
                     userType: '',
                     user_image: '',
-                    resendEmail: ''
+                    resendEmail: '',
+                    userEmailData1: this.userEmailData,
+                    userEmail2: '',
                 },
+
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
@@ -115,7 +121,8 @@
 
                 deleteAction: '',
                 image: '',
-
+                emailData:[],
+                existEmail: false
             }
         },
         created() {
@@ -129,8 +136,10 @@
                 this.editUser(this.userId)
             }
             this.userRolesOptions =  this.userRoles
+
+
         },
-        props:['userId','userRoles'],
+        props:['userId','userRoles','userEmailData'],
         methods: {
             initialState() {
                 this.$data.formValues.id = '',
@@ -143,6 +152,25 @@
                  this.formValues.resendEmail= ''
             },
            editUser(id) {
+
+                //TODO: refactor the Code For Move to Api User
+                User.getEditUser(id).then(
+                  (response)=> {
+                    this.userModalTitle="Edit User";
+                    this.$data.formValues = response.data;
+                    this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress
+                    let image = this.$data.formValues.image
+                    if(image != null && image != '') {
+                      this.image =  '/assets/img/users/'+this.$data.formValues.image;
+                    } else {
+                      this.image=''
+                    }
+                  },
+                  (error)=> {
+                    console.log('Error in Edit User')
+                  }
+                )
+                /*
                 axios.get("/api/user/edit/"+id).then((response) => {
                 this.userModalTitle="Edit User";
                     this.$data.formValues = response.data;
@@ -153,12 +181,20 @@
                       this.image=''
                     }
 
-                });
+                }); */
             },
             getRoles() {
-                axios.get("/api/roles-for-select").then((response) => {
+              User.getRoles().then(
+                (response)=> {
+                  this.userRolesOptions = response.data;
+                },
+                (error)=> {
+                  console.log('Error In getting Roles')
+                }
+              )
+             /*   axios.get("/api/roles-for-select").then((response) => {
                     this.userRolesOptions = response.data;
-                });
+                }); */
             },
 
             onFileChange(e) {
@@ -185,7 +221,22 @@
                 this.deleteAction="/api/user/delete/"+id;
             },
             updateUserList() {
-                axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
+              User.getUsersByRegisterType(this.$route.params.registerType).then(
+                (response)=> {
+                   if('users' in response.data) {
+                        this.userList.userData = response.data.users;
+                        this.userList.userCount = response.data.users.length;
+                    } else {
+                        this.userList.userData = [];
+                        this.userList.userCount = 0;
+                    }
+                },
+                (error) => {
+                   console.log(error)
+                }
+              )
+              /*
+               axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
 
                     if('users' in response.data) {
                         this.userList.userData = response.data.users;
@@ -197,30 +248,91 @@
                 },
                 (error) => {
                     console.log(error)
-                });
+                }); */
             },
             validateBeforeSubmit1() {
                 this.$validator.validateAll().then(() => {
+
+
                     if(this.$data.formValues.id=="") {
+                    var a = this.userEmailData.emaildata.indexOf(this.$data.formValues.emailAddress)
+
+                    // Means exist throw error
+                    if(a != -1) {
+                      this.existEmail = true
+                      return false
+                    }
+
                         this.formValues.user_image = this.image;
-                        axios.post("/api/user/create", this.formValues).then((response) => {
+
+                        User.createUser(this.formValues).then(
+                          (response)=> {
                             toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                              setTimeout(Plugin.reloadPage, 1000);
                             this.$data.formValues = this.initialState();
                             this.updateUserList();
-                        });
+
+                          },
+                          (error)=>{
+                            console.log(error)
+                          }
+
+                        )
+                      /*  axios.post("/api/user/create", this.formValues).then((response) => {
+                            toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
+                            $("#user_form_modal").modal("hide");
+                             setTimeout(Plugin.reloadPage, 1000);
+                            this.$data.formValues = this.initialState();
+                            this.updateUserList();
+                        });*/
                     } else {
+                    // First we remove the value from array
+                    let arr=this.userEmailData.emaildata
+
+                    var a = arr.indexOf(this.$data.formValues.emailAddress)
+                    // Means exist throw error
+
+
+                    // the value is exist in
+                    if(a != -1 ) {
+                      // here we check value position is diferent
+                      if(arr[a] == this.$data.formValues.userEmail2) {
+                        console.log('same')
+                      } else {
+                        this.existEmail = true
+                      return false
+                      }
+
+                    }
+
+
+
                     this.formValues.user_image = this.image;
                     let that = this
                     setTimeout(function(){
-                        axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
+                      User.updateUser(that.formValues.id,that.formValues).then(
+                          (response)=> {
+                          toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
+                            $("#user_form_modal").modal("hide");
+                             setTimeout(Plugin.reloadPage, 500);
+                            that.$data.formValues = that.initialState();
+                            that.updateUserList();
+
+                          },
+                          (error)=>{
+                            console.log(error)
+                          }
+
+                        )
+
+                        /*axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
                             toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                              setTimeout(Plugin.reloadPage, 500);
                             that.$data.formValues = that.initialState();
                             that.updateUserList();
-                        });
+                        }); */
                     },1000)
 
                     }

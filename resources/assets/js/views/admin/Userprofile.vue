@@ -63,6 +63,7 @@
     </div>
 </template>
 <script type="text/babel">
+   import User from '../../api/users.js'
    export default {
    data() {
         return {
@@ -83,11 +84,21 @@
         this.userId = this.userData.id
         let that = this;
         this.userData.user_image = this.image;
-             axios.post("/api/user/update/"+this.userId,this.userData).then((response) => {
+        User.updateUser(this.userId,this.userData).then(
+          (response)=> {
+            toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
+                $("#user_profile").modal("hide");
+                 setTimeout(Plugin.reloadPage, 2000);
+          },
+          (error)=> {
+
+          }
+        )
+           /*  axios.post("/api/user/update/"+this.userId,this.userData).then((response) => {
                 toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                 $("#user_profile").modal("hide");
                  setTimeout(Plugin.reloadPage, 2000);
-            });
+            }); */
         },
             onFileChange(e) {
               var files = e.target.files || e.dataTransfer.files;
