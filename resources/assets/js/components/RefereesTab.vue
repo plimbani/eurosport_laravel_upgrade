@@ -41,6 +41,9 @@
                 $('#frmAddReferee')[0].reset()
             });
             this.displayTournamentCompetationList()
+            // $("#referee-list").mCustomScrollbar({
+            //     'autoHideScrollbar':true
+            // });
             let this1 = this
               $("#refreesModal").on('hidden.bs.modal', function () {
                 if(!$('#refreesModal').is(':visible')){
