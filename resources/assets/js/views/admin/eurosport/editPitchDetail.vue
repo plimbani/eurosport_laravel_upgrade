@@ -143,7 +143,7 @@
                                                             </div>
                                                         </div>
                                                         <div
-                                                        :class="'row align-items-center mb-3   stageInvisible chk_disable_'+day "
+                                                        :class="'row align-items-center mb-3 '"
                                                         >
                                                             <div class="col-md-3">
                                                                 Stage {{day}} continued
@@ -158,7 +158,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                    <div :class="'align-self-center w-100  stageInvisible chk_disable_'+day ">
+                                                                    <div :class="'align-self-center w-100 ' ">
                                                                         <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'stage_continue_time'+day">
                                                                     </div>
                                                                     <div class="align-self-center p-1">
