@@ -153,7 +153,9 @@
 
                                                                 </div>
                                                             </div>
-                                                            <div class="row align-items-center mb-3">
+                                                            <div
+                                                             :class="'row align-items-center mb-3   stageInvisible chk_disable_'+day "
+                                                            >
                                                                 <div class="col-md-3">
                                                                     Stage {{day}} continued
                                                                 </div>
@@ -668,7 +670,8 @@ export default {
               removeStageArr.splice(index, 1);
               this.removeStage = removeStageArr
                var that = this
-               that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,that.disableDate,that.availableDate,stage);
+               that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,
+                that.disableDate,that.availableDate,stage);
 
 
           }

@@ -66,9 +66,9 @@
                                             <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <!--<div class="col-md-12">
                                         <button type="button" id="add_stage" @click="nextStage()"  class="btn btn-primary">Next</button>
-                                    </div>
+                                    </div>-->
                                 </form>
                             </div>
                             <div id="availability" role="tabpanel" class="tab-pane">
@@ -129,7 +129,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                    <div :class="'align-self-center w-100  chk_disable_'+day ">
+                                                                    <div :class="'align-self-center w-100  stageInvisible chk_disable_'+day ">
                                                                         <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]" :id="'stage_break_start'+day" >
                                                                     </div>
                                                                     <div class="align-self-center p-1">
@@ -142,7 +142,9 @@
 
                                                             </div>
                                                         </div>
-                                                        <div class="row align-items-center mb-3">
+                                                        <div
+                                                        :class="'row align-items-center mb-3 '"
+                                                        >
                                                             <div class="col-md-3">
                                                                 Stage {{day}} continued
                                                             </div>
@@ -156,7 +158,7 @@
                                                             </div>
                                                             <div class="col-md-3">
                                                                 <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                    <div :class="'align-self-center w-100  chk_disable_'+day ">
+                                                                    <div :class="'align-self-center w-100 ' ">
                                                                         <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'stage_continue_time'+day">
                                                                     </div>
                                                                     <div class="align-self-center p-1">
@@ -523,6 +525,7 @@ var moment = require('moment');
             });
             $(document).ready(function(){
               $("body").on('click','.stage_break_chk',function(){
+
                 let stageId = this.id
                 let stage = stageId.replace('stage_break_chk_','')
                 if(this.checked){
@@ -701,6 +704,7 @@ var moment = require('moment');
 
             },
             addStage () {
+
                 let removeStageArr = this.removeStage
                 let stageno = Math.min.apply( Math, removeStageArr)
 
