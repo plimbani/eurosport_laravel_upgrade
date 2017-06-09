@@ -166,10 +166,10 @@
           "group_name": "PM",
           "match": [{
             "in_between": "1A-2B",
-            "match_number": "CAT.PM2.G2.C12WR-C34WR"
+            "match_number": "CAT.PM2.G2.C1-C2"
           }, {
             "in_between": "1B-2A",
-            "match_number": "CAT.PM2.G1.C34WR-C12WR"
+            "match_number": "CAT.PM2.G1.C3-C4"
           }, {
             "in_between": "CAT.PM2.G1.C12WR-C3C4WR",
             "match_number": "CAT.PM2.G2.C12WR-C34WR"
@@ -189,10 +189,10 @@
           "group_name": "PM",
           "match": [{
             "in_between": "3A-4B",
-            "match_number": "CAT.PM2.G1.D12-D34"
+            "match_number": "CAT.PM2.G1.D1-D2"
           }, {
             "in_between": "3B-4A",
-            "match_number": "CAT.PM2.G1.D34-D12"
+            "match_number": "CAT.PM2.G1.D3-D4"
           }, {
             "in_between": "CAT.PM2.G1.D12WR-D34WR",
             "match_number": "CAT.PM2.G2.D12WR-D34WR"

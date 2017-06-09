@@ -109,10 +109,10 @@
 					"group_name": "Group-B",
 					"match": [{
 						"in_between": "1-5",
-						"match_number": "CAT.RR1.01.B1-B2"
+						"match_number": "CAT.RR1.01.B1-B5"
 					}, {
 						"in_between": "2-3",
-						"match_number": "CAT.RR1.01.B3-B4"
+						"match_number": "CAT.RR1.01.B2-B3"
 					}, {
 						"in_between": "1-4",
 						"match_number": "CAT.RR1.02.B1-B4"

@@ -93,7 +93,7 @@
       "match_type": [{
         "name": "PM",
         "total_match": 4,
-        "group_count":4,
+        "group_count":8,
         "groups": {
           "group_name": "PM",
           "match": [

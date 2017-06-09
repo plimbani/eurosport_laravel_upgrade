@@ -95,7 +95,7 @@
 		"format_name": [{
 			"name": "Round 1",
 			"match_type": [{
-				"name": "RR1*5",
+				"name": "RR 1*5",
 				"total_match": 10,
                 "group_count": 5,
 				"groups": {
@@ -133,7 +133,7 @@
 					}]
 				}
 			},{
-				"name": "RR1*5",
+				"name": "RR 1*5",
 				"total_match": 10,
                 "group_count": 5,
 				"groups": {
@@ -198,11 +198,11 @@
 				"groups": {
 					"group_name": "PM",
 					"match": [{
-						"in_between": "CAT.PM2.G1WR v G2WR",
+						"in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",
 						"match_number": "CAT.PM3.G1.G1WR-G2WR"
 					}, {
-						"in_between": "CAT.PM2.G1LR v G2LR",
-						"match_number": "CAT.PM3.G2..G1LR-G2LR"
+						"in_between": "CAT.PM2.G1LR-CAT.PM2.G2LR",
+						"match_number": "CAT.PM3.G2.G1LR-G2LR"
 					}]
 				}
 			}]
