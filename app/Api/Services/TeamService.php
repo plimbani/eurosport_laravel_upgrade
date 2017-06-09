@@ -26,7 +26,6 @@ class TeamService implements TeamContract
         // Here we send Status Code and Messages
         $data = $this->teamRepoObj->getAllFromFilter($data);
 
-        // dd($data);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
@@ -41,7 +40,6 @@ class TeamService implements TeamContract
       // Here we send Status Code and Messages
 
         $data = $this->teamRepoObj->getAllTournamentTeams($data['tournamentData']['tournamentId']);
-        // dd($data);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
@@ -138,7 +136,6 @@ class TeamService implements TeamContract
     public function assignTeams($data)
     {
         foreach ($data['data']['teamdata'] as $key => $value) {
-            // dd($value);
             $team_id = str_replace('sel_', '', $value['name']);
             // $team_id = str_replace('sel_', '', $value['value']);
             $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);

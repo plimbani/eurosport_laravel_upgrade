@@ -12,7 +12,7 @@
       "format_name": [{
           "name": "Round 1",
           "groups": [{
-              "group_name": "Group A",
+              "group_name": "Group-A",
               "match": [{
                   "match_number": "1A",
                   "color": "rgb(255, 255, 0)"
@@ -32,7 +32,7 @@
               ]
             },
             {
-              "group_name": "Group B",
+              "group_name": "Group-B",
               "match": [{
                   "match_number": "1B",
                   "color": "rgb(255, 255, 0)"

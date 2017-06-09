@@ -116,15 +116,14 @@ public function getAllFromTournamentId($tournamentId)
 
     public function assignGroup($team_id,$groupName,$data='') 
     {   
-        // dd($team_id,$groupName,$data,'hi');
         $team = Team::find($team_id);
-        // dd($team->name);
         $gname = explode('-',$groupName);
-         Team::where('id', $team_id)->update([
+        
+        Team::where('id', $team_id)->update([
             'group_name' => $groupName,
             'assigned_group' => preg_replace('/[0-9]+/', '', $groupName)
             ]);
-        TempFixture::where('home_team', $gname[1])
+        TempFixture::where('home_team_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
             // ->where('age_group_id',$data['age_group'])
             ->update([
@@ -132,7 +131,7 @@ public function getAllFromTournamentId($tournamentId)
                 'home_team' => $team_id,
                 'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
             ]);
-        TempFixture::where('away_team', $gname[1])
+        TempFixture::where('away_team_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
             // ->where('age_group_id',$data['age_group'])
             ->update([

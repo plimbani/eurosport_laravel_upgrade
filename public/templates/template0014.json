@@ -160,7 +160,7 @@
 				"total_match": 6,
                  "group_count": 4,
 				"groups": {
-					"group_name": "Group C",
+					"group_name": "Group-C",
 					"match": [{
 						"in_between": "1A-1B",
 						"match_number": "CAT.RR2.01.C1-C2"
