@@ -143,6 +143,12 @@ table#Competition-modal-table {
     display: none;
 }
 
+.m-h-209 {
+    @include media-breakpoint-up(md) {
+        min-height: 209px;
+    }
+}
+
 // .fc-view,
 // .fc-view > table {
 //     overflow-y: scroll;
