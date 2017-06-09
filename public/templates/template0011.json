@@ -90,7 +90,7 @@
             "match_number": "CAT.RR1.01.A1-A2"
           }, {
             "in_between": "3-4",
-            "match_number": "CAT.RR1.01.A1-A2"
+            "match_number": "CAT.RR1.01.A3-A4"
           }, {
             "in_between": "1-3",
             "match_number": "CAT.RR1.02.A1-A3"
@@ -120,7 +120,7 @@
             "match_number": "CAT.RR1.01.B1-B2"
           }, {
             "in_between": "3-4",
-            "match_number": "CAT.RR1.01.B1-B2"
+            "match_number": "CAT.RR1.01.B3-B4"
           }, {
             "in_between": "1-3",
             "match_number": "CAT.RR1.02.B1-B3"
