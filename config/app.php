@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/London',
 
     /*
     |--------------------------------------------------------------------------
@@ -205,6 +205,8 @@ return [
         Laraspace\Api\Providers\PitchServiceProvider::class,
         Laraspace\Api\Providers\RoleServiceProvider::class,
         Laraspace\Api\Providers\VenueServiceProvider::class,
+
+
     ],
 
     /*

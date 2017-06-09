@@ -147,7 +147,7 @@ import _ from 'lodash'
                              Tournament.setUnavailableBlock(matchData).then(
                             (response) => {
                                 // console.log(response)
-                                toastr.success('Match has been scheduled successfull', 'Schedule match', {timeOut: 5000});
+                                toastr.success('Unavailable block has been scheduled successfully', 'Schedule block', {timeOut: 5000});
                                     vm.$root.$emit('setPitchReset')
                             },
                             (error) => {
@@ -164,7 +164,7 @@ import _ from 'lodash'
                         Tournament.setMatchSchedule(matchData).then(
                             (response) => {
                                 // console.log(response)
-                                toastr.success('Match1 has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
+                                toastr.success('Match has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
                                     vm.$root.$emit('setGameReset')
                             },
                             (error) => {
@@ -178,6 +178,7 @@ import _ from 'lodash'
                         // update api call
                         let ed = $(this)
                         if(event.refereeId == -1 || event.refereeId == -2){
+
                             // vm.$root.$emit('setGameReset')
                             revertFunc();
                             setTimeout(function(){
