@@ -397,8 +397,8 @@ export default {
           if(curId.indexOf('stage_break_start') >= 0){
              $('#stage_continue_time'+stage).timepicker({
                   minTime: newTime,
-                  maxTime: '19:00:00',
-                  'timeFormat': 'H:i:s'
+                  maxTime: '19:00',
+                  'timeFormat': 'H:i'
               });
               $('#stage_continue_time'+stage).val('')
               $('#stage_end_time'+stage).val('')
