@@ -233,7 +233,9 @@ module.exports = {
 
 
   teams_terms_groups: "Teams and groups",
-  teams_age_category: "Category name",
+  teams_name_category: "Category name",
+  teams_age_category: "Category age",
+  teams_age_category_group: "Group",
   teams_select_age_category: "Select category name",
   teams_u9: "U9",
   teams_u11: "U11",
