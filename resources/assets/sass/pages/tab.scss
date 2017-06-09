@@ -250,7 +250,7 @@ textarea {
     p {
         font-size: 15px;
         margin: 9px 0;
-        text-align: center;
+        text-align: left;
     }
 }
 
@@ -473,10 +473,12 @@ textarea {
     }
 }
 
-#game-list .mCSB_inside > .mCSB_container {
+#game-list .mCSB_inside > .mCSB_container,
+#referee-list .mCSB_inside > .mCSB_container {
     width: 90%;
     margin: 0 auto;
 }
+
 #referee-list .mCSB_inside > .mCSB_container {
     width: 90%;
     margin: 0 auto;
