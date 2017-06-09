@@ -140,7 +140,7 @@
           "match": [
             {
             "in_between": "1A - 2A",
-            "match_number": "CAT.PM2.G1.1A-2B"
+            "match_number": "CAT.PM2.G1.1A-2A"
             },
            {
             "in_between": "3A - 4A",

@@ -15,7 +15,9 @@
 			<div class="card">
 				<div class="card-block">
 					<h4 class="card-title">{{$lang.summary_schedule}}</h4>
-
+           <p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}
+            : {{lastUpdatedDateValue}}
+            </small></p>
 					<div class="tab-content summary-report-content">
 						<div class="row">
 							<div class="col-md-12">
@@ -60,7 +62,7 @@ export default {
 	data() {
 		return {
 			// here we dispatch method for set currentView
-			currentView: ''
+			currentView: '',lastUpdatedDateValue:''
 		}
 	},
 	mounted(){
@@ -72,6 +74,7 @@ export default {
 	},
 	created: function() {
        this.$root.$on('changeComp1', this.setMatchData1);
+       this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
   },
   computed: {
     TournamentName() {
@@ -79,6 +82,9 @@ export default {
     }
   },
 	methods: {
+    lastUpdatedDate(updatedDate) {
+      this.lastUpdatedDateValue = moment(updatedDate.date).format("hh:mm ddd DD MMM YYYY")
+    },
 		AllTournament(){
 		 this.$router.push({'name':'home'})
 		},

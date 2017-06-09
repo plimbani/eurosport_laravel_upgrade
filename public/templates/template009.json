@@ -1,7 +1,7 @@
 {
   "total_matches": 13,
   "tournament_id": "009",
-    "template_font_color": "rgb(146,208,80)",
+  "template_font_color": "rgb(146,208,80)",
   "tournament_teams": 8,
   "tournament_name": "T.8.3 (v1)",
   "competition_round": "F",
@@ -73,8 +73,8 @@
       "name": "Round 1",
       "match_type": [{
         "name": "RR1*4",
-        "total_match": 3,
-        "group_count":3,
+        "total_match": 6,
+        "group_count":4,
         "groups": {
           "group_name": "Group-A",
           "match": [
@@ -82,12 +82,24 @@
             "in_between": "1-2",
             "match_number": "CAT.RR1.01.A1-A2"
           }, {
+            "in_between": "3-4",
+            "match_number": "CAT.RR1.01.A3-A4"
+          }, {
             "in_between": "1-3",
             "match_number": "CAT.RR1.02.A1-A3"
+          },
+         {
+            "in_between": "2-4",
+            "match_number": "CAT.RR1.02.A2-A4"
+          },
+          {
+            "in_between": "1-4",
+            "match_number": "CAT.RR1.03.A1-A4"
           }, {
             "in_between": "2-3",
             "match_number": "CAT.RR1.03.A2-A3"
           }
+
         ]
         }
       },
