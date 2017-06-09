@@ -91,6 +91,10 @@
                           <label class="col-md-6"><strong>{{$lang.competation_modal_time}}</strong></label>
                           <label class="col-md-6">{{totalTime | formatTime}} </label>
                       </p>
+                       <p class="row">
+                          <label class="col-md-6"><strong>{{$lang.competation_modal_remark}}</strong></label>
+                          <label class="col-md-6"></label>
+                      </p>
                     </div>
                   </div>
                 </div>

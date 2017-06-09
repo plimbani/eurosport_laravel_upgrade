@@ -74,7 +74,7 @@ export default {
   	},
 	methods: {
     lastUpdatedDate(updatedDate) {
-      this.lastUpdatedDateValue = moment(updatedDate.date).format("hh:mm ddd DD MMM YYYY")
+      this.lastUpdatedDateValue = moment(updatedDate.date).format("HH:mm ddd DD MMM YYYY")
     },
 		setMatchData1(data) {
 			this.currentView = 'matchListing'
