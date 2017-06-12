@@ -43,6 +43,12 @@ export default {
       this.$store.dispatch('setActiveTab', currentNavigationData)
     }
 
+      if ($(document).height() > $(window).height()) {
+         $('.site-footer').removeClass('sticky');
+      } else {
+         $('.site-footer').addClass('sticky');
+      }
+
   },
   methods: {
 

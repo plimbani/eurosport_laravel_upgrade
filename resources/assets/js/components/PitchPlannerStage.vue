@@ -239,7 +239,7 @@ import _ from 'lodash'
                             },200);
                         }
                     },
-                    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                    schedulerLicenseKey: '0097912839-fcs-1497264705',
                 });
             },
             handleEventClick(calEvent, jsEvent, view) {
