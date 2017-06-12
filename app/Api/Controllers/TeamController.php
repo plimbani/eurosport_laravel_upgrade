@@ -91,6 +91,9 @@ class TeamController extends BaseController
         // dd($request->all());
          $this->teamObj->assignTeams($request->all());
     }
+    public function getAllTeamsGroup(Request $request) {
+        $this->teamObj->getAllTeamsGroup($request->all());
+    }
 
     // public function importTeamlist(){
 

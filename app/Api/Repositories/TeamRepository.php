@@ -21,7 +21,7 @@ class TeamRepository
                  ->where('teams.tournament_id',$tournamentId)
                  ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo',
                     // 'competitions.name as competationName','competitions.id as competationId',
-                    'tournament_competation_template.group_name as age_name')
+                    'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as categoryAge')
                  ->get();
         
     }
@@ -49,7 +49,7 @@ class TeamRepository
                 }
             return $teamData->distinct('teams.id')->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo',
                     // 'competitions.name as competationName','competitions.id as competationId',
-                    'tournament_competation_template.group_name as age_name')
+                    'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age')
                 ->get();  
        
         

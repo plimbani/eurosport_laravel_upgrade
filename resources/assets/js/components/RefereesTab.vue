@@ -71,7 +71,8 @@
                   let TournamentData = {'tournament_id': this.tournamentId}
                   Tournament.getCompetationFormat(TournamentData).then(
                   (response) => {
-                    this.competationList = response.data.data
+                    let competationList1 = response.data.data
+                    // this.competationList = JSON.parse(response.data.data);
                     // console.log(this.competationList);
                   },
                   (error) => {
