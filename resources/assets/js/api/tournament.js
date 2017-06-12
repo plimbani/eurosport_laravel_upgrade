@@ -36,6 +36,9 @@ export default {
   getTeams(teamData) {
     return api.post('teams',{'teamData':teamData})
   },
+  getTeamsGroup (teamData) {
+    return api.post('teams/availableGroup',{'teamData':teamData})
+  },
   getReferees(tournamentId) {
     return api.get('referees/'+tournamentId)
   },

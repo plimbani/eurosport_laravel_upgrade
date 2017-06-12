@@ -71,8 +71,11 @@
                       <th class="text-center">{{$lang.teams_name}}</th>
                       <th class="text-center">{{$lang.teams_country}}</th>
                       <th class="text-center">{{$lang.teams_place}}</th>
-                      <th class="text-center">{{$lang.teams_category}}</th>
+                      <th class="text-center">{{$lang.teams_age_category}}</th>
+                      <th class="text-center">{{$lang.teams_name_category}}</th>
+
                       <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category'">{{$lang.teams_group}}</th>
+                      <th class="text-center" v-else>{{$lang.teams_age_category_group}}</th>
                   </tr>
               </thead>
                 <tbody v-if="teams.length!=0">
@@ -80,10 +83,12 @@
                       <td>{{team.esr_reference}}</td>
                       <td>{{team.name}}</td>
                       <td>
-                      	<img :src="team.logo" width="20">{{team.country_name}}
+                      	<img :src="team.logo" width="20"> {{team.country_name}}
                       </td>
                       <td>{{team.place}} </td>
+                      <td>{{team.category_age}} </td>
                       <td>{{team.age_name}} </td>
+
                       <td v-if="tournamentFilter.filterKey == 'age_category'">
                         <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:click="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="">Select Team</option>
@@ -92,6 +97,7 @@
                           </optgroup>
                         </select>
                       </td>
+                      <td v-else>aaaa</td>
                     </tr>
 
                 </tbody>
@@ -119,6 +125,7 @@
     return {
         'teamSize': 5,
         'teams': [],
+        'teamsIdList': '',
         'tournament_id': this.$store.state.Tournament.tournamentId,
         'age_category': '',
         'age_category_filter': '',
@@ -253,11 +260,24 @@
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
+
+            _.forEach(response.data.data, function(key,team) {
+              console.log(team.id)
+             this.teamsIdList=team.id
+            });
           },
         (error) => {
            console.log('Error occured during Tournament api ', error)
         }
         )
+        //  Tournament.getTeamsGroup(teamData).then(
+        //   (response) => {
+        //     this.teams = response.data.data
+        //   },
+        // (error) => {
+        //    console.log('Error occured during Tournament api ', error)
+        // }
+        // )
       },
       groupUpdate() {
         let grpMain=[]

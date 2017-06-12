@@ -321,7 +321,9 @@ import _ from 'lodash'
                                     'title':'Pitch is not available',
                                     'matchId':-1
                                 }
-                                if(availability.stage_start_time != '8:00:00'){
+
+                                if(availability.stage_start_time != '08:00'){
+                                     console.log(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'))
                                     let mData1 = {
                                         'id': 'start_'+counter,
                                         'resourceId': pitch.id,
@@ -334,7 +336,7 @@ import _ from 'lodash'
                                     }
                                 sMatches.push(mData1)
                                 }
-                                if(availability.stage_end_time != '19:00:00'){
+                                if(availability.stage_end_time != '19:00'){
                                     let mData2 = {
                                         'id': 'end_'+counter,
                                         'resourceId': pitch.id,
