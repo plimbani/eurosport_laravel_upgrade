@@ -112,7 +112,7 @@
       var hours = Math.floor( time /   60);
       var minutes = Math.floor(time % 60);
 
-      return hours+ 'h '+minutes+'mins'
+      return hours+ 'h '+minutes+'m'
     }
    }
  }
