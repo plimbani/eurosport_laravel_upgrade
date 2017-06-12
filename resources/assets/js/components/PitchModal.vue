@@ -84,7 +84,7 @@
                 <label class="col-sm-3 form-control-label">Winner</label>
                 <div class="col-sm-9">
                   <select name="match_winner" v-model="matchDetail.match_winner"  id="match_winner" class="form-control ls-select2">
-                      <option value="0">Please select</option>
+                      <option value="">Please select</option>
                       <option :value="matchDetail.home_team">Team 1 ({{matchDetail.home_team_name}})</option>
                       <option :value="matchDetail.away_team">Team 2 ({{matchDetail.away_team_name}})</option>
                   </select>
@@ -158,8 +158,9 @@ var moment = require('moment');
           // Set Some Values
           this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '0' : this.matchDetail.match_status
 
-          this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '0' : this.matchDetail.hometeam_score
-          this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '0' : this.matchDetail.awayteam_score
+          this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '' : this.matchDetail.hometeam_score
+          this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '' : this.matchDetail.awayteam_score
+
       })
     },
     removeReferee(){

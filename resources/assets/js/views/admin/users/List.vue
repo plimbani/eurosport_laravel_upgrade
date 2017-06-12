@@ -38,7 +38,10 @@
                                         <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                         </td>
                                         <td>
-                                            <a class="text-primary" href="javascript:void(0)" @click="editUser(user.id)"><i class="jv-icon jv-edit"></i></a>
+                                            <a class="text-primary" href="javascript:void(0)"
+                                             @click="editUser(user.id)">
+                                            <i class="jv-icon jv-edit"></i>
+                                            </a>
                                             &nbsp;
                                             <a href="javascript:void(0)"
                                             data-confirm-msg="Are you sure you would like to delete
@@ -48,6 +51,7 @@
                                             </a>
                                             &nbsp;
                                             <a v-if="IsSuperAdmin == true"
+
                                             href="javascript:void(0)"
                                             data-confirm-msg="Are you sure you
                                             would like to
@@ -78,7 +82,7 @@
         :userRoles="userRoles" :userEmailData="userEmailData"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
-        <active-modal v-if="enb == true"
+        <active-modal
          :activeConfirm="activeConfirm"
          :uStatusData="uData"
          @confirmed="activeConfirmed()"
@@ -213,8 +217,7 @@
                 this.deleteAction="user/delete/"+id;
             },
             prepareDisableResource(id,status){
-              this.enb =  true
-              this.uStatusData={'id':id,'status':status}
+              this.uStatusData={'id':id,'status':status,'test':'test2'}
             },
             activeConfirmed() {
               let userData = {'userData':this.uStatusData}
