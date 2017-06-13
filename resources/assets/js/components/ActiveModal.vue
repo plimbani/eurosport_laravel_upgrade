@@ -17,7 +17,8 @@
 
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"  @click.prevent="close()">{{$lang.user_management_user_cancle}}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                     @click="close()">{{$lang.user_management_user_cancle}}</button>
                     <button type="submit" class="btn btn-primary" @click.prevent="confirmActive()">Confirm</button>
                 </div>
                <!-- <input name="_method" value="DELETE" type="hidden"/>-->
@@ -30,17 +31,20 @@
     export default  {
 
         props:['activeConfirm','uStatusData'],
-        data() {
-          return {
-            userData: this.uStatusData
-          }
+        computed: {
+            userData() {
+                return this.uStatusData
+            }
         },
         methods: {
             confirmActive() {
                 this.$emit('confirmed');
             },
             close() {
-              this.$emit('closeModal')
+                //console.log(this)
+                //console.log(this.$parent.enb )
+                this.$parent.enb = false
+             // this.$emit('closeModal')
             }
         }
     }

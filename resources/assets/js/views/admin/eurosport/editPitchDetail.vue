@@ -143,7 +143,7 @@
                                                             </div>
                                                         </div>
                                                         <div
-                                                        :class="'row align-items-center mb-3 '"
+                                                        :class="'row align-items-center mb-3   stageInvisible chk_disable_'+day "
                                                         >
                                                             <div class="col-md-3">
                                                                 Stage {{day}} continued
@@ -308,9 +308,11 @@ var moment = require('moment');
                     if(pitchAvailable.stage_no == i){
                         if(pitchAvailable.break_enable == 1){
                           $('#stage_break_chk_'+i).attr('checked','checked')
+                          $('.chk_disable_'+i).removeClass('stageInvisible')
                         }else{
                            $('.stage_chk_active'+i).attr('disabled','disabled')
                         }
+
                         $('#stage_start_time'+pitchAvailable.stage_no).val(pitchAvailable.stage_start_time)
                         $('#stage_break_start'+pitchAvailable.stage_no).val(pitchAvailable.break_start_time)
                         $('#stage_continue_time'+pitchAvailable.stage_no).val(pitchAvailable.break_end_time)
@@ -340,7 +342,7 @@ var moment = require('moment');
                         this1.removeStage.splice(this1.removeStage.indexOf(i), 1);
 
                         if(!pitchAvailable.break_enable){
-                          $('.chk_disable_'+i).addClass('stageInvisible')
+                         // $('.chk_disable_'+i).addClass('stageInvisible')
                         }
 
                     }

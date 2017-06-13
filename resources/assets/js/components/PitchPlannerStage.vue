@@ -247,10 +247,10 @@ import _ from 'lodash'
                             },200);
                         }
                     },
-
                     resourceAreaWidth: {
                         default:'300px',
                     },
+
                     schedulerLicenseKey: '0097912839-fcs-1497264705',
                 });
             },
@@ -296,8 +296,13 @@ import _ from 'lodash'
                         let rdata = response.data.data
                         // this.reports = response.data.data
                         let sMatches = []
+
                         _.forEach(rdata, function(match) {
                             if(match.is_scheduled == 1){
+
+                              // console.log('match is'+JSON.stringify(match))
+                              let colorVal = (match.homeScore == null && match.AwayScore == null) ? '#2196F3' : 'green'
+                             // console.log(val)
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
@@ -306,9 +311,12 @@ import _ from 'lodash'
                                     'refereeId': match.referee_id?match.referee_id:0,
                                     'refereeText': 'R',
                                     'title':match.match_number,
+                                    'color': colorVal,
                                     'matchId':match.fid
                                 }
-
+                               // console.log('match typeof')
+                               // console.log(typeof match.homeScore)
+                              //  console.log(mData)
                             sMatches.push(mData)
                             }
                         });
@@ -380,7 +388,6 @@ import _ from 'lodash'
                     (response) => {
                         // console.log(response)
                     _.forEach(response.data.data, (block) => {
-
                         let mData2 = {
                                     'id': 'block_'+block.id,
                                     'resourceId': block.pitch_id,
@@ -391,13 +398,8 @@ import _ from 'lodash'
                                     'title': 'Unavailable',
                                     'matchId': 'block_'+block.id
                                 }
-
-
                             this.scheduledMatches.push(mData2)
-
                         });
-
-
                     },
                     (error) => {
                         console.log('Error occured during Tournament api ', error)
