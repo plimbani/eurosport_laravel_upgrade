@@ -154,6 +154,14 @@ table#Competition-modal-table {
 .fc-ltr .fc-time-grid .fc-event-container{
     margin: 0 3px 0 1px;
 }
+.multiselect__tag {
+    background-color:#2196F3;
+}
+.multiselect__option--highlight,.multiselect__option--highlight:after {
+    background-color:#2196F3;
+    background:#2196F3;
+
+}
 // .fc-view,
 // .fc-view > table {
 //     overflow-y: scroll;
