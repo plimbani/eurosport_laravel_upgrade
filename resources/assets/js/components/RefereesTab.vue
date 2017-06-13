@@ -29,7 +29,7 @@
                 'tournamentId': this.$store.state.Tournament.tournamentId,
                 'referees': {},
                 refereeId: '',
-                competationList: {}
+                competationList: [{}]
                 }
         },
 		components: {
@@ -71,8 +71,7 @@
                   let TournamentData = {'tournament_id': this.tournamentId}
                   Tournament.getCompetationFormat(TournamentData).then(
                   (response) => {
-                    let competationList1 = response.data.data
-                    // this.competationList = JSON.parse(response.data.data);
+                    this.competationList = response.data.data
                     // console.log(this.competationList);
                   },
                   (error) => {
