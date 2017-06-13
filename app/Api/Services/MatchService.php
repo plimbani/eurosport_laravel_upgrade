@@ -103,7 +103,6 @@ class MatchService implements MatchContract
 
         // $fixtureResData = $this->matchRepoObj->getFixtures($data['tournamentData']);
         $fixtureResData = $this->matchRepoObj->getTempFixtures($data['tournamentData']);
-        // dd($fixtureResData);
         if ($fixtureResData) {
             return ['status_code' => '200', 'data' => $fixtureResData,'message' => 'Match Fixture data'];
         }

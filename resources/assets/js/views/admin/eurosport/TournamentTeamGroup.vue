@@ -125,7 +125,7 @@
     return {
         'teamSize': 5,
         'teams': [],
-        'teamsIdList': '',
+        // 'teamsIdList': '',
         'tournament_id': this.$store.state.Tournament.tournamentId,
         'age_category': '',
         'age_category_filter': '',
@@ -262,8 +262,8 @@
             this.teams = response.data.data
 
             _.forEach(response.data.data, function(key,team) {
-              console.log(team.id)
-             this.teamsIdList=team.id
+             //  console.log(team.id)
+             // this.teamsIdList=team.id
             });
           },
         (error) => {

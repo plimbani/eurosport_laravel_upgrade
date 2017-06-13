@@ -29,7 +29,7 @@
                 'tournamentId': this.$store.state.Tournament.tournamentId,
                 'referees': {},
                 refereeId: '',
-                competationList: {}
+                competationList: [{}]
                 }
         },
 		components: {
