@@ -247,11 +247,11 @@ import _ from 'lodash'
                             },200);
                         }
                     },
-                        resourceAreaWidth: {
+                    resourceAreaWidth: {
                         default:'300px',
                     },
 
-                    schedulerLicenseKey: '0097912839-fcs-1497264705',
+                    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
                 });
             },
             handleEventClick(calEvent, jsEvent, view) {
@@ -339,10 +339,12 @@ import _ from 'lodash'
                                     'refereeId': -1,
                                     'refereeText': 'R',
                                     'title':'Pitch is not available',
+                                    'color': 'grey',
                                     'matchId':-1
                                 }
 
                                 if(availability.stage_start_time != '08:00'){
+
                                      let mData1 = {
                                         'id': 'start_'+counter,
                                         'resourceId': pitch.id,
@@ -351,6 +353,7 @@ import _ from 'lodash'
                                         'refereeId': -1,
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
+                                       'color': 'grey',
                                         matchId:-1
                                     }
                                 sMatches.push(mData1)
@@ -364,6 +367,7 @@ import _ from 'lodash'
                                         'refereeId': -1,
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
+                                        'color': 'grey',
                                         'matchId': -1
                                     }
                                 sMatches.push(mData2)
@@ -396,6 +400,7 @@ import _ from 'lodash'
                                     'refereeId': -2,
                                     'refereeText': '',
                                     'title': 'Unavailable',
+                                    'color': 'grey',
                                     'matchId': 'block_'+block.id
                                 }
                             this.scheduledMatches.push(mData2)
