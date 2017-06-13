@@ -247,7 +247,7 @@ import _ from 'lodash'
                             },200);
                         }
                     },
-                    resourceAreaWidth: {
+                        resourceAreaWidth: {
                         default:'300px',
                     },
 
