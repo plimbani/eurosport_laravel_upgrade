@@ -48,12 +48,14 @@
                       <option value="">U15</option>
                       <option value="">U19</option>
                   </select> -->
-                   <select name="sel_ageCategory" v-model="formValues.age_group_id"  v-validate="'required'" v-bind:multiple="isMultiple" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
+                 <multiselect name="sel_ageCategory" id="sel_ageCategory" :options="competationList" :multiple="true" :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"  label="category_age"   :clear-on-select="false" :Searchable="true"  @input="onChange"  @close="onTouch" @select="onSelect"></multiselect>
+                   <!-- <select name="sel_ageCategory"  v-model="formValues.age_group_id"  v-validate="'required'" v-bind:multiple="isMultiple" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
                         <option value="">Select</option>
                         <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.category_age}}</option>
-                    </select>
-                     <i v-show="errors.has('sel_ageCategory')" class="fa fa-warning"></i>
-               <span class="help is-danger" v-show="errors.has('sel_ageCategory')">This field is required</span>
+                    </select> -->
+                    
+               <span class="help is-danger" v-show="isInvalid">This field is required</span>
+               </label>
               </div>
             </div>
             <div class="form-group row">
@@ -81,26 +83,75 @@
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
 import DeleteModal from '../components/DeleteModal.vue'
+import Multiselect from 'vue-multiselect'
+import _ from 'lodash'
 
 export default {
    props: ['formValues','tournamentId','competationList','refereeId'],
    mounted() {
-
+    // $('#sel_ageCategory').multiSelect()
    },
+  components: { Multiselect },
    data(){
     return {
       isMultiple: true,
       deleteConfirmMsg: 'Are you sure you would like to delete this referee? All information associated with this referee will be permanently deleted.',
+      value: [],
+      isDisabled: false,
+      isTouched: false,
+      isInvalid: false,
+      options: []
     }
    },
+   // computed: {
+   //    isInvalid () {
+   //      return this.isTouched && this.value.length === 0
+   //    }
+   //  },
    components: {
     DeleteModal
    },
+   watch : {
+        formValues : function (value) {
+           let vm = this
+            setTimeout(function(){
+              vm.options = []
+               vm.value = []
+              let competitionOption =[]
+               _.forEach(vm.competationList, function(competition,value) {
+                 let cmp = {'id':competition.id,'category_age':competition.category_age}
+                if($.inArray(competition.id,vm.formValues.age_group_id) != -1){
+                  vm.value.push(cmp)
+                }
+                competitionOption.push(cmp)
+              });
+               vm.options = competitionOption
+          },1000)
+        },
+      },
+  mounted() {
+   
+    
+      
+  },
   methods: {
+
     saveReferee () {
+                this.isInvalid = false
+                if(this.value.length === 0) {
+                  this.isInvalid = true
+
+                }
                 this.$validator.validateAll().then(() => {
-                      let age_category = $('#sel_ageCategory').val()
-                    let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(),'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
+                  if(this.isInvalid != false) {
+                    return false
+                  }
+                      let age_category = []
+                      _.forEach(this.value, function(opt) {
+                        age_category.push(opt.id)
+                      });
+                      
+                    let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
                      if(this.refereeId != ''){
                       Tournament.updateReferee(ReportData).then(
                       (response) => {
@@ -135,6 +186,16 @@ export default {
              this.$root.$emit('setPitchPlanTab','refereeTab')
         }
         )
+    },
+    onChange (value) {
+      this.value = value
+      if (value.indexOf('Reset me!') !== -1) this.value = []
+    },
+    onSelect (option) {
+      if (option === 'Disable me!') this.isDisabled = true
+    },
+    onTouch () {
+      this.isTouched = true
     }
   }
 

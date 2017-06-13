@@ -148,7 +148,12 @@ table#Competition-modal-table {
         min-height: 209px;
     }
 }
-
+.fc-event-container .fc-time-grid-event {
+    width: 100%;
+}
+.fc-ltr .fc-time-grid .fc-event-container{
+    margin: 0 3px 0 1px;
+}
 // .fc-view,
 // .fc-view > table {
 //     overflow-y: scroll;
