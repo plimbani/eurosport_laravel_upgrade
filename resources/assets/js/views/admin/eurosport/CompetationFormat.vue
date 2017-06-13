@@ -41,6 +41,8 @@ export default {
       // Means Set Here
       let currentNavigationData = {activeTab:'competation_format', currentPage: 'Competition Format'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
+      this.$store.dispatch('SetPitches',tournamentId);
+      this.$store.dispatch('SetVenues',tournamentId);
     }
 
       if ($(document).height() > $(window).height()) {
