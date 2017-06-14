@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "964968490479",
+    "firebase_url": "https://eurosports-170511.firebaseio.com",
+    "project_id": "eurosports-170511",
+    "storage_bucket": "eurosports-170511.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964968490479:android:f295f52f3e51cb2a",
+        "android_client_info": {
+          "package_name": "com.aecor.eurosports"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964968490479-9vldu1ob9mu49jb0ee3nhp4n84nanvj4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1QOVOMGmdCJPu5SqBZM4vWYO0NlP_-30"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

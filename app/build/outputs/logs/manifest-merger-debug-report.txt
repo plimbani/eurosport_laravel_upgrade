@@ -1,0 +1,306 @@
+-- Merging decision tree log ---
+manifest
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:2:1-48:12
+	package
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:3:5-35
+		INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml
+		INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml
+		INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml
+		INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:10:5-79
+	android:name
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:10:22-76
+application
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:12:5-45:19
+MERGED from [com.android.support:appcompat-v7:25.3.1] C:\Users\karan\.android\build-cache\6a907647fdb13989f0d8db07610e63c4762a5e48\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] C:\Users\karan\.android\build-cache\4708955614ba1e1625600b9660874f676676c2df\output\AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\karan\.android\build-cache\c85c4edbfb34417982714986cd7a533012990f12\output\AndroidManifest.xml:26:5-20
+MERGED from [com.google.android.gms:play-services-maps:11.0.0] C:\Users\karan\.android\build-cache\84340cd1f9cafd80e37e79fcc0b49d419c3995c9\output\AndroidManifest.xml:24:5-19
+MERGED from [com.google.android.gms:play-services-base:11.0.0] C:\Users\karan\.android\build-cache\2c03c537e17c25cef520ba5d47c06ff765f1123a\output\AndroidManifest.xml:18:5-20:19
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\karan\.android\build-cache\27198517dc3a8766662dc37479935e669b66909a\output\AndroidManifest.xml:9:5-20
+MERGED from [com.google.firebase:firebase-core:11.0.0] C:\Users\karan\.android\build-cache\cd71028a826353d35cff20dd336d1f99f4cfe9de\output\AndroidManifest.xml:5:5-20
+MERGED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:24:5-34:19
+MERGED from [com.google.firebase:firebase-analytics-impl:11.0.0] C:\Users\karan\.android\build-cache\653f15a3faee2e6d7d81cef44ce77789ffe55b89\output\AndroidManifest.xml:24:5-28:19
+MERGED from [com.google.firebase:firebase-messaging:11.0.0] C:\Users\karan\.android\build-cache\87870ba9399706423bf230da2e65b432ea0a0f47\output\AndroidManifest.xml:19:5-29:19
+MERGED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:28:5-49:19
+MERGED from [com.google.firebase:firebase-common:11.0.0] C:\Users\karan\.android\build-cache\59cb1d8cb7b7796560c04137b613fbfe334e872d\output\AndroidManifest.xml:4:5-7:19
+MERGED from [com.google.android.gms:play-services-tasks:11.0.0] C:\Users\karan\.android\build-cache\9e478d438c6c8f2c6eece607c9aeceb066325c79\output\AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-basement:11.0.0] C:\Users\karan\.android\build-cache\6c7e75216d92bc56917004c11e8bdca87e04937a\output\AndroidManifest.xml:19:5-21:19
+MERGED from [com.android.support:support-v4:25.3.1] C:\Users\karan\.android\build-cache\495c58b62ae0d8d9f09162575dec4f6ee94e135b\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:25.3.1] C:\Users\karan\.android\build-cache\fe457bbbc143ffdd4c568056124bf21c48b23d20\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:25.3.1] C:\Users\karan\.android\build-cache\df79d7bcb1300aef75dd2ebea61ab4850aee86ef\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:25.3.1] C:\Users\karan\.android\build-cache\52aa195c5945ff0d14b69538e55097fc9cd901c4\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:25.3.1] C:\Users\karan\.android\build-cache\1cffec897c6ba6c1ae8455eeea8c71790cef2cbe\output\AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:25.3.1] C:\Users\karan\.android\build-cache\ab45b77a903f47c3225ebfe47d8d2f31c59979f1\output\AndroidManifest.xml:29:5-20
+MERGED from [com.crashlytics.sdk.android:crashlytics:2.6.8] C:\Users\karan\.android\build-cache\99e1eb070ea3b4415c44bcb1d4c1672b783a1750\output\AndroidManifest.xml:11:5-20
+MERGED from [com.crashlytics.sdk.android:beta:1.2.5] C:\Users\karan\.android\build-cache\25870d61ec3e9f7a41c73336bc4e77d60cf12efb\output\AndroidManifest.xml:11:5-20
+MERGED from [com.crashlytics.sdk.android:crashlytics-core:2.3.17] C:\Users\karan\.android\build-cache\fe13cc9a65e92e6c244abd3fa6621e15639e1534\output\AndroidManifest.xml:54:5-20
+MERGED from [com.crashlytics.sdk.android:answers:1.3.13] C:\Users\karan\.android\build-cache\95f895fcd92afa3b9306b93c8a5b12dae7f8c1ac\output\AndroidManifest.xml:11:5-20
+MERGED from [io.fabric.sdk.android:fabric:1.3.17] C:\Users\karan\.android\build-cache\e85e4b29899e4cd659c72ccac52c01b823565063\output\AndroidManifest.xml:31:5-20
+	android:label
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:15:9-41
+	android:supportsRtl
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:17:9-35
+	android:roundIcon
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:16:9-54
+	android:allowBackup
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:13:9-35
+	android:icon
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:14:9-43
+	android:theme
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:18:9-40
+meta-data#com.google.android.geo.API_KEY
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:28:9-30:55
+	android:value
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:30:13-52
+	android:name
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:29:13-58
+activity#com.aecor.eurosports.activity.SplashScreenActivity
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:32:9-38:20
+	android:name
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:32:19-64
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:33:13-37:29
+action#android.intent.action.MAIN
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:34:17-69
+	android:name
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:34:25-66
+category#android.intent.category.LAUNCHER
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:36:17-77
+	android:name
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:36:27-74
+activity#com.aecor.eurosports.activity.VenueMapActivity
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:39:9-41:73
+	android:label
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:41:13-61
+	android:name
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:40:13-54
+meta-data#io.fabric.ApiKey
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:42:9-44:72
+	android:value
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:44:13-69
+	android:name
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:43:13-44
+uses-permission#android.permission.INTERNET
+ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:47:5-67
+MERGED from [com.google.android.gms:play-services-maps:11.0.0] C:\Users\karan\.android\build-cache\84340cd1f9cafd80e37e79fcc0b49d419c3995c9\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-analytics-impl:11.0.0] C:\Users\karan\.android\build-cache\653f15a3faee2e6d7d81cef44ce77789ffe55b89\output\AndroidManifest.xml:20:5-66
+MERGED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:20:5-66
+MERGED from [com.crashlytics.sdk.android:crashlytics:2.6.8] C:\Users\karan\.android\build-cache\99e1eb070ea3b4415c44bcb1d4c1672b783a1750\output\AndroidManifest.xml:9:5-67
+MERGED from [com.crashlytics.sdk.android:beta:1.2.5] C:\Users\karan\.android\build-cache\25870d61ec3e9f7a41c73336bc4e77d60cf12efb\output\AndroidManifest.xml:9:5-67
+MERGED from [com.crashlytics.sdk.android:crashlytics-core:2.3.17] C:\Users\karan\.android\build-cache\fe13cc9a65e92e6c244abd3fa6621e15639e1534\output\AndroidManifest.xml:52:5-67
+MERGED from [com.crashlytics.sdk.android:answers:1.3.13] C:\Users\karan\.android\build-cache\95f895fcd92afa3b9306b93c8a5b12dae7f8c1ac\output\AndroidManifest.xml:9:5-67
+MERGED from [io.fabric.sdk.android:fabric:1.3.17] C:\Users\karan\.android\build-cache\e85e4b29899e4cd659c72ccac52c01b823565063\output\AndroidManifest.xml:29:5-67
+	android:name
+		ADDED from G:\EuroSports\app\src\main\AndroidManifest.xml:47:22-64
+uses-sdk
+INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:appcompat-v7:25.3.1] C:\Users\karan\.android\build-cache\6a907647fdb13989f0d8db07610e63c4762a5e48\output\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] C:\Users\karan\.android\build-cache\4708955614ba1e1625600b9660874f676676c2df\output\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\karan\.android\build-cache\c85c4edbfb34417982714986cd7a533012990f12\output\AndroidManifest.xml:20:5-43
+MERGED from [com.jakewharton:butterknife:8.5.1] C:\Users\karan\.android\build-cache\9f4fb322e4af616fb05b10b4b3c108afa834356a\output\AndroidManifest.xml:5:5-43
+MERGED from [com.google.android.gms:play-services-maps:11.0.0] C:\Users\karan\.android\build-cache\84340cd1f9cafd80e37e79fcc0b49d419c3995c9\output\AndroidManifest.xml:23:5-43
+MERGED from [com.google.android.gms:play-services-base:11.0.0] C:\Users\karan\.android\build-cache\2c03c537e17c25cef520ba5d47c06ff765f1123a\output\AndroidManifest.xml:17:5-43
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\karan\.android\build-cache\27198517dc3a8766662dc37479935e669b66909a\output\AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.firebase:firebase-core:11.0.0] C:\Users\karan\.android\build-cache\cd71028a826353d35cff20dd336d1f99f4cfe9de\output\AndroidManifest.xml:4:5-43
+MERGED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-analytics-impl:11.0.0] C:\Users\karan\.android\build-cache\653f15a3faee2e6d7d81cef44ce77789ffe55b89\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-messaging:11.0.0] C:\Users\karan\.android\build-cache\87870ba9399706423bf230da2e65b432ea0a0f47\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:17:5-43
+MERGED from [com.google.firebase:firebase-common:11.0.0] C:\Users\karan\.android\build-cache\59cb1d8cb7b7796560c04137b613fbfe334e872d\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-tasks:11.0.0] C:\Users\karan\.android\build-cache\9e478d438c6c8f2c6eece607c9aeceb066325c79\output\AndroidManifest.xml:3:5-43
+MERGED from [com.google.android.gms:play-services-basement:11.0.0] C:\Users\karan\.android\build-cache\6c7e75216d92bc56917004c11e8bdca87e04937a\output\AndroidManifest.xml:17:5-43
+MERGED from [com.android.support:support-v4:25.3.1] C:\Users\karan\.android\build-cache\495c58b62ae0d8d9f09162575dec4f6ee94e135b\output\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.3.1] C:\Users\karan\.android\build-cache\fe457bbbc143ffdd4c568056124bf21c48b23d20\output\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.3.1] C:\Users\karan\.android\build-cache\df79d7bcb1300aef75dd2ebea61ab4850aee86ef\output\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.3.1] C:\Users\karan\.android\build-cache\52aa195c5945ff0d14b69538e55097fc9cd901c4\output\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.3.1] C:\Users\karan\.android\build-cache\1cffec897c6ba6c1ae8455eeea8c71790cef2cbe\output\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:25.3.1] C:\Users\karan\.android\build-cache\ab45b77a903f47c3225ebfe47d8d2f31c59979f1\output\AndroidManifest.xml:21:5-23:58
+MERGED from [com.crashlytics.sdk.android:crashlytics:2.6.8] C:\Users\karan\.android\build-cache\99e1eb070ea3b4415c44bcb1d4c1672b783a1750\output\AndroidManifest.xml:7:5-43
+MERGED from [com.crashlytics.sdk.android:beta:1.2.5] C:\Users\karan\.android\build-cache\25870d61ec3e9f7a41c73336bc4e77d60cf12efb\output\AndroidManifest.xml:7:5-43
+MERGED from [com.crashlytics.sdk.android:crashlytics-core:2.3.17] C:\Users\karan\.android\build-cache\fe13cc9a65e92e6c244abd3fa6621e15639e1534\output\AndroidManifest.xml:50:5-43
+MERGED from [com.crashlytics.sdk.android:answers:1.3.13] C:\Users\karan\.android\build-cache\95f895fcd92afa3b9306b93c8a5b12dae7f8c1ac\output\AndroidManifest.xml:7:5-43
+MERGED from [io.fabric.sdk.android:fabric:1.3.17] C:\Users\karan\.android\build-cache\e85e4b29899e4cd659c72ccac52c01b823565063\output\AndroidManifest.xml:27:5-43
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:25.3.1] C:\Users\karan\.android\build-cache\6a907647fdb13989f0d8db07610e63c4762a5e48\output\AndroidManifest.xml:23:9-75
+	android:targetSdkVersion
+		INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml
+		INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml
+		INJECTED from G:\EuroSports\app\src\main\AndroidManifest.xml
+meta-data#android.support.VERSION
+ADDED from [com.android.support:appcompat-v7:25.3.1] C:\Users\karan\.android\build-cache\6a907647fdb13989f0d8db07610e63c4762a5e48\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] C:\Users\karan\.android\build-cache\4708955614ba1e1625600b9660874f676676c2df\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\karan\.android\build-cache\c85c4edbfb34417982714986cd7a533012990f12\output\AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-v4:25.3.1] C:\Users\karan\.android\build-cache\495c58b62ae0d8d9f09162575dec4f6ee94e135b\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-fragment:25.3.1] C:\Users\karan\.android\build-cache\fe457bbbc143ffdd4c568056124bf21c48b23d20\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-media-compat:25.3.1] C:\Users\karan\.android\build-cache\df79d7bcb1300aef75dd2ebea61ab4850aee86ef\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-ui:25.3.1] C:\Users\karan\.android\build-cache\52aa195c5945ff0d14b69538e55097fc9cd901c4\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-utils:25.3.1] C:\Users\karan\.android\build-cache\1cffec897c6ba6c1ae8455eeea8c71790cef2cbe\output\AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-compat:25.3.1] C:\Users\karan\.android\build-cache\ab45b77a903f47c3225ebfe47d8d2f31c59979f1\output\AndroidManifest.xml:25:5-27:34
+	android:value
+		ADDED from [com.android.support:appcompat-v7:25.3.1] C:\Users\karan\.android\build-cache\6a907647fdb13989f0d8db07610e63c4762a5e48\output\AndroidManifest.xml:27:9-31
+	android:name
+		ADDED from [com.android.support:appcompat-v7:25.3.1] C:\Users\karan\.android\build-cache\6a907647fdb13989f0d8db07610e63c4762a5e48\output\AndroidManifest.xml:26:9-47
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-maps:11.0.0] C:\Users\karan\.android\build-cache\84340cd1f9cafd80e37e79fcc0b49d419c3995c9\output\AndroidManifest.xml:19:5-78
+MERGED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-analytics-impl:11.0.0] C:\Users\karan\.android\build-cache\653f15a3faee2e6d7d81cef44ce77789ffe55b89\output\AndroidManifest.xml:21:5-78
+MERGED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:19:5-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:11.0.0] C:\Users\karan\.android\build-cache\84340cd1f9cafd80e37e79fcc0b49d419c3995c9\output\AndroidManifest.xml:19:22-76
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:11.0.0] C:\Users\karan\.android\build-cache\84340cd1f9cafd80e37e79fcc0b49d419c3995c9\output\AndroidManifest.xml:21:5-77
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:11.0.0] C:\Users\karan\.android\build-cache\84340cd1f9cafd80e37e79fcc0b49d419c3995c9\output\AndroidManifest.xml:21:19-51
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:11.0.0] C:\Users\karan\.android\build-cache\84340cd1f9cafd80e37e79fcc0b49d419c3995c9\output\AndroidManifest.xml:21:52-75
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:11.0.0] C:\Users\karan\.android\build-cache\2c03c537e17c25cef520ba5d47c06ff765f1123a\output\AndroidManifest.xml:19:9-172
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:11.0.0] C:\Users\karan\.android\build-cache\2c03c537e17c25cef520ba5d47c06ff765f1123a\output\AndroidManifest.xml:19:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:11.0.0] C:\Users\karan\.android\build-cache\2c03c537e17c25cef520ba5d47c06ff765f1123a\output\AndroidManifest.xml:19:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:11.0.0] C:\Users\karan\.android\build-cache\2c03c537e17c25cef520ba5d47c06ff765f1123a\output\AndroidManifest.xml:19:19-85
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:11.0.0] C:\Users\karan\.android\build-cache\653f15a3faee2e6d7d81cef44ce77789ffe55b89\output\AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:21:5-67
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:22:22-65
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:25:7-26:18
+MERGED from [com.google.firebase:firebase-analytics-impl:11.0.0] C:\Users\karan\.android\build-cache\653f15a3faee2e6d7d81cef44ce77789ffe55b89\output\AndroidManifest.xml:25:7-26:18
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:25:90-112
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:25:113-137
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:25:17-89
+receiver#com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver
+ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:27:7-31:18
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:27:162-184
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:27:185-208
+	android:permission
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:27:105-161
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:27:17-104
+intent-filter#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:28:11-30:27
+action#com.android.vending.INSTALL_REFERRER
+ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:29:15-76
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:29:23-74
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:32:7-137
+MERGED from [com.google.firebase:firebase-analytics-impl:11.0.0] C:\Users\karan\.android\build-cache\653f15a3faee2e6d7d81cef44ce77789ffe55b89\output\AndroidManifest.xml:27:7-137
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:32:88-110
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:32:111-135
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:32:16-87
+service#com.google.android.gms.measurement.AppMeasurementJobService
+ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:33:7-197
+	android:enabled
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:33:148-170
+	android:exported
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:33:171-195
+	android:permission
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:33:91-147
+	android:name
+		ADDED from [com.google.firebase:firebase-analytics:11.0.0] C:\Users\karan\.android\build-cache\58a8d3046c05d954ff867fe0d185b4ca02e63d25\output\AndroidManifest.xml:33:16-90
+service#com.google.firebase.messaging.FirebaseMessagingService
+ADDED from [com.google.firebase:firebase-messaging:11.0.0] C:\Users\karan\.android\build-cache\87870ba9399706423bf230da2e65b432ea0a0f47\output\AndroidManifest.xml:23:9-27:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:11.0.0] C:\Users\karan\.android\build-cache\87870ba9399706423bf230da2e65b432ea0a0f47\output\AndroidManifest.xml:23:88-111
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:11.0.0] C:\Users\karan\.android\build-cache\87870ba9399706423bf230da2e65b432ea0a0f47\output\AndroidManifest.xml:23:18-87
+intent-filter#com.google.firebase.MESSAGING_EVENT
+ADDED from [com.google.firebase:firebase-messaging:11.0.0] C:\Users\karan\.android\build-cache\87870ba9399706423bf230da2e65b432ea0a0f47\output\AndroidManifest.xml:24:13-26:29
+	android:priority
+		ADDED from [com.google.firebase:firebase-messaging:11.0.0] C:\Users\karan\.android\build-cache\87870ba9399706423bf230da2e65b432ea0a0f47\output\AndroidManifest.xml:24:28-51
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from [com.google.firebase:firebase-messaging:11.0.0] C:\Users\karan\.android\build-cache\87870ba9399706423bf230da2e65b432ea0a0f47\output\AndroidManifest.xml:25:17-77
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:11.0.0] C:\Users\karan\.android\build-cache\87870ba9399706423bf230da2e65b432ea0a0f47\output\AndroidManifest.xml:25:25-75
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:22:5-81
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:22:22-79
+permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:24:5-109
+	android:protectionLevel
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:24:72-107
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:24:17-71
+uses-permission#${applicationId}.permission.C2D_MESSAGE
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:26:5-78
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:26:22-76
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:30:9-35:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:30:85-108
+	android:permission
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:30:109-169
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:30:19-84
+intent-filter#${applicationId}+com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:31:13-34:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:32:17-80
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:32:25-78
+category#${applicationId}
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:33:17-60
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:33:27-58
+receiver#com.google.firebase.iid.FirebaseInstanceIdInternalReceiver
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:39:9-119
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:39:93-117
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:39:19-92
+service#com.google.firebase.iid.FirebaseInstanceIdService
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:43:9-47:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:43:83-106
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:43:18-82
+intent-filter#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:44:13-46:29
+	android:priority
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:44:28-51
+action#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:45:17-79
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:11.0.0] C:\Users\karan\.android\build-cache\a813c639ae4ce799e0727778afff6771e7b2cdbb\output\AndroidManifest.xml:45:25-77
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:11.0.0] C:\Users\karan\.android\build-cache\59cb1d8cb7b7796560c04137b613fbfe334e872d\output\AndroidManifest.xml:6:9-194
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:11.0.0] C:\Users\karan\.android\build-cache\59cb1d8cb7b7796560c04137b613fbfe334e872d\output\AndroidManifest.xml:6:19-78
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:11.0.0] C:\Users\karan\.android\build-cache\59cb1d8cb7b7796560c04137b613fbfe334e872d\output\AndroidManifest.xml:6:144-168
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:11.0.0] C:\Users\karan\.android\build-cache\59cb1d8cb7b7796560c04137b613fbfe334e872d\output\AndroidManifest.xml:6:169-192
+	android:name
+		ADDED from [com.google.firebase:firebase-common:11.0.0] C:\Users\karan\.android\build-cache\59cb1d8cb7b7796560c04137b613fbfe334e872d\output\AndroidManifest.xml:6:79-143
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:11.0.0] C:\Users\karan\.android\build-cache\6c7e75216d92bc56917004c11e8bdca87e04937a\output\AndroidManifest.xml:20:9-121
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:11.0.0] C:\Users\karan\.android\build-cache\6c7e75216d92bc56917004c11e8bdca87e04937a\output\AndroidManifest.xml:20:66-119
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:11.0.0] C:\Users\karan\.android\build-cache\6c7e75216d92bc56917004c11e8bdca87e04937a\output\AndroidManifest.xml:20:20-65
