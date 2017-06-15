@@ -82,7 +82,7 @@
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="jumbotron mb-0 h-100 px-4 py-4 m-h-209">
+                    <div class="jumbotron mb-0 h-100 px-4 py-4 m-h-214">
                       <p class="row">
                           <label class="col-md-6"><strong>{{$lang.competation_modal_matches_total_matches}}</strong></label>
                           <label class="col-md-6">{{ templateData['total_matches'] }}</label>
