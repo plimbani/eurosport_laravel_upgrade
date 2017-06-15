@@ -23,13 +23,14 @@ export default {
     methods: {
         initEvents() {
             // store data so the calendar knows to render an event upon drop
+
             $(this.$el).data('event', {
                 id: this.match.id,
-                color: 'green',
+
                 title: this.match.matchName ? this.match.matchName : 'unavailable', // use the element's text as the event title
                 refereeId: this.match=='unavailable'?-2:'0', // use the element's text as the event title
                 refereeText: 'R', // use the element's text as the event title
-
+                color: this.match.matchName ? '#2196F3' : '#55595c',
                 stick: true, // maintain when user navigates (see docs on the renderEvent method),
                 duration: this.match.matchTime ? moment.duration(this.match.matchTime, 'minutes') : moment.duration(60, 'minutes'),
                 matchId: this.match.matchId,

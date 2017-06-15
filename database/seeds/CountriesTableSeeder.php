@@ -14,6 +14,7 @@ class CountriesTableSeeder extends Seeder
     {
         DB::table('countries')->truncate();
         DB::table('countries')->insert([
+
         	[ 'name' => 'ALBANIA', 'country_code' => 'AL ', 'logo' => 'images/al.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'AUSTRIA', 'country_code' => 'AT', 'logo' => 'images/austr.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'AUSTRALIA', 'country_code' => 'AU', 'logo' => 'images/aust.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],

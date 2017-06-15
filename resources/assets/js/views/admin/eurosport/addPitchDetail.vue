@@ -154,7 +154,7 @@
                                                                 </div>
                                                             </div>
                                                             <div
-                                                             :class="'row align-items-center mb-3   stageInvisible chk_disable_'+day "
+                                                            :class="'row align-items-center mb-3   stageInvisible chk_disable_'+day "
                                                             >
                                                                 <div class="col-md-3">
                                                                     Stage {{day}} continued
