@@ -47,7 +47,7 @@ class TeamRepository
                         
                     }
                 }
-            return $teamData->distinct('teams.id')->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo',
+            return $teamData->distinct('teams.id')->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag as country_flag',
                     // 'competitions.name as competationName','competitions.id as competationId',
                     'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age')
                 ->get();  
@@ -57,7 +57,7 @@ class TeamRepository
                 // if($data[''])
                  // ->where('teams.age_group_id',$ageGroup)
                  // ->where('teams.tournament_id',$tournamentId)
-                 // ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo',
+                 // ->select('teams.*','teams.id as team_id', 'countries.name as name','countries.logo as logo',
                  //    // 'competitions.name as competationName','competitions.id as competationId',
                  //    'tournament_competation_template.group_name as age_name')
                  // ->get();
@@ -88,7 +88,7 @@ public function getAllFromTournamentId($tournamentId)
                 ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
                 ->join('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
                  ->where('teams.tournament_id',$tournamentId)
-                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo',
+                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag',
                     'competitions.name as competationName','competitions.id as competationId',
                     'tournament_competation_template.group_name as age_name')
                  ->get();

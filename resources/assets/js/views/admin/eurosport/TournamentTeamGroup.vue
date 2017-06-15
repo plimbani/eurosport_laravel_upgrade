@@ -83,7 +83,8 @@
                       <td>{{team.esr_reference}}</td>
                       <td>{{team.name}}</td>
                       <td>
-                      	<img :src="team.logo" width="20"> {{team.country_name}}
+                      	<!-- <img :src="team.logo" width="20"> {{team.country_name}} -->
+                            <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
                       </td>
                       <td>{{team.place}} </td>
                       <td>{{team.category_age}} </td>
@@ -103,7 +104,7 @@
                 </tbody>
                 <tbody v-else>
                   <tr>
-                    <td colspan="6"> No teams available</td>
+                    <td colspan="7"> No teams available</td>
                     </tr>
                 </tbody>
             </table>

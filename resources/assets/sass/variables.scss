@@ -130,4 +130,8 @@ $headings-margin-bottom:     1.2rem;
 $card-cap-bg:              #fff !default;
 
 $pace-loader-color : darken($ls-color-primary,10%);
-$pitch-badge-info : #2196F3
+$pitch-badge-info : #2196F3;
+/*
+	replacing path of flag icon  
+*/
+$flag-icon-css-path: '/assets/img/flags' !default;
