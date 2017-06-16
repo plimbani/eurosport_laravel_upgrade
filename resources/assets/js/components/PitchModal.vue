@@ -148,7 +148,7 @@ var moment = require('moment');
           if(this.matchDetail.referee == null) {
 
           } else {
-          this.matchDetail.referee.first_name = this.matchDetail.referee.first_name+', '+this.matchDetail.referee.last_name
+          this.matchDetail.referee.first_name = this.matchDetail.referee.last_name+', '+this.matchDetail.referee.first_name
           }
          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
 
