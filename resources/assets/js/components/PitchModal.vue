@@ -37,7 +37,7 @@
               <div class="col-sm-9">
                 <select  v-model="matchDetail.referee_id" class="form-control ls-select2" name="selReferee">
                   <option value="0">Select referee</option>
-                  <option :value="referee.id" v-for="referee in referees">{{referee.first_name}} {{referee.last_name}}</option>
+                  <option :value="referee.id" v-for="referee in referees">{{referee.last_name}} {{referee.first_name}} </option>
                 </select>
               </div>
             </div>
