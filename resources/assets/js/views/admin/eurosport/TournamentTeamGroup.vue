@@ -97,13 +97,13 @@
                           </optgroup>
                         </select>
                       </td>
-                      <td v-else>aaaa</td>
+                      <td v-else></td>
                     </tr>
 
                 </tbody>
                 <tbody v-else>
                   <tr>
-                    <td colspan="6"> No teams available</td>
+                    <td colspan="7"> No teams available</td>
                     </tr>
                 </tbody>
             </table>
