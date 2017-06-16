@@ -27,7 +27,6 @@ import _ from 'lodash'
                 'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
                 'remBlock_id': 0
-
             }
         },
         props: [ 'stage' ],
@@ -140,6 +139,7 @@ import _ from 'lodash'
                         // console.log('drop', resourceId);
                         $(this).remove();
                     },
+
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                          // add match to scheduled matches table - api call
 
@@ -251,8 +251,8 @@ import _ from 'lodash'
                     resourceAreaWidth: {
                         default:'300px',
                     },
-
-                    schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                    //schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                    schedulerLicenseKey: '0097912839-fcs-1497264705',
                 });
             },
             handleEventClick(calEvent, jsEvent, view) {
@@ -380,11 +380,38 @@ import _ from 'lodash'
                             });
                         this.scheduledMatches =sMatches
                         this.getUnavailablePitch()
+                        this.stageWithoutPitch()
                         setTimeout(function(){
                             vm.initScheduler();
                         },2000)
                     }
                 )
+            },
+            stageWithoutPitch() {
+
+              // here we check if no pitch is added
+
+              if(this.stage.pitches.length == 0) {
+                let start_date = this.stage.tournamentStartDate + '08:00:00'
+                let end_date = this.stage.tournamentStartDate + '19:00:00'
+
+                let mData21 = {
+                                    'id': '111212',
+                                    'resourceId': '111213',
+                                    'start':moment.utc(start_date,'DD/MM/YYYY hh:mm:ss'),
+                                    'end': moment.utc(end_date,'DD/MM/YYYY HH:mm:ss'),
+                                    'refereeId': -2,
+                                    'refereeText': '',
+                                    'title': 'Pitch is not available',
+                                    'color': 'grey',
+                                    'matchId': '111212'
+              }
+               this.scheduledMatches.push(mData21)
+               // Also Add for Resources as well
+                let resources = {'id':'111213','eventColor':'grey'}
+               this.pitchesData = resources
+             }
+
             },
             getUnavailablePitch() {
                 let vm1 =this
