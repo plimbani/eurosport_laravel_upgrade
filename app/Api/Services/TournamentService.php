@@ -97,11 +97,12 @@ class TournamentService implements TournamentContract
             $newData[$key]=$value;
             $jsonVal = $value->json_data;
 
-            list($totalTime,$totalmatch,$dispFormatname,$template_font_color) = $this->calculateTime($data['tournamentData'],$value);
+            list($totalTime,$totalmatch,$dispFormatname,$template_font_color,$remark) = $this->calculateTime($data['tournamentData'],$value);
             $newData[$key]['total_time'] = $totalTime;
             $newData[$key]['total_match'] = $totalmatch;
             $newData[$key]['disp_format'] = $dispFormatname;
             $newData[$key]['template_font_color'] = $template_font_color;
+            $newData[$key]['remark'] = $remark;
           }
 
 
@@ -189,7 +190,12 @@ class TournamentService implements TournamentContract
 
         // Todo : Add font Color For this template
         $template_font_color = $json_data->template_font_color;
-        return array($total_time,$total_matches,$disp_format_name, $template_font_color);
+
+        // Todo: add remark option
+
+        $remark =  (isset($json_data->remark)) ? $json_data->remark : '';
+
+        return array($total_time,$total_matches,$disp_format_name, $template_font_color,$remark);
     }
 
     /*
