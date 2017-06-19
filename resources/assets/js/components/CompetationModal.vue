@@ -24,7 +24,7 @@
                           <tr class="grp-data">
                             <td class="p-0">
                               <tr>
-                                <td v-for="(gros,index2) in grp.groups"> 
+                                <td v-for="(gros,index2) in grp.groups">
                                   <tr><td class="pt-0"><strong >{{ gros.group_name}}</strong></td></tr>
                                   <tr class="grp-data">
                                      <td class="a1">
@@ -93,7 +93,12 @@
                       </p>
                        <p class="row">
                           <label class="col-md-6"><strong>{{$lang.competation_modal_remark}}</strong></label>
-                          <label class="col-md-6"></label>
+                          <label class="col-md-6">
+                          <span  v-if="templateData['remark']">
+                          {{templateData['remark']}} </span>
+                          <span v-else>Not applicable</span>
+                          </label>
+
                       </p>
                     </div>
                   </div>

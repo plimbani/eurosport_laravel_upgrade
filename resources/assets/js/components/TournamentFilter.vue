@@ -71,8 +71,9 @@ export default {
       $('#team').prop("checked",true)
     }
     else{
-      this.getDropDownData('location')
-      $('#location').prop("checked",true)
+      this.getDropDownData('age_category')
+      this.setFilterValue()
+      $('#age_category').prop("checked",true)
     }
   },
   methods: {
