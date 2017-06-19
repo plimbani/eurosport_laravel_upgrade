@@ -2,8 +2,11 @@
     <div class="tab-content">
         <div class="card">
             <div class="card-block">
+                <div class="row">
+                   <div class="col-3 align-self-center">
                 <h6 class="mb-4"><strong>{{$lang.pitch_capacity}}</strong></h6>
-                <div class="d-flex justify-content-start flex-wrap">
+
+               <!-- <div class="d-flex justify-content-start flex-wrap">
                     <div class="mr-3 d-flex flex-column justify-content-between pitch-capacity mb-3" v-for="pitch in pitches">
                         <div>
                             <p class="text-center">
@@ -20,8 +23,12 @@
                             <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="jv-icon jv-dustbin"></i></a>
                         </div>
                     </div>
+                </div> -->
                 </div>
-                <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                <div class="col-9 align-self-center">
+                        <button type="button" class="btn btn-primary pull-right" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                    </div>
+                </div>
 
                 <addPitchDetail  v-if="pitchId=='' && dispPitch==true" ></addPitchDetail>
                 <editPitchDetail v-if="pitchId!='' && dispPitch==true" > </editPitchDetail>
@@ -29,6 +36,38 @@
 
                 <div class="row mt-4">
                     <div class="result col-md-12">
+                         <table class="table table-hover table-bordered mt-4 pitch_capacity_table" v-if="pitches">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Pitch name</th>
+                                    <th class="text-center">Size</th>
+                                    <th class="text-center">Type</th>
+                                    <th class="text-center">Stages</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="pitch in pitches">
+                                    <td class="text-center">{{pitch.pitch_number}}</td>
+                                    <td class="text-center">{{pitch.size}}</td>
+                                    <td class="text-center">{{pitch.type}}</td>
+                                    <td>
+                                        <p>Stage 1: 9am-4pm</p>
+                                        <p>Stage 2: 10am-1pm, 3pm-5pm</p>
+                                        <p>Stage 3: 10am-2pm</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="align-middle">
+                                            <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
+
+                                        </span>
+                                        <span class="align-middle">
+                                             <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="jv-icon jv-dustbin"></i></a>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <div class="dashbox mb-2">
                             <p class="row">
                                 <label class="col-md-3"><strong>{{$lang.pitch_totaL_time}}</strong></label>
@@ -43,6 +82,7 @@
                                 <label :class="[pitchAvailableBalance[0]<0? 'red': 'text-success','col-md-5 m-0' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
                             </p>
                         </div>
+
                     </div>
                 </div>
             </div>

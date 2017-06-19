@@ -498,3 +498,9 @@ textarea {
 .fc-time-grid-container {
     height: 594px !important;
 }
+
+// add new changes for make pitch capacity tabular format
+.pitch_capacity_table p {
+    display: block;
+    margin-bottom: 0;
+}

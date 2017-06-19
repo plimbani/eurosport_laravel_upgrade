@@ -93,7 +93,12 @@
                       </p>
                        <p class="row">
                           <label class="col-md-6"><strong>{{$lang.competation_modal_remark}}</strong></label>
-                          <label class="col-md-6">{{templateData['remark']}}</label>
+                          <label class="col-md-6">
+                          <span  v-if="templateData['remark']">
+                          {{templateData['remark']}} </span>
+                          <span v-else>Not applicable</span>
+                          </label>
+
                       </p>
                     </div>
                   </div>

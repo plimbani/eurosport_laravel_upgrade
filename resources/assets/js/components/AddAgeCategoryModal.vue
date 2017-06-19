@@ -235,9 +235,11 @@
                         <div class="col-sm-10 align-self-center">
                           <span for="one"
                           v-if="checkTemplate(option)"  :style="'color:'+option.template_font_color">
-                          {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}<br>
-                          Remark: {{option.remark}}
+                          {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
                           <br>
+                          <span v-if="option.remark != ''">Remark: {{option.remark}} </span>
+                          <span v-else>Remark: Not applicable </span>
+
                           </span>
                         </div>
                       </div>
