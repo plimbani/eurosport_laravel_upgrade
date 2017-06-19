@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/registration_background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_weight="1"
+        android:src="@drawable/logo_part_3" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:isScrollContainer="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    style="@style/app_edittext"
+                    android:layout_width="match_parent"
+                    android:hint="@string/firstname"
+                    android:inputType="textCapWords" />
+
+                <EditText
+                    style="@style/app_edittext"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/surname"
+                    android:inputType="textCapWords" />
+
+                <EditText
+                    style="@style/app_edittext"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/email_address"
+                    android:inputType="textEmailAddress" />
+
+                <EditText
+                    style="@style/app_edittext"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/password"
+                    android:inputType="textPassword" />
+
+                <EditText
+                    style="@style/app_edittext"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword" />
+
+                <Spinner
+                    android:id="@+id/sp_tournament"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:drawSelectorOnTop="true"
+                    android:padding="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:background="@drawable/button_bg"
+        android:text="@string/create_new_account"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+</LinearLayout>
+
+

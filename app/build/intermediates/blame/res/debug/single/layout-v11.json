@@ -1,26 +1,26 @@
 [
     {
-        "merged": "G:\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow_custom.xml",
-        "source": "C:\\Users\\karan\\.android\\build-cache\\6a907647fdb13989f0d8db07610e63c4762a5e48\\output\\res\\layout-v11\\notification_template_big_media_narrow_custom.xml"
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_action.xml",
+        "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\layout-v11\\notification_media_action.xml"
     },
     {
-        "merged": "G:\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_cancel_action.xml",
-        "source": "C:\\Users\\karan\\.android\\build-cache\\6a907647fdb13989f0d8db07610e63c4762a5e48\\output\\res\\layout-v11\\notification_media_cancel_action.xml"
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_custom.xml",
+        "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\layout-v11\\notification_template_big_media_custom.xml"
     },
     {
-        "merged": "G:\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_action.xml",
-        "source": "C:\\Users\\karan\\.android\\build-cache\\6a907647fdb13989f0d8db07610e63c4762a5e48\\output\\res\\layout-v11\\notification_media_action.xml"
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media.xml",
+        "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\layout-v11\\notification_template_big_media.xml"
     },
     {
-        "merged": "G:\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_custom.xml",
-        "source": "C:\\Users\\karan\\.android\\build-cache\\6a907647fdb13989f0d8db07610e63c4762a5e48\\output\\res\\layout-v11\\notification_template_big_media_custom.xml"
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_media_cancel_action.xml",
+        "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\layout-v11\\notification_media_cancel_action.xml"
     },
     {
-        "merged": "G:\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media.xml",
-        "source": "C:\\Users\\karan\\.android\\build-cache\\6a907647fdb13989f0d8db07610e63c4762a5e48\\output\\res\\layout-v11\\notification_template_big_media.xml"
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow.xml",
+        "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\layout-v11\\notification_template_big_media_narrow.xml"
     },
     {
-        "merged": "G:\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow.xml",
-        "source": "C:\\Users\\karan\\.android\\build-cache\\6a907647fdb13989f0d8db07610e63c4762a5e48\\output\\res\\layout-v11\\notification_template_big_media_narrow.xml"
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\layout-v11\\notification_template_big_media_narrow_custom.xml",
+        "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\layout-v11\\notification_template_big_media_narrow_custom.xml"
     }
 ]

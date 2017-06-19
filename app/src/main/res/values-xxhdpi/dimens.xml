@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="paddingTopBottom">64dp</dimen>
+    <dimen name="marginTopBottom">10dp</dimen>
+    <dimen name="paddingleft_landing_page">40dp</dimen>
+
+
+</resources>

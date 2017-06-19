@@ -8,9 +8,7 @@ import android.content.SharedPreferences;
  */
 public class AppPreference {
 
-    private static final String PREF_NAME = " com.aecor.gcmcustomnotification.PREF_NAME";
-    public static final String KEY_SETTING_IS_SOUND_ENABLE = "key_setting_is_sound_enable";
-    public static final String KEY_SETTING_IS_VIBRATION_ENABLE = "key_setting_is_vibration_enable";
+    private static final String PREF_NAME = "com.aecor.eurosports.util.PREF_NAME";
 
     private static AppPreference sInstance;
     private final SharedPreferences mPref;
