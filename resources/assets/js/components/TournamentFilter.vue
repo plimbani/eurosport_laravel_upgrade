@@ -72,6 +72,7 @@ export default {
     }
     else{
       this.getDropDownData('age_category')
+      this.setFilterValue()
       $('#age_category').prop("checked",true)
     }
   },
