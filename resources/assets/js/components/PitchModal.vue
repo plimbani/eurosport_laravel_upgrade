@@ -160,7 +160,7 @@ var moment = require('moment');
 
           this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '' : this.matchDetail.hometeam_score
           this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '' : this.matchDetail.awayteam_score
-          this.matchDetail.referee_id = (this.matchDetail.referee_id == null) ? '' :this.matchDetail.referee_id 
+          this.matchDetail.referee_id = (this.matchDetail.referee_id == null || this.matchDetail.referee_id == 0 ) ? '' :this.matchDetail.referee_id 
       })
     },
     removeReferee(){
