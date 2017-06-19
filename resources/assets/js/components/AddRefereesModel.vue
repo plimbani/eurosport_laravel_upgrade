@@ -48,7 +48,8 @@
                       <option value="">U15</option>
                       <option value="">U19</option>
                   </select> -->
-                 <multiselect name="sel_ageCategory" id="sel_ageCategory" :options="competationList" :multiple="true" :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"  label="category_age"   :clear-on-select="false" :Searchable="true"  @input="onChange"  @close="onTouch" @select="onSelect"></multiselect>
+                  <input type="checkbox" name="chk_ageCategory" id="chk_ageCategory">Select all
+                 <multiselect name="sel_ageCategory" id="sel_ageCategory" :options="competationList" :multiple="true" :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"  label="category_age"   :clear-on-select="false" :Searchable="true"  @input="onChange"  @close="onTouch" @select="onSelect" @remove="onRemove"></multiselect>
                    <!-- <select name="sel_ageCategory"  v-model="formValues.age_group_id"  v-validate="'required'" v-bind:multiple="isMultiple" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
                         <option value="">Select</option>
                         <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.category_age}}</option>
@@ -101,6 +102,7 @@ export default {
       isTouched: false,
       isInvalid: false,
       options: []
+
     }
    },
    // computed: {
@@ -125,13 +127,21 @@ export default {
                 }
                 competitionOption.push(cmp)
               });
-               vm.options = competitionOption
+               // vm.options = competitionOption
           },1000)
         },
       },
   mounted() {
-   
-    
+    let vm = this
+    $('#refreesModal').on('click','#chk_ageCategory',function(){
+      vm.value = []
+      if($(this).is(':checked')){
+        _.forEach(vm.competationList, function(competition,value) {
+           let cmp = {'id':competition.id,'category_age':competition.category_age}
+            vm.value.push(cmp)
+        });
+      }
+    })
       
   },
   methods: {
@@ -187,8 +197,15 @@ export default {
         }
         )
     },
+    onRemove() {
+      $('#chk_ageCategory').prop('checked', false)
+    },
     onChange (value) {
       this.value = value
+      if(this.value.length == this.competationList.length){
+      $('#chk_ageCategory').prop('checked', true)
+
+      }
       if (value.indexOf('Reset me!') !== -1) this.value = []
     },
     onSelect (option) {

@@ -77,6 +77,7 @@ $api->version('v1', function ($api) {
     $api->post('match/saveUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@saveUnavailableBlock');
     $api->post('match/getUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@getUnavailableBlock');
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
+    $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore');
 
 
 

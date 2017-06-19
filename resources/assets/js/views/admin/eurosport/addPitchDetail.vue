@@ -484,11 +484,11 @@ export default {
        },1000)
 
        this.getAllPitches()
-       if(this.tournamentDays> 2) {
-              for(let i=3;i<=this.tournamentDays;i++){
-                  this.stageRemove(i)
-              }
-          }
+       // if(this.tournamentDays> 2) {
+       //        for(let i=3;i<=this.tournamentDays;i++){
+       //            this.stageRemove(i)
+       //        }
+       //    }
     $(document).ready(function(){
       $("body").on('click','.stage_break_chk',function(){
         let stageId = this.id

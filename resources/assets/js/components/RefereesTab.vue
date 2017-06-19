@@ -68,10 +68,14 @@
             // Only called if valid tournament id is Present
                 if (!isNaN(this.tournamentId)) {
                   // here we add data for
+                  let responseData=[];
                   let TournamentData = {'tournament_id': this.tournamentId}
                   Tournament.getCompetationFormat(TournamentData).then(
                   (response) => {
-                    this.competationList = response.data.data
+                    responseData = response.data.data
+                    // responseData.unshift({'id':0,'category_age':'Select all'}) 
+                    // this.competationList.push({'id':0,'category_age':'Select all'})
+                    this.competationList = responseData
                     // console.log(this.competationList);
                   },
                   (error) => {

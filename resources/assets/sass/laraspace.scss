@@ -27,10 +27,12 @@
 @import "../plugins/easypiecharts/easypiecharts.scss";
 @import "../plugins/metisMenu/metisMenu.scss";
 @import "../plugins/fullcalendar/fullcalendar.css";
-@import "../plugins/fullcalendar-scheduler/scheduler.css";
+// @import "../plugins/fullcalendar-scheduler/scheduler.css";
 @import "../plugins/vue-multiselect/vue-multiselect.min.css";
+
+
 @import "../plugins/fullcalendar-scheduler/lib/fullcalendar.min.css";
-@import "../plugins/fullcalendar-scheduler/scheduler.css";
+@import "../plugins/fullcalendar-scheduler/scheduler.css"; 
 
 // Option Skin.
 @import 'skins/skin-tyrell';
