@@ -85,7 +85,7 @@ import _ from 'lodash'
                             'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
                             'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
                             'refereeId': -1,
-                            'refereeText': 'R',
+                            'refereeText': '',
                             'title':'Pitch is not available',
                             'matchId':''
                         })
@@ -97,14 +97,16 @@ import _ from 'lodash'
                 let vm = this;
                 $(this.$el).fullCalendar({
                     editable: true,
+                    aspectRatio: 1.8,
                     eventDurationEditable: false,
                     eventOverlap: false,
                     droppable: true,
-                    height: 650,
-                    width:250,
+                    // height: 350,
+                    width:'100px',
                     defaultView: 'agendaDay',
                     defaultDate: vm.stageDate,
                     selectable: true,
+                    // scrollTime: '14:00',
                     eventLimit: true, // allow "more" link when too many events
                     header: false,
                     views: {
@@ -115,20 +117,18 @@ import _ from 'lodash'
                             slotLabelInterval: '00:15',
                             slotLabelFormat:"HH:mm",
                             timeFormat: 'H:mm',
-                            resourceAreaWidth: {
-                                default:'200px',
-                            }
+                            resourceAreaWidth: '100px',
+                            width:100
+                           
                         }
                     },
 
                     timeFormat: 'H:mm',
                     //// uncomment this line to hide the all-day slot
                     allDaySlot: false,
-
+                    resourceAreaWidth: '400px',
                     resources: vm.pitchesData,
-                    resourceAreaWidth: {
-                        default:"200px",
-                    },
+                    
                     // events: [
                     //     { id: '2', resourceId: '1', start: '2017-03-28T09:00:00', end: '2017-03-28T14:00:00', title: 'event 2' },
                     //     { id: '3', resourceId: '1', start: '2017-03-28T12:00:00', end: '2017-03-28T06:00:00', title: 'event 3' },
@@ -309,7 +309,7 @@ import _ from 'lodash'
                                     'start':moment.utc(match.match_datetime,'YYYY-MM-DD HH:mm:ss'),
                                     'end': moment.utc(match.match_endtime,'YYYY-MM-DD HH:mm:ss'),
                                     'refereeId': match.referee_id?match.referee_id:0,
-                                    'refereeText': 'R',
+                                    'refereeText': match.last_name+' '+match.first_name,
                                     'title':match.match_number,
                                     'color': colorVal,
                                     'matchId':match.fid
