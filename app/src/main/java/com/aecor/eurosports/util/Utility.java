@@ -6,6 +6,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -17,16 +18,30 @@ import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.format.DateFormat;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.aecor.eurosports.R;
+import com.aecor.eurosports.ui.ProgressHUD;
+import com.aecor.eurosports.ui.ViewDialog;
+import com.android.volley.VolleyError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
@@ -37,6 +52,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 
 /**
  * Created by system-local on 03-06-2016.
@@ -44,104 +61,107 @@ import java.util.regex.Pattern;
 public class Utility {
     private final static String TAG = "Utility";
     private static Dialog progressDialog;
+    private static ProgressHUD mProgressHUD;
 
     public static void showToast(Context mContext, String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
     }
 
-/*
-
-    public static void startProgress(Context context) {
+    public static void startProgress(@NonNull Context context) {
         try {
-            progressDialog = new Dialog(context, R.style.AppCompatDialogStyle);
-            progressDialog.setContentView(R.layout.custom_progress_dialog);
-            progressDialog.setCancelable(false);
-            StopProgress();
-            progressDialog.show();
+            mProgressHUD = ProgressHUD.show(context, "Loading", true, new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    mProgressHUD.dismiss();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void startSmallProgress(Context context) {
+    public static void closeKeyPad(@NonNull Activity activity, @NonNull View v) {
         try {
-            progressDialog = new Dialog(context, R.style.AppCompatDialogStyle);
-            progressDialog.setContentView(R.layout.small_progress_bar);
-            progressDialog.setCancelable(false);
-            StopProgress();
-            progressDialog.show();
+            InputMethodManager inputManager = (InputMethodManager) activity
+                    .getSystemService(INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(v.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public static void parseVolleyError(@NonNull Context mContext, @NonNull VolleyError error) {
+        try {
+
+
+            String responseBody = new String(error.networkResponse.data, "utf-8");
+
+            JSONObject data = new JSONObject(responseBody);
+            if (data.has("message")) {
+                String message = data.getString("message");
+
+                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                    @Override
+                    public void onPositiveButtonClicked() {
+
+                    }
+
+                    @Override
+                    public void onNegativeButtonClicked() {
+
+                    }
+                });
+            }
+
+        } catch (@NonNull JSONException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String encodeTobase64(Bitmap image) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = "data:image/png;base64," + Base64.encodeToString(b, Base64.DEFAULT);
+        return imageEncoded;
+    }
+
+    public static void setupUI(final Context mContext, View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(@NonNull View v, MotionEvent event) {
+                    closeKeyPad((Activity) mContext, v);
+                    return false;
+                }
+            });
+        }
+
+        // If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(mContext, innerView);
+            }
         }
     }
 
     public static void StopProgress() {
         try {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
+
+            if (mProgressHUD != null) {
+                mProgressHUD.dismiss();
             }
+            assert mProgressHUD != null;
+            mProgressHUD.dismiss();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    } */
-
-    public static String getMailId(Context context) {
-
-//        return "chris.gartside@lanesgroup.com";
-        String strGmail = "";
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return null;
-        }
-        Account[] accounts = AccountManager.get(context).getAccounts();
-
-        for (Account account : accounts) {
-
-            String possibleEmail = account.name;
-            String type = account.type;
-
-            if (type.equals("com.google")
-                    && possibleEmail.contains("lanesgroup.com")) {
-                strGmail = possibleEmail;
-                break;
-            }
-        }
-
-        /*return strGmail;
-        return "asoni@aecordigital.com";
-        return "ndeopura@aecordigital.com";
-        return "richard.stenson@lanesgroup.com";
-        return "richard.stenson@lanesgroup.com";
-        return "mdilokani@lanesgroup.com";
-        return "chris.gartside@lanesgroup.com";
-        return "jjangir@lanesgroup.com";
-        return "asoni@aecordigital.com";*/
-
-        return "rstenson@aecordigital.com";
     }
 
-    public static String getFormattedDate(Context context, String dateTime) throws ParseException {
-
-        Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).parse(dateTime);
-        long smsTimeInMilis = date.getTime();
-
-        Calendar smsTime = Calendar.getInstance();
-        smsTime.setTimeInMillis(smsTimeInMilis);
-
-        Calendar now = Calendar.getInstance();
-
-        if (now.get(Calendar.DATE) == smsTime.get(Calendar.DATE)) {
-            // For today
-            return DateFormat.format("HH:mm", smsTime).toString();
-        } else {
-            return DateFormat.format("dd MMM yy", smsTime).toString();
-        }
-    }
 
     public static boolean isNullOrEmpty(String string) {
         return string == null || string.equalsIgnoreCase("")
@@ -149,7 +169,7 @@ public class Utility {
     }
 
     @SuppressWarnings("deprecation")
-    public static boolean isInternetAvailable(Context context) {
+    public static boolean isInternetAvailable(@NonNull Context context) {
 
         ConnectivityManager connectivity = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -166,212 +186,4 @@ public class Utility {
         return false;
     }
 
-
-    public static String getCurrentDateAndTime() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = null;
-        System.out.println("Current time => " + c.getTime());
-        df = new SimpleDateFormat("HH:mm d MMM yyyy");
-        String formattedDate = df.format(c.getTime());
-        return formattedDate;
-    }
-
-    public static String getCurrentDateAndTimeForAlert() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = null;
-        System.out.println("Current time => " + c.getTime());
-        df = new SimpleDateFormat("HH:mm d MMMM yyyy");
-        String formattedDate = df.format(c.getTime());
-        return formattedDate;
-    }
-
-    public static String getUrlFromImgTag(String imgTag) {
-        String url = null;
-
-        Pattern p = Pattern.compile("src='[^']*'", Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher(imgTag);
-        if (m.find()) {
-            url = imgTag.substring(m.start() + 5, m.end() - 1);
-        }
-
-        return url;
-    }
-
-    public static Bitmap drawTextToBitmap(Context gContext,
-                                          int gResId,
-                                          String gText) {
-        Resources resources = gContext.getResources();
-        float scale = resources.getDisplayMetrics().density;
-        Bitmap bitmap =
-                BitmapFactory.decodeResource(resources, gResId);
-
-        Bitmap.Config bitmapConfig =
-                bitmap.getConfig();
-        // set default bitmap config if none
-        if (bitmapConfig == null) {
-            bitmapConfig = Bitmap.Config.ARGB_8888;
-        }
-        // resource bitmaps are imutable,
-        // so we need to convert it to mutable one
-        bitmap = bitmap.copy(bitmapConfig, true);
-
-        Canvas canvas = new Canvas(bitmap);
-        // new antialised Paint
-        Paint paint = new Paint();
-
-
-        // text color - #3D3D3D
-        paint.setColor(Color.WHITE);
-        // text size in pixels
-        paint.setTextSize((int) (14 * scale));
-        // text shadow
-        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
-
-        // draw text to the Canvas center
-        Rect bounds = new Rect();
-        paint.getTextBounds(gText, 0, gText.length(), bounds);
-        int x = (bitmap.getWidth() - bounds.width()) / 2;
-        int y = (bitmap.getHeight() + bounds.height()) / 2;
-        paint.setAntiAlias(true);
-//        paint.setTypeface(FontCache.getTypeface("fonts/Lato-Regular.ttf", gContext));
-
-
-        canvas.drawText(gText, x, y, paint);
-
-        return bitmap;
-    }
-
-    /*public static Bitmap getDepartmentBitmap(Context gContext, String department) {
-        Bitmap bitmap = null;
-        if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_HUMAN_RESOURCES)) {
-            bitmap = Utility.drawTextToBitmap(gContext, R.drawable.icon_human_resources, gContext.getResources().getString(R.string.hr));
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_GENERAL_MANAGEMENT)) {
-            bitmap = Utility.drawTextToBitmap(gContext, R.drawable.icon_general_management, gContext.getResources().getString(R.string.gm));
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_TRANSPORT_MANAGEMENT)) {
-            bitmap = Utility.drawTextToBitmap(gContext, R.drawable.icon_transport_management, gContext.getResources().getString(R.string.tm));
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_HEALTH_AND_SAFETY)) {
-            bitmap = Utility.drawTextToBitmap(gContext, R.drawable.icon_health_and_safety, gContext.getResources().getString(R.string.has));
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_COMPLIANCE)) {
-            bitmap = Utility.drawTextToBitmap(gContext, R.drawable.icon_compliance, gContext.getResources().getString(c));
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_FINANCE)) {
-            bitmap = Utility.drawTextToBitmap(gContext, R.drawable.icon_finance, gContext.getResources().getString(R.string.f));
-        } else {
-            bitmap = Utility.drawTextToBitmap(gContext, R.drawable.icon_no_department, gContext.getResources().getString(R.string.na));
-        }
-        return bitmap;
-    }
-
-    public static String getDepartmentText(Context gContext, String department) {
-        String departmentShortForm = "";
-        if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_HUMAN_RESOURCES)) {
-            departmentShortForm = gContext.getResources().getString(R.string.hr);
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_GENERAL_MANAGEMENT)) {
-            departmentShortForm = gContext.getResources().getString(R.string.gm);
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_TRANSPORT_MANAGEMENT)) {
-            departmentShortForm = gContext.getResources().getString(R.string.tm);
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_HEALTH_AND_SAFETY)) {
-            departmentShortForm = gContext.getResources().getString(R.string.has);
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_COMPLIANCE)) {
-            departmentShortForm = gContext.getResources().getString(c);
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_FINANCE)) {
-            departmentShortForm = gContext.getResources().getString(R.string.f);
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_LANES_GROUP)) {
-            departmentShortForm = gContext.getResources().getString(R.string.na);
-        }
-        return departmentShortForm;
-    }
-
-    public static int getDepartmentResourceId(Context gContext, String department) {
-        int departmentResourceId = R.drawable.icon_human_resources;
-        if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_HUMAN_RESOURCES)) {
-            departmentResourceId = R.drawable.icon_human_resources;
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_GENERAL_MANAGEMENT)) {
-            departmentResourceId = R.drawable.icon_general_management;
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_TRANSPORT_MANAGEMENT)) {
-            departmentResourceId = R.drawable.icon_transport_management;
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_HEALTH_AND_SAFETY)) {
-            departmentResourceId = R.drawable.icon_health_and_safety;
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_COMPLIANCE)) {
-            departmentResourceId = R.drawable.icon_compliance;
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_FINANCE)) {
-            departmentResourceId = R.drawable.icon_finance;
-        } else if (department.equalsIgnoreCase(AppConstants.DEPARTMENT_TYPE_LANES_GROUP)) {
-            departmentResourceId = R.drawable.icon_no_department;
-        }
-        return departmentResourceId;
-    }*/
-
-    public static float pixelsToSp(Context context, float px) {
-        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
-        return px / scaledDensity;
-    }
-
-    public static void hideKeyboard(Context ctx) {
-        InputMethodManager inputManager = (InputMethodManager) ctx
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        // check if no view has focus:
-        View v = ((Activity) ctx).getCurrentFocus();
-        if (v == null)
-            return;
-
-        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
-    }
-
-    public static void updateLauncherCout(int count, Context mContext) {
-        try {
-           /* boolean successRemoveBadge = ShortcutBadger.removeCount(mContext);
-            if (successRemoveBadge) {
-                boolean successUpdateBadge = ShortcutBadger.applyCount(mContext, count);
-            } */
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public static String getMimeType(String url) {
-        String mimeType = null;
-
-        // this is to handle call from main thread
-        StrictMode.ThreadPolicy prviousThreadPolicy = StrictMode.getThreadPolicy();
-
-        // temporary allow network access main thread
-        // in order to get mime type from content-type
-
-        StrictMode.ThreadPolicy permitAllPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(permitAllPolicy);
-
-        try {
-            URLConnection connection = new URL(url).openConnection();
-            connection.setConnectTimeout(150);
-            connection.setReadTimeout(150);
-            mimeType = connection.getContentType();
-            Log.i(TAG, "mimeType from content-type " + mimeType);
-        } catch (Exception ignored) {
-        } finally {
-            // restore main thread's default network access policy
-            StrictMode.setThreadPolicy(prviousThreadPolicy);
-        }
-
-        if (mimeType == null) {
-            // Our B plan: guessing from from url
-            try {
-                mimeType = URLConnection.guessContentTypeFromName(url);
-            } catch (Exception ignored) {
-            }
-            Log.i(TAG, "mimeType guessed from url " + mimeType);
-        }
-        return mimeType;
-    }
-
-    public static void showSoftKeyboard(Context mContext, EditText et) {
-        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT);
-    }
-
-    public static float dpToPx(Context context, float valueInDp) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
-    }
 }

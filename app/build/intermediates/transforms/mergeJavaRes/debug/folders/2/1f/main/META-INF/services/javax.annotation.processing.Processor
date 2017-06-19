@@ -1,2 +1,2 @@
-com.google.auto.service.processor.AutoServiceProcessor
 butterknife.compiler.ButterKnifeProcessor
+com.google.auto.service.processor.AutoServiceProcessor
