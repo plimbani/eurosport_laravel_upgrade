@@ -25,30 +25,28 @@
               </div>
           </div>
 
-          <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.category_age') }">
-            <div class="col-sm-4 form-control-label">{{$lang.competation_label_age_category}}</div>
-              <div class="col-sm-8">
-              <div class="row">
-                <div class="col-sm-12">
-                  <select class="form-control ls-select2"
-                  name="category_age"
-                  v-validate="'required'" :class="{'is-danger': errors.has('category_age') }"
-                  v-model="competation_format.category_age">
-                      <option value="">{{$lang.competation_modal_select_category_age}}</option>
-                     <!-- <option v-if="n > 4" v-for="n in (21)"
-                      :value="'Under '+ n + 's'">
-                     Under {{n}}s
-                    </option>
-                    <option>Men open age</option>
-                    <option>Women open age</option> -->
-                    <option v-for="categoryAge in categoryAgeArr"
-                    :value="categoryAge">{{categoryAge}}
-                    </option>
-                  </select>
-                  <span class="help is-danger" v-show="errors.has('category_age')">{{$lang.competation_modal_age_category_required}}</span>
-                </div>
+       <div class="form-group row align-items-center">
+          <div class="col-sm-4 form-control-label">Category age*</div>
+            <div class="col-sm-8">
+            <div class="row">
+              <div class="col-sm-12">
+               <multiselect  name="category_age" id="category_age" v-model="competation_format.category_age" :options="categoryAgeArr" 
+               :value="value" track-by="id" :multiple="false"  :Searchable="true" @input="onChange" @close="onTouch" @select="onSelect">                 
+                   <!-- <option v-if="n > 4" v-for="n in (21)"
+                    :value="'Under '+ n + 's'">
+                   Under {{n}}s
+                  </option>
+                  <option>Men open age</option>
+                  <option>Women open age</option> -->
+                  <option v-for="categoryAge in categoryAgeArr"
+                  :value="categoryAge">{{categoryAge}}
+                  </option>
+                
+                </multiselect> 
+               <span class="help is-danger" v-show="isInvalid">{{$lang.competation_modal_age_category_required}}</span>
               </div>
-              </div>
+            </div>
+            </div>
           </div>
 
           <div class="form-group row align-items-center" :class="{'has-error': errors.has('number_teams') }">
@@ -195,7 +193,7 @@
           </div>
           <div class="form-group row align-items-top"
            :class="{'has-error': errors.has('tournamentTemplate') }">
-            <div class="col-sm-4">{{$lang.competation_label_template}}*</div>
+            <div class="col-sm-4">{{$lang.competation_label_template}}</div>
             <div class="col-sm-8">
               <div class="row align-items-center">
                 <div class="col-sm-12" v-show="errors.has('tournamentTemplate')">
@@ -261,8 +259,10 @@
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
+import Multiselect from 'vue-multiselect'
 
 export default {
+  components: { Multiselect },
   data() {
     return  {
       competation_format: this.initialState(),
@@ -274,13 +274,19 @@ export default {
       match_interval_fm_array:[],
       minimum_matches:'', number_teams: '',
       optEdit: [],
+      value: [],
       tempTrue: false,
       trempVal:false,
       dispTempl: true,
       nullTemp:false,
+      selected: null,
+      isTouched: false,
+      isInvalid: false,
+      options: [],
       categoryAgeArr: ['U08/5','U09','U09/5','U09/7','U10','U10/5','U10/7','U10/9','U10/5A','U10/7A','U10/5B','U10/7B','U11','U11/11','U11/7','U11/7A','U11/7B','U12','U12/7','U12/8','U12/9','U12-A','U12/7A','U12/8A','U12-B','U12/7B','U12/8B','U13','U13/7','U13/8','U13/9','U13-A','U13/7A','U13/8A','U13/9A','U13-B','U13/8B','U13/9B','U14','U14/7','U14-A','U14-B','U15','U15/7','U15-A','U15-B','U16','U16-A','U16-B','U17','U17-A','U17-B','U18','U19','U19-A','U19-B','U10-U9','G08/5','G09/5','G09/7','G10/5','G10/7','G10/7A','G10/7B','G11','G11/7','G12','G12/7','G12/8','G12/9','G12/7A','G12/7B','G13','G13/7','G13/8','G13/9','G13/7A','G13/7B','G14','G14/7','G14/8','G14-A','G14-B','G15','G15/7','G15/8','G15-A','G15-B','G16','G17','G17/7','G17-A','G17-B','G18','G18/7','G18-A','G18-B','G19','G19-A','G19-B','M-O','M-O/5','M-O/7','M32','M35','M35/7','W-O','W-O/7']
     }
   },
+
   watch: {
 
     competation_format: {
@@ -531,8 +537,12 @@ export default {
 
     },
     saveAgeCategory() {
-      // Now here we have to Save it Age Catgory
-
+      // Now here we have  to Save it Age Catgory
+      this.isInvalid = false
+        console.log(this.value.length);
+      if(this.value.length === 0) {
+        this.isInvalid = true
+      }
       this.competation_format.tournament_id = this.$store.state.Tournament.tournamentId;
       let that = this
       let comp_id = that.competation_format.id?that.competation_format.id:''
@@ -547,6 +557,7 @@ export default {
      // TODO : add minimum_matches and number_teams with competation format
      this.competation_format.min_matches = this.minimum_matches
      this.competation_format.total_teams = this.number_teams
+        
      this.$validator.validateAll().then(
           (response) => {
             if(this.dispTempl == true) {
@@ -601,7 +612,18 @@ export default {
           }
       )
       //this.$store.state.dispatch('saveAgeCategory', this.competation_format)
+    },
+    onChange (value) {
+      this.value = value
+      if (value.indexOf('Reset me!') !== -1) this.value = []
+    },
+    onSelect (option) {
+      if (option === 'Disable me!') this.isDisabled = true
+    },
+    onTouch () {
+      this.isTouched = true
     }
+
   }
 }
 </script>
