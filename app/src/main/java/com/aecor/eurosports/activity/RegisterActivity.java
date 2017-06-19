@@ -47,6 +47,7 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
+        Utility.setupUI(mContext, findViewById(R.id.ll_main));
         mContext = this;
         initView();
     }
@@ -100,7 +101,7 @@ public class RegisterActivity extends BaseActivity {
 
     private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                R.layout.row_spinner_item, R.id.title, Arrays.asList(mTournamentList));
+                R.layout.row_spinner_item, R.layout.row_spinner_selected_item, Arrays.asList(mTournamentList));
         sp_tournament.setAdapter(adapter);
     }
 }

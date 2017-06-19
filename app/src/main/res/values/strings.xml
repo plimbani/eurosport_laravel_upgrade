@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">EuroSports</string>
     <string name="title_activity_venue_map">Venue</string>
-    <string name="create_account">Create Account</string>
-    <string name="sign_in">Sign in</string>
+    <string name="create_account">Create account</string>
+    <string name="sign_in">Sign In</string>
     <string name="favorites">Favourites</string>
     <string name="tournament">Tournament</string>
     <string name="clubs">Clubs</string>
