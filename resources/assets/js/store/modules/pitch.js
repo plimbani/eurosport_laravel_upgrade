@@ -38,10 +38,10 @@ const actions = {
 
             _.forEach(pitchAvailable.pitch_availability , function(pitchAvailable1) {
               if(pitchAvailable1.break_enable == "0") {
-                stage[pitchAvailable.id+"_"+i] =  "Stage "+i+":"+moment(pitchAvailable1.stage_start_time,["HH"]).format("HH:mm A")+"-"+moment(pitchAvailable1.stage_end_time,["HH"]).format("HH:mm A")
+                stage[pitchAvailable.id+"_"+i] =  "Stage "+i+": "+moment(pitchAvailable1.stage_start_time,["HH"]).format("H:HH")+"-"+moment(pitchAvailable1.stage_end_time,["HH"]).format("H:HH")
                 //console.log(Stval)
               } else {
-                stage[pitchAvailable.id+"_"+i] =  "Stage "+i+":"+moment(pitchAvailable1.stage_start_time,["HH"]).format("HH:mm A")+"-"+moment(pitchAvailable1.break_start_time,["HH"]).format("HH:mm A")+","+moment(pitchAvailable1.break_end_time,["HH"]).format("HH:mm A")+"-"+moment(pitchAvailable1.stage_end_time,["HH"]).format("HH:mm A")
+                stage[pitchAvailable.id+"_"+i] =  "Stage "+i+": "+moment(pitchAvailable1.stage_start_time,["HH"]).format("H:HH")+"-"+moment(pitchAvailable1.break_start_time,["HH"]).format("H:HH")+", "+moment(pitchAvailable1.break_end_time,["HH"]).format("H:HH")+"-"+moment(pitchAvailable1.stage_end_time,["HH"]).format("H:HH")
               }
               i++;
               response.data.pitches[index].pitch_av_text = stage
