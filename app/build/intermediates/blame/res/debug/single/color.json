@@ -80,12 +80,12 @@
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\146e21d7e7e86c2a515961fb046d3b70ba8fc2af\\output\\res\\color\\common_plus_signin_btn_text_light.xml"
     },
     {
-        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\color\\switch_thumb_material_dark.xml",
-        "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\color\\switch_thumb_material_dark.xml"
-    },
-    {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_hint_foreground_material_dark.xml",
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\color\\abc_hint_foreground_material_dark.xml"
+    },
+    {
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\EuroSports\\app\\build\\intermediates\\res\\merged\\debug\\color\\switch_thumb_material_dark.xml",
+        "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\color\\switch_thumb_material_dark.xml"
     },
     {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_tint_spinner.xml",
