@@ -156,7 +156,8 @@ import _ from 'lodash'
                              Tournament.setUnavailableBlock(matchData).then(
                             (response) => {
                                 // console.log(response)
-                                toastr.success('Unavailable block has been scheduled successfully', 'Schedule block', {timeOut: 5000});
+                                let msg = 'Unavailable block has been scheduled successfully'
+                                toastr.success('', 'Schedule Block', {timeOut: 5000});
                                     vm.$root.$emit('setPitchReset')
                             },
                             (error) => {
