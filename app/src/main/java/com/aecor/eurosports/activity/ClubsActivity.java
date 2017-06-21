@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.ClubSectionsPagerAdapter;
 import com.aecor.eurosports.fragment.ClubsListFragment;
+import com.aecor.eurosports.util.AppConstants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +48,7 @@ public class ClubsActivity extends BaseAppCompactActivity implements ClubsListFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clubs);
+        BaseActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
         ButterKnife.bind(this);
         mContext = this;
         initView();

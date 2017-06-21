@@ -17,7 +17,7 @@
         layout="@layout/layout_social_media"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/home_footer" />
+        android:layout_above="@id/home_footer" />
 
     <ImageView
         android:background="@color/colorPrimaryDark"
