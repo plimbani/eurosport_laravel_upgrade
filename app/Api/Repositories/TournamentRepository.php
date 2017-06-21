@@ -329,4 +329,10 @@ class TournamentRepository
 
       return $resultData;
     }
+
+    public function getAllCategory($tournamentId) 
+    {
+      // dd($data);
+        return TournamentCompetationTemplates::where('tournament_id',$tournamentId)->select('id','group_name','category_age')->get();
+    }
 }

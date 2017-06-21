@@ -102,14 +102,14 @@ import _ from 'lodash'
                     droppable: true,
                     // height: 350,
                     width:'100px',
-                    defaultView: 'agendaDay',
+                    defaultView: 'timelineDay',
                     defaultDate: vm.stageDate,
                     selectable: true,
                     // scrollTime: '14:00',
                     eventLimit: true, // allow "more" link when too many events
                     header: false,
                     views: {
-                        agendaDay: {
+                        timelineDay: {
                             minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
                             maxTime:  vm.maxDatePitch?vm.maxDatePitch:'19:00:00',
                             slotDuration: '00:05',
