@@ -30,8 +30,11 @@
             <div class="col-sm-8">
             <div class="row">
               <div class="col-sm-12">
-               <multiselect  name="category_age" id="category_age" v-model="competation_format.category_age" :options="categoryAgeArr" 
-               :value="value" track-by="id" :multiple="false"  :Searchable="true" @input="onChange" @close="onTouch" @select="onSelect">                 
+               <multiselect  name="category_age" id="category_age" 
+                v-model="competation_format.category_age" :options="categoryAgeArr" :multiple="false"
+                 :hide-selected="false" :ShowLabels="false" :value="value" track-by="id" 
+                 :clear-on-select="false" :Searchable="true" @input="onChange" @close="onTouch" 
+                 @select="onSelect">                 
                    <!-- <option v-if="n > 4" v-for="n in (21)"
                     :value="'Under '+ n + 's'">
                    Under {{n}}s
@@ -539,7 +542,6 @@ export default {
     saveAgeCategory() {
       // Now here we have  to Save it Age Catgory
       this.isInvalid = false
-        console.log(this.value.length);
       if(this.value.length === 0) {
         this.isInvalid = true
       }
