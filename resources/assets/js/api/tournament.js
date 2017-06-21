@@ -49,6 +49,9 @@ export default {
   assignGroups(data) {
     return api.post('team/group/assign',{ data})
  },
+   assignCategory(data) {
+    return api.post('team/category/assign',{ data})
+ },
  getAllDraws(tournamentData) {
     return api.post('match/getDraws',{'tournamentId': tournamentData})
  },
@@ -124,5 +127,12 @@ export default {
   },
   removeUnavailableBlock(blockId) {
     return api.post('match/remove_block/'+blockId)
+  },
+  updateScore(matchData) {
+   return api.post('match/updateScore',{'matchData':matchData}) 
+  },
+  getAllCategory(tournamentId){
+     return api.post('tournament/allCategory',{'tournamentData':tournamentId}) 
   }
+
 }

@@ -46,5 +46,6 @@ interface MatchContract
     public function saveUnavailableBlock($matchData);
     public function getUnavailableBlock($matchData);
     public function removeBlock($matchData);
+    public function updateScore($matchData);
     
 }

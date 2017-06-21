@@ -438,4 +438,11 @@ class TournamentService implements TournamentContract
             return ['status_code' => '200', 'message' => self::SUCCESS_MSG];
         }
     }
+    public function getAllCategory($data) 
+    {
+        $data = $this->tournamentRepoObj->getAllCategory($data['tournamentData']);
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data, 'message' => 'All category fetch Successfully'];
+        }  
+    }
 }

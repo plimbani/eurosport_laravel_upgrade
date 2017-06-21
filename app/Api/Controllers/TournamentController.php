@@ -134,4 +134,9 @@ class TournamentController extends BaseController
     {
       return $this->tournamentObj->tournamentFilter($request->all());
     }
+    public function getAllCategory(Request $request)
+    {
+      return $this->tournamentObj->getAllCategory($request->all());
+    }
+    
 }

@@ -123,7 +123,8 @@ class MatchController extends Controller
     {
         return $this->matchObj->removeBlock($blockId);   
     }
-    
-    
-       
+    public function updateScore(Request $request)
+    {
+        return $this->matchObj->updateScore($request);   
+    }
 }
