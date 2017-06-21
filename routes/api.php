@@ -38,13 +38,14 @@ $api->version('v1', function ($api) {
     $api->post('team/edit/{id}', 'Laraspace\Api\Controllers\TeamController@edit');
     $api->post('team/delete/{deleteid}', 'Laraspace\Api\Controllers\TeamController@deleteTeam');
     $api->post('team/group/assign', 'Laraspace\Api\Controllers\TeamController@assignTeam');
+    $api->post('team/category/assign', 'Laraspace\Api\Controllers\TeamController@assignCategory');
 
     $api->post('team/getTeamsGroup', 'Laraspace\Api\Controllers\TeamController@getAllTeamsGroup');
 
     // Method for get All TournamentTeams
     $api->post('teams/teamsTournament',
         'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
-
+   
   
     //Referee api
     $api->get('referees/{tournamentId}', 'Laraspace\Api\Controllers\RefereeController@getReferees');
@@ -118,6 +119,8 @@ $api->version('v1', function ($api) {
     $api->post('tournament/delete/{id}', 'Laraspace\Api\Controllers\TournamentController@delete');
     $api->post('tournaments/tournamentSummary','Laraspace\Api\Controllers\TournamentController@tournamentSummary');
     $api->post('tournament/getDropDownData','Laraspace\Api\Controllers\TournamentController@tournamentFilter');
+    $api->post('tournament/allCategory',
+        'Laraspace\Api\Controllers\TournamentController@getAllCategory');
 
     // User Stuff
     $api->get('users', 'Laraspace\Api\Controllers\UserController@getUsers');
