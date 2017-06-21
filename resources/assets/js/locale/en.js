@@ -218,6 +218,7 @@ module.exports = {
   pitch_modal_details_size_side_two: "8-a-side",
   pitch_modal_details_size_side_three: "9-a-side",
   pitch_modal_details_size_side_four: "11-a-side",
+  pitch_modal_details_size_side_handball: "Handball",
   pitch_modal_details_size_side_indoor: "Indoor",
   pitch_modal_button_next: "Next",
 
