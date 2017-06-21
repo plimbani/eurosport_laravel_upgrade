@@ -1,29 +1,5 @@
 [
     {
-        "outputFile": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\EuroSports\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ldltr-v21\\values-ldltr-v21.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 112,
-                    "endOffset": 163
-                },
-                "from": {
-                    "file": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\values-ldltr-v21\\values-ldltr-v21.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 55,
-                        "endColumn": 112,
-                        "endOffset": 163
-                    }
-                }
-            }
-        ]
-    },
-    {
         "outputFile": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ldltr-v21\\values-ldltr-v21.xml",
         "map": [
             {

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.util.AppConstants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,29 +40,9 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        BaseActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_TOURNAMENT;
         ButterKnife.bind(this);
         mContext = this;
-    }
-
-    public String getFacebookPageURL(Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        try {
-            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
-            if (versionCode >= 3002850) {
-                //newer versions of fb app
-                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
-            } else {
-                //older versions of fb app
-                return "fb://page/" + FACEBOOK_PAGE_ID;
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            return FACEBOOK_URL; //normal web url
-        }
-    }
-
-    @OnClick(R.id.lv_clubs)
-    protected void submit() {
-        startActivity(new Intent(mContext, ClubsActivity.class));
     }
 
     @OnClick(R.id.facebook)
@@ -120,7 +101,6 @@ public class HomeActivity extends BaseActivity {
             mContext.startActivity(twitter);
         } catch (Exception e) {
             // no Twitter app, revert to browser
-//            twitter = new Intent(Intent.ACTION_VIEW, Uri.parse(TWITTER_URL));
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             CustomTabsIntent customTabsIntent = builder.build();
             builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));

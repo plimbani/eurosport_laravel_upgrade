@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/registration_background"
@@ -36,30 +35,35 @@
                 android:orientation="vertical">
 
                 <EditText
+                    android:id="@+id/firstname"
                     style="@style/app_edittext"
                     android:layout_width="match_parent"
                     android:hint="@string/firstname"
                     android:inputType="textCapWords" />
 
                 <EditText
+                    android:id="@+id/surname"
                     style="@style/app_edittext"
                     android:layout_marginTop="10dp"
                     android:hint="@string/surname"
                     android:inputType="textCapWords" />
 
                 <EditText
+                    android:id="@+id/register_email_address"
                     style="@style/app_edittext"
                     android:layout_marginTop="10dp"
                     android:hint="@string/email_address"
                     android:inputType="textEmailAddress" />
 
                 <EditText
+                    android:id="@+id/register_password"
                     style="@style/app_edittext"
                     android:layout_marginTop="10dp"
                     android:hint="@string/password"
                     android:inputType="textPassword" />
 
                 <EditText
+                    android:id="@+id/register_confirm_password"
                     style="@style/app_edittext"
                     android:layout_marginTop="10dp"
                     android:hint="@string/confirm_password"
@@ -70,8 +74,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/spinner_bg"
-                    android:drawSelectorOnTop="true" />
+                    android:background="@color/white"
+                    android:drawSelectorOnTop="true"
+                    android:padding="10dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

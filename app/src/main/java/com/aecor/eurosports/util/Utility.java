@@ -20,6 +20,7 @@ import android.net.NetworkInfo;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -184,6 +185,10 @@ public class Utility {
         }
 
         return false;
+    }
+
+    public static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
 }

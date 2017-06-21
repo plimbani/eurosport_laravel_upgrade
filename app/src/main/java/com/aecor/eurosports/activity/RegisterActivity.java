@@ -2,7 +2,14 @@ package com.aecor.eurosports.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.aecor.eurosports.R;
@@ -19,27 +26,49 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class RegisterActivity extends BaseActivity {
     private final String TAG = RegisterActivity.class.getSimpleName();
     private Context mContext;
     @BindView(R.id.sp_tournament)
     protected Spinner sp_tournament;
+    @BindView(R.id.firstname)
+    protected EditText fname;
+    @BindView(R.id.surname)
+    protected EditText sname;
+    @BindView(R.id.register_email_address)
+    protected EditText email;
+    @BindView(R.id.register_password)
+    protected EditText register_password;
+    @BindView(R.id.register_confirm_password)
+    protected EditText confirm_password;
+    @BindView(R.id.register)
+    protected Button register;
+    private long tournament_id;
 
     @Override
     public void initView() {
         getTournamentList();
+        enabledDisableRegisterButton(false);
+        setListener();
     }
 
     @Override
     public void setListener() {
-
+        GenericTextMatcher mTextChangeLister = new GenericTextMatcher();
+        email.addTextChangedListener(mTextChangeLister);
+        fname.addTextChangedListener(mTextChangeLister);
+        sname.addTextChangedListener(mTextChangeLister);
+        confirm_password.addTextChangedListener(mTextChangeLister);
+        register_password.addTextChangedListener(mTextChangeLister);
     }
 
     @Override
@@ -47,9 +76,79 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
-        Utility.setupUI(mContext, findViewById(R.id.ll_main));
         mContext = this;
+        getSpinnerItemId();
         initView();
+    }
+
+    @OnClick(R.id.register)
+    public void register() {
+        register_user();
+    }
+
+    private void register_user() {
+        Utility.startProgress(mContext);
+        String url = ApiConstants.REGISTER;
+        final JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("email",email.getText().toString().trim());
+            requestJson.put("password",register_password.getText().toString().trim());
+            requestJson.put("first_name",fname.getText().toString().trim());
+            requestJson.put("sur_name",sname.getText().toString().trim());
+            requestJson.put("tournament_id",tournament_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (Utility.isInternetAvailable(mContext)) {
+            AppLogger.LogE(TAG, "***** Register request *****" + requestJson.toString());
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "***** Register response *****" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            Utility.showToast(mContext, "User registered successfully");
+                            startActivity(new Intent(mContext, SignInActivity.class));
+                            finish();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        AppLogger.LogE(TAG, "***** Register Error *****" + error.toString());
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        }
+    }
+
+    private void getSpinnerItemId() {
+        sp_tournament.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tournament_id = id;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
     }
 
     private void getTournamentList() {
@@ -99,9 +198,76 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
+    private void checkValidation() {
+        if (!validate()) {
+            enabledDisableRegisterButton(false);
+            return;
+        } else {
+            enabledDisableRegisterButton(true);
+        }
+    }
+
+    public boolean validate() {
+        boolean valid = false;
+
+        String emailOrPhone = email.getText().toString().trim();
+        String password = register_password.getText().toString().trim();
+        String confirmPassword = confirm_password.getText().toString().trim();
+        String firstname = fname.getText().toString().trim();
+        String surname = sname.getText().toString().trim();
+
+        if(firstname.isEmpty()) {
+            valid = false;
+            return valid;
+        } else { valid = true; }
+
+        if(surname.isEmpty()) {
+            valid = false;
+            return valid;
+        } else { valid = true; }
+
+        if (emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone)) {
+            valid = false;
+            return valid;
+        } else { valid = true; }
+
+        if (password.isEmpty() || password.length() < 5) {
+            valid = false;
+            return valid;
+        } else { valid = true; }
+
+        if (confirmPassword.isEmpty() || !confirmPassword.equals(password)) {
+            valid = false;
+            return valid;
+        } else { valid = true; }
+
+        return valid;
+    }
+
+    private void enabledDisableRegisterButton(boolean isEnable) {
+        if (isEnable) {
+            register.setEnabled(true);
+            register.setBackground(getResources().getDrawable(R.drawable.button_bg));
+        } else {
+            register.setEnabled(false);
+            register.setBackgroundColor(getResources().getColor(R.color.button_disable));
+        }
+    }
+
     private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                R.layout.row_spinner_item, R.layout.row_spinner_selected_item, Arrays.asList(mTournamentList));
+                R.layout.row_spinner_item, R.id.title, Arrays.asList(mTournamentList));
         sp_tournament.setAdapter(adapter);
+    }
+
+    private class GenericTextMatcher implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) { checkValidation(); }
+
+        @Override
+        public void afterTextChanged(Editable s) { }
     }
 }
