@@ -309,14 +309,19 @@ class TournamentRepository
 
         $reportQuery = TempFixture::where('temp_fixtures.tournament_id','=' ,$tournamentId);
         switch($key) {
-
           case 'location' :
+            $resultData = Venue::where('tournament_id',$tournamentId)
+                        ->select('id','name')
+                        ->get();
+                        //echo $resultData;
+            break;
+          /*case 'location' :
             $resultData = $reportQuery->join('venues','venues.id','=','temp_fixtures.venue_id')
                         ->select('venues.id as id','venues.name as name')
                         ->distinct('name')
                         ->get();
                         //echo $resultData;
-            break;
+            break;*/
           case 'age_category' :
             $resultData = $reportQuery->join('competitions','competitions.id','=','temp_fixtures.competition_id')
                         ->join('tournament_competation_template','competitions.tournament_competation_template_id','=','tournament_competation_template.id')
