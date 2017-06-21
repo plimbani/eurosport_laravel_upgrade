@@ -61,7 +61,8 @@
                                                 <option value="8-a-side">{{$lang.pitch_modal_details_size_side_two}}</option>
                                                 <option value="9-a-side">{{$lang.pitch_modal_details_size_side_three}}</option>
                                                 <option value="10-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
-                                                <option value="Handball">{{$lang.pitch_modal_details_size_side_handball}}</option>
+                                                <!--<option value="Handball">{{$lang.pitch_modal_details_size_side_handball}}</option>-->
+                                                <option value="Indoor">{{$lang.pitch_modal_details_size_side_indoor}}</option>
                                             </select>
                                             <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
                                         </div>
@@ -592,6 +593,7 @@ var moment = require('moment');
                     return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
                         toastr['success']('Pitch detail has been updated successfully.', 'Success');
                         this.displayPitch()
+                        setTimeout(Plugin.reloadPage, 1000);
                         $('#editPitch').modal('hide')
                     }).catch(error => {
                         if (error.response.status == 401) {
