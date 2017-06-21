@@ -1,7 +1,7 @@
 <template>
 <div class="row">
-	<div class="col-md-12">
-	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
+	<div class="col-md-12" >
+	<table id="matchSchedule" class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
 			<th class="text-center">{{$lang.summary_schedule_matches_time}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_draw}}</th>
@@ -23,7 +23,9 @@
 						<img :src="match.HomeFlagLogo" width="20">
 					</a>
 				</td>
-				<td class="text-center">{{match.homeScore}}-{{match.AwayScore}}</td>
+				<td class="text-center">
+					<input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)"> - <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)">
+				</td>
 				<td align="left">
 					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
 						<img :src="match.AwayFlagLogo" width="20">
@@ -41,6 +43,7 @@
 </div>
 </template>
 <script type="text/babel">
+import Tournament from '../api/tournament.js'
 
 export default {
 	props: ['matchData'],
@@ -49,6 +52,7 @@ export default {
 			dispLocation: true
 		}
 	},
+
   filters: {
     formatDate: function(date) {
      return moment(date).format("hh:mm ddd DD MMM YYYY");
@@ -62,6 +66,17 @@ export default {
 				return this.dispLocation
 			}
 		}
+	},
+	mounted() {
+		$('body').on('keypress', 'input',function(e) {
+		    var a = [];
+		    var k = e.which;
+		    var i;			    
+		    for (i = 48; i < 58; i++)
+		        a.push(i);			    
+		    if (!(a.indexOf(k)>=0))
+		        e.preventDefault();
+		});		
 	},
 	methods: {
 		changeLocation(matchData) {
@@ -83,7 +98,14 @@ export default {
 			this.$root.$emit('changeComp', Id, Name);
 			//this.$emit('changeComp',Id);
 		},
-
+		updateScore(matchId) {
+			
+			// let matchData = {'matchId': matchId, 'score':$(this).html()}
+		    /*Tournament.updateScore(matchData).then(
+		        (response) => {
+        	 		toastr.success('Scores has been updated successfully', 'Scores Updated', {timeOut: 5000});
+		    })*/
+		},
 	},
 
 }
