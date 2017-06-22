@@ -41,6 +41,8 @@ public class SignInActivity extends BaseActivity {
     @Override
     public void initView() {
         enabledDisableLoginButton(false);
+        email_address.setText("knayak@aecordigital.com");
+        sign_in_password.setText("password");
         setListener();
     }
 

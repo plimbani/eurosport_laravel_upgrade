@@ -46,9 +46,9 @@ public class ClubsActivity extends BaseAppCompactActivity implements ClubsListFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        BaseAppCompactActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
         setContentView(R.layout.activity_clubs);
-        BaseActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
+        super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         mContext = this;
         initView();

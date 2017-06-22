@@ -8,11 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:text="Hello World"
         android:paddingTop="10dp"
         android:gravity="center_vertical"
         android:paddingBottom="10dp"
         android:paddingRight="20dp"
         android:paddingLeft="20dp"
-        android:drawableRight="@drawable/green_right_arow"/>
+        android:drawableRight="@drawable/green_right_arrow"/>
 </LinearLayout>
