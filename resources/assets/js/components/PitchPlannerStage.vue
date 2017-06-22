@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class='pitchPlanner'></div>
+        <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
         <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal"></pitch-modal>
          <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
     </div>
@@ -29,7 +29,7 @@ import _ from 'lodash'
                 'remBlock_id': 0
             }
         },
-        props: [ 'stage' ],
+        props: [ 'stage' , 'defaultView'],
         components: {
             PitchModal,
             DeleteModal1,
@@ -50,6 +50,8 @@ import _ from 'lodash'
         },
         mounted() {
             let vm = this
+
+            $(this.$el).fullCalendar('changeView', 'agendaDay');
             // this.getScheduledMatch()
             setTimeout(function(){
                 vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
@@ -102,14 +104,21 @@ import _ from 'lodash'
                     droppable: true,
                     // height: 350,
                     width:'100px',
-                    defaultView: 'timelineDay',
+                    defaultView: vm.defaultView,
                     defaultDate: vm.stageDate,
                     selectable: true,
+                    header: false,
+                    header: {
+                        left: '',
+                        right: 'timelineDay,agendaDay'
+                    },
                     // scrollTime: '14:00',
                     eventLimit: true, // allow "more" link when too many events
-                    header: false,
+                    
                     views: {
                         timelineDay: {
+                            name:'timeView',
+                            buttonText: 'Time view',
                             minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
                             maxTime:  vm.maxDatePitch?vm.maxDatePitch:'19:00:00',
                             slotDuration: '00:05',
@@ -119,11 +128,24 @@ import _ from 'lodash'
                             resourceAreaWidth: '100px',
                             width:100
                            
-                        }
+                        },
+                        agendaDay: {
+                            name:'agendaView',
+                            buttonText: 'Agenda view',
+                            minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
+                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'19:00:00',
+                            slotDuration: '00:05',
+                            slotLabelInterval: '00:15',
+                            slotLabelFormat:"HH:mm",
+                            timeFormat: 'H:mm',
+                            resourceAreaWidth: '100px',
+                            width:100
+                           
+                        },
                     },
 
                     timeFormat: 'H:mm',
-                    //// uncomment this line to hide the all-day slot
+                    // uncomment this line to hide the all-day slot
                     allDaySlot: false,
                     resourceAreaWidth: '400px',
                     resources: vm.pitchesData,
@@ -303,6 +325,13 @@ import _ from 'lodash'
 
                               // console.log('match is'+JSON.stringify(match))
                               let colorVal = (match.homeScore == null && match.AwayScore == null) ? '#2196F3' : 'green'
+                              let lastName = match.last_name
+                              let firstName = match.first_name
+                              // console.log(lastName,firstName)
+                              let refereeName = ''
+                              if(lastName != null && firstName!= null){
+                                refereeName = lastName.substr(0,1)+firstName.substr(0,1)
+                              }
                              // console.log(val)
                                 let mData =  {
                                     'id': match.fid,
@@ -310,7 +339,7 @@ import _ from 'lodash'
                                     'start':moment.utc(match.match_datetime,'YYYY-MM-DD HH:mm:ss'),
                                     'end': moment.utc(match.match_endtime,'YYYY-MM-DD HH:mm:ss'),
                                     'refereeId': match.referee_id?match.referee_id:0,
-                                    'refereeText': match.last_name+' '+match.first_name,
+                                    'refereeText': refereeName,
                                     'title':match.match_number,
                                     'color': colorVal,
                                     'matchId':match.fid
@@ -354,8 +383,8 @@ import _ from 'lodash'
                                         'refereeId': -1,
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
-                                       'color': 'grey',
-                                        matchId:-1
+                                        'color': 'grey',
+                                        'matchId':-1
                                     }
                                 sMatches.push(mData1)
                                 }
@@ -396,15 +425,15 @@ import _ from 'lodash'
                 let end_date = this.stage.tournamentStartDate + '19:00:00'
 
                 let mData21 = {
-                                    'id': '111212',
-                                    'resourceId': '111213',
-                                    'start':moment.utc(start_date,'DD/MM/YYYY hh:mm:ss'),
-                                    'end': moment.utc(end_date,'DD/MM/YYYY HH:mm:ss'),
-                                    'refereeId': -2,
-                                    'refereeText': '',
-                                    'title': 'Pitch is not available',
-                                    'color': 'grey',
-                                    'matchId': '111212'
+                    'id': '111212',
+                    'resourceId': '111213',
+                    'start':moment.utc(start_date,'DD/MM/YYYY hh:mm:ss'),
+                    'end': moment.utc(end_date,'DD/MM/YYYY HH:mm:ss'),
+                    'refereeId': -2,
+                    'refereeText': '',
+                    'title': 'Pitch is not available',
+                    'color': 'grey',
+                    'matchId': '111212'
               }
                this.scheduledMatches.push(mData21)
                // Also Add for Resources as well
@@ -418,20 +447,19 @@ import _ from 'lodash'
                 let tournamentData ={'tournamentId':this.tournamentId }
                 Tournament.getUnavailablePitch(tournamentData).then(
                     (response) => {
-                        // console.log(response)
                     _.forEach(response.data.data, (block) => {
                         let mData2 = {
-                                    'id': 'block_'+block.id,
-                                    'resourceId': block.pitch_id,
-                                    'start':moment.utc(block.match_start_datetime,'YYYY/MM/DD hh:mm:ss'),
-                                    'end': moment.utc(block.match_end_datetime,'YYYY/MM/DD HH:mm:ss'),
-                                    'refereeId': -2,
-                                    'refereeText': '',
-                                    'title': 'Unavailable',
-                                    'color': 'grey',
-                                    'matchId': 'block_'+block.id
-                                }
-                            this.scheduledMatches.push(mData2)
+                                'id': 'block_'+block.id,
+                                'resourceId': block.pitch_id,
+                                'start':moment.utc(block.match_start_datetime,'YYYY/MM/DD hh:mm:ss'),
+                                'end': moment.utc(block.match_end_datetime,'YYYY/MM/DD HH:mm:ss'),
+                                'refereeId': -2,
+                                'refereeText': '',
+                                'title': 'Unavailable',
+                                'color': 'grey',
+                                'matchId': 'block_'+block.id
+                            }
+                        this.scheduledMatches.push(mData2)
                         });
                     },
                     (error) => {

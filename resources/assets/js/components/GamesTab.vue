@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <div class="text-center" v-for="(competition,index) in competitionWithGames">
 
-          <h6 class="mb-0" v-if="competition.matchList.length > 0"><strong>{{competition.group_name}}</strong></h6>
+          <h6 class="mb-0" ><strong>{{competition.group_name}}</strong></h6>
 
           <div v-if="totalMatch == 0">
               {{$lang.pitch_planner_no_games}}
