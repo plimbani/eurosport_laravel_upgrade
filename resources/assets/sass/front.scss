@@ -104,9 +104,11 @@ table#Competition-modal-table {
 
 #game-list,
 #referee-list {
-    height: 600px;
+    height: 400px;
 }
-
+#outerGame {
+    margin-bottom: 100px
+}
 
 /*.pitch_planner_section {
   height: 1200px;
@@ -161,6 +163,12 @@ table#Competition-modal-table {
     background-color:#2196F3;
     background:#2196F3;
 
+}
+#pitchPlanner {
+    min-height: 550px;
+}
+.fc-button {
+    display: none;
 }
 // .fc-view,
 // .fc-view > table {
