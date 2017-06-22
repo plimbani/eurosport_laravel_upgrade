@@ -5,6 +5,8 @@ namespace Laraspace\Api\Services;
 use Laraspace\Api\Contracts\TeamContract;
 use Laraspace\Api\Repositories\TeamRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\Club;
+
 
 
 class TeamService implements TeamContract
@@ -33,12 +35,26 @@ class TeamService implements TeamContract
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
+    public function getClubs($id)
+    {
+
+        // Here we send Status Code and Messages
+        $data = $this->teamRepoObj->getClubData($id);
+        // print_r($data);exit;
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
+        }
+
+        return ['status_code' => '505', 'message' => 'Error in Data'];
+    }
+
+
 
     public function getAllTournamentTeams($data)
     {
-
+     
       // Here we send Status Code and Messages
-
+     
         $data = $this->teamRepoObj->getAllTournamentTeams($data['tournamentData']['tournamentId']);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
@@ -69,6 +85,7 @@ class TeamService implements TeamContract
     }
     public function create($data)
     {
+
         if($data['country']!=''){
 
             $data['country_id'] = $this->getCountryIdFromName($data['country']) != 'error' ? $this->getCountryIdFromName($data['country']) : '1';
@@ -94,19 +111,36 @@ class TeamService implements TeamContract
         }
         $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid']);
          \Log::info($teamData);
+         if($data['club']!='') 
+         {
+            // Here we first find the club name in Database  
+            $clubData1 = Club::where('name',$data['club'])->get();
+            // Here we check if No data then create 
+            if(count($clubData1) == 0) {
+                // Its New values
+                $club_array = array('user_id'=>'1','name'=>$data['club']);
+                $clubData = Club::create($club_array);
+                $data['club_id'] = $clubData->id;
+            } 
+            else {
+                $data['club_id'] = $clubData1[0]->id;
+            }   
+         }
+    
          if($data['age_group_id'] != 0){
-            if(isset($teamData['id'])  ){
+           
+            if(isset($teamData['id']) ){
 
                  $editData =  [
                     'id' => $teamData['id'],
                     'name' => $data['team'],
-                    'place' => $data['place'] ,
+                    'place' => $data['place'],
                     'country_id' => $data['country_id'],
+                    'club_id' => $data['club_id'],
                     'age_group_id' => $data['age_group_id']
                 ];
-                $data = $this->teamRepoObj->edit($editData);
-            }else{
-
+                $data = $this->teamRepoObj->edit($editData, $teamData['id']);
+            } else {
                  $data = $this->teamRepoObj->create($data);
             }
          }

@@ -559,7 +559,6 @@ class MatchRepository
     }
     public function updateScore($matchData)
     {
-      //$scores = explode('-', $matchData['score']);
       $updateData = [
         'hometeam_score' => $matchData['home_score'],
         'awayteam_score' => $matchData['away_score']

@@ -106,12 +106,14 @@ export default {
 			//this.$emit('changeComp',Id);
 		},
 		updateScore(matchId) {
+
       let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
         Tournament.updateScore(matchData).then(
             (response) => {
               toastr.success('Score has been updated successfully', 'Score Updated', {timeOut: 5000});
         })
     },
+
 	},
 
 }
