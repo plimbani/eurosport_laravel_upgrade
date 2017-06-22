@@ -238,4 +238,4 @@ class MatchService implements MatchContract
         }
     }
 }
-    
+

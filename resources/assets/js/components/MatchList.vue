@@ -19,13 +19,13 @@
 				</td>
 				<td align="right">
 					<a  class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
-						<span><u>{{match.HomeTeam}}</u></span>	
+						<span><u>{{match.HomeTeam}}</u></span>
 						<img :src="match.HomeFlagLogo" width="20">
 					</a>
 				</td>
 				<td class="text-center">
-					<input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)"> - <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)">
-				</td>
+          <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)"> - <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)">
+        </td>
 				<td align="left">
 					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
 						<img :src="match.AwayFlagLogo" width="20">
@@ -71,12 +71,19 @@ export default {
 		$('body').on('keypress', 'input',function(e) {
 		    var a = [];
 		    var k = e.which;
-		    var i;			    
+		    var i;
 		    for (i = 48; i < 58; i++)
-		        a.push(i);			    
-		    if (!(a.indexOf(k)>=0))
-		        e.preventDefault();
-		});		
+		        a.push(i);
+		    if (!(a.indexOf(k)>=0)) {
+            e.preventDefault();
+        }
+        let val = e.target.value
+
+        if(e.target.value.length > 2) {
+          e.preventDefault();
+        }
+
+		});
 	},
 	methods: {
 		changeLocation(matchData) {
@@ -99,12 +106,14 @@ export default {
 			//this.$emit('changeComp',Id);
 		},
 		updateScore(matchId) {
-			let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
-		    Tournament.updateScore(matchData).then(
-		        (response) => {
-        	 		toastr.success('Score has been updated successfully', 'Score Updated', {timeOut: 5000});
-		    })
-		},
+
+      let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
+        Tournament.updateScore(matchData).then(
+            (response) => {
+              toastr.success('Score has been updated successfully', 'Score Updated', {timeOut: 5000});
+        })
+    },
+
 	},
 
 }
