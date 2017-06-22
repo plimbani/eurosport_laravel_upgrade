@@ -13,7 +13,6 @@
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,12 +31,10 @@
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:layout_weight="1"
-            android:background="@drawable/dialog_red_button"
+            android:background="@drawable/button_yellow"
             android:text="Continue"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp" />
-
     </LinearLayout>
-
 </LinearLayout>
