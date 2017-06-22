@@ -3176,13 +3176,13 @@ containing a value of this type.
         public static final int age_categories=0x7f020053;
         public static final int age_categories_red=0x7f020054;
         public static final int avd_hide_password=0x7f020055;
-        public static final int avd_hide_password_1=0x7f0200bc;
-        public static final int avd_hide_password_2=0x7f0200bd;
-        public static final int avd_hide_password_3=0x7f0200be;
+        public static final int avd_hide_password_1=0x7f0200bd;
+        public static final int avd_hide_password_2=0x7f0200be;
+        public static final int avd_hide_password_3=0x7f0200bf;
         public static final int avd_show_password=0x7f020056;
-        public static final int avd_show_password_1=0x7f0200bf;
-        public static final int avd_show_password_2=0x7f0200c0;
-        public static final int avd_show_password_3=0x7f0200c1;
+        public static final int avd_show_password_1=0x7f0200c0;
+        public static final int avd_show_password_2=0x7f0200c1;
+        public static final int avd_show_password_3=0x7f0200c2;
         public static final int background=0x7f020057;
         public static final int button_bg=0x7f020058;
         public static final int clubs=0x7f020059;
@@ -3255,8 +3255,8 @@ containing a value of this type.
         public static final int notification_bg_normal=0x7f02009c;
         public static final int notification_bg_normal_pressed=0x7f02009d;
         public static final int notification_icon_background=0x7f02009e;
-        public static final int notification_template_icon_bg=0x7f0200ba;
-        public static final int notification_template_icon_low_bg=0x7f0200bb;
+        public static final int notification_template_icon_bg=0x7f0200bb;
+        public static final int notification_template_icon_low_bg=0x7f0200bc;
         public static final int notification_tile_bg=0x7f02009f;
         public static final int notify_panel_notification_icon_bg=0x7f0200a0;
         public static final int progress_hud_bg=0x7f0200a1;
@@ -3278,12 +3278,13 @@ containing a value of this type.
         public static final int spinner_9=0x7f0200b1;
         public static final int spinner_arrow_icon=0x7f0200b2;
         public static final int spinner_bg=0x7f0200b3;
-        public static final int splash_screen_image=0x7f0200b4;
-        public static final int tournament=0x7f0200b5;
-        public static final int tournament_red=0x7f0200b6;
-        public static final int twitter=0x7f0200b7;
-        public static final int user_settings=0x7f0200b8;
-        public static final int user_settings_red=0x7f0200b9;
+        public static final int spinner_bg_image=0x7f0200b4;
+        public static final int splash_screen_image=0x7f0200b5;
+        public static final int tournament=0x7f0200b6;
+        public static final int tournament_red=0x7f0200b7;
+        public static final int twitter=0x7f0200b8;
+        public static final int user_settings=0x7f0200b9;
+        public static final int user_settings_red=0x7f0200ba;
     }
     public static final class id {
         public static final int action0=0x7f0d00bb;
@@ -3700,14 +3701,15 @@ containing a value of this type.
         public static final int project_id=0x7f070064;
         public static final int search_menu_title=0x7f070032;
         public static final int section_format=0x7f070065;
-        public static final int settings=0x7f070066;
-        public static final int sign_in=0x7f070067;
+        public static final int select_tournament=0x7f070066;
+        public static final int settings=0x7f070067;
+        public static final int sign_in=0x7f070068;
         public static final int status_bar_notification_info_overflow=0x7f070033;
-        public static final int surname=0x7f070068;
-        public static final int timeout_error_message=0x7f070069;
-        public static final int title_activity_clubs=0x7f07006a;
-        public static final int title_activity_venue_map=0x7f07006b;
-        public static final int tournament=0x7f07006c;
+        public static final int surname=0x7f070069;
+        public static final int timeout_error_message=0x7f07006a;
+        public static final int title_activity_clubs=0x7f07006b;
+        public static final int title_activity_venue_map=0x7f07006c;
+        public static final int tournament=0x7f07006d;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f0900a1;

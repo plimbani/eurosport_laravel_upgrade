@@ -74,9 +74,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white"
+                    android:background="@drawable/spinner_bg_image"
                     android:drawSelectorOnTop="true"
-                    android:padding="10dp" />
+                     android:prompt="@string/select_tournament" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

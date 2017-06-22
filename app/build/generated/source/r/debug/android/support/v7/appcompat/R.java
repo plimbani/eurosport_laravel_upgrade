@@ -532,8 +532,8 @@ public final class R {
         public static final int notification_bg_normal = 0x7f02009c;
         public static final int notification_bg_normal_pressed = 0x7f02009d;
         public static final int notification_icon_background = 0x7f02009e;
-        public static final int notification_template_icon_bg = 0x7f0200ba;
-        public static final int notification_template_icon_low_bg = 0x7f0200bb;
+        public static final int notification_template_icon_bg = 0x7f0200bb;
+        public static final int notification_template_icon_low_bg = 0x7f0200bc;
         public static final int notification_tile_bg = 0x7f02009f;
         public static final int notify_panel_notification_icon_bg = 0x7f0200a0;
     }

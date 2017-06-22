@@ -8,16 +8,16 @@
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\06661ad167130c6c62142272f12399956dfb3e1b\\output\\res\\layout\\design_layout_snackbar_include.xml"
     },
     {
-        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_icon.xml",
-        "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\layout\\abc_list_menu_item_icon.xml"
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_clubs.xml",
+        "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\layout\\activity_clubs.xml"
     },
     {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_icon_group.xml",
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\layout\\notification_template_icon_group.xml"
     },
     {
-        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_clubs.xml",
-        "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\layout\\activity_clubs.xml"
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_icon.xml",
+        "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\layout\\abc_list_menu_item_icon.xml"
     },
     {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_menu_layout.xml",
@@ -40,12 +40,12 @@
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\06661ad167130c6c62142272f12399956dfb3e1b\\output\\res\\layout\\design_bottom_navigation_item.xml"
     },
     {
-        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\layout\\progress_hud.xml",
-        "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\layout\\progress_hud.xml"
-    },
-    {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_multichoice_material.xml",
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\layout\\select_dialog_multichoice_material.xml"
+    },
+    {
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\layout\\progress_hud.xml",
+        "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\layout\\progress_hud.xml"
     },
     {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_media.xml",
