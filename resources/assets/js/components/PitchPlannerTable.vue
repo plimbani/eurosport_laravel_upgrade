@@ -1,25 +1,29 @@
 <template>
     <div class="row">
-        <div class="col-md-9 pitch_planner_section ">
+        <div class="col-md-9 pitch_planner_section pitch " >
+        <button @click="setView('timelineDay')">Horizontal</button>
+        <button @click="setView('agendaDay')">Vertical</button>
             <div class="pitch-planner-wrapper">
                 <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
                     <div class="card">
-                      <div class="card-block text-center pb-0">
+                      <!-- <div class="card-block text-center pb-0">
                         <h4 class="table_heading">Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</h4>
+                      </div> -->
+                      <button class="btn" data-toggle="collapse" @click="toggleStage(stage.stageNumber)" v-bind:data-target="'#demo'+stage.stageNumber">Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
+                      <div :id="'demo'+stage.stageNumber" class="stages collapse active">
+                        <pitch-planner-stage :stage="stage" :defaultView="defaultView"></pitch-planner-stage>
                       </div>
-                      <pitch-planner-stage :stage="stage"></pitch-planner-stage>
                     </div>
 
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="grey_bg">
+        <div class="col-md-3" id="outerGame">
+            <div class="grey_bg" id="gameReferee">
                 <div class="tabs tabs-primary">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a
-                            :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link px-3']"
+                            <a :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link px-3']"
                             @click="setCurrentTab('gamesTab')"
                             data-toggle="tab" role="tab" href="#game-list">Games ({{totalMatchCount}})</a>
                         </li>
@@ -114,7 +118,8 @@
                 'stageStatus':false,
                 'GameStatus':false,
                 'refereeStatus':false,
-                'refereeCount': ''
+                'refereeCount': '',
+                'defaultView': 'timelineDay'
             };
         },
         props: {
@@ -125,10 +130,70 @@
             });
                             // return stages;
             this.resetPitch()
+            $(document).ready(function() {
+                // $('#gameReferee').affix({
+                //     offset: {
+                //         // top: $('#outerGame'),
+                //         top: '305px',
+                //         // bottom: $('footer').outerHeight()
+                //     }
+                // });
+                // Check the initial Poistion of the Sticky Header
+                let tabWith = $('#gameReferee').width()+10;
+                let setGameHeight = $('.tab-content').height()-100;
+                // $('#gameReferee').css('height',setGameHeight);
+                var stickyHeaderTop = (($('#gameReferee').offset().top ) - $('.site-header').offset().top);
+                // console.log(stickyHeaderTop, $('.site-header').offset().top,'stickytop')
+                $( window ).scroll(function() {
+                      if( $(window).scrollTop() > (stickyHeaderTop - $('.site-header').height())  ) {
+                        // console.log('msg')
+                        // $('#gameReferee').addClass('affix');
+                        $('#gameReferee').css({position: 'fixed', top: '0px', width: tabWith, 'margin-top':$('.site-header').height()});
+                    } else {
+                        $('#gameReferee').css({position: 'static', top: '0px',width:tabWith, 'margin-top':0});
+                        // $('#stickyalias').css('display', 'none');
+                
+                    }
+                    // console.log($('.pitch-planner-wrapper').offset())
+                    // console.log($('.pitch-planner-wrapper').outerHeight(),'outer')
+
+                  // $( "span" ).css( "display", "inline" ).fadeOut( "slow" );
+                });
+            })
+         $(".stages").on('shown.bs.collapse', function(){
+            
+                alert('The collapsible content is about to be shown.');
+            });
         },
         methods: {
             setCurrentTab(currentTab = 'gamesTab') {
               this.currentView = currentTab
+            },
+            toggleStage(stageNo){
+                let vm =this
+                setTimeout(function(){
+                        if(vm.defaultView == 'timelineDay'){
+                        $('.fc-timelineDay-button').click()
+                    }else{
+                        $('.fc-agendaDay-button').click()
+                    }
+                },100)
+                
+            },
+            setView(view) {
+                let vm = this
+                this.defaultView = view
+                if(vm.defaultView == 'timelineDay'){
+                    $('.fc-timelineDay-button').click()
+                }else{
+                    $('.fc-agendaDay-button').click()
+                }
+                
+                // this.stageStatus = false
+
+                // setTimeout(function(){
+                //     vm.stageStatus = true
+                // },200)
             },
             refereeCount(totReferee) {
                 this.refereeCount = totReferee
