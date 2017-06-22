@@ -62,6 +62,18 @@ class TeamRepository
                  //    'tournament_competation_template.group_name as age_name')
                  // ->get();
     }
+    public function getClubData($tournament_id)
+    {
+        return  Team::where('tournament_id',$tournament_id)
+                ->join('clubs', 'clubs.id', '=', 'teams.club_id')
+                ->groupBy('teams.club_id')
+                ->select('clubs.id','clubs.name')
+                ->get();
+            // print_r($clubData->toArray());      
+    }
+
+
+
     public function getTeambyTeamId($teamId){
         return Team::where('esr_reference',$teamId)->first();
     }

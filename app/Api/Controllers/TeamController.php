@@ -40,6 +40,11 @@ class TeamController extends BaseController
         return $this->teamObj->getTeams($request);
     }
 
+    public function getClubs($id,Request $request)
+    {
+        return $this->teamObj->getClubs($id);
+    }
+
     public function getAllTournamentTeams(Request $request)
     {
       return $this->teamObj->getAllTournamentTeams($request->all());

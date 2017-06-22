@@ -4,6 +4,10 @@ export default {
   getAllTournaments() {
   	return api.get('tournaments')
   },
+  getAllClubs(tournamentId) {
+    // alert('helll')
+    return api.get('clubs/getAll/'+tournamentId)
+  },
   getAllVenues(tournamentId) {
    return api.get('venues/getAll/'+tournamentId)
   },

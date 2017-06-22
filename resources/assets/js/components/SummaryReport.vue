@@ -19,29 +19,33 @@
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_age_category}}</strong></label>
 									<div class="">
-			                            <select name="sel_ageCategory" id="sel_ageCategory" class="form-control ls-select2">
-			                            	<option value="">{{$lang.summary_age_category_select}}</option>
-				                            <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.group_name}}</option>
-				                        </select>
-				                    </div>
+                   						 <select name="sel_ageCategory" id="sel_ageCategory" 
+                   						 class="form-control ls-select2">
+                    						<option value="">{{$lang.summary_age_category_select}}</option>
+                      						<option v-for="(competation, index) in competationList" 
+                      						:value="competation.id">{{competation.group_name}}</option>
+                     					</select>
+				    				</div>
 								</div>
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_club}}</strong></label>
 									<div class="">
-			                            <select class="form-control ls-select2">
-				                            <option value="">{{$lang.summary_club_select}}</option>
-				                            <option value="">-----------</option>
-				                        </select>
-				                    </div>
+				                    	<select class="form-control ls-select2" name="sel_clubs" 
+				                    	id="sel_clubs">
+					                      <option value="">{{$lang.summary_club_select}}</option>
+					                      <option v-for="(club, index) in clubs" 
+					                      :value="club.id">{{club.name}}</option>
+					                    </select>
+								 	</div>
 								</div>
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_team}}</strong></label>
 									<div class="">
-			                            <select name="sel_teams" id="sel_teams" class="form-control ls-select2">
-			                            	<option value="">{{$lang.summary_team_select}}</option>
-				                        	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
-				                        </select>
-				                    </div>
+					                    <select name="sel_teams" id="sel_teams" class="form-control ls-select2">
+						                    <option value="">{{$lang.summary_team_select}}</option>
+						                  	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
+					                    </select>
+							        </div>
 								</div>
 							</div>
 						</div>
@@ -50,15 +54,13 @@
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_from}}</strong></label>
 									<div class="">
-									 <input type="text" 
-									 name="start_date" id="start_date" value="" class="form-control ls-datepicker">
+										 <input type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
 				                    </div>
 								</div>
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_to}}</strong></label>
 									<div class="">
-			                             <input type="text" 
-									 name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
+			            				 <input type="text" name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
 				                    </div>
 								</div>
 							</div>
@@ -70,30 +72,30 @@
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_location}}</strong></label>
 									<div class="">
-			                           <select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
-			                           		<option value="">Select</option>
-				                        	<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
-				                        </select>
-				                    </div>
+				                     	<select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
+				                     		<option value="">Select</option>
+				                    		<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
+				                    	</select>
+								    </div>
 								</div>
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_pitch}}</strong></label>
 									<div class="">
-									<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
-										<option value="">Select</option>
-				                        <option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
-				                    </select>			                            
-				                    </div>
+	  									<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
+	  										<option value="">Select</option>
+	  				           				<option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
+	  				        			</select>
+				         			</div>
 								</div>
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_referee}}</strong></label>
 									<div class="">
-			                           	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
-			                           		<option value="">Select</option>
-				                        	<option v-for="(referee, index) in referees" :value="referee.id">{{referee.first_name}}</option>
-				                        </select>
-				                    </div>	
-								</div>
+					                   	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
+					                   		<option value="">Select</option>
+					                  		<option v-for="(referee, index) in referees" :value="referee.id">{{referee.first_name}}</option>
+					                    </select>
+							        </div>
+							    </div>
 							</div>
 						</div>
 					</div>
@@ -139,8 +141,8 @@
 				<span v-if="reports.length == 0">
 	         		 No information available
 	    		</span>
-			</div> 
-		</div>	
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -156,12 +158,13 @@ export default {
        	pitches: {},
        	venues: {},
        	referees: {},
+        clubs: {},
        	reports: {},
         currentView:'summaryTab',
         reportQuery:''
 
        	}
-    },	
+    },
     filters: {
     	formatDate: function(date) {
      	return moment(date).format("hh:mm ddd DD MMM YYYY");
@@ -174,6 +177,7 @@ export default {
     	this.getLocation()
     	this.getPitches()
     	this.getReferees()
+        this.getClubs()
     	$('.ls-datepicker').datepicker()
     	$('#start_date').datepicker().on('changeDate',function(){
             $('#end_date').datepicker('setStartDate', $('#start_date').val())
@@ -186,11 +190,11 @@ export default {
     	displayTournamentCompetationList () {
       		// Only called if valid tournament id is Present
 		    if (!isNaN(this.TournamentId)) {
-		      // here we add data for 
+		      // here we add data for
 		      let TournamentData = {'tournament_id': this.TournamentId}
 		      Tournament.getCompetationFormat(TournamentData).then(
-		      (response) => {          
-		        this.competationList = response.data.data         
+		      (response) => {
+		        this.competationList = response.data.data
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
@@ -203,11 +207,11 @@ export default {
     	},
     	getTeams() {
     		if (!isNaN(this.TournamentId)) {
-		      // here we add data for 
+		      // here we add data for
 		      let TournamentData = {'tournament_id': this.TournamentId}
 		      Tournament.getTeams(this.TournamentId).then(
-		      (response) => {          
-		        this.teams = response.data.data         
+		      (response) => {
+		        this.teams = response.data.data
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
@@ -220,11 +224,11 @@ export default {
     	},
     	getLocation() {
     		if (!isNaN(this.TournamentId)) {
-		      // here we add data for 
+		      // here we add data for
 		      let TournamentData = {'tournament_id': this.TournamentId}
 		      Tournament.getAllVenues(this.TournamentId).then(
-		      (response) => {          
-		        this.venues = response.data.data         
+		      (response) => {
+		        this.venues = response.data.data
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
@@ -237,11 +241,11 @@ export default {
     	},
     	getPitches() {
     		if (!isNaN(this.TournamentId)) {
-		      // here we add data for 
+		      // here we add data for
 		      let TournamentData = {'tournament_id': this.TournamentId}
 		      Pitch.getAllPitches(this.TournamentId).then(
-		      (response) => {          
-		        this.pitches = response.data.pitches         
+		      (response) => {
+		        this.pitches = response.data.pitches
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
@@ -250,15 +254,15 @@ export default {
 		      )
 		    } else {
 		      this.TournamentId = 0;
-		    }	
+		    }
     	},
     	getReferees() {
     		if (!isNaN(this.TournamentId)) {
-		      // here we add data for 
+		      // here we add data for
 		      let TournamentData = {'tournament_id': this.TournamentId}
 		      Tournament.getReferees(this.TournamentId).then(
-		      (response) => {          
-		        this.referees = response.data.referees         
+		      (response) => {
+		        this.referees = response.data.referees
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
@@ -267,20 +271,40 @@ export default {
 		      )
 		    } else {
 		      this.TournamentId = 0;
-		    }	
+		    }
     	},
     	clearForm() {
     		$('#frmReport')[0].reset()
     	},
+	    getClubs() {
+	        if (!isNaN(this.TournamentId)) {
+	          // here we add data for
+	          let TournamentData = {'tournament_id': this.TournamentId}
+	          Tournament.getAllClubs(this.TournamentId).then(
+	          (response) => {
+	            this.clubs = response.data.data
+	            console.log(response.data.data);
+	          },
+	          (error) => {
+	             console.log('Error occured during Tournament api ', error)
+	          }
+	          )
+	        } else {
+	          this.TournamentId = 0;
+	        }
+	      },
+	      clearForm() {
+	        $('#frmReport')[0].reset()
+	     },
     	generateReport() {
     		if (!isNaN(this.TournamentId)) {
 		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
 		     // let ReportData =  $('#frmReport').serializeArray()
 		      this.reportQuery = ReportData
 		      Tournament.getAllReportsData(ReportData).then(
-		      (response) => { 
-		      	console.log(response.data.data)
-		      // console.log(response.data.data,'hi') 
+		      (response) => {
+		      	// console.log(response.data.data)
+		      // console.log(response.data.data,'hi')
 		      	this.reports = response.data.data
 		       },
 
@@ -291,11 +315,11 @@ export default {
 		    } else {
 		      this.TournamentId = 0;
 		      // toastr['error']('Invalid Credentials', 'Error');
-		    }	
+		    }
     	},
     	exportReport() {
 
-    		let ReportData = this.reportQuery 
+    		let ReportData = this.reportQuery
     		// console.log(ReportData)
     		// let newdata = $.parseHTML( ReportData )
     		// let newdata =  $(ReportData).parse();
@@ -311,7 +335,7 @@ export default {
     	}
 
 
-    }  
+    }
 }
-	
+
 </script>
