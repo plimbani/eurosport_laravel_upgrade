@@ -23,15 +23,21 @@ Route::group(['prefix' => 'auth'], function () {
 });
 Route::get('password/reset/{token}', 'Laraspace\Api\Controllers\PasswordController@getReset');
 Route::post('password/reset', 'Laraspace\Api\Controllers\PasswordController@postReset');
-Route::post('password/email', 'Laraspace\Api\Controllers\PasswordController@postEmail');
+//Route::post('password/email', 'Laraspace\Api\Controllers\PasswordController@postEmail');
 
 
 $api = app('Dingo\Api\Routing\Router');
 
 
 $api->version('v1', function ($api) {
+    // TODO: Move Method from web to api for Mobile App
+    $api->post('password/email', '\Laraspace\Http\Controllers\Auth\ForgotPasswordController@resetlink');
+
+    $api->post('password/reset', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
+
     $api->get('users/test', 'Laraspace\Api\Controllers\EnvController@test2');
     // Team Stuff
+
 
     $api->post('teams', 'Laraspace\Api\Controllers\TeamController@getTeams');
     $api->post('team/create', 'Laraspace\Api\Controllers\TeamController@createTeam');
@@ -45,8 +51,8 @@ $api->version('v1', function ($api) {
     // Method for get All TournamentTeams
     $api->post('teams/teamsTournament',
         'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
-   
-  
+
+
     //Referee api
     $api->get('referees/{tournamentId}', 'Laraspace\Api\Controllers\RefereeController@getReferees');
     $api->post('referee/create', 'Laraspace\Api\Controllers\RefereeController@createReferee');
