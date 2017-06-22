@@ -2,6 +2,7 @@ package com.aecor.eurosports.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.AppLogger;
 
 import java.util.List;
+import java.util.jar.Pack200;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,9 +29,19 @@ public class TournamentSpinnerAdapter extends ArrayAdapter<TournamentModel> {
 
     public TournamentSpinnerAdapter(Activity context, int resouceId, int textviewId, List<TournamentModel> list) {
         super(context, resouceId, textviewId, list);
+
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        if (position == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -55,7 +67,11 @@ public class TournamentSpinnerAdapter extends ArrayAdapter<TournamentModel> {
         }
         TournamentModel rowItem = getItem(position);
         holder.tv_spinner.setText(rowItem.getName());
-
+        if (position == 0) {
+            holder.tv_spinner.setTextColor(Color.GRAY);
+        } else {
+            holder.tv_spinner.setTextColor(Color.BLACK);
+        }
         return rowview;
     }
 

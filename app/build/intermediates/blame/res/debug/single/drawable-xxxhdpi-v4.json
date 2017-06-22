@@ -20,6 +20,10 @@
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\06661ad167130c6c62142272f12399956dfb3e1b\\output\\res\\drawable-xxxhdpi-v4\\design_ic_visibility_off.png"
     },
     {
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\spinner_bg_image.png",
+        "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\drawable-xxxhdpi\\spinner_bg_image.png"
+    },
+    {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxxhdpi-v4\\abc_switch_track_mtrl_alpha.9.png",
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\drawable-xxxhdpi-v4\\abc_switch_track_mtrl_alpha.9.png"
     },

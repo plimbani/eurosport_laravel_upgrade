@@ -29,7 +29,9 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +58,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        sp_tournament.setSelection(0);
         getTournamentList();
         enabledDisableRegisterButton(false);
         setListener();
@@ -69,6 +72,19 @@ public class RegisterActivity extends BaseActivity {
         sname.addTextChangedListener(mTextChangeLister);
         confirm_password.addTextChangedListener(mTextChangeLister);
         register_password.addTextChangedListener(mTextChangeLister);
+        sp_tournament.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    tournament_id = id;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
     }
 
     @Override
@@ -77,7 +93,6 @@ public class RegisterActivity extends BaseActivity {
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
         mContext = this;
-        getSpinnerItemId();
         initView();
     }
 
@@ -91,11 +106,11 @@ public class RegisterActivity extends BaseActivity {
         String url = ApiConstants.REGISTER;
         final JSONObject requestJson = new JSONObject();
         try {
-            requestJson.put("email",email.getText().toString().trim());
-            requestJson.put("password",register_password.getText().toString().trim());
-            requestJson.put("first_name",fname.getText().toString().trim());
-            requestJson.put("sur_name",sname.getText().toString().trim());
-            requestJson.put("tournament_id",tournament_id);
+            requestJson.put("email", email.getText().toString().trim());
+            requestJson.put("password", register_password.getText().toString().trim());
+            requestJson.put("first_name", fname.getText().toString().trim());
+            requestJson.put("sur_name", sname.getText().toString().trim());
+            requestJson.put("tournament_id", tournament_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -112,7 +127,13 @@ public class RegisterActivity extends BaseActivity {
                     try {
                         AppLogger.LogE(TAG, "***** Register response *****" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                            Utility.showToast(mContext, "User registered successfully");
+                            if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
+                                String messgae = response.getString("message");
+                                Utility.showToast(mContext, messgae);
+                            } else {
+                                Utility.showToast(mContext, "User registered successfully");
+                            }
+
                             startActivity(new Intent(mContext, SignInActivity.class));
                             finish();
                         }
@@ -137,19 +158,6 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
-    private void getSpinnerItemId() {
-        sp_tournament.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tournament_id = id;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-
-            }
-        });
-    }
 
     private void getTournamentList() {
         Utility.startProgress(mContext);
@@ -216,30 +224,40 @@ public class RegisterActivity extends BaseActivity {
         String firstname = fname.getText().toString().trim();
         String surname = sname.getText().toString().trim();
 
-        if(firstname.isEmpty()) {
+        if (firstname.isEmpty()) {
             valid = false;
             return valid;
-        } else { valid = true; }
+        } else {
+            valid = true;
+        }
 
-        if(surname.isEmpty()) {
+        if (surname.isEmpty()) {
             valid = false;
             return valid;
-        } else { valid = true; }
+        } else {
+            valid = true;
+        }
 
         if (emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone)) {
             valid = false;
             return valid;
-        } else { valid = true; }
+        } else {
+            valid = true;
+        }
 
         if (password.isEmpty() || password.length() < 5) {
             valid = false;
             return valid;
-        } else { valid = true; }
+        } else {
+            valid = true;
+        }
 
         if (confirmPassword.isEmpty() || !confirmPassword.equals(password)) {
             valid = false;
             return valid;
-        } else { valid = true; }
+        } else {
+            valid = true;
+        }
 
         return valid;
     }
@@ -255,19 +273,29 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
+        TournamentModel mHintModel = new TournamentModel();
+        mHintModel.setName(getString(R.string.select_tournament));
+
+        List<TournamentModel> list = new ArrayList<>();
+        list.addAll(Arrays.asList(mTournamentList));
+        list.add(0, mHintModel);
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                R.layout.row_spinner_item, R.id.title, Arrays.asList(mTournamentList));
+                R.layout.row_spinner_item, R.id.title, list);
         sp_tournament.setAdapter(adapter);
     }
 
     private class GenericTextMatcher implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) { checkValidation(); }
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            checkValidation();
+        }
 
         @Override
-        public void afterTextChanged(Editable s) { }
+        public void afterTextChanged(Editable s) {
+        }
     }
 }
