@@ -1,4 +1,4 @@
-<template>
+  <template>
     <div class="modal fade" id="user_profile">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -29,9 +29,9 @@
                         <label class="col-sm-4 form-control-label">{{$lang.user_management_email}}</label>
                         <div class="col-sm-7">
 
-                            <input v-model="userData.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
-                            <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
-                            <span class="help is-danger" v-show="errors.has('email_address')">{{ errors.first('email_address') }}</span>
+                            <input v-model="userData.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email') }" name="email" type="email" class="form-control" placeholder="Enter email address">
+                            <i v-show="errors.has('email')" class="fa fa-warning"></i>
+                            <span class="help is-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
                         </div>
                     </div>
                     <div class="form-group row">
