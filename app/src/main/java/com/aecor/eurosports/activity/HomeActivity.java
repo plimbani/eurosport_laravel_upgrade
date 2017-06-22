@@ -11,7 +11,6 @@ import android.support.customtabs.CustomTabsIntent;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.util.AppConstants;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 

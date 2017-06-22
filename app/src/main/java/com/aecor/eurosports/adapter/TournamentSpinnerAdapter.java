@@ -14,7 +14,6 @@ import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.AppLogger;
 
 import java.util.List;
-import java.util.jar.Pack200;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

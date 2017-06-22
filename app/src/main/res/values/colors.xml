@@ -9,6 +9,7 @@
     <color name="home_textview">#949BA5</color>
     <color name="red">#D40523</color>
     <color name="button_disable">#CFD8DC</color>
+    <color name="lightGray">#96989b</color>
 
 </resources>
 

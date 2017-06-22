@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:2:1-48:12
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:2:1-50:12
 	package
 		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:3:5-35
 		INJECTED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml
@@ -30,7 +30,7 @@ MERGED from [com.google.firebase:firebase-iid:9.0.0] C:\Users\my.DESKTOP-3U8LTO8
 	android:name
 		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:11:22-64
 application
-ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:13:5-46:19
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:13:5-48:19
 MERGED from [com.crashlytics.sdk.android:crashlytics:2.6.8] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\9725ec4ce7113f0114882d5b6f374271fb99999a\output\AndroidManifest.xml:11:5-20
 MERGED from [com.crashlytics.sdk.android:beta:1.2.5] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\da8f468e3b3d5df999fc614606a8d59ca968229a\output\AndroidManifest.xml:11:5-20
 MERGED from [com.crashlytics.sdk.android:crashlytics-core:2.3.17] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\3c5567b4b464728f7d0f368ed0ab70b47639272c\output\AndroidManifest.xml:54:5-20
@@ -115,6 +115,14 @@ activity#com.aecor.eurosports.activity.ClubsActivity
 ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:45:9-60
 	android:name
 		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:45:19-57
+activity#com.aecor.eurosports.activity.ForgotPasswordActivity
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:46:9-69
+	android:name
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:46:19-66
+activity#com.aecor.eurosports.activity.ForgotPasswordOtpActivity
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:47:9-72
+	android:name
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:47:19-69
 uses-sdk
 INJECTED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.crashlytics.sdk.android:crashlytics:2.6.8] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\9725ec4ce7113f0114882d5b6f374271fb99999a\output\AndroidManifest.xml:7:5-43

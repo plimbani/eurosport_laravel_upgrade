@@ -1,62 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:orientation="vertical"
-    android:weightSum="2"
-    tools:context="com.aecor.eurosports.activity.LandingActivity">
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.2"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/logo_part_3"
-        android:paddingLeft="@dimen/paddingleft_landing_page"
-        android:paddingRight="@dimen/paddingleft_landing_page"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingTop="80dp" />
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_weight="1"
+        android:src="@drawable/logo_part_3" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.8"
-        android:weightSum="2"
-        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
+        android:layout_weight="1"
         android:gravity="center"
-        android:paddingTop="50dp"
-        android:paddingBottom="@dimen/paddingTopBottom"
-        android:paddingLeft="@dimen/paddingleft_landing_page"
-        android:paddingRight="@dimen/paddingleft_landing_page"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/register"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_bg"
-            android:text="@string/create_account"
-            android:layout_marginBottom="@dimen/marginTopBottom"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textAllCaps="false" />
+            style="@style/text_black_title"
+            android:background="@drawable/btn_yellow"
+            android:text="@string/create_account" />
 
         <Button
             android:id="@+id/signin"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="@string/sign_in"
-            android:background="@drawable/button_bg"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginTop="@dimen/marginTopBottom"
-            android:textAllCaps="false" />
+            style="@style/text_black_title"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_yellow"
+            android:text="@string/sign_in" />
 
     </LinearLayout>
 </LinearLayout>

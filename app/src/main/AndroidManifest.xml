@@ -43,6 +43,8 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity android:name=".activity.SignInActivity" />
         <activity android:name=".activity.ClubsActivity" />
+        <activity android:name=".activity.ForgotPasswordActivity" />
+        <activity android:name=".activity.ForgotPasswordOtpActivity" />
     </application>
 
 </manifest>

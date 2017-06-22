@@ -59,6 +59,8 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity android:name="com.aecor.eurosports.activity.SignInActivity" />
         <activity android:name="com.aecor.eurosports.activity.ClubsActivity" />
+        <activity android:name="com.aecor.eurosports.activity.ForgotPasswordActivity" />
+        <activity android:name="com.aecor.eurosports.activity.ForgotPasswordOtpActivity" />
 
         <receiver
             android:name="com.google.android.gms.measurement.AppMeasurementReceiver"

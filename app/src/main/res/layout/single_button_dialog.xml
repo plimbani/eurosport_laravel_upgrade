@@ -32,7 +32,7 @@
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:layout_weight="1"
-            android:background="@drawable/dialog_red_button"
+            android:background="@drawable/btn_yellow"
             android:text="Continue"
             android:textAllCaps="false"
             android:textColor="@color/white"
