@@ -35,7 +35,8 @@
             android:id="@+id/et_password"
             style="@style/app_edittext"
             android:layout_marginTop="10dp"
-            android:hint="@string/password" />
+            android:hint="@string/password"
+            android:inputType="textPassword" />
 
 
         <Button
@@ -47,7 +48,8 @@
 
         <TextView
             android:id="@+id/tv_forgot_password"
-            style="@style/text_white_title" android:gravity="center"
+            style="@style/text_white_title"
+            android:gravity="center"
             android:padding="15dp"
             android:text="@string/forgot_password" />
     </LinearLayout>

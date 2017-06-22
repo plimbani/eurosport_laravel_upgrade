@@ -2,7 +2,8 @@
     <string name="app_name">EuroSports</string>
     <string name="title_activity_venue_map">Venue</string>
     <string name="create_account">Create account</string>
-     <string name="sign_in">Sign in</string>
+    <string name="sign_in">Sign in</string>
+    <string name="update">Update</string>
     <string name="favorites">Favourites</string>
     <string name="tournament">Tournament</string>
     <string name="clubs">Clubs</string>
@@ -35,7 +36,17 @@
     <string name="help">Help</string>
     <string name="privacy_terms">Privacy &amp; Terms</string>
     <string name="profile">Profile</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="delete">Delete</string>
+    <string name="email">Email</string>
+    <string name="first_name">First Name</string>
+     <string name="last_name">Last Name</string>
 
+    <string name="sound_notification">Sound</string>
+    <string name="vibration_notification">Vibration</string>
+    <string name="notification">Notification</string>
     <!--Volley-->
     <string name="no_internet_connection">Connect to internet to get media content.</string>
     <string name="timeout_error_message">Server timeout.</string>

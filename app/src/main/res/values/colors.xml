@@ -10,6 +10,8 @@
     <color name="red">#D40523</color>
     <color name="button_disable">#CFD8DC</color>
     <color name="lightGray">#96989b</color>
+    <color name="off_white">#f2f2f2</color>
+    <color name="gray">#515151</color>
 
 </resources>
 

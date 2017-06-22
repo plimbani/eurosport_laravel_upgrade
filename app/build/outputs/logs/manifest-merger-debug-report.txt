@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:2:1-50:12
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:2:1-56:12
 	package
 		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:3:5-35
 		INJECTED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml
@@ -30,7 +30,7 @@ MERGED from [com.google.firebase:firebase-iid:9.0.0] C:\Users\my.DESKTOP-3U8LTO8
 	android:name
 		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:11:22-64
 application
-ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:13:5-48:19
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:13:5-54:19
 MERGED from [com.crashlytics.sdk.android:crashlytics:2.6.8] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\9725ec4ce7113f0114882d5b6f374271fb99999a\output\AndroidManifest.xml:11:5-20
 MERGED from [com.crashlytics.sdk.android:beta:1.2.5] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\da8f468e3b3d5df999fc614606a8d59ca968229a\output\AndroidManifest.xml:11:5-20
 MERGED from [com.crashlytics.sdk.android:crashlytics-core:2.3.17] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\3c5567b4b464728f7d0f368ed0ab70b47639272c\output\AndroidManifest.xml:54:5-20
@@ -43,6 +43,7 @@ MERGED from [com.android.support:animated-vector-drawable:25.3.1] C:\Users\my.DE
 MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\14fb7dfc26263cff94133bbaa84848909d9a0e72\output\AndroidManifest.xml:26:5-20
 MERGED from [com.android.support:transition:25.3.1] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\3c2be1f357c5c00a998a93e88d09d11ab64294bb\output\AndroidManifest.xml:26:5-20
 MERGED from [com.android.support:customtabs:25.3.1] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\1ba42ff902117447637521ec6c66fd38103abc38\output\AndroidManifest.xml:26:5-20
+MERGED from [de.hdodenhof:circleimageview:2.1.0] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\e166cd55b23a8598b56694f387cd052a00bbfd44\output\AndroidManifest.xml:9:5-20
 MERGED from [com.google.firebase:firebase-core:9.0.0] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\a674d8baef214c7bf7b053378a6c4fd19338ca77\output\AndroidManifest.xml:5:5-20
 MERGED from [com.google.firebase:firebase-analytics:9.0.0] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\5ca8238c097598fac17e3db8d592a470b5673578\output\AndroidManifest.xml:26:5-41:19
 MERGED from [com.google.firebase:firebase-analytics-impl:9.0.0] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\90228c1e332703d029451a30198dee813ddea90e\output\AndroidManifest.xml:26:5-41:19
@@ -102,27 +103,51 @@ ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\ap
 	android:name
 		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:40:19-60
 activity#com.aecor.eurosports.activity.HomeActivity
-ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:41:9-43:63
-	android:theme
-		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:43:13-60
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:41:9-59
 	android:name
-		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:42:13-50
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:41:19-56
 activity#com.aecor.eurosports.activity.SignInActivity
-ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:44:9-61
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:42:9-61
 	android:name
-		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:44:19-58
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:42:19-58
 activity#com.aecor.eurosports.activity.ClubsActivity
-ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:45:9-60
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:43:9-60
 	android:name
-		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:45:19-57
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:43:19-57
 activity#com.aecor.eurosports.activity.ForgotPasswordActivity
-ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:46:9-69
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:44:9-69
 	android:name
-		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:46:19-66
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:44:19-66
 activity#com.aecor.eurosports.activity.ForgotPasswordOtpActivity
-ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:47:9-72
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:45:9-72
 	android:name
-		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:47:19-69
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:45:19-69
+activity#com.aecor.eurosports.activity.SettingsActivity
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:46:9-63
+	android:name
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:46:19-60
+activity#com.aecor.eurosports.activity.HelpActivity
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:47:9-59
+	android:name
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:47:19-56
+activity#com.aecor.eurosports.activity.PrivacyAndTermsActivity
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:48:9-70
+	android:name
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:48:19-67
+activity#com.aecor.eurosports.activity.ProfileActivity
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:49:9-62
+	android:name
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:49:19-59
+activity#com.aecor.eurosports.activity.ImageOptionDialogActivity
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:50:9-52:59
+	android:theme
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:52:13-56
+	android:name
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:51:13-63
+activity#com.aecor.eurosports.activity.NotificationAndSoundActivity
+ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:53:9-75
+	android:name
+		ADDED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml:53:19-72
 uses-sdk
 INJECTED from C:\aecor\Anjali\Workspace\EuroSportsWorkspace\EuroSports\eurosport\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.crashlytics.sdk.android:crashlytics:2.6.8] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\9725ec4ce7113f0114882d5b6f374271fb99999a\output\AndroidManifest.xml:7:5-43
@@ -139,6 +164,7 @@ MERGED from [com.android.support:support-vector-drawable:25.3.1] C:\Users\my.DES
 MERGED from [com.android.support:recyclerview-v7:25.3.1] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\84eee7dd8bb617550c0ff706974b6cddce4ec2be\output\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:transition:25.3.1] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\3c2be1f357c5c00a998a93e88d09d11ab64294bb\output\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:customtabs:25.3.1] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\1ba42ff902117447637521ec6c66fd38103abc38\output\AndroidManifest.xml:20:5-44
+MERGED from [de.hdodenhof:circleimageview:2.1.0] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\e166cd55b23a8598b56694f387cd052a00bbfd44\output\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.firebase:firebase-core:9.0.0] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\a674d8baef214c7bf7b053378a6c4fd19338ca77\output\AndroidManifest.xml:4:5-42
 MERGED from [com.google.firebase:firebase-analytics:9.0.0] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\5ca8238c097598fac17e3db8d592a470b5673578\output\AndroidManifest.xml:18:5-42
 MERGED from [com.google.firebase:firebase-analytics-impl:9.0.0] C:\Users\my.DESKTOP-3U8LTO8\.android\build-cache\90228c1e332703d029451a30198dee813ddea90e\output\AndroidManifest.xml:18:5-42

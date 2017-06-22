@@ -21,7 +21,7 @@ import static com.aecor.eurosports.util.AppConstants.INSTAGRAM_URL;
 import static com.aecor.eurosports.util.AppConstants.TWITTER_APP_URL;
 import static com.aecor.eurosports.util.AppConstants.TWITTER_URL;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseAppCompactActivity{
 
     private Context mContext;
 
@@ -37,10 +37,10 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        BaseActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_TOURNAMENT;
-        ButterKnife.bind(this);
+        super.onCreate(savedInstanceState);
+        BaseAppCompactActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_TOURNAMENT;
+
         mContext = this;
     }
 
