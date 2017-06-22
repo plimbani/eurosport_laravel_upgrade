@@ -232,7 +232,7 @@ class MatchService implements MatchContract
     public function updateScore($matchData) {
         $scoreUpdate = $this->matchRepoObj->updateScore($matchData->all()['matchData']);
         if ($scoreUpdate) {
-            return ['status_code' => '200', 'data' => $scoreUpdate, 'message' => 'Scores updated successfully'];
+            return ['status_code' => '200', 'data' => $scoreUpdate, 'message' => 'Score updated successfully'];
         } else {
             return ['status_code' => '300', 'message' => $scoreUpdate];
         }

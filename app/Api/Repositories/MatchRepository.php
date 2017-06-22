@@ -559,10 +559,9 @@ class MatchRepository
     }
     public function updateScore($matchData)
     {
-      $scores = explode('-', $matchData['score']);
       $updateData = [
-        'hometeam_score' => $scores[0],
-        'awayteam_score' => $scores[1]
+        'hometeam_score' => $matchData['home_score'],
+        'awayteam_score' => $matchData['away_score']
       ];
       return DB::table('temp_fixtures')
             ->where('id', $matchData['matchId'])

@@ -23,10 +23,9 @@
 						<img :src="match.HomeFlagLogo" width="20">
 					</a>
 				</td>
-				<td class="text-center match_scores" contenteditable='true' :id="match.fid" @keyup="updateScore(match.fid)" title="Click to edit">{{match.homeScore}}-{{match.AwayScore}}</td>
-				<!-- <td class="text-center">
+				<td class="text-center">
 					<input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)"> - <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)">
-				</td> -->
+				</td>
 				<td align="left">
 					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
 						<img :src="match.AwayFlagLogo" width="20">
@@ -100,12 +99,11 @@ export default {
 			//this.$emit('changeComp',Id);
 		},
 		updateScore(matchId) {
-
-			// let matchData = {'matchId': matchId, 'score':$(this).html()}
-		    /*Tournament.updateScore(matchData).then(
+			let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
+		    Tournament.updateScore(matchData).then(
 		        (response) => {
-        	 		toastr.success('Scores has been updated successfully', 'Scores Updated', {timeOut: 5000});
-		    })*/
+        	 		toastr.success('Score has been updated successfully', 'Score Updated', {timeOut: 5000});
+		    })
 		},
 	},
 
