@@ -2,7 +2,7 @@
     <div>
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
         <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal"></pitch-modal>
-         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
+        <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
     </div>
 </template>
 
@@ -114,7 +114,7 @@ import _ from 'lodash'
                     },
                     // scrollTime: '14:00',
                     eventLimit: true, // allow "more" link when too many events
-                    
+
                     views: {
                         timelineDay: {
                             name:'timeView',
@@ -127,7 +127,7 @@ import _ from 'lodash'
                             timeFormat: 'H:mm',
                             resourceAreaWidth: '100px',
                             width:100
-                           
+
                         },
                         agendaDay: {
                             name:'agendaView',
@@ -140,7 +140,7 @@ import _ from 'lodash'
                             timeFormat: 'H:mm',
                             resourceAreaWidth: '100px',
                             width:100
-                           
+
                         },
                     },
 
@@ -149,7 +149,7 @@ import _ from 'lodash'
                     allDaySlot: false,
                     resourceAreaWidth: '400px',
                     resources: vm.pitchesData,
-                    
+
                     // events: [
                     //     { id: '2', resourceId: '1', start: '2017-03-28T09:00:00', end: '2017-03-28T14:00:00', title: 'event 2' },
                     //     { id: '3', resourceId: '1', start: '2017-03-28T12:00:00', end: '2017-03-28T06:00:00', title: 'event 3' },
@@ -330,7 +330,8 @@ import _ from 'lodash'
                               // console.log(lastName,firstName)
                               let refereeName = ''
                               if(lastName != null && firstName!= null){
-                                refereeName = lastName.substr(0,1)+firstName.substr(0,1)
+                                //refereeName = lastName.substr(0,1)+firstName.substr(0,1)
+                                refereeName = lastName+ ' '+firstName
                               }
                              // console.log(val)
                                 let mData =  {
