@@ -43,11 +43,17 @@ mix.combine([
     pluginPath + 'easypiecharts/jquery.easypiechart.js',
     pluginPath + 'metisMenu/metisMenu.js',
 
-    pluginPath + 'fullcalendar-scheduler/lib/moment.min.js',
-    pluginPath + 'fullcalendar-scheduler/lib/jquery-ui.min.js',
-    // pluginPath + 'fullcalendar/fullcalendar.js',
-    pluginPath + 'fullcalendar-scheduler/lib/fullcalendar.js',
-    pluginPath + 'fullcalendar-scheduler/scheduler.js'
+     pluginPath + 'fullcalendar/lib/moment.min.js',
+     pluginPath + 'fullcalendar/fullcalendar.js',
+     pluginPath + 'fullcalendar-scheduler/scheduler1.js',
+     pluginPath + 'fullcalendar/draggable.js'
+  //  pluginPath + 'fullcalendar/lib/moment.min.js',
+  //  pluginPath + 'fullcalendar-scheduler/lib/jquery-ui.min.js',
+            //  pluginPath + 'fullcalendar/fullcalendar.js',
+  //  pluginPath + 'fullcalendar-scheduler/lib/scheduler.js'
+
+
+
 
 ],'public/assets/js/core/plugins.js')
 
