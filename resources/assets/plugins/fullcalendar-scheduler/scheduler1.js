@@ -3704,7 +3704,10 @@ TimelineGrid = (function(superClass) {
     classes = this.getSegClasses(seg, isDraggable, isResizableFromStart || isResizableFromEnd);
     classes.unshift('fc-timeline-event', 'fc-h-event');
     timeText = this.getEventTimeText(event);
-    return '<a class="' + classes.join(' ') + '" style="' + cssToStr(this.getSegSkinCss(seg)) + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' + '<div class="fc-content">' + (timeText ? '<span class="fc-time">' + htmlEscape(timeText) + '</span>' : '') + '<span class="fc-title">' + (event.title ? htmlEscape(event.title) : '&nbsp;') + '</span>' + '</div>' + '<div class="fc-bg" />' + (isResizableFromStart ? '<div class="fc-resizer fc-start-resizer"></div>' : '') + (isResizableFromEnd ? '<div class="fc-resizer fc-end-resizer"></div>' : '') + '</a>';
+    return '<a class="' + classes.join(' ') + '" style="' + cssToStr(this.getSegSkinCss(seg)) + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' +
+    '<div class="fc-content">'
+    +'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
+     (timeText ? '<span class="fc-time">' + htmlEscape(timeText) + '</span>' : '') + '<span class="fc-title">' + (event.title ? htmlEscape(event.title) : '&nbsp;') + '</span>' + '</div>' + '<div class="fc-bg" />' + (isResizableFromStart ? '<div class="fc-resizer fc-start-resizer"></div>' : '') + (isResizableFromEnd ? '<div class="fc-resizer fc-end-resizer"></div>' : '') + '</a>';
   };
 
   TimelineGrid.prototype.updateSegFollowers = function(segs) {
@@ -4481,7 +4484,7 @@ ResourceTimelineView = (function(superClass) {
   /*
   	TODO: the scenario where there were previously unassociated events that are now
   	 attached to this resource. should render those events immediately.
-  
+
   	Responsible for rendering the new resource
    */
 
