@@ -3,14 +3,21 @@
         <div class="col-md-9 pitch_planner_section pitch " >
         <button @click="setView('timelineDay')">Horizontal</button>
         <button @click="setView('agendaDay')">Vertical</button>
+        <p></p>
             <div class="pitch-planner-wrapper">
                 <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
                     <div class="card">
                       <!-- <div class="card-block text-center pb-0">
                         <h4 class="table_heading">Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</h4>
                       </div> -->
-                      <button class="btn" data-toggle="collapse" @click="toggleStage(stage.stageNumber)" v-bind:data-target="'#demo'+stage.stageNumber">Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
-                      <div :id="'demo'+stage.stageNumber" class="stages collapse active">
+                      <button class="btn pnl" data-toggle="collapse"
+                      @click="toggleStage(stage.stageNumber)"
+                      :id="stage.stageNumber"
+                      v-bind:data-target="'#demo'+stage.stageNumber">
+                       <i :id="'opt_icon_'+stage.stageNumber"  class="fa fa-minus"></i>
+                       Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
+                      <div :id="'demo'+stage.stageNumber"
+                      class="stages collapse in show" aria-expanded="true">
                         <pitch-planner-stage :stage="stage" :defaultView="defaultView"></pitch-planner-stage>
                       </div>
                     </div>
@@ -119,7 +126,7 @@
                 'GameStatus':false,
                 'refereeStatus':false,
                 'refereeCount': '',
-                'defaultView': 'timelineDay'
+                'defaultView': 'agendaDay'
             };
         },
         props: {
@@ -152,7 +159,7 @@
                     } else {
                         $('#gameReferee').css({position: 'static', top: '0px',width:tabWith, 'margin-top':0});
                         // $('#stickyalias').css('display', 'none');
-                
+
                     }
                     // console.log($('.pitch-planner-wrapper').offset())
                     // console.log($('.pitch-planner-wrapper').outerHeight(),'outer')
@@ -161,15 +168,27 @@
                 });
             })
          $(".stages").on('shown.bs.collapse', function(){
-            
+
                 alert('The collapsible content is about to be shown.');
             });
+
+         // TODO set Default View
+
+          //         this.setView(this.defaultView);
         },
         methods: {
             setCurrentTab(currentTab = 'gamesTab') {
               this.currentView = currentTab
             },
             toggleStage(stageNo){
+                // Change the opt_icon as well
+                if($('#opt_icon_'+stageNo).hasClass('fa-plus') == true){
+            $('#opt_icon_'+stageNo).addClass('fa-minus')
+            $('#opt_icon_'+stageNo).removeClass('fa-plus')
+          }else{
+            $('#opt_icon_'+stageNo).addClass('fa-plus')
+            $('#opt_icon_'+stageNo).removeClass('fa-minus')
+          }
                 let vm =this
                 setTimeout(function(){
                         if(vm.defaultView == 'timelineDay'){
@@ -178,9 +197,10 @@
                         $('.fc-agendaDay-button').click()
                     }
                 },100)
-                
+
             },
             setView(view) {
+
                 let vm = this
                 this.defaultView = view
                 if(vm.defaultView == 'timelineDay'){
@@ -188,7 +208,7 @@
                 }else{
                     $('.fc-agendaDay-button').click()
                 }
-                
+
                 // this.stageStatus = false
 
                 // setTimeout(function(){

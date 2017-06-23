@@ -40,7 +40,7 @@
                   <option :value="referee.id" v-for="referee in referees">{{referee.last_name}}, {{referee.first_name}} </option>
                 </select>
               </div>
-            
+
             </div>
 
             </p>
@@ -154,13 +154,13 @@ var moment = require('moment');
 
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
           this.matchDetail.matchTime = date.format('hh:mm ddd DD MMM YYYY')
-          this.matchDetail.match_winner =  (this.matchDetail.match_winner == null) ? '0': this.matchDetail.match_winner
+          this.matchDetail.match_winner =  (this.matchDetail.match_winner == null) ? '': this.matchDetail.match_winner
           // Set Some Values
           this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '0' : this.matchDetail.match_status
 
           this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '' : this.matchDetail.hometeam_score
           this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '' : this.matchDetail.awayteam_score
-          this.matchDetail.referee_id = (this.matchDetail.referee_id == null || this.matchDetail.referee_id == 0 ) ? '' :this.matchDetail.referee_id 
+          this.matchDetail.referee_id = (this.matchDetail.referee_id == null || this.matchDetail.referee_id == 0 ) ? '' :this.matchDetail.referee_id
       })
     },
     removeReferee(){
