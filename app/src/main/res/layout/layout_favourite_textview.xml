@@ -13,7 +13,7 @@
         android:gravity="center_vertical"
         android:layout_marginLeft="15dp"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/instagram"/>
+        android:src="@drawable/globe"/>
 
     <ImageView
         android:id="@+id/favourite_imageview"

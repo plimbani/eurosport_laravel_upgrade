@@ -31,16 +31,19 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e9d94b282925a83d299b04a73a8c80554f477f37" />
+
         <activity
             android:name=".activity.FavouritesActivity"
             android:label="@string/title_activity_favourites"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.LandingActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.SignInActivity" />
-        <activity android:name=".activity.ClubsActivity" android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.ClubsActivity"
+            android:label="@string/clubs"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.ForgotPasswordActivity" />
         <activity android:name=".activity.ForgotPasswordOtpActivity" />
         <activity android:name=".activity.SettingsActivity" />
@@ -51,7 +54,7 @@
             android:name=".activity.ImageOptionDialogActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".activity.NotificationAndSoundActivity" />
-
+        <activity android:name=".activity.TeamActivity" android:label="TEAM" />
     </application>
 
 </manifest>

@@ -44,10 +44,12 @@
     <string name="delete">Delete</string>
     <string name="email">Email</string>
     <string name="first_name">First Name</string>
-     <string name="last_name">Last Name</string>
+    <string name="last_name">Last Name</string>
     <string name="sound_notification">Sound</string>
     <string name="vibration_notification">Vibration</string>
     <string name="notification">Notification</string>
+    <string name="view_club_match">View all club matches</string>
+    <string name="vieW_league_table">View full league table</string>
     <!--Volley-->
     <string name="no_internet_connection">Connect to internet to get media content.</string>
     <string name="timeout_error_message">Server timeout.</string>
