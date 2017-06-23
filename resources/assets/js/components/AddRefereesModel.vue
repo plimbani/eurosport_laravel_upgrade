@@ -48,7 +48,7 @@
                       <option value="">U15</option>
                       <option value="">U19</option>
                   </select> -->
-                  <input type="checkbox" name="chk_ageCategory" id="chk_ageCategory">Select all
+                  <input type="checkbox" name="chk_ageCategory" id="chk_ageCategory">&nbsp; Select all
                  <multiselect name="sel_ageCategory" id="sel_ageCategory" :options="competationList" :multiple="true" :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"  label="category_age"   :clear-on-select="false" :Searchable="true"  @input="onChange"  @close="onTouch" @select="onSelect" @remove="onRemove"></multiselect>
                    <!-- <select name="sel_ageCategory"  v-model="formValues.age_group_id"  v-validate="'required'" v-bind:multiple="isMultiple" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
                         <option value="">Select</option>
@@ -146,45 +146,46 @@ export default {
   },
   methods: {
 
-    saveReferee () {
-                this.isInvalid = false
-                if(this.value.length === 0) {
-                  this.isInvalid = true
+    saveReferee ()
+      {
+        this.isInvalid = false
+        if(this.value.length === 0) {
+          this.isInvalid = true
 
+        }
+        this.$validator.validateAll().then(() => {
+          if(this.isInvalid != false) {
+            return false
+          }
+              let age_category = []
+              _.forEach(this.value, function(opt) {
+                age_category.push(opt.id)
+              });
+              
+            let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
+             if(this.refereeId != '') {
+              Tournament.updateReferee(ReportData).then(
+              (response) => {
+                  toastr['success']('Referee edited successfully.', 'Success');
+                  $('#refreesModal').modal('hide')
+                  this.$root.$emit('setRefereeReset')
+                  this.$root.$emit('setPitchPlanTab','refereeTab')
                 }
-                this.$validator.validateAll().then(() => {
-                  if(this.isInvalid != false) {
-                    return false
-                  }
-                      let age_category = []
-                      _.forEach(this.value, function(opt) {
-                        age_category.push(opt.id)
-                      });
-                      
-                    let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
-                     if(this.refereeId != ''){
-                      Tournament.updateReferee(ReportData).then(
-                      (response) => {
-                          toastr['success']('Referee edited successfully.', 'Success');
-                          $('#refreesModal').modal('hide')
-                          this.$root.$emit('setRefereeReset')
-                          this.$root.$emit('setPitchPlanTab','refereeTab')
-                      }
-                      )
-                     }else{
-                      Tournament.saveReferee(ReportData).then(
-                      (response) => {
-                          toastr['success']('Referee added successfully.', 'Success');
-                          $('#refreesModal').modal('hide')
+              )
+             } else {
+              Tournament.saveReferee(ReportData).then(
+              (response) => {
+                  toastr['success']('Referee added successfully.', 'Success');
+                  $('#refreesModal').modal('hide')
 
-                          this.$root.$emit('setRefereeReset')
-                          this.$root.$emit('setPitchPlanTab','refereeTab')
-                      }
-                      )
-                     }
-                })
+                  this.$root.$emit('setRefereeReset')
+                  this.$root.$emit('setPitchPlanTab','refereeTab')
+                }
+              )
+            }
+        })
 
-            },
+     },
       deleteConfirmed() {
 
       Tournament.removeReferee(this.refereeId).then(
