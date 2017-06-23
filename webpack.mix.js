@@ -49,8 +49,9 @@ mix.combine([
      pluginPath + 'fullcalendar/draggable.js'
   //  pluginPath + 'fullcalendar/lib/moment.min.js',
   //  pluginPath + 'fullcalendar-scheduler/lib/jquery-ui.min.js',
-  //  pluginPath + 'fullcalendar/fullcalendar.js',
+            //  pluginPath + 'fullcalendar/fullcalendar.js',
   //  pluginPath + 'fullcalendar-scheduler/lib/scheduler.js'
+
 
 
 
