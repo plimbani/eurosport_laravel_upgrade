@@ -12,9 +12,7 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.util.ApiConstants;
-import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
-import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -62,11 +60,14 @@ public class SignInActivity extends BaseActivity {
         initView();
     }
 
+    @OnClick(R.id.tv_forgot_password)
+    protected void onForgotPasswordClicked() {
+        Intent mForgotPasswordIntent = new Intent(mContext, ForgotPasswordActivity.class);
+        startActivity(mForgotPasswordIntent);
+    }
+
     @OnClick(R.id.signin)
     protected void signin() {
-        String email = email_address.getText().toString();
-        String password = sign_in_password.getText().toString();
-
         checkuser();
     }
 
@@ -105,10 +106,10 @@ public class SignInActivity extends BaseActivity {
     private void enabledDisableLoginButton(boolean isEnable) {
         if (isEnable) {
             log_in.setEnabled(true);
-            log_in.setBackground(getResources().getDrawable(R.drawable.button_bg));
+            log_in.setBackground(getResources().getDrawable(R.drawable.btn_yellow));
         } else {
             log_in.setEnabled(false);
-            log_in.setBackgroundColor(getResources().getColor(R.color.button_disable));
+            log_in.setBackground(getResources().getDrawable(R.drawable.btn_disable));
         }
     }
 
@@ -117,8 +118,8 @@ public class SignInActivity extends BaseActivity {
         String url = ApiConstants.SIGN_IN;
         final JSONObject requestJson = new JSONObject();
         try {
-            requestJson.put("email",email_address.getText().toString().trim());
-            requestJson.put("password",sign_in_password.getText().toString().trim());
+            requestJson.put("email", email_address.getText().toString().trim());
+            requestJson.put("password", sign_in_password.getText().toString().trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }

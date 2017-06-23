@@ -68,10 +68,6 @@
         "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\drawable\\logo_part_3.png"
     },
     {
-        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\dialog_red_button.png",
-        "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\drawable\\dialog_red_button.png"
-    },
-    {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\dialog_header_background.png",
         "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\drawable\\dialog_header_background.png"
     },
@@ -184,6 +180,10 @@
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\drawable\\abc_dialog_material_background.xml"
     },
     {
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\button_yellow.png",
+        "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\drawable\\button_yellow.png"
+    },
+    {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_check_material.xml",
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\drawable\\abc_btn_check_material.xml"
     },
@@ -236,10 +236,6 @@
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\drawable\\abc_ratingbar_material.xml"
     },
     {
-        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\home_first_btn.9.png",
-        "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\drawable\\home_first_btn.9.png"
-    },
-    {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_search_api_material.xml",
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\drawable\\abc_ic_search_api_material.xml"
     },
@@ -272,10 +268,6 @@
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\drawable\\abc_text_cursor_material.xml"
     },
     {
-        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\grey_btn.9.png",
-        "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\drawable\\grey_btn.9.png"
-    },
-    {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\common_plus_signin_btn_text_light.xml",
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\146e21d7e7e86c2a515961fb046d3b70ba8fc2af\\output\\res\\drawable\\common_plus_signin_btn_text_light.xml"
     },
@@ -290,5 +282,9 @@
     {
         "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_top_material.xml",
         "source": "C:\\Users\\my.DESKTOP-3U8LTO8\\.android\\build-cache\\473815f288f10e9376b7a7be9f697b7db588bccf\\output\\res\\drawable\\abc_cab_background_top_material.xml"
+    },
+    {
+        "merged": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\edittext_border.xml",
+        "source": "C:\\aecor\\Anjali\\Workspace\\EuroSportsWorkspace\\EuroSports\\eurosport\\app\\src\\main\\res\\drawable\\edittext_border.xml"
     }
 ]

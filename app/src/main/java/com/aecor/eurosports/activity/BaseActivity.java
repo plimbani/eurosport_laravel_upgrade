@@ -11,15 +11,8 @@ import android.support.annotation.Nullable;
 
 public abstract class BaseActivity extends Activity{
 
-    private Context mContext;
     protected abstract void initView();
 
     protected abstract void setListener();
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mContext = this;
-    }
 
 }

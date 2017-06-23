@@ -54,11 +54,19 @@
 
         <activity android:name="com.aecor.eurosports.activity.LandingActivity" />
         <activity android:name="com.aecor.eurosports.activity.RegisterActivity" />
-        <activity
-            android:name="com.aecor.eurosports.activity.HomeActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity android:name="com.aecor.eurosports.activity.HomeActivity" />
         <activity android:name="com.aecor.eurosports.activity.SignInActivity" />
         <activity android:name="com.aecor.eurosports.activity.ClubsActivity" />
+        <activity android:name="com.aecor.eurosports.activity.ForgotPasswordActivity" />
+        <activity android:name="com.aecor.eurosports.activity.ForgotPasswordOtpActivity" />
+        <activity android:name="com.aecor.eurosports.activity.SettingsActivity" />
+        <activity android:name="com.aecor.eurosports.activity.HelpActivity" />
+        <activity android:name="com.aecor.eurosports.activity.PrivacyAndTermsActivity" />
+        <activity android:name="com.aecor.eurosports.activity.ProfileActivity" />
+        <activity
+            android:name="com.aecor.eurosports.activity.ImageOptionDialogActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name="com.aecor.eurosports.activity.NotificationAndSoundActivity" />
 
         <receiver
             android:name="com.google.android.gms.measurement.AppMeasurementReceiver"

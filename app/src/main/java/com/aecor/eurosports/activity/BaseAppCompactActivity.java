@@ -1,6 +1,5 @@
 package com.aecor.eurosports.activity;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +17,9 @@ import android.widget.TextView;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.util.AppConstants;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by karan on 6/19/2017.
  */
@@ -25,23 +27,39 @@ import com.aecor.eurosports.util.AppConstants;
 public abstract class BaseAppCompactActivity extends AppCompatActivity {
 
     public static String selectedTabName = "";
+    @BindView(R.id.tv_tournament)
+    protected TextView tv_tournament;
+    @BindView(R.id.tv_clubs)
+    protected TextView tv_clubs;
+    @BindView(R.id.tv_age_categories)
+    protected TextView tv_age_categories;
+    @BindView(R.id.tv_user_settings)
+    protected TextView tv_user_settings;
+    @BindView(R.id.iv_favourites)
+    protected ImageView iv_favourites;
+    @BindView(R.id.iv_age_categories)
+    protected ImageView iv_age_categories;
+    @BindView(R.id.iv_tournament)
+    protected ImageView iv_tournament;
+    @BindView(R.id.iv_user_settings)
+    protected ImageView iv_user_settings;
+    @BindView(R.id.iv_clubs)
+    protected ImageView iv_clubs;
+    @BindView(R.id.lv_age_categories)
+    protected LinearLayout lv_age_categories;
+    @BindView(R.id.lv_tournament)
+    protected LinearLayout lv_tournament;
+    @BindView(R.id.lv_clubs)
+    protected LinearLayout lv_clubs;
+    @BindView(R.id.lv_user_settings)
+    protected LinearLayout lv_user_settings;
+    @BindView(R.id.lv_favourites)
+    protected LinearLayout lv_favourites;
+
 
     private Context mContext;
-    private TextView tv_favourites;
-    private ImageView iv_favourites;
-    private LinearLayout lv_favourites;
-    private TextView tv_tournament;
-    private ImageView iv_tournament;
-    private LinearLayout lv_tournament;
-    private TextView tv_clubs;
-    private ImageView iv_clubs;
-    private LinearLayout lv_clubs;
-    private TextView tv_age_categories;
-    private ImageView iv_age_categories;
-    private LinearLayout lv_age_categories;
-    private TextView tv_user_settings;
-    private ImageView iv_user_settings;
-    private LinearLayout lv_user_settings;
+    @BindView(R.id.tv_favourites)
+    protected TextView tv_favourites;
     private int resourceIdFavourites;
     private int resourceIdUserSettings;
     private int resourceIdAgeCategories;
@@ -61,6 +79,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        ButterKnife.bind(this);
         initFooterContent();
     }
 
@@ -73,21 +92,6 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
             this.setTaskDescription(taskDescription);
         }
 
-        tv_favourites = (TextView) findViewById(R.id.tv_favourites);
-        tv_tournament = (TextView) findViewById(R.id.tv_tournament);
-        tv_clubs = (TextView) findViewById(R.id.tv_clubs);
-        tv_age_categories = (TextView) findViewById(R.id.tv_age_categories);
-        tv_user_settings = (TextView) findViewById(R.id.tv_user_settings);
-        iv_favourites = (ImageView) findViewById(R.id.iv_favourites);
-        iv_age_categories = (ImageView) findViewById(R.id.iv_age_categories);
-        iv_tournament = (ImageView) findViewById(R.id.iv_tournament);
-        iv_user_settings = (ImageView) findViewById(R.id.iv_user_settings);
-        iv_clubs = (ImageView) findViewById(R.id.iv_clubs);
-        lv_age_categories = (LinearLayout) findViewById(R.id.lv_age_categories);
-        lv_tournament = (LinearLayout) findViewById(R.id.lv_tournament);
-        lv_clubs = (LinearLayout) findViewById(R.id.lv_clubs);
-        lv_user_settings = (LinearLayout) findViewById(R.id.lv_user_settings);
-        lv_favourites = (LinearLayout) findViewById(R.id.lv_favourites);
 
         resourceIdAgeCategories = R.drawable.age_categories;
         resourceIdAgeCategoriesSelected = R.drawable.age_categories_red;
@@ -172,7 +176,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            switch(v.getId()) {
+            switch (v.getId()) {
                 case R.id.lv_favourites:
 
                     selectedTabName = AppConstants.SCREEN_CONSTANT_FAVOURITES;
@@ -180,7 +184,6 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
                     mFavourites.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(mFavourites);
                     changeBottomTabAccordingToFlag();
-                    overridePendingTransition(0, 0);
                     break;
 
                 case R.id.lv_clubs:
@@ -189,7 +192,6 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
                     mClubs.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(mClubs);
                     changeBottomTabAccordingToFlag();
-                    overridePendingTransition(0, 0);
                     break;
 
                 case R.id.lv_age_categories:
@@ -198,7 +200,6 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
                     mAgeCategories.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(mAgeCategories);*/
                     changeBottomTabAccordingToFlag();
-                    overridePendingTransition(0, 0);
                     break;
 
                 case R.id.lv_tournament:
@@ -207,16 +208,13 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
                     mTournament.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(mTournament);
                     changeBottomTabAccordingToFlag();
-                    overridePendingTransition(0, 0);
                     break;
 
                 case R.id.lv_user_settings:
                     selectedTabName = AppConstants.SCREEN_CONSTANT_USER_SETTINGS;
-                    /*Intent mUserSettings = new Intent(mContext, UserSettingsActivity.class);
-                    mUserSettings.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(mUserSettings);*/
+                    Intent mSettingsIntent = new Intent(mContext, SettingsActivity.class);
+                    startActivity(mSettingsIntent);
                     changeBottomTabAccordingToFlag();
-                    overridePendingTransition(0, 0);
                     break;
             }
         }

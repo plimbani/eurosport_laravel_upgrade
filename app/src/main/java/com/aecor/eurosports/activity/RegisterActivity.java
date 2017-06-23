@@ -273,10 +273,10 @@ public class RegisterActivity extends BaseActivity {
     private void enabledDisableRegisterButton(boolean isEnable) {
         if (isEnable) {
             register.setEnabled(true);
-            register.setBackground(getResources().getDrawable(R.drawable.button_bg));
+            register.setBackground(getResources().getDrawable(R.drawable.btn_yellow));
         } else {
             register.setEnabled(false);
-            register.setBackgroundColor(getResources().getColor(R.color.button_disable));
+            register.setBackground(getResources().getDrawable(R.drawable.btn_disable));
         }
     }
 

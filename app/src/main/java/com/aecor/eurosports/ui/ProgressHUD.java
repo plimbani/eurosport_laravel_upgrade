@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.aecor.eurosports.R;
 
 /**
