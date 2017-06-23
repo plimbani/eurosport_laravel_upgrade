@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -54,7 +55,7 @@ public class RegisterActivity extends BaseActivity {
     protected EditText confirm_password;
     @BindView(R.id.register)
     protected Button register;
-    private long tournament_id;
+    private long tournament_id = 0;
 
     @Override
     public void initView() {
@@ -78,11 +79,12 @@ public class RegisterActivity extends BaseActivity {
                 if (position > 0) {
                     tournament_id = id;
                 }
+                checkValidation();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-
+                checkValidation();
             }
         });
     }
@@ -131,7 +133,7 @@ public class RegisterActivity extends BaseActivity {
                                 String messgae = response.getString("message");
                                 Utility.showToast(mContext, messgae);
                             } else {
-                                Utility.showToast(mContext, "User registered successfully");
+                                Utility.showToast(mContext, getResources().getString(R.string.register_success));
                             }
 
                             startActivity(new Intent(mContext, SignInActivity.class));
@@ -207,9 +209,8 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void checkValidation() {
-        if (!validate()) {
+        if (!validate() || !validate_spinner()) {
             enabledDisableRegisterButton(false);
-            return;
         } else {
             enabledDisableRegisterButton(true);
         }
@@ -260,6 +261,13 @@ public class RegisterActivity extends BaseActivity {
         }
 
         return valid;
+    }
+
+    private boolean validate_spinner() {
+        if(tournament_id == 0)
+            return false;
+        else
+            return true;
     }
 
     private void enabledDisableRegisterButton(boolean isEnable) {

@@ -33,7 +33,7 @@ public class ClubsListFragment extends ListFragment {
     private String mParam1;
     private String mParam2;
 
-    ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapter;
 
     private OnFragmentInteractionListener mListener;
 

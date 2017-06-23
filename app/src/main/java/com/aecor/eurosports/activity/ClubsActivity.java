@@ -1,6 +1,7 @@
 package com.aecor.eurosports.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -36,6 +37,7 @@ public class ClubsActivity extends BaseAppCompactActivity implements ClubsListFr
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
         setListener();
+        startActivity(new Intent(mContext, TeamActivity.class));
     }
 
     @Override
@@ -45,10 +47,9 @@ public class ClubsActivity extends BaseAppCompactActivity implements ClubsListFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clubs);
         BaseAppCompactActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
-        ButterKnife.bind(this);
+        setContentView(R.layout.activity_clubs);
+        super.onCreate(savedInstanceState);
         mContext = this;
         initView();
     }

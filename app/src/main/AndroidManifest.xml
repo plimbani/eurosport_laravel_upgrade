@@ -12,18 +12,15 @@
 
     <application
         android:name=".application.ApplicationClass"
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
         <activity
             android:name=".activity.SplashActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,16 +28,22 @@
             </intent-filter>
         </activity>
 
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e9d94b282925a83d299b04a73a8c80554f477f37" />
 
+        <activity
+            android:name=".activity.FavouritesActivity"
+            android:label="@string/title_activity_favourites"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.LandingActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.SignInActivity" />
-        <activity android:name=".activity.ClubsActivity" />
+        <activity
+            android:name=".activity.ClubsActivity"
+            android:label="@string/clubs"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.ForgotPasswordActivity" />
         <activity android:name=".activity.ForgotPasswordOtpActivity" />
         <activity android:name=".activity.SettingsActivity" />
@@ -51,6 +54,7 @@
             android:name=".activity.ImageOptionDialogActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".activity.NotificationAndSoundActivity" />
+        <activity android:name=".activity.TeamActivity" android:label="TEAM" />
     </application>
 
 </manifest>

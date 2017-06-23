@@ -127,7 +127,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
     }
 
     private void changeBottomTabAccordingToFlag() {
-        if (selectedTabName.equalsIgnoreCase(AppConstants.SCREEN_CONSTANT_AGE_CATEGORIES)) {
+        if (selectedTabName.equalsIgnoreCase(AppConstants.SCREEN_CONSTANT_FAVOURITES)) {
             selectDiselectBottomTab(iv_favourites, tv_favourites, lv_favourites, true, resourceIdFavouritesSelected);
             selectDiselectBottomTab(iv_tournament, tv_tournament, lv_tournament, false, resourceIdTournament);
             selectDiselectBottomTab(iv_clubs, tv_clubs, lv_clubs, false, resourceIdClubs);
@@ -180,9 +180,9 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
                 case R.id.lv_favourites:
 
                     selectedTabName = AppConstants.SCREEN_CONSTANT_FAVOURITES;
-                    /*Intent mFavourites = new Intent(mContext, FavouritesActivity.class);
+                    Intent mFavourites = new Intent(mContext, FavouritesActivity.class);
                     mFavourites.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(mFavourites);*/
+                    startActivity(mFavourites);
                     changeBottomTabAccordingToFlag();
                     break;
 
@@ -204,9 +204,9 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
 
                 case R.id.lv_tournament:
                     selectedTabName = AppConstants.SCREEN_CONSTANT_TOURNAMENT;
-                    /*Intent mTournament = new Intent(mContext, TournamentActivity.class);
+                    Intent mTournament = new Intent(mContext, HomeActivity.class);
                     mTournament.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(mTournament);*/
+                    startActivity(mTournament);
                     changeBottomTabAccordingToFlag();
                     break;
 

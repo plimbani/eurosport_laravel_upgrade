@@ -10,6 +10,7 @@
     <string name="age_categories">Age \ncategories</string>
     <string name="settings">Settings</string>
     <string name="title_activity_clubs">CLUBS</string>
+    <string name="title_activity_favourites">FAVOURITES</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="loading">Loading</string>
@@ -26,6 +27,7 @@
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
     <string name="select_tournament">Select tournament</string>
+    <string name="register_success">User registered successfully.</string>
     <string name="get_otp">Get Otp</string>
     <string name="otp">otp</string>
     <string name="change_password">Change Password</string>
@@ -42,11 +44,12 @@
     <string name="delete">Delete</string>
     <string name="email">Email</string>
     <string name="first_name">First Name</string>
-     <string name="last_name">Last Name</string>
-
+    <string name="last_name">Last Name</string>
     <string name="sound_notification">Sound</string>
     <string name="vibration_notification">Vibration</string>
     <string name="notification">Notification</string>
+    <string name="view_club_match">View all club matches</string>
+    <string name="vieW_league_table">View full league table</string>
     <!--Volley-->
     <string name="no_internet_connection">Connect to internet to get media content.</string>
     <string name="timeout_error_message">Server timeout.</string>
