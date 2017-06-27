@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.http.VolleyErrorHelper;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.ViewDialog;
 import com.android.volley.VolleyError;
@@ -71,12 +72,24 @@ public class Utility {
     public static void parseVolleyError(@NonNull Context mContext, @NonNull VolleyError error) {
         try {
 
-
-            String responseBody = new String(error.networkResponse.data, "utf-8");
+            if (error.networkResponse != null && error.networkResponse.data != null) {
+                error = new VolleyError(new String(error.networkResponse.data));
+            }
+            AppLogger.LogE(TAG, "error" + error);
+            AppLogger.LogE(TAG, "error " + error.getMessage());
+             String responseBody = error.getMessage();
 
             JSONObject data = new JSONObject(responseBody);
+            String message = null;
             if (data.has("message")) {
-                String message = data.getString("message");
+                message = data.getString("message");
+            }
+
+            if (data.has("error")) {
+                message = data.getString("error");
+
+            }
+            if (!isNullOrEmpty(message)) {
 
                 ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                     @Override
@@ -91,7 +104,7 @@ public class Utility {
                 });
             }
 
-        } catch (@NonNull JSONException | UnsupportedEncodingException e) {
+        } catch (@NonNull JSONException e) {
             e.printStackTrace();
         }
     }
