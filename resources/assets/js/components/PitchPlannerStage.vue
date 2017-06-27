@@ -331,7 +331,7 @@ import _ from 'lodash'
                               let refereeName = ''
                               if(lastName != null && firstName!= null){
                                 //refereeName = lastName.substr(0,1)+firstName.substr(0,1)
-                                refereeName = lastName+ ' '+firstName
+                                refereeName = firstName+ ' '+lastName
                               }
                              // console.log(val)
                                 let mData =  {
