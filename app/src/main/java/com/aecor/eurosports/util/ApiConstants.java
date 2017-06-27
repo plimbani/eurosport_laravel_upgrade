@@ -9,5 +9,8 @@ public class ApiConstants {
     public static final String SIGN_IN = BASE_URL + "auth/login";
     public static final String REGISTER = BASE_URL + "user/create";
     public static final String URL_GET_SETTINGS_ATTRIBUTE = BASE_URL + "user/create";
+    public static final String CHECK_USER = BASE_URL + "auth/check";
+    public static final String SET_TOURNAMENT_AS_FAVOURITE = BASE_URL + "users/setFavourite";
+    public static final String REMOVE_TOURNAMENT_FROM_FAVOURITE = BASE_URL + "users/removeFavourite";
 }
     

@@ -28,7 +28,6 @@ public class FavouriteListAdapter extends ArrayAdapter<TournamentModel> {
     private final String TAG = FavouriteListAdapter.class.getSimpleName();
     private LayoutInflater inflater;
 
-//    int textviewId,    textviewId,
 
     public FavouriteListAdapter(Activity context, int resouceId, int textviewId, List<TournamentModel> list) {
         super(context, resouceId, textviewId,
@@ -55,17 +54,17 @@ public class FavouriteListAdapter extends ArrayAdapter<TournamentModel> {
             holder = (ViewHolder) rowview.getTag();
         }
         TournamentModel rowItem = getItem(position);
-        if(!Utility.isNullOrEmpty(rowItem.getName())) {
+        if (!Utility.isNullOrEmpty(rowItem.getName())) {
             holder.favourite_tournament.setText(rowItem.getName());
         }
 
-        if(!Utility.isNullOrEmpty(rowItem.getStart_date()) && !Utility.isNullOrEmpty(rowItem.getEnd_date())) {
+        if (!Utility.isNullOrEmpty(rowItem.getStart_date()) && !Utility.isNullOrEmpty(rowItem.getEnd_date())) {
             holder.favourite_date.setText(rowItem.getStart_date() + " - " + rowItem.getEnd_date());
         }
 
         holder.favourite_imageview.setImageDrawable(getContext().getResources().getDrawable(R.drawable.heart_gray));
 
-        if(!Utility.isNullOrEmpty(rowItem.getLogo())) {
+        if (!Utility.isNullOrEmpty(rowItem.getLogo())) {
             Picasso.with(getContext()).load(rowItem.getLogo()).fit().centerCrop()
                     .into(holder.favourite_logo);
         }
@@ -74,6 +73,7 @@ public class FavouriteListAdapter extends ArrayAdapter<TournamentModel> {
             @Override
             public void onClick(View v) {
                 holder.favourite_imageview.setImageDrawable(getContext().getResources().getDrawable(R.drawable.heart_red));
+
             }
         });
         return rowview;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/team_flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:src="@drawable/germany" />
+
+        <TextView
+            android:id="@+id/tv_group_table_title"
+            style="@style/team_league_table_text"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:gravity="left|center"
+            android:text="@string/group_26_league_table" />
+
+        <TextView
+            android:id="@+id/team_point"
+            style="@style/team_league_table_text"
+            android:layout_gravity="center"
+            android:paddingLeft="17dp"
+            android:paddingRight="17dp"
+            android:text="9" />
+
+        <TextView
+            android:id="@+id/team_difference"
+            style="@style/team_league_table_text"
+            android:layout_gravity="center"
+            android:paddingLeft="17dp"
+            android:paddingRight="17dp"
+            android:text="+20" />
+
+        <TextView
+            android:id="@+id/team_games"
+            style="@style/team_league_table_text"
+            android:layout_gravity="center"
+            android:paddingLeft="17dp"
+            android:paddingRight="17dp"
+            android:text="3" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+</LinearLayout>
