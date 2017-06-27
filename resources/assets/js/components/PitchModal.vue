@@ -144,7 +144,6 @@ var moment = require('moment');
       Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
           this.matchDetail = response.data.data
-          console.log(this.matchDetail)
           if(this.matchDetail.referee == null) {
 
           } else {
@@ -154,7 +153,7 @@ var moment = require('moment');
 
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
           this.matchDetail.matchTime = date.format('hh:mm ddd DD MMM YYYY')
-          this.matchDetail.match_winner =  (this.matchDetail.match_winner == null) ? '': this.matchDetail.match_winner
+          this.matchDetail.match_winner =  (this.matchDetail.match_winner == null || this.matchDetail.match_winner == 0 || this.matchDetail.match_winner == '') ? '': this.matchDetail.match_winner
           // Set Some Values
           this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '0' : this.matchDetail.match_status
 
