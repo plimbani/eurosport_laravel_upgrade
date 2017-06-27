@@ -2,63 +2,63 @@
     <div>
         <div class="row">
             <div class="col-md-12 mb-3">
-                <button class="btn btn-primary btn-md" @click="setView('timelineDay')">Horizontal</button>
-                <button class="btn btn-primary btn-md" @click="setView('agendaDay')">Vertical</button>
-            </div>
-       </div>
-        <div class="row">
-             <div class="col-md-9 pitch_planner_section pitch">
-            <div class="pitch-planner-wrapper">
-                <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
-                    <div class="card">
-                      <!-- <div class="card-block text-center pb-0">
-                        <h4 class="table_heading">Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</h4>
-                      </div> -->
-                      <button class="btn pnl" data-toggle="collapse"
-                      @click="toggleStage(stage.stageNumber)"
-                      :id="stage.stageNumber"
-                      v-bind:data-target="'#demo'+stage.stageNumber">
-                       <i :id="'opt_icon_'+stage.stageNumber"  class="fa fa-minus"></i>
-                       Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
-                      <div :id="'demo'+stage.stageNumber"
-                      class="stages collapse in show" aria-expanded="true">
-                        <pitch-planner-stage :stage="stage" :defaultView="defaultView"></pitch-planner-stage>
-                      </div>
-                    </div>
 
-                </div>
+                <button class="btn btn-primary btn-md js-pitch-planner-bt horizontal"  @click="setView('timelineDay')">Horizontal</button>
+                <button class="btn btn-secondary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">Vertical</button>
             </div>
         </div>
-        <div class="col-md-3" id="outerGame">
-            <div class="grey_bg" id="gameReferee">
-                <div class="tabs tabs-primary">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link px-3']"
-                            @click="setCurrentTab('gamesTab')"
-                            data-toggle="tab" role="tab" href="#game-list">Games ({{totalMatchCount}})</a>
-                        </li>
-                        <li class="nav-item">
-                            <a
-                            :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link px-3']"
-                            @click="setCurrentTab('refereeTab')"
-                            data-toggle="tab" role="tab" href="#referee-list">Referees ({{totalRefereeCount}})</a>
-                        </li>
-                    </ul>
-                     <div class="tab-content">
-                        <div
-                        :class="[currentView == 'gamesTab' ? 'active' : '', 'tab-pane']"
-                        v-if="GameStatus" id="game-list" role="tabpanel">
-                            <games-tab></games-tab>
+
+        <div class="row">
+            <div class="col-md-9 pitch_planner_section pitch">
+                <div class="pitch-planner-wrapper">
+                    <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
+                        <div class="card">
+                          <!-- <div class="card-block text-center pb-0">
+                            <h4 class="table_heading">Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</h4>
+                          </div> -->
+                          <button class="btn pnl" data-toggle="collapse"
+                          @click="toggleStage(stage.stageNumber)"
+                          :id="stage.stageNumber"
+                          v-bind:data-target="'#demo'+stage.stageNumber">
+                           <i :id="'opt_icon_'+stage.stageNumber"  class="fa fa-minus"></i>
+                           Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
+                          <div :id="'demo'+stage.stageNumber"
+                          class="stages collapse in show" aria-expanded="true">
+                            <pitch-planner-stage :stage="stage" :defaultView="defaultView"></pitch-planner-stage>
+                          </div>
                         </div>
-                        <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus" id="referee-list" role="tabpanel">
-                            <referees-tab></referees-tab>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" id="outerGame">
+                <div class="grey_bg" id="gameReferee">
+                    <div class="tabs tabs-primary">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link px-3']"
+                                @click="setCurrentTab('gamesTab')"
+                                data-toggle="tab" role="tab" href="#game-list">Games ({{totalMatchCount}})</a>
+                            </li>
+                            <li class="nav-item">
+                                <a :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link px-3']"
+                                @click="setCurrentTab('refereeTab')"
+                                data-toggle="tab" role="tab" href="#referee-list">Referees ({{totalRefereeCount}})</a>
+                            </li>
+                        </ul>
+                         <div class="tab-content">
+                            <div
+                            :class="[currentView == 'gamesTab' ? 'active' : '', 'tab-pane']"
+                            v-if="GameStatus" id="game-list" role="tabpanel">
+                                <games-tab></games-tab>
+                            </div>
+                            <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus" id="referee-list" role="tabpanel">
+                                <referees-tab></referees-tab>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 <script>
@@ -125,6 +125,7 @@
         data() {
             return {
                 'currentView':'gamesTab',
+                'currentButton' : 'horizontal',
                 'matchCount':'',
                 'tournamentStages': {},
                 'stageStatus':false,
@@ -143,6 +144,11 @@
                             // return stages;
             this.resetPitch()
             $(document).ready(function() {
+                $(document).on('click', '.js-pitch-planner-bt', function(e){
+                    $(".js-pitch-planner-bt").removeClass('btn-primary').addClass('btn-secondary');
+                    $(this).removeClass('btn-secondary').addClass('btn-primary');
+                });
+
                 // $('#gameReferee').affix({
                 //     offset: {
                 //         // top: $('#outerGame'),
@@ -185,6 +191,10 @@
             setCurrentTab(currentTab = 'gamesTab') {
               this.currentView = currentTab
             },
+            // myFilter: function(){
+            //     this.isActive = !this.isActive;
+            //   // some code to filter users
+            // },
             toggleStage(stageNo){
                 // Change the opt_icon as well
                 if($('#opt_icon_'+stageNo).hasClass('fa-plus') == true){
@@ -205,7 +215,6 @@
 
             },
             setView(view) {
-
                 let vm = this
                 this.defaultView = view
                 if(vm.defaultView == 'timelineDay'){

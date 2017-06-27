@@ -2,7 +2,10 @@
   <div class="tab-content planner_list_content">
     <div class="row">
       <div class="col-md-12">
-        <div class="text-center" v-for="(competition,index) in competitionWithGames">
+        <div v-if="competitionWithGames.length == 0">
+              {{$lang.pitch_planner_no_games}}
+        </div>
+        <div class="text-center" v-else v-for="(competition,index) in competitionWithGames">
 
           <h6 class="mb-0"><strong>
           {{competition.group_name}}</strong></h6>
@@ -14,7 +17,7 @@
           v-if="match.isScheduled!=1"
           v-for="match in competition.matchList"
           :data-text="match.matchName">
-            <draggable-match-event :match="match"></draggable-match-event>
+              <draggable-match-event :match="match"></draggable-match-event>
           </div>
         </div>
         <br>
