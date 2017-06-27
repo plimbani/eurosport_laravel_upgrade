@@ -5,7 +5,7 @@
                 <button class="btn btn-primary btn-md" @click="setView('timelineDay')">Horizontal</button>
                 <button class="btn btn-primary btn-md" @click="setView('agendaDay')">Vertical</button>
             </div>
-       </div> 
+       </div>
         <div class="row">
              <div class="col-md-9 pitch_planner_section pitch">
             <div class="pitch-planner-wrapper">
