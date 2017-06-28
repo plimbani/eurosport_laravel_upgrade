@@ -23,7 +23,7 @@
             <div class="col-sm-3 m_card hoverable m-2"  v-for="(group, index) in grpsView">
                 <div class="card-content">
                    <span class="card-title text-primary"><strong>{{group['groups']['group_name']}}</strong></span>
-                   <p class="text-primary" v-for="n in group['group_count']"><strong>{{group['groups']['group_name']}}{{n}}</strong></p>
+                   <p class="text-primary" v-for="n in group['group_count']"><strong><span v-text="groupName(group['groups']['group_name'],n)"></span></strong></p>
                 </div>
             </div>
           </div>
@@ -121,6 +121,11 @@
    import Tournament from '../../../api/tournament.js'
    import _ from 'lodash'
    import TournamentFilter from '../../../components/TournamentFilter.vue'
+   import Vue from 'vue'
+
+   // Vue.filter('groupName', function (value) {
+   //    return value+'hi '
+   //  })
 	export default {
     data() {
     return {
@@ -148,6 +153,7 @@
 
         }
     },
+
     components: {
       TournamentFilter
     },
@@ -173,10 +179,10 @@
       let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
         (response) => {
-          this.options = response.data.data
+            this.options = response.data.data
         },
         (error) => {
-           console.log('Error occured during Tournament api ', error)
+            console.log('Error occured during Tournament api ', error)
         }
         )
         $('#profile_image_file').click(function(){
@@ -199,6 +205,17 @@
     // },
 
     methods: {
+      groupName(grpName,no){
+        let vm =this
+        let fullName = grpName+no
+        let displayName = fullName
+         _.find(this.teams, function(team) {
+          if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
+            displayName =  team.name
+          } ;
+        });
+        return displayName
+      },
       isSelected(grp,index){
         return false
 
