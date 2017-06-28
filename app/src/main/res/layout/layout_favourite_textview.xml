@@ -48,4 +48,13 @@
         android:paddingRight="10dp"
         android:src="@drawable/heart_gray" />
 
+    <ImageView
+        android:id="@+id/default_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/default_tournament" />
+
 </LinearLayout>

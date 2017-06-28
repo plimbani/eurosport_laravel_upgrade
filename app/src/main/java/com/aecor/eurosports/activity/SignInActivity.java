@@ -99,7 +99,6 @@ public class SignInActivity extends BaseActivity {
         } else {
             valid = true;
         }
-
         if (password.isEmpty() || password.length() < 5) {
             valid = false;
             return valid;
@@ -142,10 +141,16 @@ public class SignInActivity extends BaseActivity {
 
                             mAppSharedPref.setString(AppConstants.PREF_EMAIL, email_address.getText().toString());
                             mAppSharedPref.setString(AppConstants.PREF_PASSWORD, sign_in_password.getText().toString());
+                            ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(response.get("userData").toString(), ProfileModel.class);
+                            String profile = GsonConverter.getInstance().encodeToJsonString(profileModel);
+                            JSONObject jsonObject = new JSONObject(response.get("userData").toString());
+                            int tournament_id = Integer.parseInt(jsonObject.getString("tournament_id").toString());
                             mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
+                            mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id").toString());
+                            mAppSharedPref.setInt(AppConstants.PREF_TOURNAMENT_ID, tournament_id);
                             startActivity(new Intent(mContext, HomeActivity.class));
                             finish();
-                        }else {
+                        } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))){
                                 Utility.showToast(mContext,response.getString("message"));

@@ -10,7 +10,6 @@ public class ProfileModel {
     private String profile_image_url;
     private int tournament_id;
     private String email;
-    private int user_id;
     private String password;
 
     public String getPassword() {
@@ -19,14 +18,6 @@ public class ProfileModel {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
     }
 
     public ProfileModel() { }

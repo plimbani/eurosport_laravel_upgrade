@@ -44,6 +44,7 @@ public class Utility {
     private final static String TAG = "Utility";
     private static Dialog progressDialog;
     private static ProgressHUD mProgressHUD;
+    private static AppPreference mPreference;
 
     public static void showToast(Context mContext, String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
@@ -164,7 +165,6 @@ public class Utility {
 
     @SuppressWarnings("deprecation")
     public static boolean isInternetAvailable(@NonNull Context context) {
-
         ConnectivityManager connectivity = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
@@ -176,7 +176,6 @@ public class Utility {
                     }
 
         }
-
         return false;
     }
 
@@ -185,7 +184,8 @@ public class Utility {
     }
 
     public static String getUserId(Context mContext) {
-        return "6";
+        mPreference = AppPreference.getInstance(mContext);
+        return mPreference.getString(AppConstants.PREF_USER_ID);
     }
 
     public static String getFormattedTournamentDate(String startDateStr, String endDateStr) {

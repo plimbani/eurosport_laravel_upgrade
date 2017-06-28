@@ -43,6 +43,14 @@ public class TournamentModel {
         this.name = name;
     }
 
+    public String getIs_default() {
+        return is_default;
+    }
+
+    public void setIs_default(String is_default) {
+        this.is_default = is_default;
+    }
+
     public String getWebsite() {
         return website;
     }

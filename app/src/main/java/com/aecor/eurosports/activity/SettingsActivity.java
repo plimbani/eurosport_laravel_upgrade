@@ -41,6 +41,7 @@ public class SettingsActivity extends BaseAppCompactActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        BaseAppCompactActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_USER_SETTINGS;
         setContentView(R.layout.activity_settings);
         super.onCreate(savedInstanceState);
         mContext = this;
