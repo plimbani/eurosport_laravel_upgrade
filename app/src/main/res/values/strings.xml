@@ -28,6 +28,7 @@
     <string name="button_cancel">Cancel</string>
     <string name="select_tournament">Select tournament</string>
     <string name="register_success">User registered successfully.</string>
+    <string name="update_profile">Profile Updated successfully.</string>
     <string name="get_otp">Get Otp</string>
     <string name="otp">otp</string>
     <string name="change_password">Change Password</string>

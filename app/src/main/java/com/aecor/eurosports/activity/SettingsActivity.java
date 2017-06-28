@@ -78,21 +78,19 @@ public class SettingsActivity extends BaseAppCompactActivity {
 
     private void logoutFromApp() {
         AppPreference mAppPref = AppPreference.getInstance(mContext);
-//        mAppPref.setString(AppConstants.KEY_LOGGED_IN_USER_EMAIL, "");
+        mAppPref.setString(AppConstants.PREF_EMAIL, "");
+        mAppPref.setString(AppConstants.PREF_PASSWORD, "");
 
-        Intent intent = new Intent(mContext, SignInActivity.class);
+        Intent intent = new Intent(mContext, LandingActivity.class);
         ComponentName cn = intent.getComponent();
         Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
         startActivity(mainIntent);
         finish();
-
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
 }
