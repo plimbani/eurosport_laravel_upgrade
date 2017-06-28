@@ -64,6 +64,7 @@ public class FavouriteListAdapter extends ArrayAdapter<TournamentModel> {
         }
 
         holder.favourite_imageview.setImageDrawable(getContext().getResources().getDrawable(R.drawable.heart_gray));
+        holder.default_imageview.setImageDrawable(getContext().getResources().getDrawable(R.drawable.default_tour));
 
         if(!Utility.isNullOrEmpty(rowItem.getLogo())) {
             Picasso.with(getContext()).load(rowItem.getLogo()).fit().centerCrop()
@@ -73,9 +74,27 @@ public class FavouriteListAdapter extends ArrayAdapter<TournamentModel> {
         holder.favourite_imageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.favourite_imageview.setImageDrawable(getContext().getResources().getDrawable(R.drawable.heart_red));
+                if (holder.favourite_imageview.getDrawable().getConstantState().equals
+                        (getContext().getResources().getDrawable(R.drawable.heart_gray).getConstantState())) {
+                    holder.favourite_imageview.setImageDrawable(getContext().getResources().getDrawable(R.drawable.heart_red));
+                }
+                else
+                    holder.favourite_imageview.setImageDrawable(getContext().getResources().getDrawable(R.drawable.heart_gray));
             }
         });
+
+        holder.default_imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.default_imageview.getDrawable().getConstantState().equals
+                        (getContext().getResources().getDrawable(R.drawable.default_tour).getConstantState())) {
+                    holder.default_imageview.setImageDrawable(getContext().getResources().getDrawable(R.drawable.select_default_tour));
+                }
+                else
+                    holder.default_imageview.setImageDrawable(getContext().getResources().getDrawable(R.drawable.default_tour));
+            }
+        });
+
         return rowview;
     }
 
@@ -88,6 +107,8 @@ public class FavouriteListAdapter extends ArrayAdapter<TournamentModel> {
         protected TextView favourite_tournament;
         @BindView(R.id.favourite_date)
         protected TextView favourite_date;
+        @BindView(R.id.default_imageview)
+        protected ImageView default_imageview;
 
         public ViewHolder(View rowView) {
             ButterKnife.bind(this, rowView);

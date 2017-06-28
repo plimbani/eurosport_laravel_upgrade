@@ -9,10 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.gson.GsonConverter;
+import com.aecor.eurosports.http.VolleyErrorHelper;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
+import com.aecor.eurosports.model.ProfileModel;
 import com.aecor.eurosports.util.ApiConstants;
+import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
+import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,12 +40,14 @@ public class SignInActivity extends BaseActivity {
     protected EditText sign_in_password;
     @BindView(R.id.signin)
     protected Button log_in;
+    private AppPreference mAppSharedPref;
 
     @Override
     public void initView() {
         enabledDisableLoginButton(false);
-        email_address.setText("knayak@aecordigital.com");
+        email_address.setText("kdeopura@aecordigital.com");
         sign_in_password.setText("password");
+        mAppSharedPref = AppPreference.getInstance(mContext);
         setListener();
     }
 
@@ -113,6 +120,52 @@ public class SignInActivity extends BaseActivity {
         }
     }
 
+    private void validate_user() {
+        Utility.startProgress(mContext);
+        String url = ApiConstants.CHECK_USER;
+        final JSONObject requestJson1 = new JSONObject();
+
+        if (Utility.isInternetAvailable(mContext)) {
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(Request.Method
+                    .GET, url,
+                    requestJson1, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "***** Sign in response *****" + response.toString());
+                        ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(response.get("userData").toString(), ProfileModel.class);
+                        String profile = GsonConverter.getInstance().encodeToJsonString(profileModel);
+
+                        if(response.getString("authenticated").equalsIgnoreCase("true")) {
+                            mAppSharedPref.setString(AppConstants.PREF_EMAIL, email_address.getText().toString());
+                            mAppSharedPref.setString(AppConstants.PREF_PASSWORD, sign_in_password.getText().toString());
+                            mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
+                            startActivity(new Intent(mContext, HomeActivity.class));
+                            finish();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+//                        VolleyErrorHelper.getMessage(error, mContext);
+                        Utility.showToast(mContext, VolleyErrorHelper.getMessage(error, mContext));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, mAppSharedPref.getString(AppConstants.PREF_TOKEN));
+            mQueue.add(jsonRequest1);
+        }
+    }
+
     private void checkuser() {
         Utility.startProgress(mContext);
         String url = ApiConstants.SIGN_IN;
@@ -135,14 +188,12 @@ public class SignInActivity extends BaseActivity {
                     Utility.StopProgress();
                     try {
                         AppLogger.LogE(TAG, "***** Sign in response *****" + response.toString());
-                        Utility.showToast(mContext, response.toString());
-
+                        String token = response.get(AppConstants.PREF_TOKEN).toString();
+                        mAppSharedPref.setString(AppConstants.PREF_TOKEN,token);
+                        validate_user();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                    startActivity(new Intent(mContext, HomeActivity.class));
-                    finish();
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -153,7 +204,6 @@ public class SignInActivity extends BaseActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
             });
             mQueue.add(jsonRequest);

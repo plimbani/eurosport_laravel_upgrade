@@ -20,6 +20,7 @@ import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
+import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,9 +41,11 @@ public class FavouritesActivity extends BaseAppCompactActivity {
     private Context mContext;
     @BindView(R.id.favourite_list)
     protected ListView favouriteList;
+    private AppPreference mPreference;
 
     @Override
     protected void initView() {
+        mPreference = AppPreference.getInstance(mContext);
         getTournamentList();
     }
 
@@ -103,7 +106,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                     }
 
                 }
-            });
+            } , mPreference.getString(AppConstants.PREF_TOKEN));
             mQueue.add(jsonRequest);
         }
     }
