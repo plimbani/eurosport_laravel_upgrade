@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -90,6 +90,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
     <style name="DialogAnimation" parent="@android:style/Theme.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -104,6 +105,20 @@
         <item name="android:windowEnterAnimation">@anim/slid_up</item>
         <item name="android:windowExitAnimation">@anim/slid_down</item>
     </style>
+
+
+    <style name="donout_progress_style">
+        <item name="android:layout_width">65dp</item>
+        <item name="android:layout_height">65dp</item>
+        <item name="donut_finished_color">@color/colorPrimary</item>
+        <item name="donut_finished_stroke_width">5dp</item>
+        <item name="donut_text_color">@color/colorPrimary</item>
+        <item name="donut_text_size">16sp</item>
+        <item name="donut_unfinished_color">@color/gray</item>
+        <item name="donut_unfinished_stroke_width">3dp</item>
+        <item name="donut_circle_starting_degree">270</item>
+     </style>
+
     <style name="SCBSwitch" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->
         <item name="colorControlActivated">@color/colorPrimary</item>

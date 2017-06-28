@@ -28,6 +28,11 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -180,7 +185,52 @@ public class Utility {
     }
 
     public static String getUserId(Context mContext) {
-        return "";
+        return "6";
+    }
+
+    public static String getFormattedTournamentDate(String startDateStr, String endDateStr) {
+        String torunamentFormatedDate = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            int startYear;
+            String startMonth;
+            int startDate;
+            int endYear;
+            String endMonth;
+            int endDate;
+
+            Date start = sdf.parse(startDateStr);
+            Date end = sdf.parse(endDateStr);
+            Calendar mCal = Calendar.getInstance();
+            mCal.setTime(start);
+
+            startYear = mCal.get(Calendar.YEAR);
+            startMonth = mCal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+            startDate = mCal.get(Calendar.DAY_OF_MONTH);
+
+            mCal.setTime(end);
+
+            endYear = mCal.get(Calendar.YEAR);
+            endMonth = mCal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+            endDate = mCal.get(Calendar.DAY_OF_MONTH);
+
+            torunamentFormatedDate = startDate + " - " + endDate;
+            if (startMonth.equalsIgnoreCase(endMonth)) {
+                torunamentFormatedDate = torunamentFormatedDate + " " + startMonth;
+            } else {
+                torunamentFormatedDate = startDate + " " + startMonth + " - " + endDate + " " + endMonth;
+            }
+            if (startYear == endYear) {
+                torunamentFormatedDate = torunamentFormatedDate + " " + startYear;
+            } else {
+                torunamentFormatedDate = startDate + " " + startMonth + " " + startYear + " - " + endDate + " " + endMonth + " " + endYear;
+
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return torunamentFormatedDate;
     }
 
 }
