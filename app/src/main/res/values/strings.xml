@@ -50,10 +50,25 @@
     <string name="vibration_notification">Vibration</string>
     <string name="notification">Notification</string>
     <string name="view_club_match">View all club matches</string>
-    <string name="vieW_league_table">View full league table</string>
+    <string name="view_league_table">View full league table</string>
+    <string name="team_name">Team name</string>
+    <string name="group_26_league_table">Group 26 league table</string>
+    <string name="G">G</string>
+    <string name="plus_minus">+/-</string>
+    <string name="P">P</string>
+    <string name="matches">Matches</string>
+    <string name="days">Days</string>
+    <string name="hours">Hours</string>
+    <string name="minutes">Minutes</string>
+    <string name="seconds">Seconds</string>
     <!--Volley-->
     <string name="no_internet_connection">Connect to internet to get media content.</string>
     <string name="timeout_error_message">Server timeout.</string>
     <string name="generic_error">Something went wrong. Please try again later.</string>
-
+    <string name="no_network_connection" translatable="false">No network connection found</string>
+    <string name="generic_server_down" translatable="false">Server down</string>
+    <string name="generic_server_timeout" translatable="false">Server Timeout</string>
+    <string name="no_internet" translatable="false">No internet</string>
+    <string name="parsing_failed" translatable="false">Parsing Failure</string>
+    <string name="auth_failed" translatable="false">Authentication Failure</string>
 </resources>

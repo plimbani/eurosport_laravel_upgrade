@@ -159,6 +159,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tournamet_id = position;
+                checkValidation();
             }
 
             @Override
