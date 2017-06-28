@@ -111,13 +111,11 @@ public class FavouritesActivity extends BaseAppCompactActivity {
         }
     }
 
-//    R.id.favourite_list_item,
 
     private void setTournamnetAdapter(TournamentModel mTournamentList[]) {
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
-
-        FavouriteListAdapter adapter = new FavouriteListAdapter((Activity)mContext, R.layout.layout_favourite_textview, R.id.title, list);
+        FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, list);
         favouriteList.setAdapter(adapter);
     }
 }

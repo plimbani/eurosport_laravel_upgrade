@@ -3,14 +3,17 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:layout_weight="1"
     android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/layout_border"
         android:orientation="vertical">
 
@@ -152,11 +155,8 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/seconds"
                     android:textSize="15sp" />
-
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 
 
@@ -164,7 +164,8 @@
         android:id="@+id/sp_tournament"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/spinner_bg_image_gray"
         android:drawSelectorOnTop="true"
         android:prompt="@string/select_tournament" />

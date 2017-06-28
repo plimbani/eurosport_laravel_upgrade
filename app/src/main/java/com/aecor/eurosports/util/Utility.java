@@ -77,7 +77,7 @@ public class Utility {
             }
             AppLogger.LogE(TAG, "error" + error);
             AppLogger.LogE(TAG, "error " + error.getMessage());
-             String responseBody = error.getMessage();
+            String responseBody = error.getMessage();
 
             JSONObject data = new JSONObject(responseBody);
             String message = null;
@@ -177,6 +177,10 @@ public class Utility {
 
     public static boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    public static String getUserId(Context mContext) {
+        return "";
     }
 
 }
