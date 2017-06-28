@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.HomeActivity;
 import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.AppLogger;
 
@@ -25,10 +26,11 @@ import butterknife.ButterKnife;
 public class TournamentSpinnerAdapter extends ArrayAdapter<TournamentModel> {
     private final String TAG = TournamentSpinnerAdapter.class.getSimpleName();
     private LayoutInflater inflater;
+    private Context mContext;
 
     public TournamentSpinnerAdapter(Activity context, int resouceId, int textviewId, List<TournamentModel> list) {
         super(context, resouceId, textviewId, list);
-
+        this.mContext = context;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -36,7 +38,7 @@ public class TournamentSpinnerAdapter extends ArrayAdapter<TournamentModel> {
 
     @Override
     public boolean isEnabled(int position) {
-        if (position == 0) {
+        if (position == 0 && !(mContext instanceof HomeActivity)) {
             return false;
         } else {
             return true;
@@ -66,7 +68,7 @@ public class TournamentSpinnerAdapter extends ArrayAdapter<TournamentModel> {
         }
         TournamentModel rowItem = getItem(position);
         holder.tv_spinner.setText(rowItem.getName());
-        if (position == 0) {
+        if (position == 0 && !(mContext instanceof HomeActivity)) {
             holder.tv_spinner.setTextColor(Color.GRAY);
         } else {
             holder.tv_spinner.setTextColor(Color.BLACK);

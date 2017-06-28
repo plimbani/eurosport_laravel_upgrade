@@ -1,5 +1,6 @@
 package com.aecor.eurosports.activity;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -7,9 +8,14 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
@@ -22,8 +28,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,15 +57,138 @@ public class HomeActivity extends BaseAppCompactActivity {
     private Context mContext;
     @BindView(R.id.sp_tournament)
     protected Spinner sp_tournament;
+    private List<TournamentModel> mTournamentList;
+    @BindView(R.id.tv_tournamentDate)
+    protected TextView tv_tournamentDate;
+    @BindView(R.id.tv_tournamentName)
+    protected TextView tv_tournamentName;
+    @BindView(R.id.iv_tournamentLogo)
+    protected ImageView iv_tournamentLogo;
+    @BindView(R.id.progress_days)
+    protected DonutProgress mProgressDays;
+    @BindView(R.id.progress_hours)
+    protected DonutProgress mProgressHours;
+    @BindView(R.id.progress_minutes)
+    protected DonutProgress mProgressMinutes;
+    @BindView(R.id.progress_seconds)
+    protected DonutProgress mProgresSeconds;
+
+    private Timer timer = new Timer();
+    private TimerTask timerTask;
 
     @Override
     public void initView() {
-        getDefaultTournamenetOfLoggedInUser();
+        getLoggedInUserFavouriteTournamentList();
+        setListener();
     }
 
     @Override
     public void setListener() {
+        sp_tournament.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
+                    tv_tournamentName.setText(mTournamentList.get(position).getName());
+                }
+                if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getStart_date()) && !Utility.isNullOrEmpty(mTournamentList.get(position).getEnd_date())) {
+                    tv_tournamentDate.setText(Utility.getFormattedTournamentDate(mTournamentList.get(position).getStart_date(), mTournamentList.get(position).getEnd_date()));
+                    if (timer != null) {
+                        timer.cancel();
+                        timer = new Timer();
+                    }
+                    startTimeUpdateHandler(mTournamentList.get(position).getStart_date());
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
+    }
+
+
+    private void startTimeUpdateHandler(final String startDate) {
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getDateDifference(startDate);
+                    }
+                });
+
+            }
+        };
+        timer.schedule(timerTask, 0, 10000);
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (timer != null)
+            timer.cancel();
+
+    }
+
+    public void getDateDifference(String FutureDate) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+            Date currentDate = dateFormat.parse(FutureDate);
+            System.out.println(currentDate);
+            Date oldDate = new Date();
+
+            long diff = currentDate.getTime() - oldDate.getTime();
+
+            long days = diff / (24 * 60 * 60 * 1000);
+            diff -= days * (24 * 60 * 60 * 1000);
+
+            long hours = diff / (60 * 60 * 1000);
+            diff -= hours * (60 * 60 * 1000);
+
+            long minutes = diff / (60 * 1000);
+            diff -= minutes * (60 * 1000);
+
+            long seconds = diff / 1000;
+            if (days > 0) {
+                mProgressDays.setText(days + "");
+                mProgressDays.setProgress(days);
+
+            } else {
+//                mProgressDays.setText("0");
+//                mProgressDays.setProgress(0);
+            }
+            if (minutes > 0) {
+                mProgressMinutes.setText(minutes + "");
+                mProgressMinutes.setProgress(minutes);
+            } else {
+//                mProgressMinutes.setText("0");
+//                mProgressMinutes.setProgress(0);
+            }
+            if (hours > 0) {
+                mProgressHours.setText(hours + "");
+                mProgressMinutes.setProgress(hours);
+            } else {
+//                mProgressHours.setText("0");
+//                mProgressHours.setProgress(0);
+            }
+            if (seconds > 0) {
+                mProgresSeconds.setText(seconds + "");
+                mProgressMinutes.setProgress(seconds);
+            } else {
+//                mProgresSeconds.setText("0");
+//                mProgresSeconds.setProgress(0);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -125,10 +263,11 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     }
 
-    private void getDefaultTournamenetOfLoggedInUser() {
+
+    private void getLoggedInUserFavouriteTournamentList() {
 
         Utility.startProgress(mContext);
-        String url = ApiConstants.GET_LOGGEDIN_USER_DEFAULT_TOURNAMENT;
+        String url = ApiConstants.GET_USER_FAVOURITE_LIST;
         final JSONObject requestJson = new JSONObject();
         try {
             requestJson.put("user_id", Utility.getUserId(mContext));
@@ -146,9 +285,14 @@ public class HomeActivity extends BaseAppCompactActivity {
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
                     try {
-                        AppLogger.LogE(TAG, "Get Logged in user default tournamenet id " + response.toString());
+                        AppLogger.LogE(TAG, "Get Logged in user favourite tournamenet list " + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                TournamentModel mTournamentList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
+                                if (mTournamentList != null && mTournamentList.length > 0) {
+                                    setTournamnetSpinnerAdapter(mTournamentList);
+                                }
                             }
                         }
 
@@ -171,6 +315,24 @@ public class HomeActivity extends BaseAppCompactActivity {
             });
             mQueue.add(jsonRequest);
         }
+    }
+
+    private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
+
+        List<TournamentModel> list = new ArrayList<>();
+        list.addAll(Arrays.asList(mTournamentList));
+        int selectedTournamentPos = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (!Utility.isNullOrEmpty(list.get(i).getIs_default()) && list.get(i).getIs_default().equalsIgnoreCase("1")) {
+                selectedTournamentPos = i;
+                break;
+            }
+        }
+        this.mTournamentList = list;
+        TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
+                R.layout.row_spinner_item, R.id.title, list);
+        sp_tournament.setAdapter(adapter);
+        sp_tournament.setSelection(selectedTournamentPos);
     }
 }
 

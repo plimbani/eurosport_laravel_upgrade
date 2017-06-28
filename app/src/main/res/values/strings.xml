@@ -61,6 +61,9 @@
     <string name="hours">Hours</string>
     <string name="minutes">Minutes</string>
     <string name="seconds">Seconds</string>
+    <string name="CLUBS">CLUBS</string>
+    <string name="AGE">AGE</string>
+    <string name="GROUPS">GROUPS</string>
     <!--Volley-->
     <string name="no_internet_connection">Connect to internet to get media content.</string>
     <string name="timeout_error_message">Server timeout.</string>
@@ -71,4 +74,12 @@
     <string name="no_internet" translatable="false">No internet</string>
     <string name="parsing_failed" translatable="false">Parsing Failure</string>
     <string name="auth_failed" translatable="false">Authentication Failure</string>
+
+
+    <string-array name="clubs_tabs">
+        <item>@string/CLUBS</item>
+        <item>@string/AGE</item>
+        <item>@string/GROUPS</item>
+    </string-array>
+
 </resources>

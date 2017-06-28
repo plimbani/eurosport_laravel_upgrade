@@ -33,11 +33,12 @@ public class ClubsActivity extends BaseAppCompactActivity implements ClubsListFr
     public void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mSectionsPagerAdapter = new ClubSectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new ClubSectionsPagerAdapter(mContext,getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
+        getSupportActionBar().setTitle(getString(R.string.clubs).toUpperCase());
+
         setListener();
-        startActivity(new Intent(mContext, TeamActivity.class));
     }
 
     @Override

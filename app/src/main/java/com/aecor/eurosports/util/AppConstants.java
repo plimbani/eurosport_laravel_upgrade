@@ -20,4 +20,6 @@ public class AppConstants {
     public static final String PREF_PASSWORD = "password";
     public static final String PREF_TOKEN = "token";
     public static final String PREF_PROFILE = "profile";
+    public static final String ARG_SECTION_NAME = "tab_name";
+
 }
