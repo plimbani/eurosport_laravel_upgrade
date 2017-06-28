@@ -8,6 +8,7 @@ public class TournamentModel {
 
     private String id;
     private String name;
+    private String is_default;
     private String website;
     private String facebook;
     private String twitter;
@@ -40,6 +41,14 @@ public class TournamentModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getIs_default() {
+        return is_default;
+    }
+
+    public void setIs_default(String is_default) {
+        this.is_default = is_default;
     }
 
     public String getWebsite() {
