@@ -54,7 +54,12 @@
             android:name=".activity.ImageOptionDialogActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".activity.NotificationAndSoundActivity" />
-        <activity android:name=".activity.TeamActivity" android:label="TEAM" />
+        <activity
+            android:name=".activity.TeamActivity"
+            android:label="TEAM" />
+        <activity
+            android:name=".activity.AgeCategoriesActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>

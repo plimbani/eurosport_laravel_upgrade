@@ -68,7 +68,6 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
     private AppPreference mAppPref;
     private Context mContext;
     private int tournamet_id=0;
-    private int user_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +79,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
 
     @OnClick(R.id.btn_update)
     protected void onUpdateButtonClicked() {
+        String user_id = mAppPref.getString(AppConstants.PREF_USER_ID);
         Utility.startProgress(mContext);
         String url = ApiConstants.UPDATE_PROFILE + user_id;
         final JSONObject requestJson = new JSONObject();
@@ -147,7 +147,6 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
         input_first_name.setText(profileModel.getFirst_name());
         tournamet_id = profileModel.getTournament_id();
         input_last_name.setText(profileModel.getSur_name());
-        user_id = profileModel.getUser_id();
     }
 
     protected void setListener() {

@@ -16,7 +16,9 @@ import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.ApiConstants;
+import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
+import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,6 +46,7 @@ public class FavouriteListAdapter extends BaseAdapter {
     private ArrayList<Integer> mFavList;
     private Context mContext;
     private List<TournamentModel> mTournamentList;
+    private AppPreference mPreference;
 
     public FavouriteListAdapter(Activity context, List<TournamentModel> list) {
         mContext = context;
@@ -51,6 +54,7 @@ public class FavouriteListAdapter extends BaseAdapter {
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mFavList = new ArrayList<>();
+        mPreference = AppPreference.getInstance(mContext);
     }
 
     @Override
@@ -117,16 +121,128 @@ public class FavouriteListAdapter extends BaseAdapter {
                 }
             }
         });
+
+        holder.default_imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.default_imageview.getDrawable().getConstantState().equals
+                        (mContext.getResources().getDrawable(R.drawable.default_tournament).getConstantState())) {
+                    holder.default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.selected_default_tournament));
+                    mPreference.setInt(AppConstants.PREF_TOURNAMENT_ID, position);
+                    setDefaultTournament(mTournamentList.get(position).getId());
+                }
+                else
+                    holder.default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.default_tournament));
+            }
+        });
+
         return rowview;
     }
 
-    private void makeTournamenetFavourite(String tournamenetId) {
+    private void setDefaultTournament(String tournamentId) {
+        Utility.startProgress(mContext);
+        String url = ApiConstants.GET_USER_DEFAULT_FAVOURITE_LIST;
+        final JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("user_id", Utility.getUserId(mContext));
+            requestJson.put("tournament_id", tournamentId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (Utility.isInternetAvailable(mContext)) {
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+            AppLogger.LogE(TAG, "*** SET DEFAULT TOURNAMENT REQUEST ***" + requestJson.toString());
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "*** SET DEFAULT TOURNAMENT RESPONSE ***" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
+                                String messgae = response.getString("message");
+                                Utility.showToast(mContext, messgae);
+                            } else {
+                                Utility.showToast(mContext, mContext.getResources().getString(R.string.default_tournament));
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            mQueue.add(jsonRequest);
+        }
+    }
+
+    private void makeTournamenetFavourite(String tournamenetId) {
+        Utility.startProgress(mContext);
+        String url = ApiConstants.SET_TOURNAMENT_AS_FAVOURITE;
+        final JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("user_id", Utility.getUserId(mContext));
+            requestJson.put("tournament_id", tournamenetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (Utility.isInternetAvailable(mContext)) {
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "Set Tournament as Favourite" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            mQueue.add(jsonRequest);
+        }
+    }
+
+    private void removeTournamenetFromFavourite(String tournamenetId) {
         Utility.startProgress(mContext);
         String url = ApiConstants.REMOVE_TOURNAMENT_FROM_FAVOURITE;
         final JSONObject requestJson = new JSONObject();
         try {
-            requestJson.put("user_id", "5");
+            requestJson.put("user_id", Utility.getUserId(mContext));
             requestJson.put("tournament_id", tournamenetId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,54 +279,7 @@ public class FavouriteListAdapter extends BaseAdapter {
                     }
 
                 }
-            });
-            mQueue.add(jsonRequest);
-        }
-    }
-
-    private void removeTournamenetFromFavourite(String tournamenetId) {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.SET_TOURNAMENT_AS_FAVOURITE;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", "5");
-            requestJson.put("tournament_id", tournamenetId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (Utility.isInternetAvailable(mContext)) {
-            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
-                    .getRequestQueue();
-
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
-                    .POST, url,
-                    requestJson, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Utility.StopProgress();
-                    try {
-                        AppLogger.LogE(TAG, "Set Tournamenet as Favourite" + response.toString());
-                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    try {
-                        Utility.StopProgress();
-                        Utility.parseVolleyError(mContext, error);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            });
+            }, mPreference.getString(AppConstants.PREF_TOKEN));
             mQueue.add(jsonRequest);
         }
     }
@@ -224,11 +293,11 @@ public class FavouriteListAdapter extends BaseAdapter {
         protected TextView favourite_tournament;
         @BindView(R.id.favourite_date)
         protected TextView favourite_date;
+        @BindView(R.id.default_imageview)
+        protected ImageView default_imageview;
 
         public ViewHolder(View rowView) {
             ButterKnife.bind(this, rowView);
         }
     }
-
-
 }

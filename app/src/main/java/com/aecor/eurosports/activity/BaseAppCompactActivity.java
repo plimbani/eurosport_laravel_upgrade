@@ -92,7 +92,6 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
             this.setTaskDescription(taskDescription);
         }
 
-
         resourceIdAgeCategories = R.drawable.age_categories;
         resourceIdAgeCategoriesSelected = R.drawable.age_categories_red;
         resourceIdClubs = R.drawable.clubs;
@@ -196,9 +195,9 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
 
                 case R.id.lv_age_categories:
                     selectedTabName = AppConstants.SCREEN_CONSTANT_AGE_CATEGORIES;
-                   /* Intent mAgeCategories = new Intent(mContext, AgeCategoriesActivity.class);
+                    Intent mAgeCategories = new Intent(mContext, AgeCategoriesActivity.class);
                     mAgeCategories.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(mAgeCategories);*/
+                    startActivity(mAgeCategories);
                     changeBottomTabAccordingToFlag();
                     break;
 
