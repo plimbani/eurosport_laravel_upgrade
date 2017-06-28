@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-md-12 mb-3">
 
-                <button class="btn btn-primary btn-md js-pitch-planner-bt horizontal"  @click="setView('timelineDay')">Horizontal</button>
-                <button class="btn btn-secondary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">Vertical</button>
+                <button class="btn btn-secondary btn-md js-pitch-planner-bt horizontal"  @click="setView('timelineDay')">Horizontal</button>
+                <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">Vertical</button>
             </div>
         </div>
 

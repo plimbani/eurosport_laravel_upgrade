@@ -10,7 +10,7 @@
           <h6 class="mb-0"><strong>
           {{competition.group_name}}</strong></h6>
 
-          <div v-if="totalMatch == 0">
+          <div v-if="competition.matchCount == 0">
               {{$lang.pitch_planner_no_games}}
           </div>
           <div class="text-center mt-3"
@@ -58,6 +58,7 @@ export default {
         let cname = competition.group_name
         let comp = []
         let that = this
+        
           _.find(allMatches, function (match) {
             let round = ''
             let matchTime = 0
@@ -79,7 +80,9 @@ export default {
                 matchCount = matchCount + 1
               }
             }
+            competition.matchCount = matchTime
           })
+          
           competition.matchList = comp
         })
         this.matchCompetition = this.competationList
