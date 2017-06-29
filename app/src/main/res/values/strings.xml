@@ -65,6 +65,7 @@
     <string name="CLUBS">CLUBS</string>
     <string name="AGE">AGE</string>
     <string name="GROUPS">GROUPS</string>
+    <string name="progres_text_0">0</string>
     <!--Volley-->
     <string name="no_internet_connection">Connect to internet to get media content.</string>
     <string name="timeout_error_message">Server timeout.</string>

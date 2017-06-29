@@ -50,11 +50,13 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
         getAgeCategories();
+        setListener();
     }
 
     @Override
     protected void setListener() {
-
+        GenericTextMatcher mTextWatcher = new GenericTextMatcher();
+        et_age_search.addTextChangedListener(mTextWatcher);
     }
 
     @Override
@@ -75,7 +77,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             try {
-                requestJson.put(AppConstants.PREF_TOURNAMENT_ID, mPreference.getInt(AppConstants.PREF_TOURNAMENT_ID) );
+                requestJson.put(AppConstants.PREF_TOURNAMENT_ID, mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -113,7 +115,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
                     }
 
                 }
-            } , mPreference.getString(AppConstants.PREF_TOKEN));
+            }, mPreference.getString(AppConstants.PREF_TOKEN));
             mQueue.add(jsonRequest);
         }
     }

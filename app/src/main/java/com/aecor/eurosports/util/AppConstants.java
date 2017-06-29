@@ -23,4 +23,5 @@ public class AppConstants {
     public static final String PREF_USER_ID = "user_id";
     public static final String PREF_TOURNAMENT_ID = "tournament_id";
     public static final String ARG_SECTION_NAME = "tab_name";
+    public static final String PREF_SESSION_TOURNAMENT_ID = "session_tournament_id";
 }
