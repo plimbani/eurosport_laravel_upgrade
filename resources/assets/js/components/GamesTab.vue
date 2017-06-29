@@ -52,12 +52,12 @@ export default {
       let allMatches = this.matches
       let matchCount = 0
       if(this.competationList.length > 0 && this.matches.length > 0){
-
+       
         _.forEach(this.competationList, function(competition) {
         let cname = competition.group_name
         let comp = []
         let that = this
-        
+        matchCount = 0
           _.find(allMatches, function (match) {
             let round = ''
             let matchTime = 0
@@ -79,9 +79,9 @@ export default {
                 matchCount = matchCount + 1
               }
             }
-            competition.matchCount = matchTime
+            competition.matchCount = matchCount
           })
-          
+          // console.log(competition)
           competition.matchList = comp
         })
         this.matchCompetition = this.competationList
@@ -89,7 +89,6 @@ export default {
         this.$store.dispatch('SetTotalMatch', this.totalMatch)
         return this.competationList
       }else{
-        // console.log('msg',this.competationList,this.matches)
         this.totalMatch = matchCount
         this.$store.dispatch('SetTotalMatch', this.totalMatch)
         return this.competationList
