@@ -135,15 +135,12 @@ public class SignInActivity extends BaseActivity {
                     try {
                         AppLogger.LogE(TAG, "***** Sign in response *****" + response.toString());
 
-                        if(response.getString("authenticated").equalsIgnoreCase("true")) {
-                            ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(response.get("userData").toString(), ProfileModel.class);
-                            String profile = GsonConverter.getInstance().encodeToJsonString(profileModel);
-
-                            mAppSharedPref.setString(AppConstants.PREF_EMAIL, email_address.getText().toString());
-                            mAppSharedPref.setString(AppConstants.PREF_PASSWORD, sign_in_password.getText().toString());
+                        if (response.getString("authenticated").equalsIgnoreCase("true")) {
                             ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(response.get("userData").toString(), ProfileModel.class);
                             String profile = GsonConverter.getInstance().encodeToJsonString(profileModel);
                             JSONObject jsonObject = new JSONObject(response.get("userData").toString());
+                            mAppSharedPref.setString(AppConstants.PREF_EMAIL, email_address.getText().toString());
+                            mAppSharedPref.setString(AppConstants.PREF_PASSWORD, sign_in_password.getText().toString());
                             int tournament_id = Integer.parseInt(jsonObject.getString("tournament_id").toString());
                             mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
                             mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id").toString());
@@ -152,8 +149,8 @@ public class SignInActivity extends BaseActivity {
                             finish();
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
-                            if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))){
-                                Utility.showToast(mContext,response.getString("message"));
+                            if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
+                                Utility.showToast(mContext, response.getString("message"));
                             }
                         }
                     } catch (Exception e) {
@@ -200,7 +197,7 @@ public class SignInActivity extends BaseActivity {
                     try {
                         AppLogger.LogE(TAG, "***** Sign in response *****" + response.toString());
                         String token = response.get(AppConstants.PREF_TOKEN).toString();
-                        mAppSharedPref.setString(AppConstants.PREF_TOKEN,token);
+                        mAppSharedPref.setString(AppConstants.PREF_TOKEN, token);
                         validate_user();
                     } catch (Exception e) {
                         e.printStackTrace();

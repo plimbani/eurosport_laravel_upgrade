@@ -23,6 +23,7 @@ import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
+import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -72,12 +73,14 @@ public class HomeActivity extends BaseAppCompactActivity {
     protected DonutProgress mProgressMinutes;
     @BindView(R.id.progress_seconds)
     protected DonutProgress mProgresSeconds;
-
+    private AppPreference mPreference;
     private Timer timer = new Timer();
     private TimerTask timerTask;
 
     @Override
     public void initView() {
+        mPreference = AppPreference.getInstance(mContext);
+        initProgressView();
         getLoggedInUserFavouriteTournamentList();
         setListener();
     }
@@ -88,6 +91,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
+                    mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getId());
                     tv_tournamentName.setText(mTournamentList.get(position).getName());
                 }
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getStart_date()) && !Utility.isNullOrEmpty(mTournamentList.get(position).getEnd_date())) {
@@ -96,6 +100,7 @@ public class HomeActivity extends BaseAppCompactActivity {
                         timer.cancel();
                         timer = new Timer();
                     }
+                    initProgressView();
                     startTimeUpdateHandler(mTournamentList.get(position).getStart_date());
                 }
             }
@@ -107,6 +112,19 @@ public class HomeActivity extends BaseAppCompactActivity {
         });
     }
 
+    private void initProgressView() {
+
+
+        mProgresSeconds.setProgress(60);
+        mProgressHours.setProgress(24);
+        mProgressMinutes.setProgress(60);
+        mProgressDays.setProgress(30);
+
+        mProgresSeconds.setText(getString(R.string.progres_text_0));
+        mProgressHours.setText(getString(R.string.progres_text_0));
+        mProgressMinutes.setText(getString(R.string.progres_text_0));
+        mProgressDays.setText(getString(R.string.progres_text_0));
+    }
 
     private void startTimeUpdateHandler(final String startDate) {
         timerTask = new TimerTask() {
@@ -121,7 +139,7 @@ public class HomeActivity extends BaseAppCompactActivity {
 
             }
         };
-        timer.schedule(timerTask, 0, 10000);
+        timer.schedule(timerTask, 0, 1000);
 
 
     }
@@ -155,35 +173,22 @@ public class HomeActivity extends BaseAppCompactActivity {
             diff -= minutes * (60 * 1000);
 
             long seconds = diff / 1000;
+
             if (days > 0) {
                 mProgressDays.setText(days + "");
                 mProgressDays.setProgress(days);
-
-            } else {
-//                mProgressDays.setText("0");
-//                mProgressDays.setProgress(0);
             }
             if (minutes > 0) {
                 mProgressMinutes.setText(minutes + "");
                 mProgressMinutes.setProgress(minutes);
-            } else {
-//                mProgressMinutes.setText("0");
-//                mProgressMinutes.setProgress(0);
             }
             if (hours > 0) {
                 mProgressHours.setText(hours + "");
-                mProgressMinutes.setProgress(hours);
-            } else {
-//                mProgressHours.setText("0");
-//                mProgressHours.setProgress(0);
+                mProgressHours.setProgress(hours);
             }
             if (seconds > 0) {
                 mProgresSeconds.setText(seconds + "");
-                mProgressMinutes.setProgress(seconds);
-            } else {
-//                mProgresSeconds.setText("0");
-//                mProgresSeconds.setProgress(0);
-
+                mProgresSeconds.setProgress(seconds);
             }
 
         } catch (Exception e) {

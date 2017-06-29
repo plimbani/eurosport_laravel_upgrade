@@ -33,8 +33,8 @@ public class AgeCategoriesAdapter extends BaseAdapter implements Filterable {
     private final String TAG = AgeCategoriesAdapter.class.getSimpleName();
     private LayoutInflater inflater;
     private Context mContext;
-    private ArrayList<Integer> mAgeList;
     private List<AgeCategoriesModel> mAgeCategoriesList;
+    private List<AgeCategoriesModel> mOriginalList;
     private AppPreference mPreference;
     private AgeFilter ageFilter;
 
@@ -42,8 +42,8 @@ public class AgeCategoriesAdapter extends BaseAdapter implements Filterable {
         mContext = context;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mAgeList = new ArrayList<>();
         this.mAgeCategoriesList = list;
+        this.mOriginalList = list;
         mPreference = AppPreference.getInstance(mContext);
     }
 
@@ -78,7 +78,7 @@ public class AgeCategoriesAdapter extends BaseAdapter implements Filterable {
             holder = (ViewHolder) rowview.getTag();
         }
         AgeCategoriesModel rowItem = getItem(position);
-        if(!Utility.isNullOrEmpty(rowItem.getCategory_age())) {
+        if (!Utility.isNullOrEmpty(rowItem.getCategory_age())) {
             holder.individual_list_item.setText(rowItem.getCategory_age());
         }
 
@@ -110,14 +110,13 @@ public class AgeCategoriesAdapter extends BaseAdapter implements Filterable {
             // We implement here the filter logic
             if (constraint == null || constraint.length() == 0) {
                 // No filter implemented we return all the list
-                results.values = mAgeCategoriesList;
+                results.values = mOriginalList;
                 results.count = mAgeCategoriesList.size();
-            }
-            else {
+            } else {
                 // We perform filtering operation
                 List<AgeCategoriesModel> nAgeList = new ArrayList<AgeCategoriesModel>();
-                for (AgeCategoriesModel p : mAgeCategoriesList) {
-                    if (p.getCategory_age().toUpperCase().contains(constraint.toString().toUpperCase()))
+                for (AgeCategoriesModel p : mOriginalList) {
+                    if (p.getCategory_age().toUpperCase().contains(constraint.toString().toUpperCase()) || p.getGroup_name().toUpperCase().contains(constraint.toString().toUpperCase()))
                         nAgeList.add(p);
                 }
                 results.values = nAgeList;
@@ -129,12 +128,12 @@ public class AgeCategoriesAdapter extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             // Now we have to inform the adapter about the new list filtered
-            if (results.count == 0)
-                notifyDataSetInvalidated();
-            else {
+//            if (results.count == 0) {
+//                notifyDataSetInvalidated();
+//            } else {
                 mAgeCategoriesList = (List<AgeCategoriesModel>) results.values;
                 notifyDataSetChanged();
-            }
+//            }
         }
     }
 }
