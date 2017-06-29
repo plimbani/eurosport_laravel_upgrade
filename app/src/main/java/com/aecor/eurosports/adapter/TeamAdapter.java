@@ -1,0 +1,94 @@
+package com.aecor.eurosports.adapter;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.aecor.eurosports.R;
+import com.aecor.eurosports.model.TeamDetailModel;
+import com.aecor.eurosports.util.Utility;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * Created by system-local on 29-06-2017.
+ */
+
+public class TeamAdapter extends BaseAdapter {
+    private LayoutInflater inflater;
+    private Context mContext;
+    private List<TeamDetailModel> list;
+
+    public TeamAdapter(Context context, List<TeamDetailModel> list) {
+        mContext = context;
+        inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.list = list;
+    }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public TeamDetailModel getItem(int position) {
+        return list.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
+        View rowview = convertView;
+        if (rowview == null) {
+            rowview = inflater.inflate(R.layout.layout_listview_textview, null);
+            holder = new ViewHolder(rowview);
+            rowview.setTag(holder);
+        } else {
+            holder = (ViewHolder) rowview.getTag();
+        }
+        TeamDetailModel rowItem = getItem(position);
+        if (!Utility.isNullOrEmpty(rowItem.getName())) {
+            holder.individual_list_item.setText(rowItem.getName());
+        }
+        if (!Utility.isNullOrEmpty(rowItem.getCountryLogo())) {
+            Picasso.with(mContext).load(rowItem.getCountryLogo()).into(holder.iv_flag);
+            holder.iv_flag.setVisibility(View.VISIBLE);
+        }else{
+            holder.iv_flag.setVisibility(View.INVISIBLE);
+        }
+
+
+        return rowview;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.individual_list_item)
+        protected TextView individual_list_item;
+        @BindView(R.id.ll_list_parent)
+        protected LinearLayout ll_list_parent;
+        @BindView(R.id.iv_flag)
+        protected ImageView iv_flag;
+
+        public ViewHolder(View rowView) {
+            super(rowView);
+            ButterKnife.bind(this, rowView);
+        }
+    }
+
+}

@@ -2,21 +2,22 @@ package com.aecor.eurosports.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.AgeCategoriesModel;
+import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +26,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by karan on 6/28/2017.
+ * Created by system-local on 29-06-2017.
  */
 
-public class AgeCategoriesAdapter extends BaseAdapter implements Filterable {
-
-    private final String TAG = AgeCategoriesAdapter.class.getSimpleName();
+public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> implements Filterable {
+    private final String TAG = AgeAdapter.class.getSimpleName();
     private LayoutInflater inflater;
     private Context mContext;
     private List<AgeCategoriesModel> mAgeCategoriesList;
@@ -38,7 +38,7 @@ public class AgeCategoriesAdapter extends BaseAdapter implements Filterable {
     private AppPreference mPreference;
     private AgeFilter ageFilter;
 
-    public AgeCategoriesAdapter(Activity context, List<AgeCategoriesModel> list) {
+    public AgeAdapter(Activity context, List<AgeCategoriesModel> list) {
         mContext = context;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -47,42 +47,34 @@ public class AgeCategoriesAdapter extends BaseAdapter implements Filterable {
         mPreference = AppPreference.getInstance(mContext);
     }
 
+
     @Override
-    public int getCount() {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.layout_listview_textview, parent, false);
+
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final AgeCategoriesModel ageModel = mAgeCategoriesList.get(position);
+        if (!Utility.isNullOrEmpty(ageModel.getCategory_age()) && !Utility.isNullOrEmpty(ageModel.getGroup_name())) {
+            holder.individual_list_item.setText(ageModel.getGroup_name() + " (" + ageModel.getCategory_age() + ")");
+        }
+        holder.ll_list_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
+                mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, ageModel.getId()+"");
+                mContext.startActivity(mTeamListIntent);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
         return mAgeCategoriesList.size();
-    }
-
-    @Override
-    public AgeCategoriesModel getItem(int position) {
-        return mAgeCategoriesList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return rowView(convertView, position);
-    }
-
-    private View rowView(View convertView, final int position) {
-        final ViewHolder holder;
-        View rowview = convertView;
-        if (rowview == null) {
-            rowview = inflater.inflate(R.layout.layout_listview_textview, null);
-            holder = new ViewHolder(rowview);
-            rowview.setTag(holder);
-        } else {
-            holder = (ViewHolder) rowview.getTag();
-        }
-        AgeCategoriesModel rowItem = getItem(position);
-        if (!Utility.isNullOrEmpty(rowItem.getCategory_age())) {
-            holder.individual_list_item.setText(rowItem.getCategory_age());
-        }
-
-        return rowview;
     }
 
     @Override
@@ -93,14 +85,17 @@ public class AgeCategoriesAdapter extends BaseAdapter implements Filterable {
         return ageFilter;
     }
 
-    protected class ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.individual_list_item)
         protected TextView individual_list_item;
+        @BindView(R.id.ll_list_parent)
+        protected LinearLayout ll_list_parent;
 
         public ViewHolder(View rowView) {
+            super(rowView);
             ButterKnife.bind(this, rowView);
-        }
 
+        }
     }
 
     private class AgeFilter extends Filter {
@@ -131,8 +126,8 @@ public class AgeCategoriesAdapter extends BaseAdapter implements Filterable {
 //            if (results.count == 0) {
 //                notifyDataSetInvalidated();
 //            } else {
-                mAgeCategoriesList = (List<AgeCategoriesModel>) results.values;
-                notifyDataSetChanged();
+            mAgeCategoriesList = (List<AgeCategoriesModel>) results.values;
+            notifyDataSetChanged();
 //            }
         }
     }

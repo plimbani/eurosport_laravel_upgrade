@@ -60,6 +60,7 @@
         <activity
             android:name=".activity.AgeCategoriesActivity"
             android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".activity.TeamListingActivity" />
     </application>
 
 </manifest>
