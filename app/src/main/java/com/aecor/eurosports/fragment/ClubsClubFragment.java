@@ -1,21 +1,29 @@
-package com.aecor.eurosports.activity;
+package com.aecor.eurosports.fragment;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.AgeCategoriesActivity;
 import com.aecor.eurosports.adapter.AgeAdapter;
+import com.aecor.eurosports.adapter.ClubAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.AgeCategoriesModel;
+import com.aecor.eurosports.model.ClubModel;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -34,46 +42,51 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class AgeCategoriesActivity extends BaseAppCompactActivity {
+/**
+ * Created by system-local on 29-06-2017.
+ */
 
+public class ClubsClubFragment extends Fragment {
     private final String TAG = AgeCategoriesActivity.class.getSimpleName();
     private Context mContext;
     @BindView(R.id.et_age_search)
     protected EditText et_age_search;
     @BindView(R.id.age_categories_list)
-    protected RecyclerView rv_ageList;
+    protected RecyclerView rv_clubList;
     private AppPreference mPreference;
-    private AgeAdapter adapter;
+    private ClubAdapter adapter;
 
-    @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        rv_ageList.setLayoutManager(mLayoutManager);
-        rv_ageList.setItemAnimator(new DefaultItemAnimator());
-        getAgeCategories();
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+        rv_clubList.setLayoutManager(mLayoutManager);
+        rv_clubList.setItemAnimator(new DefaultItemAnimator());
+        getClubList();
         setListener();
     }
 
-    @Override
     protected void setListener() {
-        GenericTextMatcher mTextWatcher = new GenericTextMatcher();
+       GenericTextMatcher mTextWatcher = new GenericTextMatcher();
         et_age_search.addTextChangedListener(mTextWatcher);
+
     }
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        BaseAppCompactActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_AGE_CATEGORIES;
-        setContentView(R.layout.activity_age_categories);
-        super.onCreate(savedInstanceState);
-        mContext = this;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.club_content, container, false);
+        ButterKnife.bind(this, view);
+        mContext = getActivity();
         initView();
+        return view;
     }
 
-    private void getAgeCategories() {
+    private void getClubList() {
         Utility.startProgress(mContext);
-        String url = ApiConstants.AGE_CATEGORIES;
+        String url = ApiConstants.TOURNAMENT_CLUBS;
         final JSONObject requestJson = new JSONObject();
 
         if (Utility.isInternetAvailable(mContext)) {
@@ -92,12 +105,12 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
                     try {
-                        AppLogger.LogE(TAG, "Get Tournament List response" + response.toString());
+                        AppLogger.LogE(TAG, "Get Tournament Club  List response" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-                                AgeCategoriesModel mAgeList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), AgeCategoriesModel[].class);
-                                if (mAgeList != null && mAgeList.length > 0) {
-                                    setAgeAdapter(mAgeList);
+                                ClubModel mClubList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), ClubModel[].class);
+                                if (mClubList != null && mClubList.length > 0) {
+                                    setClubAdapter(mClubList);
                                 }
                             }
                         }
@@ -123,11 +136,11 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
         }
     }
 
-    private void setAgeAdapter(AgeCategoriesModel mTournamentList[]) {
-        List<AgeCategoriesModel> list = new ArrayList<>();
-        list.addAll(Arrays.asList(mTournamentList));
-        adapter = new AgeAdapter((Activity) mContext, list);
-        rv_ageList.setAdapter(adapter);
+    private void setClubAdapter(ClubModel mClubList[]) {
+        List<ClubModel> list = new ArrayList<>();
+        list.addAll(Arrays.asList(mClubList));
+        adapter = new ClubAdapter((Activity) mContext, list);
+        rv_clubList.setAdapter(adapter);
     }
 
     private class GenericTextMatcher implements TextWatcher {
@@ -138,7 +151,9 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            adapter.getFilter().filter(s.toString());
+            if (adapter != null && adapter.getFilter() != null) {
+                adapter.getFilter().filter(s.toString());
+            }
         }
 
         @Override

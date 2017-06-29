@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.aecor.eurosports.R;
-import com.aecor.eurosports.fragment.ClubsListFragment;
-import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.fragment.ClubsAgeFragment;
+import com.aecor.eurosports.fragment.ClubsClubFragment;
+import com.aecor.eurosports.fragment.ClubsGroupFragment;
+ import com.aecor.eurosports.util.AppConstants;
 
 /**
  * Created by karan on 6/19/2017.
@@ -25,11 +27,19 @@ public class ClubSectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        ClubsListFragment fragment = new ClubsListFragment();
-        Bundle args = new Bundle();
-        args.putInt(AppConstants.ARG_SECTION_NAME, position);
-        fragment.setArguments(args);
-        return fragment;
+        Fragment mSelectedFragment = null;
+        switch (position) {
+            case 0:
+                mSelectedFragment = new ClubsClubFragment();
+                break;
+            case 1:
+                mSelectedFragment = new ClubsAgeFragment();
+                break;
+            case 2:
+                mSelectedFragment = new ClubsGroupFragment();
+                break;
+        }
+        return mSelectedFragment;
     }
 
     @Override

@@ -24,4 +24,8 @@ public class AppConstants {
     public static final String PREF_TOURNAMENT_ID = "tournament_id";
     public static final String ARG_SECTION_NAME = "tab_name";
     public static final String PREF_SESSION_TOURNAMENT_ID = "session_tournament_id";
+    public static final String ARG_CLUB_ID = "club_id";
+    public static final String ARG_GROUP_ID = "group_id";
+    public static final String ARG_AGE_GROUP_ID = "age_id";
+
 }

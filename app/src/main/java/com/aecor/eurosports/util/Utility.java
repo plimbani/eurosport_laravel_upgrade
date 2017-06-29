@@ -14,7 +14,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.aecor.eurosports.R;
@@ -187,6 +189,7 @@ public class Utility {
                 = AppPreference.getInstance(mContext);
         return mPreference.getString(AppConstants.PREF_USER_ID);
     }
+
 
     public static String getFormattedTournamentDate(String startDateStr, String endDateStr) {
         String torunamentFormatedDate = "";

@@ -1,7 +1,6 @@
 package com.aecor.eurosports.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -12,14 +11,12 @@ import android.view.MenuItem;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.ClubSectionsPagerAdapter;
-import com.aecor.eurosports.fragment.ClubsListFragment;
 import com.aecor.eurosports.util.AppConstants;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
-public class ClubsActivity extends BaseAppCompactActivity implements ClubsListFragment.OnFragmentInteractionListener {
+public class ClubsActivity extends BaseAppCompactActivity {
 
 
     private ClubSectionsPagerAdapter mSectionsPagerAdapter;
@@ -33,10 +30,11 @@ public class ClubsActivity extends BaseAppCompactActivity implements ClubsListFr
     public void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mSectionsPagerAdapter = new ClubSectionsPagerAdapter(mContext,getSupportFragmentManager());
+        mSectionsPagerAdapter = new ClubSectionsPagerAdapter(mContext, getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
         getSupportActionBar().setTitle(getString(R.string.clubs).toUpperCase());
+        mViewPager.setOffscreenPageLimit(1);
 
         setListener();
     }
@@ -67,8 +65,4 @@ public class ClubsActivity extends BaseAppCompactActivity implements ClubsListFr
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }

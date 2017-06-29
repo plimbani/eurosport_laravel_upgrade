@@ -1,16 +1,24 @@
-package com.aecor.eurosports.activity;
+package com.aecor.eurosports.fragment;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.AgeCategoriesActivity;
 import com.aecor.eurosports.adapter.AgeAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -34,41 +42,47 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class AgeCategoriesActivity extends BaseAppCompactActivity {
+/**
+ * Created by system-local on 29-06-2017.
+ */
+
+public class ClubsAgeFragment extends Fragment {
 
     private final String TAG = AgeCategoriesActivity.class.getSimpleName();
     private Context mContext;
     @BindView(R.id.et_age_search)
     protected EditText et_age_search;
     @BindView(R.id.age_categories_list)
-    protected RecyclerView rv_ageList;
+    protected RecyclerView age_list;
     private AppPreference mPreference;
     private AgeAdapter adapter;
 
-    @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        rv_ageList.setLayoutManager(mLayoutManager);
-        rv_ageList.setItemAnimator(new DefaultItemAnimator());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+        age_list.setLayoutManager(mLayoutManager);
+        age_list.setItemAnimator(new DefaultItemAnimator());
         getAgeCategories();
         setListener();
     }
 
-    @Override
     protected void setListener() {
         GenericTextMatcher mTextWatcher = new GenericTextMatcher();
         et_age_search.addTextChangedListener(mTextWatcher);
+
     }
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        BaseAppCompactActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_AGE_CATEGORIES;
-        setContentView(R.layout.activity_age_categories);
-        super.onCreate(savedInstanceState);
-        mContext = this;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.club_content, container, false);
+        ButterKnife.bind(this, view);
+        mContext = getActivity();
         initView();
+        return view;
     }
 
     private void getAgeCategories() {
@@ -92,7 +106,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
                     try {
-                        AppLogger.LogE(TAG, "Get Tournament List response" + response.toString());
+                        AppLogger.LogE(TAG, "Get Tournament Age List response" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 AgeCategoriesModel mAgeList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), AgeCategoriesModel[].class);
@@ -127,7 +141,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
         List<AgeCategoriesModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
         adapter = new AgeAdapter((Activity) mContext, list);
-        rv_ageList.setAdapter(adapter);
+        age_list.setAdapter(adapter);
     }
 
     private class GenericTextMatcher implements TextWatcher {
@@ -138,7 +152,9 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            adapter.getFilter().filter(s.toString());
+            if (adapter != null && adapter.getFilter() != null) {
+                adapter.getFilter().filter(s.toString());
+            }
         }
 
         @Override

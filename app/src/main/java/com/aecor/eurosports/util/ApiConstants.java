@@ -19,5 +19,8 @@ public class ApiConstants {
     public static final String GET_USER_DEFAULT_FAVOURITE_LIST = BASE_URL + "users/setDefaultFavourite";
     public static final String GET_LOGGEDIN_USER_DEFAULT_TOURNAMENT = BASE_URL + "users/getLoginUserDefaultTournament";
     public static final String AGE_CATEGORIES = BASE_URL + "age_group/getCompetationFormat";
+    public static final String TOURNAMENT_GROUP = BASE_URL + "match/getDraws";
+    public static final String TOURNAMENT_CLUBS = BASE_URL + "tournaments/getTournamentClub";
+    public static final String GET_TEAM_LIST = BASE_URL + "teams/getTeamsList";
 }
     
