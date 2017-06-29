@@ -7,6 +7,7 @@
     <string name="favorites">Favourites</string>
     <string name="tournament">Tournament</string>
     <string name="clubs">Clubs</string>
+    <string name="team">TEAMS</string>
     <string name="age_categories">Age \ncategories</string>
     <string name="settings">Settings</string>
     <string name="title_activity_clubs">CLUBS</string>
@@ -65,6 +66,7 @@
     <string name="CLUBS">CLUBS</string>
     <string name="AGE">AGE</string>
     <string name="GROUPS">GROUPS</string>
+    <string name="progres_text_0">0</string>
     <!--Volley-->
     <string name="no_internet_connection">Connect to internet to get media content.</string>
     <string name="timeout_error_message">Server timeout.</string>
