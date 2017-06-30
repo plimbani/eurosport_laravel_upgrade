@@ -9,7 +9,7 @@
             <div class="col-sm-4">
               <div class="form-group">
                   <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
-                    <option value="">{{$lang.teams_select_age_category}}</option>
+                    <option value="">{{$lang.teams_select}}</option>
                     <option v-for="option in options"
                      v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
                   </select>
@@ -98,7 +98,7 @@
                           </optgroup>
                         </select>
                       </td>
-                      <td v-else></td>
+                      <td v-else>{{team.group_name}}</td>
                     </tr>
 
                 </tbody>
