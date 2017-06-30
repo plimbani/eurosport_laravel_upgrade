@@ -55,7 +55,7 @@ import _ from 'lodash'
             // this.getScheduledMatch()
             setTimeout(function(){
                 vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
-                vm.getUnavailablePitch()
+                // vm.getUnavailablePitch()
             },500)
             setTimeout(function(){
                 $('.fc-referee').each(function(referee){
@@ -445,7 +445,7 @@ import _ from 'lodash'
             },
             getUnavailablePitch() {
                 let vm1 =this
-                let tournamentData ={'tournamentId':this.tournamentId }
+                let tournamentData ={'tournamentId':this.tournamentId,'startDate': moment(this.stageDate).format('YYYY-MM-DD')}
                 Tournament.getUnavailablePitch(tournamentData).then(
                     (response) => {
                     _.forEach(response.data.data, (block) => {
@@ -461,6 +461,7 @@ import _ from 'lodash'
                                 'matchId': 'block_'+block.id
                             }
                         this.scheduledMatches.push(mData2)
+                        this.unavailableBlock.push(mData2)
                         });
                     },
                     (error) => {
