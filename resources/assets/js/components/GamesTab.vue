@@ -52,6 +52,7 @@ export default {
       let competitionGroup = this.competationList
       let allMatches = this.matches
       let matchCount = 0
+      let matchCountDisplay = 0
       if(this.competationList.length > 0 && this.matches.length > 0){
        
         _.forEach(this.competationList, function(competition) {
@@ -59,6 +60,7 @@ export default {
         let comp = []
         let that = this
         matchCount = 0
+        // matchCount = 0
           _.find(allMatches, function (match) {
             let round = ''
             let matchTime = 0
@@ -78,6 +80,7 @@ export default {
               comp.push(person)
               if(match.is_scheduled!=1){
                 matchCount = matchCount + 1
+                matchCountDisplay = matchCountDisplay + 1 
               }
             }
             competition.matchCount = matchCount
@@ -86,11 +89,11 @@ export default {
           competition.matchList = comp
         })
         this.matchCompetition = this.competationList
-        this.totalMatch = matchCount
+        this.totalMatch = matchCountDisplay
         this.$store.dispatch('SetTotalMatch', this.totalMatch)
         return this.competationList
       }else{
-        this.totalMatch = matchCount
+        this.totalMatch = matchCountDisplay
         this.$store.dispatch('SetTotalMatch', this.totalMatch)
         return this.competationList
       }
