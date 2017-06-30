@@ -365,6 +365,7 @@ module.exports = {
   summary_label_message: "Messages",
 
   summary_schedule_matches_time: "Time",
+  summary_schedule_date_time: "Date and time",
   summary_schedule_matches_draw: "Draw",
   summary_schedule_matches_team: "Team",
   summary_schedule_matches_score: "Score",
