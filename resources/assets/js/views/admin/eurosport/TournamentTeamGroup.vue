@@ -9,7 +9,7 @@
             <div class="col-sm-4">
               <div class="form-group">
                   <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
-                    <option value="">{{$lang.teams_select_age_category}}</option>
+                    <option value="">{{$lang.teams_select}}</option>
                     <option v-for="option in options"
                      v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
                   </select>
@@ -51,7 +51,7 @@
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
             <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button><span id="filename"></span>
-              <input type="file" name="fileUpload" @change="setFileName(this)"  id="fileUpload" style="display:none;" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" >
+              <input type="file" name="fileUpload" @change="setFileName(this)"  id="fileUpload" style="display:none;" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,text/csv,text/plain,application/csv,text/comma-separated-values,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt,text/tsv,text/csv,text/comma-separated-values" >
               <small class="form-text text-muted">Excel and CSV files only</small>
 
             </div>
@@ -98,7 +98,7 @@
                           </optgroup>
                         </select>
                       </td>
-                      <td v-else></td>
+                      <td v-else>{{team.group_name}}</td>
                     </tr>
 
                 </tbody>
