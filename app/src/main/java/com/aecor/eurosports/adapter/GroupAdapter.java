@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.GroupSummaryActivity;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.util.AppConstants;
@@ -65,9 +66,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         holder.ll_list_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
-                mTeamListIntent.putExtra(AppConstants.ARG_GROUP_ID, mGroupModel.getId());
-                mContext.startActivity(mTeamListIntent);
+                Intent mGroupSummary = new Intent(mContext, GroupSummaryActivity.class);
+                mGroupSummary.putExtra(AppConstants.ARG_GROUP_DETAIL, mGroupModel);
+                mContext.startActivity(mGroupSummary);
             }
         });
     }

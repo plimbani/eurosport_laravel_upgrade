@@ -61,6 +61,9 @@
             android:name=".activity.AgeCategoriesActivity"
             android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".activity.TeamListingActivity" />
+        <activity android:name=".activity.GroupSummaryActivity" />
+        <activity android:name=".activity.FullLeageTableActivity" android:screenOrientation="landscape" />
+        <activity android:name=".activity.MatchInformationActivity" />
     </application>
 
 </manifest>

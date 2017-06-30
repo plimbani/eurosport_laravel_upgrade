@@ -4,7 +4,7 @@ package com.aecor.eurosports.util;
  * Created by asoni on 06-06-2016.
  */
 public class ApiConstants {
-    public static final String BASE_URL = "http://kamal-eurosport.dev.aecortech.com/api/";
+    public static final String BASE_URL = "http://192.168.0.6:8180/api/";
     public static final String GET_TOURNAMENTS = BASE_URL + "tournaments";
     public static final String SIGN_IN = BASE_URL + "auth/login";
     public static final String REGISTER = BASE_URL + "user/create";
@@ -22,5 +22,7 @@ public class ApiConstants {
     public static final String TOURNAMENT_GROUP = BASE_URL + "match/getDraws";
     public static final String TOURNAMENT_CLUBS = BASE_URL + "tournaments/getTournamentClub";
     public static final String GET_TEAM_LIST = BASE_URL + "teams/getTeamsList";
+    public static final String GET_TEAM_FIXTURES = BASE_URL + "match/getFixtures";
+    public static final String GET_GROUP_STANDING= BASE_URL + "match/getStanding";
 }
     
