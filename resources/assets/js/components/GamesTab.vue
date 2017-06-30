@@ -7,12 +7,16 @@
         </div>
         <div class="text-center" v-else v-for="(competition,index) in competitionWithGames">
 
-          <h6 class="mb-0"><strong>
+        <div v-if="tournamentFilter.filterValue.id && competition.matchCount == 0"></div>
+        <div v-else>
+           <h6 class="mb-0"><strong>
           {{competition.group_name}}</strong></h6>
 
           <div v-if="competition.matchCount == 0">
               {{$lang.pitch_planner_no_games}}
           </div>
+
+        </div>
           <div class="text-center mt-3"
           v-if="match.isScheduled!=1"
           v-for="match in competition.matchList"
@@ -54,7 +58,7 @@ export default {
       let matchCount = 0
       let matchCountDisplay = 0
       if(this.competationList.length > 0 && this.matches.length > 0){
-       
+
         _.forEach(this.competationList, function(competition) {
         let cname = competition.group_name
         let comp = []
@@ -80,7 +84,7 @@ export default {
               comp.push(person)
               if(match.is_scheduled!=1){
                 matchCount = matchCount + 1
-                matchCountDisplay = matchCountDisplay + 1 
+                matchCountDisplay = matchCountDisplay + 1
               }
             }
             competition.matchCount = matchCount
