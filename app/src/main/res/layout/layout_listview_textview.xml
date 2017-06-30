@@ -7,10 +7,11 @@
 
     <ImageView
         android:id="@+id/iv_flag"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
+        android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:visibility="gone" />
 
@@ -18,13 +19,17 @@
         android:id="@+id/individual_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:drawableRight="@drawable/green_right_arrow"
-        android:gravity="center_vertical"
+        android:gravity="left"
         android:maxLines="1"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
+        android:padding="10dp"
         android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:src="@drawable/green_right_arrow" />
 </LinearLayout>

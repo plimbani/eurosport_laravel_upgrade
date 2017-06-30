@@ -50,7 +50,7 @@ import butterknife.ButterKnife;
 
 public class ClubsGroupFragment extends Fragment {
 
-    private final String TAG = AgeCategoriesActivity.class.getSimpleName();
+    private final String TAG = ClubsGroupFragment.class.getSimpleName();
     private Context mContext;
     @BindView(R.id.et_age_search)
     protected EditText et_age_search;

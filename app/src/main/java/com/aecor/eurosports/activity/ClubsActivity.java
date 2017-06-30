@@ -30,11 +30,11 @@ public class ClubsActivity extends BaseAppCompactActivity {
     public void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mViewPager.setOffscreenPageLimit(1);
         mSectionsPagerAdapter = new ClubSectionsPagerAdapter(mContext, getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
         getSupportActionBar().setTitle(getString(R.string.clubs).toUpperCase());
-        mViewPager.setOffscreenPageLimit(1);
 
         setListener();
     }
@@ -53,16 +53,5 @@ public class ClubsActivity extends BaseAppCompactActivity {
         initView();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        return super.onOptionsItemSelected(item);
-    }
 
 }

@@ -5,6 +5,8 @@ package com.aecor.eurosports.util;
  */
 public class AppConstants {
     public static final int SPLASH_TIME_OUT = 1000;
+    public static final int MAX_IMAGE_WIDTH = 40;
+    public static final int MAX_IMAGE_HEIGHT = 25;
     public static final String FACEBOOK_URL = "https://www.facebook.com/BakeUrCakes";
     public static final String FACEBOOK_PAGE_ID = "BakeUrCakes";
     public static final String INSTAGRAM_APP_URL = "http://instagram.com/_u/im_curren";
@@ -27,5 +29,9 @@ public class AppConstants {
     public static final String ARG_CLUB_ID = "club_id";
     public static final String ARG_GROUP_ID = "group_id";
     public static final String ARG_AGE_GROUP_ID = "age_id";
+    public static final String ARG_TEAM_DETAIL = "team_detail";
+    public static final String ARG_GROUP_DETAIL = "group_detail";
+    public static final String ARG_FULL_LEAGUE_TABLE_DETAIL = "full_league_table_detail";
+    public static final String ARG_MATCH_INFO = "match_info";
 
 }

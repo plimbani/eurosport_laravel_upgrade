@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -234,6 +235,21 @@ public class Utility {
         }
 
         return torunamentFormatedDate;
+    }
+
+    public static String getDateFromDateTime( String dateTime) throws ParseException {
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = df.parse(dateTime);
+        df = new SimpleDateFormat("dd\nMMM");
+        return df.format(d);
+    }
+    public static String getDateTimeFromServerDate( String dateTime) throws ParseException {
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = df.parse(dateTime);
+        df = new SimpleDateFormat("dd MMMM | HH:mm");
+        return df.format(d);
     }
 
 }

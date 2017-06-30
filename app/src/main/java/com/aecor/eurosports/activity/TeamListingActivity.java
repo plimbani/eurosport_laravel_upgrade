@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -54,6 +57,7 @@ public class TeamListingActivity extends BaseAppCompactActivity {
     private String clubId;
     private String groupId;
     private String ageGroupId;
+    private List<TeamDetailModel> list;
 
     @Override
     protected void initView() {
@@ -65,11 +69,19 @@ public class TeamListingActivity extends BaseAppCompactActivity {
         toolbar.setTitleTextColor(Color.WHITE);
 
         getTeamList();
+        setListener();
     }
 
     @Override
     protected void setListener() {
-
+        lv_team.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent mTeamDetailIntent = new Intent(mContext, TeamActivity.class);
+                mTeamDetailIntent.putExtra(AppConstants.ARG_TEAM_DETAIL, list.get(position));
+                startActivity(mTeamDetailIntent);
+            }
+        });
     }
 
     @Override
@@ -171,7 +183,7 @@ public class TeamListingActivity extends BaseAppCompactActivity {
     }
 
     private void setTeamListAdapter(TeamDetailModel mTeamList[]) {
-        List<TeamDetailModel> list = new ArrayList<>();
+        list = new ArrayList<>();
         list.addAll(Arrays.asList(mTeamList));
         TeamAdapter adapter = new TeamAdapter((Activity) mContext, list);
         lv_team.setAdapter(adapter);
