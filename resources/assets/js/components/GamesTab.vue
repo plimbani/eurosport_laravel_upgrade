@@ -12,7 +12,6 @@
             <div v-if="competition.matchCount == 0">
                 {{$lang.pitch_planner_no_games}}
             </div>
-
             <div class="text-center mt-3"
             v-if="matches.isScheduled!=1"
             v-for="match in competition.matchList"

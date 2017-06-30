@@ -3,7 +3,7 @@
 	<div class="col-md-12" >
 	<table id="matchSchedule" class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
-			<th class="text-center">{{$lang.summary_schedule_matches_time}}</th>
+			<th class="text-center">{{$lang.summary_schedule_date_time}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_draw}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
