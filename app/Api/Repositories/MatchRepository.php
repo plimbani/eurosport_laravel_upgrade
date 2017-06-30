@@ -567,7 +567,7 @@ class MatchRepository
     }
     public function getUnavailableBlock($data)
     {
-        return PitchUnavailable::where('tournament_id',$data['tournamentId'])
+        return PitchUnavailable::where('tournament_id',$data['tournamentId'])->where(DB::raw('DATE(match_start_datetime)'),$data['startDate'])
                   ->get();
     }
     public function removeBlock($block_id)
