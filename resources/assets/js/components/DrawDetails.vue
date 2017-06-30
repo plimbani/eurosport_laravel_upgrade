@@ -1,7 +1,7 @@
 <template>
 <div>
-<div class="form-group row">
-<label class="col-sm-3"><h6>{{otherData.DrawName}} results grid</h6></label>
+<div class="form-group row d-flex flex-row align-items-center">
+<label class="col-sm-3"><h6 class="mb-0">{{otherData.DrawName}} results grid</h6></label>
 <div class="col-sm-9">
         <select class="form-control ls-select2 col-sm-4"
       v-on:change="onChangeDrawDetails"
