@@ -78,7 +78,10 @@ class MatchRepository
                 'venues.id as venueId', 'competitions.id as competitionId',
                 'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
-                'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id','HomeFlag.logo as HomeFlagLogo','AwayFlag.logo as AwayFlagLogo','temp_fixtures.hometeam_score as homeScore',
+                'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id','HomeFlag.logo as HomeFlagLogo','AwayFlag.logo as AwayFlagLogo',
+                'HomeFlag.country_flag as HomeCountryFlag',
+                'AwayFlag.country_flag as AwayCountryFlag',
+                'temp_fixtures.hometeam_score as homeScore',
                 'temp_fixtures.awayteam_score as AwayScore',
                 'temp_fixtures.pitch_id as pitchId',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
@@ -143,7 +146,11 @@ class MatchRepository
             ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime',
                 'venues.id as venueId', 'competitions.id as competitionId',
                 'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name','temp_fixtures.referee_id as referee_id','referee.first_name as first_name','referee.last_name as last_name','home_team.name as HomeTeam','away_team.name as AwayTeam',
-                'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id','HomeFlag.logo as HomeFlagLogo','AwayFlag.logo as AwayFlagLogo','temp_fixtures.hometeam_score as homeScore',
+                'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id',
+                'HomeFlag.logo as HomeFlagLogo','AwayFlag.logo as AwayFlagLogo',
+                'HomeFlag.country_flag as HomeCountryFlag',
+                'AwayFlag.country_flag as AwayCountryFlag',
+                'temp_fixtures.hometeam_score as homeScore',
                 'temp_fixtures.awayteam_score as AwayScore',
                 'temp_fixtures.pitch_id as pitchId',
                 'temp_fixtures.is_scheduled',
@@ -219,11 +226,17 @@ class MatchRepository
           ->leftjoin('teams', 'match_standing.team_id', '=', 'teams.id')
           ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
           ->leftjoin('competitions', 'match_standing.competition_id', '=', 'competitions.id')
-          ->select('match_standing.*','teams.*','countries.logo as teamFlag');
+          ->select('match_standing.*','teams.*','countries.logo as teamFlag','countries.country_flag as teamCountryFlag');
 
           if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
           {
 						$reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competitionId']);
+          }
+          // TODO: Need to add code for passing through teamId
+          if(isset($tournamentData['teamId']) && $tournamentData['teamId'] !== '')
+          {
+            echo 'hello1';exit;
+
           }
 
           if(isset($tournamentData['tournamentId']) &&
@@ -265,7 +278,9 @@ class MatchRepository
                     ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
                     ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
                     ->leftjoin('competitions', 'competitions.tournament_competation_template_id', '=', 'tournament_competation_template.id')
-                    ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo')
+                    ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo',
+                      'countries.country_flag as TeamCountryFlag'
+                      )
                     ->where('teams.tournament_id',$tournamentData['tournamentId'])
                     ->where('competitions.id',$tournamentData['competationId'])
                     ->get();
@@ -280,6 +295,7 @@ class MatchRepository
           $numTeamsArray[]=$Tdata->TeamId;
           $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
           $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
+          $teamDetails[$Tdata->TeamId]['TeamCountryFlag']=$Tdata->TeamCountryFlag;
         }
       } else {
 
@@ -300,6 +316,7 @@ class MatchRepository
         $arr1[$i]['id'] = $numTeamsArray[$i];
         $arr1[$i]['TeamName'] = $teamDetails[$numTeamsArray[$i]]['TeamName'];
         $arr1[$i]['TeamFlag'] = $teamDetails[$numTeamsArray[$i]]['TeamFlag'];
+        $arr1[$i]['TeamCountryFlag'] = $teamDetails[$numTeamsArray[$i]]['TeamCountryFlag'];
 
 
         for($j=0;$j<count($numTeamsArray);$j++)
