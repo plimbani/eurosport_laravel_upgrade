@@ -8,7 +8,8 @@ public class TournamentModel {
 
     private String id;
     private String name;
-    private String is_default;
+    private int is_default;
+    private String is_Favourite;
     private String website;
     private String facebook;
     private String twitter;
@@ -43,12 +44,20 @@ public class TournamentModel {
         this.name = name;
     }
 
-    public String getIs_default() {
+    public int getIs_default() {
         return is_default;
     }
 
-    public void setIs_default(String is_default) {
+    public void setIs_default(int is_default) {
         this.is_default = is_default;
+    }
+
+    public String getIs_Favourite() {
+        return is_Favourite;
+    }
+
+    public void setIs_Favourite(String is_Favourite) {
+        this.is_Favourite = is_Favourite;
     }
 
     public String getWebsite() {
