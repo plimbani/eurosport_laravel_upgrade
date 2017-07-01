@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
             android:src="@drawable/germany" />
 
         <TextView
@@ -34,25 +35,61 @@
             style="@style/team_league_table_text"
             android:layout_width="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="2"
+            android:layout_weight="1.8"
             android:gravity="center"
             android:text="9" />
 
         <TextView
-            android:id="@+id/tv_goalDifference"
+            android:id="@+id/tv_w"
             style="@style/team_league_table_text"
             android:layout_width="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="2"
+            android:layout_weight="1.8"
             android:gravity="center"
             android:text="+20" />
 
         <TextView
-            android:id="@+id/tv_points"
+            android:id="@+id/tv_d"
             style="@style/team_league_table_text"
             android:layout_width="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="2"
+            android:layout_weight="1.8"
+            android:gravity="center"
+            android:text="3" />
+
+        <TextView
+            android:id="@+id/tv_l"
+            style="@style/team_league_table_text"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.8"
+            android:gravity="center"
+            android:text="3" />
+
+        <TextView
+            android:id="@+id/tv_f_a"
+            style="@style/team_league_table_text"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.8"
+            android:gravity="center"
+            android:text="3" />
+
+        <TextView
+            android:id="@+id/tv_goal_diff"
+            style="@style/team_league_table_text"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.8"
+            android:gravity="center"
+            android:text="3" />
+
+        <TextView
+            android:id="@+id/tv_p"
+            style="@style/team_league_table_text"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.8"
             android:gravity="center"
             android:text="3" />
     </LinearLayout>

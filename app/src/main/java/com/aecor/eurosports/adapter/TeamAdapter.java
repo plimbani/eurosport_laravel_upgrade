@@ -67,9 +67,9 @@ public class TeamAdapter extends BaseAdapter {
             holder.individual_list_item.setText(rowItem.getName());
         }
         if (!Utility.isNullOrEmpty(rowItem.getCountryLogo())) {
-            Picasso.with(mContext).load(rowItem.getCountryLogo()).into(holder.iv_flag);
+            Picasso.with(mContext).load(rowItem.getCountryLogo()).resize(40, 25).into(holder.iv_flag);
             holder.iv_flag.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             holder.iv_flag.setVisibility(View.INVISIBLE);
         }
 

@@ -78,7 +78,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    style="@style/text_black_title"
+                    style="@style/text_black_sub_title"
                     android:layout_width="wrap_content"
                     android:gravity="left"
                     android:paddingLeft="15dp"
@@ -87,7 +87,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    style="@style/text_black_title"
+                    style="@style/text_black_sub_title"
                     android:layout_width="wrap_content"
                     android:gravity="left"
                     android:paddingLeft="15dp"
@@ -96,7 +96,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    style="@style/text_black_title"
+                    style="@style/text_black_sub_title"
                     android:layout_width="wrap_content"
                     android:gravity="left"
                     android:paddingLeft="15dp"
