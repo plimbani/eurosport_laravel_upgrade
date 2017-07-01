@@ -328,7 +328,7 @@ public class HomeActivity extends BaseAppCompactActivity {
         list.addAll(Arrays.asList(mTournamentList));
         int selectedTournamentPos = 0;
         for (int i = 0; i < list.size(); i++) {
-            if (!Utility.isNullOrEmpty(list.get(i).getIs_default()) && list.get(i).getIs_default().equalsIgnoreCase("1")) {
+            if (list.get(i).getIs_default() == 1) {
                 selectedTournamentPos = i;
                 break;
             }

@@ -56,6 +56,7 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.register)
     protected Button register;
     private long tournament_id = 0;
+    private TournamentModel mTournamentList[];
 
     @Override
     public void initView() {
@@ -77,7 +78,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    tournament_id = id;
+                    tournament_id = Long.parseLong(mTournamentList[position-1].getId());
                 }
                 checkValidation();
             }
@@ -160,12 +161,10 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
-
     private void getTournamentList() {
         Utility.startProgress(mContext);
         String url = ApiConstants.GET_TOURNAMENTS;
         final JSONObject requestJson = new JSONObject();
-
         if (Utility.isInternetAvailable(mContext)) {
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
@@ -180,7 +179,7 @@ public class RegisterActivity extends BaseActivity {
                         AppLogger.LogE(TAG, "Get Tournament List response" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-                                TournamentModel mTournamentList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
+                                mTournamentList = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
                                 if (mTournamentList != null && mTournamentList.length > 0) {
                                     setTournamnetSpinnerAdapter(mTournamentList);
                                 }
