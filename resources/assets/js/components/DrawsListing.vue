@@ -51,6 +51,9 @@ export default {
 			if(comp == 'drawDetails') {
 				this.getDrawDetails(id, Name)
 			}
+			if(comp == 'drawList') {
+				this.getAllDraws()
+			}
 		},
 		getAllDraws() {
 			let TournamentId = this.$store.state.Tournament.tournamentId
