@@ -301,7 +301,7 @@ class TournamentRepository
            break;
            case 'age_category' :
              $resultData = TournamentCompetationTemplates::where('tournament_id',$tournamentId)
-                            ->select('id','group_name as name','tournament_template_id')
+                            ->select('id',\DB::raw("CONCAT(group_name, '(', category_age,')') AS name"),'tournament_template_id')
                              ->get();
             break;
         }
@@ -325,7 +325,7 @@ class TournamentRepository
           case 'age_category' :
             $resultData = $reportQuery->join('competitions','competitions.id','=','temp_fixtures.competition_id')
                         ->join('tournament_competation_template','competitions.tournament_competation_template_id','=','tournament_competation_template.id')
-                        ->select('tournament_competation_template.id as id','tournament_competation_template.group_name as name')
+                        ->select('tournament_competation_template.id as id',\DB::raw("CONCAT(tournament_competation_template.group_name, '(', tournament_competation_template.category_age,')') AS name"))
                         ->distinct('name')
                         ->get();
             break;
