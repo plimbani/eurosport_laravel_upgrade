@@ -62,6 +62,7 @@ public class TeamActivity extends BaseAppCompactActivity {
     private TeamDetailModel mTeamDetailModel;
     private Context mContext;
     private AppPreference mPreference;
+    private LeagueModel mLeagueModelData[];
 
     @OnClick(R.id.tv_view_full_league_table)
     protected void onFullLeagueViewClicked() {
@@ -84,16 +85,75 @@ public class TeamActivity extends BaseAppCompactActivity {
         tv_countryName.setText(mTeamDetailModel.getCountryName());
         tv_team_member_desc.setText(mTeamDetailModel.getAge_group_id() + ", " + mTeamDetailModel.getGroup_name());
         getTeamFixtures();
-        addGroupLeagueRow(0, false);
-        addGroupLeagueRow(1, false);
-        addGroupLeagueRow(2, false);
-        addGroupLeagueRow(3, true);
+        getGroupStanding();
 
     }
 
     @Override
     protected void setListener() {
 
+    }
+
+
+    private void getGroupStanding() {
+
+        Utility.startProgress(mContext);
+        String url = ApiConstants.GET_GROUP_STANDING;
+        final JSONObject requestJson = new JSONObject();
+
+        if (Utility.isInternetAvailable(mContext)) {
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+            try {
+                JSONObject mTournamentData = new JSONObject();
+                mTournamentData.put("tournamentId", mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
+                mTournamentData.put("competationId", mTeamDetailModel.getGroupId());
+                requestJson.put("tournamentData", mTournamentData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "getGroupStanding Response" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                mLeagueModelData = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), LeagueModel[].class);
+                                if (mLeagueModelData != null && mLeagueModelData.length > 0) {
+                                    for (int i = 0; i < mLeagueModelData.length; i++) {
+                                        addGroupLeagueRow(mLeagueModelData[i]);
+                                    }
+                                } else {
+                                    addNoItemGroupLeagueView();
+                                }
+
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            mQueue.add(jsonRequest);
+        }
     }
 
     @Override
@@ -106,16 +166,35 @@ public class TeamActivity extends BaseAppCompactActivity {
         initView();
     }
 
-    private void addNoItemGroupLeagueView(LeagueModel mLeagueModel) {
+
+    private void addGroupLeagueRow(LeagueModel mLeagueModel) {
+        tv_group_table_title.setText(mLeagueModel.getAssigned_group());
+        View teamLeagueView = getLayoutInflater().inflate(R.layout.row_team_leaguetable, null);
+        TextView tv_group_table_title = (TextView) teamLeagueView.findViewById(R.id.tv_group_table_title);
+        TextView tv_points = (TextView) teamLeagueView.findViewById(R.id.tv_points);
+        TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
+        TextView tv_goalDifference = (TextView) teamLeagueView.findViewById(R.id.tv_goalDifference);
+        ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
+        tv_group_table_title.setText(mLeagueModel.getName());
+        tv_points.setText(mLeagueModel.getPoints());
+        tv_games.setText(mLeagueModel.getPlayed());
+        int goalDifferenece = Integer.parseInt(mLeagueModel.getGoal_for()) - Integer.parseInt(mLeagueModel.getGoal_against());
+        String goalText = "";
+        if (goalDifferenece > 0) {
+            goalText = "+";
+        }
+        goalText = goalText + goalDifferenece;
+        tv_goalDifference.setText(goalText);
+        Picasso.with(mContext).load(mLeagueModel.getTeamFlag()).resize(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT).into(team_flag);
+
+        ll_group_rows.addView(teamLeagueView);
+    }
+
+    private void addNoItemGroupLeagueView() {
         View noMatchesView = getLayoutInflater().inflate(R.layout.no_item_textview, null);
         TextView tv_noMatchesView = (TextView) noMatchesView.findViewById(R.id.tv_no_item);
         tv_noMatchesView.setText(getString(R.string.no_league_data_available));
         ll_group_rows.addView(noMatchesView);
-    }
-
-    private void addGroupLeagueRow(int pos, boolean isRowSelected) {
-        View teamLeagueView = getLayoutInflater().inflate(R.layout.row_team_leaguetable, null);
-        ll_group_rows.addView(teamLeagueView);
     }
 
     private void addMatchesRow(final TeamFixturesModel mFixtureModel) {
