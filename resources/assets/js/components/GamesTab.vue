@@ -13,7 +13,7 @@
                 {{$lang.pitch_planner_no_games}}
             </div>
             <div class="text-center mt-3"
-            v-if="matches.isScheduled!=1"
+            v-if="match.isScheduled!=1"
             v-for="match in competition.matchList"
             :data-text="match.matchName">
                 <draggable-match-event :match="match"></draggable-match-event>
