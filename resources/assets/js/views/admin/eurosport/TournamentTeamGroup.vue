@@ -5,7 +5,7 @@
   			<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
   			<form>
   				<div class="form-group row">
-            <label class="col-sm-2 form-control-label">{{$lang.teams_age_category}}</label>
+            <label class="col-sm-2 form-control-label">{{$lang.teams_name_category}}</label>
             <div class="col-sm-4">
               <div class="form-group">
                   <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
