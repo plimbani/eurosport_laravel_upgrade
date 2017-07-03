@@ -1,10 +1,10 @@
 <template>
 <div>
   <div class="form-group row">
-    <label class="col-sm-3"><h6 v-if="otherData.length != 0">{{otherData.Name}}</h6>
+    <label class="col-sm-2"><h6 v-if="otherData.length != 0">{{otherData.Name}}</h6>
     <h6 v-else>{{venueName}}</h6>
     </label>
-    <div class="col-sm-9">
+    <div class="col-sm-10">
       <select class="form-control ls-select2 col-sm-4"
         v-on:change="onChangeLocation"
         v-model="location">
