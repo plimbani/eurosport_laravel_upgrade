@@ -1,10 +1,13 @@
 package com.aecor.eurosports.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by karan on 6/28/2017.
  */
 
-public class AgeCategoriesModel {
+public class AgeCategoriesModel implements Parcelable{
     private int id;
     private int total_teams;
     private int tournament_id;
@@ -25,6 +28,41 @@ public class AgeCategoriesModel {
     private String updated_at;
     private String deleted_at;
     private String template_name;
+
+    protected AgeCategoriesModel(Parcel in) {
+        id = in.readInt();
+        total_teams = in.readInt();
+        tournament_id = in.readInt();
+        min_matches = in.readInt();
+        group_name = in.readString();
+        category_age = in.readString();
+        disp_format_name = in.readString();
+        tournament_template_id = in.readInt();
+        total_match = in.readInt();
+        total_time = in.readInt();
+        game_duration_RR = in.readInt();
+        game_duration_FM = in.readInt();
+        halftime_break_RR = in.readInt();
+        halftime_break_FM = in.readInt();
+        match_interval_RR = in.readInt();
+        match_interval_FM = in.readInt();
+        created_at = in.readString();
+        updated_at = in.readString();
+        deleted_at = in.readString();
+        template_name = in.readString();
+    }
+
+    public static final Creator<AgeCategoriesModel> CREATOR = new Creator<AgeCategoriesModel>() {
+        @Override
+        public AgeCategoriesModel createFromParcel(Parcel in) {
+            return new AgeCategoriesModel(in);
+        }
+
+        @Override
+        public AgeCategoriesModel[] newArray(int size) {
+            return new AgeCategoriesModel[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -184,5 +222,34 @@ public class AgeCategoriesModel {
 
     public void setTemplate_name(String template_name) {
         this.template_name = template_name;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(total_teams);
+        dest.writeInt(tournament_id);
+        dest.writeInt(min_matches);
+        dest.writeString(group_name);
+        dest.writeString(category_age);
+        dest.writeString(disp_format_name);
+        dest.writeInt(tournament_template_id);
+        dest.writeInt(total_match);
+        dest.writeInt(total_time);
+        dest.writeInt(game_duration_RR);
+        dest.writeInt(game_duration_FM);
+        dest.writeInt(halftime_break_RR);
+        dest.writeInt(halftime_break_FM);
+        dest.writeInt(match_interval_RR);
+        dest.writeInt(match_interval_FM);
+        dest.writeString(created_at);
+        dest.writeString(updated_at);
+        dest.writeString(deleted_at);
+        dest.writeString(template_name);
     }
 }

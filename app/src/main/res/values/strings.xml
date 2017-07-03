@@ -7,7 +7,8 @@
     <string name="favorites">Favourites</string>
     <string name="tournament">Tournament</string>
     <string name="clubs">Clubs</string>
-    <string name="team">TEAMS</string>
+    <string name="teams">Teams</string>
+    <string name="team">Team</string>
     <string name="match_info">Match Info</string>
     <string name="age_categories">Age \ncategories</string>
     <string name="settings">Settings</string>
@@ -56,6 +57,8 @@
     <string name="view_league_table">View full league table</string>
     <string name="team_name">Team name</string>
     <string name="group_26_league_table">Group 26 league table</string>
+    <string name="league_table">league table</string>
+    <string name="no_data_available">No data available.</string>
     <string name="G">G</string>
     <string name="W">W</string>
     <string name="D">D</string>
@@ -76,6 +79,9 @@
     <string name="progres_text_0">0</string>
     <string name="no_matches_available">No matches available.</string>
     <string name="no_league_data_available">No league data available.</string>
+    <string name="hint_search_age_group">Search age group</string>
+    <string name="hint_search_club">Search club</string>
+    <string name="hint_search_groups">Search groups</string>
     <!--Volley-->
     <string name="no_internet_connection">Connect to internet to get media content.</string>
     <string name="timeout_error_message">Server timeout.</string>

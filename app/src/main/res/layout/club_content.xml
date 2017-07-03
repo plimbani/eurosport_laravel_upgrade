@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner"
             android:drawableRight="@drawable/search_icon"
-            android:hint="Search age group        "
+            android:hint="Search age group"
             android:lines="1"
             android:paddingBottom="5dp"
             android:paddingLeft="15dp"
@@ -33,6 +33,11 @@
             android:textColor="@android:color/black"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <include
+        android:id="@+id/ll_no_item_view"
+        layout="@layout/no_item_textview"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/age_categories_list"

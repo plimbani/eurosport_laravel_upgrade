@@ -6,7 +6,14 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_header" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimaryDark"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"></android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -114,10 +121,10 @@
             <TextView
                 android:id="@+id/tv_view_full_league_table"
                 style="@style/text_black_sub_title"
+                android:layout_marginLeft="8dp"
                 android:drawableRight="@drawable/green_right_arrow"
                 android:gravity="left"
                 android:padding="15dp"
-                android:layout_marginLeft="8dp"
                 android:text="@string/view_league_table"
                 android:textColor="@color/green"
                 android:textStyle="bold" />
@@ -131,9 +138,9 @@
 
                 <TextView
                     style="@style/text_black_sub_title"
+                    android:layout_marginLeft="8dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="8dp"
                     android:text="@string/matches"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -147,10 +154,10 @@
             <TextView
                 android:id="@+id/tv_view_all_club_matches"
                 style="@style/text_black_sub_title"
+                android:layout_marginLeft="8dp"
                 android:drawableRight="@drawable/green_right_arrow"
                 android:gravity="left"
                 android:padding="15dp"
-                android:layout_marginLeft="8dp"
                 android:text="@string/view_club_match"
                 android:textColor="@color/green"
                 android:textStyle="bold" />

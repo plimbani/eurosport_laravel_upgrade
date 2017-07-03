@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -20,6 +21,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.LandingActivity;
+import com.aecor.eurosports.activity.SplashActivity;
 import com.aecor.eurosports.http.VolleyErrorHelper;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.ViewDialog;
@@ -45,7 +48,6 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
  */
 public class Utility {
     private final static String TAG = "Utility";
-    private static Dialog progressDialog;
     private static ProgressHUD mProgressHUD;
 
     public static void showToast(Context mContext, String message) {
@@ -65,6 +67,20 @@ public class Utility {
         }
     }
 
+    public static ProgressHUD getProgressDialog(@NonNull Context context) {
+        try {
+            mProgressHUD = ProgressHUD.show(context, "Loading", true, new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    mProgressHUD.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mProgressHUD;
+    }
+
     public static void closeKeyPad(@NonNull Activity activity, @NonNull View v) {
         try {
             InputMethodManager inputManager = (InputMethodManager) activity
@@ -77,7 +93,7 @@ public class Utility {
     }
 
 
-    public static void parseVolleyError(@NonNull Context mContext, @NonNull VolleyError error) {
+    public static void parseVolleyError(@NonNull final Context mContext, @NonNull VolleyError error) {
         try {
 
             if (error.networkResponse != null && error.networkResponse.data != null) {
@@ -102,7 +118,10 @@ public class Utility {
                 ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                     @Override
                     public void onPositiveButtonClicked() {
-
+                        if (mContext instanceof SplashActivity) {
+                            Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
+                            ((Activity) mContext).startActivity(mLandingPageIntent);
+                        }
                     }
 
                     @Override
@@ -154,6 +173,18 @@ public class Utility {
             }
             assert mProgressHUD != null;
             mProgressHUD.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void StopProgress(ProgressHUD mProgressHUD) {
+        try {
+
+            if (mProgressHUD != null) {
+                mProgressHUD.dismiss();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -237,14 +268,15 @@ public class Utility {
         return torunamentFormatedDate;
     }
 
-    public static String getDateFromDateTime( String dateTime) throws ParseException {
+    public static String getDateFromDateTime(String dateTime) throws ParseException {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d = df.parse(dateTime);
         df = new SimpleDateFormat("dd\nMMM");
         return df.format(d);
     }
-    public static String getDateTimeFromServerDate( String dateTime) throws ParseException {
+
+    public static String getDateTimeFromServerDate(String dateTime) throws ParseException {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d = df.parse(dateTime);

@@ -15,7 +15,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.AgeCategoriesActivity;
@@ -24,6 +27,8 @@ import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.AgeCategoriesModel;
+import com.aecor.eurosports.ui.ProgressHUD;
+import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -56,6 +61,12 @@ public class ClubsAgeFragment extends Fragment {
     protected EditText et_age_search;
     @BindView(R.id.age_categories_list)
     protected RecyclerView age_list;
+    @BindView(R.id.ll_no_item_view)
+    protected LinearLayout ll_no_item_view;
+    @BindView(R.id.tv_no_item)
+    protected TextView tv_no_item;
+    @BindView(R.id.rl_search)
+    protected RelativeLayout rl_search;
     private AppPreference mPreference;
     private AgeAdapter adapter;
 
@@ -64,14 +75,19 @@ public class ClubsAgeFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         age_list.setLayoutManager(mLayoutManager);
         age_list.setItemAnimator(new DefaultItemAnimator());
+        age_list.addItemDecoration(new SimpleDividerItemDecoration(mContext));
+
         getAgeCategories();
         setListener();
+        ll_no_item_view.setVisibility(View.GONE);
+        tv_no_item.setVisibility(View.GONE);
+        rl_search.setVisibility(View.GONE);
+        et_age_search.setHint(getString(R.string.hint_search_age_group));
     }
 
     protected void setListener() {
         GenericTextMatcher mTextWatcher = new GenericTextMatcher();
         et_age_search.addTextChangedListener(mTextWatcher);
-
     }
 
     @Nullable
@@ -86,7 +102,7 @@ public class ClubsAgeFragment extends Fragment {
     }
 
     private void getAgeCategories() {
-        Utility.startProgress(mContext);
+        final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
         String url = ApiConstants.AGE_CATEGORIES;
         final JSONObject requestJson = new JSONObject();
 
@@ -104,7 +120,7 @@ public class ClubsAgeFragment extends Fragment {
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Utility.StopProgress();
+                    Utility.StopProgress(mProgressHUD);
                     try {
                         AppLogger.LogE(TAG, "Get Tournament Age List response" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
@@ -112,6 +128,8 @@ public class ClubsAgeFragment extends Fragment {
                                 AgeCategoriesModel mAgeList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), AgeCategoriesModel[].class);
                                 if (mAgeList != null && mAgeList.length > 0) {
                                     setAgeAdapter(mAgeList);
+                                } else {
+                                    showNoItemView();
                                 }
                             }
                         }
@@ -125,7 +143,7 @@ public class ClubsAgeFragment extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     try {
-                        Utility.StopProgress();
+                        Utility.StopProgress(mProgressHUD);
                         Utility.parseVolleyError(mContext, error);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -142,6 +160,17 @@ public class ClubsAgeFragment extends Fragment {
         list.addAll(Arrays.asList(mTournamentList));
         adapter = new AgeAdapter((Activity) mContext, list);
         age_list.setAdapter(adapter);
+        rl_search.setVisibility(View.VISIBLE);
+        age_list.setVisibility(View.VISIBLE);
+    }
+
+    private void showNoItemView() {
+        ll_no_item_view.setVisibility(View.VISIBLE);
+        tv_no_item.setVisibility(View.VISIBLE);
+        tv_no_item.setText(getResources().getString(R.string.no_data_available));
+        rl_search.setVisibility(View.GONE);
+        age_list.setVisibility(View.GONE);
+
     }
 
     private class GenericTextMatcher implements TextWatcher {

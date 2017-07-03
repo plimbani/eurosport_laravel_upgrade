@@ -52,10 +52,7 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
     @Override
     protected void initView() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.match_info).toUpperCase());
-        toolbar.setTitleTextColor(Color.WHITE);
+        showBackButton(getString(R.string.match_info));
         tv_team_score_1.setText(mTeamFixturesModel.getHomeScore());
         tv_team_score_2.setText(mTeamFixturesModel.getAwayScore());
         tv_team_name_1.setText(mTeamFixturesModel.getHomeTeam());

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -63,14 +64,12 @@ public class TeamListingActivity extends BaseAppCompactActivity {
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.team).toUpperCase());
-        toolbar.setTitleTextColor(Color.WHITE);
 
+        showBackButton(getString(R.string.team));
         getTeamList();
         setListener();
     }
+
 
     @Override
     protected void setListener() {
@@ -123,7 +122,6 @@ public class TeamListingActivity extends BaseAppCompactActivity {
         Utility.startProgress(mContext);
         String url = ApiConstants.GET_TEAM_LIST;
         final JSONObject requestJson = new JSONObject();
-
         if (Utility.isInternetAvailable(mContext)) {
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
@@ -141,7 +139,7 @@ public class TeamListingActivity extends BaseAppCompactActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+            AppLogger.LogE(TAG, "url" + url);
             AppLogger.LogE(TAG, "requestJson " + requestJson.toString());
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
                     .POST, url,
@@ -181,6 +179,7 @@ public class TeamListingActivity extends BaseAppCompactActivity {
             mQueue.add(jsonRequest);
         }
     }
+
 
     private void setTeamListAdapter(TeamDetailModel mTeamList[]) {
         list = new ArrayList<>();
