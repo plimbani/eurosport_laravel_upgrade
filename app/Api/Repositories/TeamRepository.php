@@ -27,7 +27,7 @@ class TeamRepository
     }
     public function getAllFromFilter($data) 
     {
-        
+     // dd($data);   
           $teamData =  Team::join('countries', function ($join) {
                         $join->on('teams.country_id', '=', 'countries.id');
                     })
