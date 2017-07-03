@@ -21,7 +21,7 @@
             android:id="@+id/facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:padding="18dp"
             android:layout_marginRight="5dp"
             android:src="@drawable/facebook"/>
 
@@ -31,14 +31,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:padding="15dp"
+            android:padding="18dp"
             android:src="@drawable/instagram" />
 
         <ImageView
             android:id="@+id/twitter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:padding="18dp"
             android:layout_marginLeft="5dp"
             android:src="@drawable/twitter"/>
 

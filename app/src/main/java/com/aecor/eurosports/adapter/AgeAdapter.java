@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.AgeCategoriesActivity;
+import com.aecor.eurosports.activity.AgeGroupActivity;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.util.AppConstants;
@@ -65,9 +67,16 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
         holder.ll_list_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
-                mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, ageModel.getId()+"");
-                mContext.startActivity(mTeamListIntent);
+                if (mContext instanceof AgeCategoriesActivity) {
+                    Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
+                    mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY, ageModel );
+                    mContext.startActivity(mAgeGroupIntent);
+
+                } else {
+                    Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
+                    mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, ageModel.getId() + "");
+                    mContext.startActivity(mTeamListIntent);
+                }
             }
         });
     }

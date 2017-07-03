@@ -1,8 +1,12 @@
 package com.aecor.eurosports.activity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +27,7 @@ import butterknife.ButterKnife;
  * Created by system-local on 30-06-2017.
  */
 
-public class FullLeageTableActivity extends BaseActivity {
+public class FullLeageTableActivity extends AppCompatActivity {
     private ArrayList<LeagueModel> mLeagueModelData;
     @BindView(R.id.ll_group_rows)
     protected LinearLayout ll_group_rows;
@@ -42,13 +46,36 @@ public class FullLeageTableActivity extends BaseActivity {
 
     }
 
-    @Override
+
+    protected void showBackButton(String title) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(title.toUpperCase());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow_white);
+        toolbar.setTitleTextColor(Color.WHITE);
+
+    }
+
     protected void initView() {
         if (mLeagueModelData != null && mLeagueModelData.size() > 0) {
+            showBackButton(mLeagueModelData.get(0).getGroup_name());
             tv_group_table_title.setText(mLeagueModelData.get(0).getAssigned_group());
             for (int i = 0; i < mLeagueModelData.size(); i++) {
                 addGroupLeagueRow(mLeagueModelData.get(i));
             }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -61,7 +88,7 @@ public class FullLeageTableActivity extends BaseActivity {
         TextView tv_f_a = (TextView) teamLeagueView.findViewById(R.id.tv_f_a);
         TextView tv_goal_diff = (TextView) teamLeagueView.findViewById(R.id.tv_goal_diff);
         TextView tv_p = (TextView) teamLeagueView.findViewById(R.id.tv_p);
-                TextView tv_group_table_title = (TextView) teamLeagueView.findViewById(R.id.tv_group_table_title);
+        TextView tv_group_table_title = (TextView) teamLeagueView.findViewById(R.id.tv_group_table_title);
         ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
 
         tv_group_table_title.setText(mLeagueModel.getName());
@@ -84,7 +111,6 @@ public class FullLeageTableActivity extends BaseActivity {
         ll_group_rows.addView(teamLeagueView);
     }
 
-    @Override
     protected void setListener() {
 
     }

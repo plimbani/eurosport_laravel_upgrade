@@ -64,6 +64,9 @@
         <activity android:name=".activity.GroupSummaryActivity" />
         <activity android:name=".activity.FullLeageTableActivity" android:screenOrientation="landscape" />
         <activity android:name=".activity.MatchInformationActivity" />
+        <activity android:name=".activity.AllClubMatchesActivity" />
+        <activity android:name=".activity.VenueDetailActivity" />
+        <activity android:name=".activity.AgeGroupActivity" />
     </application>
 
 </manifest>

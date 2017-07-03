@@ -91,7 +91,8 @@
             android:layout_gravity="center"
             android:layout_weight="1.8"
             android:gravity="center"
-            android:text="3" />
+            android:text="3"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <View

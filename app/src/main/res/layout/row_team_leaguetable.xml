@@ -20,7 +20,7 @@
             android:src="@drawable/germany" />
 
         <TextView
-            android:id="@+id/tv_group_table_title"
+            android:id="@+id/tv_group_name"
             style="@style/team_league_table_text"
             android:layout_width="match_parent"
             android:layout_gravity="center"
