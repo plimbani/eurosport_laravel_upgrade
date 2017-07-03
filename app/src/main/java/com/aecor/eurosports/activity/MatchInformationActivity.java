@@ -1,6 +1,7 @@
 package com.aecor.eurosports.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import java.text.ParseException;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by system-local on 30-06-2017.
@@ -72,6 +74,13 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     @Override
     protected void setListener() {
 
+    }
+
+    @OnClick(R.id.tv_venue)
+    protected void onVenueItemClicked() {
+        Intent mVenueDetailIntent = new Intent(mContext, VenueDetailActivity.class);
+        mVenueDetailIntent.putExtra(AppConstants.ARG_MATCH_INFO, mTeamFixturesModel);
+        startActivity(mVenueDetailIntent);
     }
 
     @Override
