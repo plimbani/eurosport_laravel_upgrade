@@ -43,8 +43,8 @@ public class NotificationAndSoundActivity extends BaseActivity {
 
     @BindView(R.id.sc_notification)
     protected SwitchCompat sc_notification;
-     private Context mContext;
-     CompoundButton.OnCheckedChangeListener ccl = new CompoundButton.OnCheckedChangeListener() {
+    private Context mContext;
+    CompoundButton.OnCheckedChangeListener ccl = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton,
                                      boolean isChecked) {
@@ -88,7 +88,7 @@ public class NotificationAndSoundActivity extends BaseActivity {
 
     protected void initView() {
         mContext = this;
-         getSettingsParam();
+        getSettingsParam();
         setListener();
     }
 
@@ -126,25 +126,29 @@ public class NotificationAndSoundActivity extends BaseActivity {
                                     JSONObject mProfileJson = mDataJsonArray.getJSONObject(0);
                                     if (mProfileJson.has("value") && !Utility.isNullOrEmpty(mProfileJson.getString("value"))) {
                                         JSONObject mValue = new JSONObject(mProfileJson.getString("value"));
-                                        if (mValue.has("user_settings") && !Utility.isNullOrEmpty(mValue.getString("user_settings"))) {
-                                            JSONObject mUserSettings = new JSONObject(mValue.getString("user_settings"));
-                                            if (mUserSettings.has("is_sound") && !Utility.isNullOrEmpty(mUserSettings.getString("is_sound")) && mUserSettings.getString("is_sound").equalsIgnoreCase("true")) {
-                                                sc_sound.setSelected(true);
-                                            } else {
-                                                sc_sound.setSelected(false);
-                                            }
+                                        sc_sound.setOnCheckedChangeListener(null);
+                                        sc_vibration.setOnCheckedChangeListener(null);
+                                        sc_notification.setOnCheckedChangeListener(null);
 
-                                            if (mUserSettings.has("is_vibration") && !Utility.isNullOrEmpty(mUserSettings.getString("is_vibration")) && mUserSettings.getString("is_vibration").equalsIgnoreCase("true")) {
-                                                sc_vibration.setSelected(true);
-                                            } else {
-                                                sc_vibration.setSelected(false);
-                                            }
-                                            if (mUserSettings.has("is_notification") && !Utility.isNullOrEmpty(mUserSettings.getString("is_notification")) && mUserSettings.getString("is_notification").equalsIgnoreCase("true")) {
-                                                sc_notification.setSelected(true);
-                                            } else {
-                                                sc_notification.setSelected(false);
-                                            }
+                                        if (mValue.has("is_sound") && !Utility.isNullOrEmpty(mValue.getString("is_sound")) && mValue.getString("is_sound").equalsIgnoreCase("true")) {
+                                            sc_sound.setChecked(true);
+                                        } else {
+                                            sc_sound.setChecked(false);
                                         }
+
+                                        if (mValue.has("is_vibration") && !Utility.isNullOrEmpty(mValue.getString("is_vibration")) && mValue.getString("is_vibration").equalsIgnoreCase("true")) {
+                                            sc_vibration.setChecked(true);
+                                        } else {
+                                            sc_vibration.setChecked(false);
+                                        }
+                                        if (mValue.has("is_notification") && !Utility.isNullOrEmpty(mValue.getString("is_notification")) && mValue.getString("is_notification").equalsIgnoreCase("true")) {
+                                            sc_notification.setChecked(true);
+                                        } else {
+                                            sc_notification.setChecked(false);
+                                        }
+
+                                        setListener();
+
                                     }
                                 }
                             }
