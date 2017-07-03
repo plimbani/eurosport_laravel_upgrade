@@ -67,6 +67,32 @@
 						</div>
 					</div>
 					<div class="row mb-4">
+						<div class="col-md-5">
+							<div class="row">
+								<div class="col-md-6">
+									<label><strong>{{$lang.summary_from_time}}</strong></label>
+									<select name="" id="" class="form-control ls-select2">
+						                    <option>08:00</option>
+						                  	<option>08:30</option>
+						                  	<option>09:00</option>
+						                  	<option>09:30</option>
+						                  	<option>10:00</option>
+						                  	<option>10:30</option>
+					                </select>
+								</div>
+								<div class="col-md-6">
+									<label><strong>{{$lang.summary_to_time}}</strong></label>
+									<select name="" id="" class="form-control ls-select2">
+					                    <option>08:00</option>
+					                  	<option>08:30</option>
+					                  	<option>09:00</option>
+					                  	<option>09:30</option>
+					                  	<option>10:00</option>
+					                  	<option>10:30</option>
+					                </select>
+								</div>
+							</div>
+						</div>
 						<div class="col-md-7">
 							<div class="row">
 								<div class="col-md-4">
@@ -92,7 +118,7 @@
 									<div class="">
 					                   	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
 					                   		<option value="">Select</option>
-					                  		<option v-for="(referee, index) in referees" :value="referee.id">{{referee.first_name}}</option>
+					                  		<option v-for="(referee, index) in referees" :value="referee.id">{{referee.last_name}}, {{referee.first_name}}</option>
 					                    </select>
 							        </div>
 							    </div>
@@ -119,7 +145,7 @@
 				<table class="table table-hover table-bordered">
 					<thead>
 	                    <tr>
-	                        <th class="text-center">{{$lang.summary_reports_date}}</th>
+	                        <th class="text-center">{{$lang.summary_reports_date_time}}</th>
 	                        <th class="text-center">{{$lang.summary_reports_age_catrgory}}</th>
 	                        <th class="text-center">{{$lang.summary_reports_location}}</th>
 	                        <th class="text-center">{{$lang.summary_reports_pitch}}</th>
@@ -133,7 +159,8 @@
 	                		<td>{{report.group_name}}</td>
 	                		<td>{{report.venue_name}}</td>
 	                		<td>{{report.pitch_number}}</td>
-	                		<td>{{report.referee_name}}</td>
+	                		<td v-if="report.referee_last_name && report.referee_first_name">{{report.referee_last_name}}, {{report.referee_first_name}}</td>
+	                		<td v-else></td>
 	                		<td>{{report.full_game}}</td>
 	                	</tr>
 	                </tbody>
