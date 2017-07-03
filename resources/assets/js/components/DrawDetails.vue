@@ -30,8 +30,9 @@
    		<td>{{index+1}}</td>
     		<td>
     			<a href="" class="pull-left text-left text-primary">
-    			  <img :src="match.TeamFlag" width="20"> &nbsp;
-    			    <span><u>{{match.TeamName}}</u></span>
+    			  <!--<img :src="match.TeamFlag" width="20"> -->
+            <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
+            <span><u>{{match.TeamName}}</u></span>
     			</a>
     		</td>
         <td v-for="(teamMatch, ind2) in match.matches">
@@ -82,6 +83,7 @@ export default {
           alert('Error in Getting Draws')
         }
       )
+    //  this.drawName = otherData.DrawName
       //this.teamStand = 'true'
       // Call child class Method
       // this.$children[1].getData(this.currentCompetationId)
