@@ -1,19 +1,22 @@
 <template>
 <div>
+<div class="form-group">
+  <a @click="setCurrentView('drawList','drawListing')" data-toggle="tab" href="javascript:void(0)" role="tab" aria-expanded="true" class="btn btn-primary"><i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to draw list</a>
+</div>
 <div class="form-group row d-flex flex-row align-items-center">
-<label class="col-sm-3"><h6 class="mb-0">{{otherData.DrawName}} results grid</h6></label>
-<div class="col-sm-9">
-        <select class="form-control ls-select2 col-sm-4"
-      v-on:change="onChangeDrawDetails"
-      v-model="DrawName">
+  <label class="col-sm-3"><h6 class="mb-0">{{otherData.DrawName}} results grid</h6></label>
+  <div class="col-sm-9">
+    <select class="form-control ls-select2 col-sm-4"
+    v-on:change="onChangeDrawDetails"
+    v-model="DrawName">
       <option value="">Select</option>
       <option
       v-for="option in drawList"
       v-bind:value="option"
       >{{option.name}}
       </option>
-      </select>
-    </div>
+    </select>
+  </div>
 </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
 
@@ -29,10 +32,10 @@
   	<tr v-for="(match,index) in match1Data">
    		<td>{{index+1}}</td>
     		<td>
-    			<a href="" class="pull-left text-left text-primary">
+    			<!-- <a href="" class="pull-left text-left text-primary"> -->
     			  <img :src="match.TeamFlag" width="20"> &nbsp;
     			    <span><u>{{match.TeamName}}</u></span>
-    			</a>
+    			<!-- </a> -->
     		</td>
         <td v-for="(teamMatch, ind2) in match.matches">
           {{teamMatch.score}}
@@ -183,6 +186,11 @@ export default {
 
             }
 
+        },
+        setCurrentView(currentScheduleView,currentView) {
+          this.currentView = currentView
+          this.$store.dispatch('setCurrentScheduleView',currentScheduleView)
+          this.$root.$emit('changeDrawListComp')
         }
     }
 }
