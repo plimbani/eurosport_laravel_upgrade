@@ -6,22 +6,20 @@
               {{$lang.pitch_planner_no_games}}
         </div>
         <div class="text-center" v-else v-for="(competition,index) in competitionWithGames">
+          <div v-if="competition.matchList.length > 0">
+            <h6 class="mb-0" ><strong>{{competition.group_name}}</strong></h6>
 
-        <div v-if="tournamentFilter.filterValue.id && competition.matchCount == 0"></div>
-        <div v-else>
-           <h6 class="mb-0"><strong>
-          {{competition.group_name}}</strong></h6>
 
-          <div v-if="competition.matchCount == 0">
-              {{$lang.pitch_planner_no_games}}
-          </div>
+            <div v-if="competition.matchCount == 0">
+                {{$lang.pitch_planner_no_games}}
+            </div>
+            <div class="text-center mt-3"
+            v-if="matches.isScheduled!=1"
+            v-for="match in competition.matchList"
+            :data-text="match.matchName">
+                <draggable-match-event :match="match"></draggable-match-event>
+            </div>
 
-        </div>
-          <div class="text-center mt-3"
-          v-if="match.isScheduled!=1"
-          v-for="match in competition.matchList"
-          :data-text="match.matchName">
-              <draggable-match-event :match="match"></draggable-match-event>
           </div>
         </div>
         <br>
