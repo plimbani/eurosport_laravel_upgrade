@@ -154,9 +154,7 @@
 
                                                                 </div>
                                                             </div>
-                                                            <div
-                                                            :class="'row align-items-center mb-3   stageInvisible chk_disable_'+day "
-                                                            >
+                                                            <div :class="'row align-items-center mb-3 stageInvisible chk_disable_'+day ">
                                                                 <div class="col-md-3">
                                                                     Stage {{day}} continued
                                                                 </div>
@@ -180,7 +178,6 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">
-
                                                                 </div>
                                                             </div>
                                                             <div class="row align-items-center mb-3">
@@ -206,9 +203,7 @@
                                                                         <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-3">
-
-                                                                    <span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
+                                                                <div class="col-md-3">                                                                    <span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
                                                                     <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity1'+day" value="0.00">
                                                                     <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity1_min'+day" value="0">
                                                                 </div>
