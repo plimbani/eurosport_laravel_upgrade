@@ -17,6 +17,18 @@
 						<div class="col-md-7">
 							<div class="row">
 								<div class="col-md-4">
+									<label><strong>{{$lang.summary_from}}</strong></label>
+									<div class="">
+										 <input type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
+				                    </div>
+								</div>
+								<div class="col-md-4">
+									<label><strong>{{$lang.summary_to}}</strong></label>
+									<div class="">
+			            				 <input type="text" name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
+				                    </div>
+								</div>
+								<div class="col-md-4">
 									<label><strong>{{$lang.summary_age_category}}</strong></label>
 									<div class="">
                    						 <select name="sel_ageCategory" id="sel_ageCategory" 
@@ -27,7 +39,11 @@
                      					</select>
 				    				</div>
 								</div>
-								<div class="col-md-4">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="row">
+								<div class="col-md-6">
 									<label><strong>{{$lang.summary_club}}</strong></label>
 									<div class="">
 				                    	<select class="form-control ls-select2" name="sel_clubs" 
@@ -38,7 +54,7 @@
 					                    </select>
 								 	</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-6">
 									<label><strong>{{$lang.summary_team}}</strong></label>
 									<div class="">
 					                    <select name="sel_teams" id="sel_teams" class="form-control ls-select2">
@@ -49,52 +65,73 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-5">
-							<div class="row">
-								<div class="col-md-6">
-									<label><strong>{{$lang.summary_from}}</strong></label>
-									<div class="">
-										 <input type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
-				                    </div>
-								</div>
-								<div class="col-md-6">
-									<label><strong>{{$lang.summary_to}}</strong></label>
-									<div class="">
-			            				 <input type="text" name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
-				                    </div>
-								</div>
-							</div>
-						</div>
+					
 					</div>
 					<div class="row mb-4">
-						<div class="col-md-5">
-							<div class="row">
-								<div class="col-md-6">
-									<label><strong>{{$lang.summary_from_time}}</strong></label>
-									<select name="" id="" class="form-control ls-select2">
-						                    <option>08:00</option>
-						                  	<option>08:30</option>
-						                  	<option>09:00</option>
-						                  	<option>09:30</option>
-						                  	<option>10:00</option>
-						                  	<option>10:30</option>
-					                </select>
-								</div>
-								<div class="col-md-6">
-									<label><strong>{{$lang.summary_to_time}}</strong></label>
-									<select name="" id="" class="form-control ls-select2">
-					                    <option>08:00</option>
-					                  	<option>08:30</option>
-					                  	<option>09:00</option>
-					                  	<option>09:30</option>
-					                  	<option>10:00</option>
-					                  	<option>10:30</option>
-					                </select>
-								</div>
-							</div>
-						</div>
 						<div class="col-md-7">
 							<div class="row">
+								<div class="col-md-4">
+									<label><strong>{{$lang.summary_from_time}}</strong></label>
+									<div>
+									<select name="start_time" id="start_time"  class="form-control ls-select2">
+										<option value="">Select</option>
+										<option value="08:00">08:00</option>
+										<option value="08:30">08:30</option>
+										<option value="09:00">09:00</option>
+										<option value="09:30">09:30</option>
+										<option value="10:00">10:00</option>
+										<option value="10:30">10:30</option>
+										<option value="11:00">11:00</option>
+										<option value="11:30">11:30</option>
+										<option value="12:00">12:00</option>
+										<option value="12:30">12:30</option>
+										<option value="13:00">13:00</option>	
+										<option value="13:30">13:30</option>
+										<option value="14:00">14:00</option>
+										<option value="14:30">14:30</option>
+										<option value="15:00">15:00</option>
+										<option value="15:30">15:30</option>
+										<option value="16:00">16:00</option>
+										<option value="16:30">16:30</option>
+										<option value="17:00">17:00</option>
+										<option value="17:30">17:30</option>
+										<option value="18:00">18:00</option>
+										<option value="18:30">18:30</option>
+										<option value="19:00">19:00</option>
+									</select>		
+				                    </div>
+								</div>
+								<div class="col-md-4">
+									<label><strong>{{$lang.summary_to_time}}</strong></label>
+									<div>
+									<select name="end_time" id="end_time"  class="form-control ls-select2">
+										<option value="">Select</option>
+										<option value="08:00">08:00</option>
+										<option value="08:30">08:30</option>
+										<option value="09:00">09:00</option>
+										<option value="09:30">09:30</option>
+										<option value="10:00">10:00</option>
+										<option value="10:30">10:30</option>
+										<option value="11:00">11:00</option>
+										<option value="11:30">11:30</option>
+										<option value="12:00">12:00</option>
+										<option value="12:30">12:30</option>
+										<option value="13:00">13:00</option>	
+										<option value="13:30">13:30</option>
+										<option value="14:00">14:00</option>
+										<option value="14:30">14:30</option>
+										<option value="15:00">15:00</option>
+										<option value="15:30">15:30</option>
+										<option value="16:00">16:00</option>
+										<option value="16:30">16:30</option>
+										<option value="17:00">17:00</option>
+										<option value="17:30">17:30</option>
+										<option value="18:00">18:00</option>
+										<option value="18:30">18:30</option>
+										<option value="19:00">19:00</option>
+									</select>		
+				                    </div>
+								</div>
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_location}}</strong></label>
 									<div class="">
@@ -104,7 +141,11 @@
 				                    	</select>
 								    </div>
 								</div>
-								<div class="col-md-4">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="row">
+								<div class="col-md-6">
 									<label><strong>{{$lang.summary_pitch}}</strong></label>
 									<div class="">
 	  									<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
@@ -113,7 +154,7 @@
 	  				        			</select>
 				         			</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-6">
 									<label><strong>{{$lang.summary_referee}}</strong></label>
 									<div class="">
 					                   	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
@@ -145,7 +186,7 @@
 				<table class="table table-hover table-bordered">
 					<thead>
 	                    <tr>
-	                        <th class="text-center">{{$lang.summary_reports_date_time}}</th>
+	                        <th class="text-center">{{$lang.summary_reports_date}}</th>
 	                        <th class="text-center">{{$lang.summary_reports_age_catrgory}}</th>
 	                        <th class="text-center">{{$lang.summary_reports_location}}</th>
 	                        <th class="text-center">{{$lang.summary_reports_pitch}}</th>
@@ -160,7 +201,7 @@
 	                		<td>{{report.venue_name}}</td>
 	                		<td>{{report.pitch_number}}</td>
 	                		<td v-if="report.referee_last_name && report.referee_first_name">{{report.referee_last_name}}, {{report.referee_first_name}}</td>
-	                		<td v-else></td>
+		             		<td v-else></td>
 	                		<td>{{report.full_game}}</td>
 	                	</tr>
 	                </tbody>
@@ -195,7 +236,7 @@ export default {
     filters: {
     	formatDate: function(date) {
      	return moment(date).format("hh:mm ddd DD MMM YYYY");
-   	   }
+   	   },
     },
     mounted() {
     	this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
@@ -235,8 +276,8 @@ export default {
     	getTeams() {
     		if (!isNaN(this.TournamentId)) {
 		      // here we add data for
-		      let TournamentData = {'tournament_id': this.TournamentId}
-		      Tournament.getTeams(this.TournamentId).then(
+		      let TournamentData = {'tournamentId': this.TournamentId}
+		      Tournament.getTeams(TournamentData).then(
 		      (response) => {
 		        this.teams = response.data.data
 		        // console.log(this.competationList);
@@ -310,7 +351,6 @@ export default {
 	          Tournament.getAllClubs(this.TournamentId).then(
 	          (response) => {
 	            this.clubs = response.data.data
-	            console.log(response.data.data);
 	          },
 	          (error) => {
 	             console.log('Error occured during Tournament api ', error)
@@ -327,6 +367,7 @@ export default {
     		if (!isNaN(this.TournamentId)) {
 		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
 		     // let ReportData =  $('#frmReport').serializeArray()
+		      
 		      this.reportQuery = ReportData
 		      Tournament.getAllReportsData(ReportData).then(
 		      (response) => {
