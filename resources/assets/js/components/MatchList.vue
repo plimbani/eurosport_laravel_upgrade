@@ -24,8 +24,7 @@
 					</a>
 				</td>
 				<td class="text-center">
-        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -
-
+        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -	
         		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" 
         		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
       		    </td>
