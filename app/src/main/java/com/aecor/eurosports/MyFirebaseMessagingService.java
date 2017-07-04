@@ -1,13 +1,8 @@
 package com.aecor.eurosports;
 
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
-import android.os.IBinder;
-import android.util.Log;
 
 import com.aecor.eurosports.util.AppLogger;
-import com.aecor.eurosports.util.AppPreference;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

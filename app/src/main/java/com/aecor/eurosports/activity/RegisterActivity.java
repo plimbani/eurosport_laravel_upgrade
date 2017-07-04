@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -78,7 +77,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    tournament_id = Long.parseLong(mTournamentList[position-1].getId());
+                    tournament_id = Long.parseLong(mTournamentList[position - 1].getId());
                 }
                 checkValidation();
             }
@@ -121,7 +120,7 @@ public class RegisterActivity extends BaseActivity {
         if (Utility.isInternetAvailable(mContext)) {
             AppLogger.LogE(TAG, "***** Register request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -169,7 +168,7 @@ public class RegisterActivity extends BaseActivity {
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .GET, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -263,7 +262,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private boolean validate_spinner() {
-        if(tournament_id == 0)
+        if (tournament_id == 0)
             return false;
         else
             return true;

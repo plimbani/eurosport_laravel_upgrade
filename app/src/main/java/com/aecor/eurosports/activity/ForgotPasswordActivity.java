@@ -89,21 +89,20 @@ public class ForgotPasswordActivity extends BaseActivity {
         if (Utility.isInternetAvailable(mContext)) {
             AppLogger.LogE(TAG, "***** Forgot password request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
                     try {
-                        if(response != null && response.length() > 0) {
+                        if (response != null && response.length() > 0) {
                             AppLogger.LogE(TAG, "***** Forgot password response *****" + response.toString());
                             if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                                 Utility.showToast(mContext, response.toString());
                                 startActivity(new Intent(mContext, ForgotPasswordOtpActivity.class));
                             }
-                        }
-                        else
+                        } else
                             Utility.showToast(mContext, "Response is null");
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -156,7 +155,8 @@ public class ForgotPasswordActivity extends BaseActivity {
     private class GenericTextMatcher implements TextWatcher {
 
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -164,6 +164,7 @@ public class ForgotPasswordActivity extends BaseActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {  }
+        public void afterTextChanged(Editable s) {
+        }
     }
 }

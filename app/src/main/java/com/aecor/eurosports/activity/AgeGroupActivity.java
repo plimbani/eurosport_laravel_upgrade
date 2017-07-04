@@ -118,7 +118,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
                 e.printStackTrace();
             }
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -153,7 +153,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
                     }
 
                 }
-            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }

@@ -70,10 +70,12 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
 
     private AppPreference mAppPref;
     private Context mContext;
-     private int tournamet_id = 0;
-     private int selectedTournamentPos;
+    private int tournamet_id = 0;
+    private int selectedTournamentPos;
     private List<TournamentModel> mTournamentList;
- 
+    private String[] localeKeys;
+    private String selectedLocale;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.profile);
@@ -93,6 +95,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
             requestJson.put("first_name", input_first_name.getText().toString().trim());
             requestJson.put("last_name", input_last_name.getText().toString().trim());
             requestJson.put("tournament_id", tournamet_id);
+            requestJson.put("locale", selectedLocale);
 //            requestJson.put("profile_image_url", "");
             requestJson.put("user_id", user_id);
         } catch (JSONException e) {
@@ -102,7 +105,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         if (Utility.isInternetAvailable(mContext)) {
             AppLogger.LogE(TAG, "***** Profile update request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -115,7 +118,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
                                 String messgae = response.getString("message");
                                 Utility.showToast(mContext, messgae);
                             } else {
-                                Utility.showToast(mContext, getResources().getString(R.string.update_profile));
+                                Utility.showToast(mContext, getResources().getString(R.string.update_profile_message));
                             }
                         }
                     } catch (Exception e) {
@@ -132,7 +135,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
                         e.printStackTrace();
                     }
                 }
-            }, mAppPref.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }
@@ -140,10 +143,12 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     protected void initView() {
         mContext = this;
         mAppPref = AppPreference.getInstance(mContext);
+        localeKeys = getResources().getStringArray(R.array.language_locale_keys);
+
         setData();
         getLoggedInUserFavouriteTournamentList();
         setListener();
-        showBackButton(getString(R.string.update));
+        showBackButton(getString(R.string.update_profile));
     }
 
     private void setData() {
@@ -158,7 +163,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
 
     private void setLanguageSpinner() {
         String[] temp = {"English", "French", "Italian", "German", "Dutch", "Czech", "Danish", "Polish"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item,R.id.tv_spinner, temp);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item, R.id.tv_spinner, temp);
         profile_language_selection.setAdapter(adapter);
     }
 
@@ -181,7 +186,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         profile_language_selection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                selectedLocale = localeKeys[position];
             }
 
             @Override
@@ -204,7 +209,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -302,9 +307,9 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     }
 
     private boolean validate_spinner() {
- 
-        if(selectedTournamentPos == 0)
-             return false;
+
+        if (selectedTournamentPos == 0)
+            return false;
         else
             return true;
     }

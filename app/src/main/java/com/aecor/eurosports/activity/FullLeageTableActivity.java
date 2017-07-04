@@ -17,7 +17,6 @@ import com.aecor.eurosports.model.LeagueModel;
 import com.aecor.eurosports.util.AppConstants;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import butterknife.BindView;

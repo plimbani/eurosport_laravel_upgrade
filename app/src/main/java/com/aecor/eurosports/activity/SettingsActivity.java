@@ -10,14 +10,6 @@ import android.support.v4.content.IntentCompat;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;
-import com.aecor.eurosports.util.Utility;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import butterknife.OnClick;
 
@@ -79,9 +71,7 @@ public class SettingsActivity extends BaseAppCompactActivity {
 
     private void logoutFromApp() {
         AppPreference mAppPref = AppPreference.getInstance(mContext);
-        mAppPref.setString(AppConstants.PREF_EMAIL, "");
-        mAppPref.setString(AppConstants.PREF_PASSWORD, "");
-
+        mAppPref.clear();
         Intent intent = new Intent(mContext, LandingActivity.class);
         ComponentName cn = intent.getComponent();
         Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
@@ -90,7 +89,7 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
             AppLogger.LogE(TAG, "requestJson" + requestJson.toString());
 
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -128,7 +127,7 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
                     }
 
                 }
-            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }

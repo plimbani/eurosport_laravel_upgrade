@@ -11,17 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
-import com.aecor.eurosports.activity.AgeCategoriesActivity;
 import com.aecor.eurosports.adapter.AgeAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -115,25 +112,29 @@ public class ClubsAgeFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress(mProgressHUD);
                     try {
-                        AppLogger.LogE(TAG, "Get Tournament Age List response" + response.toString());
-                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-                                AgeCategoriesModel mAgeList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), AgeCategoriesModel[].class);
-                                if (mAgeList != null && mAgeList.length > 0) {
-                                    setAgeAdapter(mAgeList);
-                                } else {
-                                    showNoItemView();
+                        if (response != null && !Utility.isNullOrEmpty(response.toString())) {
+                            AppLogger.LogE(TAG, "Get Tournament Age List response" + response.toString());
+                            if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                                if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                    AgeCategoriesModel mAgeList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), AgeCategoriesModel[].class);
+                                    if (mAgeList != null && mAgeList.length > 0) {
+                                        setAgeAdapter(mAgeList);
+                                    } else {
+                                        showNoItemView();
+                                    }
                                 }
                             }
-                        }
+                        } else {
+                            showNoItemView();
 
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -150,7 +151,7 @@ public class ClubsAgeFragment extends Fragment {
                     }
 
                 }
-            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }

@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.TeamListingActivity;
-import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.model.ClubModel;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;

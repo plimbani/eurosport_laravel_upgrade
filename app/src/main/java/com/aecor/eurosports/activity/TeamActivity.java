@@ -2,9 +2,8 @@ package com.aecor.eurosports.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,7 +13,6 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
-import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.model.LeagueModel;
 import com.aecor.eurosports.model.TeamDetailModel;
 import com.aecor.eurosports.model.TeamFixturesModel;
@@ -32,7 +30,6 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -124,7 +121,7 @@ public class TeamActivity extends BaseAppCompactActivity {
             AppLogger.LogE(TAG, "url" + url);
             AppLogger.LogE(TAG, "requestJson" + requestJson.toString());
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -162,7 +159,7 @@ public class TeamActivity extends BaseAppCompactActivity {
                     }
 
                 }
-            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }
@@ -188,7 +185,7 @@ public class TeamActivity extends BaseAppCompactActivity {
         ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
         String groupTableTitle = mLeagueModel.getName() + " " + getString(R.string.league_table);
         tv_group_table_title.setText(groupTableTitle);
-        tv_group_name.setText( mLeagueModel.getName());
+        tv_group_name.setText(mLeagueModel.getName());
         tv_points.setText(mLeagueModel.getPoints());
         tv_games.setText(mLeagueModel.getPlayed());
         int goalDifferenece = Integer.parseInt(mLeagueModel.getGoal_for()) - Integer.parseInt(mLeagueModel.getGoal_against());
@@ -288,7 +285,7 @@ public class TeamActivity extends BaseAppCompactActivity {
             AppLogger.LogE(TAG, "requestJson" + requestJson.toString());
 
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -326,7 +323,7 @@ public class TeamActivity extends BaseAppCompactActivity {
                     }
 
                 }
-            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }

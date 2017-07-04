@@ -27,6 +27,24 @@ public class TournamentModel {
     private String created_at;
     private String updated_at;
     private String deleted_at;
+    private String tournament_id;
+    private String tournamentLogo;
+
+    public String getTournamentLogo() {
+        return tournamentLogo;
+    }
+
+    public void setTournamentLogo(String tournamentLogo) {
+        this.tournamentLogo = tournamentLogo;
+    }
+
+    public String getTournament_id() {
+        return tournament_id;
+    }
+
+    public void setTournament_id(String tournament_id) {
+        this.tournament_id = tournament_id;
+    }
 
     public String getId() {
         return id;
