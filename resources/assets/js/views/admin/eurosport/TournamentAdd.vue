@@ -147,104 +147,114 @@
               </div>
             </div>
             <div class="form-group row">
-            <label class="col-sm-2 form-control-label">{{$lang.tournament_address}}</label>
-
-            <div class="col-sm-4">
-            <input type="text" class="form-control"
-            v-model="location.touranment_venue_address"
-            placeholder="">
-            </div>
-            </div>
-            <div class="form-group row">
-            <label class="col-sm-2 form-control-label">{{$lang.tournament_town_city}}</label>
-
-            <div class="col-sm-4">
-            <input type="text" class="form-control"
-            v-model="location.tournament_venue_city"
-            placeholder="">
-            </div>
+              <label class="col-sm-2 form-control-label">{{$lang.tournament_address}}*</label>
+              <div class="col-sm-4">
+                  <input type="text" class="form-control" :name="'touranment_venue_address'+index"
+                  v-model="location.touranment_venue_address"
+                  v-validate="'required'" :class="{'is-danger': errors.has('touranment_venue_address'+index) }"
+                  >
+                  <i v-show="errors.has('touranment_venue_address'+index)" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('touranment_venue_address'+index)">{{$lang.tournament_validation_venue_address}}</span>
+              </div>
             </div>
             <div class="form-group row">
-            <label class="col-sm-2 form-control-label">{{$lang.tournament_postcode}}</label>
-
-            <div class="col-sm-4">
-            <input type="text" class="form-control"
-            v-model="location.tournament_venue_postcode"
-            placeholder="">
-            </div>
-            </div>
-            <div class="form-group row">
-            <label class="col-sm-2 form-control-label">{{$lang.tournament_state}}</label>
-
-            <div class="col-sm-4">
-            <input type="text" class="form-control"
-            v-model="location.tournament_venue_state"
-            placeholder="">
-            </div>
+              <label class="col-sm-2 form-control-label">{{$lang.tournament_town_city}}*</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" :name="'tournament_venue_city'+index"
+                v-model="location.tournament_venue_city"
+                v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_city'+index) }"
+                placeholder="">
+                <i v-show="errors.has('tournament_venue_city'+index)" class="fa fa-warning"></i>
+                <span class="help is-danger" v-show="errors.has('tournament_venue_city'+index)">{{$lang.tournament_validation_venue_city}}</span>
+              </div>
             </div>
             <div class="form-group row">
-            <label class="col-sm-2 form-control-label">{{$lang.tournament_country}}</label>
-
-            <div class="col-sm-4">
-            <div class="form-group">
-            <select class="form-control"
-            v-model="location.tournament_venue_country">
-              <option value="">{{$lang.tournament_country_please_select}}</option>
-              <option value="Andorra">Andorra</option>
-              <option value="Belgium">Belgium</option>
-              <option value="Belarus">Belarus</option>
-              <option value="Bulgaria">Bulgaria</option>
-              <option value="Canada">Canada</option>
-              <option value="Croatia">Croatia</option>
-              <option value="Czech Republic">Czech Republic</option>
-              <option value="Denmark">Denmark</option>
-              <option value="Cyprus">Cyprus</option>
-              <option value="Estonia">Estonia</option>
-              <option value="England">England</option>
-              <option value="Finland">Finland</option>
-              <option value="Faroe Islands">Faroe Islands</option>
-              <option value="France">France </option>
-              <option value="Georgia">Georgia</option>
-              <option value="Germany">Germany</option>
-              <option value="Gibraltar">Gibraltar</option>
-              <option value="Greece">Greece</option>
-              <option value="Hungary">Hungary</option>
-              <option value="Iceland">Iceland</option>
-              <option value="Ireland">Ireland</option>
-              <option value="Isle of man">Isle of man</option>
-              <option value="Italy">Italy</option>
-              <option value="Japan">Japan</option>
-              <option value="Latvia">Latvia</option>
-              <option value="Liechtenstein">Liechtenstein</option>
-              <option value="Lithuania">Lithuania</option>
-              <option value="Luxembourg">Luxembourg</option>
-              <option value="Macedonia">Macedonia</option>
-              <option value="Malta">Malta</option>
-              <option value="Moldava">Moldava</option>
-              <option value="Monaco">Monaco</option>
-              <option value="Montenegro">Montenegro</option>
-              <option value="Netherlands">Netherlands</option>
-              <option value="Northern Ireland">Northern Ireland</option>
-              <option value="Norway">Norway</option>
-              <option value="Poland">Poland</option>
-              <option value="Portugal">Portugal</option>
-              <option value="Romania">Romania</option>
-              <option value="San Marino">San Marino</option>
-              <option value="Scotland">Scotland</option>
-              <option value="Serbia">Serbia</option>
-              <option value="Slovakia">Slovakia</option>
-              <option value="Slovenia">Slovenia</option>
-              <option value="South Africa">South Africa</option>
-              <option value="Spain">Spain</option>
-              <option value="Sweden">Sweden</option>
-              <option value="Switzerland">Switzerland</option>
-              <option value="Ukraine">Ukraine</option>
-              <option value="United States">United States</option>
-              <option value="Wales">Wales</option>
-              <option value="United Kingdom">United Kingdom</option>
-            </select>
+              <label class="col-sm-2 form-control-label">{{$lang.tournament_postcode}}*</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" :name="'tournament_venue_postcode'+index"
+                v-model="location.tournament_venue_postcode"
+                v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_postcode'+index) }"
+                placeholder="">
+                <i v-show="errors.has('tournament_venue_postcode'+index)" class="fa fa-warning"></i>
+                <span class="help is-danger" v-show="errors.has('tournament_venue_postcode'+index)">{{$lang.tournament_validation_postcode}}</span>
+              </div>
             </div>
+            <div class="form-group row">
+              <label class="col-sm-2 form-control-label">{{$lang.tournament_state}}*</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" :name="'tournament_venue_state'+index"
+                v-model="location.tournament_venue_state"
+                v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_state'+index) }"
+                placeholder="">
+                <i v-show="errors.has('tournament_venue_state'+index)" class="fa fa-warning"></i>
+                <span class="help is-danger" v-show="errors.has('tournament_venue_state'+index)">{{$lang.tournament_validation_state}}</span>
+              </div>
             </div>
+            <div class="form-group row">
+              <label class="col-sm-2 form-control-label">{{$lang.tournament_country}}*</label>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <select class="form-control" :name="'tournament_venue_country'+index"
+                  v-model="location.tournament_venue_country"
+                  v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_country'+index) }">
+                    <option value="">{{$lang.tournament_country_please_select}}</option>
+                    <option value="Andorra">Andorra</option>
+                    <option value="Belgium">Belgium</option>
+                    <option value="Belarus">Belarus</option>
+                    <option value="Bulgaria">Bulgaria</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Croatia">Croatia</option>
+                    <option value="Czech Republic">Czech Republic</option>
+                    <option value="Denmark">Denmark</option>
+                    <option value="Cyprus">Cyprus</option>
+                    <option value="Estonia">Estonia</option>
+                    <option value="England">England</option>
+                    <option value="Finland">Finland</option>
+                    <option value="Faroe Islands">Faroe Islands</option>
+                    <option value="France">France </option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Gibraltar">Gibraltar</option>
+                    <option value="Greece">Greece</option>
+                    <option value="Hungary">Hungary</option>
+                    <option value="Iceland">Iceland</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="Isle of man">Isle of man</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Japan">Japan</option>
+                    <option value="Latvia">Latvia</option>
+                    <option value="Liechtenstein">Liechtenstein</option>
+                    <option value="Lithuania">Lithuania</option>
+                    <option value="Luxembourg">Luxembourg</option>
+                    <option value="Macedonia">Macedonia</option>
+                    <option value="Malta">Malta</option>
+                    <option value="Moldava">Moldava</option>
+                    <option value="Monaco">Monaco</option>
+                    <option value="Montenegro">Montenegro</option>
+                    <option value="Netherlands">Netherlands</option>
+                    <option value="Northern Ireland">Northern Ireland</option>
+                    <option value="Norway">Norway</option>
+                    <option value="Poland">Poland</option>
+                    <option value="Portugal">Portugal</option>
+                    <option value="Romania">Romania</option>
+                    <option value="San Marino">San Marino</option>
+                    <option value="Scotland">Scotland</option>
+                    <option value="Serbia">Serbia</option>
+                    <option value="Slovakia">Slovakia</option>
+                    <option value="Slovenia">Slovenia</option>
+                    <option value="South Africa">South Africa</option>
+                    <option value="Spain">Spain</option>
+                    <option value="Sweden">Sweden</option>
+                    <option value="Switzerland">Switzerland</option>
+                    <option value="Ukraine">Ukraine</option>
+                    <option value="United States">United States</option>
+                    <option value="Wales">Wales</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                  </select>
+                  <i v-show="errors.has('tournament_venue_country'+index)" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('tournament_venue_country'+index)">{{$lang.tournament_validation_country}}</span>
+                </div>
+              </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">{{$lang.tournament_organiser}}</label>
