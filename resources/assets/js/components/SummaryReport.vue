@@ -234,7 +234,7 @@ export default {
     },
     filters: {
     	formatDate: function(date) {
-     	return moment(date).format("hh:mm ddd DD MMM YYYY");
+     	return moment(date).format("HH:mm ddd DD MMM YYYY");
    	   },
     },
     mounted() {

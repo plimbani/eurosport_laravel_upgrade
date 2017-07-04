@@ -5,14 +5,14 @@
       <h6 class="mb-0" v-else>{{venueName}}</h6> 
     </label>
     <div class="col-sm-10 pl-0">
-        <select class="form-control ls-select2 col-sm-4"
-          v-on:change="onChangeLocation"
-          v-model="location">
-          <option v-for="option in locations"
-          v-bind:value="option"
-          >{{option.venue_name}}-{{option.pitch_number}}
-          </option>
-        </select>
+      <select class="form-control ls-select2 col-sm-4"
+        v-on:change="onChangeLocation"
+        v-model="location">
+        <option v-for="option in locations"
+        v-bind:value="option"
+        >{{option.venue_name}}-{{option.pitch_number}}
+        </option>
+      </select>
     </div>
   </div>  
     <matchList :matchData="matchData"></matchList>
