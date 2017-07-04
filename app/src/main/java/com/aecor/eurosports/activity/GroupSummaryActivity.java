@@ -3,7 +3,6 @@ package com.aecor.eurosports.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -32,7 +31,6 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -139,7 +137,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 e.printStackTrace();
             }
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -177,7 +175,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                     }
 
                 }
-            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }
@@ -200,7 +198,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 e.printStackTrace();
             }
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -238,7 +236,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                     }
 
                 }
-            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }

@@ -5,6 +5,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -30,6 +33,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONObject;
 
@@ -42,14 +47,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.aecor.eurosports.util.AppConstants.FACEBOOK_PAGE_ID;
 import static com.aecor.eurosports.util.AppConstants.FACEBOOK_URL;
-import static com.aecor.eurosports.util.AppConstants.INSTAGRAM_APP_URL;
 import static com.aecor.eurosports.util.AppConstants.INSTAGRAM_URL;
-import static com.aecor.eurosports.util.AppConstants.TWITTER_APP_URL;
 import static com.aecor.eurosports.util.AppConstants.TWITTER_URL;
 
 public class HomeActivity extends BaseAppCompactActivity {
@@ -94,6 +96,33 @@ public class HomeActivity extends BaseAppCompactActivity {
                     mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getId());
                     tv_tournamentName.setText(mTournamentList.get(position).getName());
                 }
+                if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournamentLogo())) {
+
+                    Picasso.with(mContext)
+                            .load(mTournamentList.get(position).getTournamentLogo())
+                            .into(new Target() {
+                                @Override
+                                public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+                                    iv_tournamentLogo.setImageBitmap(Utility.scaleBitmap(bitmap, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
+                                }
+
+                                @Override
+                                public void onBitmapFailed(Drawable errorDrawable) {
+
+                                }
+
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                                }
+                            });
+
+
+                } else {
+
+                    iv_tournamentLogo.setImageResource(R.drawable.globe);
+                }
+
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getStart_date()) && !Utility.isNullOrEmpty(mTournamentList.get(position).getEnd_date())) {
                     tv_tournamentDate.setText(Utility.getFormattedTournamentDate(mTournamentList.get(position).getStart_date(), mTournamentList.get(position).getEnd_date()));
                     if (timer != null) {
@@ -234,7 +263,7 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     @OnClick(R.id.instagram)
     protected void open_instagram() {
-        Uri uri = Uri.parse(INSTAGRAM_APP_URL);
+        Uri uri = Uri.parse(AppConstants.INSTAGRAM_URL);
         Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
 
         likeIng.setPackage("com.instagram.android");
@@ -255,7 +284,7 @@ public class HomeActivity extends BaseAppCompactActivity {
         try {
             // get the Twitter app if possible
             mContext.getPackageManager().getPackageInfo("com.twitter.android", 0);
-            twitter = new Intent(Intent.ACTION_VIEW, Uri.parse(TWITTER_APP_URL));
+            twitter = new Intent(Intent.ACTION_VIEW, Uri.parse(AppConstants.TWITTER_URL));
             twitter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(twitter);
         } catch (Exception e) {
@@ -283,7 +312,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override

@@ -8,8 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -71,7 +69,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
         setListener();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.age_categories));
+        getSupportActionBar().setTitle(getString(R.string.age_categories).toUpperCase());
         toolbar.setTitleTextColor(Color.WHITE);
         ll_no_item_view.setVisibility(View.GONE);
         tv_no_item.setVisibility(View.GONE);
@@ -114,7 +112,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
                 e.printStackTrace();
             }
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -149,7 +147,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
                     }
 
                 }
-            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }

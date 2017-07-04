@@ -1,9 +1,6 @@
 package com.aecor.eurosports.activity;
 
 import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 /**
  * Created by karan on 6/22/2017.

@@ -1,9 +1,7 @@
 package com.aecor.eurosports.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
@@ -12,9 +10,7 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.util.ApiConstants;
-import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
-import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -112,7 +108,7 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
 
         if (Utility.isInternetAvailable(mContext)) {
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -207,7 +203,7 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
         }
         if (Utility.isInternetAvailable(mContext)) {
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
