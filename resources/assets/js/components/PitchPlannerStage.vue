@@ -321,10 +321,25 @@ import _ from 'lodash'
                         let sMatches = []
 
                         _.forEach(rdata, function(match) {
+                            let scheduleBlock = false
+                            let refereeId = ''
+                            let matchTitle = ''
+                            
                             if(match.is_scheduled == 1){
-
+                                if(filterKey == 'age_category'){
+                                    if( filterValue != '' && filterValue.id != match.tid){
+                                        scheduleBlock = true
+                                    }
+                                }else if(filterKey == 'location'){
+                                    if( filterValue != '' && filterValue.id != match.venueId){
+                                        scheduleBlock = true
+                                    }
+                                }
                               // console.log('match is'+JSON.stringify(match))
                               let colorVal = (match.homeScore == null && match.AwayScore == null) ? '#2196F3' : 'green'
+                              if(scheduleBlock){
+                                colorVal = 'grey'
+                              }
                               let lastName = match.last_name
                               let firstName = match.first_name
                               // console.log(lastName,firstName)
@@ -333,15 +348,22 @@ import _ from 'lodash'
                                 //refereeName = lastName.substr(0,1)+firstName.substr(0,1)
                                 refereeName = firstName+ ' '+lastName
                               }
+                              if(scheduleBlock){
+                                refereeId = -1
+                                matchTitle = 'Match scheduled'
+                              }else{
+                                refereeId = match.referee_id?match.referee_id:0
+                                 matchTitle = match.match_number
+                              }
                              // console.log(val)
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
                                     'start':moment.utc(match.match_datetime,'YYYY-MM-DD HH:mm:ss'),
                                     'end': moment.utc(match.match_endtime,'YYYY-MM-DD HH:mm:ss'),
-                                    'refereeId': match.referee_id?match.referee_id:0,
+                                    'refereeId': refereeId,
                                     'refereeText': refereeName,
-                                    'title':match.match_number,
+                                    'title':matchTitle,
                                     'color': colorVal,
                                     'matchId':match.fid
                                 }
