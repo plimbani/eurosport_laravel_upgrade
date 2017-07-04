@@ -43,6 +43,13 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="text_black_small">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="team_league_table_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -117,7 +124,7 @@
         <item name="donut_unfinished_color">@color/colorPrimary</item>
         <item name="donut_unfinished_stroke_width">5dp</item>
         <item name="donut_circle_starting_degree">270</item>
-      </style>
+    </style>
 
     <style name="SCBSwitch" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->

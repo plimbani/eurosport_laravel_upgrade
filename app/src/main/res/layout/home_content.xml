@@ -193,10 +193,7 @@
                 android:drawSelectorOnTop="true"
                 android:prompt="@string/select_tournament" />
 
-            <include
-                layout="@layout/layout_social_media"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

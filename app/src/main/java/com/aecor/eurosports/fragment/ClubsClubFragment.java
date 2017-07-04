@@ -14,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.AgeCategoriesActivity;
@@ -24,6 +27,8 @@ import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.model.ClubModel;
+import com.aecor.eurosports.ui.ProgressHUD;
+import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -57,18 +62,31 @@ public class ClubsClubFragment extends Fragment {
     protected RecyclerView rv_clubList;
     private AppPreference mPreference;
     private ClubAdapter adapter;
+    @BindView(R.id.ll_no_item_view)
+    protected LinearLayout ll_no_item_view;
+    @BindView(R.id.tv_no_item)
+    protected TextView tv_no_item;
+    @BindView(R.id.rl_search)
+    protected RelativeLayout rl_search;
 
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         rv_clubList.setLayoutManager(mLayoutManager);
         rv_clubList.setItemAnimator(new DefaultItemAnimator());
+        rv_clubList.addItemDecoration(new SimpleDividerItemDecoration(mContext));
+
+        ll_no_item_view.setVisibility(View.GONE);
+        tv_no_item.setVisibility(View.GONE);
+        rl_search.setVisibility(View.GONE);
         getClubList();
         setListener();
+        et_age_search.setHint(getString(R.string.hint_search_club));
+
     }
 
     protected void setListener() {
-       GenericTextMatcher mTextWatcher = new GenericTextMatcher();
+        GenericTextMatcher mTextWatcher = new GenericTextMatcher();
         et_age_search.addTextChangedListener(mTextWatcher);
 
     }
@@ -85,10 +103,9 @@ public class ClubsClubFragment extends Fragment {
     }
 
     private void getClubList() {
-        Utility.startProgress(mContext);
+        final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
         String url = ApiConstants.TOURNAMENT_CLUBS;
         final JSONObject requestJson = new JSONObject();
-
         if (Utility.isInternetAvailable(mContext)) {
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
@@ -103,7 +120,7 @@ public class ClubsClubFragment extends Fragment {
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Utility.StopProgress();
+                    Utility.StopProgress(mProgressHUD);
                     try {
                         AppLogger.LogE(TAG, "Get Tournament Club  List response" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
@@ -111,6 +128,8 @@ public class ClubsClubFragment extends Fragment {
                                 ClubModel mClubList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), ClubModel[].class);
                                 if (mClubList != null && mClubList.length > 0) {
                                     setClubAdapter(mClubList);
+                                } else {
+                                    showNoItemView();
                                 }
                             }
                         }
@@ -124,7 +143,7 @@ public class ClubsClubFragment extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     try {
-                        Utility.StopProgress();
+                        Utility.StopProgress(mProgressHUD);
                         Utility.parseVolleyError(mContext, error);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -141,6 +160,16 @@ public class ClubsClubFragment extends Fragment {
         list.addAll(Arrays.asList(mClubList));
         adapter = new ClubAdapter((Activity) mContext, list);
         rv_clubList.setAdapter(adapter);
+        rl_search.setVisibility(View.VISIBLE);
+        rv_clubList.setVisibility(View.VISIBLE);
+    }
+
+    private void showNoItemView() {
+        ll_no_item_view.setVisibility(View.VISIBLE);
+        tv_no_item.setVisibility(View.VISIBLE);
+        tv_no_item.setText(getResources().getString(R.string.no_data_available));
+        rl_search.setVisibility(View.GONE);
+        rv_clubList.setVisibility(View.GONE);
     }
 
     private class GenericTextMatcher implements TextWatcher {

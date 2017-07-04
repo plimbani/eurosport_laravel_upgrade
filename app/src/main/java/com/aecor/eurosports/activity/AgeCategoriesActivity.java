@@ -8,7 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.AgeAdapter;
@@ -16,6 +20,7 @@ import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.AgeCategoriesModel;
+import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -43,6 +48,12 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
     protected EditText et_age_search;
     @BindView(R.id.age_categories_list)
     protected RecyclerView rv_ageList;
+    @BindView(R.id.ll_no_item_view)
+    protected LinearLayout ll_no_item_view;
+    @BindView(R.id.tv_no_item)
+    protected TextView tv_no_item;
+    @BindView(R.id.rl_search)
+    protected RelativeLayout rl_search;
     private AppPreference mPreference;
     private AgeAdapter adapter;
 
@@ -52,14 +63,26 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rv_ageList.setLayoutManager(mLayoutManager);
         rv_ageList.setItemAnimator(new DefaultItemAnimator());
+        rv_ageList.addItemDecoration(new SimpleDividerItemDecoration(mContext));
+
         getAgeCategories();
         setListener();
+        ll_no_item_view.setVisibility(View.GONE);
+        tv_no_item.setVisibility(View.GONE);
+        rl_search.setVisibility(View.GONE);
+
+    }
+
+    private void showNoItemView() {
+        ll_no_item_view.setVisibility(View.VISIBLE);
+        tv_no_item.setVisibility(View.VISIBLE);
+        tv_no_item.setText(getResources().getString(R.string.no_data_available));
+        rl_search.setVisibility(View.GONE);
+        rv_ageList.setVisibility(View.GONE);
     }
 
     @Override
     protected void setListener() {
-        GenericTextMatcher mTextWatcher = new GenericTextMatcher();
-        et_age_search.addTextChangedListener(mTextWatcher);
     }
 
     @Override
@@ -92,12 +115,14 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
                     try {
-                        AppLogger.LogE(TAG, "Get Tournament List response" + response.toString());
+                        AppLogger.LogE(TAG, "Get Age categories List response" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 AgeCategoriesModel mAgeList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), AgeCategoriesModel[].class);
                                 if (mAgeList != null && mAgeList.length > 0) {
                                     setAgeAdapter(mAgeList);
+                                } else {
+                                    showNoItemView();
                                 }
                             }
                         }
@@ -128,21 +153,8 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
         list.addAll(Arrays.asList(mTournamentList));
         adapter = new AgeAdapter((Activity) mContext, list);
         rv_ageList.setAdapter(adapter);
+        rv_ageList.setVisibility(View.VISIBLE);
+
     }
 
-    private class GenericTextMatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            adapter.getFilter().filter(s.toString());
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-    }
 }

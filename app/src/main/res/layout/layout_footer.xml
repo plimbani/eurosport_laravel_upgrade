@@ -100,7 +100,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:lines="1"
-                android:text="@string/clubs"
+                android:text="@string/teams"
                 android:textColor="@color/home_textview"
                 android:textSize="12sp" />
 

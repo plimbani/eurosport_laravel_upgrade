@@ -1,6 +1,7 @@
 package com.aecor.eurosports.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,7 +9,11 @@ import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.http.VolleyJsonObjectRequest;
+import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.util.ApiConstants;
+import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
@@ -16,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,9 +43,7 @@ public class NotificationAndSoundActivity extends BaseActivity {
 
     @BindView(R.id.sc_notification)
     protected SwitchCompat sc_notification;
-    private AppPreference mAppSharedPref;
     private Context mContext;
-    private RequestQueue mQueue;
     CompoundButton.OnCheckedChangeListener ccl = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton,
@@ -84,14 +88,8 @@ public class NotificationAndSoundActivity extends BaseActivity {
 
     protected void initView() {
         mContext = this;
-        mAppSharedPref = AppPreference.getInstance(mContext);
-        try {
-            getSettingsParam();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        getSettingsParam();
         setListener();
-
     }
 
     protected void setListener() {
@@ -100,13 +98,140 @@ public class NotificationAndSoundActivity extends BaseActivity {
         sc_notification.setOnCheckedChangeListener(ccl);
     }
 
-    private void getSettingsParam() throws JSONException {
+    private void getSettingsParam() {
 
+        Utility.startProgress(mContext);
+        String url = ApiConstants.GET_SETTINGS_ATTRIBUTE;
+        final JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("user_id", Utility.getUserId(mContext));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (Utility.isInternetAvailable(mContext)) {
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "***** Get Settings Param response  *****" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            if (response.has("data") && response.get("data") != null) {
+                                JSONArray mDataJsonArray = response.getJSONArray("data");
+                                if (mDataJsonArray != null && mDataJsonArray.length() > 0) {
+                                    JSONObject mProfileJson = mDataJsonArray.getJSONObject(0);
+                                    if (mProfileJson.has("value") && !Utility.isNullOrEmpty(mProfileJson.getString("value"))) {
+                                        JSONObject mValue = new JSONObject(mProfileJson.getString("value"));
+                                        sc_sound.setOnCheckedChangeListener(null);
+                                        sc_vibration.setOnCheckedChangeListener(null);
+                                        sc_notification.setOnCheckedChangeListener(null);
+
+                                        if (mValue.has("is_sound") && !Utility.isNullOrEmpty(mValue.getString("is_sound")) && mValue.getString("is_sound").equalsIgnoreCase("true")) {
+                                            sc_sound.setChecked(true);
+                                        } else {
+                                            sc_sound.setChecked(false);
+                                        }
+
+                                        if (mValue.has("is_vibration") && !Utility.isNullOrEmpty(mValue.getString("is_vibration")) && mValue.getString("is_vibration").equalsIgnoreCase("true")) {
+                                            sc_vibration.setChecked(true);
+                                        } else {
+                                            sc_vibration.setChecked(false);
+                                        }
+                                        if (mValue.has("is_notification") && !Utility.isNullOrEmpty(mValue.getString("is_notification")) && mValue.getString("is_notification").equalsIgnoreCase("true")) {
+                                            sc_notification.setChecked(true);
+                                        } else {
+                                            sc_notification.setChecked(false);
+                                        }
+
+                                        setListener();
+
+                                    }
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            mQueue.add(jsonRequest);
+        }
 
     }
 
-    private void postSettingsParam() throws JSONException {
+    private void postSettingsParam() {
 
+        Utility.startProgress(mContext);
+        String url = ApiConstants.UPDATE_USER_SETTINGS;
+        final JSONObject requestJson = new JSONObject();
+        try {
+//            requestJson.put("user_id", Utility.getUserId(mContext));
+            JSONObject mUserData = new JSONObject();
+            mUserData.put("userId", Utility.getUserId(mContext));
+
+            JSONObject mUserSettings = new JSONObject();
+            if (sc_sound.isChecked()) {
+                mUserSettings.put("is_sound", "true");
+            } else {
+                mUserSettings.put("is_sound", "false");
+            }
+            if (sc_vibration.isChecked()) {
+                mUserSettings.put("is_vibration", "true");
+            } else {
+                mUserSettings.put("is_vibration", "false");
+            }
+            if (sc_notification.isChecked()) {
+                mUserSettings.put("is_notification", "true");
+            } else {
+                mUserSettings.put("is_notification", "false");
+            }
+            mUserData.put("userSettings", mUserSettings);
+            requestJson.put("userData", mUserData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (Utility.isInternetAvailable(mContext)) {
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "***** Post setting param response *****" + response.toString());
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            mQueue.add(jsonRequest);
+        }
 
     }
 

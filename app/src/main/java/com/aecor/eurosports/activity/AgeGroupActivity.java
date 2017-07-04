@@ -1,34 +1,25 @@
-package com.aecor.eurosports.fragment;
+package com.aecor.eurosports.activity;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
-import com.aecor.eurosports.activity.AgeCategoriesActivity;
 import com.aecor.eurosports.adapter.GroupAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
+import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.ui.ProgressHUD;
-import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -47,63 +38,71 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
- * Created by system-local on 29-06-2017.
+ * Created by system-local on 03-07-2017.
  */
 
-public class ClubsGroupFragment extends Fragment {
-
-    private final String TAG = ClubsGroupFragment.class.getSimpleName();
+public class AgeGroupActivity extends BaseAppCompactActivity {
+    public final String TAG = "AgeGroupActivity";
     private Context mContext;
-    @BindView(R.id.et_age_search)
-    protected EditText et_age_search;
-    @BindView(R.id.age_categories_list)
-    protected RecyclerView rv_groupList;
-    private AppPreference mPreference;
-    private GroupAdapter adapter;
-    @BindView(R.id.ll_no_item_view)
-    protected LinearLayout ll_no_item_view;
-    @BindView(R.id.tv_no_item)
-    protected TextView tv_no_item;
     @BindView(R.id.rl_search)
     protected RelativeLayout rl_search;
+    @BindView(R.id.ll_no_item_view)
+    protected LinearLayout ll_no_item_view;
+    @BindView(R.id.age_categories_list)
+    protected RecyclerView rv_groupList;
+    @BindView(R.id.tv_no_item)
+    protected TextView tv_no_item;
+    private AgeCategoriesModel mSelectedAgeCategoryModel;
+    private AppPreference mPreference;
+    private GroupAdapter adapter;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setContentView(R.layout.acticity_age_group);
+        super.onCreate(savedInstanceState);
+        mSelectedAgeCategoryModel = getIntent().getParcelableExtra(AppConstants.ARG_AGE_CATEGORY);
+
+        mContext = this;
+        initView();
+    }
+
+    @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
+        ll_no_item_view.setVisibility(View.GONE);
+        rl_search.setVisibility(View.GONE);
+        getAgeGroup();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         rv_groupList.setLayoutManager(mLayoutManager);
         rv_groupList.setItemAnimator(new DefaultItemAnimator());
-        rv_groupList.addItemDecoration(new SimpleDividerItemDecoration(mContext));
-
-        ll_no_item_view.setVisibility(View.GONE);
-        tv_no_item.setVisibility(View.GONE);
-        rl_search.setVisibility(View.GONE);
-        getTournamentGroup();
-        setListener();
-        et_age_search.setHint(getString(R.string.hint_search_groups));
-
     }
 
-    protected void setListener() {
-        GenericTextMatcher mTextWatcher = new GenericTextMatcher();
-        et_age_search.addTextChangedListener(mTextWatcher);
-
-    }
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    protected void setListener() {
 
-        View view = inflater.inflate(R.layout.club_content, container, false);
-        ButterKnife.bind(this, view);
-        mContext = getActivity();
-        initView();
-        return view;
     }
 
-    private void getTournamentGroup() {
+    private void setClubGroupAdapter(ClubGroupModel mClubModel[]) {
+        List<ClubGroupModel> list = new ArrayList<>();
+        list.addAll(Arrays.asList(mClubModel));
+        adapter = new GroupAdapter((Activity) mContext, list);
+        rv_groupList.setAdapter(adapter);
+
+        rv_groupList.setVisibility(View.VISIBLE);
+
+    }
+
+    private void showNoItemView() {
+        ll_no_item_view.setVisibility(View.VISIBLE);
+        tv_no_item.setVisibility(View.VISIBLE);
+        tv_no_item.setText(getResources().getString(R.string.no_data_available));
+        rl_search.setVisibility(View.GONE);
+        rv_groupList.setVisibility(View.GONE);
+    }
+
+    private void getAgeGroup() {
         final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
         String url = ApiConstants.TOURNAMENT_GROUP;
         final JSONObject requestJson = new JSONObject();
@@ -113,6 +112,7 @@ public class ClubsGroupFragment extends Fragment {
                     .getRequestQueue();
             try {
                 requestJson.put("tournamentId", mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
+                requestJson.put("competationFormatId", mSelectedAgeCategoryModel.getId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -154,42 +154,6 @@ public class ClubsGroupFragment extends Fragment {
                 }
             }, mPreference.getString(AppConstants.PREF_TOKEN));
             mQueue.add(jsonRequest);
-        }
-    }
-
-    private void setClubGroupAdapter(ClubGroupModel mClubModel[]) {
-        List<ClubGroupModel> list = new ArrayList<>();
-        list.addAll(Arrays.asList(mClubModel));
-        adapter = new GroupAdapter((Activity) mContext, list);
-        rv_groupList.setAdapter(adapter);
-        rl_search.setVisibility(View.VISIBLE);
-        rv_groupList.setVisibility(View.VISIBLE);
-
-    }
-
-    private void showNoItemView() {
-        ll_no_item_view.setVisibility(View.VISIBLE);
-        tv_no_item.setVisibility(View.VISIBLE);
-        tv_no_item.setText(getResources().getString(R.string.no_data_available));
-        rl_search.setVisibility(View.GONE);
-        rv_groupList.setVisibility(View.GONE);
-    }
-
-    private class GenericTextMatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (adapter != null && adapter.getFilter() != null) {
-                adapter.getFilter().filter(s.toString());
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
         }
     }
 }

@@ -66,6 +66,9 @@
             android:name=".activity.FullLeageTableActivity"
             android:screenOrientation="landscape" />
         <activity android:name=".activity.MatchInformationActivity" />
+        <activity android:name=".activity.AllClubMatchesActivity" />
+        <activity android:name=".activity.VenueDetailActivity" />
+        <activity android:name=".activity.AgeGroupActivity" />
 
         <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>
@@ -75,7 +78,7 @@
         <service
             android:name=".MyFirebaseMessagingService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true">
+        </service>
     </application>
-
 </manifest>
