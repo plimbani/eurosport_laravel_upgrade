@@ -33,6 +33,7 @@
     <div class="form-group">
       <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:130px">
         <option value="" v-if="filterKey != 'age_category'">Select</option>
+        <option value="" v-else>All</option>
         <option :value="option.id"
         v-for="option in options"
         v-bind:value="option">
@@ -123,9 +124,8 @@ export default {
               break
           }
           this.options =response.data.data
-          console.log(tourament_key)
-          if(tourament_key == 'age_category'){
-            this.dropDown = this.options[0]
+           if(tourament_key == 'age_category'){
+            this.dropDown = ""
             this.setFilterValue()
           }
         },
