@@ -65,7 +65,6 @@
 								</div>
 							</div>
 						</div>
-					
 					</div>
 					<div class="row mb-4">
 						<div class="col-md-7">
@@ -73,63 +72,63 @@
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_from_time}}</strong></label>
 									<div>
-									<select name="start_time" id="start_time"  class="form-control ls-select2">
-										<option value="">Select</option>
-										<option value="08:00">08:00</option>
-										<option value="08:30">08:30</option>
-										<option value="09:00">09:00</option>
-										<option value="09:30">09:30</option>
-										<option value="10:00">10:00</option>
-										<option value="10:30">10:30</option>
-										<option value="11:00">11:00</option>
-										<option value="11:30">11:30</option>
-										<option value="12:00">12:00</option>
-										<option value="12:30">12:30</option>
-										<option value="13:00">13:00</option>	
-										<option value="13:30">13:30</option>
-										<option value="14:00">14:00</option>
-										<option value="14:30">14:30</option>
-										<option value="15:00">15:00</option>
-										<option value="15:30">15:30</option>
-										<option value="16:00">16:00</option>
-										<option value="16:30">16:30</option>
-										<option value="17:00">17:00</option>
-										<option value="17:30">17:30</option>
-										<option value="18:00">18:00</option>
-										<option value="18:30">18:30</option>
-										<option value="19:00">19:00</option>
-									</select>		
+										<select name="start_time" id="start_time"  class="form-control ls-select2">
+											<option value="">Select</option>
+											<option value="08:00">08:00</option>
+											<option value="08:30">08:30</option>
+											<option value="09:00">09:00</option>
+											<option value="09:30">09:30</option>
+											<option value="10:00">10:00</option>
+											<option value="10:30">10:30</option>
+											<option value="11:00">11:00</option>
+											<option value="11:30">11:30</option>
+											<option value="12:00">12:00</option>
+											<option value="12:30">12:30</option>
+											<option value="13:00">13:00</option>	
+											<option value="13:30">13:30</option>
+											<option value="14:00">14:00</option>
+											<option value="14:30">14:30</option>
+											<option value="15:00">15:00</option>
+											<option value="15:30">15:30</option>
+											<option value="16:00">16:00</option>
+											<option value="16:30">16:30</option>
+											<option value="17:00">17:00</option>
+											<option value="17:30">17:30</option>
+											<option value="18:00">18:00</option>
+											<option value="18:30">18:30</option>
+											<option value="19:00">19:00</option>
+										</select>		
 				                    </div>
 								</div>
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_to_time}}</strong></label>
 									<div>
-									<select name="end_time" id="end_time"  class="form-control ls-select2">
-										<option value="">Select</option>
-										<option value="08:00">08:00</option>
-										<option value="08:30">08:30</option>
-										<option value="09:00">09:00</option>
-										<option value="09:30">09:30</option>
-										<option value="10:00">10:00</option>
-										<option value="10:30">10:30</option>
-										<option value="11:00">11:00</option>
-										<option value="11:30">11:30</option>
-										<option value="12:00">12:00</option>
-										<option value="12:30">12:30</option>
-										<option value="13:00">13:00</option>	
-										<option value="13:30">13:30</option>
-										<option value="14:00">14:00</option>
-										<option value="14:30">14:30</option>
-										<option value="15:00">15:00</option>
-										<option value="15:30">15:30</option>
-										<option value="16:00">16:00</option>
-										<option value="16:30">16:30</option>
-										<option value="17:00">17:00</option>
-										<option value="17:30">17:30</option>
-										<option value="18:00">18:00</option>
-										<option value="18:30">18:30</option>
-										<option value="19:00">19:00</option>
-									</select>		
+										<select name="end_time" id="end_time"  class="form-control ls-select2">
+											<option value="">Select</option>
+											<option value="08:00">08:00</option>
+											<option value="08:30">08:30</option>
+											<option value="09:00">09:00</option>
+											<option value="09:30">09:30</option>
+											<option value="10:00">10:00</option>
+											<option value="10:30">10:30</option>
+											<option value="11:00">11:00</option>
+											<option value="11:30">11:30</option>
+											<option value="12:00">12:00</option>
+											<option value="12:30">12:30</option>
+											<option value="13:00">13:00</option>	
+											<option value="13:30">13:30</option>
+											<option value="14:00">14:00</option>
+											<option value="14:30">14:30</option>
+											<option value="15:00">15:00</option>
+											<option value="15:30">15:30</option>
+											<option value="16:00">16:00</option>
+											<option value="16:30">16:30</option>
+											<option value="17:00">17:00</option>
+											<option value="17:30">17:30</option>
+											<option value="18:00">18:00</option>
+											<option value="18:30">18:30</option>
+											<option value="19:00">19:00</option>
+										</select>		
 				                    </div>
 								</div>
 								<div class="col-md-4">
@@ -235,7 +234,7 @@ export default {
     },
     filters: {
     	formatDate: function(date) {
-     	return moment(date).format("hh:mm ddd DD MMM YYYY");
+     	return moment(date).format("HH:mm ddd DD MMM YYYY");
    	   },
     },
     mounted() {
