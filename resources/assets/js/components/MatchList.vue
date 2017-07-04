@@ -14,8 +14,12 @@
 			<tr v-for="match in matchData">
 				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
-					<a class="pull-left text-left text-primary" href=""
-					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name}}</u></a>
+				
+					<a class="pull-left text-left text-primary" href="" 
+					v-if="getCurrentScheduleView != 'drawDetails'"
+					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name}}</u>
+					</a>
+					<span v-else>{{match.competation_name}}</span>
 				</td>
 				<td align="right">
 					<a  class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
@@ -70,6 +74,9 @@ export default {
 		},
 		isUserDataExist() {
 	      return this.$store.state.Users.userDetails.id
+	    },
+	    getCurrentScheduleView() {
+	    	return this.$store.state.currentScheduleView
 	    }
 	},
 	mounted() {
