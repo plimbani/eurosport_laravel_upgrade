@@ -136,7 +136,7 @@ export default {
           this.competationList = response.data.data
         },
         (error) => {
-         console.log('Error occured during Tournament api ', error)
+         console.log('Error occured during Tournament api', error)
         }
         )
       } else {
