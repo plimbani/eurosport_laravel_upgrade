@@ -2,10 +2,12 @@ package com.aecor.eurosports.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -67,6 +69,10 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
 
         getAgeCategories();
         setListener();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getString(R.string.age_categories));
+        toolbar.setTitleTextColor(Color.WHITE);
         ll_no_item_view.setVisibility(View.GONE);
         tv_no_item.setVisibility(View.GONE);
         rl_search.setVisibility(View.GONE);

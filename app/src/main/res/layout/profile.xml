@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_header" />
+    <include layout="@layout/toolbar_header" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,17 +59,17 @@
                 android:drawableLeft="@drawable/icon_email"
                 android:drawableStart="@drawable/icon_email"
                 android:enabled="false"
+                android:focusable="false"
                 android:hint="@string/email"
                 android:imeOptions="actionNext"
-                android:focusable="false"
                 android:inputType="textPersonName|textNoSuggestions" />
 
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/input_first_name"
-                android:background="@drawable/edittext_border"
                 style="@style/app_edittext"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_border"
                 android:drawableLeft="@drawable/icon_user"
                 android:drawableStart="@drawable/icon_user"
                 android:hint="@string/first_name"
@@ -80,9 +80,9 @@
                 android:id="@+id/input_last_name"
                 style="@style/app_edittext"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_border"
                 android:drawableLeft="@drawable/icon_user"
                 android:drawableStart="@drawable/icon_user"
-                android:background="@drawable/edittext_border"
                 android:hint="@string/last_name"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName|textNoSuggestions" />
@@ -91,9 +91,9 @@
                 android:id="@+id/input_password"
                 style="@style/app_edittext"
                 android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_border"
                 android:drawableLeft="@drawable/icon_password"
                 android:drawableStart="@drawable/icon_password"
-                android:background="@drawable/edittext_border"
                 android:hint="@string/password"
                 android:imeOptions="actionDone"
                 android:inputType="textPersonName|textNoSuggestions" />
@@ -116,5 +116,5 @@
         </LinearLayout>
     </LinearLayout>
 
-
+    <include layout="@layout/layout_footer" />
 </LinearLayout>

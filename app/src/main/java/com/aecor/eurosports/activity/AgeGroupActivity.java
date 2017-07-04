@@ -77,6 +77,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         rv_groupList.setLayoutManager(mLayoutManager);
         rv_groupList.setItemAnimator(new DefaultItemAnimator());
+        showBackButton(getString(R.string.GROUPS));
     }
 
     @Override

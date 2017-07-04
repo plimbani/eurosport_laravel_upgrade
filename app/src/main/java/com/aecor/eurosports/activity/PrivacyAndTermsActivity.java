@@ -9,11 +9,11 @@ import com.aecor.eurosports.R;
  * Created by system-local on 26-04-2017.
  */
 
-public class PrivacyAndTermsActivity extends BaseActivity {
+public class PrivacyAndTermsActivity extends BaseAppCompactActivity {
 
     @Override
     protected void initView() {
-
+        showBackButton(getString(R.string.privacy_terms));
     }
 
     @Override
@@ -25,6 +25,7 @@ public class PrivacyAndTermsActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.help);
         super.onCreate(savedInstanceState);
+        initView();
     }
 
 
