@@ -59,11 +59,23 @@
             android:label="TEAM" />
         <activity
             android:name=".activity.AgeCategoriesActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.TeamListingActivity" />
         <activity android:name=".activity.GroupSummaryActivity" />
-        <activity android:name=".activity.FullLeageTableActivity" android:screenOrientation="landscape" />
+        <activity
+            android:name=".activity.FullLeageTableActivity"
+            android:screenOrientation="landscape" />
         <activity android:name=".activity.MatchInformationActivity" />
+
+        <service android:name=".MyFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ public class AppConstants {
     public static final int SPLASH_TIME_OUT = 1000;
     public static final int MAX_IMAGE_WIDTH = 40;
     public static final int MAX_IMAGE_HEIGHT = 25;
+    public static final String FIREBASE_TOKEN  = "firebase_token";
     public static final String FACEBOOK_URL = "https://www.facebook.com/BakeUrCakes";
     public static final String FACEBOOK_PAGE_ID = "BakeUrCakes";
     public static final String INSTAGRAM_APP_URL = "http://instagram.com/_u/im_curren";

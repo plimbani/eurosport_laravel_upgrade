@@ -185,7 +185,7 @@ public class FavouriteListAdapter extends BaseAdapter {
                 if (holder.default_imageview.getDrawable().getConstantState().equals
                         (mContext.getResources().getDrawable(R.drawable.default_tournament).getConstantState())) {
                     holder.default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.selected_default_tournament));
-                    mPreference.setInt(AppConstants.PREF_TOURNAMENT_ID, Integer.parseInt(id));
+                    mPreference.setString(AppConstants.PREF_TOURNAMENT_ID, id);
                     setDefaultTournament(rowItem.getId());
                     holder.default_imageview.setClickable(false);
                     if(holder.favourite_imageview.getDrawable().getConstantState().equals
@@ -208,7 +208,7 @@ public class FavouriteListAdapter extends BaseAdapter {
     }
 
     private boolean checkDefault( TournamentModel tournamentModal) {
-        if(tournamentModal.getId().equalsIgnoreCase(mPreference.getInt(AppConstants.PREF_TOURNAMENT_ID)+"")) {
+        if(tournamentModal.getId().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_TOURNAMENT_ID))) {
                 return true;
         }
         return false;
@@ -243,7 +243,7 @@ public class FavouriteListAdapter extends BaseAdapter {
                             } else {
                                 Utility.showToast(mContext, mContext.getResources().getString(R.string.default_tournament));
                             }
-                            mPreference.setInt(AppConstants.PREF_TOURNAMENT_ID, Integer.parseInt(tournamentId));
+                            mPreference.setString(AppConstants.PREF_TOURNAMENT_ID, tournamentId);
                             notifyDataSetChanged();
                         }
                     } catch (Exception e) {
