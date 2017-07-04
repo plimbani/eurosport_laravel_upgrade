@@ -71,6 +71,8 @@ export default {
 	created: function() {
        this.$root.$on('changeComp1', this.setMatchData1);
        this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
+       this.$root.$on('setCurrentView',this.setCurrentView);
+
   	},
 	methods: {
     lastUpdatedDate(updatedDate) {

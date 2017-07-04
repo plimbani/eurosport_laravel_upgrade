@@ -113,7 +113,8 @@ public function getAllFromTournamentId($tournamentId)
         $reference_no =  isset($data['teamid']) ? $data['teamid'] : '';
         $teamName =  isset($data['team']) ? $data['team'] : '';
         $place =  isset($data['place']) ? $data['place'] : '';
-       
+        $club_id =  isset($data['club_id']) ? $data['club_id'] : '';
+              
         \Log::info($data);
         return Team::create([
             'name' => $teamName,
@@ -121,7 +122,8 @@ public function getAllFromTournamentId($tournamentId)
             'place' => $place,
             'country_id' => $data['country_id'],
             'tournament_id' => $data->tournamentData['tournamentId'],
-            'age_group_id' => $data['age_group_id']
+            'age_group_id' => $data['age_group_id'],
+            'club_id'=>$data['club_id']
             ]);
     }
 
