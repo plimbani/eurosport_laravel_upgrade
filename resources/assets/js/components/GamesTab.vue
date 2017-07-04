@@ -115,7 +115,7 @@ export default {
     displayFixtures(filterKey='',filterValue=''){
       let tdata= []
       if(filterKey != '' && filterValue != '') {
-          tdata ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id}
+          tdata ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
       } else {
           tdata ={'tournamentId':this.tournamentId }
       }
@@ -133,10 +133,10 @@ export default {
         let TournamentData = {'tournament_id': this.tournamentId}
         Tournament.getCompetationFormat(TournamentData).then(
         (response) => {
-        this.competationList = response.data.data
+          this.competationList = response.data.data
         },
         (error) => {
-         console.log('Error occured during Tournament api ', error)
+         console.log('Error occured during Tournament api', error)
         }
         )
       } else {
