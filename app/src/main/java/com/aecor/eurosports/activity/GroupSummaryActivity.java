@@ -108,8 +108,11 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
+        tv_view_all_club_matches.setVisibility(View.GONE);
+
         getGroupStanding();
         getTeamFixtures();
+        showBackButton(getString(R.string.group_summary));
     }
 
     @Override
@@ -241,7 +244,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     }
 
     private void addMatchesRow(final TeamFixturesModel mFixtureModel) {
-        tv_view_all_club_matches.setVisibility(View.VISIBLE);
+        tv_view_all_club_matches.setVisibility(View.GONE);
 
         View matchesView = getLayoutInflater().inflate(R.layout.row_team_matches, null);
         TextView team_match_date = (TextView) matchesView.findViewById(R.id.team_match_date);

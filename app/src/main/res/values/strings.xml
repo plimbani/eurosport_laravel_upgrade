@@ -62,6 +62,7 @@
     <string name="league_table">league table</string>
     <string name="no_data_available">No data available.</string>
     <string name="venue">Venue</string>
+    <string name="group_summary">GROUP SUMMARY</string>
     <string name="G">G</string>
     <string name="W">W</string>
     <string name="D">D</string>

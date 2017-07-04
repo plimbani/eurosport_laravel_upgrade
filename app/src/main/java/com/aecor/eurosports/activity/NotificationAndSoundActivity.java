@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
  * Created by system-local on 26-04-2017.
  */
 
-public class NotificationAndSoundActivity extends BaseActivity {
+public class NotificationAndSoundActivity extends BaseAppCompactActivity {
 
     private static final String TAG = "NotificationAndSoundsActivity";
     @BindView(R.id.sc_sound)
@@ -90,6 +90,7 @@ public class NotificationAndSoundActivity extends BaseActivity {
         mContext = this;
         getSettingsParam();
         setListener();
+        showBackButton(getString(R.string.notification_and_sounds));
     }
 
     protected void setListener() {

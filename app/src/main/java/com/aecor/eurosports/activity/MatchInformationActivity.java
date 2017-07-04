@@ -59,15 +59,15 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         tv_team_score_2.setText(mTeamFixturesModel.getAwayScore());
         tv_team_name_1.setText(mTeamFixturesModel.getHomeTeam());
         tv_team_name_2.setText(mTeamFixturesModel.getAwayTeam());
-        Picasso.with(mContext).load(mTeamFixturesModel.getHomeCountryFlag()).resize(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT).into(iv_team_flag_1);
-        Picasso.with(mContext).load(mTeamFixturesModel.getAwayCountryFlag()).resize(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT).into(iv_team_flag_2);
+        Picasso.with(mContext).load(mTeamFixturesModel.getHomeFlagLogo()).resize(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT).into(iv_team_flag_1);
+        Picasso.with(mContext).load(mTeamFixturesModel.getAwayFlagLogo()).resize(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT).into(iv_team_flag_2);
         try {
             tv_dateTime.setText(Utility.getDateTimeFromServerDate(mTeamFixturesModel.getMatch_datetime()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         tv_age_and_group_info.setText(mTeamFixturesModel.getGroup_name());
-        tv_match_id.setText(getString(R.string.match_id) + mTeamFixturesModel.getMatch_number());
+        tv_match_id.setText(getString(R.string.match_id) +" "+ mTeamFixturesModel.getMatch_number());
         tv_venue.setText(mTeamFixturesModel.getVenue_name());
     }
 

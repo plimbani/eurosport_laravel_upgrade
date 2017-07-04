@@ -48,7 +48,7 @@ import butterknife.OnClick;
  * Created by system-local on 26-04-2017.
  */
 
-public class ProfileActivity extends BaseActivity implements ImageOptionDialogActivity.onImageSelectedInterface {
+public class ProfileActivity extends BaseAppCompactActivity implements ImageOptionDialogActivity.onImageSelectedInterface {
     private static final String TAG = "ProfileActivity";
 
     @BindView(R.id.iv_profileImage)
@@ -70,10 +70,10 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
 
     private AppPreference mAppPref;
     private Context mContext;
-    private int tournamet_id;
-    private int selectedTournamentPos;
+     private int tournamet_id = 0;
+     private int selectedTournamentPos;
     private List<TournamentModel> mTournamentList;
-
+ 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.profile);
@@ -143,9 +143,10 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
         setData();
         getLoggedInUserFavouriteTournamentList();
         setListener();
+        showBackButton(getString(R.string.update));
     }
 
-    private void setData(){
+    private void setData() {
         input_email.setText(mAppPref.getString(AppConstants.PREF_EMAIL));
         input_password.setText(mAppPref.getString(AppConstants.PREF_PASSWORD));
         ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
@@ -301,8 +302,9 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
     }
 
     private boolean validate_spinner() {
+ 
         if(selectedTournamentPos == 0)
-            return false;
+             return false;
         else
             return true;
     }
