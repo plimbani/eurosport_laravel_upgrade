@@ -141,10 +141,10 @@ public class SignInActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(response.get("userData").toString());
                             mAppSharedPref.setString(AppConstants.PREF_EMAIL, email_address.getText().toString());
                             mAppSharedPref.setString(AppConstants.PREF_PASSWORD, sign_in_password.getText().toString());
-                            int tournament_id = Integer.parseInt(jsonObject.getString("tournament_id").toString());
+//                            int tournament_id = Integer.parseInt(jsonObject.getString("tournament_id").toString());
                             mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
                             mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id").toString());
-                            mAppSharedPref.setInt(AppConstants.PREF_TOURNAMENT_ID, tournament_id);
+                            mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id").toString());
                             startActivity(new Intent(mContext, HomeActivity.class));
                             finish();
                         } else {

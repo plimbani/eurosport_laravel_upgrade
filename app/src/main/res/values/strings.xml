@@ -30,6 +30,8 @@
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
     <string name="select_tournament">Select tournament</string>
+    <string name="select_default_tournament">Select default tournament</string>
+    <string name="select_language">Select language</string>
     <string name="register_success">User registered successfully.</string>
     <string name="update_profile">Profile updated successfully.</string>
     <string name="default_tournament">Default tournament selected </string>

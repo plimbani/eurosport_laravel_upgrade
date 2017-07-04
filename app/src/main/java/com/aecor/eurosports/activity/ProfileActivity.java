@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -62,13 +63,17 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     protected EditText input_password;
     @BindView(R.id.profile_sp_tournament)
     protected Spinner profile_sp_tournament;
+    @BindView(R.id.profile_language_selection)
+    protected Spinner profile_language_selection;
     @BindView(R.id.btn_update)
     protected Button btn_update;
 
     private AppPreference mAppPref;
     private Context mContext;
-    private int tournamet_id = 0;
-
+     private int tournamet_id = 0;
+     private int selectedTournamentPos;
+    private List<TournamentModel> mTournamentList;
+ 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.profile);
@@ -135,8 +140,8 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     protected void initView() {
         mContext = this;
         mAppPref = AppPreference.getInstance(mContext);
-        getTournamentList();
         setData();
+        getLoggedInUserFavouriteTournamentList();
         setListener();
         showBackButton(getString(R.string.update));
     }
@@ -146,8 +151,15 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         input_password.setText(mAppPref.getString(AppConstants.PREF_PASSWORD));
         ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
         input_first_name.setText(profileModel.getFirst_name());
-        tournamet_id = profileModel.getTournament_id();
+        tournamet_id = Integer.parseInt(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID));
         input_last_name.setText(profileModel.getSur_name());
+        setLanguageSpinner();
+    }
+
+    private void setLanguageSpinner() {
+        String[] temp = {"English", "French", "Italian", "German", "Dutch", "Czech", "Danish", "Polish"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item,R.id.tv_spinner, temp);
+        profile_language_selection.setAdapter(adapter);
     }
 
     protected void setListener() {
@@ -158,8 +170,18 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         profile_sp_tournament.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tournamet_id = position;
-                checkValidation();
+                tournamet_id = Integer.parseInt(mTournamentList.get(position).getId());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        profile_language_selection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
             }
 
             @Override
@@ -169,24 +191,29 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         });
     }
 
-    private void getTournamentList() {
+    private void getLoggedInUserFavouriteTournamentList() {
         Utility.startProgress(mContext);
-        String url = ApiConstants.GET_TOURNAMENTS;
+        String url = ApiConstants.GET_USER_FAVOURITE_LIST;
         final JSONObject requestJson = new JSONObject();
-
+        try {
+            requestJson.put("user_id", Utility.getUserId(mContext));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (Utility.isInternetAvailable(mContext)) {
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
-                    .GET, url,
+                    .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
                     try {
-                        AppLogger.LogE(TAG, "Get Tournament List response" + response.toString());
+                        AppLogger.LogE(TAG, "Get Logged in user favourite tournamenet list " + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 TournamentModel mTournamentList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
                                 if (mTournamentList != null && mTournamentList.length > 0) {
@@ -194,6 +221,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
                                 }
                             }
                         }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -217,14 +245,23 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
 
     private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
         TournamentModel mHintModel = new TournamentModel();
-        mHintModel.setName(getString(R.string.select_tournament));
+        mHintModel.setName(getString(R.string.select_default_tournament));
 
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
         list.add(0, mHintModel);
+        selectedTournamentPos = 0;
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i).getIs_default() == 1) {
+                selectedTournamentPos = i;
+                break;
+            }
+        }
+        this.mTournamentList = list;
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
                 R.layout.row_spinner_item, R.id.title, list);
         profile_sp_tournament.setAdapter(adapter);
+        profile_sp_tournament.setSelection(selectedTournamentPos);
     }
 
     public boolean validate() {
@@ -265,8 +302,9 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     }
 
     private boolean validate_spinner() {
-        if (tournamet_id == 0)
-            return false;
+ 
+        if(selectedTournamentPos == 0)
+             return false;
         else
             return true;
     }
