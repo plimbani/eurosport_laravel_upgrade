@@ -77,7 +77,8 @@ export default {
                 matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
               }
               var person = {'fullGame':match.full_game,'matchName':match.match_number,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
-              comp.push(person)
+                comp.push(person)
+
               if(match.is_scheduled!=1){
                 matchCount = matchCount + 1
                 matchCountDisplay = matchCountDisplay + 1 
@@ -85,7 +86,6 @@ export default {
             }
             competition.matchCount = matchCount
           })
-          // console.log(competition)
           competition.matchList = comp
         })
         this.matchCompetition = this.competationList
@@ -121,8 +121,7 @@ export default {
       }
         Tournament.getFixtures(tdata).then(
             (response)=> {
-              // console.log(response,'asssss')
-                this.matches = response.data.data
+              this.matches = response.data.data
             }
           )
     },
