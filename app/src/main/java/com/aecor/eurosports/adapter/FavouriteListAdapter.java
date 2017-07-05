@@ -103,9 +103,11 @@ public class FavouriteListAdapter extends BaseAdapter {
             holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.heart_gray));
         }
 
-        if (!Utility.isNullOrEmpty(rowItem.getLogo())) {
-            Picasso.with(mContext).load(rowItem.getTournamentLogo())
+        if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
+            Picasso.with(mContext).load(rowItem.getTournamentLogo()).placeholder(R.drawable.globe)
                     .into(holder.favourite_logo);
+        } else {
+            holder.favourite_logo.setImageResource(R.drawable.globe);
         }
 
         if (!Utility.isNullOrEmpty(rowItem.getName()) && checkDefault(rowItem)) {
@@ -142,15 +144,6 @@ public class FavouriteListAdapter extends BaseAdapter {
         return rowview;
     }
 
-    private void addFavoriteTournament(TournamentModel tournamentModel) {
-        if (mFavTournamentList != null) {
-            mFavTournamentList.add(tournamentModel);
-        } else {
-            mFavTournamentList = new ArrayList<>();
-            mFavTournamentList.add(tournamentModel);
-        }
-    }
-
     private boolean checkFav(String tournamentId) {
         for (int i = 0; i < mFavTournamentList.size(); i++) {
             if (mFavTournamentList.get(i).getTournament_id().equalsIgnoreCase(tournamentId)) {
@@ -158,16 +151,6 @@ public class FavouriteListAdapter extends BaseAdapter {
             }
         }
         return false;
-    }
-
-    private void removeFavourite(TournamentModel tournamentModal) {
-        if (mFavTournamentList != null) {
-            for (int i = 0; i < mFavTournamentList.size(); i++) {
-                if (mFavTournamentList.get(i).getTournament_id().equalsIgnoreCase(tournamentModal.getId())) {
-                    mFavTournamentList.remove(i);
-                }
-            }
-        }
     }
 
     private boolean checkDefault(TournamentModel tournamentModal) {
@@ -195,7 +178,7 @@ public class FavouriteListAdapter extends BaseAdapter {
     }
 
 
-    private void removeTournamenetFromFavourite(final TournamentModel tournamenetModel) {
+    private void removeTournamenetFromFavourite(TournamentModel tournamenetModel) {
         Utility.startProgress(mContext);
         String url = ApiConstants.REMOVE_TOURNAMENT_FROM_FAVOURITE;
         final JSONObject requestJson = new JSONObject();
@@ -220,7 +203,7 @@ public class FavouriteListAdapter extends BaseAdapter {
                     try {
                         AppLogger.LogE(TAG, "Remove Tournamenet as Favourite" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                            removeFavourite(tournamenetModel);
+                            updateLoggedInUserFavouriteList();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -297,7 +280,7 @@ public class FavouriteListAdapter extends BaseAdapter {
         }
     }
 
-    private void makeTournamenetFavourite(final TournamentModel tournamenetModal) {
+    private void makeTournamenetFavourite(TournamentModel tournamenetModal) {
         Utility.startProgress(mContext);
         String url = ApiConstants.SET_TOURNAMENT_AS_FAVOURITE;
         final JSONObject requestJson = new JSONObject();
@@ -321,7 +304,7 @@ public class FavouriteListAdapter extends BaseAdapter {
                     try {
                         AppLogger.LogE(TAG, "Set Tournament as Favourite" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                            addFavoriteTournament(tournamenetModal);
+                            updateLoggedInUserFavouriteList();
                         }
 
                     } catch (Exception e) {
