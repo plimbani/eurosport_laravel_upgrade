@@ -20,6 +20,7 @@ import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.ui.ProgressHUD;
+import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -57,6 +58,8 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
     private AgeCategoriesModel mSelectedAgeCategoryModel;
     private AppPreference mPreference;
     private GroupAdapter adapter;
+    @BindView(R.id.ll_main_layout)
+    protected LinearLayout ll_main_layout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
 
     @Override
     protected void initView() {
+        Utility.setupUI(mContext, ll_main_layout);
         mPreference = AppPreference.getInstance(mContext);
         ll_no_item_view.setVisibility(View.GONE);
         rl_search.setVisibility(View.GONE);
@@ -77,6 +81,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         rv_groupList.setLayoutManager(mLayoutManager);
         rv_groupList.setItemAnimator(new DefaultItemAnimator());
+        rv_groupList.addItemDecoration(new SimpleDividerItemDecoration(mContext));
         showBackButton(getString(R.string.GROUPS));
     }
 

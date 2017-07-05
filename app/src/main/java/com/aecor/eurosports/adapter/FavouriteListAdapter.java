@@ -2,6 +2,7 @@ package com.aecor.eurosports.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONObject;
 
@@ -104,8 +107,15 @@ public class FavouriteListAdapter extends BaseAdapter {
         }
 
         if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
-            Picasso.with(mContext).load(rowItem.getTournamentLogo()).placeholder(R.drawable.globe)
-                    .into(holder.favourite_logo);
+            Glide.with(mContext)
+                    .load(rowItem.getTournamentLogo())
+                    .asBitmap()
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            holder.favourite_logo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
+                        }
+                    });
         } else {
             holder.favourite_logo.setImageResource(R.drawable.globe);
         }
@@ -114,10 +124,11 @@ public class FavouriteListAdapter extends BaseAdapter {
             holder.default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.selected_default_tournament));
             holder.favourite_imageview.setEnabled(false);
             holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.heart_red));
-            holder.favourite_imageview.setEnabled(false);
+            holder.default_imageview.setEnabled(false);
         } else {
             holder.default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.default_tournament));
             holder.default_imageview.setEnabled(true);
+            holder.favourite_imageview.setEnabled(true);
         }
 
         holder.favourite_imageview.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +158,9 @@ public class FavouriteListAdapter extends BaseAdapter {
     private boolean checkFav(String tournamentId) {
         for (int i = 0; i < mFavTournamentList.size(); i++) {
             if (mFavTournamentList.get(i).getTournament_id().equalsIgnoreCase(tournamentId)) {
+
                 return true;
+
             }
         }
         return false;

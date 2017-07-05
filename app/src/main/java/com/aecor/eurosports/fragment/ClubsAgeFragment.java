@@ -66,8 +66,11 @@ public class ClubsAgeFragment extends Fragment {
     protected RelativeLayout rl_search;
     private AppPreference mPreference;
     private AgeAdapter adapter;
+    @BindView(R.id.ll_main_layout)
+    protected LinearLayout ll_main_layout;
 
     protected void initView() {
+        Utility.setupUI(mContext, ll_main_layout);
         mPreference = AppPreference.getInstance(mContext);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         age_list.setLayoutManager(mLayoutManager);

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,6 +41,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,7 +80,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     private int tournamet_id = 0;
     private int selectedTournamentPos;
     private List<TournamentModel> mTournamentList;
-    private String languageCode="en";
+    private String languageCode = "en";
 //    private String[] localeKeys;
 //    private String selectedLocale;
 
@@ -123,7 +125,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
                                 String messgae = response.getString("message");
-                                mAppPref.setString(AppConstants.LANGUAGE_SELECTION,languageCode);
+                                mAppPref.setString(AppConstants.LANGUAGE_SELECTION, languageCode);
                                 Utility.showToast(mContext, messgae);
                                 AppLogger.LogE(TAG, "***** Language response *****" + mAppPref.getString(AppConstants.LANGUAGE_POSITION));
                                 AppLogger.LogE(TAG, "***** Language App response *****" + mAppPref.getString(AppConstants.LANGUAGE_SELECTION));
@@ -172,10 +174,10 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     }
 
     private void setLanguageSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item,R.id.tv_spinner, getResources().getStringArray(R.array.language_selection));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item, R.id.tv_spinner, getResources().getStringArray(R.array.language_selection));
         String[] temp = {"English", "French", "Italian", "German", "Dutch", "Czech", "Danish", "Polish"};
         profile_language_selection.setAdapter(adapter);
-        if(Utility.isNullOrEmpty(mAppPref.getString(AppConstants.LANGUAGE_POSITION)))
+        if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.LANGUAGE_POSITION)))
             profile_sp_tournament.setSelection(0);
         else
             profile_sp_tournament.setSelection(Integer.parseInt(mAppPref.getString(AppConstants.LANGUAGE_POSITION)));
@@ -200,33 +202,33 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         profile_language_selection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
+                switch (position) {
                     case 0:
-                        languageCode="en";
+                        languageCode = "en";
                         break;
                     case 1:
-                        languageCode="fr";
+                        languageCode = "fr";
                         break;
                     case 2:
-                        languageCode="it";
+                        languageCode = "it";
                         break;
                     case 3:
-                        languageCode="de";
+                        languageCode = "de";
                         break;
                     case 4:
-                        languageCode="nl";
+                        languageCode = "nl";
                         break;
                     case 5:
-                        languageCode="cs";
+                        languageCode = "cs";
                         break;
                     case 6:
-                        languageCode="da";
+                        languageCode = "da";
                         break;
                     case 7:
-                        languageCode="pl";
+                        languageCode = "pl";
                         break;
                 }
-                mAppPref.setString(AppConstants.LANGUAGE_POSITION,position+"");
+                mAppPref.setString(AppConstants.LANGUAGE_POSITION, position + "");
 //                selectedLocale = localeKeys[position];
             }
 
@@ -385,7 +387,81 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     }
 
     private void uploadProfileImage(Bitmap selectedBitmap) {
+        String tempImageBase64String = null;
 
+        if (selectedBitmap != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+
+            if (selectedBitmap != null) {// important! prevent out of memory
+                selectedBitmap.recycle();
+                selectedBitmap = null;
+            }
+            byte[] b = baos.toByteArray();
+            try {
+                System.gc();
+                tempImageBase64String = Base64.encodeToString(b, Base64.DEFAULT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } catch (OutOfMemoryError e) {
+                baos = new ByteArrayOutputStream();
+                selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                b = baos.toByteArray();
+                tempImageBase64String = Base64.encodeToString(b, Base64.DEFAULT);
+
+            }
+        }
+        Utility.startProgress(mContext);
+        String url = ApiConstants.UPDATE_PROFILE_IMAGE;
+        final JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("user_id", Utility.getUserId(mContext));
+            if (!Utility.isNullOrEmpty(tempImageBase64String)) {
+                requestJson.put("user_image", "data:image/png;base64," + tempImageBase64String);
+            } else {
+                requestJson.put("user_image", "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (Utility.isInternetAvailable(mContext)) {
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "Upload Profile Image Response " + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+
+                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        }
     }
 
     private class GenericTextMatcher implements TextWatcher {

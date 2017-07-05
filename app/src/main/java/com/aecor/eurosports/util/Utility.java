@@ -120,6 +120,7 @@ public class Utility {
                         if (mContext instanceof SplashActivity) {
                             Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
                             ((Activity) mContext).startActivity(mLandingPageIntent);
+                            ((Activity) mContext).finish();
                         }
                     }
 

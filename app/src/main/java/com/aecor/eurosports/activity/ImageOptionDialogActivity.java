@@ -67,6 +67,7 @@ public class ImageOptionDialogActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setBackgroundDrawable(new ColorDrawable(0));
         // Make us non-modal, so that others can receive touch events.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
 
@@ -78,6 +79,7 @@ public class ImageOptionDialogActivity extends Activity {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         onCreateDialog(savedInstanceState);
+        setFinishOnTouchOutside(true);
     }
 
     private void launchCameraImageCaptureRequest() {
@@ -163,7 +165,8 @@ public class ImageOptionDialogActivity extends Activity {
     protected void onDeleteImageClicked() {
         selectedBitmap = null;
 //        iv_profileImage.setImageResource(R.drawable.profile_placeholder);
-
+        mCallback.selectedImageBitmap(selectedBitmap);
+        finish();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -27,7 +27,7 @@
             style="@style/text_black_sub_title"
             android:gravity="left|center"
             android:padding="20dp"
-            android:text="hello" />
+            android:text="Pitch Name" />
 
 
         <View
@@ -40,7 +40,7 @@
             style="@style/text_black_sub_title"
             android:gravity="left|center"
             android:padding="20dp"
-            android:text="hello" />
+            android:text="Address" />
 
         <View
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             style="@style/text_black_sub_title"
             android:gravity="left|center"
             android:padding="20dp"
-            android:text="hello" />
+            android:text="Playing surface" />
 
 
         <View

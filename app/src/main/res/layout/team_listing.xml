@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
- 
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -21,7 +21,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="20dp" />
+        android:layout_margin="20dp"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/ll_no_data"
+        layout="@layout/no_item_textview"
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/lv_team"

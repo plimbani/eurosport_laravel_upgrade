@@ -2,6 +2,7 @@ package com.aecor.eurosports.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -26,7 +27,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,7 +88,15 @@ public class TeamActivity extends BaseAppCompactActivity {
 
         tv_team_name.setText(mTeamDetailModel.getName());
         if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryLogo())) {
-            Picasso.with(mContext).load(mTeamDetailModel.getCountryLogo()).resize(40, 25).into(iv_team_flag);
+            Glide.with(mContext)
+                    .load(mTeamDetailModel.getCountryLogo())
+                    .asBitmap()
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            iv_team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                        }
+                    });
         }
         tv_countryName.setText(mTeamDetailModel.getCountryName());
         tv_team_member_desc.setText(mTeamDetailModel.getAge_group_id() + ", " + mTeamDetailModel.getGroup_name());
@@ -182,7 +193,7 @@ public class TeamActivity extends BaseAppCompactActivity {
         TextView tv_points = (TextView) teamLeagueView.findViewById(R.id.tv_points);
         TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
         TextView tv_goalDifference = (TextView) teamLeagueView.findViewById(R.id.tv_goalDifference);
-        ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
+        final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
         String groupTableTitle = mLeagueModel.getName() + " " + getString(R.string.league_table);
         tv_group_table_title.setText(groupTableTitle);
         tv_group_name.setText(mLeagueModel.getName());
@@ -195,8 +206,16 @@ public class TeamActivity extends BaseAppCompactActivity {
         }
         goalText = goalText + goalDifferenece;
         tv_goalDifference.setText(goalText);
-        Picasso.with(mContext).load(mLeagueModel.getTeamFlag()).resize(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT).into(team_flag);
 
+        Glide.with(mContext)
+                .load(mLeagueModel.getTeamFlag())
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                    }
+                });
         ll_group_rows.addView(teamLeagueView);
     }
 
