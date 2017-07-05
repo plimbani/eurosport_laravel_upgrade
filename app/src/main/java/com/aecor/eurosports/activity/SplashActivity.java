@@ -55,18 +55,17 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 isUserLogin();
             }
-        },SPLASH_TIME_OUT);
+        }, SPLASH_TIME_OUT);
     }
 
     private void isUserLogin() {
         String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
         String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
 
-        if(Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)){
+        if (Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
             startActivity(new Intent(mContext, LandingActivity.class));
             finish();
-        }
-        else {
+        } else {
             checkuser();
         }
     }
@@ -87,7 +86,7 @@ public class SplashActivity extends BaseActivity {
         if (Utility.isInternetAvailable(mContext)) {
             AppLogger.LogE(TAG, "***** Splash screen request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext,Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -96,7 +95,7 @@ public class SplashActivity extends BaseActivity {
                     try {
                         AppLogger.LogE(TAG, "***** Splash Screen response *****" + response.toString());
                         String token = response.get(AppConstants.PREF_TOKEN).toString();
-                        mAppSharedPref.setString(AppConstants.PREF_TOKEN,token);
+                        mAppSharedPref.setString(AppConstants.PREF_TOKEN, token);
                         startActivity(new Intent(mContext, HomeActivity.class));
                         finish();
                     } catch (Exception e) {

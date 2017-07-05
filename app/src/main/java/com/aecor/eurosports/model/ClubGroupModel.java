@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by system-local on 29-06-2017.
  */
 
-public class ClubGroupModel implements Parcelable{
+public class ClubGroupModel implements Parcelable {
     private String id;
     private String tournament_competation_template_id;
     private String tournament_id;

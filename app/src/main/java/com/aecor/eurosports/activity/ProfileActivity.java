@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.aecor.eurosports.R;
@@ -39,6 +40,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,6 +89,8 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     private int languagePos = 0;
     private String[] localeKeys;
     private String selectedLocale;
+    @BindView(R.id.ll_main)
+    protected LinearLayout ll_main;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,12 +107,13 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         String url = ApiConstants.UPDATE_PROFILE + user_id;
         final JSONObject requestJson = new JSONObject();
         try {
-            requestJson.put("password", input_password.getText().toString().trim());
+            if (!Utility.isNullOrEmpty(input_password.getText().toString().trim())) {
+                requestJson.put("password", input_password.getText().toString().trim());
+            }
             requestJson.put("first_name", input_first_name.getText().toString().trim());
             requestJson.put("last_name", input_last_name.getText().toString().trim());
             requestJson.put("tournament_id", tournamet_id);
             requestJson.put("locale", selectedLocale);
-//            requestJson.put("profile_image_url", "");
             requestJson.put("user_id", user_id);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -126,8 +133,8 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
                                 String messgae = response.getString("message");
-                                mAppPref.setString(AppConstants.LANGUAGE_SELECTION,selectedLocale);
-                                mAppPref.setString(AppConstants.LANGUAGE_POSITION,languagePos+"");
+                                mAppPref.setString(AppConstants.LANGUAGE_SELECTION, selectedLocale);
+                                mAppPref.setString(AppConstants.LANGUAGE_POSITION, languagePos + "");
                                 Utility.showToast(mContext, messgae);
                                 Intent mIntent = getIntent();
                                 finish();
@@ -159,7 +166,8 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         mContext = this;
         mAppPref = AppPreference.getInstance(mContext);
         localeKeys = getResources().getStringArray(R.array.language_locale_keys);
-
+        Utility.setupUI(mContext, ll_main);
+        enabledDisableLoginButton(true);
         setData();
         getTournamentList();
         setListener();
@@ -173,17 +181,31 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         input_first_name.setText(profileModel.getFirst_name());
         tournamet_id = Integer.parseInt(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID));
         input_last_name.setText(profileModel.getSur_name());
+        if (!Utility.isNullOrEmpty(profileModel.getProfile_image_url())) {
+
+            Glide.with(mContext)
+                    .load(profileModel.getProfile_image_url())
+                    .asBitmap()
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            iv_profileImage.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
+                        }
+                    });
+        } else {
+            iv_profileImage.setImageResource(R.drawable.profile_place_holder);
+        }
         setLanguageSpinner();
     }
 
     private void setLanguageSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item,R.id.tv_spinner, getResources().getStringArray(R.array.language_selection));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item, R.id.tv_spinner, getResources().getStringArray(R.array.language_selection));
         profile_language_selection.setAdapter(adapter);
 
-        if(Utility.isNullOrEmpty(mAppPref.getString(AppConstants.LANGUAGE_POSITION)))
+        if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.LANGUAGE_POSITION)))
             profile_language_selection.setSelection(0);
         else
-        profile_language_selection.setSelection(Integer.parseInt(mAppPref.getString(AppConstants.LANGUAGE_POSITION)));
+            profile_language_selection.setSelection(Integer.parseInt(mAppPref.getString(AppConstants.LANGUAGE_POSITION)));
     }
 
     protected void setListener() {
@@ -194,8 +216,8 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         profile_sp_tournament.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0){
-                    if (mTournamentList != null && mTournamentList.get(position) != null && Utility.isNullOrEmpty(mTournamentList.get(position).getTournament_id())){
+                if (position > 0) {
+                    if (mTournamentList != null && mTournamentList.get(position) != null && Utility.isNullOrEmpty(mTournamentList.get(position).getTournament_id())) {
                         tournamet_id = Integer.parseInt(mTournamentList.get(position).getId());
                     }
                 }
@@ -306,8 +328,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         } else {
             valid = true;
         }
-
-        if (Utility.isNullOrEmpty(pass) || pass.length() < 5) {
+        if (!Utility.isNullOrEmpty(pass) && pass.length() < 5) {
             valid = false;
             return valid;
         } else {
@@ -405,9 +426,8 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
                     try {
                         AppLogger.LogE(TAG, "Upload Profile Image Response " + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-
+                                Utility.showToast(mContext, getString(R.string.profile_updated_successfully));
                             }
                         }
 

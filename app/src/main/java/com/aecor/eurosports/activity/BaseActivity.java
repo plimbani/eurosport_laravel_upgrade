@@ -13,10 +13,11 @@ import com.aecor.eurosports.util.Utility;
  * Created by karan on 6/22/2017.
  */
 
-public abstract class BaseActivity extends Activity{
+public abstract class BaseActivity extends Activity {
 
     private Context mContext;
     private AppPreference mPref;
+
     protected abstract void initView();
 
     protected abstract void setListener();
@@ -29,10 +30,10 @@ public abstract class BaseActivity extends Activity{
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
-        if(Utility.isNullOrEmpty(language))
+        if (Utility.isNullOrEmpty(language))
             Utility.setLocale(mContext, "en");
         else
             Utility.setLocale(mContext, language);

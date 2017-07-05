@@ -176,7 +176,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
     protected void onResume() {
 
         String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
-        if(Utility.isNullOrEmpty(language))
+        if (Utility.isNullOrEmpty(language))
             Utility.setLocale(mContext, "en");
         else
             Utility.setLocale(mContext, language);

@@ -14,7 +14,7 @@ public class HelpActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         showBackButton(getString(R.string.help));
-     }
+    }
 
     @Override
     protected void setListener() {
