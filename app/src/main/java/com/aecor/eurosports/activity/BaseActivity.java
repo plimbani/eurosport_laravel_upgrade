@@ -26,12 +26,15 @@ public abstract class BaseActivity extends Activity{
         super.onCreate(savedInstanceState);
         mContext = this;
         mPref = AppPreference.getInstance(mContext);
+    }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
         String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
         if(Utility.isNullOrEmpty(language))
             Utility.setLocale(mContext, "en");
         else
             Utility.setLocale(mContext, language);
     }
-
 }

@@ -1,11 +1,13 @@
 package com.aecor.eurosports.activity;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -80,10 +82,9 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     private int tournamet_id = 0;
     private int selectedTournamentPos;
     private List<TournamentModel> mTournamentList;
-    private String languageCode = "en";
-//    private String[] localeKeys;
-//    private String selectedLocale;
-
+    private int languagePos = 0;
+    private String[] localeKeys;
+    private String selectedLocale;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
             requestJson.put("first_name", input_first_name.getText().toString().trim());
             requestJson.put("last_name", input_last_name.getText().toString().trim());
             requestJson.put("tournament_id", tournamet_id);
-            requestJson.put("locale", languageCode);
+            requestJson.put("locale", selectedLocale);
 //            requestJson.put("profile_image_url", "");
             requestJson.put("user_id", user_id);
         } catch (JSONException e) {
@@ -125,10 +126,12 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
                                 String messgae = response.getString("message");
-                                mAppPref.setString(AppConstants.LANGUAGE_SELECTION, languageCode);
+                                mAppPref.setString(AppConstants.LANGUAGE_SELECTION,selectedLocale);
+                                mAppPref.setString(AppConstants.LANGUAGE_POSITION,languagePos+"");
                                 Utility.showToast(mContext, messgae);
-                                AppLogger.LogE(TAG, "***** Language response *****" + mAppPref.getString(AppConstants.LANGUAGE_POSITION));
-                                AppLogger.LogE(TAG, "***** Language App response *****" + mAppPref.getString(AppConstants.LANGUAGE_SELECTION));
+                                Intent mIntent = getIntent();
+                                finish();
+                                startActivity(mIntent);
                             } else {
                                 Utility.showToast(mContext, getResources().getString(R.string.update_profile_message));
                             }
@@ -155,10 +158,10 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     protected void initView() {
         mContext = this;
         mAppPref = AppPreference.getInstance(mContext);
-//        localeKeys = getResources().getStringArray(R.array.language_locale_keys);
+        localeKeys = getResources().getStringArray(R.array.language_locale_keys);
 
         setData();
-        getLoggedInUserFavouriteTournamentList();
+        getTournamentList();
         setListener();
         showBackButton(getString(R.string.update_profile));
     }
@@ -174,13 +177,13 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     }
 
     private void setLanguageSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item, R.id.tv_spinner, getResources().getStringArray(R.array.language_selection));
-        String[] temp = {"English", "French", "Italian", "German", "Dutch", "Czech", "Danish", "Polish"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item,R.id.tv_spinner, getResources().getStringArray(R.array.language_selection));
         profile_language_selection.setAdapter(adapter);
-        if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.LANGUAGE_POSITION)))
-            profile_sp_tournament.setSelection(0);
+
+        if(Utility.isNullOrEmpty(mAppPref.getString(AppConstants.LANGUAGE_POSITION)))
+            profile_language_selection.setSelection(0);
         else
-            profile_sp_tournament.setSelection(Integer.parseInt(mAppPref.getString(AppConstants.LANGUAGE_POSITION)));
+        profile_language_selection.setSelection(Integer.parseInt(mAppPref.getString(AppConstants.LANGUAGE_POSITION)));
     }
 
     protected void setListener() {
@@ -191,7 +194,11 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         profile_sp_tournament.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tournamet_id = Integer.parseInt(mTournamentList.get(position).getId());
+                if (position > 0){
+                    if (mTournamentList != null && mTournamentList.get(position) != null && Utility.isNullOrEmpty(mTournamentList.get(position).getTournament_id())){
+                        tournamet_id = Integer.parseInt(mTournamentList.get(position).getId());
+                    }
+                }
             }
 
             @Override
@@ -202,34 +209,8 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         profile_language_selection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        languageCode = "en";
-                        break;
-                    case 1:
-                        languageCode = "fr";
-                        break;
-                    case 2:
-                        languageCode = "it";
-                        break;
-                    case 3:
-                        languageCode = "de";
-                        break;
-                    case 4:
-                        languageCode = "nl";
-                        break;
-                    case 5:
-                        languageCode = "cs";
-                        break;
-                    case 6:
-                        languageCode = "da";
-                        break;
-                    case 7:
-                        languageCode = "pl";
-                        break;
-                }
-                mAppPref.setString(AppConstants.LANGUAGE_POSITION, position + "");
-//                selectedLocale = localeKeys[position];
+                languagePos = position;
+                selectedLocale = localeKeys[position];
             }
 
             @Override
@@ -239,33 +220,27 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         });
     }
 
-    private void getLoggedInUserFavouriteTournamentList() {
+    private void getTournamentList() {
         Utility.startProgress(mContext);
-        String url = ApiConstants.GET_USER_FAVOURITE_LIST;
+        String url = ApiConstants.GET_TOURNAMENTS;
         final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", Utility.getUserId(mContext));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         if (Utility.isInternetAvailable(mContext)) {
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
-                    .POST, url,
+                    .GET, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
                     try {
-                        AppLogger.LogE(TAG, "Get Logged in user favourite tournamenet list " + response.toString());
+                        AppLogger.LogE(TAG, "Get Tournament List response" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-                                TournamentModel mTournamentList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
-                                if (mTournamentList != null && mTournamentList.length > 0) {
-                                    setTournamnetSpinnerAdapter(mTournamentList);
+                                TournamentModel[] mTournamentModal = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
+                                if (mTournamentModal != null && mTournamentModal.length > 0) {
+                                    setTournamnetSpinnerAdapter(mTournamentModal);
                                 }
                             }
                         }
@@ -300,7 +275,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         list.add(0, mHintModel);
         selectedTournamentPos = 0;
         for (int i = 1; i < list.size(); i++) {
-            if (list.get(i).getIs_default() == 1) {
+            if (list.get(i).getId().equalsIgnoreCase(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
                 selectedTournamentPos = i;
                 break;
             }
@@ -312,7 +287,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         profile_sp_tournament.setSelection(selectedTournamentPos);
     }
 
-    public boolean validate() {
+    private boolean validate() {
         boolean valid = false;
         String fname = input_first_name.getText().toString().trim();
         String sname = input_last_name.getText().toString().trim();
@@ -347,13 +322,6 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         } else {
             enabledDisableLoginButton(true);
         }
-    }
-
-    private boolean validate_spinner() {
-        if (selectedTournamentPos == 0)
-            return false;
-        else
-            return true;
     }
 
     private void enabledDisableLoginButton(boolean isEnable) {
@@ -467,7 +435,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     private class GenericTextMatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            checkValidation();
         }
 
         @Override
@@ -477,7 +445,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
 
         @Override
         public void afterTextChanged(Editable s) {
-
+            checkValidation();
         }
     }
 }

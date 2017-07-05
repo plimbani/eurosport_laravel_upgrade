@@ -87,13 +87,6 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
         mContext = this;
         ButterKnife.bind(this);
         mPref = AppPreference.getInstance(mContext);
-
-        String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
-        if(Utility.isNullOrEmpty(language))
-            Utility.setLocale(mContext, "en");
-        else
-            Utility.setLocale(mContext, language);
-
         initFooterContent();
     }
 
@@ -181,8 +174,15 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        super.onResume();
+
+        String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
+        if(Utility.isNullOrEmpty(language))
+            Utility.setLocale(mContext, "en");
+        else
+            Utility.setLocale(mContext, language);
         changeBottomTabAccordingToFlag();
+        super.onResume();
+
     }
 
     private class FooterClickListener implements View.OnClickListener {
