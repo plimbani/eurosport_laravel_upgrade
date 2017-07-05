@@ -1,6 +1,7 @@
 package com.aecor.eurosports.activity;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +16,10 @@ import android.widget.TextView;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.LeagueModel;
 import com.aecor.eurosports.util.AppConstants;
-import com.squareup.picasso.Picasso;
+import com.aecor.eurosports.util.Utility;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 
@@ -88,7 +92,7 @@ public class FullLeageTableActivity extends AppCompatActivity {
         TextView tv_goal_diff = (TextView) teamLeagueView.findViewById(R.id.tv_goal_diff);
         TextView tv_p = (TextView) teamLeagueView.findViewById(R.id.tv_p);
         TextView tv_group_table_title = (TextView) teamLeagueView.findViewById(R.id.tv_group_table_title);
-        ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
+        final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
 
         tv_group_table_title.setText(mLeagueModel.getName());
         tv_games.setText(mLeagueModel.getPlayed());
@@ -105,7 +109,15 @@ public class FullLeageTableActivity extends AppCompatActivity {
         }
         goalText = goalText + goalDifferenece;
         tv_goal_diff.setText(goalText);
-        Picasso.with(mContext).load(mLeagueModel.getTeamFlag()).resize(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT).into(team_flag);
+        Glide.with(mContext)
+                .load(mLeagueModel.getTeamFlag())
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                    }
+                });
 
         ll_group_rows.addView(teamLeagueView);
     }

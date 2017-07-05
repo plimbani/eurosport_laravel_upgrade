@@ -28,5 +28,6 @@ public class ApiConstants {
     public static final String GET_TEAM_LIST = BASE_URL + "teams/getTeamsList";
     public static final String GET_TEAM_FIXTURES = BASE_URL + "match/getFixtures";
     public static final String GET_GROUP_STANDING = BASE_URL + "match/getStanding";
+    public static final String UPDATE_PROFILE_IMAGE = BASE_URL + "users/updateProfileImage";
 }
     

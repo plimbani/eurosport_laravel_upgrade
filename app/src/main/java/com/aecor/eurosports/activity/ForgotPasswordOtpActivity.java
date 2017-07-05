@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -44,6 +45,8 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
     @BindView(R.id.btn_change_password)
     protected Button btn_change_password;
     private Context mContext;
+    @BindView(R.id.ll_main_layout)
+    protected LinearLayout ll_main_layout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        Utility.setupUI(mContext, ll_main_layout);
         checkValidation();
         setListener();
     }
@@ -86,56 +90,6 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
         startActivity(mIntent);
     }
 
-    private void checkUser() {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.RESET_PASSWORD;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("email", et_email.getText().toString().trim());
-            requestJson.put("password", et_password.getText().toString().trim());
-            requestJson.put("otp", et_otp.getText().toString().trim());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if (Utility.isInternetAvailable(mContext)) {
-            AppLogger.LogE(TAG, "***** Forgot password request *****" + requestJson.toString());
-            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
-                    .POST, url,
-                    requestJson, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Utility.StopProgress();
-                    try {
-                        AppLogger.LogE(TAG, "***** Forgot password response *****" + response.toString());
-                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                            Utility.showToast(mContext, response.toString());
-                            startActivity(new Intent(mContext, SignInActivity.class));
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    try {
-                        Utility.StopProgress();
-                        Utility.parseVolleyError(mContext, error);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            });
-            jsonRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            mQueue.add(jsonRequest);
-        }
-    }
 
     private void checkValidation() {
         if (!validate()) {

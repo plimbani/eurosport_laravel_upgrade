@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.aecor.eurosports.R;
@@ -56,10 +57,13 @@ public class RegisterActivity extends BaseActivity {
     protected Button register;
     private long tournament_id = 0;
     private TournamentModel mTournamentList[];
+    @BindView(R.id.ll_main_layout)
+    protected LinearLayout ll_main_layout;
 
     @Override
     public void initView() {
         sp_tournament.setSelection(0);
+        Utility.setupUI(mContext, ll_main_layout);
         getTournamentList();
         enabledDisableRegisterButton(false);
         setListener();

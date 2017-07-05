@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,6 +43,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -353,7 +355,81 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     }
 
     private void uploadProfileImage(Bitmap selectedBitmap) {
+        String tempImageBase64String = null;
 
+        if (selectedBitmap != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+
+            if (selectedBitmap != null) {// important! prevent out of memory
+                selectedBitmap.recycle();
+                selectedBitmap = null;
+            }
+            byte[] b = baos.toByteArray();
+            try {
+                System.gc();
+                tempImageBase64String = Base64.encodeToString(b, Base64.DEFAULT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } catch (OutOfMemoryError e) {
+                baos = new ByteArrayOutputStream();
+                selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                b = baos.toByteArray();
+                tempImageBase64String = Base64.encodeToString(b, Base64.DEFAULT);
+
+            }
+        }
+        Utility.startProgress(mContext);
+        String url = ApiConstants.UPDATE_PROFILE_IMAGE;
+        final JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("user_id", Utility.getUserId(mContext));
+            if (!Utility.isNullOrEmpty(tempImageBase64String)) {
+                requestJson.put("user_image", "data:image/png;base64," + tempImageBase64String);
+            } else {
+                requestJson.put("user_image", "");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (Utility.isInternetAvailable(mContext)) {
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "Upload Profile Image Response " + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+
+                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        }
     }
 
     private class GenericTextMatcher implements TextWatcher {

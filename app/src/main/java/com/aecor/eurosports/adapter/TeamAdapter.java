@@ -1,6 +1,8 @@
 package com.aecor.eurosports.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +14,11 @@ import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.TeamDetailModel;
+import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.Utility;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.List;
 
@@ -66,11 +71,21 @@ public class TeamAdapter extends BaseAdapter {
         if (!Utility.isNullOrEmpty(rowItem.getName())) {
             holder.individual_list_item.setText(rowItem.getName());
         }
+        holder.iv_flag.setVisibility(View.VISIBLE);
         if (!Utility.isNullOrEmpty(rowItem.getCountryLogo())) {
-            Picasso.with(mContext).load(rowItem.getCountryLogo()).resize(40, 25).into(holder.iv_flag);
-            holder.iv_flag.setVisibility(View.VISIBLE);
+            Glide.with(mContext)
+                    .load(rowItem.getCountryLogo())
+                    .asBitmap()
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            holder.iv_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                        }
+                    });
         } else {
-            holder.iv_flag.setVisibility(View.INVISIBLE);
+            Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
+                    R.drawable.globe);
+            holder.iv_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
         }
 
 

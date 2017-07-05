@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.TeamAdapter;
@@ -51,12 +53,16 @@ public class TeamListingActivity extends BaseAppCompactActivity {
     private String groupId;
     private String ageGroupId;
     private List<TeamDetailModel> list;
+    @BindView(R.id.ll_no_data)
+    protected LinearLayout ll_no_data;
+    @BindView(R.id.tv_no_item)
+    protected TextView tv_no_item;
 
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
 
-
+        ll_no_data.setVisibility(View.GONE);
         showBackButton(getString(R.string.team));
         getTeamList();
         setListener();
@@ -140,17 +146,22 @@ public class TeamListingActivity extends BaseAppCompactActivity {
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
                     try {
-                        AppLogger.LogE(TAG, "get team list" + response.toString());
-                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-                                TeamDetailModel mTeamList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamDetailModel[].class);
-                                if (mTeamList != null && mTeamList.length > 0) {
-                                    setTeamListAdapter(mTeamList);
+                        if (response != null && !Utility.isNullOrEmpty(response.toString())) {
+                            AppLogger.LogE(TAG, "get team list" + response.toString());
+                            if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                                if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                    TeamDetailModel mTeamList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamDetailModel[].class);
+                                    if (mTeamList != null && mTeamList.length > 0) {
+                                        setTeamListAdapter(mTeamList);
+                                    } else {
+                                        showNoDataView();
+                                    }
+
                                 }
-
                             }
+                        } else {
+                            showNoDataView();
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -178,5 +189,10 @@ public class TeamListingActivity extends BaseAppCompactActivity {
         list.addAll(Arrays.asList(mTeamList));
         TeamAdapter adapter = new TeamAdapter((Activity) mContext, list);
         lv_team.setAdapter(adapter);
+    }
+
+    private void showNoDataView() {
+        ll_no_data.setVisibility(View.VISIBLE);
+        tv_no_item.setText(getString(R.string.no_data_available));
     }
 }

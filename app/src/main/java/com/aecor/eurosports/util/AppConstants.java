@@ -5,10 +5,12 @@ package com.aecor.eurosports.util;
  */
 public class AppConstants {
     public static final int SPLASH_TIME_OUT = 1000;
-    public static final int MAX_IMAGE_WIDTH = 50;
-    public static final int MAX_IMAGE_HEIGHT = 40;
+    public static final int MAX_IMAGE_WIDTH = 60;
+    public static final int MAX_IMAGE_HEIGHT = 50;
+    public static final int MAX_IMAGE_WIDTH_1 = 100;
+    public static final int MAX_IMAGE_HEIGHT_1 = 80;
     public static final int MAX_IMAGE_WIDTH_LARGE = 180;
-    public static final int MAX_IMAGE_HEIGHT_LARGE = 140;
+    public static final int MAX_IMAGE_HEIGHT_LARGE = 160;
 
     public static final String FIREBASE_TOKEN = "firebase_token";
     public static final String FACEBOOK_URL = "https://www.facebook.com/eurosportring/";
@@ -26,6 +28,7 @@ public class AppConstants {
     public static final String PREF_PROFILE = "profile";
     public static final String PREF_USER_ID = "user_id";
     public static final String PREF_TOURNAMENT_ID = "tournament_id";
+    public static final String PREF_USER_LOCALE = "user_locale";
     public static final String ARG_SECTION_NAME = "tab_name";
     public static final String PREF_SESSION_TOURNAMENT_ID = "session_tournament_id";
     public static final String ARG_CLUB_ID = "club_id";
