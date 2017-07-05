@@ -104,7 +104,7 @@
                             android:background="@drawable/edittext_border"
                             android:hint="@string/password"
                             android:imeOptions="actionDone"
-                            android:inputType="textPersonName|textNoSuggestions" />
+                            android:inputType="textPassword" />
 
                         <Spinner
                             android:id="@+id/profile_sp_tournament"
@@ -130,10 +130,10 @@
             <Button
                 android:id="@+id/btn_update"
                 style="@style/text_black_title"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="@dimen/layout_margin"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/btn_disable"
                 android:text="@string/update" />
         </LinearLayout>

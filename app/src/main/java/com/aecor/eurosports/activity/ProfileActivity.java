@@ -3,11 +3,14 @@ package com.aecor.eurosports.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +21,7 @@ import android.widget.Spinner;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
+import com.aecor.eurosports.application.ApplicationClass;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
@@ -39,6 +43,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,6 +78,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
     private int tournamet_id;
     private int selectedTournamentPos;
     private List<TournamentModel> mTournamentList;
+    private String languageCode="en";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +119,10 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
                                 String messgae = response.getString("message");
+                                mAppPref.setString(AppConstants.LANGUAGE_SELECTION,languageCode);
                                 Utility.showToast(mContext, messgae);
+                                AppLogger.LogE(TAG, "***** Language response *****" + mAppPref.getString(AppConstants.LANGUAGE_POSITION));
+                                AppLogger.LogE(TAG, "***** Language App response *****" + mAppPref.getString(AppConstants.LANGUAGE_SELECTION));
                             } else {
                                 Utility.showToast(mContext, getResources().getString(R.string.update_profile));
                             }
@@ -156,9 +165,12 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
     }
 
     private void setLanguageSpinner() {
-        String[] temp = {"English", "French", "Italian", "German", "Dutch", "Czech", "Danish", "Polish"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item,R.id.tv_spinner, temp);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item,R.id.tv_spinner, getResources().getStringArray(R.array.language_selection));
         profile_language_selection.setAdapter(adapter);
+        if(Utility.isNullOrEmpty(mAppPref.getString(AppConstants.LANGUAGE_POSITION)))
+            profile_sp_tournament.setSelection(0);
+        else
+            profile_sp_tournament.setSelection(Integer.parseInt(mAppPref.getString(AppConstants.LANGUAGE_POSITION)));
     }
 
     protected void setListener() {
@@ -180,7 +192,33 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
         profile_language_selection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                switch(position){
+                    case 0:
+                        languageCode="en";
+                        break;
+                    case 1:
+                        languageCode="fr";
+                        break;
+                    case 2:
+                        languageCode="it";
+                        break;
+                    case 3:
+                        languageCode="de";
+                        break;
+                    case 4:
+                        languageCode="nl";
+                        break;
+                    case 5:
+                        languageCode="cs";
+                        break;
+                    case 6:
+                        languageCode="da";
+                        break;
+                    case 7:
+                        languageCode="pl";
+                        break;
+                }
+                mAppPref.setString(AppConstants.LANGUAGE_POSITION,position+"");
             }
 
             @Override
@@ -269,21 +307,21 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
         String sname = input_last_name.getText().toString().trim();
         String pass = input_password.getText().toString().trim();
 
-        if (fname.isEmpty()) {
+        if (Utility.isNullOrEmpty(fname)) {
             valid = false;
             return valid;
         } else {
             valid = true;
         }
 
-        if (sname.isEmpty()) {
+        if (Utility.isNullOrEmpty(fname)) {
             valid = false;
             return valid;
         } else {
             valid = true;
         }
 
-        if (pass.isEmpty() || pass.length() < 5) {
+        if (Utility.isNullOrEmpty(fname) || pass.length() < 5) {
             valid = false;
             return valid;
         } else {
@@ -293,18 +331,11 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
     }
 
     private void checkValidation() {
-        if (!validate() || !validate_spinner()) {
+        if (!validate()) {
             enabledDisableLoginButton(false);
         } else {
             enabledDisableLoginButton(true);
         }
-    }
-
-    private boolean validate_spinner() {
-        if(selectedTournamentPos == 0)
-            return false;
-        else
-            return true;
     }
 
     private void enabledDisableLoginButton(boolean isEnable) {
@@ -316,7 +347,6 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
             btn_update.setBackgroundResource(R.drawable.btn_disable);
         }
     }
-
 
     @OnClick(R.id.iv_change_profile_pic)
     protected void changeProfileImage() {
@@ -355,6 +385,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
 
         @Override
         public void afterTextChanged(Editable s) {
+
         }
     }
 }

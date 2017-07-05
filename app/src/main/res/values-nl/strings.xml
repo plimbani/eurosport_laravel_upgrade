@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">EuroSports</string>
     <string name="title_activity_venue_map">Venue</string>
-    <string name="create_account">Create account</string>
-    <string name="sign_in">Sign in</string>
+    <string name="create_account">nl-Create account</string>
+    <string name="sign_in">nl-Sign in</string>
     <string name="update">Update</string>
     <string name="favorites">Favourites</string>
     <string name="tournament">Tournament</string>
@@ -71,10 +71,10 @@
     <string name="P">P</string>
     <string name="matches">Matches</string>
     <string name="game_information">Game information</string>
-    <string name="days">Days</string>
-    <string name="hours">Hours</string>
-    <string name="minutes">Minutes</string>
-    <string name="seconds">Seconds</string>
+    <string name="days">nl-Days</string>
+    <string name="hours">nl-Hours</string>
+    <string name="minutes">nl-Minutes</string>
+    <string name="seconds">nl-Seconds</string>
     <string name="CLUBS">CLUBS</string>
     <string name="AGE">AGE</string>
     <string name="GROUPS">GROUPS</string>
