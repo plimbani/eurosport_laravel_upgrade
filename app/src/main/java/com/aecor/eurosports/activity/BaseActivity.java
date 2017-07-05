@@ -1,6 +1,9 @@
 package com.aecor.eurosports.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;
@@ -23,12 +26,15 @@ public abstract class BaseActivity extends Activity{
         super.onCreate(savedInstanceState);
         mContext = this;
         mPref = AppPreference.getInstance(mContext);
+    }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
         String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
         if(Utility.isNullOrEmpty(language))
             Utility.setLocale(mContext, "en");
         else
             Utility.setLocale(mContext, language);
     }
-
 }

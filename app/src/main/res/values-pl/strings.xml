@@ -85,18 +85,13 @@
     <string name="hint_search_age_group">Search age group</string>
     <string name="hint_search_club">Search club</string>
     <string name="hint_search_groups">Search groups</string>
+
     <!--Volley-->
     <string name="no_internet_connection">Connect to internet to get media content.</string>
     <string name="timeout_error_message">Server timeout.</string>
     <string name="generic_error">Something went wrong. Please try again later.</string>
-    <string name="no_network_connection" translatable="false">No network connection found</string>
-    <string name="generic_server_down" translatable="false">Server down</string>
-    <string name="generic_server_timeout" translatable="false">Server Timeout</string>
-    <string name="no_internet" translatable="false">No internet</string>
-    <string name="parsing_failed" translatable="false">Parsing Failure</string>
-    <string name="auth_failed" translatable="false">Authentication Failure</string>
-    <!--Language-->
 
+    <!--Language-->
     <string name="english">English</string>
     <string name="french">French</string>
     <string name="italian">Italian</string>
@@ -105,7 +100,6 @@
     <string name="czech">Czech</string>
     <string name="danish">Danish</string>
     <string name="polish">Polish</string>
-
 
     <string-array name="clubs_tabs">
         <item>@string/CLUBS</item>

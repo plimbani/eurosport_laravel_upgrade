@@ -178,7 +178,6 @@ public class HomeActivity extends BaseAppCompactActivity {
         super.onResume();
         if (timer != null)
             timer.cancel();
-
     }
 
     public void getDateDifference(String FutureDate) {
@@ -274,7 +273,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             CustomTabsIntent customTabsIntent = builder.build();
             builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
-            customTabsIntent.launchUrl(mContext, Uri.parse(INSTAGRAM_URL));
+            customTabsIntent.launchUrl(mContext, Uri.parse(AppConstants.INSTAGRAM_URL));
         }
     }
 
