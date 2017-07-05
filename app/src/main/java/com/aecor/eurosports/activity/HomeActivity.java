@@ -79,6 +79,7 @@ public class HomeActivity extends BaseAppCompactActivity {
     private AppPreference mPreference;
     private Timer timer = new Timer();
     private TimerTask timerTask;
+    private int tournamentPosition;
 
     @Override
     public void initView() {
@@ -94,11 +95,12 @@ public class HomeActivity extends BaseAppCompactActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
+                    tournamentPosition = position;
+                    AppLogger.LogE(TAG,"Tournament Position -> " + tournamentPosition);
                     mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
                     tv_tournamentName.setText(mTournamentList.get(position).getName());
                 }
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournamentLogo())) {
-
                     Glide.with(mContext)
                             .load(mTournamentList.get(position).getTournamentLogo())
                             .asBitmap()
@@ -108,7 +110,6 @@ public class HomeActivity extends BaseAppCompactActivity {
                                     iv_tournamentLogo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
                                 }
                             });
-
 
                 } else {
 
@@ -170,6 +171,8 @@ public class HomeActivity extends BaseAppCompactActivity {
         super.onResume();
         if (timer != null)
             timer.cancel();
+//        sp_tournament.setSelection(Integer.parseInt(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID)));
+        sp_tournament.setSelection(tournamentPosition);
     }
 
     public void getDateDifference(String FutureDate) {
@@ -354,10 +357,21 @@ public class HomeActivity extends BaseAppCompactActivity {
             }
         }
         this.mTournamentList = list;
+        if(Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
+            tournamentPosition = selectedTournamentPos;
+        }
+        else {
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
+                    tournamentPosition = i;
+                    break;
+                }
+            }
+        }
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
                 R.layout.row_spinner_item, R.id.title, list);
         sp_tournament.setAdapter(adapter);
-        sp_tournament.setSelection(selectedTournamentPos);
+        sp_tournament.setSelection(tournamentPosition);
     }
 }
 
