@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.util.AppPreference;
+import com.aecor.eurosports.util.Utility;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +63,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
 
 
     private Context mContext;
+    private AppPreference mPref;
     @BindView(R.id.tv_favourites)
     protected TextView tv_favourites;
     private int resourceIdFavourites;
@@ -83,6 +86,14 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         ButterKnife.bind(this);
+        mPref = AppPreference.getInstance(mContext);
+
+        String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
+        if(Utility.isNullOrEmpty(language))
+            Utility.setLocale(mContext, "en");
+        else
+            Utility.setLocale(mContext, language);
+
         initFooterContent();
     }
 

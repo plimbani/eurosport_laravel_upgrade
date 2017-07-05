@@ -36,5 +36,6 @@ public class AppConstants {
     public static final String ARG_GROUP_DETAIL = "group_detail";
     public static final String ARG_FULL_LEAGUE_TABLE_DETAIL = "full_league_table_detail";
     public static final String ARG_MATCH_INFO = "match_info";
-
+    public static final String LANGUAGE_SELECTION = "language_selection";
+    public static final String LANGUAGE_POSITION = "language_position";
 }
