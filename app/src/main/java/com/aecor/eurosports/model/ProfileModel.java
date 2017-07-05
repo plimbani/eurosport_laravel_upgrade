@@ -20,7 +20,8 @@ public class ProfileModel {
         this.password = password;
     }
 
-    public ProfileModel() { }
+    public ProfileModel() {
+    }
 
     public String getFirst_name() {
         return first_name;

@@ -41,8 +41,6 @@ public class VolleyJsonObjectRequest extends JsonObjectRequest {
         AppLogger.LogE(TAG, "***url***" + url);
         AppLogger.LogE(TAG, "***jsonRequest***" + jsonRequest);
         AppLogger.LogE(TAG, "***authtoken***" + token);
-
-
     }
 
     @Override

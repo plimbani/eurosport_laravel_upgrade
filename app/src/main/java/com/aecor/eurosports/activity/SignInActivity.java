@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.gson.GsonConverter;
-import com.aecor.eurosports.http.VolleyErrorHelper;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.ProfileModel;
@@ -166,8 +165,7 @@ public class SignInActivity extends BaseActivity {
                 public void onErrorResponse(VolleyError error) {
                     try {
                         Utility.StopProgress();
-//                        VolleyErrorHelper.getMessage(error, mContext);
-                        Utility.showToast(mContext, VolleyErrorHelper.getMessage(error, mContext));
+                        Utility.parseVolleyError(mContext, error);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

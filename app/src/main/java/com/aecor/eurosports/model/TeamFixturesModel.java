@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by system-local on 30-06-2017.
  */
 
-public class TeamFixturesModel implements Parcelable{
+public class TeamFixturesModel implements Parcelable {
     private String fid;
     private String match_number;
     private String round;

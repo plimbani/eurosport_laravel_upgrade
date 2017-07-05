@@ -69,7 +69,7 @@ public class ClubsClubFragment extends Fragment {
     protected LinearLayout ll_main_layout;
 
     protected void initView() {
-        Utility.setupUI(mContext,ll_main_layout);
+        Utility.setupUI(mContext, ll_main_layout);
         mPreference = AppPreference.getInstance(mContext);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         rv_clubList.setLayoutManager(mLayoutManager);
