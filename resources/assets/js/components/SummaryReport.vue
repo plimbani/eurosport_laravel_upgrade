@@ -185,7 +185,7 @@
 				<table class="table table-hover table-bordered">
 					<thead>
 	                    <tr>
-	                        <th class="text-center">{{$lang.summary_reports_date}}</th>
+	                        <th class="text-center">{{$lang.summary_reports_date_time}}</th>
 	                        <th class="text-center">{{$lang.summary_reports_age_catrgory}}</th>
 	                        <th class="text-center">{{$lang.summary_reports_location}}</th>
 	                        <th class="text-center">{{$lang.summary_reports_pitch}}</th>
