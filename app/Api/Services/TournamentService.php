@@ -374,12 +374,11 @@ class TournamentService implements TournamentContract
               $reportQuery->where('home_team.club_id',$data['sel_clubs'])->orWhere('away_team.club_id',$data['sel_clubs']);  
             }
             if(isset($data['start_date'])  && $data['start_date']!= '' ){
-                $start_date = Carbon::createFromFormat('m/d/Y', $data['start_date']);
+                $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date']);
                $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','>=',$start_date);
             }
             if(isset($data['end_date'])  && $data['end_date']!= '' ){
-                // dd(Carbon::createFromFormat('m/d/Y', $data['end_date']));
-                $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','<=',Carbon::createFromFormat('m/d/Y', $data['end_date']));
+                $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','<=',Carbon::createFromFormat('d/m/Y', $data['end_date']));
             }
             if(isset($data['start_time'])  && $data['start_time']!= '' ){
 
