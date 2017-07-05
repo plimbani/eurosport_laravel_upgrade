@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">EuroSports</string>
-    <string name="title_activity_venue_map">Venue</string>
     <string name="create_account">cs-Create account</string>
     <string name="sign_in">cs-Sign in</string>
     <string name="update">Update</string>
@@ -12,23 +11,17 @@
     <string name="match_info">Match Info</string>
     <string name="age_categories">Age \ncategories</string>
     <string name="settings">Settings</string>
-    <string name="title_activity_clubs">CLUBS</string>
     <string name="title_activity_favourites">FAVOURITES</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
     <string name="loading">Loading</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="forgot_password_btn">Forgot Password</string>
     <string name="create_new_account">Create new account</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="surname">Surname</string>
     <string name="firstname">First Name</string>    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error">Error</string>
     <string name="button_ok">OK</string>
-    <string name="button_cancel">Cancel</string>
     <string name="select_tournament">Select tournament</string>
     <string name="select_default_tournament">Select default tournament</string>
     <string name="select_language">Select language</string>
@@ -87,9 +80,6 @@
     <string name="hint_search_groups">Search groups</string>
 
     <!--Volley-->
-    <string name="no_internet_connection">Connect to internet to get media content.</string>
-    <string name="timeout_error_message">Server timeout.</string>
-    <string name="generic_error">Something went wrong. Please try again later.</string>
 
     <!--Language-->
     <string name="english">English</string>

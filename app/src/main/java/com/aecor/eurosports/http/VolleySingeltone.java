@@ -19,27 +19,11 @@ public class VolleySingeltone {
     private static VolleySingeltone mAppSingletonInstance;
     private static Context mContext;
     private RequestQueue mRequestQueue;
-    private ImageLoader mImageLoader;
 
     private VolleySingeltone(Context context) {
         mContext = context;
         mRequestQueue = getRequestQueue();
 
-        mImageLoader = new ImageLoader(mRequestQueue,
-                new ImageLoader.ImageCache() {
-                    private final LruCache<String, Bitmap>
-                            cache = new LruCache<String, Bitmap>(20);
-
-                    @Override
-                    public Bitmap getBitmap(String url) {
-                        return cache.get(url);
-                    }
-
-                    @Override
-                    public void putBitmap(String url, Bitmap bitmap) {
-                        cache.put(url, bitmap);
-                    }
-                });
     }
 
     public static synchronized VolleySingeltone getInstance(Context context) {
@@ -49,11 +33,6 @@ public class VolleySingeltone {
         return mAppSingletonInstance;
     }
 
-    public void volleyInvalidateCache(String url) {
-        if (mRequestQueue != null) {
-            mRequestQueue.getCache().invalidate(url, true);
-        }
-    }
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
@@ -62,52 +41,5 @@ public class VolleySingeltone {
             mRequestQueue = Volley.newRequestQueue(mContext.getApplicationContext());
         }
         return mRequestQueue;
-    }
-
-    public <T> void addToRequestQueue(Request<T> req, String tag) {
-        req.setTag(tag);
-        getRequestQueue().add(req);
-    }
-
-    public ImageLoader getImageLoader() {
-        return mImageLoader;
-    }
-
-    public void cancelPendingRequests(Object tag) {
-        if (mRequestQueue != null) {
-            mRequestQueue.cancelAll(tag);
-        } else {
-            getRequestQueue().cancelAll(tag);
-        }
-    }
-
-    public void volleyDeleteCache(String url) {
-        if (mRequestQueue != null) {
-            mRequestQueue.getCache().remove(url);
-        } else {
-            getRequestQueue().getCache().remove(url);
-        }
-    }
-
-    public void volleyClearCache() {
-        if (mRequestQueue != null) {
-            mRequestQueue.getCache().clear();
-        } else {
-            getRequestQueue().getCache().clear();
-        }
-    }
-
-    public void volleyCacheRequest(String url) {
-        Cache cache = getRequestQueue().getCache();
-        Cache.Entry entry = cache.get(url);
-        if (entry != null) {
-            try {
-                String data = new String(entry.data, "UTF-8");
-                // handle data, like converting it to xml, json, bitmap etc.,
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 }

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.aecor.eurosports.R;
 
 
-
 /**
  * Created by system-local on 29-03-2017.
  */
