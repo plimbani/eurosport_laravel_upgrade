@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -39,6 +40,8 @@ public class ForgotPasswordActivity extends BaseActivity {
     @BindView(R.id.btn_get_otp)
     protected Button btn_get_otp;
     private Context mContext;
+    @BindView(R.id.ll_main_layout)
+    protected LinearLayout ll_main_layout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        Utility.setupUI(mContext, ll_main_layout);
         setListener();
         checkValidation();
     }

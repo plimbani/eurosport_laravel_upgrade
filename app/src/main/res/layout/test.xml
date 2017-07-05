@@ -1,121 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimaryDark"
+        android:title="@string/CLUBS"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/AppTheme.PopupOverlay"></android.support.v7.widget.Toolbar>
 
-        <TextView
-            android:id="@+id/team_match_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/circle_red"
-            android:gravity="center"
-            android:text="18\nJul"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/team_match_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/team_match_date"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/green_right_arrow" />
-
-        <TextView
-            android:id="@+id/team1_score"
-            style="@style/text_black_title"
-            android:layout_marginLeft="10dp"
-            android:layout_toLeftOf="@id/team_match_link"
-            android:layout_toRightOf="@id/team_match_date"
-            android:gravity="left"
-            android:text="team one" />
-
-        <TextView
-            android:id="@+id/team2_score"
-            style="@style/text_black_title"
-            android:layout_below="@id/team1_score"
-            android:layout_marginLeft="10dp"
-            android:layout_toLeftOf="@id/team_match_link"
-            android:layout_toRightOf="@id/team_match_date"
-            android:gravity="left"
-            android:text="team one" />
-
-        <TextView
-            android:id="@+id/team_venue"
-            style="@style/text_black_sub_title"
-            android:layout_below="@id/team2_score"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_toLeftOf="@id/team_match_link"
-            android:layout_toRightOf="@id/team_match_date"
-            android:gravity="center_vertical"
-            android:text="Venue"
-            android:textSize="16sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/team_venue"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@id/team_match_link"
-            android:layout_toRightOf="@id/team_match_date"
-            android:orientation="horizontal">
+            android:layout_margin="20dp"
+            android:background="@drawable/layout_border"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_team_score_1"
+                        style="@style/text_black_title"
+                        android:text="5"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="50sp"
+                        android:textStyle="bold" />
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_team_score_2"
+                        style="@style/text_black_title"
+                        android:text="5"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="50sp"
+                        android:textStyle="bold" />
+
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:background="@color/view_line"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_dateTime"
+                    style="@style/text_black_small"
+                    android:gravity="center"
+                    android:text="18 July | 16:00"
+                    android:textColor="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tv_age_and_group_info"
+                    style="@style/text_black_small"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="18 July | 16:00"
+                    android:textColor="@color/gray" />
+
+                <TextView
+                    android:id="@+id/tv_match_id"
+                    style="@style/text_black_small"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="18 July | 16:00"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
+
 
             <TextView
-                android:id="@+id/team_match_id"
-                style="@style/team_league_table_text"
-                android:text="Match ID"
-                android:textColor="@color/gray"
-                android:textSize="14sp" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/gray" />
-
-            <TextView
-                android:id="@+id/team_age_category"
-                style="@style/team_league_table_text"
-                android:text="Age category"
-                android:textColor="@color/gray"
-                android:textSize="14sp" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@color/gray" />
-
-            <TextView
-                android:id="@+id/team_round"
-                style="@style/team_league_table_text"
-                android:text="Round"
-                android:textColor="@color/gray"
-                android:textSize="14sp" />
+                android:id="@+id/tv_venue"
+                style="@style/text_black_title"
+                android:drawableRight="@drawable/green_right_arrow"
+                android:gravity="left"
+                android:padding="15dp"
+                android:text="18 July | 16:00"
+                android:textColor="@color/green"
+                android:textStyle="bold" />
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/button_disable" />
+    <include layout="@layout/layout_footer" />
 </LinearLayout>

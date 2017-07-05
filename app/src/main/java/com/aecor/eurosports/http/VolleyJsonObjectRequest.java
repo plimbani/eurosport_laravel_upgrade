@@ -10,10 +10,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 
@@ -36,7 +34,7 @@ public class VolleyJsonObjectRequest extends JsonObjectRequest {
                                    Response.Listener<JSONObject> listener,
                                    Response.ErrorListener errorListener) {
         super(method, url, jsonRequest, listener, errorListener);
-        setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mAppPreference = AppPreference.getInstance(mContext);
         token = mAppPreference.getString(AppConstants.PREF_TOKEN);
         AppLogger.LogE(TAG, "***method***" + method);
@@ -46,6 +44,7 @@ public class VolleyJsonObjectRequest extends JsonObjectRequest {
 
 
     }
+
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         try {
@@ -71,8 +70,14 @@ public class VolleyJsonObjectRequest extends JsonObjectRequest {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Content-Type", "application/json; charset=utf-8");
         headers.put("IsMobileUser", "true");
-        if (!Utility.isNullOrEmpty(token))
+        if (!Utility.isNullOrEmpty(token)) {
             headers.put("Authorization", "Bearer " + token);
+        }
+        String locale = mAppPreference.getString(AppConstants.PREF_USER_LOCALE);
+        if (!Utility.isNullOrEmpty(locale)) {
+            headers.put("locale", locale);
+        }
+
         return headers;
     }
 
@@ -80,12 +85,5 @@ public class VolleyJsonObjectRequest extends JsonObjectRequest {
     public String getBodyContentType() {
         return "application/json; charset=utf-8";
     }
-
-    @Override
-    public RetryPolicy getRetryPolicy() {
-        // here you can write a custom retry policy
-        return super.getRetryPolicy();
-    }
-
 
 }

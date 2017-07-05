@@ -2,6 +2,7 @@ package com.aecor.eurosports.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
@@ -11,7 +12,9 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.TeamFixturesModel;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.Utility;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.text.ParseException;
 
@@ -57,15 +60,35 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         tv_team_score_2.setText(mTeamFixturesModel.getAwayScore());
         tv_team_name_1.setText(mTeamFixturesModel.getHomeTeam());
         tv_team_name_2.setText(mTeamFixturesModel.getAwayTeam());
-        Picasso.with(mContext).load(mTeamFixturesModel.getHomeFlagLogo()).resize(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT).into(iv_team_flag_1);
-        Picasso.with(mContext).load(mTeamFixturesModel.getAwayFlagLogo()).resize(AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT).into(iv_team_flag_2);
+
+        Glide.with(mContext)
+                .load(mTeamFixturesModel.getHomeFlagLogo())
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        iv_team_flag_1.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                    }
+                });
+
+        Glide.with(mContext)
+                .load(mTeamFixturesModel.getAwayFlagLogo())
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        iv_team_flag_2.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                    }
+                });
+
+
         try {
             tv_dateTime.setText(Utility.getDateTimeFromServerDate(mTeamFixturesModel.getMatch_datetime()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         tv_age_and_group_info.setText(mTeamFixturesModel.getGroup_name());
-        tv_match_id.setText(getString(R.string.match_id) +" "+ mTeamFixturesModel.getMatch_number());
+        tv_match_id.setText(getString(R.string.match_id) + " " + mTeamFixturesModel.getMatch_number());
         tv_venue.setText(mTeamFixturesModel.getVenue_name());
     }
 

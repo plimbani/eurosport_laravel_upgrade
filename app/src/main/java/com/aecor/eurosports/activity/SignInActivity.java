@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.gson.GsonConverter;
@@ -41,12 +42,13 @@ public class SignInActivity extends BaseActivity {
     @BindView(R.id.signin)
     protected Button log_in;
     private AppPreference mAppSharedPref;
+    @BindView(R.id.ll_main_layout)
+    protected LinearLayout ll_main_layout;
 
     @Override
     public void initView() {
         enabledDisableLoginButton(false);
-        email_address.setText("kdeopura@aecordigital.com");
-        sign_in_password.setText("password");
+        Utility.setupUI(mContext, ll_main_layout);
         mAppSharedPref = AppPreference.getInstance(mContext);
         setListener();
     }
@@ -145,6 +147,9 @@ public class SignInActivity extends BaseActivity {
                             mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
                             mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id").toString());
                             mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id").toString());
+                            if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
+                                mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
+                            }
                             startActivity(new Intent(mContext, HomeActivity.class));
                             finish();
                         } else {
