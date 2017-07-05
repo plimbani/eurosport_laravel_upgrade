@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">EuroSports</string>
     <string name="title_activity_venue_map">Venue</string>
-    <string name="create_account">Create account</string>
-    <string name="sign_in">Sign in</string>
+    <string name="create_account">fr-Create account</string>
+    <string name="sign_in">fr-Sign in</string>
     <string name="update">Update</string>
     <string name="favorites">Favourites</string>
     <string name="tournament">Tournament</string>
@@ -24,7 +24,7 @@
     <string name="create_new_account">Create new account</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="surname">Surname</string>
-    <string name="firstname">First Name</string>    <!-- TODO: Remove or change this placeholder text -->
+    <string name="firstname">fr-First Name</string>    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error">Error</string>
     <string name="button_ok">OK</string>
@@ -33,8 +33,7 @@
     <string name="select_default_tournament">Select default tournament</string>
     <string name="select_language">Select language</string>
     <string name="register_success">User registered successfully.</string>
-    <string name="update_profile_message">Profile updated successfully.</string>
-    <string name="update_profile">Update profile</string>
+    <string name="update_profile">Profile updated successfully.</string>
     <string name="default_tournament">Default tournament selected </string>
     <string name="get_otp">Get Otp</string>
     <string name="otp">otp</string>
@@ -63,7 +62,6 @@
     <string name="league_table">league table</string>
     <string name="no_data_available">No data available.</string>
     <string name="venue">Venue</string>
-    <string name="group_summary">GROUP SUMMARY</string>
     <string name="G">G</string>
     <string name="W">W</string>
     <string name="D">D</string>
@@ -73,10 +71,10 @@
     <string name="P">P</string>
     <string name="matches">Matches</string>
     <string name="game_information">Game information</string>
-    <string name="days">Days</string>
-    <string name="hours">Hours</string>
-    <string name="minutes">Minutes</string>
-    <string name="seconds">Seconds</string>
+    <string name="days">fr-Days</string>
+    <string name="hours">fr-Hours</string>
+    <string name="minutes">fr-Minutes</string>
+    <string name="seconds">fr-Seconds</string>
     <string name="CLUBS">CLUBS</string>
     <string name="AGE">AGE</string>
     <string name="GROUPS">GROUPS</string>
@@ -87,7 +85,6 @@
     <string name="hint_search_age_group">Search age group</string>
     <string name="hint_search_club">Search club</string>
     <string name="hint_search_groups">Search groups</string>
-    <string name="view_on_map">VIEW ON MAP</string>
     <!--Volley-->
     <string name="no_internet_connection">Connect to internet to get media content.</string>
     <string name="timeout_error_message">Server timeout.</string>
@@ -125,17 +122,6 @@
         <item>@string/czech</item>
         <item>@string/danish</item>
         <item>@string/polish</item>
-    </string-array>
-
-    <string-array name="language_locale_keys">
-        <item>en</item>
-        <item>fr</item>
-        <item>it</item>
-        <item>de</item>
-        <item>nl</item>
-        <item>cs</item>
-        <item>da</item>
-        <item>pl</item>
     </string-array>
 
 </resources>
