@@ -71,25 +71,40 @@ export default {
             DrawName:[]
         }
     },
-	mounted() {
+
+  mounted() {
     this.setTeamData()
     // here call method to get All Draws
     let TournamentId = this.$store.state.Tournament.tournamentId
+    let currDId = this.currentCompetationId
+    let drawname1 = []
       Tournament.getAllDraws(TournamentId).then(
         (response)=> {
           if(response.data.status_code == 200) {
             this.drawList = response.data.data
+
+            var uniqueArray = response.data.data.filter(function(item, pos) {
+
+              if(item['id'] == currDId)
+              {
+               drawname1 = item
+              }
+            }, {});
+            this.DrawName = drawname1
+            //this.DrawName = this.matchData[0];
+            // find record of that
           }
         },
         (error) => {
           alert('Error in Getting Draws')
         }
       )
+    //  this.drawName = otherData.DrawName
       //this.teamStand = 'true'
       // Call child class Method
       // this.$children[1].getData(this.currentCompetationId)
       // console.log(this.$children[1].getData())
-	},
+ },
   filters: {
     getStatus: function(teamName) {
       // Now here we change it accoring to
