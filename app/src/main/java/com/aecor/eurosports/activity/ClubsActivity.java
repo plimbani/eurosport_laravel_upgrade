@@ -1,6 +1,7 @@
 package com.aecor.eurosports.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -39,6 +40,14 @@ public class ClubsActivity extends BaseAppCompactActivity {
     @Override
     public void setListener() {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mIntent = new Intent(mContext, HomeActivity.class);
+        mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(mIntent);
     }
 
     @Override
