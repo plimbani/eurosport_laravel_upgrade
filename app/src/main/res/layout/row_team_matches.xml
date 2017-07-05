@@ -62,6 +62,10 @@
                 <TextView
                     android:id="@+id/team_match_id"
                     style="@style/team_league_table_text"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="Match ID"
                     android:textColor="@color/gray"
                     android:textSize="14sp" />
@@ -76,6 +80,10 @@
                 <TextView
                     android:id="@+id/team_age_category"
                     style="@style/team_league_table_text"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="Age category"
                     android:textColor="@color/gray"
                     android:textSize="14sp" />
@@ -90,6 +98,10 @@
                 <TextView
                     android:id="@+id/team_round"
                     style="@style/team_league_table_text"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="Round"
                     android:textColor="@color/gray"
                     android:textSize="14sp" />
