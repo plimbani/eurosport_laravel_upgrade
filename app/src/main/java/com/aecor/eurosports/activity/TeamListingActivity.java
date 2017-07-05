@@ -3,25 +3,18 @@ package com.aecor.eurosports.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.aecor.eurosports.R;
-import com.aecor.eurosports.adapter.AgeAdapter;
-import com.aecor.eurosports.adapter.ClubSectionsPagerAdapter;
 import com.aecor.eurosports.adapter.TeamAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
-import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.model.TeamDetailModel;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
@@ -41,7 +34,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by system-local on 29-06-2017.
@@ -141,7 +133,7 @@ public class TeamListingActivity extends BaseAppCompactActivity {
             }
             AppLogger.LogE(TAG, "url" + url);
             AppLogger.LogE(TAG, "requestJson " + requestJson.toString());
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -175,7 +167,7 @@ public class TeamListingActivity extends BaseAppCompactActivity {
                     }
 
                 }
-            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }

@@ -5,15 +5,16 @@ package com.aecor.eurosports.util;
  */
 public class AppConstants {
     public static final int SPLASH_TIME_OUT = 1000;
-    public static final int MAX_IMAGE_WIDTH = 40;
-    public static final int MAX_IMAGE_HEIGHT = 25;
-    public static final String FIREBASE_TOKEN  = "firebase_token";
-    public static final String FACEBOOK_URL = "https://www.facebook.com/BakeUrCakes";
-    public static final String FACEBOOK_PAGE_ID = "BakeUrCakes";
-    public static final String INSTAGRAM_APP_URL = "http://instagram.com/_u/im_curren";
-    public static final String INSTAGRAM_URL = "http://instagram.com/im_curren";
-    public static final String TWITTER_APP_URL = "twitter://user?screen_name=karan_deopura";
-    public static final String TWITTER_URL = "https://twitter.com/karan_deopura";
+    public static final int MAX_IMAGE_WIDTH = 50;
+    public static final int MAX_IMAGE_HEIGHT = 40;
+    public static final int MAX_IMAGE_WIDTH_LARGE = 180;
+    public static final int MAX_IMAGE_HEIGHT_LARGE = 140;
+
+    public static final String FIREBASE_TOKEN = "firebase_token";
+    public static final String FACEBOOK_URL = "https://www.facebook.com/eurosportring/";
+    public static final String FACEBOOK_PAGE_ID = "eurosportring";
+    public static final String INSTAGRAM_URL = "http://instagram.com";
+    public static final String TWITTER_URL = "https://twitter.com/EuroSportring";
     public static final String SCREEN_CONSTANT_FAVOURITES = "FAVOURITES_SCREEN_SELECTED";
     public static final String SCREEN_CONSTANT_CLUBS = "CLUBS_SCREEN_SELECTED";
     public static final String SCREEN_CONSTANT_TOURNAMENT = "TOURNAMENT_SCREEN_SELECTED";

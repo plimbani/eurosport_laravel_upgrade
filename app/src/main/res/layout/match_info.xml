@@ -32,6 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
@@ -51,7 +53,7 @@
 
                     <TextView
                         android:id="@+id/tv_team_name_1"
-                        style="@style/text_black_title"
+                        style="@style/text_black_sub_title"
                         android:text="team name"
                         android:textStyle="bold" />
 
@@ -70,7 +72,7 @@
 
                         <TextView
                             android:id="@+id/tv_team_country_1"
-                            style="@style/text_black_title"
+                            style="@style/text_black_sub_title"
                             android:text="test" />
                     </LinearLayout>
                 </LinearLayout>
@@ -91,9 +93,8 @@
 
                     <TextView
                         android:id="@+id/tv_team_name_2"
-                        style="@style/text_black_title"
+                        style="@style/text_black_sub_title"
                         android:text="team name"
-
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -111,7 +112,7 @@
 
                         <TextView
                             android:id="@+id/tv_team_country_2"
-                            style="@style/text_black_title"
+                            style="@style/text_black_sub_title"
                             android:text="test" />
                     </LinearLayout>
                 </LinearLayout>

@@ -2,7 +2,6 @@ package com.aecor.eurosports.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,15 +18,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.LandingActivity;
 import com.aecor.eurosports.activity.SplashActivity;
-import com.aecor.eurosports.http.VolleyErrorHelper;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.ViewDialog;
 import com.android.volley.VolleyError;
@@ -36,7 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -138,6 +133,32 @@ public class Utility {
         } catch (@NonNull JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Bitmap scaleBitmap(Bitmap bm, int maxWidth, int maxHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+
+
+        if (width > height) {
+            // landscape
+            float ratio = (float) width / maxWidth;
+            width = maxWidth;
+            height = (int) (height / ratio);
+        } else if (height > width) {
+            // portrait
+            float ratio = (float) height / maxHeight;
+            height = maxHeight;
+            width = (int) (width / ratio);
+        } else {
+            // square
+            height = maxHeight;
+            width = maxWidth;
+        }
+
+
+        bm = Bitmap.createScaledBitmap(bm, width, height, true);
+        return bm;
     }
 
     public static String encodeTobase64(Bitmap image) {

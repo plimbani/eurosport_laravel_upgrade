@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_header" />
+    <include layout="@layout/toolbar_header" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -139,5 +139,6 @@
         </LinearLayout>
     </LinearLayout>
 
+    <include layout="@layout/layout_footer" />
 
 </LinearLayout>

@@ -19,13 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
-import com.aecor.eurosports.activity.AgeCategoriesActivity;
-import com.aecor.eurosports.adapter.AgeAdapter;
 import com.aecor.eurosports.adapter.ClubAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
-import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.model.ClubModel;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
@@ -115,25 +112,28 @@ public class ClubsClubFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress(mProgressHUD);
                     try {
-                        AppLogger.LogE(TAG, "Get Tournament Club  List response" + response.toString());
-                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-                                ClubModel mClubList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), ClubModel[].class);
-                                if (mClubList != null && mClubList.length > 0) {
-                                    setClubAdapter(mClubList);
-                                } else {
-                                    showNoItemView();
+                        if (response != null && !Utility.isNullOrEmpty(response.toString())) {
+                            AppLogger.LogE(TAG, "Get Tournament Club  List response" + response.toString());
+                            if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                                if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                    ClubModel mClubList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), ClubModel[].class);
+                                    if (mClubList != null && mClubList.length > 0) {
+                                        setClubAdapter(mClubList);
+                                    } else {
+                                        showNoItemView();
+                                    }
                                 }
                             }
+                        } else {
+                            showNoItemView();
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -150,7 +150,7 @@ public class ClubsClubFragment extends Fragment {
                     }
 
                 }
-            }, mPreference.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }

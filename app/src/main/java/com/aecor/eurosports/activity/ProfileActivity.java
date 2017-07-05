@@ -53,7 +53,7 @@ import butterknife.OnClick;
  * Created by system-local on 26-04-2017.
  */
 
-public class ProfileActivity extends BaseActivity implements ImageOptionDialogActivity.onImageSelectedInterface {
+public class ProfileActivity extends BaseAppCompactActivity implements ImageOptionDialogActivity.onImageSelectedInterface {
     private static final String TAG = "ProfileActivity";
 
     @BindView(R.id.iv_profileImage)
@@ -75,10 +75,13 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
 
     private AppPreference mAppPref;
     private Context mContext;
-    private int tournamet_id;
+    private int tournamet_id = 0;
     private int selectedTournamentPos;
     private List<TournamentModel> mTournamentList;
     private String languageCode="en";
+//    private String[] localeKeys;
+//    private String selectedLocale;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,6 +102,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
             requestJson.put("first_name", input_first_name.getText().toString().trim());
             requestJson.put("last_name", input_last_name.getText().toString().trim());
             requestJson.put("tournament_id", tournamet_id);
+            requestJson.put("locale", languageCode);
 //            requestJson.put("profile_image_url", "");
             requestJson.put("user_id", user_id);
         } catch (JSONException e) {
@@ -108,7 +112,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
         if (Utility.isInternetAvailable(mContext)) {
             AppLogger.LogE(TAG, "***** Profile update request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -124,7 +128,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
                                 AppLogger.LogE(TAG, "***** Language response *****" + mAppPref.getString(AppConstants.LANGUAGE_POSITION));
                                 AppLogger.LogE(TAG, "***** Language App response *****" + mAppPref.getString(AppConstants.LANGUAGE_SELECTION));
                             } else {
-                                Utility.showToast(mContext, getResources().getString(R.string.update_profile));
+                                Utility.showToast(mContext, getResources().getString(R.string.update_profile_message));
                             }
                         }
                     } catch (Exception e) {
@@ -141,7 +145,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
                         e.printStackTrace();
                     }
                 }
-            }, mAppPref.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest);
         }
     }
@@ -149,12 +153,15 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
     protected void initView() {
         mContext = this;
         mAppPref = AppPreference.getInstance(mContext);
+//        localeKeys = getResources().getStringArray(R.array.language_locale_keys);
+
         setData();
         getLoggedInUserFavouriteTournamentList();
         setListener();
+        showBackButton(getString(R.string.update_profile));
     }
 
-    private void setData(){
+    private void setData() {
         input_email.setText(mAppPref.getString(AppConstants.PREF_EMAIL));
         input_password.setText(mAppPref.getString(AppConstants.PREF_PASSWORD));
         ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
@@ -166,6 +173,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
 
     private void setLanguageSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item,R.id.tv_spinner, getResources().getStringArray(R.array.language_selection));
+        String[] temp = {"English", "French", "Italian", "German", "Dutch", "Czech", "Danish", "Polish"};
         profile_language_selection.setAdapter(adapter);
         if(Utility.isNullOrEmpty(mAppPref.getString(AppConstants.LANGUAGE_POSITION)))
             profile_sp_tournament.setSelection(0);
@@ -219,6 +227,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
                         break;
                 }
                 mAppPref.setString(AppConstants.LANGUAGE_POSITION,position+"");
+//                selectedLocale = localeKeys[position];
             }
 
             @Override
@@ -241,7 +250,7 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -314,14 +323,14 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
             valid = true;
         }
 
-        if (Utility.isNullOrEmpty(fname)) {
+        if (Utility.isNullOrEmpty(sname)) {
             valid = false;
             return valid;
         } else {
             valid = true;
         }
 
-        if (Utility.isNullOrEmpty(fname) || pass.length() < 5) {
+        if (Utility.isNullOrEmpty(pass) || pass.length() < 5) {
             valid = false;
             return valid;
         } else {
@@ -336,6 +345,13 @@ public class ProfileActivity extends BaseActivity implements ImageOptionDialogAc
         } else {
             enabledDisableLoginButton(true);
         }
+    }
+
+    private boolean validate_spinner() {
+        if (selectedTournamentPos == 0)
+            return false;
+        else
+            return true;
     }
 
     private void enabledDisableLoginButton(boolean isEnable) {

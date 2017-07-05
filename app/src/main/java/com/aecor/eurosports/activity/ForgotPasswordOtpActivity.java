@@ -101,7 +101,7 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
         if (Utility.isInternetAvailable(mContext)) {
             AppLogger.LogE(TAG, "***** Forgot password request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
@@ -177,7 +177,8 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
 
     private class GenericTextMatcher implements TextWatcher {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {  }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -185,6 +186,7 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {  }
+        public void afterTextChanged(Editable s) {
+        }
     }
 }

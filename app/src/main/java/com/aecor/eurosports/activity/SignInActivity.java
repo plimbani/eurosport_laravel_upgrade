@@ -126,7 +126,7 @@ public class SignInActivity extends BaseActivity {
 
         if (Utility.isInternetAvailable(mContext)) {
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
                     .GET, url,
                     requestJson1, new Response.Listener<JSONObject>() {
                 @Override
@@ -169,7 +169,7 @@ public class SignInActivity extends BaseActivity {
                     }
 
                 }
-            }, mAppSharedPref.getString(AppConstants.PREF_TOKEN));
+            });
             mQueue.add(jsonRequest1);
         }
     }
@@ -188,7 +188,7 @@ public class SignInActivity extends BaseActivity {
         if (Utility.isInternetAvailable(mContext)) {
             AppLogger.LogE(TAG, "***** Sign in request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(Request.Method
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override

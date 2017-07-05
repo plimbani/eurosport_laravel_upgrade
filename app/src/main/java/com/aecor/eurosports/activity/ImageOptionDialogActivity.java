@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-
 import com.aecor.eurosports.R;
 
 import butterknife.ButterKnife;

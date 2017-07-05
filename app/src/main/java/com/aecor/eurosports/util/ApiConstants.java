@@ -21,13 +21,12 @@ public class ApiConstants {
     public static final String SET_TOURNAMENT_AS_FAVOURITE = BASE_URL + "users/setFavourite";
     public static final String REMOVE_TOURNAMENT_FROM_FAVOURITE = BASE_URL + "users/removeFavourite";
     public static final String GET_USER_FAVOURITE_LIST = BASE_URL + "users/getLoginUserFavouriteTournament";
-    public static final String GET_USER_DEFAULT_FAVOURITE_LIST = BASE_URL + "users/setDefaultFavourite";
-    public static final String GET_LOGGEDIN_USER_DEFAULT_TOURNAMENT = BASE_URL + "users/getLoginUserDefaultTournament";
+    public static final String SET_DEFAULT_TOURNAMENET = BASE_URL + "users/setDefaultFavourite";
     public static final String AGE_CATEGORIES = BASE_URL + "age_group/getCompetationFormat";
     public static final String TOURNAMENT_GROUP = BASE_URL + "match/getDraws";
     public static final String TOURNAMENT_CLUBS = BASE_URL + "tournaments/getTournamentClub";
     public static final String GET_TEAM_LIST = BASE_URL + "teams/getTeamsList";
     public static final String GET_TEAM_FIXTURES = BASE_URL + "match/getFixtures";
-    public static final String GET_GROUP_STANDING= BASE_URL + "match/getStanding";
+    public static final String GET_GROUP_STANDING = BASE_URL + "match/getStanding";
 }
     
