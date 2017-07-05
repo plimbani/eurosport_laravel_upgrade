@@ -73,6 +73,7 @@ public class SplashActivity extends BaseActivity {
     private void checkuser() {
         String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
         String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
+        mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID,"");
 //        Utility.startProgress(mContext);
         String url = ApiConstants.SIGN_IN;
         final JSONObject requestJson = new JSONObject();

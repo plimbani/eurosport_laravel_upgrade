@@ -219,6 +219,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
                 if (position > 0) {
                     if (mTournamentList != null && mTournamentList.get(position) != null && Utility.isNullOrEmpty(mTournamentList.get(position).getTournament_id())) {
                         tournamet_id = Integer.parseInt(mTournamentList.get(position).getId());
+                        setDefaultTournament(mTournamentList.get(position).getId());
                     }
                 }
             }
@@ -240,6 +241,52 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
 
             }
         });
+    }
+
+    private void setDefaultTournament(final String tournamentId) {
+        Utility.startProgress(mContext);
+        String url = ApiConstants.SET_DEFAULT_TOURNAMENET;
+        final JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("user_id", Utility.getUserId(mContext));
+            requestJson.put("tournament_id", tournamentId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (Utility.isInternetAvailable(mContext)) {
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+            AppLogger.LogE(TAG, "*** SET DEFAULT TOURNAMENT REQUEST ***" + requestJson.toString());
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "*** SET DEFAULT TOURNAMENT RESPONSE ***" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            mAppPref.setString(AppConstants.PREF_TOURNAMENT_ID, tournamentId);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        }
     }
 
     private void getTournamentList() {
