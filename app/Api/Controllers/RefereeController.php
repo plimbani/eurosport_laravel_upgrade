@@ -59,11 +59,11 @@ class RefereeController extends BaseController
         $data = $request->all()['data'];
         // dd($data);
 
-        return $this->refereeObj->edit($data, $data['refereeId']);   
+        return $this->refereeObj->edit($data, $data['refereeId']);
     }
     public function refereeDetail(Request $request)
     {
-        return $this->refereeRepoObj->getRefereeFromId($request->refereeId); 
+        return $this->refereeRepoObj->getRefereeFromId($request->refereeId);
         // dd($request->refereeId);
         // return $this->refereeObj->refereeDetail($request);
 

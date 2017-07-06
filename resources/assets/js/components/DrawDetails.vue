@@ -36,7 +36,7 @@
     			</a>
     		</td>
         <td v-for="(teamMatch, ind2) in match.matches">
-          {{teamMatch.score}}
+          <span class="text-center">{{teamMatch.score}}</span>
           <div v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
         </td>
       </tr>
@@ -71,12 +71,26 @@ export default {
     },
 	mounted() {
     this.setTeamData()
+
     // here call method to get All Draws
     let TournamentId = this.$store.state.Tournament.tournamentId
+    let currDId = this.currentCompetationId
+    let drawname1 = []
       Tournament.getAllDraws(TournamentId).then(
         (response)=> {
           if(response.data.status_code == 200) {
             this.drawList = response.data.data
+
+            var uniqueArray = response.data.data.filter(function(item, pos) {
+
+              if(item['id'] == currDId)
+              {
+               drawname1 = item
+              }
+            }, {});
+            this.DrawName = drawname1
+            //this.DrawName = this.matchData[0];
+            // find record of that
           }
         },
         (error) => {
@@ -115,6 +129,9 @@ export default {
               return this.matchData[0].team_size
             }
 
+        },
+        currentCompId () {
+          return this.currentCompetationId
         }
     },
 	components: {
@@ -144,7 +161,7 @@ export default {
         setTeamData() {
             let tempMatchdata = (this.matchData.length > 0 && !this.matchData[0].hasOwnProperty('fid')) ? this.matchData : this.drawList
 
-
+            this.currentCompetationId = this.otherData.DrawId
             if(Object.keys(tempMatchdata).length !== 0) {
 
                let TeamData = []

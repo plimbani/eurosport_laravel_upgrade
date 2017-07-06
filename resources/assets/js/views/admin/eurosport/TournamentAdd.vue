@@ -365,7 +365,7 @@ this.tournament.name = this.$store.state.Tournament.tournamentName
 if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null || this.$store.state.Tournament.tournamentLogo != '')
 {
 this.image = this.$store.state.Tournament.tournamentLogo
-this.imagePath = '/assets/img/tournament_logo/'
+this.imagePath = 'http://dev-esr.s3.amazonaws.com'+'/assets/img/tournament_logo/'
 }
 
 this.tournament.website =this.$store.state.Tournament.website

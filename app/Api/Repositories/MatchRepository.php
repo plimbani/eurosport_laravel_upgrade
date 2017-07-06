@@ -8,9 +8,6 @@ use Laraspace\Models\Fixture;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\PitchUnavailable;
-
-
-
 use DB;
 
 class MatchRepository
@@ -18,6 +15,7 @@ class MatchRepository
     public function __construct()
     {
         $this->dbObj = DB::table('match_results');
+        $this->getAWSUrl = getenv('S3_URL');
     }
 
     public function getAllMatches()
@@ -40,16 +38,21 @@ class MatchRepository
         return MatchResult::find($matchId);
     }
 
-    public function getDraws($tournamentId) {
-
+    public function getDraws($tournamentData) {
          //$data = Competition::where('tournament_id',$tournamentId)->get();
+      $tournamentId = $tournamentData['tournamentId'];
+      //$tournamentId = $tournamentData['tournament_id'];
       $reportQuery = DB::table('competitions')
                      ->leftjoin('tournament_competation_template',
-                'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
-                    ->where('competitions.tournament_id', $tournamentId)
-                   ->select('competitions.*','tournament_competation_template.group_name')
-                   ->get();
-      return $reportQuery;
+                'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id');
+      if(isset($tournamentData['competationFormatId']) && $tournamentData['competationFormatId'] != '') {
+        $reportQuery->where('competitions.tournament_competation_template_id','=',
+          $tournamentData['competationFormatId']);
+      }
+      $reportQuery->where('competitions.tournament_id', $tournamentId);
+     $reportQuery->select('competitions.*','tournament_competation_template.group_name');
+
+      return $reportQuery->get();
     }
     public function getFixtures($tournamentData) {
 
@@ -147,9 +150,13 @@ class MatchRepository
                 'venues.id as venueId', 'competitions.id as competitionId',
                 'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name','temp_fixtures.referee_id as referee_id','referee.first_name as first_name','referee.last_name as last_name','home_team.name as HomeTeam','away_team.name as AwayTeam',
                 'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id',
-                'HomeFlag.logo as HomeFlagLogo','AwayFlag.logo as AwayFlagLogo',
+                DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
+                DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
                 'HomeFlag.country_flag as HomeCountryFlag',
-                'AwayFlag.country_flag as AwayCountryFlag',
+                'HomeFlag.country_flag as HomeCountryFlag',
+
+                'HomeFlag.name as HomeCountryName',
+                'AwayFlag.name as AwayCountryName',
                 'temp_fixtures.hometeam_score as homeScore',
                 'temp_fixtures.awayteam_score as AwayScore',
                 'temp_fixtures.pitch_id as pitchId',
@@ -204,7 +211,9 @@ class MatchRepository
             // TODO: add constraint to only Show which are Scheduled
             $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',$tournamentData['is_scheduled']);
           }
-
+          if(isset($tournamentData['club_id']) && $tournamentData['club_id']!='') {
+            $reportQuery->where('home_team.club_id',$tournamentData['club_id'])->orWhere('away_team.club_id',$tournamentData['club_id']);
+          }
           // Todo Added Condition For Filtering Purpose on Pitch Planner
           if(isset($tournamentData['filterKey']) && $tournamentData['filterKey'] !='') {
             switch($tournamentData['filterKey']) {
@@ -221,12 +230,14 @@ class MatchRepository
     }
     public function getStanding($tournamentData)
     {
-
+        //$url = getenv('S3_URL');
         $reportQuery = DB::table('match_standing')
           ->leftjoin('teams', 'match_standing.team_id', '=', 'teams.id')
           ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
           ->leftjoin('competitions', 'match_standing.competition_id', '=', 'competitions.id')
-          ->select('match_standing.*','teams.*','countries.logo as teamFlag','countries.country_flag as teamCountryFlag');
+          ->select('match_standing.*','teams.*',
+            DB::raw('CONCAT("'.$this->getAWSUrl.'", countries.logo) AS teamFlag'),
+            'countries.country_flag as teamCountryFlag');
 
           if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
           {
@@ -235,7 +246,7 @@ class MatchRepository
           // TODO: Need to add code for passing through teamId
           if(isset($tournamentData['teamId']) && $tournamentData['teamId'] !== '')
           {
-            echo 'hello1';exit;
+            //echo 'hello1';exit;
 
           }
 
@@ -258,7 +269,6 @@ class MatchRepository
                 DB::raw('CONCAT(temp_fixtures.hometeam_score, "-", temp_fixtures.awayteam_score) AS scoresFix'),
                 DB::raw('CONCAT(temp_fixtures.home_team, "-", temp_fixtures.away_team) AS teamsFix')
                   ) ->get();
-
       $matchArr = array();
       //print_r($teamData);exit;
 
@@ -277,7 +287,7 @@ class MatchRepository
       $teamData = DB::table('teams')
                     ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
                     ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
-                    ->leftjoin('competitions', 'competitions.tournament_competation_template_id', '=', 'tournament_competation_template.id')
+                    ->leftjoin('competitions', 'competitions.id', '=', 'teams.competation_id')
                     ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo',
                       'countries.country_flag as TeamCountryFlag'
                       )
@@ -538,8 +548,10 @@ class MatchRepository
         'match_winner' => $data['matchWinner'],
         'comments' => $data['comments'],
       ];
-      return TempFixture::where('id',$data['matchId'])
+      $data = TempFixture::where('id',$data['matchId'])
                   ->update($updateData);
+      // TODO : call function to add result
+      return $data;
     }
 
     public function getMatchDetail($matchId)

@@ -25,7 +25,14 @@
 					</a>
 				</td>
 				<td class="text-center">
-          <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)"> - <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)">
+
+          <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)"  v-if="isUserDataExist">
+          <span v-else>{{match.homeScore}}</span>
+          -
+          <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)"
+          v-if="isUserDataExist">
+          <span v-else>{{match.AwayScore}}</span>
+
         </td>
 				<td align="left">
 					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
@@ -67,7 +74,10 @@ export default {
 				this.dispLocation = false
 				return this.dispLocation
 			}
-		}
+		},
+    isUserDataExist() {
+      return this.$store.state.Users.userDetails.id
+    }
 	},
 	mounted() {
 		$('body').on('keypress', 'input',function(e) {

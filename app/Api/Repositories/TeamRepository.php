@@ -5,11 +5,14 @@ namespace Laraspace\Api\Repositories;
 use Laraspace\Models\Team;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentCompetationTemplates;
-
+use Laraspace\Models\Competition;
 use DB;
 
 class TeamRepository
 {
+    public function __construct() {
+      $this->AwsUrl = getenv('S3_URL');
+    }
     public function getAll($tournamentId,$ageGroup='')
     {
 
@@ -81,16 +84,17 @@ class TeamRepository
     public function getAllTournamentTeams($tournamentId)
     {
 
-    return  Team::join('countries', function ($join) {
+    return Team::join('countries', function ($join) {
                     $join->on('teams.country_id', '=', 'countries.id');
                 })
-                ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
-                ->join('competitions','competitions.tournament_competation_template_id','=','tournament_competation_template.id')
-                ->where('teams.tournament_id',$tournamentId)
+                ->leftJoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+                ->leftJoin('competitions','competitions.id','=','teams.competation_id')
+                ->where('teams.tournament_id', '=',$tournamentId)
+
                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag as countryFlag',
                  'competitions.name as competationName','competitions.id as competationId',
                 'tournament_competation_template.group_name as age_name')
-             ->get();
+                ->get();
         }
 
 public function getAllFromTournamentId($tournamentId)
@@ -131,12 +135,35 @@ public function getAllFromTournamentId($tournamentId)
 
     public function assignGroup($team_id,$groupName,$data='')
     {
+
         $team = Team::find($team_id);
         $gname = explode('-',$groupName);
+        // Now here we get the age_group_id
+        $temData = Team::where('id',$team_id)->get();
+        $ageGroupId = $temData[0]['age_group_id'];
+        // Now query in competation table and find the competationId
+         $compData = Competition::leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
+        ->where('competitions.tournament_id','=',$data['tournament_id'])
+        ->select('competitions.id as CompId',
+          'competitions.name as compName',
+          'tournament_competation_template.group_name','tournament_competation_template.category_age')
+        ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
+        ->get();
+        $competId = 0;
+        foreach($compData as $ddata) {
+           $asGroup = preg_replace('/[0-9]+/', '', $groupName);
+           $cc1 = $ddata['group_name'].'-'.$ddata['category_age'].'-'.$asGroup;
+           // if its found then break it
+           if($ddata['compName'] == $cc1) {
+            $competId = $ddata['CompId'];
+            break;
+           }
+        }
 
         Team::where('id', $team_id)->update([
             'group_name' => $groupName,
-            'assigned_group' => preg_replace('/[0-9]+/', '', $groupName)
+            'assigned_group' => preg_replace('/[0-9]+/', '', $groupName),
+            'competation_id' => $competId
             ]);
         TempFixture::where('home_team_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
@@ -181,7 +208,7 @@ public function getAllFromTournamentId($tournamentId)
       $fieldName = key($data);
       $value = $data[$fieldName];
 
-      $url = getenv('S3_URL');
+      //$url = getenv('S3_URL');
 
       if($fieldName == 'group_id') {
 
@@ -196,7 +223,7 @@ public function getAllFromTournamentId($tournamentId)
               'tournament_competation_template.category_age as CategoryAge',
               'competitions.id as GroupId',
               'competitions.name as GroupName',
-              DB::raw('CONCAT("'.$url.'", countries.logo) AS countryLogo'))
+              DB::raw('CONCAT("'.$this->AwsUrl.'", countries.logo) AS countryLogo'))
             ->where('competitions.id','=',$value)
             ->where('competitions.tournament_id','=',$tournamentId)->get();
       }
@@ -213,7 +240,7 @@ public function getAllFromTournamentId($tournamentId)
               'tournament_competation_template.category_age as CategoryAge',
               'competitions.id as GroupId',
               'competitions.name as GroupName',
-              DB::raw('CONCAT("'.$url.'", countries.logo) AS countryLogo'))
+              DB::raw('CONCAT("'.$this->AwsUrl.'", countries.logo) AS countryLogo'))
             ->where('teams.tournament_id','=',$tournamentId)->get();
     }
 }
