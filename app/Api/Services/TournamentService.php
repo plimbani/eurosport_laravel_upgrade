@@ -5,6 +5,7 @@ use Laraspace\Api\Contracts\TournamentContract;
 use Laraspace\Api\Repositories\TournamentRepository;
 use DB;
 use Carbon\Carbon;
+use Laraspace\Models\Venue;
 
 class TournamentService implements TournamentContract
 {
@@ -238,11 +239,13 @@ class TournamentService implements TournamentContract
         //\File::put($path , $imgData);
         //print_r($imgData);
 
-        $data = $this->tournamentRepoObj->create($data['tournamentData']);
+        $resultData = $this->tournamentRepoObj->create($data['tournamentData']);
+
+        $this->getCoordinates($resultData);
 
         if ($data) {
             return ['status_code' => '200', 'message' => self::SUCCESS_MSG,
-             'data'=>$data];
+             'data'=>$resultData];
         }
     }
     private function saveTournamentLogo($data)
@@ -366,7 +369,6 @@ class TournamentService implements TournamentContract
             ->where('temp_fixtures.is_scheduled',1);
 
 
-
             if(isset($data['sel_ageCategory'])  && $data['sel_ageCategory']!= ''){
                 $reportQuery->where('tournament_competation_template.id',$data['sel_ageCategory']);
             }
@@ -374,20 +376,21 @@ class TournamentService implements TournamentContract
               $reportQuery->where('home_team.club_id',$data['sel_clubs'])->orWhere('away_team.club_id',$data['sel_clubs']);  
             }
             if(isset($data['start_date'])  && $data['start_date']!= '' ){
-                $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date']);
-               $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','>=',$start_date);
+              $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date']);
+              $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','>=',$start_date);
             }
             if(isset($data['end_date'])  && $data['end_date']!= '' ){
-                $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','<=',Carbon::createFromFormat('d/m/Y', $data['end_date']));
+              $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','<=',Carbon::createFromFormat('d/m/Y', $data['end_date']));
             }
+            // print_r($reportQuery->toSql());exit();
+            // print_r($reportQuery->toSql());exit();
             if(isset($data['start_time'])  && $data['start_time']!= '' ){
-
               // $start_time = Carbon::createFromFormat('hh:mm', $data['start_time']);
               $start_time = $data['start_time'];
               // print_r($start_time); exit();
               // $start_time = '09:00';      
               $reportQuery = $reportQuery->whereRaw("TIME(temp_fixtures.match_datetime) >= '$start_time'");
-              // print_r($reportQuery->toSql()); exit();
+      
             }
             if(isset($data['end_time'])  && $data['end_time']!= '' ){
               $end_time = $data['end_time'];
@@ -437,13 +440,9 @@ class TournamentService implements TournamentContract
             $lableArray = [
                 'Date(time)','Age category' ,'Location', 'Pitch','Referee', 'Game'
             ];
-
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
-
-
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
          }
-
         if ($reportData) {
             return ['status_code' => '200', 'message' => '','data'=>$reportData];
         }
@@ -462,5 +461,29 @@ class TournamentService implements TournamentContract
         if ($data) {
             return ['status_code' => '200', 'data' => $data, 'message' => 'All category fetch Successfully'];
         }  
+    }
+
+    public function getCoordinates($resultData)
+    {
+      $venue = Venue::where('tournament_id',$resultData['id'])->get();
+      $tournament_id = $resultData['id'];
+      $coordinates = [];
+      foreach ($venue as $location) {
+        $address = $location->address1.', '.$location->city.', '.$location->postcode.', '.$location->state.', '.$location->country;
+        $locationDetails = app('geocoder')->geocode($address)->get();
+        $coordinates['id'] = $location->id;
+        foreach($locationDetails as $loc)
+        {
+          $lat = $loc->getLatitude();
+          $long = $loc->getLongitude();
+          
+        }
+        $coodinates['venue_coordinates'] = $lat.','.$long;
+        $updateData = [
+          'venue_coordinates' => $coodinates['venue_coordinates']
+        ];
+        Venue::where('id',$coordinates['id'])->update($updateData);
+      }
+      return;
     }
 }

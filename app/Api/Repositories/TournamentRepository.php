@@ -130,12 +130,12 @@ class TournamentRepository
 
         $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'],
           'tournamentEndDate' => $data['end_date'],
-            'tournamentStatus'=> 'UnPublished',
-            'tournamentLogo'=>$data['image_logo'],
-            'tournamentDays'=> ($tournamentDays) ? $tournamentDays : '2',
-            'facebook' => $data['facebook'],
-            'twitter' => $data['twitter'],
-            'website' => $data['website'],
+          'tournamentStatus'=> 'UnPublished',
+          'tournamentLogo'=>$data['image_logo'],
+          'tournamentDays'=> ($tournamentDays) ? $tournamentDays : '2',
+          'facebook' => $data['facebook'],
+          'twitter' => $data['twitter'],
+          'website' => $data['website'],
         );
 
         return $tournamentData;
@@ -240,7 +240,7 @@ class TournamentRepository
           {
             foreach($teamsCountries as $teamCountry) {
               $tempData['tournament_countries'][]=  $teamCountry['country_name'];
-            }
+          }
 
             $summaryData['tournament_countries'] = implode(' , ',array_unique($tempData['tournament_countries']));
           }
