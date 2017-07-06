@@ -171,7 +171,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         setData();
         getTournamentList();
         setListener();
-        showBackButton(getString(R.string.update_profile));
+        showBackButton(getResources().getString(R.string.update_profile));
     }
 
     private void setData() {
