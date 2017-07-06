@@ -15,6 +15,7 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.util.ApiConstants;
+import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.DefaultRetryPolicy;
@@ -47,11 +48,18 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
     private Context mContext;
     @BindView(R.id.ll_main_layout)
     protected LinearLayout ll_main_layout;
+    private String otp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password_otp);
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            otp = "";
+        } else {
+            otp = extras.getString(AppConstants.ARG_FORGOT_PASSWORD_OTP);
+        }
         ButterKnife.bind(this);
         mContext = this;
         initView();
@@ -84,10 +92,11 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
 
     @OnClick(R.id.btn_change_password)
     protected void onChangePasswordClicked() {
-        Intent mIntent = new Intent(mContext, SignInActivity.class);
-        mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(mIntent);
+        if (et_otp.getText().toString().equalsIgnoreCase(otp)) {
+            resetUserPassword();
+        } else {
+            Utility.showToast(mContext, getString(R.string.please_enter_valid_otp));
+        }
     }
 
 
@@ -104,30 +113,87 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
         boolean valid = false;
 
         String emailOrPhone = et_email.getText().toString();
-        String otp = et_otp.getText().toString();
+        String otpText = et_otp.getText().toString();
         String updatedPassword = et_password.getText().toString();
 
-        if (emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone)) {
+        if (Utility.isNullOrEmpty(emailOrPhone) || !Utility.isValidEmail(emailOrPhone)) {
             valid = false;
             return valid;
         } else {
             valid = true;
         }
-        if (otp.isEmpty()) {
+        if (Utility.isNullOrEmpty(otpText)) {
             valid = false;
             return valid;
         } else {
             valid = true;
         }
-        if (updatedPassword.isEmpty()) {
+        if (Utility.isNullOrEmpty(updatedPassword)) {
             valid = false;
             return valid;
         } else {
             valid = true;
         }
+
         return valid;
     }
 
+    private void resetUserPassword() {
+
+        Utility.startProgress(mContext);
+        String url = ApiConstants.RESET_PASSWORD;
+        final JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("email", et_email.getText().toString().trim());
+            requestJson.put("password", et_password.getText().toString().trim());
+            requestJson.put("otp", et_otp.getText().toString().trim());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (Utility.isInternetAvailable(mContext)) {
+            AppLogger.LogE(TAG, "***** Forgot password request *****" + requestJson.toString());
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        if (response != null) {
+                            AppLogger.LogE(TAG, "***** Reset password response *****" + response.toString());
+                            if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                                Utility.showToast(mContext, getString(R.string.password_updated_successfully));
+                                Intent mIntent = new Intent(mContext, SignInActivity.class);
+                                mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                        IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(mIntent);
+                                finish();
+                            }
+                        } else
+                            Utility.showToast(mContext, getString(R.string.error));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        }
+    }
 
     private class GenericTextMatcher implements TextWatcher {
         @Override

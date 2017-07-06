@@ -14,6 +14,7 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.util.ApiConstants;
+import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.DefaultRetryPolicy;
@@ -77,10 +78,10 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     @OnClick(R.id.btn_get_otp)
     protected void onGetOtpClicked() {
-        checkUser();
+        forgotPassword();
     }
 
-    private void checkUser() {
+    private void forgotPassword() {
         Utility.startProgress(mContext);
         String url = ApiConstants.FORGOT_PASSWORD;
         final JSONObject requestJson = new JSONObject();
@@ -100,14 +101,15 @@ public class ForgotPasswordActivity extends BaseActivity {
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
                     try {
-                        if (response != null && response.length() > 0) {
+                        if (response != null) {
                             AppLogger.LogE(TAG, "***** Forgot password response *****" + response.toString());
-                            if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                                Utility.showToast(mContext, response.toString());
-                                startActivity(new Intent(mContext, ForgotPasswordOtpActivity.class));
+                            if (response.has("status") && !Utility.isNullOrEmpty(response.getString("status")) && response.getString("status").equalsIgnoreCase("200")) {
+                                Intent mForgotPasswordOtpIntent = new Intent(mContext, ForgotPasswordOtpActivity.class);
+                                mForgotPasswordOtpIntent.putExtra(AppConstants.ARG_FORGOT_PASSWORD_OTP, response.getString("otp"));
+                                startActivity(mForgotPasswordOtpIntent);
                             }
                         } else
-                            Utility.showToast(mContext, "Response is null");
+                            Utility.showToast(mContext, getString(R.string.error));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -127,9 +129,6 @@ public class ForgotPasswordActivity extends BaseActivity {
 
                 }
             });
-            jsonRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             mQueue.add(jsonRequest);
         }
     }

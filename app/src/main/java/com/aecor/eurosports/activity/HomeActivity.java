@@ -373,14 +373,5 @@ public class HomeActivity extends BaseAppCompactActivity {
         sp_tournament.setAdapter(adapter);
         sp_tournament.setSelection(tournamentPosition);
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        /*Intent mIntent = new Intent(mContext, HomeActivity.class);
-        mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(mIntent);*/
-        finishAffinity();
-    }
 }
 

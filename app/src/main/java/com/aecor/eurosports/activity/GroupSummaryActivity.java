@@ -74,14 +74,13 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     }
 
     private void addGroupLeagueRow(LeagueModel mLeagueModel) {
-        tv_group_table_title.setText(mLeagueModel.getAssigned_group());
         View teamLeagueView = getLayoutInflater().inflate(R.layout.row_team_leaguetable, null);
         TextView tv_group_name = (TextView) teamLeagueView.findViewById(R.id.tv_group_name);
         TextView tv_points = (TextView) teamLeagueView.findViewById(R.id.tv_points);
         TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
         TextView tv_goalDifference = (TextView) teamLeagueView.findViewById(R.id.tv_goalDifference);
         final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
-        String groupTableTitle = mLeagueModel.getName() + " " + getString(R.string.league_table);
+        String groupTableTitle = mLeagueModel.getAssigned_group() + " " + getString(R.string.league_table);
         tv_group_table_title.setText(groupTableTitle);
         tv_group_name.setText(mLeagueModel.getName());
         tv_points.setText(mLeagueModel.getPoints());
