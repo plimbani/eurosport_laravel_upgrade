@@ -14,8 +14,12 @@
 			<tr v-for="match in matchData">
 				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
+
 					<a class="pull-left text-left text-primary" href=""
-					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name}}</u></a>
+					v-if="getCurrentScheduleView != 'drawDetails'"
+					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name}}</u>
+					</a>
+					<span v-else>{{match.competation_name}}</span>
 				</td>
 				<td align="right">
 					<a  class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
@@ -26,14 +30,10 @@
 				</td>
 				<td class="text-center">
 
-          <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)"  v-if="isUserDataExist">
-          <span v-else>{{match.homeScore}}</span>
-          -
-          <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;" @change="updateScore(match.fid)"
-          v-if="isUserDataExist">
-          <span v-else>{{match.AwayScore}}</span>
-
-        </td>
+        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -
+        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist"
+        		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
+      		    </td>
 				<td align="left">
 					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
@@ -75,9 +75,13 @@ export default {
 				return this.dispLocation
 			}
 		},
-    isUserDataExist() {
-      return this.$store.state.Users.userDetails.id
-    }
+
+		isUserDataExist() {
+	    return this.$store.state.Users.userDetails.id
+	    },
+	  getCurrentScheduleView() {
+	   	return this.$store.state.currentScheduleView
+	  }
 	},
 	mounted() {
 		$('body').on('keypress', 'input',function(e) {

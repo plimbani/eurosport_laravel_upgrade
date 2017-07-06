@@ -1,10 +1,10 @@
 <template>
 <div>
-  <div class="form-group row">
-    <label class="col-sm-2"><h6 v-if="otherData.length != 0">{{otherData.Name}}</h6>
-    <h6 v-else>{{venueName}}</h6>
+  <div class="form-group row d-flex flex-row align-items-center">
+    <label class="col-sm-1 pr-0"><h6 v-if="otherData.length != 0">{{otherData.Name}}</h6>
+      <h6 class="mb-0" v-else>{{venueName}}</h6>
     </label>
-    <div class="col-sm-10">
+    <div class="col-sm-11">
       <select class="form-control ls-select2 col-sm-4"
         v-on:change="onChangeLocation"
         v-model="location">
@@ -12,7 +12,7 @@
         </option>
       </select>
     </div>
-    </div>
+  </div>
     <matchList :matchData="matchData"></matchList>
 </div>
 </template>
@@ -40,13 +40,14 @@ export default {
             var uniqueArray = response.data.data.filter(function(item, pos) {
                 if (!this.hasOwnProperty(item['pitchId'])) {
                     // here we set the location to current one
-                    console.log(this.vdatapitchId)
+                  //  console.log(this.vdatapitchId)
                     return this[item['pitchId']] = true;
                 }
                 return false;
             }, {});
            // console.log(uniqueArray)
             this.locations = uniqueArray
+
             this.location = this.matchData[0]
           //  alert(JSON.stringify(uniqueNames))
             // Here we remove duplicate values

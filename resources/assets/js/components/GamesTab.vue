@@ -79,7 +79,8 @@ export default {
                 matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
               }
               var person = {'fullGame':match.full_game,'matchName':match.match_number,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
-              comp.push(person)
+                comp.push(person)
+
               if(match.is_scheduled!=1){
                 matchCount = matchCount + 1
                 matchCountDisplay = matchCountDisplay + 1
@@ -87,7 +88,6 @@ export default {
             }
             competition.matchCount = matchCount
           })
-          // console.log(competition)
           competition.matchList = comp
         })
         this.matchCompetition = this.competationList
@@ -117,14 +117,13 @@ export default {
     displayFixtures(filterKey='',filterValue=''){
       let tdata= []
       if(filterKey != '' && filterValue != '') {
-          tdata ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id}
+          tdata ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
       } else {
           tdata ={'tournamentId':this.tournamentId }
       }
         Tournament.getFixtures(tdata).then(
             (response)=> {
-              // console.log(response,'asssss')
-                this.matches = response.data.data
+              this.matches = response.data.data
             }
           )
     },
@@ -135,10 +134,10 @@ export default {
         let TournamentData = {'tournament_id': this.tournamentId}
         Tournament.getCompetationFormat(TournamentData).then(
         (response) => {
-        this.competationList = response.data.data
+          this.competationList = response.data.data
         },
         (error) => {
-         console.log('Error occured during Tournament api ', error)
+         console.log('Error occured during Tournament api', error)
         }
         )
       } else {

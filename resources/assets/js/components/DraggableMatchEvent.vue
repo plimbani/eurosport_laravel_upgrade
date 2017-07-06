@@ -17,6 +17,11 @@
 import moment from 'moment'
 export default {
     props: ['match'],
+    data() {
+      return {
+            'tournamentFilter': this.$store.state.Tournament.tournamentFiler 
+      }  
+    },
     mounted() {
         this.initEvents();
     },

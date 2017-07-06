@@ -168,6 +168,7 @@ class MatchRepository
                 'tournament_competation_template.halftime_break_FM',
                 'tournament_competation_template.match_interval_RR',
                 'tournament_competation_template.match_interval_FM',
+                'tournament_competation_template.id as tid',
                 DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
                 )
             ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -211,20 +212,22 @@ class MatchRepository
             // TODO: add constraint to only Show which are Scheduled
             $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',$tournamentData['is_scheduled']);
           }
-          if(isset($tournamentData['club_id']) && $tournamentData['club_id']!='') {
-            $reportQuery->where('home_team.club_id',$tournamentData['club_id'])->orWhere('away_team.club_id',$tournamentData['club_id']);
-          }
-          // Todo Added Condition For Filtering Purpose on Pitch Planner
-          if(isset($tournamentData['filterKey']) && $tournamentData['filterKey'] !='') {
-            switch($tournamentData['filterKey']) {
-              case 'location':
-               $reportQuery =  $reportQuery->where('temp_fixtures.venue_id','=',$tournamentData['filterValue']);
-               break;
-              case 'age_category':
-               $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);
-               break;
+
+          // dd($tournamentData);
+            // Todo Added Condition For Filtering Purpose on Pitch Planner
+          if(isset($tournamentData['fiterEnable'])){
+            if(isset($tournamentData['filterKey']) && $tournamentData['filterKey'] !='') {
+              switch($tournamentData['filterKey']) {
+                case 'location':
+                 $reportQuery =  $reportQuery->where('temp_fixtures.venue_id','=',$tournamentData['filterValue']);
+                 break;
+                case 'age_category':
+                 $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);
+                 break;
+              }
             }
           }
+
           // dd($reportQuery->get());
         return $reportQuery->get();
     }

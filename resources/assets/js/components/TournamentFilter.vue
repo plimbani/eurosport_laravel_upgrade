@@ -7,20 +7,9 @@
       </label>
     </div>
     <div class="form-group">
-      <label class="radio-inline control-label" v-if="section != 'pitchPlanner'">
-        <input type="radio" id="team" name="filter" value="team"
-        @click="getDropDownData('team')" class="mr-2">{{$lang.teams_team}}
-      </label>
-    </div>
-    <div class="form-group">
       <label class="radio-inline control-label" v-if="section=='pitchPlanner'">
         <input type="radio" id="location" name="filter" value="location"
         @click="getDropDownData('location')" class="mr-2">{{$lang.teams_location}}
-      </label>
-    </div>
-    <div class="form-group">
-      <label class="radio-inline control-label" v-if="section=='teams'">
-          <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="mr-2">{{$lang.teams_country}}
       </label>
     </div>
     <div class="form-group">
@@ -29,8 +18,22 @@
       </label>
     </div>
     <div class="form-group">
+      <label class="radio-inline control-label" v-if="section != 'pitchPlanner'">
+        <input type="radio" id="team" name="filter" value="team"
+        @click="getDropDownData('team')" class="mr-2">{{$lang.teams_team}}
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label class="radio-inline control-label" v-if="section=='teams'">
+          <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="mr-2">{{$lang.teams_country}}
+      </label>
+    </div>
+    
+    <div class="form-group">
       <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:130px">
-        <option value="" >Select</option>
+        <option value="" v-if="filterKey != 'age_category'">Select</option>
+        <option value="" v-else>All</option>
         <option :value="option.id"
         v-for="option in options"
         v-bind:value="option">
@@ -67,21 +70,21 @@ export default {
   mounted() {
     // By Default Called with Team
     if(this.section != 'pitchPlanner'){
-      this.getDropDownData('team')
-      $('#team').prop("checked",true)
+      this.getDropDownData('age_category')
+      $('#age_category').prop("checked",true)
     }
     else{
-      this.getDropDownData('age_category')
+      this.getDropDownData('location')
       this.setFilterValue()
-      $('#age_category').prop("checked",true)
+      $('#location').prop("checked",true)
     }
   },
   methods: {
     clearFilter(){
       this.dropDown = ''
       this.setFilterValue()
-      $('#team').trigger('click')
-      this.getDropDownData('team')
+      $('#age_category').trigger('click')
+      this.getDropDownData('age_category')
     },
     setFilterValue() {
 
@@ -97,6 +100,7 @@ export default {
       }
     },
     getDropDownData(tourament_key) {
+       this.dropDown = ''
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key
       this.filterKey = tourament_key
@@ -119,7 +123,11 @@ export default {
               this.selectMsg = 'Select'
               break
           }
-           this.options =response.data.data
+          this.options =response.data.data
+           if(tourament_key == 'age_category'){
+            this.dropDown = ""
+            this.setFilterValue()
+          }
         },
         (error) => {
            console.log('Error occured during Tournament api ', error)

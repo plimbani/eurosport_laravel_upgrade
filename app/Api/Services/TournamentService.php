@@ -392,6 +392,8 @@ class TournamentService implements TournamentContract
             ->where('temp_fixtures.tournament_id',$data['tournament_id'])
             ->where('temp_fixtures.is_scheduled',1);
 
+
+
             if(isset($data['sel_ageCategory'])  && $data['sel_ageCategory']!= ''){
                 $reportQuery->where('tournament_competation_template.id',$data['sel_ageCategory']);
             }
@@ -400,17 +402,26 @@ class TournamentService implements TournamentContract
             }
             if(isset($data['start_date'])  && $data['start_date']!= '' ){
                 $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date']);
-                // dd($start_date);
 
-               $reportQuery = $reportQuery->whereDate('temp_fixtures.match_datetime','>=',$start_date);
+               $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','>=',$start_date);
             }
             if(isset($data['end_date'])  && $data['end_date']!= '' ){
-                echo 'end date'.Carbon::createFromFormat('d/m/Y', $data['end_date']);
+                $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','<=',Carbon::createFromFormat('d/m/Y', $data['end_date']));
+            }
+            if(isset($data['start_time'])  && $data['start_time']!= '' ){
 
-                $reportQuery = $reportQuery->whereDate('temp_fixtures.match_datetime','<=',Carbon::createFromFormat('d/m/Y', $data['end_date']));
+              // $start_time = Carbon::createFromFormat('hh:mm', $data['start_time']);
+              $start_time = $data['start_time'];
+              // print_r($start_time); exit();
+              // $start_time = '09:00';
+              $reportQuery = $reportQuery->whereRaw("TIME(temp_fixtures.match_datetime) >= '$start_time'");
+              // print_r($reportQuery->toSql()); exit();
+            }
+            if(isset($data['end_time'])  && $data['end_time']!= '' ){
+              $end_time = $data['end_time'];
+              $reportQuery = $reportQuery->whereRaw("TIME(temp_fixtures.match_datetime) <= '$end_time'");
             }
 
-            echo $reportQuery->toSql();exit;
             if(isset($data['sel_venues'])  && $data['sel_venues']!= '' ){
                 $reportQuery = $reportQuery->where('temp_fixtures.venue_id',$data['sel_venues']);
             }
@@ -429,6 +440,7 @@ class TournamentService implements TournamentContract
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
         // echo $reportQuery->toSql();exit;
         $reportData = $reportQuery->get();
+        //echo $reportQuery->toSql();exit;
          // $tournamentData = $this->tournamentRepoObj->tournamentReport($data);
         // $billings = $billings->get();
 

@@ -51,8 +51,8 @@
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
             <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button><span id="filename"></span>
-              <input type="file" name="fileUpload" @change="setFileName(this)"  id="fileUpload" style="display:none;" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,text/csv,text/plain,application/csv,text/comma-separated-values,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt,text/tsv,text/csv,text/comma-separated-values" >
-              <small class="form-text text-muted">Excel and CSV files only</small>
+              <input type="file" name="fileUpload" @change="setFileName(this)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
+              <small class="form-text text-muted">Excel files only</small>
 
             </div>
 	  				<button type="button" @click="csvImport()"  class="btn btn-primary mt-2">{{$lang.teams_upload_team}}
@@ -74,7 +74,7 @@
                       <th class="text-center">{{$lang.teams_age_category}}</th>
                       <th class="text-center">{{$lang.teams_name_category}}</th>
 
-                      <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category'">{{$lang.teams_group}}</th>
+                      <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_group}}</th>
                       <th class="text-center" v-else>{{$lang.teams_age_category_group}}</th>
                   </tr>
               </thead>
@@ -90,11 +90,8 @@
                       <td>{{team.category_age}} </td>
                       <td>{{team.age_name}} </td>
 
-                      <td v-if="tournamentFilter.filterKey == 'age_category'">
-                        <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:click="beforeChange(team.id)"
-                        v-on:change="onAssignGroup(team.id)"
-                        :name="'sel_'+team.id" :id="'sel_'+team.id"
-                        class="form-control ls-select2 selTeams">
+                      <td v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != ''">
+                        <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:click="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="">Select Team</option>
                           <optgroup :label="group.groups.group_name"
                           v-for="group in grps">
@@ -150,10 +147,10 @@
         'beforeChangeGroupName': '',
         'section': 'teams',
         'filterStatus': true,
-        'tournamentFilter':{
-          'filterKey':'team',
-          'filterValue': ''
-        }
+        // 'tournamentFilter':{
+        //   'filterKey':'team',
+        //   'filterValue': ''
+        // }
 
         }
     },
@@ -161,11 +158,11 @@
     components: {
       TournamentFilter
     },
-    // computed: {
-    //   availableGroupsTeam: function() {
-    //           return this.$store.state.Tournament.currentTotalTime
-    //         },
-    // },
+    computed: {
+       tournamentFilter: function() {
+        return this.$store.state.Tournament.tournamentFiler
+      }
+    },
 
 
     mounted() {
@@ -258,8 +255,10 @@
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
+
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue!='' && groupValue!= undefined ){
+          $('.selTeams').prop("disabled", true);
             $(".selTeams option:contains("+$('#sel_'+id).val()+")").not( $('.sel_'+id)).attr("disabled","disabled");
         }
         if(this.beforeChangeGroupName!=''){
@@ -272,12 +271,11 @@
         if (index > -1) {
           this.availableGroupsTeam.splice(index, 1);
         }
-
-
+        $('.selTeams').prop("disabled", false);
       },
-       getTeams(filterKey,filterValue) {
+        getTeams(filterKey,filterValue) {
         this.teams = ''
-         let teamData = {'tournamentId':this.tournament_id,'filterKey':filterKey, 'filterValue': filterValue};
+        let teamData = {'tournamentId':this.tournament_id,'filterKey':filterKey, 'filterValue': filterValue};
         // console.log(teamData,'td')
         Tournament.getTeams(teamData).then(
           (response) => {
