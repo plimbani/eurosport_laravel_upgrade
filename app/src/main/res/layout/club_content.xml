@@ -27,6 +27,8 @@
             android:drawableRight="@drawable/search_icon"
             android:hint="Search age group"
             android:lines="1"
+            android:imeOptions="actionDone"
+            android:inputType="textFilter"
             android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
