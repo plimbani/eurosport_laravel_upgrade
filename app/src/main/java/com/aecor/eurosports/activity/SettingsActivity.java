@@ -32,14 +32,6 @@ public class SettingsActivity extends BaseAppCompactActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent mIntent = new Intent(mContext, HomeActivity.class);
-        mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(mIntent);
-    }
-
-    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         BaseAppCompactActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_USER_SETTINGS;
         setContentView(R.layout.activity_settings);

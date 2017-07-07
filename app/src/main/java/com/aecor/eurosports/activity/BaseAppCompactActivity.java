@@ -194,7 +194,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
 
                     selectedTabName = AppConstants.SCREEN_CONSTANT_FAVOURITES;
                     Intent mFavourites = new Intent(mContext, FavouritesActivity.class);
-                    mFavourites.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mFavourites.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(mFavourites);
                     changeBottomTabAccordingToFlag();
                     break;
@@ -202,7 +202,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
                 case R.id.lv_clubs:
                     selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
                     Intent mClubs = new Intent(mContext, ClubsActivity.class);
-                    mClubs.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mClubs.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(mClubs);
                     changeBottomTabAccordingToFlag();
                     break;
@@ -210,7 +210,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
                 case R.id.lv_age_categories:
                     selectedTabName = AppConstants.SCREEN_CONSTANT_AGE_CATEGORIES;
                     Intent mAgeCategories = new Intent(mContext, AgeCategoriesActivity.class);
-                    mAgeCategories.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mAgeCategories.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(mAgeCategories);
                     changeBottomTabAccordingToFlag();
                     break;
@@ -218,7 +218,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
                 case R.id.lv_tournament:
                     selectedTabName = AppConstants.SCREEN_CONSTANT_TOURNAMENT;
                     Intent mTournament = new Intent(mContext, HomeActivity.class);
-                    mTournament.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mTournament.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(mTournament);
                     changeBottomTabAccordingToFlag();
                     break;

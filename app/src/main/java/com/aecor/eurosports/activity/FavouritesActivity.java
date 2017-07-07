@@ -2,7 +2,6 @@ package com.aecor.eurosports.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -56,14 +55,6 @@ public class FavouritesActivity extends BaseAppCompactActivity {
         ButterKnife.bind(this);
         mContext = this;
         initView();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent mIntent = new Intent(mContext, HomeActivity.class);
-        mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(mIntent);
     }
 
     private void getTournamentList() {

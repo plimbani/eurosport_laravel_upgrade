@@ -105,6 +105,7 @@ public class TeamActivity extends BaseAppCompactActivity {
         getTeamFixtures();
         getGroupStanding();
 
+        tv_group_table_title.setText(mTeamDetailModel.getGroup_name() + " " + getString(R.string.league_table));
     }
 
     @Override
@@ -188,7 +189,6 @@ public class TeamActivity extends BaseAppCompactActivity {
 
 
     private void addGroupLeagueRow(LeagueModel mLeagueModel) {
-        tv_group_table_title.setText(mLeagueModel.getAssigned_group());
         View teamLeagueView = getLayoutInflater().inflate(R.layout.row_team_leaguetable, null);
         TextView tv_group_name = (TextView) teamLeagueView.findViewById(R.id.tv_group_name);
         TextView tv_points = (TextView) teamLeagueView.findViewById(R.id.tv_points);
