@@ -69,7 +69,6 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         mGroupModel = getIntent().getParcelableExtra(AppConstants.ARG_GROUP_DETAIL);
-
         initView();
     }
 
@@ -81,7 +80,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
         TextView tv_goalDifference = (TextView) teamLeagueView.findViewById(R.id.tv_goalDifference);
         final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
-        String groupTableTitle = mLeagueModel.getName() + " " + getString(R.string.league_table);
+        String groupTableTitle = mLeagueModel.getGroup_name() + " " + getString(R.string.league_table);
         tv_group_table_title.setText(groupTableTitle);
         tv_group_name.setText(mLeagueModel.getName());
         tv_points.setText(mLeagueModel.getPoints());
@@ -264,6 +263,8 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         TextView team_round = (TextView) matchesView.findViewById(R.id.team_round);
         TextView team1_score = (TextView) matchesView.findViewById(R.id.team1_score);
         TextView team2_score = (TextView) matchesView.findViewById(R.id.team2_score);
+        TextView team1_name = (TextView) matchesView.findViewById(R.id.team1_name);
+        TextView team2_name = (TextView) matchesView.findViewById(R.id.team2_name);
         try {
             team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime()));
         } catch (ParseException e) {
@@ -274,18 +275,36 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         team_match_id.setText(mFixtureModel.getMatch_number());
         team_age_category.setText(mFixtureModel.getGroup_name());
         team_round.setText(mFixtureModel.getRound());
-        team1_score.setText(mFixtureModel.getHomeScore() + " " + mFixtureModel.getHomeTeam());
-        team2_score.setText(mFixtureModel.getAwayScore() + " " + mFixtureModel.getAwayTeam());
+        if(Integer.parseInt(mFixtureModel.getHomeScore()) > 9 && Integer.parseInt(mFixtureModel.getAwayScore())<10) {
+            team2_score.setText(""+mFixtureModel.getAwayScore());
+            team2_score.setGravity(View.FOCUS_RIGHT);
+        }
+        else if(Integer.parseInt(mFixtureModel.getHomeScore()) < 10 && Integer.parseInt(mFixtureModel.getAwayScore()) > 9) {
+            team1_score.setText(mFixtureModel.getHomeScore());
+            team1_score.setGravity(View.FOCUS_RIGHT);
+        }
+        else {
+            team1_score.setText(mFixtureModel.getHomeScore() + "");
+            team2_score.setText(mFixtureModel.getAwayScore() + "");
+        }
+        team1_name.setText(mFixtureModel.getHomeTeam());
+        team2_name.setText(mFixtureModel.getAwayTeam());
 
         if (mFixtureModel.getHomeScore().equalsIgnoreCase(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
         } else if (Integer.parseInt(mFixtureModel.getHomeScore()) > Integer.parseInt(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         } else {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
         }
 
         matchesView.setOnClickListener(new View.OnClickListener() {

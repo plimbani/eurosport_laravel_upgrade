@@ -64,6 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:padding="15dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -73,13 +74,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
-                        android:maxHeight="60dp"
-                        android:maxWidth="60dp"
+                        android:maxHeight="80dp"
+                        android:maxWidth="80dp"
                         android:src="@drawable/globe" />
 
                     <TextView
                         android:id="@+id/tv_tournamentName"
                         style="@style/text_black_title"
+                        android:textSize="30sp"
                         android:layout_width="wrap_content"
                         android:text="Armsterdam\nTournament"
                         android:textColor="@color/green"
@@ -95,6 +97,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
@@ -111,7 +117,7 @@
                             style="@style/donout_progress_style"
                             custom:donut_max="30"
                             custom:donut_progress="30"
-                            custom:donut_text="0" />
+                            custom:donut_text="0"/>
 
                         <TextView
                             style="@style/text_black_sub_title"

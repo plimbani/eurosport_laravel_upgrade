@@ -54,7 +54,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="text_black_sub_title">
@@ -118,9 +118,9 @@
         <item name="android:layout_width">65dp</item>
         <item name="android:layout_height">65dp</item>
         <item name="donut_finished_color">@color/gray</item>
-        <item name="donut_finished_stroke_width">3dp</item>
+        <item name="donut_finished_stroke_width">2dp</item>
         <item name="donut_text_color">@color/colorPrimary</item>
-        <item name="donut_text_size">16sp</item>
+        <item name="donut_text_size">30sp</item>
         <item name="donut_unfinished_color">@color/colorPrimary</item>
         <item name="donut_unfinished_stroke_width">5dp</item>
         <item name="donut_circle_starting_degree">270</item>
