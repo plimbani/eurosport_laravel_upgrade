@@ -314,6 +314,8 @@ class TournamentService implements TournamentContract
 
         $data = $this->tournamentRepoObj->edit($data['tournamentData']);
 
+        $this->getCoordinates($data['tournamentData']['id']);
+
         if ($data) {
             return ['status_code' => '200', 'message' => self::SUCCESS_MSG,
              'data'=>$data];
