@@ -29,7 +29,10 @@ class TournamentRepository
     public function getAll($status='')
     {
       if($status == '') {
-          $data = Tournament::get();
+          $data = Tournament::
+                  select('tournaments.*',
+                  \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
+                    ->get();
       } else {
         $data = Tournament::where('status','=','Published')
                 ->select('tournaments.*',
@@ -150,7 +153,7 @@ class TournamentRepository
         $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'],
           'tournamentEndDate' => $data['end_date'],
             'tournamentStatus'=> 'UnPublished',
-            'tournamentLogo'=>$data['image_logo'],
+            'tournamentLogo'=>$this->tournamentLogo.$data['image_logo'],
             'tournamentDays'=> ($tournamentDays) ? $tournamentDays : '2',
             'facebook' => $data['facebook'],
             'twitter' => $data['twitter'],
@@ -387,6 +390,8 @@ class TournamentRepository
       $userData = UserFavourites::where('users_favourite.user_id','=',$data['user_id'])
               ->where('users_favourite.is_default','=','1')
               ->leftJoin('tournaments','tournaments.id','=','users_favourite.tournament_id')
+              ->select('tournaments.*','users_favourite.*',
+                 \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
               ->get()
               ->first();
       if(count($userData) > 0) {
