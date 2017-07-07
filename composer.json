@@ -12,6 +12,8 @@
         "laracasts/flash": "^2.0",
         "laravel/framework": "5.4.*",
         "maatwebsite/excel": "^2.1",
+        "toin0u/geocoder-laravel": "^1.1",
+        "toin0u/geotools-laravel": "~1.0",
         "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {
