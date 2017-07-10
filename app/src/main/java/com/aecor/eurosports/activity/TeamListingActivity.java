@@ -187,7 +187,7 @@ public class TeamListingActivity extends BaseAppCompactActivity {
     private void setTeamListAdapter(TeamDetailModel mTeamList[]) {
         list = new ArrayList<>();
         list.addAll(Arrays.asList(mTeamList));
-        TeamAdapter adapter = new TeamAdapter((Activity) mContext, list);
+        TeamAdapter adapter = new TeamAdapter(mContext, list);
         lv_team.setAdapter(adapter);
     }
 

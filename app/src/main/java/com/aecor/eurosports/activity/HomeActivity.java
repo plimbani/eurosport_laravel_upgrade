@@ -32,6 +32,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.github.lzyzsd.circleprogress.DonutProgress;
@@ -76,6 +77,14 @@ public class HomeActivity extends BaseAppCompactActivity {
     protected DonutProgress mProgressMinutes;
     @BindView(R.id.progress_seconds)
     protected DonutProgress mProgresSeconds;
+    @BindView(R.id.tv_progress_days)
+    protected TextView tv_progress_days;
+    @BindView(R.id.tv_progress_minutes)
+    protected TextView tv_progress_minutes;
+    @BindView(R.id.tv_progress_hours)
+    protected TextView tv_progress_hours;
+    @BindView(R.id.tv_progress_seconds)
+    protected TextView tv_progress_seconds;
     private AppPreference mPreference;
     private Timer timer = new Timer();
     private TimerTask timerTask;
@@ -98,12 +107,13 @@ public class HomeActivity extends BaseAppCompactActivity {
                     tournamentPosition = position;
                     AppLogger.LogE(TAG, "Tournament Position -> " + tournamentPosition);
                     mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
-                    tv_tournamentName.setText(mTournamentList.get(position).getName().replace(" ","\n"));
+                    tv_tournamentName.setText(mTournamentList.get(position).getName().replace(" ", "\n"));
                 }
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournamentLogo())) {
                     Glide.with(mContext)
                             .load(mTournamentList.get(position).getTournamentLogo())
-                            .asBitmap()
+                            .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
                             .into(new SimpleTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -140,10 +150,10 @@ public class HomeActivity extends BaseAppCompactActivity {
         mProgressMinutes.setProgress(60);
         mProgressDays.setProgress(30);
 
-        mProgresSeconds.setText(getString(R.string.progres_text_0));
-        mProgressHours.setText(getString(R.string.progres_text_0));
-        mProgressMinutes.setText(getString(R.string.progres_text_0));
-        mProgressDays.setText(getString(R.string.progres_text_0));
+        tv_progress_seconds.setText(getString(R.string.progres_text_0));
+        tv_progress_minutes.setText(getString(R.string.progres_text_0));
+        tv_progress_hours.setText(getString(R.string.progres_text_0));
+        tv_progress_days.setText(getString(R.string.progres_text_0));
     }
 
     private void startTimeUpdateHandler(final String startDate) {
@@ -194,21 +204,21 @@ public class HomeActivity extends BaseAppCompactActivity {
 
             long seconds = diff / 1000;
 
-            if (days > 0) {
-                mProgressDays.setText(days + "");
-                mProgressDays.setProgress(30-days);
+            if (days >= 0) {
+                tv_progress_days.setText(days + "");
+                mProgressDays.setProgress(30 - days);
             }
-            if (minutes > 0) {
-                mProgressMinutes.setText(minutes + "");
-                mProgressMinutes.setProgress(60-minutes);
+            if (minutes >= 0) {
+                tv_progress_minutes.setText(minutes + "");
+                mProgressMinutes.setProgress(60 - minutes);
             }
-            if (hours > 0) {
-                mProgressHours.setText(hours + "");
-                mProgressHours.setProgress(24-hours);
+            if (hours >= 0) {
+                tv_progress_hours.setText(hours + "");
+                mProgressHours.setProgress(24 - hours);
             }
-            if (seconds > 0) {
-                mProgresSeconds.setText(seconds + "");
-                mProgresSeconds.setProgress(60-seconds);
+            if (seconds >= 0) {
+                tv_progress_seconds.setText(seconds + "");
+                mProgresSeconds.setProgress(60 - seconds);
             }
 
         } catch (Exception e) {

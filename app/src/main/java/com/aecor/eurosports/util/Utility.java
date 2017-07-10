@@ -119,7 +119,7 @@ public class Utility {
                     public void onPositiveButtonClicked() {
                         if (mContext instanceof SplashActivity) {
                             Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
-                            ((Activity) mContext).startActivity(mLandingPageIntent);
+                            mContext.startActivity(mLandingPageIntent);
                             ((Activity) mContext).finish();
                         }
                     }

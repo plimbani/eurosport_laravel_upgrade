@@ -145,6 +145,7 @@ public class SignInActivity extends BaseActivity {
                             mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
                             mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id").toString());
                             mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id").toString());
+                            mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url").toString());
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
                             }

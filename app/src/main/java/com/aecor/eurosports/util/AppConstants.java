@@ -28,8 +28,8 @@ public class AppConstants {
     public static final String PREF_PROFILE = "profile";
     public static final String PREF_USER_ID = "user_id";
     public static final String PREF_TOURNAMENT_ID = "tournament_id";
+    public static final String PREF_IMAGE_URL = "image_url";
     public static final String PREF_USER_LOCALE = "user_locale";
-    public static final String ARG_SECTION_NAME = "tab_name";
     public static final String PREF_SESSION_TOURNAMENT_ID = "session_tournament_id";
     public static final String ARG_CLUB_ID = "club_id";
     public static final String ARG_GROUP_ID = "group_id";
@@ -39,7 +39,6 @@ public class AppConstants {
     public static final String ARG_GROUP_DETAIL = "group_detail";
     public static final String ARG_FULL_LEAGUE_TABLE_DETAIL = "full_league_table_detail";
     public static final String ARG_MATCH_INFO = "match_info";
-    public static final String ARG_FORGOT_PASSWORD_OTP = "forgot_password_otp";
     public static final String ARG_GROUP_NAME = "group_name";
     public static final String LANGUAGE_SELECTION = "language_selection";
     public static final String LANGUAGE_POSITION = "language_position";

@@ -38,11 +38,7 @@ public class TournamentSpinnerAdapter extends ArrayAdapter<TournamentModel> {
 
     @Override
     public boolean isEnabled(int position) {
-        if (position == 0 && !(mContext instanceof HomeActivity)) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(position == 0 && !(mContext instanceof HomeActivity));
     }
 
     @Override

@@ -64,7 +64,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="15dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -81,10 +80,10 @@
                     <TextView
                         android:id="@+id/tv_tournamentName"
                         style="@style/text_black_title"
-                        android:textSize="30sp"
                         android:layout_width="wrap_content"
                         android:text="Armsterdam\nTournament"
                         android:textColor="@color/green"
+                        android:textSize="25sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -97,10 +96,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
                     android:layout_marginTop="2dp"
                     android:orientation="horizontal">
 
@@ -112,12 +107,20 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.github.lzyzsd.circleprogress.DonutProgress
-                            android:id="@+id/progress_days"
-                            style="@style/donout_progress_style"
-                            custom:donut_max="30"
-                            custom:donut_progress="30"
-                            custom:donut_text="0"/>
+                        <FrameLayout style="@style/donout_progress_style">
+
+                            <com.github.lzyzsd.circleprogress.DonutProgress
+                                android:id="@+id/progress_days"
+                                style="@style/donout_progress_style"
+                                custom:donut_max="30"
+                                custom:donut_progress="30"
+                                custom:donut_text="" />
+
+                            <TextView
+                                android:id="@+id/tv_progress_days"
+                                style="@style/donout_progress_text_style" />
+                        </FrameLayout>
+
 
                         <TextView
                             style="@style/text_black_sub_title"
@@ -134,12 +137,19 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.github.lzyzsd.circleprogress.DonutProgress
-                            android:id="@+id/progress_hours"
-                            style="@style/donout_progress_style"
-                            custom:donut_max="24"
-                            custom:donut_progress="24"
-                            custom:donut_text="0" />
+                        <FrameLayout style="@style/donout_progress_style">
+
+                            <com.github.lzyzsd.circleprogress.DonutProgress
+                                android:id="@+id/progress_hours"
+                                style="@style/donout_progress_style"
+                                custom:donut_max="24"
+                                custom:donut_progress="24"
+                                custom:donut_text="" />
+
+                            <TextView
+                                android:id="@+id/tv_progress_hours"
+                                style="@style/donout_progress_text_style" />
+                        </FrameLayout>
 
                         <TextView
                             style="@style/text_black_sub_title"
@@ -156,12 +166,19 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.github.lzyzsd.circleprogress.DonutProgress
-                            android:id="@+id/progress_minutes"
-                            style="@style/donout_progress_style"
-                            custom:donut_max="60"
-                            custom:donut_progress="60"
-                            custom:donut_text="0" />
+                        <FrameLayout style="@style/donout_progress_style">
+
+                            <com.github.lzyzsd.circleprogress.DonutProgress
+                                android:id="@+id/progress_minutes"
+                                style="@style/donout_progress_style"
+                                custom:donut_max="60"
+                                custom:donut_progress="60"
+                                custom:donut_text="" />
+
+                            <TextView
+                                android:id="@+id/tv_progress_minutes"
+                                style="@style/donout_progress_text_style" />
+                        </FrameLayout>
 
                         <TextView
                             style="@style/text_black_sub_title"
@@ -178,12 +195,19 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.github.lzyzsd.circleprogress.DonutProgress
-                            android:id="@+id/progress_seconds"
-                            style="@style/donout_progress_style"
-                            custom:donut_max="60"
-                            custom:donut_progress="60"
-                            custom:donut_text="0" />
+                        <FrameLayout style="@style/donout_progress_style">
+
+                            <com.github.lzyzsd.circleprogress.DonutProgress
+                                android:id="@+id/progress_seconds"
+                                style="@style/donout_progress_style"
+                                custom:donut_max="60"
+                                custom:donut_progress="60"
+                                custom:donut_text="" />
+
+                            <TextView
+                                android:id="@+id/tv_progress_seconds"
+                                style="@style/donout_progress_text_style" />
+                        </FrameLayout>
 
                         <TextView
                             style="@style/text_black_sub_title"

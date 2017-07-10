@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.TeamFixturesModel;
 import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.Utility;
 
 import java.util.Locale;
@@ -22,6 +23,7 @@ import butterknife.OnClick;
  */
 
 public class VenueDetailActivity extends BaseAppCompactActivity {
+    private static final String TAG = "VenueDetailActivity";
     private Context mContext;
     private TeamFixturesModel mTeamFixturesModel;
     @BindView(R.id.tv_pitch_name)
@@ -33,8 +35,19 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
 
     @OnClick(R.id.ll_view_on_map)
     protected void onViewOnMapClicked() {
-        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", mTeamFixturesModel.getVenueCoordinates());
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+
+        String[] mLocation = mTeamFixturesModel.getVenueCoordinates().split(",");
+
+
+        double latitude = Double.parseDouble(mLocation[0]);
+        double longitude = Double.parseDouble(mLocation[1]);
+        String label = mTeamFixturesModel.getVenue_name();
+        String uriBegin = "geo:" + latitude + "," + longitude;
+        String query = latitude + "," + longitude + "(" + label + ")";
+        String encodedQuery = Uri.encode(query);
+        String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+        Uri uri = Uri.parse(uriString);
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
 

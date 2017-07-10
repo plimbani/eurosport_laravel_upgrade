@@ -13,6 +13,7 @@ import com.aecor.eurosports.model.TeamFixturesModel;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -63,7 +64,8 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
         Glide.with(mContext)
                 .load(mTeamFixturesModel.getHomeFlagLogo())
-                .asBitmap()
+                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -73,7 +75,8 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
         Glide.with(mContext)
                 .load(mTeamFixturesModel.getAwayFlagLogo())
-                .asBitmap()
+                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
