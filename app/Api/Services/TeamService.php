@@ -48,7 +48,7 @@ class TeamService implements TeamContract
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
-    public function getClubTeams($tournamentData)   
+    public function getClubTeams($tournamentData)
     {
         $data = $this->teamRepoObj->getTeamData($tournamentData['tournamentData']);
         if ($data) {
@@ -126,7 +126,7 @@ class TeamService implements TeamContract
             // Here we check if No data then create
             if(count($clubData1) == 0) {
                 // Its New values
-                $club_array = array('user_id'=>'1','name'=>$data['club']);
+                $club_array = array('user_id'=>'1','name'=>$data['club'],'tournament_id'=>$data->tournamentData['tournamentId']);
                 $clubData = Club::create($club_array);
                 $data['club_id'] = $clubData->id;
             }
