@@ -48,7 +48,7 @@ class TeamService implements TeamContract
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
-    public function getClubTeams($tournamentData)   
+    public function getClubTeams($tournamentData)
     {
         $data = $this->teamRepoObj->getTeamData($tournamentData['tournamentData']);
         if ($data) {
