@@ -399,9 +399,9 @@ class TournamentService implements TournamentContract
             if(isset($data['sel_ageCategory'])  && $data['sel_ageCategory']!= ''){
                 $reportQuery->where('tournament_competation_template.id',$data['sel_ageCategory']);
             }
-            if(isset($data['sel_clubs'])  && $data['sel_clubs']!= ''){
-              $reportQuery->where('home_team.club_id',$data['sel_clubs'])->orWhere('away_team.club_id',$data['sel_clubs']);
-            }
+            // if(isset($data['sel_clubs'])  && $data['sel_clubs']!= ''){
+            //   $reportQuery->where('home_team.club_id',$data['sel_clubs'])->orWhere('away_team.club_id',$data['sel_clubs']);
+            // }
             if(isset($data['start_date'])  && $data['start_date']!= '' ){
 
               $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date']);

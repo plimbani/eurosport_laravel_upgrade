@@ -124,7 +124,7 @@
               </tr>
               <tr>
                 <td>Referee</td>
-                <td>{{refereeName}}</td>
+                <td>{{ matchDetail.referee.first_name }}</td>
               </tr>
               <tr>
                 <td>Result</td>
@@ -137,10 +137,10 @@
                 <td>Status</td>
                 <td>{{matchDetail.match_status}}</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>Winner</td>
                 <td>{{matchDetail.match_winner}}</td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>Comments</td>
                 <td>{{matchDetail.comments}}</td>
@@ -172,7 +172,6 @@ var moment = require('moment');
          'tournamentId': this.$store.state.Tournament.tournamentId,
          'matchDetail':{},
          'referees': {},
-         'refereeName':'',
          'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId
        }
     },
@@ -195,10 +194,9 @@ var moment = require('moment');
         (response) => {
           this.matchDetail = response.data.data
           if(this.matchDetail.referee == null) {
-             this.refereeName = ''
+
           } else {
           this.matchDetail.referee.first_name = this.matchDetail.referee.last_name+', '+this.matchDetail.referee.first_name
-           this.refereeName = this.matchDetail.referee.first_name
           }
          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
 
@@ -257,26 +255,14 @@ var moment = require('moment');
       // var printContents = document.getElementById('pitch_model_body').innerHTML;
       /*document.getElementById('home_team_score').value = this.matchDetail.hometeam_score
       alert(JSON.stringify(this.matchDetail))*/
-      if(this.matchDetail.referee != null)
-         console.log('not null1')
-      else
-        console.log('Null')
-
-       this.refereeName = (this.matchDetail.referee === null) ?  '' :this.matchDetail.referee.first_name
-
-
+      $('#printTable').show();
       var divToPrint = document.getElementById('printTable');
-      //if(divToPrint != null) {
-         $('#printTable').show();
-          //let divHtml = divToPrint.outerHTML
+      $('#matchScheduleModal').modal('hide');
       let newWin= window.open("");
       newWin.document.write(divToPrint.outerHTML);
       newWin.print();
       newWin.close();
-      //divHtml = ''
-      $('#printTable').hide();
-     // }
-
+      // $('#printTable').hide();
     }
   }
 }

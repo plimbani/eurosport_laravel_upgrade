@@ -68,13 +68,13 @@ class TeamRepository
                  //    'tournament_competation_template.group_name as age_name')
                  // ->get();
     }
-    public function getClubData($tournament_id)
-    {
-        return  Club::where('tournament_id',$tournament_id)
-                ->select('clubs.id','clubs.name')
-                ->get();
-    }
 
+      public function getClubData($tournament_id)
+      {
+          return  Club::where('tournament_id',$tournament_id)
+                  ->select('clubs.id','clubs.name')
+                  ->get();
+      }
     public function getTeamData($tournamentData)
     {
         return Team::where('tournament_id',$tournamentData['tournament_id'])
