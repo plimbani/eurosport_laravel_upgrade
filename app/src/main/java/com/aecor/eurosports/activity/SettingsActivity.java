@@ -47,32 +47,32 @@ public class SettingsActivity extends BaseAppCompactActivity {
         startActivity(mIntent);
     }
 
-    @OnClick(R.id.ll_help)
+    @OnClick(R.id.tv_help)
     protected void onHelpClicked() {
         Intent mHelpIntent = new Intent(mContext, HelpActivity.class);
         startActivity(mHelpIntent);
     }
 
-    @OnClick(R.id.ll_privacy_terms)
+    @OnClick(R.id.tv_privacy_terms)
     protected void onPrivacyTermsClicked() {
         Intent mHelpIntent = new Intent(mContext, PrivacyAndTermsActivity.class);
         startActivity(mHelpIntent);
     }
 
-    @OnClick(R.id.ll_profile)
+    @OnClick(R.id.tv_profile)
     protected void onProfileClicked() {
         Intent mHelpIntent = new Intent(mContext, ProfileActivity.class);
         startActivity(mHelpIntent);
 
     }
 
-    @OnClick(R.id.ll_notification)
+    @OnClick(R.id.tv_notification)
     protected void onNotificationClicked() {
         Intent mHelpIntent = new Intent(mContext, NotificationAndSoundActivity.class);
         startActivity(mHelpIntent);
     }
 
-    @OnClick(R.id.ll_logout)
+    @OnClick(R.id.tv_logout)
     protected void onLogoutClicked() {
         logoutFromApp();
     }

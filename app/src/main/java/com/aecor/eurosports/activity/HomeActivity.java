@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -53,7 +52,6 @@ import butterknife.OnClick;
 
 import static com.aecor.eurosports.util.AppConstants.FACEBOOK_PAGE_ID;
 import static com.aecor.eurosports.util.AppConstants.FACEBOOK_URL;
-import static com.aecor.eurosports.util.AppConstants.INSTAGRAM_URL;
 import static com.aecor.eurosports.util.AppConstants.TWITTER_URL;
 
 public class HomeActivity extends BaseAppCompactActivity {

@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -23,7 +23,6 @@
                 android:id="@+id/iv_profileImage"
                 android:layout_width="122dp"
                 android:layout_height="120dp"
-                android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:src="@mipmap/ic_launcher" />
 
@@ -43,86 +42,81 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:fillViewport="true"
                 android:isScrollContainer="false">
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/layout_margin"
+                    android:layout_marginRight="20dp"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/input_email"
+                        style="@style/app_edittext"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_border"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:hint="@string/email"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName|textNoSuggestions" />
+
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/input_first_name"
+                        style="@style/app_edittext"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_border"
+                        android:hint="@string/first_name"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName|textNoSuggestions" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/input_last_name"
+                        style="@style/app_edittext"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_border"
+                        android:hint="@string/last_name"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName|textNoSuggestions" />
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/input_password"
+                        style="@style/app_edittext"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_border"
+                        android:hint="@string/password"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword" />
+
+                    <Spinner
+                        android:id="@+id/profile_sp_tournament"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/layout_margin"
-                        android:layout_marginRight="20dp"
-                        android:orientation="vertical">
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/spinner_bg_image_gray"
+                        android:drawSelectorOnTop="true"
+                        android:prompt="@string/select_tournament" />
 
-                        <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/input_email"
-                            style="@style/app_edittext"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/edittext_border"
-                            android:enabled="false"
-                            android:focusable="false"
-                            android:hint="@string/email"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textNoSuggestions" />
-
-
-                        <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/input_first_name"
-                            style="@style/app_edittext"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/edittext_border"
-                            android:hint="@string/first_name"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textNoSuggestions" />
-
-                        <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/input_last_name"
-                            style="@style/app_edittext"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/edittext_border"
-                            android:hint="@string/last_name"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textNoSuggestions" />
-
-                        <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/input_password"
-                            style="@style/app_edittext"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/edittext_border"
-                            android:hint="@string/password"
-                            android:imeOptions="actionDone"
-                            android:inputType="textPassword" />
-
-                        <Spinner
-                            android:id="@+id/profile_sp_tournament"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/spinner_bg_image_gray"
-                            android:drawSelectorOnTop="true"
-                            android:prompt="@string/select_tournament" />
-
-                        <Spinner
-                            android:id="@+id/profile_language_selection"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/spinner_bg_image_gray"
-                            android:drawSelectorOnTop="true"
-                            android:prompt="@string/select_language" />
-                    </LinearLayout>
+                    <Spinner
+                        android:id="@+id/profile_language_selection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/spinner_bg_image_gray"
+                        android:drawSelectorOnTop="true"
+                        android:prompt="@string/select_language" />
                 </LinearLayout>
             </ScrollView>
 

@@ -11,7 +11,6 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 
@@ -51,7 +50,7 @@ public class VolleyJsonObjectRequest extends JsonObjectRequest {
 
             JSONObject result = null;
 
-            if (jsonString != null && jsonString.length() > 0)
+            if (jsonString.length() > 0)
                 result = new JSONObject(jsonString);
 
             return Response.success(result,
@@ -65,7 +64,7 @@ public class VolleyJsonObjectRequest extends JsonObjectRequest {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        HashMap<String, String> headers = new HashMap<String, String>();
+        HashMap<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json; charset=utf-8");
         headers.put("IsMobileUser", "true");
         if (!Utility.isNullOrEmpty(token)) {

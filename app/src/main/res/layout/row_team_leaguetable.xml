@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -20,19 +21,16 @@
                 android:id="@+id/team_flag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="center"
-                android:src="@drawable/germany" />
+                android:layout_gravity="center" />
 
             <TextView
                 android:id="@+id/tv_group_name"
                 style="@style/team_league_table_text"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:gravity="left|center"
-                android:text="@string/group_26_league_table" />
+                android:gravity="left|center" />
         </LinearLayout>
 
 
@@ -42,8 +40,7 @@
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:gravity="center"
-            android:text="9" />
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/tv_goalDifference"
@@ -51,8 +48,7 @@
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:gravity="center"
-            android:text="+20" />
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/tv_points"
@@ -60,8 +56,7 @@
             android:layout_width="match_parent"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:gravity="center"
-            android:text="3" />
+            android:gravity="center" />
     </LinearLayout>
 
 

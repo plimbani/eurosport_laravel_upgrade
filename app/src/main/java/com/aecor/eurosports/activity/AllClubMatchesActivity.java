@@ -101,8 +101,8 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 TeamFixturesModel mTeamFixtureData[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamFixturesModel[].class);
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
-                                    for (int i = 0; i < mTeamFixtureData.length; i++) {
-                                        addMatchesRow(mTeamFixtureData[i]);
+                                    for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
+                                        addMatchesRow(aMTeamFixtureData);
                                     }
                                 } else {
                                     addNoItemTeamFixtureView();

@@ -89,25 +89,19 @@ public class SignInActivity extends BaseActivity {
     }
 
     public boolean validate() {
-        boolean valid = false;
 
         String emailOrPhone = email_address.getText().toString();
         String password = sign_in_password.getText().toString();
 
         if (emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone)) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
-        }
-        if (password.isEmpty() || password.length() < 5) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+            return false;
         }
 
-        return valid;
+        if (password.isEmpty() || password.length() < 5) {
+            return false;
+        }
+
+        return true;
     }
 
     private void enabledDisableLoginButton(boolean isEnable) {
@@ -143,9 +137,9 @@ public class SignInActivity extends BaseActivity {
                             mAppSharedPref.setString(AppConstants.PREF_EMAIL, email_address.getText().toString());
                             mAppSharedPref.setString(AppConstants.PREF_PASSWORD, sign_in_password.getText().toString());
                             mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
-                            mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id").toString());
-                            mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id").toString());
-                            mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url").toString());
+                            mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id"));
+                            mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
+                            mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
                             }

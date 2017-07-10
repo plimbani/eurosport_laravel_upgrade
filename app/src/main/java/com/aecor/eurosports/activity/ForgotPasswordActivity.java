@@ -17,7 +17,6 @@ import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.Utility;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -143,16 +142,9 @@ public class ForgotPasswordActivity extends BaseActivity {
     }
 
     public boolean validate() {
-        boolean valid = false;
 
         String emailOrPhone = forgot_email_address.getText().toString();
-        if (emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone)) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
-        }
-        return valid;
+        return !(emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone));
     }
 
     private class GenericTextMatcher implements TextWatcher {

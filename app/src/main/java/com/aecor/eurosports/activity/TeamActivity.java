@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
-import com.aecor.eurosports.application.ApplicationClass;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
@@ -68,11 +67,15 @@ public class TeamActivity extends BaseAppCompactActivity {
     private Context mContext;
     private AppPreference mPreference;
     private LeagueModel mLeagueModelData[];
+    @BindView(R.id.ll_match_header)
+    protected LinearLayout ll_match_header;
+    @BindView(R.id.ll_group_header)
+    protected LinearLayout ll_group_header;
 
     @OnClick(R.id.tv_view_full_league_table)
     protected void onFullLeagueViewClicked() {
         Intent mFullLeagueTableIntent = new Intent(mContext, FullLeageTableActivity.class);
-        mFullLeagueTableIntent.putExtra(AppConstants.ARG_FULL_LEAGUE_TABLE_DETAIL, new ArrayList<LeagueModel>(Arrays.asList(mLeagueModelData)));
+        mFullLeagueTableIntent.putExtra(AppConstants.ARG_FULL_LEAGUE_TABLE_DETAIL, new ArrayList<>(Arrays.asList(mLeagueModelData)));
         mFullLeagueTableIntent.putExtra(AppConstants.ARG_GROUP_NAME, mTeamDetailModel.getGroup_name());
         startActivity(mFullLeagueTableIntent);
     }
@@ -87,7 +90,8 @@ public class TeamActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
-
+        ll_group_header.setVisibility(View.GONE);
+        ll_match_header.setVisibility(View.GONE);
         tv_team_name.setText(mTeamDetailModel.getName());
         if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryLogo())) {
             Glide.with(mContext)
@@ -147,10 +151,12 @@ public class TeamActivity extends BaseAppCompactActivity {
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 mLeagueModelData = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), LeagueModel[].class);
+                                ll_group_header.setVisibility(View.VISIBLE);
                                 if (mLeagueModelData != null && mLeagueModelData.length > 0) {
-                                    for (int i = 0; i < mLeagueModelData.length; i++) {
-                                        addGroupLeagueRow(mLeagueModelData[i]);
+                                    for (LeagueModel aMLeagueModelData : mLeagueModelData) {
+                                        addGroupLeagueRow(aMLeagueModelData);
                                     }
+                                    tv_view_full_league_table.setVisibility(View.VISIBLE);
                                 } else {
                                     addNoItemGroupLeagueView();
                                 }
@@ -247,7 +253,11 @@ public class TeamActivity extends BaseAppCompactActivity {
         TextView team2_name = (TextView) matchesView.findViewById(R.id.team2_name);
 
         try {
-            team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime()));
+            if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_datetime())) {
+                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime()));
+            } else {
+                team_match_date.setText("");
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -325,9 +335,10 @@ public class TeamActivity extends BaseAppCompactActivity {
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 TeamFixturesModel mTeamFixtureData[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamFixturesModel[].class);
+                                ll_match_header.setVisibility(View.VISIBLE);
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
-                                    for (int i = 0; i < mTeamFixtureData.length; i++) {
-                                        addMatchesRow(mTeamFixtureData[i]);
+                                    for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
+                                        addMatchesRow(aMTeamFixtureData);
                                     }
                                 } else {
                                     addNoItemTeamFixtureView();

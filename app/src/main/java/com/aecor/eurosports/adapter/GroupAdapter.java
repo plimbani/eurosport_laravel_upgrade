@@ -118,7 +118,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 results.count = mGroupList.size();
             } else {
                 // We perform filtering operation
-                List<ClubGroupModel> mGroupList = new ArrayList<ClubGroupModel>();
+                List<ClubGroupModel> mGroupList = new ArrayList<>();
                 for (ClubGroupModel p : mOriginalList) {
                     if (p.getGroup_name().toUpperCase().contains(constraint.toString().toUpperCase()))
                         mGroupList.add(p);

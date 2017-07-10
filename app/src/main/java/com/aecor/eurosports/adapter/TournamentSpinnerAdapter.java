@@ -13,6 +13,7 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.HomeActivity;
 import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.AppLogger;
+import com.aecor.eurosports.util.Utility;
 
 import java.util.List;
 
@@ -63,7 +64,9 @@ public class TournamentSpinnerAdapter extends ArrayAdapter<TournamentModel> {
             holder = (ViewHolder) rowview.getTag();
         }
         TournamentModel rowItem = getItem(position);
-        holder.tv_spinner.setText(rowItem.getName());
+        if (!Utility.isNullOrEmpty(rowItem.getName())) {
+            holder.tv_spinner.setText(rowItem.getName());
+        }
         if (position == 0 && !(mContext instanceof HomeActivity)) {
             holder.tv_spinner.setTextColor(Color.GRAY);
         } else {
