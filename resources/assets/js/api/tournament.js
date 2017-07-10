@@ -53,7 +53,7 @@ export default {
   assignGroups(data) {
     return api.post('team/group/assign',{ data})
  },
-   assignCategory(data) {
+  assignCategory(data) {
     return api.post('team/category/assign',{ data})
  },
  getAllDraws(tournamentData) {
@@ -137,6 +137,10 @@ export default {
   },
   getAllCategory(tournamentId){
      return api.post('tournament/allCategory',{'tournamentData':tournamentId}) 
-  }
+  },
+  getClubsTeams(tournamentData) {
+  return api.post('team/getClubsTeams',{'tournamentData': tournamentData})
+ },
+
 
 }

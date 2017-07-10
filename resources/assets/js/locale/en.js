@@ -351,6 +351,7 @@ module.exports = {
   summary_schedule_draws: "Draws",
   summary_schedule_matches: "Matches",
   summary_schedule_teams: "Teams",
+  summary_schedule_categories: "Categories",
 
   summary_schedule_button_print: "Print",
   summary_schedule_draw: "Draw",
@@ -378,6 +379,7 @@ module.exports = {
   summary_schedule_matches_time: "Time",
   summary_schedule_date_time: "Date and time",
   summary_schedule_matches_draw: "Draw",
+  summary_schedule_matches_categories: "Categories",
   summary_schedule_matches_team: "Team",
   summary_schedule_matches_score: "Score",
   summary_schedule_matches_location: "Location",

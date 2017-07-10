@@ -6,7 +6,7 @@
 	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
 			<th>Team</th>
-			<th>Draw</th>
+			<th>Categories</th>
 		</thead>
 		<tbody>
 			<tr v-for="team in matchData">

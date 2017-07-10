@@ -4,7 +4,7 @@
 	<table id="matchSchedule" class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
 			<th class="text-center">{{$lang.summary_schedule_date_time}}</th>
-			<th class="text-center">{{$lang.summary_schedule_matches_draw}}</th>
+			<th class="text-center">{{$lang.summary_schedule_matches_categories}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
@@ -61,7 +61,7 @@ export default {
 
   filters: {
     formatDate: function(date) {
-     return moment(date).format("hh:mm ddd DD MMM YYYY");
+     return moment(date).format("HH:mm ddd DD MMM YYYY");
     }
   },
 	computed: {

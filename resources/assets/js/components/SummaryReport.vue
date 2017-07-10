@@ -7,7 +7,8 @@
 			</div>
 			<div class="col-md-6 text-right">
 				<button type="button" class="btn btn-primary" @click='exportReport()'>{{$lang.summary_button_download}}</button>
-                <button type="submit" class="btn btn-primary">{{$lang.summary_button_print}}</button>
+                <!-- <button type="submit" class="btn btn-primary">{{$lang.summary_button_print}}</button> -->
+                <button type="button" class="btn btn-primary mr-4" @click="printMatchDetails()">Print</button>
 			</div>
 		</div>
 		<div class="block-bg mt-4">
@@ -20,12 +21,14 @@
 									<label><strong>{{$lang.summary_from}}</strong></label>
 									<div class="">
 										 <input type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
+						                 <span style="color:red;" id="start_date_validation"></span>		
 				                    </div>
 								</div>
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_to}}</strong></label>
 									<div class="">
 			            				 <input type="text" name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
+				                    	<span style="color:red;" id="end_date_validation"></span>
 				                    </div>
 								</div>
 								<div class="col-md-4">
@@ -46,8 +49,8 @@
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_club}}</strong></label>
 									<div class="">
-				                    	<select class="form-control ls-select2" name="sel_clubs" 
-				                    	id="sel_clubs">
+				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()" name="sel_clubs" 
+				                    	id="sel_clubs" v-model="club">
 					                      <option value="">{{$lang.summary_club_select}}</option>
 					                      <option v-for="(club, index) in clubs" 
 					                      :value="club.id">{{club.name}}</option>
@@ -57,7 +60,7 @@
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_team}}</strong></label>
 									<div class="">
-					                    <select name="sel_teams" id="sel_teams" class="form-control ls-select2">
+					                    <select name="sel_teams" id="sel_teams" v-model="team" class="form-control ls-select2">
 						                    <option value="">{{$lang.summary_team_select}}</option>
 						                  	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
 					                    </select>
@@ -182,7 +185,7 @@
 		</div>
 		<div class="row mt-4" id="summary_report_table">
 			<div class="col-md-12">
-				<table class="table table-hover table-bordered">
+				<table class="table table-hover table-bordered" border="1" width="100%">
 					<thead>
 	                    <tr>
 	                        <th class="text-center">{{$lang.summary_reports_date_time}}</th>
@@ -212,7 +215,8 @@
 		</div>
 	</div>
 </template>
-
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script> -->
 <script type="text/babel">
 	import Tournament from '../api/tournament.js'
 	import Pitch from '../api/pitch.js'
@@ -226,6 +230,8 @@ export default {
        	venues: {},
        	referees: {},
         clubs: {},
+        club:'',
+        team:'',
        	reports: {},
         currentView:'summaryTab',
         reportQuery:''
@@ -240,7 +246,7 @@ export default {
     mounted() {
     	this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
     	this.displayTournamentCompetationList()
-    	this.getTeams()
+    	//this.getTeams()
     	this.getLocation()
     	this.getPitches()
     	this.getReferees()
@@ -249,11 +255,39 @@ export default {
     	$('#start_date').datepicker().on('changeDate',function(){
             $('#end_date').datepicker('setStartDate', $('#start_date').val())
         });
-        // $('#end_date').datepicker().on('changeDate',function(){
-        //     $('#start_date').datepicker('setEndDate', $('#end_date').val())
-        // });
+	    
+		 $('#start_time,#start_date').change(function(){
+		   if($('#start_date').val() == ''){
+		      $("#start_date_validation").html("Please enter values");
+		   } else {
+		   	  $("#start_date_validation").html("");
+		   }	
+		});
+	   
+	    $('#end_time,#end_date').change(function(){
+		   if($('#end_date').val() == ''){
+		      $("#end_date_validation").html("Please enter values");
+		   } else {
+		   	  $("#end_date_validation").html("");
+		   }	
+		});
+
+
     },
     methods: {
+    	onSelectClub() {
+    		let clubData = this.club
+    		let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId,'clubId': this.club}
+				Tournament.getClubsTeams(TournamentData).then(
+		          (response) => {
+		           this.teams = response.data.data
+		          },
+		          (error) => {
+		             console.log('Error occured during Tournament api ', error)
+		          }
+		        )
+    		},
+
     	displayTournamentCompetationList () {
       		// Only called if valid tournament id is Present
 		    if (!isNaN(this.TournamentId)) {
@@ -278,7 +312,7 @@ export default {
 		      let TournamentData = {'tournamentId': this.TournamentId}
 		      Tournament.getTeams(TournamentData).then(
 		      (response) => {
-		        this.teams = response.data.data
+		       // this.teams = response.data.data
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
@@ -343,6 +377,7 @@ export default {
     	clearForm() {
     		$('#frmReport')[0].reset()
     	},
+
 	    getClubs() {
 	        if (!isNaN(this.TournamentId)) {
 	          // here we add data for
@@ -384,6 +419,14 @@ export default {
 		      // toastr['error']('Invalid Credentials', 'Error');
 		    }
     	},
+    	printMatchDetails() {
+	     var printContents = document.getElementById('summary_report_table').innerHTML;
+	      let w = window.open();
+	      w.document.write($(printContents).html());
+	      w.print();
+	      w.close();
+	    },
+
     	exportReport() {
 
     		let ReportData = this.reportQuery
