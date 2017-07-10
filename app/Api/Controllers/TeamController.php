@@ -45,10 +45,16 @@ class TeamController extends BaseController
         return $this->teamObj->getClubs($id);
     }
 
+    public function getClubTeams(Request $request)
+    {
+        return $this->teamObj->getClubTeams($request->all());
+    }
+
     public function getAllTournamentTeams(Request $request)
     {
       return $this->teamObj->getAllTournamentTeams($request->all());
     }
+
 
     /**
      * Create  Torunament.
@@ -128,5 +134,10 @@ class TeamController extends BaseController
     public function delete(Request $request)
     {
         return $this->teamObj->delete($request);
+    }
+
+    public function getTeamsList(Request $request)
+    {
+      return $this->teamObj->getTeamsList($request->all());
     }
 }

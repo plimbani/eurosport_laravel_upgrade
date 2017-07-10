@@ -4,8 +4,7 @@
 		<div class="row">
 			<div class="col-md-6"><div style="line-height:1">
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
-					<img :src="'/assets/img/tournament_logo/'+tournamentLogo" width="30"
-					class="mr-2">
+					<img  :src="tournamentLogo" width="30" class="mr-2">
 				</label>
 				<h6 class="mb-2">
 					<strong>{{tournamentName}}</strong>
@@ -13,7 +12,7 @@
 
 				<h6 class="mb-2"><strong>{{$lang.summary_location}}:</strong> {{tournamentSummary.locations}}</h6>
 				<h6 class="mb-2"><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}} </h6>
-			 </div>	
+			 </div>
 			</div>
 			<td class="col-md-6">
 			<div class="row d-flex flex-row align-items-start">

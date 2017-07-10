@@ -9,6 +9,7 @@
           <div v-if="competition.matchList.length > 0">
             <h6 class="mb-0" ><strong>{{competition.group_name}}</strong></h6>
 
+
             <div v-if="competition.matchCount == 0">
                 {{$lang.pitch_planner_no_games}}
             </div>
@@ -18,6 +19,7 @@
             :data-text="match.matchName">
                 <draggable-match-event :match="match"></draggable-match-event>
             </div>
+
           </div>
         </div>
         <br>
@@ -54,7 +56,7 @@ export default {
       let matchCount = 0
       let matchCountDisplay = 0
       if(this.competationList.length > 0 && this.matches.length > 0){
-       
+
         _.forEach(this.competationList, function(competition) {
         let cname = competition.group_name
         let comp = []
@@ -85,7 +87,7 @@ export default {
 
               if(match.is_scheduled!=1){
                 matchCount = matchCount + 1
-                matchCountDisplay = matchCountDisplay + 1 
+                matchCountDisplay = matchCountDisplay + 1
               }
             }
             competition.matchCount = matchCount

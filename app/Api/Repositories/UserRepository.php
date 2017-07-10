@@ -3,13 +3,25 @@
 namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\User;
+use Laraspace\Models\UserFavourites;
+use Laraspace\Models\Settings;
+
 use DB;
 use Hash;
 
 class UserRepository {
+
+    public function __construct()
+    {
+      $this->userImagePath = getenv('S3_URL').'/assets/img/users/';
+    }
     public function getAllUsers()
     {
         return User::all();
+    }
+    public function createUserFavourites($userFavouriteData)
+    {
+      return UserFavourites::create($userFavouriteData);
     }
     public function getUserDetails($data)
     {
@@ -18,7 +30,9 @@ class UserRepository {
         $user = User:: join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
                 ->where('users.email',trim($email))
-                ->select("users.*", "roles.name as role_name","roles.slug as role_slug")
+                ->select("users.*", "roles.name as role_name","roles.slug as role_slug",
+                  DB::raw('CONCAT("'.$this->userImagePath.'", users.user_image) AS user_image')
+                  )
                 ->get();
         return $user;
     }
@@ -46,12 +60,19 @@ class UserRepository {
         'token' => $data['token'],
         'is_verified' => 0,
         'is_online' => 0,
-        'is_active' => 1,
+        'is_active' => (isset($data['is_mobile_user'])) ? 0 : 1,
         'is_blocked' => 0 ,
-        'is_mobile_user' => 0,
+        'is_mobile_user' => (isset($data['is_mobile_user'])) ? $data['is_mobile_user'] : 0,
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
         ];
-        return User::create($userData);
+        try {
+          return User::create($userData);
+        }
+        catch (\PDOException  $e) {
+          return $e;
+          //return $e->errorInfo[1]);
+        }
+
     }
 
     public function delete($id)
@@ -69,7 +90,10 @@ class UserRepository {
        $user=DB::table('users')
             ->join('people', 'users.person_id', '=', 'people.id')
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
-            ->select("users.id as id", "users.email as emailAddress","users.user_image as image", "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
+            ->select("users.id as id", "users.email as emailAddress",
+               DB::raw('CONCAT("'.$this->userImagePath.'", users.user_image) AS image'),
+
+             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
             ->where("users.id", "=", $userId)
             ->first();
        return json_encode($user);
@@ -88,16 +112,31 @@ class UserRepository {
     public function createPassword($usersDetail)
     {
         $key = $usersDetail['key'];
-        $password = $usersDetail['password'];
+        $password = (isset($usersDetail['password']) && $usersDetail['password']!='') ? $usersDetail['password'] : '';
         $usersPassword = User::where('token', $key)->first();
         // echo "<pre>";print_r($usersPassword);echo "</pre>";exit;
         $users = User:: where("id", $usersPassword->id)->first();
         $users->is_verified = 1;
         $users->is_active = 1;
         $users->token = '';
-        $users->password = Hash::make($password);
+        if($password != '')
+          $users->password = Hash::make($password);
         // $users->password = $password;
         $user =  $users->save();
 
     }
+    public function getSetting($userData)
+    {
+      $userId = $userData['user_id'];
+      return Settings::with(['user'])->where('user_id','=',$userId)->get();
+    }
+    public function postSetting($userData)
+    {
+      $userId= $userData['userId'];
+      $updatedValue = ['value' => json_encode($userData['userSettings'])];
+
+      //$updatedValue = array('value'=>$userData['userSettings']);
+      return Settings::where('user_id', $userId)->update($updatedValue);
+    }
+
 }

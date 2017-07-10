@@ -9,6 +9,9 @@ use Laraspace\Models\Competition;
 use DB;
 class AgeGroupRepository
 {
+    public function __construct() {
+      $this->tournamentLogoUrl = getenv('S3_URL').'/assets/img/tournament_logo/';
+    }
     public function getAll()
     {
         return AgeGroup::get();
@@ -119,7 +122,9 @@ class AgeGroupRepository
         return TournamentCompetationTemplates::
                leftjoin('tournament_template', 'tournament_template.id', '=',
                 'tournament_competation_template.tournament_template_id')
-               ->select('tournament_competation_template.*','tournament_template.name as template_name')
+               ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
+               ->select('tournament_competation_template.*','tournament_template.name as template_name',
+                 \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
               ->where($fieldName, $value)->get();
       } else {
         return TournamentCompetationTemplates::

@@ -121,9 +121,11 @@ class UserController extends BaseController
       public function setPassword($key, Request $request)
     {
       $usersPasswords = User::where(['token'=>$key])->get();
+
       $message = "";
       $error = false;
       if (count($usersPasswords) == 0) {
+
           $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
           if(count($isUserVerified) > 0) {
               $error=true;
@@ -132,7 +134,17 @@ class UserController extends BaseController
               return response()->view('errors.404', [], 404);
           }
       }
+
+      // TODO: Here we put Code for Mobile Verification
+      if(isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['is_mobile_user'] == 1) {
+        //TODO: Need to put code for change Status For User with user Update
+        $usersDetail['key'] = $key;
+        // Already set the password
+        //$usersDetail['password'] = $usersPasswords[0]['password'];
+        $result = $this->userRepoObj->createPassword($usersDetail);
+      }
       // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
+
       return view('emails.users.setpassword', compact('usersPasswords'));
       // return view('emails.users.setpassword');
     }
@@ -160,4 +172,30 @@ class UserController extends BaseController
       Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
       // return redirect('/login');
     }
+
+    public function setFavourite(Request $request)
+    {
+      return $this->userObj->setFavourite($request->all());
+    }
+    public function removeFavourite(Request $request)
+    {
+      return$this->userObj->removeFavourite($request->all());
+    }
+    public function setDefaultFavourite(Request $request)
+    {
+      return $this->userObj->setDefaultFavourite($request->all());
+    }
+    public function postSetting(Request $request)
+    {
+      return $this->userObj->postSetting($request->all());
+    }
+    public function getSetting(Request $request)
+    {
+      return $this->userObj->getSetting($request->all());
+    }
+    public function setUserImage(Request $request)
+    {
+      return $this->userObj->setUserImage($request->all());
+    }
+
 }

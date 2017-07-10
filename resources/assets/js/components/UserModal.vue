@@ -161,7 +161,7 @@ import { ErrorBag } from 'vee-validate';
                     this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress
                     let image = this.$data.formValues.image
                     if(image != null && image != '') {
-                      this.image =  '/assets/img/users/'+this.$data.formValues.image;
+                      this.image =  this.$data.formValues.image;
                     } else {
                       this.image=''
                     }
@@ -170,18 +170,7 @@ import { ErrorBag } from 'vee-validate';
                     console.log('Error in Edit User')
                   }
                 )
-                /*
-                axios.get("/api/user/edit/"+id).then((response) => {
-                this.userModalTitle="Edit User";
-                    this.$data.formValues = response.data;
-                    let image = this.$data.formValues.image
-                    if(image != null && image != '') {
-                      this.image =  '/assets/img/users/'+this.$data.formValues.image;
-                    } else {
-                      this.image=''
-                    }
 
-                }); */
             },
             getRoles() {
               User.getRoles().then(

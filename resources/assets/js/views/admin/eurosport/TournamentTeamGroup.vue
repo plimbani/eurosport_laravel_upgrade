@@ -22,7 +22,8 @@
           <div class="d-flex justify-content-center" v-if="grpsView.length != 0">
             <div class="col-sm-3 m_card hoverable m-2"  v-for="(group, index) in grpsView">
                 <div class="card-content">
-                   <span class="card-title text-primary"><strong>{{group['groups']['group_name']}}</strong></span>
+                   <span class="card-title text-primary"><strong>
+                   {{group['groups']['group_name']}}</strong></span>
                    <p class="text-primary" v-for="n in group['group_count']"><strong><span v-text="groupName(group['groups']['group_name'],n)"></span></strong></p>
                 </div>
             </div>
@@ -31,7 +32,6 @@
             <div class="col-sm-9  m-8">
                 <div class="card-content">
                    <span class="card-title"> Select a category name above to view information</span>
-
                 </div>
             </div>
           </div>
@@ -93,7 +93,8 @@
                       <td v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != ''">
                         <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:click="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="">Select Team</option>
-                          <optgroup :label="group.groups.group_name" v-for="group in grps">
+                          <optgroup :label="group.groups.group_name"
+                          v-for="group in grps">
                             <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)"  :value="group['groups']['group_name']+n" >{{group['groups']['group_name']}}{{n}} </option>
                           </optgroup>
                         </select>

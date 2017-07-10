@@ -4,7 +4,7 @@
 	<table id="matchSchedule" class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
 			<th class="text-center">{{$lang.summary_schedule_date_time}}</th>
-			<th class="text-center">{{$lang.summary_schedule_matches_draw}}</th>
+			<th class="text-center">{{$lang.summary_schedule_matches_categories}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
@@ -14,8 +14,8 @@
 			<tr v-for="match in matchData">
 				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
-				
-					<a class="pull-left text-left text-primary" href="" 
+
+					<a class="pull-left text-left text-primary" href=""
 					v-if="getCurrentScheduleView != 'drawDetails'"
 					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name}}</u>
 					</a>
@@ -24,17 +24,20 @@
 				<td align="right">
 					<a  class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
 						<span><u>{{match.HomeTeam}}</u></span>
-						<img :src="match.HomeFlagLogo" width="20">
+						<!--<img :src="match.HomeFlagLogo" width="20">-->
+            <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
 					</a>
 				</td>
 				<td class="text-center">
-        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -	
-        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" 
+
+        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -
+        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist"
         		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
       		    </td>
 				<td align="left">
 					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
-						<img :src="match.AwayFlagLogo" width="20">
+						<!--<img :src="match.AwayFlagLogo" width="20">-->
+             <span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
 						<span><u>{{match.AwayTeam}}</u></span>
 					</a>
 				</td>
@@ -61,7 +64,7 @@ export default {
 
   filters: {
     formatDate: function(date) {
-     return moment(date).format("hh:mm ddd DD MMM YYYY");
+     return moment(date).format("HH:mm ddd DD MMM YYYY");
     }
   },
 	computed: {
@@ -72,12 +75,13 @@ export default {
 				return this.dispLocation
 			}
 		},
+
 		isUserDataExist() {
-	      return this.$store.state.Users.userDetails.id
+	    return this.$store.state.Users.userDetails.id
 	    },
-	    getCurrentScheduleView() {
-	    	return this.$store.state.currentScheduleView
-	    }
+	  getCurrentScheduleView() {
+	   	return this.$store.state.currentScheduleView
+	  }
 	},
 	mounted() {
 		$('body').on('keypress', 'input',function(e) {

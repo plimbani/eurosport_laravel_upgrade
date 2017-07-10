@@ -48,10 +48,21 @@ class ForgotPasswordController extends Controller
             $request->only('email')
             // $this->resetEmailBuilder()
         );
+       // $otp  = \Cookie::get('otp_key');
+       // \Cookie::forget('otp_key');
+        $otp = '';
+        $msg = 'Success';
+        if(isset($_SESSION['otp_key'])) {
+          $otp = $_SESSION['otp_key'];
+          unset($_SESSION['otp_key']);
+        }
+        if($response == 'passwords.user') {
+          $msg = 'Email already Exist';
+        }
         return $response == Password::RESET_LINK_SENT
-                    ? 'success'
-                    : 'error';
+                    ? ['status' => '200','message'=>$msg,'otp'=>$otp]
+                    : ['status' => '200','message'=>$msg];
     }
-     
+
 
 }

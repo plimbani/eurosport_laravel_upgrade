@@ -122,13 +122,31 @@ class ResetPasswordController extends Controller
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
+        // here we check for Mobile user
+        $data = $request->all();
 
-        $response = $this->broker()->reset(
-            $this->credentials($request), function ($user, $password) {
+        $mobileUser =
+        \Laraspace\Models\User::where(['email'=>$data['email'], 'is_mobile_user'=>'1'])
+            ->first();
+
+        if($mobileUser) {
+
+           if($this->isValidOTP($mobileUser, $data['otp'])) {
+            // if its valid otp
+            $mobileUser->password =  \Hash::make($data['password']);
+            $mobileUser->save();
+            $response = 'passwords.reset';
+           } else {
+            return response(['status_code' => 319,'message'=>'Sorry code Expired']);
+           }
+        } else {
+
+          $response = $this->broker()->reset(
+              $this->credentials($request), function ($user, $password) {
                 $this->resetPassword($user, $password);
-            }
-        );
-
+              }
+          );
+        }
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
@@ -136,10 +154,27 @@ class ResetPasswordController extends Controller
          $response == Password::PASSWORD_RESET
                     ? $this->sendResetResponse($response)
                     : $this->sendResetFailedResponse($request, $response);
-
-        return redirect('/login');
+          if(!$mobileUser)
+            return redirect('/login');
+          else
+            return response(['status_code' => 200,'message'=>'Success']);
     }
+    protected function isValidOTP($user,$otp)
+    {
+       $encoded_otp = base64_encode($user->id."|".$otp);
+        $userOtp = \Laraspace\Models\UserOtp::where(["user_id"=>$user->id,
+          'encoded_key'=>$encoded_otp])->first();
+        if($userOtp){
 
+            $timediff = time() - strtotime($userOtp->created_at);
+            $userOtp->delete();
+
+            if($timediff <= 600){ // valid only for 10 minutes
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * Get the password reset credentials from the request.
      *
@@ -149,7 +184,7 @@ class ResetPasswordController extends Controller
     protected function credentials(Request $request)
     {
         return $request->only(
-            'email', 'password', 'password_confirmation', 'token'
+            'email', 'password','password_confirmation','token'
         );
     }
     /**

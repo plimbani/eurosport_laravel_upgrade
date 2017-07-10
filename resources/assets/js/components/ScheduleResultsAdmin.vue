@@ -4,7 +4,7 @@
 	    	<div class="col-sm-12">
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
-						<h6>{{$lang.summary_schedule}}</h6>
+				<h6>{{$lang.summary_schedule}}</h6>
             <p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}
             : {{lastUpdatedDateValue}}
             </small></p>
@@ -14,7 +14,7 @@
 									<div class="tabs tabs-primary">
 										<ul class="nav nav-tabs">
 											<li @click="setCurrentView('drawsListing')" class="nav-item">
-												<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)">{{$lang.summary_schedule_draws}}</a>
+												<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)">{{$lang.summary_schedule_categories}}</a>
 											</li>
 											<li @click="setCurrentView('matchListing')" class="nav-item">
 												<a :class="[currentView == 'matchListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)">{{$lang.summary_schedule_matches}}</a>

@@ -28,14 +28,14 @@ class PitchRepository
             'venue_id' => $pitchData['location'],
             'size' => $pitchData['pitch_size'],
             'pitch_capacity' => $pitchData['pitchCapacity'],
-            
+
         ]);
     }
     public function getPitchData($pitchId)
     {
         return Pitch::find($pitchId);
     }
-    
+
 
     public function edit($pitchData,$pitchId)
     {

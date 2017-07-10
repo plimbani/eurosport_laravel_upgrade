@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Laraspace\Notifications\MyOwnResetPassword as ResetPasswordNotification;
+use Laraspace\Models\UserOtp;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract, CanResetPassword
 {
@@ -40,7 +41,8 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'blocked_time',
         'blocker_id',
         'settings',
-        'is_mobile_user'
+        'is_mobile_user',
+        'locale'
     ];
 
     /**
@@ -147,6 +149,22 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     public function sendPasswordResetNotification($token)
     {
       $name = (isset($this->personDetail->first_name)) ? $this->personDetail->first_name : $this->name;
-      $this->notify(new ResetPasswordNotification($token, $name,$this->email));
+      $send_otp='';
+       // Set OTP
+       if($this->is_mobile_user ==  1) {
+       $send_otp = str_random(4);
+       $encoded_otp = base64_encode($this->id."|".$send_otp);
+
+       $userOTP = new UserOtp();
+       $userOTP->user_id = $this->id;
+       $userOTP->encoded_key = $encoded_otp;
+       $userOTP->save();
+       //Session::set('opt_value', $encoded_otp);
+       if(isset($_SESSION['otp_key']))
+          unset($_SESSION['otp_key']);
+      $_SESSION['otp_key'] = $send_otp;
+      // request()->session()->put('otp_value', $encoded_otp);
+     }
+      $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp));
     }
 }

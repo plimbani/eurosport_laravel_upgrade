@@ -19,7 +19,7 @@ class CountriesTableSeeder extends Seeder
           [ 'name' => 'AUSTRALIA', 'country_code' => 'AU', 'country_flag' => 'au', 'logo' => '/assets/img/flags/aust.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'BOSNIA AND HERZEGOVINA', 'country_code' => 'BA', 'country_flag' => 'ba', 'logo' => '/assets/img/flags/bosnia.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'BELGIUM', 'country_code' => 'BE', 'country_flag' => 'be', 'logo' => '/assets/img/flags/belgium.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-          [ 'name' => 'BULGARIA', 'country_code' => 'BG', 'country_flag' => 'bg', 'logo' => '/as1sets/img/flags/bulgaria.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'BULGARIA', 'country_code' => 'BG', 'country_flag' => 'bg', 'logo' => '/assets/img/flags/bulgaria.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'BELARUS', 'country_code' => 'BY', 'country_flag' => 'by', 'logo' => '/assets/img/flags/belarus.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'CANADA', 'country_code' => 'CA', 'country_flag' => 'ca', 'logo' => '/assets/img/flags/canada.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'CHINA', 'country_code' => 'CN', 'country_flag' => 'cn', 'logo' => '/assets/img/flags/china.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],

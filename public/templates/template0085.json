@@ -12,7 +12,7 @@
         "format_name": [{
             "name": "Round 1",
             "match_type": [{
-                "name": "RR1*5",
+                "name": "RR 1*5",
                 "total_match": 10,
                 "group_count": 5,
                 "groups": {
@@ -50,13 +50,13 @@
                     }]
                 }
             },{
-                "name": "RR1*5",
+                "name": "RR 1*5",
                 "total_match": 10,
                 "group_count": 5,
                 "groups": {
                     "group_name": "Group-B",
                     "match": [{
-                        "in_between": "1-5",    
+                        "in_between": "1-5",
                         "match_number": "CAT.RR1.01.B1-B5"
                     }, {
                         "in_between": "2-3",
@@ -91,7 +91,7 @@
                 }
             },
             {
-                "name": "RR1*5",
+                "name": "RR 1*5",
                 "total_match": 10,
                 "group_count": 5,
                 "groups": {
@@ -130,7 +130,7 @@
                 }
             },
             {
-                "name": "RR1*5",
+                "name": "RR 1*5",
                 "total_match": 10,
                 "group_count": 5,
                 "groups": {
@@ -176,7 +176,7 @@
                 {
                 "name": "Placing Matches (PM) 1-8 & 9-16",
                 "total_match": 10,
-                "group_count": 10,
+                "group_count": 20,
                 "groups": {
                     "group_name": "PM",
                     "match": [{
@@ -221,7 +221,7 @@
                 {
                 "name": "Placing Matches (PM) 1-8 & 9-16",
                 "total_match": 10,
-                "group_count": 8,
+                "group_count": 16,
                 "groups": {
                     "group_name": "PM",
                     "match": [{
@@ -275,7 +275,7 @@
                         "in_between": "CAT.PM3.G3LR-CAT.PM2.G4LR",
                         "match_number": "CAT.PM4.G4.G3LR-G4LR"
                     },{
-                        "in_between": "CAT.PM3.G5WR-CAT.PM3.G6WR",  
+                        "in_between": "CAT.PM3.G5WR-CAT.PM3.G6WR",
                         "match_number": "CAT.PM4.G5.G5WR-G6WR"
                     },{
                         "in_between": "CAT.PM3.G7WR-CAT.PM3.G8WR",
