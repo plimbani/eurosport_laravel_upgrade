@@ -19,7 +19,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,30 +29,38 @@
             <TextView
                 android:id="@+id/tv_group_table_title"
                 style="@style/text_black_sub_title"
+                android:layout_width="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:layout_marginLeft="8dp"
+                android:paddingRight="10dp"
+                android:gravity="center_vertical"
                 android:text="@string/group_26_league_table"
                 android:textStyle="bold" />
 
             <TextView
                 style="@style/text_black_sub_title"
-                android:layout_weight="2"
+                android:layout_width="wrap_content"
                 android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:text="@string/G"
                 android:textStyle="bold" />
 
             <TextView
                 style="@style/text_black_sub_title"
-                android:layout_weight="2"
+                android:layout_width="wrap_content"
                 android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:text="@string/plus_minus"
                 android:textStyle="bold" />
 
             <TextView
                 style="@style/text_black_sub_title"
-                android:layout_width="match_parent"
-                android:layout_weight="2"
+                android:layout_width="wrap_content"
                 android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:text="@string/P"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -68,6 +75,7 @@
             android:id="@+id/tv_view_full_league_table"
             style="@style/text_black_sub_title"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="15dp"
             android:drawableRight="@drawable/green_right_arrow"
             android:gravity="left"
             android:padding="15dp"
@@ -101,6 +109,7 @@
             android:id="@+id/tv_view_all_club_matches"
             style="@style/text_black_sub_title"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="15dp"
             android:drawableRight="@drawable/green_right_arrow"
             android:gravity="left"
             android:padding="15dp"

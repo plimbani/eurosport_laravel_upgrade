@@ -474,7 +474,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
                         AppLogger.LogE(TAG, "Upload Profile Image Response " + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-                                Utility.showToast(mContext, getString(R.string.profile_updated_successfully));
+                                Utility.showToast(mContext, getResources().getString(R.string.profile_image_updated_successfully));
                             }
                         }
 

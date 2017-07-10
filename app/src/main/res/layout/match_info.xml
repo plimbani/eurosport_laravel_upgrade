@@ -141,6 +141,7 @@
                 <TextView
                     android:id="@+id/tv_dateTime"
                     style="@style/text_black_small"
+                    android:textSize="20sp"
                     android:gravity="center"
                     android:text="18 July | 16:00"
                     android:textColor="@color/gray" />
@@ -148,7 +149,7 @@
                 <TextView
                     android:id="@+id/tv_age_and_group_info"
                     style="@style/text_black_small"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="13dp"
                     android:gravity="center"
                     android:text="18 July | 16:00"
                     android:textColor="@color/gray" />

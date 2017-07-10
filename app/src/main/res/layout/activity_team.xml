@@ -29,15 +29,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@drawable/layout_border"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="20dp">
 
                 <TextView
                     android:id="@+id/tv_team_name"
                     style="@style/text_black_title"
                     android:text="@string/team_name"
+                    android:layout_gravity="center"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -65,13 +69,13 @@
                 <TextView
                     android:id="@+id/tv_team_member_desc"
                     style="@style/text_black_sub_title"
+                    android:layout_gravity="center"
                     android:text="Boys under 11, Group 26" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:background="@color/view_line"
                 android:orientation="horizontal"
                 android:padding="15dp">
@@ -79,15 +83,18 @@
                 <TextView
                     android:id="@+id/tv_group_table_title"
                     style="@style/text_black_sub_title"
+                    android:layout_width="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="left"
+                    android:layout_marginLeft="8dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
                     android:text="@string/group_26_league_table"
                     android:textStyle="bold" />
 
                 <TextView
                     style="@style/text_black_sub_title"
                     android:layout_width="wrap_content"
-                    android:gravity="left"
+                    android:gravity="center"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:text="@string/G"
@@ -96,7 +103,7 @@
                 <TextView
                     style="@style/text_black_sub_title"
                     android:layout_width="wrap_content"
-                    android:gravity="left"
+                    android:gravity="center"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:text="@string/plus_minus"
@@ -105,7 +112,7 @@
                 <TextView
                     style="@style/text_black_sub_title"
                     android:layout_width="wrap_content"
-                    android:gravity="left"
+                    android:gravity="center"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:text="@string/P"
@@ -123,6 +130,7 @@
                 style="@style/text_black_sub_title"
                 android:layout_marginLeft="8dp"
                 android:drawableRight="@drawable/green_right_arrow"
+                android:layout_marginRight="15dp"
                 android:gravity="left"
                 android:padding="15dp"
                 android:text="@string/view_league_table"
@@ -155,6 +163,7 @@
                 android:id="@+id/tv_view_all_club_matches"
                 style="@style/text_black_sub_title"
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="15dp"
                 android:drawableRight="@drawable/green_right_arrow"
                 android:gravity="left"
                 android:padding="15dp"
