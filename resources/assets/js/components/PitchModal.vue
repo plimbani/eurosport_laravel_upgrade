@@ -137,10 +137,10 @@
                 <td>Status</td>
                 <td>{{matchDetail.match_status}}</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>Winner</td>
                 <td>{{matchDetail.match_winner}}</td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>Comments</td>
                 <td>{{matchDetail.comments}}</td>
@@ -257,11 +257,12 @@ var moment = require('moment');
       alert(JSON.stringify(this.matchDetail))*/
       $('#printTable').show();
       var divToPrint = document.getElementById('printTable');
+      $('#matchScheduleModal').modal('hide');
       let newWin= window.open("");
       newWin.document.write(divToPrint.outerHTML);
       newWin.print();
       newWin.close();
-      $('#printTable').hide();
+      // $('#printTable').hide();
     }
   }
 }
