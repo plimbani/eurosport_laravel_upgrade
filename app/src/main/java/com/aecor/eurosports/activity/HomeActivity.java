@@ -177,6 +177,12 @@ public class HomeActivity extends BaseAppCompactActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         sp_tournament.setSelection(tournamentPosition);

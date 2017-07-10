@@ -39,6 +39,14 @@ public class SettingsActivity extends BaseAppCompactActivity {
         mContext = this;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mIntent = new Intent(mContext, HomeActivity.class);
+        mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(mIntent);
+    }
+
     @OnClick(R.id.ll_help)
     protected void onHelpClicked() {
         Intent mHelpIntent = new Intent(mContext, HelpActivity.class);

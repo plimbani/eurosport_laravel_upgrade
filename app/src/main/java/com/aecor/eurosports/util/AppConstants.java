@@ -42,5 +42,4 @@ public class AppConstants {
     public static final String ARG_GROUP_NAME = "group_name";
     public static final String LANGUAGE_SELECTION = "language_selection";
     public static final String LANGUAGE_POSITION = "language_position";
-    public static final String ARG_FORGOT_PASSWORD_OTP = "forgot_password_otp";
 }
