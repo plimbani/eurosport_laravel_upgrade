@@ -6,6 +6,7 @@ use Laraspace\Models\Team;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Competition;
+use Laraspace\Models\Club;
 use DB;
 
 class TeamRepository
@@ -67,15 +68,12 @@ class TeamRepository
                  //    'tournament_competation_template.group_name as age_name')
                  // ->get();
     }
-    public function getClubData($tournament_id)
-    {
-        return  Team::where('tournament_id',$tournament_id)
-                ->join('clubs', 'clubs.id', '=', 'teams.club_id')
-                ->groupBy('teams.club_id')
-                ->select('clubs.id','clubs.name')
-                ->get();
-            // print_r($clubData->toArray());
-    }
+      public function getClubData($tournament_id)
+      {
+            return  Club::where('tournament_id',$tournament_id)
+                    ->select('clubs.id','clubs.name')
+                    ->get();
+      }
 
     public function getTeamData($tournamentData)
     {
