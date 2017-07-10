@@ -44,7 +44,7 @@
 		  	name:name,
 		  	id:id,
 		  	tournamentDays: tournamentDays,
-		  	tournamentLogo: this.tournament.logo,
+		  	tournamentLogo: this.tournament.tournamentLogo,
 		  	tournamentStatus:this.tournament.status,
 		  	tournamentStartDate:this.tournament.start_date,
 			  tournamentEndDate:this.tournament.end_date,

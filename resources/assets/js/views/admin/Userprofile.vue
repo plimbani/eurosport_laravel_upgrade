@@ -38,7 +38,8 @@
                         <label class="col-md-4 control-label">{{$lang.user_management_image}}</label>
                         <div class="col-sm-7">
                             <div v-if="!image">
-                             <img v-if="userData.image" v-bind:src="'/assets/img/users/' + userData.image" width="100px" height="100px"/>
+                             <img v-if="userData.image"
+                             v-bind:src="userData.image" width="100px" height="100px"/>
                             <img v-else src="http://placehold.it/250x250" width="100px" height="100px"/>
                                     <button type="button" class="btn btn-default" name="btnImage" id="btnImage">Choose file</button>
 
@@ -88,7 +89,7 @@
           (response)=> {
             toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                 $("#user_profile").modal("hide");
-                 setTimeout(Plugin.reloadPage, 2000);
+                // setTimeout(Plugin.reloadPage, 2000);
           },
           (error)=> {
 

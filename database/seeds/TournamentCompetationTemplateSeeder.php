@@ -32,24 +32,24 @@ class TournamentCompetationTemplateSeeder extends Seeder
            [
 
            'tournament_id' => 5,
-           'total_teams' => '9',
+           'total_teams' => '6',
            'group_name' => 'U19',
-           'min_matches' => '5',
-           'tournament_template_id' => 1, 'total_match' => '18',
+           'min_matches' => '3',
+           'tournament_template_id' => 1, 'total_match' => '9',
             'category_age' => 'U17',
-             'disp_format_name' => '6 teams: 2x3 - PM 1-2/3-4/5-6', 'total_time' => '570',
+             'disp_format_name' => '6 teams: 2x3 - PM 1-2/3-4/5-6', 'total_time' => '270',
              'game_duration_RR' => '20',
              'game_duration_FM' => '20', 'halftime_break_RR' => '5',
             'halftime_break_FM' => '5', 'match_interval_RR' => '5', 'match_interval_FM' => '5'],
              [
 
             'tournament_id' => 4,
-           'total_teams' => '9',
+           'total_teams' => '6',
            'group_name' => 'U15',
-           'min_matches' => '5',
-           'tournament_template_id' => 1, 'total_match' => '18',
+           'min_matches' => '3',
+           'tournament_template_id' => 1, 'total_match' => '9',
             'category_age' => 'U17',
-             'disp_format_name' => '6 teams: 2x3 - PM 1-2/3-4/5-6', 'total_time' => '570',
+             'disp_format_name' => '6 teams: 2x3 - PM 1-2/3-4/5-6', 'total_time' => '270',
              'game_duration_RR' => '20',
              'game_duration_FM' => '20', 'halftime_break_RR' => '5',
             'halftime_break_FM' => '5', 'match_interval_RR' => '5', 'match_interval_FM' => '5']

@@ -17,6 +17,7 @@ class TournamentsTableSeeder extends Seeder
         DB::table('tournaments')->insert([
         	['id'=>'1','name' => 'BaYern Trophy 2016', 'website' => 'eurosport', 'facebook' =>'fb',
             'twitter' => 'twitter',
+            'logo'=>'1.png',
             'competition_type' => 'Group Games', 'status' => 'UnPublished', 'user_id' => '1',
              'start_date' => '2016-03-26 06:21:29',
             'end_date' => '2016-03-27 06:21:29', 'no_of_pitches' => '1',
@@ -25,7 +26,7 @@ class TournamentsTableSeeder extends Seeder
              'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
             ['id'=>'2','name' => 'Hasselt Cup 2016', 'website' => '   www.hasseltcup.be', 'facebook' =>'fb',
-            'twitter' => 'twitter',
+            'twitter' => 'twitter','logo'=>'2.png',
             'competition_type' => 'Single Elimination',
              'status' => 'UnPublished', 'user_id' => '1',
             'start_date' => '2016-03-26 06:21:29',
@@ -38,7 +39,7 @@ class TournamentsTableSeeder extends Seeder
 
         	['id'=>'3','name' => 'Sirene Cup', 'website' => 'eurosport',
             'facebook' =>'fb',
-            'twitter' => 'twitter',
+            'twitter' => 'twitter','logo'=>'3.png',
             'competition_type' => 'Double Elimination',
             'status' => 'UnPublished', 'user_id' => '1',
             'start_date' => '2016-03-26 06:21:29',
@@ -51,7 +52,7 @@ class TournamentsTableSeeder extends Seeder
           ['id'=>'4','name' => 'Copa Castell',
             'website' => 'Copa Castell',
             'facebook' =>'fb',
-            'twitter' => 'twitter',
+            'twitter' => 'twitter','logo'=>'4.png',
             'competition_type' => 'Single Elimination',
             'status' => 'Published', 'user_id' => '1',
             'start_date' => '2017-04-18 10:00:00',
@@ -63,7 +64,7 @@ class TournamentsTableSeeder extends Seeder
           ['id'=>'5','name' => 'Holland Cup',
             'website' => 'www.holland-cup.nl',
             'facebook' =>'fb',
-            'twitter' => 'twitter',
+            'twitter' => 'twitter','logo'=>'5.png',
             'competition_type' => 'Single Elimination',
             'status' => 'Published',
             'user_id' => '1',

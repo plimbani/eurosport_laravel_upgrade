@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
          $this->call(TempFixturesTableSeeder::class);
          $this->call(MatchStandingTableSeeder::class);
          $this->call(MatchResultsTableSeeder::class);
+         $this->call(UsersFavouriteTableSeeder::class);
          DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
     }

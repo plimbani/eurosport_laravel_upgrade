@@ -208,8 +208,16 @@ class AgeGroupService implements AgeGroupContract
         return array($total_time,$total_matches,$disp_format_name);
     }
     public function GetCompetationFormat($data) {
-        $data = $this->ageGroupObj->getCompeationFormat($data['tournamentData']);
 
+      $isMobileUsers = \Request::header('IsMobileUser');
+      if( $isMobileUsers != '') {
+        $data = $data->all();
+        $tournament_arr = array('tournament_id'=>$data['tournament_id']);
+        $data = $this->ageGroupObj->getCompeationFormat($tournament_arr);
+      }
+      else {
+          $data = $this->ageGroupObj->getCompeationFormat($data['tournamentData']);
+      }
         if ($data) {
             return ['status_code' => '200', 'message' => 'Competation Data', 'data' => $data];
         }

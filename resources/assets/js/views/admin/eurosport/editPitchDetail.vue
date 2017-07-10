@@ -593,7 +593,7 @@ var moment = require('moment');
                     return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
                         toastr['success']('Pitch detail has been updated successfully.', 'Success');
                         this.displayPitch()
-                        setTimeout(Plugin.reloadPage, 1000);
+                        //setTimeout(Plugin.reloadPage, 1000);
                         $('#editPitch').modal('hide')
                     }).catch(error => {
                         if (error.response.status == 401) {

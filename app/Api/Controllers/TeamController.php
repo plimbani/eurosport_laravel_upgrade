@@ -129,4 +129,9 @@ class TeamController extends BaseController
     {
         return $this->teamObj->delete($request);
     }
+
+    public function getTeamsList(Request $request)
+    {
+      return $this->teamObj->getTeamsList($request->all());
+    }
 }

@@ -166,6 +166,37 @@ public function getAllFromTournamentId($tournamentId)
             'assigned_group' => preg_replace('/[0-9]+/', '', $groupName),
             'competation_id' => $competId
             ]);
+        // Also Add in MatchStaning table
+        // First check if record exist if yes then update else create
+        $match_standing = DB::table('match_standing')
+        ->where('tournament_id','=',$data['tournament_id'])
+        ->where('competition_id','=',$competId)
+        ->where('team_id','=',$team_id)->get();
+        $matchStandData = array();
+        if($match_standing->isEmpty())
+        {
+          // if empty create it
+          $matchStandData['competition_id'] = $competId;
+          $matchStandData['tournament_id'] = $data['tournament_id'];
+          $matchStandData['team_id'] = $team_id;
+          $matchStandData['points'] = 0;$matchStandData['played'] = 0;
+          $matchStandData['won'] = 0;$matchStandData['draws'] = 0;
+          $matchStandData['lost'] = 0;$matchStandData['goal_for'] = 0;
+          $matchStandData['goal_against'] = 0;
+          DB::table('match_standing')->insert($matchStandData);
+
+        } else {
+          // check if competation id is Same then no need to update it
+          if($match_standing[0]->competition_id != $competId) {
+            // Update it
+            $matchStandData['competition_id'] = $competId;
+            // Update it
+            DB::table('match_standing')->where('id','=',$match_standing[0]->id)
+            ->update($matchStandData);
+          }
+        }
+
+
         TempFixture::where('home_team_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
             // ->where('age_group_id',$data['age_group'])
