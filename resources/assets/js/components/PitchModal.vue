@@ -102,12 +102,13 @@
               </div>
             </form>
             <table border="1" cellpadding="3" id="printTable" style="display: none;" width="100%">
+              <img src="/assets/img/logo-desk.svg" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
               <thead>
-                Match Details
+                <h2 class="text-center">Match Details</h2>
               </thead>
               <tbody>
               <tr class="row">
-                <td>Match numberr</td>
+                <td>Match number</td>
                 <td>
                   {{matchFixture.title}}<br>
                   Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}})
