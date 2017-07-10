@@ -70,9 +70,9 @@ class TeamRepository
     }
       public function getClubData($tournament_id)
       {
-            return  Club::where('tournament_id',$tournament_id)
-                    ->select('clubs.id','clubs.name')
-                    ->get();
+          return  Club::where('tournament_id',$tournament_id)
+                  ->select('clubs.id','clubs.name')
+                  ->get();
       }
 
     public function getTeamData($tournamentData)
