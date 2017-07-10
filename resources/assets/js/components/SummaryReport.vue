@@ -21,7 +21,7 @@
 									<label><strong>{{$lang.summary_from}}</strong></label>
 									<div class="">
 										 <input type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
-						                 <span style="color:red;" id="start_date_validation"></span>		
+						                 <span style="color:red;" id="start_date_validation"></span>
 				                    </div>
 								</div>
 								<div class="col-md-4">
@@ -34,10 +34,10 @@
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_age_category}}</strong></label>
 									<div class="">
-                   						 <select name="sel_ageCategory" id="sel_ageCategory" 
+                   						 <select name="sel_ageCategory" id="sel_ageCategory"
                    						 class="form-control ls-select2">
                     						<option value="">{{$lang.summary_age_category_select}}</option>
-                      						<option v-for="(competation, index) in competationList" 
+                      						<option v-for="(competation, index) in competationList"
                       						:value="competation.id">{{competation.group_name}}</option>
                      					</select>
 				    				</div>
@@ -49,10 +49,10 @@
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_club}}</strong></label>
 									<div class="">
-				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()" name="sel_clubs" 
+				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()" name="sel_clubs"
 				                    	id="sel_clubs" v-model="club">
 					                      <option value="">{{$lang.summary_club_select}}</option>
-					                      <option v-for="(club, index) in clubs" 
+					                      <option v-for="(club, index) in clubs"
 					                      :value="club.id">{{club.name}}</option>
 					                    </select>
 								 	</div>
@@ -87,7 +87,7 @@
 											<option value="11:30">11:30</option>
 											<option value="12:00">12:00</option>
 											<option value="12:30">12:30</option>
-											<option value="13:00">13:00</option>	
+											<option value="13:00">13:00</option>
 											<option value="13:30">13:30</option>
 											<option value="14:00">14:00</option>
 											<option value="14:30">14:30</option>
@@ -100,7 +100,7 @@
 											<option value="18:00">18:00</option>
 											<option value="18:30">18:30</option>
 											<option value="19:00">19:00</option>
-										</select>		
+										</select>
 				                    </div>
 								</div>
 								<div class="col-md-4">
@@ -118,7 +118,7 @@
 											<option value="11:30">11:30</option>
 											<option value="12:00">12:00</option>
 											<option value="12:30">12:30</option>
-											<option value="13:00">13:00</option>	
+											<option value="13:00">13:00</option>
 											<option value="13:30">13:30</option>
 											<option value="14:00">14:00</option>
 											<option value="14:30">14:30</option>
@@ -131,7 +131,7 @@
 											<option value="18:00">18:00</option>
 											<option value="18:30">18:30</option>
 											<option value="19:00">19:00</option>
-										</select>		
+										</select>
 				                    </div>
 								</div>
 								<div class="col-md-4">
@@ -255,21 +255,21 @@ export default {
     	$('#start_date').datepicker().on('changeDate',function(){
             $('#end_date').datepicker('setStartDate', $('#start_date').val())
         });
-	    
+
 		 $('#start_time,#start_date').change(function(){
 		   if($('#start_date').val() == ''){
 		      $("#start_date_validation").html("Please enter values");
 		   } else {
 		   	  $("#start_date_validation").html("");
-		   }	
+		   }
 		});
-	   
+
 	    $('#end_time,#end_date').change(function(){
 		   if($('#end_date').val() == ''){
 		      $("#end_date_validation").html("Please enter values");
 		   } else {
 		   	  $("#end_date_validation").html("");
-		   }	
+		   }
 		});
 
 
@@ -374,8 +374,11 @@ export default {
 		      this.TournamentId = 0;
 		    }
     	},
-    	clearForm() {
+    	clearForm1() {
+        alert('12345')
     		$('#frmReport')[0].reset()
+        alert('hi')
+
     	},
 
 	    getClubs() {
@@ -396,12 +399,13 @@ export default {
 	      },
 	      clearForm() {
 	        $('#frmReport')[0].reset()
+          this.reports = {}
 	     },
     	generateReport() {
     		if (!isNaN(this.TournamentId)) {
 		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
 		     // let ReportData =  $('#frmReport').serializeArray()
-		      
+
 		      this.reportQuery = ReportData
 		      Tournament.getAllReportsData(ReportData).then(
 		      (response) => {
