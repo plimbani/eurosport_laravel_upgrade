@@ -96,7 +96,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
                     tournamentPosition = position;
-                    AppLogger.LogE(TAG,"Tournament Position -> " + tournamentPosition);
+                    AppLogger.LogE(TAG, "Tournament Position -> " + tournamentPosition);
                     mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
                     tv_tournamentName.setText(mTournamentList.get(position).getName());
                 }
@@ -110,9 +110,7 @@ public class HomeActivity extends BaseAppCompactActivity {
                                     iv_tournamentLogo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
                                 }
                             });
-
                 } else {
-
                     iv_tournamentLogo.setImageResource(R.drawable.globe);
                 }
 
@@ -149,6 +147,9 @@ public class HomeActivity extends BaseAppCompactActivity {
     }
 
     private void startTimeUpdateHandler(final String startDate) {
+//        if (timer != null)
+//            timer.cancel();
+
         timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -163,15 +164,11 @@ public class HomeActivity extends BaseAppCompactActivity {
         };
         timer.schedule(timerTask, 0, 1000);
 
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (timer != null)
-            timer.cancel();
-//        sp_tournament.setSelection(Integer.parseInt(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID)));
         sp_tournament.setSelection(tournamentPosition);
     }
 
@@ -357,10 +354,9 @@ public class HomeActivity extends BaseAppCompactActivity {
             }
         }
         this.mTournamentList = list;
-        if(Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
+        if (Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
             tournamentPosition = selectedTournamentPos;
-        }
-        else {
+        } else {
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
                     tournamentPosition = i;

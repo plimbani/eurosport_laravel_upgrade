@@ -68,8 +68,8 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         setContentView(R.layout.group_summary);
         super.onCreate(savedInstanceState);
         mContext = this;
-        mGroupModel = getIntent().getParcelableExtra(AppConstants.ARG_GROUP_DETAIL);
 
+        mGroupModel = getIntent().getParcelableExtra(AppConstants.ARG_GROUP_DETAIL);
         initView();
     }
 
@@ -80,7 +80,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
         TextView tv_goalDifference = (TextView) teamLeagueView.findViewById(R.id.tv_goalDifference);
         final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
-        String groupTableTitle = mLeagueModel.getAssigned_group() + " " + getString(R.string.league_table);
+        String groupTableTitle = mGroupModel.getName() + " " + getString(R.string.league_table);
         tv_group_table_title.setText(groupTableTitle);
         tv_group_name.setText(mLeagueModel.getName());
         tv_points.setText(mLeagueModel.getPoints());
@@ -311,6 +311,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected void onFullLeagueTableClicked() {
         Intent mFullLeagueTableIntent = new Intent(mContext, FullLeageTableActivity.class);
         mFullLeagueTableIntent.putExtra(AppConstants.ARG_FULL_LEAGUE_TABLE_DETAIL, new ArrayList<LeagueModel>(Arrays.asList(mLeagueModelData)));
+        mFullLeagueTableIntent.putExtra(AppConstants.ARG_GROUP_NAME, mGroupModel.getName());
         startActivity(mFullLeagueTableIntent);
     }
 }

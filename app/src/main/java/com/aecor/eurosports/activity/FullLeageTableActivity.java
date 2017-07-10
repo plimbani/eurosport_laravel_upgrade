@@ -37,12 +37,19 @@ public class FullLeageTableActivity extends AppCompatActivity {
     @BindView(R.id.tv_group_table_title)
     protected TextView tv_group_table_title;
     private Context mContext;
+    private String mGroupName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.full_league_table_view);
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        Bundle b = getIntent().getExtras();
+
+        if (b != null) {
+            mGroupName = b.getString(AppConstants.ARG_GROUP_NAME);
+        }
+
         mContext = this;
         mLeagueModelData = getIntent().getParcelableArrayListExtra(AppConstants.ARG_FULL_LEAGUE_TABLE_DETAIL);
         initView();
@@ -57,13 +64,12 @@ public class FullLeageTableActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow_white);
         toolbar.setTitleTextColor(Color.WHITE);
-
     }
 
     protected void initView() {
         if (mLeagueModelData != null && mLeagueModelData.size() > 0) {
-            showBackButton(mLeagueModelData.get(0).getGroup_name());
-            tv_group_table_title.setText(mLeagueModelData.get(0).getAssigned_group());
+            showBackButton(mGroupName);
+            tv_group_table_title.setText(mGroupName);
             for (int i = 0; i < mLeagueModelData.size(); i++) {
                 addGroupLeagueRow(mLeagueModelData.get(i));
             }

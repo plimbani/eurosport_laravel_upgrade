@@ -308,4 +308,11 @@ public class RegisterActivity extends BaseActivity {
         public void afterTextChanged(Editable s) {
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mLandingActivityIntent = new Intent(mContext, LandingActivity.class);
+        startActivity(mLandingActivityIntent);
+    }
 }
