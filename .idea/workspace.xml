@@ -22,23 +22,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a80b000f-095a-4757-bf09-74fd2dd34d78" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/AllClubMatchesActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/AllClubMatchesActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/GroupSummaryActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/GroupSummaryActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/TeamActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/TeamActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AppConstants.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AppConstants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/Utility.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/Utility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_team.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_team.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/group_summary.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/group_summary.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/home_content.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/home_content.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/match_info.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/match_info.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/row_team_matches.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/row_team_matches.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
-    </list>
+    <list default="true" id="a80b000f-095a-4757-bf09-74fd2dd34d78" name="Default" comment="" />
     <ignored path="eurosport.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
