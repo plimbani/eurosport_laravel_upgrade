@@ -72,8 +72,8 @@ public class TeamActivity extends BaseAppCompactActivity {
     protected void onFullLeagueViewClicked() {
         Intent mFullLeagueTableIntent = new Intent(mContext, FullLeageTableActivity.class);
         mFullLeagueTableIntent.putExtra(AppConstants.ARG_FULL_LEAGUE_TABLE_DETAIL, new ArrayList<LeagueModel>(Arrays.asList(mLeagueModelData)));
+        mFullLeagueTableIntent.putExtra(AppConstants.ARG_GROUP_NAME, mTeamDetailModel.getGroup_name());
         startActivity(mFullLeagueTableIntent);
-
     }
 
     @OnClick(R.id.tv_view_all_club_matches)

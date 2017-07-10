@@ -237,4 +237,11 @@ public class SignInActivity extends BaseActivity {
 
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mLandingActivityIntent = new Intent(mContext, LandingActivity.class);
+        startActivity(mLandingActivityIntent);
+    }
 }

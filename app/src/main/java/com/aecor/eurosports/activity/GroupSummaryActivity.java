@@ -68,6 +68,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         setContentView(R.layout.group_summary);
         super.onCreate(savedInstanceState);
         mContext = this;
+
         mGroupModel = getIntent().getParcelableExtra(AppConstants.ARG_GROUP_DETAIL);
         initView();
     }
@@ -79,8 +80,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
         TextView tv_goalDifference = (TextView) teamLeagueView.findViewById(R.id.tv_goalDifference);
         final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
-
-        String groupTableTitle = mLeagueModel.getGroup_name() + " " + getString(R.string.league_table);
+        String groupTableTitle = mGroupModel.getName() + " " + getString(R.string.league_table);
         tv_group_table_title.setText(groupTableTitle);
         tv_group_name.setText(mLeagueModel.getName());
         tv_points.setText(mLeagueModel.getPoints());
@@ -275,15 +275,13 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         team_match_id.setText(mFixtureModel.getMatch_number());
         team_age_category.setText(mFixtureModel.getGroup_name());
         team_round.setText(mFixtureModel.getRound());
-        if(Integer.parseInt(mFixtureModel.getHomeScore()) > 9 && Integer.parseInt(mFixtureModel.getAwayScore())<10) {
-            team2_score.setText(""+mFixtureModel.getAwayScore());
+        if (Integer.parseInt(mFixtureModel.getHomeScore()) > 9 && Integer.parseInt(mFixtureModel.getAwayScore()) < 10) {
+            team2_score.setText("" + mFixtureModel.getAwayScore());
             team2_score.setGravity(View.FOCUS_RIGHT);
-        }
-        else if(Integer.parseInt(mFixtureModel.getHomeScore()) < 10 && Integer.parseInt(mFixtureModel.getAwayScore()) > 9) {
+        } else if (Integer.parseInt(mFixtureModel.getHomeScore()) < 10 && Integer.parseInt(mFixtureModel.getAwayScore()) > 9) {
             team1_score.setText(mFixtureModel.getHomeScore());
             team1_score.setGravity(View.FOCUS_RIGHT);
-        }
-        else {
+        } else {
             team1_score.setText(mFixtureModel.getHomeScore() + "");
             team2_score.setText(mFixtureModel.getAwayScore() + "");
         }
@@ -331,6 +329,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected void onFullLeagueTableClicked() {
         Intent mFullLeagueTableIntent = new Intent(mContext, FullLeageTableActivity.class);
         mFullLeagueTableIntent.putExtra(AppConstants.ARG_FULL_LEAGUE_TABLE_DETAIL, new ArrayList<LeagueModel>(Arrays.asList(mLeagueModelData)));
+        mFullLeagueTableIntent.putExtra(AppConstants.ARG_GROUP_NAME, mGroupModel.getName());
         startActivity(mFullLeagueTableIntent);
     }
 }

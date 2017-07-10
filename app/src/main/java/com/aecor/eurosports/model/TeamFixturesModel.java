@@ -8,6 +8,7 @@ import android.os.Parcelable;
  */
 
 public class TeamFixturesModel implements Parcelable {
+
     private String fid;
     private String match_number;
     private String round;
@@ -17,6 +18,14 @@ public class TeamFixturesModel implements Parcelable {
     private String match_endtime;
     private String venueId;
     private String competitionId;
+    private String venueCoordinates;
+    private String pitchType;
+    private String venueaddress;
+    private String venueState;
+    private String venueCounty;
+    private String venueCity;
+    private String venueCountry;
+    private String venuePostcode;
     private String group_name;
     private String venue_name;
     private String pitch_number;
@@ -31,7 +40,8 @@ public class TeamFixturesModel implements Parcelable {
     private String HomeFlagLogo;
     private String AwayFlagLogo;
     private String HomeCountryFlag;
-    private String AwayCountryFlag;
+    private String HomeCountryName;
+    private String AwayCountryName;
     private String homeScore;
     private String AwayScore;
     private String pitchId;
@@ -42,6 +52,7 @@ public class TeamFixturesModel implements Parcelable {
     private String halftime_break_FM;
     private String match_interval_RR;
     private String match_interval_FM;
+    private String tid;
     private String full_game;
 
     protected TeamFixturesModel(Parcel in) {
@@ -54,6 +65,14 @@ public class TeamFixturesModel implements Parcelable {
         match_endtime = in.readString();
         venueId = in.readString();
         competitionId = in.readString();
+        venueCoordinates = in.readString();
+        pitchType = in.readString();
+        venueaddress = in.readString();
+        venueState = in.readString();
+        venueCounty = in.readString();
+        venueCity = in.readString();
+        venueCountry = in.readString();
+        venuePostcode = in.readString();
         group_name = in.readString();
         venue_name = in.readString();
         pitch_number = in.readString();
@@ -68,7 +87,8 @@ public class TeamFixturesModel implements Parcelable {
         HomeFlagLogo = in.readString();
         AwayFlagLogo = in.readString();
         HomeCountryFlag = in.readString();
-        AwayCountryFlag = in.readString();
+        HomeCountryName = in.readString();
+        AwayCountryName = in.readString();
         homeScore = in.readString();
         AwayScore = in.readString();
         pitchId = in.readString();
@@ -79,6 +99,7 @@ public class TeamFixturesModel implements Parcelable {
         halftime_break_FM = in.readString();
         match_interval_RR = in.readString();
         match_interval_FM = in.readString();
+        tid = in.readString();
         full_game = in.readString();
     }
 
@@ -164,6 +185,70 @@ public class TeamFixturesModel implements Parcelable {
 
     public void setCompetitionId(String competitionId) {
         this.competitionId = competitionId;
+    }
+
+    public String getVenueCoordinates() {
+        return venueCoordinates;
+    }
+
+    public void setVenueCoordinates(String venueCoordinates) {
+        this.venueCoordinates = venueCoordinates;
+    }
+
+    public String getPitchType() {
+        return pitchType;
+    }
+
+    public void setPitchType(String pitchType) {
+        this.pitchType = pitchType;
+    }
+
+    public String getVenueaddress() {
+        return venueaddress;
+    }
+
+    public void setVenueaddress(String venueaddress) {
+        this.venueaddress = venueaddress;
+    }
+
+    public String getVenueState() {
+        return venueState;
+    }
+
+    public void setVenueState(String venueState) {
+        this.venueState = venueState;
+    }
+
+    public String getVenueCounty() {
+        return venueCounty;
+    }
+
+    public void setVenueCounty(String venueCounty) {
+        this.venueCounty = venueCounty;
+    }
+
+    public String getVenueCity() {
+        return venueCity;
+    }
+
+    public void setVenueCity(String venueCity) {
+        this.venueCity = venueCity;
+    }
+
+    public String getVenueCountry() {
+        return venueCountry;
+    }
+
+    public void setVenueCountry(String venueCountry) {
+        this.venueCountry = venueCountry;
+    }
+
+    public String getVenuePostcode() {
+        return venuePostcode;
+    }
+
+    public void setVenuePostcode(String venuePostcode) {
+        this.venuePostcode = venuePostcode;
     }
 
     public String getGroup_name() {
@@ -278,12 +363,20 @@ public class TeamFixturesModel implements Parcelable {
         HomeCountryFlag = homeCountryFlag;
     }
 
-    public String getAwayCountryFlag() {
-        return AwayCountryFlag;
+    public String getHomeCountryName() {
+        return HomeCountryName;
     }
 
-    public void setAwayCountryFlag(String awayCountryFlag) {
-        AwayCountryFlag = awayCountryFlag;
+    public void setHomeCountryName(String homeCountryName) {
+        HomeCountryName = homeCountryName;
+    }
+
+    public String getAwayCountryName() {
+        return AwayCountryName;
+    }
+
+    public void setAwayCountryName(String awayCountryName) {
+        AwayCountryName = awayCountryName;
     }
 
     public String getHomeScore() {
@@ -366,6 +459,14 @@ public class TeamFixturesModel implements Parcelable {
         this.match_interval_FM = match_interval_FM;
     }
 
+    public String getTid() {
+        return tid;
+    }
+
+    public void setTid(String tid) {
+        this.tid = tid;
+    }
+
     public String getFull_game() {
         return full_game;
     }
@@ -390,6 +491,14 @@ public class TeamFixturesModel implements Parcelable {
         dest.writeString(match_endtime);
         dest.writeString(venueId);
         dest.writeString(competitionId);
+        dest.writeString(venueCoordinates);
+        dest.writeString(pitchType);
+        dest.writeString(venueaddress);
+        dest.writeString(venueState);
+        dest.writeString(venueCounty);
+        dest.writeString(venueCity);
+        dest.writeString(venueCountry);
+        dest.writeString(venuePostcode);
         dest.writeString(group_name);
         dest.writeString(venue_name);
         dest.writeString(pitch_number);
@@ -404,7 +513,8 @@ public class TeamFixturesModel implements Parcelable {
         dest.writeString(HomeFlagLogo);
         dest.writeString(AwayFlagLogo);
         dest.writeString(HomeCountryFlag);
-        dest.writeString(AwayCountryFlag);
+        dest.writeString(HomeCountryName);
+        dest.writeString(AwayCountryName);
         dest.writeString(homeScore);
         dest.writeString(AwayScore);
         dest.writeString(pitchId);
@@ -415,6 +525,7 @@ public class TeamFixturesModel implements Parcelable {
         dest.writeString(halftime_break_FM);
         dest.writeString(match_interval_RR);
         dest.writeString(match_interval_FM);
+        dest.writeString(tid);
         dest.writeString(full_game);
     }
 }

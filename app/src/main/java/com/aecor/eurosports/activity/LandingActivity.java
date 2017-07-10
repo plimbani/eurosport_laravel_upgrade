@@ -34,10 +34,12 @@ public class LandingActivity extends BaseActivity {
     @OnClick(R.id.signin)
     protected void signin() {
         startActivity(new Intent(mContext, SignInActivity.class));
+        finish();
     }
 
     @OnClick(R.id.register)
     protected void register() {
         startActivity(new Intent(mContext, RegisterActivity.class));
+        finish();
     }
 }
