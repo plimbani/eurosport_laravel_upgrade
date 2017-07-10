@@ -108,7 +108,7 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> im
                 results.count = mClubList.size();
             } else {
                 // We perform filtering operation
-                List<ClubModel> mClubList = new ArrayList<ClubModel>();
+                List<ClubModel> mClubList = new ArrayList<>();
                 for (ClubModel p : mOriginalList) {
                     if (p.getClubName().toUpperCase().contains(constraint.toString().toUpperCase()))
                         mClubList.add(p);

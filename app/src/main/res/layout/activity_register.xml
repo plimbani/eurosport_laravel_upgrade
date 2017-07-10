@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:layout_weight="1"
-        android:src="@drawable/logo_part_3" />
+        android:src="@drawable/splash_screen_image" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,60 +24,55 @@
         android:fillViewport="true"
         android:isScrollContainer="false">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/firstname"
+                style="@style/app_edittext"
+                android:layout_width="match_parent"
+                android:hint="@string/firstname"
+                android:inputType="textCapWords" />
+
+            <EditText
+                android:id="@+id/surname"
+                style="@style/app_edittext"
+                android:layout_marginTop="10dp"
+                android:hint="@string/surname"
+                android:inputType="textCapWords" />
+
+            <EditText
+                android:id="@+id/register_email_address"
+                style="@style/app_edittext"
+                android:layout_marginTop="10dp"
+                android:hint="@string/email_address"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/register_password"
+                style="@style/app_edittext"
+                android:layout_marginTop="10dp"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/register_confirm_password"
+                style="@style/app_edittext"
+                android:layout_marginTop="10dp"
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword" />
+
+            <Spinner
+                android:id="@+id/sp_tournament"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/firstname"
-                    style="@style/app_edittext"
-                    android:layout_width="match_parent"
-                    android:hint="@string/firstname"
-                    android:inputType="textCapWords" />
-
-                <EditText
-                    android:id="@+id/surname"
-                    style="@style/app_edittext"
-                    android:layout_marginTop="10dp"
-                    android:hint="@string/surname"
-                    android:inputType="textCapWords" />
-
-                <EditText
-                    android:id="@+id/register_email_address"
-                    style="@style/app_edittext"
-                    android:layout_marginTop="10dp"
-                    android:hint="@string/email_address"
-                    android:inputType="textEmailAddress" />
-
-                <EditText
-                    android:id="@+id/register_password"
-                    style="@style/app_edittext"
-                    android:layout_marginTop="10dp"
-                    android:hint="@string/password"
-                    android:inputType="textPassword" />
-
-                <EditText
-                    android:id="@+id/register_confirm_password"
-                    style="@style/app_edittext"
-                    android:layout_marginTop="10dp"
-                    android:hint="@string/confirm_password"
-                    android:inputType="textPassword" />
-
-                <Spinner
-                    android:id="@+id/sp_tournament"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/spinner_bg_image"
-                    android:drawSelectorOnTop="true"
-                    android:prompt="@string/select_tournament" />
-            </LinearLayout>
+                android:layout_marginTop="10dp"
+                android:background="@drawable/spinner_bg_image"
+                android:drawSelectorOnTop="true"
+                android:prompt="@string/select_tournament" />
         </LinearLayout>
     </ScrollView>
 

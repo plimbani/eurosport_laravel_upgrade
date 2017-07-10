@@ -5,15 +5,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.TeamFixturesModel;
 import com.aecor.eurosports.util.AppConstants;
-import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.Utility;
-
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -32,6 +31,10 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
     protected TextView tv_address;
     @BindView(R.id.tv_playing_surface)
     protected TextView tv_playing_surface;
+    @BindView(R.id.ll_view_on_map)
+    protected LinearLayout ll_view_on_map;
+    @BindView(R.id.view_seperator)
+    protected View view_seperator;
 
     @OnClick(R.id.ll_view_on_map)
     protected void onViewOnMapClicked() {
@@ -64,8 +67,18 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         showBackButton(getString(R.string.venue));
-        tv_pitch_name.setText(mTeamFixturesModel.getVenue_name());
-        tv_playing_surface.setText(mTeamFixturesModel.getPitchType());
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenue_name())) {
+            tv_pitch_name.setText(mTeamFixturesModel.getVenue_name());
+        } else {
+            tv_pitch_name.setText("NA");
+        }
+
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getPitchType())) {
+            tv_playing_surface.setText(mTeamFixturesModel.getPitchType());
+        } else {
+            tv_playing_surface.setText("NA");
+        }
+
         String address = "";
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenueaddress())) {
             address = mTeamFixturesModel.getVenueaddress();
@@ -82,7 +95,19 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenuePostcode())) {
             address = address + ", " + mTeamFixturesModel.getVenuePostcode();
         }
-        tv_address.setText(address);
+        if (!Utility.isNullOrEmpty(address)) {
+            tv_address.setText(address);
+        } else {
+            tv_address.setText("NA");
+        }
+
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenueCoordinates())) {
+            ll_view_on_map.setVisibility(View.VISIBLE);
+            view_seperator.setVisibility(View.VISIBLE);
+        } else {
+            ll_view_on_map.setVisibility(View.GONE);
+            view_seperator.setVisibility(View.GONE);
+        }
     }
 
 

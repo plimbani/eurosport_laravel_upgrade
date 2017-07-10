@@ -1,19 +1,14 @@
 package com.aecor.eurosports.activity;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,7 +20,6 @@ import android.widget.Spinner;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
-import com.aecor.eurosports.application.ApplicationClass;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
@@ -52,7 +46,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -216,7 +209,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     }
 
     private void setLanguageSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, R.layout.row_spinner_item, R.id.tv_spinner, getResources().getStringArray(R.array.language_selection));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.row_spinner_item, R.id.tv_spinner, getResources().getStringArray(R.array.language_selection));
         profile_language_selection.setAdapter(adapter);
 
         if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.LANGUAGE_POSITION)))
@@ -374,31 +367,21 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     }
 
     private boolean validate() {
-        boolean valid = false;
         String fname = input_first_name.getText().toString().trim();
         String sname = input_last_name.getText().toString().trim();
         String pass = input_password.getText().toString().trim();
 
         if (Utility.isNullOrEmpty(fname)) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+            return false;
         }
 
         if (Utility.isNullOrEmpty(sname)) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+            return false;
         }
         if (!Utility.isNullOrEmpty(pass) && pass.length() < 5) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+            return false;
         }
-        return valid;
+        return true;
     }
 
     private void checkValidation() {

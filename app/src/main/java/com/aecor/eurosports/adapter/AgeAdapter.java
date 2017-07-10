@@ -118,7 +118,7 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
                 results.count = mAgeCategoriesList.size();
             } else {
                 // We perform filtering operation
-                List<AgeCategoriesModel> nAgeList = new ArrayList<AgeCategoriesModel>();
+                List<AgeCategoriesModel> nAgeList = new ArrayList<>();
                 for (AgeCategoriesModel p : mOriginalList) {
                     if (p.getCategory_age().toUpperCase().contains(constraint.toString().toUpperCase()) || p.getGroup_name().toUpperCase().contains(constraint.toString().toUpperCase()))
                         nAgeList.add(p);
@@ -131,13 +131,9 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            // Now we have to inform the adapter about the new list filtered
-//            if (results.count == 0) {
-//                notifyDataSetInvalidated();
-//            } else {
             mAgeCategoriesList = (List<AgeCategoriesModel>) results.values;
             notifyDataSetChanged();
-//            }
+ 
         }
     }
 }

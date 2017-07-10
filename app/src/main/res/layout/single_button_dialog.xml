@@ -23,8 +23,7 @@
         <TextView
             android:id="@+id/tv_message"
             style="@style/text_black_sub_title"
-            android:layout_margin="@dimen/layout_margin"
-            android:text="hello MAee" />
+            android:layout_margin="@dimen/layout_margin" />
 
         <Button
             android:id="@+id/tv_positive_button"
@@ -33,7 +32,6 @@
             android:layout_margin="20dp"
             android:layout_weight="1"
             android:background="@drawable/btn_yellow"
-            android:text="Continue"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="20sp" />

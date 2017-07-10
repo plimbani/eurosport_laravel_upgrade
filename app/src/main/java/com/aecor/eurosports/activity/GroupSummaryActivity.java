@@ -63,6 +63,10 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected TextView tv_group_table_title;
     @BindView(R.id.tv_view_full_league_table)
     protected TextView tv_view_full_league_table;
+    @BindView(R.id.ll_match_header)
+    protected LinearLayout ll_match_header;
+    @BindView(R.id.ll_group_header)
+    protected LinearLayout ll_group_header;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,7 +124,8 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
         tv_view_all_club_matches.setVisibility(View.GONE);
-
+        ll_group_header.setVisibility(View.GONE);
+        ll_match_header.setVisibility(View.GONE);
         getGroupStanding();
         getTeamFixtures();
         showBackButton(getString(R.string.group_summary));
@@ -161,9 +166,10 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 TeamFixturesModel mTeamFixtureData[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamFixturesModel[].class);
+                                ll_match_header.setVisibility(View.VISIBLE);
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
-                                    for (int i = 0; i < mTeamFixtureData.length; i++) {
-                                        addMatchesRow(mTeamFixtureData[i]);
+                                    for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
+                                        addMatchesRow(aMTeamFixtureData);
                                     }
                                 } else {
                                     addNoItemTeamFixtureView();
@@ -222,10 +228,12 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 mLeagueModelData = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), LeagueModel[].class);
+                                ll_group_header.setVisibility(View.VISIBLE);
                                 if (mLeagueModelData != null && mLeagueModelData.length > 0) {
-                                    for (int i = 0; i < mLeagueModelData.length; i++) {
-                                        addGroupLeagueRow(mLeagueModelData[i]);
+                                    for (LeagueModel aMLeagueModelData : mLeagueModelData) {
+                                        addGroupLeagueRow(aMLeagueModelData);
                                     }
+                                    tv_view_full_league_table.setVisibility(View.VISIBLE);
                                 } else {
                                     addNoItemGroupLeagueView();
                                 }
@@ -318,7 +326,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     @OnClick(R.id.tv_view_full_league_table)
     protected void onFullLeagueTableClicked() {
         Intent mFullLeagueTableIntent = new Intent(mContext, FullLeageTableActivity.class);
-        mFullLeagueTableIntent.putExtra(AppConstants.ARG_FULL_LEAGUE_TABLE_DETAIL, new ArrayList<LeagueModel>(Arrays.asList(mLeagueModelData)));
+        mFullLeagueTableIntent.putExtra(AppConstants.ARG_FULL_LEAGUE_TABLE_DETAIL, new ArrayList<>(Arrays.asList(mLeagueModelData)));
         mFullLeagueTableIntent.putExtra(AppConstants.ARG_GROUP_NAME, mGroupModel.getName());
         startActivity(mFullLeagueTableIntent);
     }

@@ -18,7 +18,6 @@ import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.Utility;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -110,32 +109,22 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
     }
 
     public boolean validate() {
-        boolean valid = false;
 
         String emailOrPhone = et_email.getText().toString();
         String otpText = et_otp.getText().toString();
         String updatedPassword = et_password.getText().toString();
 
         if (Utility.isNullOrEmpty(emailOrPhone) || !Utility.isValidEmail(emailOrPhone)) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+            return false;
         }
         if (Utility.isNullOrEmpty(otpText)) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+            return false;
         }
         if (Utility.isNullOrEmpty(updatedPassword)) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+            return false;
         }
 
-        return valid;
+        return true;
     }
 
     private void resetUserPassword() {

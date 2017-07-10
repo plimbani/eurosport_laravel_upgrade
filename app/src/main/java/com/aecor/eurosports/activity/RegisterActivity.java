@@ -219,7 +219,6 @@ public class RegisterActivity extends BaseActivity {
     }
 
     public boolean validate() {
-        boolean valid = false;
 
         String emailOrPhone = email.getText().toString().trim();
         String password = register_password.getText().toString().trim();
@@ -228,41 +227,26 @@ public class RegisterActivity extends BaseActivity {
         String surname = sname.getText().toString().trim();
 
         if (firstname.isEmpty()) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+             return false;
         }
 
         if (surname.isEmpty()) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+             return false;
         }
 
         if (emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone)) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+             return false;
         }
 
         if (password.isEmpty() || password.length() < 5) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+             return false;
         }
 
         if (confirmPassword.isEmpty() || !confirmPassword.equals(password)) {
-            valid = false;
-            return valid;
-        } else {
-            valid = true;
+             return false;
         }
 
-        return valid;
+        return true;
     }
 
     private boolean validate_spinner() {

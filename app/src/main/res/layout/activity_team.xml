@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/white"
+
     android:orientation="vertical">
 
 
@@ -17,22 +18,22 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/layout_border"
                 android:orientation="vertical"
                 android:padding="20dp">
@@ -40,7 +41,6 @@
                 <TextView
                     android:id="@+id/tv_team_name"
                     style="@style/text_black_title"
-                    android:text="@string/team_name"
                     android:layout_gravity="center"
                     android:textStyle="bold" />
 
@@ -55,25 +55,23 @@
                         android:id="@+id/iv_team_flag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/germany" />
+                        android:layout_margin="10dp" />
 
                     <TextView
                         android:id="@+id/tv_countryName"
                         style="@style/text_black_sub_title"
                         android:layout_width="wrap_content"
-                        android:text="croatia"
                         android:textStyle="bold" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_team_member_desc"
                     style="@style/text_black_sub_title"
-                    android:layout_gravity="center"
-                    android:text="Boys under 11, Group 26" />
+                    android:layout_gravity="center" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_group_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/view_line"
@@ -83,12 +81,11 @@
                 <TextView
                     android:id="@+id/tv_group_table_title"
                     style="@style/text_black_sub_title"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_marginLeft="8dp"
-                    android:paddingRight="10dp"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="@string/group_26_league_table"
+                    android:paddingRight="10dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -130,14 +127,15 @@
                 style="@style/text_black_sub_title"
                 android:layout_marginLeft="8dp"
                 android:drawableRight="@drawable/green_right_arrow"
-                android:layout_marginRight="15dp"
                 android:gravity="left"
                 android:padding="15dp"
                 android:text="@string/view_league_table"
                 android:textColor="@color/green"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <LinearLayout
+                android:id="@+id/ll_match_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/view_line"
@@ -163,13 +161,13 @@
                 android:id="@+id/tv_view_all_club_matches"
                 style="@style/text_black_sub_title"
                 android:layout_marginLeft="8dp"
-                android:layout_marginRight="15dp"
                 android:drawableRight="@drawable/green_right_arrow"
                 android:gravity="left"
                 android:padding="15dp"
                 android:text="@string/view_club_match"
                 android:textColor="@color/green"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 
@@ -177,7 +175,6 @@
         android:id="@+id/home_footer"
         layout="@layout/layout_footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

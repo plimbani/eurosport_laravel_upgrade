@@ -22,8 +22,7 @@
         <TextView
             android:id="@+id/tv_message"
             style="@style/text_black_sub_title"
-            android:layout_margin="@dimen/layout_margin"
-            android:text="Message" />
+            android:layout_margin="@dimen/layout_margin" />
 
 
         <LinearLayout
@@ -42,7 +41,6 @@
                 android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_disable"
-                android:text="Back"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -55,7 +53,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_yellow"
-                android:text="Continue"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="20sp" />

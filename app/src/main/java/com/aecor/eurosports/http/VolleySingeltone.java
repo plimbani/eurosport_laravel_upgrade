@@ -1,16 +1,9 @@
 package com.aecor.eurosports.http;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.support.v4.util.LruCache;
 
-import com.android.volley.Cache;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by system-local on 07-06-2016.
