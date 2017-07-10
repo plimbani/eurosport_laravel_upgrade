@@ -306,7 +306,7 @@ public class Utility {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d = df.parse(dateTime);
-        df = new SimpleDateFormat("dd MMMM | HH:mm");
+        df = new SimpleDateFormat("dd MMMM   |   HH:mm");
         return df.format(d);
     }
 
@@ -347,5 +347,4 @@ public class Utility {
 
         return context;
     }
-
 }

@@ -98,7 +98,7 @@ public class HomeActivity extends BaseAppCompactActivity {
                     tournamentPosition = position;
                     AppLogger.LogE(TAG, "Tournament Position -> " + tournamentPosition);
                     mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
-                    tv_tournamentName.setText(mTournamentList.get(position).getName());
+                    tv_tournamentName.setText(mTournamentList.get(position).getName().replace(" ","\n"));
                 }
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournamentLogo())) {
                     Glide.with(mContext)
@@ -196,19 +196,19 @@ public class HomeActivity extends BaseAppCompactActivity {
 
             if (days > 0) {
                 mProgressDays.setText(days + "");
-                mProgressDays.setProgress(days);
+                mProgressDays.setProgress(30-days);
             }
             if (minutes > 0) {
                 mProgressMinutes.setText(minutes + "");
-                mProgressMinutes.setProgress(minutes);
+                mProgressMinutes.setProgress(60-minutes);
             }
             if (hours > 0) {
                 mProgressHours.setText(hours + "");
-                mProgressHours.setProgress(hours);
+                mProgressHours.setProgress(24-hours);
             }
             if (seconds > 0) {
                 mProgresSeconds.setText(seconds + "");
-                mProgresSeconds.setProgress(seconds);
+                mProgresSeconds.setProgress(60-seconds);
             }
 
         } catch (Exception e) {
