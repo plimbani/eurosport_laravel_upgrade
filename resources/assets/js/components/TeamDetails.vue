@@ -24,13 +24,14 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						 <component :is="teamView" :matchData="matchData"></component>
+						 <component :is="teamView"
+             :matchData="matchData"></component>
 					</div>
 				</div>
 						         	 <!--<matchList :matchData="matchData"></matchList>-->
 			</div>
-		</div>		
-	</div>	
+		</div>
+	</div>
 </template>
 <script type="text/babel">
 import MatchList from './MatchList.vue'
@@ -43,6 +44,7 @@ export default {
 		}
 	},
 	mounted() {
+
 		$(document).ready(function() {
 	 		 $(document).on('click', '.js-pitch-team-bt', function(e){
                 $(".js-pitch-team-bt").removeClass('btn-primary').addClass('btn-secondary');

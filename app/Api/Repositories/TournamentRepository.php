@@ -12,18 +12,40 @@ use Laraspace\Models\Pitch;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Team;
 use Laraspace\Models\Referee;
+use Laraspace\Models\UserFavourites;
 use Carbon\Carbon;
 
 class TournamentRepository
 {
+    public function __construct()
+    {
+      $this->tournamentLogo = $url = getenv('S3_URL').'/assets/img/tournament_logo/';
+    }
     public function getTournamentsByStatus($tournamentData)
     {
        $status = $tournamentData['status'];
        return Tournament::where('status',$status)->get();
     }
-    public function getAll()
+    public function getAll($status='')
     {
-        return Tournament::get();
+      if($status == '') {
+          $data = Tournament::
+                  select('tournaments.*',
+                  \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
+                    ->get();
+      } else {
+        $data = Tournament::where('status','=','Published')
+                ->select('tournaments.*',
+                  \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
+                  ->get();
+      }
+        return $data;
+        /*if($status == '') {
+          return Tournament::get();
+        }
+        else{
+          return Tournament::where('status','=','Published')->get();
+        }*/
     }
     public function getTemplate($tournamentTemplateId) {
 
@@ -130,8 +152,9 @@ class TournamentRepository
 
         $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'],
           'tournamentEndDate' => $data['end_date'],
+
           'tournamentStatus'=> 'UnPublished',
-          'tournamentLogo'=>$data['image_logo'],
+          'tournamentLogo'=>$this->tournamentLogo.$data['image_logo'],
           'tournamentDays'=> ($tournamentDays) ? $tournamentDays : '2',
           'facebook' => $data['facebook'],
           'twitter' => $data['twitter'],
@@ -180,7 +203,7 @@ class TournamentRepository
         return Tournament::find($id)->delete();
     }
     public function tournamentSummary($tournamentId) {
-
+        $isMobileUsers = \Request::header('IsMobileUser');
         // here we put validation for tournament id is exist
         $summaryData = array();
 
@@ -217,13 +240,44 @@ class TournamentRepository
 
          $summaryData['tournament_groups']= implode(' , ',array_unique($tempData['category_age']));
      	}
+       // TODO: Add Some Code For Mobile Data
 
-       $tournamentPitch = Pitch::where('tournament_id', $tournamentId)->get();
+       if( $isMobileUsers != '') {
+
+        $tournamentPitches =  Pitch::with('pitchAvailability')->where('tournament_id',$tournamentId)->get();
+        $stage_start_time = array();
+        foreach($tournamentPitches as $tournamentPitch) {
+          if($tournamentPitch->pitchAvailability) {
+            foreach($tournamentPitch->pitchAvailability as $pitchAvailibility)
+            {
+              if($pitchAvailibility->stage_no == 1) {
+                $stage_start_time[]= $pitchAvailibility->stage_start_time;
+                break;
+              }
+            }
+          }
+        }
+        // Get minimum Value and Set it
+        $summaryData['tournament_start_time'] = min($stage_start_time);
+        $summaryData['tournament_pitches'] = count($tournamentPitches);
+        unset($stage_start_time);
+         $peopleData = TournamentContact::with('tournaments')->where('tournament_id',$tournamentId)->get();
+         if(count($peopleData) > 0) {
+            $summaryData['tournament_contact'] = $peopleData[0];
+         }
+
+       } else {
+         $tournamentPitch = Pitch::where('tournament_id', $tournamentId)->get();
+         $summaryData['tournament_pitches'] = count($tournamentPitch);
+         $peopleData = TournamentContact::where('tournament_id',$tournamentId)->get();
+         if(count($peopleData) > 0) {
+            $summaryData['tournament_contact'] = $peopleData[0];
+         }
+       }
+
 
        $summaryData['tournament_age_categories'] = count($tournamentCompetaionTemplateData);
 
-
-         $summaryData['tournament_pitches'] = count($tournamentPitch);
          // TODO: Referee is Added
          $refereeCount = Referee::where(['tournament_id' => $tournamentId])->count();
          $summaryData['tournament_referees'] = $refereeCount;
@@ -244,15 +298,6 @@ class TournamentRepository
 
             $summaryData['tournament_countries'] = implode(' , ',array_unique($tempData['tournament_countries']));
           }
-
-
-         $peopleData = TournamentContact::where('tournament_id',$tournamentId)->get();
-
-         // means they have Data
-         if(count($peopleData) > 0) {
-            $summaryData['tournament_contact'] = $peopleData[0];
-            //$summaryData['tournament_contact'] = $peopleData[0]['first_name'].','.$peopleData[0]['last_name'];
-         }
 
 	       //$locationData = Venue::find();
        return $summaryData;
@@ -335,9 +380,53 @@ class TournamentRepository
       return $resultData;
     }
 
-    public function getAllCategory($tournamentId) 
+    public function getAllCategory($tournamentId)
     {
       // dd($data);
         return TournamentCompetationTemplates::where('tournament_id',$tournamentId)->select('id','group_name','category_age')->get();
+    }
+    public function getUserDefaultLoginTournament($data)
+    {
+
+      $userData = UserFavourites::where('users_favourite.user_id','=',$data['user_id'])
+              ->where('users_favourite.is_default','=','1')
+              ->leftJoin('tournaments','tournaments.id','=','users_favourite.tournament_id')
+              ->select('tournaments.*','users_favourite.*',
+                 \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
+              ->get()
+              ->first();
+      if(count($userData) > 0) {
+        return $userData;
+      }
+    }
+     public function getUserLoginFavouriteTournament($data)
+    {
+      //$url = getenv('S3_URL').'/assets/img/tournament_logo/';
+      $userData = UserFavourites::where('users_favourite.user_id','=',$data['user_id'])
+              ->leftJoin('tournaments','tournaments.id','=','users_favourite.tournament_id')
+              ->select('tournaments.*',
+                'users_favourite.*',
+                \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
+              ->get();
+      if(count($userData) > 0) {
+        return $userData;
+      } else {
+        return array();
+      }
+    }
+    public function getTournamentClub($data)
+    {
+      // Find teams for that tournament and clubs for that teams
+
+      $url = getenv('S3_URL');
+      $clubData = Team::where('teams.tournament_id','=',$data['tournament_id'])
+                  ->leftJoin('clubs','clubs.id','=','teams.club_id')
+                  ->leftjoin('countries','countries.id','=','teams.country_id')
+                  ->select('clubs.id as ClubId','clubs.name as clubName','countries.id as countryId',
+                  \DB::raw('CONCAT("'.$url.'", countries.logo ) AS CountryLogo')
+                    )
+                  ->groupBy('clubs.id','countries.id')
+                   ->get();
+      return (count($clubData) > 0) ? $clubData : 0;
     }
 }

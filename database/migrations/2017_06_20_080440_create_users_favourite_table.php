@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSettingsTable extends Migration
+class CreateUsersFavouriteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +13,15 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('users_favourite', function (Blueprint $table) {
             $table->increments('id');
-
+            $table->integer('tournament_id')->unsigned()->index();
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users');
-
-            $table->string('option',50)->nullable();
-            $table->text('value');
-
-            $table->timestamps();
+            $table->tinyInteger('is_default')->nullable();
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -33,6 +32,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('settings');
+        Schema::dropIfExists('users_favourite');
     }
 }

@@ -30,6 +30,8 @@ $api = app('Dingo\Api\Routing\Router');
 
 
 $api->version('v1', function ($api) {
+    $locale = \Request::header('locale');
+
     // TODO: Move Method from web to api for Mobile App
     $api->post('password/email', '\Laraspace\Http\Controllers\Auth\ForgotPasswordController@resetlink');
 
@@ -158,6 +160,18 @@ $api->version('v1', function ($api) {
 
     $api->get('tournament/report/generate', 'Laraspace\Api\Controllers\TournamentController@generateReport');
 
+    // Some specefi Api for Mobile Users
+    $api->post('users/setFavourite','Laraspace\Api\Controllers\UserController@setFavourite');
+    $api->post('users/removeFavourite','Laraspace\Api\Controllers\UserController@removeFavourite');
+    $api->post('users/setDefaultFavourite','Laraspace\Api\Controllers\UserController@setDefaultFavourite');
+    $api->post('users/getLoginUserDefaultTournament','Laraspace\Api\Controllers\TournamentController@getUserLoginDefaultTournament');
+     $api->post('users/getLoginUserFavouriteTournament','Laraspace\Api\Controllers\TournamentController@getUserLoginFavouriteTournament');
+    $api->post('tournaments/getTournamentClub','Laraspace\Api\Controllers\TournamentController@getTournamentClub');
+
+    $api->post('teams/getTeamsList','Laraspace\Api\Controllers\TeamController@getTeamsList');
+    $api->post('users/postSetting','Laraspace\Api\Controllers\UserController@postSetting');
+    $api->post('users/getSetting','Laraspace\Api\Controllers\UserController@getSetting');
+    $api->post('users/updateProfileImage','Laraspace\Api\Controllers\UserController@setUserImage');
 });
 
 

@@ -29,7 +29,13 @@ class TournamentService implements TournamentContract
     public function index()
     {
         // Here we send Status Code and Messages
-        $data = $this->tournamentRepoObj->getAll();
+        $isMobileUsers = \Request::header('IsMobileUser');
+        if( $isMobileUsers != '') {
+          $data = $this->tournamentRepoObj->getAll('published');
+        }
+        else {
+          $data = $this->tournamentRepoObj->getAll();
+        }
 
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
@@ -54,8 +60,6 @@ class TournamentService implements TournamentContract
         } else {
           return ['status_code' => '505', 'message' => 'No Data Found'];;
         }
-
-
     }
     /*
      * Get All Tournaments By Status
@@ -234,7 +238,9 @@ class TournamentService implements TournamentContract
         // here first we save the tournament related Data
         // here we have to precprocess the image
         // Save the image
-        $data['tournamentData']['image_logo']=$this->saveTournamentLogo($data);
+        $id = ($data['tournamentData']['tournamentId'] !=0 || $data['tournamentData']['tournamentId'] !=0) ? $data['tournamentData']['tournamentId']:'';
+
+        $data['tournamentData']['image_logo']=$this->saveTournamentLogo($data,$id);
 
         //\File::put($path , $imgData);
         //print_r($imgData);
@@ -248,16 +254,21 @@ class TournamentService implements TournamentContract
              'data'=>$resultData];
         }
     }
-    private function saveTournamentLogo($data)
+    private function saveTournamentLogo($data, $id='')
     {
 
 
        if($data['tournamentData']['image_logo'] != '')
        {
+            $s3 = \Storage::disk('s3');
+            $imagePath = '/assets/img/tournament_logo/';
             // here we check it for edit purpose and if image is
             // already there we will return it
-            if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/img/tournament_logo/'.$data['tournamentData']['image_logo']))
+            //if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/img/tournament_logo/'.$data['tournamentData']['image_logo']))
+            $info = $s3->has('dev-esr/'.$imagePath);
+            if(!$info)
             {
+
               // $imagename = $data['user_image'];
               //exit;
             $image_string = $data['tournamentData']['image_logo'];
@@ -271,19 +282,34 @@ class TournamentService implements TournamentContract
             }
 
             $name = $data['tournamentData']['name'];
-            $now = new \DateTime();
 
-            $timeStamp = $now->getTimestamp();
-            $path = public_path().'/assets/img/tournament_logo/'.$timeStamp.'.png';
-            file_put_contents($path, $imgData);
+            if($id == '') {
+              $now = new \DateTime();
+              $timeStamp = $now->getTimestamp();
+            } else {
+              $timeStamp = $id;
+            }
+
+            //$now = new \DateTime();
+
+            //$timeStamp = $now->getTimestamp();
+
+            $path = $imagePath.$timeStamp.'.png';
+            $s3->put($path, $imgData);
+            //file_put_contents($path, $imgData);
 
             // Resize image to 100*100
-            $img = \Image::make($path)->resize(250, 250);
+
+            // TODO: Need to add code for Resize
+            //$img = \Image::make($imgData)->resize(250, 250);
             // Save it
-            $img->save($path);
+            //$img->save($path);
+            //$s3->put($path, $img->save());
+
             return $timeStamp.'.png';
 
           } else {
+
             // if its exist then nothing have to update
             //exit;
             return $data['tournamentData']['image_logo'];
@@ -350,6 +376,7 @@ class TournamentService implements TournamentContract
         // dd($data);
         // $data=$data['data'];
          // dd($data);
+
         $reportQuery = DB::table('temp_fixtures')
             // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
             ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
@@ -362,8 +389,6 @@ class TournamentService implements TournamentContract
             ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
             ->leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
             ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
-
-            ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
             ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
             ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.last_name as referee_last_name','referee.first_name as referee_first_name',DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
@@ -375,9 +400,10 @@ class TournamentService implements TournamentContract
                 $reportQuery->where('tournament_competation_template.id',$data['sel_ageCategory']);
             }
             if(isset($data['sel_clubs'])  && $data['sel_clubs']!= ''){
-              $reportQuery->where('home_team.club_id',$data['sel_clubs'])->orWhere('away_team.club_id',$data['sel_clubs']);  
+              $reportQuery->where('home_team.club_id',$data['sel_clubs'])->orWhere('away_team.club_id',$data['sel_clubs']);
             }
             if(isset($data['start_date'])  && $data['start_date']!= '' ){
+
               $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date']);
               $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','>=',$start_date);
             }
@@ -390,14 +416,14 @@ class TournamentService implements TournamentContract
               // $start_time = Carbon::createFromFormat('hh:mm', $data['start_time']);
               $start_time = $data['start_time'];
               // print_r($start_time); exit();
-              // $start_time = '09:00';      
+              // $start_time = '09:00';
               $reportQuery = $reportQuery->whereRaw("TIME(temp_fixtures.match_datetime) >= '$start_time'");
-      
+
             }
             if(isset($data['end_time'])  && $data['end_time']!= '' ){
               $end_time = $data['end_time'];
               $reportQuery = $reportQuery->whereRaw("TIME(temp_fixtures.match_datetime) <= '$end_time'");
-            } 
+            }
 
             if(isset($data['sel_venues'])  && $data['sel_venues']!= '' ){
                 $reportQuery = $reportQuery->where('temp_fixtures.venue_id',$data['sel_venues']);
@@ -410,10 +436,12 @@ class TournamentService implements TournamentContract
                 $reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$data['sel_pitches']);
             }
             if(isset($data['sel_referees'])  && $data['sel_referees']!= '' ){
-                $reportQuery = $reportQuery->where('temp_fixtures.referee_id',$data['sel_referees']);
+
+                $reportQuery = $reportQuery->where('temp_fixtures.referee_id', '=',$data['sel_referees']);
             }
 
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
+        // echo $reportQuery->toSql();exit;
         $reportData = $reportQuery->get();
         //echo $reportQuery->toSql();exit;
          // $tournamentData = $this->tournamentRepoObj->tournamentReport($data);
@@ -457,12 +485,37 @@ class TournamentService implements TournamentContract
             return ['status_code' => '200', 'message' => self::SUCCESS_MSG];
         }
     }
-    public function getAllCategory($data) 
+    public function getAllCategory($data)
     {
         $data = $this->tournamentRepoObj->getAllCategory($data['tournamentData']);
         if ($data) {
             return ['status_code' => '200', 'data' => $data, 'message' => 'All category fetch Successfully'];
-        }  
+        }
+    }
+    public function getUserLoginDefaultTournament($data)
+    {
+      $data = $this->tournamentRepoObj->getUserDefaultLoginTournament($data);
+      if($data) {
+        return ['status_code' => '200', 'data' => $data, 'message' => 'getDefaultLoginTournamentData'];
+      }
+    }
+     public function getUserLoginFavouriteTournament($data)
+    {
+      $data = $this->tournamentRepoObj->getUserLoginFavouriteTournament($data);
+      if($data) {
+        return ['status_code' => '200', 'data' => $data,
+        'message' => 'getUserLoginFavouriteTournament'];
+      } else {
+        return ['status_code' => '200',
+        'message' => 'Data not exist'];
+      }
+    }
+    public function getTournamentClub($data)
+    {
+      $data = $this->tournamentRepoObj->getTournamentClub($data);
+      if($data) {
+        return ['status_code' => '200', 'data' => $data,'message' => 'getTournamentClubs'];
+      }
     }
 
     public function getCoordinates($resultData)
@@ -478,7 +531,7 @@ class TournamentService implements TournamentContract
         {
           $lat = $loc->getLatitude();
           $long = $loc->getLongitude();
-          
+
         }
         $coodinates['venue_coordinates'] = $lat.','.$long;
         $updateData = [

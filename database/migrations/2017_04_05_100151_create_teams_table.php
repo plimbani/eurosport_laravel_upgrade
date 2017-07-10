@@ -17,12 +17,13 @@ class CreateTeamsTable extends Migration
             $table->increments('id');
             $table->string('assigned_group')->nullable();
             $table->integer('tournament_id')->unsigned()->index();
-            $table->foreign('tournament_id')->references('id')->on('tournaments');  
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->integer('user_id')->nullable()->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('age_group_id')->nullable()->unsigned()->index();
             $table->integer('club_id')->nullable()->unsigned()->index();
             $table->foreign('club_id')->references('id')->on('clubs');
+            $table->integer('competation_id')->nullable()->unsigned()->index();
             $table->string('group_name')->nullable();
             $table->string('name')->nullable();
             $table->string('place')->nullable();

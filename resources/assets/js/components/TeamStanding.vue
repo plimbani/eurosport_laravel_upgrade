@@ -18,7 +18,8 @@
 		<td></td>
 			<td align="left">
 				<a href="" @click.prevent="changeTeam(stand.team_id, stand.name)">
-					 <img :src="stand.teamFlag" width="20">
+					 <!--<img :src="stand.teamFlag" width="20">-->
+           <span :class="'flag-icon flag-icon-'+stand.teamCountryFlag"></span>
 					<span>
 					{{stand.name}}
 					</span>

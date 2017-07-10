@@ -20,16 +20,18 @@ class MyOwnResetPassword extends Notification
     public $token;
     protected $name;
     protected $userEmail;
+    protected $userOtp;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token, $name, $userEmail)
+    public function __construct($token, $name, $userEmail,$userOtp='')
     {
         $this->token = $token;
         $this->name = $name;
         $this->userEmail = $userEmail;
+        $this->userOtp = $userOtp;
 
     }
 
@@ -57,7 +59,7 @@ class MyOwnResetPassword extends Notification
                     ->subject("Euro-Sportring Tournament Planner - Password Reset")
                     ->line('You are receiving this email because we received a password reset request for your account. Click the button below to reset your password:')
                     ->action('Reset passwsord', route('password.reset', $this->token))
-                    ->view('notifications::email',array('name'=>$this->name,'userEmail'=>$this->userEmail))
+                    ->view('notifications::email',array('name'=>$this->name,'userEmail'=>$this->userEmail,'userOTP'=>$this->userOtp))
                     ->line('Thank you for using our application!');
     }
 

@@ -18,11 +18,11 @@ use JWTAuth;
  *
  * @Author Kparikh@aecordigital.com
  */
-class MatchController extends Controller
+class MatchController extends BaseController
 {
     public function __construct(MatchContract $matchObj)
     {
-        
+
         $this->matchObj = $matchObj;
         // $this->middleware('auth');
         // $this->middleware('jwt.auth');
@@ -39,7 +39,7 @@ class MatchController extends Controller
      */
     public function getMatches()
     {
-        
+
         return $this->matchObj->getAllMatches();
     }
 
@@ -91,40 +91,40 @@ class MatchController extends Controller
     public function unscheduleMatch(Request $request) {
         return $this->matchObj->unscheduleMatch($request);
     }
-    
+
     public function getAllScheduledMatch(Request $request) {
         return $this->matchObj->getAllScheduledMatch($request);
     }
     public function getMatchDetail(Request $request)
     {
-        return $this->matchObj->getMatchDetail($request);   
+        return $this->matchObj->getMatchDetail($request);
     }
     public function removeAssignedReferee(Request $request)
     {
-        return $this->matchObj->removeAssignedReferee($request);   
+        return $this->matchObj->removeAssignedReferee($request);
     }
     public function assignReferee(Request $request)
     {
-        return $this->matchObj->assignReferee($request);   
+        return $this->matchObj->assignReferee($request);
     }
     public function saveResult(Request $request)
     {
-        return $this->matchObj->saveResult($request);   
+        return $this->matchObj->saveResult($request);
     }
     public function saveUnavailableBlock(Request $request)
     {
-        return $this->matchObj->saveUnavailableBlock($request);   
+        return $this->matchObj->saveUnavailableBlock($request);
     }
     public function getUnavailableBlock(Request $request)
     {
-        return $this->matchObj->getUnavailableBlock($request);   
+        return $this->matchObj->getUnavailableBlock($request);
     }
     public function removeBlock($blockId)
     {
-        return $this->matchObj->removeBlock($blockId);   
+        return $this->matchObj->removeBlock($blockId);
     }
     public function updateScore(Request $request)
     {
-        return $this->matchObj->updateScore($request);   
+        return $this->matchObj->updateScore($request);
     }
 }
