@@ -41,6 +41,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -172,6 +173,21 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         getTournamentList();
         setListener();
         showBackButton(getResources().getString(R.string.update_profile));
+        if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_IMAGE_URL))) {
+            AppLogger.LogE(TAG, "profile image url " + mAppPref.getString(AppConstants.PREF_IMAGE_URL));
+            Glide.with(mContext)
+                    .load(mAppPref.getString(AppConstants.PREF_IMAGE_URL))
+                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            iv_profileImage.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
+                        }
+                    });
+        }
     }
 
     private void setData() {
@@ -185,7 +201,8 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
 
             Glide.with(mContext)
                     .load(profileModel.getProfile_image_url())
-                    .asBitmap()
+                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -474,6 +491,20 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
                         AppLogger.LogE(TAG, "Upload Profile Image Response " + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                String imageUrl = response.getString("data");
+                                Glide.with(mContext)
+                                        .load(imageUrl)
+                                        .asBitmap()
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .skipMemoryCache(true)
+                                        .into(new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                                iv_profileImage.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
+                                            }
+                                        });
+
+                                mAppPref.setString(AppConstants.PREF_IMAGE_URL, imageUrl);
                                 Utility.showToast(mContext, getResources().getString(R.string.profile_image_updated_successfully));
                             }
                         }

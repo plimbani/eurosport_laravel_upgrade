@@ -26,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -109,7 +110,8 @@ public class FavouriteListAdapter extends BaseAdapter {
         if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
             Glide.with(mContext)
                     .load(rowItem.getTournamentLogo())
-                    .asBitmap()
+                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -167,10 +169,7 @@ public class FavouriteListAdapter extends BaseAdapter {
     }
 
     private boolean checkDefault(TournamentModel tournamentModal) {
-        if (tournamentModal.getId().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_TOURNAMENT_ID))) {
-            return true;
-        }
-        return false;
+        return tournamentModal.getId().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_TOURNAMENT_ID));
     }
 
     protected class ViewHolder {

@@ -29,6 +29,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
@@ -94,7 +95,8 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         tv_goalDifference.setText(goalText);
         Glide.with(mContext)
                 .load(mLeagueModel.getTeamFlag())
-                .asBitmap()
+                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -265,6 +267,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         TextView team2_score = (TextView) matchesView.findViewById(R.id.team2_score);
         TextView team1_name = (TextView) matchesView.findViewById(R.id.team1_name);
         TextView team2_name = (TextView) matchesView.findViewById(R.id.team2_name);
+
         try {
             team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime()));
         } catch (ParseException e) {
@@ -275,34 +278,21 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         team_match_id.setText(mFixtureModel.getMatch_number());
         team_age_category.setText(mFixtureModel.getGroup_name());
         team_round.setText(mFixtureModel.getRound());
-        if (Integer.parseInt(mFixtureModel.getHomeScore()) > 9 && Integer.parseInt(mFixtureModel.getAwayScore()) < 10) {
-            team2_score.setText("" + mFixtureModel.getAwayScore());
-            team2_score.setGravity(View.FOCUS_RIGHT);
-        } else if (Integer.parseInt(mFixtureModel.getHomeScore()) < 10 && Integer.parseInt(mFixtureModel.getAwayScore()) > 9) {
-            team1_score.setText(mFixtureModel.getHomeScore());
-            team1_score.setGravity(View.FOCUS_RIGHT);
-        } else {
-            team1_score.setText(mFixtureModel.getHomeScore() + "");
-            team2_score.setText(mFixtureModel.getAwayScore() + "");
-        }
+
+        team1_score.setText(mFixtureModel.getHomeScore());
+        team2_score.setText(mFixtureModel.getAwayScore());
         team1_name.setText(mFixtureModel.getHomeTeam());
         team2_name.setText(mFixtureModel.getAwayTeam());
 
         if (mFixtureModel.getHomeScore().equalsIgnoreCase(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
         } else if (Integer.parseInt(mFixtureModel.getHomeScore()) > Integer.parseInt(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         } else {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
         }
 
         matchesView.setOnClickListener(new View.OnClickListener() {

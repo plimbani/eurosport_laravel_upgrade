@@ -266,10 +266,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private boolean validate_spinner() {
-        if (tournament_id == 0)
-            return false;
-        else
-            return true;
+        return tournament_id != 0;
     }
 
     private void enabledDisableRegisterButton(boolean isEnable) {
