@@ -46,7 +46,7 @@ $api->version('v1', function ($api) {
     $api->post('team/delete/{deleteid}', 'Laraspace\Api\Controllers\TeamController@deleteTeam');
     $api->post('team/group/assign', 'Laraspace\Api\Controllers\TeamController@assignTeam');
     $api->post('team/category/assign', 'Laraspace\Api\Controllers\TeamController@assignCategory');
-
+    $api->post('team/getClubsTeams','Laraspace\Api\Controllers\TeamController@getClubTeams');
     $api->post('team/getTeamsGroup', 'Laraspace\Api\Controllers\TeamController@getAllTeamsGroup');
 
     // Method for get All TournamentTeams
