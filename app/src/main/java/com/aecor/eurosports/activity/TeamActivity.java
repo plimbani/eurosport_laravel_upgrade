@@ -8,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
@@ -59,8 +61,8 @@ public class TeamActivity extends BaseAppCompactActivity {
     protected TextView tv_view_full_league_table;
     @BindView(R.id.tv_view_all_club_matches)
     protected TextView tv_view_all_club_matches;
-    @BindView(R.id.ll_group_rows)
-    protected LinearLayout ll_group_rows;
+    @BindView(R.id.tl_group_rows)
+    protected TableLayout tl_group_rows;
     @BindView(R.id.ll_matches)
     protected LinearLayout ll_matches;
     private TeamDetailModel mTeamDetailModel;
@@ -69,8 +71,8 @@ public class TeamActivity extends BaseAppCompactActivity {
     private LeagueModel mLeagueModelData[];
     @BindView(R.id.ll_match_header)
     protected LinearLayout ll_match_header;
-    @BindView(R.id.ll_group_header)
-    protected LinearLayout ll_group_header;
+    @BindView(R.id.tr_group_header)
+    protected TableRow tr_group_header;
 
     @OnClick(R.id.tv_view_full_league_table)
     protected void onFullLeagueViewClicked() {
@@ -90,7 +92,7 @@ public class TeamActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
-        ll_group_header.setVisibility(View.GONE);
+        tr_group_header.setVisibility(View.GONE);
         ll_match_header.setVisibility(View.GONE);
         tv_team_name.setText(mTeamDetailModel.getName());
         if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryLogo())) {
@@ -151,7 +153,7 @@ public class TeamActivity extends BaseAppCompactActivity {
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 mLeagueModelData = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), LeagueModel[].class);
-                                ll_group_header.setVisibility(View.VISIBLE);
+                                tr_group_header.setVisibility(View.VISIBLE);
                                 if (mLeagueModelData != null && mLeagueModelData.length > 0) {
                                     for (LeagueModel aMLeagueModelData : mLeagueModelData) {
                                         addGroupLeagueRow(aMLeagueModelData);
@@ -226,7 +228,9 @@ public class TeamActivity extends BaseAppCompactActivity {
                         team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
                     }
                 });
-        ll_group_rows.addView(teamLeagueView);
+        tl_group_rows.addView(teamLeagueView);
+        View seperatorView = getLayoutInflater().inflate(R.layout.table_row_seperator, null);
+        tl_group_rows.addView(seperatorView);
     }
 
     private void addNoItemGroupLeagueView() {
@@ -235,7 +239,7 @@ public class TeamActivity extends BaseAppCompactActivity {
         tv_noMatchesView.setText(getString(R.string.no_league_data_available));
         tv_view_full_league_table.setVisibility(View.GONE);
 
-        ll_group_rows.addView(noMatchesView);
+        tl_group_rows.addView(noMatchesView);
     }
 
     private void addMatchesRow(final TeamFixturesModel mFixtureModel) {
