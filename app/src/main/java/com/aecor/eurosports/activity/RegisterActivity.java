@@ -271,7 +271,7 @@ public class RegisterActivity extends BaseActivity {
         list.addAll(Arrays.asList(mTournamentList));
         list.add(0, mHintModel);
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                R.layout.row_spinner_item, R.id.title, list);
+                list);
         sp_tournament.setAdapter(adapter);
     }
 

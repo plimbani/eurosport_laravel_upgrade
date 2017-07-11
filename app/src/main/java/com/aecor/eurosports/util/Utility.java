@@ -60,7 +60,7 @@ public class Utility {
 
     public static void startProgress(@NonNull Context context) {
         try {
-            mProgressHUD = ProgressHUD.show(context, "Loading", true, new DialogInterface.OnCancelListener() {
+            mProgressHUD = ProgressHUD.show(context, "Loading", new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
                     mProgressHUD.dismiss();
@@ -73,7 +73,7 @@ public class Utility {
 
     public static ProgressHUD getProgressDialog(@NonNull Context context) {
         try {
-            mProgressHUD = ProgressHUD.show(context, "Loading", true, new DialogInterface.OnCancelListener() {
+            mProgressHUD = ProgressHUD.show(context, "Loading", new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
                     mProgressHUD.dismiss();
@@ -129,10 +129,6 @@ public class Utility {
                         }
                     }
 
-                    @Override
-                    public void onNegativeButtonClicked() {
-
-                    }
                 });
             }
 

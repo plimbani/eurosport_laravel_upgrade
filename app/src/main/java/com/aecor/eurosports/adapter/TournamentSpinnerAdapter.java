@@ -29,8 +29,8 @@ public class TournamentSpinnerAdapter extends ArrayAdapter<TournamentModel> {
     private LayoutInflater inflater;
     private Context mContext;
 
-    public TournamentSpinnerAdapter(Activity context, int resouceId, int textviewId, List<TournamentModel> list) {
-        super(context, resouceId, textviewId, list);
+    public TournamentSpinnerAdapter(Activity context, List<TournamentModel> list) {
+        super(context, R.layout.row_spinner_item, R.id.title, list);
         this.mContext = context;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

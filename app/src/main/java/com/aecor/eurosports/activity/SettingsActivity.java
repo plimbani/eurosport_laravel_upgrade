@@ -88,8 +88,5 @@ public class SettingsActivity extends BaseAppCompactActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+
 }

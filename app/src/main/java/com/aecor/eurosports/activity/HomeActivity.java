@@ -284,7 +284,7 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     @OnClick(R.id.twitter)
     protected void open_twitter() {
-        Intent twitter = null;
+        Intent twitter;
         try {
             // get the Twitter app if possible
             mContext.getPackageManager().getPackageInfo("com.twitter.android", 0);
@@ -378,7 +378,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             }
         }
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                R.layout.row_spinner_item, R.id.title, list);
+                list);
         sp_tournament.setAdapter(adapter);
         sp_tournament.setSelection(tournamentPosition);
     }

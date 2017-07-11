@@ -28,7 +28,7 @@ public class ProgressHUD extends Dialog {
     }
 
     @NonNull
-    public static ProgressHUD show(@NonNull Context context, @Nullable CharSequence message, boolean cancelable,
+    public static ProgressHUD show(@NonNull Context context, @Nullable CharSequence message,
                                    OnCancelListener cancelListener) {
         ProgressHUD dialog = new ProgressHUD(context, R.style.ProgressHUD);
         dialog.setTitle("");
@@ -39,7 +39,7 @@ public class ProgressHUD extends Dialog {
             TextView txt = (TextView) dialog.findViewById(R.id.message);
             txt.setText(message);
         }
-        dialog.setCancelable(cancelable);
+        dialog.setCancelable(true);
         dialog.setOnCancelListener(cancelListener);
         if (dialog.getWindow().getAttributes() != null) {
             dialog.getWindow().getAttributes().gravity = Gravity.CENTER;

@@ -111,10 +111,6 @@ public class ImageOptionDialogActivity extends Activity {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                     launchCameraImageCaptureRequest();
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
                 break;
             case REQUEST_EXTERNAL_STORAGE:
@@ -135,14 +131,9 @@ public class ImageOptionDialogActivity extends Activity {
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) mContext,
+            if (!ActivityCompat.shouldShowRequestPermissionRationale((Activity) mContext,
                     Manifest.permission.CAMERA)) {
 
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
 
                 // No explanation needed, we can request the permission.
 
@@ -163,9 +154,8 @@ public class ImageOptionDialogActivity extends Activity {
 
     @OnClick(R.id.tv_delete)
     protected void onDeleteImageClicked() {
+        mCallback.selectedImageBitmap(null);
         selectedBitmap = null;
-//        iv_profileImage.setImageResource(R.drawable.profile_placeholder);
-        mCallback.selectedImageBitmap(selectedBitmap);
         finish();
     }
 
@@ -194,6 +184,7 @@ public class ImageOptionDialogActivity extends Activity {
 
                 Cursor cursor = mContext.getContentResolver().query(selectedImage,
                         filePathColumn, null, null, null);
+                assert cursor != null;
                 cursor.moveToFirst();
 
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
@@ -227,15 +218,8 @@ public class ImageOptionDialogActivity extends Activity {
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) mContext,
+            if (!ActivityCompat.shouldShowRequestPermissionRationale((Activity) mContext,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
                 // No explanation needed, we can request the permission.
 
                 requestPermissions(
@@ -245,6 +229,8 @@ public class ImageOptionDialogActivity extends Activity {
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
+
+
             }
         } else {
             selectGalleryImage();
@@ -254,18 +240,23 @@ public class ImageOptionDialogActivity extends Activity {
     }
 
 
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public void onCreateDialog(Bundle savedInstanceState) {
         // Set a theme on the dialog builder constructor!
         dialog = new Dialog(mContext, R.style.DialogAnimation);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
-        dialog.setCancelable(true);
-        dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+            dialog.getWindow().setGravity(Gravity.BOTTOM);
+            dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            dialog.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(Color.TRANSPARENT));
+        }
         dialog.setContentView(R.layout.dialog_image_opration);
-        dialog.getWindow().setBackgroundDrawable(
-                new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.setCancelable(true);
+
         dialog.show();
         ButterKnife.bind(this, dialog);
 
@@ -275,8 +266,7 @@ public class ImageOptionDialogActivity extends Activity {
         params.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(params);
-        return dialog;
-    }
+     }
 
     public interface onImageSelectedInterface {
         void selectedImageBitmap(Bitmap btm);
