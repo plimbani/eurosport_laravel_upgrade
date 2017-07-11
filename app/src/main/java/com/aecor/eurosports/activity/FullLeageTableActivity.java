@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
@@ -33,8 +34,8 @@ import butterknife.ButterKnife;
 
 public class FullLeageTableActivity extends AppCompatActivity {
     private ArrayList<LeagueModel> mLeagueModelData;
-    @BindView(R.id.ll_group_rows)
-    protected LinearLayout ll_group_rows;
+    @BindView(R.id.tl_group_rows)
+    protected TableLayout tl_group_rows;
     @BindView(R.id.tv_group_table_title)
     protected TextView tv_group_table_title;
     private Context mContext;
@@ -127,7 +128,9 @@ public class FullLeageTableActivity extends AppCompatActivity {
                     }
                 });
 
-        ll_group_rows.addView(teamLeagueView);
+        tl_group_rows.addView(teamLeagueView);
+        View seperatorView = getLayoutInflater().inflate(R.layout.table_row_seperator_full, null);
+        tl_group_rows.addView(seperatorView);
     }
 
     protected void setListener() {
