@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.TeamFixturesModel;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.Utility;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -50,8 +53,16 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
         String encodedQuery = Uri.encode(query);
         String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
         Uri uri = Uri.parse(uriString);
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-        startActivity(intent);
+        if (Utility.isPackageInstalled(mContext, "com.google.android.gms.maps")) {
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        } else {
+            String mapUrl = "http://maps.google.com/maps?q=" + query;
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            CustomTabsIntent customTabsIntent = builder.build();
+            builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
+            customTabsIntent.launchUrl(mContext, Uri.parse(mapUrl));
+        }
     }
 
     @Override
