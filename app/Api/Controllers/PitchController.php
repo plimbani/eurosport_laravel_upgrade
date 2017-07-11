@@ -18,7 +18,7 @@ use JWTAuth;
  *
  * @Author Kparikh@aecordigital.com
  */
-class PitchController extends Controller
+class PitchController extends BaseController
 {
     public function __construct(PitchContract $pitchObj)
     {

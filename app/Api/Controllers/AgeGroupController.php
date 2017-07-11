@@ -85,14 +85,14 @@ class AgeGroupController extends BaseController
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
     public function createCompetationFomat(Request $request)
-    {        
+    {
         return $this->ageGroupObj->createCompetationFomat($request->all());
     }
     public function getCompetationFormat(Request $request) {
-        return $this->ageGroupObj->GetCompetationFormat($request);   
+        return $this->ageGroupObj->GetCompetationFormat($request);
     }
     public function deleteCompetationFormat(Request $request) {
-       return $this->ageGroupObj->deleteCompetationFormat($request);      
+       return $this->ageGroupObj->deleteCompetationFormat($request);
     }
-    
+
 }

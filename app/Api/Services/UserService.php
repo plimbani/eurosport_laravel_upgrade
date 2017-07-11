@@ -2,7 +2,7 @@
 
 namespace Laraspace\Api\Services;
 
-use Laraspace\Model\UserAffiliates;
+
 use DB;
 use Laraspace\Api\Contracts\UserContract;
 use Validator;
@@ -14,6 +14,7 @@ use Hash;
 
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
+use Laraspace\Models\UserFavourites;
 
 class UserService implements UserContract
 {
@@ -21,6 +22,7 @@ class UserService implements UserContract
     {
         $this->userRepoObj = new \Laraspace\Api\Repositories\UserRepository();
         $this->peopleRepoObj = new \Laraspace\Api\Repositories\PeopleRepository();
+        $this->s3  = \Storage::disk('s3');
     }
 
     public function getAllUsers()
@@ -44,23 +46,56 @@ class UserService implements UserContract
      */
     public function create($data)
     {
+
+        // Data Initilization
         $data = $data->all();
+        \Log::info('User Create Method Called');
         $userData=array();
         $userData['people']=array();
         $userData['user']=array();
+        $userPassword = NULL;
+        $token = str_random(30);
+        //$data['is_mobile_user'] = 0;
+        // Validation checks for Email Validation
+
+        // Data Assignment
+        // TODO: we put condition for Set up for Mobile User Data
+        // TODO Check For Mobile Users
+        $isMobileUsers = \Request::header('IsMobileUser');
+        if($isMobileUsers != '') {
+          $data['is_mobile_user'] = true;
+        }
+
+        if(isset($isMobileUsers) && $isMobileUsers!= '')
+        {
+          $data['name'] = $data['first_name'];
+          $data['surname'] = $data['sur_name'];
+          $data['emailAddress'] = $data['email'];
+          $data['organisation'] = 'EuroSportring';
+          $data['userType'] = '5';
+          \Log::info('passwod b4 encrupt '.$data['password']);
+          $userPassword = Hash::make(trim($data['password']));
+          $data['tournament_id']=$data['tournament_id'];
+          $userData['user']['is_mobile_user'] = 1;
+          \Log::info('passwod after encrypt '.$userPassword);
+
+         // $token = 1;
+        }
 
         $userData['people']['first_name']=$data['name'];
         $userData['people']['last_name']=$data['surname'];
+        \Log::info('Insert in PeopleTable');
         $peopleObj = $this->peopleRepoObj->create($userData['people']);
+
         $userData['user']['person_id']=$peopleObj->id;
         $userData['user']['username']=$data['emailAddress'];
         $userData['user']['name']=$data['name']." ".$data['surname'];
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
 
-       if($data['user_image']!='')
+       if(isset($data['user_image']) && $data['user_image']!='')
         {
-
+            \Log::info('Insert in Image');
             $imagename = $this->saveUsersLogo($data);
 
             $userData['user']['user_image']=$imagename;
@@ -73,26 +108,37 @@ class UserService implements UserContract
        // $userData['user']['password']=Hash::make('password');
 
         // We cant Allow untikl its set password
-        $userData['user']['password']=NULL;
+        $userData['user']['password']=$userPassword;
 
-        $token = str_random(30);
+
         $userData['user']['token'] = $token;
 
+        \Log::info('Insert in UserTable');
         $userObj=$this->userRepoObj->create($userData['user']);
 
+        if(get_class($userObj) == 'Illuminate\Database\QueryException' )
+          {
+            return ['status_code' => '200', 'message' => 'Email already Exist'];
+          }
         $userObj->attachRole($data['userType']);
-
+        // Here we add code for Mobile Users to relate tournament to users
+       if(isset($isMobileUsers) && $isMobileUsers!= '')
+        {
+          \Log::info('Insert in User Favourite table');
+          $user_id = $userObj->id;
+          $userFavouriteData['user_id']=$user_id;
+          $userFavouriteData['tournament_id'] = $data['tournament_id'];
+          $userFavouriteData['is_default'] = 1;
+          $this->userRepoObj->createUserFavourites($userFavouriteData);
+        //  return ['status_code' => '200', 'message' => 'Mobile Data Sucessfully Inserted'];
+        }
         if ($data) {
+            \Log::info('Sent email');
             $email_details = array();
             $email_details['name'] = $data['name'];
             $email_details['token'] = $token;
             $recipient = $data['emailAddress'];
             Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
-            // echo "<pre>";print_r($recipient);echo "</pre>";exit;
-            // $mailSent = Mail::to('kparikh@aecordigital.com')->send('Hello');
-            // dd($mailSent);
-            // $email_sent = Common::sendMail($email_details, $recipient, 'Eurosport - Set Password', 'emails.users.create');
-            // $email_sent = Mail::to($recipient)->send(new SendMail($email_details));
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
@@ -100,26 +146,38 @@ class UserService implements UserContract
     public function resendEmail($data) {
 
     }
-    public function saveUsersLogo($data)
+    public function saveUsersLogo($data, $id='')
     {
        if($data['user_image'] != '')
        {
+
+            $imagePath = '/assets/img/users/';
             $image_string = $data['user_image'];
 
             $img = explode(',', $image_string);
             $imgData = base64_decode($img[1]);
 
-            $name = $data['name'];
+            //$name = $data['name'];
+            if($id == '') {
+              $now = new \DateTime();
+              $timeStamp = $now->getTimestamp();
+            } else {
+              $timeStamp = $id;
+            }
+            // TODO: move to s3
+            //$info = $s3->has('dev-esr/'.$imagePath);
+            $path = $imagePath.$timeStamp.'.png';
+            $this->s3->put($path, $imgData);
 
-            $now = new \DateTime();
-
-            $timeStamp = $now->getTimestamp();
-            $path = public_path().'/assets/img/users/'.$timeStamp.'.png';
-            file_put_contents($path, $imgData);
+            // OLD Code:
+            //$path = public_path().'/assets/img/users/'.$timeStamp.'.png';
+            //file_put_contents($path, $imgData);
             // Resize image to 100*100
-            $img = \Image::make($path)->resize(250, 250);
+
+            // TODO: need to resize
+            //$img = \Image::make($path)->resize(250, 250);
             // Save it
-            $img->save($path);
+            //$img->save($path);
             return $timeStamp.'.png';
         } else {
             return '';
@@ -134,15 +192,13 @@ class UserService implements UserContract
      */
     public function edit($userId)
     {
-
-        return $this->userRepoObj->edit($userId);
+      return $this->userRepoObj->edit($userId);
     }
 
     public function getUserDetails($data)
     {
 
         $data =  $this->userRepoObj->getUserDetails($data);
-
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
@@ -158,34 +214,54 @@ class UserService implements UserContract
      */
     public function update($data, $userId)
     {
-       $data = $data->all();
+        $data = $data->all();
         $userData=array();
         $userData['people']=array();
         $userData['user']=array();
 
         $imagename ='';
-        if($data['user_image']!='')
+        // Data Initlization for Mobile User
+        $isMobileUsers = \Request::header('IsMobileUser');
+        if($isMobileUsers != '') {
+          // here we change the data variable
+          \Log::info('Update in Uses table');
+
+          $data['name'] = $data['first_name'];
+          $data['surname'] = $data['last_name'];
+          \Log::info('Update in password'.$data['password']);
+          $userData['user']['password'] = Hash::make(trim($data['password']));
+          $data['emailAddress'] = '';
+          $data['organisation'] = 'Euro-Sportring';
+          $data['userType'] = '5';
+          // here we add code for Tournament id update
+
+        }
+
+        if(isset($data['user_image']) && $data['user_image']!='')
         {
          // echo \Route::current();
-            if(file_exists($_SERVER['DOCUMENT_ROOT'].$data['user_image'])) {
+            //$isBase64 = btoa(atob($data['user_image']));
+
+            //$info = $this->s3->has('dev-esr/'.$data['user_image']);
+            //if($info) {
               // $imagename = $data['user_image'];
-            } else {
-              $imagename = $this->saveUsersLogo($data);
+            //} else {
+              $imagename = $this->saveUsersLogo($data, $data['id']);
               $userData['user']['user_image']=$imagename;
-            }
+           // }
         } else {
           $userData['user']['user_image']=$imagename;
         }
 
 
         $userData['user']['name']=$data['name']." ".$data['surname'];
-        $userData['user']['email']=$data['emailAddress'];
-        $userData['user']['organisation']=$data['organisation'];
-
+        ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
+        ($data['organisation']!= '') ? $userData['user']['organisation']=$data['organisation']: '';
+        (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
 
         $this->userRepoObj->update($userData['user'], $userId);
 
-        $userObj=User::findOrFail($userId);
+        $userObj = User::findOrFail($userId);
         $userObj->detachAllRoles();
         $userObj->attachRole($data['userType']);
 
@@ -193,9 +269,8 @@ class UserService implements UserContract
         $userData['people']['last_name']=$data['surname'];
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
 
-
         if ($data) {
-            return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+          return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
         }
     }
 
@@ -231,6 +306,108 @@ class UserService implements UserContract
             'message' => $status];
         }
     }
+    // Here we add entry in database
+    public function setFavourite($data)
+    {
 
+      \Log::info('setFavourite Method Called');
+      \Log::info('UserId'+$data['user_id'].'TournamentId'.$data['tournament_id']);
+      // here we have to entry in database
+      $user_id = $data['user_id'];
+      $tournament_id = $data['tournament_id'];
+      // First check if its exist if not then insert it
+      $data = UserFavourites::where('user_id','=',$user_id)
+              ->where('tournament_id','=',$tournament_id)->get();
+      if(count($data) == 0) {
+        //  Insert it
+        \Log::info('setFavouriteData inserted');
+        $userFavouriteData = array();
+        $userFavouriteData['user_id'] =  $user_id;
+        $userFavouriteData['tournament_id']  = $tournament_id;
+        $data =   UserFavourites::create($userFavouriteData);
+        if($data) {
+          \Log::info('setFavouriteData Return');
+          return ['status_code'=>'200','message'=>'User favourite data is inserted'];
+        }
+      } else {
+        \Log::info('setFavouriteData not Return');
+          return ['status_code'=>'200','message'=>'alreay set favourite'];
+      }
+    }
+    public function removeFavourite($data)
+    {
+       $user_id = $data['user_id'];
+       $tournament_id = $data['tournament_id'];
+       // remvoe it from database
+       $data = UserFavourites::where('user_id','=',$user_id)
+              ->where('tournament_id','=',$tournament_id)->delete();
+       $msg = 'User favourite data deleted';
 
+       if($data == 0)
+          $msg = 'User favourite already deleted';
+      return ['status_code'=>'200','message'=>$msg];
+    }
+    public function setDefaultFavourite($data)
+    {
+       $user_id = $data['user_id'];
+       $tournament_id = $data['tournament_id'];
+
+       // Make it default for that record
+       $userFavouriteData = UserFavourites::where('user_id','=',$user_id)
+              ->where('tournament_id','=',$tournament_id)->get();
+      if(count($userFavouriteData) == 0) {
+        // Insert value and set default
+        $userFavouriteData = array();
+        $userFavouriteData['user_id'] =  $user_id;
+        $userFavouriteData['tournament_id']  = $tournament_id;
+        $userFavouriteData['is_default']  = 1;
+
+        $data =   UserFavourites::create($userFavouriteData);
+        unset($userFavouriteData);
+        return ['status_code'=>'200','message'=>'User favourite default is set and created'];
+      } else {
+        // Update and set default
+        // First Set NULL
+        $data =  UserFavourites::where('user_id','=',$user_id)
+                 ->update(['is_default'=>0]);
+         // Update it
+        $data =  UserFavourites::where('user_id','=',$user_id)
+              ->where('tournament_id','=',$tournament_id)
+              ->update(['is_default'=>1]);
+        if($data) {
+          return ['status_code'=>'200','message'=>'User favourite default is set updated'];
+        }
+      }
+    }
+
+    public function getSetting($userData)
+    {
+      $data = $this->userRepoObj->getSetting($userData);
+      if($data) {
+        return ['status_code'=>'200','data'=>$data];
+      }
+    }
+    public function postSetting($userData)
+    {
+      $data = $this->userRepoObj->postSetting($userData['userData']);
+      if($data) {
+        return ['status_code'=>'200','message'=>'User Settings Updated successfully'];
+      }
+    }
+    public function setUserImage($data)
+    {
+
+      $userId = $data['user_id'];
+      $userImg = $data['user_image'];
+      //$this->saveUsersLogo($userImg, $userId);
+      // Update in DB
+      $userData = array();
+      $userData['user_image']= $this->saveUsersLogo($data, $userId);
+      $userPath = getenv('S3_URL').'/assets/img/users/'.$userData['user_image'];
+      $data = $this->userRepoObj->update($userData,$userId);
+      if($data) {
+        return ['status_code'=>'200','message'=>'User profile image Updated successfully','data'=>$userPath];
+      }
+      // Add code for Edit Profile image for User
+    }
 }

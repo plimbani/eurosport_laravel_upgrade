@@ -2,15 +2,15 @@
     <div v-if="loginData.forgotpassword==0">
     <form id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
-        
+
             <input type="email" class="form-control form-control-danger" placeholder="Enter email" name="email"
                    v-model="loginData.email" v-validate="{ rules: { required: true, email: true } }">
-            <span class="help is-danger" v-show="errors.has('email')">This field is required.</span>       
+            <span class="help is-danger" v-show="errors.has('email')">This field is required.</span>
         </div>
         <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
             <input type="password" class="form-control form-control-danger" placeholder="Enter password" name="password"
                 v-model="loginData.password" v-validate data-vv-rules="required">
-            <span class="help is-danger" v-show="errors.has('password')">This field is required.</span>    
+            <span class="help is-danger" v-show="errors.has('password')">This field is required.</span>
         </div>
         <div class="other-actions row">
             <div class="col-sm-6">
@@ -41,7 +41,7 @@
                  <span class="help is-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
             </div>
 
-            <div class="form-actions">  
+            <div class="form-actions">
                 <div class="row">
                     <div class="col-sm-6">
                         <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase w-100 ">Back to login</button>
@@ -71,7 +71,7 @@
         methods: {
             validateBeforeSubmit(e){
                 this.$validator.validateAll();
-                
+
                 if (!this.errors.any()) {
                     Auth.login(this.loginData).then(() => {
                          this.$router.push({'name':'welcome'})
@@ -84,12 +84,12 @@
             backtologin() {
                  this.loginData.forgotpassword = 0
             },
-            
+
             sendResetLink() {
                 this.$validator.validateAll().then(() => {
                 $('#resetPassword').attr("disabled","disabled");
                 let formData = {'email': this.loginData.email}
-                return axios.post('/password/email',formData).then(response =>  {
+                return axios.post('/api/password/email',formData).then(response =>  {
                     // console.log(response.status)
                     if(response.data == 'success'){
                         this.loginData.forgotpassword = ''
@@ -106,7 +106,7 @@
                         console.log('Error', error.message);
                     }
                 });
-            });    
+            });
             }
         },
     }

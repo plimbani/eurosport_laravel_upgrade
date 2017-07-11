@@ -24,12 +24,12 @@ import MatchListing from './MatchListing.vue'
 import Tournament from '../api/tournament.js'
 
 export default {
-	props: ['matchData', 'otherData'],
-	data() {
-		return {
-			VenueName: '',locations:[],location:''
-		}
-	},
+  props: ['matchData', 'otherData'],
+  data() {
+    return {
+      VenueName: '',locations:[],location:''
+    }
+  },
 
   mounted() {
     // Display Location
@@ -65,18 +65,18 @@ export default {
       this.$root.$emit('changeComp',this.location);
     }
   },
-	computed:{
-		venueName() {
-			if(typeof this.matchData[0].venue_name !== 'undefined' ||
-				this.matchData[0].venue_name !== null)
-			{
-			 let venueName = this.matchData[0].venue_name + '-'+ this.matchData[0].pitch_number
-			return venueName
-			}
-		}
-	},
-	components: {
-		MatchList,MatchListing
-	}
+  computed:{
+    venueName() {
+      if(typeof this.matchData[0].venue_name !== 'undefined' ||
+        this.matchData[0].venue_name !== null)
+      {
+       let venueName = this.matchData[0].venue_name + '-'+ this.matchData[0].pitch_number
+      return venueName
+      }
+    }
+  },
+  components: {
+    MatchList,MatchListing
+  }
 }
 </script>

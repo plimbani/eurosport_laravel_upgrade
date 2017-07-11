@@ -179,7 +179,9 @@ return [
         Duro85\Roles\RolesServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-
+        Toin0u\Geotools\GeotoolsServiceProvider::class,
+        Geocoder\Laravel\Providers\GeocoderService::class,
+        
         /*
          *  Custom Service Providers
          */
@@ -257,6 +259,7 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
     ],
 
 ];

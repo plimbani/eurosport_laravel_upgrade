@@ -138,5 +138,17 @@ class TournamentController extends BaseController
     {
       return $this->tournamentObj->getAllCategory($request->all());
     }
-    
+    public function getUserLoginDefaultTournament(Request $request)
+    {
+      return $this->tournamentObj->getUserLoginDefaultTournament($request->all());
+    }
+     public function getUserLoginFavouriteTournament(Request $request)
+    {
+      return $this->tournamentObj->getUserLoginFavouriteTournament($request->all());
+    }
+    public function getTournamentClub(Request $request)
+    {
+      return $this->tournamentObj->getTournamentClub($request->all());
+    }
+
 }

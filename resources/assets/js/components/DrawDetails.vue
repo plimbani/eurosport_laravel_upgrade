@@ -1,12 +1,12 @@
 <template>
 <div>
 <div class="form-group">
-  <a @click="setCurrentView('drawList','drawListing')" data-toggle="tab" href="javascript:void(0)" role="tab" aria-expanded="true" class="btn btn-primary"><i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to draw list</a>
+  <a @click="setCurrentView('drawList','drawListing')" data-toggle="tab" href="javascript:void(0)" role="tab" aria-expanded="true" class="btn btn-primary"><i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to matches</a>
 </div>
 <div class="form-group row d-flex flex-row align-items-center">
-  <label class="col-sm-3"><h6 class="mb-0">{{otherData.DrawName}} results grid</h6></label>
-  <div class="col-sm-9">
-    <select class="form-control ls-select2 col-sm-4"
+<div class="col d-flex flex-row align-items-center">
+  <div><label class=""><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
+  <div class="col-sm-4"><select class="form-control ls-select2"
     v-on:change="onChangeDrawDetails"
     v-model="DrawName">
       <option value="">Select</option>
@@ -17,6 +17,7 @@
       </option>
     </select>
   </div>
+</div>
 </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
 
@@ -32,13 +33,16 @@
   	<tr v-for="(match,index) in match1Data">
    		<td>{{index+1}}</td>
     		<td>
+
     			<!-- <a href="" class="pull-left text-left text-primary"> -->
     			  <img :src="match.TeamFlag" width="20"> &nbsp;
-    			    <span><u>{{match.TeamName}}</u></span>
-    			<!-- </a> -->
+    			    <span>{{match.TeamName}}</span>
+
+    			  <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->
+
     		</td>
         <td v-for="(teamMatch, ind2) in match.matches">
-          {{teamMatch.score}}
+          <span class="text-center">{{teamMatch.score}}</span>
           <div v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
         </td>
       </tr>
@@ -71,25 +75,41 @@ export default {
             DrawName:[]
         }
     },
-	mounted() {
+
+  mounted() {
     this.setTeamData()
+
     // here call method to get All Draws
     let TournamentId = this.$store.state.Tournament.tournamentId
+    let currDId = this.currentCompetationId
+    let drawname1 = []
       Tournament.getAllDraws(TournamentId).then(
         (response)=> {
           if(response.data.status_code == 200) {
             this.drawList = response.data.data
+
+            var uniqueArray = response.data.data.filter(function(item, pos) {
+
+              if(item['id'] == currDId)
+              {
+               drawname1 = item
+              }
+            }, {});
+            this.DrawName = drawname1
+            //this.DrawName = this.matchData[0];
+            // find record of that
           }
         },
         (error) => {
           alert('Error in Getting Draws')
         }
       )
+    //  this.drawName = otherData.DrawName
       //this.teamStand = 'true'
       // Call child class Method
       // this.$children[1].getData(this.currentCompetationId)
       // console.log(this.$children[1].getData())
-	},
+ },
   filters: {
     getStatus: function(teamName) {
       // Now here we change it accoring to
@@ -116,6 +136,9 @@ export default {
               return this.matchData[0].team_size
             }
 
+        },
+        currentCompId () {
+          return this.currentCompetationId
         }
     },
 	components: {
@@ -145,7 +168,7 @@ export default {
         setTeamData() {
             let tempMatchdata = (this.matchData.length > 0 && !this.matchData[0].hasOwnProperty('fid')) ? this.matchData : this.drawList
 
-
+            this.currentCompetationId = this.otherData.DrawId
             if(Object.keys(tempMatchdata).length !== 0) {
 
                let TeamData = []

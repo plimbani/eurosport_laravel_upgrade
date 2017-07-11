@@ -4,11 +4,14 @@
       <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Match Details</h5>
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-primary mr-4" @click="printMatchDetails()">Print</button>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
+                <span aria-hidden="true">×</span>
               </button>
+            </div>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" id="pitch_model_body">
             <div class="form-group row mb-0">
               <label class="col-sm-3">Match number</label><p class="col-sm-9"> {{matchFixture.title}}</p>
               <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}}) </p>
@@ -98,6 +101,52 @@
                 </div>
               </div>
             </form>
+            <table border="1" cellpadding="3" id="printTable" style="display: none;" width="100%">
+              <img src="/assets/img/logo-desk.svg" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
+              <thead>
+                <h2 class="text-center">Match Details</h2>
+              </thead>
+              <tbody>
+              <tr class="row">
+                <td>Match number</td>
+                <td>
+                  {{matchFixture.title}}<br>
+                  Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}})
+                </td>
+              </tr>
+              <tr>
+                <td>Date</td>
+                <td>{{matchDetail.matchTime}}</td>
+              </tr>
+              <tr>
+                <td>Pitch</td>
+                <td>{{matchDetail.pitch.pitch_number}}</td>
+              </tr>
+              <tr>
+                <td>Referee</td>
+                <td>{{ matchDetail.referee.first_name }}</td>
+              </tr>
+              <tr>
+                <td>Result</td>
+                <td>
+                  Team 1 ({{matchDetail.home_team_name}}) {{matchDetail.hometeam_score}}<br>
+                  Team 2 ({{matchDetail.away_team_name}}) {{matchDetail.awayteam_score}}
+                </td>
+              </tr>
+              <tr>
+                <td>Status</td>
+                <td>{{matchDetail.match_status}}</td>
+              </tr>
+              <!-- <tr>
+                <td>Winner</td>
+                <td>{{matchDetail.match_winner}}</td>
+              </tr> -->
+              <tr>
+                <td>Comments</td>
+                <td>{{matchDetail.comments}}</td>
+              </tr>
+              </tbody>
+            </table>
           </div>
           <div class="modal-footer justify-content-between">
               <div class="">
@@ -201,10 +250,20 @@ var moment = require('moment');
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
           vm.$root.$emit('setPitchPlanTab','gamesTab')
       })
+    },
+    printMatchDetails() {
+      // var printContents = document.getElementById('pitch_model_body').innerHTML;
+      /*document.getElementById('home_team_score').value = this.matchDetail.hometeam_score
+      alert(JSON.stringify(this.matchDetail))*/
+      $('#printTable').show();
+      var divToPrint = document.getElementById('printTable');
+      $('#matchScheduleModal').modal('hide');
+      let newWin= window.open("");
+      newWin.document.write(divToPrint.outerHTML);
+      newWin.print();
+      newWin.close();
+      // $('#printTable').hide();
     }
-
   }
 }
-
-
 </script>
