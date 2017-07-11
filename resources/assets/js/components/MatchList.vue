@@ -121,6 +121,10 @@ export default {
 			this.$root.$emit('changeComp', Id, Name);
 			//this.$emit('changeComp',Id);
 		},
+		changeTeamDetails() {
+			this.$store.dispatch('setCurrentScheduleView','teamDetails')
+
+		},
 		updateScore(matchId) {
 
       let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}

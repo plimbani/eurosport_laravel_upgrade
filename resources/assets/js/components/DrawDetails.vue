@@ -1,7 +1,10 @@
 <template>
 <div>
 <div class="form-group">
-  <a @click="setCurrentView('drawList','drawListing')" data-toggle="tab" href="javascript:void(0)" role="tab" aria-expanded="true" class="btn btn-primary"><i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to matches</a>
+  <a @click="setCurrentView(currentView)" data-toggle="tab" href="javascript:void(0)" 
+  role="tab" aria-expanded="true" 
+  class="btn btn-primary">
+  <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{currentView}}</a>
 </div>
 <div class="form-group row d-flex flex-row align-items-center">
 <div class="col d-flex flex-row align-items-center">
@@ -152,7 +155,7 @@ export default {
           let Name = this.DrawName.name
 
           this.$root.$emit('changeDrawListComp',Id, Name);
-         // this.matchData = this.drawList
+          // this.matchData = this.drawList
           this.setTeamData()
           this.currentCompetationId = Id
 
@@ -210,11 +213,11 @@ export default {
             }
 
         },
-        setCurrentView(currentScheduleView,currentView) {
-          this.currentView = currentView
-          this.$store.dispatch('setCurrentScheduleView',currentScheduleView)
+        setCurrentView() {
+          // this.currentView = currentView
+          this.$store.dispatch('setCurrentScheduleView','drawList')
           this.$root.$emit('changeDrawListComp')
-        }
+        },
     }
 }
 </script>
