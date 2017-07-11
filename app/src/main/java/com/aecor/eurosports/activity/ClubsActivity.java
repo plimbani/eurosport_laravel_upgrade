@@ -38,7 +38,9 @@ public class ClubsActivity extends BaseAppCompactActivity {
         mSectionsPagerAdapter = new ClubSectionsPagerAdapter(mContext, getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
-        getSupportActionBar().setTitle(getString(R.string.teams).toUpperCase());
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.teams).toUpperCase());
+        }
         final View activityRootView = findViewById(R.id.ll_main_layout);
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -47,7 +49,7 @@ public class ClubsActivity extends BaseAppCompactActivity {
                 if (heightDiff > Utility.dpToPx(mContext, 200)) { // if more than 200 dp, it's probably a keyboard...
                     // ... do something here
                     home_footer.setVisibility(View.GONE);
-                }else{
+                } else {
                     home_footer.setVisibility(View.VISIBLE);
                 }
             }
