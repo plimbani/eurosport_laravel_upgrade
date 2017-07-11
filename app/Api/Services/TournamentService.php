@@ -429,8 +429,18 @@ class TournamentService implements TournamentContract
                 $reportQuery = $reportQuery->where('temp_fixtures.venue_id',$data['sel_venues']);
             }
             if(isset($data['sel_teams'])  && $data['sel_teams']!= '' ){
-                $reportQuery = $reportQuery->where('temp_fixtures.home_team',$data['sel_teams'])
-                            ->orWhere('temp_fixtures.away_team',$data['sel_teams']);
+             // echo $data['sel_teams'];
+                //$reportQuery = $reportQuery->where('temp_fixtures.home_team',$data['sel_teams'])
+                  //          ->orWhere('temp_fixtures.away_team',$data['sel_teams']);
+             // $reportQuery = $reportQuery->where(DB::raw('temp_fixtures.home_team = '.$data['sel_teams'].'or temp_fixtures.away_team = '.$data['sel_teams']));
+            // echo $data['sel_teams'];
+             $team = $data['sel_teams'];
+              $reportQuery = $reportQuery->where(function ($query) use($team)
+                              {
+                                $query->where('temp_fixtures.home_team',$team)
+                                ->orWhere('temp_fixtures.away_team',$team);
+                              }
+                            );
             }
             if(isset($data['sel_pitches'])  && $data['sel_pitches']!= '' ){
                 $reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$data['sel_pitches']);
@@ -456,7 +466,7 @@ class TournamentService implements TournamentContract
                     $reportRec->group_name,
                     $reportRec->venue_name,
                     $reportRec->pitch_number,
-                    $reportRec->referee_name,
+                    $reportRec->referee_last_name . ', ' . $reportRec->referee_first_name,
                     $reportRec->full_game,
                 ];
                 array_push($dataArray, $ddata);
@@ -468,7 +478,7 @@ class TournamentService implements TournamentContract
                 ];
 
             $lableArray = [
-                'Date(time)','Age category' ,'Location', 'Pitch','Referee', 'Game'
+                'Date and time','Age category' ,'Location', 'Pitch','Referee', 'Game'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
