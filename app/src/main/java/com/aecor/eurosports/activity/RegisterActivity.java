@@ -227,23 +227,23 @@ public class RegisterActivity extends BaseActivity {
         String surname = sname.getText().toString().trim();
 
         if (firstname.isEmpty()) {
-             return false;
+            return false;
         }
 
         if (surname.isEmpty()) {
-             return false;
+            return false;
         }
 
         if (emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone)) {
-             return false;
+            return false;
         }
 
         if (password.isEmpty() || password.length() < 5) {
-             return false;
+            return false;
         }
 
         if (confirmPassword.isEmpty() || !confirmPassword.equals(password)) {
-             return false;
+            return false;
         }
 
         return true;

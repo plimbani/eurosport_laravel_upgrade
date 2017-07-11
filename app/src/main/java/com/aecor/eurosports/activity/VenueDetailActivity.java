@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,8 +51,16 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
         String encodedQuery = Uri.encode(query);
         String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
         Uri uri = Uri.parse(uriString);
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-        startActivity(intent);
+        if (Utility.isPackageInstalled(mContext, "com.google.android.gms.maps")) {
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        } else {
+            String mapUrl = "http://maps.google.com/maps?q=" + query;
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            CustomTabsIntent customTabsIntent = builder.build();
+            builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
+            customTabsIntent.launchUrl(mContext, Uri.parse(mapUrl));
+        }
     }
 
     @Override
@@ -74,7 +83,9 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
         }
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getPitchType())) {
-            tv_playing_surface.setText(mTeamFixturesModel.getPitchType());
+            String pitchType = mTeamFixturesModel.getPitchType();
+            pitchType = pitchType.substring(0, 1).toUpperCase() + pitchType.substring(1);
+            tv_playing_surface.setText(pitchType);
         } else {
             tv_playing_surface.setText("NA");
         }
@@ -86,9 +97,7 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenueCity())) {
             address = address + ", " + mTeamFixturesModel.getVenueCity();
         }
-        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenueCounty())) {
-            address = address + ", " + mTeamFixturesModel.getVenueCounty();
-        }
+
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenueCountry())) {
             address = address + ", " + mTeamFixturesModel.getVenueCountry();
         }

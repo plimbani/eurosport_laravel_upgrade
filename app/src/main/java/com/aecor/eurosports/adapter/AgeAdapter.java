@@ -133,7 +133,7 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mAgeCategoriesList = (List<AgeCategoriesModel>) results.values;
             notifyDataSetChanged();
- 
+
         }
     }
 }

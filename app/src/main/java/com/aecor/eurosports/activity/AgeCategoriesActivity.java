@@ -73,7 +73,8 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
         setListener();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.age_categories).toUpperCase());
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(getString(R.string.age_categories).toUpperCase());
         toolbar.setTitleTextColor(Color.WHITE);
         ll_no_item_view.setVisibility(View.GONE);
         tv_no_item.setVisibility(View.GONE);

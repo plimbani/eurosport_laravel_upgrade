@@ -36,7 +36,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
-
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;

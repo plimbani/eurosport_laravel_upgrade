@@ -13,6 +13,9 @@
     <color name="off_white">#f2f2f2</color>
     <color name="gray">#515151</color>
     <color name="green">#6DA622</color>
+    <color name="dark_marron">#a81624</color>
+    <color name="border_color">#999a9c</color>
+    <color name="gray_text">#58595b</color>
 
 </resources>
 
