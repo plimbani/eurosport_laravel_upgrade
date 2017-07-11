@@ -88,7 +88,6 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
                 });
 
 
-
         try {
             tv_dateTime.setText(Utility.getDateTimeFromServerDate(mTeamFixturesModel.getMatch_datetime()));
         } catch (ParseException e) {
@@ -114,7 +113,6 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.match_info);
-        BaseAppCompactActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
 
         super.onCreate(savedInstanceState);
         mTeamFixturesModel = getIntent().getParcelableExtra(AppConstants.ARG_MATCH_INFO);

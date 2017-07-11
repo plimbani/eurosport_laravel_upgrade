@@ -47,7 +47,7 @@ public class ClubsActivity extends BaseAppCompactActivity {
                 if (heightDiff > Utility.dpToPx(mContext, 200)) { // if more than 200 dp, it's probably a keyboard...
                     // ... do something here
                     home_footer.setVisibility(View.GONE);
-                }else{
+                } else {
                     home_footer.setVisibility(View.VISIBLE);
                 }
             }

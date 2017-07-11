@@ -15,8 +15,6 @@ import com.aecor.eurosports.model.TeamFixturesModel;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.Utility;
 
-import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -85,7 +83,9 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
         }
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getPitchType())) {
-            tv_playing_surface.setText(mTeamFixturesModel.getPitchType());
+            String pitchType = mTeamFixturesModel.getPitchType();
+            pitchType = pitchType.substring(0, 1).toUpperCase() + pitchType.substring(1);
+            tv_playing_surface.setText(pitchType);
         } else {
             tv_playing_surface.setText("NA");
         }
@@ -97,9 +97,7 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenueCity())) {
             address = address + ", " + mTeamFixturesModel.getVenueCity();
         }
-        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenueCounty())) {
-            address = address + ", " + mTeamFixturesModel.getVenueCounty();
-        }
+
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenueCountry())) {
             address = address + ", " + mTeamFixturesModel.getVenueCountry();
         }
