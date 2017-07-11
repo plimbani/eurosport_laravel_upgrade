@@ -38,7 +38,9 @@ public class ClubsActivity extends BaseAppCompactActivity {
         mSectionsPagerAdapter = new ClubSectionsPagerAdapter(mContext, getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
-        getSupportActionBar().setTitle(getString(R.string.teams).toUpperCase());
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.teams).toUpperCase());
+        }
         final View activityRootView = findViewById(R.id.ll_main_layout);
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override

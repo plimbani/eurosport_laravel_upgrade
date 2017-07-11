@@ -61,10 +61,13 @@ public class FullLeageTableActivity extends AppCompatActivity {
     protected void showBackButton(String title) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(title.toUpperCase());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow_white);
         toolbar.setTitleTextColor(Color.WHITE);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title.toUpperCase());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow_white);
+        }
+
     }
 
     protected void initView() {
