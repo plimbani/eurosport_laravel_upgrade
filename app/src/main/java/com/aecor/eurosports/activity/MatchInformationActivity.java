@@ -62,6 +62,9 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         tv_team_name_1.setText(mTeamFixturesModel.getHomeTeam());
         tv_team_name_2.setText(mTeamFixturesModel.getAwayTeam());
 
+        tv_team_country_1.setText(mTeamFixturesModel.getHomeCountryName());
+        tv_team_country_2.setText(mTeamFixturesModel.getAwayCountryName());
+
         Glide.with(mContext)
                 .load(mTeamFixturesModel.getHomeFlagLogo())
                 .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -83,6 +86,7 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
                         iv_team_flag_2.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
                     }
                 });
+
 
 
         try {

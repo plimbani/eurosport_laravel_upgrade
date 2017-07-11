@@ -24,7 +24,7 @@
                 android:layout_width="122dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/profile_placeholder" />
 
             <ImageView
                 android:id="@+id/iv_change_profile_pic"
