@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
@@ -57,16 +59,16 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected LinearLayout ll_matches;
     private ClubGroupModel mGroupModel;
     private LeagueModel mLeagueModelData[];
-    @BindView(R.id.ll_group_rows)
-    protected LinearLayout ll_group_rows;
+    @BindView(R.id.tl_group_rows)
+    protected TableLayout tl_group_rows;
     @BindView(R.id.tv_group_table_title)
     protected TextView tv_group_table_title;
     @BindView(R.id.tv_view_full_league_table)
     protected TextView tv_view_full_league_table;
     @BindView(R.id.ll_match_header)
     protected LinearLayout ll_match_header;
-    @BindView(R.id.ll_group_header)
-    protected LinearLayout ll_group_header;
+    @BindView(R.id.tr_group_header)
+    protected TableRow tr_group_header;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,8 +87,6 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
         TextView tv_goalDifference = (TextView) teamLeagueView.findViewById(R.id.tv_goalDifference);
         final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
-        String groupTableTitle = mGroupModel.getName() + " " + getString(R.string.league_table);
-        tv_group_table_title.setText(groupTableTitle);
         tv_group_name.setText(mLeagueModel.getName());
         tv_points.setText(mLeagueModel.getPoints());
         tv_games.setText(mLeagueModel.getPlayed());
@@ -109,7 +109,9 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 });
 
 
-        ll_group_rows.addView(teamLeagueView);
+        tl_group_rows.addView(teamLeagueView);
+        View seperatorView = getLayoutInflater().inflate(R.layout.table_row_seperator, null);
+        tl_group_rows.addView(seperatorView);
     }
 
     private void addNoItemGroupLeagueView() {
@@ -117,15 +119,18 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         TextView tv_noMatchesView = (TextView) noMatchesView.findViewById(R.id.tv_no_item);
         tv_noMatchesView.setText(getString(R.string.no_league_data_available));
         tv_view_full_league_table.setVisibility(View.GONE);
-        ll_group_rows.addView(noMatchesView);
+        tl_group_rows.addView(noMatchesView);
     }
 
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
         tv_view_all_club_matches.setVisibility(View.GONE);
-        ll_group_header.setVisibility(View.GONE);
+        tr_group_header.setVisibility(View.GONE);
         ll_match_header.setVisibility(View.GONE);
+        String groupTableTitle = mGroupModel.getName() + " " + getString(R.string.league_table);
+        tv_group_table_title.setText(groupTableTitle);
+
         getGroupStanding();
         getTeamFixtures();
         showBackButton(getString(R.string.group_summary));
@@ -228,7 +233,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 mLeagueModelData = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), LeagueModel[].class);
-                                ll_group_header.setVisibility(View.VISIBLE);
+                                tr_group_header.setVisibility(View.VISIBLE);
                                 if (mLeagueModelData != null && mLeagueModelData.length > 0) {
                                     for (LeagueModel aMLeagueModelData : mLeagueModelData) {
                                         addGroupLeagueRow(aMLeagueModelData);

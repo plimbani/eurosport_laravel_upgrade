@@ -20,57 +20,53 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/ll_group_header"
+            <TableLayout
+                android:id="@+id/tl_group_rows"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/view_line"
-                android:orientation="horizontal"
-                android:padding="15dp">
+                android:shrinkColumns="*"
+                android:stretchColumns="*">
 
-                <TextView
-                    android:id="@+id/tv_group_table_title"
-                    style="@style/text_black_sub_title"
-                    android:layout_width="0dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingRight="10dp"
-                    android:textStyle="bold" />
+                <TableRow
+                    android:id="@+id/tr_group_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/view_line"
+                    android:orientation="horizontal"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
 
-                <TextView
-                    style="@style/text_black_sub_title"
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:text="@string/G"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_group_table_title"
+                        style="@style/text_black_sub_title"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_span="8"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold" />
 
-                <TextView
-                    style="@style/text_black_sub_title"
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:text="@string/plus_minus"
-                    android:textStyle="bold" />
+                    <TextView
+                        style="@style/text_black_sub_title"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/G"
+                        android:textStyle="bold" />
 
-                <TextView
-                    style="@style/text_black_sub_title"
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:text="@string/P"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    <TextView
+                        style="@style/text_black_sub_title"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/plus_minus"
+                        android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/ll_group_rows"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                    <TextView
+                        style="@style/text_black_sub_title"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/P"
+                        android:textStyle="bold" />
+                </TableRow>
+            </TableLayout>
 
             <TextView
                 android:id="@+id/tv_view_full_league_table"
