@@ -349,6 +349,7 @@ module.exports = {
   summary_schedule: "Schedule and results",
   summary_schedule_last_update: "Last updated",
   summary_schedule_draws: "Draws",
+  summary_schedule_draws_categories: "Categories",
   summary_schedule_matches: "Matches",
   summary_schedule_teams: "Teams",
   summary_schedule_categories: "Categories",

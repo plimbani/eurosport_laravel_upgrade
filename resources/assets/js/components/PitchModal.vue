@@ -122,10 +122,10 @@
                 <td>Pitch</td>
                 <td>{{matchDetail.pitch.pitch_number}}</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>Referee</td>
                 <td>{{ matchDetail.referee.first_name }}</td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>Result</td>
                 <td>
