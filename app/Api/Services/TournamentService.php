@@ -402,14 +402,28 @@ class TournamentService implements TournamentContract
             // if(isset($data['sel_clubs'])  && $data['sel_clubs']!= ''){
             //   $reportQuery->where('home_team.club_id',$data['sel_clubs'])->orWhere('away_team.club_id',$data['sel_clubs']);
             // }
+            // if(isset($data['start_date'])  && $data['start_date']!= '' ){
+
+            //   $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date']);
+            //   $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','>=',$start_date);
+            // }
+            // if(isset($data['end_date'])  && $data['end_date']!= '' ){
+            //   $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','<=',Carbon::createFromFormat('d/m/Y', $data['end_date']));
+            // }
             if(isset($data['start_date'])  && $data['start_date']!= '' ){
 
-              $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date']);
-              $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','>=',$start_date);
+              $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date'])->toDateString();
+             // echo  $start_date;
+              $reportQuery = $reportQuery->whereDate('temp_fixtures.match_datetime','>=',$start_date);
             }
             if(isset($data['end_date'])  && $data['end_date']!= '' ){
-              $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','<=',Carbon::createFromFormat('d/m/Y', $data['end_date']));
+              //echo  '<br>'.Carbon::createFromFormat('d/m/Y', $data['end_date']);
+
+              $end_date = Carbon::createFromFormat('d/m/Y', $data['end_date'])->toDateString();
+            //  echo $end_date;
+              $reportQuery = $reportQuery->whereDate('temp_fixtures.match_datetime','<=',$end_date);
             }
+            
             // print_r($reportQuery->toSql());exit();
             // print_r($reportQuery->toSql());exit();
             if(isset($data['start_time'])  && $data['start_time']!= '' ){
