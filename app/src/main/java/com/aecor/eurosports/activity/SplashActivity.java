@@ -1,5 +1,6 @@
 package com.aecor.eurosports.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.os.Handler;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -107,7 +109,7 @@ public class SplashActivity extends BaseActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     try {
-                        Utility.StopProgress();
+//                        Utility.StopProgress();
                         Utility.parseVolleyError(mContext, error);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -115,6 +117,21 @@ public class SplashActivity extends BaseActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        }
+        else {
+            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                @Override
+                public void onPositiveButtonClicked() {
+                    if (mContext instanceof SplashActivity) {
+                        finishAffinity();
+                    }
+                }
+
+                @Override
+                public void onNegativeButtonClicked() {
+
+                }
+            });
         }
     }
 }

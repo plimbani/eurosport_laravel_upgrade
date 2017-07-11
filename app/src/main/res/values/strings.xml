@@ -84,6 +84,8 @@
     <string name="password_updated_successfully">Password updated successfully.</string>
     <string name="profile_image_updated_successfully">Profile image updated successfully.</string>
     <string name="please_enter_valid_otp">Please enter valid OTP.</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="internet_message">Internet connection is not detected.</string>
 
     <!--Volley-->
 
