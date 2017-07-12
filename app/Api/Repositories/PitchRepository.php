@@ -36,7 +36,6 @@ class PitchRepository
         return Pitch::find($pitchId);
     }
 
-
     public function edit($pitchData,$pitchId)
     {
         $updateData = [

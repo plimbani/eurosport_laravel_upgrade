@@ -70,7 +70,8 @@ class AuthController extends Controller
                                 'people.first_name',
                                 'people.last_name','users.email',
                                 'users.user_image',
-                                \DB::raw('CONCAT("'.$path.'", users.user_image) AS userImage'),
+                                \DB::raw(
+                                  'IFNULL("",CONCAT("'.$path.'", users.user_image)) AS userImage'),
                                 'users_favourite.tournament_id')
                               ->get();
             $userDetails = array();
