@@ -29,7 +29,7 @@
     <tr>
         <th></th>
         <th></th>
-        <th v-for="(match,index) in match1Data">{{index+1}}</th>
+        <th class="text-center" v-for="(match,index) in match1Data">{{index+1}}</th>
     </tr>
   </thead>
   <tbody>
@@ -45,8 +45,8 @@
 
     		</td>
         <td v-for="(teamMatch, ind2) in match.matches">
-          <span class="text-center">{{teamMatch.score}}</span>
-          <div v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
+          <div class="text-center">{{teamMatch.score}}</div>
+          <div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
         </td>
       </tr>
   </tbody>
