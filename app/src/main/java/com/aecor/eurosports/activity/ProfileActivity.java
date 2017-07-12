@@ -378,10 +378,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         if (Utility.isNullOrEmpty(sname)) {
             return false;
         }
-        if (!Utility.isNullOrEmpty(pass) && pass.length() < 5) {
-            return false;
-        }
-        return true;
+        return !(!Utility.isNullOrEmpty(pass) && pass.length() < 5);
     }
 
     private void checkValidation() {

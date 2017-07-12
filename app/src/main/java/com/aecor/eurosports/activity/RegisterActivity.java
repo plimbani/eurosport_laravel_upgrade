@@ -242,11 +242,8 @@ public class RegisterActivity extends BaseActivity {
             return false;
         }
 
-        if (confirmPassword.isEmpty() || !confirmPassword.equals(password)) {
-            return false;
-        }
+        return !(confirmPassword.isEmpty() || !confirmPassword.equals(password));
 
-        return true;
     }
 
     private boolean validate_spinner() {

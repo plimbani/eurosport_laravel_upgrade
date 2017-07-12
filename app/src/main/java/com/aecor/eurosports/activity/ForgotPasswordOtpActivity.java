@@ -120,11 +120,8 @@ public class ForgotPasswordOtpActivity extends BaseActivity {
         if (Utility.isNullOrEmpty(otpText)) {
             return false;
         }
-        if (Utility.isNullOrEmpty(updatedPassword)) {
-            return false;
-        }
+        return !Utility.isNullOrEmpty(updatedPassword);
 
-        return true;
     }
 
     private void resetUserPassword() {

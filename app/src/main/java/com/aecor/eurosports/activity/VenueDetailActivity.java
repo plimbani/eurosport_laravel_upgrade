@@ -79,7 +79,7 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenue_name())) {
             tv_pitch_name.setText(mTeamFixturesModel.getVenue_name());
         } else {
-            tv_pitch_name.setText("NA");
+            tv_pitch_name.setText(getString(R.string.na));
         }
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getPitchType())) {
@@ -87,7 +87,7 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
             pitchType = pitchType.substring(0, 1).toUpperCase() + pitchType.substring(1);
             tv_playing_surface.setText(pitchType);
         } else {
-            tv_playing_surface.setText("NA");
+            tv_playing_surface.setText(getString(R.string.na));
         }
 
         String address = "";
@@ -107,7 +107,7 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(address)) {
             tv_address.setText(address);
         } else {
-            tv_address.setText("NA");
+            tv_address.setText(getString(R.string.na));
         }
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenueCoordinates())) {

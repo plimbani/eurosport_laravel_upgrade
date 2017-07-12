@@ -256,7 +256,7 @@ public class Utility {
 
     public static String getFormattedTournamentDate(String startDateStr, String endDateStr) {
         String torunamentFormatedDate = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         try {
             int startYear;
             String startMonth;
@@ -301,17 +301,17 @@ public class Utility {
 
     public static String getDateFromDateTime(String dateTime) throws ParseException {
 
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date d = df.parse(dateTime);
-        df = new SimpleDateFormat("dd\nMMM");
+        df = new SimpleDateFormat("dd\nMMM", Locale.getDefault());
         return df.format(d);
     }
 
     public static String getDateTimeFromServerDate(String dateTime) throws ParseException {
 
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date d = df.parse(dateTime);
-        df = new SimpleDateFormat("dd MMMM   |   HH:mm");
+        df = new SimpleDateFormat("dd MMMM   |   HH:mm", Locale.getDefault());
         return df.format(d);
     }
 
