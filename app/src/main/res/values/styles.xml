@@ -9,6 +9,8 @@
         <item name="android:windowAnimationStyle">@null</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:scrollbarThumbVertical">@drawable/app_scrollbar</item>
     </style>
 
 
