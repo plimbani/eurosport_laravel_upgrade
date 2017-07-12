@@ -18,6 +18,7 @@ import com.aecor.eurosports.activity.GroupSummaryActivity;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 
@@ -73,7 +74,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                     mContext.startActivity(mGroupSummary);
                 } else {
                     Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
-                    mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, mGroupModel.getId());
+                    mTeamListIntent.putExtra(AppConstants.ARG_GROUP_ID, mGroupModel.getId());
                     mContext.startActivity(mTeamListIntent);
                 }
             }
