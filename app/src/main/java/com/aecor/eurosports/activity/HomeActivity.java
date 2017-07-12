@@ -105,7 +105,11 @@ public class HomeActivity extends BaseAppCompactActivity {
                     tournamentPosition = position;
                     AppLogger.LogE(TAG, "Tournament Position -> " + tournamentPosition);
                     mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
-                    tv_tournamentName.setText(mTournamentList.get(position).getName().replace(" ", "\n"));
+                    if (!Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
+                        tv_tournamentName.setText(mTournamentList.get(position).getName().replace(" ", "\n"));
+                    } else {
+                        tv_tournamentName.setText("");
+                    }
                 }
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournamentLogo())) {
                     Glide.with(mContext)

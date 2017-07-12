@@ -60,12 +60,11 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
     protected LinearLayout lv_user_settings;
     @BindView(R.id.lv_favourites)
     protected LinearLayout lv_favourites;
-
+    @BindView(R.id.tv_favourites)
+    protected TextView tv_favourites;
 
     private Context mContext;
     private AppPreference mPref;
-    @BindView(R.id.tv_favourites)
-    protected TextView tv_favourites;
     private int resourceIdFavourites;
     private int resourceIdUserSettings;
     private int resourceIdAgeCategories;

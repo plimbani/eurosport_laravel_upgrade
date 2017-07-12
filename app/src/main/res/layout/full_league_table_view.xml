@@ -21,7 +21,6 @@
         android:orientation="vertical">
 
         <TableLayout
-            android:id="@+id/tl_group_rows"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:shrinkColumns="*"
@@ -35,6 +34,8 @@
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"
                 android:paddingTop="15dp">
+
+                <ImageView />
 
                 <TextView
                     android:id="@+id/tv_group_table_title"
@@ -97,10 +98,14 @@
             android:layout_weight="1"
             android:fillViewport="true">
 
-            <LinearLayout
+            <TableLayout
+                android:id="@+id/tl_group_rows"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:shrinkColumns="*"
+                android:stretchColumns="*">
+
+            </TableLayout>
         </ScrollView>
 
     </LinearLayout>

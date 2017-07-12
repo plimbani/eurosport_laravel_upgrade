@@ -184,14 +184,30 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
     }
 
     private void setData() {
-        input_email.setText(mAppPref.getString(AppConstants.PREF_EMAIL));
-        input_password.setText(mAppPref.getString(AppConstants.PREF_PASSWORD));
-        ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
-        input_first_name.setText(profileModel.getFirst_name());
-        tournamet_id = Integer.parseInt(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID));
-        input_last_name.setText(profileModel.getSur_name());
-        if (!Utility.isNullOrEmpty(profileModel.getProfile_image_url())) {
+        if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL))) {
+            input_email.setText(mAppPref.getString(AppConstants.PREF_EMAIL));
+        } else {
+            input_email.setText("");
+        }
 
+        if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_PASSWORD))) {
+            input_password.setText(mAppPref.getString(AppConstants.PREF_PASSWORD));
+        } else {
+            input_password.setText("");
+        }
+        ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
+        if (!Utility.isNullOrEmpty(profileModel.getFirst_name())) {
+            input_first_name.setText(profileModel.getFirst_name());
+        } else {
+            input_first_name.setText("");
+        }
+        tournamet_id = Integer.parseInt(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID));
+        if (!Utility.isNullOrEmpty(profileModel.getSur_name())) {
+            input_last_name.setText(profileModel.getSur_name());
+        } else {
+            input_last_name.setText("");
+        }
+        if (!Utility.isNullOrEmpty(profileModel.getProfile_image_url())) {
             Glide.with(mContext)
                     .load(profileModel.getProfile_image_url())
                     .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)

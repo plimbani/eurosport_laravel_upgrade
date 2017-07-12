@@ -66,7 +66,6 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
         setContentView(R.layout.acticity_age_group);
         super.onCreate(savedInstanceState);
         mSelectedAgeCategoryModel = getIntent().getParcelableExtra(AppConstants.ARG_AGE_CATEGORY);
-
         mContext = this;
         initView();
     }
@@ -95,9 +94,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
         list.addAll(Arrays.asList(mClubModel));
         adapter = new GroupAdapter((Activity) mContext, list);
         rv_groupList.setAdapter(adapter);
-
         rv_groupList.setVisibility(View.VISIBLE);
-
     }
 
     private void showNoItemView() {

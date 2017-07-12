@@ -3,6 +3,7 @@ package com.aecor.eurosports.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -87,27 +88,55 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
         TextView tv_goalDifference = (TextView) teamLeagueView.findViewById(R.id.tv_goalDifference);
         final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
-        tv_group_name.setText(mLeagueModel.getName());
-        tv_points.setText(mLeagueModel.getPoints());
-        tv_games.setText(mLeagueModel.getPlayed());
-        int goalDifferenece = Integer.parseInt(mLeagueModel.getGoal_for()) - Integer.parseInt(mLeagueModel.getGoal_against());
+        if (!Utility.isNullOrEmpty(mLeagueModel.getName())) {
+            tv_group_name.setText(mLeagueModel.getName());
+        } else {
+            tv_group_name.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mLeagueModel.getPoints())) {
+            tv_points.setText(mLeagueModel.getPoints());
+        } else {
+            tv_points.setText("");
+        }
+
+        if (!Utility.isNullOrEmpty(mLeagueModel.getPlayed())) {
+            tv_games.setText(mLeagueModel.getPlayed());
+        } else {
+            tv_games.setText("");
+        }
+
+        int goalDifferenece = 0;
+        if (!Utility.isNullOrEmpty(mLeagueModel.getGoal_for()) && !Utility.isNullOrEmpty(mLeagueModel.getGoal_against())) {
+            goalDifferenece = Integer.parseInt(mLeagueModel.getGoal_for()) - Integer.parseInt(mLeagueModel.getGoal_against());
+        } else if (!Utility.isNullOrEmpty(mLeagueModel.getGoal_for())) {
+            goalDifferenece = Integer.parseInt(mLeagueModel.getGoal_for());
+        } else if (!Utility.isNullOrEmpty(mLeagueModel.getGoal_against())) {
+            goalDifferenece = 0 - Integer.parseInt(mLeagueModel.getGoal_against());
+        }
+
         String goalText = "";
         if (goalDifferenece > 0) {
             goalText = "+";
         }
         goalText = goalText + goalDifferenece;
         tv_goalDifference.setText(goalText);
-        Glide.with(mContext)
-                .load(mLeagueModel.getTeamFlag())
-                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-                    }
-                });
 
+        if (!Utility.isNullOrEmpty(mLeagueModel.getTeamFlag())) {
+            Glide.with(mContext)
+                    .load(mLeagueModel.getTeamFlag())
+                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                        }
+                    });
+        } else {
+            Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
+                    R.drawable.globe);
+            team_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+        }
 
         tl_group_rows.addView(teamLeagueView);
         View seperatorView = getLayoutInflater().inflate(R.layout.table_row_seperator, null);
@@ -282,25 +311,62 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         TextView team2_name = (TextView) matchesView.findViewById(R.id.team2_name);
 
         try {
-            team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime()));
+            if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_datetime())) {
+                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime()));
+            } else {
+                team_match_date.setText("");
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        team_venue.setText(mFixtureModel.getVenue_name());
-        team_match_id.setText(mFixtureModel.getMatch_number());
-        team_age_category.setText(mFixtureModel.getGroup_name());
-        team_round.setText(mFixtureModel.getRound());
+        if (!Utility.isNullOrEmpty(mFixtureModel.getVenue_name())) {
+            team_venue.setText(mFixtureModel.getVenue_name());
+        } else {
+            team_venue.setText("");
+        }
 
-        team1_score.setText(mFixtureModel.getHomeScore());
-        team2_score.setText(mFixtureModel.getAwayScore());
-        team1_name.setText(mFixtureModel.getHomeTeam());
-        team2_name.setText(mFixtureModel.getAwayTeam());
+        if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
+            team_match_id.setText(mFixtureModel.getMatch_number());
+        } else {
+            team_match_id.setText("");
+        }
 
-        if (mFixtureModel.getHomeScore().equalsIgnoreCase(mFixtureModel.getAwayScore())) {
+        if (!Utility.isNullOrEmpty(mFixtureModel.getGroup_name())) {
+            team_age_category.setText(mFixtureModel.getGroup_name());
+        } else {
+            team_age_category.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getRound())) {
+            team_round.setText(mFixtureModel.getRound());
+        } else {
+            team_round.setText("");
+        }
+
+        if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore())) {
+            team1_score.setText(mFixtureModel.getHomeScore());
+        } else {
+            team1_score.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getAwayScore())) {
+            team2_score.setText(mFixtureModel.getAwayScore());
+        } else {
+            team2_score.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
+            team1_name.setText(mFixtureModel.getHomeTeam());
+        } else {
+            team1_name.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeam())) {
+            team2_name.setText(mFixtureModel.getAwayTeam());
+        } else {
+            team2_name.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && mFixtureModel.getHomeScore().equalsIgnoreCase(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-        } else if (Integer.parseInt(mFixtureModel.getHomeScore()) > Integer.parseInt(mFixtureModel.getAwayScore())) {
+        } else if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && Integer.parseInt(mFixtureModel.getHomeScore()) > Integer.parseInt(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         } else {
