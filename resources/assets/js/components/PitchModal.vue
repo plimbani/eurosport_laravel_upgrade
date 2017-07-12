@@ -201,7 +201,7 @@ var moment = require('moment');
          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
 
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
-          this.matchDetail.matchTime = date.format('hh:mm ddd DD MMM YYYY')
+          this.matchDetail.matchTime = date.format('HH:mm ddd DD MMM YYYY')
           this.matchDetail.match_winner =  (this.matchDetail.match_winner == null || this.matchDetail.match_winner == 0 || this.matchDetail.match_winner == '') ? '': this.matchDetail.match_winner
           // Set Some Values
           this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '0' : this.matchDetail.match_status
