@@ -125,6 +125,10 @@ class UserRepository {
         $user =  $users->save();
 
     }
+    public function createUserSettings($userData)
+    {
+      return Settings::create($userData);
+    }
     public function getSetting($userData)
     {
       $userId = $userData['user_id'];
