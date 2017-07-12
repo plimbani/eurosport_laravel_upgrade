@@ -125,10 +125,15 @@ class UserRepository {
         $user =  $users->save();
 
     }
+    public function createUserSettings($userData)
+    {
+      return Settings::create($userData);
+    }
     public function getSetting($userData)
     {
       $userId = $userData['user_id'];
-      return Settings::with(['user'])->where('user_id','=',$userId)->get();
+      return Settings::where('user_id','=',$userId)->get();
+      //return Settings::with(['user'])->where('user_id','=',$userId)->get();
     }
     public function postSetting($userData)
     {

@@ -130,6 +130,10 @@ class UserService implements UserContract
           $userFavouriteData['tournament_id'] = $data['tournament_id'];
           $userFavouriteData['is_default'] = 1;
           $this->userRepoObj->createUserFavourites($userFavouriteData);
+          // Also Add settings Data
+          $userSettings['user_id'] = $user_id;
+          $userSettings['value'] = '{"is_sound":"false","is_vibration":"false","is_notification":"false"}';
+           $this->userRepoObj->createUserSettings($userSettings);
         //  return ['status_code' => '200', 'message' => 'Mobile Data Sucessfully Inserted'];
         }
         if ($data) {
