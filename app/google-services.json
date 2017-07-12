@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "964968490479",
-    "firebase_url": "https://eurosports-170511.firebaseio.com",
-    "project_id": "eurosports-170511",
-    "storage_bucket": "eurosports-170511.appspot.com"
+    "project_number": "917770932765",
+    "firebase_url": "https://eurosportsandroid.firebaseio.com",
+    "project_id": "eurosportsandroid",
+    "storage_bucket": "eurosportsandroid.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:964968490479:android:f295f52f3e51cb2a",
+        "mobilesdk_app_id": "1:917770932765:android:f295f52f3e51cb2a",
         "android_client_info": {
           "package_name": "com.aecor.eurosports"
         }
       },
       "oauth_client": [
         {
-          "client_id": "964968490479-p359sae7gp0otq9nciak371orof1ss0d.apps.googleusercontent.com",
+          "client_id": "917770932765-sb9rlsgnghj8pt2sgfl27qbkm777hjh7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.aecor.eurosports",
@@ -23,13 +23,21 @@
           }
         },
         {
-          "client_id": "964968490479-9vldu1ob9mu49jb0ee3nhp4n84nanvj4.apps.googleusercontent.com",
+          "client_id": "917770932765-18ujhaocjh5h0m6es5seev5su6ptdqi5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aecor.eurosports",
+            "certificate_hash": "22e802c0e2784de14bdf3458d67715348833c7b1"
+          }
+        },
+        {
+          "client_id": "917770932765-4bj60dicnu643cffi2ibo7ab9d8r0sed.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB1QOVOMGmdCJPu5SqBZM4vWYO0NlP_-30"
+          "current_key": "AIzaSyALSgkxcglAa7yWGFJt1VW7N3r4G4R4n2E"
         }
       ],
       "services": {
@@ -40,7 +48,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "964968490479-9vldu1ob9mu49jb0ee3nhp4n84nanvj4.apps.googleusercontent.com",
+              "client_id": "917770932765-4bj60dicnu643cffi2ibo7ab9d8r0sed.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
