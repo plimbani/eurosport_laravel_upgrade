@@ -2,6 +2,7 @@ package com.aecor.eurosports.activity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -67,7 +68,6 @@ public class FullLeageTableActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow_white);
         }
-
     }
 
     protected void initView() {
@@ -103,33 +103,69 @@ public class FullLeageTableActivity extends AppCompatActivity {
         TextView tv_p = (TextView) teamLeagueView.findViewById(R.id.tv_p);
         TextView tv_group_table_title = (TextView) teamLeagueView.findViewById(R.id.tv_group_table_title);
         final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
+        if (!Utility.isNullOrEmpty(mLeagueModel.getName())) {
+            tv_group_table_title.setText(mLeagueModel.getName());
+        }
+        if (!Utility.isNullOrEmpty(mLeagueModel.getPlayed())) {
+            tv_games.setText(mLeagueModel.getPlayed());
+        }
+        if (!Utility.isNullOrEmpty(mLeagueModel.getWon())) {
+            tv_w.setText(mLeagueModel.getWon());
+        }
+        if (!Utility.isNullOrEmpty(mLeagueModel.getDraws())) {
+            tv_d.setText(mLeagueModel.getDraws());
+        }
+        if (!Utility.isNullOrEmpty(mLeagueModel.getLost())) {
+            tv_l.setText(mLeagueModel.getLost());
+        }
 
-        tv_group_table_title.setText(mLeagueModel.getName());
-        tv_games.setText(mLeagueModel.getPlayed());
-        tv_w.setText(mLeagueModel.getWon());
-        tv_d.setText(mLeagueModel.getDraws());
-        tv_l.setText(mLeagueModel.getLost());
-        tv_f_a.setText(mLeagueModel.getGoal_for() + "-" + mLeagueModel.getGoal_against());
-        tv_p.setText(mLeagueModel.getPoints());
+        String goalForAndAgainst = "";
+        if (!Utility.isNullOrEmpty(mLeagueModel.getGoal_for())) {
+            goalForAndAgainst = mLeagueModel.getGoal_for();
+        } else {
+            goalForAndAgainst = "0";
+        }
+        if (!Utility.isNullOrEmpty(mLeagueModel.getGoal_against())) {
+            goalForAndAgainst = goalForAndAgainst + "-" + mLeagueModel.getGoal_against();
+        } else {
+            goalForAndAgainst = goalForAndAgainst + "-" + "0";
+        }
 
-        int goalDifferenece = Integer.parseInt(mLeagueModel.getGoal_for()) - Integer.parseInt(mLeagueModel.getGoal_against());
+        tv_f_a.setText(goalForAndAgainst);
+        if (!Utility.isNullOrEmpty(mLeagueModel.getPoints())) {
+            tv_p.setText(mLeagueModel.getPoints());
+        }
+
+        int goalDifferenece = 0;
+        if (!Utility.isNullOrEmpty(mLeagueModel.getGoal_for()) && !Utility.isNullOrEmpty(mLeagueModel.getGoal_against())) {
+            goalDifferenece = Integer.parseInt(mLeagueModel.getGoal_for()) - Integer.parseInt(mLeagueModel.getGoal_against());
+        } else if (!Utility.isNullOrEmpty(mLeagueModel.getGoal_for())) {
+            goalDifferenece = Integer.parseInt(mLeagueModel.getGoal_for());
+        } else if (!Utility.isNullOrEmpty(mLeagueModel.getGoal_against())) {
+            goalDifferenece = 0 - Integer.parseInt(mLeagueModel.getGoal_against());
+        }
         String goalText = "";
         if (goalDifferenece > 0) {
             goalText = "+";
         }
         goalText = goalText + goalDifferenece;
         tv_goal_diff.setText(goalText);
-        Glide.with(mContext)
-                .load(mLeagueModel.getTeamFlag())
-                .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-                    }
-                });
-
+        if (!Utility.isNullOrEmpty(mLeagueModel.getTeamFlag())) {
+            Glide.with(mContext)
+                    .load(mLeagueModel.getTeamFlag())
+                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                        }
+                    });
+        } else {
+            Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
+                    R.drawable.globe);
+            team_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+        }
         tl_group_rows.addView(teamLeagueView);
         View seperatorView = getLayoutInflater().inflate(R.layout.table_row_seperator_full, null);
         tl_group_rows.addView(seperatorView);

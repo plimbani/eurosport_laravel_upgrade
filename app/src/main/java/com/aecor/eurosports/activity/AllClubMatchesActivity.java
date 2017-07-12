@@ -58,7 +58,11 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
-        showBackButton(mTeamDetailModel.getName());
+        if (!Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
+            showBackButton(mTeamDetailModel.getName());
+        } else {
+            showBackButton(getString(R.string.team_matches));
+        }
         getAllClubMatches();
         setListener();
     }
@@ -146,31 +150,66 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
         TextView team2_name = (TextView) matchesView.findViewById(R.id.team2_name);
 
         try {
-            team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime()));
+            if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_datetime())) {
+                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime()));
+            } else {
+                team_match_date.setText("");
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getVenue_name())) {
+            team_venue.setText(mFixtureModel.getVenue_name());
+        } else {
+            team_venue.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
+            team_match_id.setText(mFixtureModel.getMatch_number());
+        } else {
+            team_match_id.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getGroup_name())) {
+            team_age_category.setText(mFixtureModel.getGroup_name());
+        } else {
+            team_age_category.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getRound())) {
+            team_round.setText(mFixtureModel.getRound());
+        } else {
+            team_round.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore())) {
+            team1_score.setText(mFixtureModel.getHomeScore());
+        } else {
+            team1_score.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getAwayScore())) {
+            team2_score.setText(mFixtureModel.getAwayScore());
+        } else {
+            team2_score.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
+            team1_name.setText(mFixtureModel.getHomeTeam());
+        } else {
+            team1_name.setText("");
+        }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeam())) {
+            team2_name.setText(mFixtureModel.getAwayTeam());
+        } else {
+            team2_name.setText("");
+        }
 
-        team_venue.setText(mFixtureModel.getVenue_name());
-        team_match_id.setText(mFixtureModel.getMatch_number());
-        team_age_category.setText(mFixtureModel.getGroup_name());
-        team_round.setText(mFixtureModel.getRound());
-
-        team1_score.setText(mFixtureModel.getHomeScore());
-        team2_score.setText(mFixtureModel.getAwayScore());
-        team1_name.setText(mFixtureModel.getHomeTeam());
-        team2_name.setText(mFixtureModel.getAwayTeam());
-
-        if (mFixtureModel.getHomeScore().equalsIgnoreCase(mFixtureModel.getAwayScore())) {
+        if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && mFixtureModel.getHomeScore().equalsIgnoreCase(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-        } else if (Integer.parseInt(mFixtureModel.getHomeScore()) > Integer.parseInt(mFixtureModel.getAwayScore())) {
+        } else if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && Integer.parseInt(mFixtureModel.getHomeScore()) > Integer.parseInt(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         } else {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
         }
+
         matchesView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

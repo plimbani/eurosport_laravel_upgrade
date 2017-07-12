@@ -31,8 +31,8 @@
     <TextView
         android:id="@+id/tv_games"
         style="@style/team_league_table_text"
-        android:gravity="center"
         android:layout_gravity="center"
+        android:gravity="center"
         android:text="9" />
 
     <TextView

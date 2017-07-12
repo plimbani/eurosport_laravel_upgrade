@@ -47,16 +47,21 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_listview_textview, parent, false);
-
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final AgeCategoriesModel ageModel = mAgeCategoriesList.get(position);
-        if (!Utility.isNullOrEmpty(ageModel.getCategory_age()) && !Utility.isNullOrEmpty(ageModel.getGroup_name())) {
-            holder.individual_list_item.setText(ageModel.getGroup_name() + " (" + ageModel.getCategory_age() + ")");
+        String listTextTitle = "";
+        if (!Utility.isNullOrEmpty(ageModel.getGroup_name())) {
+            listTextTitle = ageModel.getGroup_name();
         }
+        if (!Utility.isNullOrEmpty(ageModel.getCategory_age())) {
+            listTextTitle = listTextTitle + " (" + ageModel.getCategory_age() + ")";
+        }
+        holder.individual_list_item.setText(listTextTitle);
+
         holder.ll_list_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
