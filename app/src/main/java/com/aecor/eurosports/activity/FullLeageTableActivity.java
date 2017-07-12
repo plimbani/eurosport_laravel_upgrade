@@ -135,7 +135,5 @@ public class FullLeageTableActivity extends AppCompatActivity {
         tl_group_rows.addView(seperatorView);
     }
 
-    protected void setListener() {
 
-    }
 }

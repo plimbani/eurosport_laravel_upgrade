@@ -18,7 +18,6 @@ import com.aecor.eurosports.activity.AgeGroupActivity;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.util.AppConstants;
-import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 
 import java.util.ArrayList;
@@ -32,21 +31,15 @@ import butterknife.ButterKnife;
  */
 
 public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> implements Filterable {
-    private final String TAG = AgeAdapter.class.getSimpleName();
-    private LayoutInflater inflater;
     private Context mContext;
     private List<AgeCategoriesModel> mAgeCategoriesList;
     private List<AgeCategoriesModel> mOriginalList;
-    private AppPreference mPreference;
     private AgeFilter ageFilter;
 
     public AgeAdapter(Activity context, List<AgeCategoriesModel> list) {
         mContext = context;
-        inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mAgeCategoriesList = list;
         this.mOriginalList = list;
-        mPreference = AppPreference.getInstance(mContext);
     }
 
 

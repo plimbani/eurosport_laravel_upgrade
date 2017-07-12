@@ -97,11 +97,8 @@ public class SignInActivity extends BaseActivity {
             return false;
         }
 
-        if (password.isEmpty() || password.length() < 5) {
-            return false;
-        }
+        return !(password.isEmpty() || password.length() < 5);
 
-        return true;
     }
 
     private void enabledDisableLoginButton(boolean isEnable) {

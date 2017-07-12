@@ -93,9 +93,9 @@ public class AppPreference {
                 .apply();
     }
 
-    public boolean clear() {
-        return mPref.edit()
+    public void clear() {
+        mPref.edit()
                 .clear()
-                .commit();
+                .apply();
     }
 }

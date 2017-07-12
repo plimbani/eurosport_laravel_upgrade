@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -187,7 +188,7 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     public void getDateDifference(String FutureDate) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
         try {
             Date currentDate = dateFormat.parse(FutureDate);
@@ -284,7 +285,7 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     @OnClick(R.id.twitter)
     protected void open_twitter() {
-        Intent twitter = null;
+        Intent twitter;
         try {
             // get the Twitter app if possible
             mContext.getPackageManager().getPackageInfo("com.twitter.android", 0);
@@ -378,7 +379,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             }
         }
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                R.layout.row_spinner_item, R.id.title, list);
+                list);
         sp_tournament.setAdapter(adapter);
         sp_tournament.setSelection(tournamentPosition);
     }

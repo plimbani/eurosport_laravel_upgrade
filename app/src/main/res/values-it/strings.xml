@@ -51,8 +51,6 @@
     <string name="notification">Notification</string>
     <string name="view_club_match">View all club matches</string>
     <string name="view_league_table">View full league table</string>
-    <string name="team_name">Team name</string>
-    <string name="group_26_league_table">Group 26 league table</string>
     <string name="league_table">league table</string>
     <string name="no_data_available">No data available.</string>
     <string name="venue">Venue</string>

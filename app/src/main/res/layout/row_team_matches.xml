@@ -152,7 +152,6 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/team_match_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

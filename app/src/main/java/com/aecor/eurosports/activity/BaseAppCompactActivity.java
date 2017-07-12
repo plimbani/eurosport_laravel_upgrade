@@ -92,7 +92,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
 
     private void initFooterContent() {
 
-        ActivityManager.TaskDescription taskDescription = null;
+        ActivityManager.TaskDescription taskDescription;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
             taskDescription = new ActivityManager.TaskDescription(mContext.getResources().getString(R.string.app_name), icon, mContext.getResources().getColor(R.color.colorPrimary));

@@ -181,7 +181,6 @@ public class ViewDialog {
     public interface CustomDialogInterface {
         void onPositiveButtonClicked();
 
-        void onNegativeButtonClicked();
     }
 
     public interface InputDialogInterface {

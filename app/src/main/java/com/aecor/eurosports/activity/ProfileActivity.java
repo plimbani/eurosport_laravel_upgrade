@@ -361,7 +361,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         }
         this.mTournamentList = list;
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                R.layout.row_spinner_item, R.id.title, list);
+                list);
         profile_sp_tournament.setAdapter(adapter);
         profile_sp_tournament.setSelection(selectedTournamentPos);
     }
@@ -378,10 +378,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         if (Utility.isNullOrEmpty(sname)) {
             return false;
         }
-        if (!Utility.isNullOrEmpty(pass) && pass.length() < 5) {
-            return false;
-        }
-        return true;
+        return !(!Utility.isNullOrEmpty(pass) && pass.length() < 5);
     }
 
     private void checkValidation() {
