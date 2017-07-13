@@ -554,20 +554,26 @@ class TournamentService implements TournamentContract
       $coordinates = [];
       foreach ($venue as $location) {
         $address = $location->address1.', '.$location->city.', '.$location->postcode.', '.$location->state.', '.$location->country;
-        $locationDetails = app('geocoder')->geocode($address)->get();
-        $coordinates['id'] = $location->id;
-        foreach($locationDetails as $loc)
-        {
-          $lat = $loc->getLatitude();
-          $long = $loc->getLongitude();
-
+        try {
+          /*$geocode = Geocoder::geocode("$name, Tanzania")->toArray();
+          return Response::json($geocode);*/
+          $locationDetails = app('geocoder')->geocode($address)->get();
+          $coordinates['id'] = $location->id;
+          foreach($locationDetails as $loc)
+          {
+            $lat = $loc->getLatitude();
+            $long = $loc->getLongitude();
+          }
+          $coodinates['venue_coordinates'] = $lat.','.$long;
+          $updateData = [
+            'venue_coordinates' => $coodinates['venue_coordinates']
+          ];
+          Venue::where('id',$coordinates['id'])->update($updateData);
+          return;
+        } catch (\Exception $e) {
+          // echo $e->getMessage();
+          return;
         }
-        $coodinates['venue_coordinates'] = $lat.','.$long;
-        $updateData = [
-          'venue_coordinates' => $coodinates['venue_coordinates']
-        ];
-        Venue::where('id',$coordinates['id'])->update($updateData);
-      }
-      return;
+      }      
     }
 }

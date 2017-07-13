@@ -1,19 +1,24 @@
 <template>
   <div>
-  	<div v-if="currentScheduleView == 'matchList'" class="form-group row d-flex flex-row align-items-center">
-    	<label class="col-sm-2 pr-0"><h6 class="mb-0">Match overview</h6></label>
-    	<div class="col-sm-2 pl-0">
-		    <select class="form-control ls-select2"
-		    v-on:change="onChangeMatchDate"
-			v-model="matchDate">
-				<option v-for="option in tournamentDates"
-	                 v-bind:value="option"
-				>{{option | formatDate}}
-				</option>
-			</select>
+	<div  v-if="currentScheduleView == 'matchList'" class="form-group row d-flex flex-row align-items-center">
+		<div class="col-sm-4">
+			<div class="row d-flex flex-row align-items-center">
+				<div class="col-sm-5 pr-sm-0">
+					<h6 class="mb-0">Match overview</h6>
+ 				</div>
+				<div class="col pl-sm-0">
+					<select class="form-control ls-select2"
+					    v-on:change="onChangeMatchDate"
+						v-model="matchDate">
+						<option v-for="option in tournamentDates" v-bind:value="option">
+							{{option | formatDate}}
+						</option>
+					</select>
+				</div>
+			</div>		
 		</div>
 		<div class="col-sm-8">
-		   <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
+			 <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
 		</div>
 	</div>
     <component :is="currentScheduleView"
