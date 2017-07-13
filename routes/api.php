@@ -30,7 +30,14 @@ $api = app('Dingo\Api\Routing\Router');
 
 
 $api->version('v1', function ($api) {
+   
+     // for localization
     $locale = \Request::header('locale');
+
+    if($locale != '') {
+        App::setLocale($locale);
+    }
+
 
     // TODO: Move Method from web to api for Mobile App
     $api->post('password/email', '\Laraspace\Http\Controllers\Auth\ForgotPasswordController@resetlink');
