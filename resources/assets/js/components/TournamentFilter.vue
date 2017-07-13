@@ -7,7 +7,8 @@
     </div>
     <div class="form-group" v-if="section!='scheduleResult'">
       <label class="radio-inline control-label">
-          <input type="radio" id="age_category" name="filter" value="age_category" @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
+          <input type="radio" id="age_category" name="filter" value="age_category"
+           @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
       </label>
     </div>
 
@@ -26,7 +27,7 @@
     </div>
 
     <div class="form-group">
-      <label class="radio-inline control-label" v-if="section == 'scheduleResult'">
+      <label class="radio-inline control-label" v-if="section == 'scheduleResult' || section =='teams'">
         <input type="radio" id="team" name="filter" value="team"
         @click="getDropDownData('team')" class="mr-2">{{$lang.teams_team}}
       </label>
