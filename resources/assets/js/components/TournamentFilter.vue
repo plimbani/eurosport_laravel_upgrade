@@ -1,4 +1,3 @@
-
 <template>
   <form  class="form-inline pull-right">
     <div class="form-group">
@@ -7,17 +6,25 @@
       </label>
     </div>
     <div class="form-group">
-      <label class="radio-inline control-label" v-if="section=='pitchPlanner'">
+      <label class="radio-inline control-label" v-if="section=='pitchPlanner' || section=='scheduleResult'">
         <input type="radio" id="location" name="filter" value="location"
         @click="getDropDownData('location')" class="mr-2">{{$lang.teams_location}}
       </label>
     </div>
-    <div class="form-group">
-      <label class="radio-inline control-label" v-if="section!='scheduleResult'">
-          <input type="radio" id="age_category" name="filter" value="group"
-          @click="getDropDownData('group')" class="mr-2">{{$lang.tournament_filter_age_category}}
+
+    <div class="form-group" v-if="section!='scheduleResult'">
+      <label class="radio-inline control-label">
+          <input type="radio" id="age_category" name="filter" value="age_category" @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
       </label>
     </div>
+
+    <div class="form-group" v-if="section =='scheduleResult'">
+      <label class="radio-inline control-label">
+          <input type="radio" id="competation_group" name="filter" value="competation_group"
+           @click="getDropDownData('competation_group')" class="mr-2">{{$lang.tournament_filter_age_category}}
+      </label>
+    </div>
+
     <div class="form-group">
       <label class="radio-inline control-label" v-if="section == 'scheduleResult'">
         <input type="radio" id="team" name="filter" value="team"
@@ -90,7 +97,8 @@ export default {
     setFilterValue() {
 
       this.filterValue = this.dropDown
-
+       // alert(this.filterValue)
+       // console.log(this.filterValue);
       let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
       if(this.activePath == 'teams_groups'){
@@ -98,6 +106,8 @@ export default {
       }else if(this.activePath == 'pitch_planner'){
         this.$root.$emit('getTeamsByTournamentFilter',this.filterKey,this.filterValue);
         //this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
+      } else {
+        this.$root.$emit('getMatchByTournamentFilter',this.filterKey,this.filterValue);
       }
     },
     getDropDownData(tourament_key) {

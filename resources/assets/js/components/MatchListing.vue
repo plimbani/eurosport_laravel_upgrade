@@ -1,16 +1,19 @@
 <template>
   <div>
   	<div v-if="currentScheduleView == 'matchList'" class="form-group row d-flex flex-row align-items-center">
-    	<label class="col-sm-2"><h6 class="mb-0">Match overview</h6></label>
-    	<div class="col-sm-10">
-		    <select class="form-control ls-select2 col-sm-4"
+    	<label class="col-sm-2 pr-0"><h6 class="mb-0">Match overview</h6></label>
+    	<div class="col-sm-2 pl-0">
+		    <select class="form-control ls-select2"
 		    v-on:change="onChangeMatchDate"
 			v-model="matchDate">
-			<option v-for="option in tournamentDates"
-      v-bind:value="option"
-			>{{option | formatDate}}
-			</option>
+				<option v-for="option in tournamentDates"
+	                 v-bind:value="option"
+				>{{option | formatDate}}
+				</option>
 			</select>
+		</div>
+		<div class="col-sm-8">
+		   <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
 		</div>
 	</div>
     <component :is="currentScheduleView"
@@ -28,6 +31,8 @@ import DrawDetails from './DrawDetails.vue'
 import DrawsListing from './DrawsListing.vue'
 import LocationList from'./LocationList.vue'
 import DrawList from './DrawList.vue'
+// import MatchFilter from './MatchFilter.vue'
+ import TournamentFilter from './TournamentFilter.vue'
 
 var moment = require('moment')
 
@@ -35,7 +40,9 @@ export default {
 	data() {
 		return {
 			matchData: [],otherData:[],matchDate:this.$store.state.Tournament.tournamentStartDate,tournamentDates:[],
-			currentComponent: this.$store.state.currentScheduleView
+			currentComponent: this.$store.state.currentScheduleView,
+			'section': 'scheduleResult',
+      	    'filterStatus': true,currentDate:''
 		}
 	},
   filters: {
@@ -45,19 +52,22 @@ export default {
       return moment(SDate).format("DD MMM YYYY");
     }
   },
+
 	mounted() {
 	  // First Called match Listing Data and then passed
 
  	  // here we call by Default Match Listing Function to display matchlist
  	  let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate
  	  let tournamentEndDate = this.$store.state.Tournament.tournamentEndDate
-    this.tournamentDates = this.getDateRange(tournamentStartDate,tournamentEndDate,'mm/dd/yyyy')
+      this.tournamentDates = this.getDateRange(tournamentStartDate,tournamentEndDate,'mm/dd/yyyy')
 	  this.$store.dispatch('setCurrentScheduleView','matchList')
 	  // By Default Set for ot Todays Date
+	  this.currentDate = tournamentStartDate
 	  this.getAllMatches(tournamentStartDate)
 	},
 	created: function() {
        this.$root.$on('changeComp', this.setMatchData);
+       this.$root.$on('getMatchByTournamentFilter', this.setFilter);
   	},
 	computed: {
 		currentScheduleView() {
@@ -66,13 +76,59 @@ export default {
 	},
 	components: {
 		MatchList,TeamDetails,LocationList,DrawsListing,
-		DrawDetails,TeamList,DrawList
+		DrawDetails,TeamList,DrawList,TournamentFilter
 	},
 	methods: {
+		setFilter(filterKey,filterValue) {
+        // console.log('hi');
+       	// console.log('hello123')
+        // console.log(filterKey)
+        // console.log(filterValue.id)
+        	if(filterKey != undefined) {
+
+        	//		this.tournamentFilter.filterKey = filterKey
+	      //  this.tournamentFilter.filterValue = filterValue
+	        this.getAllMatches(this.currentDate,filterKey,filterValue)
+        	}
+	        
+	      //  if(filterKey == 'age_category'){
+	        //  this.onSelectAgeCategory('filter',filterValue.tournament_template_id)
+	       // }
+	        //this.getTeams(filterKey,filterValue)
+	        
+        },
+      	getTeams(filterKey,filterValue) {
+	        this.teams = ''
+	        let teamData = {'tournamentId':this.tournament_id,'filterKey':filterKey, 'filterValue': filterValue};
+	        Tournament.getTeams(teamData).then(
+	          (response) => {
+	            this.teams = response.data.data
+
+	            _.forEach(response.data.data, function(key,team) {
+	             //  console.log(team.id)
+	             // this.teamsIdList=team.id
+	            });
+	          },
+	        (error) => {
+	           console.log('Error occured during Tournament api ', error)
+	        }
+	        )
+	        //  Tournament.getTeamsGroup(teamData).then(
+	        //   (response) => {
+	        //     this.teams = response.data.data
+	        //   },
+	        // (error) => {
+	        //    console.log('Error occured during Tournament api ', error)
+	        // }
+	        // )
+	    },
+
 		onChangeMatchDate(){
 			let matchDate = this.matchDate
+			this.currentDate = this.matchDate
 			this.getAllMatches(matchDate)
 		},
+		
 		getDateRange(startDate, stopDate, dateFormat)
 		{
 
@@ -89,7 +145,7 @@ export default {
 
 			  /*var dateArray = []
 		    var currentDate = moment(startDate).format('MM/DD/YYYY');
-        alert(currentDate)
+        	(currentDate)
 		    var stopDate = moment(endDate).format('MM/DD/YYYY');
         alert('helo')
         alert(currentDate)
@@ -100,6 +156,7 @@ export default {
 
 		    return dateArray;*/
 		},
+
 		setMatchData(id, Name='') {
 
 			let comp = this.$store.state.currentScheduleView
@@ -137,11 +194,10 @@ export default {
 					alert('Error in Getting Draws')
 				}
 			)
-
 			// Also Called Standings Data
-
-
 		},
+
+	 	
 		getTeamDetails(teamId, teamName) {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
@@ -180,10 +236,19 @@ export default {
 				}
 			)
 		},
-		getAllMatches(date) {
+		getAllMatches(date,filterKey='',filterValue='') {
 			let TournamentId = this.$store.state.Tournament.tournamentId
-			let tournamentData = {'tournamentId': TournamentId,
-			'tournamentDate':date,'is_scheduled':1}
+			let tournamentData = ''
+			if(filterKey != '' && filterValue != '') {
+          tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
+	      } else {
+	          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
+	      }
+     
+		//	let TournamentId = this.$store.state.Tournament.tournamentId
+			//let tournamentData = {'tournamentId': TournamentId,
+		//	'tournamentDate':date,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue}
+			
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {

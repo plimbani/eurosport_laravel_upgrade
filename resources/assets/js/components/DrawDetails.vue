@@ -29,7 +29,7 @@
     <tr>
         <th></th>
         <th></th>
-        <th v-for="(match,index) in match1Data" class="text-center">{{index+1}}</th>
+       <th v-for="(match,index) in match1Data" class="text-center">{{index+1}}</th>
     </tr>
   </thead>
   <tbody>

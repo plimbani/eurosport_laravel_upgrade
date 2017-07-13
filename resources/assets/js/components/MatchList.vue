@@ -25,7 +25,7 @@
 					<a  class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
 						<span><u>{{match.HomeTeam}}</u></span>
 						<!--<img :src="match.HomeFlagLogo" width="20">-->
-            <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
+               <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
 					</a>
 				</td>
 				<td class="text-center">
@@ -37,7 +37,7 @@
 				<td align="left">
 					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
-             <span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
+             		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
 						<span><u>{{match.AwayTeam}}</u></span>
 					</a>
 				</td>
@@ -62,6 +62,7 @@ export default {
 		}
 	},
 
+
   filters: {
     formatDate: function(date) {
      return moment(date).format("HH:mm ddd DD MMM YYYY");
@@ -76,13 +77,17 @@ export default {
 			}
 		},
 
-		isUserDataExist() {
+	isUserDataExist() {
 	    return this.$store.state.Users.userDetails.id
 	    },
 	  getCurrentScheduleView() {
 	   	return this.$store.state.currentScheduleView
 	  }
 	},
+	components: {
+      
+    },
+
 	mounted() {
 		$('body').on('keypress', 'input',function(e) {
 		    var a = [];
@@ -101,6 +106,9 @@ export default {
 
 		});
 	},
+	  created: function() {
+      //this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
+    },
 	methods: {
 		changeLocation(matchData) {
 			// here we dispatch Method
@@ -108,6 +116,7 @@ export default {
 			this.$root.$emit('changeComp',matchData);
 			//this.$store.dispatch('setCurrentScheduleView','locationList')
 		},
+
 		changeTeam(Id, Name) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
