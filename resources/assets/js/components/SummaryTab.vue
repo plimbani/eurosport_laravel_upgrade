@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-md-6"><div style="line-height:1">
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
-					<img  :src="tournamentLogo" width="30" class="mr-2">
+					<img  :src="tournamentLogo" width="50" class="mr-2">
 				</label>
 				<h6 class="mb-2">
 					<strong>{{tournamentName}}</strong>
