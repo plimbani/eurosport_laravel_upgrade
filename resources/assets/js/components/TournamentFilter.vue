@@ -11,21 +11,22 @@
         @click="getDropDownData('location')" class="mr-2">{{$lang.teams_location}}
       </label>
     </div>
+
     <div class="form-group" v-if="section!='scheduleResult'">
       <label class="radio-inline control-label">
           <input type="radio" id="age_category" name="filter" value="age_category" @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
       </label>
     </div>
 
-    <div class="form-group" v-if="section=='scheduleResult'">
+    <div class="form-group" v-if="section =='scheduleResult'">
       <label class="radio-inline control-label">
           <input type="radio" id="competation_group" name="filter" value="competation_group"
            @click="getDropDownData('competation_group')" class="mr-2">{{$lang.tournament_filter_age_category}}
       </label>
     </div>
-    
+
     <div class="form-group">
-      <label class="radio-inline control-label" v-if="section != 'pitchPlanner'">
+      <label class="radio-inline control-label" v-if="section == 'scheduleResult'">
         <input type="radio" id="team" name="filter" value="team"
         @click="getDropDownData('team')" class="mr-2">{{$lang.teams_team}}
       </label>
@@ -36,7 +37,7 @@
           <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="mr-2">{{$lang.teams_country}}
       </label>
     </div>
-    
+
     <div class="form-group">
       <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:130px">
         <option value="" v-if="filterKey != 'age_category'">Select</option>
@@ -72,7 +73,7 @@ export default {
     activePath() {
       return this.$store.state.activePath
     }
-  },        
+  },
   props:['section'],
   mounted() {
     // By Default Called with Team
@@ -92,7 +93,7 @@ export default {
       this.setFilterValue()
       $('#age_category').trigger('click')
       this.getDropDownData('age_category')
-    },  
+    },
     setFilterValue() {
 
       this.filterValue = this.dropDown
@@ -109,7 +110,7 @@ export default {
         this.$root.$emit('getMatchByTournamentFilter',this.filterKey,this.filterValue);
       }
     },
-    getDropDownData(tourament_key) {  
+    getDropDownData(tourament_key) {
        this.dropDown = ''
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key

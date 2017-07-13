@@ -18,7 +18,8 @@ const debug = process.env.NODE_ENV !== 'production'
 const state = {
   activePath: 'tournament_add',
   currentPage: '',
-  currentScheduleView: ''
+  currentScheduleView: '',
+  setCurrentView:'',
   /*vehicleDetails: [],
   surveyDetail: [],
   multiSelectAll: false,
@@ -37,6 +38,9 @@ const mutations = {
   },
   [types.SET_CURRENT_SCHEDULE_VIEW] (state, currentScheduleView) {
     state.currentScheduleView = currentScheduleView
+  },
+  [types.SET_CURRENT_VIEW] (state, setCurrentView) {
+    state.setCurrentView = setCurrentView
   },
 }
 export default new Vuex.Store({

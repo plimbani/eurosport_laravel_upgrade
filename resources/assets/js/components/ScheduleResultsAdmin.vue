@@ -63,6 +63,7 @@ export default {
 	mounted(){
 		// here we set drawsListing as currentView
 		this.currentView = 'drawsListing'
+    this.$store.dispatch('setCurrentView',this.currentView)
     // Also Call Api For Getting the last Updated Record
 	},
 	components: {
@@ -93,11 +94,13 @@ export default {
 			if(currentScheduleView == 'locationList') {
 
 				this.currentView = 'matchListing'
-				this.$store.dispatch('setCurrentScheduleView','matchList')
+				this.$store.dispatch('setCurrentView',this.currentView)
+        this.$store.dispatch('setCurrentScheduleView','matchList')
 			}
 
 			//this.$store.dispatch('setCurrentScheduleView','matchList')
 			this.currentView = currentView
+      this.$store.dispatch('setCurrentView',this.currentView)
 			/*else  {
 
 			  this.$store.dispatch('setCurrentScheduleView','')

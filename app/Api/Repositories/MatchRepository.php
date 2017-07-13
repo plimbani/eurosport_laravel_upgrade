@@ -235,6 +235,9 @@ class MatchRepository
                       );
                 // $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);
                  break;
+                 case 'competation_group':
+                    $reportQuery =  $reportQuery->where('temp_fixtures.competition_id','=',$tournamentData['filterValue']);
+                  break;
               }
             }
           }
@@ -303,7 +306,7 @@ class MatchRepository
       }  else {
           $errorMsg= 'No Matches';
       }
-
+     // print_r($);exit;
       $teamData = DB::table('teams')
                     ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
                     ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
@@ -337,71 +340,73 @@ class MatchRepository
       $htmlData='';
       $arr1=array();
       //print_r($numTeamsArray);
-     // print_r($matchArr);
-      //exit;
+      //print_r($matchArr);
+     //exit;
       $matchNotExist=false;
       for($i=0;$i<count($numTeamsArray);$i++)
       {
-       // $htmlData.= '<tr>';
         $arr1[$i]['id'] = $numTeamsArray[$i];
         $arr1[$i]['TeamName'] = $teamDetails[$numTeamsArray[$i]]['TeamName'];
         $arr1[$i]['TeamFlag'] = $teamDetails[$numTeamsArray[$i]]['TeamFlag'];
         $arr1[$i]['TeamCountryFlag'] = $teamDetails[$numTeamsArray[$i]]['TeamCountryFlag'];
-
-
         for($j=0;$j<count($numTeamsArray);$j++)
         {
-
           // Here we check if Result is Declare or not
           if($isMatchExist ==  true)
-        {
-
-          if($i==$j)
           {
-            $arr1[$i]['matches'][$j] ='X';
-          }
-          else
-          {
-            $teamId = $numTeamsArray[$i];
-            //echo 'Team id is'.$teamId;
-            $rowKey=$numTeamsArray[$i];
-            $colKey=$numTeamsArray[$j];
 
-            // Now here we explode it and check
-            if($teamId == $rowKey)
+            if($i==$j)
             {
-              if(array_key_exists($rowKey.'-'.$colKey, $matchArr))
-              {
-                $arr1[$i]['matches'][$j]['score']= $matchArr[$rowKey.'-'.$colKey];
-              }
-              else
-              {
-              // Flip it
+              $arr1[$i]['matches'][$j] ='X';
+            }
+            else
+            {
+              $teamId = $numTeamsArray[$i];
+              //echo 'Team id is'.$teamId;
+              $rowKey=$numTeamsArray[$i];
+              $colKey=$numTeamsArray[$j];
 
-                if(isset($matchArr[$colKey.'-'.$rowKey])){
-                     $nwArr = explode('-',$matchArr[$colKey.'-'.$rowKey]);
-                     $arr1[$i]['matches'][$j]['score']= $nwArr[1].'-'.$nwArr[0];
+              // Now here we explode it and check
+              if($teamId == $rowKey)
+              {
+               // print_r($matchArr);exit;
+                if(array_key_exists($rowKey.'-'.$colKey, $matchArr))
+                {
+                  $arr1[$i]['matches'][$j]['score']= $matchArr[$rowKey.'-'.$colKey];
+                  $arr1[$i]['matches'][$j]['home']= $rowKey;
+                  $arr1[$i]['matches'][$j]['away']= $colKey;
+                }
+                else
+                {
+                // Flip it
+
+                /*  if(isset($matchArr[$colKey.'-'.$rowKey])){
+                       $nwArr = explode('-',$matchArr[$colKey.'-'.$rowKey]);
+                       $arr1[$i]['matches'][$j]['score']= $nwArr[1].'-'.$nwArr[0];
+                       $arr1[$i]['matches'][$j]['home']= $rowKey;
+                      $arr1[$i]['matches'][$j]['away']= $colKey;
+                  } */
+                  $arr1[$i]['matches'][$j]= 'X';
                 }
               }
-              //$arr1[$i]['matches'][$j]= $matchArr[$rowKey.'-'.$colKey];
             }
-            //echo 'fixture'.$fixArrKeyval=$rowKey.",".$colKey;
-          }
          }
          // Match is Not Exist Yet
+         // TODO : Not needed
          else
          {
+
             $matchNotExist=true;
             $arr1[$i]['matches'][$j]['score'] = '';
 
          }
         }
-
       }
+
       if($matchNotExist == true) {
         return array();
       }
-
+   //   print_r($arr1);exit;
       return $arr1;
 
     }

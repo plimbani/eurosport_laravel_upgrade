@@ -171,6 +171,9 @@ export default {
 			if(comp == 'drawDetails') {
 				this.getDrawDetails(id, Name)
 			}
+      if(comp == 'matchList') {
+        this.getDrawDetails(id, Name)
+      }
 		},
 		getDrawDetails(drawId, drawName) {
 			let TournamentId = this.$store.state.Tournament.tournamentId

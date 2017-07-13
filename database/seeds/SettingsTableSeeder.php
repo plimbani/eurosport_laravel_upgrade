@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
-class FixturesTableSeeder extends Seeder
+class SettingsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,8 @@ class FixturesTableSeeder extends Seeder
     {
         DB::table('settings')->truncate();
 
-        DB::table('fixtures')->insert([
-        	['tournament_id' => 4,  'user_id' => '5', 'option' => '',
+        DB::table('settings')->insert([
+        	[ 'user_id' => '5', 'option' => '',
           'value'=>'{"is_sound":"true","is_vibration":"true","is_notification":"true"}' ,'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
     }

@@ -126,11 +126,17 @@ class TeamService implements TeamContract
             // Here we check if No data then create
             if(count($clubData1) == 0) {
                 // Its New values
-                $club_array = array('user_id'=>'1','name'=>$data['club'],'tournament_id'=>$data->tournamentData['tournamentId']);
+                $club_array = array('user_id'=>'1','name'=>$data['club'],
+                  'tournament_id'=>$data->tournamentData['tournamentId']);
                 $clubData = Club::create($club_array);
                 $data['club_id'] = $clubData->id;
             }
             else {
+                if($clubData1[0]->tournament_id == null)
+                    {
+                      $club_tournament['tournament_id'] = $data->tournamentData['tournamentId'];
+                      Club::where('id',$clubData1[0]->id)->update($club_tournament);
+                    }
                 $data['club_id'] = $clubData1[0]->id;
             }
          }
