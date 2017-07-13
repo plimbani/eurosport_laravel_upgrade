@@ -153,13 +153,13 @@ export default {
         setCurrentMsg() {
           let msg = ''
           if(this.$store.state.setCurrentView == 'drawsListing') {
-            msg = 'draw List'
+            msg = 'category list'
           }
           if(this.$store.state.setCurrentView == 'teamListing') {
-            msg = 'team List'
+            msg = 'team list'
           }
           if(this.$store.state.setCurrentView == 'matchListing') {
-            msg = 'match List'
+            msg = 'match list'
           }
           return msg
         }
