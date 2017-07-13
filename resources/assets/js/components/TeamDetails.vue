@@ -1,11 +1,9 @@
 <template>
 	<div>
 	<div class="form-group">
-
 	   <a @click="setCurrentTabView(currentTabView)" data-toggle="tab" href="javascript:void(0)"
-  role="tab" aria-expanded="true"
-  class="btn btn-primary">
-  <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{setCurrentMsg}}</a>
+	   role="tab" aria-expanded="true" class="btn btn-primary">
+       <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{setCurrentMsg}}</a>
 
 	</div>
 		<div class="row">
@@ -78,13 +76,13 @@ export default {
         setCurrentMsg() {
           let msg = ''
           if(this.$store.state.setCurrentView == 'drawsListing') {
-            msg = 'draw List'
+            msg = 'category list'
           }
           if(this.$store.state.setCurrentView == 'teamListing') {
-            msg = 'team List'
+            msg = 'team list'
           }
           if(this.$store.state.setCurrentView == 'matchListing') {
-            msg = 'match List'
+            msg = 'match list'
           }
           return msg
         }
