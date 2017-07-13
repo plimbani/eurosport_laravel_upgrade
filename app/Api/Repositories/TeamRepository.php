@@ -251,7 +251,7 @@ public function getAllFromTournamentId($tournamentId)
 
       if($fieldName == 'group_id') {
 
-        return Team::leftJoin('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
+        return Team::leftJoin('competitions','competitions.id','=','teams.competation_id')
             ->join('countries','countries.id','=','teams.country_id')
             ->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
             ->select('teams.*',
@@ -270,8 +270,8 @@ public function getAllFromTournamentId($tournamentId)
       return Team::where('teams.'.$fieldName,'=',$value)
             ->join('countries','countries.id','=','teams.country_id')
             ->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
-            ->join('competitions','competitions.tournament_competation_template_id',
-              '=','tournament_competation_template.id')
+            ->join('competitions','competitions.id',
+              '=','teams.competation_id')
             ->select('teams.*','countries.id as countryId',
               'countries.name as CountryName',
               'tournament_competation_template.id as ageGroupId',

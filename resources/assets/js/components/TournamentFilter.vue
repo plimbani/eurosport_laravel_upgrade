@@ -13,12 +13,13 @@
       </label>
     </div>
     <div class="form-group">
-      <label class="radio-inline control-label">
-          <input type="radio" id="age_category" name="filter" value="age_category" @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
+      <label class="radio-inline control-label" v-if="section!='scheduleResult'">
+          <input type="radio" id="age_category" name="filter" value="group"
+          @click="getDropDownData('group')" class="mr-2">{{$lang.tournament_filter_age_category}}
       </label>
     </div>
     <div class="form-group">
-      <label class="radio-inline control-label" v-if="section != 'pitchPlanner'">
+      <label class="radio-inline control-label" v-if="section == 'scheduleResult'">
         <input type="radio" id="team" name="filter" value="team"
         @click="getDropDownData('team')" class="mr-2">{{$lang.teams_team}}
       </label>
@@ -29,7 +30,7 @@
           <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="mr-2">{{$lang.teams_country}}
       </label>
     </div>
-    
+
     <div class="form-group">
       <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:130px">
         <option value="" v-if="filterKey != 'age_category'">Select</option>
