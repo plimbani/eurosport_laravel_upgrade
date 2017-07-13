@@ -78,14 +78,14 @@ export default {
   props:['section'],
   mounted() {
     // By Default Called with Team
-    if(this.section != 'pitchPlanner'){
+    if(this.section != 'scheduleResult' ){
       this.getDropDownData('age_category')
       $('#age_category').prop("checked",true)
     }
-    else{
-      this.getDropDownData('location')
+    if (this.section == 'scheduleResult' ){
+      this.getDropDownData('competation_group')
       this.setFilterValue()
-      $('#location').prop("checked",true)
+      $('#competation_group').prop("checked",true)
     }
   },
   methods: {
