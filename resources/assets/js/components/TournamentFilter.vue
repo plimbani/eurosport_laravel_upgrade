@@ -5,12 +5,7 @@
         <strong>{{$lang.teams_filter}}</strong>
       </label>
     </div>
-    <div class="form-group">
-      <label class="radio-inline control-label" v-if="section=='pitchPlanner' || section=='scheduleResult'">
-        <input type="radio" id="location" name="filter" value="location"
-        @click="getDropDownData('location')" class="mr-2">{{$lang.teams_location}}
-      </label>
-    </div>
+
     <div class="form-group" v-if="section!='scheduleResult'">
       <label class="radio-inline control-label">
           <input type="radio" id="age_category" name="filter" value="age_category" @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
@@ -20,7 +15,14 @@
     <div class="form-group" v-if="section=='scheduleResult'">
       <label class="radio-inline control-label">
           <input type="radio" id="competation_group" name="filter" value="competation_group"
-           @click="getDropDownData('competation_group')" class="mr-2">{{$lang.tournament_filter_age_category}}
+           @click="getDropDownData('competation_group')" class="mr-2">{{$lang.tournament_filter_age_category_match}}
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label class="radio-inline control-label" v-if="section=='pitchPlanner' || section=='scheduleResult'">
+        <input type="radio" id="location" name="filter" value="location"
+        @click="getDropDownData('location')" class="mr-2">{{$lang.teams_location}}
       </label>
     </div>
     
