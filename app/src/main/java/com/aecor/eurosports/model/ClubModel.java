@@ -7,6 +7,33 @@ package com.aecor.eurosports.model;
 public class ClubModel {
     private String ClubId;
     private String clubName;
+    private String countryId;
+    private String CountryName;
+    private String CountryLogo;
+
+    public String getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(String countryId) {
+        this.countryId = countryId;
+    }
+
+    public String getCountryName() {
+        return CountryName;
+    }
+
+    public void setCountryName(String countryName) {
+        CountryName = countryName;
+    }
+
+    public String getCountryLogo() {
+        return CountryLogo;
+    }
+
+    public void setCountryLogo(String countryLogo) {
+        CountryLogo = countryLogo;
+    }
 
     public String getClubId() {
         return ClubId;
