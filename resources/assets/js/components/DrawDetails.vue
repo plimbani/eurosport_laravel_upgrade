@@ -1,7 +1,10 @@
 <template>
 <div>
 <div class="form-group">
-  <a @click="setCurrentView('drawList','drawListing')" data-toggle="tab" href="javascript:void(0)" role="tab" aria-expanded="true" class="btn btn-primary"><i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to matches</a>
+  <a @click="setCurrentView(currentView)" data-toggle="tab" href="javascript:void(0)"
+  role="tab" aria-expanded="true"
+  class="btn btn-primary">
+  <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{currentView}}</a>
 </div>
 <div class="form-group row d-flex flex-row align-items-center">
 <div class="col d-flex flex-row align-items-center">
@@ -21,12 +24,12 @@
 </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
 
-<table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0">
+<table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0" >
 	<thead>
     <tr>
         <th></th>
         <th></th>
-        <th v-for="(match,index) in match1Data">{{index+1}}</th>
+        <th v-for="(match,index) in match1Data" class="text-center">{{index+1}}</th>
     </tr>
   </thead>
   <tbody>
@@ -42,16 +45,16 @@
 
     		</td>
         <td v-for="(teamMatch, ind2) in match.matches">
-          <span class="text-center">{{teamMatch.score}}</span>
-          <div v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
+          <div class="text-center">{{teamMatch.score}}</div>
+          <div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
         </td>
       </tr>
   </tbody>
 </table>
 <span v-else> No information available </span>
-<h6> {{otherData.DrawName}} standings</h6>
+<h6 v-if="CompRound == 'Round Robin'"> {{otherData.DrawName}} standings</h6>
   <teamStanding :currentCompetationId="currentCompetationId"
-  v-if="currentCompetationId != 0"></teamStanding>
+  v-if="currentCompetationId != 0" ></teamStanding>
 <h6>{{otherData.DrawName}} matches</h6>
 <matchList :matchData="matchData"></matchList>
 </div>
@@ -72,7 +75,8 @@ export default {
             currentCompetationId: 0,
             match1Data:[],error:false,errorMsg:'',
             drawList:'',
-            DrawName:[]
+            DrawName:[],
+            CompRound:'Round Robin'
         }
     },
 
@@ -82,6 +86,7 @@ export default {
     // here call method to get All Draws
     let TournamentId = this.$store.state.Tournament.tournamentId
     let currDId = this.currentCompetationId
+    let round = 'Round Robin'
     let drawname1 = []
       Tournament.getAllDraws(TournamentId).then(
         (response)=> {
@@ -93,9 +98,11 @@ export default {
               if(item['id'] == currDId)
               {
                drawname1 = item
+               round = item['competation_type']
               }
             }, {});
             this.DrawName = drawname1
+            this.CompRound = round
             //this.DrawName = this.matchData[0];
             // find record of that
           }
@@ -152,7 +159,7 @@ export default {
           let Name = this.DrawName.name
 
           this.$root.$emit('changeDrawListComp',Id, Name);
-         // this.matchData = this.drawList
+          // this.matchData = this.drawList
           this.setTeamData()
           this.currentCompetationId = Id
 
@@ -210,11 +217,11 @@ export default {
             }
 
         },
-        setCurrentView(currentScheduleView,currentView) {
-          this.currentView = currentView
-          this.$store.dispatch('setCurrentScheduleView',currentScheduleView)
+        setCurrentView() {
+          // this.currentView = currentView
+          this.$store.dispatch('setCurrentScheduleView','drawList')
           this.$root.$emit('changeDrawListComp')
-        }
+        },
     }
 }
 </script>

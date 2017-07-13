@@ -158,7 +158,7 @@ class MatchRepository
                 DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
                 DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
                 'HomeFlag.country_flag as HomeCountryFlag',
-                'HomeFlag.country_flag as HomeCountryFlag',
+                'AwayFlag.country_flag as AwayCountryFlag',
 
                 'HomeFlag.name as HomeCountryName',
                 'AwayFlag.name as AwayCountryName',
@@ -238,6 +238,8 @@ class MatchRepository
     }
     public function getStanding($tournamentData)
     {
+        //print_r($tournamentData);
+        //print_r($tournamentData);exit;
         //$url = getenv('S3_URL');
         $reportQuery = DB::table('match_standing')
           ->leftjoin('teams', 'match_standing.team_id', '=', 'teams.id')
@@ -247,9 +249,13 @@ class MatchRepository
             DB::raw('CONCAT("'.$this->getAWSUrl.'", countries.logo) AS teamFlag'),
             'countries.country_flag as teamCountryFlag');
 
+          if(isset($tournamentData['competationId']) && $tournamentData['competationId'] !== '')
+          {
+						$reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competationId']);
+          }
           if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
           {
-						$reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competitionId']);
+            $reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competitionId']);
           }
           // TODO: Need to add code for passing through teamId
           if(isset($tournamentData['teamId']) && $tournamentData['teamId'] !== '')
@@ -263,7 +269,7 @@ class MatchRepository
           {
           $reportQuery = $reportQuery->where('match_standing.tournament_id', $tournamentData['tournamentId']);
           }
-
+           //print_r($reportQuery->get());exit;
           return $reportQuery->get();
     }
     public function getDrawTable($tournamentData){

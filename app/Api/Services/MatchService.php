@@ -347,6 +347,7 @@ class MatchService implements MatchContract
         //$leagueId = $this->Session->read('League.id');
         // competationId
         $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
+
         $fix1=array();
 
         foreach($singleFixture as $singleFxture)
@@ -356,6 +357,11 @@ class MatchService implements MatchContract
           $fix1['CupFixture']['awayteam'] = $singleFxture->away_team;
           $fix1['CupFixture']['tournamentId'] = $singleFxture->tournament_id;
 
+        }
+
+        if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
+        {
+          return false;
         }
         // Set the fix1 single record team
 
@@ -670,6 +676,7 @@ class MatchService implements MatchContract
                             ->where('team_id',$fix1['CupFixture']['hometeam'])
                             ->get()->first();
             $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
+            $sendData = array();
             // if its exist update it
             if ( count($homeTeamExist) > 0){
                 //$this->CupLeagueTable->id = $homeTeamExist->id;
@@ -687,6 +694,9 @@ class MatchService implements MatchContract
 
                 //$data = $ageGroupList[$fix1['CupFixture']['hometeam']];
                 DB::table('match_standing')->where('id',$homeTeamExist->id)->update($data);
+                $sendData['home'] = $data;
+                $sendData['home']['competition_id'] = $homeTeamExist->competition_id;
+                $sendData['home']['team_id'] = $homeTeamExist->team_id;
                 //$this->CupLeagueTable->save($data);
             } else {
 
@@ -696,7 +706,7 @@ class MatchService implements MatchContract
                 $data3['competition_id'] = $cup_competition_id;
                 $data3['team_id'] = $fix1['CupFixture']['hometeam'];
 
-                $data['points'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] * $losePoints;
+                $data3['points'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] * $losePoints;
 
                 $data3['played'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'];
                 $data3['won'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'];
@@ -705,6 +715,7 @@ class MatchService implements MatchContract
                 $data3['goal_for'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'];
                 $data3['goal_against'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'];
                 DB::table('match_standing')->insert($data3);
+                $sendData['home'] = $data3;
                 //$this->CupLeagueTable->save($data);
             }
 
@@ -723,7 +734,7 @@ class MatchService implements MatchContract
                 $data1 = array();
                 // TODO : remains
                 //$data['points'] =
-                $data['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
+                $data1['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
 
                 $data1['played'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'];
                 $data1['won'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'];
@@ -734,7 +745,9 @@ class MatchService implements MatchContract
 
                 //$data = $ageGroupList[$fix1['CupFixture']['hometeam']];
                 DB::table('match_standing')->where('id',$awayTeamExist->id)->update($data1);
-
+                $sendData['away'] = $data1;
+                $sendData['away']['competition_id'] = $awayTeamExist->competition_id;
+                $sendData['away']['team_id'] = $awayTeamExist->team_id;
             } else {
               /* $this->CupLeagueTable->create();
                 $data = array();
@@ -748,7 +761,7 @@ class MatchService implements MatchContract
                 $data2['competition_id'] = $cup_competition_id;
                 $data2['team_id'] = $fix1['CupFixture']['awayteam'];
 
-                $data['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
+                $data2['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
 
                 $data2['played'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'];
                 $data2['won'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'];
@@ -757,11 +770,32 @@ class MatchService implements MatchContract
                 $data2['goal_for'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'];
                 $data2['goal_against'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'];
                 DB::table('match_standing')->insert($data2);
-
+                //$sendData = $data2;
+                $sendData['away'] = $data2;
             }
         }
-        print_r($fix);exit;
+
+        // Now here call Function for Placing Match Team Assignments
+        $this->PMTeamAssignment($sendData);
         return $fix;
+    }
+    /*
+      This function used for Team Assignment For Placing Matches
+     */
+    private function PMTeamAssignment($sendData)
+    {
+
+      $competition_id = $sendData['home']['competition_id'];
+      $teams  = DB::table('teams')->where('teams.competation_id','=',$competition_id)
+               ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
+               ->leftJoin('tournament_template','tournament_template.id','=','tournament_competation_template.tournament_template_id')
+               ->select('teams.id as TeamId','tournament_template.id as TemplateId','tournament_template.json_data as TemplateJson',
+                'teams.name as TeamName','tournament_competation_template.group_name','tournament_competation_template.category_age')
+               ->get();
+      print_r($teams);exit;
+      $templateJson = $teams[0]->TemplateJson;
+
+
     }
 }
 

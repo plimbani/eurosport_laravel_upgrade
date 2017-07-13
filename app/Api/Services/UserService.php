@@ -127,9 +127,15 @@ class UserService implements UserContract
           \Log::info('Insert in User Favourite table');
           $user_id = $userObj->id;
           $userFavouriteData['user_id']=$user_id;
+          if($data['tournament_id'] == '' || $data['tournament_id'] == 0)
+                $data['tournament_id'] = 1;
           $userFavouriteData['tournament_id'] = $data['tournament_id'];
           $userFavouriteData['is_default'] = 1;
           $this->userRepoObj->createUserFavourites($userFavouriteData);
+          // Also Add settings Data
+          $userSettings['user_id'] = $user_id;
+          $userSettings['value'] = '{"is_sound":"false","is_vibration":"false","is_notification":"false"}';
+           $this->userRepoObj->createUserSettings($userSettings);
         //  return ['status_code' => '200', 'message' => 'Mobile Data Sucessfully Inserted'];
         }
         if ($data) {

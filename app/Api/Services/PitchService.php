@@ -61,6 +61,7 @@ class PitchService implements PitchContract
 
         // dd($dataArr);
         $pitchdata = $this->pitchRepoObj->edit($dataArr,$pitchId);
+        $this->unScheduleAllocatedMatch($dataArr,$pitchId);
         if($pitchdata){
             $this->unScheduleAllocatedMatch($dataArr,$pitchId);
             $this->pitchAvailableRepoObj->removePitchAvailability($pitchId);
@@ -100,6 +101,7 @@ class PitchService implements PitchContract
             return ['code' => '200', 'message' => 'Pitch Sucessfully Deleted'];
         }
     }
+
     // Function to check if any match in between that Stage Schedule
     // if it is then unschedule it
     private function unScheduleAllocatedMatch($dataArr='',$pitchId)
@@ -134,7 +136,6 @@ class PitchService implements PitchContract
             foreach ($matches as $match) {
                 $stage_start_date_time = $stage->stage_start_date.' '.$stage->stage_start_time;
                 $stage_end_date_time = $stage->stage_end_date.' '.$stage->stage_end_time;
-                
                 $matchStartDateTime = $match->match_datetime;
                 $matchEndDateTime = $match->match_endtime;
                 // if its schedule earlier then change pitch allocation

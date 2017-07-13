@@ -63,6 +63,7 @@ class AgeGroupRepository
        $competationIds[$i]['name'] = $comp_group;
        $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];
        $competationIds[$i]['ageGroup'] = $age_group;
+       $competationIds[$i]['competation_type'] = $competaon_type;
        $i++;
       }
 
@@ -233,8 +234,10 @@ class AgeGroupRepository
           foreach($competationArr as $group) {
             $tournamentId = $group['tournamentId'];
             $ageGroup = $group['ageGroup'];
+
             if($groupName == $group['name']) {
               $competationId = $group['id'];
+              $round = $group['competation_type'];
             }
           }
           // Team Assignement
@@ -253,6 +256,7 @@ class AgeGroupRepository
             'tournament_id'=>$tournamentId,'competition_id'=>$competationId,
             'home_team_name'=>$homeTeam,'match_result_id'=> 0,
             'created_at'=> new \DateTime(),
+            'round'=>$round,
             'away_team_name'=>$away_team,'venue_id'=>0,'pitch_id'=>0]
           );
       }
