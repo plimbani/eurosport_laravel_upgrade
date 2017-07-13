@@ -124,7 +124,7 @@
               </tr>
               <tr>
                 <td>Referee</td>
-                <td>{{ matchDetail.referee.first_name }}</td>
+                <td>{{ referee_name }}</td>
               </tr>
               <tr>
                 <td>Result</td>
@@ -172,7 +172,8 @@ var moment = require('moment');
          'tournamentId': this.$store.state.Tournament.tournamentId,
          'matchDetail':{},
          'referees': {},
-         'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId
+         'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
+         'referee_name' : ''
        }
     },
     props: ['matchFixture'],
@@ -197,6 +198,7 @@ var moment = require('moment');
 
           } else {
           this.matchDetail.referee.first_name = this.matchDetail.referee.last_name+', '+this.matchDetail.referee.first_name
+          this.referee_name = this.matchDetail.referee.first_name
           }
          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
 
