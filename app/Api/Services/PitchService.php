@@ -61,7 +61,9 @@ class PitchService implements PitchContract
 
         // dd($dataArr);
         $pitchdata = $this->pitchRepoObj->edit($dataArr,$pitchId);
+        $this->unScheduleAllocatedMatch($dataArr,$pitchId);
         if($pitchdata){
+            $this->unScheduleAllocatedMatch($dataArr,$pitchId);
             $this->pitchAvailableRepoObj->removePitchAvailability($pitchId);
             $data1 = $this->pitchAvailableRepoObj->createPitch($dataArr, $pitchId);
         }
@@ -93,23 +95,62 @@ class PitchService implements PitchContract
      */
     public function deletePitch($deleteId)
     {
+        $this->unScheduleAllocatedMatch('',$deleteId);
         $pitchRes = $this->pitchRepoObj->getPitchFromId($deleteId)->delete();
         if ($pitchRes) {
             return ['code' => '200', 'message' => 'Pitch Sucessfully Deleted'];
         }
     }
+
     // Function to check if any match in between that Stage Schedule
     // if it is then unschedule it
-    private function unScheduleAllocateMatch($data,$pitchId)
+    private function unScheduleAllocatedMatch($dataArr='',$pitchId)
     {
-      // find matches where not in between that time details in temp_fixtures
-      print_r($data);exit;
-      $record = DB::table('temp_fixtures')
+        // find matches where not in between that time details in temp_fixtures
+        if(empty($dataArr)) {
+            $pitch = DB::table('pitches')
+                    ->where('pitches.id','=',$pitchId)->get();
+            $dataArr['tournamentId'] = $pitch[0]->tournament_id;
+            $matches = DB::table('temp_fixtures')
                 ->where('temp_fixtures.pitch_id','=',$pitchId)
-                ->where('temp_fixtures.tournament_id','=',$data['tournamentId'])->get();
-  print_r($record);exit;
-      print_r($data);
-      print_r($pitchId);
-      exit;
+                ->where('temp_fixtures.is_scheduled','=',1)->get();
+            $matchIdArray = [];
+            foreach ($matches as $match) {
+                $matchIdArray[] = $match->id;
+            }
+            $unScheduleArray = [
+              'is_scheduled' => 0
+            ];
+            $update_match = DB::table('temp_fixtures')
+                        ->whereIn('temp_fixtures.id',$matchIdArray)
+                        ->update($unScheduleArray);
+            return true;
+        }
+        $pitches = DB::table('pitch_availibility')
+                ->where('pitch_availibility.pitch_id','=',$pitchId)
+                ->where('pitch_availibility.tournament_id','=',$dataArr['tournamentId'])->get();
+        $matches = DB::table('temp_fixtures')
+                ->where('temp_fixtures.pitch_id','=',$pitchId)
+                ->where('temp_fixtures.is_scheduled','=',1)->get();
+        foreach ($pitches as $stage) {
+            foreach ($matches as $match) {
+                $stage_start_date_time = $stage->stage_start_date.' '.$stage->stage_start_time;
+                $stage_end_date_time = $stage->stage_end_date.' '.$stage->stage_end_time;
+                $matchStartDateTime = $match->match_datetime;
+                $matchEndDateTime = $match->match_endtime;
+                // if its schedule earlier then change pitch allocation
+                if ($matchStartDateTime < $stage_start_date_time ) {
+                    $update_match = DB::table('temp_fixtures')
+                        ->where('temp_fixtures.id','=',$match->id)
+                        ->update(['is_scheduled' => 0]);
+                }
+                if($matchEndDateTime > $stage_end_date_time)
+                {
+                    $update_match = DB::table('temp_fixtures')
+                        ->where('temp_fixtures.id','=',$match->id)
+                        ->update(['is_scheduled' => 0]);
+                }
+            }
+        }
     }
 }

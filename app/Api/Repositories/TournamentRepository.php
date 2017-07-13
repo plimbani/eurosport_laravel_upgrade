@@ -412,6 +412,7 @@ class TournamentRepository
     {
       //$url = getenv('S3_URL').'/assets/img/tournament_logo/';
       $userData = UserFavourites::where('users_favourite.user_id','=',$data['user_id'])
+              ->where('tournaments.status','=','Published')
               ->leftJoin('tournaments','tournaments.id','=','users_favourite.tournament_id')
               ->select('tournaments.*',
                 'users_favourite.*',
