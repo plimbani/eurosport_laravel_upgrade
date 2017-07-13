@@ -59,9 +59,16 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> im
     @Override
     public void onBindViewHolder(ClubAdapter.ViewHolder holder, int position) {
         final ClubModel clubModel = mClubList.get(position);
+        String mClubTitle = "";
         if (!Utility.isNullOrEmpty(clubModel.getClubName())) {
-            holder.individual_list_item.setText(clubModel.getClubName());
+            mClubTitle = clubModel.getClubName();
         }
+        if (!Utility.isNullOrEmpty(clubModel.getCountryName())) {
+            mClubTitle = mClubTitle + " (" + clubModel.getCountryName() + ")";
+        }
+
+        holder.individual_list_item.setText(mClubTitle);
+
         holder.ll_list_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
