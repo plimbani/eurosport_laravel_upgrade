@@ -181,10 +181,6 @@ class MatchRepository
           if(isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' )
           {
 
-
-            //echo 'Hello Date is'.$tournamentData['tournamentDate'];
-
-
             $dd1 = \DateTime::createFromFormat('d/m/Y H:i:s', $tournamentData['tournamentDate'].' 00:00:00');
             $mysql_date_string = $dd1->format('Y-m-d H:i:s');
 
@@ -228,6 +224,16 @@ class MatchRepository
                  break;
                 case 'age_category':
                  $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);
+                 break;
+                  case 'team':
+                   $team = $tournamentData['filterValue'];
+                   $reportQuery = $reportQuery->where(function ($query) use($team)
+                        {
+                          $query->where('temp_fixtures.home_team',$team)
+                          ->orWhere('temp_fixtures.away_team',$team);
+                        }
+                      );
+                // $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);
                  break;
               }
             }

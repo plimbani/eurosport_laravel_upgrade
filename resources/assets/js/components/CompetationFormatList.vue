@@ -6,7 +6,7 @@
           <thead>
               <tr>
                   <th class="text-center">{{$lang.competation_name_category}}</th>
-                  <th class="text-center">{{$lang.competation_age_category}}</th>
+                  <th class="text-center">{{$lang.competation_category_age}}</th>
                   <th class="text-center">{{$lang.compeattion_template}}</th>
                   <th class="text-center">{{$lang.competation_competation_format}}</th>
                   <th class="text-center">{{$lang.competation_total_matches}}</th>

@@ -145,7 +145,7 @@ class UserService implements UserContract
             $email_details['token'] = $token;
             $recipient = $data['emailAddress'];
             Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
-            return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
+            return ['status_code' => '200', 'message' => 'User registered successfully.'];
         }
     }
 
@@ -276,7 +276,7 @@ class UserService implements UserContract
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
 
         if ($data) {
-          return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+          return ['status_code' => '200', 'message' => 'Profile updated successfully.'];
         }
     }
 
@@ -370,7 +370,7 @@ class UserService implements UserContract
 
         $data =   UserFavourites::create($userFavouriteData);
         unset($userFavouriteData);
-        return ['status_code'=>'200','message'=>'User favourite default is set and created'];
+        return ['status_code'=>'200','message'=>'Default tournament created successfully'];
       } else {
         // Update and set default
         // First Set NULL
@@ -381,7 +381,7 @@ class UserService implements UserContract
               ->where('tournament_id','=',$tournament_id)
               ->update(['is_default'=>1]);
         if($data) {
-          return ['status_code'=>'200','message'=>'User favourite default is set updated'];
+          return ['status_code'=>'200','message'=>'Default tournament updated successfully'];
         }
       }
     }

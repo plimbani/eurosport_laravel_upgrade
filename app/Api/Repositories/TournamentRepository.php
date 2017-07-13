@@ -13,6 +13,7 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\Team;
 use Laraspace\Models\Referee;
 use Laraspace\Models\UserFavourites;
+use Laraspace\Models\Competition;
 use Carbon\Carbon;
 
 class TournamentRepository
@@ -325,13 +326,11 @@ class TournamentRepository
     }
     public function tournamentFilter($tournamentData)
     {
-      // dd($tournamentData);
       $tournamentId = $tournamentData['tournamentData']['tournamentId'];
       $key = $tournamentData['tournamentData']['keyData'];
       $resultData = array();
       // now here we fetch data for specefic key
-
-      if($tournamentData['tournamentData']['type'] == 'teams'){
+      if($tournamentData['tournamentData']['type'] == 'teams' || $tournamentData['tournamentData']['type'] == 'scheduleResult'){
         $reportQuery = Team::where('teams.tournament_id','=' ,$tournamentId);
         switch($key) {
           case 'team' :
@@ -349,6 +348,16 @@ class TournamentRepository
                             ->select('id',\DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"),'tournament_template_id')
                              ->get();
             break;
+            case 'location':
+            $resultData = Venue::where('tournament_id',$tournamentId)
+                        ->select('id','name')
+                        ->get();
+                        //echo $resultData;
+            break;
+          case 'competation_group':
+                 $resultData = Competition::where('tournament_id',$tournamentId)
+                                ->select('id','name')
+                                ->get(); 
         }
       }else{
 
@@ -374,7 +383,7 @@ class TournamentRepository
                         ->distinct('name')
                         ->get();
             break;
-        }
+        } 
       }
 
       return $resultData;
