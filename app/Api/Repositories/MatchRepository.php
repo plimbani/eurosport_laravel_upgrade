@@ -235,6 +235,9 @@ class MatchRepository
                       );
                 // $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);
                  break;
+                 case 'competation_group':
+                    $reportQuery =  $reportQuery->where('temp_fixtures.competition_id','=',$tournamentData['filterValue']);
+                  break;
               }
             }
           }
