@@ -6,8 +6,8 @@
 			<th class="text-center">{{$lang.summary_schedule_date_time}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_categories}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
-			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
+			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
 			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
 		</thead>
 		<tbody>
@@ -28,12 +28,6 @@
                <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
 					</a>
 				</td>
-				<td class="text-center">
-
-        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -
-        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist"
-        		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
-      		    </td>
 				<td align="left">
 					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
@@ -41,7 +35,12 @@
 						<span><u>{{match.AwayTeam}}</u></span>
 					</a>
 				</td>
+				<td class="text-center">
 
+        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -
+        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist"
+        		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
+      		    </td>
 				<td v-if="isHideLocation !=  false"><a class="pull-left text-left text-primary" href="" @click.prevent="changeLocation(match)"
 				><u>{{match.venue_name}} - {{match.pitch_number}}</u></a></td>
 			</tr>
