@@ -57,8 +57,6 @@ public class ProfileActivity extends BaseAppCompactActivity {
     protected EditText input_last_name;
     @BindView(R.id.input_email)
     protected EditText input_email;
-    @BindView(R.id.input_password)
-    protected EditText input_password;
     @BindView(R.id.profile_sp_tournament)
     protected Spinner profile_sp_tournament;
     @BindView(R.id.profile_language_selection)
@@ -92,9 +90,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
         String url = ApiConstants.UPDATE_PROFILE + user_id;
         final JSONObject requestJson = new JSONObject();
         try {
-            if (!Utility.isNullOrEmpty(input_password.getText().toString().trim())) {
-                requestJson.put("password", input_password.getText().toString().trim());
-            }
+
             requestJson.put("first_name", input_first_name.getText().toString().trim());
             requestJson.put("last_name", input_last_name.getText().toString().trim());
             requestJson.put("tournament_id", tournamet_id);
@@ -167,11 +163,6 @@ public class ProfileActivity extends BaseAppCompactActivity {
             input_email.setText("");
         }
 
-        if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_PASSWORD))) {
-            input_password.setText(mAppPref.getString(AppConstants.PREF_PASSWORD));
-        } else {
-            input_password.setText("");
-        }
         ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
         if (!Utility.isNullOrEmpty(profileModel.getFirst_name())) {
             input_first_name.setText(profileModel.getFirst_name());
@@ -202,7 +193,6 @@ public class ProfileActivity extends BaseAppCompactActivity {
         GenericTextMatcher textWatcher = new GenericTextMatcher();
         input_last_name.addTextChangedListener(textWatcher);
         input_first_name.addTextChangedListener(textWatcher);
-        input_password.addTextChangedListener(textWatcher);
         profile_sp_tournament.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -349,7 +339,6 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private boolean validate() {
         String fname = input_first_name.getText().toString().trim();
         String sname = input_last_name.getText().toString().trim();
-        String pass = input_password.getText().toString().trim();
 
         if (Utility.isNullOrEmpty(fname)) {
             return false;
@@ -358,7 +347,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
         if (Utility.isNullOrEmpty(sname)) {
             return false;
         }
-        return !(!Utility.isNullOrEmpty(pass) && pass.length() < 5);
+        return true;
     }
 
     private void checkValidation() {

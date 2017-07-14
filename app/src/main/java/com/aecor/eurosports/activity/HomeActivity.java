@@ -8,8 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.customtabs.CustomTabsSession;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -53,7 +51,6 @@ import butterknife.OnClick;
 
 import static com.aecor.eurosports.util.AppConstants.FACEBOOK_PAGE_ID;
 import static com.aecor.eurosports.util.AppConstants.FACEBOOK_URL;
-import static com.aecor.eurosports.util.AppConstants.TWITTER_URL;
 
 public class HomeActivity extends BaseAppCompactActivity {
 
@@ -269,7 +266,7 @@ public class HomeActivity extends BaseAppCompactActivity {
 //            builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
 //            customTabsIntent.launchUrl(mContext, Uri.parse(facebookUrl));
             Intent facebook = new Intent(mContext, WebViewActivity.class);
-            facebook.putExtra(AppConstants.WEBVIEW_INTENT,"Facebook");
+            facebook.putExtra(AppConstants.WEBVIEW_INTENT, AppConstants.ARG_FACEBOOK);
             startActivity(facebook);
         }
 
@@ -279,18 +276,12 @@ public class HomeActivity extends BaseAppCompactActivity {
     protected void open_instagram() {
         Uri uri = Uri.parse(AppConstants.INSTAGRAM_URL);
         Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
-
         likeIng.setPackage("com.instagram.android");
-
         try {
             startActivity(likeIng);
         } catch (ActivityNotFoundException e) {
-            /*CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            CustomTabsIntent customTabsIntent = builder.build();
-            builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
-            customTabsIntent.launchUrl(mContext, Uri.parse(AppConstants.INSTAGRAM_URL));*/
             Intent instagram = new Intent(mContext, WebViewActivity.class);
-            instagram.putExtra(AppConstants.WEBVIEW_INTENT,"Instagram");
+            instagram.putExtra(AppConstants.WEBVIEW_INTENT, AppConstants.ARG_INSTAGRAM);
             startActivity(instagram);
         }
     }
@@ -310,7 +301,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
             customTabsIntent.launchUrl(mContext, Uri.parse(TWITTER_URL));*/
             Intent twitter = new Intent(mContext, WebViewActivity.class);
-            twitter.putExtra(AppConstants.WEBVIEW_INTENT,"Twitter");
+            twitter.putExtra(AppConstants.WEBVIEW_INTENT, AppConstants.ARG_TWITTER);
             startActivity(twitter);
         }
 
