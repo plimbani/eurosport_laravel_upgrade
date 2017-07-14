@@ -189,7 +189,7 @@
                                                                         <span class="input-group-addon">
                                                                             <i class="jv-icon jv-calendar"></i>
                                                                         </span>
-                                                                        <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control  ls-datepicker datestage'+ day]">
+                                                                        <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-3">

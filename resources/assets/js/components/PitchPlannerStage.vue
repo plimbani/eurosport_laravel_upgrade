@@ -350,7 +350,7 @@ import _ from 'lodash'
                               }
                               if(scheduleBlock){
                                 refereeId = -1
-                                matchTitle = 'Match scheduled'
+                                matchTitle = 'Match scheduled - '+match.match_number
                               }else{
                                 refereeId = match.referee_id?match.referee_id:0
                                  matchTitle = match.match_number
