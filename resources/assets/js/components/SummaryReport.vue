@@ -49,7 +49,8 @@
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_club}}</strong></label>
 									<div class="">
-				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()" name="sel_clubs"
+				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()"
+				                    	 name="sel_clubs"
 				                    	id="sel_clubs" v-model="club">
 					                      <option value="">{{$lang.summary_club_select}}</option>
 					                      <option v-for="(club, index) in clubs"
@@ -396,9 +397,9 @@ export default {
 	        }
 	    },
 	    clearForm() {
-	      $('#frmReport')[0].reset()
-          this.reports = null
-	    },
+         $('#frmReport')[0].reset()
+          this.reports = {}
+      },
     	generateReport() {
     		if (!isNaN(this.TournamentId)) {
 		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
