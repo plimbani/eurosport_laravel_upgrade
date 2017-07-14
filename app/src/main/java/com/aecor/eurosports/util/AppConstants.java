@@ -17,6 +17,7 @@ public class AppConstants {
     public static final String FACEBOOK_PAGE_ID = "eurosportring";
     public static final String INSTAGRAM_URL = "http://instagram.com";
     public static final String TWITTER_URL = "https://twitter.com/EuroSportring";
+    public static final String WEBVIEW_INTENT = "webview_intent";
     public static final String SCREEN_CONSTANT_FAVOURITES = "FAVOURITES_SCREEN_SELECTED";
     public static final String SCREEN_CONSTANT_CLUBS = "CLUBS_SCREEN_SELECTED";
     public static final String SCREEN_CONSTANT_TOURNAMENT = "TOURNAMENT_SCREEN_SELECTED";
