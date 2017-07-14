@@ -57,12 +57,14 @@ import _ from 'lodash'
                 vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
                 // vm.getUnavailablePitch()
             },500)
+
             setTimeout(function(){
                 $('.fc-referee').each(function(referee){
                     if(this.id == -1 || this.id == -2 ){
                         $(this).closest('.fc-event').addClass('bg-grey');
                     }
                 })
+
             },2000)
             setTimeout(function(){
                 $('.fc-referee').each(function(referee){
@@ -126,8 +128,8 @@ import _ from 'lodash'
                             slotLabelFormat:"HH:mm",
                             timeFormat: 'H:mm',
                             resourceAreaWidth: '100px',
-                            width:100
-
+                            width:100,
+                            resourceLabelText: ' ',
                         },
                         agendaDay: {
                             name:'agendaView',
@@ -324,7 +326,7 @@ import _ from 'lodash'
                             let scheduleBlock = false
                             let refereeId = ''
                             let matchTitle = ''
-                            
+
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
                                     if( filterValue != '' && filterValue.id != match.tid){
