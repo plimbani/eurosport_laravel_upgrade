@@ -138,11 +138,11 @@ class TournamentService implements TournamentContract
         $jsonData = $jsonData->json_data;
 
         $json_data = json_decode($jsonData);
-        /*if(!$json_data){
+        if(!$json_data){
           echo 'Problem in Template';
           print_r($jsonData);
           echo 'hi';exit;
-        }*/
+        }
 
 
         $disp_format_name = $json_data->tournament_teams .' teams: '.
