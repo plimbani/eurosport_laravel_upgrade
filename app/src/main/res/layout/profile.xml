@@ -14,124 +14,77 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_profileImage"
-                android:layout_width="122dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:src="@drawable/profile_placeholder" />
-
-            <ImageView
-                android:id="@+id/iv_change_profile_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:layout_marginRight="100dp"
-                android:src="@drawable/icon_camera" />
-        </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lightGray" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:orientation="vertical">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="1"
-                android:fillViewport="true"
-                android:isScrollContainer="false">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/layout_margin"
-                    android:layout_marginRight="20dp"
-                    android:orientation="vertical">
-
-                    <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/input_email"
-                        style="@style/app_edittext"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edittext_border"
-                        android:enabled="false"
-                        android:focusable="false"
-                        android:hint="@string/email"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName|textNoSuggestions" />
-
-
-                    <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/input_first_name"
-                        style="@style/app_edittext"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edittext_border"
-                        android:hint="@string/first_name"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName|textNoSuggestions" />
-
-                    <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/input_last_name"
-                        style="@style/app_edittext"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edittext_border"
-                        android:hint="@string/last_name"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName|textNoSuggestions" />
-
-                    <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/input_password"
-                        style="@style/app_edittext"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/edittext_border"
-                        android:hint="@string/password"
-                        android:imeOptions="actionDone"
-                        android:inputType="textPassword" />
-
-                    <Spinner
-                        android:id="@+id/profile_sp_tournament"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/spinner_bg_image_gray"
-                        android:drawSelectorOnTop="true"
-                        android:prompt="@string/select_tournament" />
-
-                    <Spinner
-                        android:id="@+id/profile_language_selection"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/spinner_bg_image_gray"
-                        android:drawSelectorOnTop="true"
-                        android:prompt="@string/select_language" />
-                </LinearLayout>
-            </ScrollView>
-
-            <Button
-                android:id="@+id/btn_update"
-                style="@style/text_black_title"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="@dimen/layout_margin"
-                android:layout_marginRight="20dp"
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/input_email"
+                style="@style/app_edittext"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/btn_disable"
-                android:text="@string/update" />
+                android:background="@drawable/edittext_border"
+                android:enabled="false"
+                android:focusable="false"
+                android:hint="@string/email"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textNoSuggestions" />
+
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/input_first_name"
+                style="@style/app_edittext"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_border"
+                android:hint="@string/first_name"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textNoSuggestions" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/input_last_name"
+                style="@style/app_edittext"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_border"
+                android:hint="@string/last_name"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textNoSuggestions" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/input_password"
+                style="@style/app_edittext"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_border"
+                android:hint="@string/password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword" />
+
+            <Spinner
+                android:id="@+id/profile_sp_tournament"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/spinner_bg_image_gray"
+                android:drawSelectorOnTop="true"
+                android:prompt="@string/select_tournament" />
+
+            <Spinner
+                android:id="@+id/profile_language_selection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/spinner_bg_image_gray"
+                android:drawSelectorOnTop="true"
+                android:prompt="@string/select_language" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_update"
+            style="@style/text_black_title"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_disable"
+            android:text="@string/update" />
     </LinearLayout>
 
     <include layout="@layout/layout_footer" />

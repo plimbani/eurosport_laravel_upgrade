@@ -16,6 +16,7 @@
     <color name="dark_marron">#a81624</color>
     <color name="border_color">#999a9c</color>
     <color name="gray_text">#58595b</color>
+    <color name="traffic_light">#27e833</color>
 
 </resources>
 

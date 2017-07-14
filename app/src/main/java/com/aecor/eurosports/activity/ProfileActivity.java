@@ -3,18 +3,15 @@ package com.aecor.eurosports.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -34,15 +31,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,11 +47,10 @@ import butterknife.OnClick;
  * Created by system-local on 26-04-2017.
  */
 
-public class ProfileActivity extends BaseAppCompactActivity implements ImageOptionDialogActivity.onImageSelectedInterface {
+public class ProfileActivity extends BaseAppCompactActivity {
     private static final String TAG = "ProfileActivity";
 
-    @BindView(R.id.iv_profileImage)
-    protected ImageView iv_profileImage;
+
     @BindView(R.id.input_first_name)
     protected EditText input_first_name;
     @BindView(R.id.input_last_name)
@@ -165,22 +156,8 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         setData();
         getTournamentList();
         setListener();
-        showBackButton(getResources().getString(R.string.update_profile));
-        if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_IMAGE_URL))) {
-            AppLogger.LogE(TAG, "profile image url " + mAppPref.getString(AppConstants.PREF_IMAGE_URL));
-            Glide.with(mContext)
-                    .load(mAppPref.getString(AppConstants.PREF_IMAGE_URL))
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            iv_profileImage.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
-                        }
-                    });
-        }
+        showBackButton(getResources().getString(R.string.profile).toUpperCase());
+
     }
 
     private void setData() {
@@ -207,20 +184,7 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         } else {
             input_last_name.setText("");
         }
-        if (!Utility.isNullOrEmpty(profileModel.getProfile_image_url())) {
-            Glide.with(mContext)
-                    .load(profileModel.getProfile_image_url())
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            iv_profileImage.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
-                        }
-                    });
-        } else {
-            iv_profileImage.setImageResource(R.drawable.profile_place_holder);
-        }
+
         setLanguageSpinner();
     }
 
@@ -415,116 +379,6 @@ public class ProfileActivity extends BaseAppCompactActivity implements ImageOpti
         }
     }
 
-    @OnClick(R.id.iv_change_profile_pic)
-    protected void changeProfileImage() {
-        Intent mImageOptionDialogIntent = new Intent(mContext, ImageOptionDialogActivity.class);
-        ImageOptionDialogActivity.mCallback = this;
-        startActivity(mImageOptionDialogIntent);
-
-    }
-
-    @Override
-    public void selectedImageBitmap(Bitmap btm) {
-        if (btm != null) {
-            iv_profileImage.setImageBitmap(btm);
-        } else {
-            iv_profileImage.setImageResource(0);
-            iv_profileImage.setImageResource(R.drawable.profile_placeholder);
-        }
-
-        uploadProfileImage(btm);
-    }
-
-    private void uploadProfileImage(Bitmap selectedBitmap) {
-        String tempImageBase64String = null;
-
-        if (selectedBitmap != null) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
-
-            if (selectedBitmap != null) {// important! prevent out of memory
-                selectedBitmap.recycle();
-                selectedBitmap = null;
-            }
-            byte[] b = baos.toByteArray();
-            try {
-                System.gc();
-                tempImageBase64String = Base64.encodeToString(b, Base64.DEFAULT);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } catch (OutOfMemoryError e) {
-                baos = new ByteArrayOutputStream();
-                selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-                b = baos.toByteArray();
-                tempImageBase64String = Base64.encodeToString(b, Base64.DEFAULT);
-
-            }
-        }
-        Utility.startProgress(mContext);
-        String url = ApiConstants.UPDATE_PROFILE_IMAGE;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", Utility.getUserId(mContext));
-            if (!Utility.isNullOrEmpty(tempImageBase64String)) {
-                requestJson.put("user_image", "data:image/png;base64," + tempImageBase64String);
-            } else {
-                requestJson.put("user_image", "");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (Utility.isInternetAvailable(mContext)) {
-            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
-                    .getRequestQueue();
-
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
-                    .POST, url,
-                    requestJson, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Utility.StopProgress();
-                    try {
-                        AppLogger.LogE(TAG, "Upload Profile Image Response " + response.toString());
-                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
-                                String imageUrl = response.getString("data");
-                                Glide.with(mContext)
-                                        .load(imageUrl)
-                                        .asBitmap()
-                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                        .skipMemoryCache(true)
-                                        .into(new SimpleTarget<Bitmap>() {
-                                            @Override
-                                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                                                iv_profileImage.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_LARGE, AppConstants.MAX_IMAGE_HEIGHT_LARGE));
-                                            }
-                                        });
-
-                                mAppPref.setString(AppConstants.PREF_IMAGE_URL, imageUrl);
-                                Utility.showToast(mContext, getResources().getString(R.string.profile_image_updated_successfully));
-                            }
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    try {
-                        Utility.StopProgress();
-                        Utility.parseVolleyError(mContext, error);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            });
-            mQueue.add(jsonRequest);
-        }
-    }
 
     private class GenericTextMatcher implements TextWatcher {
         @Override

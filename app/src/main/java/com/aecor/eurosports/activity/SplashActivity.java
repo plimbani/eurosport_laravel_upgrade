@@ -37,6 +37,13 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initView() {
         mAppSharedPref = AppPreference.getInstance(mContext);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isUserLogin();
+            }
+        }, SPLASH_TIME_OUT);
     }
 
     @Override
@@ -52,12 +59,6 @@ public class SplashActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                isUserLogin();
-            }
-        }, SPLASH_TIME_OUT);
     }
 
     private void isUserLogin() {

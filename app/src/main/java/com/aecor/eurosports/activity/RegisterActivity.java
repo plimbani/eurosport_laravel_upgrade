@@ -241,8 +241,15 @@ public class RegisterActivity extends BaseActivity {
         if (password.isEmpty() || password.length() < 5) {
             return false;
         }
+        if (confirmPassword.isEmpty() || confirmPassword.length() < 5) {
+            return false;
+        }
 
-        return !(confirmPassword.isEmpty() || !confirmPassword.equals(password));
+        if (!confirmPassword.equals(password)) {
+            Utility.showToast(mContext, getString(R.string.password_do_not_match));
+            return false;
+        }
+        return true;
 
     }
 
