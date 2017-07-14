@@ -144,8 +144,8 @@ class UserService implements UserContract
             $email_details['name'] = $data['name'];
             $email_details['token'] = $token;
             $recipient = $data['emailAddress'];
-            Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
-            return ['status_code' => '200', 'message' => 'User registered successfully.'];
+            Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Registration', 'emails.users.create');
+            return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address and complete your account registration.'];
         }
     }
 
@@ -276,6 +276,7 @@ class UserService implements UserContract
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
 
         if ($data) {
+
           return ['status_code' => '200', 'message' => 'Profile updated successfully.'];
         }
     }
