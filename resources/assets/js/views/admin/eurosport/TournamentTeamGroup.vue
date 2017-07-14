@@ -92,7 +92,7 @@
 
                       <td v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != ''">
                         <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:click="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
-                          <option value="">Select Team</option>
+                          <option value="">De-select</option>
                           <optgroup :label="group.groups.group_name"
                           v-for="group in grps">
                             <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)"  :value="group['groups']['group_name']+n" >{{group['groups']['group_name']}}{{n}} </option>
@@ -147,6 +147,7 @@
         'beforeChangeGroupName': '',
         'section': 'teams',
         'filterStatus': true,
+        'seleTeam':'selectTeam'
         // 'tournamentFilter':{
         //   'filterKey':'team',
         //   'filterValue': ''
@@ -258,6 +259,7 @@
 
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue!='' && groupValue!= undefined ){
+          this.seleTeam = 'De-select Team'
           $('.selTeams').prop("disabled", true);
             $(".selTeams option:contains("+$('#sel_'+id).val()+")").not( $('.sel_'+id)).attr("disabled","disabled");
         }
