@@ -110,7 +110,7 @@ class PitchService implements PitchContract
         if(empty($dataArr)) {
             $pitch = DB::table('pitches')
                     ->where('pitches.id','=',$pitchId)->get();
-            $dataArr['tournamentId'] = $pitch[0]->tournament_id;
+           // $dataArr['tournamentId'] = $pitch[0]->tournament_id;
             $matches = DB::table('temp_fixtures')
                 ->where('temp_fixtures.pitch_id','=',$pitchId)
                 ->where('temp_fixtures.is_scheduled','=',1)->get();
