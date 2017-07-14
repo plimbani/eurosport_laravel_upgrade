@@ -26,7 +26,7 @@
           </div>
 
        <div class="form-group row align-items-center">
-          <div class="col-sm-4 form-control-label">Age Category*</div>
+          <div class="col-sm-4 form-control-label">Age category*</div>
             <div class="col-sm-8">
             <div class="row">
               <div class="col-sm-12">

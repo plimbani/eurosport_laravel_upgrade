@@ -1,4 +1,3 @@
-
 <template>
   <form  class="form-inline pull-right">
     <div class="form-group">
@@ -6,19 +5,29 @@
         <strong>{{$lang.teams_filter}}</strong>
       </label>
     </div>
+    <div class="form-group" v-if="section!='scheduleResult'">
+      <label class="radio-inline control-label">
+          <input type="radio" id="age_category" name="filter" value="age_category"
+           @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
+      </label>
+    </div>
+
+    <div class="form-group" v-if="section =='scheduleResult'">
+      <label class="radio-inline control-label">
+          <input type="radio" id="competation_group" name="filter" value="competation_group"
+           @click="getDropDownData('competation_group')" class="mr-2">{{$lang.tournament_filter_age_category_match}}
+      </label>
+    </div>
+
     <div class="form-group">
-      <label class="radio-inline control-label" v-if="section=='pitchPlanner'">
+      <label class="radio-inline control-label" v-if="section=='pitchPlanner' || section=='scheduleResult'">
         <input type="radio" id="location" name="filter" value="location"
         @click="getDropDownData('location')" class="mr-2">{{$lang.teams_location}}
       </label>
     </div>
+
     <div class="form-group">
-      <label class="radio-inline control-label">
-          <input type="radio" id="age_category" name="filter" value="age_category" @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
-      </label>
-    </div>
-    <div class="form-group">
-      <label class="radio-inline control-label" v-if="section != 'pitchPlanner'">
+      <label class="radio-inline control-label" v-if="section == 'scheduleResult' || section =='teams'">
         <input type="radio" id="team" name="filter" value="team"
         @click="getDropDownData('team')" class="mr-2">{{$lang.teams_team}}
       </label>
@@ -29,7 +38,7 @@
           <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="mr-2">{{$lang.teams_country}}
       </label>
     </div>
-    
+
     <div class="form-group">
       <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:130px">
         <option value="" v-if="filterKey != 'age_category'">Select</option>
@@ -69,14 +78,14 @@ export default {
   props:['section'],
   mounted() {
     // By Default Called with Team
-    if(this.section != 'pitchPlanner'){
+    if(this.section != 'scheduleResult' ){
       this.getDropDownData('age_category')
       $('#age_category').prop("checked",true)
     }
-    else{
-      this.getDropDownData('location')
+    if (this.section == 'scheduleResult' ){
+      this.getDropDownData('competation_group')
       this.setFilterValue()
-      $('#location').prop("checked",true)
+      $('#competation_group').prop("checked",true)
     }
   },
   methods: {
@@ -89,7 +98,8 @@ export default {
     setFilterValue() {
 
       this.filterValue = this.dropDown
-
+       // alert(this.filterValue)
+       // console.log(this.filterValue);
       let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
       if(this.activePath == 'teams_groups'){
@@ -97,6 +107,8 @@ export default {
       }else if(this.activePath == 'pitch_planner'){
         this.$root.$emit('getTeamsByTournamentFilter',this.filterKey,this.filterValue);
         //this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
+      } else {
+        this.$root.$emit('getMatchByTournamentFilter',this.filterKey,this.filterValue);
       }
     },
     getDropDownData(tourament_key) {

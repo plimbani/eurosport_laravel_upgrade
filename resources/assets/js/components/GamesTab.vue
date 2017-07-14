@@ -125,11 +125,11 @@ export default {
       } else {
           tdata ={'tournamentId':this.tournamentId }
       }
-        Tournament.getFixtures(tdata).then(
-            (response)=> {
-              this.matches = response.data.data
-            }
-          )
+      Tournament.getFixtures(tdata).then(
+          (response)=> {
+            this.matches = response.data.data
+          }
+        )
     },
     displayTournamentCompetationList () {
     // Only called if valid tournament id is Present

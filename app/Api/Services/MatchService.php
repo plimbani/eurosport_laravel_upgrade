@@ -665,6 +665,7 @@ class MatchService implements MatchContract
                     }
                 }
             }
+
             //print_r($ageGroupList);exit;
             //echo 'hello';exit;
             //$this->loadModel('CupLeagueTable');
@@ -704,6 +705,7 @@ class MatchService implements MatchContract
                 $data3 = array();
                 //$data = $ageGroupList[$fix1['CupFixture']['hometeam']];
                 $data3['competition_id'] = $cup_competition_id;
+                $data3['tournament_id'] = $fix1['CupFixture']['tournamentId'];
                 $data3['team_id'] = $fix1['CupFixture']['hometeam'];
 
                 $data3['points'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] * $losePoints;
@@ -760,7 +762,7 @@ class MatchService implements MatchContract
                 //$data = $ageGroupList[$fix1['CupFixture']['hometeam']];
                 $data2['competition_id'] = $cup_competition_id;
                 $data2['team_id'] = $fix1['CupFixture']['awayteam'];
-
+                $data2['tournament_id'] = $fix1['CupFixture']['tournamentId'];
                 $data2['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
 
                 $data2['played'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'];
@@ -776,7 +778,9 @@ class MatchService implements MatchContract
         }
 
         // Now here call Function for Placing Match Team Assignments
-        $this->PMTeamAssignment($sendData);
+
+        $this->TeamPMAssign($sendData);
+       // $this->PMTeamAssignment($sendData);
         return $fix;
     }
     /*
@@ -796,6 +800,82 @@ class MatchService implements MatchContract
       $templateJson = $teams[0]->TemplateJson;
 
 
+    }
+    private function TeamPMAssign($data)
+    {
+        $compId = $data['home']['competition_id'];
+        $cupId = $compId;
+
+        //$cupRoundrobinData = $this->CupRoundrobin->find('first', array('conditions' => array('comp_id' => $cupId)));
+
+        //$groupTeams = json_decode($cupRoundrobinData['CupRoundrobin']['groups'],true);
+        $teams = DB::table('teams')->where('competation_id','=',$compId)->get();
+        //print_r($teams);exit;
+        $defaultArray = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,
+          'home_goal' => 0,'away_goal' => 0,'goal_difference' => 0,'Total' => 0,
+          'manual_override' => 0,'group_winner' => 0);
+        $calculatedArray = array();
+       // foreach ($groupTeams as $gkey => $gvvalue) {
+            foreach ($teams as $gkey => $gvalue) {
+                //$teamExist = $this->CupLeagueTable->find('first', array('conditions'
+                // => array('comp_id' => $cupId, 'team_id' => $gvalue)));
+                // check in match standing table for that team and Group Id
+                $teamExist = DB::table('match_standing')->where('competition_id',$cupId)
+                               ->where('team_id',$gvalue->id)->get()->first();
+                $winPoints = 3; $losePoints =0;$drawPoints=1;
+
+                //print_r($teamExist);
+                if ( count($teamExist) > 0){
+
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['Played'] = $teamExist->played;
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['Won'] = $teamExist->won;
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['Lost'] = $teamExist->lost;
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['Draw'] = $teamExist->draws;
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['home_goal'] = $teamExist->goal_for;
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['away_goal'] = $teamExist->goal_against;
+                    $total = ( ( (int)$teamExist->won * $winPoints ) + ( (int)$teamExist->draws * $drawPoints) )  + ( (int)$teamExist->lost * $losePoints);
+
+                    $goal_difference = ( (int)$teamExist->goal_for  - (int)$teamExist->goal_against );
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['goal_difference'] = $goal_difference;
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['Total'] = $total;
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamid'] = $gvalue->id;
+                 //   $calculatedArray[$gkey][$gvalue]['manual_override'] =  $teamExist['CupLeagueTable']['manual_override'];
+                 //   $calculatedArray[$gkey][$gvalue]['group_winner'] =  $teamExist['CupLeagueTable']['group_winner'];
+                } else {
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id] = $defaultArray;
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamid'] = $gvalue->id;
+                }
+            }
+       // }
+       // echo 'Before Sort';
+       // print_r($calculatedArray);
+      //  echo 'After Sort';
+        $for_override_condition = array();
+        foreach ($calculatedArray as $ckey => $cvalue) {
+            $mid = $cid = $did = $overrride = $group_winner = array();
+            foreach ($cvalue as $cckey => $ccvalue) {
+
+               $mid[$cckey]  = (int)$ccvalue['Total'];
+               $cid[$cckey]  = (int)$ccvalue['Played'];
+               $did[$cckey]  = (int)$ccvalue['goal_difference'];
+              // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
+              // $group_winner[$cckey]  = (int)$ccvalue['group_winner'];
+              // $for_override_condition[$ckey][$cckey] = (int)$ccvalue['manual_override'];
+            }
+
+            array_multisort($mid, SORT_DESC,$did, SORT_DESC,$cid, SORT_DESC,$cvalue);
+            $calculatedArray[$ckey] = $cvalue;
+        }
+        // we get the teams sort by position and assign it to the placing matches
+         $CompTempData = DB::table('competitions')->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
+                          ->leftJoin('tournament_template','tournament_template.id','=','tournament_template_id')
+                          ->where('competitions.id',$cupId)->get();
+          print_r($CompTempData);exit;
+         print_r($calculatedArray);
+        // Here we get the teams by sort for particular Group
+        return ;
+        print_r($calculatedArray);
+       //exit;
     }
 }
 

@@ -138,11 +138,11 @@ class TournamentService implements TournamentContract
         $jsonData = $jsonData->json_data;
 
         $json_data = json_decode($jsonData);
-        /*if(!$json_data){
+        if(!$json_data){
           echo 'Problem in Template';
           print_r($jsonData);
           echo 'hi';exit;
-        }*/
+        }
 
 
         $disp_format_name = $json_data->tournament_teams .' teams: '.
@@ -554,20 +554,26 @@ class TournamentService implements TournamentContract
       $coordinates = [];
       foreach ($venue as $location) {
         $address = $location->address1.', '.$location->city.', '.$location->postcode.', '.$location->state.', '.$location->country;
-        $locationDetails = app('geocoder')->geocode($address)->get();
-        $coordinates['id'] = $location->id;
-        foreach($locationDetails as $loc)
-        {
-          $lat = $loc->getLatitude();
-          $long = $loc->getLongitude();
-
+        try {
+          /*$geocode = Geocoder::geocode("$name, Tanzania")->toArray();
+          return Response::json($geocode);*/
+          $locationDetails = app('geocoder')->geocode($address)->get();
+          $coordinates['id'] = $location->id;
+          foreach($locationDetails as $loc)
+          {
+            $lat = $loc->getLatitude();
+            $long = $loc->getLongitude();
+          }
+          $coodinates['venue_coordinates'] = $lat.','.$long;
+          $updateData = [
+            'venue_coordinates' => $coodinates['venue_coordinates']
+          ];
+          Venue::where('id',$coordinates['id'])->update($updateData);
+          return;
+        } catch (\Exception $e) {
+          // echo $e->getMessage();
+          return;
         }
-        $coodinates['venue_coordinates'] = $lat.','.$long;
-        $updateData = [
-          'venue_coordinates' => $coodinates['venue_coordinates']
-        ];
-        Venue::where('id',$coordinates['id'])->update($updateData);
-      }
-      return;
+      }      
     }
 }

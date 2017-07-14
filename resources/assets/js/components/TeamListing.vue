@@ -55,6 +55,9 @@ export default {
       if(comp == 'drawDetails') {
         this.getDrawDetails(id, Name)
       }
+      if(comp == 'teamList') {
+        this.getAllTournamentTeams()
+      }
     },
     getAllMatchesLocation(fixtureData){
 

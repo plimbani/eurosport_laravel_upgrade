@@ -114,6 +114,7 @@ module.exports = {
   competation_name_category: "Category name",
 
   competation_age_category: "Category age",
+  competation_category_age: "Age category",
   competation_competation_format: "Competition format",
   competation_total_matches: "Total matches",
   competation_total_time: "Total time",
@@ -124,6 +125,7 @@ module.exports = {
   competation_modal_age_category: "Match Schedule – Template",
   competation_label_name_category: "Category name*",
   competation_label_age_category: "Category age*",
+  compeattion_label_category: "Age Category*",
   competation_modal_name_category_required: "Category name is required",
   competation_modal_age_category_required: "Category age is required",
   competation_modal_select_templates: "Select template*",
@@ -360,7 +362,8 @@ module.exports = {
   summary_schedule_team: "Teams",
 
   summary_messages: "Messages",
-  summary_message_text: "Send push notifications to all mobile app users following this tournament.",
+  summary_messages_text: "App message text",
+  summary_message_text: "Send notifications to teams",
   summary_message_compose_message: "Compose your message",
   summary_message_button_send: "Send",
 
@@ -386,4 +389,5 @@ module.exports = {
   summary_schedule_matches_location: "Location",
 
   tournament_filter_age_category: "Category name",
+  tournament_filter_age_category_match: "Category",
 }

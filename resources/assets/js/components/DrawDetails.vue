@@ -1,10 +1,10 @@
 <template>
 <div>
 <div class="form-group">
-  <a @click="setCurrentView(currentView)" data-toggle="tab" href="javascript:void(0)"
+  <a @click="setCurrentTabView(currentTabView)" data-toggle="tab" href="javascript:void(0)"
   role="tab" aria-expanded="true"
   class="btn btn-primary">
-  <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{currentView}}</a>
+  <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{setCurrentMsg}}</a>
 </div>
 <div class="form-group row d-flex flex-row align-items-center">
 <div class="col d-flex flex-row align-items-center">
@@ -29,7 +29,7 @@
     <tr>
         <th></th>
         <th></th>
-        <th v-for="(match,index) in match1Data" class="text-center">{{index+1}}</th>
+       <th v-for="(match,index) in match1Data" class="text-center">{{index+1}}</th>
     </tr>
   </thead>
   <tbody>
@@ -146,6 +146,22 @@ export default {
         },
         currentCompId () {
           return this.currentCompetationId
+        },
+        currentTabView() {
+          return this.$store.state.setCurrentView
+        },
+        setCurrentMsg() {
+          let msg = ''
+          if(this.$store.state.setCurrentView == 'drawsListing') {
+            msg = 'category list'
+          }
+          if(this.$store.state.setCurrentView == 'teamListing') {
+            msg = 'team list'
+          }
+          if(this.$store.state.setCurrentView == 'matchListing') {
+            msg = 'match list'
+          }
+          return msg
         }
     },
 	components: {
@@ -217,10 +233,26 @@ export default {
             }
 
         },
-        setCurrentView() {
+        setCurrentTabView(setCurrentTabView) {
+          if(setCurrentTabView == 'drawsListing')
+          {
+            this.$store.dispatch('setCurrentScheduleView','drawList')
+            this.$root.$emit('changeDrawListComp')
+          }
+           if(setCurrentTabView == 'teamListing')
+          {
+            this.$store.dispatch('setCurrentScheduleView','teamList')
+            this.$root.$emit('changeComp')
+          }
+          if(setCurrentTabView == 'matchListing')
+          {
+            this.$store.dispatch('setCurrentScheduleView','matchList')
+            this.$root.$emit('changeComp')
+          }
+         // alert(setCurrentTabView)
           // this.currentView = currentView
-          this.$store.dispatch('setCurrentScheduleView','drawList')
-          this.$root.$emit('changeDrawListComp')
+        //  this.$store.dispatch('setCurrentScheduleView','drawList')
+        //  this.$root.$emit('changeDrawListComp')
         },
     }
 }

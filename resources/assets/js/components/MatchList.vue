@@ -6,8 +6,8 @@
 			<th class="text-center">{{$lang.summary_schedule_date_time}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_categories}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
-			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
+			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
 			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
 		</thead>
 		<tbody>
@@ -25,7 +25,14 @@
 					<a  class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
 						<span><u>{{match.HomeTeam}}</u></span>
 						<!--<img :src="match.HomeFlagLogo" width="20">-->
-            <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
+               <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
+					</a>
+				</td>
+				<td align="left">
+					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
+						<!--<img :src="match.AwayFlagLogo" width="20">-->
+             		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
+						<span><u>{{match.AwayTeam}}</u></span>
 					</a>
 				</td>
 				<td class="text-center">
@@ -34,14 +41,6 @@
         		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist"
         		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
       		    </td>
-				<td align="left">
-					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
-						<!--<img :src="match.AwayFlagLogo" width="20">-->
-             <span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
-						<span><u>{{match.AwayTeam}}</u></span>
-					</a>
-				</td>
-
 				<td v-if="isHideLocation !=  false"><a class="pull-left text-left text-primary" href="" @click.prevent="changeLocation(match)"
 				><u>{{match.venue_name}} - {{match.pitch_number}}</u></a></td>
 			</tr>
@@ -62,6 +61,7 @@ export default {
 		}
 	},
 
+
   filters: {
     formatDate: function(date) {
      return moment(date).format("HH:mm ddd DD MMM YYYY");
@@ -76,13 +76,17 @@ export default {
 			}
 		},
 
-		isUserDataExist() {
+	isUserDataExist() {
 	    return this.$store.state.Users.userDetails.id
 	    },
 	  getCurrentScheduleView() {
 	   	return this.$store.state.currentScheduleView
 	  }
 	},
+	components: {
+      
+    },
+
 	mounted() {
 		$('body').on('keypress', 'input',function(e) {
 		    var a = [];
@@ -101,6 +105,9 @@ export default {
 
 		});
 	},
+	  created: function() {
+      //this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
+    },
 	methods: {
 		changeLocation(matchData) {
 			// here we dispatch Method
@@ -108,6 +115,7 @@ export default {
 			this.$root.$emit('changeComp',matchData);
 			//this.$store.dispatch('setCurrentScheduleView','locationList')
 		},
+
 		changeTeam(Id, Name) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')

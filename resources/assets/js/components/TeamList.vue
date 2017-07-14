@@ -13,13 +13,12 @@
 				<td>
 					<a class="text-center text-primary" href="" @click.prevent="changeTeam(team.id, team.name)">
 						<!--<img :src="team.logo" width="20">-->
-            <span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
+          			    <span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
 						<span><u>{{team.name}}</u></span>
 					</a>
 				</td>
 				<td class="text-center">
-					<a href="" class="text-primary pull-left text-left"
-          @click.prevent="changeGroup(team)">
+					<a href="" class="text-primary pull-left text-left" @click.prevent="changeGroup(team)">
 					<u>{{team.competationName}}</u></a>
 				</td>
 			</tr>
