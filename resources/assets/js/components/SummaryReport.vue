@@ -239,8 +239,8 @@ export default {
         team:'',
        	reports: {},
         currentView:'summaryTab',
-        reportQuery:''
-
+        reportQuery:'',
+        isValidate:false
        	}
     },
     filters: {
@@ -256,28 +256,29 @@ export default {
     	this.getPitches()
     	this.getReferees()
         this.getClubs()
+        let stdate  = false
     	$('.ls-datepicker').datepicker()
     	$('#start_date').datepicker().on('changeDate',function(){
             $('#end_date').datepicker('setStartDate', $('#start_date').val())
         });
-
+           
 		 $('#start_time,#start_date').change(function(){
 		   if($('#start_date').val() == ''){
 		      $("#start_date_validation").html("Please enter values");
+		      stdate = true
 		   } else {
 		   	  $("#start_date_validation").html("");
 		   }
 		});
-
 	    $('#end_time,#end_date').change(function(){
 		   if($('#end_date').val() == ''){
 		      $("#end_date_validation").html("Please enter values");
+		          stdate = true
 		   } else {
 		   	  $("#end_date_validation").html("");
 		   }
 		});
-
-
+		 this.isValidate = stdate
     },
     methods: {
     	onSelectClub() {
@@ -402,8 +403,17 @@ export default {
           this.club = ''
           this.teams = {}
           this.team = ''
+          $("#end_date_validation").html("");
+          $("#start_date_validation").html("");
       },
     	generateReport() {
+    		let edata = $("#end_date_validation").html();
+    		let sdata = $("#end_date_validation").html();
+    		
+    		if(sdata !='' || edata != ''){
+
+    			return false
+    		}
     		if (!isNaN(this.TournamentId)) {
 		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
 		     // let ReportData =  $('#frmReport').serializeArray()
@@ -426,15 +436,14 @@ export default {
 		    }
     	},
     	printMatchDetails() {  
-    		
     		$('#report_logo').show();
      		var divToPrint = document.getElementById('report_logo');
 		    var printContents = document.getElementById('summary_report_table').innerHTML;
 		    let w = window.open();
 		    w.document.write($(printContents).html());
 		    w.print();
-		    $('#summary_report_table').hide();
 		    w.close();
+		     $('#summary_report_table').hide();
 	    }, 
 
     	exportReport() {
@@ -459,10 +468,3 @@ export default {
 }
 
 </script>
-<style>
-@media print {
- 	#report_logo {
-        display: none;
- 	}
-}  
-</style>
