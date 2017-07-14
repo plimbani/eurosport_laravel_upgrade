@@ -16,6 +16,53 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/view_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/heart_red_small"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="@string/set_favourite" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/selected_default_tournament_small"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:text="@string/set_defaault" />
+        </LinearLayout>
+
+    </LinearLayout>
+
     <include
         layout="@layout/layout_footer"
         android:layout_width="match_parent"

@@ -9,8 +9,8 @@ public class AppConstants {
     public static final int MAX_IMAGE_HEIGHT = 50;
     public static final int MAX_IMAGE_WIDTH_1 = 100;
     public static final int MAX_IMAGE_HEIGHT_1 = 80;
-    public static final int MAX_IMAGE_WIDTH_LARGE = 250;
-    public static final int MAX_IMAGE_HEIGHT_LARGE = 250;
+    public static final int MAX_IMAGE_WIDTH_LARGE = 220;
+    public static final int MAX_IMAGE_HEIGHT_LARGE = 220;
 
     public static final String FIREBASE_TOKEN = "firebase_token";
     public static final String FACEBOOK_URL = "https://www.facebook.com/eurosportring/";

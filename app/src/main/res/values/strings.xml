@@ -87,6 +87,8 @@
     <string name="na">NA</string>
     <string name="team_matches">Team Matches</string>
     <string name="password_do_not_match">Passwords do not match.</string>
+    <string name="set_favourite">Favourite.</string>
+    <string name="set_defaault">Default.</string>
 
     <!--Volley-->
 

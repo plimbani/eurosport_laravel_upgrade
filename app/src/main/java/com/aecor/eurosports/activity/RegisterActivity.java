@@ -104,10 +104,17 @@ public class RegisterActivity extends BaseActivity {
 
     @OnClick(R.id.register)
     public void register() {
-        register_user();
+
+
+        if (!confirm_password.getText().toString().trim().equals(register_password.getText().toString().trim())) {
+            Utility.showToast(mContext, getString(R.string.password_do_not_match));
+        } else {
+            register_user();
+        }
     }
 
     private void register_user() {
+
         Utility.startProgress(mContext);
         String url = ApiConstants.REGISTER;
         final JSONObject requestJson = new JSONObject();
@@ -245,10 +252,7 @@ public class RegisterActivity extends BaseActivity {
             return false;
         }
 
-        if (!confirmPassword.equals(password)) {
-            Utility.showToast(mContext, getString(R.string.password_do_not_match));
-            return false;
-        }
+
         return true;
 
     }
