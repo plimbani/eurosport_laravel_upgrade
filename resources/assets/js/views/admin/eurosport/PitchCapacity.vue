@@ -50,7 +50,7 @@
                                 <tr v-for="pitch in pitches">
                                     <td class="text-center">{{pitch.pitch_number}}</td>
                                     <td class="text-center">{{pitch.size}}</td>
-                                    <td class="text-center">{{pitch.type}}</td>
+                                    <td class="text-center" style="text-transform: capitalize;">{{pitch.type}}</td>
                                     <td>
                                         <p v-for="pitchStage in pitch.pitch_av_text">
                                         {{pitchStage}}</p>
