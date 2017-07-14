@@ -276,6 +276,7 @@ class UserService implements UserContract
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
 
         if ($data) {
+          
           return ['status_code' => '200', 'message' => 'Profile updated successfully.'];
         }
     }
