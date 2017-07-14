@@ -43,8 +43,7 @@ class MatchRepository
       $tournamentId = $tournamentData['tournamentId'];
       //$tournamentId = $tournamentData['tournament_id'];
       $reportQuery = DB::table('competitions')
-                     ->leftjoin('tournament_competation_template',
-                'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id');
+                     ->leftjoin('tournament_competation_template','tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id');
       if(isset($tournamentData['competationFormatId']) && $tournamentData['competationFormatId'] != '') {
         $reportQuery->where('competitions.tournament_competation_template_id','=',
           $tournamentData['competationFormatId']);
