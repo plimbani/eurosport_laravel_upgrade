@@ -3,10 +3,7 @@ package com.aecor.eurosports.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -14,7 +11,6 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.Utility;
-import com.bumptech.glide.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,11 +31,11 @@ public class WebViewActivity extends BaseAppCompactActivity {
         webView.setWebViewClient(new MyWebClient());
         webView.getSettings().setJavaScriptEnabled(true);
 
-        if (media_name.equalsIgnoreCase("Facebook"))
+        if (media_name.equalsIgnoreCase(AppConstants.ARG_FACEBOOK))
             webView.loadUrl(AppConstants.FACEBOOK_URL);
-        else if (media_name.equalsIgnoreCase("Instagram"))
+        else if (media_name.equalsIgnoreCase(AppConstants.ARG_INSTAGRAM))
             webView.loadUrl(AppConstants.INSTAGRAM_URL);
-        else if (media_name.equalsIgnoreCase("Twitter"))
+        else if (media_name.equalsIgnoreCase(AppConstants.ARG_TWITTER))
             webView.loadUrl(AppConstants.TWITTER_URL);
     }
 
@@ -58,13 +54,7 @@ public class WebViewActivity extends BaseAppCompactActivity {
     }
 
     protected class MyWebClient extends WebViewClient {
-
         private ProgressHUD progressHUD;
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            // TODO Auto-generated method stub
-            super.onPageStarted(view, url, favicon);
-        }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

@@ -9,13 +9,13 @@ public class AppConstants {
     public static final int MAX_IMAGE_HEIGHT = 50;
     public static final int MAX_IMAGE_WIDTH_1 = 100;
     public static final int MAX_IMAGE_HEIGHT_1 = 80;
-    public static final int MAX_IMAGE_WIDTH_LARGE = 220;
-    public static final int MAX_IMAGE_HEIGHT_LARGE = 220;
+    public static final int MAX_IMAGE_WIDTH_LARGE = 250;
+    public static final int MAX_IMAGE_HEIGHT_LARGE = 250;
 
     public static final String FIREBASE_TOKEN = "firebase_token";
     public static final String FACEBOOK_URL = "https://www.facebook.com/eurosportring/";
     public static final String FACEBOOK_PAGE_ID = "eurosportring";
-    public static final String INSTAGRAM_URL = "http://instagram.com";
+    public static final String INSTAGRAM_URL = "http://instagram.com/_u/eurosports";
     public static final String TWITTER_URL = "https://twitter.com/EuroSportring";
     public static final String WEBVIEW_INTENT = "webview_intent";
     public static final String SCREEN_CONSTANT_FAVOURITES = "FAVOURITES_SCREEN_SELECTED";
@@ -44,4 +44,7 @@ public class AppConstants {
     public static final String LANGUAGE_SELECTION = "language_selection";
     public static final String LANGUAGE_POSITION = "language_position";
     public static final String ARG_FORGOT_PASSWORD_OTP = "forgot_password_otp";
+    public static final String ARG_FACEBOOK = "Facebook";
+    public static final String ARG_INSTAGRAM = "Instagram";
+    public static final String ARG_TWITTER= "Twitter";
 }
