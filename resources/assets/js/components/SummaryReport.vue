@@ -375,10 +375,6 @@ export default {
 		      this.TournamentId = 0;
 		    }
     	},
-    	clearForm1() {
-    		$('#frmReport')[0].reset()
-
-    	},
 
 	    getClubs() {
 	        if (!isNaN(this.TournamentId)) {
@@ -399,6 +395,9 @@ export default {
 	    clearForm() {
          $('#frmReport')[0].reset()
           this.reports = {}
+          this.club = ''
+          this.teams = {}
+          this.team = ''
       },
     	generateReport() {
     		if (!isNaN(this.TournamentId)) {
@@ -422,12 +421,12 @@ export default {
 		      // toastr['error']('Invalid Credentials', 'Error');
 		    }
     	},
-    	printMatchDetails() {
-	     var printContents = document.getElementById('summary_report_table').innerHTML;
-	      let w = window.open();
-	      w.document.write($(printContents).html());
-	      w.print();
-	      w.close();
+    	printMatchDetails() {    
+		    var printContents = document.getElementById('summary_report_table').innerHTML;
+		    let w = window.open();
+		    w.document.write($(printContents).html());
+		    w.print();
+		    w.close();
 	    }, 
 
     	exportReport() {
@@ -452,3 +451,4 @@ export default {
 }
 
 </script>
+<style>
