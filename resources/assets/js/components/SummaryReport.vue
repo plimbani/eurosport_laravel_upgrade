@@ -186,7 +186,11 @@
 		</div>
 		<div class="row mt-4" id="summary_report_table">
 			<div class="col-md-12">
-				<table class="table table-hover table-bordered" border="1" cellpadding="0" cellspacing="0" width="100%">		
+					<div id="report_logo" style="display:none;">
+                        <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
+                        <h2>Reports</h2>
+                    </div>
+				<table class="table table-hover table-bordered" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">		
 					<thead>
 	                    <tr>
 	                        <th class="text-center">{{$lang.summary_reports_date_time}}</th>
@@ -421,11 +425,15 @@ export default {
 		      // toastr['error']('Invalid Credentials', 'Error');
 		    }
     	},
-    	printMatchDetails() {    
+    	printMatchDetails() {  
+    		
+    		$('#report_logo').show();
+     		var divToPrint = document.getElementById('report_logo');
 		    var printContents = document.getElementById('summary_report_table').innerHTML;
 		    let w = window.open();
 		    w.document.write($(printContents).html());
 		    w.print();
+		    $('#summary_report_table').hide();
 		    w.close();
 	    }, 
 
@@ -452,3 +460,9 @@ export default {
 
 </script>
 <style>
+@media print {
+ 	#report_logo {
+        display: none;
+ 	}
+}  
+</style>
