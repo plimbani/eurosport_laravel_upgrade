@@ -49,7 +49,8 @@
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_club}}</strong></label>
 									<div class="">
-				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()" name="sel_clubs"
+				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()"
+				                    	 name="sel_clubs"
 				                    	id="sel_clubs" v-model="club">
 					                      <option value="">{{$lang.summary_club_select}}</option>
 					                      <option v-for="(club, index) in clubs"
@@ -374,10 +375,6 @@ export default {
 		      this.TournamentId = 0;
 		    }
     	},
-    	clearForm1() {
-    		$('#frmReport')[0].reset()
-
-    	},
 
 	    getClubs() {
 	        if (!isNaN(this.TournamentId)) {
@@ -396,9 +393,12 @@ export default {
 	        }
 	    },
 	    clearForm() {
-	      $('#frmReport')[0].reset()
-          this.reports = null
-	    },
+         $('#frmReport')[0].reset()
+          this.reports = {}
+          this.club = ''
+          this.teams = {}
+          this.team = ''
+      },
     	generateReport() {
     		if (!isNaN(this.TournamentId)) {
 		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
@@ -421,12 +421,12 @@ export default {
 		      // toastr['error']('Invalid Credentials', 'Error');
 		    }
     	},
-    	printMatchDetails() {
-	     var printContents = document.getElementById('summary_report_table').innerHTML;
-	      let w = window.open();
-	      w.document.write($(printContents).html());
-	      w.print();
-	      w.close();
+    	printMatchDetails() {    
+		    var printContents = document.getElementById('summary_report_table').innerHTML;
+		    let w = window.open();
+		    w.document.write($(printContents).html());
+		    w.print();
+		    w.close();
 	    }, 
 
     	exportReport() {
@@ -451,3 +451,4 @@ export default {
 }
 
 </script>
+<style>
