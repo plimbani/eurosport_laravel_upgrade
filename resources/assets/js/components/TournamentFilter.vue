@@ -7,7 +7,8 @@
     </div>
     <div class="form-group" v-if="section!='scheduleResult'">
       <label class="radio-inline control-label">
-          <input type="radio" id="age_category" name="filter" value="age_category" @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
+          <input type="radio" id="age_category" name="filter" value="age_category"
+           @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
       </label>
     </div>
 
@@ -26,7 +27,7 @@
     </div>
 
     <div class="form-group">
-      <label class="radio-inline control-label" v-if="section == 'scheduleResult'">
+      <label class="radio-inline control-label" v-if="section == 'scheduleResult' || section =='teams'">
         <input type="radio" id="team" name="filter" value="team"
         @click="getDropDownData('team')" class="mr-2">{{$lang.teams_team}}
       </label>
@@ -77,14 +78,14 @@ export default {
   props:['section'],
   mounted() {
     // By Default Called with Team
-    if(this.section != 'pitchPlanner'){
+    if(this.section != 'scheduleResult' ){
       this.getDropDownData('age_category')
       $('#age_category').prop("checked",true)
     }
-    else{
-      this.getDropDownData('location')
+    if (this.section == 'scheduleResult' ){
+      this.getDropDownData('competation_group')
       this.setFilterValue()
-      $('#location').prop("checked",true)
+      $('#competation_group').prop("checked",true)
     }
   },
   methods: {

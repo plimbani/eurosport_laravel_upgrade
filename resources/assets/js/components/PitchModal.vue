@@ -101,7 +101,7 @@
                 </div>
               </div>
             </form>
-            <table border="1" cellpadding="3" id="printTable" style="display: none;" width="100%">
+            <table border="1" cellpadding="0" cellspacing="0" id="printTable" style="display: none;" width="100%">
               <img src="/assets/img/logo-desk.svg" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
               <thead>
                 <h2 class="text-center">Match Details</h2>

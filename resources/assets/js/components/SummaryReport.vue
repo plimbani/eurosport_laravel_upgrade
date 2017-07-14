@@ -185,7 +185,7 @@
 		</div>
 		<div class="row mt-4" id="summary_report_table">
 			<div class="col-md-12">
-				<table class="table table-hover table-bordered" border="1" width="100%">
+				<table class="table table-hover table-bordered" border="1" cellpadding="0" cellspacing="0" width="100%">		
 					<thead>
 	                    <tr>
 	                        <th class="text-center">{{$lang.summary_reports_date_time}}</th>
@@ -375,9 +375,7 @@ export default {
 		    }
     	},
     	clearForm1() {
-        alert('12345')
     		$('#frmReport')[0].reset()
-        alert('hi')
 
     	},
 
@@ -396,11 +394,11 @@ export default {
 	        } else {
 	          this.TournamentId = 0;
 	        }
-	      },
-	      clearForm() {
-	        $('#frmReport')[0].reset()
-          this.reports = {}
-	     },
+	    },
+	    clearForm() {
+	      $('#frmReport')[0].reset()
+          this.reports = null
+	    },
     	generateReport() {
     		if (!isNaN(this.TournamentId)) {
 		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
@@ -429,7 +427,7 @@ export default {
 	      w.document.write($(printContents).html());
 	      w.print();
 	      w.close();
-	    },
+	    }, 
 
     	exportReport() {
 
