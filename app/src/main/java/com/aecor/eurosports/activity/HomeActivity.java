@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsSession;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -262,10 +263,14 @@ public class HomeActivity extends BaseAppCompactActivity {
         } catch (PackageManager.NameNotFoundException e) {
             //normal web url
             facebookUrl = FACEBOOK_URL;
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            CustomTabsIntent customTabsIntent = builder.build();
-            builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
-            customTabsIntent.launchUrl(mContext, Uri.parse(facebookUrl));
+//            String packageName = CustomTabsHelper.getPackageNameToUse((Activity)mContext);
+//            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+//            CustomTabsIntent customTabsIntent = builder.build();
+//            builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
+//            customTabsIntent.launchUrl(mContext, Uri.parse(facebookUrl));
+            Intent facebook = new Intent(mContext, WebViewActivity.class);
+            facebook.putExtra(AppConstants.WEBVIEW_INTENT,"Facebook");
+            startActivity(facebook);
         }
 
     }
@@ -280,28 +285,33 @@ public class HomeActivity extends BaseAppCompactActivity {
         try {
             startActivity(likeIng);
         } catch (ActivityNotFoundException e) {
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            /*CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             CustomTabsIntent customTabsIntent = builder.build();
             builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
-            customTabsIntent.launchUrl(mContext, Uri.parse(AppConstants.INSTAGRAM_URL));
+            customTabsIntent.launchUrl(mContext, Uri.parse(AppConstants.INSTAGRAM_URL));*/
+            Intent instagram = new Intent(mContext, WebViewActivity.class);
+            instagram.putExtra(AppConstants.WEBVIEW_INTENT,"Instagram");
+            startActivity(instagram);
         }
     }
 
     @OnClick(R.id.twitter)
     protected void open_twitter() {
-        Intent twitter;
         try {
             // get the Twitter app if possible
             mContext.getPackageManager().getPackageInfo("com.twitter.android", 0);
-            twitter = new Intent(Intent.ACTION_VIEW, Uri.parse(AppConstants.TWITTER_URL));
+            Intent twitter = new Intent(Intent.ACTION_VIEW, Uri.parse(AppConstants.TWITTER_URL));
             twitter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(twitter);
         } catch (Exception e) {
             // no Twitter app, revert to browser
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            /*CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             CustomTabsIntent customTabsIntent = builder.build();
             builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
-            customTabsIntent.launchUrl(mContext, Uri.parse(TWITTER_URL));
+            customTabsIntent.launchUrl(mContext, Uri.parse(TWITTER_URL));*/
+            Intent twitter = new Intent(mContext, WebViewActivity.class);
+            twitter.putExtra(AppConstants.WEBVIEW_INTENT,"Twitter");
+            startActivity(twitter);
         }
 
     }
