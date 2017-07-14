@@ -57,13 +57,15 @@ class AgeGroupRepository
        } else {
         $competaon_type = 'Round Robin';
        }
-
+       //$competaon_type = $competaon_type.'-'.$groups['comp_roundd'];
        $competations['competation_type'] = $competaon_type;
+       $competations['competation_round_no'] = $groups['comp_roundd'];
        $competationIds[$i]['id'] = Competition::create($competations)->id;
        $competationIds[$i]['name'] = $comp_group;
        $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];
        $competationIds[$i]['ageGroup'] = $age_group;
        $competationIds[$i]['competation_type'] = $competaon_type;
+
        $i++;
       }
 

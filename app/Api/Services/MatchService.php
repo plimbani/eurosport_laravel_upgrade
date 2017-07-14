@@ -816,12 +816,17 @@ class MatchService implements MatchContract
           'manual_override' => 0,'group_winner' => 0);
         $calculatedArray = array();
        // foreach ($groupTeams as $gkey => $gvvalue) {
+        //    $i =1;
             foreach ($teams as $gkey => $gvalue) {
                 //$teamExist = $this->CupLeagueTable->find('first', array('conditions'
                 // => array('comp_id' => $cupId, 'team_id' => $gvalue)));
                 // check in match standing table for that team and Group Id
-                $teamExist = DB::table('match_standing')->where('competition_id',$cupId)
-                               ->where('team_id',$gvalue->id)->get()->first();
+                $teamExist = DB::table('match_standing')
+                        ->leftJoin('teams','teams.id','=','match_standing.team_id')
+                        ->select('teams.*','match_standing.*')
+                              ->where('match_standing.competition_id',$cupId)
+                               ->where('teams.id',$gvalue->id)
+                               ->get()->first();
                 $winPoints = 3; $losePoints =0;$drawPoints=1;
 
                 //print_r($teamExist);
@@ -839,16 +844,42 @@ class MatchService implements MatchContract
                     $calculatedArray[$gvalue->competation_id][$gvalue->id]['goal_difference'] = $goal_difference;
                     $calculatedArray[$gvalue->competation_id][$gvalue->id]['Total'] = $total;
                     $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamid'] = $gvalue->id;
+                     $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamName'] =
+                     $teamExist->name;
+                     $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamGroup'] =
+                     $teamExist->assigned_group;
+                      $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamGroupName'] =
+                     $teamExist->group_name;
+                      $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamAgeGroup'] =
+                     $teamExist->age_group_id;
+                     $groupAlphabet = explode('-',$teamExist->assigned_group);
+                     $groupAlphabet = $groupAlphabet[1];
+               //  $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamAgeGroupPlaceHolder']
+               //  =  $i.$groupAlphabet;
                  //   $calculatedArray[$gkey][$gvalue]['manual_override'] =  $teamExist['CupLeagueTable']['manual_override'];
                  //   $calculatedArray[$gkey][$gvalue]['group_winner'] =  $teamExist['CupLeagueTable']['group_winner'];
                 } else {
                     $calculatedArray[$gvalue->competation_id][$gvalue->id] = $defaultArray;
                     $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamid'] = $gvalue->id;
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamName'] =
+                     $teamExist->name;
+                    $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamGroup'] =
+                     $teamExist->assigned_group;
+                   $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamGroupName'] =
+                     $teamExist->group_name;
+                      $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamAgeGroup'] =
+                     $teamExist->age_group_id;
+                     $groupAlphabet = explode('-',$teamExist->assigned_group);
+                     $groupAlphabet = $groupAlphabet[1];
+                // $calculatedArray[$gvalue->competation_id][$gvalue->id]['teamAgeGroupPlaceHolder']
+               //  =  $i.$groupAlphabet;
+
                 }
+              //  $i++;
             }
        // }
        // echo 'Before Sort';
-       // print_r($calculatedArray);
+
       //  echo 'After Sort';
         $for_override_condition = array();
         foreach ($calculatedArray as $ckey => $cvalue) {
@@ -866,10 +897,238 @@ class MatchService implements MatchContract
             array_multisort($mid, SORT_DESC,$did, SORT_DESC,$cid, SORT_DESC,$cvalue);
             $calculatedArray[$ckey] = $cvalue;
         }
+        $i=1;
+        foreach($calculatedArray[$cupId] as $kky=>$data) {
+          $groupAlphabet = explode('-',$data['teamGroup']);
+          $groupAlphabet = $groupAlphabet[1];
+          $calculatedArray[$cupId][$kky]['teamAgeGroupPlaceHolder'] = $i.$groupAlphabet;
+          $i++;
+        }
+       // print_r($calculatedArray);
+       // exit;
+        // Now we have sorted array with TeamId
+        $ageGroupId = 0;
+        $temptournamentId  =0;
+        $particularGroup = '';
+        if(isset($calculatedArray[$cupId][0]['teamAgeGroup']))
+        {
+          $temptournamentId = $teamExist->tournament_id;
+          $ageGroupId = $calculatedArray[$cupId][0]['teamAgeGroup'];
+          $particularGroup = $calculatedArray[$cupId][0]['teamGroup'];
+        }
+
+        $reportQuery = DB::table('temp_fixtures')
+        ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam',
+
+          'temp_fixtures.away_team as AwayTeamId')
+        ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
+        ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
+        ->leftJoin('tournament_template','tournament_template.id','=','tournament_competation_template.tournament_template_id')
+        ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
+        ->where('temp_fixtures.is_scheduled','=',0)
+        ->where('temp_fixtures.tournament_id','=',$temptournamentId)
+       //  ->whereRaw(
+        //  DB::raw(" (temp_fixtures.home_team = '0' or temp_fixtures.away_team = '0')"))
+        ->get();
+       // print_r($calculatedArray);
+       //exit;
+       // print_r($reportQuery);
+       // exit;
+        $matches = $reportQuery;
+        //print_r($matches);exit;
+        if($matches) {
+          foreach($matches as $key=>$match) {
+            //$templateData = json_decode($match->JsonData,true);
+            $exmatchNumber = explode('.',$match->MatchNumber);
+            //print_r($exmatchNumber);exit;
+            $value = explode('-',$exmatchNumber[2]);
+            $homeTeam = $value[0];
+
+            //$homeTeam = $match->HomeTeam;
+
+            if($homeTeam) {
+              foreach($calculatedArray[$cupId] as $dd1) {
+
+                if($homeTeam == $dd1['teamAgeGroupPlaceHolder']) {
+                  //echo $matchId = $match->matchID;
+                  //echo $matchNumber = $match->MatchNumber;
+
+
+                  $updatedMatchNumer =  str_replace($homeTeam,$dd1['teamName'],$match->MatchNumber);
+                  $homeTeamId = $dd1['teamid'];
+                  $updateArray = [
+                  'home_team_name'=> $dd1['teamName'],
+                  'home_team'=>$dd1['teamid']
+                  ];
+                 // echo '<pre>';
+                //  print_r($updateArray);
+                  DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
+                  unset($updateArray);
+                  //echo '<br>';
+                }
+                // check if value is changed
+                //if($match->HomeTeamId != $dd1[''])
+
+              }
+            }
+            $awayTeam = $value[1];
+            //$awayTeam = $match->AwayTeam;
+            if($awayTeam) {
+              foreach($calculatedArray[$cupId] as $dd1) {
+                if($awayTeam == $dd1['teamAgeGroupPlaceHolder']) {
+                  $updatedMatchNumer =  str_replace($awayTeam,$dd1['teamName'],$match->MatchNumber);
+                  $awayTeamId = $dd1['teamid'];
+                  $updateArray = [
+                  'away_team_name'=> $dd1['teamName'],
+                  'away_team'=>$dd1['teamid']
+                  ];
+                  DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
+                  unset($updateArray);
+                }else {
+                  echo 'hi-Away';
+                }
+              }
+            }
+
+            // else check if its new change
+
+          }
+
+        }
+
+        // now here we check how many matches and Sync it with proper calc poition
+
+        //exit;
+        return ;
+        exit;
+        print_r($matches);exit;
+        /*foreach($matches as $match){
+          $jsonData = json_decode($match->JsonData,true);
+          $rankingData = $jsonData['tournament_competition_ranking'];
+
+          foreach($rankingData as $rankData) {
+            foreach($rankData as $roundGroups) {
+              foreach($roundGroups['groups'] as $rrGroup) {
+                  foreach($rrGroup['teams'] as $teams) {
+                    if($teams['team'] == $match->HomeTeam) {
+                      //$calculatedArray[$match->]
+                      foreach($calculatedArray as $key=>$groupTeams) {
+                          foreach($groupTeams as $tindex=>$teamm) {
+                            $calculatedArray[$key][$tindex][$match->HomeTeam] =
+                            $teamm['teamid'];
+                          }
+                      }
+                    }
+                  }
+              }
+            }
+          }
+
+          //print_r($rankingData);
+        }*/
+        print_r($calculatedArray);
+        exit;
+       /* $reportQuery = $reportQuery->where(function ($query)
+                              {
+                                $query->where('temp_fixtures.home_team','=' ,0)
+                                ->andWhere('temp_fixtures.away_team','=',0);
+                              }
+                            );*/
+        $reportQuery = $reportQuery
+                ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
+                ->where('temp_fixtures.is_scheduled','=',0)
+                ->where('temp_fixtures.tournament_id','=',$temptournamentId)
+                ->toSql();
+        print_r($reportQuery);exit;
+        print_r($calculatedArray);
+        exit;
+        $matches = DB::table('temp_fixtures')
+        ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam','temp_fixtures.away_team as AwayTeamId')
+        ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
+        ->where('competitions.tournament_competation_template_id','=',$ageCategoryId)
+        ->where('temp_fixtures.is_scheduled','=',0)
+        ->get();
+
         // we get the teams sort by position and assign it to the placing matches
-         $CompTempData = DB::table('competitions')->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
-                          ->leftJoin('tournament_template','tournament_template.id','=','tournament_template_id')
-                          ->where('competitions.id',$cupId)->get();
+         $CompTempData = DB::table('teams')
+                          ->leftJoin('competitions','competitions.id','=','teams.competation_id')
+                        ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
+                        ->leftJoin('tournament_template','tournament_template.id','=','tournament_template_id')
+                        ->select(
+                          'competitions.name as GroupName',
+                          'competitions.id as GroupId',
+                          'competitions.competation_round_no as RoundNo',
+                          'competitions.competation_type as CompType',
+                          'tournament_competation_template.id as TCTID',
+                      'tournament_competation_template.group_name as TemplateGroupName',
+                      'tournament_competation_template.category_age as CategoryAge',
+                      'teams.id as TeamId','teams.name as TeamName',
+                      'teams.group_name as TeamGroupName','teams.assigned_group as TeamGroup','tournament_template.json_data as JsonData'
+                      )
+                        ->where('teams.competation_id',$cupId)->get();
+                        //'tournament_template.json_data as JsonData'
+        $new_arr = array();
+        $ageCategoryId = '';
+      //   print_r($calculatedArray);exit;
+        foreach($CompTempData as $teamData) {
+          $jsonData = json_decode($teamData->JsonData,true);
+          $ageCategoryId = $teamData->TCTID;
+          $cround = $teamData->RoundNo;
+          $templateRanking = $jsonData['tournament_competition_ranking']['format_name'];
+
+          foreach($templateRanking as $round)
+          {
+
+            //echo $cround;exit;
+            if($round['round'] == $teamData->RoundNo){
+              foreach($round['groups'] as $groups) {
+                 $tempGroupName = str_replace(' ','-' ,$groups['group_name']);
+                 //echo $teamData->TeamGroup;
+                 //echo $tempGroupName;
+
+                if(trim($tempGroupName) == trim($teamData->TeamGroup)) {
+                    // Now we have to replace it
+                    foreach($groups['teams'] as $key=>$teams) {
+                      $new_arr[$key]['placeholder'] =  $teams['team'];
+                      $new_arr[$key]['actual_team'] =  $calculatedArray[$teamData->GroupId][$key];
+                    }
+
+                }
+              }
+             // echo 'SameRound';exit;
+            }
+          }
+
+          //exit;
+        }
+        //echo $ageCategoryId;
+        $matches = DB::table('temp_fixtures')
+        ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam','temp_fixtures.away_team as AwayTeamId')
+        ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
+        ->where('competitions.tournament_competation_template_id','=',$ageCategoryId)
+        ->where('temp_fixtures.is_scheduled','=',0)
+        ->get();
+        //echo $matches;exit;
+        //print_r($matches);exit;
+        $update_array = array();
+        foreach($matches as $match){
+          foreach($new_arr as $key=>$data) {
+            if($data['placeholder'] == $match->HomeTeam) {
+              $update_array[$key]['id'] =$match->matchID;
+                $update_array[$key]['home_team'] =$data['actual_team']['teamid'];
+                //$update_array[$key]['match_number'] =$data['actual_team']['teamid'];
+            }
+            if($data['placeholder'] == $match->AwayTeam) {
+              $update_array[$key]['id'] =$match->matchID;;
+                $update_array[$key]['away_team'] =$data['actual_team']['teamid'];
+                //$update_array[$key]['match_number'] =str_replace('' , '',$data['actual_team']['teamid'];
+            }
+          }
+        }
+        print_r($update_array);exit;
+        // Now here we update the placeholder teams
+        //foreach($new_arr)
+          print_r($new_arr);exit;
           print_r($CompTempData);exit;
          print_r($calculatedArray);
         // Here we get the teams by sort for particular Group

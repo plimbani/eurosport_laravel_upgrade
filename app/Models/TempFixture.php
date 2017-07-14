@@ -29,4 +29,8 @@ class TempFixture extends Model
     {
         return $this->belongsTo('Laraspace\Models\Venue');
     }
+    public function setMatchNumberAttribute($value)
+    {
+        $this->attributes['match_number'] = $value.'kamal';
+    }
 }
