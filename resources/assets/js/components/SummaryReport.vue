@@ -462,7 +462,9 @@ export default {
 
 		exportPrint() {
     		let ReportData = this.reportQuery
-    	
+    		
+
+    		
     		if(ReportData!=''){
     			window.location.href = "/api/tournament/report/print?"+ReportData;
     		}else{
