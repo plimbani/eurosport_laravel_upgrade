@@ -193,7 +193,7 @@ return [
         Laraspace\Providers\TournamentServiceProvider::class,
         Laraspace\Providers\ApiServiceProvider::class,
         Laraspace\Providers\PitchServiceProvider::class,
-
+        Barryvdh\Snappy\ServiceProvider::class,
 
         /*
          *  Api Service Providers
@@ -207,6 +207,7 @@ return [
         Laraspace\Api\Providers\PitchServiceProvider::class,
         Laraspace\Api\Providers\RoleServiceProvider::class,
         Laraspace\Api\Providers\VenueServiceProvider::class,
+
 
 
     ],
@@ -260,6 +261,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
+         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
     ],
 
 ];
