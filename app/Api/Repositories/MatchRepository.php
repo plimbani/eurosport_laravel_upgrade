@@ -277,6 +277,7 @@ class MatchRepository
           {
           $reportQuery = $reportQuery->where('match_standing.tournament_id', $tournamentData['tournamentId']);
           }
+          $reportQuery->orderBy('match_standing.points','desc');
            //print_r($reportQuery->get());exit;
           return $reportQuery->get();
     }
