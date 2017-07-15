@@ -49,7 +49,8 @@
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_club}}</strong></label>
 									<div class="">
-				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()" name="sel_clubs"
+				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()"
+				                    	 name="sel_clubs"
 				                    	id="sel_clubs" v-model="club">
 					                      <option value="">{{$lang.summary_club_select}}</option>
 					                      <option v-for="(club, index) in clubs"
@@ -185,7 +186,11 @@
 		</div>
 		<div class="row mt-4" id="summary_report_table">
 			<div class="col-md-12">
-				<table class="table table-hover table-bordered" border="1" cellpadding="0" cellspacing="0" width="100%">		
+					<div id="report_logo" style="display:none;">
+                        <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
+                        <h2>Reports</h2>
+                    </div>
+				<table class="table table-hover table-bordered" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">		
 					<thead>
 	                    <tr>
 	                        <th class="text-center">{{$lang.summary_reports_date_time}}</th>
@@ -234,8 +239,8 @@ export default {
         team:'',
        	reports: {},
         currentView:'summaryTab',
-        reportQuery:''
-
+        reportQuery:'',
+        isValidate:false
        	}
     },
     filters: {
@@ -251,28 +256,29 @@ export default {
     	this.getPitches()
     	this.getReferees()
         this.getClubs()
+        let stdate  = false
     	$('.ls-datepicker').datepicker()
     	$('#start_date').datepicker().on('changeDate',function(){
             $('#end_date').datepicker('setStartDate', $('#start_date').val())
         });
-
+           
 		 $('#start_time,#start_date').change(function(){
 		   if($('#start_date').val() == ''){
 		      $("#start_date_validation").html("Please enter values");
+		      stdate = true
 		   } else {
 		   	  $("#start_date_validation").html("");
 		   }
 		});
-
 	    $('#end_time,#end_date').change(function(){
 		   if($('#end_date').val() == ''){
 		      $("#end_date_validation").html("Please enter values");
+		          stdate = true
 		   } else {
 		   	  $("#end_date_validation").html("");
 		   }
 		});
-
-
+		 this.isValidate = stdate
     },
     methods: {
     	onSelectClub() {
@@ -374,10 +380,6 @@ export default {
 		      this.TournamentId = 0;
 		    }
     	},
-    	clearForm1() {
-    		$('#frmReport')[0].reset()
-
-    	},
 
 	    getClubs() {
 	        if (!isNaN(this.TournamentId)) {
@@ -396,10 +398,22 @@ export default {
 	        }
 	    },
 	    clearForm() {
-	      $('#frmReport')[0].reset()
-          this.reports = null
-	    },
+         $('#frmReport')[0].reset()
+          this.reports = {}
+          this.club = ''
+          this.teams = {}
+          this.team = ''
+          $("#end_date_validation").html("");
+          $("#start_date_validation").html("");
+      },
     	generateReport() {
+    		let edata = $("#end_date_validation").html();
+    		let sdata = $("#end_date_validation").html();
+    		
+    		if(sdata !='' || edata != ''){
+
+    			return false
+    		}
     		if (!isNaN(this.TournamentId)) {
 		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
 		     // let ReportData =  $('#frmReport').serializeArray()
@@ -421,12 +435,15 @@ export default {
 		      // toastr['error']('Invalid Credentials', 'Error');
 		    }
     	},
-    	printMatchDetails() {
-	     var printContents = document.getElementById('summary_report_table').innerHTML;
-	      let w = window.open();
-	      w.document.write($(printContents).html());
-	      w.print();
-	      w.close();
+    	printMatchDetails() {  
+    		$('#report_logo').show();
+     		var divToPrint = document.getElementById('report_logo');
+		    var printContents = document.getElementById('summary_report_table').innerHTML;
+		    let w = window.open();
+		    w.document.write($(printContents).html());
+		    w.print();
+		    w.close();
+		     $('#summary_report_table').hide();
 	    }, 
 
     	exportReport() {

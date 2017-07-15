@@ -108,42 +108,43 @@
               </thead>
               <tbody>
               <tr class="row">
-                <td>Match number</td>
+                <td>&nbsp;Match number</td>
                 <td>
-                  {{matchFixture.title}}<br>
-                  Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}})
+                  &nbsp;{{matchFixture.title}}<br>
+                  &nbsp;Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}})
                 </td>
               </tr>
               <tr>
-                <td>Date</td>
-                <td>{{matchDetail.matchTime}}</td>
+                <td>&nbsp;Date</td>
+                <td>&nbsp;{{matchDetail.matchTime}}</td>
               </tr>
               <tr>
-                <td>Pitch</td>
-                <td>{{matchDetail.pitch.pitch_number}}</td>
+                <td>&nbsp;Pitch</td>
+                <td>&nbsp;{{matchDetail.pitch.pitch_number}}</td>
               </tr>
               <tr>
-                <td>Referee</td>
-                <td>{{ referee_name }}</td>
+                <td>&nbsp;Referee</td>
+                <td>&nbsp;{{ referee_name }}</td>
               </tr>
               <tr>
-                <td>Result</td>
+                <td>&nbsp;Result</td>
                 <td>
-                  Team 1 ({{matchDetail.home_team_name}}) {{matchDetail.hometeam_score}}<br>
-                  Team 2 ({{matchDetail.away_team_name}}) {{matchDetail.awayteam_score}}
+                  &nbsp;Team 1 ({{matchDetail.home_team_name}}) {{matchDetail.hometeam_score}}<br>
+                  &nbsp;Team 2 ({{matchDetail.away_team_name}}) {{matchDetail.awayteam_score}}
                 </td>
               </tr>
               <tr>
-                <td>Status</td>
-                <td>{{matchDetail.match_status}}</td>
+                <td>&nbsp;Status</td>
+                <td v-if="matchDetail.match_status == 0"></td>
+                <td v-else>&nbsp;{{matchDetail.match_status}}</td>
               </tr>
-              <!-- <tr>
-                <td>Winner</td>
-                <td>{{matchDetail.match_winner}}</td>
-              </tr> -->
               <tr>
-                <td>Comments</td>
-                <td>{{matchDetail.comments}}</td>
+                <td>&nbsp;Winner</td>
+                <td>&nbsp;{{matchDetail.name}}</td>
+              </tr>
+              <tr>
+                <td>&nbsp;Comments</td>
+                <td>&nbsp;{{matchDetail.comments}}</td> 
               </tr>
               </tbody>
             </table>

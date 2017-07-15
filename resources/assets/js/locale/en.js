@@ -114,7 +114,7 @@ module.exports = {
   competation_name_category: "Category name",
 
   competation_age_category: "Category age",
-  competation_category_age: "Age Category",
+  competation_category_age: "Age category",
   competation_competation_format: "Competition format",
   competation_total_matches: "Total matches",
   competation_total_time: "Total time",
@@ -362,7 +362,8 @@ module.exports = {
   summary_schedule_team: "Teams",
 
   summary_messages: "Messages",
-  summary_message_text: "Send push notifications to all mobile app users following this tournament.",
+  summary_messages_text: "App message text",
+  summary_message_text: "Send notifications to teams",
   summary_message_compose_message: "Compose your message",
   summary_message_button_send: "Send",
 
