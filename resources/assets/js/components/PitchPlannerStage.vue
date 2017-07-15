@@ -326,7 +326,27 @@ import _ from 'lodash'
                             let scheduleBlock = false
                             let refereeId = ''
                             let matchTitle = ''
+                            
+let mtchNumber = match.match_number
+let mtchNumber1 = mtchNumber.split(".")
+let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
 
+let lastElm = mtchNumber1[2]
+let teams = lastElm.split("-")
+
+let Placehometeam =  teams[0]
+let Placeawayteam =  teams[1]
+
+if(match.Home_id != 0){
+Placehometeam = match.HomeTeam
+}
+if(match.Away_id != 0){
+Placeawayteam = match.AwayTeam
+}
+let mtc = ''
+mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
+console.log(mtc)
+match.match_number = mtc 
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
                                     if( filterValue != '' && filterValue.id != match.tid){

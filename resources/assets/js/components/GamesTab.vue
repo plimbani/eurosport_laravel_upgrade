@@ -82,7 +82,24 @@ export default {
               if(match.Away_id != 0 && match.Home_id != 0) {
                 fullgame1 = ''
               }
-              var person = {'fullGame':fullgame1,'matchName':match.match_number,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
+               let mtchNumber = match.match_number
+ let mtchNumber1 = mtchNumber.split(".")
+//let lastElm = mtchNumber1[2]
+
+//let teams = lastElm.split("-")
+//hometeam =  teams[0]
+//awayteam =  teams[1]
+let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
+if(match.Away_id != 0 && match.Home_id != 0) 
+{
+   fullgame1 = ''
+   mtchNum = mtchNum+'.'+match.HomeTeam+'-'+match.AwayTeam    
+} else {
+  mtchNum = mtchNum+mtchNumber1[2]
+}
+console.log(mtchNum)
+
+              var person = {'fullGame':fullgame1,'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
               comp.push(person)
 
               if(match.is_scheduled!=1){
