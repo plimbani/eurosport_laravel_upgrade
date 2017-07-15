@@ -925,7 +925,7 @@ class MatchService implements MatchContract
         ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
         ->leftJoin('tournament_template','tournament_template.id','=','tournament_competation_template.tournament_template_id')
         ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
-        ->where('temp_fixtures.is_scheduled','=',0)
+        //->where('temp_fixtures.is_scheduled','=',0)
         ->where('temp_fixtures.tournament_id','=',$temptournamentId)
        //  ->whereRaw(
         //  DB::raw(" (temp_fixtures.home_team = '0' or temp_fixtures.away_team = '0')"))
