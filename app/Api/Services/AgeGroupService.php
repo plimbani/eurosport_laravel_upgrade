@@ -78,7 +78,7 @@ class AgeGroupService implements AgeGroupContract
             // here we check if template data is changed if changed
             // delete all data and insert new one
             // TODO: Here we check if there is change then and then change Data
-            if($data['tournament_template_id'] != $data['tournamentTemplate']['id']) {
+            if($data['tournament_template_id'] != $data['tournamentTemplate']['id'] ) {
                 // Delete Competation Data
                 $this->ageGroupObj->deleteCompetationData($data);
                 // Delete temp_fixtures Data
@@ -126,6 +126,7 @@ class AgeGroupService implements AgeGroupContract
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
                 $group_name[$val]['team_count']=$round->group_count;
+                $group_name[$val]['comp_roundd']=$json_data->tournament_competation_format->format_name[$i]->name;
                 // Now here For Loop for create Fixture array
                 foreach($round->groups->match as $key1=>$matches) {
                     $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key1;
