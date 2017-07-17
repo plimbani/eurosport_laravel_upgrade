@@ -524,7 +524,8 @@ var moment = require('moment');
             },1500)
             let this5 = this
             $("#editPitch").on('hidden.bs.modal', function () {
-                 this5.$store.dispatch('SetPitchId',0);
+                this5.$root.$emit('pitchrefresh');
+                this5.$store.dispatch('SetPitchId',0);
             });
             $(document).ready(function(){
               $("body").on('click','.stage_break_chk',function(){
@@ -590,6 +591,7 @@ var moment = require('moment');
 
                     // $("#frmPitchAvailable").serialize()
                     let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time
+
                     return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
                         toastr['success']('Pitch detail has been updated successfully.', 'Success');
                         this.displayPitch()
