@@ -38,6 +38,8 @@ public class FullLeageTableActivity extends AppCompatActivity {
     protected TableLayout tl_group_rows;
     @BindView(R.id.tv_group_table_title)
     protected TextView tv_group_table_title;
+    @BindView(R.id.iv_testFlag)
+    protected ImageView iv_testFlag;
     private Context mContext;
     private String mGroupName;
 
@@ -159,6 +161,8 @@ public class FullLeageTableActivity extends AppCompatActivity {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                            iv_testFlag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                            iv_testFlag.setVisibility(View.INVISIBLE);
                         }
                     });
         } else {

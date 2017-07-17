@@ -62,6 +62,7 @@
         android:id="@+id/tv_f_a"
         style="@style/team_league_table_text"
         android:layout_gravity="center"
+        android:layout_span="2"
         android:gravity="center"
         android:text="3" />
 
