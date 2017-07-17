@@ -234,8 +234,8 @@ class UserService implements UserContract
 
           $data['name'] = $data['first_name'];
           $data['surname'] = $data['last_name'];
-          \Log::info('Update in password'.$data['password']);
-          $userData['user']['password'] = Hash::make(trim($data['password']));
+          // \Log::info('Update in password'.$data['password']);
+          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
           $data['organisation'] = 'Euro-Sportring';
           $data['userType'] = '5';
