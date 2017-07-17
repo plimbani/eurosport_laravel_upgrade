@@ -53,8 +53,9 @@
 </table>
 <span v-else> No information available </span>
 <h6 v-if="CompRound == 'Round Robin'"> {{otherData.DrawName}} standings</h6>
-  <teamStanding :currentCompetationId="currentCompetationId"
-  v-if="currentCompetationId != 0" ></teamStanding>
+<teamStanding :currentCompetationId="currentCompetationId" v-if="currentCompetationId != 0" >
+</teamStanding>
+<span v-else>No information available</span>
 <h6>{{otherData.DrawName}} matches</h6>
 <matchList :matchData="matchData"></matchList>
 </div>
@@ -76,10 +77,12 @@ export default {
             match1Data:[],error:false,errorMsg:'',
             drawList:'',
             DrawName:[],
-            CompRound:'Round Robin'
+            CompRound:'Round Robin',match12Data:''
         }
     },
-
+    created: function() {
+      this.$root.$on('setDrawTable', this.GenerateDrawTable);
+    },
   mounted() {
     this.setTeamData()
 
@@ -168,6 +171,7 @@ export default {
         MatchList,LocationList,MatchListing,TeamStanding
 	},
     methods: {
+
         onChangeDrawDetails() {
 
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
@@ -202,36 +206,30 @@ export default {
 
                //let currentCompetationId = this.otherData.DrawId
                this.currentCompetationId = this.otherData.DrawId
-
-               let tournamentId = this.$store.state.Tournament.tournamentId
                // Here call Function for getting result
+               //let tournamentId = this.$store.state.Tournament.tournamentId
+               this.GenerateDrawTable( this.currentCompetationId)
+            }
 
-               let tournamentData = {'tournamentId':tournamentId,
-               'competationId':this.currentCompetationId}
-
+        },
+        GenerateDrawTable(currentCompetationId) {
+          let tournamentId = this.$store.state.Tournament.tournamentId
+          let tournamentData = {'tournamentId':tournamentId,'competationId':currentCompetationId}
                Tournament.getDrawTable(tournamentData).then(
                 (response)=> {
-
                   if(response.data.status_code == 200){
+
                     this.match1Data = response.data.data
                   }
-
                   if(response.data.status_code == 300){
                     this.match1Data = []
                     this.errorMsg = response.data.message
                     this.error=true
                   }
-
                 },
-                (error)=> {
-
-                }
+                (error)=> {}
 
                )
-
-
-            }
-
         },
         setCurrentTabView(setCurrentTabView) {
           if(setCurrentTabView == 'drawsListing')
