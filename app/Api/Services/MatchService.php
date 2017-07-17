@@ -190,9 +190,10 @@ class MatchService implements MatchContract
     }
     public function saveResult($matchData) {
         $matchResult = $this->matchRepoObj->saveResult($matchData->all()['matchData']);
-        $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+        $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+        $data['competationId'] = $competationId;
         if ($matchResult) {
-            return ['status_code' => '200', 'data' => $matchResult];
+            return ['status_code' => '200', 'data' => $data];
         } else {
             return ['status_code' => '300'];
         }
@@ -233,9 +234,10 @@ class MatchService implements MatchContract
     public function updateScore($matchData) {
 
        $scoreUpdate = $this->matchRepoObj->updateScore($matchData->all()['matchData']);
-       $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+       $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+       $data['competationId'] = $competationId;
         if ($scoreUpdate) {
-            return ['status_code' => '200', 'data' => $scoreUpdate, 'message' => 'Score updated successfully'];
+            return ['status_code' => '200', 'data' => $data, 'message' => 'Score updated successfully'];
         } else {
             return ['status_code' => '300', 'message' => $scoreUpdate];
         }
@@ -257,8 +259,8 @@ class MatchService implements MatchContract
       $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$record->tournament_id)
                 ->where('competition_id','=',$record->competition_id)->get();
-      echo '<pre>';
-      print_r($matches);
+      //echo '<pre>';
+      //print_r($matches);
 
 
       exit;
@@ -356,7 +358,6 @@ class MatchService implements MatchContract
           $fix1['CupFixture']['hometeam'] = $singleFxture->home_team;
           $fix1['CupFixture']['awayteam'] = $singleFxture->away_team;
           $fix1['CupFixture']['tournamentId'] = $singleFxture->tournament_id;
-
         }
 
         if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
@@ -375,41 +376,29 @@ class MatchService implements MatchContract
         $away_team_id[] = $fix1['CupFixture']['awayteam'];
         // merge it
         $findTeams = array_merge($home_tema_id,$away_team_id);
+
         $comType = 'C';
         if ($comType == 'C'){
-            // assign zero value $fix1['CupFixture']['hometeam'] is home team id
-            //$home_team_leaguetable[$fix1['CupFixture']['hometeam']] = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,'home_goal' => 0);
-            // assign zero value $fix1['CupFixture']['awayteam'] is away team id
-            //$away_team_leaguetable[$fix1['CupFixture']['awayteam']] = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,'away_goal' => 0);
-
-            // Find fixtures data or can say all data for that group:Note: for round 1
-           /* $comp_fixtures = $this->CupFixture->find('all', array('conditions' => array(
-                'fk_leagueId' => $leagueId ,
-                'cupcompetition' => $fix1['CupFixture']['cupcompetition'],
-                'round' => 'Round 1',
-                'OR' => array(
-                            array('CupFixture.hometeam' => $findTeams),
-                            array('CupFixture.awayteam' => $findTeams)
-                        )
-                )));*/
-            // change the query to get all fixtures for that competations
-
             $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
-                ->where('competition_id','=',$fix1['CupFixture']['cupcompetition'])
+                ->where('competition_id','=',$cup_competition_id)
+                //->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
                 ->whereIn('away_team',$findTeams)
                 ->ORwhereIn('home_team',$findTeams)
+                ->where('round','=' ,'Round Robin')
                 ->get();
+                //print_r($matches);exit;
             $fixtu = array();
             foreach($matches as $key1=>$match)
             {
-              $fixtu[$key1]['CupFixture']['hometeamscore'] = $match->hometeam_score;
-              $fixtu[$key1]['CupFixture']['awayteamscore'] = $match->awayteam_score;
-              $fixtu[$key1]['CupFixture']['awayteamscore'] = $match->awayteam_score;
+              $fixtu[$key1]['CupFixture']['hometeamscore'] = (string)$match->hometeam_score;
+              $fixtu[$key1]['CupFixture']['awayteamscore'] = (string)$match->awayteam_score;
+
               $fixtu[$key1]['CupFixture']['hometeam'] = $match->home_team;
               $fixtu[$key1]['CupFixture']['awayteam'] = $match->away_team;
               $fixtu[$key1]['CupFixture']['HomeTeamScoreAfterExtraTime']='';
             }
+            //echo getType($fixtu[$key1]['CupFixture']['hometeamscore']);exit;
             $comp_fixtures = $fixtu;
             $ageGroupList = array();
             //if ( !array_key_exists($fix['CupFixture']['hometeam'], $ageGroupList) ) {
@@ -426,7 +415,7 @@ class MatchService implements MatchContract
                 $winnerTeam = 'nd';
 
                 // check temp_fixtures homescore , awayscore is not null and not abandone
-                if($fix['CupFixture']['hometeamscore'] != '' && $fix['CupFixture']['awayteamscore'] != '' && empty($fix['CupFixture']['Abandoned'])){
+                if($fix['CupFixture']['hometeamscore'] != '' && ($fix['CupFixture']['awayteamscore'] != '')&& empty($fix['CupFixture']['Abandoned'])) {
 
                      // check the equal score condition
                     if($fix['CupFixture']['hometeamscore']  == $fix['CupFixture']['awayteamscore']){
@@ -449,6 +438,7 @@ class MatchService implements MatchContract
                                     $winnerTeam = -1;
                                 }
                             } else {
+
                               // Hometeamscore extratime is greter than awayteamscore
                                 if($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] > $fix['CupFixture']['AwayTeamScoreAfterExtraTime']){
                                     $winnerTeam = $fix['CupFixture']['hometeam'];
@@ -492,11 +482,16 @@ class MatchService implements MatchContract
 
                 // if WinnerTeam is Not Declare
                 if ( $winnerTeam != 'nd') {
+
+
                     // Yes its not declare
                     if ( $winnerTeam == -1) {
+
+
                         // check temp_fixtures value with single record value
                         // 1. check if has same Home id
                         if ( $fix1['CupFixture']['hometeam'] == $fix['CupFixture']['hometeam']) {
+
                             // we will increase played option of ageGroupList Array for that HomeTeam
                             $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
                             $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] + 1;
@@ -510,6 +505,7 @@ class MatchService implements MatchContract
                                 $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
                             }
                         }else{
+
                             // if matchfixtures record away team is single record hometeam
                             if ( $fix1['CupFixture']['hometeam'] == $fix['CupFixture']['awayteam'] ) {
                                 $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] =
@@ -562,10 +558,14 @@ class MatchService implements MatchContract
                         }
 
                     }else{
+
+
                         // 1 if home team is Winner
                         if ( $winnerTeam == $fix1['CupFixture']['hometeam']) {
+
                             $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] =
                             (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
+
                             //$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
                             $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] + 1;
                             // if singlerecord hometeam =  iterate hometeam
@@ -575,10 +575,12 @@ class MatchService implements MatchContract
                                     $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
                                 }
                                 if ($fix['CupFixture']['awayteamscore'] != '') {
+                                 // echo '1';
                                     $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
                                 }
                             } else {
                                 if ($fix['CupFixture']['awayteamscore'] != '') {
+                                // echo '2';
                                     $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
                                 }
                                 if ($fix['CupFixture']['hometeamscore'] != '') {
@@ -666,7 +668,7 @@ class MatchService implements MatchContract
                 }
             }
 
-            //print_r($ageGroupList);exit;
+         // print_r($ageGroupList);exit;
             //echo 'hello';exit;
             //$this->loadModel('CupLeagueTable');
             // check in standing table for find hometeam
@@ -781,7 +783,8 @@ class MatchService implements MatchContract
 
         $this->TeamPMAssign($sendData);
        // $this->PMTeamAssignment($sendData);
-        return $fix;
+
+        return $cup_competition_id ;
     }
     /*
       This function used for Team Assignment For Placing Matches
@@ -801,6 +804,7 @@ class MatchService implements MatchContract
 
 
     }
+
     private function TeamPMAssign($data)
     {
         $compId = $data['home']['competition_id'];
@@ -985,7 +989,7 @@ class MatchService implements MatchContract
                   DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
                   unset($updateArray);
                 }else {
-                  echo 'hi-Away';
+                 // echo 'hi-Away';
                 }
               }
             }

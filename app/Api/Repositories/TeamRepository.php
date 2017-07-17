@@ -206,6 +206,7 @@ public function getAllFromTournamentId($tournamentId)
 
         TempFixture::where('home_team_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
+            ->where('competition_id',$competId)
             // ->where('age_group_id',$data['age_group'])
           /*  ->update([
                 'home_team_name' => $team->name,
@@ -218,6 +219,7 @@ public function getAllFromTournamentId($tournamentId)
             ]);
         TempFixture::where('away_team_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
+            ->where('competition_id',$competId)
             // ->where('age_group_id',$data['age_group'])
             ->update([
                 'away_team_name' => $team->name,
