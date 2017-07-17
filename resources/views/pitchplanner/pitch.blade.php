@@ -6,6 +6,20 @@
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
   }
+  .headfoot th{
+    background-color: #eee;
+    border-bottom: solid 1px #ccc;
+    border-top: solid 1px #ccc;
+  }
+  .headfoot th:first-child{
+    border-left: solid 1px #ccc;
+  }
+  .headfoot th:last-child{
+    border-right: solid 1px #ccc;
+  }
+  .foot th{
+    padding: 8px 4px;
+  }
 
   .tblpage{
     width: 18cm; 
@@ -35,7 +49,11 @@
         </tr> 
         <tr>
              <td align="center">Referee</td>
-              <td>&nbsp;{{ $data['referee']['last_name']}},{{ $data['referee']['first_name']}}</td>
+            @if($data['referee']['last_name'] && $data['referee']['first_name'])
+              <td align="center">{{ $data['referee']['last_name']}},{{ $data['referee']['first_name']}}</td>
+            @else
+            <td align="center"></td>
+            @endif
         </tr>
         <tr>
             <td align="center">Result</td>
