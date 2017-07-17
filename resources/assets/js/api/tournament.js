@@ -119,6 +119,9 @@ export default {
   getMatchFixtureDetail(matchId) {
     return api.post('match/detail',{'matchId': matchId})
   },
+  generateMatchPrint(matchId) {
+    return api.post('match/print',{'matchId': matchId})
+  },  
   saveMatchResult(matchData) {
     return api.post('match/saveResult',{'matchData': matchData})
   },

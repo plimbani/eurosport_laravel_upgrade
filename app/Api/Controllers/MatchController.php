@@ -99,6 +99,10 @@ class MatchController extends BaseController
     {
         return $this->matchObj->getMatchDetail($request);
     }
+    public function generateMatchPrint(Request $request)
+    {
+        return $this->matchObj->generateMatchPrint($request->all());
+    }
     public function removeAssignedReferee(Request $request)
     {
         return $this->matchObj->removeAssignedReferee($request);
