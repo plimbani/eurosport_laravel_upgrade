@@ -206,20 +206,30 @@ public function getAllFromTournamentId($tournamentId)
 
         TempFixture::where('home_team_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
+            ->where('competition_id',$competId)
             // ->where('age_group_id',$data['age_group'])
-            ->update([
+          /*  ->update([
                 'home_team_name' => $team->name,
                 'home_team' => $team_id,
                 'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
+            ]); */
+             ->update([
+                'home_team_name' => $team->name,
+                'home_team' => $team_id
             ]);
         TempFixture::where('away_team_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
+            ->where('competition_id',$competId)
             // ->where('age_group_id',$data['age_group'])
             ->update([
                 'away_team_name' => $team->name,
+                'away_team' => $team_id
+            ]);
+         /*   ->update([
+                'away_team_name' => $team->name,
                 'away_team' => $team_id,
                 'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
-            ]);
+            ]);*/
 
     }
     public function edit($data)

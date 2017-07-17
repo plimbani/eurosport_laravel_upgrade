@@ -12,6 +12,7 @@
 		<th>Lost</th>
 		<th>Goals For</th>
 		<th>Goals Against</th>
+    <th>Goal Difference</th>
 	</thead>
 	<tbody>
 		<tr v-for="stand in standingData">
@@ -32,6 +33,7 @@
 			<td>{{stand.lost}}</td>
 			<td>{{stand.goal_for}}</td>
 			<td>{{stand.goal_against}}</td>
+      <td>{{stand.goal_for - stand.goal_against}}</td>
 		</tr>
 	</tbody>
 </table>
@@ -49,6 +51,9 @@ export default {
       currentLCompetationId: this.currentCompetationId
 		}
 	},
+  created: function() {
+     this.$root.$on('setStandingData', this.getData);
+  },
 	mounted() {
 		// here we call function to get all the Draws Listing
 		this.getData(this.currentLCompetationId)

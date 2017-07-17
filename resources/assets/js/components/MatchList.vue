@@ -84,7 +84,7 @@ export default {
 	  }
 	},
 	components: {
-      
+
     },
 
 	mounted() {
@@ -131,14 +131,22 @@ export default {
 		},
 		changeTeamDetails() {
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
-
 		},
 		updateScore(matchId) {
 
       let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
         Tournament.updateScore(matchData).then(
             (response) => {
-              toastr.success('Score has been updated successfully', 'Score Updated', {timeOut: 5000});
+
+              let competationId =response.data.data.competationId
+
+              toastr.success('Score has been updated successfully', 'Score Updated', {timeOut: 5000}
+                );
+
+              let tournamentId  =  this.$store.state.Tournament.tournamentId
+              this.$root.$emit('setDrawTable',competationId)
+              this.$root.$emit('setStandingData',competationId)
+             //this.$parent.$options.methods.getStandingData(tournamentId,6)
         })
     },
 
