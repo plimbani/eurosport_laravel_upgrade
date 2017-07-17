@@ -14,19 +14,20 @@
 </style>
 
 <center>
-    <img  src="{{ asset('assets/img/logo-desk.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+<img  src="{{ asset('assets/img/logo-desk.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
 </center>
 
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%">	
 	<h4>Reports</h4>
-        <tr>
-            <th align="center">Date and Time</th>
-            <th align="center">Age category</th>
-            <th align="center">Location</th>
-            <th align="center">Pitch</th>
-            <th align="center">Refree</th>
-            <th align="center">Game</th>
-        </tr>
+            <tr>
+                <td align="center">Date and Time</td>
+                <td align="center">Age category</td>
+                <td align="center">Location</td>
+                <td align="center">Pitch</td>
+                <td align="center">Refree</td>
+                <td align="center">Game</td>
+            </tr>
+
     <tbody>
     @foreach($data as $report)
     	<tr>
