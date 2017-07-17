@@ -144,7 +144,7 @@
               </tr>
               <tr>
                 <td>&nbsp;Comments</td>
-                <td>&nbsp;{{matchDetail.comments}}</td>
+                <td>&nbsp;{{matchDetail.comments}}</td> 
               </tr>
               </tbody>
             </table>

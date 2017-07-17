@@ -57,12 +57,14 @@ import _ from 'lodash'
                 vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
                 // vm.getUnavailablePitch()
             },500)
+
             setTimeout(function(){
                 $('.fc-referee').each(function(referee){
                     if(this.id == -1 || this.id == -2 ){
                         $(this).closest('.fc-event').addClass('bg-grey');
                     }
                 })
+
             },2000)
             setTimeout(function(){
                 $('.fc-referee').each(function(referee){
@@ -126,8 +128,8 @@ import _ from 'lodash'
                             slotLabelFormat:"HH:mm",
                             timeFormat: 'H:mm',
                             resourceAreaWidth: '100px',
-                            width:100
-
+                            width:100,
+                            resourceLabelText: ' ',
                         },
                         agendaDay: {
                             name:'agendaView',
@@ -325,6 +327,26 @@ import _ from 'lodash'
                             let refereeId = ''
                             let matchTitle = ''
                             
+let mtchNumber = match.match_number
+let mtchNumber1 = mtchNumber.split(".")
+let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
+
+let lastElm = mtchNumber1[2]
+let teams = lastElm.split("-")
+
+let Placehometeam =  teams[0]
+let Placeawayteam =  teams[1]
+
+if(match.Home_id != 0){
+Placehometeam = match.HomeTeam
+}
+if(match.Away_id != 0){
+Placeawayteam = match.AwayTeam
+}
+let mtc = ''
+mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
+console.log(mtc)
+match.match_number = mtc 
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
                                     if( filterValue != '' && filterValue.id != match.tid){
