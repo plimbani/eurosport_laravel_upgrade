@@ -8,7 +8,7 @@
                 <div class="card-block">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>{{$lang.user_management_sentence}}</p>
+                            <p>{{$lang.user_management_sentence_tournament}}</p>
                         </div>
                         <div class="col-md-12">
                             <table class="table add-category-table">
