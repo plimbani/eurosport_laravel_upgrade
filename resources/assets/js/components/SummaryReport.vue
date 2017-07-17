@@ -8,7 +8,7 @@
 			<div class="col-md-6 text-right">
 				<button type="button" class="btn btn-primary" @click='exportReport()'>{{$lang.summary_button_download}}</button>
                 <!-- <button type="submit" class="btn btn-primary">{{$lang.summary_button_print}}</button> -->
-                <button type="button" class="btn btn-primary mr-4" @click="printMatchDetails()">Print</button>
+                <button type="button" class="btn btn-primary mr-4" @click="exportPrint()">Print</button>
 			</div>
 		</div>
 		<div class="block-bg mt-4">
@@ -411,7 +411,6 @@ export default {
     		let sdata = $("#end_date_validation").html();
     		
     		if(sdata !='' || edata != ''){
-
     			return false
     		}
     		if (!isNaN(this.TournamentId)) {
@@ -435,6 +434,7 @@ export default {
 		      // toastr['error']('Invalid Credentials', 'Error');
 		    }
     	},
+    	
     	printMatchDetails() {  
     		$('#report_logo').show();
      		var divToPrint = document.getElementById('report_logo');
@@ -447,7 +447,6 @@ export default {
 	    }, 
 
     	exportReport() {
-
     		let ReportData = this.reportQuery
     		// console.log(ReportData)
     		// let newdata = $.parseHTML( ReportData )
@@ -455,14 +454,23 @@ export default {
     		// let newdata = $('#frmReport').serialize()
     		if(ReportData!=''){
 				ReportData += '&report_download=yes'
-    			window.location = "/tournament/report/reportExport?"+ReportData;
+    			window.location.href = "/tournament/report/reportExport?"+ReportData;
     		}else{
     			toastr['error']('Records not available', 'Error');
-    		}
+    		}    	
+		},
 
+		exportPrint() {
+    		let ReportData = this.reportQuery
+    		
 
-    	}
-
+    		
+    		if(ReportData!=''){
+    			window.location.href = "/api/tournament/report/print?"+ReportData;
+    		}else{
+    			toastr['error']('Records not available', 'Error');
+    		}    	
+		}
 
     }
 }

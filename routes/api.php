@@ -88,6 +88,7 @@ $api->version('v1', function ($api) {
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
     $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
+    $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint'); 
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
@@ -166,6 +167,7 @@ $api->version('v1', function ($api) {
     $api->get('roles-for-select', 'Laraspace\Api\Controllers\RoleController@getRolesForSelect');
 
     $api->get('tournament/report/generate', 'Laraspace\Api\Controllers\TournamentController@generateReport');
+    $api->get('tournament/report/print', 'Laraspace\Api\Controllers\TournamentController@generatePrint');
 
     // Some specefi Api for Mobile Users
     $api->post('users/setFavourite','Laraspace\Api\Controllers\UserController@setFavourite');

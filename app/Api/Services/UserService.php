@@ -318,7 +318,7 @@ class UserService implements UserContract
     {
 
       \Log::info('setFavourite Method Called');
-      \Log::info('UserId'+$data['user_id'].'TournamentId'.$data['tournament_id']);
+      \Log::info('UserId'.$data['user_id'].'TournamentId'.$data['tournament_id']);
       // here we have to entry in database
       $user_id = $data['user_id'];
       $tournament_id = $data['tournament_id'];

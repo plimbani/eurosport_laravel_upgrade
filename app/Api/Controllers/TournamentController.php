@@ -1,6 +1,8 @@
 <?php
 namespace Laraspace\Api\Controllers;
 
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
 use Illuminate\Http\Request;
 
 // Need to Define Only Contracts
@@ -15,6 +17,7 @@ use Laraspace\Api\Contracts\TournamentContract;
  */
 class TournamentController extends BaseController
 {
+    use ValidatesRequests;
     /**
      * @param object $tournamentObj
      */
@@ -126,6 +129,16 @@ class TournamentController extends BaseController
 
     public function generateReport(Request $request) {
        return $this->tournamentObj->generateReport($request->all());
+    }
+    public function generatePrint(Request $request) {
+
+        // dd($this->tournamentObj->generatePrint($request->all()));
+       return $this->tournamentObj->generatePrint($request->all());
+    }
+    protected function formatValidationErrors(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        logger($validator->errors()->all());
+        return $validator->errors()->all();
     }
     public function updateStatus(Request $request) {
        return $this->tournamentObj->updateStatus($request->all());
