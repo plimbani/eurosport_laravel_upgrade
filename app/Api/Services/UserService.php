@@ -234,8 +234,8 @@ class UserService implements UserContract
 
           $data['name'] = $data['first_name'];
           $data['surname'] = $data['last_name'];
-          // \Log::info('Update in password'.$data['password']);
-          // $userData['user']['password'] = Hash::make(trim($data['password']));
+          \Log::info('Update in password'.$data['password']);
+          $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
           $data['organisation'] = 'Euro-Sportring';
           $data['userType'] = '5';
@@ -318,7 +318,7 @@ class UserService implements UserContract
     {
 
       \Log::info('setFavourite Method Called');
-      \Log::info('UserId'+$data['user_id'].'TournamentId'.$data['tournament_id']);
+      \Log::info('UserId'.$data['user_id'].'TournamentId'.$data['tournament_id']);
       // here we have to entry in database
       $user_id = $data['user_id'];
       $tournament_id = $data['tournament_id'];
