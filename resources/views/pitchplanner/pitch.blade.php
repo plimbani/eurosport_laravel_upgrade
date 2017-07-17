@@ -34,7 +34,7 @@
   
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%"> 
     <h4>Match Detail</h4>
-  <thead>
+  
         <tr>
             <td align="center">Match number</td>
             <td>&nbsp;Team 1 ({{$data['home_team_name']}}) and Team 2 ({{$data['away_team_name']}})</td>
@@ -76,5 +76,4 @@
           <td align="center">Comments</td>
           <td>&nbsp;{{ $data['comments']}}</td>
         </tr>  
-    </thead>
 </table>
