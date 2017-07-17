@@ -352,6 +352,7 @@ export default {
     let this1 = this
     $("#exampleModal").on('hide.bs.modal', function () {
       this1.competation_format = this1.initialState()
+      this1.$root.$emit('displayCompetationList')
       // setTimeout(Plugin.reloadPage, 1000);
     });
     $("#exampleModal").on('show.bs.modal', function () {

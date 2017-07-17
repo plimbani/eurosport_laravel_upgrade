@@ -80,7 +80,7 @@
                             </p>
                             <p class="row mb-0">
                                 <label class="col-md-3 m-0"><strong>{{$lang.pitch_balance}}</strong></label>
-                                <label :class="[pitchAvailableBalance[0]<0? 'red': 'text-success','col-md-5 m-0' ]">{{pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
+                                <label :class="[parseInt(pitchCapacity-tournamentTime)<0? 'red': 'text-success','col-md-5 m-0' ]">{{ pitchAvailableBalance[2] + '' +pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
                             </p>
                         </div>
 
@@ -114,6 +114,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
 
         created: function() {
              this.$root.$on('displayPitch', this.displayPitch);
+             this.$root.$on('pitchrefresh', this.getAllPitches);
         },
         components: {
             editPitchDetail,addPitchDetail,DeleteModal
@@ -141,10 +142,18 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 let availableTime = pitchCapacityTime - tournamentAvailableTime
                 var minutes = availableTime % 60;
                 var hours = (availableTime - minutes) / 60;
+
                 if(minutes<0){
                     minutes = parseInt(0- minutes)
                 }
-                pitchavailableBalance.push (hours,minutes)
+                if(hours<0){
+                    hours = parseInt(0- hours)
+                }
+                let pitchSign= ''
+                if(this.tournamentTime > this.pitchCapacity){
+                  pitchSign = '-'
+                }
+                pitchavailableBalance.push (hours,minutes,pitchSign)
                 return pitchavailableBalance
             }
         },
@@ -240,6 +249,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
             // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
             let this3 = this
+
         },
         methods: {
             displayPitch(value) {
