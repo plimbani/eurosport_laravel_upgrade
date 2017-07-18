@@ -8,7 +8,8 @@
                 <div class="card-block">
                     <div class="row">
                         <div class="col-md-12">
-                            <p>{{$lang.user_management_sentence_tournament}}</p>
+                            <p v-if="registerType != 'mobile'">{{$lang.user_management_sentence}}</p>
+                            <p v-else>{{$lang.user_management_sentence_tournament}}</p>
                         </div>
                         <div class="col-md-12">
                             <table class="table add-category-table">
