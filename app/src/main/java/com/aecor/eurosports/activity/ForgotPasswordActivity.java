@@ -103,9 +103,10 @@ public class ForgotPasswordActivity extends BaseActivity {
                         if (response != null) {
                             AppLogger.LogE(TAG, "***** Forgot password response *****" + response.toString());
                             if (response.has("status") && !Utility.isNullOrEmpty(response.getString("status")) && response.getString("status").equalsIgnoreCase("200")) {
-                                Intent mForgotPasswordOtpIntent = new Intent(mContext, ForgotPasswordOtpActivity.class);
-                                mForgotPasswordOtpIntent.putExtra(AppConstants.ARG_FORGOT_PASSWORD_OTP, response.getString("otp"));
-                                startActivity(mForgotPasswordOtpIntent);
+//                                Intent mForgotPasswordOtpIntent = new Intent(mContext, ForgotPasswordOtpActivity.class);
+//                                mForgotPasswordOtpIntent.putExtra(AppConstants.ARG_FORGOT_PASSWORD_OTP, response.getString("otp"));
+//                                startActivity(mForgotPasswordOtpIntent);
+                                startActivity(new Intent(mContext, SignInActivity.class));
                             }
                         } else
                             Utility.showToast(mContext, getString(R.string.error));
