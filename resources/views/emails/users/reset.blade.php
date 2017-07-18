@@ -190,7 +190,7 @@
                       <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px;" align="left">
                         <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;">
                           <p padding="5px">Hi {{ $email_details['name'] }},</p>
-                          <p padding-bottom="0">You are receiving this email because we received a password reset request for your account.</p></div>
+                          <p padding-bottom="0">We received a request to reset your password. Click on the button below to continue.</p></div>
                       </td>
                     </tr>
                     <tr>
@@ -208,7 +208,7 @@
                      <tr>
                       <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px;" align="left">
                         <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;">                         
-                          <p padding-bottom="0">If you did not request this password reset please ignore this email.</p></div>
+                          <p padding-bottom="0">If you don't want to change your password or didn't request this, just ignore and delete this message.</p></div>
                       </td>
                     </tr>
                     <tr>
