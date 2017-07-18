@@ -36,8 +36,8 @@
                                         <td v-else></td>
 
                                         <td v-if="user.is_verified == 1 && user.is_mobile_user == 0">Accepted</td>
-                                        <td class="text-left" v-if="user.is_mobile_user == 1">Verify</td>
-                                        <td class="text-left" v-if="user.is_verified == 0 && user.is_mobile_user == 0">
+                                        <td class="text-left" v-if="user.is_mobile_user == 1 && user.is_verified == 1">Verify</td>
+                                        <td class="text-left" v-if="user.is_verified == 0">
                                         <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                         </td>
                                         <td>
