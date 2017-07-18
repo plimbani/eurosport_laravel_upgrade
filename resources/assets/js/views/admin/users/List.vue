@@ -17,7 +17,8 @@
                                         <th>{{$lang.user_desktop_name}}</th>
                                         <th>{{$lang.user_desktop_surname}}</th>
                                         <th>{{$lang.user_desktop_email}}</th>
-                                        <th>{{$lang.user_desktop_organisation}}</th>
+                                       <th v-if="registerType != 'mobile'">{{$lang.user_desktop_organisation}}</th>
+                                        <th v-else>Date & time</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
@@ -29,12 +30,14 @@
                                         <td>{{ user.person_detail.first_name }}</td>
                                         <td>{{ user.person_detail.last_name }}</td>
                                         <td>{{ user.email }}</td>
-                                        <td>{{ user.organisation }}</td>
+                                        <td v-if="user.is_mobile_user == 0">{{ user.organisation }}</td>
+                                        <td v-else>{{user.created_at | formatDate}}</td>
                                         <td v-if="(user.roles).length>0">{{ user.roles[0].name }}</td>
                                         <td v-else></td>
-                                        <td v-if="user.is_verified == 1">Accepted</td>
 
-                                        <td class="text-left" v-else>
+                                        <td v-if="user.is_verified == 1 && user.is_mobile_user == 0">Accepted</td>
+                                        <td class="text-left" v-if="user.is_mobile_user == 1">Verify</td>
+                                        <td class="text-left" v-if="user.is_verified == 0 && user.is_mobile_user == 0">
                                         <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                         </td>
                                         <td>
@@ -123,7 +126,8 @@
         },
 
         props: {
-            userList: Object
+            userList: Object,
+            registerType: String
         },
         computed: {
             IsSuperAdmin() {
@@ -133,6 +137,11 @@
               return this.uStatusData
             }
         },
+        filters: {
+            formatDate: function(date) {
+            return moment(date).format("HH:mm  DD MMM YYYY");
+             },
+          },
         mounted() {
           // here we check the permission to allowed to access users list
           let role_slug = this.$store.state.Users.userDetails.role_slug
@@ -148,6 +157,9 @@
            }
           },2000 )
           this.getRoles()
+
+
+
         },
         methods: {
           getRoles() {

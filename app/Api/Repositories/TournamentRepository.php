@@ -306,7 +306,7 @@ class TournamentRepository
     public function tournamentReport ($data) {
         $matchData  = TempFixture::where('temp_fixtures.tournament_id',$data['tournament_id'])
                 ->where('venue_id',$data['location'])
-                ->where('pitch_id',$data['pitch'])
+              ->where('pitch_id',$data['pitch'])
                 ->where('match_datetime','>=',Carbon::parse($data['start_date'])->format('m/d/Y'))
                 ->where('match_datetime','<=',Carbon::parse($data['end_date'])->format('m/d/Y'))
                 ->where('pitch_id',$data['pitch'])
