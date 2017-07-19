@@ -14,7 +14,7 @@
 								href="#mobile" role="tab" @click="getSelectComponent('mobile')">{{$lang.user_management_mobileuser}}</a>
 							</li>
 						</ul>
-						<router-view :userList="userList"></router-view>
+						<router-view :userList="userList" :registerType="registerType"></router-view>
 					</div>
 				</div>
 			</div>

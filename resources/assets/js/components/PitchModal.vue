@@ -5,7 +5,7 @@
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Match Details</h5>
             <div class="d-flex align-items-center">
-              <button type="button" class="btn btn-primary mr-4" @click="printMatchDetails()">Print</button>
+              <button type="button" class="btn btn-primary mr-4" @click="generateMatchPrint()">Print</button>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
@@ -257,19 +257,26 @@ var moment = require('moment');
           vm.$root.$emit('setPitchPlanTab','gamesTab')
       })
     },
-    printMatchDetails() {
-      // var printContents = document.getElementById('pitch_model_body').innerHTML;
-      /*document.getElementById('home_team_score').value = this.matchDetail.hometeam_score
-      alert(JSON.stringify(this.matchDetail))*/
-      $('#printTable').show();
-      var divToPrint = document.getElementById('printTable');
-      $('#matchScheduleModal').modal('hide');
-      let newWin= window.open("");
-      newWin.document.write(divToPrint.outerHTML);
-      newWin.print();
-      newWin.close();
-      // $('#printTable').hide();
+
+    generateMatchPrint() {
+     // console.log(this.matchFixture);   
+       var win = window.open("/api/match/print?matchId="+this.matchId, '_blank');
+      // window.location.href = "/api/match/print?matchId="+this.matchId;
     }
+
+    // printMatchDetails() {
+    //   // var printContents = document.getElementById('pitch_model_body').innerHTML;
+    //   /*document.getElementById('home_team_score').value = this.matchDetail.hometeam_score
+    //   alert(JSON.stringify(this.matchDetail))*/
+    //   $('#printTable').show();
+    //   var divToPrint = document.getElementById('printTable');
+    //   $('#matchScheduleModal').modal('hide');
+    //   let newWin= window.open("");
+    //   newWin.document.write(divToPrint.outerHTML);
+    //   newWin.print();
+    //   newWin.close();
+    //   // $('#printTable').hide();
+    // }
   }
 }
 </script>

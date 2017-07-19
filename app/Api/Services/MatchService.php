@@ -6,6 +6,8 @@ use DB;
 use Laraspace\Api\Contracts\MatchContract;
 use Validator;
 use Laraspace\Model\Role;
+use PDF;
+use Laraspace\Models\TempFixture;
 
 class MatchService implements MatchContract
 {
@@ -163,6 +165,29 @@ class MatchService implements MatchContract
             return ['status_code' => '300', 'message' => $scheduledResult];
         }
     }
+    public function generateMatchPrint($matchData) 
+    {
+       $matchId = $matchData['matchId'];
+       $matchResult = $this->matchRepoObj->getMatchDetail($matchId);
+       //echo '<pre>';
+     // print_r($matchResult->toArray());exit;
+      $date = new \DateTime(date('H:i d M Y'));
+        // $date->setTimezone();.
+      $resultData = $matchResult;
+      // dd($resultData);
+        $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData->toArray()])
+            ->setPaper('a4')
+            ->setOption('header-spacing', '5')
+            ->setOption('header-font-size', 7)
+            ->setOption('header-font-name', 'Open Sans')
+            ->setOrientation('portrait')
+            ->setOption('footer-right', 'Page [page] of [toPage]')      
+            ->setOption('header-right', $date->format('H:i d M Y'))
+            ->setOption('margin-top', 20)
+            ->setOption('margin-bottom', 20);
+        return $pdf->inline('Pitch.pdf');
+    }
+    
     public function getMatchDetail($matchData) {
 
         $matchResult = $this->matchRepoObj->getMatchDetail($matchData->all()['matchId']);

@@ -585,6 +585,7 @@ class MatchRepository
                 $join->on('winner_team.id', '=', 'temp_fixtures.match_winner');
             })->with('referee','pitch')->find($matchId);
     }
+    
     public function getLastUpdateValue($tournamentId)
     {
       $val = TempFixture::where('tournament_id','=',$tournamentId)

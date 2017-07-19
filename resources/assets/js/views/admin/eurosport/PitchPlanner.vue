@@ -9,6 +9,9 @@
             <div class="col-9 align-self-center">
               <tournamentFilter :section="section"></tournamentFilter>
             </div>
+            <div>
+            <h5 class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> *Pitch capacity is not enough to schedule matches. Please increase pitch capacity.</h5>
+            </div>
           </div>
 	  			<div class="mt-4" >
 	  				<pitch-planner-table></pitch-planner-table>
@@ -53,6 +56,17 @@ var moment = require('moment');
          $('.site-footer').removeClass('sticky');
       } else {
          $('.site-footer').addClass('sticky');
+      }
+    },
+    computed: {
+      PitchAvailable: function() {
+        let tournamentTime = this.$store.state.Tournament.currentTotalTime
+        let pitchCapacity = this.$store.state.Pitch.pitchCapacity
+        if(pitchCapacity > tournamentTime){
+          return true
+        }else{
+          return false
+        }
       }
     },
     methods: {

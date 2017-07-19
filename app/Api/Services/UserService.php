@@ -144,7 +144,7 @@ class UserService implements UserContract
             $email_details['name'] = $data['name'];
             $email_details['token'] = $token;
             $recipient = $data['emailAddress'];
-            Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Registration', 'emails.users.create');
+            Common::sendMail($email_details, $recipient, 'Euro-Sportring email verification', 'emails.users.create');
             return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address and complete your account registration.'];
         }
     }
