@@ -8,6 +8,7 @@
   "competition_group_round": "PM 1-8",
   "competation_format": "RR/PM",
   "tournament_min_match": 3,
+  "avg_game_team":3.0,
   "tournament_competition_graphic_view": {
       "format_name": [{
           "name": "Round 1",
@@ -91,11 +92,11 @@
     "format_name": [{
       "name": "Round 1",
       "match_type": [{
-        "name": "PM",
+        "name": "PM-1*8",
         "total_match": 4,
         "group_count":8,
         "groups": {
-          "group_name": "PM",
+          "group_name": "Group-PM1",
           "match": [
           {
             "in_between": "1-2",
@@ -118,24 +119,24 @@
     {
       "name": "Round 2",
       "match_type": [{
-        "name": "Placing Matches",
+        "name": "PM-1*8",
         "total_match": 4,
         "group_count": 4,
         "groups": {
-          "group_name": "PM",
+          "group_name": "Group-PM2",
           "match": [
             {
             "in_between": "CAT.PM1.G1.wr-CAT.PM1.G2.wr",
-            "match_number": "CAT.PM2.G1.G1WR-G2WR"
+            "match_number": "CAT.PM2.G1.PM1_PM2_WR-PM3_PM4_WR"
           }, {
             "in_between": "CAT.PM1.G1.wr-CAT.PM1.G2.wr",
-            "match_number": "CAT.PM2.G2.G3WR-G4WR"
+            "match_number": "CAT.PM2.G2.PM5_PM6_WR-PM7_PM8_WR"
           }, {
             "in_between": "CAT.PM1.G1.lr-CAT.PM1.G2.lr",
-            "match_number": "CAT.PM2.G3.G1LR-G2LR"
+            "match_number": "CAT.PM2.G3.PM1_PM2_LR-PM3_PM4_LR"
           }, {
              "in_between": "CAT.PM1.G3.lr-CAT.PM1.G4.lr",
-            "match_number": "CAT.PM2.G4.G3LR-G4LR"
+            "match_number": "CAT.PM2.G4.PM5_PM6_LR-PM7_PM8_LR"
           }
           ]
         }
@@ -144,11 +145,11 @@
     }, {
       "name": "Round 3",
       "match_type": [{
-        "name": "Placing Matches",
+        "name": "PM-1*8",
         "total_match": 4,
-        "group_count": 4,
+        "group_count": 8,
         "groups": {
-          "group_name": "PM",
+          "group_name": "Group-PM3",
           "match": [
             {
             "in_between": "CAT.PM1.G1.wr-CAT.PM1.G2.wr",

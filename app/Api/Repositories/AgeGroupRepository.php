@@ -34,8 +34,6 @@ class AgeGroupRepository
     public function addCompetations($competation_data,$group_data)
     {
       // Now here we have to For Loop to insert all data in competations table
-      //print_r($competation_data);
-     // print_r($group_data);
       //exit;
       $i=1;
       $competations=array();
@@ -52,7 +50,10 @@ class AgeGroupRepository
        $competations['team_size'] = $groups['team_count'];
        // here last group we consider as Final or Elimination Match
        // Means Last one
-       if($cntGroups == $i) {
+       // TODO : Change the code
+       $matchType = explode('-',$groups['match_type']);
+
+       if($matchType[0] == 'PM') {
         $competaon_type = 'Elimination';
        } else {
         $competaon_type = 'Round Robin';
@@ -64,6 +65,7 @@ class AgeGroupRepository
        $competationIds[$i]['name'] = $comp_group;
        $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];
        $competationIds[$i]['ageGroup'] = $age_group;
+       $competationIds[$i]['ageGroupId'] = $competation_data['tournament_competation_template_id'];
        $competationIds[$i]['competation_type'] = $competaon_type;
 
        $i++;
@@ -226,7 +228,6 @@ class AgeGroupRepository
     }
     public function addFixturesIntoTemp($fixtureArray,$competationArr)
     {
-      $teampfixtureTable=DB::table('temp_fixtures');
 
       foreach($fixtureArray as $key=>$fixture) {
 
@@ -236,6 +237,7 @@ class AgeGroupRepository
           foreach($competationArr as $group) {
             $tournamentId = $group['tournamentId'];
             $ageGroup = $group['ageGroup'];
+            $ageGroupId= $group['ageGroupId'];
 
             if($groupName == $group['name']) {
               $competationId = $group['id'];
@@ -253,15 +255,18 @@ class AgeGroupRepository
           // replace Fixture Name with Actual Group Name
           // $ageGroup = $ageGroup.'-';
           $fixture_n = str_replace('CAT.', $ageGroup.'-',$fixture);
+          $teampfixtureTable=DB::table('temp_fixtures');
           $teampfixtureTable->insert(
             ['match_number'=>$fixture_n,
             'tournament_id'=>$tournamentId,'competition_id'=>$competationId,
             'home_team_name'=>$homeTeam,'match_result_id'=> 0,
             'created_at'=> new \DateTime(),
             'round'=>$round,
+            'age_group_id'=>$ageGroupId,
             'away_team_name'=>$away_team,'venue_id'=>0,'pitch_id'=>0]
           );
       }
+
       return true;
     }
 }

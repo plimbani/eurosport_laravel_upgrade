@@ -8,6 +8,65 @@
 	"competition_group_round": "2x5",
 	"competation_format": "RR/PM",
 	"tournament_min_match": 4,
+  "avg_game_team":4.4,
+	"tournament_competition_ranking": {
+	    "format_name": [{
+	      "round": "Round 1",
+	      "groups":[{
+	            "Ranking": "Ranking A",
+	            "group_name": "Group-A",
+	            "team_count": 5,
+	            "teams": [{
+	                "position": "1",
+	                "team": "1A"
+	              },
+	              {
+	                "position": "2",
+	                "team": "2A"
+	              },
+	              {
+	                "position": "3",
+	                "team": "3A"
+	              },
+	              {
+	                "position": "4",
+	                "team": "4A"
+	              },
+	              {
+	                "position": "5",
+	                "team": "5A"
+	              }
+	            ]
+	          },
+	          {
+	            "Ranking": "Ranking B",
+	            "group_name": "Group-B",
+	            "team_count": 5,
+	            "teams": [{
+	                "position": "1",
+	                "team": "1B"
+	              },
+	              {
+	                "position": "2",
+	                "team": "2B"
+	              },
+	              {
+	                "position": "3",
+	                "team": "3B"
+	              },
+	              {
+	                "position": "4",
+	                "team": "4B"
+	              },
+	              {
+	                "position": "5",
+	                "team": "5B"
+	              }
+	            ]
+	          }
+	        ]
+	    }]
+  	},
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
 	        "name": "Round 1",
@@ -80,9 +139,9 @@
 		"format_name": [{
 			"name": "Round 1",
 			"match_type": [{
-				"name": "RR1*5",
+				"name": "RR-1*5",
 				"total_match": 10,
-                "group_count": 5,
+        "group_count": 5,
 				"groups": {
 					"group_name": "Group-A",
 					"match": [{
@@ -118,9 +177,9 @@
 					}]
 				}
 			},{
-				"name": "RR1*5",
+				"name": "RR-1*5",
 				"total_match": 10,
-                "group_count": 5,
+        "group_count": 5,
 				"groups": {
 					"group_name": "Group-B",
 					"match": [{
@@ -160,11 +219,11 @@
 			"name": "Round 2",
 			"match_type": [
 				{
-				"name": "Placing Matches (PM)",
+				"name": "PM-1*4",
 				"total_match": 2,
-                "group_count": 4,
+        "group_count": 4,
 				"groups": {
-					"group_name": "PM",
+					"group_name": "Group-PM",
 					"match": [{
 						"in_between": "1A-1B",
 						"match_number": "CAT.PM2.G1.1A-1B"
