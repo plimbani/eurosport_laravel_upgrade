@@ -144,7 +144,7 @@
               </tr>
               <tr>
                 <td>&nbsp;Comments</td>
-                <td>&nbsp;{{matchDetail.comments}}</td> 
+                <td>&nbsp;{{matchDetail.comments}}</td>
               </tr>
               </tbody>
             </table>
@@ -179,6 +179,7 @@ var moment = require('moment');
     },
     props: ['matchFixture'],
     mounted() {
+
        Tournament.getReferees(this.tournamentId).then(
         (response) => {
             this.referees = response.data.referees
@@ -194,7 +195,9 @@ var moment = require('moment');
     matchFixtureDetail(){
       Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
+
           this.matchDetail = response.data.data
+          this.matchDetail.id = this.matchId
           if(this.matchDetail.referee == null) {
 
           } else {
