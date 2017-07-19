@@ -8,6 +8,43 @@
 	"competition_group_round": "1x6",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 5,
+  "avg_game_team":5.3,
+	"tournament_competition_ranking": {
+	    "format_name": [{
+	      "round": "Round 1",
+	      "groups":[{
+	            "Ranking": "Ranking A",
+	            "group_name": "Group-A",
+	            "team_count": 6,
+	            "teams": [{
+	                "position": "1",
+	                "team": "1A"
+	              },
+	              {
+	                "position": "2",
+	                "team": "2A"
+	              },
+	              {
+	                "position": "3",
+	                "team": "3A"
+	              },
+	              {
+	              	"position": "4",
+	                "team": "4A"
+	              },
+	              {
+	                "position": "5",
+	                "team": "5A"
+	              },
+	              {
+	                "position": "6",
+	                "team": "6A"
+	              }
+	            ]
+	          }
+	        ]
+	    }]
+  	},
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
 	        "name": "Round 1",
@@ -59,7 +96,7 @@
 		"format_name": [{
 			"name": "Round 1",
 			"match_type": [{
-				"name": "RR1*6",
+				"name": "RR-1*6",
 				"total_match": 15,
         "group_count":6,
 				"groups": {
@@ -121,11 +158,11 @@
 		}, {
 			"name": "Round 2",
 			"match_type": [{
-				"name": "Placing Matches",
+				"name": "PM-1*2",
 				"total_match": 1,
         "group_count": 2,
 				"groups": {
-					"group_name": "PM",
+					"group_name": "Group-PM1",
 					"match": [{
 						"in_between": "1A - 2A",
 						"match_number": "CAT.PM2.G1.1A-2A"

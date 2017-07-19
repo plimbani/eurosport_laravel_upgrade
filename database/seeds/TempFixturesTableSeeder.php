@@ -14,35 +14,16 @@ class TempFixturesTableSeeder extends Seeder
     {
 
         DB::table('temp_fixtures')->truncate();
-        $tournament = DB::table('tournaments')->take(3)->select('id')->get()->toArray();
+        /*$tournament = DB::table('tournaments')->take(3)->select('id')->get()->toArray();
         $competition = DB::table('competitions')->take(3)->select('id')->get()->toArray();
         $venue = DB::table('venues')->take(3)->select('id')->get()->toArray();
         $pitch = DB::table('pitches')->take(3)->select('id')->get()->toArray();
         $referee = DB::table('referee')->take(3)->select('id')->get()->toArray();
         $teams = DB::table('teams')->take(3)->select('id')->get()->toArray();
-        $teamsName = DB::table('teams')->pluck('name','id')->toArray();
+        $teamsName = DB::table('teams')->pluck('name','id')->toArray(); */
 
-        DB::table('temp_fixtures')->insert([
-        	['tournament_id' =>  $tournament[array_rand($tournament)]->id, 'competition_id' => $competition[array_rand($competition)]->id,
-            'venue_id' => $venue[array_rand($venue)]->id, 'referee_id' =>  $referee[array_rand($referee)]->id , 'pitch_id' => $pitch[array_rand($pitch)]->id, 'is_scheduled' => '0',
-            'match_datetime' => Carbon::now()->format('Y-m-d H:i:s'), 'match_endtime' =>  Carbon::now()->format('Y-m-d H:i:s'), 'match_number' => '1', 'round' => 'Round robin',
-        	'home_team_name' =>'', 'home_team' => $teams[array_rand($teams)]->id,
-          'away_team_name' =>'', 'away_team' => $teams[array_rand($teams)]->id,
-            'comments' => '', 'match_winner' => '', 'match_status' => 'Full-time','hometeam_score' => '1', 'awayteam_score' => '4', 'hometeam_point' => '4.00', 'awayteam_point' => '4.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-
-        	['tournament_id' =>  $tournament[array_rand($tournament)]->id, 'competition_id' => $competition[array_rand($competition)]->id,
-            'venue_id' => $venue[array_rand($venue)]->id, 'referee_id' => $referee[array_rand($referee)]->id, 'pitch_id' => $pitch[array_rand($pitch)]->id, 'is_scheduled' => '0',
-            'match_datetime' => Carbon::now()->format('Y-m-d H:i:s'), 'match_endtime' => Carbon::now()->format('Y-m-d H:i:s'), 'match_number' => '8', 'round' => 'Round robin',
-        	'home_team_name' =>'', 'home_team' => $teams[array_rand($teams)]->id,'away_team_name' =>'', 'away_team' => $teams[array_rand($teams)]->id,
-            'comments' => '', 'match_winner' => '', 'match_status' => 'Full-time', 'hometeam_score' => '3', 'awayteam_score' => '2', 'hometeam_point' => '5.00', 'awayteam_point' => '3.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-
-        	['tournament_id' =>  $tournament[array_rand($tournament)]->id, 'competition_id' => $competition[array_rand($competition)]->id,
-            'venue_id' => $venue[array_rand($venue)]->id, 'referee_id' => $referee[array_rand($referee)]->id, 'pitch_id' => $pitch[array_rand($pitch)]->id, 'is_scheduled' => '0',
-            'match_datetime' => Carbon::now()->format('Y-m-d H:i:s'), 'match_endtime' => Carbon::now()->format('Y-m-d H:i:s'), 'match_number' => '9', 'round' => 'Round robin',
-        	'home_team_name' =>'', 'home_team' => $teams[array_rand($teams)]->id, 'away_team_name' =>'', 'away_team' => $teams[array_rand($teams)]->id,
-            'comments' => '', 'match_winner' => '', 'match_status' => 'Full-time',   'hometeam_score' => '1', 'awayteam_score' => '1', 'hometeam_point' => '4.00', 'awayteam_point' => '3.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-          ],
-
+      /*  DB::table('temp_fixtures')->insert(
+          [
           ['tournament_id' =>  4,
           'competition_id' => 5, 'venue_id' => 4,
            'referee_id' => 4,
@@ -50,14 +31,14 @@ class TempFixturesTableSeeder extends Seeder
             'is_scheduled' => '1',
             'match_datetime' => '2017-04-18 10:50:00',
             'match_endtime' => '2017-04-18 11:20:00',
-            'match_number' => '1',
+            'match_number' => 'U19-U17-RR1.01.A1-A3',
             'round' => 'Round robin',
-          'home_team_name' =>$teamsName[4],
+          'home_team_name' =>'Heider SV',
           'home_team' => '4',
-          'away_team_name' => $teamsName[5],
+          'away_team_name' => 'F.C. Saint Henri',
             'comments' => '',
             'match_winner' => '', 'match_status' => 'Full-time',
-            'away_team' => '5',
+            'away_team' => '6',
              'hometeam_score' => '12',
              'awayteam_score' => '0',
              'hometeam_point' => '4.00', 'awayteam_point' => '3.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')
@@ -161,132 +142,7 @@ class TempFixturesTableSeeder extends Seeder
              'hometeam_score' => '1',
              'awayteam_score' => '5',
              'hometeam_point' => '4.00', 'awayteam_point' => '3.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-          ],
-
-
-          ['tournament_id' =>  5,
-          'competition_id' => 4,
-            'venue_id' => 5,
-            'referee_id' => 5,
-            'pitch_id' => 5,
-            'is_scheduled' => '1',
-            'match_datetime' => '2017-04-15 13:40:00',
-            'match_endtime' => '2017-04-15 14:00:00',
-            'match_number' => '1',
-            'round' => 'Round robin',
-          'home_team_name' =>$teamsName[9],
-          'home_team' => '9',
-          'away_team_name' => $teamsName[10],
-            'comments' => '',
-            'match_winner' => '', 'match_status' => 'Full-time',
-            'away_team' => '10',
-             'hometeam_score' => '3',
-             'awayteam_score' => '1',
-             'hometeam_point' => '4.00', 'awayteam_point' => '3.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-          ],
-          ['tournament_id' =>  5,
-          'competition_id' => 4,
-            'venue_id' => 5,
-            'referee_id' => 5,
-            'pitch_id' => 6,
-            'is_scheduled' => '1',
-            'match_datetime' => '2017-04-15 13:40:00',
-            'match_endtime' => '2017-04-15 14:00:00',
-            'match_number' => '1',
-            'round' => 'Round robin',
-          'home_team_name' =>$teamsName[8],
-          'home_team' => '8',
-          'away_team_name' => $teamsName[11],
-            'comments' => '',
-            'match_winner' => '', 'match_status' => 'Full-time',
-            'away_team' => '11',
-             'hometeam_score' => '1',
-             'awayteam_score' => '0',
-             'hometeam_point' => '4.00', 'awayteam_point' => '3.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-          ],
-          ['tournament_id' =>  5,
-          'competition_id' => 4,
-            'venue_id' => 5,
-            'referee_id' => 5,
-            'pitch_id' => 5,
-            'is_scheduled' => '1',
-            'match_datetime' => '2017-04-15 15:25:00',
-            'match_endtime' => '2017-04-15 15:50:00',
-            'match_number' => '2',
-            'round' => 'Round robin',
-          'home_team_name' =>$teamsName[8],
-          'home_team' => '8',
-          'away_team_name' => 9,
-            'comments' => '',
-            'match_winner' => '', 'match_status' => 'Full-time',
-            'away_team' => '9',
-             'hometeam_score' => '0',
-             'awayteam_score' => '1',
-             'hometeam_point' => '4.00', 'awayteam_point' => '3.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-          ],
-          ['tournament_id' =>  5,
-          'competition_id' => 4,
-            'venue_id' => 5,
-            'referee_id' => 5,
-            'pitch_id' => 6,
-            'is_scheduled' => '1',
-            'match_datetime' => '2017-04-15 15:25:00',
-            'match_endtime' => '2017-04-15 15:50:00',
-            'match_number' => '2',
-            'round' => 'Round robin',
-          'home_team_name' =>$teamsName[11],
-          'home_team' => '11',
-          'away_team_name' => $teamsName[10],
-            'comments' => '',
-            'match_winner' => '', 'match_status' => 'Full-time',
-            'away_team' => '10',
-             'hometeam_score' => '0',
-             'awayteam_score' => '1',
-             'hometeam_point' => '4.00', 'awayteam_point' => '3.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-          ],
-          ['tournament_id' =>  5,
-          'competition_id' => 4,
-            'venue_id' => 5,
-            'referee_id' => 5,
-            'pitch_id' => 5,
-            'is_scheduled' => '1',
-            'match_datetime' => '2017-04-15 17:10:00',
-            'match_endtime' => '2017-04-15 17:30:00',
-            'match_number' => '3',
-            'round' => 'Round robin',
-          'home_team_name' =>$teamsName[10],
-          'home_team' => '10',
-          'away_team_name' => $teamsName[8],
-            'comments' => '',
-            'match_winner' => '', 'match_status' => 'Full-time',
-            'away_team' => '8',
-             'hometeam_score' => '0',
-             'awayteam_score' => '2',
-             'hometeam_point' => '4.00', 'awayteam_point' => '3.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-          ],
-          [
-          'tournament_id' =>  5,
-          'competition_id' => 4,
-          'venue_id' => 5,
-            'referee_id' =>5,
-            'pitch_id' => 6,
-            'is_scheduled' => '1',
-            'match_datetime' => '2017-04-15 17:10:00',
-            'match_endtime' => '2017-04-15 17:20:00',
-            'match_number' => '3',
-            'round' => 'Round robin',
-            'home_team_name' =>$teamsName[9],
-            'home_team' => '9',
-            'away_team_name' => $teamsName[11],
-            'comments' => '',
-            'match_winner' => '', 'match_status' => 'Full-time',
-            'away_team' => '11',
-            'hometeam_score' => '0',
-             'awayteam_score' => '1',
-             'hometeam_point' => '4.00', 'awayteam_point' => '3.00', 'match_result_id' => '1', 'bracket_json' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')
-          ],
-
-
-        ]);
+          ]
+        ]); */
     }
 }
