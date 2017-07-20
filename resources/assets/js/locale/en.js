@@ -167,6 +167,7 @@ module.exports = {
   competation_modal_foramt_competation_foramt: "Competition format:",
   competation_modal_minimum_matches: "Minimum matches:",
   competation_modal_format_remark: "Remark:",
+  competation_modal_avg_games_team: "Avg games per team:",
 
   competation_modal_matches_number_matches: "Number of matches day 1:",
   competation_modal_matches_number_matches_day: "Number of matches day 2:",

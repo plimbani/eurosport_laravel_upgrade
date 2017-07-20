@@ -1,13 +1,53 @@
 {
   "total_matches": 22,
   "tournament_id": "008",
-    "template_font_color": "rgb(217,149,148)",
+  "template_font_color": "rgb(217,149,148)",
   "tournament_teams": 7,
   "tournament_name": "T.7.6",
   "competition_round": "F",
   "competition_group_round": "1x7",
   "competation_format": "RR/PM",
   "tournament_min_match": 6,
+  "tournament_competition_ranking": {
+    "format_name": [{
+      "round": "Round 1",
+      "groups":[{
+            "Ranking": "Ranking A",
+            "group_name": "Group-A",
+            "team_count": 7,
+            "teams": [{
+                "position": "1",
+                "team": "1A"
+              },
+              {
+                "position": "2",
+                "team": "2A"
+              },
+              {
+                "position": "3",
+                "team": "3A"
+              },
+              {
+                "position": "4",
+                "team": "4A"
+              },
+              {
+                "position": "5",
+                "team": "5A"
+              },
+              {
+                "position": "6",
+                "team": "6A"
+              },
+              {
+                "position": "7",
+                "team": "7A"
+              }
+            ]
+          }
+        ]
+    }]
+  },
   "tournament_competition_graphic_view": {
       "format_name": [{
           "name": "Round 1",
@@ -147,11 +187,11 @@
     }, {
       "name": "Round 2",
       "match_type": [{
-        "name": "Placing Matches",
+        "name": "PM-1*2",
         "total_match": 1,
         "group_count": 2,
         "groups": {
-          "group_name": "PM",
+          "group_name": "Group-PM1",
           "match": [
             {
             "in_between": "1A - 2A",

@@ -20,6 +20,7 @@ class CreateTempFixturesTable extends Migration
             $table->integer('competition_id')->unsigned()->index();
             $table->foreign('competition_id')->references('id')->on('competitions')->onDelete('cascade');
             $table->integer('venue_id')->unsigned()->nullable()->nullable()->index();
+            $table->integer('age_group_id')->unsigned()->nullable()->nullable()->index();
             $table->integer('referee_id')->unsigned()->nullable()->index();
             // $table->foreign('referee_id')->references('id')->on('referee');
             $table->integer('pitch_id')->unsigned()->nullable()->index();
