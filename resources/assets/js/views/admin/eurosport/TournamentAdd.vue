@@ -501,7 +501,7 @@ this.$validator.validateAll().then(
     toastr['success'](msg, 'Success');
     // Now redirect to Comperation Format page
     // now here also check if tournament id is set then we push it
-  setTimeout(this.redirectCompetation, 7000);
+  setTimeout(this.redirectCompetation, 3000);
   // commit(types.SAVE_TOURNAMENT, response.data)
 },
 (error) => {
