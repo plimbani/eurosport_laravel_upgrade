@@ -94,11 +94,18 @@
                        <p class="row">
                           <label class="col-md-6"><strong>{{$lang.competation_modal_remark}}</strong></label>
                           <label class="col-md-6">
-                          <span  v-if="templateData['remark']">
-                          {{templateData['remark']}} </span>
-                          <span v-else>Not applicable</span>
+                            <span  v-if="templateData['remark']">
+                            {{templateData['remark']}} </span>
+                            <span v-else>Not applicable</span>
                           </label>
-
+                      </p>
+                       <p class="row">
+                          <label class="col-md-6"><strong>{{$lang.competation_modal_avg_games_team}}</strong></label>
+                          <label class="col-md-6">
+                            <span  v-if="templateData['avg_game_team']">
+                            {{templateData['avg_game_team']}} </span>
+                            <span v-else>Not applicable</span>
+                          </label>
                       </p>
                     </div>
                   </div>

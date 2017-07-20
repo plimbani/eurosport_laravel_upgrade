@@ -203,7 +203,7 @@
             "group_name": "Group-B",
             "match": [{
               "in_between": "1-2",
-              "match_number": "CAT.RR1.01.B1-A2"
+              "match_number": "CAT.RR1.01.B1-B2"
             }, {
               "in_between": "3-4",
               "match_number": "CAT.RR1.01.B3-B4"
