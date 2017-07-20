@@ -16,7 +16,7 @@ interface UserContract
      *
      * @return response
      */
-    public function getUsersByRegisterType($registerType);
+    public function getUsersByRegisterType($data);
 
     /*
      * Create New User

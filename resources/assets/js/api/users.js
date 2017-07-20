@@ -11,7 +11,7 @@ export default {
     return api.get('roles-for-select')
   },
   getUsersByRegisterType(param) {
-    return api.get('getUsersByRegisterType/'+param)
+    return api.post('users/getUsersByRegisterType',param)
   },
   createUser(formData) {
     return api.post('user/create',formData)

@@ -206,7 +206,7 @@ class ResetPasswordController extends Controller
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("Euro-Sportring Tournament Planner - Password Reset")
+            ->subject("Euro-Sportring password reset")
             ->line('You are receiving this email because we received a password reset request for your account.')
             ->action('Reset password', route('password.reset', $this->token))
             ->line('If you did not request this password reset please ignore this email.');
