@@ -64,7 +64,7 @@ class UserRepository {
                     });
             });
         }
-        $user->orderBy('users.id','desc');
+        $user->orderBy('users.created_at','desc');
         return $user->get();
     }
 
