@@ -104,12 +104,14 @@ class TournamentService implements TournamentContract
             $newData[$key]=$value;
             $jsonVal = $value->json_data;
 
-            list($totalTime,$totalmatch,$dispFormatname,$template_font_color,$remark) = $this->calculateTime($data['tournamentData'],$value);
+            list($totalTime,$totalmatch,$dispFormatname,$template_font_color,$remark,
+              $avg_game_team) = $this->calculateTime($data['tournamentData'],$value);
             $newData[$key]['total_time'] = $totalTime;
             $newData[$key]['total_match'] = $totalmatch;
             $newData[$key]['disp_format'] = $dispFormatname;
             $newData[$key]['template_font_color'] = $template_font_color;
             $newData[$key]['remark'] = $remark;
+            $newData[$key]['avg_game_team'] = $avg_game_team;
           }
 
 
@@ -206,8 +208,9 @@ class TournamentService implements TournamentContract
         // Todo: add remark option
 
         $remark =  (isset($json_data->remark)) ? $json_data->remark : '';
-
-        return array($total_time,$total_matches,$disp_format_name, $template_font_color,$remark);
+        // TODO: add avg_game_team
+        $avg_game_team = (isset($json_data->avg_game_team)) ? $json_data->avg_game_team : '';
+        return array($total_time,$total_matches,$disp_format_name, $template_font_color,$remark,$avg_game_team);
     }
 
     /*
@@ -611,7 +614,7 @@ class TournamentService implements TournamentContract
             ->setOption('header-font-size', 7)
             ->setOption('header-font-name', 'Open Sans')
             ->setOrientation('portrait')
-            ->setOption('footer-right', 'Page [page] of [toPage]')      
+            ->setOption('footer-right', 'Page [page] of [toPage]')
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
@@ -686,6 +689,6 @@ class TournamentService implements TournamentContract
           // echo $e->getMessage();
           return;
         }
-      }      
+      }
     }
 }
