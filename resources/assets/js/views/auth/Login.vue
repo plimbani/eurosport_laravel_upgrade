@@ -101,7 +101,7 @@
                     }
                 }).catch(error => {
                     if (error.response.status == 401) {
-                                // toastr['error']('Invalid Credentials', 'Error');
+                                toastr['error']('The login details entered are invalid. If you have forgotten you password please follow the forgot password process.', 'Error');
                     }else{
                         console.log('Error', error.message);
                     }
