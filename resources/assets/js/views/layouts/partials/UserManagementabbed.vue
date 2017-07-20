@@ -38,13 +38,20 @@ export default {
 		}
 	},
 	created() {
-		this.getSelectComponent(this.$route.params.registerType);
+	  this.getSelectComponent(this.$route.params.registerType);
+	  this.$root.$on('setSearch', this.getSelectComponent);
 	},
 	methods: {
-		getSelectComponent(registerType) {
-      let emaildata= []
-			this.registerType = registerType
-       User.getUsersByRegisterType(registerType).then(
+	getSelectComponent(registerType, userData='') {
+	  let emaildata = []
+	  let user1Data = {}
+	  this.registerType = registerType
+	  if(userData != '') {
+	  	  user1Data = {registerType:registerType, 'userData': userData}
+	  } else {
+	      user1Data = {registerType:registerType}
+	  }
+      User.getUsersByRegisterType(user1Data).then(
         (response)=> {
           if('users' in response.data) {
             for(var val1 in response.data.users) {

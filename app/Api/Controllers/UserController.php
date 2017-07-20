@@ -58,11 +58,9 @@ class UserController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getUsersByRegisterType($registerType)
+    public function getUsersByRegisterType(Request $request)
     {
-
-        return $userData =  $this->userObj->getUsersByRegisterType($registerType);
-
+        return $userData = $this->userObj->getUsersByRegisterType($request->all());
     }
 
     /**
