@@ -2,7 +2,6 @@ package com.aecor.eurosports.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,9 +20,11 @@ public class WebViewActivity extends BaseAppCompactActivity {
     protected WebView webView;
 
     private Context mContext;
+    private ProgressHUD progressHUD;
 
     @Override
     protected void initView() {
+        progressHUD = Utility.getProgressDialog(mContext);
 
         Intent getMediaName = getIntent();
         String media_name = getMediaName.getStringExtra(AppConstants.WEBVIEW_INTENT);
@@ -54,12 +55,10 @@ public class WebViewActivity extends BaseAppCompactActivity {
     }
 
     protected class MyWebClient extends WebViewClient {
-        private ProgressHUD progressHUD;
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             // TODO Auto-generated method stub
-            progressHUD = Utility.getProgressDialog(mContext);
             view.loadUrl(url);
             return true;
 

@@ -1,5 +1,6 @@
 package com.aecor.eurosports.activity;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.IntentCompat;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;
 
@@ -78,15 +80,19 @@ public class SettingsActivity extends BaseAppCompactActivity {
     }
 
     private void logoutFromApp() {
-        AppPreference mAppPref = AppPreference.getInstance(mContext);
-        mAppPref.clear();
-        Intent intent = new Intent(mContext, LandingActivity.class);
-        ComponentName cn = intent.getComponent();
-        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
-        startActivity(mainIntent);
-        finish();
+        ViewDialog.showTwoButtonDialog(((Activity) mContext), getString(R.string.confirm), getString(R.string.are_you_sure_you_want_to_log_out), getString(R.string.logout), getString(R.string.cancel), new ViewDialog.CustomDialogInterface() {
+            @Override
+            public void onPositiveButtonClicked() {
+                AppPreference mAppPref = AppPreference.getInstance(mContext);
+                mAppPref.clear();
+                Intent intent = new Intent(mContext, LandingActivity.class);
+                ComponentName cn = intent.getComponent();
+                Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+                startActivity(mainIntent);
+                finish();
+            }
+        });
     }
-
 
 
 }

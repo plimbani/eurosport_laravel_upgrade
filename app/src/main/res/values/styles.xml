@@ -11,6 +11,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:fadeScrollbars">false</item>
         <item name="android:scrollbarThumbVertical">@drawable/app_scrollbar</item>
+
     </style>
 
 

@@ -80,6 +80,7 @@ public class TeamActivity extends BaseAppCompactActivity {
         Intent mFullLeagueTableIntent = new Intent(mContext, FullLeageTableActivity.class);
         mFullLeagueTableIntent.putExtra(AppConstants.ARG_FULL_LEAGUE_TABLE_DETAIL, new ArrayList<>(Arrays.asList(mLeagueModelData)));
         mFullLeagueTableIntent.putExtra(AppConstants.ARG_GROUP_NAME, mTeamDetailModel.getGroup_name());
+        mFullLeagueTableIntent.putExtra(AppConstants.ARG_TEAM_ID, mTeamDetailModel.getId());
         startActivity(mFullLeagueTableIntent);
     }
 
@@ -228,7 +229,14 @@ public class TeamActivity extends BaseAppCompactActivity {
 
 
     private void addGroupLeagueRow(LeagueModel mLeagueModel) {
+
         View teamLeagueView = getLayoutInflater().inflate(R.layout.row_team_leaguetable, null);
+        LinearLayout ll_groupRow = (LinearLayout) teamLeagueView.findViewById(R.id.ll_groupRow);
+        if (mLeagueModel.getId().equalsIgnoreCase(mTeamDetailModel.getId())) {
+            ll_groupRow.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_green));
+        } else {
+            ll_groupRow.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
+        }
         TextView tv_group_name = (TextView) teamLeagueView.findViewById(R.id.tv_group_name);
         TextView tv_points = (TextView) teamLeagueView.findViewById(R.id.tv_points);
         TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
@@ -272,11 +280,15 @@ public class TeamActivity extends BaseAppCompactActivity {
         }
         goalText = goalText + goalDifferenece;
         tv_goalDifference.setText(goalText);
+        team_flag.setImageResource(android.R.color.transparent);
+
+
         if (!Utility.isNullOrEmpty(mLeagueModel.getTeamFlag())) {
             Glide.with(mContext)
                     .load(mLeagueModel.getTeamFlag())
                     .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
+
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -432,6 +444,7 @@ public class TeamActivity extends BaseAppCompactActivity {
                                 TeamFixturesModel mTeamFixtureData[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamFixturesModel[].class);
                                 ll_match_header.setVisibility(View.VISIBLE);
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
+                                    AppLogger.LogE(TAG, "mTeamFixtureData" + mTeamFixtureData.length);
                                     for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
                                         addMatchesRow(aMTeamFixtureData);
                                     }

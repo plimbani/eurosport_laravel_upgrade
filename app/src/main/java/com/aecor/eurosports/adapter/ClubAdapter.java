@@ -3,12 +3,15 @@ package com.aecor.eurosports.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +21,10 @@ import com.aecor.eurosports.model.ClubModel;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,15 +64,15 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> im
     }
 
     @Override
-    public void onBindViewHolder(ClubAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ClubAdapter.ViewHolder holder, int position) {
         final ClubModel clubModel = mClubList.get(position);
         String mClubTitle = "";
         if (!Utility.isNullOrEmpty(clubModel.getClubName())) {
             mClubTitle = clubModel.getClubName();
         }
-        if (!Utility.isNullOrEmpty(clubModel.getCountryName())) {
-            mClubTitle = mClubTitle + " (" + clubModel.getCountryName() + ")";
-        }
+//        if (!Utility.isNullOrEmpty(clubModel.getCountryName())) {
+//            mClubTitle = mClubTitle + " (" + clubModel.getCountryName() + ")";
+//        }
 
         holder.individual_list_item.setText(mClubTitle);
 
@@ -77,6 +84,23 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> im
                 mContext.startActivity(mTeamListIntent);
             }
         });
+        holder.iv_flag.setVisibility(View.VISIBLE);
+        if (!Utility.isNullOrEmpty(clubModel.getCountryLogo())) {
+            Glide.with(mContext)
+                    .load(clubModel.getCountryLogo())
+                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            holder.iv_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                        }
+                    });
+        } else {
+            Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
+                    R.drawable.globe);
+            holder.iv_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+        }
     }
 
     @Override
@@ -97,6 +121,8 @@ public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> im
         protected TextView individual_list_item;
         @BindView(R.id.ll_list_parent)
         protected LinearLayout ll_list_parent;
+        @BindView(R.id.iv_flag)
+        protected ImageView iv_flag;
 
         public ViewHolder(View rowView) {
             super(rowView);

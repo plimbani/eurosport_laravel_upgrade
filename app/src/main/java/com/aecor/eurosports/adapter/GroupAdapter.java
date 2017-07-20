@@ -18,7 +18,6 @@ import com.aecor.eurosports.activity.GroupSummaryActivity;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.util.AppConstants;
-import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 

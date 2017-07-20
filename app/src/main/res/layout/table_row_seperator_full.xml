@@ -8,6 +8,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_span="16"
+        android:layout_span="24"
         android:background="@color/button_disable" />
 </TableRow>

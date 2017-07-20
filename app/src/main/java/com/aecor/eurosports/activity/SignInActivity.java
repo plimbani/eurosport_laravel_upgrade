@@ -1,8 +1,10 @@
 package com.aecor.eurosports.activity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
@@ -68,10 +70,20 @@ public class SignInActivity extends BaseActivity {
         initView();
     }
 
+    @OnClick(R.id.iv_header_logo)
+    protected void onHeaderLogoClicked() {
+        Intent intent = new Intent(mContext, LandingActivity.class);
+        ComponentName cn = intent.getComponent();
+        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+        startActivity(mainIntent);
+        finish();
+    }
+
     @OnClick(R.id.tv_forgot_password)
     protected void onForgotPasswordClicked() {
         Intent mForgotPasswordIntent = new Intent(mContext, ForgotPasswordActivity.class);
         startActivity(mForgotPasswordIntent);
+        finish();
     }
 
     @OnClick(R.id.signin)

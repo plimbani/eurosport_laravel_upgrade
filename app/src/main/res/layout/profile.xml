@@ -52,7 +52,6 @@
                 android:inputType="textPersonName|textNoSuggestions" />
 
 
-
             <Spinner
                 android:id="@+id/profile_sp_tournament"
                 android:layout_width="match_parent"
@@ -72,13 +71,14 @@
                 android:prompt="@string/select_language" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_update"
-            style="@style/text_black_title"
-            android:layout_margin="20dp"
-            android:background="@drawable/btn_disable"
-            android:text="@string/update" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_update"
+        style="@style/text_black_title"
+        android:layout_margin="20dp"
+        android:background="@drawable/btn_disable"
+        android:text="@string/update" />
 
     <include layout="@layout/layout_footer" />
 
