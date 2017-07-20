@@ -37,7 +37,7 @@ select.form-control {
     }
 }
 
-#test tbody > tr {
+#test tbody>tr {
     &:nth-of-type(3n+1) {
         background: #FFFF00;
     }
@@ -54,6 +54,7 @@ select.form-control {
 
 table#Competition-modal-table {
     tbody.competition-modal-table-body {
+
         tr {
             &:hover {
                 background-color: transparent;
@@ -106,9 +107,11 @@ table#Competition-modal-table {
 #referee-list {
     height: 400px;
 }
+
 #outerGame {
     margin-bottom: 100px
 }
+
 
 /*.pitch_planner_section {
   height: 1200px;
@@ -136,7 +139,8 @@ table#Competition-modal-table {
     border-radius: 3px;
 }
 
-.referee_-1,.referee_-2,
+.referee_-1,
+.referee_-2,
 .referee_0 {
     display: none;
 }
@@ -150,26 +154,89 @@ table#Competition-modal-table {
         min-height: 214px;
     }
 }
+
 .fc-event-container .fc-time-grid-event {
     width: 100%;
 }
-.fc-ltr .fc-time-grid .fc-event-container{
+
+.fc-ltr .fc-time-grid .fc-event-container {
     margin: 0 3px 0 1px;
 }
-.multiselect__tag {
-    background-color:#2196F3;
-}
-.multiselect__option--highlight,.multiselect__option--highlight:after {
-    background-color:#2196F3;
-    background:#2196F3;
 
+.multiselect__tag {
+    background-color: #2196F3;
 }
+
+.multiselect__option--highlight,
+.multiselect__option--highlight:after {
+    background-color: #2196F3;
+    background: #2196F3;
+}
+
 #pitchPlanner {
     min-height: 550px;
 }
+
 .fc-button {
     display: none;
 }
+
 .pitchCapacityNotice {
     color: red
+}
+
+.paginate-links.userpagination {
+    display: flex; // 1-2: Disable browser default list styles
+    justify-content: flex-end;
+    padding-left: 0; // 1
+    list-style: none; // 2
+    @include border-radius();
+    li {
+        &:first-child {
+            a {
+                margin-left: 0;
+                @include border-left-radius($border-radius);
+            }
+        }
+        &:last-child {
+            a {
+                @include border-right-radius($border-radius);
+            }
+        }
+        a {
+            cursor: pointer;
+          }
+
+        &.active a {
+            z-index: 2;
+            color: $pagination-active-color;
+            background-color: $pagination-active-bg;
+            border-color: $pagination-active-border;
+        }
+
+        &.disabled a {
+            color: $pagination-disabled-color;
+            pointer-events: none;
+            cursor: $cursor-disabled; // While `pointer-events: none` removes the cursor in modern browsers, we provide a disabled cursor as a fallback.
+            background-color: $pagination-disabled-bg;
+            border-color: $pagination-disabled-border;
+        }
+        a {
+            position: relative;
+            display: block;
+            padding: $pagination-padding-y $pagination-padding-x;
+            margin-left: -1px;
+            line-height: $pagination-line-height;
+            color: $pagination-color;
+            background-color: $pagination-bg;
+            border: $pagination-border-width solid $pagination-border-color;
+
+            @include hover-focus {
+                color: $pagination-hover-color;
+                text-decoration: none;
+                background-color: $pagination-hover-bg;
+                border-color: $pagination-hover-border;
+            }
+        }
+    }
 }

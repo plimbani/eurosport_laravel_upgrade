@@ -80,7 +80,7 @@
       @if($userOTP == '')
       <p>Hi {{$name}},
               </p>
-              <p>Your Euro-Sportring Tournament Planner has been created. Please click on the button below to set you password and complete your account registration.
+              <p>We received a request to reset your password. Click on the button below to continue.
               </p>
       @else
           <p>Hi {{$name}},
@@ -101,13 +101,14 @@
       </td></tr><tr><td style="width:600px;">
       <![endif]--><div style="margin:0px auto;max-width:600px;background:#fff;"><table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;background:#fff;" align="center" border="0"><tbody><tr><td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:10px;"><!--[if mso | IE]>
       <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:middle;width:600px;">
-      <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:middle;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-bottom:20px;" align="center"><table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="center" border="0"><tbody><tr><td style="border:none;border-radius:3px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#2196f3"><a href="{{ $actionUrl.'?userEmail='.$userEmail }}" style="text-decoration:none;line-height:100%;background:#2196f3;color:white;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:13px;font-weight:300;text-transform:none;margin:0px;" target="_blank">Reset password</a></td></tr></tbody></table></td></tr></tbody></table></div><!--[if mso | IE]>
+      <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:middle;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:0px 25px;padding-bottom:20px;" align="center"><table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="center" border="0"><tbody><tr><td style="border:none;border-radius:3px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#2196f3"><a href="{{ $actionUrl.'?userEmail='.$userEmail }}" style="text-decoration:none;line-height:100%;background:#2196f3;color:white;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:13px;font-weight:300;text-transform:none;margin:0px;" target="_blank">Reset password</a></td></tr></tbody></table></td></tr></tbody></table></div><!--[if mso | IE]>
       </td></tr></table>
       <![endif]--></td></tr></tbody></table></div><!--[if mso | IE]>
       </td></tr><tr><td style="width:600px;">
       <![endif]--><div style="margin:0px auto;max-width:600px;background:#fff;"><table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;background:#fff;" align="center" border="0"><tbody><tr><td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:10px;"><!--[if mso | IE]>
       <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:middle;width:600px;">
-      <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:middle;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="left"><div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;"><p>If you did not request this password reset please ignore this email.
+      <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:middle;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:0px;padding-bottom:0px;padding-right:25px;padding-left:25px;" align="left"><div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;"><p>If you don't want to change your password or didn't request this, just ignore and delete this message.
+
               </p></div></td></tr></tbody></table></div><!--[if mso | IE]>
       </td></tr></table>
       <![endif]--></td></tr></tbody></table></div><!--[if mso | IE]>

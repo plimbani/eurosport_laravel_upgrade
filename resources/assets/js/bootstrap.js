@@ -5,6 +5,7 @@ import Ls from './services/ls'
 
 import Multiselect from 'vue-multiselect';
 import Lang from 'vue-lang';
+import VuePaginate from 'vue-paginate';
 
 window._ = require('lodash');
 
@@ -64,6 +65,7 @@ axios.interceptors.request.use(function (config) {
 
 Vue.use(VueRouter)
 Vue.use(VeeValidate);
+Vue.use(VuePaginate);
 Vue.component('multiselect',Multiselect);
 
 var locales = {
