@@ -33,7 +33,7 @@ export default {
 				'userCount': 0,
 				'registerType': '',
 				'listStatus': 1,
-        'emaildata':[]
+      			'emaildata':[]
 			}
 		}
 	},

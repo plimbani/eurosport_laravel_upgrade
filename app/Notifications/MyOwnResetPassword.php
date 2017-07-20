@@ -54,7 +54,6 @@ class MyOwnResetPassword extends Notification
      */
     public function toMail($notifiable)
     {
-      // ->action('Notification Action', url('/'))
         return (new MailMessage)
                     ->subject("Euro-Sportring password reset")
                     ->line('You are receiving this email because we received a password reset request for your account. Click the button below to reset your password:')

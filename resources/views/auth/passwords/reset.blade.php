@@ -87,7 +87,7 @@
                                 <div class="form-group" id="divCheckPasswordMatch"></div>
                                 <div class="h4 text-center mt-4">
                                     <button type="submit" id="addButton" class="btn btn-primary">
-                                        Set password
+                                        Reset password
                                     </button>
                                 </div>
                             </form>
@@ -111,10 +111,10 @@
         var confirmPassword = $("#password-confirm").val();
 
         if (password != confirmPassword) {
-            $("#divCheckPasswordMatch").html("");
-            $("#addButton").html("Set password");
+            $("#divCheckPasswordMatch").html("");  
+            $("#addButton").html("Reset password");
         } else {
-            $("#divCheckPasswordMatch").html("Your password has been reset!");
+            $("#divCheckPasswordMatch").html("Your password has been reset");
             $("#addButton").html("Go to login page");
         }
     }
@@ -143,7 +143,7 @@ $("#js-frm-resetpassword-activation").validate({
             minlength: "Your password must be at least 5 characters long"
         },
         password_confirmation: {
-            equalTo: "The passwords do match, please re-enter."
+            equalTo: "Passwords do not match"
         }
     },
       submitHandler: function(form) {

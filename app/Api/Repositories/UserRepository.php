@@ -36,15 +36,7 @@ class UserRepository {
                 ->get();
         return $user;
     }
-    // public function getUsersByRegisterType($registerType)
-    // {
-    //     if($registerType=="desktop") {
-    //         $isMobileUser=0;
-    //     } else if($registerType=="mobile") {
-    //         $isMobileUser=1;
-    //     }
-    //     return User::with(["personDetail", "roles"])->where('is_mobile_user', $isMobileUser)->get();
-    // }
+   
     public function getUsersByRegisterType($data)
     {
         $registerType = $data['registerType'];
@@ -55,17 +47,10 @@ class UserRepository {
             $isMobileUser=1;
         }     
 
-        // $user = \DB::table('users')
-        //     ->join('users', 'users.id', '=', 'users.user_id')
-        //     ->join('people', 'person_id', '=', 'people.person_id')
-        //     ->join('roles', 'roles.id', '=', 'role_user.role_id')
-        //     ->select('users.*', 'contacts.phone', 'orders.price')
-        //     ->get();
-
-        // $user = \DB::table('users')        
+        
         $user = User::with(["personDetail", "roles"])
                     ->where('users.is_mobile_user', $isMobileUser);
-                    
+
         if(isset($data['userData'])) {
             $user->where(function($query) use($data) {
                 $query->where('users.email', 'like', "%" . $data['userData'] . "%")
@@ -79,15 +64,6 @@ class UserRepository {
                     });
             });
         }
-        // $user = User::with(["personDetail", "roles"])->where('is_mobile_user', $isMobileUser);
-        // if(isset($data['userData']) && trim($data['userData']) != ''){
-        //     $user->where('personDetail', function($personQuery) use ($data){
-        //         $personQuery->where('first_name','Rick');
-        //     });
-        //     //$user->where('users.name', 'like', "%" . $data['userData'] . "%");
-        // }
-        //echo $user->toSql();exit;
-        // echo "<pre>"; print_r($user); echo "</pre>";     
         return $user->get();
     }
 
