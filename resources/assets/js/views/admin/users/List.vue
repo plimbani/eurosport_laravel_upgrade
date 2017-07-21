@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-block">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-7">
                             <p v-if="registerType != 'mobile'">{{$lang.user_management_sentence}}</p>
                             <p v-else>{{$lang.user_management_sentence_tournament}}</p>
                         </div>
@@ -17,6 +17,13 @@
                                   <input type="text" class="form-control"
                                   v-on:keyup="searchUserData" v-model="userListSearch"
                                   placeholder="Search User">
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                              <div>
+                                <button type="button" class="btn btn-primary" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
                               </div>
                           </div>
                         </div>
@@ -36,7 +43,7 @@
                                 </thead>
                                 <tbody>
                                   <tr class="" v-for="user in paginated('userpagination')">
-                                     <td>{{ user.person_detail.first_name }}</td>
+                                    <td>{{ user.person_detail.first_name }}</td>
                                     <td>{{ user.person_detail.last_name }}</td>
                                     <td>{{ user.email }}</td>
                                     <td v-if="user.is_mobile_user == 0">{{ user.organisation }}</td>
@@ -143,6 +150,7 @@
                 userStatus: false,
                 userId: '',
                 uStatusData:'',
+                reportQuery:'',
                 enb: false,
                 userRoles: [],
                 userEmailData: this.userList,
@@ -305,6 +313,22 @@
                     this.updateUserList();
                 }); */
             },
+            exportTableReport() {
+                let userData = this.reportQuery
+                let userSearch = '';
+                // console.log(userData);
+                // console.log(ReportData)
+                // let newdata = $.parseHTML( ReportData )
+                // let newdata =  $(ReportData).parse();
+                // let newdata = $('#frmReport').serialize();
+                  if(this.userListSearch!=''){
+                      userSearch = 'userData='+userListSearch
+                  }
+                   window.location.href = "/api/users/getUserTableData?report_download=yes&registerType="+this.registerType;
+                   // userData += '&report_download=yes'
+                   // window.location.href = "/api/users/getUserTableData?=report_download=yes&registerType=desktop&userData=";
+
+             }
         }
     }
 </script>
