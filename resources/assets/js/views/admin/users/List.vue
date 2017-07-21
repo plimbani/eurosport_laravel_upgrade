@@ -36,7 +36,7 @@
                                         <th>{{$lang.user_desktop_email}}</th>
                                         <th v-if="registerType != 'mobile'">{{$lang.user_desktop_organisation}}</th>
                                         <th v-else>Date & time</th>
-                                        <th>{{$lang.user_desktop_usertype}}</th>
+                                        <th v-if="registerType != 'mobile'">{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
@@ -48,8 +48,7 @@
                                     <td>{{ user.email }}</td>
                                     <td v-if="user.is_mobile_user == 0">{{ user.organisation }}</td>
                                     <td v-else>{{user.created_at | formatDate}}</td>
-                                    <td v-if="(user.roles).length>0">{{ user.roles[0].name }}</td>
-                                    <td v-else></td>
+                                    <td v-if="(user.roles).length>0 && registerType != 'mobile'">{{ user.roles[0].name }}</td>
 
                                     <td v-if="user.is_verified == 1 && user.is_mobile_user == 0">Accepted</td>
                                     <td class="text-left" v-if="user.is_mobile_user == 1 && user.is_verified == 1">Verified</td>
