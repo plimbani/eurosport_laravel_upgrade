@@ -112,7 +112,7 @@
 
         if (password != confirmPassword) {
             $("#divCheckPasswordMatch").html("");  
-            $("#addButton").html("Reset password");
+            $("#addButton").html("Reset password"); 
         } else {
             $("#divCheckPasswordMatch").html("Your password has been reset");
             $("#addButton").html("Go to login page");

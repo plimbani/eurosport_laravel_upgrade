@@ -146,7 +146,7 @@ $api->version('v1', function ($api) {
        // echo 'Hello'.$_SERVER['REMOTE_ADDR'];
 
     });
-
+    $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
     $api->post('users/getUsersByRegisterType', 'Laraspace\Api\Controllers\UserController@getUsersByRegisterType');
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
     $api->get('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('edit.users');
