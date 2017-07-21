@@ -78,26 +78,23 @@ export default {
                 round = 'FN-'
                 matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
               }
+
               let fullgame1 = match.full_game;
+
               if(match.Away_id != 0 && match.Home_id != 0) {
                 fullgame1 = ''
               }
                let mtchNumber = match.match_number
- let mtchNumber1 = mtchNumber.split(".")
-//let lastElm = mtchNumber1[2]
+               let mtchNumber1 = mtchNumber.split(".")
 
-//let teams = lastElm.split("-")
-//hometeam =  teams[0]
-//awayteam =  teams[1]
-let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
-if(match.Away_id != 0 && match.Home_id != 0) 
-{
-   fullgame1 = ''
-   mtchNum = mtchNum+'.'+match.HomeTeam+'-'+match.AwayTeam    
-} else {
-  mtchNum = mtchNum+mtchNumber1[2]
-}
-console.log(mtchNum)
+              let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
+              if(match.Away_id != 0 && match.Home_id != 0)
+              {
+                 fullgame1 = ''
+                 mtchNum = mtchNum+'.'+match.HomeTeam+'-'+match.AwayTeam
+              } else {
+                mtchNum = mtchNum+mtchNumber1[2]
+              }
 
               var person = {'fullGame':fullgame1,'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
               comp.push(person)

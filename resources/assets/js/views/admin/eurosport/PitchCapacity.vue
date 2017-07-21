@@ -5,25 +5,6 @@
                 <div class="row">
                    <div class="col-3 align-self-center">
                 <h6 class="mb-4"><strong>{{$lang.pitch_capacity}}</strong></h6>
-
-               <!-- <div class="d-flex justify-content-start flex-wrap">
-                    <div class="mr-3 d-flex flex-column justify-content-between pitch-capacity mb-3" v-for="pitch in pitches">
-                        <div>
-                            <p class="text-center">
-                                <strong>{{pitch.pitch_number}}</strong>
-                            </p>
-                        </div>
-                        <div>
-                            <a  href="javascript:void(0)" @click="editPitch(pitch.id)">
-                                <img src="/assets/img/pitch.png">
-                            </a>
-                        </div>
-                        <div class="text-center">
-                            <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
-                            <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="jv-icon jv-dustbin"></i></a>
-                        </div>
-                    </div>
-                </div> -->
                 </div>
                 <div class="col-9 align-self-center">
                         <button type="button" class="btn btn-primary pull-right" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
@@ -106,7 +87,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 'disableDate': [],
                 'stage_capacity' : [],
                 'availableDate': [],
-                'deleteConfirmMsg': 'Are you sure you would like to delete this pitch? All schedules will be permanently deleted.',
+                'deleteConfirmMsg': 'Are you sure you would like to delete this pitch? All matches on this pitch will be un-scheduled.',
                 'deletePitchId': '',
                 'dispPitch': false
                 }
