@@ -71,14 +71,21 @@ class UserRepository {
          if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
                 
             foreach ($userData as $user) {
-
+               
+               // print_r($user->roles);exit;
+                $roleName = $user->roles[0]->name;
+                if($user->is_mobile_user ==1){
+                    $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
+                } else {
+                    $status = ($user->is_verified == 1) ? 'Accepted': 'Resend';
+                }
                 $ddata = [
                     $user->personDetail['first_name'],
                     $user->personDetail['last_name'],
                     $user->email,
                     $user->organisation,
-                   
-                    
+                    $roleName,
+                    $status
                 ];
                 array_push($dataArray, $ddata);
             }
