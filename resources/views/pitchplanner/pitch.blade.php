@@ -48,9 +48,10 @@
              <td>&nbsp;{{ $data['pitch']['pitch_number']}}</td>
         </tr> 
         <tr>
-             <td align="left">&nbsp;Referee</td>
-              @if($data['referee']['last_name'] && $data['referee']['first_name'])
-              <td>{{ $data['referee']['last_name']}},{{ $data['referee']['first_name']}}</td>
+
+             <td align="center">Referee</td>
+            @if($data['referee']['last_name'] && $data['referee']['first_name'])
+              <td align="center">&nbsp;{{ $data['referee']['last_name']}},{{ $data['referee']['first_name']}}</td>
             @else
             <td align="left"></td>
             @endif
