@@ -57,7 +57,9 @@
                   Team 1 ({{matchDetail.home_team_name}})
                 </div>
                 <div class="col-sm-3 align-self-center">
-                  <input type="number" min="0" name="home_team_score" :value="matchDetail.hometeam_score" id="home_team_score" class="form-control">
+                  <input type="number" min="0" name="home_team_score"
+                  v-model="matchDetail.hometeam_score"
+                  :value="matchDetail.hometeam_score" id="home_team_score" class="form-control">
                 </div>
                 <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
                   &nbsp;
@@ -66,7 +68,9 @@
                   Team 2 ({{matchDetail.away_team_name}})
                 </div>
                 <div class="col-sm-3 align-self-center">
-                  <input type="number" min="0" name="away_team_score" :value="matchDetail.awayteam_score" id="away_team_score" class="form-control">
+                  <input type="number" min="0" name="away_team_score"
+                  v-model="matchDetail.awayteam_score"
+                  :value="matchDetail.awayteam_score" id="away_team_score" class="form-control">
                 </div>
               </div>
               <div class="form-group row">
@@ -259,7 +263,7 @@ var moment = require('moment');
     },
 
     generateMatchPrint() {
-     // console.log(this.matchFixture);   
+     // console.log(this.matchFixture);
        var win = window.open("/api/match/print?matchId="+this.matchId, '_blank');
       // window.location.href = "/api/match/print?matchId="+this.matchId;
     }
