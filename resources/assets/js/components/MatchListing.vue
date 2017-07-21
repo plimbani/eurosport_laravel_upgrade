@@ -10,6 +10,7 @@
 					<select class="form-control ls-select2"
 					    v-on:change="onChangeMatchDate"
 						v-model="matchDate">
+						<option value="all">All dates</option>
 						<option v-for="option in tournamentDates" v-bind:value="option">
 							{{option | formatDate}}
 						</option>
@@ -131,7 +132,10 @@ export default {
 		onChangeMatchDate(){
 			let matchDate = this.matchDate
 			this.currentDate = this.matchDate
-			this.getAllMatches(matchDate)
+			if(matchDate != 'all')
+			  this.getAllMatches(matchDate)
+			else
+			  this.getAllMatches()	
 		},
 
 		getDateRange(startDate, stopDate, dateFormat)
@@ -241,13 +245,16 @@ export default {
 				}
 			)
 		},
-		getAllMatches(date,filterKey='',filterValue='') {
+		getAllMatches(date='',filterKey='',filterValue='') {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = ''
 			if(filterKey != '' && filterValue != '') {
           tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
+	      } 
+	      if(date != '') {
+	      	  tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
 	      } else {
-	          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
+	      	  tournamentData ={'tournamentId':TournamentId,'is_scheduled':1 }
 	      }
 
 		//	let TournamentId = this.$store.state.Tournament.tournamentId
