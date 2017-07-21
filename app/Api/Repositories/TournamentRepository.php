@@ -32,12 +32,12 @@ class TournamentRepository
       if($status == '') {
           $data = Tournament::
                   select('tournaments.*',
-                  \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
+                  \DB::raw('IFNULL("",CONCAT("'.$this->tournamentLogo.'", tournaments.logo)) AS tournamentLogo'))
                     ->get();
       } else {
         $data = Tournament::where('status','=','Published')
                 ->select('tournaments.*',
-                  \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
+                  \DB::raw('IFNULL("",CONCAT("'.$this->tournamentLogo.'", tournaments.logo)) AS tournamentLogo'))
                   ->get();
       }
         return $data;
@@ -81,6 +81,8 @@ class TournamentRepository
 
         if($data['image_logo'] != ''){
             $newdata['logo'] = $data['image_logo'];
+        } else {
+            $newdata['logo'] = '';
         }
         // Now here we Save it For Tournament
         $imageChanged = true;
@@ -155,7 +157,7 @@ class TournamentRepository
           'tournamentEndDate' => $data['end_date'],
 
           'tournamentStatus'=> 'UnPublished',
-          'tournamentLogo'=>$this->tournamentLogo.$data['image_logo'],
+          'tournamentLogo'=> ($data['image_logo'] != '') ? $this->tournamentLogo.$data['image_logo'] : '',
           'tournamentDays'=> ($tournamentDays) ? $tournamentDays : '2',
           'facebook' => $data['facebook'],
           'twitter' => $data['twitter'],
@@ -357,7 +359,7 @@ class TournamentRepository
           case 'competation_group':
                  $resultData = Competition::where('tournament_id',$tournamentId)
                                 ->select('id','name')
-                                ->get(); 
+                                ->get();
         }
       }else{
 
@@ -383,7 +385,7 @@ class TournamentRepository
                         ->distinct('name')
                         ->get();
             break;
-        } 
+        }
       }
 
       return $resultData;
