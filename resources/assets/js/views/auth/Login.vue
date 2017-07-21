@@ -91,7 +91,7 @@
                 let formData = {'email': this.loginData.email}
                 return axios.post('/api/password/email',formData).then(response =>  {
                     // console.log(response.status)
-                    if(response.data == 'success'){
+                    if(response.status == 200){
                         this.loginData.forgotpassword = ''
                         toastr['success']('We have emailed you a password reset link!', 'Success');
                         $('#resetPassword').attr("disabled","");

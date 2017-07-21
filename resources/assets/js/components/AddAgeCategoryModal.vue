@@ -30,11 +30,11 @@
             <div class="col-sm-8">
             <div class="row">
               <div class="col-sm-12">
-               <multiselect  name="category_age" id="category_age" 
+               <multiselect  name="category_age" id="category_age"
                 v-model="competation_format.category_age" :options="categoryAgeArr" :multiple="false"
-                 :hide-selected="false" :ShowLabels="false" :value="value" track-by="id" 
-                 :clear-on-select="false" :Searchable="true" @input="onChange" @close="onTouch" 
-                 @select="onSelect">                 
+                 :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"
+                 :clear-on-select="false" :Searchable="true" @input="onChange" @close="onTouch"
+                 @select="onSelect">
                    <!-- <option v-if="n > 4" v-for="n in (21)"
                     :value="'Under '+ n + 's'">
                    Under {{n}}s
@@ -44,8 +44,8 @@
                   <option v-for="categoryAge in categoryAgeArr"
                   :value="categoryAge">{{categoryAge}}
                   </option>
-                
-                </multiselect> 
+
+                </multiselect>
                <span class="help is-danger" v-show="isInvalid">{{$lang.competation_modal_age_category_required}}</span>
               </div>
             </div>
@@ -240,7 +240,9 @@
                           <br>
                           <span v-if="option.remark != ''">Remark: {{option.remark}} </span>
                           <span v-else>Remark: Not applicable </span>
-
+                          <br>
+                          <span v-if="option.avg_game_team != ''">Avg games per team: {{option.avg_game_team}} </span>
+                          <span v-else>Avg games per team: Not applicable </span>
                           </span>
                         </div>
                       </div>
@@ -565,7 +567,7 @@ export default {
      // TODO : add minimum_matches and number_teams with competation format
      this.competation_format.min_matches = this.minimum_matches
      this.competation_format.total_teams = this.number_teams
-        
+
      this.$validator.validateAll().then(
           (response) => {
             if(this.dispTempl == true) {

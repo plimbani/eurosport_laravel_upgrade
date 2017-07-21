@@ -254,6 +254,9 @@ class MatchRepository
           ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
           ->leftjoin('competitions', 'match_standing.competition_id', '=', 'competitions.id')
           ->select('match_standing.*','teams.*',
+
+            DB::raw('match_standing.goal_for - match_standing.goal_against as GoalDifference'),
+
             DB::raw('CONCAT("'.$this->getAWSUrl.'", countries.logo) AS teamFlag'),
             'countries.country_flag as teamCountryFlag');
 
@@ -265,19 +268,13 @@ class MatchRepository
           {
             $reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competitionId']);
           }
-          // TODO: Need to add code for passing through teamId
-          if(isset($tournamentData['teamId']) && $tournamentData['teamId'] !== '')
-          {
-            //echo 'hello1';exit;
-
-          }
-
-          if(isset($tournamentData['tournamentId']) &&
-          	$tournamentData['tournamentId'] !== '')
+          if(isset($tournamentData['tournamentId']) &&	$tournamentData['tournamentId'] !== '')
           {
           $reportQuery = $reportQuery->where('match_standing.tournament_id', $tournamentData['tournamentId']);
           }
-          $reportQuery->orderBy('match_standing.points','desc');
+
+          $reportQuery->orderBy('match_standing.points','desc')
+                      ->orderBy('GoalDifference','desc');
            //print_r($reportQuery->get());exit;
           return $reportQuery->get();
     }
@@ -585,7 +582,7 @@ class MatchRepository
                 $join->on('winner_team.id', '=', 'temp_fixtures.match_winner');
             })->with('referee','pitch')->find($matchId);
     }
-    
+
     public function getLastUpdateValue($tournamentId)
     {
       $val = TempFixture::where('tournament_id','=',$tournamentId)

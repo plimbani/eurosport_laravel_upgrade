@@ -36,16 +36,36 @@ class UserRepository {
                 ->get();
         return $user;
     }
-    public function getUsersByRegisterType($registerType)
+   
+    public function getUsersByRegisterType($data)
     {
+        $registerType = $data['registerType'];
 
         if($registerType=="desktop") {
             $isMobileUser=0;
         } else if($registerType=="mobile") {
             $isMobileUser=1;
-        }
-        return User::with(["personDetail", "roles"])->where('is_mobile_user', $isMobileUser)->get();
+        }     
 
+        
+        $user = User::with(["personDetail", "roles"])
+                    ->where('users.is_mobile_user', $isMobileUser);
+
+        if(isset($data['userData'])) {
+            $user->where(function($query) use($data) {
+                $query->where('users.email', 'like', "%" . $data['userData'] . "%")
+                    ->orWhereHas('personDetail', function ($query1) use($data) {
+                        if(isset($data['userData'])) {
+                            $query1->where('people.first_name', 'like', "%" . $data['userData'] . "%");
+                        }
+                        if(isset($data['userData'])) {    
+                            $query1->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
+                        }
+                    });
+            });
+        }
+        $user->orderBy('users.created_at','desc');
+        return $user->get();
     }
 
     public function create($data)
@@ -92,7 +112,6 @@ class UserRepository {
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
             ->select("users.id as id", "users.email as emailAddress",
                DB::raw('CONCAT("'.$this->userImagePath.'", users.user_image) AS image'),
-
              "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
             ->where("users.id", "=", $userId)
             ->first();

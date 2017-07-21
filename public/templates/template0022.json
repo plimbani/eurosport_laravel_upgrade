@@ -3,11 +3,138 @@
 	"tournament_id": "0022",
 	"tournament_teams": 10,
 	"tournament_name": "T.10.4 (v1)",
-     "template_font_color": "rgb(146,208,80)",
+  "template_font_color": "rgb(146,208,80)",
 	"competition_round": "RR 1-3/4-6/7-10",
 	"competition_group_round": "2x (RR 1x3), (PM 1x4)",
 	"competation_format": "RR/PM",
 	"tournament_min_match": 4,
+  "avg_game_team":4.0,
+	"tournament_competition_ranking": {
+	    "format_name": [{
+	      "round": "Round 1",
+	      "groups":[{
+	            "Ranking": "Ranking A",
+	            "group_name": "Group-A",
+	            "team_count": 3,
+	            "teams": [{
+	                "position": "1",
+	                "team": "1A"
+	              },
+	              {
+	                "position": "2",
+	                "team": "2A"
+	              },
+	              {
+	                "position": "3",
+	                "team": "3A"
+	              }
+	            ]
+	          },
+	          {
+	            "Ranking": "Ranking B",
+	            "group_name": "Group-B",
+	            "team_count": 3,
+	            "teams": [{
+	                "position": "1",
+	                "team": "1B"
+	              },
+	              {
+	                "position": "2",
+	                "team": "2B"
+	              },
+	              {
+	                "position": "3",
+	                "team": "3B"
+	              }
+	            ]
+	          },
+	          {
+	            "Ranking": "Ranking C",
+	            "group_name": "Group-C",
+	            "team_count": 4,
+	            "teams": [{
+	                "position": "1",
+	                "team": "1C / CAT.PM1.G2.C5 winner"
+	              },
+	              {
+	                "position": "2",
+	                "team": "2C / CAT.PM1.G2.C5 loser"
+	              },
+	              {
+	                "position": "3",
+	                "team": "3C / CAT.PM1.G3.C6 winner"
+	              },
+	              {
+	                "position": "4",
+	                "team": "4C / CAT.PM1.G3.C6 loser"
+	              }
+	            ]
+	          }
+	        ]
+	    },
+		{
+	      "round": "Round 2",
+	      "groups":[{
+	            "Ranking": "Ranking D",
+	            "group_name": "Group-D",
+	            "team_count": 3,
+	            "teams": [{
+	                "position": "1",
+	                "team": "1D"
+	              },
+	              {
+	                "position": "2",
+	                "team": "2D"
+	              },
+	              {
+	                "position": "3",
+	                "team": "3D"
+	              }
+	            ]
+	          },
+	          {
+	            "Ranking": "Ranking E",
+	            "group_name": "Group-E",
+	            "team_count": 3,
+	            "teams": [{
+	                "position": "4",
+	                "team": "1E"
+	              },
+	              {
+	                "position": "5",
+	                "team": "2E"
+	              },
+	              {
+	                "position": "6",
+	                "team": "3E"
+	              }
+	            ]
+	          },
+	          {
+	            "Ranking": "Ranking F",
+	            "group_name": "Group-F",
+	            "team_count": 4,
+	            "teams": [{
+	                "position": "7",
+	                "team": "1F"
+	              },
+	              {
+	                "position": "8",
+	                "team": "2F"
+	              },
+	              {
+	                "position": "9",
+	                "team": "3F"
+	              },
+	              {
+	                "position": "10",
+	                "team": "4F"
+	              }
+	            ]
+	          }
+	        ]
+	    }]
+  	},
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
 	        "name": "Round 1",
@@ -125,9 +252,9 @@
 		"format_name": [{
 			"name": "Round 1",
 			"match_type": [{
-				"name": "RR1*3",
+				"name": "RR-1*3",
 				"total_match": 3,
-                "group_count": 3,
+        "group_count": 3,
 				"groups": {
 				"group_name": "Group-A",
 					"match": [{
@@ -142,9 +269,9 @@
 					}]
 				}
 			},{
-				"name": "RR1*3",
+				"name": "RR-1*3",
 				"total_match": 3,
-                "group_count": 3,
+        "group_count": 3,
 				"groups": {
 					"group_name": "Group-B",
 					"match": [{
@@ -160,11 +287,11 @@
 				}
 			},
 			{
-			"name": "PM1*4",
+			"name": "PM-1*4",
 			"total_match": 4,
-            "group_count": 4,
+      "group_count": 4,
 			"groups": {
-				"group_name": "Group-C",
+				"group_name": "Group-PM1",
 				"match": [{
 					"in_between": "1-2",
 					"match_number": "CAT.PM1.G1.C1-C2"
@@ -173,7 +300,7 @@
 					"match_number": "CAT.PM1.G1.C3-C4"
 				}, {
 					"in_between": "CAT.PM1.G1.C1-C2WR",
-					"match_number": "CAT.PM1.G2.C12WR-C34WR"
+					"match_number": "CAT.PM3.G1.1A_2B_WR-2A_1B_WR"
 				}, {
 					"in_between": "CAT.PM1.G1.C1-C2LR",
 					"match_number": "CAT.PM1.G3.C12LR-C34LR"

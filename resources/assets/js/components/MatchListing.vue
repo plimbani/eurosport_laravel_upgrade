@@ -15,7 +15,7 @@
 						</option>
 					</select>
 				</div>
-			</div>		
+			</div>
 		</div>
 		<div class="col-sm-8">
 			 <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
@@ -95,12 +95,12 @@ export default {
 	      //  this.tournamentFilter.filterValue = filterValue
 	        this.getAllMatches(this.currentDate,filterKey,filterValue)
         	}
-	        
+
 	      //  if(filterKey == 'age_category'){
 	        //  this.onSelectAgeCategory('filter',filterValue.tournament_template_id)
 	       // }
 	        //this.getTeams(filterKey,filterValue)
-	        
+
         },
       	getTeams(filterKey,filterValue) {
 	        this.teams = ''
@@ -133,7 +133,7 @@ export default {
 			this.currentDate = this.matchDate
 			this.getAllMatches(matchDate)
 		},
-		
+
 		getDateRange(startDate, stopDate, dateFormat)
 		{
 
@@ -177,7 +177,7 @@ export default {
 				this.getDrawDetails(id, Name)
 			}
       if(comp == 'matchList') {
-        this.getDrawDetails(id, Name)
+        this.getAllMatches(this.currentDate)
       }
 		},
 		getDrawDetails(drawId, drawName) {
@@ -202,7 +202,7 @@ export default {
 			// Also Called Standings Data
 		},
 
-	 	
+
 		getTeamDetails(teamId, teamName) {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
@@ -249,11 +249,11 @@ export default {
 	      } else {
 	          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
 	      }
-     
+
 		//	let TournamentId = this.$store.state.Tournament.tournamentId
 			//let tournamentData = {'tournamentId': TournamentId,
 		//	'tournamentDate':date,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue}
-			
+
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {

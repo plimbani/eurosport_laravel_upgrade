@@ -90,11 +90,10 @@
                             @else
                                  <div class="panel panel-default reset-password">
                                     <div class="panel-body">
-                                         <div class="alert alert-success">
-
+                                         <div class="alert alert-success my-3">
                                             <i class="jv-icon jv-checked-arrow text-success"
                                             v-if="user.is_active == true"></i>
-                                            User Verfified Successfully
+                                            Your email has been verified you can now login to your account
                                         </div>
                                     </div>
                                  </div>

@@ -30,10 +30,9 @@ class UserService implements UserContract
         return $this->userRepoObj->getAllUsers();
     }
 
-    public function getUsersByRegisterType($registerType)
+    public function getUsersByRegisterType($data)
     {
-
-        return $this->userRepoObj->getUsersByRegisterType($registerType);
+        return $this->userRepoObj->getUsersByRegisterType($data);
     }
 
     /**
@@ -144,7 +143,13 @@ class UserService implements UserContract
             $email_details['name'] = $data['name'];
             $email_details['token'] = $token;
             $recipient = $data['emailAddress'];
-            Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Registration', 'emails.users.create');
+            $email_templates = 'emails.users.create';
+            $email_msg = 'Euro-Sportring Tournament Planner - Set password';
+            if($userObj->is_mobile_user == 1) {
+              $email_templates = 'emails.users.mobile_create';
+              $email_msg = 'Euro-Sportring email verification';
+            } 
+            Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
             return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address and complete your account registration.'];
         }
     }
@@ -234,8 +239,8 @@ class UserService implements UserContract
 
           $data['name'] = $data['first_name'];
           $data['surname'] = $data['last_name'];
-          \Log::info('Update in password'.$data['password']);
-          $userData['user']['password'] = Hash::make(trim($data['password']));
+         // \Log::info('Update in password'.$data['password']);
+         // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
           $data['organisation'] = 'Euro-Sportring';
           $data['userType'] = '5';
