@@ -50,7 +50,7 @@
         <tr>
              <td align="left">&nbsp;Referee</td>
               @if($data['referee']['last_name'] && $data['referee']['first_name'])
-              <td>{{ $data['referee']['last_name']}},{{ $data['referee']['first_name']}}</td>
+              <td>&nbsp;{{ $data['referee']['last_name']}},{{ $data['referee']['first_name']}}</td>
             @else
             <td align="left"></td>
             @endif
