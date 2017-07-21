@@ -63,6 +63,12 @@ class UserController extends BaseController
         return $userData = $this->userObj->getUsersByRegisterType($request->all());
     }
 
+    public function getUserTableData(Request $request)
+    {
+        return $userData = $this->userObj->getUserTableData($request->all());
+    }
+
+
     /**
      * Create New User Result.
      *

@@ -13,6 +13,15 @@ export default {
   getUsersByRegisterType(param) {
     return api.post('users/getUsersByRegisterType',param)
   },
+
+  getUserTableData(param) {
+    return api.get('users/getUserTableData?=report_download=yes&registerType=desktop')
+  },
+
+  // getUserReportData() {
+  //     return api.get('users/getUsersByRegisterType/generate?'+ data)
+  // },
+
   createUser(formData) {
     return api.post('user/create',formData)
   },
