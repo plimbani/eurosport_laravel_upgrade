@@ -374,7 +374,7 @@ module.exports = {
   competation_label: "Competition formats",
   pitch_capacity_label: "Pitch capacity",
   pitch_planner_label: "Pitch planner",
-  pitch_planner_no_games: "No games available",
+  pitch_planner_no_games: "All games scheduled",
   teams_groups_label: "Teams and groups",
   summary_label: "Summary",
 
