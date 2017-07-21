@@ -1,10 +1,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <style type="text/css">
 	html {
 		font-family: sans-serif;
 		-webkit-text-size-adjust: 100%;
 		-ms-text-size-adjust: 100%;
+
 	}
 	.tblpage{
 		width: 18cm; 
@@ -17,21 +17,21 @@
 <img  src="{{ asset('assets/img/logo-desk.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
 </center>
 
-<table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%">	
+<table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 80%">	
 	<h4>Reports</h4>
             <tr>
-                <th align="center">Date and Time</th>
+                <th align="center">Date and field</th>
                 <th align="center">Age category</th>
                 <th align="center">Location</th>
                 <th align="center">Pitch</th>
-                <th align="center">Refree</th>
+                <th align="center">Referee</th>
                 <th align="center">Game</th>
             </tr>
 
     <tbody>
     @foreach($data as $report)
     	<tr>
-    		<td align="center">{{ Carbon\Carbon::parse($report->match_datetime)->format('H:m D d M Y') }}</td>
+    		<td align="center">{{ Carbon\Carbon::parse($report->match_datetime)->format('H:i D d M Y') }}</td>
     		<td align="center">{{ $report->group_name }}</td>
     		<td align="center">{{ $report->venue_name}}</td>
     		<td align="center">{{ $report->pitch_number}}</td>

@@ -22,18 +22,18 @@
 					<span v-else>{{match.competation_name}}</span>
 				</td>
 				<td align="right">
-					<a  class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
-						<span><u>{{match.HomeTeam}}</u></span>
+					<!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
+						<span class="text-center text-primary"><u>{{match.HomeTeam}}</u></span>
 						<!--<img :src="match.HomeFlagLogo" width="20">-->
-               <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
-					</a>
+              		 <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
+					<!-- </a> -->
 				</td>
 				<td align="left">
-					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
+					<!-- <a   href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)"> -->
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
              		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
-						<span><u>{{match.AwayTeam}}</u></span>
-					</a>
+						<span class="pull-left text-left text-primary"><u>{{match.AwayTeam}}</u></span>
+					<!-- </a>	 -->
 				</td>
 				<td class="text-center">
 
@@ -41,7 +41,7 @@
         		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist"
         		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
       		    </td>
-				<td v-if="isHideLocation !=  false"><a class="pull-left text-left text-primary" href="" @click.prevent="changeLocation(match)"
+				<td v-if="isHideLocation !=  false"><a class="pull-left text-left text-primary" 
 				><u>{{match.venue_name}} - {{match.pitch_number}}</u></a></td>
 			</tr>
 		</tbody>
