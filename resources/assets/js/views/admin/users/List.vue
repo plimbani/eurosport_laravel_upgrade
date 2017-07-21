@@ -7,8 +7,18 @@
             <div class="card">
                 <div class="card-block">
                     <div class="row">
-                        <div class="col-md-12">
-                            <p>{{$lang.user_management_sentence}}</p>
+                        <div class="col-md-9">
+                            <p v-if="registerType != 'mobile'">{{$lang.user_management_sentence}}</p>
+                            <p v-else>{{$lang.user_management_sentence_tournament}}</p>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                              <div>
+                                  <input type="text" class="form-control"
+                                  v-on:keyup="searchUserData" v-model="userListSearch"
+                                  placeholder="Search User">
+                              </div>
+                          </div>
                         </div>
                         <div class="col-md-12">
                             <table class="table add-category-table">
@@ -17,57 +27,68 @@
                                         <th>{{$lang.user_desktop_name}}</th>
                                         <th>{{$lang.user_desktop_surname}}</th>
                                         <th>{{$lang.user_desktop_email}}</th>
-                                        <th>{{$lang.user_desktop_organisation}}</th>
+                                        <th v-if="registerType != 'mobile'">{{$lang.user_desktop_organisation}}</th>
+                                        <th v-else>Date & time</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="" v-for="user in userList.userData">
-                                        <td>{{ user.person_detail.first_name }}</td>
-                                        <td>{{ user.person_detail.last_name }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.organisation }}</td>
-                                        <td v-if="(user.roles).length>0">{{ user.roles[0].name }}</td>
-                                        <td v-else></td>
-                                        <td v-if="user.is_verified == 1">Accepted</td>
+                                  <tr class="" v-for="user in paginated('userpagination')">
+                                     <td>{{ user.person_detail.first_name }}</td>
+                                    <td>{{ user.person_detail.last_name }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td v-if="user.is_mobile_user == 0">{{ user.organisation }}</td>
+                                    <td v-else>{{user.created_at | formatDate}}</td>
+                                    <td v-if="(user.roles).length>0">{{ user.roles[0].name }}</td>
+                                    <td v-else></td>
 
-                                        <td class="text-left" v-else>
-                                        <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
-                                        </td>
-                                        <td>
-                                            <a class="text-primary" href="javascript:void(0)"
-                                             @click="editUser(user.id)">
-                                            <i class="jv-icon jv-edit"></i>
-                                            </a>
-                                            &nbsp;
-                                            <a href="javascript:void(0)"
-                                            data-confirm-msg="Are you sure you would like to delete
-                                            this user record?" data-toggle="modal" data-target="#delete_modal"
-                                            @click="prepareDeleteResource(user.id)">
-                                            <i class="jv-icon jv-dustbin"></i>
-                                            </a>
-                                            &nbsp;
-                                            <a v-if="IsSuperAdmin == true"
+                                    <td v-if="user.is_verified == 1 && user.is_mobile_user == 0">Accepted</td>
+                                    <td class="text-left" v-if="user.is_mobile_user == 1 && user.is_verified == 1">Verified</td>
+                                    <td class="text-left" v-if="user.is_verified == 0">
+                                    <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
+                                    </td>
+                                    <td>
+                                        <a class="text-primary" href="javascript:void(0)"
+                                         @click="editUser(user.id)">
+                                        <i class="jv-icon jv-edit"></i>
+                                        </a>
+                                        &nbsp;
+                                        <a href="javascript:void(0)"
+                                        data-confirm-msg="Are you sure you would like to delete
+                                        this user record?" data-toggle="modal" data-target="#delete_modal"
+                                        @click="prepareDeleteResource(user.id)">
+                                        <i class="jv-icon jv-dustbin"></i>
+                                        </a>
+                                        &nbsp;
+                                        <a v-if="IsSuperAdmin == true"
 
-                                            href="javascript:void(0)"
-                                            data-confirm-msg="Are you sure you
-                                            would like to
-                                            re-activate this user?"
-                                            data-toggle="modal"
-                                            data-target="#active_modal"
-                                            @click="prepareDisableResource(user.id,user.is_active)"
-                                            >
-                                            <i class="jv-icon jv-checked-arrow text-success"
-                                            v-if="user.is_active == true"></i>
-                                            <i class="jv-icon jv-close text-danger"
-                                            v-else></i>
-                                            </a>
-                                        </td>
-
-                                    </tr>
+                                        href="javascript:void(0)"
+                                        data-confirm-msg="Are you sure you
+                                        would like to
+                                        re-activate this user?"
+                                        data-toggle="modal"
+                                        data-target="#active_modal"
+                                        @click="prepareDisableResource(user.id,user.is_active)"
+                                        >
+                                        <i class="jv-icon jv-checked-arrow text-success"
+                                        v-if="user.is_active == true"></i>
+                                        <i class="jv-icon jv-close text-danger"
+                                        v-else></i>
+                                        </a>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td colspan="7">
+                                      <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="20"  class="paginate-list">
+                                      </paginate>
+                                      <paginate-links for="userpagination"
+                                        :show-step-links="true"
+                                         :async="true"
+                                      ></paginate-links>
+                                    </td>
+                                  </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -97,6 +118,9 @@
     import UserModal  from  '../../../components/UserModal.vue'
     import ActiveModal  from  '../../../components/ActiveModal.vue'
     import User from '../../../api/users.js'
+    import VuePaginate from 'vue-paginate'
+
+
     export default {
         components: {
             DeleteModal,
@@ -113,17 +137,23 @@
                 activeConfirm: 'Are you sure you would like to de-activate this user?',
                 deleteAction: '',
                 image: '',
+                userData: '',
+                page: '',
+                userListSearch: '',
                 userStatus: false,
                 userId: '',
                 uStatusData:'',
                 enb: false,
                 userRoles: [],
-                userEmailData: this.userList
+                userEmailData: this.userList,
+                paginate: ['userpagination'],
+                shown: false
             }
         },
 
         props: {
-            userList: Object
+            userList: Object,
+            registerType: String
         },
         computed: {
             IsSuperAdmin() {
@@ -133,6 +163,11 @@
               return this.uStatusData
             }
         },
+        filters: {
+            formatDate: function(date) {
+            return moment(date).format("HH:mm  DD MMM YYYY");
+             },
+          },
         mounted() {
           // here we check the permission to allowed to access users list
           let role_slug = this.$store.state.Users.userDetails.role_slug
@@ -148,8 +183,20 @@
            }
           },2000 )
           this.getRoles()
+
+         setTimeout(() => {
+            this.shown = true
+          }, 1000)
         },
         methods: {
+          searchUserData() {
+            // console.log(this.userListSearch);
+            this.$root.$emit('setSearch',this.registerType,this.userListSearch);
+            var first_name = $("#user_first_name").val();
+            var last_name = $("#user_last_name").val();
+            var email = $("#user_email").val();
+            var searchdata = "&first_name="+ first_name + "&last_name=" + last_name + "&email=" + email;
+         },
           getRoles() {
             User.getRoles().then(
               (response)=> {

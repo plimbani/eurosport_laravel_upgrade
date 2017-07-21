@@ -130,15 +130,15 @@ class ResetPasswordController extends Controller
             ->first();
 
         if($mobileUser) {
-
-           if($this->isValidOTP($mobileUser, $data['otp'])) {
+            $data['otp'] = (isset($data['otp'])) ? $data['otp'] : '1';
+        //   if($this->isValidOTP($mobileUser, $data['otp'])) {
             // if its valid otp
             $mobileUser->password =  \Hash::make($data['password']);
             $mobileUser->save();
             $response = 'passwords.reset';
-           } else {
-            return response(['status_code' => 319,'message'=>'Sorry code Expired']);
-           }
+          // } else {
+           // return response(['status_code' => 319,'message'=>'Sorry code Expired']);
+          // }
         } else {
 
           $response = $this->broker()->reset(
@@ -206,7 +206,7 @@ class ResetPasswordController extends Controller
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("Euro-Sportring Tournament Planner - Password Reset")
+            ->subject("Euro-Sportring password reset")
             ->line('You are receiving this email because we received a password reset request for your account.')
             ->action('Reset password', route('password.reset', $this->token))
             ->line('If you did not request this password reset please ignore this email.');

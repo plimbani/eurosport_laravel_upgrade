@@ -3,12 +3,67 @@
 	"tournament_id": "0018",
 	"tournament_teams": 9 ,
   "remark":"1 tm 4M",
-   "template_font_color": "rgb(255,192,0)",
+  "template_font_color": "rgb(255,192,0)",
 	"tournament_name": "T.9.5 (v1)",
 	"competition_round": "PM 1-4/5-8 ",
 	"competition_group_round": "1x4, 1x5 ",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 5,
+  "avg_game_team":5.3,
+	"tournament_competition_ranking": {
+	    "format_name": [{
+	      "round": "Round 1",
+	      "groups":[{
+	            "Ranking": "Ranking A",
+	            "group_name": "Group-A",
+	            "team_count": 4,
+	            "teams": [{
+	                "position": "1",
+	                "team": "1A"
+	              },
+	              {
+	                "position": "2",
+	                "team": "2A"
+	              },
+	              {
+	                "position": "3",
+	                "team": "3A"
+	              },
+	              {
+	                "position": "4",
+	                "team": "4A"
+	              }
+	            ]
+	          },
+	          {
+	            "Ranking": "Ranking B",
+	            "group_name": "Group-B",
+	            "team_count": 5,
+	            "teams": [{
+	                "position": "1",
+	                "team": "1B"
+	              },
+	              {
+	                "position": "2",
+	                "team": "2B"
+	              },
+	              {
+	                "position": "3",
+	                "team": "3B"
+	              },
+	              {
+	                "position": "4",
+	                "team": "4B"
+	              },
+	              {
+	                "position": "5",
+	                "team": "5B"
+	              }
+	            ]
+	          }
+	        ]
+	    }]
+  	},
 	"tournament_competition_graphic_view": {
 	    "format_name": [{
 	        "name": "Round 1",
@@ -112,7 +167,7 @@
 		"format_name": [{
 			"name": "Round 1",
 			"match_type": [{
-				"name": "RR1*4",
+				"name": "RR-1*4",
 				"total_match": 6,
         "group_count": 4,
 				"groups": {
@@ -138,7 +193,7 @@
 					}]
 				}
 			},{
-				"name": "RR1*5",
+				"name": "RR-1*5",
 				"total_match": 10,
         "group_count": 5,
 				"groups": {
@@ -180,43 +235,43 @@
 		}, {
 			"name": "Round 2",
 			"match_type": [{
-				"name": "PM1*4",
-                "group_count": 4,
+				"name": "PM-1*4",
+        "group_count": 4,
 				"groups": {
-					"group_name": "PM1*4",
-                	"match": [{
+					"group_name": "Group-PM1",
+          "match": [{
 						"in_between": "1A - 2B",
-						"match_number": "CAT.PM2.G1.C1-C2"
+						"match_number": "CAT.PM2.G1.1A-2B"
 					}, {
 						"in_between": "1B - 2A",
-						"match_number": "CAT.PM2.G2.C3-C4"
+						"match_number": "CAT.PM2.G2.1B-2A"
 					}, {
 						"in_between": "3A - 3B",
-						"match_number": "CAT.PM2.G2.C12W-C34W"
+						"match_number": "CAT.PM3.G1.1A_2B_WR-1B_2A_WR"
 					}, {
 						"in_between": "4A - 4B",
-						"match_number": "CAT.PM2.G2.C12L-C34L"
+						"match_number": "CAT.PM3.G1.1A_2B_LR-1B_2A_LR"
 					}]
 				},
 				"total_match": 4
 			},
 		{
-				"name": "PM5*8",
+				"name": "PM-5*8",
         "group_count": 4,
 				"groups": {
-					"group_name": "PM5*8",
-                	"match": [{
+				"group_name": "Group-PM2",
+        "match": [{
 						"in_between": "3A - 4B",
-						"match_number": "CAT.PM2.G1.D1-D2"
+						"match_number": "CAT.PM2.G1.3A-4B"
 					}, {
 						"in_between": "3B - 4A",
-						"match_number": "CAT.PM2.G2.D3-D4"
+						"match_number": "CAT.PM2.G2.3B-4A"
 					}, {
 						"in_between": "3A.4B.W - 3B.4A.w",
-						"match_number": "CAT.PM2.G2.D12W-D34W"
+						"match_number": "CAT.PM3.G1.3A_4B_WR-3B_4A_WR"
 					}, {
 						"in_between": "3A.4B.L - 3B.4A.L",
-						"match_number": "CAT.PM2.G2.D12L-D34L"
+						"match_number": "CAT.PM3.G1.3A_4B_LR-3B_4A_LR"
 					}]
 				},
 				"total_match": 4

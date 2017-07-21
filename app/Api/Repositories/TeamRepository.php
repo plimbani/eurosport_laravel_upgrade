@@ -71,20 +71,16 @@ class TeamRepository
 
       public function getClubData($tournament_id)
       {
-          return  Club::where('tournament_id',$tournament_id)
-                  ->select('clubs.id','clubs.name')
-                  ->get();
+          return  Club::whereHas('tournament', function($q) use ($tournament_id) {
+              $q->where('tournament_id',$tournament_id);
+          })->select('clubs.id','clubs.name')->get();
       }
     public function getTeamData($tournamentData)
     {
         return Team::where('tournament_id',$tournamentData['tournament_id'])
                     ->where('club_id',$tournamentData['clubId'])
                      ->get();
-
-        // print_r($tournamentData); exit();
     }
-
-
 
     public function getTeambyTeamId($teamId){
         return Team::where('esr_reference',$teamId)->first();
@@ -101,6 +97,7 @@ class TeamRepository
 
                 ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag as countryFlag',
                  'competitions.name as competationName','competitions.id as competationId',
+                 'competitions.competation_type',
                 'tournament_competation_template.group_name as age_name')
                 ->get();
         }
@@ -206,6 +203,7 @@ public function getAllFromTournamentId($tournamentId)
 
         TempFixture::where('home_team_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
+            ->where('competition_id',$competId)
             // ->where('age_group_id',$data['age_group'])
           /*  ->update([
                 'home_team_name' => $team->name,
@@ -218,6 +216,7 @@ public function getAllFromTournamentId($tournamentId)
             ]);
         TempFixture::where('away_team_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
+            ->where('competition_id',$competId)
             // ->where('age_group_id',$data['age_group'])
             ->update([
                 'away_team_name' => $team->name,

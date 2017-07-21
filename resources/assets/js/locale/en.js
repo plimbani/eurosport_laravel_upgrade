@@ -36,6 +36,7 @@ module.exports = {
 
   user_management_add_new_user: "Add new user",
   user_management_sentence: "Add, edit and remove Euro-Sportring Tournament Planner users.",
+  user_management_sentence_tournament: "Add, edit and remove Euro-Sportring mobile users.",
   user_management_add_name: "Name*",
   user_management_add_name_required: "This field is required.",
   user_management_placeholder_name: "Enter first name",
@@ -166,6 +167,7 @@ module.exports = {
   competation_modal_foramt_competation_foramt: "Competition format:",
   competation_modal_minimum_matches: "Minimum matches:",
   competation_modal_format_remark: "Remark:",
+  competation_modal_avg_games_team: "Avg games per team:",
 
   competation_modal_matches_number_matches: "Number of matches day 1:",
   competation_modal_matches_number_matches_day: "Number of matches day 2:",

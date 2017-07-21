@@ -88,7 +88,8 @@ $api->version('v1', function ($api) {
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
     $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
-    $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint'); 
+    // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint'); 
+    $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint'); 
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
@@ -146,7 +147,7 @@ $api->version('v1', function ($api) {
 
     });
 
-    $api->get('getUsersByRegisterType/{registerType}', 'Laraspace\Api\Controllers\UserController@getUsersByRegisterType');
+    $api->post('users/getUsersByRegisterType', 'Laraspace\Api\Controllers\UserController@getUsersByRegisterType');
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
     $api->get('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('edit.users');
     $api->post('user/getDetails', 'Laraspace\Api\Controllers\UserController@getUserDetails');

@@ -8,6 +8,11 @@ use Carbon\Carbon;
 
 class Tournament extends Model
 {
+    public function club()
+    {
+        return $this->belongsToMany('Laraspace\Models\Club');
+    }
+
     use SoftDeletes;
 
     public $timestamps = true;
