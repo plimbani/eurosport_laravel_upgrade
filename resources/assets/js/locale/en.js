@@ -342,6 +342,7 @@ module.exports = {
 
   summary_reports_date: "Date(time)",
   summary_reports_date_time: "Date and time",
+  summary_reports_date_time: "Date and field",
   summary_reports_age_catrgory: "Age category",
   summary_reports_location: "Location",
   summary_report_from_time: "From time",

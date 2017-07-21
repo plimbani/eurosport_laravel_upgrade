@@ -33,47 +33,47 @@
 </center>
   
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%"> 
-    <h4>Match Detail</h4>
+    <h4>Match Details</h4>
   <thead>
         <tr>
-            <td align="center">Match number</td>
-            <td>&nbsp;Team 1 ({{$data['home_team_name']}}) and Team 2 ({{$data['away_team_name']}})</td>
+            <td align="left">&nbsp;Match number</td>
+            <td>&nbsp;{{$data['match_number']}}</td>
         </tr>
         <tr>
-           <td align="center">Date</td>
-           <td>&nbsp;{{ Carbon\Carbon::parse( $data['match_datetime'])->format('H:m D d M Y') }}</td>
+           <td align="left">&nbsp;Date</td>
+           <td>&nbsp;{{ Carbon\Carbon::parse( $data['match_datetime'])->format('H:i D d M Y') }}</td>
         </tr>
         <tr>
-             <td align="center">Pitch</td>
+             <td align="left">&nbsp;Pitch</td>
              <td>&nbsp;{{ $data['pitch']['pitch_number']}}</td>
         </tr> 
         <tr>
-             <td align="center">Referee</td>
-            @if($data['referee']['last_name'] && $data['referee']['first_name'])
-              <td align="center">{{ $data['referee']['last_name']}},{{ $data['referee']['first_name']}}</td>
+             <td align="left">&nbsp;Referee</td>
+              @if($data['referee']['last_name'] && $data['referee']['first_name'])
+              <td>{{ $data['referee']['last_name']}},{{ $data['referee']['first_name']}}</td>
             @else
-            <td align="center"></td>
+            <td align="left"></td>
             @endif
         </tr>
         <tr>
-            <td align="center">Result</td>
-             <td>&nbsp; {{$data['home_team_name']}} - {{$data['hometeam_score']}}<br>
-                 &nbsp; {{$data['away_team_name']}} - {{$data['awayteam_score']}}</td>
+            <td align="left">&nbsp;Result</td>
+             <td>&nbsp;{{$data['home_team_name']}} - {{$data['hometeam_score']}}<br>
+                 &nbsp;{{$data['away_team_name']}} - {{$data['awayteam_score']}}</td>
         </tr> 
         <tr>
-            <td align="center">Status</td>
-            @if($data['match_status'] == 0)
-            <td align="center"></td>
+            <td align="left">&nbsp;Status</td>
+            @if($data['match_status'] == '0')
+            <td align="left"></td>
             @else
-            <td align="center">&nbsp;{{ $data['match_status']}}</td>
+            <td align="left">&nbsp;{{ $data['match_status'] }}</td>
             @endif
         </tr>
         <tr>
-          <td align="center">Winner</td>
+          <td align="left">&nbsp;Winner</td>
           <td>&nbsp;{{ $data['name']}}</td>
         </tr>
         <tr>
-          <td align="center">Comments</td>
+          <td align="left">&nbsp;Comments</td>
           <td>&nbsp;{{ $data['comments']}}</td>
         </tr>  
     </thead>
