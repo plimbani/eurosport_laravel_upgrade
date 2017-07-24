@@ -446,7 +446,7 @@ export default {
             // here we set some of values for Edit Form
             this.competation_format = resp
             this.competation_format.ageCategory_name = resp.group_name;
-            console.log(this.competation_format.ageCategory_name);
+            
             // set minimum matches and number of teams
             this.number_teams = resp.total_teams
             this.minimum_matches  = resp.min_matches

@@ -87,7 +87,7 @@
                                   </tr>
                                   <tr>
                                     <td colspan="7">
-                                      <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="20"  class="paginate-list">
+                                      <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="2"  class="paginate-list">
                                       </paginate>
                                       <paginate-links for="userpagination"
                                         :show-step-links="true"
