@@ -105,19 +105,14 @@ class TeamService implements TeamContract
 
         if($ageCategory!= ''){
             \Log::info($ageCategory);
-
-            // $ageCategory = str_replace(strstr($ageCategory, '/'),'',$ageCategory);
-
             $competitionData = TournamentCompetationTemplates::where('tournament_id', $data->tournamentData['tournamentId'])
                 ->where('category_age',$ageCategory)
                 ->first();
-
             if($competitionData){
                $data['age_group_id'] = $competitionData['id'];
             }
-
         }
-        $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid']);
+        $teamData = $this->teamRepoObj->getTeambyTeamId($data['teamid'],$data->tournamentData['tournamentId']);
          \Log::info($teamData);
          if($data['club']!='')
          {
@@ -137,13 +132,29 @@ class TeamService implements TeamContract
                 $clubData->tournament()->attach($update);
             }
             else {
-                if($clubData1[0]->tournament_id == null)
-                    {
-                      // $club_tournament['tournament_id'] = $data->tournamentData['tournamentId'];
-                     // Club::where('id',$clubData1[0]->id)->update($club_tournament);
-                    }
-                $data['club_id'] = $clubData1[0]->id;
-            }
+                // here check if record is exist
+               $club_id = $clubData1[0]->id;
+               $tournament_id = $data->tournamentData['tournamentId'];
+              $clubData2 = Club::whereHas('tournament', function($q) use ($club_id,$tournament_id) {
+                  $q->where('tournament_id',$tournament_id);
+                  $q->where('club_id',$club_id);
+              })->exists();
+
+              /*  Club::where('tournament_id','=',$data->tournamentData['tournamentId'])
+                      ->where('club_id','=',$clubData1[0]->id)->exists(); */
+                
+                if(!$clubData2) {
+                  // we have to insert the value in tournament id
+                   $updateEd = [
+                  'tournament_id' =>  $data->tournamentData['tournamentId'],
+                  'club_id' => $club_id,
+                ];
+                  \DB::table('tournament_club')->insert($updateEd);
+                  //$clubData1->tournament()->attach($updateEd);
+                }
+
+                $data['club_id'] = $club_id;
+            } 
          }
 
          if($data['age_group_id'] != 0){

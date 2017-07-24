@@ -35,6 +35,13 @@ class UserService implements UserContract
         return $this->userRepoObj->getUsersByRegisterType($data);
     }
 
+    public function getUserTableData($data)
+    {
+       return $this->userRepoObj->getUsersByRegisterType($data);
+       // return $this->userRepoObj->getUserTableData($data);
+    }
+
+
     /**
      * Create New User.
      *
