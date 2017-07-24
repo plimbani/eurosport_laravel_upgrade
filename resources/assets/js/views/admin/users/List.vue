@@ -6,27 +6,30 @@
         <div class="tab-content">
             <div class="card">
                 <div class="card-block">
-                    <div class="row">
+                    <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-7">
                             <p v-if="registerType != 'mobile'">{{$lang.user_management_sentence}}</p>
                             <p v-else>{{$lang.user_management_sentence_tournament}}</p>
                         </div>
-                        <div class="col-md-3">
-                          <div class="form-group">
-                              <div>
-                                  <input type="text" class="form-control"
-                                  v-on:keyup="searchUserData" v-model="userListSearch"
-                                  placeholder="Search User">
+                        <div class="col-md-5">
+                          <div class="row justify-content-end">
+                              <div class="col">
+                                 <div class="form-group">
+                                      <div>
+                                          <input type="text" class="form-control"
+                                          v-on:keyup="searchUserData" v-model="userListSearch"
+                                          placeholder="Search User">
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-4">
+                                  <div class="form-group">
+                                      <button type="button" class="btn btn-primary w-100" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
+                                  </div>
                               </div>
                           </div>
                         </div>
-                        <div class="col-md-2">
-                          <div class="form-group">
-                              <div>
-                                <button type="button" class="btn btn-primary" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
-                              </div>
-                          </div>
-                        </div>
+
                         <div class="col-md-12">
                             <table class="table add-category-table">
                                 <thead>
