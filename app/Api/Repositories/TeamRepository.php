@@ -82,8 +82,10 @@ class TeamRepository
                      ->get();
     }
 
-    public function getTeambyTeamId($teamId){
-        return Team::where('esr_reference',$teamId)->first();
+    public function getTeambyTeamId($teamId,$tournamentId){
+        return Team::where('esr_reference',$teamId)
+               ->where('tournament_id','=',$tournamentId)
+               ->first();
     }
     public function getAllTournamentTeams($tournamentId)
     {
