@@ -177,7 +177,7 @@
               <span class="help is-danger" v-show="errors.has('tournament_venue_postcode'+index)">{{$lang.tournament_validation_postcode}}</span>
             </div>
           </div>
-          <div class="form-group row">
+          <!-- <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_state}}*</label>
             <div class="col-sm-4">
               <input type="text" class="form-control" :name="'tournament_venue_state'+index"
@@ -187,7 +187,7 @@
               <i v-show="errors.has('tournament_venue_state'+index)" class="fa fa-warning"></i>
               <span class="help is-danger" v-show="errors.has('tournament_venue_state'+index)">{{$lang.tournament_validation_state}}</span>
             </div>
-          </div>
+          </div> -->
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_country}}*</label>
             <div class="col-sm-4">
