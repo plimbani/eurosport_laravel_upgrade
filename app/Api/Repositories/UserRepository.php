@@ -73,12 +73,14 @@ class UserRepository {
             foreach ($userData as $user) {
                
                // print_r($user->roles);exit;
-                $roleName = $user->roles[0]->name;
+
                 if($user->is_mobile_user ==1){
                     $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
                 } else {
                     $status = ($user->is_verified == 1) ? 'Accepted': 'Resend';
                 }
+                
+                $roleName = $user->roles[0]->name;
                 $ddata = [
                     $user->personDetail['first_name'],
                     $user->personDetail['last_name'],
@@ -235,6 +237,7 @@ class UserRepository {
           $users->password = Hash::make($password);
         // $users->password = $password;
         $user =  $users->save();
+        return ($users->is_mobile_user == 1) ? 'Mobile' : 'Desktop';    
 
     }
     public function createUserSettings($userData)
