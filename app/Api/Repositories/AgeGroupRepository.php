@@ -103,6 +103,15 @@ class AgeGroupRepository
       // here we check value for Edit as Well
 
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
+      // here we also update the affected table like competaions and temp_fixtures
+      if(trim($data['oldageCat']) != trim($data['ageCategory_name']."-".$data['category_age'])) {
+        // Here call function to update in tables
+        $updataArr = array();
+        $updataArr['tournament_id'] = $data['tournament_id'];
+        $updataArr['age_cat_id'] = $data['competation_format_id'];
+        $updataArr['newCatname'] = trim($data['ageCategory_name']."-".$data['category_age']);
+        $this->updateAgeCatAndName($updataArr);
+      }
       return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
       //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
@@ -113,6 +122,32 @@ class AgeGroupRepository
       }
 
       // Now here we return the appropriate Data
+    }
+    /**
+     *   This Function Used for Update the competaions and temp_fixtures
+     *
+     */
+    private function updateAgeCatAndName($updataArr)
+    {
+      // First we call it from database
+      $tournamenTemplateData = TournamentCompetationTemplates::where('id','=',$updataArr['age_cat_id'])->get();
+      $dbCatname = trim($tournamenTemplateData[0]['group_name']."-".$tournamenTemplateData[0]['category_age']);
+      //echo 'name os'.$dbCatname;
+      $newCatName =trim($updataArr['newCatname']);
+
+      // First Update in the competations Table
+      DB::table('competitions')->where('tournament_competation_template_id','=',$updataArr['age_cat_id'])
+      ->where('tournament_id','=',$updataArr['tournament_id'])
+      ->update([
+        'name'=> DB::raw("REPLACE(name, '".$dbCatname."', '".$newCatName."')")
+        ]);
+      // Second update in Temp_fixtures Table
+      DB::table('temp_fixtures')->where('age_group_id','=',$updataArr['age_cat_id'])
+      ->where('tournament_id','=',$updataArr['tournament_id'])
+      ->update([
+        'match_number'=> DB::raw("REPLACE(match_number, '".$dbCatname."', '".$newCatName."')")
+        ]);
+
     }
     /*
       This Function will Fetch Data For tournament_competation_table
