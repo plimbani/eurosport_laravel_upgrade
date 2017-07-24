@@ -270,98 +270,90 @@ class MatchService implements MatchContract
     }
     private function secondRoundElimination($fetchRecord, $updatedValue,$var)
     {
-      //echo '<br/>hello s3condroundelimination';
-      echo '\n<br/>ID:'.$fetchRecord->id;
-      echo '\n<br/>ID2:'.$fetchRecord->id;
 
-     // print_r($fetchRecord);
-      echo 'updated record';
-      //print_r($updatedValue);
-      //print_r();
-      // explode updated record
-      $updatedMatchNumber = explode('-',$updatedValue->match_number);
+      $updatedMatchNumber = explode('.',$updatedValue->match_number);
       $updatedMatchNumber = $updatedMatchNumber[count($updatedMatchNumber)-1];
-      $updatedMatchNumber = substr($updatedMatchNumber,1,-1);
-      $rec = explode("|",$updatedMatchNumber);
-      print_r($rec);
+      $updatedMatchNumber = explode("-",$updatedMatchNumber);
+
+      $homeupdatedMatchNumber = explode(".",substr(str_replace("_","." ,$updatedMatchNumber[0]),1,-1));
+      $awayupdatedMatchNumber = explode(".",substr(str_replace("_","." ,$updatedMatchNumber[1]),1,-1));
+
+
+      if(strpos($fetchRecord->match_number,$homeupdatedMatchNumber[0].".".$homeupdatedMatchNumber[1]) !== false)
+      {
+
+        // if its exist then update the value check if its winner or looser
+       // echo '<pre>';
+       // print_r($fetchRecord);exit;
+        //print_r($updatedValue);exit;
+        // here we check if its winner or looser
+        if(trim($homeupdatedMatchNumber[2]) == 'WR') {
+          // then we have to home_team and home_team_name for that record
+          if($fetchRecord->hometeam_score > $fetchRecord->awayteam_score) {
+            $winner_name = $fetchRecord->home_team_name;
+            $winner_id = $fetchRecord->home_team;
+          } else {
+             $winner_name = $fetchRecord->away_team_name;
+             $winner_id = $fetchRecord->away_team;
+          }
+          TempFixture::where('id',$updatedValue->id)->update([
+            'home_team' =>$winner_id,
+            'home_team_name' => $winner_name,
+          ]);
+        } else {
+          if($fetchRecord->hometeam_score < $fetchRecord->awayteam_score) {
+            $looser_name = $fetchRecord->home_team_name;
+            $looser_id = $fetchRecord->home_team;
+          } else {
+             $looser_name = $fetchRecord->away_team_name;
+             $looser_id = $fetchRecord->away_team;
+          }
+          TempFixture::where('id',$updatedValue->id)->update([
+            'home_team' =>$looser_id,
+            'home_team_name' => $looser_name,
+          ]);
+        }
+
+      }
+      if(strpos($fetchRecord->match_number,$awayupdatedMatchNumber[0].".".$awayupdatedMatchNumber[1]) !== false)
+      {
+
+        // if its exist then update the value check if its winner or looser
+        //echo '<pre>';
+       // print_r($fetchRecord);exit;
+        //print_r($updatedValue);exit;
+        // here we check if its winner or looser
+        if(trim($awayupdatedMatchNumber[2]) == 'WR') {
+          //echo '234';exit;
+          // then we have to home_team and home_team_name for that record
+          if($fetchRecord->hometeam_score > $fetchRecord->awayteam_score) {
+            $winner_name = $fetchRecord->home_team_name;
+            $winner_id = $fetchRecord->home_team;
+          } else {
+             $winner_name = $fetchRecord->away_team_name;
+             $winner_id = $fetchRecord->away_team;
+          }
+          TempFixture::where('id',$updatedValue->id)->update([
+            'away_team' =>$winner_id,
+            'away_team_name' => $winner_name,
+          ]);
+        } else {
+          if($fetchRecord->hometeam_score < $fetchRecord->awayteam_score) {
+            $looser_name = $fetchRecord->home_team_name;
+            $looser_id = $fetchRecord->home_team;
+          } else {
+             $looser_name = $fetchRecord->away_team_name;
+             $looser_id = $fetchRecord->away_team;
+          }
+          TempFixture::where('id',$updatedValue->id)->update([
+            'away_team' =>$looser_id,
+            'away_team_name' => $looser_name,
+          ]);
+        }
+
+      }
+
       return;
-      $updval =(string)$updatedValue->match_number;
-      $singleFixTeams = explode(".",$singleFixture->match_number);
-      $singleFXTeam = $singleFixTeams[count($singleFixTeams)-1];
-
-      $doubleElm = explode('.',$updval);
-      $doubleElm1 = $doubleElm[count($doubleElm)-1];
-
-      $vaal = explode('-(',$doubleElm1);
-
-      print_r($vaal);
-      $hometeam = substr($vaal[0],1,-1);
-      $awayteam = substr($vaal[1],0,-1);
-      echo '<br>HTSM:'.$hometeam;
-      echo '<br>ATSM:'.$awayteam;
-      //echo 'ssd'.$singleFXTeam;
-    if($var == 'WR') {
-      if(trim($hometeam) == trim($singleFXTeam)) {
-        echo 'hi123';
-        // here we check the score
-          if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
-          {
-            $hometeamName = $singleFixture->home_team_name;
-            $homeTeamId = $singleFixture->home_team;
-           }else {
-            $hometeamName = $singleFixture->away_team_name;
-            $homeTeamId = $singleFixture->away_team;
-           }
-           $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
-           DB::table('temp_fixtures')->where('id',$updatedValue->id)->update($updateArray);
-
-      }
-      if(trim($awayteam) == trim($singleFXTeam)) {
-        echo 'hi246';
-          if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
-         {
-            $awayteamName = $singleFixture->home_team_name;
-            $awayTeamId = $singleFixture->home_team;
-         }else {
-            $awayteamName = $singleFixture->away_team_name;
-            $awayTeamId = $singleFixture->away_team;
-         }
-         $updateArray = ['away_team_name'=> $awayteamName, 'away_team'=>$awayTeamId];
-         DB::table('temp_fixtures')->where('id',$updatedValue->id)->update($updateArray);
-
-      }
-    }
-    if($var == 'LR') {
-      if(trim($hometeam) == trim($singleFXTeam)) {
-        echo 'hi123';
-        // here we check the score
-          if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
-          {
-            $hometeamName = $singleFixture->home_team_name;
-            $homeTeamId = $singleFixture->home_team;
-           }else {
-            $hometeamName = $singleFixture->away_team_name;
-            $homeTeamId = $singleFixture->away_team;
-           }
-           $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
-           DB::table('temp_fixtures')->where('id',$updatedValue->id)->update($updateArray);
-
-      }
-      if(trim($awayteam) == trim($singleFXTeam)) {
-        echo 'hi246';
-          if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
-         {
-            $awayteamName = $singleFixture->home_team_name;
-            $awayTeamId = $singleFixture->home_team;
-         }else {
-            $awayteamName = $singleFixture->away_team_name;
-            $awayTeamId = $singleFixture->away_team;
-         }
-         $updateArray = ['away_team_name'=> $awayteamName, 'away_team'=>$awayTeamId];
-         DB::table('temp_fixtures')->where('id',$updatedValue->id)->update($updateArray);
-
-      }
-    }
     }
     private function calculateEliminationTeams($singleFixture, $findTeams) {
 
@@ -385,9 +377,10 @@ class MatchService implements MatchContract
 
 
         $matchNumber = explode('.',$match->match_number);
-        //print_r($matchNumber);
+
         $matchTeams = $matchNumber[count($matchNumber)-1];
         $mtsTeams = explode('-',$matchTeams);
+
         //print_r($mtsTeams);
         // Teams For that Matches
         $homeTeam = $mtsTeams[0];
@@ -395,9 +388,11 @@ class MatchService implements MatchContract
         // Get hometeam=1A awayTeam =2B
         // here we check it For 2nd round Eliminbation
 
-
+        //print_r($teams);exit;
         // First For Winner
+
         $modifiedTeams = str_replace('-','_',$teams);
+
       //  echo 'Hi MOD Teams<br>';
         //print_r($modifiedTeams);
         if (strpos($modifiedTeams, 'WR') !== false) {
@@ -418,10 +413,10 @@ class MatchService implements MatchContract
           // here check for Multiple Value for detect the updated record value
 
           if($homeTeam[0] == '(') {
-           // $this->secondRoundElimination($match1,$match,'WR');
+            $this->secondRoundElimination($match1,$match,'WR');
           }
           if($awayTeam[strlen($awayTeam)-1]==')') {
-           // $this->secondRoundElimination($match2,$match,'WR');
+            $this->secondRoundElimination($match2,$match,'WR');
           }
         }
 
@@ -442,11 +437,11 @@ class MatchService implements MatchContract
 
           if($homeTeam[0] == '(') {
             //echo 'yes';exit;
-            //$this->secondRoundElimination($match1,$match,'LR');
+            $this->secondRoundElimination($match1,$match,'LR');
           }
           if($awayTeam[strlen($awayTeam)-1]==')'){
             //echo 'false';exit;
-            //$this->secondRoundElimination($match2,$match,'LR');
+            $this->secondRoundElimination($match2,$match,'LR');
           }
         }
 

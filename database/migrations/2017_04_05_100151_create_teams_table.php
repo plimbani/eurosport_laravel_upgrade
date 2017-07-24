@@ -21,9 +21,11 @@ class CreateTeamsTable extends Migration
             $table->integer('user_id')->nullable()->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('age_group_id')->nullable()->unsigned()->index();
+            $table->foreign('age_group_id')->references('id')->on('tournament_competation_template')->onDelete('cascade');
             $table->integer('club_id')->nullable()->unsigned()->index();
             $table->foreign('club_id')->references('id')->on('clubs');
             $table->integer('competation_id')->nullable()->unsigned()->index();
+            $table->foreign('competation_id')->references('id')->on('competitions')->onDelete('cascade');
             $table->string('group_name')->nullable();
             $table->string('name')->nullable();
             $table->string('place')->nullable();
