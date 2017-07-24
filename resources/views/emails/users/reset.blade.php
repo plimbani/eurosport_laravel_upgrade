@@ -195,7 +195,7 @@
                     </tr>
                     <tr>
                       <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-bottom:20px;" align="center">
-                        <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="center" border="0">
+                        <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="left" border="0">
                           <tbody>
                             <tr>
                               <td style="border:none;border-radius:3px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#2196f3"><a href="@php echo url('user/setpassword/'.$email_details['token']) @endphp" style="text-decoration:none;line-height:100%;background:#2196f3;color:white;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:13px;font-weight:300;text-transform:none;margin:0px;"
