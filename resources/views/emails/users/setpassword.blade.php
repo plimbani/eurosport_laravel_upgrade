@@ -53,7 +53,7 @@
 
                 <div class="row">
                         <div class="col-md-12">
-                            @if($usersPasswords[0]['is_mobile_user'] != 1)
+                         
                             <div class="panel panel-default reset-password">
                                 <div class="panel-heading">
                                     <p class="h4 text-center mt-4" style="color:#757575">Set password</p>
@@ -87,17 +87,7 @@
                                     </form>
                                 </div>
                             </div>
-                            @else
-                                 <div class="panel panel-default reset-password">
-                                    <div class="panel-body">
-                                         <div class="alert alert-success my-3">
-                                            <i class="jv-icon jv-checked-arrow text-success"
-                                            v-if="user.is_active == true"></i>
-                                            Your email has been verified you can now login to your account
-                                        </div>
-                                    </div>
-                                 </div>
-                            @endif
+              
                         </div>
                 </div>
 

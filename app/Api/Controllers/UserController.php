@@ -142,11 +142,12 @@ class UserController extends BaseController
       // TODO: Here we put Code for Mobile Verification
       if(isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['is_mobile_user'] == 1) {
         //TODO: Need to put code for change Status For User with user Update
-        $usersDetail['key'] = $key;
+       // $usersDetail['key'] = $key;
         // Already set the password
         //$usersDetail['password'] = $usersPasswords[0]['password'];
-        $result = $this->userRepoObj->createPassword($usersDetail);
+        //$result = $this->userRepoObj->createPassword($usersDetail);
       }
+
       // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
 
       return view('emails.users.setpassword', compact('usersPasswords'));
@@ -160,8 +161,10 @@ class UserController extends BaseController
       $usersDetail['key'] = $key;
       $usersDetail['password'] = $password;
       $result = $this->userRepoObj->createPassword($usersDetail);
-      return redirect('/login');
+      return ($result == 'Mobile') ?  redirect('/mlogin') : redirect('/login');
     }
+
+
 
     public function resendEmail(Request $request)
     {
