@@ -321,9 +321,9 @@
                 // let newdata =  $(ReportData).parse();
                 // let newdata = $('#frmReport').serialize();
                   if(this.userListSearch!=''){
-                      userSearch = 'userData='+userListSearch
+                      userSearch = 'userData='+this.userListSearch
                   }
-                   window.location.href = "/api/users/getUserTableData?report_download=yes&registerType="+this.registerType;
+                   window.location.href = "/api/users/getUserTableData?report_download=yes&registerType="+this.registerType+'&'+userSearch;
                    // userData += '&report_download=yes'
                    // window.location.href = "/api/users/getUserTableData?=report_download=yes&registerType=desktop&userData=";
 
