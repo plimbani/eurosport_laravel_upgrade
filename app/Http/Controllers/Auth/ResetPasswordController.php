@@ -156,9 +156,13 @@ class ResetPasswordController extends Controller
                     : $this->sendResetFailedResponse($request, $response);
           if(!$mobileUser)
             return redirect('/login');
-          else
-            return response(['status_code' => 200,'message'=>'Success']);
     }
+
+    public function userMlogin(Request $request) {
+         return view('emails.users.verified');
+    }
+
+
     protected function isValidOTP($user,$otp)
     {
        $encoded_otp = base64_encode($user->id."|".$otp);
