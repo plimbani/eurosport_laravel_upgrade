@@ -485,12 +485,16 @@ class TournamentService implements TournamentContract
 
          if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
             foreach ($reportData as $reportRec) {
+               $refName  = '';
+              if($reportRec->referee_last_name != '' && $reportRec->referee_first_name != '') {
+                $refName =   $reportRec->referee_last_name . ', ' . $reportRec->referee_first_name;
+              }
                 $ddata = [
                     $reportRec->match_datetime,
                     $reportRec->group_name,
                     $reportRec->venue_name,
                     $reportRec->pitch_number,
-                    $reportRec->referee_last_name . ', ' . $reportRec->referee_first_name,
+                  $refName,
                     $reportRec->full_game,
                 ];
                 array_push($dataArray, $ddata);
