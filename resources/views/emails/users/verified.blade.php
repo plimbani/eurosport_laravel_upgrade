@@ -53,41 +53,16 @@
 
                 <div class="row">
                         <div class="col-md-12">
-                         
-                            <div class="panel panel-default reset-password">
-                                <div class="panel-heading">
-                                    <p class="h4 text-center mt-4" style="color:#757575">Set password</p>
-                                </div>
-
-                                <div class="panel-body">
-                                    @if (session('status'))
-                                        <div class="alert alert-success">
-                                            {{ session('status') }}
+                          <div class="panel panel-default reset-password">
+                                    <div class="panel-body">
+                                         <div class="alert alert-success my-3">
+                                            <i class="jv-icon jv-checked-arrow text-success"
+                                            >
+                                            </i>
+                                            Your email has been verified you can now login to your account
                                         </div>
-                                    @endif
-
-
-                                    <form id="js-frm-password-activation"
-                                     name="js-frm-password-activation"
-                                     class="js-frm-password-activation" method="POST" action="/passwordactivate">
-                                        <input type="hidden" id="key" name="key" value="{{$usersPasswords[0]['token']}}">
-                                        <div class="form-group">
-                                            <input id="password" type="password" class="form-control" placeholder="Enter password" name="password">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" onChange="checkPasswordMatch();">
-                                        </div>
-                                        <div class="form-group" id="divCheckPasswordMatch"></div>
-                                        <div class="h4 text-center mt-4">
-                                            <button type="submit" id="addButton" class="btn btn-primary">
-                                                Set password
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-              
+                                    </div>
+                                 </div>
                         </div>
                 </div>
 

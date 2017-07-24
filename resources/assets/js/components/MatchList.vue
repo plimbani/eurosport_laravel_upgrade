@@ -1,6 +1,6 @@
 <template>
 <div class="row">
-	<div class="col-md-12" >
+	<div class="col-md-12">
 	<table id="matchSchedule" class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
 			<th class="text-center">{{$lang.summary_schedule_date_time}}</th>
@@ -42,9 +42,10 @@
         		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
       		    </td>
 				<td v-if="isHideLocation !=  false">
-				
-				<a class="pull-left text-left text-primary" 
-				>{{match.venue_name}} - {{match.pitch_number}}</a></td>
+					<a class="pull-left text-left text-primary">
+					{{match.venue_name}} - {{match.pitch_number}}
+					</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>
