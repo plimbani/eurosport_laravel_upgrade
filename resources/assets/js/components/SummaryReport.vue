@@ -35,6 +35,8 @@
 									<label><strong>{{$lang.summary_age_category}}</strong></label>
 									<div class="">
                    						 <select name="sel_ageCategory" id="sel_ageCategory"
+                               v-on:change="onSelectAgeCategory()"
+                               v-model="age_category_id"
                    						 class="form-control ls-select2">
                     						<option value="">{{$lang.summary_age_category_select}}</option>
                       						<option v-for="(competation, index) in competationList"
@@ -49,8 +51,9 @@
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_club}}</strong></label>
 									<div class="">
-				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()"
-				                    	 name="sel_clubs"
+				                    	<select class="form-control ls-select2"
+                              v-on:change="onSelectClub()"
+				                    	name="sel_clubs"
 				                    	id="sel_clubs" v-model="club">
 					                      <option value="">{{$lang.summary_club_select}}</option>
 					                      <option v-for="(club, index) in clubs"
@@ -61,7 +64,7 @@
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_team}}</strong></label>
 									<div class="">
-					                    <select name="sel_teams" id="sel_teams" v-model="team" class="form-control ls-select2">
+					                    <select name="sel_teams" id="sel_teams" v-model="team" class="form-control ls-select2" v-on:change="onSelectTeam()">
 						                    <option value="">{{$lang.summary_team_select}}</option>
 						                  	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
 					                    </select>
@@ -190,7 +193,7 @@
                         <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
                         <h2>Reports</h2>
                     </div>
-				<table class="table table-hover table-bordered" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">		
+				<table class="table table-hover table-bordered" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
 					<thead>
 	                    <tr>
 	                        <th class="text-center">{{$lang.summary_reports_date_time}}</th>
@@ -240,7 +243,8 @@ export default {
        	reports: {},
         currentView:'summaryTab',
         reportQuery:'',
-        isValidate:false
+        isValidate:false,
+        age_category_id: ''
        	}
     },
     filters: {
@@ -251,17 +255,17 @@ export default {
     mounted() {
     	this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
     	this.displayTournamentCompetationList()
-    	//this.getTeams()
+    	this.getTeams()
     	this.getLocation()
     	this.getPitches()
     	this.getReferees()
-        this.getClubs()
-        let stdate  = false
+      this.getClubs()
+      let stdate  = false
     	$('.ls-datepicker').datepicker()
     	$('#start_date').datepicker().on('changeDate',function(){
             $('#end_date').datepicker('setStartDate', $('#start_date').val())
         });
-           
+
 		 $('#start_time,#start_date').change(function(){
 		   if($('#start_date').val() == ''){
 		      $("#start_date_validation").html("Please enter values");
@@ -281,24 +285,131 @@ export default {
 		 this.isValidate = stdate
     },
     methods: {
+      onSelectAgeCategory() {
+
+        if(this.age_category_id == '') {
+          this.getClubs()
+          return this.getTeams()
+        }
+
+        let data = this.teams
+
+
+        if(data.length == 0) {
+          console.log('data length uis zero')
+          let vm =  this
+          setTimeout(function(){
+            vm.getClubs()
+            vm.getTeams()
+          },500)
+          //this.getClubs()
+          //var vm = this
+
+          data = this.teams
+          //data = this.teams
+          console.log('Team After assignment')
+          console.log(data)
+        }
+        let age_category_id = this.age_category_id
+        let ids = []
+        let Cids = []
+        //let ageCatId = this.
+        var uniqueArray = data.filter(function(item, pos) {
+            // Find that record which contains
+            if(age_category_id == item['age_group_id']) {
+              //ids.push(item)
+              Cids.push(item['club_id'])
+              ids.push(item['id'])
+            }
+        }, {});
+
+        // First we have to check the clubs
+       // console.log('Hello TeamClub')
+        let arr = ''
+        arr = Cids.join()
+        let Teamarr = ''
+        Teamarr = ids.join()
+
+        if(arr == '' || Teamarr == '') {
+          //console.log('trello')
+          this.getClubs(0)
+          //console.log('trello1234')
+          this.getTeams(0)
+        } else {
+          this.getClubs(arr)
+          this.getTeams(Teamarr)
+        }
+
+
+      },
+      onSelectTeam() {
+        if(this.team == '') {
+          this.displayTournamentCompetationList()
+          return this.getClubs()
+        }
+        let TournamentData={}
+        let data = this.teams
+        let ids = []
+        let Cids = []
+        let team =  this.team
+        console.log(team)
+        var uniqueArray = data.filter(function(item, pos) {
+            // Find that record which contains
+            if(team == item['id']) {
+              ids.push(item['age_group_id'])
+              Cids.push(item['club_id'])
+            }
+        }, {});
+        this.displayTournamentCompetationList(ids.join())
+        this.getClubs(Cids.join())
+      },
     	onSelectClub() {
-    		let clubData = this.club
-    		let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId,'clubId': this.club}
+
+        let TournamentData={}
+        if(this.club != '') {
+
+         TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId,'clubId': this.club}
+        } else {
+
+          // if its blank no need to api Called call by default method for
+           //TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
+          this.displayTournamentCompetationList()
+          return this.getTeams()
+        }
 				Tournament.getClubsTeams(TournamentData).then(
 		          (response) => {
 		           this.teams = response.data.data
+               // here call for unique  age categoryList and calls it
+               let ids = []
+               var uniqueArray = response.data.data.filter(function(item, pos) {
+                  if($.inArray(item['age_group_id'], ids) === -1) ids.push(item['age_group_id']);
+                    //ids.push(item['age_group_id'])
+               }, {});
+               console.log('club is')
+               console.log(ids)
+               // Now here we pass the array as parameter
+                this.displayTournamentCompetationList(ids.join())
+
 		          },
+
 		          (error) => {
 		             console.log('Error occured during Tournament api ', error)
 		          }
 		        )
     		},
 
-    	displayTournamentCompetationList () {
+    	displayTournamentCompetationList (cat_id='') {
       		// Only called if valid tournament id is Present
 		    if (!isNaN(this.TournamentId)) {
+
+            let TournamentData = {}
 		      // here we add data for
-		      let TournamentData = {'tournament_id': this.TournamentId}
+          if(cat_id != '') {
+           TournamentData = {'tournament_id': this.TournamentId, 'cat_id': cat_id}
+        } else {
+           TournamentData = {'tournament_id': this.TournamentId}
+        }
+
 		      Tournament.getCompetationFormat(TournamentData).then(
 		      (response) => {
 		        this.competationList = response.data.data
@@ -312,13 +423,22 @@ export default {
 		      this.TournamentId = 0;
 		    }
     	},
-    	getTeams() {
+    	getTeams(team_id='') {
+
+        var team_id = team_id.toString()
+
     		if (!isNaN(this.TournamentId)) {
 		      // here we add data for
-		      let TournamentData = {'tournamentId': this.TournamentId}
+
+          let  TournamentData;
+            if(team_id != '') {
+              TournamentData = {'tournamentId': this.TournamentId,'team_id':team_id}
+            } else {
+              TournamentData = {'tournamentId': this.TournamentId}
+            }
 		      Tournament.getTeams(TournamentData).then(
 		      (response) => {
-		       // this.teams = response.data.data
+		        this.teams = response.data.data
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
@@ -381,12 +501,22 @@ export default {
 		    }
     	},
 
-	    getClubs() {
+	    getClubs(club_id='') {
+          var club_id = club_id.toString()
 	        if (!isNaN(this.TournamentId)) {
 	          // here we add data for
-	          let TournamentData = {'tournament_id': this.TournamentId}
-	          Tournament.getAllClubs(this.TournamentId).then(
+            let  TournamentData;
+            if(club_id != '') {
+              console.log('WithCL')
+              TournamentData = {'tournament_id': this.TournamentId,'club_id':club_id}
+            } else {
+              console.log('WithOutCL')
+              TournamentData = {'tournament_id': this.TournamentId}
+            }
+
+	          Tournament.getAllClubs(TournamentData).then(
 	          (response) => {
+              console.log('In RESP')
 	            this.clubs = response.data.data
 	          },
 	          (error) => {
@@ -409,7 +539,7 @@ export default {
     	generateReport() {
     		let edata = $("#end_date_validation").html();
     		let sdata = $("#end_date_validation").html();
-    		
+
     		if(sdata !='' || edata != ''){
     			return false
     		}
@@ -420,8 +550,6 @@ export default {
 		      this.reportQuery = ReportData
 		      Tournament.getAllReportsData(ReportData).then(
 		      (response) => {
-		      	// console.log(response.data.data)
-		      // console.log(response.data.data,'hi')
 		      	this.reports = response.data.data
 		       },
 
@@ -431,48 +559,29 @@ export default {
 		      )
 		    } else {
 		      this.TournamentId = 0;
-		      // toastr['error']('Invalid Credentials', 'Error');
 		    }
     	},
-    	
-    	// printMatchDetails() {  
-    	// 	$('#report_logo').show();
-     // 		var divToPrint = document.getElementById('report_logo');
-		   //  var printContents = document.getElementById('summary_report_table').innerHTML;
-		   //  let w = window.open();
-		   //  w.document.write($(printContents).html());
-		   //  w.print();
-		   //  w.close();
-		   //   $('#summary_report_table').hide();
-	    // }, 
 
     	exportReport() {
     		let ReportData = this.reportQuery
-    		// console.log(ReportData)
-    		// let newdata = $.parseHTML( ReportData )
-    		// let newdata =  $(ReportData).parse();
-    		// let newdata = $('#frmReport').serialize()
     		if(ReportData!=''){
 				ReportData += '&report_download=yes'
     			window.location.href = "/tournament/report/reportExport?"+ReportData;
     		}else{
     			toastr['error']('Records not available', 'Error');
-    		}    	
+    		}
 		},
 
 		exportPrint() {
     		let ReportData = this.reportQuery
     		if(ReportData!=''){
-
     			var win = window.open("/api/tournament/report/print?"+ReportData, '_blank');
-                win.focus();
-    			// window.open = "/api/tournament/report/print?"+ReportData;
+          win.focus();
     		}else{
     			toastr['error']('Records not available', 'Error');
-    		}    	
+    		}
 		}
-
-    }
+  }
 }
 
 </script>

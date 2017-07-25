@@ -52,7 +52,7 @@ $api->version('v1', function ($api) {
 
 
     $api->post('teams', 'Laraspace\Api\Controllers\TeamController@getTeams');
-    $api->get('clubs/getAll/{id}', 'Laraspace\Api\Controllers\TeamController@getClubs');
+    $api->post('clubs/getAll', 'Laraspace\Api\Controllers\TeamController@getClubs');
     $api->post('team/create', 'Laraspace\Api\Controllers\TeamController@createTeam');
     $api->post('team/edit/{id}', 'Laraspace\Api\Controllers\TeamController@edit');
     $api->post('team/delete/{deleteid}', 'Laraspace\Api\Controllers\TeamController@deleteTeam');

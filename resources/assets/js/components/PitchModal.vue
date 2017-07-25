@@ -16,7 +16,8 @@
               <label class="col-sm-3">Match number</label><p class="col-sm-9"> {{matchFixture.title}}</p>
               <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}}) </p>
               <label class="col-sm-3">Date</label><p class="col-sm-9">{{matchDetail.matchTime}}</p>
-              <label class="col-sm-3">Pitch</label><p class="col-sm-9" v-if="matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}}</p>
+              <label class="col-sm-3">Pitch</label><p class="col-sm-9"
+              v-if="matchDetail.pitch && matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}}</p>
             </div>
             <p class="mt-0 refree_name">
             <div v-if="matchDetail.referee">
@@ -124,7 +125,8 @@
               </tr>
               <tr>
                 <td>&nbsp;Pitch</td>
-                <td>&nbsp;{{matchDetail.pitch.pitch_number}}</td>
+                <td v-if="matchDetail.pitch && matchDetail.pitch.pitch_number">&nbsp;{{matchDetail.pitch.pitch_number}}</td>
+                <td v-else></td>
               </tr>
               <tr>
                 <td>&nbsp;Referee</td>

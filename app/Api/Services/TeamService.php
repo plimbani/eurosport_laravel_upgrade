@@ -35,11 +35,11 @@ class TeamService implements TeamContract
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
 
-    public function getClubs($id)
+    public function getClubs($tournamentData)
     {
 
         // Here we send Status Code and Messages
-        $data = $this->teamRepoObj->getClubData($id);
+        $data = $this->teamRepoObj->getClubData($tournamentData['tournamentData']);
         // print_r($data);exit;
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
@@ -142,7 +142,7 @@ class TeamService implements TeamContract
 
               /*  Club::where('tournament_id','=',$data->tournamentData['tournamentId'])
                       ->where('club_id','=',$clubData1[0]->id)->exists(); */
-                
+
                 if(!$clubData2) {
                   // we have to insert the value in tournament id
                    $updateEd = [
@@ -154,7 +154,7 @@ class TeamService implements TeamContract
                 }
 
                 $data['club_id'] = $club_id;
-            } 
+            }
          }
 
          if($data['age_group_id'] != 0){

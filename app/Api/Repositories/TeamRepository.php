@@ -53,33 +53,32 @@ class TeamRepository
 
                     }
                 }
+                if(isset($data['team_id']) && $data['team_id'] != '') {
+                   $teamData = $teamData->whereIn('teams.id',explode(",",$data['team_id']));
+                }
             return $teamData->distinct('teams.id')->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag as country_flag',
                     // 'competitions.name as competationName','competitions.id as competationId',
                     'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age')
                 ->get();
-
-
-                // ->join('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
-                // if($data[''])
-                 // ->where('teams.age_group_id',$ageGroup)
-                 // ->where('teams.tournament_id',$tournamentId)
-                 // ->select('teams.*','teams.id as team_id', 'countries.name as name','countries.logo as logo',
-                 //    // 'competitions.name as competationName','competitions.id as competationId',
-                 //    'tournament_competation_template.group_name as age_name')
-                 // ->get();
     }
 
-      public function getClubData($tournament_id)
+      public function getClubData($tournamentData)
       {
-          return  Club::whereHas('tournament', function($q) use ($tournament_id) {
-              $q->where('tournament_id',$tournament_id);
-          })->select('clubs.id','clubs.name')->get();
+        return Club::whereHas('tournament', function($q) use ($tournamentData) {
+              if(isset($tournamentData['club_id']) && $tournamentData['club_id'] != '') {
+                  $q->whereIn('club_id',explode(",",$tournamentData['club_id']));
+                }
+              $q->where('tournament_id',$tournamentData['tournament_id']);
+         })->select('clubs.id','clubs.name')->get();
       }
     public function getTeamData($tournamentData)
     {
-        return Team::where('tournament_id',$tournamentData['tournament_id'])
-                    ->where('club_id',$tournamentData['clubId'])
-                     ->get();
+
+        $result =   Team::where('tournament_id',$tournamentData['tournament_id']);
+          if(isset($tournamentData['clubId']) && $tournamentData['clubId'] !='') {
+               $result ->where('club_id',$tournamentData['clubId']);
+          }
+        return $result->get();
     }
 
     public function getTeambyTeamId($teamId,$tournamentId){

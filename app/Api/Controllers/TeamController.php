@@ -40,9 +40,9 @@ class TeamController extends BaseController
         return $this->teamObj->getTeams($request);
     }
 
-    public function getClubs($id,Request $request)
+    public function getClubs(Request $request)
     {
-        return $this->teamObj->getClubs($id);
+        return $this->teamObj->getClubs($request->all());
     }
 
     public function getClubTeams(Request $request)
