@@ -153,9 +153,9 @@ class UserService implements UserContract
             $email_templates = 'emails.users.create';
             $email_msg = 'Euro-Sportring Tournament Planner - Set password';
             if($userObj->is_mobile_user == 1) {
-              $email_templates = 'emails.users.mobile_create';
+           //   $email_templates = 'emails.users.mobile_create';
               $email_msg = 'Euro-Sportring email verification';
-            } 
+            }
             Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
             return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address and complete your account registration.'];
         }
