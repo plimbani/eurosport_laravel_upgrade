@@ -274,7 +274,8 @@ class MatchRepository
           }
 
           $reportQuery->orderBy('match_standing.points','desc')
-                      ->orderBy('GoalDifference','desc');
+                      ->orderBy('GoalDifference','desc')
+                      ->orderBy('match_standing.goal_for','desc');
            //print_r($reportQuery->get());exit;
           return $reportQuery->get();
     }

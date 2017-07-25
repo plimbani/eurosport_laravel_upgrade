@@ -154,27 +154,44 @@ class AgeGroupRepository
       We pass tournamentId
      */
     public function getCompeationFormat($tournamentData) {
-     // print_r($tournamentData);
+      if(count($tournamentData) > 1)
+      {
 
-      $fieldName = key($tournamentData);
-      $value = $tournamentData[$fieldName];
-      if($fieldName == 'tournament_id') {
-        return TournamentCompetationTemplates::
-               leftjoin('tournament_template', 'tournament_template.id', '=',
-                'tournament_competation_template.tournament_template_id')
-               ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
-               ->select('tournament_competation_template.*','tournament_template.name as template_name',
-                 \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
-              ->where($fieldName, $value)->get();
+          $ageGroupIdArray = [];
+          $ageGroupIdArray[] = $tournamentData['cat_id'];
+          $result= TournamentCompetationTemplates::
+                 leftjoin('tournament_template', 'tournament_template.id', '=',
+                  'tournament_competation_template.tournament_template_id')
+                 ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
+                 ->select('tournament_competation_template.*','tournament_template.name as template_name',
+                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
+                  ->where('tournament_id', $tournamentData['tournament_id']);
+                  if(isset($tournamentData['cat_id']))
+                  {
+                    $result->whereIn('tournament_competation_template.id',$ageGroupIdArray);
+                  }
+
+          return $result->get();
       } else {
-        return TournamentCompetationTemplates::
-               leftjoin('tournament_template', 'tournament_template.id', '=',
-                'tournament_competation_template.tournament_template_id')
-               ->select('tournament_competation_template.*','tournament_template.name as template_name')
-              ->where('tournament_competation_template.'.$fieldName, $value)->get();
+        $fieldName = key($tournamentData);
+        $value = $tournamentData[$fieldName];
+        if($fieldName == 'tournament_id') {
+          return TournamentCompetationTemplates::
+                 leftjoin('tournament_template', 'tournament_template.id', '=',
+                  'tournament_competation_template.tournament_template_id')
+                 ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
+                 ->select('tournament_competation_template.*','tournament_template.name as template_name',
+                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
+                ->where($fieldName, $value)->get();
+        } else {
+          return TournamentCompetationTemplates::
+                 leftjoin('tournament_template', 'tournament_template.id', '=',
+                  'tournament_competation_template.tournament_template_id')
+                 ->select('tournament_competation_template.*','tournament_template.name as template_name')
+                ->where('tournament_competation_template.'.$fieldName, $value)->get();
+        }
+
       }
-
-
 
       // TODO: here we call function to Display All Templates Related to
       // compeation Format

@@ -363,7 +363,94 @@ class MatchService implements MatchContract
       }
     }
     }
-    private function calculateEliminationTeams($singleFixture, $findTeams) {
+    private function calculateEliminationTeams($singleFixture) {
+      // Now here we propgate the result to the descender teams
+      $singleFixture   = $singleFixture[0];
+      $age_category_id = $singleFixture->age_group_id;
+      $tournament_id   = $singleFixture->tournament_id;
+
+      // We have to find the record of it for winner and looser
+      $match_number = $singleFixture->match_number;
+      $match_number = explode(".",$match_number);
+      $frs = explode("-",$match_number[0]);
+      $val = $frs[2]."_".$match_number[1];
+
+      $home_team_score = $singleFixture->hometeam_score;
+      $away_team_score = $singleFixture->awayteam_score;
+
+      // FOr Winner Conditions
+      if($home_team_score >  $away_team_score) {
+        $winnerTeam = $singleFixture->home_team_name;
+        $winnerId = $singleFixture->home_team;
+      }
+      if($home_team_score <  $away_team_score) {
+        $winnerTeam = $singleFixture->away_team_name;
+        $winnerId = $singleFixture->away_team;
+      }
+      // FOr Looser Conditions
+      if($home_team_score <  $away_team_score) {
+        $looserTeam = $singleFixture->home_team_name;
+        $looserId = $singleFixture->home_team;
+      }
+      if($home_team_score >  $away_team_score) {
+        $looserTeam = $singleFixture->away_team_name;
+        $looserId = $singleFixture->away_team;
+      }
+      // Now fire a query which gives two record Winner and Looser
+      $results = TempFixture::where('age_group_id','=',$age_category_id)->where('tournament_id','=',$tournament_id)
+         ->whereRaw(DB::raw("match_number like '%(".$val."_WR)%' OR  match_number like '%(".$val."_LR)%' "))->get();
+      // here we get two records 1 for Winner and other for looser
+      foreach($results as $record) {
+        // we have record
+        echo 'Match Id'.$record->id;
+        // here first we check condition for Draw if it is then use match_winner field
+        // here check if Home Score is Greater than away score
+       $rec_mtchNumber = explode(".",$record->match_number);
+       $teams =  $rec_mtchNumber[2];
+       $teams = explode("-",$teams);
+       $homeTeam = $teams[0];$awayTeam = $teams[1];
+       // if its winner then
+       if(strpos($record->match_number,"WR") !== false)
+       {
+         // its Home team
+         if(trim("(".$val."_WR)") == trim($homeTeam)) {
+          echo 'homeW';
+          TempFixture::where('id',$record->id)->update([
+            'home_team_name'=> $winnerTeam,
+            'home_team'=> $winnerId
+          ]);
+         }
+
+         if(trim("(".$val."_WR)") == trim($awayTeam)) {
+          TempFixture::where('id',$record->id)->update([
+            'away_team_name'=> $winnerTeam,
+            'away_team'=> $winnerId
+          ]);
+         }
+
+         // its away team
+       }
+       // if its looser then
+       if(strpos($record->match_number,"LR") !== false)
+       {
+        if(trim("(".$val."_LR)") == trim($homeTeam)) {
+          TempFixture::where('id',$record->id)->update([
+            'home_team_name'=> $looserTeam,
+            'home_team'=> $looserId
+          ]);
+         }
+
+         if(trim("(".$val."_LR)") == trim($awayTeam)) {
+          TempFixture::where('id',$record->id)->update([
+            'away_team_name'=> $looserTeam,
+            'away_team'=> $looserId
+          ]);
+         }
+       }
+      }
+      exit;
+    }
+    private function calculateEliminationTeams1($singleFixture, $findTeams) {
 
       $singleFixture = $singleFixture[0];
 
@@ -514,6 +601,10 @@ class MatchService implements MatchContract
         $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
 
         $fix1=array();
+        if($singleFixture[0] && $singleFixture[0]->round == 'Elimination') {
+          // So here we have to Call Function For Elimination Matches
+          return $this->calculateEliminationTeams($singleFixture);
+        }
         foreach($singleFixture as $singleFxture)
         {
           $fix1['CupFixture']['cupcompetition'] = $singleFxture->competition_id;

@@ -6,20 +6,17 @@
               {{$lang.pitch_planner_no_games}}
         </div>
         <div class="text-center" v-else v-for="(competition,index) in competitionWithGames">
-          <div v-if="competition.matchList.length > 0">
-            <h6 class="mb-0" ><strong>{{competition.group_name}}</strong></h6>
-
-
-            <div v-if="competition.matchCount == 0">
-                {{$lang.pitch_planner_no_games}}
-            </div>
-            <div class="text-center mt-3"
-            v-if="match.isScheduled!=1"
-            v-for="match in competition.matchList"
-            :data-text="match.matchName">
-                <draggable-match-event :match="match"></draggable-match-event>
-            </div>
-
+          <div v-if="competition.matchList &&  competition.matchList.length > 0">
+              <h6 class="mb-0" ><strong>{{competition.group_name}}</strong></h6>
+              <div v-if="competition.matchCount == 0">
+                  {{$lang.pitch_planner_no_games}}
+              </div>
+              <div class="text-center mt-3"
+              v-if="match.isScheduled!=1"
+              v-for="match in competition.matchList"
+              :data-text="match.matchName">
+                  <draggable-match-event :match="match"></draggable-match-event>
+              </div>
           </div>
         </div>
         <br>
@@ -107,7 +104,10 @@ export default {
             competition.matchCount = matchCount
           })
           competition.matchList = comp
+
+
         })
+
         this.matchCompetition = this.competationList
         this.totalMatch = matchCountDisplay
         this.$store.dispatch('SetTotalMatch', this.totalMatch)

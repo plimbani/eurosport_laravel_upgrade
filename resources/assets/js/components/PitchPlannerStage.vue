@@ -326,7 +326,7 @@ import _ from 'lodash'
                             let scheduleBlock = false
                             let refereeId = ''
                             let matchTitle = ''
-                            
+
 let mtchNumber = match.match_number
 let mtchNumber1 = mtchNumber.split(".")
 let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
@@ -345,8 +345,8 @@ Placeawayteam = match.AwayTeam
 }
 let mtc = ''
 mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
-console.log(mtc)
-match.match_number = mtc 
+//console.log(mtc)
+match.match_number = mtc
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
                                     if( filterValue != '' && filterValue.id != match.tid){
