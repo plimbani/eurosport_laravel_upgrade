@@ -120,7 +120,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 // We perform filtering operation
                 List<ClubGroupModel> mGroupList = new ArrayList<>();
                 for (ClubGroupModel p : mOriginalList) {
-                    if (p.getGroup_name().toUpperCase().contains(constraint.toString().toUpperCase()))
+                    if (p.getName().toUpperCase().contains(constraint.toString().toUpperCase()) || p.getGroup_name().toUpperCase().contains(constraint.toString().toUpperCase()))
                         mGroupList.add(p);
                 }
                 results.values = mGroupList;

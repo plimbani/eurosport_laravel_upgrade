@@ -47,7 +47,7 @@
                 style="@style/app_edittext"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_border"
-                android:hint="@string/last_name"
+                android:hint="@string/surname"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName|textNoSuggestions" />
 

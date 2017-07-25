@@ -25,9 +25,8 @@
     <string name="select_tournament">Select tournament</string>
     <string name="select_default_tournament">Select default tournament</string>
     <string name="select_language">Select language</string>
-    <string name="register_success">User registered successfully.</string>
+    <string name="register_success">Please check your inbox to verify your email address and complete your account registration</string>
     <string name="update_profile_message">Profile updated successfully.</string>
-    <string name="update_profile">Update profile</string>
     <string name="default_tournament">Default tournament selected </string>
     <string name="get_otp">Submit</string>
     <string name="otp">otp</string>
@@ -52,7 +51,7 @@
     <string name="view_club_match">View all club matches</string>
     <string name="view_league_table">View full league table</string>
     <string name="league_table">league table</string>
-    <string name="no_data_available">No data available.</string>
+    <string name="no_data_available">No data available</string>
     <string name="venue">Venue</string>
     <string name="group_summary">GROUP SUMMARY</string>
     <string name="G">G</string>

@@ -19,7 +19,6 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.ClubModel;
 import com.aecor.eurosports.util.AppConstants;
-import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -38,20 +37,15 @@ import butterknife.ButterKnife;
 
 public class ClubAdapter extends RecyclerView.Adapter<ClubAdapter.ViewHolder> implements Filterable {
     private final String TAG = ClubAdapter.class.getSimpleName();
-    private LayoutInflater inflater;
     private Context mContext;
     private List<ClubModel> mClubList;
     private List<ClubModel> mOriginalList;
-    private AppPreference mPreference;
     private ClubFilter clubFilter;
 
     public ClubAdapter(Activity context, List<ClubModel> list) {
         mContext = context;
-        inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mClubList = list;
         this.mOriginalList = list;
-        mPreference = AppPreference.getInstance(mContext);
     }
 
 
