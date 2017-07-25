@@ -6,11 +6,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -38,10 +41,11 @@ public class FullLeageTableActivity extends AppCompatActivity {
     protected TableLayout tl_group_rows;
     @BindView(R.id.tv_group_table_title)
     protected TextView tv_group_table_title;
-    @BindView(R.id.iv_testFlag)
-    protected ImageView iv_testFlag;
+//    @BindView(R.id.iv_testFlag)
+//    protected ImageView iv_testFlag;
     private Context mContext;
     private String mGroupName;
+    private String mTeamId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,8 +54,11 @@ public class FullLeageTableActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Bundle b = getIntent().getExtras();
 
-        if (b != null) {
+        if (b != null && b.containsKey(AppConstants.ARG_GROUP_NAME)) {
             mGroupName = b.getString(AppConstants.ARG_GROUP_NAME);
+        }
+        if (b != null && b.containsKey(AppConstants.ARG_TEAM_ID)) {
+            mTeamId = b.getString(AppConstants.ARG_TEAM_ID);
         }
 
         mContext = this;
@@ -96,11 +103,23 @@ public class FullLeageTableActivity extends AppCompatActivity {
 
     private void addGroupLeagueRow(LeagueModel mLeagueModel) {
         View teamLeagueView = getLayoutInflater().inflate(R.layout.row_full_team_leaguetable, null);
+        LinearLayout ll_row_background = (LinearLayout) teamLeagueView.findViewById(R.id.ll_row_background);
+        if (!Utility.isNullOrEmpty(mTeamId)) {
+            if (mLeagueModel.getId().equalsIgnoreCase(mTeamId)) {
+                ll_row_background.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_green));
+            } else {
+                ll_row_background.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
+            }
+        } else {
+            ll_row_background.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
+        }
+
         TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
         TextView tv_w = (TextView) teamLeagueView.findViewById(R.id.tv_w);
         TextView tv_d = (TextView) teamLeagueView.findViewById(R.id.tv_d);
         TextView tv_l = (TextView) teamLeagueView.findViewById(R.id.tv_l);
-        TextView tv_f_a = (TextView) teamLeagueView.findViewById(R.id.tv_f_a);
+        TextView tv_f = (TextView) teamLeagueView.findViewById(R.id.tv_f);
+        TextView tv_a = (TextView) teamLeagueView.findViewById(R.id.tv_a);
         TextView tv_goal_diff = (TextView) teamLeagueView.findViewById(R.id.tv_goal_diff);
         TextView tv_p = (TextView) teamLeagueView.findViewById(R.id.tv_p);
         TextView tv_group_table_title = (TextView) teamLeagueView.findViewById(R.id.tv_group_table_title);
@@ -121,19 +140,13 @@ public class FullLeageTableActivity extends AppCompatActivity {
             tv_l.setText(mLeagueModel.getLost());
         }
 
-        String goalForAndAgainst = "";
         if (!Utility.isNullOrEmpty(mLeagueModel.getGoal_for())) {
-            goalForAndAgainst = mLeagueModel.getGoal_for();
-        } else {
-            goalForAndAgainst = "0";
+            tv_f.setText(mLeagueModel.getGoal_for());
         }
         if (!Utility.isNullOrEmpty(mLeagueModel.getGoal_against())) {
-            goalForAndAgainst = goalForAndAgainst + "-" + mLeagueModel.getGoal_against();
-        } else {
-            goalForAndAgainst = goalForAndAgainst + "-" + "0";
+            tv_a.setText(mLeagueModel.getGoal_against());
         }
 
-        tv_f_a.setText(goalForAndAgainst);
         if (!Utility.isNullOrEmpty(mLeagueModel.getPoints())) {
             tv_p.setText(mLeagueModel.getPoints());
         }
@@ -161,8 +174,8 @@ public class FullLeageTableActivity extends AppCompatActivity {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-                            iv_testFlag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
-                            iv_testFlag.setVisibility(View.INVISIBLE);
+//                            iv_testFlag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+//                            iv_testFlag.setVisibility(View.INVISIBLE);
                         }
                     });
         } else {
@@ -172,6 +185,8 @@ public class FullLeageTableActivity extends AppCompatActivity {
         }
         tl_group_rows.addView(teamLeagueView);
         View seperatorView = getLayoutInflater().inflate(R.layout.table_row_seperator_full, null);
+        seperatorView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+
         tl_group_rows.addView(seperatorView);
     }
 

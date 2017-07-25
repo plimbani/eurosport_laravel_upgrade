@@ -47,10 +47,9 @@
                 style="@style/app_edittext"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_border"
-                android:hint="@string/last_name"
+                android:hint="@string/surname"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName|textNoSuggestions" />
-
 
 
             <Spinner
@@ -72,13 +71,14 @@
                 android:prompt="@string/select_language" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_update"
-            style="@style/text_black_title"
-            android:layout_margin="20dp"
-            android:background="@drawable/btn_disable"
-            android:text="@string/update" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_update"
+        style="@style/text_black_title"
+        android:layout_margin="20dp"
+        android:background="@drawable/btn_disable"
+        android:text="@string/update" />
 
     <include layout="@layout/layout_footer" />
 

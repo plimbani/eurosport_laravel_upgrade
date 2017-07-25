@@ -10,7 +10,7 @@
         android:layout_height="50dp"
         android:background="@drawable/btn_yellow"
         android:text="Title"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:background="@drawable/button_yellow"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="20sp" />
     </LinearLayout>
 </LinearLayout>

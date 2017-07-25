@@ -6,7 +6,7 @@ package com.aecor.eurosports.util;
 public class AppConstants {
     public static final int SPLASH_TIME_OUT = 1000;
     public static final int MAX_IMAGE_WIDTH = 60;
-    public static final int MAX_IMAGE_HEIGHT = 50;
+    public static final int MAX_IMAGE_HEIGHT = 60;
     public static final int MAX_IMAGE_WIDTH_1 = 100;
     public static final int MAX_IMAGE_HEIGHT_1 = 80;
     public static final int MAX_IMAGE_WIDTH_LARGE = 250;
@@ -41,6 +41,7 @@ public class AppConstants {
     public static final String ARG_FULL_LEAGUE_TABLE_DETAIL = "full_league_table_detail";
     public static final String ARG_MATCH_INFO = "match_info";
     public static final String ARG_GROUP_NAME = "group_name";
+    public static final String ARG_TEAM_ID= "team_id";
     public static final String LANGUAGE_SELECTION = "language_selection";
     public static final String LANGUAGE_POSITION = "language_position";
     public static final String ARG_FORGOT_PASSWORD_OTP = "forgot_password_otp";

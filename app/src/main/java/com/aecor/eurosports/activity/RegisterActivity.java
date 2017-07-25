@@ -1,9 +1,11 @@
 package com.aecor.eurosports.activity;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -93,6 +95,15 @@ public class RegisterActivity extends BaseActivity {
         });
     }
 
+    @OnClick(R.id.iv_header_logo)
+    protected void onHeaderLogoClicked() {
+        Intent intent = new Intent(mContext, LandingActivity.class);
+        ComponentName cn = intent.getComponent();
+        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+        startActivity(mainIntent);
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,9 +115,7 @@ public class RegisterActivity extends BaseActivity {
 
     @OnClick(R.id.register)
     public void register() {
-
-
-        if (!confirm_password.getText().toString().trim().equals(register_password.getText().toString().trim())) {
+        if (!confirm_password.getText().toString().equals(register_password.getText().toString().trim())) {
             Utility.showToast(mContext, getString(R.string.password_do_not_match));
         } else {
             register_user();
@@ -245,10 +254,10 @@ public class RegisterActivity extends BaseActivity {
             return false;
         }
 
-        if (password.isEmpty() || password.length() < 5) {
+        if (password.isEmpty()) {
             return false;
         }
-        if (confirmPassword.isEmpty() || confirmPassword.length() < 5) {
+        if (confirmPassword.isEmpty()) {
             return false;
         }
 

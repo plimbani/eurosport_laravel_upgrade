@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:drawableLeft="@drawable/heart_red_small"
+                android:drawableLeft="@drawable/fav_add_small"
                 android:drawablePadding="10dp"
                 android:gravity="center"
                 android:text="@string/set_favourite" />

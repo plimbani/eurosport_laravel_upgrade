@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_row_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -8,6 +9,7 @@
 
     <LinearLayout
         android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:layout_span="8"
         android:orientation="horizontal">
 
@@ -15,7 +17,8 @@
             android:id="@+id/team_flag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:adjustViewBounds="true" />
 
         <TextView
             android:id="@+id/tv_group_table_title"
@@ -31,53 +34,66 @@
     <TextView
         android:id="@+id/tv_games"
         style="@style/team_league_table_text"
-        android:layout_gravity="center"
-        android:gravity="center"
+        android:layout_gravity="center|left"
+        android:layout_span="2"
+        android:gravity="center|left"
         android:text="9" />
 
     <TextView
         android:id="@+id/tv_w"
         style="@style/team_league_table_text"
-        android:layout_gravity="center"
-        android:gravity="center"
+        android:layout_gravity="center|left"
+        android:layout_span="2"
+        android:gravity="center|left"
         android:text="+20" />
 
     <TextView
         android:id="@+id/tv_d"
         style="@style/team_league_table_text"
         android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1.8"
-        android:gravity="center"
+        android:layout_gravity="center|left"
+        android:layout_span="2"
+        android:gravity="center|left"
         android:text="3" />
 
     <TextView
         android:id="@+id/tv_l"
         style="@style/team_league_table_text"
-        android:layout_gravity="center"
-        android:gravity="center"
+        android:layout_gravity="center|left"
+        android:layout_span="2"
+        android:gravity="center|left"
         android:text="3" />
 
     <TextView
-        android:id="@+id/tv_f_a"
+        android:id="@+id/tv_f"
         style="@style/team_league_table_text"
-        android:layout_gravity="center"
+        android:layout_gravity="center|left"
         android:layout_span="2"
-        android:gravity="center"
+        android:gravity="center|left"
+        android:text="3" />
+
+    <TextView
+        android:id="@+id/tv_a"
+        style="@style/team_league_table_text"
+        android:layout_gravity="center|left"
+        android:layout_span="2"
+        android:gravity="center|left"
         android:text="3" />
 
     <TextView
         android:id="@+id/tv_goal_diff"
         style="@style/team_league_table_text"
-        android:layout_gravity="center"
-        android:gravity="center"
+        android:layout_gravity="center|left"
+        android:layout_span="2"
+        android:gravity="center|left"
         android:text="3" />
 
     <TextView
         android:id="@+id/tv_p"
         style="@style/team_league_table_text"
-        android:layout_gravity="center"
-        android:gravity="center"
+        android:layout_gravity="center|left"
+        android:layout_span="2"
+        android:gravity="center|left"
         android:text="3"
         android:textStyle="bold" />
 </TableRow>

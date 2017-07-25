@@ -18,7 +18,6 @@ import com.aecor.eurosports.activity.GroupSummaryActivity;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.util.AppConstants;
-import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 
@@ -121,7 +120,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 // We perform filtering operation
                 List<ClubGroupModel> mGroupList = new ArrayList<>();
                 for (ClubGroupModel p : mOriginalList) {
-                    if (p.getGroup_name().toUpperCase().contains(constraint.toString().toUpperCase()))
+                    if (p.getName().toUpperCase().contains(constraint.toString().toUpperCase()) || p.getGroup_name().toUpperCase().contains(constraint.toString().toUpperCase()))
                         mGroupList.add(p);
                 }
                 results.values = mGroupList;

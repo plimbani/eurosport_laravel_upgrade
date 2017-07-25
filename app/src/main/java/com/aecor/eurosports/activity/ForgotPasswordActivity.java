@@ -1,9 +1,11 @@
 package com.aecor.eurosports.activity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.IntentCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
@@ -14,7 +16,6 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.util.ApiConstants;
-import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
@@ -50,6 +51,15 @@ public class ForgotPasswordActivity extends BaseActivity {
         ButterKnife.bind(this);
         mContext = this;
         initView();
+    }
+
+    @OnClick(R.id.iv_header_logo)
+    protected void onHeaderLogoClicked() {
+        Intent intent = new Intent(mContext, LandingActivity.class);
+        ComponentName cn = intent.getComponent();
+        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+        startActivity(mainIntent);
+        finish();
     }
 
     private void enabledDisableLoginButton(boolean isEnable) {
@@ -103,9 +113,17 @@ public class ForgotPasswordActivity extends BaseActivity {
                         if (response != null) {
                             AppLogger.LogE(TAG, "***** Forgot password response *****" + response.toString());
                             if (response.has("status") && !Utility.isNullOrEmpty(response.getString("status")) && response.getString("status").equalsIgnoreCase("200")) {
-                                Intent mForgotPasswordOtpIntent = new Intent(mContext, ForgotPasswordOtpActivity.class);
-                                mForgotPasswordOtpIntent.putExtra(AppConstants.ARG_FORGOT_PASSWORD_OTP, response.getString("otp"));
-                                startActivity(mForgotPasswordOtpIntent);
+//                                Intent mForgotPasswordOtpIntent = new Intent(mContext, ForgotPasswordOtpActivity.class);
+//                                mForgotPasswordOtpIntent.putExtra(AppConstants.ARG_FORGOT_PASSWORD_OTP, response.getString("otp"));
+//                                startActivity(mForgotPasswordOtpIntent);
+                                if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message")) && response.getString("message").equalsIgnoreCase("success")) {
+                                    Utility.showToast(mContext, getString(R.string.we_have_sent_password_reset_link));
+                                    startActivity(new Intent(mContext, SignInActivity.class));
+                                    finish();
+                                } else {
+                                    Utility.showToast(mContext, response.getString("message"));
+                                }
+
                             }
                         } else
                             Utility.showToast(mContext, getString(R.string.error));
@@ -145,6 +163,14 @@ public class ForgotPasswordActivity extends BaseActivity {
 
         String emailOrPhone = forgot_email_address.getText().toString();
         return !(emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mSignInIntent = new Intent(mContext, SignInActivity.class);
+        startActivity(mSignInIntent);
+        finish();
     }
 
     private class GenericTextMatcher implements TextWatcher {

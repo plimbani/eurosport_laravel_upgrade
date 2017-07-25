@@ -362,27 +362,27 @@ public class HomeActivity extends BaseAppCompactActivity {
     }
 
     private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
-
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
-        int selectedTournamentPos = 0;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getIs_default() == 1) {
-                selectedTournamentPos = i;
+        for (int i = 1; i < list.size(); i++) {
+            AppLogger.LogE(TAG, "default tournament id " + mPreference.getString(AppConstants.PREF_TOURNAMENT_ID));
+            if (list.get(i).getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                AppLogger.LogE(TAG, "selected pos" + tournamentPosition);
+                tournamentPosition = i;
                 break;
             }
         }
         this.mTournamentList = list;
-        if (Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
-            tournamentPosition = selectedTournamentPos;
-        } else {
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
-                    tournamentPosition = i;
-                    break;
-                }
-            }
-        }
+//        if (Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
+//            tournamentPosition = selectedTournamentPos;
+//        } else {
+//            for (int i = 0; i < list.size(); i++) {
+//                if (list.get(i).getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
+//                    tournamentPosition = i;
+//                    break;
+//                }
+//            }
+//        }
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
                 list);
         sp_tournament.setAdapter(adapter);

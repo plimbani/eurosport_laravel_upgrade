@@ -21,13 +21,12 @@
     <string name="surname">Surname</string>
     <string name="firstname">First name</string>
     <string name="error">Error</string>
-    <string name="button_ok">OK</string>
+    <string name="button_ok">Ok</string>
     <string name="select_tournament">Select tournament</string>
     <string name="select_default_tournament">Select default tournament</string>
     <string name="select_language">Select language</string>
-    <string name="register_success">User registered successfully.</string>
+    <string name="register_success">Please check your inbox to verify your email address and complete your account registration</string>
     <string name="update_profile_message">Profile updated successfully.</string>
-    <string name="update_profile">Update profile</string>
     <string name="default_tournament">Default tournament selected </string>
     <string name="get_otp">Submit</string>
     <string name="otp">otp</string>
@@ -52,7 +51,7 @@
     <string name="view_club_match">View all club matches</string>
     <string name="view_league_table">View full league table</string>
     <string name="league_table">league table</string>
-    <string name="no_data_available">No data available.</string>
+    <string name="no_data_available">No data available</string>
     <string name="venue">Venue</string>
     <string name="group_summary">GROUP SUMMARY</string>
     <string name="G">G</string>
@@ -60,6 +59,8 @@
     <string name="D">D</string>
     <string name="L">L</string>
     <string name="F_A">F-A</string>
+    <string name="A">A</string>
+    <string name="F">F</string>
     <string name="plus_minus">+/-</string>
     <string name="P">P</string>
     <string name="matches">Matches</string>
@@ -73,8 +74,8 @@
     <string name="GROUPS">GROUPS</string>
     <string name="match_id">Match ID:</string>
     <string name="progres_text_0">0</string>
-    <string name="no_matches_available">No matches available.</string>
-    <string name="no_league_data_available">No league data available.</string>
+    <string name="no_matches_available">No matches available</string>
+    <string name="no_league_data_available">No league data available</string>
     <string name="hint_search_age_group">Search age group</string>
     <string name="hint_search_club">Search club</string>
     <string name="hint_search_groups">Search groups</string>
@@ -87,8 +88,12 @@
     <string name="na">NA</string>
     <string name="team_matches">Team Matches</string>
     <string name="password_do_not_match">Passwords do not match.</string>
-    <string name="set_favourite">Favourite.</string>
-    <string name="set_defaault">Default.</string>
+    <string name="set_favourite">Favourite</string>
+    <string name="set_defaault">Default</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="are_you_sure_you_want_to_log_out">Are you sure you want to log out?</string>
+    <string name="we_have_sent_password_reset_link">We have sent a password reset link to your email address.</string>
 
     <!--Volley-->
 

@@ -44,7 +44,7 @@
         android:layout_gravity="center"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:src="@drawable/heart_gray" />
+        android:src="@drawable/fav_default" />
 
     <ImageView
         android:id="@+id/default_imageview"

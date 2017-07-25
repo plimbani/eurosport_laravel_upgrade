@@ -23,6 +23,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,40 +39,80 @@
         <activity
             android:name=".activity.FavouritesActivity"
             android:label="@string/title_activity_favourites"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.LandingActivity" />
-        <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.HomeActivity" />
-        <activity android:name=".activity.SignInActivity" />
+        <activity
+            android:name=".activity.LandingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SignInActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ClubsActivity"
-            android:label="@string/clubs"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activity.ForgotPasswordActivity" />
-        <activity android:name=".activity.ForgotPasswordOtpActivity" />
-        <activity android:name=".activity.SettingsActivity" />
-        <activity android:name=".activity.HelpActivity" />
-        <activity android:name=".activity.PrivacyAndTermsActivity" />
-        <activity android:name=".activity.ProfileActivity" />
+        <activity
+            android:name=".activity.ForgotPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ForgotPasswordOtpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HelpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PrivacyAndTermsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ImageOptionDialogActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Dialog" />
-        <activity android:name=".activity.NotificationAndSoundActivity" />
+        <activity
+            android:name=".activity.NotificationAndSoundActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TeamActivity"
-            android:label="TEAM" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AgeCategoriesActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activity.TeamListingActivity" />
-        <activity android:name=".activity.GroupSummaryActivity" />
+        <activity
+            android:name=".activity.TeamListingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GroupSummaryActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FullLeageTableActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".activity.MatchInformationActivity" />
-        <activity android:name=".activity.AllClubMatchesActivity" />
-        <activity android:name=".activity.VenueDetailActivity" />
-        <activity android:name=".activity.AgeGroupActivity" />
+        <activity
+            android:name=".activity.MatchInformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AllClubMatchesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VenueDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AgeGroupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:screenOrientation="portrait"></activity>
 
         <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>
@@ -83,7 +124,7 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activity.WebViewActivity"></activity>
+
     </application>
 
 </manifest>

@@ -81,6 +81,7 @@ public class FavouriteListAdapter extends BaseAdapter {
     }
 
     private View rowView(View convertView, final int position) {
+
         AppLogger.LogE(TAG, "pos" + position);
         final ViewHolder holder;
         View rowview = convertView;
@@ -92,6 +93,7 @@ public class FavouriteListAdapter extends BaseAdapter {
             holder = (ViewHolder) rowview.getTag();
         }
         final TournamentModel rowItem = getItem(position);
+        holder.favourite_logo.setImageResource(R.drawable.globe);
 
         if (!Utility.isNullOrEmpty(rowItem.getName())) {
             holder.favourite_tournament.setText(rowItem.getName());
@@ -102,9 +104,9 @@ public class FavouriteListAdapter extends BaseAdapter {
         }
 
         if (checkFav(rowItem.getId())) {
-            holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.heart_red));
+            holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
         } else {
-            holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.heart_gray));
+            holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
         }
 
         if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
@@ -125,7 +127,7 @@ public class FavouriteListAdapter extends BaseAdapter {
         if (!Utility.isNullOrEmpty(rowItem.getName()) && checkDefault(rowItem)) {
             holder.default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.selected_default_tournament));
             holder.favourite_imageview.setEnabled(false);
-            holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.heart_red));
+            holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
             holder.default_imageview.setEnabled(false);
         } else {
             holder.default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.default_tournament));
@@ -137,10 +139,10 @@ public class FavouriteListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (!checkFav(rowItem.getId())) {
-                    holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.heart_red));
+                    holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
                     makeTournamenetFavourite(mTournamentList.get(position));
                 } else {
-                    holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.heart_gray));
+                    holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
                     removeTournamenetFromFavourite(mTournamentList.get(position));
                 }
             }
