@@ -48,7 +48,8 @@ export default {
 			matchData: [],otherData:[],matchDate:this.$store.state.Tournament.tournamentStartDate,tournamentDates:[],
 			currentComponent: this.$store.state.currentScheduleView,
 			'section': 'scheduleResult',
-      	    'filterStatus': true,currentDate:''
+      'filterStatus': true,
+      'currentDate':''
 		}
 	},
   filters: {
@@ -86,15 +87,9 @@ export default {
 	},
 	methods: {
 		setFilter(filterKey,filterValue) {
-        // console.log('hi');
-       	// console.log('hello123')
-        // console.log(filterKey)
-        // console.log(filterValue.id)
-        	if(filterKey != undefined) {
 
-        	//		this.tournamentFilter.filterKey = filterKey
-	      //  this.tournamentFilter.filterValue = filterValue
-	        this.getAllMatches(this.currentDate,filterKey,filterValue)
+        	if(filterKey != undefined) {
+  	        this.getAllMatches(this.currentDate,filterKey,filterValue)
         	}
 
 	      //  if(filterKey == 'age_category'){
@@ -119,14 +114,6 @@ export default {
 	           console.log('Error occured during Tournament api ', error)
 	        }
 	        )
-	        //  Tournament.getTeamsGroup(teamData).then(
-	        //   (response) => {
-	        //     this.teams = response.data.data
-	        //   },
-	        // (error) => {
-	        //    console.log('Error occured during Tournament api ', error)
-	        // }
-	        // )
 	    },
 
 		onChangeMatchDate(){
@@ -135,7 +122,7 @@ export default {
 			if(matchDate != 'all')
 			  this.getAllMatches(matchDate)
 			else
-			  this.getAllMatches()	
+			  this.getAllMatches()
 		},
 
 		getDateRange(startDate, stopDate, dateFormat)
@@ -246,15 +233,17 @@ export default {
 			)
 		},
 		getAllMatches(date='',filterKey='',filterValue='') {
+
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = ''
+      if(date != '') {
+          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
+      } else {
+          tournamentData ={'tournamentId':TournamentId,'is_scheduled':1 }
+      }
+
 			if(filterKey != '' && filterValue != '') {
           tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
-	      } 
-	      if(date != '') {
-	      	  tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
-	      } else {
-	      	  tournamentData ={'tournamentId':TournamentId,'is_scheduled':1 }
 	      }
 
 		//	let TournamentId = this.$store.state.Tournament.tournamentId
