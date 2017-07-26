@@ -7,6 +7,7 @@ use DB;
 use Carbon\Carbon;
 use PDF;
 use Laraspace\Models\Venue;
+use Laraspace\Models\Team;
 use Validate;
 
 class TournamentService implements TournamentContract
@@ -454,6 +455,16 @@ class TournamentService implements TournamentContract
             if(isset($data['sel_venues'])  && $data['sel_venues']!= '' ){
                 $reportQuery = $reportQuery->where('temp_fixtures.venue_id',$data['sel_venues']);
             }
+             if(isset($data['sel_clubs']) && $data['sel_clubs'] !== '' )
+          {
+             $club_id =$data['sel_clubs'];
+             $tournamentId = $data['tournament_id'];
+             $getTeamId = Team::where('club_id','=',$club_id)->where('tournament_id','=',$tournamentId)->pluck('teams.id')->toArray();
+
+            $reportQuery =  $reportQuery->whereIn('temp_fixtures.home_team',$getTeamId)
+                ->orWhereIn('temp_fixtures.away_team',$getTeamId);
+            //$reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$tournamentData['pitchId']);
+          }
             if(isset($data['sel_teams'])  && $data['sel_teams']!= '' ){
              // echo $data['sel_teams'];
                 //$reportQuery = $reportQuery->where('temp_fixtures.home_team',$data['sel_teams'])
@@ -610,7 +621,16 @@ class TournamentService implements TournamentContract
               $end_time = $data['end_time'];
               $reportQuery = $reportQuery->whereRaw("TIME(temp_fixtures.match_datetime) <= '$end_time'");
             }
+               if(isset($data['sel_clubs']) && $data['sel_clubs'] !== '' )
+          {
+             $club_id =$data['sel_clubs'];
+             $tournamentId = $data['tournament_id'];
+             $getTeamId = Team::where('club_id','=',$club_id)->where('tournament_id','=',$tournamentId)->pluck('teams.id')->toArray();
 
+            $reportQuery =  $reportQuery->whereIn('temp_fixtures.home_team',$getTeamId)
+                ->orWhereIn('temp_fixtures.away_team',$getTeamId);
+            //$reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$tournamentData['pitchId']);
+          }
             if(isset($data['sel_venues'])  && $data['sel_venues']!= '' ){
                 $reportQuery = $reportQuery->where('temp_fixtures.venue_id',$data['sel_venues']);
             }
