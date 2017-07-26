@@ -8,7 +8,7 @@
 </div>
 <div class="form-group row d-flex flex-row align-items-center">
 <div class="col d-flex flex-row align-items-center">
-  <div><label class=""><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
+  <div v-if="otherData.DrawType != 'Elimination'"><label class=""><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
   <div class="col-sm-4"><select class="form-control ls-select2"
     v-on:change="onChangeDrawDetails"
     v-model="DrawName">
@@ -28,13 +28,12 @@
 	<thead>
     <tr>
         <th></th>
-        <th></th>
-       <th v-for="(match,index) in match1Data" class="text-center">{{index+1}}</th>
+       <th v-for="(match,index) in match1Data" class="text-center">{{match.TeamName}}</th>
     </tr>
   </thead>
   <tbody>
   	<tr v-for="(match,index) in match1Data">
-   		<td>{{index+1}}</td>
+
     		<td>
 
     			<!-- <a href="" class="pull-left text-left text-primary"> -->
@@ -46,16 +45,16 @@
     		</td>
         <td v-for="(teamMatch, ind2) in match.matches">
           <div class="text-center">{{teamMatch.score}}</div>
-          <div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
+          <!--<div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>-->
         </td>
       </tr>
   </tbody>
 </table>
-<span v-else> No information available </span>
+<span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available </span>
 <h6 v-if="CompRound == 'Round Robin'"> {{otherData.DrawName}} standings</h6>
-<teamStanding :currentCompetationId="currentCompetationId" v-if="currentCompetationId != 0" >
+<teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0" >
 </teamStanding>
-<span v-else>No information available</span>
+<span v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available</span>
 <h6>{{otherData.DrawName}} matches</h6>
 <matchList :matchData="matchData"></matchList>
 </div>
@@ -193,9 +192,11 @@ export default {
             return teamId.Home_id
         },
         setTeamData() {
+
             let tempMatchdata = (this.matchData.length > 0 && !this.matchData[0].hasOwnProperty('fid')) ? this.matchData : this.drawList
 
             this.currentCompetationId = this.otherData.DrawId
+
             if(Object.keys(tempMatchdata).length !== 0) {
 
                let TeamData = []
@@ -208,9 +209,10 @@ export default {
                this.currentCompetationId = this.otherData.DrawId
                // Here call Function for getting result
                //let tournamentId = this.$store.state.Tournament.tournamentId
-               this.GenerateDrawTable( this.currentCompetationId)
-            }
 
+
+            }
+             this.GenerateDrawTable(this.currentCompetationId)
         },
         GenerateDrawTable(currentCompetationId) {
           let tournamentId = this.$store.state.Tournament.tournamentId

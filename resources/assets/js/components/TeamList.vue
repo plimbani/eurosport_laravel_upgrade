@@ -14,7 +14,7 @@
 					<!-- <a  href="" @click.prevent="changeTeam(team.id, team.name)"> -->
 						<!--<img :src="team.logo" width="20">-->
           			    <span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
-						<span class="text-center text-primary">{{team.name}}</span>
+						<span class="text-center">{{team.name}}</span>
 					<!-- </a> -->
 				</td>
 				<td class="text-center">
@@ -52,7 +52,8 @@ export default {
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 			let Id = team.competationId
 			let Name = team.competationName
-			this.$root.$emit('changeComp',Id, Name);
+      let CompetationType = team.competation_type
+			this.$root.$emit('changeComp',Id, Name,CompetationType);
 			//this.$emit('changeComp',Id);
 		},
 

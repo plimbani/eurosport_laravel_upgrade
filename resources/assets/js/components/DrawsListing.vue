@@ -39,7 +39,7 @@ export default {
     this.$root.$on('changeDrawListComp', this.setMatchData);
   },
 	methods: {
-		setMatchData(id, Name='') {
+		setMatchData(id, Name='',CompetationType='') {
 			let comp = this.$store.state.currentScheduleView
 			if(comp == 'locationList') {
 				// Now here we call Function get all match for location
@@ -49,7 +49,7 @@ export default {
 				this.getTeamDetails(id, Name)
 			}
 			if(comp == 'drawDetails') {
-				this.getDrawDetails(id, Name)
+				this.getDrawDetails(id, Name,CompetationType)
 			}
 			if(comp == 'drawList') {
 				this.getAllDraws()
@@ -72,7 +72,7 @@ export default {
         // Emit it to call for parent
 
 		},
-		getDrawDetails(drawId, drawName) {
+		getDrawDetails(drawId, drawName,CompetationType='') {
 
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
@@ -80,6 +80,7 @@ export default {
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
+      this.otherData.DrawType = CompetationType
 
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {

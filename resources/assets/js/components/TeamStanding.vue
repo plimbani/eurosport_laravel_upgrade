@@ -3,20 +3,20 @@
 
 <table class="table table-hover table-bordered" v-if="standingData.length > 0">
 	<thead>
+
 		<th></th>
-		<th></th>
-		<th>Points</th>
 		<th>Played</th>
 		<th>Won</th>
 		<th>Draws</th>
 		<th>Lost</th>
-		<th>Goals For</th>
-		<th>Goals Against</th>
-    <th>Goal Difference</th>
+		<th>Goals for</th>
+		<th>Goals against</th>
+    <th>Goal difference</th>
+    <th>Points</th>
 	</thead>
 	<tbody>
 		<tr v-for="stand in standingData">
-		<td></td>
+
 			<td align="left">
 				<a href="" @click.prevent="changeTeam(stand.team_id, stand.name)">
 					 <!--<img :src="stand.teamFlag" width="20">-->
@@ -26,25 +26,25 @@
 					</span>
 				</a>
 			</td>
-			<td>{{stand.points}}</td>
-			<td>{{stand.played}}</td>
-			<td>{{stand.won}}</td>
-			<td>{{stand.draws}}</td>
-			<td>{{stand.lost}}</td>
-			<td>{{stand.goal_for}}</td>
-			<td>{{stand.goal_against}}</td>
-      <td>{{stand.goal_for - stand.goal_against}}</td>
+			<td class="text-center">{{stand.played}}</td>
+			<td class="text-center">{{stand.won}}</td>
+			<td class="text-center">{{stand.draws}}</td>
+			<td class="text-center">{{stand.lost}}</td>
+			<td class="text-center">{{stand.goal_for}}</td>
+			<td class="text-center">{{stand.goal_against}}</td>
+      <td class="text-center">{{stand.goal_for - stand.goal_against}}</td>
+      <td class="text-center">{{stand.points}}</td>
 		</tr>
 	</tbody>
 </table>
-<span v-else>No information available</span>
+<span v-if="standingData.length == 0 && drawType != 'Elimination' ">No information available</span>
 </div>
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
 
 export default {
-	props: ['currentCompetationId'],
+	props: ['currentCompetationId','drawType'],
 	data() {
 		return {
 			standingData:[],

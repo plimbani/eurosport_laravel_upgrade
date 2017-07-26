@@ -23,7 +23,7 @@
 				</td>
 				<td align="right">
 					<!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
-						<span class="text-center text-primary">{{match.HomeTeam}}</span>
+						<span class="text-center">{{match.HomeTeam}}</span>
 						<!--<img :src="match.HomeFlagLogo" width="20">-->
               		 <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
 					<!-- </a> -->
@@ -32,7 +32,7 @@
 					<!-- <a   href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)"> -->
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
              		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
-					<span class="pull-left text-left text-primary">{{match.AwayTeam}}</span>
+					<span class="pull-left text-left">{{match.AwayTeam}}</span>
 					<!-- </a>	 -->
 				</td>
 				<td class="text-center">
@@ -42,7 +42,7 @@
         		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
       		    </td>
 				<td v-if="isHideLocation !=  false">
-					<a class="pull-left text-left text-primary">
+					<a class="pull-left text-left">
 					{{match.venue_name}} - {{match.pitch_number}}
 					</a>
 				</td>
@@ -129,7 +129,8 @@ export default {
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 			let Id = competition.competitionId
 			let Name = competition.group_name+'-'+competition.competation_name
-			this.$root.$emit('changeComp', Id, Name);
+      let CompetationType = competition.round
+			this.$root.$emit('changeComp', Id, Name,CompetationType);
 			//this.$emit('changeComp',Id);
 		},
 		changeTeamDetails() {
