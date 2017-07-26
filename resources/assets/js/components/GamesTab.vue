@@ -88,7 +88,7 @@ export default {
               if(match.Away_id != 0 && match.Home_id != 0)
               {
                  fullgame1 = ''
-                 mtchNum = mtchNum+'.'+match.HomeTeam+'-'+match.AwayTeam
+                 mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
               } else {
                 mtchNum = mtchNum+mtchNumber1[2]
               }
