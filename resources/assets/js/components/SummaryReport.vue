@@ -577,8 +577,7 @@ export default {
     		}
 		},
     sortReport123(sortKey) {
-      console.log(sortKey)
-      console.log(this.reverse)
+
        this.reverse = (this.sortKey == sortKey) ? ! this.reverse : false;
        this.sortKey = sortKey;
        if(this.reverse == false) {
@@ -602,7 +601,7 @@ export default {
           let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()+'&sort_by='+filter+'&sort_order='+this.sortBy
          // let ReportData =  $('#frmReport').serializeArray()
 
-          //this.reportQuery = ReportData
+          this.reportQuery = ReportData
           Tournament.getAllReportsData(ReportData).then(
           (response) => {
             this.reports = response.data.data
