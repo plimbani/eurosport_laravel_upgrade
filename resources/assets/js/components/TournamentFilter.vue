@@ -40,7 +40,7 @@
     </div>
 
     <div class="form-group">
-      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:130px">
+      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:200px">
         <option value="" v-if="filterKey != 'age_category'">Select</option>
         <option value="" v-else>All</option>
         <option :value="option.id"
