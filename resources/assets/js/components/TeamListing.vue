@@ -41,7 +41,7 @@ export default {
     }
   },
   methods: {
-    setMatchData(id, Name='') {
+    setMatchData(id, Name='',CompetationType='') {
 
       let comp = this.$store.state.currentScheduleView
 
@@ -53,7 +53,7 @@ export default {
         this.getTeamDetails(id, Name)
       }
       if(comp == 'drawDetails') {
-        this.getDrawDetails(id, Name)
+        this.getDrawDetails(id, Name,CompetationType)
       }
       if(comp == 'teamList') {
         this.getAllTournamentTeams()
@@ -78,7 +78,7 @@ export default {
         }
       )
     },
-    getDrawDetails(drawId, drawName) {
+    getDrawDetails(drawId, drawName,CompetationType='') {
 
       let TournamentId = this.$store.state.Tournament.tournamentId
       let tournamentData = {'tournamentId': TournamentId,
@@ -86,6 +86,7 @@ export default {
 
       this.otherData.DrawName = drawName
       this.otherData.DrawId = drawId
+      this.otherData.DrawType = CompetationType
       Tournament.getFixtures(tournamentData).then(
         (response)=> {
           if(response.data.status_code == 200) {
