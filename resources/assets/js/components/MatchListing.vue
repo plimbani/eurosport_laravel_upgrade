@@ -72,7 +72,9 @@ export default {
 	  this.$store.dispatch('setCurrentScheduleView','matchList')
 	  // By Default Set for ot Todays Date
 	  this.currentDate = tournamentStartDate
-	  this.getAllMatches(tournamentStartDate)
+    // here we call with all dates
+    this.matchDate = 'all'
+	  this.getAllMatches('all')
 	},
 	created: function() {
        this.$root.$on('changeComp', this.setMatchData);

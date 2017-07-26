@@ -41,8 +41,8 @@
 
     <div class="form-group">
       <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:200px">
-        <option value="" v-if="filterKey != 'age_category'">Select</option>
-        <option value="" v-else>All</option>
+        <!--<option value="" v-if="filterKey != 'age_category'">Select</option>-->
+        <option value="">All</option>
         <option :value="option.id"
         v-for="option in options"
         v-bind:value="option">
@@ -135,6 +135,7 @@ export default {
               this.selectMsg = 'Select'
               break
           }
+
           this.options =response.data.data
            if(tourament_key == 'age_category'){
             this.dropDown = ""
