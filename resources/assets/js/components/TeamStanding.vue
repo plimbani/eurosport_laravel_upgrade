@@ -32,7 +32,7 @@
 			<td class="text-center">{{stand.lost}}</td>
 			<td class="text-center">{{stand.goal_for}}</td>
 			<td class="text-center">{{stand.goal_against}}</td>
-      <td class="text-center">{{stand.goal_for - stand.goal_against}}</td>
+      <td class="text-center">{{stand.goal_for - stand.goal_against | formatGD}}</td>
       <td class="text-center">{{stand.points}}</td>
 		</tr>
 	</tbody>
@@ -51,6 +51,15 @@ export default {
       currentLCompetationId: this.currentCompetationId
 		}
 	},
+
+  filters: {
+    formatGD: function(val) {
+       let gdVal = val
+       if(gdVal > 0)
+          return '+'+gdVal
+       return gdVal
+    }
+  },
   created: function() {
      this.$root.$on('setStandingData', this.getData);
   },
