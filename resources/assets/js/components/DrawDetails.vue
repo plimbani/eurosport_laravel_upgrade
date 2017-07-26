@@ -7,9 +7,8 @@
   <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{setCurrentMsg}}</a>
 </div>
 <div class="form-group row d-flex flex-row align-items-center">
-<div class="col d-flex flex-row align-items-center">
-  <div v-if="otherData.DrawType != 'Elimination'"><label class=""><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
-  <div class="col-sm-4"><select class="form-control ls-select2"
+<div class="col d-flex flex-column align-items-start">
+    <div class="my-2"><select class="form-control ls-select2"
     v-on:change="onChangeDrawDetails"
     v-model="DrawName">
       <option value="">Select</option>
@@ -20,6 +19,7 @@
       </option>
     </select>
   </div>
+  <div v-if="otherData.DrawType != 'Elimination'"><label class=""><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
 </div>
 </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->

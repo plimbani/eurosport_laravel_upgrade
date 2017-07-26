@@ -13,7 +13,7 @@
                         </div>
                         <div class="col-md-6">
                           <div class="row justify-content-end">
-                              <div class="col-md-8">
+                              <div class="col-md-6">
                                  <div class="form-group">
                                       <div>
                                           <input type="text" class="form-control"
@@ -22,7 +22,12 @@
                                       </div>
                                   </div>
                               </div>
-                              <div class="col-md-4">
+                               <div class="col-md-3">
+                                  <div class="form-group">
+                                      <button type="button" class="btn btn-primary w-100" @click='exportTableReport()'>Clear</button>
+                                  </div>
+                              </div>
+                              <div class="col-md-3">
                                   <div class="form-group">
                                       <button type="button" class="btn btn-primary w-100" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
                                   </div>
