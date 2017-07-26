@@ -7,18 +7,18 @@
             <div class="card">
                 <div class="card-block">
                     <div class="row d-flex flex-row align-items-center">
-                        <div class="col-md-7">
+                        <div class="col-md-6">
                             <p v-if="registerType != 'mobile'">{{$lang.user_management_sentence}}</p>
                             <p v-else>{{$lang.user_management_sentence_tournament}}</p>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                           <div class="row justify-content-end">
-                              <div class="col">
+                              <div class="col-md-8">
                                  <div class="form-group">
                                       <div>
                                           <input type="text" class="form-control"
                                           v-on:keyup="searchUserData" v-model="userListSearch"
-                                          placeholder="Search User">
+                                          placeholder="Search for a user">
                                       </div>
                                   </div>
                               </div>
