@@ -8,6 +8,7 @@ use Laraspace\Models\Fixture;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\PitchUnavailable;
+use Laraspace\Models\Team;
 use DB;
 
 class MatchRepository
@@ -194,6 +195,14 @@ class MatchRepository
             $reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$tournamentData['pitchId']);
 
           }
+           if(isset($tournamentData['club_id']) && $tournamentData['club_id'] !== '' )
+          {
+            $getTeamId = $this->getTeamsForClub($tournamentData['club_id'], $tournamentData['tournamentId']);
+
+            $reportQuery =  $reportQuery->whereIn('temp_fixtures.home_team',$getTeamId)
+                ->orWhereIn('temp_fixtures.away_team',$getTeamId);
+            //$reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$tournamentData['pitchId']);
+          }
 
           if(isset($tournamentData['teamId']) && $tournamentData['teamId'] !== '')
           {
@@ -201,6 +210,8 @@ class MatchRepository
             $reportQuery = $reportQuery->where('temp_fixtures.home_team',$tournamentData['teamId'])
                 ->orWhere('temp_fixtures.away_team',$tournamentData['teamId']);
           }
+
+
           if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
           {
 
@@ -243,6 +254,10 @@ class MatchRepository
 
           // dd($reportQuery->get());
         return $reportQuery->get();
+    }
+    private function getTeamsForClub($club_id, $tournamentId)
+    {
+      return Team::where('club_id','=',$club_id)->where('tournament_id','=',$tournamentId)->pluck('teams.id')->toArray();
     }
     public function getStanding($tournamentData)
     {

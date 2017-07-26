@@ -7,18 +7,18 @@
             <div class="card">
                 <div class="card-block">
                     <div class="row d-flex flex-row align-items-center">
-                        <div class="col-md-7">
+                        <div class="col-md-6">
                             <p v-if="registerType != 'mobile'">{{$lang.user_management_sentence}}</p>
                             <p v-else>{{$lang.user_management_sentence_tournament}}</p>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                           <div class="row justify-content-end">
-                              <div class="col">
+                              <div class="col-md-8">
                                  <div class="form-group">
                                       <div>
                                           <input type="text" class="form-control"
                                           v-on:keyup="searchUserData" v-model="userListSearch"
-                                          placeholder="Search User">
+                                          placeholder="Search for a user">
                                       </div>
                                   </div>
                               </div>
@@ -141,7 +141,7 @@
             return {
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
-                deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
+                deleteConfirmMsg: 'Are you sure you would like to delete this user? Removing this user will delete their account and information.',
                 resendConfirm: 'Are you sure you would like to send this user another invite?',
                 activeConfirm: 'Are you sure you would like to de-activate this user?',
                 deleteAction: '',
