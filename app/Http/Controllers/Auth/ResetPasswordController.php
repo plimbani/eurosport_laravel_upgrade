@@ -154,10 +154,10 @@ class ResetPasswordController extends Controller
          $response == Password::PASSWORD_RESET
                     ? $this->sendResetResponse($response)
                     : $this->sendResetFailedResponse($request, $response);
-          //if(!$mobileUser)
+          if(!$mobileUser)
             return redirect('/login');
-         // else
-           // return redirect('/mlogin');
+          else
+            return redirect('/mlogin');
     }
 
     public function userMlogin(Request $request) {
