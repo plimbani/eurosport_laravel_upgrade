@@ -141,7 +141,7 @@
             return {
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
-                deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
+                deleteConfirmMsg: 'Are you sure you would like to delete this user? Removing this user will delete their account and information.',
                 resendConfirm: 'Are you sure you would like to send this user another invite?',
                 activeConfirm: 'Are you sure you would like to de-activate this user?',
                 deleteAction: '',
