@@ -20,7 +20,7 @@
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 80%">	
 	<h4>Reports</h4>
             <tr>
-                <th align="center">Date and field</th>
+                <th align="center">Date and time</th>
                 <th align="center">Age category</th>
                 <th align="center">Location</th>
                 <th align="center">Pitch</th>
