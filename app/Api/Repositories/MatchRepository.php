@@ -177,7 +177,7 @@ class MatchRepository
                 )
             ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
 
-          if(isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' )
+          if(isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' && $tournamentData['tournamentDate'] !== 'all')
           {
 
             $dd1 = \DateTime::createFromFormat('d/m/Y H:i:s', $tournamentData['tournamentDate'].' 00:00:00');
