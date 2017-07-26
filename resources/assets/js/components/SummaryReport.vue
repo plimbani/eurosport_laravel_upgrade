@@ -7,8 +7,7 @@
 			</div>
 			<div class="col-md-6 text-right">
 				<button type="button" class="btn btn-primary" @click='exportReport()'>{{$lang.summary_button_download}}</button>
-                <!-- <button type="submit" class="btn btn-primary">{{$lang.summary_button_print}}</button> -->
-                <button class="btn btn-primary mr-4"  @click="exportPrint()">Print</button>
+        <button class="btn btn-primary mr-4"  @click="exportPrint()">Print</button>
 			</div>
 		</div>
 		<div class="block-bg mt-4">
@@ -196,16 +195,16 @@
 				<table class="table table-hover table-bordered" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
 					<thead>
 	                    <tr>
-	                        <th class="text-center">{{$lang.summary_reports_date_time}}</th>
-	                        <th class="text-center">{{$lang.summary_reports_age_catrgory}}</th>
-	                        <th class="text-center">{{$lang.summary_reports_location}}</th>
-	                        <th class="text-center">{{$lang.summary_reports_pitch}}</th>
-	                        <th class="text-center">{{$lang.summary_reports_referee}}</th>
-	                        <th class="text-center">{{$lang.summary_reports_game}}</th>
+	                        <th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}<i class="fa fa-fw fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('group_name')">{{$lang.summary_reports_age_catrgory}}<i class="fa fa-fw fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}<i class="fa fa-fw fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}<i class="fa fa-fw fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}<i class="fa fa-fw fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('full_game')">{{$lang.summary_reports_game}}<i class="fa fa-fw fa-sort"></i></th>
 	                    </tr>
 	                </thead>
 	                <tbody>
-	                	<tr v-for="(report,index) in reports">
+	                	<tr v-for="report in reports">
 	                		<td>{{report.match_datetime | formatDate }}</td>
 	                		<td>{{report.group_name}}</td>
 	                		<td>{{report.venue_name}}</td>
@@ -244,8 +243,16 @@ export default {
         currentView:'summaryTab',
         reportQuery:'',
         isValidate:false,
-        age_category_id: ''
+        age_category_id: '',
+        sortKey: 'match_datetime',
+        sortBy: 'asc',
+        reverse: false,
        	}
+    },
+    computed: {
+      Reports1() {
+       return _.orderBy(this.reports, this.sortKey, this.sortBy)
+      }
     },
     filters: {
     	formatDate: function(date) {
@@ -291,10 +298,7 @@ export default {
           this.getClubs()
           return this.getTeams()
         }
-
         let data = this.teams
-
-
         if(data.length == 0) {
           console.log('data length uis zero')
           let vm =  this
@@ -536,6 +540,7 @@ export default {
           $("#end_date_validation").html("");
           $("#start_date_validation").html("");
       },
+
     	generateReport() {
     		let edata = $("#end_date_validation").html();
     		let sdata = $("#end_date_validation").html();
@@ -571,7 +576,45 @@ export default {
     			toastr['error']('Records not available', 'Error');
     		}
 		},
+    sortReport123(sortKey) {
+      console.log(sortKey)
+      console.log(this.reverse)
+       this.reverse = (this.sortKey == sortKey) ? ! this.reverse : false;
+       this.sortKey = sortKey;
+       if(this.reverse == false) {
+          this.sortBy = 'asc'
+       } else {
+          this.sortBy = 'desc'
+       }
+       console.log(this.sortBy)
+    },
+    sortReport(filter) {
+      if(this.reports && this.reports.length > 0) {
+      let ReportData = this.reportQuery
+      if (!isNaN(this.TournamentId)) {
+          this.reverse = (this.sortKey == filter) ? ! this.reverse : false;
+          this.sortKey = filter
+          if(this.reverse == false) {
+                this.sortBy = 'asc'
+             } else {
+                this.sortBy = 'desc'
+             }
+          let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()+'&sort_by='+filter+'&sort_order='+this.sortBy
+         // let ReportData =  $('#frmReport').serializeArray()
 
+          //this.reportQuery = ReportData
+          Tournament.getAllReportsData(ReportData).then(
+          (response) => {
+            this.reports = response.data.data
+           },
+
+          (error) => {
+             console.log('Error occured during Tournament api ', error)
+          }
+          )
+        }
+      }
+    },
 		exportPrint() {
     		let ReportData = this.reportQuery
     		if(ReportData!=''){
