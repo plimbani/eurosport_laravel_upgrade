@@ -49,7 +49,9 @@ export default {
 			currentComponent: this.$store.state.currentScheduleView,
 			'section': 'scheduleResult',
       'filterStatus': true,
-      'currentDate':''
+      'currentDate':'',
+      'filterKey1': '',
+      'filterValue1': ''
 		}
 	},
   filters: {
@@ -87,10 +89,15 @@ export default {
 	},
 	methods: {
 		setFilter(filterKey,filterValue) {
-
+        console.log('set1')
         	if(filterKey != undefined) {
+            console.log('set2')
+            this.filterKey1 = filterKey
+            this.filterValue1 = filterValue
+
   	        this.getAllMatches(this.currentDate,filterKey,filterValue)
         	}
+          console.log('set3')
 
 	      //  if(filterKey == 'age_category'){
 	        //  this.onSelectAgeCategory('filter',filterValue.tournament_template_id)
@@ -119,10 +126,25 @@ export default {
 		onChangeMatchDate(){
 			let matchDate = this.matchDate
 			this.currentDate = this.matchDate
-			if(matchDate != 'all')
-			  this.getAllMatches(matchDate)
-			else
-			  this.getAllMatches()
+
+			if(matchDate != 'all') {
+        if(this.filterKey1 != undefined) {
+          this.getAllMatches(matchDate,this.filterKey1,this.filterValue1)
+        } else {
+          this.getAllMatches(matchDate)
+        }
+        console.log(this.filterKey1)
+
+      }
+			else {
+        if(this.filterKey1 != undefined) {
+          this.getAllMatches('',this.filterKey1,this.filterValue1)
+        } else {
+          this.getAllMatches()
+        }
+        console.log(this.filterKey1)
+
+      }
 		},
 
 		getDateRange(startDate, stopDate, dateFormat)
