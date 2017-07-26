@@ -44,7 +44,7 @@
 
     		</td>
         <td v-for="(teamMatch, ind2) in match.matches">
-          <div class="text-center">{{teamMatch.score}}</div>
+          <div :class="[teamMatch.score != null ? '' : 'greyout', 'text-center']">{{teamMatch.score}}</div>
           <!--<div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>-->
         </td>
       </tr>
