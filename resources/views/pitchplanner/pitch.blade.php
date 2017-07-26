@@ -37,7 +37,8 @@
   <thead>
         <tr>
             <td align="left">&nbsp;Match number</td>
-            <td>&nbsp;{{$data['match_number']}}</td>
+            <td>&nbsp;{{$data['match_number']}} <br/>
+                &nbsp;Team 1 ({{$data['home_team_name']}}) and Team 2 ({{$data['away_team_name']}})</td>
         </tr>
         <tr>
            <td align="left">&nbsp;Date</td>
@@ -57,8 +58,8 @@
         </tr>
         <tr>
             <td align="left">&nbsp;Result</td>
-             <td>&nbsp;{{$data['home_team_name']}} - {{$data['hometeam_score']}}<br>
-                 &nbsp;{{$data['away_team_name']}} - {{$data['awayteam_score']}}</td>
+             <td>&nbsp;Team 1 ({{$data['home_team_name']}}) - {{$data['hometeam_score']}}<br>
+                 &nbsp;Team 2 ({{$data['away_team_name']}}) - {{$data['awayteam_score']}}</td>
         </tr> 
         <tr>
             <td align="left">&nbsp;Status</td>
