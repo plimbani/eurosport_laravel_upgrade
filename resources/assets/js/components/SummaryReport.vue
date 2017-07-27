@@ -245,7 +245,7 @@ export default {
         isValidate:false,
         age_category_id: '',
         sortKey: 'match_datetime',
-        sortBy: 'asc',
+        sortBy: 'desc',
         reverse: false,
        	}
     },
@@ -549,7 +549,7 @@ export default {
     			return false
     		}
     		if (!isNaN(this.TournamentId)) {
-		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()
+		      let ReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmReport').serialize()+'&sort_by='+this.sortKey+'&sort_order='+this.sortBy
 		     // let ReportData =  $('#frmReport').serializeArray()
 
 		      this.reportQuery = ReportData
@@ -576,17 +576,7 @@ export default {
     			toastr['error']('Records not available', 'Error');
     		}
 		},
-    sortReport123(sortKey) {
 
-       this.reverse = (this.sortKey == sortKey) ? ! this.reverse : false;
-       this.sortKey = sortKey;
-       if(this.reverse == false) {
-          this.sortBy = 'asc'
-       } else {
-          this.sortBy = 'desc'
-       }
-       console.log(this.sortBy)
-    },
     sortReport(filter) {
       if(this.reports && this.reports.length > 0) {
       let ReportData = this.reportQuery

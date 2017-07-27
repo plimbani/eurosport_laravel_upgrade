@@ -268,7 +268,8 @@ class MatchService implements MatchContract
             return ['status_code' => '300', 'message' => $scoreUpdate];
         }
     }
-    private function secondRoundElimination($fetchRecord, $updatedValue,$var)
+
+    private function secondRoundElimination123($fetchRecord, $updatedValue,$var)
     {
       //echo '<br/>hello s3condroundelimination';
       echo '\n<br/>ID:'.$fetchRecord->id;
@@ -363,9 +364,9 @@ class MatchService implements MatchContract
       }
     }
     }
-    private function calculateEliminationTeams($singleFixture) {
+    private function secondRoundElimination($singleFixture,$updatedval,$var) {
       // Now here we propgate the result to the descender teams
-      $singleFixture   = $singleFixture[0];
+      //echo '1';exit;
       $age_category_id = $singleFixture->age_group_id;
       $tournament_id   = $singleFixture->tournament_id;
 
@@ -402,7 +403,7 @@ class MatchService implements MatchContract
       // here we get two records 1 for Winner and other for looser
       foreach($results as $record) {
         // we have record
-        echo 'Match Id'.$record->id;
+       // echo 'Match Id'.$record->id;
         // here first we check condition for Draw if it is then use match_winner field
         // here check if Home Score is Greater than away score
        $rec_mtchNumber = explode(".",$record->match_number);
@@ -414,7 +415,7 @@ class MatchService implements MatchContract
        {
          // its Home team
          if(trim("(".$val."_WR)") == trim($homeTeam)) {
-          echo 'homeW';
+         // echo 'homeW';
           TempFixture::where('id',$record->id)->update([
             'home_team_name'=> $winnerTeam,
             'home_team'=> $winnerId
@@ -448,9 +449,9 @@ class MatchService implements MatchContract
          }
        }
       }
-      exit;
+      return ;
     }
-    private function calculateEliminationTeams1($singleFixture, $findTeams) {
+    private function calculateEliminationTeams($singleFixture, $findTeams) {
 
       $singleFixture = $singleFixture[0];
 
@@ -470,7 +471,6 @@ class MatchService implements MatchContract
       $teams = $teams_arr[count($teams_arr)-1];
       foreach($matches as $match) {
 
-
         $matchNumber = explode('.',$match->match_number);
         //print_r($matchNumber);
         $matchTeams = $matchNumber[count($matchNumber)-1];
@@ -486,11 +486,10 @@ class MatchService implements MatchContract
         // First For Winner
         $modifiedTeams = str_replace('-','_',$teams);
       //  echo 'Hi MOD Teams<br>';
-        //print_r($modifiedTeams);
+        //print_r($modifiedTeams);exit;
         if (strpos($modifiedTeams, 'WR') !== false) {
 
           $selTeams = explode('-',$teams);
-
           $SelhomeTeam = $selTeams[0];
           $SelawayTeam = $selTeams[1];
 
@@ -505,10 +504,10 @@ class MatchService implements MatchContract
           // here check for Multiple Value for detect the updated record value
 
           if($homeTeam[0] == '(') {
-           // $this->secondRoundElimination($match1,$match,'WR');
+            $this->secondRoundElimination($match1,$match,'WR');
           }
           if($awayTeam[strlen($awayTeam)-1]==')') {
-           // $this->secondRoundElimination($match2,$match,'WR');
+            $this->secondRoundElimination($match2,$match,'WR');
           }
         }
 
@@ -529,11 +528,11 @@ class MatchService implements MatchContract
 
           if($homeTeam[0] == '(') {
             //echo 'yes';exit;
-            //$this->secondRoundElimination($match1,$match,'LR');
+            $this->secondRoundElimination($match1,$match,'LR');
           }
           if($awayTeam[strlen($awayTeam)-1]==')'){
             //echo 'false';exit;
-            //$this->secondRoundElimination($match2,$match,'LR');
+            $this->secondRoundElimination($match2,$match,'LR');
           }
         }
 
@@ -601,10 +600,7 @@ class MatchService implements MatchContract
         $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
 
         $fix1=array();
-        if($singleFixture[0] && $singleFixture[0]->round == 'Elimination') {
-          // So here we have to Call Function For Elimination Matches
-          return $this->calculateEliminationTeams($singleFixture);
-        }
+
         foreach($singleFixture as $singleFxture)
         {
           $fix1['CupFixture']['cupcompetition'] = $singleFxture->competition_id;
