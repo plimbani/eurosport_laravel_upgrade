@@ -26,6 +26,8 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
     private static final String TAG = "VenueDetailActivity";
     private Context mContext;
     private TeamFixturesModel mTeamFixturesModel;
+    @BindView(R.id.tv_location_name)
+    protected TextView tv_location_name;
     @BindView(R.id.tv_pitch_name)
     protected TextView tv_pitch_name;
     @BindView(R.id.tv_address)
@@ -76,8 +78,13 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         showBackButton(getString(R.string.venue));
+
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenue_name())) {
-            tv_pitch_name.setText(mTeamFixturesModel.getVenue_name());
+            tv_location_name.setText(mTeamFixturesModel.getVenue_name());
+        } else {
+            tv_location_name.setText(getString(R.string.na));
+        }if (!Utility.isNullOrEmpty(mTeamFixturesModel.getPitch_number())) {
+            tv_pitch_name.setText(mTeamFixturesModel.getPitch_number());
         } else {
             tv_pitch_name.setText(getString(R.string.na));
         }

@@ -1,10 +1,8 @@
 package com.aecor.eurosports.activity;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.IntentCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
@@ -73,9 +71,7 @@ public class SignInActivity extends BaseActivity {
     @OnClick(R.id.iv_header_logo)
     protected void onHeaderLogoClicked() {
         Intent intent = new Intent(mContext, LandingActivity.class);
-        ComponentName cn = intent.getComponent();
-        Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
-        startActivity(mainIntent);
+        startActivity(intent);
         finish();
     }
 
@@ -244,8 +240,9 @@ public class SignInActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        super.onBackPressed();
         Intent mLandingActivityIntent = new Intent(mContext, LandingActivity.class);
         startActivity(mLandingActivityIntent);
+        finish();
     }
 }

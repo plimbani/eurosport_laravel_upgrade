@@ -158,11 +158,14 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        String mPitchDetail = "";
         if (!Utility.isNullOrEmpty(mFixtureModel.getVenue_name())) {
-            team_venue.setText(mFixtureModel.getVenue_name());
-        } else {
-            team_venue.setText("");
+            mPitchDetail = mFixtureModel.getVenue_name();
         }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getPitch_number())) {
+            mPitchDetail = mPitchDetail + " - " + mFixtureModel.getPitch_number();
+        }
+        team_venue.setText(mPitchDetail);
         if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
             team_match_id.setText(mFixtureModel.getMatch_number());
         } else {

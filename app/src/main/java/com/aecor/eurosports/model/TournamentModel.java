@@ -29,6 +29,15 @@ public class TournamentModel {
     private String deleted_at;
     private String tournament_id;
     private String tournamentLogo;
+    private String TournamentStartTime;
+
+    public String getTournamentStartTime() {
+        return TournamentStartTime;
+    }
+
+    public void setTournamentStartTime(String tournamentStartTime) {
+        TournamentStartTime = tournamentStartTime;
+    }
 
     public String getTournamentLogo() {
         return tournamentLogo;

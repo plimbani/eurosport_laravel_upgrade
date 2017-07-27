@@ -144,8 +144,17 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         } else {
             tv_match_id.setText("");
         }
+
+        String mVenueDetail = "";
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenue_name())) {
-            tv_venue.setText(mTeamFixturesModel.getVenue_name());
+            mVenueDetail = mTeamFixturesModel.getVenue_name();
+        }
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getPitch_number())) {
+            mVenueDetail = mVenueDetail + " - " + mTeamFixturesModel.getPitch_number();
+        }
+
+        if (!Utility.isNullOrEmpty(mVenueDetail)) {
+            tv_venue.setText(mVenueDetail);
         } else {
             tv_venue.setText("");
         }
