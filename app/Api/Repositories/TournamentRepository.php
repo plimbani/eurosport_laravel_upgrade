@@ -77,7 +77,7 @@ class TournamentRepository
         $newdata['twitter'] = $data['twitter'] ? $data['twitter'] : '';
 
         // For New One We set Status as Unpublished
-        $newdata['status'] = 'UnPublished';
+
         $newdata['user_id'] = 1;
 
         if($data['image_logo'] != ''){
@@ -90,6 +90,7 @@ class TournamentRepository
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
            // Update Touranment Table Data
           $tournamentId = $data['tournamentId'];
+          $newdata['status'] = $data['status'];
           // unset($newdata['start_date']);
           // unset($newdata['end_date']);
           $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
@@ -99,7 +100,7 @@ class TournamentRepository
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
-
+         $newdata['status'] = 'UnPublished';
          $tournamentId = Tournament::create($newdata)->id;
         }
         //$tournamentId = Tournament::create($newdata)->id;
