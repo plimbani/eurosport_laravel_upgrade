@@ -43,10 +43,12 @@
     			  <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->
 
     		</td>
-        <td v-for="(teamMatch, ind2) in match.matches">
-          <div :class="[teamMatch.score != null ? '' : 'greyout', 'text-center']">{{teamMatch.score}}</div>
+
+        <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch.score != null ? '' : 'bg-light-grey', '']">
+          <div >{{teamMatch.score}}</div>
           <!--<div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>-->
         </td>
+
       </tr>
   </tbody>
 </table>
