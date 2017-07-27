@@ -138,19 +138,34 @@ class PitchService implements PitchContract
                 $stage_end_date_time = $stage->stage_end_date.' '.$stage->stage_end_time;
                 $matchStartDateTime = $match->match_datetime;
                 $matchEndDateTime = $match->match_endtime;
+                if($this->check_date_is_within_range($stage_start_date_time,$stage_end_date_time,$matchStartDateTime) || $this->check_date_is_within_range($stage_start_date_time,$stage_end_date_time,$matchEndDateTime)) {
+                 // echo '<br>here1:';
+                 // echo $match->id;
+                  $update_match = DB::table('temp_fixtures')
+                        ->where('temp_fixtures.id','=',$match->id)
+                        ->update(['is_scheduled' => 0]);
+                }
+
                 // if its schedule earlier then change pitch allocation
-                if ($matchStartDateTime < $stage_start_date_time ) {
+               /* if ($matchStartDateTime > $stage_start_date_time && $matchStartDateTime < $stage_end_date_time ) {
                     $update_match = DB::table('temp_fixtures')
                         ->where('temp_fixtures.id','=',$match->id)
                         ->update(['is_scheduled' => 0]);
                 }
-                if($matchEndDateTime > $stage_end_date_time)
+                if ($matchEndDateTime > $stage_start_date_time && $matchEndDateTime < $stage_end_date_time )
                 {
                     $update_match = DB::table('temp_fixtures')
                         ->where('temp_fixtures.id','=',$match->id)
                         ->update(['is_scheduled' => 0]);
-                }
+                } */
             }
         }
+    }
+    private function check_date_is_within_range($start_timestamp, $end_timestamp, $today_timestamp)
+    {
+    //  $start_timestamp = strtotime($start_date);
+    //  $end_timestamp = strtotime($end_date);
+    //  $today_timestamp = strtotime($todays_date);
+      return (($today_timestamp >= $start_timestamp) && ($today_timestamp <= $end_timestamp));
     }
 }
