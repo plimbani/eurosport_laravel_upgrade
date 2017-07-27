@@ -106,6 +106,7 @@ class PitchService implements PitchContract
     // if it is then unschedule it
     private function unScheduleAllocatedMatch($dataArr='',$pitchId)
     {
+
         // find matches where not in between that time details in temp_fixtures
         if(empty($dataArr)) {
             $pitch = DB::table('pitches')
@@ -126,26 +127,34 @@ class PitchService implements PitchContract
                         ->update($unScheduleArray);
             return true;
         }
+
         $pitches = DB::table('pitch_availibility')
                 ->where('pitch_availibility.pitch_id','=',$pitchId)
                 ->where('pitch_availibility.tournament_id','=',$dataArr['tournamentId'])->get();
         $matches = DB::table('temp_fixtures')
                 ->where('temp_fixtures.pitch_id','=',$pitchId)
                 ->where('temp_fixtures.is_scheduled','=',1)->get();
-        foreach ($pitches as $stage) {
-            foreach ($matches as $match) {
+     foreach ($pitches as $stage) {
+      foreach ($matches as $match) {
+
                 $stage_start_date_time = $stage->stage_start_date.' '.$stage->stage_start_time;
                 $stage_end_date_time = $stage->stage_end_date.' '.$stage->stage_end_time;
-                $matchStartDateTime = $match->match_datetime;
-                $matchEndDateTime = $match->match_endtime;
-                if($this->check_date_is_within_range($stage_start_date_time,$stage_end_date_time,$matchStartDateTime) || $this->check_date_is_within_range($stage_start_date_time,$stage_end_date_time,$matchEndDateTime)) {
-                 // echo '<br>here1:';
-                 // echo $match->id;
-                  $update_match = DB::table('temp_fixtures')
-                        ->where('temp_fixtures.id','=',$match->id)
-                        ->update(['is_scheduled' => 0]);
+
+                if($stage->break_enable == 1) {
+                  $stage_break_start_date_time = $stage->stage_continue_date.' '.$stage->break_start_time;
+                  $stage_break_end_date_time = $stage->stage_continue_date.' '.$stage->break_end_time;
                 }
 
+                $stage_start_date_time =  date("Y-m-d H:i:s",strtotime($stage_start_date_time));
+                $stage_end_date_time =  date("Y-m-d H:i:s",strtotime($stage_end_date_time));
+                $matchStartDateTime  = $match->match_datetime;
+                $matchEndDateTime  = $match->match_endtime;
+
+                if($this->check_date_is_within_range( $stage_start_date_time,$stage_end_date_time,$matchStartDateTime)){
+                  //echo '<br>IN RANGE:'.$match->id;
+                } else {
+                  //echo '<br>OutherRange:'.$match->id;
+                }
                 // if its schedule earlier then change pitch allocation
                /* if ($matchStartDateTime > $stage_start_date_time && $matchStartDateTime < $stage_end_date_time ) {
                     $update_match = DB::table('temp_fixtures')
@@ -161,11 +170,11 @@ class PitchService implements PitchContract
             }
         }
     }
-    private function check_date_is_within_range($start_timestamp, $end_timestamp, $today_timestamp)
+    private function check_date_is_within_range($start_date, $end_date, $todays_date)
     {
-    //  $start_timestamp = strtotime($start_date);
-    //  $end_timestamp = strtotime($end_date);
-    //  $today_timestamp = strtotime($todays_date);
+      $start_timestamp = strtotime($start_date);
+      $end_timestamp = strtotime($end_date);
+      $today_timestamp = strtotime($todays_date);
       return (($today_timestamp >= $start_timestamp) && ($today_timestamp <= $end_timestamp));
     }
 }
