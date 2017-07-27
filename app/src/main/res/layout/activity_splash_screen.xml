@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:gravity="center"
-    android:padding="@dimen/paddingTopBottom">
+    android:gravity="center">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
         android:src="@drawable/splash_screen_image" />
 </LinearLayout>

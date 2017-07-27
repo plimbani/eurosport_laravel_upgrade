@@ -182,7 +182,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             try {
                 JSONObject mTournamentData = new JSONObject();
                 mTournamentData.put("tournamentId", mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
-                mTournamentData.put("competationId", mGroupModel.getId());
+                mTournamentData.put("competitionId", mGroupModel.getId());
                 mTournamentData.put("is_scheduled", "1");
                 requestJson.put("tournamentData", mTournamentData);
             } catch (JSONException e) {
@@ -245,7 +245,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             try {
                 JSONObject mTournamentData = new JSONObject();
                 mTournamentData.put("tournamentId", mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
-                mTournamentData.put("competationId", mGroupModel.getId());
+                mTournamentData.put("competitionId", mGroupModel.getId());
                 requestJson.put("tournamentData", mTournamentData);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -320,11 +320,15 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             e.printStackTrace();
         }
 
+
+        String mPitchDetail = "";
         if (!Utility.isNullOrEmpty(mFixtureModel.getVenue_name())) {
-            team_venue.setText(mFixtureModel.getVenue_name());
-        } else {
-            team_venue.setText("");
+            mPitchDetail = mFixtureModel.getVenue_name();
         }
+        if (!Utility.isNullOrEmpty(mFixtureModel.getPitch_number())) {
+            mPitchDetail = mPitchDetail + " - " + mFixtureModel.getPitch_number();
+        }
+        team_venue.setText(mPitchDetail);
 
         if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
             team_match_id.setText(mFixtureModel.getMatch_number());

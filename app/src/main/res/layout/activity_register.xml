@@ -11,17 +11,18 @@
         android:id="@+id/iv_header_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
         android:src="@drawable/splash_screen_image" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
         android:orientation="vertical">
 
         <EditText
@@ -77,10 +78,10 @@
     <Button
         android:id="@+id/register"
         style="@style/text_black_title"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
+        android:layout_marginTop="8dp"
         android:background="@drawable/btn_yellow"
         android:text="@string/create_new_account" />
 
