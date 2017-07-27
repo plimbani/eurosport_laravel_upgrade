@@ -20,7 +20,7 @@ class CreateMatchStandingTable extends Migration
             $table->integer('competition_id')->unsigned()->index();
             $table->foreign('competition_id')->references('id')->on('competitions')->onDelete('cascade');;
             $table->integer('team_id')->unsigned()->index();
-            $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
             $table->integer('points')->nullable();
             $table->integer('played')->nullable();
             $table->integer('won')->nullable();
