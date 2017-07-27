@@ -81,14 +81,26 @@ class UserRepository {
                 }
 
                 $roleName = $user->roles[0]->name;
-                $ddata = [
-                    $user->personDetail['first_name'],
-                    $user->personDetail['last_name'],
-                    $user->email,
-                    $user->organisation,
-                    $roleName,
-                    $status
-                ];
+                if($registerType == 'desktop') {
+                    $ddata = [
+                        $user->personDetail['first_name'],
+                        $user->personDetail['last_name'],
+                        $user->email,
+                        $user->organisation,
+                        $roleName,
+                        $status
+                    ];
+                } else {
+                    $ddata = [
+                        $user->personDetail['first_name'],
+                        $user->personDetail['last_name'],
+                        $user->email,
+                        date_format($user->created_at,"H:i d M Y"),
+                        //HH:mm  DD MMM YYYY
+                        $status
+                    ];
+                }
+
                 array_push($dataArray, $ddata);
             }
              $otherParams = [
@@ -96,13 +108,19 @@ class UserRepository {
                     'sheetName' => "UserReport",
                     'boldLastRow' => false
                 ];
-
-            $lableArray = [
-                'Name','Surname' ,'Email address', 'Organisation','User type', 'Status'
-            ];
+           if($registerType == 'desktop') {
+                $lableArray = [
+                    'Name','Surname' ,'Email address', 'Organisation','User type', 'Status'
+                ];
+            } else {
+               $lableArray = [
+                    'Name','Surname' ,'Email address', 'Date & time','Status'
+                ];
+            }
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
         \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
          }
+
          return  $user->get();
     }
 
