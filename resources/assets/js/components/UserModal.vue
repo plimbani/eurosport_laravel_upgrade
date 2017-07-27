@@ -49,7 +49,7 @@
                                     <span class="help is-danger" v-show="errors.has('pass')">{</span>
                                 </div>
                             </div> -->
-                            <div class="form-group row">
+                            <div class="form-group row"  v-if="registerType != 'mobile'">
                                 <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                                 <div class="col-sm-6">
                                       <div v-if="!image">
@@ -64,7 +64,7 @@
                                       </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row"  v-if="registerType != 'mobile'">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
                                 <div class="col-sm-6">
                                     <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
@@ -72,7 +72,7 @@
                                     <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row" v-if="registerType != 'mobile'">
                                 <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                                 <div class="col-sm-6">
                                     <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
@@ -137,9 +137,8 @@ import { ErrorBag } from 'vee-validate';
             }
             this.userRolesOptions =  this.userRoles
 
-
         },
-        props:['userId','userRoles','userEmailData'],
+        props:['userId','userRoles','userEmailData','registerType'],
         methods: {
             initialState() {
                 this.$data.formValues.id = '',
@@ -210,7 +209,12 @@ import { ErrorBag } from 'vee-validate';
                 this.deleteAction="/api/user/delete/"+id;
             },
             updateUserList() {
-              User.getUsersByRegisterType(this.$route.params.registerType).then(
+              let registerData = {'registerType':this.registerType}
+              console.log(registerData)
+              //if(this.$route.params.registerType == '' || this.$route.params.registerType == null)
+                //  registerType = this.registerType
+              //  alert('hello called')
+              User.getUsersByRegisterType(registerData).then(
                 (response)=> {
                    if('users' in response.data) {
                         this.userList.userData = response.data.users;
@@ -241,7 +245,11 @@ import { ErrorBag } from 'vee-validate';
             },
             validateBeforeSubmit1() {
                 this.$validator.validateAll().then(() => {
-
+                   if(this.registerType == 'mobile') {
+                          this.formValues.registerType = 'mobile'
+                        } else {
+                          this.formValues.registerType = 'desktop'
+                        }
 
                     if(this.$data.formValues.id=="") {
                     var a = this.userEmailData.emaildata.indexOf(this.$data.formValues.emailAddress)
@@ -253,6 +261,7 @@ import { ErrorBag } from 'vee-validate';
                     }
 
                         this.formValues.user_image = this.image;
+                        // here we add code for Mobile user for create user
 
                         User.createUser(this.formValues).then(
                           (response)=> {
@@ -304,10 +313,9 @@ import { ErrorBag } from 'vee-validate';
                           (response)=> {
                           toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
-                             setTimeout(Plugin.reloadPage, 500);
+                            setTimeout(Plugin.reloadPage, 500);
                             that.$data.formValues = that.initialState();
                             that.updateUserList();
-
                           },
                           (error)=>{
                             console.log(error)
