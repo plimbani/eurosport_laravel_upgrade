@@ -49,7 +49,7 @@
 
             </p>
 
-            <form>
+            <form name="pitchModal">
               <div class="form-group row">
                 <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
                   Result
@@ -75,28 +75,37 @@
                 </div>
               </div>
               <div class="form-group row">
-
-                <label class="col-sm-3 form-control-label">Status</label>
+                <label class="col-sm-3 form-control-label">Result override</label>
+                <div class="col-sm-9 align-self-center">
+                  <input type="checkbox" v-model="match_result" value="match_result">
+                </div>
+              </div>
+              <div class="form-group row" v-if="match_result ==  true">
+                <label class="col-sm-3 form-control-label">Status*</label>
                 <div class="col-sm-9">
-                  <select v-model="matchDetail.match_status" name="match_status" id="match_status" class="form-control ls-select2">
-                      <option value="0">Please select</option>
-
-                      <option value="Full-time">Full-time</option>
+                  <select v-model="matchDetail.match_status"
+                   v-validate="'required'" :class="{'is-danger': errors.has('match_status') }"
+                  name="match_status" id="match_status" class="form-control ls-select2">
+                      <option value="">Please select</option>
                       <option value="Penalties">Penalties</option>
                       <option value="Walk-over">Walk-over</option>
                       <option value="Abandoned">Abandoned</option>
                   </select>
+                  <span class="help is-danger" v-show="errors.has('match_status')">This field is required</span>
                 </div>
               </div>
-              <div class="form-group row">
+              <div class="form-group row" v-if="match_result ==  true">
 
                 <label class="col-sm-3 form-control-label">Winner</label>
                 <div class="col-sm-9">
-                  <select name="match_winner" v-model="matchDetail.match_winner"  id="match_winner" class="form-control ls-select2">
+                  <select name="match_winner" v-model="matchDetail.match_winner"
+                   v-validate="'required'" :class="{'is-danger': errors.has('match_winner') }"
+                   id="match_winner" class="form-control ls-select2">
                       <option value="">Please select</option>
                       <option :value="matchDetail.home_team">Team 1 ({{matchDetail.home_team_name}})</option>
                       <option :value="matchDetail.away_team">Team 2 ({{matchDetail.away_team_name}})</option>
                   </select>
+                  <span class="help is-danger" v-show="errors.has('match_winner')">This field is required</span>
                 </div>
               </div>
               <div class="form-group row">
@@ -180,7 +189,8 @@ var moment = require('moment');
          'matchDetail':{},
          'referees': {},
          'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
-         'referee_name' : ''
+         'referee_name' : '',
+         'match_result': false
        }
     },
     props: ['matchFixture'],
@@ -199,6 +209,7 @@ var moment = require('moment');
       }
     },
     matchFixtureDetail(){
+
       Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
 
@@ -214,9 +225,10 @@ var moment = require('moment');
 
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
           this.matchDetail.matchTime = date.format('HH:mm ddd DD MMM YYYY')
+
           this.matchDetail.match_winner =  (this.matchDetail.match_winner == null || this.matchDetail.match_winner == 0 || this.matchDetail.match_winner == '') ? '': this.matchDetail.match_winner
           // Set Some Values
-          this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '0' : this.matchDetail.match_status
+          this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '' : this.matchDetail.match_status
 
           this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '' : this.matchDetail.hometeam_score
           this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '' : this.matchDetail.awayteam_score
@@ -232,16 +244,50 @@ var moment = require('moment');
         )
     },
     saveFixtureDetail(){
-      let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus':$('#match_status').val(),'matchWinner':$('#match_winner').val(),'comments':$('#comments').val()}
-        Tournament.saveMatchResult(data).then(
-          (response) => {
-            // this.matchFixtureDetail()
+
+        if(this.match_result == true) {
+
+          this.$validator.validateAll().then(() => {
+
+            let  matchStatus = $('#match_status').val()
+            let matchWinner = $('#match_winner').val()
+
+            let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
+
+             Tournament.saveMatchResult(data).then(
+             (response) => {
+             this.matchFixtureDetail()
             this.$root.$emit('setPitchReset')
             $('#matchScheduleModal').modal('hide')
             toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
-            vm.$root.$emit('setPitchPlanTab','gamesTab')
+            this.$root.$emit('setPitchPlanTab','gamesTab')
           }
         )
+          })
+        }
+
+      //  this.$validator.validateAll().then(() => {
+
+            if(this.match_result == false) {
+
+            let  matchStatus = ''
+            let matchWinner = ''
+
+           let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
+
+             Tournament.saveMatchResult(data).then(
+                (response) => {
+                   this.matchFixtureDetail()
+                  this.$root.$emit('setPitchReset')
+                  $('#matchScheduleModal').modal('hide')
+                  toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+                  this.$root.$emit('setPitchPlanTab','gamesTab')
+                }
+              )
+           }
+      //  })
+
+
     },
     assignReferee(refereeId){
       let data = {'refereeId': refereeId,'matchId': this.matchId}
