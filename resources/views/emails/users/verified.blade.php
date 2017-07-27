@@ -59,7 +59,7 @@
                                             <i class="jv-icon jv-checked-arrow text-success"
                                             >
                                             </i>
-                                            Your email has been verified you can now login to your account
+                            Your email has been verified you can now &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; login to your account
                                         </div>
                                     </div>
                                  </div>
