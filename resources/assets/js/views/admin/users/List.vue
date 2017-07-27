@@ -24,7 +24,7 @@
                               </div>
                                <div class="col-md-3">
                                   <div class="form-group">
-                                      <button type="button" class="btn btn-primary w-100" @click='exportTableReport()'>Clear</button>
+                                      <button type="button" class="btn btn-primary w-100" @click='clear()'>Clear</button>
                                   </div>
                               </div>
                               <div class="col-md-3">
@@ -114,7 +114,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :userEmailData="userEmailData"></user-modal>
+        :userRoles="userRoles" :userEmailData="userEmailData" :registerType="registerType"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -204,6 +204,11 @@
           }, 1000)
         },
         methods: {
+          clear() {
+            this.userListSearch = ''
+            //call method for refresh
+            this.$root.$emit('clearSearch',this.registerType)
+          },
           searchUserData() {
             // console.log(this.userListSearch);
             this.$root.$emit('setSearch',this.registerType,this.userListSearch);

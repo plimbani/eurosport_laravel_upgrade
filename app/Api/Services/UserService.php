@@ -55,6 +55,7 @@ class UserService implements UserContract
 
         // Data Initilization
         $data = $data->all();
+
         \Log::info('User Create Method Called');
         $userData=array();
         $userData['people']=array();
@@ -68,9 +69,18 @@ class UserService implements UserContract
         // TODO: we put condition for Set up for Mobile User Data
         // TODO Check For Mobile Users
         $isMobileUsers = \Request::header('IsMobileUser');
-        if($isMobileUsers != '') {
+
+        if($isMobileUsers != '' ) {
           $data['is_mobile_user'] = true;
         }
+        // Also check From Desktop
+
+        if(isset($data['registerType']) && trim($data['registerType']) == 'mobile') {
+          $data['is_mobile_user'] = true;
+          $data['userType'] = '5';
+          $data['organisation'] = 'EuroSportring';
+        }
+        // here we check that if userType is
 
         if(isset($isMobileUsers) && $isMobileUsers!= '')
         {
@@ -103,7 +113,6 @@ class UserService implements UserContract
         {
             \Log::info('Insert in Image');
             $imagename = $this->saveUsersLogo($data);
-
             $userData['user']['user_image']=$imagename;
         }
 

@@ -36,7 +36,7 @@ class UserRepository {
                 ->get();
         return $user;
     }
-   
+
     public function getUsersByRegisterType($data)
     {
         $registerType = $data['registerType'];
@@ -45,8 +45,8 @@ class UserRepository {
             $isMobileUser=0;
         } else if($registerType=="mobile") {
             $isMobileUser=1;
-        }     
-       
+        }
+
         $user = User::with(["personDetail", "roles"])
                     ->where('users.is_mobile_user', $isMobileUser);
 
@@ -57,7 +57,7 @@ class UserRepository {
                         if(isset($data['userData'])) {
                             $query1->where('people.first_name', 'like', "%" . $data['userData'] . "%");
                         }
-                        if(isset($data['userData'])) {    
+                        if(isset($data['userData'])) {
                             $query1->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
                         }
                     });
@@ -65,13 +65,13 @@ class UserRepository {
         }
          $user->orderBy('users.created_at','desc');
          $userData = $user->get();
-        
+
          $dataArray = array();
-             
+
          if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
-                
+
             foreach ($userData as $user) {
-               
+
                // print_r($user->roles);exit;
 
                 if($user->is_mobile_user ==1){
@@ -79,7 +79,7 @@ class UserRepository {
                 } else {
                     $status = ($user->is_verified == 1) ? 'Accepted': 'Resend';
                 }
-                
+
                 $roleName = $user->roles[0]->name;
                 $ddata = [
                     $user->personDetail['first_name'],
@@ -102,8 +102,8 @@ class UserRepository {
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
         \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
-         }            
-         return  $user->get();  
+         }
+         return  $user->get();
     }
 
     // public function getUserTableData($data)
@@ -114,8 +114,8 @@ class UserRepository {
     //         $isMobileUser=0;
     //     } else if($registerType=="mobile") {
     //         $isMobileUser=1;
-    //     }     
-       
+    //     }
+
     //     $user = User::with(["personDetail", "roles"])
     //                 ->where('users.is_mobile_user', $isMobileUser);
 
@@ -126,14 +126,14 @@ class UserRepository {
     //                     if(isset($data['userData'])) {
     //                         $query1->where('people.first_name', 'like', "%" . $data['userData'] . "%");
     //                     }
-    //                     if(isset($data['userData'])) {    
+    //                     if(isset($data['userData'])) {
     //                         $query1->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
     //                     }
     //                 });
     //         });
     //     }
     //     $user->orderBy('users.created_at','desc');
-         
+
     //     $dataArray = array();
 
     //     if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
@@ -157,12 +157,12 @@ class UserRepository {
     //         //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
     //     \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
     //      }
-    //    return  $user->get(); 
+    //    return  $user->get();
     //     if ($userData) {
     //         return ['status_code' => '200', 'message' => '','data'=>$userData];
     //     }
     // }
-    
+
     public function create($data)
     {
         $userData = [
@@ -206,7 +206,7 @@ class UserRepository {
             ->join('people', 'users.person_id', '=', 'people.id')
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
             ->select("users.id as id", "users.email as emailAddress",
-               DB::raw('CONCAT("'.$this->userImagePath.'", users.user_image) AS image'),
+               DB::raw('IFNULL("",CONCAT("'.$this->userImagePath.'", users.user_image)) AS image'),
              "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
             ->where("users.id", "=", $userId)
             ->first();
@@ -237,7 +237,7 @@ class UserRepository {
           $users->password = Hash::make($password);
         // $users->password = $password;
         $user =  $users->save();
-        return ($users->is_mobile_user == 1) ? 'Mobile' : 'Desktop';    
+        return ($users->is_mobile_user == 1) ? 'Mobile' : 'Desktop';
 
     }
     public function createUserSettings($userData)

@@ -9,6 +9,7 @@ use Laraspace\Models\TournamentVenue;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Pitch;
+use Laraspace\Models\PitchAvailable;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Team;
 use Laraspace\Models\Referee;
@@ -410,21 +411,58 @@ class TournamentRepository
         return $userData;
       }
     }
+    private function getTournamentPitchStartTime($tournamentId) {
+      // here we query the pitch_availibility table for getting the start time for tournament
+      return PitchAvailable::whereIn('tournament_id',$tournamentId)
+                ->select(\DB::raw('CONCAT(stage_start_date," ",stage_start_time) as TournamentStartTime'),'tournament_id as TId')
+                ->orderBy('stage_start_time','asc')
+                ->orderBy('stage_start_date','asc')
+                ->get()->first()->toArray();
+    }
      public function getUserLoginFavouriteTournament($data)
+
     {
       //$url = getenv('S3_URL').'/assets/img/tournament_logo/';
+      // Now here we attach the tournament Start Date Seperately for check the first started match
       $userData = UserFavourites::where('users_favourite.user_id','=',$data['user_id'])
               ->where('tournaments.status','=','Published')
               ->leftJoin('tournaments','tournaments.id','=','users_favourite.tournament_id')
               ->select('tournaments.*',
                 'users_favourite.*',
+                'tournaments.id as TournamentId',
+                'tournaments.start_date as TournamentStartTime',
                 \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
-              ->get();
+              ->get()->toArray();
+      //print_r($userData->toArray());
+      $tournament_ids = array();
       if(count($userData) > 0) {
+        foreach($userData as $tournamentData) {
+          $tournament_ids[] = $tournamentData['TournamentId'];
+        }
+        // now call function and send tournament ids
+        $tournamentStartTimeArr = $this->getTournamentPitchStartTime($tournament_ids);
+
+        foreach($userData as $index=>$userData1) {
+          foreach($tournamentStartTimeArr as $key=>$tournamentTime) {
+
+            if($userData1['TournamentId'] == $tournamentStartTimeArr['TId']) {
+              $userData[$index]['TournamentStartTime'] = $tournamentStartTimeArr['TournamentStartTime'];
+            }
+          }
+        }
+
+        return $userData;
+
+      } else {
+         return array();
+      }
+
+      // Now here we calculate
+      /*if(count($userData) > 0) {
         return $userData;
       } else {
         return array();
-      }
+      } */
     }
     public function getTournamentClub($data)
     {

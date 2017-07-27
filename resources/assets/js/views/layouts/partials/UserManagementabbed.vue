@@ -40,8 +40,12 @@ export default {
 	created() {
 	  this.getSelectComponent(this.$route.params.registerType);
 	  this.$root.$on('setSearch', this.getSelectComponent);
+    this.$root.$on('clearSearch', this.clearSearch);
 	},
 	methods: {
+  clearSearch(registerType) {
+    this.getSelectComponent(registerType)
+  },
 	getSelectComponent(registerType, userData='') {
 	  let emaildata = []
 	  let user1Data = {}
