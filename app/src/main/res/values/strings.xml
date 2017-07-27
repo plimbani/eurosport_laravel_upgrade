@@ -98,6 +98,8 @@
     <string name="pitch_name">Pitch:</string>
     <string name="address">Address:</string>
     <string name="pitch_type">Type:</string>
+    <string name="new_message">New Message</string>
+    <string name="close">Close</string>
 
     <!--Volley-->
 

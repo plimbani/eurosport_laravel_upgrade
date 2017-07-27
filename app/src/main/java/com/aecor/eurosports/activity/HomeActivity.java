@@ -124,14 +124,14 @@ public class HomeActivity extends BaseAppCompactActivity {
                     iv_tournamentLogo.setImageResource(R.drawable.globe);
                 }
 
-                if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getStart_date()) && !Utility.isNullOrEmpty(mTournamentList.get(position).getEnd_date())) {
+                if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournamentStartTime()) && !Utility.isNullOrEmpty(mTournamentList.get(position).getEnd_date())) {
                     tv_tournamentDate.setText(Utility.getFormattedTournamentDate(mTournamentList.get(position).getStart_date(), mTournamentList.get(position).getEnd_date()));
                     if (timer != null) {
                         timer.cancel();
                         timer = new Timer();
                     }
                     initProgressView();
-                    startTimeUpdateHandler(mTournamentList.get(position).getStart_date());
+                    startTimeUpdateHandler(mTournamentList.get(position).getTournamentStartTime());
                 }
             }
 

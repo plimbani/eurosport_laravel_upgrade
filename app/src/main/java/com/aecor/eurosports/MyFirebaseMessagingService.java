@@ -1,7 +1,10 @@
 package com.aecor.eurosports;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.aecor.eurosports.activity.NewMessagePopupActivity;
+import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -12,7 +15,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private Context mContext;
 
     public MyFirebaseMessagingService() {
-
     }
 
     @Override
@@ -20,13 +22,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         mContext = this;
         AppLogger.LogD(TAG, "From: " + remoteMessage.getFrom());
+        Intent mNewMessagePopupIntent = new Intent(mContext, NewMessagePopupActivity.class);
+        mNewMessagePopupIntent.putExtra(AppConstants.ARG_NEW_MESSAGE, remoteMessage.getFrom());
+        mNewMessagePopupIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(mNewMessagePopupIntent);
     }
 
-    @Override
-    public void onMessageSent(String s) {
-        super.onMessageSent(s);
-        AppLogger.LogE(TAG, "Send Message Response " + s);
-    }
 
     @Override
     public void onSendError(String s, Exception e) {
