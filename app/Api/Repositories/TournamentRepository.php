@@ -414,11 +414,15 @@ class TournamentRepository
     }
     private function getTournamentPitchStartTime($tournamentId) {
       // here we query the pitch_availibility table for getting the start time for tournament
-      return PitchAvailable::whereIn('tournament_id',$tournamentId)
+      $pitches = PitchAvailable::whereIn('tournament_id',$tournamentId)
                 ->select(\DB::raw('CONCAT(stage_start_date," ",stage_start_time) as TournamentStartTime'),'tournament_id as TId')
                 ->orderBy('stage_start_time','asc')
                 ->orderBy('stage_start_date','asc')
-                ->get()->first()->toArray();
+                ->get()->first();
+      if($pitches) {
+          return $pitches->toArray();
+      }
+
     }
      public function getUserLoginFavouriteTournament($data)
 
@@ -444,11 +448,16 @@ class TournamentRepository
         $tournamentStartTimeArr = $this->getTournamentPitchStartTime($tournament_ids);
 
         foreach($userData as $index=>$userData1) {
+          if($tournamentStartTimeArr) {
           foreach($tournamentStartTimeArr as $key=>$tournamentTime) {
 
             if($userData1['TournamentId'] == $tournamentStartTimeArr['TId']) {
-              $userData[$index]['TournamentStartTime'] = $tournamentStartTimeArr['TournamentStartTime'];
+              $userData[$index]['TournamentStartTime'] =
+              date('Y-m-d H:i:s' ,strtotime($tournamentStartTimeArr['TournamentStartTime']));
             }
+            }
+          } else {
+            return array();
           }
         }
 
