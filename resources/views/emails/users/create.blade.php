@@ -76,18 +76,33 @@
       </td></tr><tr><td style="width:600px;">
       <![endif]--><div style="margin:0px auto;max-width:600px;background:#fff;"><table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;background:#fff;" align="center" border="0"><tbody><tr><td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:0 10px;"><!--[if mso | IE]>
       <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:middle;width:600px;">
-      <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:middle;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px;" align="left"><div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;"><p>Hi {{ $email_details['name'] }},
+      <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:middle;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px;" align="left"><div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;">
+      @if($email_details['is_mobile_user'] != 1)
+      <p>Hi {{ $email_details['name'] }},
               </p>
-              <p>Your Euro-Sporting Tournament Planner has been created. Please click on the button below to 
+              <p>Your Euro-Sporting Tournament Planner has been created. Please click on the button below to
               set you password and complete your account registration.
               </p>
+      @else
+        <p>Hi {{ $email_details['name'] }},
+              </p>
+              <p>Thanks for registering an account with Euro-Sportring. Please click on the button below to verify your email address and complete your account registration
+              </p>
+              <p>Once verified you will be able to login to you your account.</p>
+      @endif
               </div></td></tr></tbody></table></div><!--[if mso | IE]>
       </td></tr></table>
       <![endif]--></td></tr></tbody></table></div><!--[if mso | IE]>
       </td></tr><tr><td style="width:600px;">
       <![endif]--><div style="margin:0px auto;max-width:600px;background:#fff;"><table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;background:#fff;" align="center" border="0"><tbody><tr><td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:10px;"><!--[if mso | IE]>
       <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:middle;width:600px;">
-      <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:middle;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:0px 25px;padding-bottom:20px;" align="center"><table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="center" border="0"><tbody><tr><td style="border:none;border-radius:3px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#2196f3"><a href="@php echo url('user/setpassword/'.$email_details['token']) @endphp" style="text-decoration:none;line-height:100%;background:#2196f3;color:white;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:13px;font-weight:300;text-transform:none;margin:0px;" target="_blank">Set password</a></td></tr></tbody></table></td></tr></tbody></table></div><!--[if mso | IE]>
+      <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:middle;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:0px 25px;padding-bottom:20px;" align="center"><table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:separate;" align="center" border="0"><tbody><tr><td style="border:none;border-radius:3px;color:white;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#2196f3"><a href="@php echo url('user/setpassword/'.$email_details['token']) @endphp" style="text-decoration:none;line-height:100%;background:#2196f3;color:white;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:13px;font-weight:300;text-transform:none;margin:0px;" target="_blank">
+      @if($email_details['is_mobile_user'] == 0)
+        Set password
+      @else
+        Verify your email
+      @endif
+      </a></td></tr></tbody></table></td></tr></tbody></table></div><!--[if mso | IE]>
       </td></tr></table>
       <![endif]--></td></tr></tbody></table></div><!--[if mso | IE]>
       </td></tr><tr><td style="width:600px;">
@@ -102,7 +117,7 @@
       <![endif]--><div style="margin:0px auto;max-width:600px;"><table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0"><tbody><tr><td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;"><!--[if mso | IE]>
       <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
       <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:10px 25px;" align="center"><div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;"><p style="line-height:14px">
-        <small>Copyright 2017 Euro-Sportring.All rights reserved. Developer by 
+        <small>Copyright 2017 Euro-Sportring.All rights reserved. Developer by
           <a href="https://aecordigital.com" style="text-decoration:none">aecor
           </a>.
         </small>

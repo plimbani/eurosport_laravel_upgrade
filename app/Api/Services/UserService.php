@@ -76,7 +76,7 @@ class UserService implements UserContract
         // Also check From Desktop
 
         if(isset($data['registerType']) && trim($data['registerType']) == 'mobile') {
-          $data['is_mobile_user'] = true;
+          $userData['user']['is_mobile_user'] = 1;
           $data['userType'] = '5';
           $data['organisation'] = 'EuroSportring';
         }
@@ -158,12 +158,14 @@ class UserService implements UserContract
             $email_details = array();
             $email_details['name'] = $data['name'];
             $email_details['token'] = $token;
+            $email_details['is_mobile_user'] = 0;
             $recipient = $data['emailAddress'];
             $email_templates = 'emails.users.create';
             $email_msg = 'Euro-Sportring Tournament Planner - Set password';
             if($userObj->is_mobile_user == 1) {
            //   $email_templates = 'emails.users.mobile_create';
               $email_msg = 'Euro-Sportring email verification';
+              $email_details['is_mobile_user'] = 1;
             }
             Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
             return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address and complete your account registration.'];
