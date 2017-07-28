@@ -54,6 +54,8 @@ public class TeamFixturesModel implements Parcelable {
     private String match_interval_FM;
     private String tid;
     private String full_game;
+    private String match_status;
+    private String MatchWinner;
 
     protected TeamFixturesModel(Parcel in) {
         fid = in.readString();
@@ -101,6 +103,8 @@ public class TeamFixturesModel implements Parcelable {
         match_interval_FM = in.readString();
         tid = in.readString();
         full_game = in.readString();
+        match_status = in.readString();
+        MatchWinner = in.readString();
     }
 
     public static final Creator<TeamFixturesModel> CREATOR = new Creator<TeamFixturesModel>() {
@@ -475,9 +479,25 @@ public class TeamFixturesModel implements Parcelable {
         this.full_game = full_game;
     }
 
+    public String getMatchWinner() {
+        return MatchWinner;
+    }
+
+    public void setMatchWinner(String matchWinner) {
+        MatchWinner = matchWinner;
+    }
+
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public String getMatch_status() {
+        return match_status;
+    }
+
+    public void setMatch_status(String match_status) {
+        this.match_status = match_status;
     }
 
     @Override
@@ -527,5 +547,7 @@ public class TeamFixturesModel implements Parcelable {
         dest.writeString(match_interval_FM);
         dest.writeString(tid);
         dest.writeString(full_game);
+        dest.writeString(match_status);
+        dest.writeString(MatchWinner);
     }
 }

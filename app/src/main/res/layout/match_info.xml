@@ -130,6 +130,12 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_winner_status"
+                    style="@style/text_black_sub_title"
+                    android:layout_margin="10dp"
+                    android:text="winner"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout

@@ -100,6 +100,8 @@
     <string name="pitch_type">Type:</string>
     <string name="new_message">New Message</string>
     <string name="close">Close</string>
+    <string name="is_the_winner">is the winner</string>
+    <string name="deafult_tournament_cannot_be_removed_from_favourite">Default tournament cannot be removed from favourite.</string>
 
     <!--Volley-->
 

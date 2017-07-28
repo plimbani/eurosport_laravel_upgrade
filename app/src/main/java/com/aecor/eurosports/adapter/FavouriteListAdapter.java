@@ -126,7 +126,7 @@ public class FavouriteListAdapter extends BaseAdapter {
 
         if (!Utility.isNullOrEmpty(rowItem.getName()) && checkDefault(rowItem)) {
             holder.default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.selected_default_tournament));
-            holder.favourite_imageview.setEnabled(false);
+//            holder.favourite_imageview.setEnabled(false);
             holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
             holder.default_imageview.setEnabled(false);
         } else {
@@ -138,12 +138,16 @@ public class FavouriteListAdapter extends BaseAdapter {
         holder.favourite_imageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!checkFav(rowItem.getId())) {
-                    holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
-                    makeTournamenetFavourite(mTournamentList.get(position));
+                if (checkDefault(rowItem)) {
+                    Utility.showToast(mContext, mContext.getString(R.string.deafult_tournament_cannot_be_removed_from_favourite));
                 } else {
-                    holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
-                    removeTournamenetFromFavourite(mTournamentList.get(position));
+                    if (!checkFav(rowItem.getId())) {
+                        holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
+                        makeTournamenetFavourite(mTournamentList.get(position));
+                    } else {
+                        holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
+                        removeTournamenetFromFavourite(mTournamentList.get(position));
+                    }
                 }
             }
         });
@@ -162,9 +166,7 @@ public class FavouriteListAdapter extends BaseAdapter {
     private boolean checkFav(String tournamentId) {
         for (int i = 0; i < mFavTournamentList.size(); i++) {
             if (mFavTournamentList.get(i).getTournament_id().equalsIgnoreCase(tournamentId)) {
-
                 return true;
-
             }
         }
         return false;
