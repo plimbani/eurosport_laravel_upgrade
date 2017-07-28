@@ -30,5 +30,21 @@ class TempFixture extends Model
     {
         return $this->belongsTo('Laraspace\Models\Venue');
     }
+    public function getMatchNumberAttribute($value)
+    {
+      if($value) {
+        $newArr = explode(".",$value);
 
+        $mtchNum =  $newArr[0].".".$newArr[1].".";
+        if($this->home_team != 0 && $this->away_team != 0)
+      {
+         $mtchNum =  $mtchNum.$this->home_team_name."-".$this->away_team_name;
+      } else {
+        $mtchNum = $mtchNum.$newArr[2];
+      }
+
+
+        return $mtchNum;
+      }
+    }
 }
