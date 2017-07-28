@@ -86,7 +86,7 @@
       @else
         <p>Hi {{ $email_details['name'] }},
               </p>
-              <p>Thanks for registering an account with Euro-Sportring. Please click on the button below to verify your email address and complete your account registration
+              <p>Thanks for registering an account with Euro-Sportring. Please click on the button below to verify your email address and complete your account registration.
               </p>
               <p>Once verified you will be able to login to you your account.</p>
       @endif

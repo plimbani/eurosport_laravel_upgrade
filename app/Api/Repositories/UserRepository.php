@@ -247,7 +247,7 @@ class UserRepository {
         $password = (isset($usersDetail['password']) && $usersDetail['password']!='') ? $usersDetail['password'] : '';
         $usersPassword = User::where('token', $key)->first();
         // echo "<pre>";print_r($usersPassword);echo "</pre>";exit;
-        $users = User:: where("id", $usersPassword->id)->first();
+        $users = User::where("id", $usersPassword->id)->first();
         $users->is_verified = 1;
         $users->is_active = 1;
         $users->token = '';
