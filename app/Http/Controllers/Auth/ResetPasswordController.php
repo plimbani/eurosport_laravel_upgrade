@@ -157,7 +157,7 @@ class ResetPasswordController extends Controller
           if(!$mobileUser)
             return redirect('/login');
           else
-            return redirect('/mlogin');
+            return redirect('/mlogin')->with('reset','reset password');
     }
 
     public function userMlogin(Request $request) {

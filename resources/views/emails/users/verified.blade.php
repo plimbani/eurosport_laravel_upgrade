@@ -55,12 +55,21 @@
                         <div class="col-md-12">
                           <div class="panel panel-default reset-password">
                                     <div class="panel-body">
-                                         <div class="alert alert-success my-3">
+                                    @if(session('reset') && session('reset') == 'reset password')
+                                    <div class="alert alert-success my-3">
+                                            <i class="jv-icon jv-checked-arrow text-success"
+                                            >
+                                            </i>
+                            Your password has been updated.
+                                        </div>
+                                    @else
+                                        <div class="alert alert-success my-3">
                                             <i class="jv-icon jv-checked-arrow text-success"
                                             >
                                             </i>
                             Your email has been verified you can now &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; login to your account
                                         </div>
+                                    @endif
                                     </div>
                                  </div>
                         </div>
