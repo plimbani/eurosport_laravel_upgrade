@@ -90,7 +90,7 @@ class TournamentRepository
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
            // Update Touranment Table Data
           $tournamentId = $data['tournamentId'];
-          $newdata['status'] = $data['status'];
+          //$newdata['status'] = $data['status'];
           // unset($newdata['start_date']);
           // unset($newdata['end_date']);
           $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
