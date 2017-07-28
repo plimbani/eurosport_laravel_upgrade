@@ -334,20 +334,6 @@ var moment = require('moment');
        var win = window.open("/api/match/print?matchId="+this.matchId, '_blank');
       // window.location.href = "/api/match/print?matchId="+this.matchId;
     }
-
-    // printMatchDetails() {
-    //   // var printContents = document.getElementById('pitch_model_body').innerHTML;
-    //   /*document.getElementById('home_team_score').value = this.matchDetail.hometeam_score
-    //   alert(JSON.stringify(this.matchDetail))*/
-    //   $('#printTable').show();
-    //   var divToPrint = document.getElementById('printTable');
-    //   $('#matchScheduleModal').modal('hide');
-    //   let newWin= window.open("");
-    //   newWin.document.write(divToPrint.outerHTML);
-    //   newWin.print();
-    //   newWin.close();
-    //   // $('#printTable').hide();
-    // }
   }
 }
 </script>

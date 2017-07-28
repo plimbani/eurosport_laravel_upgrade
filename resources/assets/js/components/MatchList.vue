@@ -126,15 +126,12 @@ export default {
 
 		});
     let vm = this
-    setTimeout(function() {
 
-          $("#matchScheduleModal").on('hidden.bs.modal', function () {
-            console.log('inhide')
-              vm.setPitchModal = 0
-              vm.matchFixture = {}
-              //vm.getScheduledMatch('age_category','')
-          });
-      },200);
+    $(document).on('hidden.bs.modal', '#matchScheduleModal', function (event) {
+      // here we close the compoent
+      vm.setPitchModal = 0
+    });
+
 	},
 	  created: function() {
       this.$root.$on('reloadMatchList', this.setScore);
