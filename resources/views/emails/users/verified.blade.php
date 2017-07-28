@@ -63,11 +63,10 @@
                             Your password has been updated.
                                         </div>
                                     @else
-                                        <div class="alert alert-success my-3">
-                                            <i class="jv-icon jv-checked-arrow text-success"
-                                            >
+                                     <div class="alert alert-success my-3 d-inline-flex align-items-start">
+                                            <i class="jv-icon jv-checked-arrow text-success mr-2">
                                             </i>
-                            Your email has been verified you can now &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; login to your account
+    <p class="mb-1">Your email has been verified you can&nbsp;login to your account.</p>
                                         </div>
                                     @endif
                                     </div>
