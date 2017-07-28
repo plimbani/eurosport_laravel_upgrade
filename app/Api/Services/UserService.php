@@ -79,6 +79,7 @@ class UserService implements UserContract
           $userData['user']['is_mobile_user'] = 1;
           $data['userType'] = '5';
           $data['organisation'] = 'EuroSportring';
+         // $userPassword = Hash::make(trim($data['password']));
         }
         // here we check that if userType is
 
