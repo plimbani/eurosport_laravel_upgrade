@@ -174,6 +174,7 @@ class MatchService implements MatchContract
       $date = new \DateTime(date('H:i d M Y'));
         // $date->setTimezone();.
       $resultData = $matchResult;
+
       // dd($resultData);
         $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData->toArray()])
             ->setPaper('a4')
