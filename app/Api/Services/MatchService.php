@@ -167,16 +167,26 @@ class MatchService implements MatchContract
     }
     public function generateMatchPrint($matchData)
     {
+
        $matchId = $matchData['matchId'];
        $matchResult = $this->matchRepoObj->getMatchDetail($matchId);
        //echo '<pre>';
      // print_r($matchResult->toArray());exit;
       $date = new \DateTime(date('H:i d M Y'));
         // $date->setTimezone();.
-      $resultData = $matchResult;
+      $resultData = $matchResult->toArray();
+      // Here we modified the array according to status and winner
+      if(isset($matchData['result_override']) && $matchData['result_override']== 'false' ) {
+        // Unset the match_status result and match Wineer
+        unset($resultData['match_status']);
+        unset($resultData['match_winner']);
+      } else {
+        $resultData['match_status'] = $matchData['status'];
+        $resultData['name'] = $matchData['winner'];
+      }
 
       // dd($resultData);
-        $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData->toArray()])
+        $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData,'result_override'=>$matchData['result_override']])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)

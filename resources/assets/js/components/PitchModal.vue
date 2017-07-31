@@ -190,7 +190,8 @@ var moment = require('moment');
          'referees': {},
          'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
          'referee_name' : '',
-         'match_result': false
+         'match_result': false,
+         'reportQuery': ''
        }
     },
     props: ['matchFixture','section'],
@@ -332,9 +333,21 @@ var moment = require('moment');
     },
 
     generateMatchPrint() {
-     // console.log(this.matchFixture);
-       var win = window.open("/api/match/print?matchId="+this.matchId, '_blank');
-      // window.location.href = "/api/match/print?matchId="+this.matchId;
+       let ReportData = 'matchId='+this.matchId+'&result_override='+this.match_result
+       if(this.match_result == true) {
+        let matchWinner = ''
+        if(this.matchDetail.match_winner == this.matchDetail.home_team) {
+          matchWinner = this.matchDetail.home_team_name
+        } else {
+          matchWinner = this.matchDetail.away_team_name
+        }
+
+          ReportData = ReportData+'&status='+this.matchDetail.match_status+'&winner='+matchWinner
+        }
+
+        this.$validator.validateAll().then(() => {
+            var win = window.open("/api/match/print?"+ReportData, '_blank');
+        })
     }
   }
 }
