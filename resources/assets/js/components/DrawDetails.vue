@@ -19,7 +19,7 @@
       </option>
     </select>
   </div>
-  <div v-if="otherData.DrawType != 'Elimination'"><label class=""><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
+  <div v-if="otherData.DrawType != 'Elimination'"><label class="mt-3"><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
 </div>
 </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
