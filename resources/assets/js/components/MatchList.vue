@@ -137,12 +137,15 @@ export default {
       this.$root.$on('reloadMatchList', this.setScore);
     },
 	methods: {
-    setScore(homescore,AwayScore) {
+    setScore(homescore,AwayScore,competationId) {
       console.log('set Score')
       console.log(this.index)
       console.log(this.currentMatch)
       this.matchData[this.index].AwayScore = AwayScore
       this.matchData[this.index].homeScore = homescore
+
+      this.$root.$emit('setDrawTable',competationId)
+      this.$root.$emit('setStandingData',competationId)
       console.log('after Score')
     },
     openPitchModal(match,index) {

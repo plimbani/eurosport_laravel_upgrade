@@ -131,7 +131,7 @@ export default {
  },
   filters: {
     formatDate: function(date) {
-     return moment(date).format("HH:mm ddd DD MMM YYYY");
+     return moment(date).format("HH:mm  DD MMM YYYY");
     },
     getStatus: function(teamName) {
       // Now here we change it accoring to

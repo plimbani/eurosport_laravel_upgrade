@@ -267,7 +267,8 @@ var moment = require('moment');
                 let away_score = $('#away_team_score').val()
                 console.log('hscore'+home_score)
                 console.log('ascore'+away_score)
-                 this.$root.$emit('reloadMatchList',home_score,away_score)
+                 let competationId = response.data.data.competationId
+                 this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
               } else {
                  this.$root.$emit('setPitchPlanTab','gamesTab')
               }
@@ -297,7 +298,8 @@ var moment = require('moment');
                         let away_score = $('#away_team_score').val()
                         console.log('hscore'+home_score)
                         console.log('ascore'+away_score)
-                      this.$root.$emit('reloadMatchList',home_score,away_score)
+                        let competationId = response.data.data.competationId
+                      this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
                     } else {
                        this.$root.$emit('setPitchPlanTab','gamesTab')
                    }
