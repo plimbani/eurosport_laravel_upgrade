@@ -8,7 +8,7 @@
                 </div>
                 <div class="modal-body text-left">
                     <p>
-                        Please confirm you would like to publish this tournament?.
+                        Please confirm you would like to publish this tournament?
                     </p>
                 </div>
                 <div class="modal-footer">
