@@ -245,7 +245,7 @@ export default {
         isValidate:false,
         age_category_id: '',
         sortKey: 'match_datetime',
-        sortBy: 'desc',
+        sortBy: 'asc',
         reverse: false,
        	}
     },
