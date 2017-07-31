@@ -129,7 +129,7 @@ class UserController extends BaseController
       $message = "";
       $error = false;
       if (count($usersPasswords) == 0) {
-
+        echo 'hi';exit;
           $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
           if(count($isUserVerified) > 0) {
               $error=true;
@@ -141,11 +141,19 @@ class UserController extends BaseController
 
       // TODO: Here we put Code for Mobile Verification
       if(isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['is_mobile_user'] == 1) {
+
         //TODO: Need to put code for change Status For User with user Update
-       // $usersDetail['key'] = $key;
+        //$usersDetail['key'] = $key;
+          $usersPassword = User::where('token', $key)->first();
+          //$users = User::where("id", $usersPassword->id)->first();
+          $usersPassword->is_verified = 1;
+          $usersPassword->is_active = 1;
+          $usersPassword->token = '';
+          $user =  $usersPassword->save();
         // Already set the password
-        //$usersDetail['password'] = $usersPasswords[0]['password'];
-        //$result = $this->userRepoObj->createPassword($usersDetail);
+       // $usersDetail['password'] = $usersPasswords[0]['password'];
+       // $result = $this->userRepoObj->createPassword($usersDetail);
+        return redirect('/mlogin');
       }
 
       // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;

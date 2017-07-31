@@ -134,6 +134,9 @@ class MatchRepository
             ->leftjoin('teams as away_team', function ($join) {
                 $join->on('away_team.id', '=', 'temp_fixtures.away_team');
             })
+            ->leftjoin('teams as match_winner', function ($join) {
+              $join->on('match_winner.id', '=', 'temp_fixtures.match_winner');
+            })
             ->leftjoin('countries as HomeFlag', 'home_team.country_id', '=',
                 'HomeFlag.id')
             ->leftjoin('countries as AwayFlag', 'away_team.country_id', '=',
@@ -146,7 +149,8 @@ class MatchRepository
             ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
             ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
-            ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime',
+            ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.match_winner',
+              'match_winner.name as MatchWinner',
                 'venues.id as venueId', 'competitions.id as competitionId',
                 'venues.venue_coordinates as venueCoordinates',
                 'pitches.type as pitchType','venues.address1 as venueaddress',

@@ -90,7 +90,7 @@ class TournamentRepository
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
            // Update Touranment Table Data
           $tournamentId = $data['tournamentId'];
-          $newdata['status'] = $data['status'];
+          //$newdata['status'] = $data['status'];
           // unset($newdata['start_date']);
           // unset($newdata['end_date']);
           $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
@@ -414,15 +414,29 @@ class TournamentRepository
     }
     private function getTournamentPitchStartTime($tournamentId) {
       // here we query the pitch_availibility table for getting the start time for tournament
-      return PitchAvailable::whereIn('tournament_id',$tournamentId)
+     /* $pitches = PitchAvailable::whereIn('tournament_id',$tournamentId)
                 ->select(\DB::raw('CONCAT(stage_start_date," ",stage_start_time) as TournamentStartTime'),'tournament_id as TId')
                 ->orderBy('stage_start_time','asc')
                 ->orderBy('stage_start_date','asc')
-                ->get()->first()->toArray();
+                ->get()->first(); */
+      // TODO : Change the code to find first schedule match for that tournament
+
+       $pitches = TempFixture::whereIn('tournament_id',$tournamentId)
+                ->whereNotNull('match_datetime')
+                ->select('match_datetime as TournamentStartTime',
+                  'temp_fixtures.tournament_id as TId')
+                ->orderBy('temp_fixtures.match_datetime','asc')
+                ->get()->first();
+      print_r($pitches->toArray());exit;
+      if($pitches) {
+          return $pitches->toArray();
+      }
+
     }
      public function getUserLoginFavouriteTournament($data)
 
     {
+
       //$url = getenv('S3_URL').'/assets/img/tournament_logo/';
       // Now here we attach the tournament Start Date Seperately for check the first started match
       $userData = UserFavourites::where('users_favourite.user_id','=',$data['user_id'])
@@ -440,15 +454,21 @@ class TournamentRepository
         foreach($userData as $tournamentData) {
           $tournament_ids[] = $tournamentData['TournamentId'];
         }
+
         // now call function and send tournament ids
         $tournamentStartTimeArr = $this->getTournamentPitchStartTime($tournament_ids);
 
         foreach($userData as $index=>$userData1) {
+          if($tournamentStartTimeArr) {
           foreach($tournamentStartTimeArr as $key=>$tournamentTime) {
 
             if($userData1['TournamentId'] == $tournamentStartTimeArr['TId']) {
-              $userData[$index]['TournamentStartTime'] = $tournamentStartTimeArr['TournamentStartTime'];
+              $userData[$index]['TournamentStartTime'] =
+              date('Y-m-d H:i:s' ,strtotime($tournamentStartTimeArr['TournamentStartTime']));
             }
+            }
+          } else {
+            return array();
           }
         }
 

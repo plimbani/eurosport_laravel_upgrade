@@ -193,7 +193,7 @@ var moment = require('moment');
          'match_result': false
        }
     },
-    props: ['matchFixture'],
+    props: ['matchFixture','section'],
     mounted() {
 
        Tournament.getReferees(this.tournamentId).then(
@@ -256,11 +256,22 @@ var moment = require('moment');
 
              Tournament.saveMatchResult(data).then(
              (response) => {
-             this.matchFixtureDetail()
-            this.$root.$emit('setPitchReset')
-            $('#matchScheduleModal').modal('hide')
-            toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
-            this.$root.$emit('setPitchPlanTab','gamesTab')
+              this.matchFixtureDetail()
+              this.$root.$emit('setPitchReset')
+              $('#matchScheduleModal').modal('hide')
+
+              toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+
+              if(this.section == 'scheduleResult') {
+                let home_score = $('#home_team_score').val()
+                let away_score = $('#away_team_score').val()
+                console.log('hscore'+home_score)
+                console.log('ascore'+away_score)
+                 this.$root.$emit('reloadMatchList',home_score,away_score)
+              } else {
+                 this.$root.$emit('setPitchPlanTab','gamesTab')
+              }
+
           }
         )
           })
@@ -281,7 +292,15 @@ var moment = require('moment');
                   this.$root.$emit('setPitchReset')
                   $('#matchScheduleModal').modal('hide')
                   toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
-                  this.$root.$emit('setPitchPlanTab','gamesTab')
+                   if(this.section == 'scheduleResult') {
+                       let home_score = $('#home_team_score').val()
+                        let away_score = $('#away_team_score').val()
+                        console.log('hscore'+home_score)
+                        console.log('ascore'+away_score)
+                      this.$root.$emit('reloadMatchList',home_score,away_score)
+                    } else {
+                       this.$root.$emit('setPitchPlanTab','gamesTab')
+                   }
                 }
               )
            }
@@ -315,20 +334,6 @@ var moment = require('moment');
        var win = window.open("/api/match/print?matchId="+this.matchId, '_blank');
       // window.location.href = "/api/match/print?matchId="+this.matchId;
     }
-
-    // printMatchDetails() {
-    //   // var printContents = document.getElementById('pitch_model_body').innerHTML;
-    //   /*document.getElementById('home_team_score').value = this.matchDetail.hometeam_score
-    //   alert(JSON.stringify(this.matchDetail))*/
-    //   $('#printTable').show();
-    //   var divToPrint = document.getElementById('printTable');
-    //   $('#matchScheduleModal').modal('hide');
-    //   let newWin= window.open("");
-    //   newWin.document.write(divToPrint.outerHTML);
-    //   newWin.print();
-    //   newWin.close();
-    //   // $('#printTable').hide();
-    // }
   }
 }
 </script>
