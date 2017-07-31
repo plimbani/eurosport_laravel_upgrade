@@ -20,6 +20,7 @@ const state = {
   currentPage: '',
   currentScheduleView: '',
   setCurrentView:'',
+  isAdmin:'',
   /*vehicleDetails: [],
   surveyDetail: [],
   multiSelectAll: false,
@@ -41,6 +42,9 @@ const mutations = {
   },
   [types.SET_CURRENT_VIEW] (state, setCurrentView) {
     state.setCurrentView = setCurrentView
+  },
+  [types.IS_ADMIN] (state, isAdmin) {
+    state.isAdmin = isAdmin
   },
 }
 export default new Vuex.Store({

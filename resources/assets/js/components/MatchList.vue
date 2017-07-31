@@ -98,7 +98,8 @@ export default {
 		},
 
 	isUserDataExist() {
-	    return this.$store.state.Users.userDetails.id
+      return this.$store.state.isAdmin
+	    //return this.$store.state.Users.userDetails.id
 	    },
 	  getCurrentScheduleView() {
 	   	return this.$store.state.currentScheduleView

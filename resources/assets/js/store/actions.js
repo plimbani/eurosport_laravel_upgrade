@@ -10,6 +10,10 @@ export const setCurrentScheduleView = ({ commit }, currentScheduleView) => {
 export const setCurrentView = ({ commit }, setCurrentView) => {
   commit(types.SET_CURRENT_VIEW, setCurrentView)
 }
+
+export const isAdmin = ({ commit }, isAdmin) => {
+  commit(types.IS_ADMIN, isAdmin)
+}
 /*export const setTournament = ({ commit }, tournament) => {
   commit(types.CURRENT_TOURNAMENT, selectedAction)
 }*/

@@ -64,6 +64,7 @@ export default {
 		// here we set drawsListing as currentView
 		this.currentView = 'drawsListing'
     this.$store.dispatch('setCurrentView',this.currentView)
+    this.$store.dispatch('isAdmin',true)
     // Also Call Api For Getting the last Updated Record
 	},
 	components: {
