@@ -75,7 +75,7 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label">Result override</label>
+                <div class="col-sm-3">Result override</div>
                 <div class="col-sm-9 align-self-center">
                   <input type="checkbox" v-model="match_result" value="match_result">
                 </div>
@@ -96,7 +96,7 @@
               </div>
               <div class="form-group row" v-if="match_result ==  true">
 
-                <label class="col-sm-3 form-control-label">Winner</label>
+                <label class="col-sm-3 form-control-label">Winner*</label>
                 <div class="col-sm-9">
                   <select name="match_winner" v-model="matchDetail.match_winner"
                    v-validate="'required'" :class="{'is-danger': errors.has('match_winner') }"
