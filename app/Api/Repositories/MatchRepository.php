@@ -307,9 +307,11 @@ class MatchRepository
                 ->where('temp_fixtures.is_scheduled','=',1)
                 ->select(
                 DB::raw('CONCAT(temp_fixtures.hometeam_score, "-", temp_fixtures.awayteam_score) AS scoresFix'),
-                DB::raw('CONCAT(temp_fixtures.home_team, "-", temp_fixtures.away_team) AS teamsFix')
+                DB::raw('CONCAT(temp_fixtures.home_team, "-", temp_fixtures.away_team) AS teamsFix'),
+                'temp_fixtures.match_datetime as matchDateTime'
                   ) ->get();
       $matchArr = array();
+      $matchDate = array();
       //print_r($teamData);exit;
 
       if(!$totalMatches->isEmpty() && $totalMatches->count() > 0)
@@ -319,6 +321,7 @@ class MatchRepository
 
           $newkey = sprintf('%s',$data->teamsFix);
           $matchArr[$data->teamsFix] = $data->scoresFix;
+          $matchDate[$data->teamsFix] = $data->matchDateTime;
         }
       }  else {
           $errorMsg= 'No Matches';
@@ -390,6 +393,7 @@ class MatchRepository
                 if(array_key_exists($rowKey.'-'.$colKey, $matchArr))
                 {
                   $arr1[$i]['matches'][$j]['score']= $matchArr[$rowKey.'-'.$colKey];
+                  $arr1[$i]['matches'][$j]['date']= $matchDate[$rowKey.'-'.$colKey];
                   $arr1[$i]['matches'][$j]['home']= $rowKey;
                   $arr1[$i]['matches'][$j]['away']= $colKey;
                 }

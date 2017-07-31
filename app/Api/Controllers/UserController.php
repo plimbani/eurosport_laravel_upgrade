@@ -129,13 +129,13 @@ class UserController extends BaseController
       $message = "";
       $error = false;
       if (count($usersPasswords) == 0) {
-        echo 'hi';exit;
           $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
           if(count($isUserVerified) > 0) {
               $error=true;
               $message = "You have already set the password.";
           } else {
-              return response()->view('errors.404', [], 404);
+              //return response()->view('errors.404', [], 404);
+              return array('message'=> 'Link is Expired');
           }
       }
 
@@ -211,6 +211,9 @@ class UserController extends BaseController
     public function setUserImage(Request $request)
     {
       return $this->userObj->setUserImage($request->all());
+    }
+    public function updatefcm(Request $request) {
+      return $this->userObj->setFCM($request->all());
     }
 
 }
