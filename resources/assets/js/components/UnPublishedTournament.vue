@@ -25,7 +25,7 @@
       methods: {
         updateStatus() {
             // here we set status to Publish For Tournament
-            this.$root.$emit('StatusUpdate','UnPublished');
+            this.$root.$emit('StatusUpdate','unpublished');
         }
       }
     }
