@@ -1266,13 +1266,11 @@ class MatchService implements MatchContract
     }
     private function checkForEndRR($competationId) {
       // here we check if any unschedule match for that competations if no return yes else no
-      //echo 'CID'.$competationId;
-      $matches = DB::table('temp_fixtures')->
-      where('is_scheduled','=','0')
-      ->where('hometeam_score','=',NULL)->orWhere('awayteam_score','=',NULL)
+
+      $matches = DB::table('temp_fixtures')
+      ->where('competition_id',$competationId)
       ->where('round','=','Round Robin')
-      ->where('competition_id',$competationId);
-      //->get();
+      ->whereRaw(Db::raw('(hometeam_score IS NULL OR awayteam_score IS NULL)'));
 
       if($matches->exists()) {
         //echo 'hellofalse';
