@@ -11,8 +11,8 @@
 		<th class="text-center">Lost</th>
 		<th class="text-center">Goals for</th>
 		<th class="text-center">Goals against</th>
-    <th>Goal difference</th>
-    <th>Points</th>
+    <th class="text-center">Goal difference</th>
+    <th class="text-center">Points</th>
 	</thead>
 	<tbody>
 		<tr v-for="stand in standingData">
