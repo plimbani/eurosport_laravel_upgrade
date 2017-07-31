@@ -47,7 +47,7 @@
 					{{match.venue_name}} - {{match.pitch_number}}
 					</a>
 				</td>
-        <td class="text-center" v-if="isUserDataExist"><span class="align-middle">
+        	<td class="text-center" v-if="isUserDataExist"><span class="align-middle">
               <a class="text-primary" href="#"
               @click="openPitchModal(match,index)"><i class="jv-icon jv-edit"></i></a>
             </span></td>

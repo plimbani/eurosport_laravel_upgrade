@@ -29,7 +29,9 @@
     <tr>
         <th></th>
        <th v-for="(match,index) in match1Data" class="text-center">
-       <img :src="match.TeamFlag" width="20"> &nbsp;<span>{{match.TeamName}}</span></th>
+       <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
+       <span>{{match.TeamName}}</span></th>
+       <!-- <img :src="match.TeamFlag" width="20"> &nbsp;<span>{{match.TeamName}}</span></th> -->
     </tr>
   </thead>
   <tbody>
@@ -47,7 +49,7 @@
     		</td>
 
         <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch.score != null ? '' : 'bg-light-grey', '']">
-          <div >{{teamMatch.score}}</div>
+          <div class="text-center">{{teamMatch.score}}</div>
           <!--<div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>-->
         </td>
 
