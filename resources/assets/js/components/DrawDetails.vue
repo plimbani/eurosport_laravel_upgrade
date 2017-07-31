@@ -48,8 +48,12 @@
 
     		</td>
 
-        <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch.score != null ? '' : 'bg-light-grey', '']">
-          <div class="text-center">{{teamMatch.score}}</div>
+
+        <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
+          <div class="text-center" v-if="teamMatch.score == null && teamMatch != 'Y' && teamMatch != 'X' ">
+        {{teamMatch.date | formatDate}}</div>
+          <div class="text-center" v-else> {{teamMatch.score}}</div>
+
           <!--<div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>-->
         </td>
 
@@ -126,6 +130,9 @@ export default {
       // console.log(this.$children[1].getData())
  },
   filters: {
+    formatDate: function(date) {
+     return moment(date).format("HH:mm  DD MMM YYYY");
+    },
     getStatus: function(teamName) {
       // Now here we change it accoring to
       if(typeof teamName == 'string' && teamName != '')
