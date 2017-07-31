@@ -18,7 +18,7 @@
 			<div class="row d-flex flex-row align-items-start">
 				<div class="col-sm-4"><div style="line-height:1"><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</div></div>
 
-				<div class="col-md-4" v-if="tournamentStatus == 'published'">
+				<div class="col-md-4" v-if="tournamentStatus == 'Published'">
 				   <button type="button" data-toggle="modal"
 				data-target="#publish_modal"
 				class="btn btn-primary w-100">
