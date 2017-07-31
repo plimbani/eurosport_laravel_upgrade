@@ -67,7 +67,9 @@ export default {
 	},
 	mounted(){
 		// here we set drawsListing as currentView
-		this.currentView = 'drawsListing'
+		this.currentView = 'drawsListing';
+    // here we set the value of users to null
+    this.$store.dispatch('isAdmin',false);
 	},
 	components: {
 		DrawsListing, MatchListing, TeamListing,DrawDetails
