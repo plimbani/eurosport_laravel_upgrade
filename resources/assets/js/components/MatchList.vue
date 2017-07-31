@@ -9,7 +9,7 @@
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
 			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
-      <th class="text-center"  v-if="getCurrentScheduleView == 'matchList' && isUserDataExist">Details</th>
+      <th class="text-center"  v-if="isUserDataExist">Details</th>
 		</thead>
 		<tbody>
 			<tr v-for="(match,index) in matchData">
@@ -33,7 +33,7 @@
 					<!-- <a   href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)"> -->
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
              		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
-					<span class="pull-left text-left">{{match.AwayTeam}}</span>
+					<span>{{match.AwayTeam}}</span>
 					<!-- </a>	 -->
 				</td>
 				<td class="text-center">
@@ -47,7 +47,7 @@
 					{{match.venue_name}} - {{match.pitch_number}}
 					</a>
 				</td>
-        <td class="text-center" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist"><span class="align-middle">
+        <td class="text-center" v-if="isUserDataExist"><span class="align-middle">
               <a class="text-primary" href="#"
               @click="openPitchModal(match,index)"><i class="jv-icon jv-edit"></i></a>
             </span></td>
