@@ -8,7 +8,7 @@
 </div>
 <div class="form-group row d-flex flex-row align-items-center">
 <div class="col d-flex flex-column align-items-start">
-    <div class="my-2"><select class="form-control ls-select2"
+    <div class="my-3"><select class="form-control ls-select2"
     v-on:change="onChangeDrawDetails"
     v-model="DrawName">
       <option value="">Select</option>
@@ -37,7 +37,8 @@
     		<td>
 
     			<!-- <a href="" class="pull-left text-left text-primary"> -->
-    			  <img :src="match.TeamFlag" width="20"> &nbsp;
+           <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
+    			  <!-- <img :src="match.TeamCountryFlag" width="20"> &nbsp; -->
     			    <span>{{match.TeamName}}</span>
 
     			  <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->

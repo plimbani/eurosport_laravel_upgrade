@@ -16,13 +16,12 @@
                 href="#pitch_capacity" role="tab" @click="GetSelectComponent('pitch_capacity')">{{$lang.pitch_capacity_label}}</a>
               </li>
               <li class="nav-item">
-                <a :class="[activePath == 'pitch_planner' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">{{$lang.pitch_planner_label}}</a>
-              </li>
-              <li class="nav-item">
                 <a :class="[activePath == 'teams_groups' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">{{$lang.teams_groups_label}}</a>
               </li>
               <li class="nav-item">
-
+                <a :class="[activePath == 'pitch_planner' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">{{$lang.pitch_planner_label}}</a>
+              </li>
+              <li class="nav-item">
                 <a :class="[activePath == 'tournaments_summary_details' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">{{$lang.summary_label}}</a>
               </li>
             </ul>

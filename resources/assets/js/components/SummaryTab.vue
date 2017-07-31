@@ -18,7 +18,7 @@
 			<div class="row d-flex flex-row align-items-start">
 				<div class="col-sm-4"><div style="line-height:1"><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</div></div>
 
-				<div class="col-md-4" v-if="tournamentStatus == 'Published'">
+				<div class="col-md-4" v-if="tournamentStatus == 'published'">
 				   <button type="button" data-toggle="modal"
 				data-target="#publish_modal"
 				class="btn btn-primary w-100">
@@ -151,7 +151,7 @@
 
               $("#publish_modal").modal("hide");
 	    				this.tournamentStatus = status
-	    				toastr['success']('Tournament has Been '+status, 'Success');
+	    				toastr['success']('This tournament has been '+status, 'Success');
 	    				let tournamentField = {'tournamentStatus': status}
 	    				this.$store.dispatch('setTournamentStatus',tournamentField)
               setTimeout(this.redirectToHomePage, 3000);
