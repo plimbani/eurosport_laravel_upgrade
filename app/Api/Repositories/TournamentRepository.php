@@ -427,7 +427,6 @@ class TournamentRepository
                   'temp_fixtures.tournament_id as TId')
                 ->orderBy('temp_fixtures.match_datetime','asc')
                 ->get()->first();
-      print_r($pitches->toArray());exit;
       if($pitches) {
           return $pitches->toArray();
       }
