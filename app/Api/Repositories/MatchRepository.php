@@ -377,7 +377,8 @@ class MatchRepository
 
             if($i==$j)
             {
-              $arr1[$i]['matches'][$j] ='X';
+              $arr1[$i]['matches'][$j] ='Y';
+              // we set another variable for same team
             }
             else
             {
