@@ -33,7 +33,7 @@
 					<!-- <a   href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)"> -->
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
              		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
-					<span>{{match.AwayTeam}}</span>
+					<span class="text-center">{{match.AwayTeam}}</span>
 					<!-- </a>	 -->
 				</td>
 				<td class="text-center">

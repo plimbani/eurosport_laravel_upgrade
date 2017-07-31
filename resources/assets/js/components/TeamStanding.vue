@@ -4,13 +4,13 @@
 <table class="table table-hover table-bordered" v-if="standingData.length > 0">
 	<thead>
 
-		<th></th>
-		<th>Played</th>
-		<th>Won</th>
-		<th>Draws</th>
-		<th>Lost</th>
-		<th>Goals for</th>
-		<th>Goals against</th>
+		<th class="text-center"></th>
+		<th class="text-center">Played</th>
+		<th class="text-center">Won</th>
+		<th class="text-center">Draws</th>
+		<th class="text-center">Lost</th>
+		<th class="text-center">Goals for</th>
+		<th class="text-center">Goals against</th>
     <th>Goal difference</th>
     <th>Points</th>
 	</thead>
@@ -18,13 +18,13 @@
 		<tr v-for="stand in standingData">
 
 			<td align="left">
-				<a href="" @click.prevent="changeTeam(stand.team_id, stand.name)">
+				<!-- <a href="" @click.prevent="changeTeam(stand.team_id, stand.name)"> -->
 					 <!--<img :src="stand.teamFlag" width="20">-->
-           <span :class="'flag-icon flag-icon-'+stand.teamCountryFlag"></span>
+          			 <span :class="'flag-icon flag-icon-'+stand.teamCountryFlag"></span>
 					<span>
 					{{stand.name}}
 					</span>
-				</a>
+				<!-- </a> -->
 			</td>
 			<td class="text-center">{{stand.played}}</td>
 			<td class="text-center">{{stand.won}}</td>

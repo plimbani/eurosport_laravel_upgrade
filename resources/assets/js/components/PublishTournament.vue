@@ -3,12 +3,12 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Publish Tournament</h4>
+                    <h5 class="modal-title" id="myModalLabel">Publish Tournament</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                    
                 </div>
                 <div class="modal-body text-left">
                     <p>
-                        Hit "Confirm" to Publishe your tournament details.
+                        Please confirm you would like to publish this tournament?.
                     </p>
                 </div>
                 <div class="modal-footer">
