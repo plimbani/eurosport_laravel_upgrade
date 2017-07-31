@@ -71,10 +71,10 @@ export default {
       this.tournamentDates = this.getDateRange(tournamentStartDate,tournamentEndDate,'mm/dd/yyyy')
 	  this.$store.dispatch('setCurrentScheduleView','matchList')
 	  // By Default Set for ot Todays Date
-	  this.currentDate = tournamentStartDate
+	  // this.currentDate = tournamentStartDate
     // here we call with all dates
     this.matchDate = 'all'
-	  this.getAllMatches('all')
+	  this.getAllMatches()
 	},
 	created: function() {
        this.$root.$on('changeComp', this.setMatchData);
@@ -91,9 +91,8 @@ export default {
 	},
 	methods: {
 		setFilter(filterKey,filterValue) {
-        console.log('set1')
+
         	if(filterKey != undefined) {
-            console.log('set2')
             this.filterKey1 = filterKey
             this.filterValue1 = filterValue
 
