@@ -41,11 +41,14 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
     protected void onViewOnMapClicked() {
 
         String[] mLocation = mTeamFixturesModel.getVenueCoordinates().split(",");
-
-
-        double latitude = Double.parseDouble(mLocation[0]);
-        double longitude = Double.parseDouble(mLocation[1]);
         String label = mTeamFixturesModel.getVenue_name();
+        Intent intent = new Intent(mContext, VenueMapActivity.class);
+        intent.putExtra("latlong",mTeamFixturesModel.getVenueCoordinates());
+        intent.putExtra("label",mTeamFixturesModel.getVenue_name());
+        startActivity(intent);
+
+        /*double latitude = Double.parseDouble(mLocation[0]);
+        double longitude = Double.parseDouble(mLocation[1]);
         String uriBegin = "geo:" + latitude + "," + longitude;
         String query = latitude + "," + longitude + "(" + label + ")";
         String encodedQuery = Uri.encode(query);
@@ -60,7 +63,7 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
             CustomTabsIntent customTabsIntent = builder.build();
             builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
             customTabsIntent.launchUrl(mContext, Uri.parse(mapUrl));
-        }
+        }*/
     }
 
     @Override
