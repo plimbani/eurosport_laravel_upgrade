@@ -1,11 +1,13 @@
 package com.aecor.eurosports.activity;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.aecor.eurosports.R;
-import com.aecor.eurosports.util.AppLogger;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -13,7 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class VenueMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class VenueMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private double latitude, longitude;
@@ -30,13 +32,36 @@ public class VenueMapActivity extends FragmentActivity implements OnMapReadyCall
         mapFragment.getMapAsync(this);
     }
 
-    private void initView() {
+    protected void showBackButton(String title) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title.toUpperCase());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow_white);
+        }
+    }
+
+    protected void initView() {
+        showBackButton(getString(R.string.title_activity_venue_map));
         Intent intent = getIntent();
         label = intent.getStringExtra("label");
         String[] mLocation = intent.getStringExtra("latlong").split(",");
         latitude = Double.parseDouble(mLocation[0]);
         longitude = Double.parseDouble(mLocation[1]);
-        AppLogger.LogE("Google maps","**** Data **** -> "+latitude+longitude+label);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
