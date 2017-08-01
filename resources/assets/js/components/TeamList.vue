@@ -13,8 +13,9 @@
 				<td>
 					<!-- <a  href="" @click.prevent="changeTeam(team.id, team.name)"> -->
 						<!--<img :src="team.logo" width="20">-->
-          			    <span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
-						<span class="text-center">{{team.name}}</span>
+          	<span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
+
+						<span class="text-center"><a class="text-primary" href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></span>
 					<!-- </a> -->
 				</td>
 				<td class="text-center">

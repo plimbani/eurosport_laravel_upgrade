@@ -13,6 +13,8 @@
 						<h6>{{otherData.TeamName}}</h6>
 					</div>
 				</div>
+
+        <!--
 			<div class="tab-content summary-report-content">
 
 				<div class="row">
@@ -27,14 +29,14 @@
 								</li>
 						<!-- <button class="btn btn-primary btn-md js-pitch-team-bt matches" :class="[teamView == 'matchList']"> <a @click="setTeamView('matchList')">Matches</a></button>
 						<button  class="btn btn-secondary btn-md js-pitch-team-bt teamstanding" :class="[teamView == 'teamStanding']" > <a @click="setTeamView('teamStanding')">Team Standing</a></button> -->
-							</ul>
+						<!--	</ul>
 							<div class="tab-content summary-content">
 							<!-- <component :is="currentView" :currentView="currentView"></component> -->
-							</div>
+				<!--			</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 				<div class="row">
 					<div class="col-md-12">
 						<component :is="teamView"  :matchData="matchData"></component>

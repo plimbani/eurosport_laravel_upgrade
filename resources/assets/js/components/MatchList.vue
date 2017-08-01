@@ -9,7 +9,7 @@
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
 			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
-      <th class="text-center"  v-if="isUserDataExist">Details</th>
+      <th class="text-center"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
 		</thead>
 		<tbody>
 			<tr v-for="(match,index) in matchData">
@@ -38,8 +38,8 @@
 				</td>
 				<td class="text-center">
 
-        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -
-        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist"
+        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -
+        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
         		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
       		    </td>
 				<td v-if="isHideLocation !=  false">
@@ -47,7 +47,7 @@
 					{{match.venue_name}} - {{match.pitch_number}}
 					</a>
 				</td>
-        	<td class="text-center" v-if="isUserDataExist"><span class="align-middle">
+        	<td class="text-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"><span class="align-middle">
               <a class="text-primary" href="#"
               @click="openPitchModal(match,index)"><i class="jv-icon jv-edit"></i></a>
             </span></td>
