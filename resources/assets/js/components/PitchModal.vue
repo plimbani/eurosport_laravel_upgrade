@@ -331,7 +331,11 @@ var moment = require('moment');
           vm.$root.$emit('setPitchPlanTab','gamesTab')
       })
     },
-
+    matchPrint(ReportData) {
+      var win = window.open("/api/match/print?"+ReportData, '_blank');
+      win.focus();
+      return true;
+    },
     generateMatchPrint() {
        let ReportData = 'matchId='+this.matchId+'&result_override='+this.match_result
        if(this.match_result == true) {
@@ -346,10 +350,23 @@ var moment = require('moment');
         }
 
         if(this.match_result == true){
-            this.$validator.validateAll().then(() => {
-                var win = window.open("/api/match/print?"+ReportData, '_blank');
-                win.focus();
-            })
+            let vm = this
+            let val = 0
+            this.$validator.validateAll().then(
+              (response) => {
+                val = 1
+            },
+              (error) => {
+                console.log('Error occured during SaveTournament api ', error)
+              }
+            )
+
+             setTimeout(function(){
+
+            if(val == 1) {
+              vm.matchPrint(ReportData)
+            } },500)
+
         } else {
           var win = window.open("/api/match/print?"+ReportData, '_blank');
           win.focus();
