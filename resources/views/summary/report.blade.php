@@ -17,7 +17,7 @@
 <img  src="{{ asset('assets/img/logo-desk.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
 </center>
 
-<table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 80%">
+<table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
 	<h4>Reports</h4>
             <tr>
                 <th align="center">Date and time</th>
@@ -45,10 +45,10 @@
     		<!--<td align="center">{{ $report->full_game }}</td>-->
             <td align="right">
                <span class="text-center">{{ $report->HomeTeam }}</span>
-               <img src="{{ $report->HomeFlagLogo }}" width="20">
+               <img src="{{ $report->HomeFlagLogo }}" width="20">&nbsp;
             </td>
             <td align="left">
-            <img src="{{ $report->AwayFlagLogo }}" width="20">
+            &nbsp;<img src="{{ $report->AwayFlagLogo }}" width="20">
             <span class="text-center">{{ $report->AwayTeam }}</span>
             </td>
     	</tr>
