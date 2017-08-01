@@ -79,7 +79,7 @@
     <string name="hint_search_age_group">Search age group</string>
     <string name="hint_search_club">Search club</string>
     <string name="hint_search_groups">Search groups</string>
-    <string name="view_on_map">VIEW ON MAP</string>
+    <string name="view_on_map">View on map</string>
     <string name="password_updated_successfully">Password updated successfully.</string>
     <string name="profile_image_updated_successfully">Profile image updated successfully.</string>
     <string name="please_enter_valid_otp">Please enter valid OTP.</string>
