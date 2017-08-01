@@ -9,9 +9,9 @@
 		<th class="text-center">Won</th>
 		<th class="text-center">Draws</th>
 		<th class="text-center">Lost</th>
-		<th class="text-center">Goals for</th>
-		<th class="text-center">Goals against</th>
-    <th class="text-center">Goal difference</th>
+		<th class="text-center">For</th>
+		<th class="text-center">Against</th>
+    <th class="text-center">Difference</th>
     <th class="text-center">Points</th>
 	</thead>
 	<tbody>
