@@ -10,7 +10,7 @@
 			<div class="col-md-12 mb-3">
 				<div class="row">
 					<div class="col-md-12">
-						<h6>{{otherData.TeamName}}</h6>
+						<label class="mt-3"><h6 class="mr-3 mb-0">{{otherData.TeamName}}</h6></label>
 					</div>
 				</div>
 
