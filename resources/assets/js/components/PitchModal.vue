@@ -345,9 +345,16 @@ var moment = require('moment');
           ReportData = ReportData+'&status='+this.matchDetail.match_status+'&winner='+matchWinner
         }
 
-        this.$validator.validateAll().then(() => {
-            var win = window.open("/api/match/print?"+ReportData, '_blank');
-        })
+        if(this.match_result == true){
+            this.$validator.validateAll().then(() => {
+                var win = window.open("/api/match/print?"+ReportData, '_blank');
+                win.focus();
+            })
+        } else {
+          var win = window.open("/api/match/print?"+ReportData, '_blank');
+          win.focus();
+        }
+
     }
   }
 }
