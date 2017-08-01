@@ -398,11 +398,20 @@ class TournamentService implements TournamentContract
                 $join->on('away_team.id', '=', 'temp_fixtures.away_team');
             })
             ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
+            ->leftjoin('countries as HomeFlag', 'home_team.country_id', '=',
+                'HomeFlag.id')
+            ->leftjoin('countries as AwayFlag', 'away_team.country_id', '=',
+                'AwayFlag.id')
             ->leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
             ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
             ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
-            ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.last_name as referee_last_name','referee.first_name as referee_first_name',
+            ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.last_name as referee_last_name',
+              'home_team.name as HomeTeam','away_team.name as AwayTeam',
+              'HomeFlag.country_flag as HomeCountryFlag',
+              'AwayFlag.country_flag as AwayCountryFlag',
+              'home_team.name as HomeTeam','away_team.name as AwayTeam',
+              'referee.first_name as referee_first_name',
               DB::raw('CONCAT(referee.last_name,",",referee.first_name) as refereeFullName'),
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
             ->where('temp_fixtures.tournament_id',$data['tournament_id'])
@@ -503,8 +512,11 @@ class TournamentService implements TournamentContract
                   case 'referee':
                         $fieldName = 'refereeFullName';
                         break;
-                  case 'full_game':
-                        $fieldName = 'full_game';
+                  case 'HomeTeam':
+                        $fieldName = 'HomeTeam';
+                        break;
+                  case 'AwayTeam':
+                        $fieldName = 'AwayTeam';
                         break;
               }
 
@@ -568,11 +580,19 @@ class TournamentService implements TournamentContract
                 $join->on('away_team.id', '=', 'temp_fixtures.away_team');
             })
             ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
+            ->leftjoin('countries as HomeFlag', 'home_team.country_id', '=',
+                'HomeFlag.id')
+            ->leftjoin('countries as AwayFlag', 'away_team.country_id', '=',
+                'AwayFlag.id')
             ->leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
             ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
             ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
             ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.last_name as referee_last_name','referee.first_name as referee_first_name',
+               'home_team.name as HomeTeam','away_team.name as AwayTeam',
+              'HomeFlag.country_flag as HomeCountryFlag',
+              'AwayFlag.country_flag as AwayCountryFlag',
+              'home_team.name as HomeTeam','away_team.name as AwayTeam',
               DB::raw('CONCAT(referee.last_name,",",referee.first_name) as refereeFullName'),
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
             ->where('temp_fixtures.tournament_id',$data['tournament_id'])
@@ -674,6 +694,12 @@ class TournamentService implements TournamentContract
                         break;
                   case 'full_game':
                         $fieldName = 'full_game';
+                        break;
+                  case 'HomeTeam':
+                        $fieldName = 'HomeTeam';
+                        break;
+                  case 'AwayTeam':
+                        $fieldName = 'AwayTeam';
                         break;
               }
 
