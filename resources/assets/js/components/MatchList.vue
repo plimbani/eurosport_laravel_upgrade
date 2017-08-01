@@ -18,9 +18,9 @@
 
 					<a class="pull-left text-left text-primary" href=""
 					v-if="getCurrentScheduleView != 'drawDetails'"
-					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name}}</u>
+					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name | formatGroup}}</u>
 					</a>
-					<span v-else>{{match.competation_name}}</span>
+					<span v-else>{{match.competation_name | formatGroup}}</span>
 				</td>
 				<td align="right">
 					<!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
@@ -86,6 +86,13 @@ export default {
   filters: {
     formatDate: function(date) {
      return moment(date).format("HH:mm ddd DD MMM YYYY");
+    },
+    formatGroup:function (value) {
+      if(!isNaN(value.slice(-1))) {
+        return value.substring(0,value.length-1)
+      } else {
+        return value
+      }
     }
   },
 	computed: {

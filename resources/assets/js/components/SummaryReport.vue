@@ -200,7 +200,9 @@
 	                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}<i class="fa fa-fw fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('full_game')">{{$lang.summary_reports_game}}<i class="fa fa-fw fa-sort"></i></th>
+	                        <!--<th class="text-center" @click="sortReport('full_game')">{{$lang.summary_reports_game}}<i class="fa fa-fw fa-sort"></i></th>-->
+                           <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
+                          <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
 	                    </tr>
 	                </thead>
 	                <tbody>
@@ -210,8 +212,17 @@
 	                		<td>{{report.venue_name}}</td>
 	                		<td>{{report.pitch_number}}</td>
 	                		<td v-if="report.referee_last_name && report.referee_first_name">{{report.referee_last_name}}, {{report.referee_first_name}}</td>
-		             		<td v-else></td>
-	                		<td>{{report.full_game}}</td>
+  		             		<td v-else></td>
+	                		<!--<td>{{report.full_game}}</td>-->
+                      <td align="right">
+                       <span class="text-center">{{report.HomeTeam}}</span>
+                       <span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
+                      </td>
+                      <td align="left">
+                        <span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
+                        <span class="text-center">{{report.AwayTeam}}</span>
+                      </td>
+                      <!--<td></td>-->
 	                	</tr>
 	                </tbody>
 				</table>
