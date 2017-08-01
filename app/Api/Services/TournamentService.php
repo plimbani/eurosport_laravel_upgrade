@@ -21,6 +21,7 @@ class TournamentService implements TournamentContract
     public function __construct(TournamentRepository $tournamentRepoObj)
     {
         $this->tournamentRepoObj = $tournamentRepoObj;
+        $this->getAWSUrl = getenv('S3_URL');
     }
 
      /*
@@ -411,6 +412,8 @@ class TournamentService implements TournamentContract
               'HomeFlag.country_flag as HomeCountryFlag',
               'AwayFlag.country_flag as AwayCountryFlag',
               'home_team.name as HomeTeam','away_team.name as AwayTeam',
+               DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
+                DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
               'referee.first_name as referee_first_name',
               DB::raw('CONCAT(referee.last_name,",",referee.first_name) as refereeFullName'),
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
@@ -545,8 +548,9 @@ class TournamentService implements TournamentContract
                     $reportRec->group_name,
                     $reportRec->venue_name,
                     $reportRec->pitch_number,
-                  $refName,
-                    $reportRec->full_game,
+                    $refName,
+                    $reportRec->HomeTeam,
+                    $reportRec->AwayTeam,
                 ];
                 array_push($dataArray, $ddata);
             }
@@ -557,7 +561,7 @@ class TournamentService implements TournamentContract
                 ];
 
             $lableArray = [
-                'Date and time','Age category' ,'Location', 'Pitch','Referee', 'Game'
+                'Date and time','Age category' ,'Location', 'Pitch','Referee', 'Team','Tea,'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
@@ -590,8 +594,11 @@ class TournamentService implements TournamentContract
             ->groupBy('temp_fixtures.id')
             ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.last_name as referee_last_name','referee.first_name as referee_first_name',
                'home_team.name as HomeTeam','away_team.name as AwayTeam',
+
               'HomeFlag.country_flag as HomeCountryFlag',
               'AwayFlag.country_flag as AwayCountryFlag',
+               DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
+                DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
               'home_team.name as HomeTeam','away_team.name as AwayTeam',
               DB::raw('CONCAT(referee.last_name,",",referee.first_name) as refereeFullName'),
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
@@ -602,17 +609,7 @@ class TournamentService implements TournamentContract
             if(isset($data['sel_ageCategory'])  && $data['sel_ageCategory']!= ''){
                 $reportQuery->where('tournament_competation_template.id',$data['sel_ageCategory']);
             }
-            // if(isset($data['sel_clubs'])  && $data['sel_clubs']!= ''){
-            //   $reportQuery->where('home_team.club_id',$data['sel_clubs'])->orWhere('away_team.club_id',$data['sel_clubs']);
-            // }
-            // if(isset($data['start_date'])  && $data['start_date']!= '' ){
 
-            //   $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date']);
-            //   $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','>=',$start_date);
-            // }
-            // if(isset($data['end_date'])  && $data['end_date']!= '' ){
-            //   $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','<=',Carbon::createFromFormat('d/m/Y', $data['end_date']));
-            // }
             if(isset($data['start_date'])  && $data['start_date']!= '' ){
 
               $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date'])->toDateString();
@@ -655,11 +652,7 @@ class TournamentService implements TournamentContract
                 $reportQuery = $reportQuery->where('temp_fixtures.venue_id',$data['sel_venues']);
             }
             if(isset($data['sel_teams'])  && $data['sel_teams']!= '' ){
-             // echo $data['sel_teams'];
-                //$reportQuery = $reportQuery->where('temp_fixtures.home_team',$data['sel_teams'])
-                  //          ->orWhere('temp_fixtures.away_team',$data['sel_teams']);
-             // $reportQuery = $reportQuery->where(DB::raw('temp_fixtures.home_team = '.$data['sel_teams'].'or temp_fixtures.away_team = '.$data['sel_teams']));
-            // echo $data['sel_teams'];
+
              $team = $data['sel_teams'];
               $reportQuery = $reportQuery->where(function ($query) use($team)
                               {

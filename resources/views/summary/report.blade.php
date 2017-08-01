@@ -43,13 +43,13 @@
     		<td align="center"></td>
     		@endif
     		<!--<td align="center">{{ $report->full_game }}</td>-->
-            <td align="center">
-                       <span class="text-center">{{ $report->HomeTeam }}</span>
-                       <!--<span class="flag-icon flag-icon-".$report.HomeCountryFlag></span>-->
+            <td>
+               <img src="{{ $report->HomeFlagLogo }}" width="20">
+                <span class="text-center">{{ $report->HomeTeam }}</span>
             </td>
-            <td align="center">
-
-                        <span class="text-center">{{ $report->AwayTeam }}</span>
+            <td>
+            <img src="{{ $report->AwayFlagLogo }}" width="20">
+            <span class="text-center">{{ $report->AwayTeam }}</span>
             </td>
     	</tr>
     @endforeach
