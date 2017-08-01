@@ -102,6 +102,7 @@
     <string name="close">Close</string>
     <string name="is_the_winner">is the winner</string>
     <string name="deafult_tournament_cannot_be_removed_from_favourite">Default tournament cannot be removed from favourite.</string>
+    <string name="title_activity_venue_map">Venue</string>
 
     <!--Volley-->
 
@@ -142,5 +143,4 @@
         <item>da</item>
         <item>pl</item>
     </string-array>
-
 </resources>

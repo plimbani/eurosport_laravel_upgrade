@@ -36,6 +36,9 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e9d94b282925a83d299b04a73a8c80554f477f37" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".activity.FavouritesActivity"
@@ -113,17 +116,20 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.WebViewActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NewMessagePopupActivity"
             android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".activity.VenueMapActivity"
+            android:label="@string/title_activity_venue_map"
+            android:screenOrientation="portrait" />
 
         <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".MyFirebaseMessagingService"
             android:stopWithTask="false">
@@ -131,7 +137,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>
