@@ -43,11 +43,11 @@
     		<td align="center"></td>
     		@endif
     		<!--<td align="center">{{ $report->full_game }}</td>-->
-            <td>
+            <td align="right">
+               <span class="text-center">{{ $report->HomeTeam }}</span>
                <img src="{{ $report->HomeFlagLogo }}" width="20">
-                <span class="text-center">{{ $report->HomeTeam }}</span>
             </td>
-            <td>
+            <td align="left">
             <img src="{{ $report->AwayFlagLogo }}" width="20">
             <span class="text-center">{{ $report->AwayTeam }}</span>
             </td>
