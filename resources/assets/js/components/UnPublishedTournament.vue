@@ -8,7 +8,7 @@
                 </div>
                 <div class="modal-body text-left">
                     <p>
-                        Hit "Confirm" to UnPublish your tournament details.
+                        Please confirm you would like to unpublish this tournament?
                     </p>
                 </div>
                 <div class="modal-footer">
