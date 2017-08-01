@@ -152,28 +152,27 @@
 
         </TableLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_view_on_map"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_view_on_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
 
-            <TextView
-                style="@style/text_black_sub_title"
-                android:drawableLeft="@drawable/map_marker"
-                android:drawablePadding="5dp"
-                android:gravity="left|center"
-                android:padding="10dp"
-                android:text="@string/view_on_map" />
-        </LinearLayout>
-
-        <View
-            android:id="@+id/view_seperator"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/button_disable" />
+        <TextView
+            style="@style/text_black_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:drawableLeft="@drawable/map_marker"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/view_on_map" />
     </LinearLayout>
 
     <include layout="@layout/layout_footer" />

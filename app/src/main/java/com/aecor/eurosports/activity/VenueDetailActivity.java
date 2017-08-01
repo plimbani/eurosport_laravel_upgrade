@@ -36,8 +36,6 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
     protected TextView tv_playing_surface;
     @BindView(R.id.ll_view_on_map)
     protected LinearLayout ll_view_on_map;
-    @BindView(R.id.view_seperator)
-    protected View view_seperator;
 
     @OnClick(R.id.ll_view_on_map)
     protected void onViewOnMapClicked() {
@@ -83,7 +81,8 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
             tv_location_name.setText(mTeamFixturesModel.getVenue_name());
         } else {
             tv_location_name.setText(getString(R.string.na));
-        }if (!Utility.isNullOrEmpty(mTeamFixturesModel.getPitch_number())) {
+        }
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getPitch_number())) {
             tv_pitch_name.setText(mTeamFixturesModel.getPitch_number());
         } else {
             tv_pitch_name.setText(getString(R.string.na));
@@ -119,10 +118,9 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenueCoordinates())) {
             ll_view_on_map.setVisibility(View.VISIBLE);
-            view_seperator.setVisibility(View.VISIBLE);
+
         } else {
             ll_view_on_map.setVisibility(View.GONE);
-            view_seperator.setVisibility(View.GONE);
         }
     }
 

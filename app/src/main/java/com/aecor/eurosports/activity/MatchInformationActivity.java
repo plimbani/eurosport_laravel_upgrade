@@ -52,6 +52,8 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     protected TextView tv_match_id;
     @BindView(R.id.tv_venue)
     protected TextView tv_venue;
+    @BindView(R.id.tv_winner_status)
+    protected TextView tv_winner_status;
     private TeamFixturesModel mTeamFixturesModel;
     private Context mContext;
 
@@ -90,6 +92,22 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
             tv_team_country_2.setText("");
         }
 
+        String mStatusAndWinnerStr = "";
+
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_status())) {
+            mStatusAndWinnerStr = mTeamFixturesModel.getMatch_status();
+        }
+
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatchWinner())) {
+            mStatusAndWinnerStr = mStatusAndWinnerStr + " - " + mTeamFixturesModel.getMatchWinner();
+        }
+
+        if (!Utility.isNullOrEmpty(mStatusAndWinnerStr)) {
+            mStatusAndWinnerStr = mStatusAndWinnerStr + " " + getString(R.string.is_the_winner);
+            tv_winner_status.setText(mStatusAndWinnerStr);
+        } else {
+            tv_winner_status.setText("");
+        }
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeFlagLogo())) {
             Glide.with(mContext)
