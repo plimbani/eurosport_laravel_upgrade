@@ -272,14 +272,18 @@ class TournamentService implements TournamentContract
 
        if($data['tournamentData']['image_logo'] != '')
        {
+            // here we check using preg_replace that if its change image or not
+            if(strpos($data['tournamentData']['image_logo'],$this->getAWSUrl) !==  false) {
+              $path = $this->getAWSUrl.'/assets/img/tournament_logo/';
+              $imageLogo = str_replace($path,"",$data['tournamentData']['image_logo']);
+              return $imageLogo;
+            }
             $s3 = \Storage::disk('s3');
             $imagePath = '/assets/img/tournament_logo/';
             // here we check it for edit purpose and if image is
             // already there we will return it
             //if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/img/tournament_logo/'.$data['tournamentData']['image_logo']))
-            $info = $s3->has('dev-esr/'.$imagePath);
-            if(!$info)
-            {
+
 
               // $imagename = $data['user_image'];
               //exit;
@@ -320,12 +324,7 @@ class TournamentService implements TournamentContract
 
             return $timeStamp.'.png';
 
-          } else {
 
-            // if its exist then nothing have to update
-            //exit;
-            return $data['tournamentData']['image_logo'];
-          }
         } else {
             // If its Edit
             return '';
