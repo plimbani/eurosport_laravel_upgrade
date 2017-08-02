@@ -85,7 +85,7 @@ class TournamentRepository
         if($data['image_logo'] != ''){
             $newdata['logo'] = $data['image_logo'];
         } else {
-            $newdata['logo'] = '';
+            $newdata['logo'] = NULL;
         }
         // Now here we Save it For Tournament
         $imageChanged = true;
@@ -95,6 +95,7 @@ class TournamentRepository
           //$newdata['status'] = $data['status'];
           // unset($newdata['start_date']);
           // unset($newdata['end_date']);
+          //
           $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
           $newdata['end_date'] = Carbon::createFromFormat('d/m/Y', $newdata['end_date']);
           // here we check for image Logo is exist
@@ -431,6 +432,8 @@ class TournamentRepository
                 ->get()->first();
       if($pitches) {
           return $pitches->toArray();
+      } else {
+        return '';
       }
 
     }
@@ -460,17 +463,17 @@ class TournamentRepository
         $tournamentStartTimeArr = $this->getTournamentPitchStartTime($tournament_ids);
 
         foreach($userData as $index=>$userData1) {
+
           if($tournamentStartTimeArr) {
           foreach($tournamentStartTimeArr as $key=>$tournamentTime) {
-
             if($userData1['TournamentId'] == $tournamentStartTimeArr['TId']) {
-              $userData[$index]['TournamentStartTime'] =
-              date('Y-m-d H:i:s' ,strtotime($tournamentStartTimeArr['TournamentStartTime']));
+                $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s' ,strtotime($tournamentStartTimeArr['TournamentStartTime']));
+              }
             }
-            }
-          } else {
-            return array();
           }
+          /*else {
+            //return $userData;
+          }*/
         }
 
         return $userData;
