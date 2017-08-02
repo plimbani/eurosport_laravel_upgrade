@@ -3,6 +3,7 @@ package com.aecor.eurosports.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +94,7 @@ public class FavouriteListAdapter extends BaseAdapter {
             holder = (ViewHolder) rowview.getTag();
         }
         final TournamentModel rowItem = getItem(position);
-        holder.favourite_logo.setImageResource(R.drawable.globe);
+//        holder.favourite_logo.setImageResource(R.drawable.globe);
 
         if (!Utility.isNullOrEmpty(rowItem.getName())) {
             holder.favourite_tournament.setText(rowItem.getName());
@@ -115,6 +116,12 @@ public class FavouriteListAdapter extends BaseAdapter {
                     .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                            super.onLoadFailed(e, errorDrawable);
+                            holder.favourite_logo.setImageResource(R.drawable.globe);
+                        }
+
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             holder.favourite_logo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));

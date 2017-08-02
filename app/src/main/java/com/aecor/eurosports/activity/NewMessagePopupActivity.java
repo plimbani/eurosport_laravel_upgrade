@@ -45,7 +45,7 @@ public class NewMessagePopupActivity extends Activity {
         builder.setView(dialogView);
         final AlertDialog alert = builder.create();
         alert.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+//        alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         alert.show();
 
         tv_positive_button.setOnClickListener(new View.OnClickListener() {
