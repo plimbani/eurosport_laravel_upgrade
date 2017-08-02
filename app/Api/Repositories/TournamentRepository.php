@@ -21,7 +21,7 @@ class TournamentRepository
 {
     public function __construct()
     {
-      $this->tournamentLogo = $url = getenv('S3_URL').'/assets/img/tournament_logo/';
+      $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
     }
     public function getTournamentsByStatus($tournamentData)
     {
@@ -33,13 +33,15 @@ class TournamentRepository
       if($status == '') {
           $data = Tournament::
                   select('tournaments.*',
-                  \DB::raw('IFNULL("",CONCAT("'.$this->tournamentLogo.'", tournaments.logo)) AS tournamentLogo'))
+                 \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo),"" ) as tournamentLogo'))
                     ->get();
       } else {
         $data = Tournament::where('status','=','Published')
                 ->select('tournaments.*',
-                  \DB::raw('IFNULL("",CONCAT("'.$this->tournamentLogo.'", tournaments.logo)) AS tournamentLogo'))
+                \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo),"" ) as tournamentLogo')
+                  )
                   ->get();
+
       }
         return $data;
         /*if($status == '') {

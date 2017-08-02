@@ -224,7 +224,7 @@ class UserRepository {
             ->join('people', 'users.person_id', '=', 'people.id')
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
             ->select("users.id as id", "users.email as emailAddress",
-               DB::raw('IFNULL("",CONCAT("'.$this->userImagePath.'", users.user_image)) AS image'),
+               DB::raw('IF(users.user_image is not null,CONCAT("'.$this->userImagePath.'", users.user_image),"" ) as image'),
              "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
             ->where("users.id", "=", $userId)
             ->first();
@@ -275,6 +275,12 @@ class UserRepository {
 
       //$updatedValue = array('value'=>$userData['userSettings']);
       return Settings::where('user_id', $userId)->update($updatedValue);
+    }
+    public function setFCM($data) {
+      $email = $data['email'];
+      $fcmId = $data['fcm_id'];
+      $updatedValue = ['fcm_id'=>$fcmId];
+      return User::where('email',$email)->update($updatedValue);
     }
 
 }
