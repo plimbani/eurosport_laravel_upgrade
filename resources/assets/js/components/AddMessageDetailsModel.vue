@@ -71,7 +71,7 @@
             v-if="messageDetail.status != 'sent' ">Delete</button>
             </div>
             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
-            <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge"  v-if="messageDetail.status != 'sent' ">Sent</button>
+            <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge"  v-if="messageDetail.status != 'sent' ">Send</button>
             <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">Draft</button>
         </div>
     </div>

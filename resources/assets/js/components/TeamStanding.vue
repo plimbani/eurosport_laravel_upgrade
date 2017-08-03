@@ -5,14 +5,14 @@
 	<thead>
 
 		<th class="text-center"></th>
-		<th class="text-center">Played</th>
-		<th class="text-center">Won</th>
-		<th class="text-center">Draws</th>
-		<th class="text-center">Lost</th>
-		<th class="text-center">For</th>
-		<th class="text-center">Against</th>
-    <th class="text-center">Difference</th>
-    <th class="text-center">Points</th>
+		<th class="text-center" width="10%">Played</th>
+		<th class="text-center" width="10%">Won</th>
+		<th class="text-center" width="10%">Draws</th>
+		<th class="text-center" width="10%">Lost</th>
+		<th class="text-center" width="10%">For</th>
+		<th class="text-center" width="10%">Against</th>
+    <th class="text-center" width="10%">Difference</th>
+    <th class="text-center" width="10%">Points</th>
 	</thead>
 	<tbody>
 		<tr v-for="stand in standingData">
@@ -26,14 +26,14 @@
 					</span>
 				<!-- </a> -->
 			</td>
-			<td class="text-center">{{stand.played}}</td>
-			<td class="text-center">{{stand.won}}</td>
-			<td class="text-center">{{stand.draws}}</td>
-			<td class="text-center">{{stand.lost}}</td>
-			<td class="text-center">{{stand.goal_for}}</td>
-			<td class="text-center">{{stand.goal_against}}</td>
-      <td class="text-center">{{stand.goal_for - stand.goal_against | formatGD}}</td>
-      <td class="text-center">{{stand.points}}</td>
+			<td class="text-center" width="10%">{{stand.played}}</td>
+			<td class="text-center" width="10%" >{{stand.won}}</td>
+			<td class="text-center" width="10%">{{stand.draws}}</td>
+			<td class="text-center" width="10%">{{stand.lost}}</td>
+			<td class="text-center" width="10%">{{stand.goal_for}}</td>
+			<td class="text-center" width="10%">{{stand.goal_against}}</td>
+      <td class="text-center" width="10%">{{stand.goal_for - stand.goal_against | formatGD}}</td>
+      <td class="text-center" width="10%">{{stand.points}}</td>
 		</tr>
 	</tbody>
 </table>
