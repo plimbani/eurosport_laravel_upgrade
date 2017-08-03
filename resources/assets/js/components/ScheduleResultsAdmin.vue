@@ -4,8 +4,7 @@
 	    	<div class="col-sm-12">
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
-				<h6>{{$lang.summary_schedule}}</h6>
-            <p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}
+		    <p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}
             : {{lastUpdatedDateValue}}
             </small></p>
 						<div class="tab-content summary-report-content">
