@@ -1,6 +1,7 @@
 package com.aecor.eurosports.activity;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,10 +29,14 @@ public class NewMessagePopupActivity extends Activity {
         super.onCreate(savedInstanceState);
         mContext = this;
         String message = getIntent().getExtras().getString(AppConstants.ARG_NEW_MESSAGE);
-        showNewMessagePopup(message);
+        String title = getIntent().getExtras().getString(AppConstants.ARG_NEW_MESSAGE_TITLE);
+        NotificationManager nManager = ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE));
+        nManager.cancelAll();
+
+        showNewMessagePopup(message,title);
     }
 
-    private void showNewMessagePopup(String messageContent) {
+    private void showNewMessagePopup(String messageContent, String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View dialogView = inflater.inflate(R.layout.single_button_dialog, null);
@@ -39,13 +44,13 @@ public class NewMessagePopupActivity extends Activity {
         TextView tv_message = (TextView) dialogView.findViewById(R.id.tv_message);
         Button tv_positive_button = (Button) dialogView.findViewById(R.id.tv_positive_button);
 
-        tv_title.setText(getString(R.string.new_message));
+        tv_title.setText(title);
         tv_message.setText(messageContent);
         tv_positive_button.setText(getString(R.string.close));
         builder.setView(dialogView);
         final AlertDialog alert = builder.create();
         alert.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+//        alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         alert.show();
 
         tv_positive_button.setOnClickListener(new View.OnClickListener() {

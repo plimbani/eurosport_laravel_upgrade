@@ -148,8 +148,7 @@ public class SignInActivity extends BaseActivity {
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
                             }
-                            startActivity(new Intent(mContext, HomeActivity.class));
-                            finish();
+                            checkIfNewTokenIsAvailable();
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
@@ -173,6 +172,71 @@ public class SignInActivity extends BaseActivity {
                 }
             });
             mQueue.add(jsonRequest1);
+        }
+    }
+
+    private void checkIfNewTokenIsAvailable() {
+        if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOKEN_POSTED_ONSERVER)) && mAppSharedPref.getString(AppConstants.PREF_TOKEN_POSTED_ONSERVER).equalsIgnoreCase("true")) {
+            launchHome();
+        } else {
+            if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.FIREBASE_TOKEN))) {
+                postTokenOnServer(mAppSharedPref.getString(AppConstants.FIREBASE_TOKEN));
+            }else{
+                launchHome();
+            }
+
+        }
+    }
+
+    private void launchHome() {
+        startActivity(new Intent(mContext, HomeActivity.class));
+        finish();
+    }
+
+    private void postTokenOnServer(String mFcmToken) {
+        String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
+        if (!Utility.isNullOrEmpty(email)) {
+            String url = ApiConstants.POST_FCM_TOKEN;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("email", email);
+                requestJson.put("fcm_id", mFcmToken);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if (Utility.isInternetAvailable(mContext)) {
+                AppLogger.LogE(TAG, "***** Post FCM Token request *****" + requestJson.toString());
+                final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+                final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                        .POST, url,
+                        requestJson, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            AppLogger.LogE(TAG, "***** Post FCM Token response *****" + response.toString());
+                            mAppSharedPref.setString(AppConstants.PREF_TOKEN_POSTED_ONSERVER, "true");
+                            launchHome();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        try {
+                            AppLogger.LogE(TAG, "error" + error);
+                            launchHome();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                mQueue.add(jsonRequest);
+            }
+        } else {
+            mAppSharedPref.setString(AppConstants.PREF_TOKEN_POSTED_ONSERVER, "false");
+            launchHome();
         }
     }
 

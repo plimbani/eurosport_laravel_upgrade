@@ -41,6 +41,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -161,6 +163,13 @@ public class ClubsClubFragment extends Fragment {
     private void setClubAdapter(ClubModel mClubList[]) {
         List<ClubModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mClubList));
+        Collections.sort(list, new Comparator<ClubModel>() {
+            @Override
+            public int compare(ClubModel lhs, ClubModel rhs) {
+                //here getTitle() method return app name...
+                return lhs.getClubName().compareTo(rhs.getClubName());
+            }
+        });
         adapter = new ClubAdapter((Activity) mContext, list);
         rv_clubList.setAdapter(adapter);
         rl_search.setVisibility(View.VISIBLE);

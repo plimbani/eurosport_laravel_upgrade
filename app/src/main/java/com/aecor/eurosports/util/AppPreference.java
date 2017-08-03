@@ -94,8 +94,10 @@ public class AppPreference {
     }
 
     public void clear() {
+        String fcmDeviceToken = getString(AppConstants.FIREBASE_TOKEN);
         mPref.edit()
                 .clear()
                 .apply();
+        setString(AppConstants.FIREBASE_TOKEN, fcmDeviceToken);
     }
 }

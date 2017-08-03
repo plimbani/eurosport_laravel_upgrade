@@ -41,6 +41,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -160,8 +162,16 @@ public class ClubsAgeFragment extends Fragment {
     }
 
     private void setAgeAdapter(AgeCategoriesModel mTournamentList[]) {
+
         List<AgeCategoriesModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
+        Collections.sort(list, new Comparator<AgeCategoriesModel>() {
+            @Override
+            public int compare(AgeCategoriesModel lhs, AgeCategoriesModel rhs) {
+                //here getTitle() method return app name...
+                return lhs.getGroup_name().compareTo(rhs.getGroup_name());
+            }
+        });
         adapter = new AgeAdapter((Activity) mContext, list);
         age_list.setAdapter(adapter);
         rl_search.setVisibility(View.VISIBLE);
