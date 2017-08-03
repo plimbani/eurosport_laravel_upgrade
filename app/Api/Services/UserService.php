@@ -441,4 +441,33 @@ class UserService implements UserContract
       }
       // Add code for Edit Profile image for User
     }
+    public function setFCM($data) {
+      //$userEmail = $data['email'];
+      //$gcmId = $data['fcm_id'];
+      if(!isset($data['fcm_id'])) {
+        return ['status_code'=>'300','message'=>'FCM ID is Missing'];
+      }
+       if(!isset($data['email'])) {
+        return ['status_code'=>'300','message'=>'Email Address is Missing'];
+      }
+      $data = $this->userRepoObj->setFCM($data);
+      if($data) {
+        return ['status_code'=>'200','message'=>'GCM Updated successfully'];
+      } else {
+        return ['status_code'=>'200','message'=>'Problem on updating'];
+      }
+    }
+
+    public function getAllAppUsers($data) {
+
+       $appUsers = User::whereHas('roles', function($query)
+                  {
+                      $query->where('slug', 'mobile.user');
+                  })->get();
+        if($appUsers) {
+          return ['status_code'=>200,'message'=>'success','data'=>$appUsers];
+        }
+
+    }
+
 }

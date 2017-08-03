@@ -215,5 +215,8 @@ class UserController extends BaseController
     public function updatefcm(Request $request) {
       return $this->userObj->setFCM($request->all());
     }
+    public function getAllAppUsers(Request $request) {
+      return $this->userObj->getAllAppUsers($request->all());
+    }
 
 }

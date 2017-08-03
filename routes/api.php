@@ -160,8 +160,13 @@ $api->version('v1', function ($api) {
 
 
     $api->post('user/status', 'Laraspace\Api\Controllers\UserController@changeUserStatus');
-
-
+    // Push Notification Service
+    // Update user for update user id
+    $api->post('users/updatefcm','Laraspace\Api\Controllers\UserController@updatefcm');
+    $api->post('users/getAllAppUsers', 'Laraspace\Api\Controllers\UserController@getAllAppUsers');
+     $api->post('users/sendNotification', 'Laraspace\Api\Controllers\PushMessagesController@sendNotification');
+     $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
+    // End of Push Notification code
     $api->get('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
 
 
