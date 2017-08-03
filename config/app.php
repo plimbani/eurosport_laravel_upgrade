@@ -181,7 +181,8 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Toin0u\Geotools\GeotoolsServiceProvider::class,
         Geocoder\Laravel\Providers\GeocoderService::class,
-        
+        LaravelFCM\FCMServiceProvider::class,
+
         /*
          *  Custom Service Providers
          */
@@ -261,7 +262,9 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
-         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'FCM'      => LaravelFCM\Facades\FCM::class,
+        'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
     ],
 
 ];

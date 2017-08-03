@@ -144,6 +144,10 @@ export default {
   getClubsTeams(tournamentData) {
   return api.post('team/getClubsTeams',{'tournamentData': tournamentData})
  },
-
-
+ sendMessage(messageData){
+  return api.post('users/sendNotification',{'messageData': messageData})
+ },
+ getTournamentMessages(messageData) {
+  return api.post('users/getMessage',{'messageData': messageData})
+ }
 }
