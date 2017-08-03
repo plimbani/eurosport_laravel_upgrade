@@ -1,6 +1,5 @@
 <template>
 	<div class="tab-content summary-content">
-	<h6>Summary</h6>
 		<div class="row">
 			<div class="col-md-6"><div style="line-height:1">
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
