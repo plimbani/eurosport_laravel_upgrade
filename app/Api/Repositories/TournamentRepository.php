@@ -103,7 +103,7 @@ class TournamentRepository
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
-         $newdata['status'] = 'UnPublished';
+         $newdata['status'] = 'Unpublished';
          $tournamentId = Tournament::create($newdata)->id;
         }
         //$tournamentId = Tournament::create($newdata)->id;
