@@ -12,7 +12,7 @@
       <th class="text-center"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
 		</thead>
 		<tbody>
-			<tr v-for="(match,index) in matchData">
+			<tr v-for="(match,index1) in matchData">
 				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
 
@@ -20,7 +20,7 @@
 					v-if="getCurrentScheduleView != 'drawDetails'"
 					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name | formatGroup}}</u>
 					</a>
-					<span v-else>{{match.competation_name | formatGroup}}</span>
+					<span v-else>{{match.competation_name | formatGroup(match.round)}}</span>
 				</td>
 				<td align="right">
 					<!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
@@ -49,7 +49,7 @@
 				</td>
         	<td class="text-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"><span class="align-middle">
               <a class="text-primary" href="#"
-              @click="openPitchModal(match,index)"><i class="jv-icon jv-edit"></i></a>
+              @click="openPitchModal(match,index1)"><i class="jv-icon jv-edit"></i></a>
             </span></td>
 			</tr>
 		</tbody>
@@ -78,7 +78,7 @@ export default {
       'matchFixture': {},
       'section': 'scheduleResult',
       'currentMatch': {},
-      'index': ''
+      'index':''
 		}
 	},
 
@@ -87,13 +87,18 @@ export default {
     formatDate: function(date) {
      return moment(date).format("HH:mm ddd DD MMM YYYY");
     },
-    formatGroup:function (value) {
-      if(!isNaN(value.slice(-1))) {
-        return value.substring(0,value.length-1)
-      } else {
-        return value
+    formatGroup:function (value,round) {
+
+           if(round == 'Round Robin') {
+              return value
+            }
+            if(!isNaN(value.slice(-1))) {
+              return value.substring(0,value.length-1)
+            } else {
+              return value
+            }
       }
-    }
+
   },
 	computed: {
 		isHideLocation() {
@@ -146,17 +151,35 @@ export default {
     },
 	methods: {
     setScore(homescore,AwayScore,competationId) {
+      let vm = this
+      let scheduleView = this.$store.state.currentScheduleView
+      let index = this.index
+      index = index.toString()
+      console.log('sview'+scheduleView)
       console.log('set Score')
-      console.log(this.index)
-      console.log(this.currentMatch)
-      this.matchData[this.index].AwayScore = AwayScore
-      this.matchData[this.index].homeScore = homescore
+      console.log(vm.index)
+      console.log('THISSSSSSSS')
 
-      this.$root.$emit('setDrawTable',competationId)
-      this.$root.$emit('setStandingData',competationId)
+      console.log(vm.matchData)
+      console.log('index is'+index)
+
+      console.log(typeof index)
+      if(index != '') {
+        console.log('not blank')
+          vm.matchData[vm.index].AwayScore = AwayScore
+      vm.matchData[vm.index].homeScore = homescore
+      console.log(vm.$store.state.currentScheduleView)
+      if(vm.$store.state.currentScheduleView == 'matchList') {
+       // vm.$root.$emit('setDrawTable',competationId)
+      //  vm.$root.$emit('setStandingData',competationId)
+      }
+      }
+
       console.log('after Score')
     },
     openPitchModal(match,index) {
+      console.log('In pitch Modal')
+      console.log('index is'+index)
       this.currentMatch =  match
       this.index =  index
       this.setPitchModal = 1

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
-        <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal"></pitch-modal>
+        <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal"></pitch-modal>
         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
     </div>
 </template>
@@ -26,7 +26,8 @@ import _ from 'lodash'
                 'maxDatePitch': '19:05:00',
                 'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
-                'remBlock_id': 0
+                'remBlock_id': 0,
+                'section': 'pitchPlanner',
             }
         },
         props: [ 'stage' , 'defaultView'],

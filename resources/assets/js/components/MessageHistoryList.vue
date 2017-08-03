@@ -20,16 +20,15 @@
                   <td class="text-center">{{message.tournament.name}}</td>
                   <td class="text-center">
                     <a href="#" @click="messageDetails(index)" class="text-primary"><i class="jv-icon jv-find-doc text-decoration icon-big"></i></a>
-
                   </td>
               </tr>
           </tbody>
-          <AddMessageModel v-if="messageStatus"></AddMessageModel>
-          <AddMessageDetailsModel v-if="messageDetailsStatus" :messageDetail="messageDetail"></AddMessageDetailsModel>
          <!-- <AddAgeCateogryModel v-if="categoryStatus"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
           <competationModal :templateData="templateData" :totalTime="totalTime"></competationModal>-->
         </table>
+          <AddMessageModel v-if="messageStatus"></AddMessageModel>
+          <AddMessageDetailsModel v-if="messageDetailsStatus" :messageDetail="messageDetail"></AddMessageDetailsModel>
       </div>
     </div>
     <div class="row">
