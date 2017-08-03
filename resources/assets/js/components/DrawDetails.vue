@@ -228,8 +228,10 @@ export default {
              this.GenerateDrawTable(this.currentCompetationId)
         },
         GenerateDrawTable(currentCompetationId) {
-          let tournamentId = this.$store.state.Tournament.tournamentId
-          let tournamentData = {'tournamentId':tournamentId,'competationId':currentCompetationId}
+
+          if(currentCompetationId != undefined) {
+            let tournamentId = this.$store.state.Tournament.tournamentId
+            let tournamentData = {'tournamentId':tournamentId,'competationId':currentCompetationId}
                Tournament.getDrawTable(tournamentData).then(
                 (response)=> {
                   if(response.data.status_code == 200){
@@ -245,6 +247,8 @@ export default {
                 (error)=> {}
 
                )
+          }
+
         },
         setCurrentTabView(setCurrentTabView) {
           if(setCurrentTabView == 'drawsListing')
