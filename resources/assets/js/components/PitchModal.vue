@@ -295,11 +295,9 @@ var moment = require('moment');
                   $('#matchScheduleModal').modal('hide')
                   toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
                    if(this.section == 'scheduleResult') {
-                       let home_score = $('#home_team_score').val()
-                        let away_score = $('#away_team_score').val()
-                        console.log('hscore'+home_score)
-                        console.log('ascore'+away_score)
-                        let competationId = response.data.data.competationId
+                      let home_score = $('#home_team_score').val()
+                      let away_score = $('#away_team_score').val()
+                      let competationId = response.data.data.competationId
                       this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
                     } else {
                        this.$root.$emit('setPitchPlanTab','gamesTab')
