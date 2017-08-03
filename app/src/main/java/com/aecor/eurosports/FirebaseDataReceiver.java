@@ -2,6 +2,8 @@ package com.aecor.eurosports;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
@@ -21,9 +23,26 @@ public class FirebaseDataReceiver extends WakefulBroadcastReceiver {
         Log.d(TAG, "intent extra data " + intent.getExtras());
 
         if (intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
-            String messageContent = (String) intent.getExtras().get("gcm.notification.title");
+            try {
+                Bundle bundle = intent.getExtras();
+                if (bundle != null) {
+                    for (String key : bundle.keySet()) {
+                        Object value = bundle.get(key);
+                        Log.d(TAG, String.format("%s %s (%s)", key,
+                                value.toString(), value.getClass().getName()));
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            // Vibrate for 500 milliseconds
+            v.vibrate(500);
+            String messageContent = (String) intent.getExtras().get("gcm.notification.body");
+            String messageTitle = (String) intent.getExtras().get("gcm.notification.title");
             Intent mNewMessagePopupIntent = new Intent(context, NewMessagePopupActivity.class);
             mNewMessagePopupIntent.putExtra(AppConstants.ARG_NEW_MESSAGE, messageContent);
+            mNewMessagePopupIntent.putExtra(AppConstants.ARG_NEW_MESSAGE_TITLE, messageTitle);
             mNewMessagePopupIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(mNewMessagePopupIntent);
         }
