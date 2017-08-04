@@ -53,7 +53,7 @@ class AuthController extends Controller
 
           if($userData->is_mobile_user == 1 && $isMobileUsers != true) {
 
-            return response(['authenticated' => false,'message'=>'Mobile User not allowed to access.']);
+          //  return response(['authenticated' => false,'message'=>'Mobile User not allowed to access.']);
           }
           if($userData->is_active == 0) {
             return response(['authenticated' => false,'message'=>'Account de-activated please contact your administrator.']);
@@ -70,8 +70,7 @@ class AuthController extends Controller
                                 'people.first_name',
                                 'people.last_name','users.email',
                                 'users.user_image',
-                                \DB::raw(
-                                  'IFNULL("",CONCAT("'.$path.'", users.user_image)) AS userImage'),
+                                \DB::raw('IF(users.user_image is not null,CONCAT("'.$path.'", users.user_image),"" ) as userImage'),
                                 'users_favourite.tournament_id')
                               ->get();
             $userDetails = array();

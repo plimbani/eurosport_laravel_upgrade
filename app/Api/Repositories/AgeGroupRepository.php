@@ -103,6 +103,15 @@ class AgeGroupRepository
       // here we check value for Edit as Well
 
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
+      // here we also update the affected table like competaions and temp_fixtures
+      if(trim($data['oldageCat']) != trim($data['ageCategory_name']."-".$data['category_age'])) {
+        // Here call function to update in tables
+        $updataArr = array();
+        $updataArr['tournament_id'] = $data['tournament_id'];
+        $updataArr['age_cat_id'] = $data['competation_format_id'];
+        $updataArr['newCatname'] = trim($data['ageCategory_name']."-".$data['category_age']);
+        $this->updateAgeCatAndName($updataArr);
+      }
       return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
       //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
@@ -114,32 +123,75 @@ class AgeGroupRepository
 
       // Now here we return the appropriate Data
     }
+    /**
+     *   This Function Used for Update the competaions and temp_fixtures
+     *
+     */
+    private function updateAgeCatAndName($updataArr)
+    {
+      // First we call it from database
+      $tournamenTemplateData = TournamentCompetationTemplates::where('id','=',$updataArr['age_cat_id'])->get();
+      $dbCatname = trim($tournamenTemplateData[0]['group_name']."-".$tournamenTemplateData[0]['category_age']);
+      //echo 'name os'.$dbCatname;
+      $newCatName =trim($updataArr['newCatname']);
+
+      // First Update in the competations Table
+      DB::table('competitions')->where('tournament_competation_template_id','=',$updataArr['age_cat_id'])
+      ->where('tournament_id','=',$updataArr['tournament_id'])
+      ->update([
+        'name'=> DB::raw("REPLACE(name, '".$dbCatname."', '".$newCatName."')")
+        ]);
+      // Second update in Temp_fixtures Table
+      DB::table('temp_fixtures')->where('age_group_id','=',$updataArr['age_cat_id'])
+      ->where('tournament_id','=',$updataArr['tournament_id'])
+      ->update([
+        'match_number'=> DB::raw("REPLACE(match_number, '".$dbCatname."', '".$newCatName."')")
+        ]);
+
+    }
     /*
       This Function will Fetch Data For tournament_competation_table
       We pass tournamentId
      */
     public function getCompeationFormat($tournamentData) {
-     // print_r($tournamentData);
+      if(count($tournamentData) > 1)
+      {
 
-      $fieldName = key($tournamentData);
-      $value = $tournamentData[$fieldName];
-      if($fieldName == 'tournament_id') {
-        return TournamentCompetationTemplates::
-               leftjoin('tournament_template', 'tournament_template.id', '=',
-                'tournament_competation_template.tournament_template_id')
-               ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
-               ->select('tournament_competation_template.*','tournament_template.name as template_name',
-                 \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
-              ->where($fieldName, $value)->get();
+          $ageGroupIdArray = [];
+          $ageGroupIdArray[] = $tournamentData['cat_id'];
+          $result= TournamentCompetationTemplates::
+                 leftjoin('tournament_template', 'tournament_template.id', '=',
+                  'tournament_competation_template.tournament_template_id')
+                 ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
+                 ->select('tournament_competation_template.*','tournament_template.name as template_name',
+                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
+                  ->where('tournament_id', $tournamentData['tournament_id']);
+                  if(isset($tournamentData['cat_id']))
+                  {
+                    $result->whereIn('tournament_competation_template.id',$ageGroupIdArray);
+                  }
+
+          return $result->get();
       } else {
-        return TournamentCompetationTemplates::
-               leftjoin('tournament_template', 'tournament_template.id', '=',
-                'tournament_competation_template.tournament_template_id')
-               ->select('tournament_competation_template.*','tournament_template.name as template_name')
-              ->where('tournament_competation_template.'.$fieldName, $value)->get();
+        $fieldName = key($tournamentData);
+        $value = $tournamentData[$fieldName];
+        if($fieldName == 'tournament_id') {
+          return TournamentCompetationTemplates::
+                 leftjoin('tournament_template', 'tournament_template.id', '=',
+                  'tournament_competation_template.tournament_template_id')
+                 ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
+                 ->select('tournament_competation_template.*','tournament_template.name as template_name',
+                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
+                ->where($fieldName, $value)->get();
+        } else {
+          return TournamentCompetationTemplates::
+                 leftjoin('tournament_template', 'tournament_template.id', '=',
+                  'tournament_competation_template.tournament_template_id')
+                 ->select('tournament_competation_template.*','tournament_template.name as template_name')
+                ->where('tournament_competation_template.'.$fieldName, $value)->get();
+        }
+
       }
-
-
 
       // TODO: here we call function to Display All Templates Related to
       // compeation Format

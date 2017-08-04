@@ -24,13 +24,13 @@ Route::group(['prefix' => 'auth'], function () {
 Route::get('password/reset/{token}', 'Laraspace\Api\Controllers\PasswordController@getReset');
 Route::post('password/reset', 'Laraspace\Api\Controllers\PasswordController@postReset');
 //Route::post('password/email', 'Laraspace\Api\Controllers\PasswordController@postEmail');
-
+Route::get('/mlogin', 'Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
 
 $api = app('Dingo\Api\Routing\Router');
 
 
 $api->version('v1', function ($api) {
-   
+
      // for localization
     $locale = \Request::header('locale');
 
@@ -43,13 +43,16 @@ $api->version('v1', function ($api) {
     $api->post('password/email', '\Laraspace\Http\Controllers\Auth\ForgotPasswordController@resetlink');
 
     $api->post('password/reset', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
+    // $api->get('mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
+    $api->get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
+    $api->post('password/updateUserPassword', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@updateUserPassword')->name('password.request');
 
     $api->get('users/test', 'Laraspace\Api\Controllers\EnvController@test2');
     // Team Stuff
 
 
     $api->post('teams', 'Laraspace\Api\Controllers\TeamController@getTeams');
-    $api->get('clubs/getAll/{id}', 'Laraspace\Api\Controllers\TeamController@getClubs');
+    $api->post('clubs/getAll', 'Laraspace\Api\Controllers\TeamController@getClubs');
     $api->post('team/create', 'Laraspace\Api\Controllers\TeamController@createTeam');
     $api->post('team/edit/{id}', 'Laraspace\Api\Controllers\TeamController@edit');
     $api->post('team/delete/{deleteid}', 'Laraspace\Api\Controllers\TeamController@deleteTeam');
@@ -88,8 +91,8 @@ $api->version('v1', function ($api) {
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
     $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
-    // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint'); 
-    $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint'); 
+    // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
+    $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
@@ -146,7 +149,7 @@ $api->version('v1', function ($api) {
        // echo 'Hello'.$_SERVER['REMOTE_ADDR'];
 
     });
-
+    $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
     $api->post('users/getUsersByRegisterType', 'Laraspace\Api\Controllers\UserController@getUsersByRegisterType');
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
     $api->get('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('edit.users');
@@ -155,10 +158,18 @@ $api->version('v1', function ($api) {
     $api->post('user/update/{id}', 'Laraspace\Api\Controllers\UserController@update')->name('update.users');
     $api->post('user/delete/{id}', 'Laraspace\Api\Controllers\UserController@deleteUser')->name('delete.users');
 
+
     $api->post('user/status', 'Laraspace\Api\Controllers\UserController@changeUserStatus');
-
-
+    // Push Notification Service
+    // Update user for update user id
+    $api->post('users/updatefcm','Laraspace\Api\Controllers\UserController@updatefcm');
+    $api->post('users/getAllAppUsers', 'Laraspace\Api\Controllers\UserController@getAllAppUsers');
+     $api->post('users/sendNotification', 'Laraspace\Api\Controllers\PushMessagesController@sendNotification');
+     $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
+    // End of Push Notification code
     $api->get('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
+
+
     //resend email
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
 

@@ -6,20 +6,35 @@
         <div class="tab-content">
             <div class="card">
                 <div class="card-block">
-                    <div class="row">
-                        <div class="col-md-9">
+                    <div class="row d-flex flex-row align-items-center">
+                        <div class="col-md-6">
                             <p v-if="registerType != 'mobile'">{{$lang.user_management_sentence}}</p>
                             <p v-else>{{$lang.user_management_sentence_tournament}}</p>
                         </div>
-                        <div class="col-md-3">
-                          <div class="form-group">
-                              <div>
-                                  <input type="text" class="form-control"
-                                  v-on:keyup="searchUserData" v-model="userListSearch"
-                                  placeholder="Search User">
+                        <div class="col-md-6">
+                          <div class="row justify-content-end">
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                      <div>
+                                          <input type="text" class="form-control"
+                                          v-on:keyup="searchUserData" v-model="userListSearch"
+                                          placeholder="Search for a user">
+                                      </div>
+                                  </div>
+                              </div>
+                               <div class="col-md-3">
+                                  <div class="form-group">
+                                      <button type="button" class="btn btn-primary w-100" @click='clear()'>Clear</button>
+                                  </div>
+                              </div>
+                              <div class="col-md-3">
+                                  <div class="form-group">
+                                      <button type="button" class="btn btn-primary w-100" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
+                                  </div>
                               </div>
                           </div>
                         </div>
+
                         <div class="col-md-12">
                             <table class="table add-category-table">
                                 <thead>
@@ -29,20 +44,19 @@
                                         <th>{{$lang.user_desktop_email}}</th>
                                         <th v-if="registerType != 'mobile'">{{$lang.user_desktop_organisation}}</th>
                                         <th v-else>Date & time</th>
-                                        <th>{{$lang.user_desktop_usertype}}</th>
+                                        <th v-if="registerType != 'mobile'">{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                   <tr class="" v-for="user in paginated('userpagination')">
-                                     <td>{{ user.person_detail.first_name }}</td>
+                                    <td>{{ user.person_detail.first_name }}</td>
                                     <td>{{ user.person_detail.last_name }}</td>
                                     <td>{{ user.email }}</td>
                                     <td v-if="user.is_mobile_user == 0">{{ user.organisation }}</td>
                                     <td v-else>{{user.created_at | formatDate}}</td>
-                                    <td v-if="(user.roles).length>0">{{ user.roles[0].name }}</td>
-                                    <td v-else></td>
+                                    <td v-if="(user.roles).length>0 && registerType != 'mobile'">{{ user.roles[0].name }}</td>
 
                                     <td v-if="user.is_verified == 1 && user.is_mobile_user == 0">Accepted</td>
                                     <td class="text-left" v-if="user.is_mobile_user == 1 && user.is_verified == 1">Verified</td>
@@ -100,7 +114,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :userEmailData="userEmailData"></user-modal>
+        :userRoles="userRoles" :userEmailData="userEmailData" :registerType="registerType"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -132,7 +146,7 @@
             return {
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
-                deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
+                deleteConfirmMsg: 'Are you sure you would like to delete this user? Removing this user will delete their account and information.',
                 resendConfirm: 'Are you sure you would like to send this user another invite?',
                 activeConfirm: 'Are you sure you would like to de-activate this user?',
                 deleteAction: '',
@@ -143,6 +157,7 @@
                 userStatus: false,
                 userId: '',
                 uStatusData:'',
+                reportQuery:'',
                 enb: false,
                 userRoles: [],
                 userEmailData: this.userList,
@@ -189,6 +204,11 @@
           }, 1000)
         },
         methods: {
+          clear() {
+            this.userListSearch = ''
+            //call method for refresh
+            this.$root.$emit('clearSearch',this.registerType)
+          },
           searchUserData() {
             // console.log(this.userListSearch);
             this.$root.$emit('setSearch',this.registerType,this.userListSearch);
@@ -305,6 +325,22 @@
                     this.updateUserList();
                 }); */
             },
+            exportTableReport() {
+                let userData = this.reportQuery
+                let userSearch = '';
+                // console.log(userData);
+                // console.log(ReportData)
+                // let newdata = $.parseHTML( ReportData )
+                // let newdata =  $(ReportData).parse();
+                // let newdata = $('#frmReport').serialize();
+                  if(this.userListSearch!=''){
+                      userSearch = 'userData='+this.userListSearch
+                  }
+                   window.location.href = "/api/users/getUserTableData?report_download=yes&registerType="+this.registerType+'&'+userSearch;
+                   // userData += '&report_download=yes'
+                   // window.location.href = "/api/users/getUserTableData?=report_download=yes&registerType=desktop&userData=";
+
+             }
         }
     }
 </script>

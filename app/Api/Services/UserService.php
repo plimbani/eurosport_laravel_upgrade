@@ -35,6 +35,13 @@ class UserService implements UserContract
         return $this->userRepoObj->getUsersByRegisterType($data);
     }
 
+    public function getUserTableData($data)
+    {
+       return $this->userRepoObj->getUsersByRegisterType($data);
+       // return $this->userRepoObj->getUserTableData($data);
+    }
+
+
     /**
      * Create New User.
      *
@@ -48,6 +55,7 @@ class UserService implements UserContract
 
         // Data Initilization
         $data = $data->all();
+
         \Log::info('User Create Method Called');
         $userData=array();
         $userData['people']=array();
@@ -61,9 +69,19 @@ class UserService implements UserContract
         // TODO: we put condition for Set up for Mobile User Data
         // TODO Check For Mobile Users
         $isMobileUsers = \Request::header('IsMobileUser');
-        if($isMobileUsers != '') {
+
+        if($isMobileUsers != '' ) {
           $data['is_mobile_user'] = true;
         }
+        // Also check From Desktop
+
+        if(isset($data['registerType']) && trim($data['registerType']) == 'mobile') {
+          $userData['user']['is_mobile_user'] = 1;
+          $data['userType'] = '5';
+          $data['organisation'] = 'EuroSportring';
+         // $userPassword = Hash::make(trim($data['password']));
+        }
+        // here we check that if userType is
 
         if(isset($isMobileUsers) && $isMobileUsers!= '')
         {
@@ -96,7 +114,6 @@ class UserService implements UserContract
         {
             \Log::info('Insert in Image');
             $imagename = $this->saveUsersLogo($data);
-
             $userData['user']['user_image']=$imagename;
         }
 
@@ -142,13 +159,15 @@ class UserService implements UserContract
             $email_details = array();
             $email_details['name'] = $data['name'];
             $email_details['token'] = $token;
+            $email_details['is_mobile_user'] = 0;
             $recipient = $data['emailAddress'];
             $email_templates = 'emails.users.create';
             $email_msg = 'Euro-Sportring Tournament Planner - Set password';
             if($userObj->is_mobile_user == 1) {
-              $email_templates = 'emails.users.mobile_create';
+           //   $email_templates = 'emails.users.mobile_create';
               $email_msg = 'Euro-Sportring email verification';
-            } 
+              $email_details['is_mobile_user'] = 1;
+            }
             Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
             return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address and complete your account registration.'];
         }
@@ -422,4 +441,33 @@ class UserService implements UserContract
       }
       // Add code for Edit Profile image for User
     }
+    public function setFCM($data) {
+      //$userEmail = $data['email'];
+      //$gcmId = $data['fcm_id'];
+      if(!isset($data['fcm_id'])) {
+        return ['status_code'=>'300','message'=>'FCM ID is Missing'];
+      }
+       if(!isset($data['email'])) {
+        return ['status_code'=>'300','message'=>'Email Address is Missing'];
+      }
+      $data = $this->userRepoObj->setFCM($data);
+      if($data) {
+        return ['status_code'=>'200','message'=>'GCM Updated successfully'];
+      } else {
+        return ['status_code'=>'200','message'=>'Problem on updating'];
+      }
+    }
+
+    public function getAllAppUsers($data) {
+
+       $appUsers = User::whereHas('roles', function($query)
+                  {
+                      $query->where('slug', 'mobile.user');
+                  })->get();
+        if($appUsers) {
+          return ['status_code'=>200,'message'=>'success','data'=>$appUsers];
+        }
+
+    }
+
 }

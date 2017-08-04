@@ -45,7 +45,8 @@ export default {
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 			let Id = data.id
 			let Name = data.name
-			this.$root.$emit('changeDrawListComp',Id, Name);
+      let CompetationType = data.competation_type
+			this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
 			//this.$emit('changeComp',Id);
 		},
 

@@ -8,6 +8,7 @@ use Laraspace\Models\Fixture;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\PitchUnavailable;
+use Laraspace\Models\Team;
 use DB;
 
 class MatchRepository
@@ -133,6 +134,9 @@ class MatchRepository
             ->leftjoin('teams as away_team', function ($join) {
                 $join->on('away_team.id', '=', 'temp_fixtures.away_team');
             })
+            ->leftjoin('teams as match_winner', function ($join) {
+              $join->on('match_winner.id', '=', 'temp_fixtures.match_winner');
+            })
             ->leftjoin('countries as HomeFlag', 'home_team.country_id', '=',
                 'HomeFlag.id')
             ->leftjoin('countries as AwayFlag', 'away_team.country_id', '=',
@@ -145,7 +149,8 @@ class MatchRepository
             ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
             ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
-            ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime',
+            ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.match_winner',
+              'match_winner.name as MatchWinner',
                 'venues.id as venueId', 'competitions.id as competitionId',
                 'venues.venue_coordinates as venueCoordinates',
                 'pitches.type as pitchType','venues.address1 as venueaddress',
@@ -177,7 +182,7 @@ class MatchRepository
                 )
             ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
 
-          if(isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' )
+          if(isset($tournamentData['tournamentDate']) && $tournamentData['tournamentDate'] !== '' && $tournamentData['tournamentDate'] !== 'all')
           {
 
             $dd1 = \DateTime::createFromFormat('d/m/Y H:i:s', $tournamentData['tournamentDate'].' 00:00:00');
@@ -194,6 +199,14 @@ class MatchRepository
             $reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$tournamentData['pitchId']);
 
           }
+           if(isset($tournamentData['club_id']) && $tournamentData['club_id'] !== '' )
+          {
+            $getTeamId = $this->getTeamsForClub($tournamentData['club_id'], $tournamentData['tournamentId']);
+
+            $reportQuery =  $reportQuery->whereIn('temp_fixtures.home_team',$getTeamId)
+                ->orWhereIn('temp_fixtures.away_team',$getTeamId);
+            //$reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$tournamentData['pitchId']);
+          }
 
           if(isset($tournamentData['teamId']) && $tournamentData['teamId'] !== '')
           {
@@ -201,6 +214,8 @@ class MatchRepository
             $reportQuery = $reportQuery->where('temp_fixtures.home_team',$tournamentData['teamId'])
                 ->orWhere('temp_fixtures.away_team',$tournamentData['teamId']);
           }
+
+
           if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
           {
 
@@ -244,6 +259,10 @@ class MatchRepository
           // dd($reportQuery->get());
         return $reportQuery->get();
     }
+    private function getTeamsForClub($club_id, $tournamentId)
+    {
+      return Team::where('club_id','=',$club_id)->where('tournament_id','=',$tournamentId)->pluck('teams.id')->toArray();
+    }
     public function getStanding($tournamentData)
     {
         //print_r($tournamentData);
@@ -274,7 +293,8 @@ class MatchRepository
           }
 
           $reportQuery->orderBy('match_standing.points','desc')
-                      ->orderBy('GoalDifference','desc');
+                      ->orderBy('GoalDifference','desc')
+                      ->orderBy('match_standing.goal_for','desc');
            //print_r($reportQuery->get());exit;
           return $reportQuery->get();
     }
@@ -287,9 +307,11 @@ class MatchRepository
                 ->where('temp_fixtures.is_scheduled','=',1)
                 ->select(
                 DB::raw('CONCAT(temp_fixtures.hometeam_score, "-", temp_fixtures.awayteam_score) AS scoresFix'),
-                DB::raw('CONCAT(temp_fixtures.home_team, "-", temp_fixtures.away_team) AS teamsFix')
+                DB::raw('CONCAT(temp_fixtures.home_team, "-", temp_fixtures.away_team) AS teamsFix'),
+                'temp_fixtures.match_datetime as matchDateTime'
                   ) ->get();
       $matchArr = array();
+      $matchDate = array();
       //print_r($teamData);exit;
 
       if(!$totalMatches->isEmpty() && $totalMatches->count() > 0)
@@ -299,6 +321,7 @@ class MatchRepository
 
           $newkey = sprintf('%s',$data->teamsFix);
           $matchArr[$data->teamsFix] = $data->scoresFix;
+          $matchDate[$data->teamsFix] = $data->matchDateTime;
         }
       }  else {
           $errorMsg= 'No Matches';
@@ -354,7 +377,8 @@ class MatchRepository
 
             if($i==$j)
             {
-              $arr1[$i]['matches'][$j] ='X';
+              $arr1[$i]['matches'][$j] ='Y';
+              // we set another variable for same team
             }
             else
             {
@@ -370,6 +394,7 @@ class MatchRepository
                 if(array_key_exists($rowKey.'-'.$colKey, $matchArr))
                 {
                   $arr1[$i]['matches'][$j]['score']= $matchArr[$rowKey.'-'.$colKey];
+                  $arr1[$i]['matches'][$j]['date']= $matchDate[$rowKey.'-'.$colKey];
                   $arr1[$i]['matches'][$j]['home']= $rowKey;
                   $arr1[$i]['matches'][$j]['away']= $colKey;
                 }

@@ -10,6 +10,7 @@
 					<select class="form-control ls-select2"
 					    v-on:change="onChangeMatchDate"
 						v-model="matchDate">
+						<option value="all">All dates</option>
 						<option v-for="option in tournamentDates" v-bind:value="option">
 							{{option | formatDate}}
 						</option>
@@ -47,7 +48,10 @@ export default {
 			matchData: [],otherData:[],matchDate:this.$store.state.Tournament.tournamentStartDate,tournamentDates:[],
 			currentComponent: this.$store.state.currentScheduleView,
 			'section': 'scheduleResult',
-      	    'filterStatus': true,currentDate:''
+      'filterStatus': true,
+      'currentDate':'',
+      'filterKey1': '',
+      'filterValue1': ''
 		}
 	},
   filters: {
@@ -67,8 +71,10 @@ export default {
       this.tournamentDates = this.getDateRange(tournamentStartDate,tournamentEndDate,'mm/dd/yyyy')
 	  this.$store.dispatch('setCurrentScheduleView','matchList')
 	  // By Default Set for ot Todays Date
-	  this.currentDate = tournamentStartDate
-	  this.getAllMatches(tournamentStartDate)
+	  // this.currentDate = tournamentStartDate
+    // here we call with all dates
+    this.matchDate = 'all'
+	  this.getAllMatches()
 	},
 	created: function() {
        this.$root.$on('changeComp', this.setMatchData);
@@ -85,16 +91,14 @@ export default {
 	},
 	methods: {
 		setFilter(filterKey,filterValue) {
-        // console.log('hi');
-       	// console.log('hello123')
-        // console.log(filterKey)
-        // console.log(filterValue.id)
-        	if(filterKey != undefined) {
 
-        	//		this.tournamentFilter.filterKey = filterKey
-	      //  this.tournamentFilter.filterValue = filterValue
-	        this.getAllMatches(this.currentDate,filterKey,filterValue)
+        	if(filterKey != undefined) {
+            this.filterKey1 = filterKey
+            this.filterValue1 = filterValue
+
+  	        this.getAllMatches(this.currentDate,filterKey,filterValue)
         	}
+          console.log('set3')
 
 	      //  if(filterKey == 'age_category'){
 	        //  this.onSelectAgeCategory('filter',filterValue.tournament_template_id)
@@ -118,20 +122,30 @@ export default {
 	           console.log('Error occured during Tournament api ', error)
 	        }
 	        )
-	        //  Tournament.getTeamsGroup(teamData).then(
-	        //   (response) => {
-	        //     this.teams = response.data.data
-	        //   },
-	        // (error) => {
-	        //    console.log('Error occured during Tournament api ', error)
-	        // }
-	        // )
 	    },
 
 		onChangeMatchDate(){
 			let matchDate = this.matchDate
 			this.currentDate = this.matchDate
-			this.getAllMatches(matchDate)
+
+			if(matchDate != 'all') {
+        if(this.filterKey1 != undefined) {
+          this.getAllMatches(matchDate,this.filterKey1,this.filterValue1)
+        } else {
+          this.getAllMatches(matchDate)
+        }
+        console.log(this.filterKey1)
+
+      }
+			else {
+        if(this.filterKey1 != undefined) {
+          this.getAllMatches('',this.filterKey1,this.filterValue1)
+        } else {
+          this.getAllMatches()
+        }
+        console.log(this.filterKey1)
+
+      }
 		},
 
 		getDateRange(startDate, stopDate, dateFormat)
@@ -162,7 +176,7 @@ export default {
 		    return dateArray;*/
 		},
 
-		setMatchData(id, Name='') {
+		setMatchData(id, Name='',CompetationType='') {
 
 			let comp = this.$store.state.currentScheduleView
 
@@ -174,19 +188,20 @@ export default {
 				this.getTeamDetails(id, Name)
 			}
 			if(comp == 'drawDetails') {
-				this.getDrawDetails(id, Name)
+				this.getDrawDetails(id, Name,CompetationType)
 			}
       if(comp == 'matchList') {
         this.getAllMatches(this.currentDate)
       }
 		},
-		getDrawDetails(drawId, drawName) {
+		getDrawDetails(drawId, drawName,CompetationType='') {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
 			'competitionId':drawId,'is_scheduled':1}
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
+      this.otherData.DrawType = CompetationType
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
@@ -241,13 +256,18 @@ export default {
 				}
 			)
 		},
-		getAllMatches(date,filterKey='',filterValue='') {
+		getAllMatches(date='',filterKey='',filterValue='') {
+
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = ''
+      if(date != '') {
+          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
+      } else {
+          tournamentData ={'tournamentId':TournamentId,'is_scheduled':1 }
+      }
+
 			if(filterKey != '' && filterValue != '') {
           tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
-	      } else {
-	          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
 	      }
 
 		//	let TournamentId = this.$store.state.Tournament.tournamentId

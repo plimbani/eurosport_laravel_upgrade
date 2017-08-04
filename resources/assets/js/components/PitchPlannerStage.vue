@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
-        <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal"></pitch-modal>
+        <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal"></pitch-modal>
         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
     </div>
 </template>
@@ -26,7 +26,8 @@ import _ from 'lodash'
                 'maxDatePitch': '19:05:00',
                 'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
-                'remBlock_id': 0
+                'remBlock_id': 0,
+                'section': 'pitchPlanner',
             }
         },
         props: [ 'stage' , 'defaultView'],
@@ -326,7 +327,7 @@ import _ from 'lodash'
                             let scheduleBlock = false
                             let refereeId = ''
                             let matchTitle = ''
-                            
+
 let mtchNumber = match.match_number
 let mtchNumber1 = mtchNumber.split(".")
 let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
@@ -345,8 +346,8 @@ Placeawayteam = match.AwayTeam
 }
 let mtc = ''
 mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
-console.log(mtc)
-match.match_number = mtc 
+//console.log(mtc)
+match.match_number = mtc
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
                                     if( filterValue != '' && filterValue.id != match.tid){

@@ -7,6 +7,7 @@ use DB;
 use Carbon\Carbon;
 use PDF;
 use Laraspace\Models\Venue;
+use Laraspace\Models\Team;
 use Validate;
 
 class TournamentService implements TournamentContract
@@ -20,6 +21,7 @@ class TournamentService implements TournamentContract
     public function __construct(TournamentRepository $tournamentRepoObj)
     {
         $this->tournamentRepoObj = $tournamentRepoObj;
+        $this->getAWSUrl = getenv('S3_URL');
     }
 
      /*
@@ -270,14 +272,18 @@ class TournamentService implements TournamentContract
 
        if($data['tournamentData']['image_logo'] != '')
        {
+            // here we check using preg_replace that if its change image or not
+            if(strpos($data['tournamentData']['image_logo'],$this->getAWSUrl) !==  false) {
+              $path = $this->getAWSUrl.'/assets/img/tournament_logo/';
+              $imageLogo = str_replace($path,"",$data['tournamentData']['image_logo']);
+              return $imageLogo;
+            }
             $s3 = \Storage::disk('s3');
             $imagePath = '/assets/img/tournament_logo/';
             // here we check it for edit purpose and if image is
             // already there we will return it
             //if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/img/tournament_logo/'.$data['tournamentData']['image_logo']))
-            $info = $s3->has('dev-esr/'.$imagePath);
-            if(!$info)
-            {
+
 
               // $imagename = $data['user_image'];
               //exit;
@@ -318,12 +324,7 @@ class TournamentService implements TournamentContract
 
             return $timeStamp.'.png';
 
-          } else {
 
-            // if its exist then nothing have to update
-            //exit;
-            return $data['tournamentData']['image_logo'];
-          }
         } else {
             // If its Edit
             return '';
@@ -397,11 +398,24 @@ class TournamentService implements TournamentContract
                 $join->on('away_team.id', '=', 'temp_fixtures.away_team');
             })
             ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
+            ->leftjoin('countries as HomeFlag', 'home_team.country_id', '=',
+                'HomeFlag.id')
+            ->leftjoin('countries as AwayFlag', 'away_team.country_id', '=',
+                'AwayFlag.id')
             ->leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
             ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
             ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
-            ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.last_name as referee_last_name','referee.first_name as referee_first_name',DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
+            ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.last_name as referee_last_name',
+              'home_team.name as HomeTeam','away_team.name as AwayTeam',
+              'HomeFlag.country_flag as HomeCountryFlag',
+              'AwayFlag.country_flag as AwayCountryFlag',
+              'home_team.name as HomeTeam','away_team.name as AwayTeam',
+               DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
+                DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
+              'referee.first_name as referee_first_name',
+              DB::raw('CONCAT(referee.last_name,",",referee.first_name) as refereeFullName'),
+              DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
             ->where('temp_fixtures.tournament_id',$data['tournament_id'])
             ->where('temp_fixtures.is_scheduled',1);
 
@@ -452,6 +466,16 @@ class TournamentService implements TournamentContract
             if(isset($data['sel_venues'])  && $data['sel_venues']!= '' ){
                 $reportQuery = $reportQuery->where('temp_fixtures.venue_id',$data['sel_venues']);
             }
+             if(isset($data['sel_clubs']) && $data['sel_clubs'] !== '' )
+          {
+             $club_id =$data['sel_clubs'];
+             $tournamentId = $data['tournament_id'];
+             $getTeamId = Team::where('club_id','=',$club_id)->where('tournament_id','=',$tournamentId)->pluck('teams.id')->toArray();
+
+            $reportQuery =  $reportQuery->whereIn('temp_fixtures.home_team',$getTeamId)
+                ->orWhereIn('temp_fixtures.away_team',$getTeamId);
+            //$reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$tournamentData['pitchId']);
+          }
             if(isset($data['sel_teams'])  && $data['sel_teams']!= '' ){
              // echo $data['sel_teams'];
                 //$reportQuery = $reportQuery->where('temp_fixtures.home_team',$data['sel_teams'])
@@ -473,7 +497,36 @@ class TournamentService implements TournamentContract
 
                 $reportQuery = $reportQuery->where('temp_fixtures.referee_id', '=',$data['sel_referees']);
             }
+            if(isset($data['sort_by']) && $data['sort_by'] != '') {
+              switch($data['sort_by']) {
+                  case 'match_datetime':
+                        $fieldName = 'temp_fixtures.match_datetime';
+                        break;
+                  case 'group_name':
+                        $fieldName = 'group_name';
+                        break;
+                  case 'venue_name':
+                        $fieldName = 'venues.venue_name';
+                        break;
+                  case 'pitch_number':
+                        $fieldName = 'pitches.pitch_number';
+                        break;
+                  case 'referee':
+                        $fieldName = 'refereeFullName';
+                        break;
+                  case 'HomeTeam':
+                        $fieldName = 'HomeTeam';
+                        break;
+                  case 'AwayTeam':
+                        $fieldName = 'AwayTeam';
+                        break;
+              }
 
+             // $sortOrder = (isset($data['sort_order']) && $data['sort_order'] != '') ? 'asc' : 'desc';
+              $reportQuery = $reportQuery->orderBy($fieldName, $data['sort_order']);
+             // echo 'SQL IS';
+           //   print_r($reportQuery->toSql());
+            }
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
         // echo $reportQuery->toSql();exit;
         $reportData = $reportQuery->get();
@@ -485,13 +538,18 @@ class TournamentService implements TournamentContract
 
          if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
             foreach ($reportData as $reportRec) {
+               $refName  = '';
+              if($reportRec->referee_last_name != '' && $reportRec->referee_first_name != '') {
+                $refName =   $reportRec->referee_last_name . ', ' . $reportRec->referee_first_name;
+              }
                 $ddata = [
                     $reportRec->match_datetime,
                     $reportRec->group_name,
                     $reportRec->venue_name,
                     $reportRec->pitch_number,
-                    $reportRec->referee_last_name . ', ' . $reportRec->referee_first_name,
-                    $reportRec->full_game,
+                    $refName,
+                    $reportRec->HomeTeam,
+                    $reportRec->AwayTeam,
                 ];
                 array_push($dataArray, $ddata);
             }
@@ -502,7 +560,7 @@ class TournamentService implements TournamentContract
                 ];
 
             $lableArray = [
-                'Date and time','Age category' ,'Location', 'Pitch','Referee', 'Game'
+                'Date and time','Age category' ,'Location', 'Pitch','Referee', 'Team','Team'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
@@ -525,11 +583,24 @@ class TournamentService implements TournamentContract
                 $join->on('away_team.id', '=', 'temp_fixtures.away_team');
             })
             ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
+            ->leftjoin('countries as HomeFlag', 'home_team.country_id', '=',
+                'HomeFlag.id')
+            ->leftjoin('countries as AwayFlag', 'away_team.country_id', '=',
+                'AwayFlag.id')
             ->leftjoin('competitions', 'competitions.id', '=', 'temp_fixtures.competition_id')
             ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
             ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
-            ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.last_name as referee_last_name','referee.first_name as referee_first_name',DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
+            ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.last_name as referee_last_name','referee.first_name as referee_first_name',
+               'home_team.name as HomeTeam','away_team.name as AwayTeam',
+
+              'HomeFlag.country_flag as HomeCountryFlag',
+              'AwayFlag.country_flag as AwayCountryFlag',
+               DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
+                DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
+              'home_team.name as HomeTeam','away_team.name as AwayTeam',
+              DB::raw('CONCAT(referee.last_name,",",referee.first_name) as refereeFullName'),
+              DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
             ->where('temp_fixtures.tournament_id',$data['tournament_id'])
             ->where('temp_fixtures.is_scheduled',1);
 
@@ -537,17 +608,7 @@ class TournamentService implements TournamentContract
             if(isset($data['sel_ageCategory'])  && $data['sel_ageCategory']!= ''){
                 $reportQuery->where('tournament_competation_template.id',$data['sel_ageCategory']);
             }
-            // if(isset($data['sel_clubs'])  && $data['sel_clubs']!= ''){
-            //   $reportQuery->where('home_team.club_id',$data['sel_clubs'])->orWhere('away_team.club_id',$data['sel_clubs']);
-            // }
-            // if(isset($data['start_date'])  && $data['start_date']!= '' ){
 
-            //   $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date']);
-            //   $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','>=',$start_date);
-            // }
-            // if(isset($data['end_date'])  && $data['end_date']!= '' ){
-            //   $reportQuery = $reportQuery->where('temp_fixtures.match_datetime','<=',Carbon::createFromFormat('d/m/Y', $data['end_date']));
-            // }
             if(isset($data['start_date'])  && $data['start_date']!= '' ){
 
               $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date'])->toDateString();
@@ -576,16 +637,21 @@ class TournamentService implements TournamentContract
               $end_time = $data['end_time'];
               $reportQuery = $reportQuery->whereRaw("TIME(temp_fixtures.match_datetime) <= '$end_time'");
             }
+               if(isset($data['sel_clubs']) && $data['sel_clubs'] !== '' )
+          {
+             $club_id =$data['sel_clubs'];
+             $tournamentId = $data['tournament_id'];
+             $getTeamId = Team::where('club_id','=',$club_id)->where('tournament_id','=',$tournamentId)->pluck('teams.id')->toArray();
 
+            $reportQuery =  $reportQuery->whereIn('temp_fixtures.home_team',$getTeamId)
+                ->orWhereIn('temp_fixtures.away_team',$getTeamId);
+            //$reportQuery = $reportQuery->where('temp_fixtures.pitch_id',$tournamentData['pitchId']);
+          }
             if(isset($data['sel_venues'])  && $data['sel_venues']!= '' ){
                 $reportQuery = $reportQuery->where('temp_fixtures.venue_id',$data['sel_venues']);
             }
             if(isset($data['sel_teams'])  && $data['sel_teams']!= '' ){
-             // echo $data['sel_teams'];
-                //$reportQuery = $reportQuery->where('temp_fixtures.home_team',$data['sel_teams'])
-                  //          ->orWhere('temp_fixtures.away_team',$data['sel_teams']);
-             // $reportQuery = $reportQuery->where(DB::raw('temp_fixtures.home_team = '.$data['sel_teams'].'or temp_fixtures.away_team = '.$data['sel_teams']));
-            // echo $data['sel_teams'];
+
              $team = $data['sel_teams'];
               $reportQuery = $reportQuery->where(function ($query) use($team)
                               {
@@ -601,7 +667,39 @@ class TournamentService implements TournamentContract
 
                 $reportQuery = $reportQuery->where('temp_fixtures.referee_id', '=',$data['sel_referees']);
             }
+            if(isset($data['sort_by']) && $data['sort_by'] != '') {
+              switch($data['sort_by']) {
+                  case 'match_datetime':
+                        $fieldName = 'temp_fixtures.match_datetime';
+                        break;
+                  case 'group_name':
+                        $fieldName = 'group_name';
+                        break;
+                  case 'venue_name':
+                        $fieldName = 'venues.venue_name';
+                        break;
+                  case 'pitch_number':
+                        $fieldName = 'pitches.pitch_number';
+                        break;
+                  case 'referee':
+                        $fieldName = 'refereeFullName';
+                        break;
+                  case 'full_game':
+                        $fieldName = 'full_game';
+                        break;
+                  case 'HomeTeam':
+                        $fieldName = 'HomeTeam';
+                        break;
+                  case 'AwayTeam':
+                        $fieldName = 'AwayTeam';
+                        break;
+              }
 
+             // $sortOrder = (isset($data['sort_order']) && $data['sort_order'] != '') ? 'asc' : 'desc';
+              $reportQuery = $reportQuery->orderBy($fieldName, $data['sort_order']);
+             // echo 'SQL IS';
+           //   print_r($reportQuery->toSql());
+            }
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
         // echo $reportQuery->toSql();exit;
         $reportData = $reportQuery->get();

@@ -67,7 +67,10 @@ export default {
 	},
 	mounted(){
 		// here we set drawsListing as currentView
-		this.currentView = 'drawsListing'
+		this.currentView = 'drawsListing';
+    this.$store.dispatch('setCurrentView',this.currentView)
+    // here we set the value of users to null
+    this.$store.dispatch('isAdmin',false);
 	},
 	components: {
 		DrawsListing, MatchListing, TeamListing,DrawDetails
@@ -75,6 +78,7 @@ export default {
 	created: function() {
        this.$root.$on('changeComp1', this.setMatchData1);
        this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
+       this.$root.$on('setCurrentView',this.setCurrentView);
   },
   computed: {
     TournamentName() {
@@ -104,10 +108,12 @@ export default {
 
 				this.currentView = 'matchListing'
 				this.$store.dispatch('setCurrentScheduleView','matchList')
+        this.$store.dispatch('setCurrentScheduleView','matchList')
 			}
 
 			//this.$store.dispatch('setCurrentScheduleView','matchList')
 			this.currentView = currentView
+      this.$store.dispatch('setCurrentView',this.currentView)
 			/*else  {
 
 			  this.$store.dispatch('setCurrentScheduleView','')

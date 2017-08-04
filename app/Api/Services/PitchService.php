@@ -61,11 +61,12 @@ class PitchService implements PitchContract
 
         // dd($dataArr);
         $pitchdata = $this->pitchRepoObj->edit($dataArr,$pitchId);
-        $this->unScheduleAllocatedMatch($dataArr,$pitchId);
+
         if($pitchdata){
-            $this->unScheduleAllocatedMatch($dataArr,$pitchId);
             $this->pitchAvailableRepoObj->removePitchAvailability($pitchId);
             $data1 = $this->pitchAvailableRepoObj->createPitch($dataArr, $pitchId);
+
+            $this->unScheduleAllocatedMatch($dataArr,$pitchId);
         }
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
@@ -106,6 +107,7 @@ class PitchService implements PitchContract
     // if it is then unschedule it
     private function unScheduleAllocatedMatch($dataArr='',$pitchId)
     {
+
         // find matches where not in between that time details in temp_fixtures
         if(empty($dataArr)) {
             $pitch = DB::table('pitches')
@@ -126,31 +128,91 @@ class PitchService implements PitchContract
                         ->update($unScheduleArray);
             return true;
         }
+
         $pitches = DB::table('pitch_availibility')
                 ->where('pitch_availibility.pitch_id','=',$pitchId)
                 ->where('pitch_availibility.tournament_id','=',$dataArr['tournamentId'])->get();
         $matches = DB::table('temp_fixtures')
                 ->where('temp_fixtures.pitch_id','=',$pitchId)
                 ->where('temp_fixtures.is_scheduled','=',1)->get();
-        foreach ($pitches as $stage) {
-            foreach ($matches as $match) {
-                $stage_start_date_time = $stage->stage_start_date.' '.$stage->stage_start_time;
-                $stage_end_date_time = $stage->stage_end_date.' '.$stage->stage_end_time;
-                $matchStartDateTime = $match->match_datetime;
-                $matchEndDateTime = $match->match_endtime;
+
+     foreach ($pitches as $Stagekey=>$stage) {
+
+       $stage_start_date_time = $stage->stage_start_date.' '.$stage->stage_start_time;
+       $stage_end_date_time = $stage->stage_end_date.' '.$stage->stage_end_time;
+       if($stage->break_enable == true) {
+
+                  $stage_break_start_date_time = $stage->stage_continue_date.' '.$stage->break_start_time;
+                  $stage_break_end_date_time = $stage->stage_continue_date.' '.$stage->break_end_time;
+
+             $stage_break_start_date_time =date("Y-m-d H:i:s",strtotime($stage_break_start_date_time));
+             $stage_break_end_date_time =date("Y-m-d H:i:s",strtotime($stage_break_end_date_time));
+        }
+
+          $stage_start_date_time =  date("Y-m-d H:i:s",strtotime($stage_start_date_time));
+          $stage_end_date_time =  date("Y-m-d H:i:s",strtotime($stage_end_date_time));
+      foreach ($matches as $matchKey=>$match) {
+          //echo '2';exit;
+                $matchStartDateTime  = $match->match_datetime;
+                $matchEndDateTime  = $match->match_endtime;
+                /*echo '<br>StageKey:'.$Stagekey;
+                echo '<br>MatchKey:'.$matchKey;
+                echo '<br>StageStartDateTime:'.$stage_start_date_time;
+                echo '<br>StageStartEndTime:'.$stage_end_date_time;
+                echo '<br>MatchStartDateTime:'.$matchStartDateTime;*/
+
+                echo 'stagedate:'.$stageDate = date("Y-m-d",strtotime($stage->stage_start_date));
+                echo '<br>mtchdate:'.$matchDate = date("Y-m-d",strtotime($match->match_datetime));
+
+                echo '<br>matchDateTime'.$matchStartDateTime;
+                // Must have Same Date
+                if($stageDate== $matchDate) {
+                  echo '<br>Same';
+                  if(!$this->check_date_is_within_range( $stage_start_date_time,$stage_end_date_time,$matchStartDateTime)){
+                      echo '<br>Outer RANGE:'.$match->id;
+                      $update_match = DB::table('temp_fixtures')
+                        ->where('temp_fixtures.id','=',$match->id)
+                        ->update(['is_scheduled' => 0]);
+                    }
+                    // Also check for match fall into break
+                    if($stage->break_enable == 1) {
+                      echo '<br>breakStartTime'.$stage_break_start_date_time;
+                      echo '<br>breakEndtime'.$stage_break_end_date_time;
+                      echo '<br>matchtime'.$matchStartDateTime;
+
+                      // if it is in that range then unschedule it
+                      if($this->check_date_is_within_range( $stage_break_start_date_time,$stage_break_end_date_time,$matchStartDateTime)){
+                      echo '<br>Outer RANGE break:'.$match->id;
+                      $update_match = DB::table('temp_fixtures')
+                        ->where('temp_fixtures.id','=',$match->id)
+                        ->update(['is_scheduled' => 0]);
+                     } else {
+                      echo '<br>not brk';
+                     }
+                    }
+                }
+
                 // if its schedule earlier then change pitch allocation
-                if ($matchStartDateTime < $stage_start_date_time ) {
+               /* if ($matchStartDateTime > $stage_start_date_time && $matchStartDateTime < $stage_end_date_time ) {
                     $update_match = DB::table('temp_fixtures')
                         ->where('temp_fixtures.id','=',$match->id)
                         ->update(['is_scheduled' => 0]);
                 }
-                if($matchEndDateTime > $stage_end_date_time)
+                if ($matchEndDateTime > $stage_start_date_time && $matchEndDateTime < $stage_end_date_time )
                 {
                     $update_match = DB::table('temp_fixtures')
                         ->where('temp_fixtures.id','=',$match->id)
                         ->update(['is_scheduled' => 0]);
-                }
+                } */
             }
         }
+       // exit;
+    }
+    private function check_date_is_within_range($start_date, $end_date, $todays_date)
+    {
+      $start_timestamp = strtotime($start_date);
+      $end_timestamp = strtotime($end_date);
+      $today_timestamp = strtotime($todays_date);
+      return (($today_timestamp >= $start_timestamp) && ($today_timestamp <= $end_timestamp));
     }
 }

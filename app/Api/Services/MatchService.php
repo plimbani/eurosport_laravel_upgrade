@@ -165,29 +165,40 @@ class MatchService implements MatchContract
             return ['status_code' => '300', 'message' => $scheduledResult];
         }
     }
-    public function generateMatchPrint($matchData) 
+    public function generateMatchPrint($matchData)
     {
+
        $matchId = $matchData['matchId'];
        $matchResult = $this->matchRepoObj->getMatchDetail($matchId);
        //echo '<pre>';
      // print_r($matchResult->toArray());exit;
       $date = new \DateTime(date('H:i d M Y'));
         // $date->setTimezone();.
-      $resultData = $matchResult;
+      $resultData = $matchResult->toArray();
+      // Here we modified the array according to status and winner
+      if(isset($matchData['result_override']) && $matchData['result_override']== 'false' ) {
+        // Unset the match_status result and match Wineer
+        unset($resultData['match_status']);
+        unset($resultData['match_winner']);
+      } else {
+        $resultData['match_status'] = $matchData['status'];
+        $resultData['name'] = $matchData['winner'];
+      }
+
       // dd($resultData);
-        $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData->toArray()])
+        $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData,'result_override'=>$matchData['result_override']])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
             ->setOption('header-font-name', 'Open Sans')
             ->setOrientation('portrait')
-            ->setOption('footer-right', 'Page [page] of [toPage]')      
+            ->setOption('footer-right', 'Page [page] of [toPage]')
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
         return $pdf->inline('Pitch.pdf');
     }
-    
+
     public function getMatchDetail($matchData) {
 
         $matchResult = $this->matchRepoObj->getMatchDetail($matchData->all()['matchId']);
@@ -269,7 +280,190 @@ class MatchService implements MatchContract
         }
     }
 
+    private function secondRoundElimination123($fetchRecord, $updatedValue,$var)
+    {
+      //echo '<br/>hello s3condroundelimination';
+      echo '\n<br/>ID:'.$fetchRecord->id;
+      echo '\n<br/>ID2:'.$fetchRecord->id;
+
+     // print_r($fetchRecord);
+      echo 'updated record';
+      //print_r($updatedValue);
+      //print_r();
+      // explode updated record
+      $updatedMatchNumber = explode('-',$updatedValue->match_number);
+      $updatedMatchNumber = $updatedMatchNumber[count($updatedMatchNumber)-1];
+      $updatedMatchNumber = substr($updatedMatchNumber,1,-1);
+      $rec = explode("|",$updatedMatchNumber);
+      print_r($rec);
+      return;
+      $updval =(string)$updatedValue->match_number;
+      $singleFixTeams = explode(".",$singleFixture->match_number);
+      $singleFXTeam = $singleFixTeams[count($singleFixTeams)-1];
+
+      $doubleElm = explode('.',$updval);
+      $doubleElm1 = $doubleElm[count($doubleElm)-1];
+
+      $vaal = explode('-(',$doubleElm1);
+
+      print_r($vaal);
+      $hometeam = substr($vaal[0],1,-1);
+      $awayteam = substr($vaal[1],0,-1);
+      echo '<br>HTSM:'.$hometeam;
+      echo '<br>ATSM:'.$awayteam;
+      //echo 'ssd'.$singleFXTeam;
+    if($var == 'WR') {
+      if(trim($hometeam) == trim($singleFXTeam)) {
+        echo 'hi123';
+        // here we check the score
+          if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
+          {
+            $hometeamName = $singleFixture->home_team_name;
+            $homeTeamId = $singleFixture->home_team;
+           }else {
+            $hometeamName = $singleFixture->away_team_name;
+            $homeTeamId = $singleFixture->away_team;
+           }
+           $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
+           DB::table('temp_fixtures')->where('id',$updatedValue->id)->update($updateArray);
+
+      }
+      if(trim($awayteam) == trim($singleFXTeam)) {
+        echo 'hi246';
+          if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
+         {
+            $awayteamName = $singleFixture->home_team_name;
+            $awayTeamId = $singleFixture->home_team;
+         }else {
+            $awayteamName = $singleFixture->away_team_name;
+            $awayTeamId = $singleFixture->away_team;
+         }
+         $updateArray = ['away_team_name'=> $awayteamName, 'away_team'=>$awayTeamId];
+         DB::table('temp_fixtures')->where('id',$updatedValue->id)->update($updateArray);
+
+      }
+    }
+    if($var == 'LR') {
+      if(trim($hometeam) == trim($singleFXTeam)) {
+        echo 'hi123';
+        // here we check the score
+          if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
+          {
+            $hometeamName = $singleFixture->home_team_name;
+            $homeTeamId = $singleFixture->home_team;
+           }else {
+            $hometeamName = $singleFixture->away_team_name;
+            $homeTeamId = $singleFixture->away_team;
+           }
+           $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
+           DB::table('temp_fixtures')->where('id',$updatedValue->id)->update($updateArray);
+
+      }
+      if(trim($awayteam) == trim($singleFXTeam)) {
+        echo 'hi246';
+          if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
+         {
+            $awayteamName = $singleFixture->home_team_name;
+            $awayTeamId = $singleFixture->home_team;
+         }else {
+            $awayteamName = $singleFixture->away_team_name;
+            $awayTeamId = $singleFixture->away_team;
+         }
+         $updateArray = ['away_team_name'=> $awayteamName, 'away_team'=>$awayTeamId];
+         DB::table('temp_fixtures')->where('id',$updatedValue->id)->update($updateArray);
+
+      }
+    }
+    }
+    private function secondRoundElimination($singleFixture,$updatedval,$var) {
+      // Now here we propgate the result to the descender teams
+      //echo '1';exit;
+      $age_category_id = $singleFixture->age_group_id;
+      $tournament_id   = $singleFixture->tournament_id;
+
+      // We have to find the record of it for winner and looser
+      $match_number = $singleFixture->match_number;
+      $match_number = explode(".",$match_number);
+      $frs = explode("-",$match_number[0]);
+      $val = $frs[2]."_".$match_number[1];
+
+      $home_team_score = $singleFixture->hometeam_score;
+      $away_team_score = $singleFixture->awayteam_score;
+
+      // FOr Winner Conditions
+      if($home_team_score >  $away_team_score) {
+        $winnerTeam = $singleFixture->home_team_name;
+        $winnerId = $singleFixture->home_team;
+      }
+      if($home_team_score <  $away_team_score) {
+        $winnerTeam = $singleFixture->away_team_name;
+        $winnerId = $singleFixture->away_team;
+      }
+      // FOr Looser Conditions
+      if($home_team_score <  $away_team_score) {
+        $looserTeam = $singleFixture->home_team_name;
+        $looserId = $singleFixture->home_team;
+      }
+      if($home_team_score >  $away_team_score) {
+        $looserTeam = $singleFixture->away_team_name;
+        $looserId = $singleFixture->away_team;
+      }
+      // Now fire a query which gives two record Winner and Looser
+      $results = TempFixture::where('age_group_id','=',$age_category_id)->where('tournament_id','=',$tournament_id)
+         ->whereRaw(DB::raw("match_number like '%(".$val."_WR)%' OR  match_number like '%(".$val."_LR)%' "))->get();
+      // here we get two records 1 for Winner and other for looser
+      foreach($results as $record) {
+        // we have record
+       // echo 'Match Id'.$record->id;
+        // here first we check condition for Draw if it is then use match_winner field
+        // here check if Home Score is Greater than away score
+       $rec_mtchNumber = explode(".",$record->match_number);
+       $teams =  $rec_mtchNumber[2];
+       $teams = explode("-",$teams);
+       $homeTeam = $teams[0];$awayTeam = $teams[1];
+       // if its winner then
+       if(strpos($record->match_number,"WR") !== false)
+       {
+         // its Home team
+         if(trim("(".$val."_WR)") == trim($homeTeam)) {
+         // echo 'homeW';
+          TempFixture::where('id',$record->id)->update([
+            'home_team_name'=> $winnerTeam,
+            'home_team'=> $winnerId
+          ]);
+         }
+
+         if(trim("(".$val."_WR)") == trim($awayTeam)) {
+          TempFixture::where('id',$record->id)->update([
+            'away_team_name'=> $winnerTeam,
+            'away_team'=> $winnerId
+          ]);
+         }
+
+         // its away team
+       }
+       // if its looser then
+       if(strpos($record->match_number,"LR") !== false)
+       {
+        if(trim("(".$val."_LR)") == trim($homeTeam)) {
+          TempFixture::where('id',$record->id)->update([
+            'home_team_name'=> $looserTeam,
+            'home_team'=> $looserId
+          ]);
+         }
+
+         if(trim("(".$val."_LR)") == trim($awayTeam)) {
+          TempFixture::where('id',$record->id)->update([
+            'away_team_name'=> $looserTeam,
+            'away_team'=> $looserId
+          ]);
+         }
+       }
+      }
+      return ;
+    }
     private function calculateEliminationTeams($singleFixture, $findTeams) {
+
       $singleFixture = $singleFixture[0];
 
       $tournament_id = $singleFixture->tournament_id;
@@ -282,114 +476,133 @@ class MatchService implements MatchContract
                 ->where('age_group_id','=',$ageGroupId)
                 ->get();
 
-       $matchArr =  array();
-       $teams_arr = explode('.', $singleFixture->match_number);
+      $matchArr =  array();
+      $teams_arr = explode('.', $singleFixture->match_number);
 
       $teams = $teams_arr[count($teams_arr)-1];
-     // print_r($matches);
       foreach($matches as $match) {
 
-        //echo 'Teams'.$teams;
-        $modifiedTeams = str_replace('-','_',$teams);
-        //echo 'MTeams'.$modifiedTeams;
         $matchNumber = explode('.',$match->match_number);
+        //print_r($matchNumber);
         $matchTeams = $matchNumber[count($matchNumber)-1];
         $mtsTeams = explode('-',$matchTeams);
-        $homeTeam = $mtsTeams[0]; $awayTeam = $mtsTeams[1];
+        //print_r($mtsTeams);
+        // Teams For that Matches
+        $homeTeam = $mtsTeams[0];
+        $awayTeam = $mtsTeams[1];
+        // Get hometeam=1A awayTeam =2B
+        // here we check it For 2nd round Eliminbation
+
 
         // First For Winner
-        $modifiedTeamsWinner = $modifiedTeams.'_WR';
-        if($homeTeam  == $modifiedTeamsWinner) {
+        $modifiedTeams = str_replace('-','_',$teams);
+      //  echo 'Hi MOD Teams<br>';
+        //print_r($modifiedTeams);exit;
+        if (strpos($modifiedTeams, 'WR') !== false) {
 
-        //echo 'HomeTeamWinner';
-         // check who is Winner
-         if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
-         {
-               $hometeamName = $singleFixture->home_team_name;
-               $homeTeamId = $singleFixture->home_team;
-         }else {
-             $hometeamName = $singleFixture->away_team_name;
-             $homeTeamId = $singleFixture->away_team;
-         }
-         $updateArray = [
-                  'home_team_name'=> $hometeamName,
-                  'home_team'=>$homeTeamId
-                  ];
-                 // echo '<pre>';
-                //  print_r($updateArray);
-          DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
-          //unset($updateArray);
+          $selTeams = explode('-',$teams);
+          $SelhomeTeam = $selTeams[0];
+          $SelawayTeam = $selTeams[1];
+
+          $var = '';
+
+          if($SelhomeTeam == $homeTeam ) {
+            $match1 = $match;
+          }
+          if($SelawayTeam==$awayTeam) {
+            $match2=$match;
+          }
+          // here check for Multiple Value for detect the updated record value
+
+          if($homeTeam[0] == '(') {
+            $this->secondRoundElimination($match1,$match,'WR');
+          }
+          if($awayTeam[strlen($awayTeam)-1]==')') {
+            $this->secondRoundElimination($match2,$match,'WR');
+          }
+        }
+
+        if (strpos($modifiedTeams, 'LR') !== false) {
+
+          $selTeams = explode('-',$teams);
+          $SelhomeTeam = $selTeams[0];
+          $SelawayTeam = $selTeams[1];
+          $var = '';
+          if($SelhomeTeam == $homeTeam ) {
+            // here we get that Match
+            $match1 = $match;
+          }
+          if($SelawayTeam==$awayTeam) {
+            $match2=$match;
+          }
+          // here check for Multiple Value for detect the updated record value
+
+          if($homeTeam[0] == '(') {
+            //echo 'yes';exit;
+            $this->secondRoundElimination($match1,$match,'LR');
+          }
+          if($awayTeam[strlen($awayTeam)-1]==')'){
+            //echo 'false';exit;
+            $this->secondRoundElimination($match2,$match,'LR');
+          }
+        }
+
+        $modifiedTeamsWinner = $modifiedTeams.'_WR';
+
+        if($homeTeam  == $modifiedTeamsWinner) {
+          if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
+          {
+            $hometeamName = $singleFixture->home_team_name;
+            $homeTeamId = $singleFixture->home_team;
+           }else {
+            $hometeamName = $singleFixture->away_team_name;
+            $homeTeamId = $singleFixture->away_team;
+           }
+           $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
+           DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
         }
         if($awayTeam  == $modifiedTeamsWinner) {
-        //echo 'AwayTeamWinner';
-              if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
+          if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
          {
-               $awayteamName = $singleFixture->home_team_name;
-               $awayTeamId = $singleFixture->home_team;
+            $awayteamName = $singleFixture->home_team_name;
+            $awayTeamId = $singleFixture->home_team;
          }else {
-             $awayteamName = $singleFixture->away_team_name;
-             $awayTeamId = $singleFixture->away_team;
+            $awayteamName = $singleFixture->away_team_name;
+            $awayTeamId = $singleFixture->away_team;
          }
-         $updateArray = [
-                  'away_team_name'=> $awayteamName,
-                  'away_team'=>$awayTeamId
-                  ];
-                 // echo '<pre>';
-                //  print_r($updateArray);
-          DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
+         $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
+         DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
         }
-
+        // For Looser
         $modifiedTeamsLooser = $modifiedTeams.'_LR';
 
         if($homeTeam  == $modifiedTeamsLooser) {
-        //echo 'HomeTeamLooser';
             if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
          {
-              // $hometeamName = $singleFixture->away_team_name;
-            //   $homeTeamId = $singleFixture->away_team;
-               $hometeamName = $singleFixture->home_team_name;
-               $homeTeamId = $singleFixture->home_team;
+            $hometeamName = $singleFixture->home_team_name;
+            $homeTeamId = $singleFixture->home_team;
 
          }else {
               $hometeamName = $singleFixture->away_team_name;
                $homeTeamId = $singleFixture->away_team;
-
-             //$hometeamName = $singleFixture->home_team_name;
-             //$homeTeamId = $singleFixture->home_team;
          }
-         $updateArray = [
-                  'home_team_name'=> $hometeamName,
-                  'home_team'=>$homeTeamId
-                  ];
-                 // echo '<pre>';
-                //  print_r($updateArray);
-          DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
+         $updateArray = ['home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
+         DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
         }
         if($awayTeam  == $modifiedTeamsLooser) {
-        //echo 'AwayTeamLooser';
              if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
          {
                $awayteamName = $singleFixture->home_team_name;
                $awayTeamId = $singleFixture->home_team;
-
          }else {
                $awayteamName = $singleFixture->away_team_name;
                $awayTeamId = $singleFixture->away_team;
          }
-         $updateArray = [
-                  'away_team_name'=> $awayteamName,
-                  'away_team'=>$awayTeamId
-                  ];
-
+         $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
          DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
         }
-
-        //echo '<pre>Print Match';
-        //print_r($matchTeams);
-        //echo '</pre>';
-
-
       }
+
       return $singleFixture->competition_id;
       exit;
       print_r($matches);exit;
@@ -398,6 +611,7 @@ class MatchService implements MatchContract
         $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
 
         $fix1=array();
+
         foreach($singleFixture as $singleFxture)
         {
           $fix1['CupFixture']['cupcompetition'] = $singleFxture->competition_id;
@@ -1019,8 +1233,10 @@ class MatchService implements MatchContract
                   ];
                  // echo '<pre>';
                 //  print_r($updateArray);
-                  DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
-                  unset($updateArray);
+                  if($this->checkForEndRR($cupId) == true) {
+                    DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
+                    unset($updateArray);
+                  }
                   //echo '<br>';
                 }
                 // check if value is changed
@@ -1039,8 +1255,10 @@ class MatchService implements MatchContract
                   'away_team_name'=> $dd1['teamName'],
                   'away_team'=>$dd1['teamid']
                   ];
-                  DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
-                  unset($updateArray);
+                  if($this->checkForEndRR($cupId) == true) {
+                    DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
+                    unset($updateArray);
+                 }
                 }else {
                  // echo 'hi-Away';
                 }
@@ -1053,145 +1271,24 @@ class MatchService implements MatchContract
 
         }
 
-        // now here we check how many matches and Sync it with proper calc poition
 
-        //exit;
         return ;
-        exit;
-        print_r($matches);exit;
-        /*foreach($matches as $match){
-          $jsonData = json_decode($match->JsonData,true);
-          $rankingData = $jsonData['tournament_competition_ranking'];
+    }
+    private function checkForEndRR($competationId) {
+      // here we check if any unschedule match for that competations if no return yes else no
 
-          foreach($rankingData as $rankData) {
-            foreach($rankData as $roundGroups) {
-              foreach($roundGroups['groups'] as $rrGroup) {
-                  foreach($rrGroup['teams'] as $teams) {
-                    if($teams['team'] == $match->HomeTeam) {
-                      //$calculatedArray[$match->]
-                      foreach($calculatedArray as $key=>$groupTeams) {
-                          foreach($groupTeams as $tindex=>$teamm) {
-                            $calculatedArray[$key][$tindex][$match->HomeTeam] =
-                            $teamm['teamid'];
-                          }
-                      }
-                    }
-                  }
-              }
-            }
-          }
+      $matches = DB::table('temp_fixtures')
+      ->where('competition_id',$competationId)
+      ->where('round','=','Round Robin')
+      ->whereRaw(Db::raw('(hometeam_score IS NULL OR awayteam_score IS NULL)'));
 
-          //print_r($rankingData);
-        }*/
-        print_r($calculatedArray);
-        exit;
-       /* $reportQuery = $reportQuery->where(function ($query)
-                              {
-                                $query->where('temp_fixtures.home_team','=' ,0)
-                                ->andWhere('temp_fixtures.away_team','=',0);
-                              }
-                            );*/
-        $reportQuery = $reportQuery
-                ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
-                ->where('temp_fixtures.is_scheduled','=',0)
-                ->where('temp_fixtures.tournament_id','=',$temptournamentId)
-                ->toSql();
-        print_r($reportQuery);exit;
-        print_r($calculatedArray);
-        exit;
-        $matches = DB::table('temp_fixtures')
-        ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam','temp_fixtures.away_team as AwayTeamId')
-        ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
-        ->where('competitions.tournament_competation_template_id','=',$ageCategoryId)
-        ->where('temp_fixtures.is_scheduled','=',0)
-        ->get();
-
-        // we get the teams sort by position and assign it to the placing matches
-         $CompTempData = DB::table('teams')
-                          ->leftJoin('competitions','competitions.id','=','teams.competation_id')
-                        ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
-                        ->leftJoin('tournament_template','tournament_template.id','=','tournament_template_id')
-                        ->select(
-                          'competitions.name as GroupName',
-                          'competitions.id as GroupId',
-                          'competitions.competation_round_no as RoundNo',
-                          'competitions.competation_type as CompType',
-                          'tournament_competation_template.id as TCTID',
-                      'tournament_competation_template.group_name as TemplateGroupName',
-                      'tournament_competation_template.category_age as CategoryAge',
-                      'teams.id as TeamId','teams.name as TeamName',
-                      'teams.group_name as TeamGroupName','teams.assigned_group as TeamGroup','tournament_template.json_data as JsonData'
-                      )
-                        ->where('teams.competation_id',$cupId)->get();
-                        //'tournament_template.json_data as JsonData'
-        $new_arr = array();
-        $ageCategoryId = '';
-      //   print_r($calculatedArray);exit;
-        foreach($CompTempData as $teamData) {
-          $jsonData = json_decode($teamData->JsonData,true);
-          $ageCategoryId = $teamData->TCTID;
-          $cround = $teamData->RoundNo;
-          $templateRanking = $jsonData['tournament_competition_ranking']['format_name'];
-
-          foreach($templateRanking as $round)
-          {
-
-            //echo $cround;exit;
-            if($round['round'] == $teamData->RoundNo){
-              foreach($round['groups'] as $groups) {
-                 $tempGroupName = str_replace(' ','-' ,$groups['group_name']);
-                 //echo $teamData->TeamGroup;
-                 //echo $tempGroupName;
-
-                if(trim($tempGroupName) == trim($teamData->TeamGroup)) {
-                    // Now we have to replace it
-                    foreach($groups['teams'] as $key=>$teams) {
-                      $new_arr[$key]['placeholder'] =  $teams['team'];
-                      $new_arr[$key]['actual_team'] =  $calculatedArray[$teamData->GroupId][$key];
-                    }
-
-                }
-              }
-             // echo 'SameRound';exit;
-            }
-          }
-
-          //exit;
-        }
-        //echo $ageCategoryId;
-        $matches = DB::table('temp_fixtures')
-        ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam','temp_fixtures.away_team as AwayTeamId')
-        ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
-        ->where('competitions.tournament_competation_template_id','=',$ageCategoryId)
-        ->where('temp_fixtures.is_scheduled','=',0)
-        ->get();
-        //echo $matches;exit;
-        //print_r($matches);exit;
-        $update_array = array();
-        foreach($matches as $match){
-          foreach($new_arr as $key=>$data) {
-            if($data['placeholder'] == $match->HomeTeam) {
-              $update_array[$key]['id'] =$match->matchID;
-                $update_array[$key]['home_team'] =$data['actual_team']['teamid'];
-                //$update_array[$key]['match_number'] =$data['actual_team']['teamid'];
-            }
-            if($data['placeholder'] == $match->AwayTeam) {
-              $update_array[$key]['id'] =$match->matchID;;
-                $update_array[$key]['away_team'] =$data['actual_team']['teamid'];
-                //$update_array[$key]['match_number'] =str_replace('' , '',$data['actual_team']['teamid'];
-            }
-          }
-        }
-        print_r($update_array);exit;
-        // Now here we update the placeholder teams
-        //foreach($new_arr)
-          print_r($new_arr);exit;
-          print_r($CompTempData);exit;
-         print_r($calculatedArray);
-        // Here we get the teams by sort for particular Group
-        return ;
-        print_r($calculatedArray);
-       //exit;
+      if($matches->exists()) {
+        //echo 'hellofalse';
+        return false;
+      } else {
+        //echo 'hellotrue';
+        return true;
+      }
     }
 }
 

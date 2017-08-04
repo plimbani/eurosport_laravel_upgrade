@@ -4,9 +4,9 @@ export default {
   getAllTournaments() {
   	return api.get('tournaments')
   },
-  getAllClubs(tournamentId) {
+  getAllClubs(tournamentData) {
     // alert('helll')
-    return api.get('clubs/getAll/'+tournamentId)
+    return api.post('clubs/getAll',{'tournamentData': tournamentData})
   },
   getAllVenues(tournamentId) {
    return api.get('venues/getAll/'+tournamentId)
@@ -121,7 +121,7 @@ export default {
   },
   generateMatchPrint(matchId) {
     return api.post('match/print',{'matchId': matchId})
-  },  
+  },
   saveMatchResult(matchData) {
     return api.post('match/saveResult',{'matchData': matchData})
   },
@@ -136,14 +136,18 @@ export default {
     return api.post('match/remove_block/'+blockId)
   },
   updateScore(matchData) {
-   return api.post('match/updateScore',{'matchData':matchData}) 
+   return api.post('match/updateScore',{'matchData':matchData})
   },
   getAllCategory(tournamentId){
-     return api.post('tournament/allCategory',{'tournamentData':tournamentId}) 
+     return api.post('tournament/allCategory',{'tournamentData':tournamentId})
   },
   getClubsTeams(tournamentData) {
   return api.post('team/getClubsTeams',{'tournamentData': tournamentData})
  },
-
-
+ sendMessage(messageData){
+  return api.post('users/sendNotification',{'messageData': messageData})
+ },
+ getTournamentMessages(messageData) {
+  return api.post('users/getMessage',{'messageData': messageData})
+ }
 }

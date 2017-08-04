@@ -126,6 +126,9 @@ table#Competition-modal-table {
     background-color: grey;
     border: 1px solid grey;
 }
+.bg-light-grey {
+    background-color: color("grey", "lighten-5");
+}
 
 .bg-modal-color {
     background-color: rgba($ls-color-black, 0.6)

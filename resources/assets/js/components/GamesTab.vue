@@ -6,20 +6,17 @@
               {{$lang.pitch_planner_no_games}}
         </div>
         <div class="text-center" v-else v-for="(competition,index) in competitionWithGames">
-          <div v-if="competition.matchList.length > 0">
-            <h6 class="mb-0" ><strong>{{competition.group_name}}</strong></h6>
-
-
-            <div v-if="competition.matchCount == 0">
-                {{$lang.pitch_planner_no_games}}
-            </div>
-            <div class="text-center mt-3"
-            v-if="match.isScheduled!=1"
-            v-for="match in competition.matchList"
-            :data-text="match.matchName">
-                <draggable-match-event :match="match"></draggable-match-event>
-            </div>
-
+          <div v-if="competition.matchList &&  competition.matchList.length > 0">
+              <h6 class="mb-0" ><strong>{{competition.group_name}}</strong></h6>
+              <div v-if="competition.matchCount == 0">
+                  {{$lang.pitch_planner_no_games}}
+              </div>
+              <div class="text-center mt-3"
+              v-if="match.isScheduled!=1"
+              v-for="match in competition.matchList"
+              :data-text="match.matchName">
+                  <draggable-match-event :match="match"></draggable-match-event>
+              </div>
           </div>
         </div>
         <br>
@@ -78,26 +75,23 @@ export default {
                 round = 'FN-'
                 matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
               }
+
               let fullgame1 = match.full_game;
+
               if(match.Away_id != 0 && match.Home_id != 0) {
                 fullgame1 = ''
               }
                let mtchNumber = match.match_number
- let mtchNumber1 = mtchNumber.split(".")
-//let lastElm = mtchNumber1[2]
+               let mtchNumber1 = mtchNumber.split(".")
 
-//let teams = lastElm.split("-")
-//hometeam =  teams[0]
-//awayteam =  teams[1]
-let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
-if(match.Away_id != 0 && match.Home_id != 0) 
-{
-   fullgame1 = ''
-   mtchNum = mtchNum+'.'+match.HomeTeam+'-'+match.AwayTeam    
-} else {
-  mtchNum = mtchNum+mtchNumber1[2]
-}
-console.log(mtchNum)
+              let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
+              if(match.Away_id != 0 && match.Home_id != 0)
+              {
+                 fullgame1 = ''
+                 mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
+              } else {
+                mtchNum = mtchNum+mtchNumber1[2]
+              }
 
               var person = {'fullGame':fullgame1,'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
               comp.push(person)
@@ -110,7 +104,10 @@ console.log(mtchNum)
             competition.matchCount = matchCount
           })
           competition.matchList = comp
+
+
         })
+
         this.matchCompetition = this.competationList
         this.totalMatch = matchCountDisplay
         this.$store.dispatch('SetTotalMatch', this.totalMatch)

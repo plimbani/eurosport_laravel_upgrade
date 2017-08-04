@@ -5,17 +5,18 @@
 	<div class="col-md-12">
 	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
-			<th>Team</th>
-			<th>Categories</th>
+			<th class="text-center">Team</th>
+			<th class="text-center">Categories</th>
 		</thead>
 		<tbody>
 			<tr v-for="team in matchData">
 				<td>
-					<a class="text-center text-primary" href="" @click.prevent="changeTeam(team.id, team.name)">
+					<!-- <a  href="" @click.prevent="changeTeam(team.id, team.name)"> -->
 						<!--<img :src="team.logo" width="20">-->
-          			    <span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
-						<span><u>{{team.name}}</u></span>
-					</a>
+          	<span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
+
+						<span class="text-center"><a class="text-primary" href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></span>
+					<!-- </a> -->
 				</td>
 				<td class="text-center">
 					<a href="" class="text-primary pull-left text-left" @click.prevent="changeGroup(team)">
@@ -52,7 +53,8 @@ export default {
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 			let Id = team.competationId
 			let Name = team.competationName
-			this.$root.$emit('changeComp',Id, Name);
+      let CompetationType = team.competation_type
+			this.$root.$emit('changeComp',Id, Name,CompetationType);
 			//this.$emit('changeComp',Id);
 		},
 

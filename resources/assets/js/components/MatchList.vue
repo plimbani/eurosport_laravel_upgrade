@@ -1,6 +1,6 @@
 <template>
 <div class="row">
-	<div class="col-md-12" >
+	<div class="col-md-12">
 	<table id="matchSchedule" class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
 			<th class="text-center">{{$lang.summary_schedule_date_time}}</th>
@@ -9,55 +9,76 @@
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
 			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
+      <th class="text-center"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
 		</thead>
 		<tbody>
-			<tr v-for="match in matchData">
+			<tr v-for="(match,index1) in matchData">
 				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
 
 					<a class="pull-left text-left text-primary" href=""
 					v-if="getCurrentScheduleView != 'drawDetails'"
-					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name}}</u>
+					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name | formatGroup}}</u>
 					</a>
-					<span v-else>{{match.competation_name}}</span>
+					<span v-else>{{match.competation_name | formatGroup(match.round)}}</span>
 				</td>
 				<td align="right">
-					<a  class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">
-						<span><u>{{match.HomeTeam}}</u></span>
+					<!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
+						<span class="text-center">{{match.HomeTeam}}</span>
 						<!--<img :src="match.HomeFlagLogo" width="20">-->
-               <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
-					</a>
+              		 <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
+					<!-- </a> -->
 				</td>
 				<td align="left">
-					<a class="pull-left text-left text-primary"  href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">
+					<!-- <a   href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)"> -->
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
              		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
-						<span><u>{{match.AwayTeam}}</u></span>
-					</a>
+					<span class="text-center">{{match.AwayTeam}}</span>
+					<!-- </a>	 -->
 				</td>
 				<td class="text-center">
 
-        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -
-        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist"
+        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -
+        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
         		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
       		    </td>
-				<td v-if="isHideLocation !=  false"><a class="pull-left text-left text-primary" href="" @click.prevent="changeLocation(match)"
-				><u>{{match.venue_name}} - {{match.pitch_number}}</u></a></td>
+				<td v-if="isHideLocation !=  false">
+					<a class="pull-left text-left">
+					{{match.venue_name}} - {{match.pitch_number}}
+					</a>
+				</td>
+        	<td class="text-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"><span class="align-middle">
+              <a class="text-primary" href="#"
+              @click="openPitchModal(match,index1)"><i class="jv-icon jv-edit"></i></a>
+            </span></td>
 			</tr>
 		</tbody>
 	</table>
-	<span v-else>No information available</span>
+  <!--<span v-else>No information available</span>-->
+  <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal" :section="section"></pitch-modal>
+
 	</div>
 </div>
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
+import PitchModal from '../components/PitchModal.vue';
+import DeleteModal1 from '../components/DeleteModalBlock.vue'
 
 export default {
 	props: ['matchData'],
+  components: {
+            PitchModal,
+            DeleteModal1,
+  },
 	data() {
 		return {
-			dispLocation: true
+			dispLocation: true,
+      'setPitchModal': 0,
+      'matchFixture': {},
+      'section': 'scheduleResult',
+      'currentMatch': {},
+      'index':''
 		}
 	},
 
@@ -65,7 +86,19 @@ export default {
   filters: {
     formatDate: function(date) {
      return moment(date).format("HH:mm ddd DD MMM YYYY");
-    }
+    },
+    formatGroup:function (value,round) {
+
+           if(round == 'Round Robin') {
+              return value
+            }
+            if(!isNaN(value.slice(-1))) {
+              return value.substring(0,value.length-1)
+            } else {
+              return value
+            }
+      }
+
   },
 	computed: {
 		isHideLocation() {
@@ -77,16 +110,17 @@ export default {
 		},
 
 	isUserDataExist() {
-	    return this.$store.state.Users.userDetails.id
+      return this.$store.state.isAdmin
+	    //return this.$store.state.Users.userDetails.id
 	    },
 	  getCurrentScheduleView() {
 	   	return this.$store.state.currentScheduleView
 	  }
 	},
 	components: {
-
-    },
-
+    PitchModal,
+    DeleteModal1,
+  },
 	mounted() {
 		$('body').on('keypress', 'input',function(e) {
 		    var a = [];
@@ -104,11 +138,68 @@ export default {
         }
 
 		});
+    let vm = this
+
+    $(document).on('hidden.bs.modal', '#matchScheduleModal', function (event) {
+      // here we close the compoent
+      vm.setPitchModal = 0
+    });
+
 	},
 	  created: function() {
-      //this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
+      this.$root.$on('reloadMatchList', this.setScore);
     },
 	methods: {
+    setScore(homescore,AwayScore,competationId) {
+      let vm = this
+      let scheduleView = this.$store.state.currentScheduleView
+      let index = this.index
+      index = index.toString()
+      console.log('sview'+scheduleView)
+      console.log('set Score')
+      console.log(vm.index)
+      console.log('THISSSSSSSS')
+
+      console.log(vm.matchData)
+      console.log('index is'+index)
+
+      console.log(typeof index)
+      if(index != '') {
+        console.log('not blank')
+          vm.matchData[vm.index].AwayScore = AwayScore
+      vm.matchData[vm.index].homeScore = homescore
+      console.log(vm.$store.state.currentScheduleView)
+      if(vm.$store.state.currentScheduleView == 'matchList') {
+       // vm.$root.$emit('setDrawTable',competationId)
+      //  vm.$root.$emit('setStandingData',competationId)
+      }
+      }
+
+      console.log('after Score')
+    },
+    openPitchModal(match,index) {
+      console.log('In pitch Modal')
+      console.log('index is'+index)
+      this.currentMatch =  match
+      this.index =  index
+      this.setPitchModal = 1
+      this.matchFixture.id = match.fid
+      let mtchNumber = match.match_number
+       let mtchNumber1 = mtchNumber.split(".")
+
+      let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
+      if(match.Away_id != 0 && match.Home_id != 0)
+      {
+         mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
+      } else {
+        mtchNum = mtchNum+mtchNumber1[2]
+      }
+      this.matchFixture.title = mtchNum
+      setTimeout(function() {
+        $('#matchScheduleModal').modal('show')
+      },200);
+
+    },
 		changeLocation(matchData) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','locationList')
@@ -126,7 +217,8 @@ export default {
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 			let Id = competition.competitionId
 			let Name = competition.group_name+'-'+competition.competation_name
-			this.$root.$emit('changeComp', Id, Name);
+      let CompetationType = competition.round
+			this.$root.$emit('changeComp', Id, Name,CompetationType);
 			//this.$emit('changeComp',Id);
 		},
 		changeTeamDetails() {

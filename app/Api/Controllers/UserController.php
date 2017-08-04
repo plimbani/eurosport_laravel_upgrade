@@ -63,6 +63,12 @@ class UserController extends BaseController
         return $userData = $this->userObj->getUsersByRegisterType($request->all());
     }
 
+    public function getUserTableData(Request $request)
+    {
+        return $userData = $this->userObj->getUserTableData($request->all());
+    }
+
+
     /**
      * Create New User Result.
      *
@@ -123,24 +129,33 @@ class UserController extends BaseController
       $message = "";
       $error = false;
       if (count($usersPasswords) == 0) {
-
           $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
           if(count($isUserVerified) > 0) {
               $error=true;
               $message = "You have already set the password.";
           } else {
-              return response()->view('errors.404', [], 404);
+              //return response()->view('errors.404', [], 404);
+              return array('message'=> 'Link is Expired');
           }
       }
 
       // TODO: Here we put Code for Mobile Verification
       if(isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['is_mobile_user'] == 1) {
+
         //TODO: Need to put code for change Status For User with user Update
-        $usersDetail['key'] = $key;
+        //$usersDetail['key'] = $key;
+          $usersPassword = User::where('token', $key)->first();
+          //$users = User::where("id", $usersPassword->id)->first();
+          $usersPassword->is_verified = 1;
+          $usersPassword->is_active = 1;
+          $usersPassword->token = '';
+          $user =  $usersPassword->save();
         // Already set the password
-        //$usersDetail['password'] = $usersPasswords[0]['password'];
-        $result = $this->userRepoObj->createPassword($usersDetail);
+       // $usersDetail['password'] = $usersPasswords[0]['password'];
+       // $result = $this->userRepoObj->createPassword($usersDetail);
+        return redirect('/mlogin');
       }
+
       // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
 
       return view('emails.users.setpassword', compact('usersPasswords'));
@@ -154,8 +169,10 @@ class UserController extends BaseController
       $usersDetail['key'] = $key;
       $usersDetail['password'] = $password;
       $result = $this->userRepoObj->createPassword($usersDetail);
-      return redirect('/login');
+      return ($result == 'Mobile') ?  redirect('/mlogin') : redirect('/login');
     }
+
+
 
     public function resendEmail(Request $request)
     {
@@ -194,6 +211,12 @@ class UserController extends BaseController
     public function setUserImage(Request $request)
     {
       return $this->userObj->setUserImage($request->all());
+    }
+    public function updatefcm(Request $request) {
+      return $this->userObj->setFCM($request->all());
+    }
+    public function getAllAppUsers(Request $request) {
+      return $this->userObj->getAllAppUsers($request->all());
     }
 
 }

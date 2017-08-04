@@ -3,54 +3,63 @@
 
 <table class="table table-hover table-bordered" v-if="standingData.length > 0">
 	<thead>
-		<th></th>
-		<th></th>
-		<th>Points</th>
-		<th>Played</th>
-		<th>Won</th>
-		<th>Draws</th>
-		<th>Lost</th>
-		<th>Goals For</th>
-		<th>Goals Against</th>
-    <th>Goal Difference</th>
+
+		<th class="text-center"></th>
+		<th class="text-center" width="10%">Played</th>
+		<th class="text-center" width="10%">Won</th>
+		<th class="text-center" width="10%">Draws</th>
+		<th class="text-center" width="10%">Lost</th>
+		<th class="text-center" width="10%">For</th>
+		<th class="text-center" width="10%">Against</th>
+    <th class="text-center" width="10%">Difference</th>
+    <th class="text-center" width="10%">Points</th>
 	</thead>
 	<tbody>
 		<tr v-for="stand in standingData">
-		<td></td>
+
 			<td align="left">
-				<a href="" @click.prevent="changeTeam(stand.team_id, stand.name)">
+				<!-- <a href="" @click.prevent="changeTeam(stand.team_id, stand.name)"> -->
 					 <!--<img :src="stand.teamFlag" width="20">-->
-           <span :class="'flag-icon flag-icon-'+stand.teamCountryFlag"></span>
+          			 <span :class="'flag-icon flag-icon-'+stand.teamCountryFlag"></span>
 					<span>
 					{{stand.name}}
 					</span>
-				</a>
+				<!-- </a> -->
 			</td>
-			<td>{{stand.points}}</td>
-			<td>{{stand.played}}</td>
-			<td>{{stand.won}}</td>
-			<td>{{stand.draws}}</td>
-			<td>{{stand.lost}}</td>
-			<td>{{stand.goal_for}}</td>
-			<td>{{stand.goal_against}}</td>
-      <td>{{stand.goal_for - stand.goal_against}}</td>
+			<td class="text-center" width="10%">{{stand.played}}</td>
+			<td class="text-center" width="10%" >{{stand.won}}</td>
+			<td class="text-center" width="10%">{{stand.draws}}</td>
+			<td class="text-center" width="10%">{{stand.lost}}</td>
+			<td class="text-center" width="10%">{{stand.goal_for}}</td>
+			<td class="text-center" width="10%">{{stand.goal_against}}</td>
+      <td class="text-center" width="10%">{{stand.goal_for - stand.goal_against | formatGD}}</td>
+      <td class="text-center" width="10%">{{stand.points}}</td>
 		</tr>
 	</tbody>
 </table>
-<span v-else>No information available</span>
+<span v-if="standingData.length == 0 && drawType != 'Elimination' ">No information available</span>
 </div>
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
 
 export default {
-	props: ['currentCompetationId'],
+	props: ['currentCompetationId','drawType'],
 	data() {
 		return {
 			standingData:[],
       currentLCompetationId: this.currentCompetationId
 		}
 	},
+
+  filters: {
+    formatGD: function(val) {
+       let gdVal = val
+       if(gdVal > 0)
+          return '+'+gdVal
+       return gdVal
+    }
+  },
   created: function() {
      this.$root.$on('setStandingData', this.getData);
   },

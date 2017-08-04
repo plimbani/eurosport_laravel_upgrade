@@ -7,9 +7,8 @@
   <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{setCurrentMsg}}</a>
 </div>
 <div class="form-group row d-flex flex-row align-items-center">
-<div class="col d-flex flex-row align-items-center">
-  <div><label class=""><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
-  <div class="col-sm-4"><select class="form-control ls-select2"
+<div class="col d-flex flex-column align-items-start">
+    <div class="my-3"><select class="form-control ls-select2"
     v-on:change="onChangeDrawDetails"
     v-model="DrawName">
       <option value="">Select</option>
@@ -20,6 +19,7 @@
       </option>
     </select>
   </div>
+  <div v-if="otherData.DrawType != 'Elimination'"><label class="mt-3"><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
 </div>
 </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
@@ -28,34 +28,43 @@
 	<thead>
     <tr>
         <th></th>
-        <th></th>
-       <th v-for="(match,index) in match1Data" class="text-center">{{index+1}}</th>
+       <th v-for="(match,index) in match1Data" class="text-center">
+       <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
+       <span>{{match.TeamName}}</span></th>
+       <!-- <img :src="match.TeamFlag" width="20"> &nbsp;<span>{{match.TeamName}}</span></th> -->
     </tr>
   </thead>
   <tbody>
   	<tr v-for="(match,index) in match1Data">
-   		<td>{{index+1}}</td>
+
     		<td>
 
     			<!-- <a href="" class="pull-left text-left text-primary"> -->
-    			  <img :src="match.TeamFlag" width="20"> &nbsp;
+           <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
+    			  <!-- <img :src="match.TeamCountryFlag" width="20"> &nbsp; -->
     			    <span>{{match.TeamName}}</span>
 
     			  <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->
 
     		</td>
-        <td v-for="(teamMatch, ind2) in match.matches">
-          <div class="text-center">{{teamMatch.score}}</div>
-          <div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>
+
+
+        <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
+          <div class="text-center" v-if="teamMatch.score == null && teamMatch != 'Y' && teamMatch != 'X' ">
+        {{teamMatch.date | formatDate}}</div>
+          <div class="text-center" v-else> {{teamMatch.score}}</div>
+
+          <!--<div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>-->
         </td>
+
       </tr>
   </tbody>
 </table>
-<span v-else> No information available </span>
+<span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available </span>
 <h6 v-if="CompRound == 'Round Robin'"> {{otherData.DrawName}} standings</h6>
-<teamStanding :currentCompetationId="currentCompetationId" v-if="currentCompetationId != 0" >
+<teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0" >
 </teamStanding>
-<span v-else>No information available</span>
+<span v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available</span>
 <h6>{{otherData.DrawName}} matches</h6>
 <matchList :matchData="matchData"></matchList>
 </div>
@@ -121,6 +130,9 @@ export default {
       // console.log(this.$children[1].getData())
  },
   filters: {
+    formatDate: function(date) {
+     return moment(date).format("HH:mm  DD MMM YYYY");
+    },
     getStatus: function(teamName) {
       // Now here we change it accoring to
       if(typeof teamName == 'string' && teamName != '')
@@ -193,9 +205,11 @@ export default {
             return teamId.Home_id
         },
         setTeamData() {
+
             let tempMatchdata = (this.matchData.length > 0 && !this.matchData[0].hasOwnProperty('fid')) ? this.matchData : this.drawList
 
             this.currentCompetationId = this.otherData.DrawId
+
             if(Object.keys(tempMatchdata).length !== 0) {
 
                let TeamData = []
@@ -208,13 +222,16 @@ export default {
                this.currentCompetationId = this.otherData.DrawId
                // Here call Function for getting result
                //let tournamentId = this.$store.state.Tournament.tournamentId
-               this.GenerateDrawTable( this.currentCompetationId)
-            }
 
+
+            }
+             this.GenerateDrawTable(this.currentCompetationId)
         },
         GenerateDrawTable(currentCompetationId) {
-          let tournamentId = this.$store.state.Tournament.tournamentId
-          let tournamentData = {'tournamentId':tournamentId,'competationId':currentCompetationId}
+
+          if(currentCompetationId != undefined) {
+            let tournamentId = this.$store.state.Tournament.tournamentId
+            let tournamentData = {'tournamentId':tournamentId,'competationId':currentCompetationId}
                Tournament.getDrawTable(tournamentData).then(
                 (response)=> {
                   if(response.data.status_code == 200){
@@ -230,6 +247,8 @@ export default {
                 (error)=> {}
 
                )
+          }
+
         },
         setCurrentTabView(setCurrentTabView) {
           if(setCurrentTabView == 'drawsListing')

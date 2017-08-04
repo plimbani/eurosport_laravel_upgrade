@@ -9,6 +9,7 @@ use Laraspace\Models\TournamentVenue;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Pitch;
+use Laraspace\Models\PitchAvailable;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Team;
 use Laraspace\Models\Referee;
@@ -20,7 +21,7 @@ class TournamentRepository
 {
     public function __construct()
     {
-      $this->tournamentLogo = $url = getenv('S3_URL').'/assets/img/tournament_logo/';
+      $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
     }
     public function getTournamentsByStatus($tournamentData)
     {
@@ -32,13 +33,15 @@ class TournamentRepository
       if($status == '') {
           $data = Tournament::
                   select('tournaments.*',
-                  \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
+                 \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo),"" ) as tournamentLogo'))
                     ->get();
       } else {
         $data = Tournament::where('status','=','Published')
                 ->select('tournaments.*',
-                  \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
+                \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo),"" ) as tournamentLogo')
+                  )
                   ->get();
+
       }
         return $data;
         /*if($status == '') {
@@ -76,19 +79,23 @@ class TournamentRepository
         $newdata['twitter'] = $data['twitter'] ? $data['twitter'] : '';
 
         // For New One We set Status as Unpublished
-        $newdata['status'] = 'UnPublished';
+
         $newdata['user_id'] = 1;
 
         if($data['image_logo'] != ''){
             $newdata['logo'] = $data['image_logo'];
+        } else {
+            $newdata['logo'] = NULL;
         }
         // Now here we Save it For Tournament
         $imageChanged = true;
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
            // Update Touranment Table Data
           $tournamentId = $data['tournamentId'];
+          //$newdata['status'] = $data['status'];
           // unset($newdata['start_date']);
           // unset($newdata['end_date']);
+          //
           $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
           $newdata['end_date'] = Carbon::createFromFormat('d/m/Y', $newdata['end_date']);
           // here we check for image Logo is exist
@@ -96,7 +103,7 @@ class TournamentRepository
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
-
+         $newdata['status'] = 'Unpublished';
          $tournamentId = Tournament::create($newdata)->id;
         }
         //$tournamentId = Tournament::create($newdata)->id;
@@ -155,7 +162,7 @@ class TournamentRepository
           'tournamentEndDate' => $data['end_date'],
 
           'tournamentStatus'=> 'UnPublished',
-          'tournamentLogo'=>$this->tournamentLogo.$data['image_logo'],
+          'tournamentLogo'=> ($data['image_logo'] != '') ? $this->tournamentLogo.$data['image_logo'] : '',
           'tournamentDays'=> ($tournamentDays) ? $tournamentDays : '2',
           'facebook' => $data['facebook'],
           'twitter' => $data['twitter'],
@@ -357,7 +364,7 @@ class TournamentRepository
           case 'competation_group':
                  $resultData = Competition::where('tournament_id',$tournamentId)
                                 ->select('id','name')
-                                ->get(); 
+                                ->get();
         }
       }else{
 
@@ -383,7 +390,7 @@ class TournamentRepository
                         ->distinct('name')
                         ->get();
             break;
-        } 
+        }
       }
 
       return $resultData;
@@ -408,21 +415,79 @@ class TournamentRepository
         return $userData;
       }
     }
+    private function getTournamentPitchStartTime($tournamentId) {
+      // here we query the pitch_availibility table for getting the start time for tournament
+     /* $pitches = PitchAvailable::whereIn('tournament_id',$tournamentId)
+                ->select(\DB::raw('CONCAT(stage_start_date," ",stage_start_time) as TournamentStartTime'),'tournament_id as TId')
+                ->orderBy('stage_start_time','asc')
+                ->orderBy('stage_start_date','asc')
+                ->get()->first(); */
+      // TODO : Change the code to find first schedule match for that tournament
+
+       $pitches = TempFixture::whereIn('tournament_id',$tournamentId)
+                ->whereNotNull('match_datetime')
+                ->select('match_datetime as TournamentStartTime',
+                  'temp_fixtures.tournament_id as TId')
+                ->orderBy('temp_fixtures.match_datetime','asc')
+                ->get()->first();
+      if($pitches) {
+          return $pitches->toArray();
+      } else {
+        return '';
+      }
+
+    }
      public function getUserLoginFavouriteTournament($data)
+
     {
+
       //$url = getenv('S3_URL').'/assets/img/tournament_logo/';
+      // Now here we attach the tournament Start Date Seperately for check the first started match
       $userData = UserFavourites::where('users_favourite.user_id','=',$data['user_id'])
               ->where('tournaments.status','=','Published')
               ->leftJoin('tournaments','tournaments.id','=','users_favourite.tournament_id')
               ->select('tournaments.*',
                 'users_favourite.*',
+                'tournaments.id as TournamentId',
+                'tournaments.start_date as TournamentStartTime',
                 \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
-              ->get();
+              ->get()->toArray();
+      //print_r($userData->toArray());
+      $tournament_ids = array();
       if(count($userData) > 0) {
+        foreach($userData as $tournamentData) {
+          $tournament_ids[] = $tournamentData['TournamentId'];
+        }
+
+        // now call function and send tournament ids
+        $tournamentStartTimeArr = $this->getTournamentPitchStartTime($tournament_ids);
+
+        foreach($userData as $index=>$userData1) {
+
+          if($tournamentStartTimeArr) {
+          foreach($tournamentStartTimeArr as $key=>$tournamentTime) {
+            if($userData1['TournamentId'] == $tournamentStartTimeArr['TId']) {
+                $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s' ,strtotime($tournamentStartTimeArr['TournamentStartTime']));
+              }
+            }
+          }
+          /*else {
+            //return $userData;
+          }*/
+        }
+
+        return $userData;
+
+      } else {
+         return array();
+      }
+
+      // Now here we calculate
+      /*if(count($userData) > 0) {
         return $userData;
       } else {
         return array();
-      }
+      } */
     }
     public function getTournamentClub($data)
     {

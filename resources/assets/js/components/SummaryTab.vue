@@ -1,6 +1,5 @@
 <template>
 	<div class="tab-content summary-content">
-	<h6>Summary</h6>
 		<div class="row">
 			<div class="col-md-6"><div style="line-height:1">
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
@@ -151,7 +150,7 @@
 
               $("#publish_modal").modal("hide");
 	    				this.tournamentStatus = status
-	    				toastr['success']('Tournament has Been '+status, 'Success');
+	    				toastr['success']('This tournament has been '+status, 'Success');
 	    				let tournamentField = {'tournamentStatus': status}
 	    				this.$store.dispatch('setTournamentStatus',tournamentField)
               setTimeout(this.redirectToHomePage, 3000);
