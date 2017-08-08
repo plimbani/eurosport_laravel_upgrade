@@ -107,7 +107,7 @@ class MatchController extends BaseController
     {
         return $this->matchObj->removeAssignedReferee($request);
     }
-    public function assignReferee(Request $request)
+    public function assignReferee(Request $request) 
     {
         return $this->matchObj->assignReferee($request);
     }
