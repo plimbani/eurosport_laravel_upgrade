@@ -57,8 +57,8 @@ class PushMessagesController extends BaseController
     }
     private function sendToFCM($content,$token) {
 
-
-        $optionBuiler = new OptionsBuilder();
+        try {
+             $optionBuiler = new OptionsBuilder();
         $optionBuiler->setTimeToLive(60*20);
         $optionBuiler->setPriority('high');
         $optionBuiler->setContentAvailable(true);
@@ -80,7 +80,9 @@ class PushMessagesController extends BaseController
        /* $token = "f7ExTxZrh4o:APA91bHxEdDIm-ezv3_wl4qE0TKygzUZBJeC1HZvia-vdZ4-THffbx6PGGANrE_XaRE9TCeuPRO61wRGkJcS2tFNVPe7xL7Yvtdw3IxStgm2Gx4Ehmuvu5sGrOfiyZzl_rTJkciCU4jM"; */
         // $token = "etZg2KA4O4M:APA91bHPFpP8wJirQrhl1aEktjwsgqBP9Fp_hkArKqZxsls-WwboMSAisEQ64NQDglig9oSMLYWF2M4GriJN6CGShmB96h5gf6MNL-Xqep-6QMlUZD8vO4gvwwUsZG_-DhdpaDCXVhik";
 
-        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+         $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+
        // echo "<pre>";print_r($downstreamResponse);echo "</pre>";exit;
 
         $downstreamResponse->numberSuccess();
@@ -96,6 +98,10 @@ class PushMessagesController extends BaseController
         //return Array - you should try to resend the message to the tokens in the array
         $downstreamResponse->tokensToRetry();
         return $downstreamResponse;
+        } catch(\Exception $e) {
+          return false;
+        }
+
         // return Array (key:token, value:errror) - in production you should remove from your database the tokens
     }
     // Insert Value in MessagesTable
@@ -166,10 +172,19 @@ class PushMessagesController extends BaseController
 
         $users = \DB::table('users_favourite')->where('tournament_id','=',$tournamentId)->pluck('user_id')->toArray();
 
+        if(is_array($users) && count($users) == 0) {
+          return $this->response->array([
+                    'data' => 'No App users exist',
+                    'message' => "failure",
+                    "status_code" => 200
+                ]);
+        }
         if($type == 'save') {
           $userData = User::whereIn('id',$users)->pluck('fcm_id')->toArray();
           $token = $userData;
+
           $downstreamResponse = $this->sendToFCM($content,$token);
+
           $data['sent_from'] = $userId;
           $data['user_id'] = $users;
           $data['content'] = $content;
@@ -186,6 +201,13 @@ class PushMessagesController extends BaseController
         }
 
         // Now insert in DB
+        if($downstreamResponse === false) {
+            return $this->response->array([
+                    'data' => 'Problem on send notification',
+                    'message' => "failure",
+                    "status_code" => 200
+                ]);
+        }
         $this->insertInMessageHistory($data);
 
         return $this->response->array([

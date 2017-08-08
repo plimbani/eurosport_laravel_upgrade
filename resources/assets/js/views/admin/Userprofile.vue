@@ -85,6 +85,11 @@
         this.userId = this.userData.id
         let that = this;
         this.userData.user_image = this.image;
+        // TODO: we check if not set image and save use existing image
+        if(this.userData.user_image == '') {
+          this.userData.user_image = this.userData.image
+        }
+
         User.updateUser(this.userId,this.userData).then(
           (response)=> {
             toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
