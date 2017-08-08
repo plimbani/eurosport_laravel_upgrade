@@ -280,6 +280,9 @@ class UserService implements UserContract
               $userData['user']['user_image']=$imagename;
            // }
         } else {
+          if(isset($data['image']) && $data['image'] != '') {
+            $imagename = $data['image'];
+          }
           $userData['user']['user_image']=$imagename;
         }
 
