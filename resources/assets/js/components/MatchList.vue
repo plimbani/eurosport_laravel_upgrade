@@ -169,10 +169,10 @@ export default {
           vm.matchData[vm.index].AwayScore = AwayScore
       vm.matchData[vm.index].homeScore = homescore
       console.log(vm.$store.state.currentScheduleView)
-      if(vm.$store.state.currentScheduleView == 'matchList') {
-       // vm.$root.$emit('setDrawTable',competationId)
-      //  vm.$root.$emit('setStandingData',competationId)
-      }
+
+        vm.$root.$emit('setDrawTable',competationId)
+        vm.$root.$emit('setStandingData',competationId)
+
       }
 
       console.log('after Score')
