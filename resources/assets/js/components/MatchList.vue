@@ -157,10 +157,8 @@ export default {
       index = index.toString()
       console.log(homescore)
       console.log(AwayScore)
-      console.log(competationId)
-      console.log(typeof homescore)
       console.log(index)
-      if(index != '' && (homescore != undefined || AwayScore!= undefined) ) {
+      if(index != '' && (homescore != undefined || AwayScore != undefined) ) {
         console.log('helloin')
         vm.matchData[vm.index].AwayScore = AwayScore
         vm.matchData[vm.index].homeScore = homescore
