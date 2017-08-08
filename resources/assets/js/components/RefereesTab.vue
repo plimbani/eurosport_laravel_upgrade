@@ -6,10 +6,8 @@
 					<button type="button" data-toggle="modal" data-target="#refreesModal" class="btn btn-primary mb-3">Add referee</button>
 				</div>
 				<AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId"></AddRefereesModel>
-				<div class="raferee_list">
-					<div class="raferee_details " @click="editReferee(referee.id)" v-for="referee in referees">
-						<draggable-referee :referee="referee"></draggable-referee>
-					</div>
+				<div  v-for="referee in referees">
+					<draggable-referee :referee="referee" @click="editReferee(referee.id)"></draggable-referee>
 				</div>
 			</div>
 		</div>

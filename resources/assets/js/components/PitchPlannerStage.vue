@@ -30,7 +30,7 @@ import _ from 'lodash'
                 'section': 'pitchPlanner',
             }
         },
-        props: [ 'stage' , 'defaultView'],
+        props: [ 'stage' , 'defaultView', 'currentView'],
         components: {
             PitchModal,
             DeleteModal1,
@@ -48,6 +48,9 @@ import _ from 'lodash'
         },
         created: function() {
             this.$root.$on('getTeamsByTournamentFilter', this.setPitchPlannerFilter);
+
+            this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
+
         },
         mounted() {
             let vm = this
@@ -77,6 +80,9 @@ import _ from 'lodash'
 
         },
         methods: {
+            matchSchedulerChange() {
+                $(this.$el).fullCalendar('eventOverlap', true);
+            },
             pitchBreakAdd() {
                 let sPitch = []
                 _.forEach(this.stage.pitches, (pitch) => {
@@ -103,7 +109,7 @@ import _ from 'lodash'
                     editable: true,
                     aspectRatio: 1.8,
                     eventDurationEditable: false,
-                    eventOverlap: false,
+                    eventOverlap: this.currentView == 'refereeTab',
                     droppable: true,
                     // height: 350,
                     width:'100px',
@@ -117,6 +123,10 @@ import _ from 'lodash'
                     },
                     // scrollTime: '14:00',
                     eventLimit: true, // allow "more" link when too many events
+                    selectOverlap: function(event) {
+                        // console.log(event)
+                        return event.rendering === 'background';
+                    },
 
                     views: {
                         timelineDay: {
@@ -143,7 +153,6 @@ import _ from 'lodash'
                             timeFormat: 'H:mm',
                             resourceAreaWidth: '100px',
                             width:100
-
                         },
                     },
 
@@ -152,22 +161,34 @@ import _ from 'lodash'
                     allDaySlot: false,
                     resourceAreaWidth: '400px',
                     resources: vm.pitchesData,
-
-                    // events: [
-                    //     { id: '2', resourceId: '1', start: '2017-03-28T09:00:00', end: '2017-03-28T14:00:00', title: 'event 2' },
-                    //     { id: '3', resourceId: '1', start: '2017-03-28T12:00:00', end: '2017-03-28T06:00:00', title: 'event 3' },
-                    //     { id: '4', resourceId: '10', start: '2017-03-28T07:30:00', end: '2017-03-28T09:30:00', title: 'event 4' },
-                    //     { id: '5', resourceId: '10', start: '2017-03-28T10:00:00', end: '2017-03-28T15:00:00', title: 'event 5' }
-                    // ],
                     events: vm.scheduledMatches,
                     drop: function(date, jsEvent, ui, resourceId) {
-                        // console.log('drop', resourceId);
                         $(this).remove();
                     },
 
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
-                         // add match to scheduled matches table - api call
+                        // add match to scheduled matches table - api call
 
+                        console.log(event)
+
+                        if(event.refereeId === -3 ){
+                            let matchData = {
+                                'tournamentId': vm.tournamentId,
+                                'refereeId': event.id,
+                                'tournamentId': vm.tournamentId,
+                                'pitchId': event.resourceId,
+                                'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
+                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
+                            };
+                            Tournament.assignReferee(matchData).then(
+                                (response) => {
+                                    console.log(response,'rs')
+                                },
+                                (error) => {
+                                    console.log(error,'er')
+                                }
+                            )
+                        }
                         let matchId = event.id?event.id:event.matchId
                         let matchData = {
                             'tournamentId': vm.tournamentId,
@@ -179,16 +200,15 @@ import _ from 'lodash'
 
                         if(event.refereeId == -2){
                              Tournament.setUnavailableBlock(matchData).then(
-                            (response) => {
-                                // console.log(response)
-                                let msg = 'Unavailable block has been scheduled successfully'
-                                toastr.success('', 'Schedule Block', {timeOut: 5000});
+                                (response) => {
+                                    let msg = 'Unavailable block has been scheduled successfully'
+                                    toastr.success('', 'Schedule Block', {timeOut: 5000});
                                     vm.$root.$emit('setPitchReset')
-                            },
-                            (error) => {
-                                console.log('Error occured during tournament api', error)
-                            }
-                        )
+                                },
+                                (error) => {
+                                    console.log('Error occured during tournament api', error)
+                                }
+                            )
                             vm.$root.$emit('setGameReset')
                             $('.fc-referee').each(function(referee){
                                 if(this.id == -1 || this.id == -2){
@@ -198,7 +218,6 @@ import _ from 'lodash'
                         }else{
                         Tournament.setMatchSchedule(matchData).then(
                             (response) => {
-                                // console.log(response)
                                 toastr.success('Match has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
                                     vm.$root.$emit('setGameReset')
                             },
@@ -213,7 +232,6 @@ import _ from 'lodash'
                         // update api call
                         let ed = $(this)
                         if(event.refereeId == -1 || event.refereeId == -2){
-
                             // vm.$root.$emit('setGameReset')
                             revertFunc();
                             setTimeout(function(){
@@ -223,7 +241,6 @@ import _ from 'lodash'
                                     }
                                 })
                             },200)
-
                         }else{
                             setTimeout(function(){
                                 $('.fc-referee').each(function(referee){
@@ -232,7 +249,7 @@ import _ from 'lodash'
                                     }
                                 })
                             },200)
-                            let matchId = event.id?event.id:event.matchId
+                            let matchId = event.id ? event.id : event.matchId
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
                                 'pitchId': event.resourceId,
@@ -307,14 +324,13 @@ import _ from 'lodash'
             },
             getScheduledMatch(filterKey='',filterValue='') {
 
-              let tournamentData= []
-              if(filterKey != '' && filterValue != '') {
-                 tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id}
-              } else {
-                 tournamentData ={'tournamentId':this.tournamentId }
-              }
-
-              // let tournamentData ={'tournamentId':this.tournamentId }
+                let tournamentData= []
+                if(filterKey != '' && filterValue != '') {
+                    tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id}
+                } else {
+                    tournamentData ={'tournamentId':this.tournamentId }
+                }
+                // let tournamentData ={'tournamentId':this.tournamentId }
                 Tournament.getFixtures(tournamentData).then(
                     (response)=> {
                         let vm = this
@@ -328,26 +344,26 @@ import _ from 'lodash'
                             let refereeId = ''
                             let matchTitle = ''
 
-let mtchNumber = match.match_number
-let mtchNumber1 = mtchNumber.split(".")
-let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
+                            let mtchNumber = match.match_number
+                            let mtchNumber1 = mtchNumber.split(".")
+                            let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
 
-let lastElm = mtchNumber1[2]
-let teams = lastElm.split("-")
+                            let lastElm = mtchNumber1[2]
+                            let teams = lastElm.split("-")
 
-let Placehometeam =  teams[0]
-let Placeawayteam =  teams[1]
+                            let Placehometeam =  teams[0]
+                            let Placeawayteam =  teams[1]
 
-if(match.Home_id != 0){
-Placehometeam = match.HomeTeam
-}
-if(match.Away_id != 0){
-Placeawayteam = match.AwayTeam
-}
-let mtc = ''
-mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
-//console.log(mtc)
-match.match_number = mtc
+                            if(match.Home_id != 0){
+                            Placehometeam = match.HomeTeam
+                            }
+                            if(match.Away_id != 0){
+                            Placeawayteam = match.AwayTeam
+                            }
+                            let mtc = ''
+                            mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
+                            //console.log(mtc)
+                            match.match_number = mtc
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
                                     if( filterValue != '' && filterValue.id != match.tid){
@@ -388,7 +404,8 @@ match.match_number = mtc
                                     'refereeText': refereeName,
                                     'title':matchTitle,
                                     'color': colorVal,
-                                    'matchId':match.fid
+                                    'matchId':match.fid,
+                                    'overlap': true
                                 }
                                // console.log('match typeof')
                                // console.log(typeof match.homeScore)
@@ -420,19 +437,18 @@ match.match_number = mtc
                                 }
 
                                 if(availability.stage_start_time != '08:00'){
-
-                                     let mData1 = {
+                                    let mData1 = {
                                         'id': 'start_'+counter,
                                         'resourceId': pitch.id,
                                         'start':moment.utc(availability.stage_start_date+' '+'08:00:00','DD/MM/YYYY HH:mm:ss'),
                                         'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
-                                        'title':'Pitch is not available',
+                                        'title': 'Pitch is not available',
                                         'color': 'grey',
                                         'matchId':-1
                                     }
-                                sMatches.push(mData1)
+                                    sMatches.push(mData1)
                                 }
                                 if(availability.stage_end_time != '19:00'){
                                     let mData2 = {
@@ -450,7 +466,7 @@ match.match_number = mtc
                                 }
 
                                 sMatches.push(mData)
-                                 counter = counter+1;
+                                    counter = counter+1;
                                 });
                             });
                         this.scheduledMatches =sMatches
@@ -495,16 +511,16 @@ match.match_number = mtc
                     (response) => {
                     _.forEach(response.data.data, (block) => {
                         let mData2 = {
-                                'id': 'block_'+block.id,
-                                'resourceId': block.pitch_id,
-                                'start':moment.utc(block.match_start_datetime,'YYYY/MM/DD hh:mm:ss'),
-                                'end': moment.utc(block.match_end_datetime,'YYYY/MM/DD HH:mm:ss'),
-                                'refereeId': -2,
-                                'refereeText': '',
-                                'title': 'Unavailable',
-                                'color': 'grey',
-                                'matchId': 'block_'+block.id
-                            }
+                            'id': 'block_'+block.id,
+                            'resourceId': block.pitch_id,
+                            'start':moment.utc(block.match_start_datetime,'YYYY/MM/DD hh:mm:ss'),
+                            'end': moment.utc(block.match_end_datetime,'YYYY/MM/DD HH:mm:ss'),
+                            'refereeId': -2,
+                            'refereeText': '',
+                            'title': 'Unavailable',
+                            'color': 'grey',
+                            'matchId': 'block_'+block.id
+                        }
                         this.scheduledMatches.push(mData2)
                         this.unavailableBlock.push(mData2)
                         });

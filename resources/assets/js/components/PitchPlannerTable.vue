@@ -24,7 +24,7 @@
                            Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
                           <div :id="'demo'+stage.stageNumber"
                           class="stages collapse in show" aria-expanded="true">
-                            <pitch-planner-stage :stage="stage" :defaultView="defaultView"></pitch-planner-stage>
+                            <pitch-planner-stage :stage="stage" :currentView="currentView" :defaultView="defaultView"></pitch-planner-stage>
                           </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             v-if="GameStatus" id="game-list" role="tabpanel">
                                 <games-tab></games-tab>
                             </div>
-                            <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus" id="referee-list" role="tabpanel">
+                            <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus"  id="referee-list" role="tabpanel">
                                 <referees-tab></referees-tab>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
             },
             totalRefereeCount() {
                 return this.$store.state.Tournament.totalReferee
-            },
+            }
             // tournamentStages() {
             //     let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
             //     let stages = [];
@@ -189,21 +189,31 @@
         },
         methods: {
             setCurrentTab(currentTab = 'gamesTab') {
+                let vm =this;
+
               this.currentView = currentTab
+               vm.stageStatus = false;
+               console.log(currentTab)
+               setTimeout(function(){
+                    vm.stageStatus = true
+                   
+                },500)
+               vm.$root.$emit('matchSchedulerChange')
             },
+            
             // myFilter: function(){
             //     this.isActive = !this.isActive;
             //   // some code to filter users
             // },
             toggleStage(stageNo){
                 // Change the opt_icon as well
-                if($('#opt_icon_'+stageNo).hasClass('fa-plus') == true){
-            $('#opt_icon_'+stageNo).addClass('fa-minus')
-            $('#opt_icon_'+stageNo).removeClass('fa-plus')
-          }else{
-            $('#opt_icon_'+stageNo).addClass('fa-plus')
-            $('#opt_icon_'+stageNo).removeClass('fa-minus')
-          }
+            if($('#opt_icon_'+stageNo).hasClass('fa-plus') == true){
+                $('#opt_icon_'+stageNo).addClass('fa-minus')
+                $('#opt_icon_'+stageNo).removeClass('fa-plus')
+            }else{
+                $('#opt_icon_'+stageNo).addClass('fa-plus')
+                $('#opt_icon_'+stageNo).removeClass('fa-minus')
+            }
                 let vm =this
                 setTimeout(function(){
                         if(vm.defaultView == 'timelineDay'){
