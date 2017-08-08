@@ -67,7 +67,12 @@ export default {
             Tournament.sendMessage(messageData).then(
                 (response) => {
                   if(response.data.status_code == 200) {
+                  if(response.data.message == 'success') {
                      toastr.success('Notification sent successfully.', 'Push notification ', {timeOut: 2000});
+                    } else {
+                      toastr.error(response.data.data, 'Push notification ', {timeOut: 2000});
+                    }
+
                      vm.$root.$emit('displayMessageList')
                      $('#exampleModal').modal('hide')
                   }
@@ -93,7 +98,12 @@ export default {
             Tournament.sendMessage(messageData).then(
                 (response) => {
                     if(response.data.status_code == 200) {
+                     if(response.data.message == 'success') {
                      toastr.success('Notification sent successfully.', 'Push notification ', {timeOut: 2000});
+                    } else {
+                      toastr.error(response.data.data, 'Push notification ', {timeOut: 2000});
+                    }
+
                      vm.$root.$emit('displayMessageList')
                      $('#exampleModal').modal('hide')
                   }

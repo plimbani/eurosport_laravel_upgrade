@@ -155,27 +155,13 @@ export default {
       let scheduleView = this.$store.state.currentScheduleView
       let index = this.index
       index = index.toString()
-      console.log('sview'+scheduleView)
-      console.log('set Score')
-      console.log(vm.index)
-      console.log('THISSSSSSSS')
 
-      console.log(vm.matchData)
-      console.log('index is'+index)
-
-      console.log(typeof index)
       if(index != '') {
-        console.log('not blank')
-          vm.matchData[vm.index].AwayScore = AwayScore
-      vm.matchData[vm.index].homeScore = homescore
-      console.log(vm.$store.state.currentScheduleView)
-
+        vm.matchData[vm.index].AwayScore = AwayScore
+        vm.matchData[vm.index].homeScore = homescore
         vm.$root.$emit('setDrawTable',competationId)
         vm.$root.$emit('setStandingData',competationId)
-
       }
-
-      console.log('after Score')
     },
     openPitchModal(match,index) {
       console.log('In pitch Modal')
