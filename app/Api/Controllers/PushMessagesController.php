@@ -141,7 +141,7 @@ class PushMessagesController extends BaseController
           if($data['user_id']) {
             $msg_receiptArray = array();
             foreach($data['user_id'] as $key=>$user) {
-              $msg_receiptArray[$key] = ['message_id'=> $messageId,'user_id'=>$user];
+              $msg_receiptArray[$key] = ['message_id'=> $messageId,'user_id'=>$user,'error_json'=>'{}'];
             }
             // Now Insert in DB
             DB::table('message_recipients')->insert($msg_receiptArray);
