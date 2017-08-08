@@ -18,6 +18,9 @@ class CreateMessagesTable extends Migration
             $table->foreign('sent_from')->references('id')->on('users');
             $table->integer('sent_to_user')->unsigned()->index();
             $table->foreign('sent_to_user')->references('id')->on('users');
+            $table->integer('tournament_id')->unsigned()->index();
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
+
             $table->enum('status',['queued','sent','delivered','read'])->default('queued');
             //$table->foreign('sent_from')->references('id')->on('users');
             $table->datetime('sent_at')->default(NULL)->nullable();
