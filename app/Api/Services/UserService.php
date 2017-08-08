@@ -23,6 +23,7 @@ class UserService implements UserContract
         $this->userRepoObj = new \Laraspace\Api\Repositories\UserRepository();
         $this->peopleRepoObj = new \Laraspace\Api\Repositories\PeopleRepository();
         $this->s3  = \Storage::disk('s3');
+        $this->getAWSUrl = getenv('S3_URL');
     }
 
     public function getAllUsers()
@@ -180,6 +181,11 @@ class UserService implements UserContract
     {
        if($data['user_image'] != '')
        {
+            if(strpos($data['user_image'],$this->getAWSUrl) !==  false) {
+              $path = $this->getAWSUrl.'/assets/img/users/';
+              $imageLogo = str_replace($path,"",$data['user_image']);
+              return $imageLogo;
+            }
 
             $imagePath = '/assets/img/users/';
             $image_string = $data['user_image'];
@@ -244,12 +250,13 @@ class UserService implements UserContract
      */
     public function update($data, $userId)
     {
+
         $data = $data->all();
         $userData=array();
         $userData['people']=array();
         $userData['user']=array();
 
-        $imagename ='';
+        $imagename =NULL;
         // Data Initlization for Mobile User
         $isMobileUsers = \Request::header('IsMobileUser');
         if($isMobileUsers != '') {
@@ -280,6 +287,7 @@ class UserService implements UserContract
               $userData['user']['user_image']=$imagename;
            // }
         } else {
+
           $userData['user']['user_image']=$imagename;
         }
 
