@@ -54,7 +54,7 @@ class MatchController extends BaseController
     public function createMatch(Request $request)
     {
         return $this->matchObj->createMatch($request);
-    }
+    } 
 
     /**
      * Edit  Match result.
