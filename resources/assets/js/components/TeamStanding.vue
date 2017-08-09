@@ -37,7 +37,9 @@
 		</tr>
 	</tbody>
 </table>
-<span v-if="standingData.length == 0 && drawType != 'Elimination' ">No information available</span>
+<span v-if="standingData.length == 0 && drawType != 'Elimination' ">No information available
+<div class="mt-2"></div>
+</span>
 </div>
 </template>
 <script type="text/babel">
