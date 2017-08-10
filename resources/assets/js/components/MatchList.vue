@@ -38,9 +38,9 @@
 				</td>
 				<td class="text-center">
 
-        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid)"><span v-else>{{match.homeScore}}</span> -
+        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid,index1)"><span v-else>{{match.homeScore}}</span> -
         		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
-        		  @change="updateScore(match.fid)"><span v-else>{{match.AwayScore}}</span>
+        		  @change="updateScore(match.fid,index1)"><span v-else>{{match.AwayScore}}</span>
       		    </td>
 				<td v-if="isHideLocation !=  false">
 					<a class="pull-left text-left">
@@ -155,8 +155,11 @@ export default {
       let scheduleView = this.$store.state.currentScheduleView
       let index = this.index
       index = index.toString()
-
-      if(index != '') {
+      console.log(homescore)
+      console.log(AwayScore)
+      console.log(index)
+      if(index != '' && (homescore != undefined || AwayScore != undefined) ) {
+        console.log('helloin')
         vm.matchData[vm.index].AwayScore = AwayScore
         vm.matchData[vm.index].homeScore = homescore
         vm.$root.$emit('setDrawTable',competationId)
@@ -210,8 +213,8 @@ export default {
 		changeTeamDetails() {
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
 		},
-		updateScore(matchId) {
-
+		updateScore(matchId,index) {
+      this.index =  index
       let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
         Tournament.updateScore(matchData).then(
             (response) => {
@@ -222,8 +225,10 @@ export default {
                 );
 
               let tournamentId  =  this.$store.state.Tournament.tournamentId
-              this.$root.$emit('setDrawTable',competationId)
-              this.$root.$emit('setStandingData',competationId)
+              // Now here we have to call the SetScore method
+              this.setScore($('input[name="home_score['+matchId+']"]').val(),$('input[name="away_score['+matchId+']"]').val(),competationId)
+              //this.$root.$emit('setDrawTable',competationId)
+              //this.$root.$emit('setStandingData',competationId)
              //this.$parent.$options.methods.getStandingData(tournamentId,6)
         })
     },

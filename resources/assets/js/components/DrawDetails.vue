@@ -60,11 +60,16 @@
       </tr>
   </tbody>
 </table>
-<span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available </span>
+<span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available
+<div class="mt-2"></div>
+</span>
+
 <h6 v-if="CompRound == 'Round Robin'"> {{otherData.DrawName}} standings</h6>
 <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0" >
 </teamStanding>
-<span v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available</span>
+<div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
+</div>
+
 <h6>{{otherData.DrawName}} matches</h6>
 <matchList :matchData="matchData"></matchList>
 </div>
