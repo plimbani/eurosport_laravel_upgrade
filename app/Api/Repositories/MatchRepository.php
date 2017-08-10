@@ -588,18 +588,21 @@ class MatchRepository
                   ->where('tournament_id',$data['tournamentId'])
                   ->where('is_scheduled',1)
                   ->where('pitch_id',$data['pitchId'])
-                  ->where('referee_id','0')
-                  ->orWhere('referee_id',NUll)
+                  ->Where(function($query){
+                      $query->where('referee_id',NULL)
+                            ->orWhere('referee_id',0);
+
+                  })
                   ->first();
-                dd($matchData);
+                 // dd($matchData);
         if($matchData){
-          return  TempFixture::where('id',$matchData['id'])
-                    ->update(
+          return  $matchData->update(
                       ['referee_id' => $data['refereeId']]
                       );
-          // return $matchData;
+           // return $matchData;
         }else{
-          return "";
+          // dd('hi');
+          return false;
         }
     }
     public function saveResult($data)

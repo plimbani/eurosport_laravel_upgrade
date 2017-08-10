@@ -27,11 +27,12 @@ export default {
                 title: 'Referee added', // use the element's text as the event title
                 refereeId: -3, // use the element's text as the event title
                 refereeText: 'R', // use the element's text as the event title
-                color: '#55595c',
+                color: 'green',
                 stick: true, // maintain when user navigates (see docs on the renderEvent method),
-                duration: moment.duration(30, 'minutes'),
+                duration: moment.duration(15, 'minutes'),
                 matchId: this.referee.id,
                 forceEventDuration: true,
+                overlap: true
                 
             });
             // make the event draggable using jQuery UI

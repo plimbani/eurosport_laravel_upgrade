@@ -80,9 +80,9 @@ import _ from 'lodash'
 
         },
         methods: {
-            matchSchedulerChange() {
-                $(this.$el).fullCalendar('eventOverlap', true);
-            },
+            // matchSchedulerChange() {
+            //     $(this.$el).fullCalendar('eventOverlap', true);
+            // },
             pitchBreakAdd() {
                 let sPitch = []
                 _.forEach(this.stage.pitches, (pitch) => {
@@ -109,7 +109,7 @@ import _ from 'lodash'
                     editable: true,
                     aspectRatio: 1.8,
                     eventDurationEditable: false,
-                    eventOverlap: this.currentView == 'refereeTab',
+                    eventOverlap:this.currentView == 'refereeTab',
                     droppable: true,
                     // height: 350,
                     width:'100px',
@@ -123,10 +123,7 @@ import _ from 'lodash'
                     },
                     // scrollTime: '14:00',
                     eventLimit: true, // allow "more" link when too many events
-                    selectOverlap: function(event) {
-                        // console.log(event)
-                        return event.rendering === 'background';
-                    },
+                    
 
                     views: {
                         timelineDay: {
@@ -168,68 +165,88 @@ import _ from 'lodash'
 
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                         // add match to scheduled matches table - api call
-
-                        console.log(event)
-
-                        if(event.refereeId === -3 ){
+                        if(event.refereeId == -3 ){
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
                                 'refereeId': event.id,
-                                'tournamentId': vm.tournamentId,
                                 'pitchId': event.resourceId,
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
                                 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
                             };
                             Tournament.assignReferee(matchData).then(
                                 (response) => {
-                                    console.log(response,'rs')
+                                    
+                                    if(response.data.status_code == 200 && response.data.data != ''){
+                                         toastr.success('Referee has been assigned successfully', 'Assigned Referee ', {timeOut: 5000});
+                                        vm.$root.$emit('setPitchPlanTab','refereeTab');
+                                    }else{
+                                        toastr.error('Please assign referee properly', 'Assigned Referee ', {timeOut: 5000});
+                                        vm.$root.$emit('setPitchPlanTab','refereeTab');
+                                    }
+                                    
+                                    // console.log(response,'rs')
                                 },
                                 (error) => {
-                                    console.log(error,'er')
+                                    toastr.error('Something goes wrong', 'Assigned Referee ', {timeOut: 5000});
+                                    vm.$root.$emit('setPitchPlanTab');
+                                    // console.log(error,'er')
                                 }
                             )
-                        }
-                        let matchId = event.id?event.id:event.matchId
-                        let matchData = {
-                            'tournamentId': vm.tournamentId,
-                            'pitchId': event.resourceId,
-                            'matchId': matchId,
-                            'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
-                            'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
-                        };
+                        }else{
+                            let matchId = event.id?event.id:event.matchId
+                            let matchData = {
+                                'tournamentId': vm.tournamentId,
+                                'pitchId': event.resourceId,
+                                'matchId': matchId,
+                                'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
+                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
+                            };
 
-                        if(event.refereeId == -2){
-                             Tournament.setUnavailableBlock(matchData).then(
+                            if(event.refereeId == -2){
+                                 Tournament.setUnavailableBlock(matchData).then(
+                                    (response) => {
+                                        let msg = 'Unavailable block has been scheduled successfully'
+                                        toastr.success('', 'Schedule Block', {timeOut: 5000});
+                                        vm.$root.$emit('setPitchReset')
+                                    },
+                                    (error) => {
+                                        console.log('Error occured during tournament api', error)
+                                    }
+                                )
+                                vm.$root.$emit('setGameReset')
+                                $('.fc-referee').each(function(referee){
+                                    if(this.id == -1 || this.id == -2){
+                                        $(this).closest('.fc-event').addClass('bg-grey');
+                                    }
+                                })
+                            }else{
+                                // let vm1 = this
+                            Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
-                                    let msg = 'Unavailable block has been scheduled successfully'
-                                    toastr.success('', 'Schedule Block', {timeOut: 5000});
-                                    vm.$root.$emit('setPitchReset')
+                                    toastr.success('Match has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
+                                    
+                                        vm.$root.$emit('setGameReset')
                                 },
                                 (error) => {
                                     console.log('Error occured during tournament api', error)
                                 }
                             )
-                            vm.$root.$emit('setGameReset')
-                            $('.fc-referee').each(function(referee){
-                                if(this.id == -1 || this.id == -2){
-                                    $(this).closest('.fc-event').addClass('bg-grey');
-                                }
-                            })
-                        }else{
-                        Tournament.setMatchSchedule(matchData).then(
-                            (response) => {
-                                toastr.success('Match has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
-                                    vm.$root.$emit('setGameReset')
-                            },
-                            (error) => {
-                                console.log('Error occured during tournament api', error)
-                            }
-                        )
+                            }   
                         }
+                        
                             // console.log('eventReceive', event);
+                    },
+                    eventAfterAllRender: function(view ){
+                         $('#add_referee').prop('disabled', false);
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
+                        if(vm.currentView == 'refereeTab'){
+                            revertFunc()
+                            return false;
+                           
+                        }
+
                         let ed = $(this)
                         if(event.refereeId == -1 || event.refereeId == -2){
                             // vm.$root.$emit('setGameReset')
@@ -269,6 +286,9 @@ import _ from 'lodash'
                         // console.log('eventDrop', event);
                     },
                     eventClick: function(calEvent, jsEvent, view) {
+                        console.log(calEvent,'ce')
+                        console.log(jsEvent,'je')
+                        console.log(view,'vi')
                         if(calEvent.refereeId == -1){
                             return false
                         } else if(calEvent.refereeId == -2) {
@@ -404,8 +424,7 @@ import _ from 'lodash'
                                     'refereeText': refereeName,
                                     'title':matchTitle,
                                     'color': colorVal,
-                                    'matchId':match.fid,
-                                    'overlap': true
+                                    'matchId':match.fid
                                 }
                                // console.log('match typeof')
                                // console.log(typeof match.homeScore)
@@ -474,7 +493,7 @@ import _ from 'lodash'
                         this.stageWithoutPitch()
                         setTimeout(function(){
                             vm.initScheduler();
-                        },2000)
+                        },1500)
                     }
                 )
             },
@@ -532,4 +551,7 @@ import _ from 'lodash'
             }
         }
     };
+    $('.fc-referee').click(function(){
+        console.log(this,'asd')
+    })
 </script>

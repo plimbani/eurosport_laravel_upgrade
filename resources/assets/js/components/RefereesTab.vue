@@ -3,14 +3,15 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="text-center">
-					<button type="button" data-toggle="modal" data-target="#refreesModal" class="btn btn-primary mb-3">Add referee</button>
+					<button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3" disabled="disabled">Add referee</button>
 				</div>
-				<AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId"></AddRefereesModel>
+				
 				<div  v-for="referee in referees">
 					<draggable-referee :referee="referee" @click="editReferee(referee.id)"></draggable-referee>
 				</div>
 			</div>
 		</div>
+    <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
 	</div>
 </template>
 
@@ -108,7 +109,7 @@
                 $('#addReferee').modal('show')
             },
             editReferee (rId){
-    		      this.refereeId = rId
+              this.refereeId = rId
     		      Tournament.getRefereeDetail(rId).then(
   		      	(response) => {
   		      		// console.log(response.data.referee)

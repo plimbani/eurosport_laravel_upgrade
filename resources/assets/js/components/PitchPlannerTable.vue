@@ -37,7 +37,7 @@
                             <li class="nav-item">
                                 <a :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link px-3']"
                                 @click="setCurrentTab('gamesTab')"
-                                data-toggle="tab" role="tab" href="#game-list">Games ({{totalMatchCount}})</a>
+                                data-toggle="tab"  role="tab" href="#game-list">Games ({{totalMatchCount}})</a>
                             </li>
                             <li class="nav-item">
                                 <a :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link px-3']"
@@ -188,17 +188,21 @@
           //         this.setView(this.defaultView);
         },
         methods: {
-            setCurrentTab(currentTab = 'gamesTab') {
+            setCurrentTab(currentTab = 'refereeTab') {
                 let vm =this;
-
-              this.currentView = currentTab
-               vm.stageStatus = false;
-               console.log(currentTab)
-               setTimeout(function(){
+             
+                this.currentView = currentTab
+                vm.stageStatus = false;
+               // vm.GameStatus = false
+                setTimeout(function(){
                     vm.stageStatus = true
+                    // vm.GameStatus = true
+                    if(currentTab == 'refereeTab'){
+                      vm.refereeReset()
+                    }
                    
                 },500)
-               vm.$root.$emit('matchSchedulerChange')
+              
             },
             
             // myFilter: function(){

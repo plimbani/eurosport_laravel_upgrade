@@ -218,6 +218,7 @@ class MatchService implements MatchContract
     }
     public function assignReferee($matchData) {
         $matchResult = $this->matchRepoObj->assignReferee($matchData->all()['data']);
+
         if ($matchResult) {
             return ['status_code' => '200', 'data' => $matchResult];
         } else {
