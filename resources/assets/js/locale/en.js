@@ -167,6 +167,7 @@ module.exports = {
   competation_modal_match_interval_final: "Match interval final*",
   competation_modal_match_interval_final_minutes: "minutes",
   competation_modal_button_cancle: "Cancel",
+  competation_modal_button_delete: "Delete",
   competation_modal_button_save: "Save",
   competation_modal_select_number_teams: "Select number of teams",
   competation_modal_select_category_age: "Select category age",
@@ -201,6 +202,9 @@ module.exports = {
   pitch_modal_status_label: "Status*",
   pitch_modal_winner_label: "Winner*",
   pitch_modal_comments_label: "Comments",
+  pitch_modal_unschedule: "Unschedule",
+  pitch_modal_cancel: "Cancel",
+  pitch_modal_save: "Save",
 
   pitch_capacity_break:"Break",
   pitch_capacity_break_start:"Break start",

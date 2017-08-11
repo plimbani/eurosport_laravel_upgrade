@@ -166,6 +166,7 @@ module.exports = {
   competation_modal_match_interval_final: "FMatch interval final*",
   competation_modal_match_interval_final_minutes: "Fminutes",
   competation_modal_button_cancle: "FCancel",
+  competation_modal_button_delete: "FDelete",
   competation_modal_button_save: "FSave",
   competation_modal_select_number_teams: "FSelect number of teams",
   competation_modal_select_category_age: "FSelect category age",
@@ -200,6 +201,9 @@ module.exports = {
   pitch_modal_status_label: "FStatus*",
   pitch_modal_winner_label: "FWinner*",
   pitch_modal_comments_label: "FComments",
+  pitch_modal_unschedule: "FUnschedule",
+  pitch_modal_cancel: "FCancel",
+  pitch_modal_save: "FSave",
 
   pitch_capacity_break: "FBreak",
   pitch_capacity_break_start: "FBreak start",

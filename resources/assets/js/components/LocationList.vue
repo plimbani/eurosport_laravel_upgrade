@@ -14,9 +14,8 @@
       <select class="form-control ls-select2 col-sm-4"
         v-on:change="onChangeLocation"
         v-model="location">
-        <option v-for="option in locations"
-        v-bind:value="option"
-        >{{option.venue_name}}-{{option.pitch_number}}
+        <option v-for="option in locations" v-bind:value="option">
+          {{option.venue_name}}-{{option.pitch_number}}
         </option>
       </select>
     </div>

@@ -44,7 +44,6 @@
                   <option :value="referee.id" v-for="referee in referees">{{referee.last_name}}, {{referee.first_name}} </option>
                 </select>
               </div>
-
             </div>
 
             </p>
@@ -115,63 +114,15 @@
                 </div>
               </div>
             </form>
-            <table border="1" cellpadding="0" cellspacing="0" id="printTable" style="display: none;" width="100%">
-              <img src="/assets/img/logo-desk.svg" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
-              <thead>
-                <h2 class="text-center">Match Details</h2>
-              </thead>
-              <tbody>
-              <tr class="row">
-                <td>&nbsp;Match number</td>
-                <td>
-                  &nbsp;{{matchFixture.title}}<br>
-                  &nbsp;Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}})
-                </td>
-              </tr>
-              <tr>
-                <td>&nbsp;Date</td>
-                <td>&nbsp;{{matchDetail.matchTime}}</td>
-              </tr>
-              <tr>
-                <td>&nbsp;Pitch</td>
-                <td v-if="matchDetail.pitch && matchDetail.pitch.pitch_number">&nbsp;{{matchDetail.pitch.pitch_number}}</td>
-                <td v-else></td>
-              </tr>
-              <tr>
-                <td>&nbsp;Referee</td>
-                <td>&nbsp;{{ referee_name }}</td>
-              </tr>
-              <tr>
-                <td>&nbsp;Result</td>
-                <td>
-                  &nbsp;Team 1 ({{matchDetail.home_team_name}}) {{matchDetail.hometeam_score}}<br>
-                  &nbsp;Team 2 ({{matchDetail.away_team_name}}) {{matchDetail.awayteam_score}}
-                </td>
-              </tr>
-              <tr>
-                <td>&nbsp;Status</td>
-                <td v-if="matchDetail.match_status == 0"></td>
-                <td v-else>&nbsp;{{matchDetail.match_status}}</td>
-              </tr>
-              <tr>
-                <td>&nbsp;Winner</td>
-                <td>&nbsp;{{matchDetail.name}}</td>
-              </tr>
-              <tr>
-                <td>&nbsp;Comments</td>
-                <td>&nbsp;{{matchDetail.comments}}</td>
-              </tr>
-              </tbody>
-            </table>
           </div>
           <div class="modal-footer justify-content-between">
-              <div class="">
-                <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()" >Unschedule</button>
-              </div>
-              <div class="">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" @click="saveFixtureDetail()">Save</button>
-              </div>
+            <div class="">
+              <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()">{{$lang.pitch_modal_unschedule}}</button>
+            </div>
+            <div class="">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.pitch_modal_cancel}}</button>
+              <button type="button" class="btn btn-primary" @click="saveFixtureDetail()">{{$lang.pitch_modal_save}}</button>
+            </div>
           </div>
       </div>
     </div>
