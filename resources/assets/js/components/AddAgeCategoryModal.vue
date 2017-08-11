@@ -121,8 +121,8 @@
                 <span class="col-sm-2">2 <small>X</small></span>
                 <select class="form-control ls-select2 col-sm-4 " v-model="competation_format.game_duration_FM">
                     <option v-for="(item,key) in game_duration_fm_array[0]"
-                 v-bind:value="item">{{key}}</option>
-                  </select>
+                    v-bind:value="item">{{key}}</option>
+                </select>
                  <span v-if="competation_format.game_duration_FM
                 == 'other' "  class="col-sm-3">
                  <input type="number" class="form-control" placeholder="" v-model="competation_format.game_duration_FM_other"min="0">
