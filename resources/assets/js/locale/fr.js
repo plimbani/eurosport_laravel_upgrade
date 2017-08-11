@@ -32,7 +32,6 @@ module.exports = {
   login_back_button: "FBack to login",
   login_reset_button: "FReset password",
 
-
   user_management_desktopuser: "FDesktop users",
   user_management_mobileuser: "FMobile users",
   user_desktop_name: "FName",
@@ -93,6 +92,7 @@ module.exports = {
   tournament_validation_last_name: "FLast name required",
   tournament_telephone: "FTelephone",
   tournament_location_button: "FAdd location",
+  tournament_remove_location: "FRemove location",
   tournament_location: "FLocation",
   tournament_venue: "FVenue",
   tournamemt_validation_venue: "FVenue required",
@@ -140,7 +140,7 @@ module.exports = {
 
   competation_modal_age_category: "FMatch Schedule – Template",
   competation_label_name_category: "FCategory name*",
-  competation_label_age_category: "FAge category*",
+  competation_label_age_category_name: "FAge category*",
   competation_label_age_category: "FCategory age*",
   compeattion_label_category: "FAge Category*",
   competation_modal_name_category_required: "FCategory name is required",
@@ -191,6 +191,10 @@ module.exports = {
   pitch_capacity: "FPitch capacity",
   pitch_add: "FAdd pitch",
   pitch_details: "FPitch details",
+  pitch_Details: "FPitch Details",
+  pitch_details_note: "FPlease complete information on both tabs before saving",
+  pitch_detail_tabs: "FPlease complete information on both tabs before saving",
+  pitch_detail_delete: "FDelete",
   pitch_availability: "FAvailability",
   pitch_number: "FNumber",
   pitch_type: "FType",
@@ -219,9 +223,9 @@ module.exports = {
   pitch_availability_capacity: "FCapacity",
 
   pitch_modal_details: "FPitch Details",
-  pitch_modal_details_name: "FPitch name*",
   pitch_modal_details_name_required: "FPitch name is required.",
   pitch_modal_details_type: "FType",
+  pitch_modal_details_number: "FNumber*",
   pitch_modal_details_type_required: "FPitch type is required.",
   pitch_modal_details_size_required: "FPitch size is required.",
   pitch_modal_pitch_type: "FSelect pitch type",
@@ -229,7 +233,7 @@ module.exports = {
   pitch_modal_details_artificial:"Artificial",
   pitch_modal_details_indoor: "FIndoor",
   pitch_modal_details_other: "FOther",
-  pitch_modal_details_location: "FLocation",
+  pitch_modal_details_location: "FLocation*",
   pitch_modal_details_size: "FSize",
   pitch_modal_pitch_size: "FSelect pitch size",
   pitch_modal_details_size_side: "F5-a-side",
@@ -241,13 +245,18 @@ module.exports = {
   pitch_modal_details_size_side_indoor: "FIndoor",
   pitch_modal_button_next: "FNext",
 
+  pitch_modal_details_name: "FPitch name*",
   pitch_modal_availability: "FPitch availability",
+  pitch_modal_action: "FActions",
   pitch_modal_availability_stage: "FStage",
   pitch_modal_availability_date: "FDate",
   pitch_modal_availability_time: "FTime",
   pitch_modal_availability_capacity: "FCapacity",
   pitch_modal_availability_button_addstage: "FAdd stage",
+  pitch_modal_availability_button_add: "FAdd Statge",
 
+  pitch_modal_edit_pitch_button: "FDelete",
+  pitch_modal_edit_pitch_cancel_button: "FCancel",
   pitch_modal_availability_button_close: "FClose",
   pitch_modal_availability_button_save: "FSave",
   pitch_capacity_label: "FPitch capacity",
@@ -256,7 +265,19 @@ module.exports = {
   pitch_planner_no_games: "FAll games scheduled",
   pitch_planner_horizontal: "FHorizontal",
   pitch_planner_vertical: "FVertical",
+  
+
   pitch_planner_referee: "FAdd referee",
+  pitch_planner_first_name: "FFirst name*",
+  pitch_planner_last_name: "FLast name*",
+  pitch_planner_telephone: "FTelephone",
+  pitch_planner_email: "FEmail",
+  pitch_planner_age_categories: "FAge categories*",
+  pitch_planner_age_categories_select: "FSelect",
+  pitch_planner_select_age_categories: "FPlease select age category.",
+  pitch_planner_availability: "FAvailability",
+  pitch_planner_cancel: "FCancel",
+  pitch_planner_save: "FSave",
 
   teams_terms_groups: "FTeams and groups",
   teams_name_category: "FCategory name",
@@ -429,4 +450,5 @@ module.exports = {
   summary_schedule_matches_team: "FTeam",
   summary_schedule_matches_score: "FScore",
   summary_schedule_matches_location: "FLocation",
+
  } 

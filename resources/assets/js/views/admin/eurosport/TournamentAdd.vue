@@ -262,7 +262,7 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-3">
-              <button class="btn btn-danger w-75" @click.prevent="removeLocation(index)" v-if="index > 0">&#8212; Remove location</button>
+              <button class="btn btn-danger w-75" @click.prevent="removeLocation(index)" v-if="index > 0">&#8212; {{$lang.tournament_remove_location}}</button>
             </div>
           </div>
           </div>
