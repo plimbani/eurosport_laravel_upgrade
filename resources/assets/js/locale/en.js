@@ -366,6 +366,10 @@ module.exports = {
   teams_team_label: "Team",
   teams_categories_label: "Categories",
 
+  tournament_delete: "Delete Tournament",
+  tournament_cancel_button: "Cancel",
+  tournament_confirm_button: "Confirm",
+
   summary_cup: "XYZ Cup 2017",
   summary_location: "Locations",
   summary_dates: "Dates",

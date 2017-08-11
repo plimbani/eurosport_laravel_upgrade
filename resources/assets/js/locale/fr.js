@@ -365,6 +365,10 @@ module.exports = {
   teams_team_label: "FTeam",
   teams_categories_label: "FCategories",
 
+  tournament_delete: "FDelete Tournament",
+  tournament_cancel_button: "FCancel",
+  tournament_confirm_button: "FConfirm",
+
   summary_cup: "FXYZ Cup 2017",
   summary_location: "FLocations",
   summary_dates: "FDates",
