@@ -37,7 +37,7 @@
                                           <div class="col-sm-6">
                                               <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number"   class="form-control">
                                                   <i v-show="errors.has('pitch_number')" class="fa fa-warning"></i>
-                                                  <span class="help is-danger" v-show="errors.has('pitch_number')">{{ $lang.pitch_modal_details_name_required }}</span>
+                                              <span class="help is-danger" v-show="errors.has('pitch_number')">{{ $lang.pitch_modal_details_name_required }}</span>
                                           </div>
                                       </div>
                                       <div class="form-group row">

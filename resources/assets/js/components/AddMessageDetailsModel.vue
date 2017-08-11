@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Message Details</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{$lang.summary_message_popup_messagedetails}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -11,7 +11,7 @@
         <div class="modal-body">
         <form name="addMessage" id="addMessage" class="col-md-5 mt-4">
           <div class="form-group row align-items-center">
-            <div class="col-sm-4 form-control-label">Date</div>
+            <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_date}}</div>
               <div class="col-sm-8">
                 <div class="row">
                   <div class="col-sm-12">
@@ -22,7 +22,7 @@
           </div>
           <div class="form-group text-left">
             <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">Sender</div>
+              <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_sender}}</div>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
@@ -34,7 +34,7 @@
           </div>
           <div class="form-group text-left" v-if="messageDetail.status == 'queued'">
             <div class="form-group row align-items-center">
-            <div class="col-sm-4 form-control-label">Message</div>
+            <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
             <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
@@ -53,7 +53,7 @@
           </div>
           <div v-else class="form-group text-left">
               <div class="form-group row align-items-center">
-            <div class="col-sm-4 form-control-label">Message</div>
+            <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
               <div class="col-sm-8">
                 <div class="row">
                   <div class="col-sm-12">
@@ -71,8 +71,8 @@
             v-if="messageDetail.status != 'sent' ">Delete</button>
             </div>
             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
-            <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge"  v-if="messageDetail.status != 'sent' ">Send</button>
-            <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">Draft</button>
+            <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge"  v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_send_button}}</button>
+            <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_draft_button}}</button>
         </div>
     </div>
   </div>

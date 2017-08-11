@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Message</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{$lang.summary_message_popup_new_message}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -27,8 +27,8 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
-            <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge">Sent</button>
-            <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft">Draft</button>
+            <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge">{{$lang.summary_message_popup_send_button}}</button>
+            <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft">{{$lang.summary_message_popup_draft_button}}</button>
         </div>
     </div>
   </div>

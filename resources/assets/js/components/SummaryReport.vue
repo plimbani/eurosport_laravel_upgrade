@@ -6,7 +6,7 @@
 			</div>
 			<div class="col-md-6 text-right">
 				<button type="button" class="btn btn-primary" @click='exportReport()'>{{$lang.summary_button_download}}</button>
-        <button class="btn btn-primary mr-4"  @click="exportPrint()">Print</button>
+        		<button class="btn btn-primary mr-4"  @click="exportPrint()">{{$lang.summary_button_print}}</button>
 			</div>
 		</div>
 		<div class="block-bg mt-4">
@@ -33,9 +33,8 @@
 									<label><strong>{{$lang.summary_age_category}}</strong></label>
 									<div class="">
                    						 <select name="sel_ageCategory" id="sel_ageCategory"
-                               v-on:change="onSelectAgeCategory()"
-                               v-model="age_category_id"
-                   						 class="form-control ls-select2">
+			                                v-on:change="onSelectAgeCategory()"
+			                                v-model="age_category_id" class="form-control ls-select2">
                     						<option value="">{{$lang.summary_age_category_select}}</option>
                       						<option v-for="(competation, index) in competationList"
                       						:value="competation.id">{{competation.group_name}}</option>
@@ -49,10 +48,8 @@
 								<div class="col-md-6">
 									<label><strong>{{$lang.summary_club}}</strong></label>
 									<div class="">
-				                    	<select class="form-control ls-select2"
-                              v-on:change="onSelectClub()"
-				                    	name="sel_clubs"
-				                    	id="sel_clubs" v-model="club">
+				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()"
+				                    	  name="sel_clubs" id="sel_clubs" v-model="club">
 					                      <option value="">{{$lang.summary_club_select}}</option>
 					                      <option v-for="(club, index) in clubs"
 					                      :value="club.id">{{club.name}}</option>

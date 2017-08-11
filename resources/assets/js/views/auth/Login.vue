@@ -2,30 +2,29 @@
     <div v-if="loginData.forgotpassword==0">
     <form id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
-
             <input type="email" class="form-control form-control-danger" placeholder="Enter email" name="email"
                    v-model="loginData.email" v-validate="{ rules: { required: true, email: true } }">
-            <span class="help is-danger" v-show="errors.has('email')">This field is required.</span>
+            <span class="help is-danger" v-show="errors.has('email')">{{$lang.login_email_validation_message}}</span>
         </div>
         <div :class="{'form-group' : true , 'has-danger': errors.has('password') }">
             <input type="password" class="form-control form-control-danger" placeholder="Enter password" name="password"
                 v-model="loginData.password" v-validate data-vv-rules="required">
-            <span class="help is-danger" v-show="errors.has('password')">This field is required.</span>
+            <span class="help is-danger" v-show="errors.has('password')">{{$lang.login_password_validation_message}}</span>
         </div>
         <div class="other-actions row">
             <div class="col-sm-6">
                 <div class="checkbox">
                     <div class="c-input">
                         <input type="checkbox" class="euro-checkbox" id="1" name="remember" v-model="loginData.remember">
-                        <label for="1">Remember me</label>
+                        <label for="1">{{$lang.login_remember_message}}</label>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 text-sm-right">
-                <a href="#" class="forgot-link" @click="forgotPasswordOpen()">Forgot password?</a>
+                <a href="#" class="forgot-link" @click="forgotPasswordOpen()">{{$lang.login_forgotpassword_message}}</a>
             </div>
         </div>
-        <button class="btn btn-login btn-full euro-button">Login</button>
+        <button class="btn btn-login btn-full euro-button">{{$lang.login_button}}</button>
     </form>
     </div>
     <div v-else>
@@ -33,7 +32,7 @@
         <form class="forget-form" id="js-frm-resetpassword-activation" method="post">
         <!-- {!! csrf_field() !!} -->
         <!-- {{ csrf_field() }} -->
-        <p style="font-size:14px; color:#464a4c; margin-top:25px;">Enter your e-mail address below to reset your password.</p>
+        <p style="font-size:14px; color:#464a4c; margin-top:25px;">{{$lang.login_forgot_password_message}}</p>
              <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
                     <!-- <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> -->
                  <input type="email" class="form-control form-control-danger" placeholder="Email address" name="email" id="
@@ -44,10 +43,10 @@
             <div class="form-actions">
                 <div class="row">
                     <div class="col-sm-6">
-                        <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase w-100 ">Back to login</button>
+                        <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase w-100 ">{{$lang.login_back_button}}</button>
                     </div>
                     <div class="col-sm-6">
-                        <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase w-100 ">Reset password</button>
+                        <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase w-100 ">{{$lang.login_reset_button}}</button>
                     </div>
                 </div>
             </div>
