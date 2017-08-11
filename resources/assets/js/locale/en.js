@@ -1,5 +1,5 @@
 module.exports = {
-  "hello": "World",
+  hello: "World",
   welcome_text: "Hi {0}, Welcome to Tournament Planner. Got a question? Check the {{<strong>}}Help page or contact us for assistance.",
   welcome_manage_tournament: "Manage Tournaments",
   welcome_add_new_tournament: "Manage Users",
@@ -23,7 +23,6 @@ module.exports = {
   siteheader_french: "French",
 
   sitefooter_message: "Copyright",
-
 
   login_email_validation_message: "This field is required.",
   login_password_validation_message: "This field is required.",
@@ -59,6 +58,9 @@ module.exports = {
   user_management_placeholder_email: "Enter email address",
   user_management_email_required: "This field is required.",
   user_management_image: "Profile image",
+  user_image_choose_file: "Choose file",
+  user_image_size: "Maximum size of 1 MB.",
+  user_image_remove: "Remove image",
   user_management_password: "Password*",
   user_management_placeholder_password: "Enter password",
   user_management_organisation: "Organisation*",
@@ -168,6 +170,7 @@ module.exports = {
   competation_modal_match_interval_final: "Match interval final*",
   competation_modal_match_interval_final_minutes: "minutes",
   competation_modal_button_cancle: "Cancel",
+  competation_modal_button_delete: "Delete",
   competation_modal_button_save: "Save",
   competation_modal_select_number_teams: "Select number of teams",
   competation_modal_select_category_age: "Select category age",
@@ -188,7 +191,6 @@ module.exports = {
   competation_modal_time: "Total time required:",
   competation_modal_remark: "Remark:",
 
-
   pitch_modal_match_details: "Match Details",
   pitch_modal_print: "Print",
   pitch_modal_match_number: "Match number",
@@ -203,7 +205,9 @@ module.exports = {
   pitch_modal_status_label: "Status*",
   pitch_modal_winner_label: "Winner*",
   pitch_modal_comments_label: "Comments",
-
+  pitch_modal_unschedule: "Unschedule",
+  pitch_modal_cancel: "Cancel",
+  pitch_modal_save: "Save",
 
   pitch_capacity_break:"Break",
   pitch_capacity_break_start:"Break start",
@@ -285,7 +289,6 @@ module.exports = {
   pitch_planner_horizontal: "Horizontal",
   pitch_planner_vertical: "Vertical",
   
-
   pitch_planner_referee: "Add referee",
   pitch_planner_first_name: "First name*",
   pitch_planner_last_name: "Last name*",
@@ -369,6 +372,18 @@ module.exports = {
   teams_category: "Category name",
   teams_team_label: "Team",
   teams_categories_label: "Categories",
+  team_played_label: "Played",
+  team_won_label: "Won",
+  team_draws_label: "Draws",
+  team_lost_label: "Lost",
+  team_for_label: "For",
+  team_against_label: "Against",
+  team_difference_label: "Difference",
+  team_points_label: "Points",
+
+  tournament_delete: "Delete Tournament",
+  tournament_cancel_button: "Cancel",
+  tournament_confirm_button: "Confirm",
 
   summary_cup: "XYZ Cup 2017",
   summary_location: "Locations",
@@ -459,6 +474,7 @@ module.exports = {
   summary_message_popup_new_message: "New Message",
   summary_message_popup_send_button: "Send",
   summary_message_popup_draft_button: "Draft",
+  summary_message_popup_cancle_button: "Cancle",
 
   summary_message_popup_messagedetails: "Message Details",
   summary_message_popup_messagedetails_date: "Date",

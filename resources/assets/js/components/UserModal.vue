@@ -52,14 +52,14 @@
                     <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                     <div class="col-sm-6">
                         <div v-if="!image">
-                          <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button>
+                          <button type="button" class="btn btn-default" id="profile_image_file">{{$lang.user_image_choose_file}}</button>
                           <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
-                          <p class="help-block">Maximum size of 1 MB.<br/>
+                          <p class="help-block">{{$lang.user_image_size}}<br/>
                           Image dimensions 250 x 250.</p>
                         </div>
                          <div v-else>
                             <img :src="image" width="40px" height="50px"/>
-                            <button class="btn btn-default" @click="removeImage">Remove image</button>
+                            <button class="btn btn-default" @click="removeImage">{{$lang.user_image_remove}}</button>
                         </div>
                     </div>
                 </div>

@@ -23,7 +23,6 @@ module.exports = {
 
   sitefooter_message: "FCopyright",
 
-
   login_email_validation_message: "FThis field is required.",
   login_password_validation_message: "FThis field is required.",
   login_remember_message: "FRemember me",
@@ -58,6 +57,9 @@ module.exports = {
   user_management_placeholder_email: "FEnter email address",
   user_management_email_required: "FThis field is required.",
   user_management_image: "FProfile image",
+  user_image_choose_file: "FChoose file",
+  user_image_size: "FMaximum size of 1 MB.",
+  user_image_remove: "FRemove image",
   user_management_password: "FPassword*",
   user_management_placeholder_password: "FEnter password",
   user_management_organisation: "FOrganisation*",
@@ -167,6 +169,7 @@ module.exports = {
   competation_modal_match_interval_final: "FMatch interval final*",
   competation_modal_match_interval_final_minutes: "Fminutes",
   competation_modal_button_cancle: "FCancel",
+  competation_modal_button_delete: "FDelete",
   competation_modal_button_save: "FSave",
   competation_modal_select_number_teams: "FSelect number of teams",
   competation_modal_select_category_age: "FSelect category age",
@@ -187,7 +190,6 @@ module.exports = {
   competation_modal_time: "FTotal time required:",
   competation_modal_remark: "FRemark:",
 
-
   pitch_modal_match_details: "FMatch Details",
   pitch_modal_print: "FPrint",
   pitch_modal_match_number: "FMatch number",
@@ -202,9 +204,12 @@ module.exports = {
   pitch_modal_status_label: "FStatus*",
   pitch_modal_winner_label: "FWinner*",
   pitch_modal_comments_label: "FComments",
+  pitch_modal_unschedule: "FUnschedule",
+  pitch_modal_cancel: "FCancel",
+  pitch_modal_save: "FSave",
 
-  pitch_capacity_break:"FBreak",
-  pitch_capacity_break_start:"FBreak start",
+  pitch_capacity_break: "FBreak",
+  pitch_capacity_break_start: "FBreak start",
   pitch_capacity: "FPitch capacity",
   pitch_add: "FAdd pitch",
   pitch_details: "FPitch details",
@@ -283,7 +288,6 @@ module.exports = {
   pitch_planner_horizontal: "FHorizontal",
   pitch_planner_vertical: "FVertical",
   
-
   pitch_planner_referee: "FAdd referee",
   pitch_planner_first_name: "FFirst name*",
   pitch_planner_last_name: "FLast name*",
@@ -367,6 +371,18 @@ module.exports = {
   teams_category: "FCategory name",
   teams_team_label: "FTeam",
   teams_categories_label: "FCategories",
+  team_played_label: "FPlayed",
+  team_won_label: "FWon",
+  team_draws_label: "FDraws",
+  team_lost_label: "FLost",
+  team_for_label: "FFor",
+  team_against_label: "FAgainst",
+  team_difference_label: "FDifference",
+  team_points_label: "FPoints",
+
+  tournament_delete: "FDelete Tournament",
+  tournament_cancel_button: "FCancel",
+  tournament_confirm_button: "FConfirm",
 
   summary_cup: "FXYZ Cup 2017",
   summary_location: "FLocations",
@@ -457,7 +473,8 @@ module.exports = {
   summary_message_popup_new_message: "FNew Message",
   summary_message_popup_send_button: "FSend",
   summary_message_popup_draft_button: "FDraft",
-
+  summary_message_popup_cancle_button: "FCancle",
+  
   summary_message_popup_messagedetails: "FMessage Details",
   summary_message_popup_messagedetails_date: "FDate",
   summary_message_popup_messagedetails_sender: "FSender",

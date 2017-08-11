@@ -13,8 +13,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{$lang.summary_tab_popup_unpublish_cancel_button}}</button>
-                <button type="submit" class="btn btn-primary"
-                @click.prevent="updateStatus">{{$lang.summary_tab_popup_unpublish_confirm_button}}</button>
+                <button type="submit" class="btn btn-primary" @click.prevent="updateStatus">{{$lang.summary_tab_popup_unpublish_confirm_button}}</button>
             </div>
         </div>
       </div>

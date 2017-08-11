@@ -38,14 +38,14 @@
               <div class="col-sm-8">
                 <div class="row">
                   <div class="col-sm-12">
-                     <textarea class="form-control" rows="6"
-                        v-validate="'required'"
-                        name="content"
-                        :class="{'is-danger': errors.has('content') }"
-                        v-model="messageDetail.content" ></textarea>
-                        <span class="help is-danger" v-show="errors.has('content')">
-                          Field is required
-                        </span>
+                   <textarea class="form-control" rows="6"
+                      v-validate="'required'"
+                      name="content"
+                      :class="{'is-danger': errors.has('content') }"
+                      v-model="messageDetail.content" ></textarea>
+                      <span class="help is-danger" v-show="errors.has('content')">
+                        Field is required
+                      </span>
                   </div>
                 </div>
               </div>
@@ -68,7 +68,7 @@
         <div class="modal-footer">
           <div>
           <button type="button" class="btn btn-danger pull-left"  data-toggle="modal" data-target="#delete_modal"
-          v-if="messageDetail.status != 'sent' ">Delete</button>
+          v-if="messageDetail.status != 'sent' ">{{$lang.competation_modal_button_delete}}</button>
           </div>
           <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
           <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge"  v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_send_button}}</button>

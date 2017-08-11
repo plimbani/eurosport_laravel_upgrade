@@ -121,8 +121,8 @@
                 <span class="col-sm-2">2 <small>X</small></span>
                 <select class="form-control ls-select2 col-sm-4 " v-model="competation_format.game_duration_FM">
                     <option v-for="(item,key) in game_duration_fm_array[0]"
-                 v-bind:value="item">{{key}}</option>
-                  </select>
+                    v-bind:value="item">{{key}}</option>
+                </select>
                  <span v-if="competation_format.game_duration_FM
                 == 'other' "  class="col-sm-3">
                  <input type="number" class="form-control" placeholder="" v-model="competation_format.game_duration_FM_other"min="0">
@@ -321,7 +321,6 @@ export default {
     number_teams: function(val){
       let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
 
-
       if(this.minimum_matches != '' && val != '') {
         this.trempVal = true
         this.competation_format.minimum_matches = val
@@ -333,7 +332,6 @@ export default {
       }
      // this.TournamentCompetationList(tournamentData)
     }
-
 
   },
    filters: {
