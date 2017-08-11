@@ -4,7 +4,7 @@
 		<div class="tab-content summary-report-content">
 	    <div class="card">
 	      <div class="card-block">
-	          <h6 class="mt4"><strong>Message History</strong></h6>
+	          <h6 class="mt4"><strong>{{$lang.summary_table_text}}</strong></h6>
 	          <messageHistoryList></messageHistoryList>
 	      </div>
 	    </div>

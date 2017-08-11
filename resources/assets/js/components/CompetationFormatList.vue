@@ -16,7 +16,6 @@
               </tr>
           </thead>
           <tbody>
-
               <tr v-for="(competation, index) in competationList">
                   <td class="text-left">{{competation.group_name}} </td>
                   <td class="text-left">{{competation.category_age}}</td>
@@ -42,7 +41,6 @@
                         <i class="jv-icon jv-dustbin"></i></a>
                       </span>
                   </td>
-
               </tr>
           </tbody>
           <AddAgeCateogryModel v-if="categoryStatus"></AddAgeCateogryModel>

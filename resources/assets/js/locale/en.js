@@ -24,12 +24,23 @@ module.exports = {
 
   sitefooter_message: "Copyright",
 
+
+  login_email_validation_message: "This field is required.",
+  login_password_validation_message: "This field is required.",
+  login_remember_message: "Remember me",
+  login_forgotpassword_message: "Forgot password?",
+  login_button: "Login",
+  login_forgot_password_message: "Enter your e-mail address below to reset your password.",
+  login_back_button: "Back to login",
+  login_reset_button: "Reset password",
+
   user_management_desktopuser: "Desktop users",
   user_management_mobileuser: "Mobile users",
   user_desktop_name: "Name",
   user_desktop_surname: "Surname",
   user_desktop_email: "Email address",
   user_desktop_organisation: "Organisation",
+  user_desktop_organisation_date_time: "Date & time",
   user_desktop_usertype: "User type",
   user_desktop_action: "Action",
   user_desktop_status: "Status",
@@ -38,6 +49,7 @@ module.exports = {
   user_management_sentence: "Add, edit and remove Euro-Sportring Tournament Planner users.",
   user_management_sentence_tournament: "Add, edit and remove Euro-Sportring mobile users.",
   user_management_add_name: "Name*",
+  user_management_clear_button: "Clear",
   user_management_add_name_required: "This field is required.",
   user_management_placeholder_name: "Enter first name",
   user_management_add_surname: "Surname*",
@@ -63,7 +75,6 @@ module.exports = {
   user_management_user_save:"Save",
   user_management_user_cancle: "Cancel",
 
-
   tournament_manage_edition: "Select an existing tournament",
   tournament_information: "Tournament information",
   tournament_name: "Tournament name",
@@ -74,6 +85,8 @@ module.exports = {
   tournament_facebook: "Facebook",
   tournament_twitter: "Twitter",
   tournament_tournament_logo: "Choose file",
+  tournament_tournament_choose_button: "Choose file",
+  tournament_tournament_remove_button: "Remove image",
   tournament_eurosporting: "Euro-Sportring contact",
   tournament_first_name: "First name",
   tournament_validation_first_name: "First name required",
@@ -106,14 +119,16 @@ module.exports = {
   tournament_organiser: "Organiser",
   tournament_button_home: "Home",
   tournament_button_next: "Save/Next",
+  tournament_filter_age_category: "Category name",
+  tournament_filter_age_category_match: "Category",
+  tournament_label: "Tournament details",
+  teams_groups_label: "Teams and groups",
 
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",
   competation_button_back: "Back",
   competation_button_next: "Next",
-
   competation_name_category: "Category name",
-
   competation_age_category: "Category age",
   competation_category_age: "Age category",
   competation_competation_format: "Competition format",
@@ -122,9 +137,11 @@ module.exports = {
   competation_match_schedule: "Match schedule",
   competation_manage: "Manage",
   compeattion_template: "Template name",
+  competation_label: "Competition formats",
 
   competation_modal_age_category: "Match Schedule – Template",
   competation_label_name_category: "Category name*",
+  competation_label_age_category_name: "Age category*",
   competation_label_age_category: "Category age*",
   compeattion_label_category: "Age Category*",
   competation_modal_name_category_required: "Category name is required",
@@ -144,10 +161,6 @@ module.exports = {
   competation_modal_half_time_break_final: "Half-time break final*",
   competation_modal_half_time_break_final_minutes: "minutes",
 
-
-  pitch_capacity_break:"Break",
-  pitch_capacity_break_start:"Break start",
-
   competation_modal_match_interval: "Match interval RR/EM/PM*",
   competation_modal_match_minutes: "minutes",
   competation_modal_match_interval_final: "Match interval final*",
@@ -157,26 +170,25 @@ module.exports = {
   competation_modal_select_number_teams: "Select number of teams",
   competation_modal_select_category_age: "Select category age",
   competation_modal_select_minimum_matches: "Select minimum matches",
-
   competation_label_number_teams: "Number of teams*",
   competation_modal_number_teams_required: "Number of teams is required",
   competation_label_minimum_matches: "Minimum matches*",
   competation_modal_minimum_matches_required: "Minimum matches is required",
-
   competation_modal_format_team: "Teams:",
   competation_modal_foramt_competation_foramt: "Competition format:",
   competation_modal_minimum_matches: "Minimum matches:",
   competation_modal_format_remark: "Remark:",
   competation_modal_avg_games_team: "Avg games per team:",
-
   competation_modal_matches_number_matches: "Number of matches day 1:",
   competation_modal_matches_number_matches_day: "Number of matches day 2:",
   competation_modal_matches_total_matches: "Total matches:",
   competation_modal_matches_average_matches: "Average matches per team:",
-
   competation_modal_time: "Total time required:",
   competation_modal_remark: "Remark:",
 
+  
+  pitch_capacity_break:"Break",
+  pitch_capacity_break_start:"Break start",
   pitch_capacity: "Pitch capacity",
   pitch_add: "Add pitch",
   pitch_details: "Pitch details",
@@ -201,7 +213,6 @@ module.exports = {
   pitch_totaL_time: "Total time required",
   pitch_total_capacity: "Total pitch capacity",
   pitch_balance: "Balance",
-
 
   pitch_availability_stage: "Stage",
   pitch_availability_date: "Date",
@@ -240,10 +251,17 @@ module.exports = {
 
   pitch_modal_availability_button_close: "Close",
   pitch_modal_availability_button_save: "Save",
-
+  pitch_capacity_label: "Pitch capacity",
+  pitch_planner_label: "Pitch planner",
+  pitch_planner_text: "*Pitch capacity is not enough to schedule matches. Please increase pitch capacity.",
+  pitch_planner_no_games: "All games scheduled",
+  pitch_planner_horizontal: "Horizontal",
+  pitch_planner_vertical: "Vertical",
+  pitch_planner_referee: "Add referee",
 
   teams_terms_groups: "Teams and groups",
   teams_name_category: "Category name",
+  teams_name_select: "Select a category name above to view information",
   teams_age_category: "Category age",
   teams_age_category_group: "Group",
   teams_select_age_category: "Select category name",
@@ -273,7 +291,10 @@ module.exports = {
   teams_group_d_a3: "A3",
   teams_group_d_a4: "A4",
   teams_team_list: "Team list",
+  teams_choose_file: "Choose file",
+  teams_excel_text: "Excel files only",
   teams_upload_team: "Upload teams",
+  teams_upload_team_text: "Once you have uploaded teams choose a category name from the filter above to allocate teams",
   teams_filter: "Filter by:",
   teams_team: "Team",
   teams_country: "Country",
@@ -295,6 +316,8 @@ module.exports = {
   teams_place: "Place",
   teams_event: "Event",
   teams_category: "Category name",
+  teams_team_label: "Team",
+  teams_categories_label: "Categories",
 
   summary_cup: "XYZ Cup 2017",
   summary_location: "Locations",
@@ -302,6 +325,14 @@ module.exports = {
   summary_status: "Status",
   summary_button_publish: "Publish",
   summary_button_unpublish: "Unpublish",
+  summary_button_popup_publish_text: "Publish Tournament",
+  summary_button_publish_text: "Please confirm you would like to publish this tournament?",
+  summary_tab_popup_publish_cancel_button: "Cancel",
+  summary_tab_popup_publish_confirm_button: "Confirm",
+  summary_button_popup_unpublish_text: "Unpublish Tournament",
+  summary_button_unpublish_text: "Please confirm you would like to unpublish this tournament?",
+  summary_tab_popup_unpublish_cancel_button: "Cancel",
+  summary_tab_popup_unpublish_confirm_button: "Confirm",
 
   summary_button_delete: "Delete",
   summary_age_groups: "Age group",
@@ -317,7 +348,7 @@ module.exports = {
   summary_reports: "Reports",
   summary_message: "Use the filters below to generate a report.",
   summary_button_download: "Download",
-  summary_button_print:"Print",
+  summary_button_print: "Print",
   summary_age_category: "Category name",
   summary_club: "Club",
   summary_team: "Team",
@@ -355,6 +386,7 @@ module.exports = {
   summary_schedule_draws: "Draws",
   summary_schedule_draws_categories: "Categories",
   summary_schedule_matches: "Matches",
+  summary_schedule_match_overview: "Match overview",
   summary_schedule_teams: "Teams",
   summary_schedule_categories: "Categories",
 
@@ -366,15 +398,24 @@ module.exports = {
   summary_messages: "Messages",
   summary_messages_text: "App message text",
   summary_message_text: "Send notifications to teams",
-  summary_message_compose_message: "Compose your message",
-  summary_message_button_send: "Send",
+  summary_table_text: "Message History",
+  summary_table_heading_date_sent: "Date sent",
+  summary_table_heading_message: "Message",
+  summary_table_heading_sender: "Sender",
+  summary_table_heading_tournament: "Tournament",
+  summary_table_heading_details: "Details",
+  summary_message_button: "New message",
+  summary_message_popup_new_message: "New Message",
+  summary_message_popup_send_button: "Send",
+  summary_message_popup_draft_button: "Draft",
 
-  tournament_label: "Tournament details",
-  competation_label: "Competition formats",
-  pitch_capacity_label: "Pitch capacity",
-  pitch_planner_label: "Pitch planner",
-  pitch_planner_no_games: "All games scheduled",
-  teams_groups_label: "Teams and groups",
+  summary_message_popup_messagedetails: "Message Details",
+  summary_message_popup_messagedetails_date: "Date",
+  summary_message_popup_messagedetails_sender: "Sender",
+  summary_message_popup_messagedetails_message: "Message",
+
+  summary_message_compose_message: "Compose your message",
+  summary_message_button_send: "Send", 
   summary_label: "Summary",
 
   summary_label_summary: "Summary",
@@ -390,6 +431,4 @@ module.exports = {
   summary_schedule_matches_score: "Score",
   summary_schedule_matches_location: "Location",
 
-  tournament_filter_age_category: "Category name",
-  tournament_filter_age_category_match: "Category",
 }

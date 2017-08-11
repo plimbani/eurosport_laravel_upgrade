@@ -1,99 +1,97 @@
 <template>
-    <div class="modal" id="user_form_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <form name="frmUser" id="frmUser" method="POST">
-                        <div class="modal-header">
-                            <h5 class="modal-title">{{ userModalTitle }}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group row" :class="{'has-error': errors.has('name') }">
-                                <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
-                                <div class="col-sm-6">
-                                    <input v-model="formValues.name" v-validate="'required'"
-                                    :class="{'is-danger': errors.has('name') }"
-                                    name="name" type="text"
-                                    class="form-control" placeholder="Enter first name">
-                                    <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('name')">{{$lang.user_management_add_name_required}}
-                                    </span>
-                                </div>
+  <div class="modal" id="user_form_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <form name="frmUser" id="frmUser" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ userModalTitle }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row" :class="{'has-error': errors.has('name') }">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
+                    <div class="col-sm-6">
+                        <input v-model="formValues.name" v-validate="'required'"
+                        :class="{'is-danger': errors.has('name') }"
+                        name="name" type="text"
+                        class="form-control" placeholder="Enter first name">
+                        <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('name')">{{$lang.user_management_add_name_required}}
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
+                    <div class="col-sm-6">
+                        <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
+                        <i v-show="errors.has('surname')" class="fa fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('surname')">{{$lang.user_management_add_surname_required}}</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
+                    <div class="col-sm-6">
+                        <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
+                        <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
+                       <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
+                    </div>
+                </div>
 
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
-                                <div class="col-sm-6">
-                                    <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
-                                    <i v-show="errors.has('surname')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('surname')">{{$lang.user_management_add_surname_required}}</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
-                                <div class="col-sm-6">
-                                    <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
-                                    <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
-                                   <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
-                                </div>
-                            </div>
-
-                            <!-- <div class="form-group row" v-if="formValues.id === ''">
-                                <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
-                                <div class="col-sm-6">
-                                    <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
-                                    <i v-show="errors.has('pass')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('pass')">{</span>
-                                </div>
-                            </div> -->
-                            <div class="form-group row"  v-if="registerType != 'mobile'">
-                                <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
-                                <div class="col-sm-6">
-                                      <div v-if="!image">
-                                          <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button>
-                                          <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
-                                          <p class="help-block">Maximum size of 1 MB.<br/>
-                                          Image dimensions 250 x 250.</p>
-                                      </div>
-                                       <div v-else>
-                                              <img :src="image" width="40px" height="50px"/>
-                                              <button class="btn btn-default" @click="removeImage">Remove image</button>
-                                      </div>
-                                </div>
-                            </div>
-                            <div class="form-group row"  v-if="registerType != 'mobile'">
-                                <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
-                                <div class="col-sm-6">
-                                    <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
-                                    <i v-show="errors.has('organisation')" class="fa fa-warning"></i>
-                                    <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
-                                </div>
-                            </div>
-                            <div class="form-group row" v-if="registerType != 'mobile'">
-                                <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
-                                <div class="col-sm-6">
-                                    <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
-                                        <option value="">Select</option>
-                                        <option v-for="(role, id) in userRolesOptions" v-bind:value="id">
-                                            {{ role }}
-                                        </option>
-                                    </select>
-                                    <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
-                                </div>
-                            </div>
+                <!-- <div class="form-group row" v-if="formValues.id === ''">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
+                    <div class="col-sm-6">
+                        <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
+                        <i v-show="errors.has('pass')" class="fa fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('pass')">{</span>
+                    </div>
+                </div> -->
+                <div class="form-group row"  v-if="registerType != 'mobile'">
+                    <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
+                    <div class="col-sm-6">
+                        <div v-if="!image">
+                            <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button>
+                            <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
+                            <p class="help-block">Maximum size of 1 MB.<br/>
+                            Image dimensions 250 x 250.</p>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-                            <button type="button" class="btn btn-primary" @click="validateBeforeSubmit1()">{{$lang.user_management_user_save}}</button>
-
+                         <div v-else>
+                                <img :src="image" width="40px" height="50px"/>
+                                <button class="btn btn-default" @click="removeImage">Remove image</button>
                         </div>
-                    </form>
+                    </div>
+                </div>
+                <div class="form-group row"  v-if="registerType != 'mobile'">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
+                    <div class="col-sm-6">
+                        <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
+                        <i v-show="errors.has('organisation')" class="fa fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
+                    </div>
+                </div>
+                <div class="form-group row" v-if="registerType != 'mobile'">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
+                    <div class="col-sm-6">
+                      <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
+                          <option value="">Select</option>
+                          <option v-for="(role, id) in userRolesOptions" v-bind:value="id">
+                              {{ role }}
+                          </option>
+                      </select>
+                      <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
+                    </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
+                <button type="button" class="btn btn-primary" @click="validateBeforeSubmit1()">{{$lang.user_management_user_save}}</button>
+            </div>
+        </form>
+      </div>
     </div>
+  </div>
 </template>
 <script type="text/javascript">
 import User from '../api/users.js'

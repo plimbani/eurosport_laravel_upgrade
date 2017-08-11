@@ -64,7 +64,6 @@
                                 <label :class="[parseInt(pitchCapacity-tournamentTime)<0? 'red': 'text-success','col-md-5 m-0' ]">{{ pitchAvailableBalance[2] + '' +pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
                             </p>
                         </div>
-
                     </div>
                 </div>
             </div>
