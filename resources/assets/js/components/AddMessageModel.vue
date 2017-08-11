@@ -26,7 +26,7 @@
       </form>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_message_popup_cancle_button}}</button>
           <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge">{{$lang.summary_message_popup_send_button}}</button>
           <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft">{{$lang.summary_message_popup_draft_button}}</button>
       </div>

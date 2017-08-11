@@ -473,7 +473,8 @@ module.exports = {
   summary_message_popup_new_message: "FNew Message",
   summary_message_popup_send_button: "FSend",
   summary_message_popup_draft_button: "FDraft",
-
+  summary_message_popup_cancle_button: "FCancle",
+  
   summary_message_popup_messagedetails: "FMessage Details",
   summary_message_popup_messagedetails_date: "FDate",
   summary_message_popup_messagedetails_sender: "FSender",

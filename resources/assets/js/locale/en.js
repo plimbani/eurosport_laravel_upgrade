@@ -474,6 +474,7 @@ module.exports = {
   summary_message_popup_new_message: "New Message",
   summary_message_popup_send_button: "Send",
   summary_message_popup_draft_button: "Draft",
+  summary_message_popup_cancle_button: "Cancle",
 
   summary_message_popup_messagedetails: "Message Details",
   summary_message_popup_messagedetails_date: "Date",
