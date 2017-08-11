@@ -5,14 +5,14 @@
 	<thead>
 
 		<th class="text-center"></th>
-		<th class="text-center" width="10%">Played</th>
-		<th class="text-center" width="10%">Won</th>
-		<th class="text-center" width="10%">Draws</th>
-		<th class="text-center" width="10%">Lost</th>
-		<th class="text-center" width="10%">For</th>
-		<th class="text-center" width="10%">Against</th>
-    <th class="text-center" width="10%">Difference</th>
-    <th class="text-center" width="10%">Points</th>
+		<th class="text-center" width="10%">{{$lang.team_played_label}}</th>
+		<th class="text-center" width="10%">{{$lang.team_won_label}}</th>
+		<th class="text-center" width="10%">{{$lang.team_draws_label}}</th>
+		<th class="text-center" width="10%">{{$lang.team_lost_label}}</th>
+		<th class="text-center" width="10%">{{$lang.team_for_label}}</th>
+		<th class="text-center" width="10%">{{$lang.team_against_label}}</th>
+    <th class="text-center" width="10%">{{$lang.team_difference_label}}</th>
+    <th class="text-center" width="10%">{{$lang.team_points_label}}</th>
 	</thead>
 	<tbody>
 		<tr v-for="stand in standingData">
