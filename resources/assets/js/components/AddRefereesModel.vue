@@ -131,91 +131,91 @@ export default {
           },1000)
         },
       },
-  mounted() {
-    let vm = this
-    $('#refreesModal').on('click','#chk_ageCategory',function(){
-      vm.value = []
-      if($(this).is(':checked')){
-        _.forEach(vm.competationList, function(competition,value) {
-           let cmp = {'id':competition.id,'category_age':competition.category_age}
-            vm.value.push(cmp)
-        });
-      }
-    })
-      
-  },
-  methods: {
-
-    saveReferee ()
-      {
-        this.isInvalid = false
-        if(this.value.length === 0) {
-          this.isInvalid = true
-
+    mounted() {
+      let vm = this
+      $('#refreesModal').on('click','#chk_ageCategory',function(){
+        vm.value = []
+        if($(this).is(':checked')){
+          _.forEach(vm.competationList, function(competition,value) {
+             let cmp = {'id':competition.id,'category_age':competition.category_age}
+              vm.value.push(cmp)
+          });
         }
-        this.$validator.validateAll().then(() => {
-          if(this.isInvalid != false) {
-            return false
+      })
+        
+    },
+    methods: {
+
+      saveReferee ()
+        {
+          this.isInvalid = false
+          if(this.value.length === 0) {
+            this.isInvalid = true
+
           }
-              let age_category = []
-              _.forEach(this.value, function(opt) {
-                age_category.push(opt.id)
-              });
-              
-            let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
-             if(this.refereeId != '') {
-              Tournament.updateReferee(ReportData).then(
-              (response) => {
-                  toastr['success']('Referee edited successfully.', 'Success');
-                  $('#refreesModal').modal('hide')
-                  this.$root.$emit('setRefereeReset')
-                  this.$root.$emit('setPitchPlanTab','refereeTab')
-                }
-              )
-             } else {
-              Tournament.saveReferee(ReportData).then(
-              (response) => {
-                  toastr['success']('Referee added successfully.', 'Success');
-                  $('#refreesModal').modal('hide')
-
-                  this.$root.$emit('setRefereeReset')
-                  this.$root.$emit('setPitchPlanTab','refereeTab')
-                }
-              )
+          this.$validator.validateAll().then(() => {
+            if(this.isInvalid != false) {
+              return false
             }
-        })
+                let age_category = []
+                _.forEach(this.value, function(opt) {
+                  age_category.push(opt.id)
+                });
+                
+              let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
+               if(this.refereeId != '') {
+                Tournament.updateReferee(ReportData).then(
+                (response) => {
+                    toastr['success']('Referee edited successfully.', 'Success');
+                    $('#refreesModal').modal('hide')
+                    this.$root.$emit('setRefereeReset')
+                    this.$root.$emit('setPitchPlanTab','refereeTab')
+                  }
+                )
+               } else {
+                Tournament.saveReferee(ReportData).then(
+                (response) => {
+                    toastr['success']('Referee added successfully.', 'Success');
+                    $('#refreesModal').modal('hide')
 
-     },
-      deleteConfirmed() {
+                    this.$root.$emit('setRefereeReset')
+                    this.$root.$emit('setPitchPlanTab','refereeTab')
+                  }
+                )
+              }
+          })
 
-      Tournament.removeReferee(this.refereeId).then(
-        (response) => {
-             toastr['success']('Referee has been removed successfully', 'Success');
-             $('#delete_modal').modal('hide')
-             $('#refreesModal').modal('hide')
-             this.$root.$emit('setRefereeReset')
-             this.$root.$emit('setPitchPlanTab','refereeTab')
+       },
+        deleteConfirmed() {
+
+        Tournament.removeReferee(this.refereeId).then(
+          (response) => {
+               toastr['success']('Referee has been removed successfully', 'Success');
+               $('#delete_modal').modal('hide')
+               $('#refreesModal').modal('hide')
+               this.$root.$emit('setRefereeReset')
+               this.$root.$emit('setPitchPlanTab','refereeTab')
+          }
+          )
+      },
+      onRemove() {
+        $('#chk_ageCategory').prop('checked', false)
+      },
+      onChange (value) {
+        this.value = value
+        if(this.value.length == this.competationList.length){
+        $('#chk_ageCategory').prop('checked', true)
+
         }
-        )
-    },
-    onRemove() {
-      $('#chk_ageCategory').prop('checked', false)
-    },
-    onChange (value) {
-      this.value = value
-      if(this.value.length == this.competationList.length){
-      $('#chk_ageCategory').prop('checked', true)
-
+        if (value.indexOf('Reset me!') !== -1) this.value = []
+      },
+      onSelect (option) {
+        if (option === 'Disable me!') this.isDisabled = true
+      },
+      onTouch () {
+        this.isTouched = true
       }
-      if (value.indexOf('Reset me!') !== -1) this.value = []
-    },
-    onSelect (option) {
-      if (option === 'Disable me!') this.isDisabled = true
-    },
-    onTouch () {
-      this.isTouched = true
     }
-  }
 
 }
 </script>

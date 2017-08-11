@@ -321,7 +321,6 @@ export default {
     number_teams: function(val){
       let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
 
-
       if(this.minimum_matches != '' && val != '') {
         this.trempVal = true
         this.competation_format.minimum_matches = val
@@ -333,7 +332,6 @@ export default {
       }
      // this.TournamentCompetationList(tournamentData)
     }
-
 
   },
    filters: {
