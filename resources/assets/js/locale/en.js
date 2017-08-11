@@ -24,7 +24,6 @@ module.exports = {
 
   sitefooter_message: "Copyright",
 
-
   login_email_validation_message: "This field is required.",
   login_password_validation_message: "This field is required.",
   login_remember_message: "Remember me",
@@ -188,7 +187,6 @@ module.exports = {
   competation_modal_time: "Total time required:",
   competation_modal_remark: "Remark:",
 
-
   pitch_modal_match_details: "Match Details",
   pitch_modal_print: "Print",
   pitch_modal_match_number: "Match number",
@@ -203,7 +201,6 @@ module.exports = {
   pitch_modal_status_label: "Status*",
   pitch_modal_winner_label: "Winner*",
   pitch_modal_comments_label: "Comments",
-
 
   pitch_capacity_break:"Break",
   pitch_capacity_break_start:"Break start",
@@ -285,7 +282,6 @@ module.exports = {
   pitch_planner_horizontal: "Horizontal",
   pitch_planner_vertical: "Vertical",
   
-
   pitch_planner_referee: "Add referee",
   pitch_planner_first_name: "First name*",
   pitch_planner_last_name: "Last name*",

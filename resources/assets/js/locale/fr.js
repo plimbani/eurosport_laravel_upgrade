@@ -23,7 +23,6 @@ module.exports = {
 
   sitefooter_message: "FCopyright",
 
-
   login_email_validation_message: "FThis field is required.",
   login_password_validation_message: "FThis field is required.",
   login_remember_message: "FRemember me",
@@ -187,7 +186,6 @@ module.exports = {
   competation_modal_time: "FTotal time required:",
   competation_modal_remark: "FRemark:",
 
-
   pitch_modal_match_details: "FMatch Details",
   pitch_modal_print: "FPrint",
   pitch_modal_match_number: "FMatch number",
@@ -203,8 +201,8 @@ module.exports = {
   pitch_modal_winner_label: "FWinner*",
   pitch_modal_comments_label: "FComments",
 
-  pitch_capacity_break:"FBreak",
-  pitch_capacity_break_start:"FBreak start",
+  pitch_capacity_break: "FBreak",
+  pitch_capacity_break_start: "FBreak start",
   pitch_capacity: "FPitch capacity",
   pitch_add: "FAdd pitch",
   pitch_details: "FPitch details",
@@ -283,7 +281,6 @@ module.exports = {
   pitch_planner_horizontal: "FHorizontal",
   pitch_planner_vertical: "FVertical",
   
-
   pitch_planner_referee: "FAdd referee",
   pitch_planner_first_name: "FFirst name*",
   pitch_planner_last_name: "FLast name*",

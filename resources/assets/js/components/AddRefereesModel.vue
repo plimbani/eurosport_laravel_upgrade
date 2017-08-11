@@ -76,7 +76,7 @@
               <button type="button" class="btn btn-primary" @click="saveReferee()">{{$lang.add_refree_modal_save}}</button>
             </div>
         </div>
-        <delete-modal :deleteConfirmMsg="deleteConfirmMsg"   @confirmed="deleteConfirmed()"></delete-modal>
+        <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
     </div>
   </div>
 </div>

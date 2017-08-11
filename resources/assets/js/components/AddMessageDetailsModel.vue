@@ -38,14 +38,14 @@
               <div class="col-sm-8">
                 <div class="row">
                   <div class="col-sm-12">
-                     <textarea class="form-control" rows="6"
-                        v-validate="'required'"
-                        name="content"
-                        :class="{'is-danger': errors.has('content') }"
-                        v-model="messageDetail.content" ></textarea>
-                        <span class="help is-danger" v-show="errors.has('content')">
-                          Field is required
-                        </span>
+                   <textarea class="form-control" rows="6"
+                      v-validate="'required'"
+                      name="content"
+                      :class="{'is-danger': errors.has('content') }"
+                      v-model="messageDetail.content" ></textarea>
+                      <span class="help is-danger" v-show="errors.has('content')">
+                        Field is required
+                      </span>
                   </div>
                 </div>
               </div>
