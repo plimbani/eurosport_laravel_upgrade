@@ -23,6 +23,7 @@ module.exports = {
 
   sitefooter_message: "FCopyright",
 
+
   login_email_validation_message: "FThis field is required.",
   login_password_validation_message: "FThis field is required.",
   login_remember_message: "FRemember me",
@@ -71,7 +72,8 @@ module.exports = {
   user_management_save: "FConfirm",
   user_management_resend: "FRe-send",
   user_management_user_save:"Save",
-  user_management_user_cancle: "FCancel",
+  user_management_de_activate: "FAre you sure you would like to de-activate this user?",
+  user_management_re_activate: "FAre you sure you would like to re-activate this user?",
 
   tournament_manage_edition: "FSelect an existing tournament",
   tournament_information: "FTournament information",
@@ -185,7 +187,22 @@ module.exports = {
   competation_modal_time: "FTotal time required:",
   competation_modal_remark: "FRemark:",
 
-  
+
+  pitch_modal_match_details: "FMatch Details",
+  pitch_modal_print: "FPrint",
+  pitch_modal_match_number: "FMatch number",
+  pitch_modal_date: "FDate",
+  pitch_modal_pitch_details: "FPitch",
+  pitch_modal_remove_button: "FRemove",
+  pitch_modal_referee_label: "FReferee",
+  pitch_modal_refree_select: "FPlease select",
+  pitch_modal_refree_result: "FResult",
+  pitch_modal_result_override: "FResult override",
+  pitch_modal_validation: "FThis field is required",
+  pitch_modal_status_label: "FStatus*",
+  pitch_modal_winner_label: "FWinner*",
+  pitch_modal_comments_label: "FComments",
+
   pitch_capacity_break:"FBreak",
   pitch_capacity_break_start:"FBreak start",
   pitch_capacity: "FPitch capacity",
@@ -278,6 +295,18 @@ module.exports = {
   pitch_planner_availability: "FAvailability",
   pitch_planner_cancel: "FCancel",
   pitch_planner_save: "FSave",
+
+  add_referees_model: "FReferee Details",
+  add_refree_modal_first_name: "FFirst name*",
+  add_refree_modal_validation: "FThis field is require",
+  add_refree_modal_last_name: "FLast name*",
+  add_refree_modal_telephone: "FTelephone",
+  add_refree_modal_email: "FEmail",
+  add_refree_modal_category_age: "FCategory age*",
+  add_refree_modal_availability: "FAvailability",
+  add_refree_modal_delete: "FDelete",
+  add_refree_modal_cancel: "FCancel",
+  add_refree_modal_save: "FSave",
 
   teams_terms_groups: "FTeams and groups",
   teams_name_category: "FCategory name",

@@ -80,8 +80,6 @@ import Tournament from '../api/tournament.js'
             return {
                 competationList : {},
                 'tournamentId': this.$store.state.Tournament.tournamentId,
-
-
                 }
         },
         computed: {
@@ -89,7 +87,6 @@ import Tournament from '../api/tournament.js'
 
         },
         mounted(){
-
             this.displayTournamentCompetationList()
              // this.getAllPitches()
         },

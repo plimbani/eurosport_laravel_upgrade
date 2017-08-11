@@ -73,7 +73,8 @@ module.exports = {
   user_management_save: "Confirm",
   user_management_resend: "Re-send",
   user_management_user_save:"Save",
-  user_management_user_cancle: "Cancel",
+  user_management_de_activate: "Are you sure you would like to de-activate this user?",
+  user_management_re_activate: "Are you sure you would like to re-activate this user?",
 
   tournament_manage_edition: "Select an existing tournament",
   tournament_information: "Tournament information",
@@ -187,7 +188,23 @@ module.exports = {
   competation_modal_time: "Total time required:",
   competation_modal_remark: "Remark:",
 
-  
+
+  pitch_modal_match_details: "Match Details",
+  pitch_modal_print: "Print",
+  pitch_modal_match_number: "Match number",
+  pitch_modal_date: "Date",
+  pitch_modal_pitch_details: "Pitch",
+  pitch_modal_remove_button: "Remove",
+  pitch_modal_referee_label: "Referee",
+  pitch_modal_refree_select: "Please select",
+  pitch_modal_refree_result: "Result",
+  pitch_modal_result_override: "Result override",
+  pitch_modal_validation: "This field is required",
+  pitch_modal_status_label: "Status*",
+  pitch_modal_winner_label: "Winner*",
+  pitch_modal_comments_label: "Comments",
+
+
   pitch_capacity_break:"Break",
   pitch_capacity_break_start:"Break start",
   pitch_capacity: "Pitch capacity",
@@ -280,6 +297,18 @@ module.exports = {
   pitch_planner_availability: "Availability",
   pitch_planner_cancel: "Cancel",
   pitch_planner_save: "Save",
+
+  add_referees_model: "Referee Details",
+  add_refree_modal_first_name: "First name*",
+  add_refree_modal_validation: "This field is require",
+  add_refree_modal_last_name: "Last name*",
+  add_refree_modal_telephone: "Telephone",
+  add_refree_modal_email: "Email",
+  add_refree_modal_category_age: "Category age*",
+  add_refree_modal_availability: "Availability",
+  add_refree_modal_delete: "Delete",
+  add_refree_modal_cancel: "Cancel",
+  add_refree_modal_save: "Save",
 
   teams_terms_groups: "Teams and groups",
   teams_name_category: "Category name",

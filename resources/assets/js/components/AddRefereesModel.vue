@@ -3,7 +3,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Referee Details</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{$lang.add_referees_model}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -11,36 +11,36 @@
         <div class="modal-body">
           <form name="frmReferee" id="frmReferee" >
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">First name*</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_first_name}}</label>
               <div class="col-sm-6">
                 <input type="text" name="first_name" id="first_name"  v-validate="'required'" v-model="formValues.first_name" class="form-control"  :class="{'is-danger': errors.has('ageCategory_name') }" >
                 <i v-show="errors.has('first_name')" class="fa fa-warning"> </i>
 
-               <span class="help is-danger" v-show="errors.has('first_name')">This field is required</span>
+               <span class="help is-danger" v-show="errors.has('first_name')">{{$lang.add_refree_modal_validation}}</span>
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Last name*</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_last_name}}</label>
               <div class="col-sm-6">
                 <input type="text" name="last_name" id="last_name"  v-validate="'required'" v-model="formValues.last_name"  class="form-control" >
                 <i v-show="errors.has('last_name')" class="fa fa-warning"> </i>
-                <span class="help is-danger" v-show="errors.has('last_name')">This field is required</span>
+                <span class="help is-danger" v-show="errors.has('last_name')">{{$lang.add_refree_modal_validation}}</span>
                </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Telephone</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_telephone}}</label>
               <div class="col-sm-6">
                 <input type="text" name="telephone" id="telephone" v-model="formValues.telephone" class="form-control" >
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Email</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_email}}</label>
               <div class="col-sm-6">
                 <input type="email"  name="email" id="email" v-model="formValues.email" class="form-control" >
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Category age*</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_category_age}}</label>
               <div class="col-sm-6">
                 <!-- <select  name="ageCategories" id="ageCategories" v-model="formValues.age_group_id"  class="form-control ls-select2">
                       <option value="">Please Select</option>
@@ -55,12 +55,12 @@
                         <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.category_age}}</option>
                     </select> -->
                     
-               <span class="help is-danger" v-show="isInvalid">This field is required</span>
+               <span class="help is-danger" v-show="isInvalid">{{$lang.add_refree_modal_validation}}</span>
                </label>
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Availability</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_availability}}</label>
               <div class="col-sm-6">
                 <textarea name="availability" id="availability" v-model="formValues.comments" class="form-control" placeholder="e.g. Day 1 all day"></textarea>
               </div>
@@ -69,11 +69,11 @@
         </div>
         <div class="modal-footer d-flex flex-row justify-content-between">
             <div>
-              <button type="button" v-if="refereeId!=''" class="btn btn-danger pull-left"  data-toggle="modal" data-target="#delete_modal">Delete</button>
+              <button type="button" v-if="refereeId!=''" class="btn btn-danger pull-left"  data-toggle="modal" data-target="#delete_modal">{{$lang.add_refree_modal_delete}}</button>
             </div>
             <div>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" @click="saveReferee()">Save</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.add_refree_modal_cancel}}</button>
+              <button type="button" class="btn btn-primary" @click="saveReferee()">{{$lang.add_refree_modal_save}}</button>
             </div>
         </div>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg"   @confirmed="deleteConfirmed()"></delete-modal>

@@ -31,69 +31,69 @@
                   </div>
                 </div>
               </div>
-          </div>
-          <div class="form-group text-left" v-if="messageDetail.status == 'queued'">
-            <div class="form-group row align-items-center">
-            <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
-            <div class="col-sm-8">
-                  <div class="row">
-                    <div class="col-sm-12">
-                       <textarea class="form-control" rows="6"
-                          v-validate="'required'"
-                          name="content"
-                          :class="{'is-danger': errors.has('content') }"
-                          v-model="messageDetail.content" ></textarea>
-                          <span class="help is-danger" v-show="errors.has('content')">
-                            Field is required
-                          </span>
-                    </div>
-                  </div>
             </div>
-            </div>
-          </div>
-          <div v-else class="form-group text-left">
+            <div class="form-group text-left" v-if="messageDetail.status == 'queued'">
               <div class="form-group row align-items-center">
-            <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
+              <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
               <div class="col-sm-8">
                 <div class="row">
                   <div class="col-sm-12">
-                    {{messageDetail.content}}
+                     <textarea class="form-control" rows="6"
+                        v-validate="'required'"
+                        name="content"
+                        :class="{'is-danger': errors.has('content') }"
+                        v-model="messageDetail.content" ></textarea>
+                        <span class="help is-danger" v-show="errors.has('content')">
+                          Field is required
+                        </span>
                   </div>
                 </div>
               </div>
-          </div>
-          </div>
+              </div>
+            </div>
+            <div v-else class="form-group text-left">
+              <div class="form-group row align-items-center">
+              <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
+                <div class="col-sm-8">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      {{messageDetail.content}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
         </form>
         </div>
         <div class="modal-footer">
-            <div>
-            <button type="button" class="btn btn-danger pull-left"  data-toggle="modal" data-target="#delete_modal"
-            v-if="messageDetail.status != 'sent' ">Delete</button>
-            </div>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
-            <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge"  v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_send_button}}</button>
-            <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_draft_button}}</button>
+          <div>
+          <button type="button" class="btn btn-danger pull-left"  data-toggle="modal" data-target="#delete_modal"
+          v-if="messageDetail.status != 'sent' ">Delete</button>
+          </div>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
+          <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge"  v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_send_button}}</button>
+          <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_draft_button}}</button>
         </div>
     </div>
   </div>
-   <div class="modal fade bg-modal-color refdel" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog delete-modal" role="document">
-        <div class="modal-content">
-            <form method="delete" class="js-delete-modal-form">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">{{$lang.user_management_confirmation}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body js-delete-confirmation-msg">{{ deleteConfirmMsg }}</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_cancel}}</button>
-                    <button type="submit" class="btn btn-primary" @click.prevent="setDelete()">{{$lang.user_management_save}}</button>
-                </div>
-                <input name="_method" value="DELETE" type="hidden" />
-            </form>
-        </div>
+  <div class="modal fade bg-modal-color refdel" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog delete-modal" role="document">
+      <div class="modal-content">
+          <form method="delete" class="js-delete-modal-form">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">{{$lang.user_management_confirmation}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body js-delete-confirmation-msg">{{ deleteConfirmMsg }}</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_cancel}}</button>
+                <button type="submit" class="btn btn-primary" @click.prevent="setDelete()">{{$lang.user_management_save}}</button>
+            </div>
+            <input name="_method" value="DELETE" type="hidden" />
+          </form>
       </div>
     </div>
+  </div>
 </div>
 </template>
 <script type="text/babel">

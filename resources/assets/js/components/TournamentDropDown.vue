@@ -4,8 +4,7 @@
 		<option value="">{{$lang.tournament_manage_edition}}</option>
 	    <option value="">--------------</option>
 		<option v-for="option in options"
-		v-bind:value="option" v-if="option.status != null"
-		>
+		v-bind:value="option" v-if="option.status != null">
 		 {{option.name}} ({{option.status}})
 		</option>
 	</select>
