@@ -11,16 +11,16 @@
             </div>
             <div class="modal-body">
                 <div class="form-group row" :class="{'has-error': errors.has('name') }">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
-                    <div class="col-sm-6">
-                        <input v-model="formValues.name" v-validate="'required'"
-                        :class="{'is-danger': errors.has('name') }"
-                        name="name" type="text"
-                        class="form-control" placeholder="Enter first name">
-                        <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                        <span class="help is-danger" v-show="errors.has('name')">{{$lang.user_management_add_name_required}}
-                        </span>
-                    </div>
+                  <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
+                  <div class="col-sm-6">
+                      <input v-model="formValues.name" v-validate="'required'"
+                      :class="{'is-danger': errors.has('name') }"
+                      name="name" type="text"
+                      class="form-control" placeholder="Enter first name">
+                      <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('name')">{{$lang.user_management_add_name_required}}
+                      </span>
+                  </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
@@ -52,14 +52,14 @@
                     <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
                     <div class="col-sm-6">
                         <div v-if="!image">
-                            <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button>
-                            <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
-                            <p class="help-block">Maximum size of 1 MB.<br/>
-                            Image dimensions 250 x 250.</p>
+                          <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button>
+                          <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
+                          <p class="help-block">Maximum size of 1 MB.<br/>
+                          Image dimensions 250 x 250.</p>
                         </div>
                          <div v-else>
-                                <img :src="image" width="40px" height="50px"/>
-                                <button class="btn btn-default" @click="removeImage">Remove image</button>
+                            <img :src="image" width="40px" height="50px"/>
+                            <button class="btn btn-default" @click="removeImage">Remove image</button>
                         </div>
                     </div>
                 </div>
@@ -75,10 +75,10 @@
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
-                          <option value="">Select</option>
-                          <option v-for="(role, id) in userRolesOptions" v-bind:value="id">
-                              {{ role }}
-                          </option>
+                        <option value="">Select</option>
+                        <option v-for="(role, id) in userRolesOptions" v-bind:value="id">
+                            {{ role }}
+                        </option>
                       </select>
                       <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
                     </div>

@@ -11,15 +11,14 @@
                 </div>
 
                 <div class="modal-body js-delete-confirmation-msg"
-                v-if="userData.status == true">Are you sure you would like to de-activate this user?</div>
+                v-if="userData.status == true">{{$lang.user_management_de_activate}}</div>
                 <div class="modal-body js-delete-confirmation-msg" v-else>
-               Are you sure you would like to re-activate this user?</div>
+               {{$lang.user_management_re_activate}}</div>
 
                 <div class="modal-footer">
-
                     <button type="button" class="btn btn-danger" data-dismiss="modal"
                      @click="close()">{{$lang.user_management_user_cancle}}</button>
-                    <button type="submit" class="btn btn-primary" @click.prevent="confirmActive()">Confirm</button>
+                    <button type="submit" class="btn btn-primary" @click.prevent="confirmActive()">{{$lang.user_management_save}}</button>
                 </div>
                <!-- <input name="_method" value="DELETE" type="hidden"/>-->
             </form>

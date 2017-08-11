@@ -15,9 +15,9 @@
 			<div class="card">
 				<div class="card-block">
 					<h4 class="card-title">{{$lang.summary_schedule}}</h4>
-           <p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}
-            : {{lastUpdatedDateValue}}
-            </small></p>
+		           <p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}
+		            : {{lastUpdatedDateValue}}
+		            </small></p>
 					<div class="tab-content summary-report-content">
 						<div class="row">
 							<div class="col-md-12">
