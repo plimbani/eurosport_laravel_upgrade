@@ -119,6 +119,11 @@ public class SignInActivity extends BaseActivity {
         }
     }
 
+    @OnClick(R.id.iv_back)
+    protected void onBackButtonPressed() {
+        loadBackActivity();
+    }
+
     private void validate_user() {
         Utility.startProgress(mContext);
         String url = ApiConstants.CHECK_USER;
@@ -181,7 +186,7 @@ public class SignInActivity extends BaseActivity {
         } else {
             if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.FIREBASE_TOKEN))) {
                 postTokenOnServer(mAppSharedPref.getString(AppConstants.FIREBASE_TOKEN));
-            }else{
+            } else {
                 launchHome();
             }
 
@@ -305,6 +310,10 @@ public class SignInActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
+        loadBackActivity();
+    }
+
+    protected void loadBackActivity() {
         Intent mLandingActivityIntent = new Intent(mContext, LandingActivity.class);
         startActivity(mLandingActivityIntent);
         finish();

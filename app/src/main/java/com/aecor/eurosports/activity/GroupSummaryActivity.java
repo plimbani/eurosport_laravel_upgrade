@@ -159,10 +159,20 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         ll_match_header.setVisibility(View.GONE);
         String groupTableTitle = mGroupModel.getName() + " " + getString(R.string.league_table);
         tv_group_table_title.setText(groupTableTitle);
-
-        getGroupStanding();
+        if (mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+            showBackButton(getString(R.string.placing_matches_summary));
+        } else {
+            showBackButton(getString(R.string.group_summary));
+        }
+        if (mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
+            tl_group_rows.setVisibility(View.VISIBLE);
+            tv_view_full_league_table.setVisibility(View.GONE);
+            getGroupStanding();
+        } else {
+            tl_group_rows.setVisibility(View.GONE);
+            tv_view_full_league_table.setVisibility(View.GONE);
+        }
         getTeamFixtures();
-        showBackButton(getString(R.string.group_summary));
     }
 
     @Override

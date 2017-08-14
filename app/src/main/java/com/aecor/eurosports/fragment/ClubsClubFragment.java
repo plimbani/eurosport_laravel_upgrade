@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by system-local on 29-06-2017.
@@ -69,6 +71,9 @@ public class ClubsClubFragment extends Fragment {
     protected RelativeLayout rl_search;
     @BindView(R.id.ll_main_layout)
     protected LinearLayout ll_main_layout;
+    @BindView(R.id.iv_close)
+    protected ImageView iv_close;
+
 
     protected void initView() {
         Utility.setupUI(mContext, ll_main_layout);
@@ -83,6 +88,7 @@ public class ClubsClubFragment extends Fragment {
         rl_search.setVisibility(View.GONE);
         getClubList();
         setListener();
+        iv_close.setVisibility(View.GONE);
         et_age_search.setHint(getString(R.string.hint_search_club));
 
     }
@@ -194,11 +200,21 @@ public class ClubsClubFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (adapter != null && adapter.getFilter() != null) {
                 adapter.getFilter().filter(s.toString());
+                if (s.toString().length() > 0) {
+                    iv_close.setVisibility(View.VISIBLE);
+                } else {
+                    iv_close.setVisibility(View.GONE);
+                }
             }
         }
 
         @Override
         public void afterTextChanged(Editable s) {
         }
+    }
+
+    @OnClick(R.id.iv_close)
+    protected void onCloseButtonClicked() {
+        et_age_search.setText("");
     }
 }

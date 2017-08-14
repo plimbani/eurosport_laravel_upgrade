@@ -8,9 +8,9 @@
         android:id="@+id/tv_title"
         style="@style/text_black_title"
         android:layout_height="50dp"
-        android:background="@drawable/btn_green"
+        android:background="@color/colorPrimaryDark"
         android:text="Title"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -52,9 +52,9 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_green"
+                android:background="@color/colorPrimaryDark"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>

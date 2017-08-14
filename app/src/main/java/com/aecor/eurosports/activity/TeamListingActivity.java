@@ -32,6 +32,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -186,6 +188,14 @@ public class TeamListingActivity extends BaseAppCompactActivity {
     private void setTeamListAdapter(TeamDetailModel mTeamList[]) {
         list = new ArrayList<>();
         list.addAll(Arrays.asList(mTeamList));
+
+        Collections.sort(list, new Comparator<TeamDetailModel>() {
+            @Override
+            public int compare(TeamDetailModel lhs, TeamDetailModel rhs) {
+                //here getTitle() method return app name...
+                return lhs.getName().compareTo(rhs.getName());
+            }
+        });
         TeamAdapter adapter = new TeamAdapter(mContext, list);
         lv_team.setAdapter(adapter);
     }
