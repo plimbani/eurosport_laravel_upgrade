@@ -42,13 +42,15 @@ public class AppConstants {
     public static final String ARG_FULL_LEAGUE_TABLE_DETAIL = "full_league_table_detail";
     public static final String ARG_MATCH_INFO = "match_info";
     public static final String ARG_GROUP_NAME = "group_name";
-    public static final String ARG_TEAM_ID= "team_id";
-    public static final String ARG_NEW_MESSAGE= "arg_new_message";
-    public static final String ARG_NEW_MESSAGE_TITLE= "arg_new_message_title";
+    public static final String ARG_TEAM_ID = "team_id";
+    public static final String ARG_NEW_MESSAGE = "arg_new_message";
+    public static final String ARG_NEW_MESSAGE_TITLE = "arg_new_message_title";
     public static final String LANGUAGE_SELECTION = "language_selection";
     public static final String LANGUAGE_POSITION = "language_position";
     public static final String ARG_FORGOT_PASSWORD_OTP = "forgot_password_otp";
     public static final String ARG_FACEBOOK = "Facebook";
     public static final String ARG_INSTAGRAM = "Instagram";
-    public static final String ARG_TWITTER= "Twitter";
+    public static final String ARG_TWITTER = "Twitter";
+    public static final String GROUP_COMPETATION_TYPE_ELIMINATION = "Elimination";
+    public static final String GROUP_COMPETATION_TYPE_ROUND_ROBIN = "Round Robin";
 }

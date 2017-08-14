@@ -1,133 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
-    <TableLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
+        android:src="@drawable/splash_screen_image" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
+        android:layout_marginTop="140dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-            <TextView
-                style="@style/text_black_sub_title"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="10dp"
-                android:gravity="center|left"
-                android:text="@string/location_name" />
+        <TextView
+            style="@style/text_white_sub_title"
+            android:text="@string/an_otp_will_be_sent_to_mention_email_address" />
 
-            <TextView
-                android:id="@+id/tv_location_name"
-                style="@style/text_black_sub_title"
-                android:layout_width="wrap_content"
-                android:gravity="center|left" />
+        <EditText
+            android:id="@+id/forgot_email_address"
+            style="@style/app_edittext"
+            android:layout_marginTop="10dp"
+            android:hint="@string/email_address"
+            android:inputType="textEmailAddress" />
 
-        </TableRow>
+        <Button
+            android:id="@+id/btn_get_otp"
+            style="@style/text_black_title"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_yellow"
+            android:text="@string/get_otp" />
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_weight="1"
-                android:background="@color/button_disable" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp">
-
-            <TextView
-                style="@style/text_black_sub_title"
-                android:layout_width="wrap_content"
-                android:gravity="center|left"
-                android:text="@string/pitch_name" />
-
-            <TextView
-                android:id="@+id/tv_pitch_name"
-                style="@style/text_black_sub_title"
-                android:layout_width="wrap_content"
-                android:gravity="center|left" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_weight="1"
-                android:background="@color/button_disable" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp">
-
-            <TextView
-                style="@style/text_black_sub_title"
-                android:layout_width="wrap_content"
-                android:gravity="center|left"
-                android:text="@string/address" />
-
-            <TextView
-                android:id="@+id/tv_address"
-                style="@style/text_black_sub_title"
-                android:layout_width="wrap_content"
-                android:gravity="center|left" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_weight="1"
-                android:background="@color/button_disable" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp">
-
-            <TextView
-                style="@style/text_black_sub_title"
-                android:layout_width="wrap_content"
-                android:gravity="center|left"
-                android:text="@string/pitch_type" />
-
-            <TextView
-                android:id="@+id/tv_playing_surface"
-                style="@style/text_black_sub_title"
-                android:layout_width="wrap_content"
-                android:gravity="center|left" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_weight="1"
-                android:background="@color/button_disable" />
-        </TableRow>
-    </TableLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -303,11 +303,20 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
+    @OnClick(R.id.iv_back)
+    protected void onBackButtonPressed() {
+        loadBackActivity();
+    }
+
+    private void loadBackActivity() {
         Intent mLandingActivityIntent = new Intent(mContext, LandingActivity.class);
         startActivity(mLandingActivityIntent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        loadBackActivity();
     }
 }
