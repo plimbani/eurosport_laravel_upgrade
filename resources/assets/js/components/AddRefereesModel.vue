@@ -3,7 +3,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Referee Details</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{$lang.add_referees_model}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -11,36 +11,36 @@
         <div class="modal-body">
           <form name="frmReferee" id="frmReferee" >
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">First name*</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_first_name}}</label>
               <div class="col-sm-6">
                 <input type="text" name="first_name" id="first_name"  v-validate="'required'" v-model="formValues.first_name" class="form-control"  :class="{'is-danger': errors.has('ageCategory_name') }" >
                 <i v-show="errors.has('first_name')" class="fa fa-warning"> </i>
 
-               <span class="help is-danger" v-show="errors.has('first_name')">This field is required</span>
+               <span class="help is-danger" v-show="errors.has('first_name')">{{$lang.add_refree_modal_validation}}</span>
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Last name*</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_last_name}}</label>
               <div class="col-sm-6">
                 <input type="text" name="last_name" id="last_name"  v-validate="'required'" v-model="formValues.last_name"  class="form-control" >
                 <i v-show="errors.has('last_name')" class="fa fa-warning"> </i>
-                <span class="help is-danger" v-show="errors.has('last_name')">This field is required</span>
+                <span class="help is-danger" v-show="errors.has('last_name')">{{$lang.add_refree_modal_validation}}</span>
                </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Telephone</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_telephone}}</label>
               <div class="col-sm-6">
                 <input type="text" name="telephone" id="telephone" v-model="formValues.telephone" class="form-control" >
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Email</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_email}}</label>
               <div class="col-sm-6">
                 <input type="email"  name="email" id="email" v-model="formValues.email" class="form-control" >
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Category age*</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_category_age}}</label>
               <div class="col-sm-6">
                 <!-- <select  name="ageCategories" id="ageCategories" v-model="formValues.age_group_id"  class="form-control ls-select2">
                       <option value="">Please Select</option>
@@ -55,12 +55,12 @@
                         <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.category_age}}</option>
                     </select> -->
                     
-               <span class="help is-danger" v-show="isInvalid">This field is required</span>
+               <span class="help is-danger" v-show="isInvalid">{{$lang.add_refree_modal_validation}}</span>
                </label>
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-5 form-control-label">Availability</label>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_availability}}</label>
               <div class="col-sm-6">
                 <textarea name="availability" id="availability" v-model="formValues.comments" class="form-control" placeholder="e.g. Day 1 all day"></textarea>
               </div>
@@ -69,14 +69,14 @@
         </div>
         <div class="modal-footer d-flex flex-row justify-content-between">
             <div>
-              <button type="button" v-if="refereeId!=''" class="btn btn-danger pull-left"  data-toggle="modal" data-target="#delete_modal">Delete</button>
+              <button type="button" v-if="refereeId!=''" class="btn btn-danger pull-left"  data-toggle="modal" data-target="#delete_modal">{{$lang.add_refree_modal_delete}}</button>
             </div>
             <div>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" @click="saveReferee()">Save</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.add_refree_modal_cancel}}</button>
+              <button type="button" class="btn btn-primary" @click="saveReferee()">{{$lang.add_refree_modal_save}}</button>
             </div>
         </div>
-        <delete-modal :deleteConfirmMsg="deleteConfirmMsg"   @confirmed="deleteConfirmed()"></delete-modal>
+        <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
     </div>
   </div>
 </div>
@@ -131,91 +131,91 @@ export default {
           },1000)
         },
       },
-  mounted() {
-    let vm = this
-    $('#refreesModal').on('click','#chk_ageCategory',function(){
-      vm.value = []
-      if($(this).is(':checked')){
-        _.forEach(vm.competationList, function(competition,value) {
-           let cmp = {'id':competition.id,'category_age':competition.category_age}
-            vm.value.push(cmp)
-        });
-      }
-    })
-      
-  },
-  methods: {
-
-    saveReferee ()
-      {
-        this.isInvalid = false
-        if(this.value.length === 0) {
-          this.isInvalid = true
-
+    mounted() {
+      let vm = this
+      $('#refreesModal').on('click','#chk_ageCategory',function(){
+        vm.value = []
+        if($(this).is(':checked')){
+          _.forEach(vm.competationList, function(competition,value) {
+             let cmp = {'id':competition.id,'category_age':competition.category_age}
+              vm.value.push(cmp)
+          });
         }
-        this.$validator.validateAll().then(() => {
-          if(this.isInvalid != false) {
-            return false
+      })
+        
+    },
+    methods: {
+
+      saveReferee ()
+        {
+          this.isInvalid = false
+          if(this.value.length === 0) {
+            this.isInvalid = true
+
           }
-              let age_category = []
-              _.forEach(this.value, function(opt) {
-                age_category.push(opt.id)
-              });
-              
-            let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
-             if(this.refereeId != '') {
-              Tournament.updateReferee(ReportData).then(
-              (response) => {
-                  toastr['success']('Referee edited successfully.', 'Success');
-                  $('#refreesModal').modal('hide')
-                  this.$root.$emit('setRefereeReset')
-                  this.$root.$emit('setPitchPlanTab','refereeTab')
-                }
-              )
-             } else {
-              Tournament.saveReferee(ReportData).then(
-              (response) => {
-                  toastr['success']('Referee added successfully.', 'Success');
-                  $('#refreesModal').modal('hide')
-
-                  this.$root.$emit('setRefereeReset')
-                  this.$root.$emit('setPitchPlanTab','refereeTab')
-                }
-              )
+          this.$validator.validateAll().then(() => {
+            if(this.isInvalid != false) {
+              return false
             }
-        })
+                let age_category = []
+                _.forEach(this.value, function(opt) {
+                  age_category.push(opt.id)
+                });
+                
+              let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
+               if(this.refereeId != '') {
+                Tournament.updateReferee(ReportData).then(
+                (response) => {
+                    toastr['success']('Referee edited successfully.', 'Success');
+                    $('#refreesModal').modal('hide')
+                    this.$root.$emit('setRefereeReset')
+                    this.$root.$emit('setPitchPlanTab','refereeTab')
+                  }
+                )
+               } else {
+                Tournament.saveReferee(ReportData).then(
+                (response) => {
+                    toastr['success']('Referee added successfully.', 'Success');
+                    $('#refreesModal').modal('hide')
 
-     },
-      deleteConfirmed() {
+                    this.$root.$emit('setRefereeReset')
+                    this.$root.$emit('setPitchPlanTab','refereeTab')
+                  }
+                )
+              }
+          })
 
-      Tournament.removeReferee(this.refereeId).then(
-        (response) => {
-             toastr['success']('Referee has been removed successfully', 'Success');
-             $('#delete_modal').modal('hide')
-             $('#refreesModal').modal('hide')
-             this.$root.$emit('setRefereeReset')
-             this.$root.$emit('setPitchPlanTab','refereeTab')
+       },
+        deleteConfirmed() {
+
+        Tournament.removeReferee(this.refereeId).then(
+          (response) => {
+               toastr['success']('Referee has been removed successfully', 'Success');
+               $('#delete_modal').modal('hide')
+               $('#refreesModal').modal('hide')
+               this.$root.$emit('setRefereeReset')
+               this.$root.$emit('setPitchPlanTab','refereeTab')
+          }
+          )
+      },
+      onRemove() {
+        $('#chk_ageCategory').prop('checked', false)
+      },
+      onChange (value) {
+        this.value = value
+        if(this.value.length == this.competationList.length){
+        $('#chk_ageCategory').prop('checked', true)
+
         }
-        )
-    },
-    onRemove() {
-      $('#chk_ageCategory').prop('checked', false)
-    },
-    onChange (value) {
-      this.value = value
-      if(this.value.length == this.competationList.length){
-      $('#chk_ageCategory').prop('checked', true)
-
+        if (value.indexOf('Reset me!') !== -1) this.value = []
+      },
+      onSelect (option) {
+        if (option === 'Disable me!') this.isDisabled = true
+      },
+      onTouch () {
+        this.isTouched = true
       }
-      if (value.indexOf('Reset me!') !== -1) this.value = []
-    },
-    onSelect (option) {
-      if (option === 'Disable me!') this.isDisabled = true
-    },
-    onTouch () {
-      this.isTouched = true
     }
-  }
 
 }
 </script>

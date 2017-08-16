@@ -1,237 +1,235 @@
 <template>
 <div class="modal" id="addPitchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true" data-animation="false">
   <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-          <div class="tabs tabs-primary">
-              <div class="modal-header">
-                  <h5 class="modal-title">Pitch Details</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="displayPitch(0)">
-                      <span aria-hidden="true">×</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <ul class="nav nav-tabs col-md-12" role="tablist">
-                      <li class="nav-item col-md-6 padding0">
-                          <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active text-center">{{$lang.pitch_details}}</a>
-                      </li>
-                      <li class="nav-item col-md-6 padding0">
-                          <a data-toggle="tab" href="#availability" role="tab" class="nav-link text-center">{{$lang.pitch_modal_availability}}</a>
-                      </li>
-                  </ul>
-                  <div class="tab-content">
-                      <div id="pitch" role="tabpanel" class="tab-pane active">
-                          <div class="mb-3">Please complete information on both tabs before saving</div>
-                          <form method="post" name="frmPitchDetail" id="frmPitchDetail">
-                              <div class="card mb-2">
-                                  <div class="card-block">
-                                      <div class="form-group row">
-                                          <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_location}}*</label>
-                                          <div class="col-sm-6">
-                                              <select name="location" id="location" class="form-control" >
-                                                  <option :value="venue.id" v-for="(venue,key) in venues">{{venue.name}}</option>
-                                              </select>
-                                          </div>
-                                      </div>
-                                      <div class="form-group row">
-                                          <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_name}}</label>
-                                          <div class="col-sm-6">
-                                              <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number"   class="form-control">
-                                                  <i v-show="errors.has('pitch_number')" class="fa fa-warning"></i>
-                                                  <span class="help is-danger" v-show="errors.has('pitch_number')">{{ $lang.pitch_modal_details_name_required }}</span>
-                                          </div>
-                                      </div>
-                                      <div class="form-group row">
-                                          <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_type}}*</label>
-                                          <div class="col-sm-6">
-                                              <select name="pitch_type" id="pitch_type" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('pitch_type') }">
-                                                  <option value="">{{$lang.pitch_modal_pitch_type}}</option>
-                                                  <option value="Grass">{{$lang.pitch_modal_details_grass}}</option>
-                                                  <option value="Artificial">{{$lang.pitch_modal_details_artificial}}</option>
-                                                  <option value="Indoor">{{$lang.pitch_modal_details_indoor}}</option>
-                                                  <option value="Other">{{$lang.pitch_modal_details_other}}</option>
-                                              </select>
-                                              <span class="help is-danger" v-show="errors.has('pitch_type')">{{$lang.pitch_modal_details_type_required}}</span>
-                                          </div>
-                                      </div>
-                                      <div class="form-group row mb-0">
-                                          <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_size}}*</label>
-                                          <div class="col-sm-6">
-                                              <select name="pitch_size" id="pitch_size" class="form-control pull-left" v-validate="'required'" :class="{'is-danger': errors.has('pitch_size') }">
-                                                  <option value="">{{$lang.pitch_modal_pitch_size}}</option>
-                                                  <option value="5-a-side">{{$lang.pitch_modal_details_size_side}}</option>
-                                                  <option value="7-a-side">{{$lang.pitch_modal_details_size_side_one}}</option>
-                                                  <option value="8-a-side">{{$lang.pitch_modal_details_size_side_two}}</option>
-                                                  <option value="9-a-side">{{$lang.pitch_modal_details_size_side_three}}</option>
-                                                  <option value="11-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
-                                                  <!--<option value="Handball">{{$lang.pitch_modal_details_size_side_handball}}</option>-->
-                                                  <option value="Indoor">{{$lang.pitch_modal_details_size_side_indoor}}</option>
-                                              </select>
-                                              <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
-                                          </div>
-                                          <!-- <div class="col-md-12">
-                                              <button type="button" id="add_stage" @click="nextStage()"  class="btn btn-primary">{{$lang.pitch_modal_button_next}}</button>
-                                          </div> -->
-                                      </div>
-                                  </div>
+    <div class="modal-content">
+      <div class="tabs tabs-primary">
+        <div class="modal-header">
+          <h5 class="modal-title">{{$lang.pitch_Details}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="displayPitch(0)">
+              <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs col-md-12" role="tablist">
+              <li class="nav-item col-md-6 padding0">
+                  <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active text-center">{{$lang.pitch_details}}</a>
+              </li>
+              <li class="nav-item col-md-6 padding0">
+                  <a data-toggle="tab" href="#availability" role="tab" class="nav-link text-center">{{$lang.pitch_modal_availability}}</a>
+              </li>
+          </ul>
+          <div class="tab-content">
+            <div id="pitch" role="tabpanel" class="tab-pane active">
+              <div class="mb-3">{{$lang.pitch_details_note}}</div>
+              <form method="post" name="frmPitchDetail" id="frmPitchDetail">
+                  <div class="card mb-2">
+                      <div class="card-block">
+                          <div class="form-group row">
+                              <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_location}}*</label>
+                              <div class="col-sm-6">
+                                  <select name="location" id="location" class="form-control" >
+                                      <option :value="venue.id" v-for="(venue,key) in venues">{{venue.name}}</option>
+                                  </select>
                               </div>
-                          </form>
-                      </div>
-                      <div id="availability" role="tabpanel" class="tab-pane row">
-                          <div class="col-md-12 mb-2">
-                              <div class="mb-3">Please complete information on both tabs before saving</div>
-                              <div class="card">
-                                  <div class="card-block">
-                                    <div class="competition_list row">
-                                        <div class="col-md-3">
-                                            <span>{{$lang.pitch_modal_availability_stage}}</span>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <span>{{$lang.pitch_modal_availability_date}}</span>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <span>{{$lang.pitch_modal_availability_time}}</span>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <span>{{$lang.pitch_modal_availability_capacity}}</span>
-                                        </div>
-                                    </div>
-                                    <form method="post" name="frmPitchAvailable" id="frmPitchAvailable" >
-                                        <div v-for="day in tournamentDays">
-                                            <div class="stage" :id="'stage'+day" v-if="displayDay(day)">
-                                                <div class="row justify-content-center">
-                                                    <div class="card w-100">
-                                                        <div class="card-block">
-                                                            <div class="row align-items-center mb-3">
-                                                                <div class="col-md-3">
-                                                                    Stage {{day}}
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon">
-                                                                            <i class="jv-icon jv-calendar"></i>
-                                                                        </span>
-                                                                        <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control ls-datepicker datestage'+day] " >
-                                                                             <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
-                                                                             <span class="help is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
-                                                                        <!-- <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name"> -->
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                        <div class="align-self-center w-100">
-                                                                            <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_start_time']"  :id="'stage_start_time'+day"  type="text" >
-                                                                        </div>
-                                                                        <div class="align-self-center p-1">
-                                                                            <i v-show="errors.has('stage_start_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
-                                                                        </div>
-                                                                        <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3">
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="row align-items-center mb-3">
-                                                                <div class="col-md-3">
-                                                                   {{$lang.pitch_capacity_break_start}}
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                <!-- <input type="checkbox" name="stage_chk_active">Check to add a break -->
-                                                                <input type="checkbox" :name="'stage_break_chk'+day" class="mr-1 stage_break_chk"  :id="'stage_break_chk_'+day" >Check to add a break
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                        <div   :class="'align-self-center w-100 stageInvisible chk_disable_'+day ">
-                                                                            <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]" :id="'stage_break_start'+day" >
-                                                                        </div>
-                                                                        <div class="align-self-center p-1">
-                                                                            <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
-                                                                        </div>
-                                                                        <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3">
-
-                                                                </div>
-                                                            </div>
-                                                            <div :class="'row align-items-center mb-3 stageInvisible chk_disable_'+day ">
-                                                                <div class="col-md-3">
-                                                                    Stage {{day}} continued
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon">
-                                                                            <i class="jv-icon jv-calendar"></i>
-                                                                        </span>
-                                                                        <input type="text" :name="'stage_continue_date'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                        <div :class="'align-self-center w-100 stageInvisible  chk_disable_'+day ">
-                                                                            <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'stage_continue_time'+day">
-                                                                        </div>
-                                                                        <div class="align-self-center p-1">
-                                                                            <i v-show="errors.has('stage_continue_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Continue time is required"></i>
-                                                                        </div>
-                                                                        <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row align-items-center mb-3">
-                                                                <div class="col-md-3">
-                                                                    Stage {{day}} end
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="input-group">
-                                                                        <span class="input-group-addon">
-                                                                            <i class="jv-icon jv-calendar"></i>
-                                                                        </span>
-                                                                        <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="d-flex flex-nowrap justify-content-between align-items-center">
-                                                                        <div class="align-self-center w-100">
-                                                                            <input :name="'stage_end_time'+day" :id="'stage_end_time'+day" type="text"  v-validate="'required'" :class="[errors.has('stage_end_time'+day)?'is-danger': '', 'form-control ls-timepicker']">
-                                                                        </div>
-                                                                        <div class="align-self-center p-1">
-                                                                            <i v-show="errors.has('stage_end_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Stage end time is required"></i>
-                                                                        </div>
-                                                                        <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3">                                                                    <span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
-                                                                    <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity1'+day" value="0.00">
-                                                                    <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity1_min'+day" value="0">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="card-footer text-right">
-                                                            <a href="#" class="btn btn-danger"  @click="stageRemove(day)">Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">{{$lang.pitch_modal_availability_button_addstage}}</button>
-                                        </div>
-                                    </form>
-                                </div>
+                          </div>
+                          <div class="form-group row">
+                              <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_name}}</label>
+                              <div class="col-sm-6">
+                                  <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number"   class="form-control">
+                                      <i v-show="errors.has('pitch_number')" class="fa fa-warning"></i>
+                                  <span class="help is-danger" v-show="errors.has('pitch_number')">{{ $lang.pitch_modal_details_name_required }}</span>
                               </div>
+                          </div>
+                          <div class="form-group row">
+                              <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_type}}*</label>
+                              <div class="col-sm-6">
+                                  <select name="pitch_type" id="pitch_type" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('pitch_type') }">
+                                      <option value="">{{$lang.pitch_modal_pitch_type}}</option>
+                                      <option value="Grass">{{$lang.pitch_modal_details_grass}}</option>
+                                      <option value="Artificial">{{$lang.pitch_modal_details_artificial}}</option>
+                                      <option value="Indoor">{{$lang.pitch_modal_details_indoor}}</option>
+                                      <option value="Other">{{$lang.pitch_modal_details_other}}</option>
+                                  </select>
+                                  <span class="help is-danger" v-show="errors.has('pitch_type')">{{$lang.pitch_modal_details_type_required}}</span>
+                              </div>
+                          </div>
+                          <div class="form-group row mb-0">
+                              <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_size}}*</label>
+                              <div class="col-sm-6">
+                                  <select name="pitch_size" id="pitch_size" class="form-control pull-left" v-validate="'required'" :class="{'is-danger': errors.has('pitch_size') }">
+                                      <option value="">{{$lang.pitch_modal_pitch_size}}</option>
+                                      <option value="5-a-side">{{$lang.pitch_modal_details_size_side}}</option>
+                                      <option value="7-a-side">{{$lang.pitch_modal_details_size_side_one}}</option>
+                                      <option value="8-a-side">{{$lang.pitch_modal_details_size_side_two}}</option>
+                                      <option value="9-a-side">{{$lang.pitch_modal_details_size_side_three}}</option>
+                                      <option value="11-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
+                                      <!--<option value="Handball">{{$lang.pitch_modal_details_size_side_handball}}</option>-->
+                                      <option value="Indoor">{{$lang.pitch_modal_details_size_side_indoor}}</option>
+                                  </select>
+                                  <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
+                              </div>
+                              <!-- <div class="col-md-12">
+                                  <button type="button" id="add_stage" @click="nextStage()"  class="btn btn-primary">{{$lang.pitch_modal_button_next}}</button>
+                              </div> -->
                           </div>
                       </div>
                   </div>
+              </form>
+            </div>
+            <div id="availability" role="tabpanel" class="tab-pane row">
+              <div class="col-md-12 mb-2">
+                <div class="mb-3">{{$lang.pitch_detail_tabs}}</div>
+                <div class="card">
+                  <div class="card-block">
+                    <div class="competition_list row">
+                      <div class="col-md-3">
+                          <span>{{$lang.pitch_modal_availability_stage}}</span>
+                      </div>
+                      <div class="col-md-3">
+                          <span>{{$lang.pitch_modal_availability_date}}</span>
+                      </div>
+                      <div class="col-md-3">
+                          <span>{{$lang.pitch_modal_availability_time}}</span>
+                      </div>
+                      <div class="col-md-3">
+                          <span>{{$lang.pitch_modal_availability_capacity}}</span>
+                      </div>
+                    </div>
+                    <form method="post" name="frmPitchAvailable" id="frmPitchAvailable" >
+                      <div v-for="day in tournamentDays">
+                        <div class="stage" :id="'stage'+day" v-if="displayDay(day)">
+                          <div class="row justify-content-center">
+                            <div class="card w-100">
+                              <div class="card-block">
+                                <div class="row align-items-center mb-3">
+                                  <div class="col-md-3">
+                                      Stage {{day}}
+                                  </div>
+                                  <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="jv-icon jv-calendar"></i>
+                                        </span>
+                                        <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control ls-datepicker datestage'+day] " >
+                                             <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
+                                             <span class="help is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
+                                        <!-- <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name"> -->
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <div class="d-flex flex-nowrap justify-content-between align-items-center">
+                                        <div class="align-self-center w-100">
+                                            <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_start_time']"  :id="'stage_start_time'+day"  type="text" >
+                                        </div>
+                                        <div class="align-self-center p-1">
+                                            <i v-show="errors.has('stage_start_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
+                                        </div>
+                                        <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                  </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                  <div class="col-md-3">
+                                     {{$lang.pitch_capacity_break_start}}
+                                  </div>
+                                  <div class="col-md-3">
+                                  <!-- <input type="checkbox" name="stage_chk_active">Check to add a break -->
+                                  <input type="checkbox" :name="'stage_break_chk'+day" class="mr-1 stage_break_chk"  :id="'stage_break_chk_'+day" >Check to add a break
+                                  </div>
+                                  <div class="col-md-3">
+                                    <div class="d-flex flex-nowrap justify-content-between align-items-center">
+                                        <div   :class="'align-self-center w-100 stageInvisible chk_disable_'+day ">
+                                            <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]" :id="'stage_break_start'+day" >
+                                        </div>
+                                        <div class="align-self-center p-1">
+                                            <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
+                                        </div>
+                                        <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                  </div>
+                                </div>
+                                <div :class="'row align-items-center mb-3 stageInvisible chk_disable_'+day ">
+                                  <div class="col-md-3">
+                                      Stage {{day}} continued
+                                  </div>
+                                  <div class="col-md-3">
+                                    <div class="input-group">
+                                      <span class="input-group-addon">
+                                          <i class="jv-icon jv-calendar"></i>
+                                      </span>
+                                      <input type="text" :name="'stage_continue_date'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]">
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <div class="d-flex flex-nowrap justify-content-between align-items-center">
+                                      <div :class="'align-self-center w-100 stageInvisible  chk_disable_'+day ">
+                                          <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'stage_continue_time'+day">
+                                      </div>
+                                      <div class="align-self-center p-1">
+                                          <i v-show="errors.has('stage_continue_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Continue time is required"></i>
+                                      </div>
+                                        <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                  </div>
+                                </div>
+                                <div class="row align-items-center mb-3">
+                                  <div class="col-md-3">
+                                      Stage {{day}} end
+                                  </div>
+                                  <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="jv-icon jv-calendar"></i>
+                                        </span>
+                                        <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <div class="d-flex flex-nowrap justify-content-between align-items-center">
+                                        <div class="align-self-center w-100">
+                                            <input :name="'stage_end_time'+day" :id="'stage_end_time'+day" type="text"  v-validate="'required'" :class="[errors.has('stage_end_time'+day)?'is-danger': '', 'form-control ls-timepicker']">
+                                        </div>
+                                        <div class="align-self-center p-1">
+                                            <i v-show="errors.has('stage_end_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Stage end time is required"></i>
+                                        </div>
+                                        <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
+                                    </div>
+                                  </div>
+                                  <div class="col-md-3">                                                                    <span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
+                                    <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity1'+day" value="0.00">
+                                    <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity1_min'+day" value="0">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card-footer text-right">
+                                  <a href="#" class="btn btn-danger"  @click="stageRemove(day)">{{$lang.pitch_detail_delete}}</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                          <button type="button" id="add_stage" @click="addStage()" :disabled="removeStage.length==0" class="btn btn-primary">{{$lang.pitch_modal_availability_button_addstage}}</button>
+                      </div>
+                    </form>
+                </div>
+                </div>
               </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal" @click="displayPitch(0)">{{$lang.pitch_modal_availability_button_close}}</button>
-                  <button type="button" class="btn btn-primary" @click="savePitchDetails()">{{$lang.pitch_modal_availability_button_save}}</button>
-              </div>
+            </div>
           </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" @click="displayPitch(0)">{{$lang.pitch_modal_availability_button_close}}</button>
+          <button type="button" class="btn btn-primary" @click="savePitchDetails()">{{$lang.pitch_modal_availability_button_save}}</button>
+        </div>
       </div>
+    </div>
   </div>
 </div>
 </template>

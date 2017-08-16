@@ -5,12 +5,12 @@
          <table class="table table-hover table-bordered add-category-table">
           <thead>
               <tr>
-                  <th class="text-center">Date sent</th>
-                  <th class="text-center">Message</th>
-                  <th class="text-center">Sender</th>
-                  <th class="text-center">Tournament</th>
-                  <th class="text-center">Status</th>
-                  <th class="text-center">Details</th>
+
+                  <th class="text-center">{{$lang.summary_table_heading_date_sent}}</th>
+                  <th class="text-center">{{$lang.summary_table_heading_message}}</th>
+                  <th class="text-center">{{$lang.summary_table_heading_sender}}</th>
+                  <th class="text-center">{{$lang.summary_table_heading_tournament}}</th>
+                  <th class="text-center">{{$lang.summary_table_heading_details}}</th>
               </tr>
           </thead>
           <tbody>
@@ -37,7 +37,7 @@
     <div class="row">
           <div class="col-md-12">
            <button type="button" class="btn btn-primary"
-           @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;New message</button>
+           @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
           </div>
     </div>
   </div>

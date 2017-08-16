@@ -18,7 +18,6 @@
           </div>
   			</form>
         <div class="block-bg age-category mb-4">
-
           <div class="d-flex justify-content-center" v-if="grpsView.length != 0">
             <div class="col-sm-3 m_card hoverable m-2"  v-for="(group, index) in grpsView">
                 <div class="card-content">
@@ -31,11 +30,14 @@
           <div v-else class="d-flex justify-content-center">
             <div class="col-sm-9  m-8">
                 <div class="card-content">
+<<<<<<< HEAD
                    <span class="card-title"> Select category </span>
+=======
+                   <span class="card-title"> {{$lang.teams_name_select}}</span>
+>>>>>>> df75d05a999746cf0c4053327aa37eceb6e82fd3
                 </div>
             </div>
           </div>
-
         </div>
 
           <div class="row align-items-center">
@@ -50,9 +52,10 @@
           <div class="col-sm-12">
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
-            <button type="button" class="btn btn-default" id="profile_image_file">Select list</button>&nbsp;&nbsp;<span id="filename"></span>
+            <button type="button" class="btn btn-default" id="profile_image_file">{{$lang.teams_select_file}}</button>&nbsp;&nbsp;<span id="filename"></span>
+
               <input type="file" name="fileUpload" @change="setFileName(this)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
-              <small class="form-text text-muted">Excel files only</small>
+              <small class="form-text text-muted">{{$lang.teams_excel_text}}</small>
 
             </div>
 	  				<button type="button" @click="csvImport()"  class="btn btn-primary mt-2">{{$lang.teams_upload_team}}
@@ -60,6 +63,7 @@
 
             </form>
            <!--  <p class="mt-4 mb-0">Once you have uploaded teams choose a category name from the filter above to allocate teams</p> -->
+
 	  			</div>
   			</div>
   			<div class="row mt-4">

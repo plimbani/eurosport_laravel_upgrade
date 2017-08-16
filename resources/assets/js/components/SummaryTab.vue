@@ -101,10 +101,8 @@
 			<span><strong>{{$lang.summary_age_groups}}: </strong>{{tournamentSummary.tournament_groups}}</span><br>
 				<span><strong>{{$lang.summary_participating_countries}}: </strong> {{tournamentSummary.tournament_countries}}</span><br>
 				<span><strong>{{$lang.summary_euro_supporting_contact}}: </strong> {{tournamentSummary.tournament_contact}}</span>
-
 			</div>
 		</div>
-
 	</div>
 
 </template>

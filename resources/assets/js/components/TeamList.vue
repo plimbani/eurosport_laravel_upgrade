@@ -5,17 +5,16 @@
 	<div class="col-md-12">
 	<table class="table table-hover table-bordered" v-if="matchData.length > 0">
 		<thead>
-			<th class="text-center">Team</th>
-			<th class="text-center">Categories</th>
+			<th class="text-center">{{$lang.teams_team_label}}</th>
+			<th class="text-center">{{$lang.teams_categories_label}}</th>
 		</thead>
 		<tbody>
 			<tr v-for="team in matchData">
 				<td>
 					<!-- <a  href="" @click.prevent="changeTeam(team.id, team.name)"> -->
 						<!--<img :src="team.logo" width="20">-->
-          	<span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
-
-						<span class="text-center"><a class="text-primary" href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></span>
+          			<span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
+					<span class="text-center"><a class="text-primary" href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></span>
 					<!-- </a> -->
 				</td>
 				<td class="text-center">

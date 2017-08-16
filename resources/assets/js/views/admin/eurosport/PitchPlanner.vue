@@ -10,7 +10,8 @@
               <tournamentFilter :section="section"></tournamentFilter>
             </div>
             <div>
-            <h5 class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> *Add pitches.</h5>
+
+            <h5 class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> {{$lang.pitch_planner_text}}</h5>
             </div>
           </div>
 	  			<div class="mt-4" >

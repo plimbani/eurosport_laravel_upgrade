@@ -7,14 +7,14 @@
                     <div class="col-md-1 pitch-capaciry" v-for="referee in referees">
                         <p><strong>{{referee.first_name}}</strong></p>
                         <img src="/assets/img/pitch.png">
-                       
+
                     </div>
                 </div>
                 <div class="mt-4">
-                    <button type="button" class="btn btn-primary" @click="addReferee()"><i class="fa fa-plus" ></i> Add Referee</button>
+                    <button type="button" class="btn btn-primary" @click="addReferee()"><i class="fa fa-plus" ></i> {{$lang.pitch_planner_referee}}</button>
                 </div>
-                <addReferee  ></addReferee>
-               
+                <addReferee></addReferee>
+
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@ import Tournament from '../../../api/tournament.js'
         components: {
             addReferee
         },
-        
+
         mounted(){
             this.getAllReferee()
             $("#addReferee").on('hidden.bs.modal', function () {
@@ -45,8 +45,8 @@ import Tournament from '../../../api/tournament.js'
             getAllReferee() {
                 // Tournament.getReferees(this.tournamentId)rnamentId);
                 Tournament.getReferees(this.tournamentId).then(
-                  (response) => { 
-                  this.referees = response.data.referees 
+                  (response) => {
+                  this.referees = response.data.referees
                   },
                   (error) => {
                      console.log('Error occured during Tournament api ', error)

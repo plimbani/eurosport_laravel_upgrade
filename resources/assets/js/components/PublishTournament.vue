@@ -3,18 +3,18 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Publish Tournament</h5>
+                    <h5 class="modal-title" id="myModalLabel">{{$lang.summary_button_popup_publish_text}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body text-left">
                     <p>
-                        Please confirm you would like to publish this tournament?
+                        {{$lang.summary_button_publish_text}}
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
                     <button type="submit" class="btn btn-primary"
-                    @click.prevent="updateStatus">Confirm</button>
+                    @click.prevent="updateStatus">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
                 </div>
         </div>
       </div>

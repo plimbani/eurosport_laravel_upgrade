@@ -75,7 +75,7 @@
                         <img  src="http://placehold.it/250x250"
                              width="100px" height="100px"/>
                             <!--<button type="button" name="btnSelect" id="btnSelect">-->
-                            <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">Choose file</button>
+                            <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
                             <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
                             <p class="help-block">Maximum size of 1 MB.<br/>
                             Image dimensions 250 x 250.</p>
@@ -83,7 +83,7 @@
                         <div v-else>
                             <img :src="imagePath + image"
                              width="100px" height="100px"/>
-                            <button class="btn btn-default" @click="removeImage">Remove image</button>
+                            <button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
                         </div>
                       </div>
                     </div>
@@ -262,7 +262,7 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-3">
-              <button class="btn btn-danger w-75" @click.prevent="removeLocation(index)" v-if="index > 0">&#8212; Remove location</button>
+              <button class="btn btn-danger w-75" @click.prevent="removeLocation(index)" v-if="index > 0">&#8212; {{$lang.tournament_remove_location}}</button>
             </div>
           </div>
           </div>

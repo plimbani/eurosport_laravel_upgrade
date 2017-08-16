@@ -3,7 +3,8 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="text-center">
-					<button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3" disabled="disabled">Add referee</button>
+					<button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3" disabled="disabled">{{$lang.pitch_planner_referee}}</button>
+
 				</div>
 				
 				<div  v-for="referee in referees">

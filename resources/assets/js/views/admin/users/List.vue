@@ -24,7 +24,7 @@
                               </div>
                                <div class="col-md-3">
                                   <div class="form-group">
-                                      <button type="button" class="btn btn-primary w-100" @click='clear()'>Clear</button>
+                                      <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.user_management_clear_button}}</button>
                                   </div>
                               </div>
                               <div class="col-md-3">
@@ -34,7 +34,6 @@
                               </div>
                           </div>
                         </div>
-
                         <div class="col-md-12">
                             <table class="table add-category-table">
                                 <thead>
@@ -98,9 +97,8 @@
                                       <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="20"  class="paginate-list">
                                       </paginate>
                                       <paginate-links for="userpagination"
-                                        :show-step-links="true"
-                                         :async="true"
-                                      ></paginate-links>
+                                        :show-step-links="true" :async="true">
+                                      </paginate-links>
                                     </td>
                                   </tr>
                                 </tbody>
@@ -118,11 +116,10 @@
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
-         :activeConfirm="activeConfirm"
-         :uStatusData="uData"
-         @confirmed="activeConfirmed()"
-         @closeModal="closeConfirm()">
-
+           :activeConfirm="activeConfirm"
+           :uStatusData="uData"
+           @confirmed="activeConfirmed()"
+           @closeModal="closeConfirm()">
          </active-modal>
     </div>
 </template>

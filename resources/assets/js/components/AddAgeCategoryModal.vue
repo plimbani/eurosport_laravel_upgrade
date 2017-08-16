@@ -2,31 +2,30 @@
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true"  data-animation="false">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{$lang.competation_modal_age_category}}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-        <div class="modal-body">
-        <form name="ageCategoryName" id="ageCategoryName">
-
-          <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
-            <div class="col-sm-4 form-control-label">{{$lang.competation_label_name_category}}</div>
-              <div class="col-sm-8">
-                <div class="row">
-                  <div class="col-sm-12">
-                    <input type="text" class="form-control"
-                    placeholder="e.g. U11, U16-A"  v-validate="'required'" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
-                    <i v-show="errors.has('ageCategory_name')" class="fa fa-warning"></i>
-                    <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_name_category_required}}</span>
-                  </div>
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{$lang.competation_modal_age_category}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form name="ageCategoryName" id="ageCategoryName">
+        <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
+          <div class="col-sm-4 form-control-label">{{$lang.competation_label_name_category}}</div>
+            <div class="col-sm-8">
+              <div class="row">
+                <div class="col-sm-12">
+                  <input type="text" class="form-control"
+                  placeholder="e.g. U11, U16-A"  v-validate="'required'" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
+                  <i v-show="errors.has('ageCategory_name')" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_name_category_required}}</span>
                 </div>
               </div>
-          </div>
+            </div>
+        </div>
 
        <div class="form-group row align-items-center">
-          <div class="col-sm-4 form-control-label">Age category*</div>
+          <div class="col-sm-4 form-control-label">{{$lang.competation_label_age_category_name}}</div>
             <div class="col-sm-8">
             <div class="row">
               <div class="col-sm-12">
@@ -94,27 +93,26 @@
           </div>
 
           <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</div>
-              <div class="col-sm-8">
-                <div class="row align-items-center">
-                  <span class="col-sm-2">2 <small>X</small></span>
-                  <select class="form-control ls-select2 col-sm-4" v-model="competation_format.game_duration_RR"
-                  >
-                  <option v-for="(item,key) in game_duration_rr_array[0]"
-                   v-bind:value="item">{{key}}</option>
-                      <!--<option value="20">10</option>
-                      <option value="30">15</option>
-                      <option value="40">20</option>
-                      <option value="other">Other</option>-->
-                      </select>
-                  <span v-if="competation_format.game_duration_RR
-                  == 'other' " class="col-sm-3">
-                   <input type="number" placeholder="" v-model="competation_format.game_duration_RR_other"
-                   min="0" class="form-control">
-                  </span>
-                  <span class="col-md-3">{{$lang.competation_modal_duration_final_minutes}}</span>
-                </div>
+            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</div>
+            <div class="col-sm-8">
+              <div class="row align-items-center">
+                <span class="col-sm-2">2 <small>X</small></span>
+                <select class="form-control ls-select2 col-sm-4" v-model="competation_format.game_duration_RR">
+                <option v-for="(item,key) in game_duration_rr_array[0]"
+                 v-bind:value="item">{{key}}</option>
+                    <!--<option value="20">10</option>
+                    <option value="30">15</option>
+                    <option value="40">20</option>
+                    <option value="other">Other</option>-->
+                </select>
+                <span v-if="competation_format.game_duration_RR
+                == 'other' " class="col-sm-3">
+                 <input type="number" placeholder="" v-model="competation_format.game_duration_RR_other"
+                 min="0" class="form-control">
+                </span>
+                <span class="col-md-3">{{$lang.competation_modal_duration_final_minutes}}</span>
               </div>
+            </div>
           </div>
           <div class="form-group row align-items-center">
             <div class="col-sm-4 form-control-label">{{$lang.competation_modal_duration_final}}</div>
@@ -123,8 +121,8 @@
                 <span class="col-sm-2">2 <small>X</small></span>
                 <select class="form-control ls-select2 col-sm-4 " v-model="competation_format.game_duration_FM">
                     <option v-for="(item,key) in game_duration_fm_array[0]"
-                 v-bind:value="item">{{key}}</option>
-                  </select>
+                    v-bind:value="item">{{key}}</option>
+                </select>
                  <span v-if="competation_format.game_duration_FM
                 == 'other' "  class="col-sm-3">
                  <input type="number" class="form-control" placeholder="" v-model="competation_format.game_duration_FM_other"min="0">
@@ -134,45 +132,45 @@
             </div>
           </div>
           <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break}}</div>
-              <div class="col-sm-8">
-                <div class="row">
-                  <div class="col-sm-4">
-                    <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_RR" min="0">
-                  </div>
-                  <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_minutes}}</span>
-                </div>
-              </div>
-          </div>
-          <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break_final}}</div>
-              <div class="col-sm-8">
-               <div class="row">
+            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break}}</div>
+            <div class="col-sm-8">
+              <div class="row">
                 <div class="col-sm-4">
-                    <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_FM" min="0">
-                  </div>
-                  <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_final_minutes}}</span>
-                  </div>
+                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_RR" min="0">
+                </div>
+                <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_minutes}}</span>
               </div>
+            </div>
           </div>
           <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">{{$lang.competation_modal_match_interval}}</div>
-              <div class="col-sm-8">
-                <div class="row align-items-center">
-                  <div class="col-sm-4">
-                    <select class="form-control ls-select2" v-model="competation_format.match_interval_RR">
-                       <option v-for="(item,key) in match_interval_rr_array[0]"
-                     v-bind:value="item">{{key}}</option>
-                    </select>
-                  </div>
-                  <span v-if="competation_format.match_interval_RR
-                    == 'other' " class="col-sm-4">
-                    <input type="number" placeholder="" v-model="competation_format.match_interval_RR_other"
-                     min="0" class="form-control">
-                  </span>
-                  <span class="col-md-4">{{$lang.competation_modal_match_minutes}}</span>
+            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break_final}}</div>
+            <div class="col-sm-8">
+             <div class="row">
+              <div class="col-sm-4">
+                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_FM" min="0">
                 </div>
+                <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_final_minutes}}</span>
+                </div>
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_match_interval}}</div>
+            <div class="col-sm-8">
+              <div class="row align-items-center">
+                <div class="col-sm-4">
+                  <select class="form-control ls-select2" v-model="competation_format.match_interval_RR">
+                     <option v-for="(item,key) in match_interval_rr_array[0]"
+                   v-bind:value="item">{{key}}</option>
+                  </select>
+                </div>
+                <span v-if="competation_format.match_interval_RR
+                  == 'other' " class="col-sm-4">
+                  <input type="number" placeholder="" v-model="competation_format.match_interval_RR_other"
+                   min="0" class="form-control">
+                </span>
+                <span class="col-md-4">{{$lang.competation_modal_match_minutes}}</span>
               </div>
+            </div>
           </div>
           <div class="form-group row align-items-center">
             <div class="col-sm-4 form-control-label">{{$lang.competation_modal_match_interval_final}}</div>
@@ -184,8 +182,7 @@
                    v-bind:value="item">{{key}}</option>
                     </select>
                 </div>
-                <span v-if="competation_format.match_interval_FM
-                  == 'other' " class="col-sm-4">
+                <span v-if="competation_format.match_interval_FM == 'other' " class="col-sm-4">
                    <input type="number" placeholder="" v-model="competation_format.match_interval_FM_other"
                    min="0" class="form-control">
                 </span>
@@ -216,8 +213,7 @@
                           <span v-if="option.id == competation_format.tournament_template_id">
                           <input type="radio" checked='checked' :value="option"
                           name="tournamentTemplate" class="ttmp"
-                          v-validate="'required'"
-                          >
+                          v-validate="'required'">
                           </span>
                           <span v-else>
                           <input type="radio"
@@ -228,8 +224,7 @@
                               v-model="competation_format.tournamentTemplate"
                               v-validate="'required'"
                               :class="{'is-danger': errors.has('tournamentTemplate') }"
-                              v-if="checkTemplate(option)"
-                            >
+                              v-if="checkTemplate(option)">
                             </span>
                         </div>
                         <div class="col-sm-10 align-self-center">
@@ -258,10 +253,10 @@
           </div>
           </form>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
-            <button type="button" class="btn btn-primary" @click="saveAgeCategory" id="saveAge">{{$lang.competation_modal_button_save}}</button>
-        </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
+          <button type="button" class="btn btn-primary" @click="saveAgeCategory" id="saveAge">{{$lang.competation_modal_button_save}}</button>
+      </div>
     </div>
   </div>
 </div>
@@ -326,7 +321,6 @@ export default {
     number_teams: function(val){
       let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
 
-
       if(this.minimum_matches != '' && val != '') {
         this.trempVal = true
         this.competation_format.minimum_matches = val
@@ -338,7 +332,6 @@ export default {
       }
      // this.TournamentCompetationList(tournamentData)
     }
-
 
   },
    filters: {

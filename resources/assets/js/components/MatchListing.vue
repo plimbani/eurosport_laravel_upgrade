@@ -4,7 +4,7 @@
 		<div class="col-sm-4">
 			<div class="row d-flex flex-row align-items-center">
 				<div class="col-sm-5 pr-sm-0">
-					<h6 class="mb-0">Match overview</h6>
+					<h6 class="mb-0">{{$lang.summary_schedule_match_overview}}</h6>
  				</div>
 				<div class="col pl-sm-0">
 					<select class="form-control ls-select2"

@@ -20,11 +20,11 @@
                          <table class="table table-hover table-bordered mt-4 pitch_capacity_table" v-if="pitches">
                             <thead>
                                 <tr>
-                                    <th class="text-center">Pitch name</th>
-                                    <th class="text-center">Size</th>
-                                    <th class="text-center">Type</th>
-                                    <th class="text-center">Stages</th>
-                                    <th class="text-center">Actions</th>
+                                    <th class="text-center">{{$lang.pitch_modal_details_name}}</th>
+                                    <th class="text-center">{{$lang.pitch_modal_details_size}}</th>
+                                    <th class="text-center">{{$lang.pitch_modal_details_type}}</th>
+                                    <th class="text-center">{{$lang.pitch_modal_availability_stage}}</th>
+                                    <th class="text-center">{{$lang.pitch_modal_action}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,7 +64,6 @@
                                 <label :class="[parseInt(pitchCapacity-tournamentTime)<0? 'red': 'text-success','col-md-5 m-0' ]">{{ pitchAvailableBalance[2] + '' +pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
                             </p>
                         </div>
-
                     </div>
                 </div>
             </div>
