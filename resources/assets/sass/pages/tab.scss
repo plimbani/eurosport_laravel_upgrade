@@ -156,6 +156,11 @@ textarea {
 
 .add-category-table {
     max-height: 250px;
+    tbody {
+        td {
+            vertical-align: middle;
+        }
+    }
 }
 
 .summary-tab {

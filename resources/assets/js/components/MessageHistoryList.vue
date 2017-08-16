@@ -2,14 +2,15 @@
   <div>
     <div class="row">
       <div class="col-md-12">
-         <table class="table table-hover table-bordered add-category-table">
+         <table class="table table-hover table-bordered add-category-table" style="font-size:93%;">
           <thead>
               <tr>
 
-                  <th class="text-center">{{$lang.summary_table_heading_date_sent}}</th>
+                  <th class="text-center" style="width:160px;">{{$lang.summary_table_heading_date_sent}}</th>
                   <th class="text-center">{{$lang.summary_table_heading_message}}</th>
                   <th class="text-center">{{$lang.summary_table_heading_sender}}</th>
                   <th class="text-center">{{$lang.summary_table_heading_tournament}}</th>
+                  <th class="text-center">{{$lang.summary_table_heading_status}}</th>
                   <th class="text-center">{{$lang.summary_table_heading_details}}</th>
               </tr>
           </thead>

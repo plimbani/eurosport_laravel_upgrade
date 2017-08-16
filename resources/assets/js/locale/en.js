@@ -500,4 +500,5 @@ module.exports = {
   summary_schedule_matches_location: "Location",
   tournament_filter_age_category: "Category",
   tournament_filter_age_category_match: "Category",
+  summary_table_heading_status: "Status",
 }
