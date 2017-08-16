@@ -368,6 +368,15 @@ public class HomeActivity extends BaseAppCompactActivity {
         }
     }
 
+    @OnClick(R.id.btn_teams)
+    protected void onTeamsClick() {
+        selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
+        Intent mClubs = new Intent(mContext, ClubsActivity.class);
+        mClubs.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(mClubs);
+        changeBottomTabAccordingToFlag();
+    }
+
     private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));

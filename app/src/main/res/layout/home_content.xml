@@ -214,6 +214,15 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btn_teams"
+                style="@style/text_black_title"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/btn_yellow"
+                android:text="@string/teams" />
+
             <Spinner
                 android:id="@+id/sp_tournament"
                 android:layout_width="match_parent"

@@ -10,8 +10,8 @@ public class ApiConstants {
 //    public static final String BASE_URL = "http://kamal-eurosport.dev.aecortech.com/api/";
     //        public static final String BASE_URL = "http://rishab-eurosport.dev.aecortech.com/api/";
 //    http://krunal-eurosport.dev.aecortech.com/admin/tournaments_summary_details
-//    public static final String BASE_URL = "http://esr.aecordigitalqa.com/api/";
-    public static final String BASE_URL = "http://krunal-eurosport.dev.aecortech.com/api/";
+    public static final String BASE_URL = "http://esr.aecordigitalqa.com/api/";
+//    public static final String BASE_URL = "http://krunal-eurosport.dev.aecortech.com/api/";
     public static final String GET_TOURNAMENTS = BASE_URL + "tournaments";
     public static final String SIGN_IN = BASE_URL + "auth/login";
     public static final String REGISTER = BASE_URL + "user/create";

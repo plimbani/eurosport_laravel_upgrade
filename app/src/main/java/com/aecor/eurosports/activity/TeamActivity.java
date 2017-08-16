@@ -242,12 +242,7 @@ public class TeamActivity extends BaseAppCompactActivity {
         TextView tv_games = (TextView) teamLeagueView.findViewById(R.id.tv_games);
         TextView tv_goalDifference = (TextView) teamLeagueView.findViewById(R.id.tv_goalDifference);
         final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
-        if (!Utility.isNullOrEmpty(mLeagueModel.getGroup_name())) {
-            String groupTableTitle = mLeagueModel.getGroup_name() + " " + getString(R.string.league_table);
-            tv_group_table_title.setText(groupTableTitle);
-        } else {
-            tv_group_table_title.setText("");
-        }
+
 
 
         if (!Utility.isNullOrEmpty(mLeagueModel.getName())) {

@@ -94,7 +94,6 @@ public class FavouriteListAdapter extends BaseAdapter {
             holder = (ViewHolder) rowview.getTag();
         }
         final TournamentModel rowItem = getItem(position);
-//        holder.favourite_logo.setImageResource(R.drawable.globe);
 
         if (!Utility.isNullOrEmpty(rowItem.getName())) {
             holder.favourite_tournament.setText(rowItem.getName());

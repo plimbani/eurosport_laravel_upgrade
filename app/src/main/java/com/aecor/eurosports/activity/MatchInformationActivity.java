@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -105,8 +106,10 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mStatusAndWinnerStr)) {
             mStatusAndWinnerStr = mStatusAndWinnerStr + " " + getString(R.string.is_the_winner);
             tv_winner_status.setText(mStatusAndWinnerStr);
+            tv_winner_status.setVisibility(View.VISIBLE);
         } else {
             tv_winner_status.setText("");
+            tv_winner_status.setVisibility(View.GONE);
         }
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeFlagLogo())) {
