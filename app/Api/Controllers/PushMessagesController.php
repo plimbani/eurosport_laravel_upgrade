@@ -220,7 +220,7 @@ class PushMessagesController extends BaseController
         \Log::info($request->all());
         $messageData = $request->all();
         $tournamentId = $messageData['messageData']['tournament_id'];
-        $messageData = Message::where('tournament_id',$tournamentId)->With('sender')->With('tournament')->get()->toArray();
+        $messageData = Message:: where('tournament_id',$tournamentId)->With('sender')->With('receiver')->With('tournament')->get()->toArray();
         return $this->response->array([
                     'data' => $messageData,
                     'message' => "success",

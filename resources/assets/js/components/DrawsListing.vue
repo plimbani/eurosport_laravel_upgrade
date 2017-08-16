@@ -80,7 +80,7 @@ export default {
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
-      this.otherData.DrawType = CompetationType
+      		this.otherData.DrawType = CompetationType
 
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
@@ -94,7 +94,7 @@ export default {
 			)
 		},
 		drawDetails(drawData) {
-      alert('calle')
+     	 // alert('calle')
 			//console.log(drawData)
 		    //this.$store.dispatch('setCurrentScheduleView','matchListing')
 			this.$root.$emit('changeComp1', 'matchListing');

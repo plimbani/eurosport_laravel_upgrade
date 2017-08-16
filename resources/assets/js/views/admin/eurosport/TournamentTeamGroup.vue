@@ -31,7 +31,7 @@
           <div v-else class="d-flex justify-content-center">
             <div class="col-sm-9  m-8">
                 <div class="card-content">
-                   <span class="card-title"> Select a category name above to view information</span>
+                   <span class="card-title"> Select category </span>
                 </div>
             </div>
           </div>
@@ -50,7 +50,7 @@
           <div class="col-sm-12">
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div>
-            <button type="button" class="btn btn-default" id="profile_image_file">Choose file</button>&nbsp;&nbsp;<span id="filename"></span>
+            <button type="button" class="btn btn-default" id="profile_image_file">Select list</button>&nbsp;&nbsp;<span id="filename"></span>
               <input type="file" name="fileUpload" @change="setFileName(this)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
               <small class="form-text text-muted">Excel files only</small>
 
@@ -59,7 +59,7 @@
             </button>
 
             </form>
-            <p class="mt-4 mb-0">Once you have uploaded teams choose a category name from the filter above to allocate teams</p>
+           <!--  <p class="mt-4 mb-0">Once you have uploaded teams choose a category name from the filter above to allocate teams</p> -->
 	  			</div>
   			</div>
   			<div class="row mt-4">

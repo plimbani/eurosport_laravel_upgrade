@@ -7,7 +7,9 @@
 				</div>
 				
 				<div  v-for="referee in referees">
-					<draggable-referee :referee="referee" @click="editReferee(referee.id)"></draggable-referee>
+          <div  @click="editReferee(referee.id)">
+					  <draggable-referee :referee="referee" ></draggable-referee>
+          </div>
 				</div>
 			</div>
 		</div>

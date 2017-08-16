@@ -10,7 +10,7 @@
               <tournamentFilter :section="section"></tournamentFilter>
             </div>
             <div>
-            <h5 class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> *Pitch capacity is not enough to schedule matches. Please increase pitch capacity.</h5>
+            <h5 class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> *Add pitches.</h5>
             </div>
           </div>
 	  			<div class="mt-4" >

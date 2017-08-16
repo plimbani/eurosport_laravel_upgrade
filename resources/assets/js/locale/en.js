@@ -272,7 +272,7 @@ module.exports = {
   teams_group_d_a2: "A2",
   teams_group_d_a3: "A3",
   teams_group_d_a4: "A4",
-  teams_team_list: "Team list",
+  teams_team_list: "Import teams",
   teams_upload_team: "Upload teams",
   teams_filter: "Filter by:",
   teams_team: "Team",
@@ -377,10 +377,10 @@ module.exports = {
   teams_groups_label: "Teams and groups",
   summary_label: "Summary",
 
-  summary_label_summary: "Summary",
+  summary_label_summary: "Dashboard",
   summary_label_reports: "Reports",
-  summary_label_schedule: "Schedule and results",
-  summary_label_message: "Messages",
+  summary_label_schedule: "Result administration",
+  summary_label_message: "App message",
 
   summary_schedule_matches_time: "Time",
   summary_schedule_date_time: "Date and time",
@@ -390,6 +390,6 @@ module.exports = {
   summary_schedule_matches_score: "Score",
   summary_schedule_matches_location: "Location",
 
-  tournament_filter_age_category: "Category name",
+  tournament_filter_age_category: "Category",
   tournament_filter_age_category_match: "Category",
 }
