@@ -117,15 +117,7 @@
             </form>
           </div>
           <div class="modal-footer justify-content-between">
-<<<<<<< HEAD
-              <div class="">
-                <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()" >Unschedule</button>
-              </div>
-              <div class="">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" @click="closeModal()">Cancel</button>
-                <button type="button" class="btn btn-primary" @click="saveFixtureDetail()">Save</button>
-              </div>
-=======
+
             <div class="">
               <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()">{{$lang.pitch_modal_unschedule}}</button>
             </div>
@@ -133,7 +125,7 @@
               <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.pitch_modal_cancel}}</button>
               <button type="button" class="btn btn-primary" @click="saveFixtureDetail()">{{$lang.pitch_modal_save}}</button>
             </div>
->>>>>>> df75d05a999746cf0c4053327aa37eceb6e82fd3
+
           </div>
       </div>
     </div>

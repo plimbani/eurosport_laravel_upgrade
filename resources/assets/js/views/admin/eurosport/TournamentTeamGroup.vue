@@ -30,11 +30,9 @@
           <div v-else class="d-flex justify-content-center">
             <div class="col-sm-9  m-8">
                 <div class="card-content">
-<<<<<<< HEAD
-                   <span class="card-title"> Select category </span>
-=======
+
                    <span class="card-title"> {{$lang.teams_name_select}}</span>
->>>>>>> df75d05a999746cf0c4053327aa37eceb6e82fd3
+
                 </div>
             </div>
           </div>
