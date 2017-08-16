@@ -131,7 +131,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
         }
     }
 
-    private void changeBottomTabAccordingToFlag() {
+    protected void changeBottomTabAccordingToFlag() {
         if (selectedTabName.equalsIgnoreCase(AppConstants.SCREEN_CONSTANT_FAVOURITES)) {
             selectDiselectBottomTab(iv_favourites, tv_favourites, lv_favourites, true, resourceIdFavouritesSelected);
             selectDiselectBottomTab(iv_tournament, tv_tournament, lv_tournament, false, resourceIdTournament);

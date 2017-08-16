@@ -89,7 +89,7 @@ public class ClubsAgeFragment extends Fragment {
         tv_no_item.setVisibility(View.GONE);
         rl_search.setVisibility(View.GONE);
         iv_close.setVisibility(View.GONE);
-        et_age_search.setHint(getString(R.string.hint_search_age_group));
+        et_age_search.setHint(getString(R.string.hint_search_age_category));
     }
 
     protected void setListener() {

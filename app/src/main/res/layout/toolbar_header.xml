@@ -11,7 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimaryDark"
         app:contentInsetLeft="10dp"
-        app:contentInsetStart="10dp"
+        app:contentInsetStart="20dp"
         app:contentInsetStartWithNavigation="10dp"
         app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
