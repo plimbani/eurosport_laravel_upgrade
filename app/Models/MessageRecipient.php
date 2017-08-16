@@ -94,4 +94,5 @@ class MessageRecipient extends Model
             return $value;
         }
     }
+
 }

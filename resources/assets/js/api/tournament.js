@@ -79,21 +79,21 @@ export default {
  removeAssignedReferee(data) {
      return api.post('match/removeAssignedReferee',{ data})
    },
-  assignReferee(data) {
-     return api.post('match/assignReferee',{ data})
-   },
-  getStanding(tournamentData) {
-  return api.post('match/getStanding',{'tournamentData': tournamentData})
+ assignReferee(data) {
+    return api.post('match/assignReferee',{ data})
+ },
+ getStanding(tournamentData) {
+    return api.post('match/getStanding',{'tournamentData': tournamentData})
  },
  getDrawTable(tournamentData) {
-  return api.post('match/getDrawTable',{'tournamentData': tournamentData})
+    return api.post('match/getDrawTable',{'tournamentData': tournamentData})
  },
- getTournamentTeams(tournamentData) {
-  return api.post('teams/teamsTournament',{'tournamentData': tournamentData})
- },
- getTournamentByStatus(tournamentData) {
-  return api.post('tournaments/getTournamentByStatus',{'tournamentData': tournamentData})
- },
+  getTournamentTeams(tournamentData) {
+    return api.post('teams/teamsTournament',{'tournamentData': tournamentData})
+  },
+  getTournamentByStatus(tournamentData) {
+    return api.post('tournaments/getTournamentByStatus',{'tournamentData': tournamentData})
+  },
 
   getRefereeDetail(refereeId) {
     return api.post('referee/refereeDetail',{'refereeId': refereeId})

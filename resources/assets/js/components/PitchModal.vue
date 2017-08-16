@@ -5,6 +5,7 @@
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">{{$lang.pitch_modal_match_details}}</h5>
             <div class="d-flex align-items-center">
+
               <button type="button" class="btn btn-primary mr-4" @click="generateMatchPrint()">{{$lang.pitch_modal_print}}</button>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
@@ -116,6 +117,7 @@
             </form>
           </div>
           <div class="modal-footer justify-content-between">
+
             <div class="">
               <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()">{{$lang.pitch_modal_unschedule}}</button>
             </div>
@@ -123,6 +125,7 @@
               <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.pitch_modal_cancel}}</button>
               <button type="button" class="btn btn-primary" @click="saveFixtureDetail()">{{$lang.pitch_modal_save}}</button>
             </div>
+
           </div>
       </div>
     </div>
@@ -142,7 +145,8 @@ var moment = require('moment');
          'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
          'referee_name' : '',
          'match_result': false,
-         'reportQuery': ''
+         'reportQuery': '',
+         'refereeRemoved': 'no'
        }
     },
     props: ['matchFixture','section'],
@@ -161,17 +165,14 @@ var moment = require('moment');
       }
     },
     matchFixtureDetail(){
-
       Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
-
-          this.matchDetail = response.data.data
-          this.matchDetail.id = this.matchId
+            this.matchDetail = response.data.data
+            this.matchDetail.id = this.matchId
           if(this.matchDetail.referee == null) {
-
           } else {
-          this.matchDetail.referee.first_name = this.matchDetail.referee.last_name+', '+this.matchDetail.referee.first_name
-          this.referee_name = this.matchDetail.referee.first_name
+            this.matchDetail.referee.first_name = this.matchDetail.referee.last_name+', '+this.matchDetail.referee.first_name
+            this.referee_name = this.matchDetail.referee.first_name
           }
          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
 
@@ -190,10 +191,17 @@ var moment = require('moment');
     removeReferee(){
       Tournament.removeAssignedReferee(this.matchDetail.id).then(
         (response) => {
+          this.refereeRemoved = 'yes';
           this.matchFixtureDetail()
           toastr.success('Referee has been removed successfully', 'Referee removed', {timeOut: 5000});
         }
-        )
+      )
+    },
+    closeModal() {
+      $('#matchScheduleModal').modal('hide');
+      if(this.refereeRemoved == 'yes'){
+        this.$root.$emit('setPitchPlanTab','gamesTab')
+      }
     },
     saveFixtureDetail(){
 
@@ -202,63 +210,60 @@ var moment = require('moment');
           this.$validator.validateAll().then(() => {
 
             let  matchStatus = $('#match_status').val()
-            let matchWinner = $('#match_winner').val()
+            let  matchWinner = $('#match_winner').val()
 
             let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
 
-             Tournament.saveMatchResult(data).then(
-             (response) => {
-              this.matchFixtureDetail()
-              this.$root.$emit('setPitchReset')
-              $('#matchScheduleModal').modal('hide')
+            Tournament.saveMatchResult(data).then(
+              (response) => {
+                this.matchFixtureDetail()
+                this.$root.$emit('setPitchReset')
+                $('#matchScheduleModal').modal('hide')
 
-              toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+                toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
 
-              if(this.section == 'scheduleResult') {
-                let home_score = $('#home_team_score').val()
-                let away_score = $('#away_team_score').val()
-                console.log('hscore'+home_score)
-                console.log('ascore'+away_score)
-                 let competationId = response.data.data.competationId
-                 this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
-              } else {
-                 this.$root.$emit('setPitchPlanTab','gamesTab')
+                if(this.section == 'scheduleResult') {
+                  let home_score = $('#home_team_score').val()
+                  let away_score = $('#away_team_score').val()
+                  console.log('hscore'+home_score)
+                  console.log('ascore'+away_score)
+                   let competationId = response.data.data.competationId
+                   this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
+                } else {
+                   this.$root.$emit('setPitchPlanTab','gamesTab')
+                }
+
               }
-
-          }
-        )
+            )
           })
         }
 
       //  this.$validator.validateAll().then(() => {
 
-            if(this.match_result == false) {
+      if(this.match_result == false) {
 
-            let  matchStatus = ''
-            let matchWinner = ''
+      let  matchStatus = ''
+      let matchWinner = ''
 
-           let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
+      let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
 
-             Tournament.saveMatchResult(data).then(
-                (response) => {
-                   this.matchFixtureDetail()
-                  this.$root.$emit('setPitchReset')
-                  $('#matchScheduleModal').modal('hide')
-                  toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
-                   if(this.section == 'scheduleResult') {
-                      let home_score = $('#home_team_score').val()
-                      let away_score = $('#away_team_score').val()
-                      let competationId = response.data.data.competationId
-                      this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
-                    } else {
-                       this.$root.$emit('setPitchPlanTab','gamesTab')
-                   }
-                }
-              )
-           }
-      //  })
-
-
+        Tournament.saveMatchResult(data).then(
+          (response) => {
+            this.matchFixtureDetail()
+            this.$root.$emit('setPitchReset')
+            $('#matchScheduleModal').modal('hide')
+            toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+              if(this.section == 'scheduleResult') {
+                let home_score = $('#home_team_score').val()
+                let away_score = $('#away_team_score').val()
+                let competationId = response.data.data.competationId
+                this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
+              } else {
+                this.$root.$emit('setPitchPlanTab','gamesTab')
+             }
+          }
+        )
+      }
     },
     assignReferee(refereeId){
       let data = {'refereeId': refereeId,'matchId': this.matchId}
