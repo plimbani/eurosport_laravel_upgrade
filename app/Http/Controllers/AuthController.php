@@ -5,6 +5,7 @@ namespace Laraspace\Http\Controllers;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Laraspace\Models\Settings;
 
 class AuthController extends Controller
 {
@@ -84,6 +85,8 @@ class AuthController extends Controller
              $userDetails['tournament_id'] = $userData->tournament_id;
              $userDetails['user_id'] = $userData->id;
              $userDetails['locale'] = $userData->locale;
+             $userSettings = Settings::where('user_id','=',$userData->id)->first()->toArray();
+             $userDetails['settings'] = $userSettings;
 
              $tournament_id = array();
              return response(['authenticated' => true,'userData'=> $userDetails]);
