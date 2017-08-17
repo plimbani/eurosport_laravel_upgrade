@@ -315,7 +315,7 @@ module.exports = {
 
   teams_terms_groups: "Teams and groups",
   teams_name_category: "Category name",
-  teams_name_select: "Select a category name above to view information",
+  teams_name_select: "Select category name above to view information",
   teams_age_category: "Category age",
   teams_age_category_group: "Group",
   teams_select_age_category: "Select category name",
