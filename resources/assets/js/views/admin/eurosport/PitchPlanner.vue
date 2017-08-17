@@ -11,7 +11,7 @@
             </div>
             <div>
 
-            <h6 class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> {{$lang.pitch_planner_text}}</h6>
+            <label class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> {{$lang.pitch_planner_text}}</label>
             </div>
           </div>
 	  			<div class="mt-4" >
