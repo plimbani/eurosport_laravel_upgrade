@@ -11,7 +11,7 @@
     <tbody>
     	<tr v-for="drawData in matchData">
     		<td>
-    			<a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.name }}</u> </a>
+    			<a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.name | formatGroup(drawData.round)}}</u> </a>
     		</td>
     		<td>{{ drawData.competation_type }}</td>
     		<td>{{ drawData.team_size }}</td>
@@ -50,6 +50,19 @@ export default {
 			//this.$emit('changeComp',Id);
 		},
 
-	}
+	},
+	filters: {
+    formatGroup:function (value,round) {
+        if(round == 'Round Robin') {
+           return value
+        }
+        if(!isNaN(value.slice(-1))) {
+           return value.substring(0,value.length-1)
+        } else {
+           return value
+        }
+      }
+
+  },
 }
 </script>

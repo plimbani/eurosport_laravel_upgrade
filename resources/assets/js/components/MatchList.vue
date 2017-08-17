@@ -7,7 +7,7 @@
 			<th class="text-center">{{$lang.summary_schedule_matches_categories}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
-			<th class="text-center">{{$lang.summary_schedule_matches_score}}</th>
+			<th class="text-center" style="min-width:100px">{{$lang.summary_schedule_matches_score}}</th>
 			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
       <th class="text-center"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
 		</thead>
@@ -38,8 +38,8 @@
 				</td>
 				<td class="text-center">
 
-        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid,index1)"><span v-else>{{match.homeScore}}</span> -
-        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 40px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
+        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid,index1)"><span v-else>{{match.homeScore}}</span> -
+        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
         		  @change="updateScore(match.fid,index1)"><span v-else>{{match.AwayScore}}</span>
       		    </td>
 				<td v-if="isHideLocation !=  false">

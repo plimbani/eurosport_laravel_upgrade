@@ -2,13 +2,15 @@
   <div>
     <div class="row">
       <div class="col-md-12">
-         <table class="table table-hover table-bordered add-category-table">
+         <table class="table table-hover table-bordered add-category-table" style="font-size:93%;">
           <thead>
               <tr>
-                  <th class="text-center">{{$lang.summary_table_heading_date_sent}}</th>
+
+                  <th class="text-center" style="width:160px;">{{$lang.summary_table_heading_date_sent}}</th>
                   <th class="text-center">{{$lang.summary_table_heading_message}}</th>
                   <th class="text-center">{{$lang.summary_table_heading_sender}}</th>
                   <th class="text-center">{{$lang.summary_table_heading_tournament}}</th>
+                  <th class="text-center">{{$lang.summary_table_heading_status}}</th>
                   <th class="text-center">{{$lang.summary_table_heading_details}}</th>
               </tr>
           </thead>
@@ -18,6 +20,8 @@
                   <td class="text-center">{{message.content}}</td>
                   <td class="text-center">{{message.sender.email}}</td>
                   <td class="text-center">{{message.tournament.name}}</td>
+                  <td class="text-center" v-if="message.status == 'queued' ">Draft</td>
+                  <td class="text-center" v-else>Sent</td>
                   <td class="text-center">
                     <a href="#" @click="messageDetails(index)" class="text-primary"><i class="jv-icon jv-find-doc text-decoration icon-big"></i></a>
                   </td>
@@ -43,6 +47,7 @@
 import Tournament from '../api/tournament.js'
 import AddMessageModel from './AddMessageModel.vue'
 import AddMessageDetailsModel from './AddMessageDetailsModel.vue'
+
 export default {
   data() {
     return {

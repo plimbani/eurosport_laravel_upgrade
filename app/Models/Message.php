@@ -45,10 +45,10 @@ class Message extends Model
      */
     public function receiver()
     {
-        return $this->belongsto('Laraspace\Models\User', 'sent_to_user')->withTrashed();
-        // return $this->hasMany('App\Models\MessageRecipient');
+        // return $this->belongsto('Laraspace\Models\User', 'sent_to_user')->withTrashed();
+        return $this->hasMany('Laraspace\Models\MessageRecipient');
     }
-
+       
     /**
      * The sender that sent to the message.
      */

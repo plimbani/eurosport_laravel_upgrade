@@ -582,8 +582,28 @@ class MatchRepository
     }
     public function assignReferee($data)
     {
-      return TempFixture::where('id',$matchId)
-                  ->update(['referee_id' => '0']);
+      // dd($data);
+      $matchData = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
+                  ->where('match_endtime','>=',$data['matchStartDate'])
+                  ->where('tournament_id',$data['tournamentId'])
+                  ->where('is_scheduled',1)
+                  ->where('pitch_id',$data['pitchId'])
+                  ->Where(function($query){
+                      $query->where('referee_id',NULL)
+                            ->orWhere('referee_id',0);
+
+                  })
+                  ->first();
+                 // dd($matchData);
+        if($matchData){
+          return  $matchData->update(
+                      ['referee_id' => $data['refereeId']]
+                      );
+           // return $matchData;
+        }else{
+          // dd('hi');
+          return false;
+        }
     }
     public function saveResult($data)
     {
