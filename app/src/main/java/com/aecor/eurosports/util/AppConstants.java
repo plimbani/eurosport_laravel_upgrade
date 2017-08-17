@@ -53,4 +53,7 @@ public class AppConstants {
     public static final String ARG_TWITTER = "Twitter";
     public static final String GROUP_COMPETATION_TYPE_ELIMINATION = "Elimination";
     public static final String GROUP_COMPETATION_TYPE_ROUND_ROBIN = "Round Robin";
+    public static final String KEY_IS_SOUND = "is_sound";
+    public static final String KEY_IS_VIBRATION = "is_vibration";
+    public static final String KEY_IS_NOTIFICATION= "is_notification";
 }

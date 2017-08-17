@@ -151,7 +151,11 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
 
         try {
             if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_datetime())) {
-                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime()));
+                String language = mPreference.getString(AppConstants.LANGUAGE_SELECTION);
+                if (Utility.isNullOrEmpty(language)) {
+                    language = "en";
+                }
+                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime(), mPreference.getString(language)));
             } else {
                 team_match_date.setText("");
             }

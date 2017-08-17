@@ -1,9 +1,13 @@
 package com.aecor.eurosports.activity;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.util.AppPreference;
 
 /**
  * Created by system-local on 27-07-2017.
@@ -23,6 +28,8 @@ import com.aecor.eurosports.util.AppConstants;
 
 public class NewMessagePopupActivity extends Activity {
     private Context mContext;
+    private AppPreference mAppSharedPref;
+    private Vibrator v;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,13 +37,36 @@ public class NewMessagePopupActivity extends Activity {
         mContext = this;
         String message = getIntent().getExtras().getString(AppConstants.ARG_NEW_MESSAGE);
         String title = getIntent().getExtras().getString(AppConstants.ARG_NEW_MESSAGE_TITLE);
-        NotificationManager nManager = ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE));
-        nManager.cancelAll();
+        mAppSharedPref = AppPreference.getInstance(mContext);
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        showNewMessagePopup(message,title);
+        if (!mAppSharedPref.getBoolean(AppConstants.KEY_IS_NOTIFICATION)) {
+            finish();
+        } else {
+            if (mAppSharedPref.getBoolean(AppConstants.KEY_IS_VIBRATION)) {
+                vibratePhone();
+            }
+            if (mAppSharedPref.getBoolean(AppConstants.KEY_IS_SOUND)) {
+                playDefaultNotificationSound();
+            }
+            showNewMessagePopup(message, title);
+        }
+    }
+
+    private void awakeScreen() {
+        try {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showNewMessagePopup(String messageContent, String title) {
+        awakeScreen();
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View dialogView = inflater.inflate(R.layout.single_button_dialog, null);
@@ -69,6 +99,22 @@ public class NewMessagePopupActivity extends Activity {
         lp.width = width;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
+    }
+
+    private void vibratePhone() {
+        // Vibrate for 500 milliseconds
+        v.vibrate(500);
+    }
+
+    private void playDefaultNotificationSound() {
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            r.setStreamType(AudioManager.STREAM_ALARM);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

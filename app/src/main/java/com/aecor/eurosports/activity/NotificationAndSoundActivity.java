@@ -10,7 +10,9 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.util.ApiConstants;
+import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
+import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,6 +42,9 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
     @BindView(R.id.sc_notification)
     protected SwitchCompat sc_notification;
     private Context mContext;
+    private AppPreference mAppSharedPref;
+
+
     CompoundButton.OnCheckedChangeListener ccl = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton,
@@ -84,6 +89,7 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
 
     protected void initView() {
         mContext = this;
+        mAppSharedPref = AppPreference.getInstance(mContext);
         getSettingsParam();
         setListener();
         showBackButton(getString(R.string.notification_and_sounds));
@@ -129,19 +135,26 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
 
                                         if (mValue.has("is_sound") && !Utility.isNullOrEmpty(mValue.getString("is_sound")) && mValue.getString("is_sound").equalsIgnoreCase("true")) {
                                             sc_sound.setChecked(true);
+                                            mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, true);
                                         } else {
                                             sc_sound.setChecked(false);
+                                            mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, false);
                                         }
 
                                         if (mValue.has("is_vibration") && !Utility.isNullOrEmpty(mValue.getString("is_vibration")) && mValue.getString("is_vibration").equalsIgnoreCase("true")) {
                                             sc_vibration.setChecked(true);
+                                            mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, true);
                                         } else {
                                             sc_vibration.setChecked(false);
+                                            mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, false);
                                         }
+
                                         if (mValue.has("is_notification") && !Utility.isNullOrEmpty(mValue.getString("is_notification")) && mValue.getString("is_notification").equalsIgnoreCase("true")) {
                                             sc_notification.setChecked(true);
+                                            mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, true);
                                         } else {
                                             sc_notification.setChecked(false);
+                                            mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, false);
                                         }
 
                                         setListener();
@@ -183,18 +196,24 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
             JSONObject mUserSettings = new JSONObject();
             if (sc_sound.isChecked()) {
                 mUserSettings.put("is_sound", "true");
+                mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, true);
             } else {
                 mUserSettings.put("is_sound", "false");
+                mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, false);
             }
             if (sc_vibration.isChecked()) {
                 mUserSettings.put("is_vibration", "true");
+                mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, true);
             } else {
                 mUserSettings.put("is_vibration", "false");
+                mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, false);
             }
             if (sc_notification.isChecked()) {
                 mUserSettings.put("is_notification", "true");
+                mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, true);
             } else {
                 mUserSettings.put("is_notification", "false");
+                mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, false);
             }
             mUserData.put("userSettings", mUserSettings);
             requestJson.put("userData", mUserData);
@@ -211,7 +230,6 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
                     Utility.StopProgress();
                     try {
                         AppLogger.LogE(TAG, "***** Post setting param response *****" + response.toString());
-
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
