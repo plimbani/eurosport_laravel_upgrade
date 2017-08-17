@@ -254,9 +254,9 @@ public class Utility {
     }
 
 
-    public static String getFormattedTournamentDate(String startDateStr, String endDateStr) {
+    public static String getFormattedTournamentDate(String startDateStr, String endDateStr, String language) {
         String torunamentFormatedDate = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale(language));
         try {
             int startYear;
             String startMonth;
@@ -271,13 +271,13 @@ public class Utility {
             mCal.setTime(start);
 
             startYear = mCal.get(Calendar.YEAR);
-            startMonth = mCal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+            startMonth = mCal.getDisplayName(Calendar.MONTH, Calendar.LONG,new Locale(language));
             startDate = mCal.get(Calendar.DAY_OF_MONTH);
 
             mCal.setTime(end);
 
             endYear = mCal.get(Calendar.YEAR);
-            endMonth = mCal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+            endMonth = mCal.getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale(language));
             endDate = mCal.get(Calendar.DAY_OF_MONTH);
 
             torunamentFormatedDate = startDate + " - " + endDate;
@@ -299,19 +299,19 @@ public class Utility {
         return torunamentFormatedDate;
     }
 
-    public static String getDateFromDateTime(String dateTime) throws ParseException {
+    public static String getDateFromDateTime(String dateTime, String language) throws ParseException {
 
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale(language));
         Date d = df.parse(dateTime);
-        df = new SimpleDateFormat("dd\nMMM", Locale.getDefault());
+        df = new SimpleDateFormat("dd\nMMM", new Locale(language));
         return df.format(d);
     }
 
-    public static String getDateTimeFromServerDate(String dateTime) throws ParseException {
+    public static String getDateTimeFromServerDate(String dateTime, String language) throws ParseException {
 
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale(language));
         Date d = df.parse(dateTime);
-        df = new SimpleDateFormat("dd MMMM   |   HH:mm", Locale.getDefault());
+        df = new SimpleDateFormat("dd MMMM   |   HH:mm", new Locale(language));
         return df.format(d);
     }
 

@@ -153,6 +153,28 @@ public class SignInActivity extends BaseActivity {
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
                             }
+                            if (jsonObject.has("settings")) {
+                                JSONObject mSettingsJson = jsonObject.getJSONObject("settings");
+                                if (mSettingsJson.has("value") && !Utility.isNullOrEmpty(mSettingsJson.getString("value"))) {
+                                    JSONObject mValue = new JSONObject(mSettingsJson.getString("value"));
+                                    if (mValue.has("is_sound") && !Utility.isNullOrEmpty(mValue.getString("is_sound")) && mValue.getString("is_sound").equalsIgnoreCase("true")) {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, true);
+                                    } else {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, false);
+                                    }
+
+                                    if (mValue.has("is_vibration") && !Utility.isNullOrEmpty(mValue.getString("is_vibration")) && mValue.getString("is_vibration").equalsIgnoreCase("true")) {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, true);
+                                    } else {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, false);
+                                    }
+                                    if (mValue.has("is_notification") && !Utility.isNullOrEmpty(mValue.getString("is_notification")) && mValue.getString("is_notification").equalsIgnoreCase("true")) {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, true);
+                                    } else {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, false);
+                                    }
+                                }
+                            }
                             checkIfNewTokenIsAvailable();
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}

@@ -132,7 +132,11 @@ public class HomeActivity extends BaseAppCompactActivity {
                 }
 
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournamentStartTime()) && !Utility.isNullOrEmpty(mTournamentList.get(position).getEnd_date())) {
-                    tv_tournamentDate.setText(Utility.getFormattedTournamentDate(mTournamentList.get(position).getStart_date(), mTournamentList.get(position).getEnd_date()));
+                    String language = mPreference.getString(AppConstants.LANGUAGE_SELECTION);
+                    if (Utility.isNullOrEmpty(language)) {
+                        language = "en";
+                    }
+                    tv_tournamentDate.setText(Utility.getFormattedTournamentDate(mTournamentList.get(position).getStart_date(), mTournamentList.get(position).getEnd_date(),language));
                     if (timer != null) {
                         timer.cancel();
                         timer = new Timer();

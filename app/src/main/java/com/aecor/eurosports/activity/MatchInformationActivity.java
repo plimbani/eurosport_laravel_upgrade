@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.TeamFixturesModel;
 import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -57,9 +58,11 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     protected TextView tv_winner_status;
     private TeamFixturesModel mTeamFixturesModel;
     private Context mContext;
+    private AppPreference mPreference;
 
     @Override
     protected void initView() {
+        mPreference = AppPreference.getInstance(mContext);
         showBackButton(getString(R.string.match_info));
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeScore())) {
             tv_team_score_1.setText(mTeamFixturesModel.getHomeScore());
@@ -148,7 +151,11 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
         try {
             if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_datetime())) {
-                tv_dateTime.setText(Utility.getDateTimeFromServerDate(mTeamFixturesModel.getMatch_datetime()));
+                String language = mPreference.getString(AppConstants.LANGUAGE_SELECTION);
+                if (Utility.isNullOrEmpty(language)) {
+                    language = "en";
+                }
+                tv_dateTime.setText(Utility.getDateTimeFromServerDate(mTeamFixturesModel.getMatch_datetime(), language));
             } else {
                 tv_dateTime.setText("");
             }

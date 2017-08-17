@@ -3,7 +3,6 @@ package com.aecor.eurosports;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
@@ -35,9 +34,6 @@ public class FirebaseDataReceiver extends WakefulBroadcastReceiver {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            // Vibrate for 500 milliseconds
-            v.vibrate(500);
             String messageContent = (String) intent.getExtras().get("gcm.notification.body");
             String messageTitle = (String) intent.getExtras().get("gcm.notification.title");
             Intent mNewMessagePopupIntent = new Intent(context, NewMessagePopupActivity.class);

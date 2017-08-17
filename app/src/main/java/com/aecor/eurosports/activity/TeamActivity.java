@@ -244,7 +244,6 @@ public class TeamActivity extends BaseAppCompactActivity {
         final ImageView team_flag = (ImageView) teamLeagueView.findViewById(R.id.team_flag);
 
 
-
         if (!Utility.isNullOrEmpty(mLeagueModel.getName())) {
             tv_group_name.setText(mLeagueModel.getName());
         } else {
@@ -323,7 +322,11 @@ public class TeamActivity extends BaseAppCompactActivity {
 
         try {
             if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_datetime())) {
-                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime()));
+                String language = mPreference.getString(AppConstants.LANGUAGE_SELECTION);
+                if (Utility.isNullOrEmpty(language)) {
+                    language = "en";
+                }
+                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime(), language));
             } else {
                 team_match_date.setText("");
             }
