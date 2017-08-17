@@ -66,7 +66,7 @@ class PushMessagesController extends BaseController
         $notificationBuilder = new PayloadNotificationBuilder($content);
         $notificationBuilder->setBody($content)
                             ->setTitle('Euro-Sportring')
-                            ->setSound('abc');
+                            ->setSound('');
 
         $dataBuilder = new PayloadDataBuilder();
         $dataBuilder->addData(['test_data' => $content]);
