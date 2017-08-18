@@ -7,7 +7,7 @@
             <div class="d-flex align-items-center">
 
               <button type="button" class="btn btn-primary mr-4" @click="generateMatchPrint()">{{$lang.pitch_modal_print}}</button>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal()">
                 <span aria-hidden="true">×</span>
               </button>
             </div>
@@ -122,7 +122,7 @@
               <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()">{{$lang.pitch_modal_unschedule}}</button>
             </div>
             <div class="">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.pitch_modal_cancel}}</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" @click="closeModal()">{{$lang.pitch_modal_cancel}}</button>
               <button type="button" class="btn btn-primary" @click="saveFixtureDetail()">{{$lang.pitch_modal_save}}</button>
             </div>
 
