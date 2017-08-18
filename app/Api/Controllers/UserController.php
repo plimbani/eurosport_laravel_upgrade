@@ -181,9 +181,14 @@ class UserController extends BaseController
       // dd($userData->name);
       $email_details['name'] = $userData->personDetail->first_name;
       $email_details['token'] =  $userData->token;
+      $email_details['is_mobile_user'] = 0;
       $recipient = $userData->email;
+      if($userData->is_mobile_user == 1) {
+       //   $email_templates = 'emails.users.mobile_create';
+          // $email_msg = 'Euro-Sportring email verification';
+          $email_details['is_mobile_user'] = 1;
+      }
       // dd($email_details,$recipient);
-
       Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
       // return redirect('/login');
     }
