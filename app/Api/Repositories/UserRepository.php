@@ -5,7 +5,6 @@ namespace Laraspace\Api\Repositories;
 use Laraspace\Models\User;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Settings;
-
 use DB;
 use Hash;
 
@@ -123,63 +122,6 @@ class UserRepository {
 
          return  $user->get();
     }
-
-    // public function getUserTableData($data)
-    // {
-    //     $registerType = $data['registerType'];
-
-    //     if($registerType=="desktop") {
-    //         $isMobileUser=0;
-    //     } else if($registerType=="mobile") {
-    //         $isMobileUser=1;
-    //     }
-
-    //     $user = User::with(["personDetail", "roles"])
-    //                 ->where('users.is_mobile_user', $isMobileUser);
-
-    //     if(isset($data['userData'])) {
-    //         $user->where(function($query) use($data) {
-    //             $query->where('users.email', 'like', "%" . $data['userData'] . "%")
-    //                 ->orWhereHas('personDetail', function ($query1) use($data) {
-    //                     if(isset($data['userData'])) {
-    //                         $query1->where('people.first_name', 'like', "%" . $data['userData'] . "%");
-    //                     }
-    //                     if(isset($data['userData'])) {
-    //                         $query1->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
-    //                     }
-    //                 });
-    //         });
-    //     }
-    //     $user->orderBy('users.created_at','desc');
-
-    //     $dataArray = array();
-
-    //     if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
-
-    //         foreach ($userData as $user) {
-    //             $ddata = [
-    //                 $user->email,
-    //                 $user->organisation,
-    //             ];
-    //             array_push($dataArray, $ddata);
-    //         }
-    //          $otherParams = [
-    //                 'sheetTitle' =>"UserReport",
-    //                 'sheetName' => "UserReport",
-    //                 'boldLastRow' => false
-    //             ];
-
-    //         $lableArray = [
-    //             'Name','Surname' ,'Emailaddress', 'Organisation','User type', 'Status'
-    //         ];
-    //         //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
-    //     \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
-    //      }
-    //    return  $user->get();
-    //     if ($userData) {
-    //         return ['status_code' => '200', 'message' => '','data'=>$userData];
-    //     }
-    // }
 
     public function create($data)
     {
