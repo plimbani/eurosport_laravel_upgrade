@@ -123,6 +123,10 @@ class MailMessage extends SimpleMessage
         return $this;
     }
 
+    public $cc = [];
+
+    public $bcc = [];
+
     /**
      * Attach a file to the message.
      *
