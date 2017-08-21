@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-lg" id="messageDetail" role="document">
       <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Message Details</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{$lang.summary_message_popup_messagedetails}}</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">×</span>
               </button>
@@ -12,7 +12,7 @@
           <div class="modal-body">
           <form name="addMessage" id="addMessage" class="col-md-6 mt-4">
             <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">Status</div>
+              <div class="col-sm-4 form-control-label">{{$lang.summary_table_heading_status}}</div>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12" v-if="messageDetail.status == 'queued'">
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">Date</div>
+              <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_date}}</div>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group text-left">
               <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">Sender</div>
+                <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_sender}}</div>
                   <div class="col-sm-8">
                     <div class="row">
                       <div class="col-sm-12">
@@ -48,7 +48,7 @@
             </div>
             <div class="form-group text-left" v-if="messageDetail.status == 'queued'">
               <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">Message</div>
+              <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
               <div class="col-sm-12">
                     <div class="row">
                       <div class="col-sm-12">
@@ -68,7 +68,7 @@
             </div>
             <div v-else class="form-group text-left">
                 <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">Message</div>
+              <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
@@ -78,13 +78,18 @@
                 </div>
             </div>
             </div>
-            <div class="form-group text-left">
+            <div class="form-group text-left" v-if="messageDetail.status == 'sent' ">
               <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">Sent to</div>
+                <div class="col-sm-4 form-control-label">{{$lang.summary_table_heading_status_to}}</div>
                   <div class="col-sm-8">
-                    <div class="row">
-                      <div class="col-sm-12">
+                    <div class="row" v-if="messageDetail.receiver">
+                      <div class="col-sm-12" >
                         {{sentUser}}
+                      </div>
+                    </div>
+                    <div class="row" v-else>
+                      <div class="col-sm-12" >
+                        -
                       </div>
                     </div>
                   </div>

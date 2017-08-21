@@ -151,7 +151,7 @@ class UserService implements UserContract
           $this->userRepoObj->createUserFavourites($userFavouriteData);
           // Also Add settings Data
           $userSettings['user_id'] = $user_id;
-          $userSettings['value'] = '{"is_sound":"false","is_vibration":"false","is_notification":"false"}';
+          $userSettings['value'] = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
            $this->userRepoObj->createUserSettings($userSettings);
         //  return ['status_code' => '200', 'message' => 'Mobile Data Sucessfully Inserted'];
         }

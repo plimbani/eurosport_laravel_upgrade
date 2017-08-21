@@ -212,6 +212,8 @@ class UserRepository {
     }
     public function postSetting($userData)
     {
+        
+      \Log::info($userData);
       $userId= $userData['userId'];
       $updatedValue = ['value' => json_encode($userData['userSettings'])];
 
