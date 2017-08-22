@@ -36,7 +36,7 @@
                   <a href="javascript:void(0)"
                   data-confirm-msg="Are you sure you would like to delete this user record?"
                   data-toggle="modal"
-                  data-t arget="#delete_modal"
+                  data-target="#delete_modal"
                   @click="prepareDeleteResource(competation.id)">
                   <i class="jv-icon jv-dustbin"></i></a>
                 </span>
