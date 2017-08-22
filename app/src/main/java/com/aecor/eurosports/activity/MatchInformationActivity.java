@@ -34,16 +34,12 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     protected TextView tv_team_score_1;
     @BindView(R.id.tv_team_name_1)
     protected TextView tv_team_name_1;
-    @BindView(R.id.tv_team_country_1)
-    protected TextView tv_team_country_1;
     @BindView(R.id.iv_team_flag_1)
     protected ImageView iv_team_flag_1;
     @BindView(R.id.tv_team_score_2)
     protected TextView tv_team_score_2;
     @BindView(R.id.tv_team_name_2)
     protected TextView tv_team_name_2;
-    @BindView(R.id.tv_team_country_2)
-    protected TextView tv_team_country_2;
     @BindView(R.id.iv_team_flag_2)
     protected ImageView iv_team_flag_2;
     @BindView(R.id.tv_dateTime)
@@ -54,6 +50,8 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     protected TextView tv_match_id;
     @BindView(R.id.tv_venue)
     protected TextView tv_venue;
+    @BindView(R.id.tv_referee_name)
+    protected TextView tv_referee_name;
     @BindView(R.id.tv_winner_status)
     protected TextView tv_winner_status;
     private TeamFixturesModel mTeamFixturesModel;
@@ -85,17 +83,12 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
             tv_team_name_2.setText("");
         }
 
-        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeCountryName())) {
-            tv_team_country_1.setText(mTeamFixturesModel.getHomeCountryName());
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getReferee_name())) {
+            tv_referee_name.setVisibility(View.VISIBLE);
+            tv_referee_name.setText(mTeamFixturesModel.getReferee_name());
         } else {
-            tv_team_country_1.setText("");
+            tv_referee_name.setVisibility(View.GONE);
         }
-        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getAwayCountryName())) {
-            tv_team_country_2.setText(mTeamFixturesModel.getAwayCountryName());
-        } else {
-            tv_team_country_2.setText("");
-        }
-
         String mStatusAndWinnerStr = "";
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_status())) {

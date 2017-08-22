@@ -34,8 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="1dp"
                     android:background="@color/view_line"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -44,13 +43,27 @@
                         android:src="@drawable/ic_arrow_left_black"
                         android:visibility="gone" />
 
-                    <TextView
-                        android:id="@+id/tv_tournamentDate"
-                        style="@style/text_black_sub_title"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/matches"
-                        android:textStyle="bold" />
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/iv_tournament_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="left|center"
+                            android:padding="10dp"
+                            android:src="@drawable/icon_tournament_detail" />
+
+                        <TextView
+                            android:id="@+id/tv_tournamentDate"
+                            style="@style/text_black_sub_title"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/matches"
+                            android:textStyle="bold" />
+                    </FrameLayout>
 
                     <ImageView
                         android:layout_width="wrap_content"

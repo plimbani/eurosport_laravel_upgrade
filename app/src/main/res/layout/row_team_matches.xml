@@ -73,7 +73,7 @@
                         android:id="@+id/team1_score"
                         style="@style/text_black_small"
                         android:ellipsize="end"
-                        android:gravity="left"
+                        android:gravity="right"
                         android:includeFontPadding="false"
                         android:lines="1"
                         android:textStyle="bold" />
@@ -83,7 +83,7 @@
                         style="@style/text_black_small"
                         android:layout_marginTop="2dp"
                         android:ellipsize="end"
-                        android:gravity="left"
+                        android:gravity="right"
                         android:includeFontPadding="false"
                         android:lines="1"
                         android:textStyle="bold" />

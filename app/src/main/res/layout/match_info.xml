@@ -98,12 +98,7 @@
                                 android:layout_gravity="center"
                                 android:layout_margin="5dp" />
 
-                            <TextView
-                                android:id="@+id/tv_team_country_1"
-                                style="@style/text_black_sub_title"
-                                android:layout_width="wrap_content"
-                                android:layout_marginLeft="2dp"
-                                android:textStyle="bold" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -120,12 +115,6 @@
                                 android:layout_gravity="center"
                                 android:layout_margin="5dp" />
 
-                            <TextView
-                                android:id="@+id/tv_team_country_2"
-                                style="@style/text_black_sub_title"
-                                android:layout_width="wrap_content"
-                                android:layout_marginLeft="2dp"
-                                android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -150,6 +139,13 @@
                         android:gravity="center"
                         android:textColor="@color/gray_text"
                         android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/tv_referee_name"
+                        style="@style/text_black_small"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:textColor="@color/gray_text" />
 
                     <TextView
                         android:id="@+id/tv_age_and_group_info"
