@@ -425,7 +425,7 @@ public class HomeActivity extends BaseAppCompactActivity {
         }
 
         if (!Utility.isNullOrEmpty(mTournamentList.get(tournamentPosition).getTelephone())) {
-            mEuroSportsContactDetails = mEuroSportsContactDetails + "<br><br>" + getString(R.string.contact_number) + "<a href=tel:" + mTournamentList.get(tournamentPosition).getTelephone() + ">" + mTournamentList.get(tournamentPosition).getTelephone() + "</a>";
+            mEuroSportsContactDetails = mEuroSportsContactDetails + "<br><br>" + getString(R.string.contact_number) + " <a href=tel:" + mTournamentList.get(tournamentPosition).getTelephone() + ">" + mTournamentList.get(tournamentPosition).getTelephone() + "</a>";
         }
 
         ViewDialog.showContactDialog((Activity) mContext, getString(R.string.euro_sportring_contact), mEuroSportsContactDetails, getString(R.string.close), getString(R.string.cancel), new ViewDialog.CustomDialogInterface() {

@@ -58,13 +58,13 @@ public class FavouriteListAdapter extends BaseAdapter {
         mContext = context;
 
         this.mTournamentList = list;
-        Collections.sort(mTournamentList, new Comparator<TournamentModel>() {
+        /*Collections.sort(mTournamentList, new Comparator<TournamentModel>() {
             @Override
             public int compare(TournamentModel lhs, TournamentModel rhs) {
                 //here getTitle() method return app name...
                 return lhs.getStart_date().compareTo(rhs.getStart_date());
             }
-        });
+        });*/
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mFavTournamentList = favlist;
