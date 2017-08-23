@@ -1,0 +1,127 @@
+<resources>
+    <string name="app_name">Euro-Sportring</string>
+    <string name="create_account">Oprette en konto</string>
+    <string name="sign_in">Logge ind</string>
+    <string name="update">Opdatere</string>
+    <string name="favorites">Favoritter</string>
+    <string name="tournament">Turneringer</string>
+    <string name="clubs">KLUBBER</string>
+    <string name="teams">HOLD</string>
+    <string name="team">HOLD</string>
+    <string name="match_info">Kampinformation</string>
+    <string name="settings">Indstillinger</string>
+    <string name="title_activity_favourites">Favoritter</string>
+    <string name="loading">Oploader</string>
+    <string name="email_address">E-mail-adresse</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Glemt password?</string>
+    <string name="create_new_account">Oprette ny konto</string>
+    <string name="confirm_password">Bekræft password</string>
+    <string name="surname">Efternavn</string>
+    <string name="firstname">Fornavn</string>
+    <string name="error">Fejl</string>
+    <string name="button_ok">Ok</string>
+    <string name="select_tournament">Vælg turnering</string>
+    <string name="select_default_tournament">Vælg standardturnering</string>
+    <string name="select_language">Vælg sprog</string>
+    <string name="register_success">Se i din indbakke for at bekræfte din e-mail-adresse og afslutte din kontooprettelse.</string>
+    <string name="update_profile_message">Profil opdateret.</string>
+    <string name="default_tournament">Standardturnering valgt</string>
+    <string name="an_otp_will_be_sent_to_mention_email_address">Skriv din e-mail-adresse her, så sender vi dig en e-mail, så du kan oprette et nyt password.</string>
+    <string name="logout">Log ud</string>
+    <string name="notification_and_sounds">Meldinger og lyde</string>
+    <string name="help">Hjælp</string>
+    <string name="privacy_terms">Privacy &amp; betingelser</string>
+    <string name="profile">Profil</string>
+    <string name="email">Email</string>
+    <string name="first_name">Fornavn</string>
+    <string name="last_name">Efternavn</string>
+    <string name="sound_notification">Lyd</string>
+    <string name="vibration_notification">Vibrering</string>
+    <string name="notification">Melding</string>
+    <string name="view_club_match">Se alle klubkampe</string>
+    <string name="view_league_table">Se hele kampoversigten</string>
+    <string name="league_table">Klassement</string>
+    <string name="no_data_available">Intet resultat fundet</string>
+    <string name="venue">Sted</string>
+    <string name="G">G</string>
+    <string name="W">W</string>
+    <string name="D">D</string>
+    <string name="L">L</string>
+    <string name="F_A">F-A</string>
+    <string name="A">A</string>
+    <string name="F">F</string>
+    <string name="plus_minus">+/-</string>
+    <string name="P">P</string>
+    <string name="matches">Kampe</string>
+    <string name="game_information">Kampinformation</string>
+    <string name="days">Dage</string>
+    <string name="hours">Timer</string>
+    <string name="minutes">Minutter</string>
+    <string name="seconds">Sekunder</string>
+    <string name="CLUBS">KLUBBER</string>
+    <string name="no_matches_available">Ingen kampe fundet</string>
+    <string name="no_league_data_available">Ingen ligadata fundet</string>
+    <string name="hint_search_age_group">Søg aldersgrupper</string>
+    <string name="hint_search_club">Søg klubber</string>
+    <string name="hint_search_groups">Søg grupper</string>
+    <string name="view_on_map">Se på kort</string>
+    <string name="no_internet">Ingen internetforbindelse</string>
+    <string name="internet_message">Ingen internetforbindelse fundet.</string>
+    <string name="na">Postnr.</string>
+    <string name="team_matches">Holdkampe</string>
+    <string name="password_do_not_match">De indtastede passwords passer ikke</string>
+    <string name="set_favourite">Favorit</string>
+    <string name="set_defaault">Standard</string>
+    <string name="confirm">Bekræfte</string>
+    <string name="cancel">Annullere</string>
+    <string name="are_you_sure_you_want_to_log_out">Er du sikker på du vil logge ud?</string>
+    <string name="we_have_sent_password_reset_link">Vi har sendt et link til oprettelse af et nyt password til e-mail-adressen.</string>
+    <string name="new_message">Ny besked</string>
+    <string name="close">Luk</string>
+    <string name="is_the_winner">er vinder</string>
+    <string name="deafult_tournament_cannot_be_removed_from_favourite">Standardturneringer kan ikke fjernes fra favoritter.</string>
+    <string name="title_activity_venue_map">Se på kort</string>
+
+    <!--Volley-->
+
+    <!--Language-->
+    <string name="english">Engelsk</string>
+    <string name="french">Fransk</string>
+    <string name="italian">Italiensk</string>
+    <string name="german">Tysk</string>
+    <string name="dutch">Hollandsk</string>
+    <string name="czech">Tjekkisk</string>
+    <string name="danish">Dansk</string>
+    <string name="polish">Polsk</string>
+
+    <string-array name="clubs_tabs">
+        <item>@string/CLUBS</item>
+        <item>@string/AGE</item>
+        <item>@string/GROUPS</item>
+    </string-array>
+
+    <string-array name="language_selection">
+        <item>@string/english</item>
+        <item>@string/french</item>
+        <item>@string/italian</item>
+        <item>@string/german</item>
+        <item>@string/dutch</item>
+        <item>@string/czech</item>
+        <item>@string/danish</item>
+        <item>@string/polish</item>
+    </string-array>
+
+    <string-array name="language_locale_keys">
+        <item>en</item>
+        <item>fr</item>
+        <item>it</item>
+        <item>de</item>
+        <item>nl</item>
+        <item>cs</item>
+        <item>da</item>
+        <item>pl</item>
+    </string-array>
+    <string name="GROUPS">GRUPPER</string>
+    <string name="age_categories">Aldersgrupper</string>
+</resources>
