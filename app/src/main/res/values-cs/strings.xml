@@ -50,7 +50,6 @@
     <string name="W">W</string>
     <string name="D">D</string>
     <string name="L">L</string>
-    <string name="F_A">F-A</string>
     <string name="A">A</string>
     <string name="F">F</string>
     <string name="plus_minus">+/-</string>
@@ -65,7 +64,7 @@
     <string name="GROUPS">SKUPINY</string>
     <string name="no_matches_available">Nejsou k dispozici žádné zápasy</string>
     <string name="no_league_data_available">Nejsou k dispozici data o lize</string>
-    <string name="hint_search_age_group">Hledat věkovou kategorii</string>
+    <string name="hint_search_age_category">Hledat věkovou kategorii</string>
     <string name="hint_search_club">Hledat kluby</string>
     <string name="hint_search_groups">Hledat skupiny</string>
     <string name="view_on_map">Zobrazit na mapě</string>
@@ -100,7 +99,7 @@
 
     <string-array name="clubs_tabs">
         <item>@string/CLUBS</item>
-        <item>@string/AGE</item>
+        <item>@string/CATEGORY</item>
         <item>@string/GROUPS</item>
     </string-array>
 

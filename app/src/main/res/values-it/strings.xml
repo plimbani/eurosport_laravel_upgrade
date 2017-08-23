@@ -50,7 +50,6 @@
     <string name="W">W</string>
     <string name="D">D</string>
     <string name="L">L</string>
-    <string name="F_A">F-A</string>
     <string name="A">A</string>
     <string name="F">F</string>
     <string name="plus_minus">+/-</string>
@@ -65,7 +64,7 @@
     <string name="GROUPS">GRUPPI</string>
     <string name="no_matches_available">Nessuna partita disponibile</string>
     <string name="no_league_data_available">Nessun dato serie disponibile</string>
-    <string name="hint_search_age_group">Cerca categoria d\\\'età</string>
+    <string name="hint_search_age_category">Cerca categoria d\'età</string>
     <string name="hint_search_club">Cerca club</string>
     <string name="hint_search_groups">Cerca gruppi</string>
     <string name="view_on_map">Vedi su mappa</string>
@@ -100,7 +99,7 @@
 
     <string-array name="clubs_tabs">
         <item>@string/CLUBS</item>
-        <item>@string/AGE</item>
+        <item>@string/CATEGORY</item>
         <item>@string/GROUPS</item>
     </string-array>
 

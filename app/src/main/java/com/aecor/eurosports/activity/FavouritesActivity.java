@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -169,6 +170,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
         if (mFavTournamentList != null) {
             favList.addAll(Arrays.asList(mFavTournamentList));
         }
+        Collections.reverse(list);
         FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, list, favList);
         favouriteList.setAdapter(adapter);
     }

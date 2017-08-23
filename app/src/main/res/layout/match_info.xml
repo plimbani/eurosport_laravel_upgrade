@@ -65,14 +65,14 @@
                         <TextView
                             android:id="@+id/tv_team_name_1"
                             style="@style/text_black_sub_title"
-                            android:layout_gravity="center"
+                            android:layout_gravity="center_horizontal"
                             android:layout_weight="1"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_team_name_2"
                             style="@style/text_black_sub_title"
-                            android:layout_gravity="center"
+                            android:layout_gravity="center_horizontal"
                             android:layout_weight="1"
                             android:textStyle="bold" />
                     </LinearLayout>
