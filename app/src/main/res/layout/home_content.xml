@@ -53,7 +53,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="left|center"
                             android:padding="10dp"
-                            android:src="@drawable/icon_tournament_detail" />
+                            android:src="@drawable/icon_tournament_details" />
 
                         <TextView
                             android:id="@+id/tv_tournamentDate"
