@@ -5,7 +5,6 @@
     <string name="update">Update</string>
     <string name="favorites">Favourites</string>
     <string name="tournament">Tournament</string>
-    <string name="clubs">Clubs</string>
     <string name="teams">Teams</string>
     <string name="team">Team</string>
     <string name="match_info">Match Info</string>
@@ -44,21 +43,19 @@
     <string name="delete">Delete</string>
     <string name="email">Email</string>
     <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
     <string name="sound_notification">Sound</string>
     <string name="vibration_notification">Vibration</string>
-    <string name="notification">Notification</string>
+    <string name="notification">Push notifications</string>
     <string name="view_club_match">View all club matches</string>
     <string name="view_league_table">View full league table</string>
     <string name="league_table">league table</string>
     <string name="no_data_available">No data available</string>
     <string name="venue">Venue</string>
-    <string name="group_summary">GROUP SUMMARY</string>
+    <string name="group_summary">GROUP</string>
     <string name="G">G</string>
     <string name="W">W</string>
     <string name="D">D</string>
     <string name="L">L</string>
-    <string name="F_A">F-A</string>
     <string name="A">A</string>
     <string name="F">F</string>
     <string name="plus_minus">+/-</string>
@@ -70,18 +67,17 @@
     <string name="minutes">Minutes</string>
     <string name="seconds">Seconds</string>
     <string name="CLUBS">CLUBS</string>
-    <string name="AGE">AGE</string>
+    <string name="CATEGORY">CATEGORY</string>
     <string name="GROUPS">GROUPS</string>
     <string name="match_id">Match ID:</string>
     <string name="progres_text_0">0</string>
     <string name="no_matches_available">No matches available</string>
     <string name="no_league_data_available">No league data available</string>
-    <string name="hint_search_age_group">Search age group</string>
+    <string name="hint_search_age_category">Search age category</string>
     <string name="hint_search_club">Search clubs</string>
     <string name="hint_search_groups">Search groups</string>
     <string name="view_on_map">View on map</string>
     <string name="password_updated_successfully">Password updated successfully.</string>
-    <string name="profile_image_updated_successfully">Profile image updated successfully.</string>
     <string name="please_enter_valid_otp">Please enter valid OTP.</string>
     <string name="no_internet">No internet connection</string>
     <string name="internet_message">Internet connection is not detected.</string>
@@ -98,11 +94,14 @@
     <string name="pitch_name">Pitch:</string>
     <string name="address">Address:</string>
     <string name="pitch_type">Type:</string>
-    <string name="new_message">New Message</string>
     <string name="close">Close</string>
     <string name="is_the_winner">is the winner</string>
     <string name="deafult_tournament_cannot_be_removed_from_favourite">Default tournament cannot be removed from favourite.</string>
     <string name="title_activity_venue_map">Venue map</string>
+    <string name="placing_matches_summary">PLACING MATCHES SUMMARY</string>
+    <string name="euro_sportring_contact">Euro-Sportring Contact</string>
+    <string name="name">Name:</string>
+    <string name="contact_number">Contact number:</string>
 
     <!--Volley-->
 
@@ -118,7 +117,7 @@
 
     <string-array name="clubs_tabs">
         <item>@string/CLUBS</item>
-        <item>@string/AGE</item>
+        <item>@string/CATEGORY</item>
         <item>@string/GROUPS</item>
     </string-array>
 

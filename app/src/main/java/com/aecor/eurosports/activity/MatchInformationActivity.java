@@ -6,12 +6,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.model.TeamFixturesModel;
 import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -32,16 +34,12 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     protected TextView tv_team_score_1;
     @BindView(R.id.tv_team_name_1)
     protected TextView tv_team_name_1;
-    @BindView(R.id.tv_team_country_1)
-    protected TextView tv_team_country_1;
     @BindView(R.id.iv_team_flag_1)
     protected ImageView iv_team_flag_1;
     @BindView(R.id.tv_team_score_2)
     protected TextView tv_team_score_2;
     @BindView(R.id.tv_team_name_2)
     protected TextView tv_team_name_2;
-    @BindView(R.id.tv_team_country_2)
-    protected TextView tv_team_country_2;
     @BindView(R.id.iv_team_flag_2)
     protected ImageView iv_team_flag_2;
     @BindView(R.id.tv_dateTime)
@@ -52,13 +50,17 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     protected TextView tv_match_id;
     @BindView(R.id.tv_venue)
     protected TextView tv_venue;
+    @BindView(R.id.tv_referee_name)
+    protected TextView tv_referee_name;
     @BindView(R.id.tv_winner_status)
     protected TextView tv_winner_status;
     private TeamFixturesModel mTeamFixturesModel;
     private Context mContext;
+    private AppPreference mPreference;
 
     @Override
     protected void initView() {
+        mPreference = AppPreference.getInstance(mContext);
         showBackButton(getString(R.string.match_info));
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeScore())) {
             tv_team_score_1.setText(mTeamFixturesModel.getHomeScore());
@@ -80,16 +82,18 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         } else {
             tv_team_name_2.setText("");
         }
-
-        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeCountryName())) {
-            tv_team_country_1.setText(mTeamFixturesModel.getHomeCountryName());
-        } else {
-            tv_team_country_1.setText("");
+        String referee_name = "";
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getFirst_name())) {
+            referee_name = mTeamFixturesModel.getFirst_name() + " ";
         }
-        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getAwayCountryName())) {
-            tv_team_country_2.setText(mTeamFixturesModel.getAwayCountryName());
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getLast_name())) {
+            referee_name = referee_name + mTeamFixturesModel.getLast_name();
+        }
+        if (!Utility.isNullOrEmpty(referee_name)) {
+            tv_referee_name.setVisibility(View.VISIBLE);
+            tv_referee_name.setText(referee_name);
         } else {
-            tv_team_country_2.setText("");
+            tv_referee_name.setVisibility(View.GONE);
         }
 
         String mStatusAndWinnerStr = "";
@@ -105,8 +109,10 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mStatusAndWinnerStr)) {
             mStatusAndWinnerStr = mStatusAndWinnerStr + " " + getString(R.string.is_the_winner);
             tv_winner_status.setText(mStatusAndWinnerStr);
+            tv_winner_status.setVisibility(View.VISIBLE);
         } else {
             tv_winner_status.setText("");
+            tv_winner_status.setVisibility(View.GONE);
         }
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeFlagLogo())) {
@@ -145,7 +151,11 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
         try {
             if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_datetime())) {
-                tv_dateTime.setText(Utility.getDateTimeFromServerDate(mTeamFixturesModel.getMatch_datetime()));
+                String language = mPreference.getString(AppConstants.LANGUAGE_SELECTION);
+                if (Utility.isNullOrEmpty(language)) {
+                    language = "en";
+                }
+                tv_dateTime.setText(Utility.getDateTimeFromServerDate(mTeamFixturesModel.getMatch_datetime(), language));
             } else {
                 tv_dateTime.setText("");
             }

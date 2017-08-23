@@ -8,9 +8,9 @@ public class AppConstants {
     public static final int MAX_IMAGE_WIDTH = 60;
     public static final int MAX_IMAGE_HEIGHT = 60;
     public static final int MAX_IMAGE_WIDTH_1 = 100;
-    public static final int MAX_IMAGE_HEIGHT_1 = 80;
-    public static final int MAX_IMAGE_WIDTH_LARGE = 250;
-    public static final int MAX_IMAGE_HEIGHT_LARGE = 250;
+    public static final int MAX_IMAGE_HEIGHT_1 = 100;
+    public static final int MAX_IMAGE_WIDTH_LARGE = 230;
+    public static final int MAX_IMAGE_HEIGHT_LARGE = 230;
 
     public static final String FIREBASE_TOKEN = "firebase_token";
     public static final String FACEBOOK_URL = "https://www.facebook.com/eurosportring/";
@@ -42,13 +42,18 @@ public class AppConstants {
     public static final String ARG_FULL_LEAGUE_TABLE_DETAIL = "full_league_table_detail";
     public static final String ARG_MATCH_INFO = "match_info";
     public static final String ARG_GROUP_NAME = "group_name";
-    public static final String ARG_TEAM_ID= "team_id";
-    public static final String ARG_NEW_MESSAGE= "arg_new_message";
-    public static final String ARG_NEW_MESSAGE_TITLE= "arg_new_message_title";
+    public static final String ARG_TEAM_ID = "team_id";
+    public static final String ARG_NEW_MESSAGE = "arg_new_message";
+    public static final String ARG_NEW_MESSAGE_TITLE = "arg_new_message_title";
     public static final String LANGUAGE_SELECTION = "language_selection";
     public static final String LANGUAGE_POSITION = "language_position";
     public static final String ARG_FORGOT_PASSWORD_OTP = "forgot_password_otp";
     public static final String ARG_FACEBOOK = "Facebook";
     public static final String ARG_INSTAGRAM = "Instagram";
-    public static final String ARG_TWITTER= "Twitter";
+    public static final String ARG_TWITTER = "Twitter";
+    public static final String GROUP_COMPETATION_TYPE_ELIMINATION = "Elimination";
+    public static final String GROUP_COMPETATION_TYPE_ROUND_ROBIN = "Round Robin";
+    public static final String KEY_IS_SOUND = "is_sound";
+    public static final String KEY_IS_VIBRATION = "is_vibration";
+    public static final String KEY_IS_NOTIFICATION= "is_notification";
 }

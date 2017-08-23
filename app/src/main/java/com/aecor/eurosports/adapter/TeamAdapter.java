@@ -69,9 +69,19 @@ public class TeamAdapter extends BaseAdapter {
             holder = (ViewHolder) rowview.getTag();
         }
         TeamDetailModel rowItem = getItem(position);
+        String mTeamNameWithGroupName = "";
         if (!Utility.isNullOrEmpty(rowItem.getName())) {
-            holder.individual_list_item.setText(rowItem.getName());
+            mTeamNameWithGroupName = rowItem.getName();
         }
+
+        if (!Utility.isNullOrEmpty(rowItem.getCategoryAge())) {
+            if (!Utility.isNullOrEmpty(mTeamNameWithGroupName)) {
+                mTeamNameWithGroupName = mTeamNameWithGroupName + " ";
+            }
+            mTeamNameWithGroupName = mTeamNameWithGroupName + "(" + rowItem.getCategoryAge() + ")";
+        }
+        holder.individual_list_item.setText(mTeamNameWithGroupName);
+
         holder.iv_flag.setVisibility(View.VISIBLE);
         if (!Utility.isNullOrEmpty(rowItem.getCountryLogo())) {
             Glide.with(mContext)

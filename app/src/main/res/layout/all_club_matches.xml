@@ -6,14 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimaryDark"
-        android:title="@string/CLUBS"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+    <include layout="@layout/toolbar_header" />
 
     <ScrollView
         android:layout_width="match_parent"

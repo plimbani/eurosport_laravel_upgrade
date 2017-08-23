@@ -36,32 +36,6 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/team1_score"
-                        style="@style/text_black_small"
-                        android:ellipsize="end"
-                        android:gravity="left"
-                        android:includeFontPadding="false"
-                        android:lines="1"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/team2_score"
-                        style="@style/text_black_small"
-                        android:layout_marginTop="2dp"
-                        android:ellipsize="end"
-                        android:gravity="left"
-                        android:includeFontPadding="false"
-                        android:lines="1"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -79,9 +53,37 @@
                     <TextView
                         android:id="@+id/team2_name"
                         style="@style/text_black_small"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:ellipsize="end"
                         android:gravity="left"
+                        android:includeFontPadding="false"
+                        android:lines="1"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/team1_score"
+                        style="@style/text_black_small"
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:includeFontPadding="false"
+                        android:lines="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/team2_score"
+                        style="@style/text_black_small"
+                        android:layout_marginTop="2dp"
+                        android:ellipsize="end"
+                        android:gravity="right"
                         android:includeFontPadding="false"
                         android:lines="1"
                         android:textStyle="bold" />

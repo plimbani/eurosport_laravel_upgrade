@@ -161,12 +161,21 @@ public class ForgotPasswordActivity extends BaseActivity {
         return !(emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone));
     }
 
-    @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
+    @OnClick(R.id.iv_back)
+    protected void onBackButtonPressed() {
+        loadBackActivity();
+    }
+
+    private void loadBackActivity() {
         Intent mSignInIntent = new Intent(mContext, SignInActivity.class);
         startActivity(mSignInIntent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        loadBackActivity();
     }
 
     private class GenericTextMatcher implements TextWatcher {

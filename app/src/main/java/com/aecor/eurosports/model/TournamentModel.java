@@ -30,6 +30,9 @@ public class TournamentModel {
     private String tournament_id;
     private String tournamentLogo;
     private String TournamentStartTime;
+    private String first_name;
+    private String last_name;
+    private String telephone;
 
     public String getTournamentStartTime() {
         return TournamentStartTime;
@@ -221,5 +224,29 @@ public class TournamentModel {
 
     public void setDeleted_at(String deleted_at) {
         this.deleted_at = deleted_at;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 }

@@ -35,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,7 +56,15 @@ public class FavouriteListAdapter extends BaseAdapter {
 
     public FavouriteListAdapter(Activity context, List<TournamentModel> list, List<TournamentModel> favlist) {
         mContext = context;
+
         this.mTournamentList = list;
+        Collections.sort(mTournamentList, new Comparator<TournamentModel>() {
+            @Override
+            public int compare(TournamentModel lhs, TournamentModel rhs) {
+                //here getTitle() method return app name...
+                return lhs.getStart_date().compareTo(rhs.getStart_date());
+            }
+        });
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mFavTournamentList = favlist;
@@ -94,7 +104,6 @@ public class FavouriteListAdapter extends BaseAdapter {
             holder = (ViewHolder) rowview.getTag();
         }
         final TournamentModel rowItem = getItem(position);
-//        holder.favourite_logo.setImageResource(R.drawable.globe);
 
         if (!Utility.isNullOrEmpty(rowItem.getName())) {
             holder.favourite_tournament.setText(rowItem.getName());

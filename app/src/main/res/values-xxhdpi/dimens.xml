@@ -1,5 +1,4 @@
 <resources>
-    <dimen name="paddingTopBottom">64dp</dimen>
     <dimen name="paddingleft_landing_page">40dp</dimen>
 
 
