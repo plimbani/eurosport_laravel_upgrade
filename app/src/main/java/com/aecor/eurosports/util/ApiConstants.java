@@ -7,9 +7,9 @@ public class ApiConstants {
 
 
     //    public static final String BASE_URL = "http://192.168.0.6:8180/api/";
-
     public static final String BASE_URL = "http://esr.aecordigitalqa.com/api/";
     //    public static final String BASE_URL = "http://krunal-eurosport.dev.aecortech.com/api/";
+    //    public static final String BASE_URL = "http://rishab-eurosport.dev.aecortech.com/api/";
     public static final String GET_TOURNAMENTS = BASE_URL + "tournaments";
     public static final String SIGN_IN = BASE_URL + "auth/login";
     public static final String REGISTER = BASE_URL + "user/create";

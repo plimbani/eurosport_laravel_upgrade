@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.TournamentModel;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -136,7 +138,7 @@ public class HomeActivity extends BaseAppCompactActivity {
                     if (Utility.isNullOrEmpty(language)) {
                         language = "en";
                     }
-                    tv_tournamentDate.setText(Utility.getFormattedTournamentDate(mTournamentList.get(position).getStart_date(), mTournamentList.get(position).getEnd_date(),language));
+                    tv_tournamentDate.setText(Utility.getFormattedTournamentDate(mTournamentList.get(position).getStart_date(), mTournamentList.get(position).getEnd_date(), language));
                     if (timer != null) {
                         timer.cancel();
                         timer = new Timer();
@@ -190,7 +192,9 @@ public class HomeActivity extends BaseAppCompactActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finishAffinity();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            finishAffinity();
+        }
     }
 
     @Override
@@ -407,6 +411,29 @@ public class HomeActivity extends BaseAppCompactActivity {
                 list);
         sp_tournament.setAdapter(adapter);
         sp_tournament.setSelection(tournamentPosition);
+    }
+
+    @OnClick(R.id.iv_tournament_detail)
+    protected void onTournamentDetailClicked() {
+        String mEuroSportsContactDetails = "";
+        mEuroSportsContactDetails = getString(R.string.name) + " ";
+        if (!Utility.isNullOrEmpty(mTournamentList.get(tournamentPosition).getFirst_name())) {
+            mEuroSportsContactDetails = mEuroSportsContactDetails + mTournamentList.get(tournamentPosition).getFirst_name();
+        }
+        if (!Utility.isNullOrEmpty(mTournamentList.get(tournamentPosition).getLast_name())) {
+            mEuroSportsContactDetails = mEuroSportsContactDetails + " " + mTournamentList.get(tournamentPosition).getLast_name();
+        }
+
+        if (!Utility.isNullOrEmpty(mTournamentList.get(tournamentPosition).getTelephone())) {
+            mEuroSportsContactDetails = mEuroSportsContactDetails + "<br><br>" + getString(R.string.contact_number) + "<a href=tel:" + mTournamentList.get(tournamentPosition).getTelephone() + ">" + mTournamentList.get(tournamentPosition).getTelephone() + "</a>";
+        }
+
+        ViewDialog.showContactDialog((Activity) mContext, getString(R.string.euro_sportring_contact), mEuroSportsContactDetails, getString(R.string.close), getString(R.string.cancel), new ViewDialog.CustomDialogInterface() {
+            @Override
+            public void onPositiveButtonClicked() {
+
+            }
+        });
     }
 }
 

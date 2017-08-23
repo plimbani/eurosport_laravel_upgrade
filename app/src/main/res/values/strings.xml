@@ -99,6 +99,9 @@
     <string name="deafult_tournament_cannot_be_removed_from_favourite">Default tournament cannot be removed from favourite.</string>
     <string name="title_activity_venue_map">Venue map</string>
     <string name="placing_matches_summary">PLACING MATCHES SUMMARY</string>
+    <string name="euro_sportring_contact">Euro-Sportring Contact</string>
+    <string name="name">Name:</string>
+    <string name="contact_number">Contact number:</string>
 
     <!--Volley-->
 

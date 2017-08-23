@@ -38,11 +38,11 @@ public class NewMessagePopupActivity extends Activity {
         String message = getIntent().getExtras().getString(AppConstants.ARG_NEW_MESSAGE);
         String title = getIntent().getExtras().getString(AppConstants.ARG_NEW_MESSAGE_TITLE);
         mAppSharedPref = AppPreference.getInstance(mContext);
-        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         if (!mAppSharedPref.getBoolean(AppConstants.KEY_IS_NOTIFICATION)) {
             finish();
         } else {
+            v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             if (mAppSharedPref.getBoolean(AppConstants.KEY_IS_VIBRATION)) {
                 vibratePhone();
             }
