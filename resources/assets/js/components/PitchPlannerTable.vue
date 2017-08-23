@@ -191,10 +191,10 @@
                 let vm =this;
              
                 this.currentView = currentTab
-                vm.stageStatus = false;
+                // vm.stageStatus = false;
                // vm.GameStatus = false
                 setTimeout(function(){
-                    vm.stageStatus = true
+                    // vm.stageStatus = true
                     // vm.GameStatus = true
                     if(currentTab == 'refereeTab'){
                       vm.refereeReset()

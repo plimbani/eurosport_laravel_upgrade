@@ -63,7 +63,7 @@ computed: {
           limit = 100;
       let remaining_char = (limit - char) ;
 
-      return "Suggested max characters "+limit+". Characters used "+char+".";
+      return "Suggested max characters "+ limit +". Characters used "+ char +".";
     }
   },
   mounted() {
@@ -92,9 +92,9 @@ computed: {
                         } else {
                           toastr.error(response.data.data, 'Push notification ', {timeOut: 2000});
                         }
-
-                         vm.$root.$emit('displayMessageList')
                          $('#exampleModal').modal('hide')
+                         vm.$root.$emit('displayMessageList')
+                        
                       }
                     },
                   (error) => {
