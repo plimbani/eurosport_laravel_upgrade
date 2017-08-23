@@ -8,7 +8,7 @@ public class AppConstants {
     public static final int MAX_IMAGE_WIDTH = 60;
     public static final int MAX_IMAGE_HEIGHT = 60;
     public static final int MAX_IMAGE_WIDTH_1 = 100;
-    public static final int MAX_IMAGE_HEIGHT_1 = 80;
+    public static final int MAX_IMAGE_HEIGHT_1 = 100;
     public static final int MAX_IMAGE_WIDTH_LARGE = 230;
     public static final int MAX_IMAGE_HEIGHT_LARGE = 230;
 

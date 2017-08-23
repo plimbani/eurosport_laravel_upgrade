@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.View;
@@ -101,6 +102,7 @@ public class ViewDialog {
         tv_message.setText(Html.fromHtml(msg));
         tv_message.setGravity(Gravity.LEFT);
         Linkify.addLinks(tv_message, Linkify.PHONE_NUMBERS);
+        tv_message.setMovementMethod(LinkMovementMethod.getInstance());
         TextView tv_positive_button = (TextView) dialog.findViewById(R.id.tv_positive_button);
         tv_positive_button.setText(positiveButtonText);
 

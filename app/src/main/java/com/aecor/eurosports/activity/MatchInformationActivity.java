@@ -82,13 +82,20 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         } else {
             tv_team_name_2.setText("");
         }
-
-        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getReferee_name())) {
+        String referee_name = "";
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getFirst_name())) {
+            referee_name = mTeamFixturesModel.getFirst_name() + " ";
+        }
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getLast_name())) {
+            referee_name = referee_name + mTeamFixturesModel.getLast_name();
+        }
+        if (!Utility.isNullOrEmpty(referee_name)) {
             tv_referee_name.setVisibility(View.VISIBLE);
-            tv_referee_name.setText(mTeamFixturesModel.getReferee_name());
+            tv_referee_name.setText(referee_name);
         } else {
             tv_referee_name.setVisibility(View.GONE);
         }
+
         String mStatusAndWinnerStr = "";
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_status())) {

@@ -417,10 +417,17 @@ public class HomeActivity extends BaseAppCompactActivity {
     protected void onTournamentDetailClicked() {
         String mEuroSportsContactDetails = "";
         mEuroSportsContactDetails = getString(R.string.name) + " ";
-        if (!Utility.isNullOrEmpty(mEuroSportsContactDetails)) {
-            mEuroSportsContactDetails = mEuroSportsContactDetails + "\n";
+        if (!Utility.isNullOrEmpty(mTournamentList.get(tournamentPosition).getFirst_name())) {
+            mEuroSportsContactDetails = mEuroSportsContactDetails + mTournamentList.get(tournamentPosition).getFirst_name();
         }
-        mEuroSportsContactDetails = mEuroSportsContactDetails + getString(R.string.contact_number) + "  <a href=\"tel:" + "4155551212" + "\">" + "" + "</a>.";
+        if (!Utility.isNullOrEmpty(mTournamentList.get(tournamentPosition).getLast_name())) {
+            mEuroSportsContactDetails = mEuroSportsContactDetails + " " + mTournamentList.get(tournamentPosition).getLast_name();
+        }
+
+        if (!Utility.isNullOrEmpty(mTournamentList.get(tournamentPosition).getTelephone())) {
+            mEuroSportsContactDetails = mEuroSportsContactDetails + "<br><br>" + getString(R.string.contact_number) + "<a href=tel:" + mTournamentList.get(tournamentPosition).getTelephone() + ">" + mTournamentList.get(tournamentPosition).getTelephone() + "</a>";
+        }
+
         ViewDialog.showContactDialog((Activity) mContext, getString(R.string.euro_sportring_contact), mEuroSportsContactDetails, getString(R.string.close), getString(R.string.cancel), new ViewDialog.CustomDialogInterface() {
             @Override
             public void onPositiveButtonClicked() {
