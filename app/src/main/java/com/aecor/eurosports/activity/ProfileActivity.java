@@ -217,6 +217,8 @@ public class ProfileActivity extends BaseAppCompactActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 languagePos = position;
                 selectedLocale = localeKeys[position];
+                Utility.setLocale(mContext, selectedLocale);
+//                initView();
             }
 
             @Override

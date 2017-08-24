@@ -153,6 +153,8 @@ public class SignInActivity extends BaseActivity {
                             mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
+                                mAppSharedPref.setString(AppConstants.LANGUAGE_SELECTION, jsonObject.getString("locale"));
+                                Utility.setLocale(mContext, jsonObject.getString("locale"));
                             }
                             if (jsonObject.has("settings")) {
                                 JSONObject mSettingsJson = jsonObject.getJSONObject("settings");
@@ -200,7 +202,7 @@ public class SignInActivity extends BaseActivity {
                 }
             });
             mQueue.add(jsonRequest1);
-        }else{
+        } else {
             checkConnection();
         }
     }

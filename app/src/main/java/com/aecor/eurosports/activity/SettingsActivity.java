@@ -12,6 +12,7 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;
+import com.aecor.eurosports.util.Utility;
 
 import butterknife.OnClick;
 
@@ -85,6 +86,8 @@ public class SettingsActivity extends BaseAppCompactActivity {
             public void onPositiveButtonClicked() {
                 AppPreference mAppPref = AppPreference.getInstance(mContext);
                 mAppPref.clear();
+                Utility.setLocale(mContext, "en");
+
                 Intent intent = new Intent(mContext, LandingActivity.class);
                 ComponentName cn = intent.getComponent();
                 Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
