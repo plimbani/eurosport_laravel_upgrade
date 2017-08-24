@@ -62,7 +62,6 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        sp_tournament.setSelection(0);
         Utility.setupUI(mContext, ll_main_layout);
         getTournamentList();
         enabledDisableRegisterButton(false);
@@ -120,20 +119,21 @@ public class RegisterActivity extends BaseActivity {
 
     private void register_user() {
 
-        Utility.startProgress(mContext);
-        String url = ApiConstants.REGISTER;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("email", email.getText().toString().trim());
-            requestJson.put("password", register_password.getText().toString().trim());
-            requestJson.put("first_name", fname.getText().toString().trim());
-            requestJson.put("sur_name", sname.getText().toString().trim());
-            requestJson.put("tournament_id", tournament_id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.REGISTER;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("email", email.getText().toString().trim());
+                requestJson.put("password", register_password.getText().toString().trim());
+                requestJson.put("first_name", fname.getText().toString().trim());
+                requestJson.put("sur_name", sname.getText().toString().trim());
+                requestJson.put("tournament_id", tournament_id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             AppLogger.LogE(TAG, "***** Register request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
@@ -173,14 +173,17 @@ public class RegisterActivity extends BaseActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 
     private void getTournamentList() {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.GET_TOURNAMENTS;
-        final JSONObject requestJson = new JSONObject();
+
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.GET_TOURNAMENTS;
+            final JSONObject requestJson = new JSONObject();
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
@@ -219,6 +222,8 @@ public class RegisterActivity extends BaseActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 
@@ -286,6 +291,8 @@ public class RegisterActivity extends BaseActivity {
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
                 list);
         sp_tournament.setAdapter(adapter);
+        sp_tournament.setSelection(0);
+
     }
 
     private class GenericTextMatcher implements TextWatcher {

@@ -106,11 +106,11 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
     }
 
     private void getAgeGroup() {
-        final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
-        String url = ApiConstants.TOURNAMENT_GROUP;
-        final JSONObject requestJson = new JSONObject();
 
         if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.TOURNAMENT_GROUP;
+            final JSONObject requestJson = new JSONObject();
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             try {
@@ -157,6 +157,8 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        }else{
+            checkConnection();
         }
     }
 }

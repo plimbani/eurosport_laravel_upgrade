@@ -103,11 +103,12 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
     }
 
     private void getAgeCategories() {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.AGE_CATEGORIES;
-        final JSONObject requestJson = new JSONObject();
+
 
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.AGE_CATEGORIES;
+            final JSONObject requestJson = new JSONObject();
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             try {
@@ -153,6 +154,8 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 

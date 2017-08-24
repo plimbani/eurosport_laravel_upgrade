@@ -35,8 +35,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -211,16 +209,17 @@ public class FavouriteListAdapter extends BaseAdapter {
 
 
     private void removeTournamenetFromFavourite(TournamentModel tournamenetModel) {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.REMOVE_TOURNAMENT_FROM_FAVOURITE;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", Utility.getUserId(mContext));
-            requestJson.put("tournament_id", tournamenetModel.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.REMOVE_TOURNAMENT_FROM_FAVOURITE;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("user_id", Utility.getUserId(mContext));
+                requestJson.put("tournament_id", tournamenetModel.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
@@ -259,17 +258,17 @@ public class FavouriteListAdapter extends BaseAdapter {
     }
 
     private void setDefaultTournament(final String tournamentId) {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.SET_DEFAULT_TOURNAMENET;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", Utility.getUserId(mContext));
-            requestJson.put("tournament_id", tournamentId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         if (Utility.isInternetAvailable(mContext)) {
-            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+            Utility.startProgress(mContext);
+            String url = ApiConstants.SET_DEFAULT_TOURNAMENET;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("user_id", Utility.getUserId(mContext));
+                requestJson.put("tournament_id", tournamentId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }   RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             AppLogger.LogE(TAG, "*** SET DEFAULT TOURNAMENT REQUEST ***" + requestJson.toString());
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
@@ -313,16 +312,17 @@ public class FavouriteListAdapter extends BaseAdapter {
     }
 
     private void makeTournamenetFavourite(TournamentModel tournamenetModal) {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.SET_TOURNAMENT_AS_FAVOURITE;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", Utility.getUserId(mContext));
-            requestJson.put("tournament_id", tournamenetModal.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.SET_TOURNAMENT_AS_FAVOURITE;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("user_id", Utility.getUserId(mContext));
+                requestJson.put("tournament_id", tournamenetModal.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             AppLogger.LogE(TAG, "Request as Make Favourite" + requestJson.toString());
@@ -362,15 +362,16 @@ public class FavouriteListAdapter extends BaseAdapter {
 
 
     private void updateLoggedInUserFavouriteList() {
-        final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
-        String url = ApiConstants.GET_USER_FAVOURITE_LIST;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", Utility.getUserId(mContext));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.GET_USER_FAVOURITE_LIST;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("user_id", Utility.getUserId(mContext));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 

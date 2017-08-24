@@ -125,11 +125,12 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void validate_user() {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.CHECK_USER;
-        final JSONObject requestJson1 = new JSONObject();
+
 
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.CHECK_USER;
+            final JSONObject requestJson1 = new JSONObject();
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
                     .GET, url,
@@ -152,6 +153,8 @@ public class SignInActivity extends BaseActivity {
                             mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
+                                mAppSharedPref.setString(AppConstants.LANGUAGE_SELECTION, jsonObject.getString("locale"));
+                                Utility.setLocale(mContext, jsonObject.getString("locale"));
                             }
                             if (jsonObject.has("settings")) {
                                 JSONObject mSettingsJson = jsonObject.getJSONObject("settings");
@@ -199,6 +202,8 @@ public class SignInActivity extends BaseActivity {
                 }
             });
             mQueue.add(jsonRequest1);
+        } else {
+            checkConnection();
         }
     }
 
@@ -223,16 +228,17 @@ public class SignInActivity extends BaseActivity {
     private void postTokenOnServer(String mFcmToken) {
         String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
         if (!Utility.isNullOrEmpty(email)) {
-            String url = ApiConstants.POST_FCM_TOKEN;
-            final JSONObject requestJson = new JSONObject();
-            try {
-                requestJson.put("email", email);
-                requestJson.put("fcm_id", mFcmToken);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
 
             if (Utility.isInternetAvailable(mContext)) {
+                String url = ApiConstants.POST_FCM_TOKEN;
+                final JSONObject requestJson = new JSONObject();
+                try {
+                    requestJson.put("email", email);
+                    requestJson.put("fcm_id", mFcmToken);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 AppLogger.LogE(TAG, "***** Post FCM Token request *****" + requestJson.toString());
                 final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
                 final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
@@ -268,17 +274,18 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void checkuser() {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.SIGN_IN;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("email", email_address.getText().toString().trim());
-            requestJson.put("password", sign_in_password.getText().toString().trim());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
 
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.SIGN_IN;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("email", email_address.getText().toString().trim());
+                requestJson.put("password", sign_in_password.getText().toString().trim());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             AppLogger.LogE(TAG, "***** Sign in request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
@@ -308,6 +315,8 @@ public class SignInActivity extends BaseActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 

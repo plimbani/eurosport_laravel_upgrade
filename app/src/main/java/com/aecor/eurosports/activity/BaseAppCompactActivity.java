@@ -18,8 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.application.ApplicationClass;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;
+import com.aecor.eurosports.util.ConnectivityChangeReceiver;
+import com.aecor.eurosports.util.ConnectivityChangeReceiver.ConnectivityReceiverListener;
 import com.aecor.eurosports.util.Utility;
 
 import butterknife.BindView;
@@ -29,7 +32,7 @@ import butterknife.ButterKnife;
  * Created by karan on 6/19/2017.
  */
 
-public abstract class BaseAppCompactActivity extends AppCompatActivity {
+public abstract class BaseAppCompactActivity extends AppCompatActivity implements ConnectivityReceiverListener {
 
     public static String selectedTabName = "";
     @BindView(R.id.tv_tournament)
@@ -62,7 +65,8 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
     protected LinearLayout lv_favourites;
     @BindView(R.id.tv_favourites)
     protected TextView tv_favourites;
-
+    @BindView(R.id.tv_no_internet)
+    protected TextView tv_no_internet;
     private Context mContext;
     private AppPreference mPref;
     private int resourceIdFavourites;
@@ -173,15 +177,27 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-
         String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
         if (Utility.isNullOrEmpty(language))
             Utility.setLocale(mContext, "en");
         else
             Utility.setLocale(mContext, language);
         changeBottomTabAccordingToFlag();
+        ApplicationClass.getInstance().setConnectivityListener(this);
+        checkConnection();
+
         super.onResume();
 
+    }
+
+    // Method to manually check connection status
+    protected void checkConnection() {
+        boolean isConnected = ConnectivityChangeReceiver.isConnected();
+        if (isConnected) {
+            tv_no_internet.setVisibility(View.GONE);
+        } else {
+            tv_no_internet.setVisibility(View.VISIBLE);
+        }
     }
 
     private class FooterClickListener implements View.OnClickListener {
@@ -254,5 +270,10 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onNetworkConnectionChanged() {
+        checkConnection();
     }
 }

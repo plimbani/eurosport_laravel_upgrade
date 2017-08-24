@@ -28,19 +28,12 @@
     <string name="update_profile_message">Profile updated successfully.</string>
     <string name="default_tournament">Default tournament selected </string>
     <string name="get_otp">Submit</string>
-    <string name="otp">otp</string>
-    <string name="change_password">Change Password</string>
     <string name="an_otp_will_be_sent_to_mention_email_address">Enter your email address and we\'ll send you an email to reset your password.</string>
-    <string name="enter_otp_sent_on_registered_email_address">Please enter the otp sent on your registered email address.</string>
     <string name="logout">Log out</string>
     <string name="notification_and_sounds">Notifications &amp; sounds</string>
     <string name="help">Help</string>
     <string name="privacy_terms">Privacy &amp; terms</string>
     <string name="profile">Profile</string>
-    <string name="profile_picture">Profile Picture</string>
-    <string name="gallery">Gallery</string>
-    <string name="camera">Camera</string>
-    <string name="delete">Delete</string>
     <string name="email">Email</string>
     <string name="first_name">First Name</string>
     <string name="sound_notification">Sound</string>
@@ -77,8 +70,6 @@
     <string name="hint_search_club">Search clubs</string>
     <string name="hint_search_groups">Search groups</string>
     <string name="view_on_map">View on map</string>
-    <string name="password_updated_successfully">Password updated successfully.</string>
-    <string name="please_enter_valid_otp">Please enter valid OTP.</string>
     <string name="no_internet">No internet connection</string>
     <string name="internet_message">Internet connection is not detected.</string>
     <string name="na">NA</string>
@@ -102,6 +93,7 @@
     <string name="euro_sportring_contact">Euro-Sportring Contact</string>
     <string name="name">Name:</string>
     <string name="contact_number">Contact number:</string>
+    <string name="the_internet_connection_appears_to_be_offline">The internet connection appears to be offline.</string>
 
     <!--Volley-->
 

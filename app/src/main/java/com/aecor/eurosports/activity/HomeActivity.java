@@ -325,15 +325,16 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     private void getLoggedInUserFavouriteTournamentList() {
 
-        Utility.startProgress(mContext);
-        String url = ApiConstants.GET_USER_FAVOURITE_LIST;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", Utility.getUserId(mContext));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.GET_USER_FAVOURITE_LIST;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("user_id", Utility.getUserId(mContext));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
@@ -373,6 +374,8 @@ public class HomeActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 
@@ -435,5 +438,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             }
         });
     }
+
+
 }
 

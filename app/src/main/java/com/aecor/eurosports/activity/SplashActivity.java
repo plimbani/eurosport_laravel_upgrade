@@ -3,8 +3,10 @@ package com.aecor.eurosports.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -74,20 +76,20 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void checkuser() {
-        String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
-        String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
-        mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
-//        Utility.startProgress(mContext);
-        String url = ApiConstants.SIGN_IN;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("email", email);
-            requestJson.put("password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         if (Utility.isInternetAvailable(mContext)) {
+            String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
+            String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
+            mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
+            String url = ApiConstants.SIGN_IN;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("email", email);
+                requestJson.put("password", password);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             AppLogger.LogE(TAG, "***** Splash screen request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
@@ -120,6 +122,7 @@ public class SplashActivity extends BaseActivity {
             mQueue.add(jsonRequest);
         } else {
             ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onPositiveButtonClicked() {
                     if (mContext instanceof SplashActivity) {

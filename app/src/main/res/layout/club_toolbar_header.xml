@@ -16,6 +16,5 @@
         app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <include layout="@layout/no_internet_textview" />
 
 </LinearLayout>
