@@ -6,6 +6,7 @@ use Brotzka\DotenvEditor\DotenvEditor;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
+
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\TeamContract;
 
@@ -21,6 +22,7 @@ class TeamController extends BaseController
     public function __construct(TeamContract $teamObj)
     {
         $this->teamObj = $teamObj;
+        $this->data = [];
     }
 
     /**
@@ -32,10 +34,27 @@ class TeamController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getTeams()
+    public function getTeams(Request $request)
     {
-        return $this->teamObj->getTeams();
+        // dd($request->all());
+        return $this->teamObj->getTeams($request);
     }
+
+    public function getClubs(Request $request)
+    {
+        return $this->teamObj->getClubs($request->all());
+    }
+
+    public function getClubTeams(Request $request)
+    {
+        return $this->teamObj->getClubTeams($request->all());
+    }
+
+    public function getAllTournamentTeams(Request $request)
+    {
+      return $this->teamObj->getAllTournamentTeams($request->all());
+    }
+
 
     /**
      * Create  Torunament.
@@ -50,9 +69,47 @@ class TeamController extends BaseController
 
     public function createTeam(Request $request)
     {
-        return $this->teamObj->create($request);
+        $teamData = $request->all();
+        // dd($teamData);
+        $file = $request->file('fileUpload');
+        // $this->data['teamSize'] =  $teamData['teamSize'];
+        $this->data['tournamentId'] = $teamData['tournamentId'];
+       // $rows = \Excel::load($file->getRealPath(), null, 'ISO-8859-1')->get();
+        //print_r($rows);
+        //exit;
+        \Excel::load($file->getRealPath(), function($reader) {
+            // dd($reader->getTotalRowsOfFile() - 1);
+            $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
+
+            // $reader->limit($this->data['teamSize']);
+            $reader->each(function($sheet) {
+            // Loop through all rows
+                // $sheet->each(function($row) {
+                    // dd($sheet);
+              $sheet->tournamentData = $this->data;
+              $this->teamObj->create($sheet);
+
+                // });
+            });
+        }, 'ISO-8859-1');
+        // if($this->data['totalSize'] > $this->data['teamSize'] ){
+        //     return ['bigFileSize' =>  true];
+        // }else{
+            return ['bigFileSize' =>  false];
+        // }
+    }
+    public function assignTeam(Request $request) {
+        // dd($request->all());
+         $this->teamObj->assignTeams($request->all());
+    }
+    public function getAllTeamsGroup(Request $request) {
+        $this->teamObj->getAllTeamsGroup($request->all());
     }
 
+    // public function importTeamlist(){
+
+
+    // }
     /**
      * Edit  Teams.
      *
@@ -77,5 +134,10 @@ class TeamController extends BaseController
     public function delete(Request $request)
     {
         return $this->teamObj->delete($request);
+    }
+
+    public function getTeamsList(Request $request)
+    {
+      return $this->teamObj->getTeamsList($request->all());
     }
 }

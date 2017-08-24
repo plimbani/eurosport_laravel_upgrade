@@ -1,18 +1,34 @@
 .login-box {
-    background-color: transparent;
-    border-radius: 4px;
-    color: $white;
-    left: 50%;
-    margin: 0 auto;
-    margin-bottom: 45px;
+    background-color: $white;
+    color: $black;
+    position: relative;
+    border-radius: 2px;
     padding: 20px;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -60%);
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+    transition: box-shadow .25s;
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
 
     .form-control {
         margin-top: 20px;
+    }
+    
+    .reset-password {
+        .form-control {
+            margin-top: 0;
+        }
+        .title {
+            color: $input-color;
+        }
     }
 
     .other-actions {
@@ -22,24 +38,30 @@
 
     .page-copyright {
         font-size: 14px;
-        margin-top: 50px;
+        margin-top: 20px;
         text-align: center;
         p {
-            margin-bottom: 10px;
+            margin-bottom: 0;
+            font-size: 70%;
+            color: color('grey','darken-1');
         }
     }
 
     a {
+        // color: $ls-color-primary;
         color: $ls-color-primary;
 
         &:hover {
+            // color: darken($ls-color-primary, 5%);
             color: darken($ls-color-primary, 5%);
         }
     }
 
     .btn-login {
+        // background-color: $ls-color-primary;
         background-color: $ls-color-primary;
-        color: $ls-color-secondary;
+        // color: $ls-color-secondary;
+        color: color('shades','white');
 
         &:hover {
             background-color: darken($ls-color-primary, 5%);
@@ -49,7 +71,7 @@
 }
 
 .login-box .c-input {
-    color: #fff;
+    color: color('grey','darken-1');
 
     .c-indicator {
         top: 2px;
@@ -80,42 +102,38 @@
 
 .login-wrapper {
     height: 100vh;
-    padding-top: 0;
-    position: relative;
-
-    &::before {
-        // background-image: url('/assets/img/skynight.jpg');
-        background-image: url('/assets/img/green.jpg');
-        background-position: center top;
-        background-size: cover;
-        content: '';
-        height: 100%;
-        left: 0;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: -1;
-    }
-
-    &::after {
-        background-color: $ls-login-bg-color-overlay;
-        content: '';
-        height: 100%;
-        left: 0;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: -1;
-    }
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: color('grey','lighten-3');
 }
 
 .login-page .brand-main {
-    margin-bottom: 50px;
+    // margin-bottom: 50px;
     text-align: center;
 
     img {
+        width: 60%;
         height: auto;
-        width: auto;
+    }
+    @include media-breakpoint-down(sm) {
+        float: none;
+        padding: 0;
     }
 }
 

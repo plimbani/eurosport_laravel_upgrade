@@ -12,19 +12,40 @@ class RefereeRepository
         $this->dbObj = DB::table('referee');
     }
 
-    public function getAllReferees()
+    public function getAllReferees($tournamentId)
     {
-        return Referee::all();
+        return Referee::where('tournament_id',$tournamentId)
+              ->orderBy('last_name','ASC')
+              ->get();
     }
 
     public function createReferee($refereeData)
     {
-        return Referee::create($refereeData);
+        return Referee::create([
+            'tournament_id' => $refereeData['tournament_id'],
+            'first_name' => $refereeData['first_name'],
+            'last_name' => $refereeData['last_name'],
+            'telephone' => $refereeData['telephone'],
+            'email' => $refereeData['email'],
+            'comments' => $refereeData['comments'],
+            'age_group_id' =>  $refereeData['age_category']
+
+        ]);
+        // return Referee::create($refereeData);
     }
 
-    public function edit($data,$refereeId)
+    public function edit($refereeData,$refereeId)
     {
-        return Referee::where('id', $refereeId)->update($data);
+        return Referee::where('id', $refereeId)->update([
+            'tournament_id' => $refereeData['tournament_id'],
+            'first_name' => $refereeData['first_name'],
+            'last_name' => $refereeData['last_name'],
+            'telephone' => $refereeData['telephone'],
+            'email' => $refereeData['email'],
+            'comments' => $refereeData['comments'],
+            'age_group_id' =>  $refereeData['age_category']
+
+        ]);
     }
 
     public function getRefereeFromId($refereeId)

@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laraspace',
+    'name' => 'Eurosport',
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/London',
 
     /*
     |--------------------------------------------------------------------------
@@ -177,7 +177,12 @@ return [
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Duro85\Roles\RolesServiceProvider::class,
-        
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        Toin0u\Geotools\GeotoolsServiceProvider::class,
+        Geocoder\Laravel\Providers\GeocoderService::class,
+        LaravelFCM\FCMServiceProvider::class,
+
         /*
          *  Custom Service Providers
          */
@@ -189,8 +194,8 @@ return [
         Laraspace\Providers\TournamentServiceProvider::class,
         Laraspace\Providers\ApiServiceProvider::class,
         Laraspace\Providers\PitchServiceProvider::class,
-        Laraspace\Providers\VenueServiceProvider::class,
-        
+        Barryvdh\Snappy\ServiceProvider::class,
+
         /*
          *  Api Service Providers
          */
@@ -202,6 +207,10 @@ return [
         Laraspace\Api\Providers\TournamentServiceProvider::class,
         Laraspace\Api\Providers\PitchServiceProvider::class,
         Laraspace\Api\Providers\RoleServiceProvider::class,
+        Laraspace\Api\Providers\VenueServiceProvider::class,
+
+
+
     ],
 
     /*
@@ -249,8 +258,13 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class
-
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'FCM'      => LaravelFCM\Facades\FCM::class,
+        'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
     ],
 
 ];

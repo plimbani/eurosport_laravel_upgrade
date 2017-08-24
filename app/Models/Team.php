@@ -11,13 +11,24 @@ class Team extends Model
 
     protected $table = 'teams';
 
-    protected $fillable = [
-        'club_id', 'user_id', 'age_group_id', 'name', 'website', 'facebook', 'website', 'facebook', 'twitter', 'shirt_colour', 'facebook',
+   protected $fillable = [
+        'club_id','tournament_id', 'age_group_id', 'user_id', 'compeatation_id', 'name', 'website', 'facebook', 'website', 'facebook', 'twitter', 'shirt_colour', 'esr_reference','facebook', 'country_id','assigned_group','place','category_name_id'
     ];
     /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
+
+    public function getName($value)
+    {
+        return stripslashes($value);
+    }
+     public function setName($value)
+    {
+        return addslashes($value);
+
+    }
+
     protected $dates = ['deleted_at'];
 }

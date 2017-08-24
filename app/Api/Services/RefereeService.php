@@ -14,9 +14,9 @@ class RefereeService implements RefereeContract
         $this->refereeRepoObj = new \Laraspace\Api\Repositories\RefereeRepository();
     }
 
-    public function getAllReferees()
+    public function getAllReferees($tournamentId)
     {
-        return $this->refereeRepoObj->getAllReferees();
+        return $this->refereeRepoObj->getAllReferees($tournamentId);
     }
 
     /**
@@ -29,9 +29,10 @@ class RefereeService implements RefereeContract
      */
     public function createReferee($data)
     {
-        $data = $data->all();
-        $data = $this->refereeRepoObj->createReferee($data);
-        if ($data) {
+        $data = $data->all()['data'];
+
+        $dataResult = $this->refereeRepoObj->createReferee($data);
+        if ($dataResult) {
             return ['code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
@@ -45,8 +46,8 @@ class RefereeService implements RefereeContract
      */
     public function edit($data,$refereeId)
     {
-        $data = $data->all();
-        // dd($data);
+        // $data = $data->all();
+         // dd($data,$refereeId);
         $data = $this->refereeRepoObj->edit($data,$refereeId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
@@ -64,7 +65,6 @@ class RefereeService implements RefereeContract
      public function deleteReferee($deleteId)
      {
         $referee = $this->refereeRepoObj->getRefereeFromId($deleteId);
-        dd($referee);
         $refereeRes = $referee->delete();
         if ($refereeRes) {
             return ['code' => '200', 'message' => 'Referee Sucessfully Deleted'];

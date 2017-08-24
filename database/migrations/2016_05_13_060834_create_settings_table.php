@@ -14,9 +14,15 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('option');
-            $table->string('value');
+
+            $table->integer('user_id')->unsigned()->index();
+            $table->foreign('user_id')->references('id')->on('users');
+
+            $table->string('option',50)->nullable();
+            $table->text('value');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

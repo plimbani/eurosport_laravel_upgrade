@@ -1,9 +1,9 @@
 <template>
-    <div class="template-container 13113">13131
+    <div class="template-container 13113">
         <site-header></site-header>        
         <!--<site-header-bottom></site-header-bottom>-->
         <router-view></router-view>
-        <div class="horizontal_line"></div>
+        <!-- <div class="horizontal_line"></div> -->
         <site-footer></site-footer>
     </div>
 </template>

@@ -12,7 +12,7 @@ class Referee extends Model
     protected $table = 'referee';
 
     protected $fillable = [
-        'user_id', 'availability', 'comments', 'age_group_id',
+        'user_id', 'availability', 'tournament_id','first_name','last_name','telephone','email','comments', 'age_group_id'
     ];
     /**
      * The attributes that should be mutated to dates.
@@ -20,4 +20,9 @@ class Referee extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    public function matchFixture()
+    {
+        return $this->hasMany('Laraspace\Models\TempFixture');
+    }
 }

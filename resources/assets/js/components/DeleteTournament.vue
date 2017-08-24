@@ -4,9 +4,8 @@
         <div class="modal-content">
             <form>
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Delete Tournament</h4>
+                    <h4 class="modal-title" id="myModalLabel">{{$lang.tournament_delete}}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    
                 </div>
                 <div class="modal-body text-left">
                     <p>
@@ -17,8 +16,8 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Confirm</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{$lang.tournament_cancel_button}}</button>
+                    <button type="submit" class="btn btn-primary">{{$lang.tournament_confirm_button}}</button>
                 </div>
             </form>
         </div>

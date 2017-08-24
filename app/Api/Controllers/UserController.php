@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\UserContract;
 use JWTAuth;
+use Laraspace\Models\User;
+use Laraspace\Api\Repositories\UserRepository;
+use Laraspace\Custom\Helper\Common;
 
 /**
  * Users Resource Description.
@@ -23,6 +26,7 @@ class UserController extends BaseController
     public function __construct(UserContract $userObj)
     {
         $this->userObj = $userObj;
+        $this->userRepoObj = new UserRepository();
         // $this->middleware('auth');
         // $this->middleware('jwt.auth');
     }
@@ -40,6 +44,10 @@ class UserController extends BaseController
     {
         return $this->userObj->getAllUsers();
     }
+    public function getUserDetails(Request $request)
+    {
+        return $this->userObj->getUserDetails($request->all());
+    }
 
     /**
      * Show all User Results Details.
@@ -50,10 +58,16 @@ class UserController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getUsersByRegisterType($registerType)
+    public function getUsersByRegisterType(Request $request)
     {
-        return $this->userObj->getUsersByRegisterType($registerType);
+        return $userData = $this->userObj->getUsersByRegisterType($request->all());
     }
+
+    public function getUserTableData(Request $request)
+    {
+        return $userData = $this->userObj->getUserTableData($request->all());
+    }
+
 
     /**
      * Create New User Result.
@@ -71,11 +85,10 @@ class UserController extends BaseController
     /**
      * Edit User
      *
-     * @Post("/user/edit/{$id}")
+     * @GET("/user/edit/{$id}")
      *
-     * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function edit($userId)
+    public function edit(Request $request, $userId)
     {
         return $this->userObj->edit($userId);
     }
@@ -94,13 +107,121 @@ class UserController extends BaseController
 
     /**
      * Delete User
-     * 
+     *
      * @param  [type] $id User Id
-     * 
+     *
      * @return [type]           [description]
      */
     public function deleteUser($id)
     {
         return $this->userObj->delete($id);
     }
+    public function changeUserStatus(Request $request)
+    {
+      return $this->userObj->changeUserStatus($request->all());
+    }
+
+
+      public function setPassword($key, Request $request)
+    {
+      $usersPasswords = User::where(['token'=>$key])->get();
+
+      $message = "";
+      $error = false;
+      if (count($usersPasswords) == 0) {
+          $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
+          if(count($isUserVerified) > 0) {
+              $error=true;
+              $message = "You have already set the password.";
+          } else {
+              //return response()->view('errors.404', [], 404);
+              return array('message'=> 'Link is Expired');
+          }
+      }
+
+      // TODO: Here we put Code for Mobile Verification
+      if(isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['is_mobile_user'] == 1) {
+
+        //TODO: Need to put code for change Status For User with user Update
+        //$usersDetail['key'] = $key;
+          $usersPassword = User::where('token', $key)->first();
+          //$users = User::where("id", $usersPassword->id)->first();
+          $usersPassword->is_verified = 1;
+          $usersPassword->is_active = 1;
+          $usersPassword->token = '';
+          $user =  $usersPassword->save();
+        // Already set the password
+       // $usersDetail['password'] = $usersPasswords[0]['password'];
+       // $result = $this->userRepoObj->createPassword($usersDetail);
+        return redirect('/mlogin');
+      }
+
+      // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
+
+      return view('emails.users.setpassword', compact('usersPasswords'));
+      // return view('emails.users.setpassword');
+    }
+
+    public function passwordActivate(Request $request)
+    {
+      $key = $request->key;
+      $password = $request->password;
+      $usersDetail['key'] = $key;
+      $usersDetail['password'] = $password;
+      $result = $this->userRepoObj->createPassword($usersDetail);
+      return ($result == 'Mobile') ?  redirect('/mlogin') : redirect('/login');
+    }
+
+
+
+    public function resendEmail(Request $request)
+    {
+      $userData = User::where(['email'=>$request->email])->first();
+      $email_details =[];
+      // dd($userData->name);
+      $email_details['name'] = $userData->personDetail->first_name;
+      $email_details['token'] =  $userData->token;
+      $email_details['is_mobile_user'] = 0;
+      $recipient = $userData->email;
+      if($userData->is_mobile_user == 1) {
+       //   $email_templates = 'emails.users.mobile_create';
+          // $email_msg = 'Euro-Sportring email verification';
+          $email_details['is_mobile_user'] = 1;
+      }
+      // dd($email_details,$recipient);
+      Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
+      // return redirect('/login');
+    }
+
+    public function setFavourite(Request $request)
+    {
+      return $this->userObj->setFavourite($request->all());
+    }
+    public function removeFavourite(Request $request)
+    {
+      return$this->userObj->removeFavourite($request->all());
+    }
+    public function setDefaultFavourite(Request $request)
+    {
+      return $this->userObj->setDefaultFavourite($request->all());
+    }
+    public function postSetting(Request $request)
+    {
+      return $this->userObj->postSetting($request->all());
+    }
+    public function getSetting(Request $request)
+    {
+      return $this->userObj->getSetting($request->all());
+    }
+    public function setUserImage(Request $request)
+    {
+      return $this->userObj->setUserImage($request->all());
+    }
+    public function updatefcm(Request $request) {
+      return $this->userObj->setFCM($request->all());
+    }
+    public function getAllAppUsers(Request $request) {
+      return $this->userObj->getAllAppUsers($request->all());
+    }
+
 }

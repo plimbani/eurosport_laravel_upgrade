@@ -7,19 +7,21 @@
 */
 
 $ls-color-yellow: #ffde00;
+$ls-color-yellow--light: #FFFFCC;
 $ls-color-black: #333;
 $ls-color-black--light: #55595c;
-$ls-color-blue: #007dcc;
+$ls-color-blue: #2196F3;
 $ls-color-green: #4fc47f;
+$ls-color-green--light: #99EB99;
 $ls-color-red: #f35a3d;
 $ls-color-gray--light: #f8f8f8;
 $ls-color-gray--dark: #ddd;
 $ls-color-gray--very-dark: #bababa;
 $ls-color-light-blue: #5BBFDE;
 $ls-color-orange: #f0ad4e;
-$ls-color-red :#FE0000;
+$ls-color-red :#D84F4F;
 
-// Added on 3-3-2017 
+// Added on 3-3-2017
 // Add Some New Colors
 $ls-color-orange-button: orange;
 $ls-color-green--dark:   #86A758;
@@ -38,9 +40,11 @@ $brand-info:                $ls-color-light-blue !default;
 $brand-warning:             $ls-color-orange !default;
 $brand-danger:              $ls-color-red !default;
 
-$btn-secondary-color:            $white !default;
-$btn-secondary-bg:               $ls-color-black !default;
-$btn-secondary-border:           $ls-color-black !default;
+// $btn-secondary-color:            $ls-color-gray--very-dark !default;
+$btn-secondary-bg:               $white !default;
+$btn-secondary-border:           $ls-color-gray--very-dark !default;
+
+$nav-link-padding:              .75em 1.25em !default;
 
 
 /*
@@ -52,7 +56,7 @@ $btn-secondary-border:           $ls-color-black !default;
 /* Add change for Set Primary Color */
 // OC: $ls-color-primary : $ls-color-yellow;
 // PC: $ls-color-primary : $ls-color-green--dark;
-$ls-color-primary : $ls-color-orange-button;
+$ls-color-primary : $brand-primary;
 $ls-color-secondary : $ls-color-black;
 
 //HEADER SECTION
@@ -102,7 +106,8 @@ $code-color : $ls-color-primary;
 
 // -- Font Color
 /*$base-font-family : 'Roboto',sans-serif;*/
-$base-font-family : 'PT Sans', sans-serif;
+/*$base-font-family : 'PT Sans', sans-serif;*/
+$base-font-family : 'Lato', sans-serif;
 $base-font-color : lighten($ls-color-black,15%);
 $heading-font-color : $ls-color-black;
 $font-family-base : $base-font-family;
@@ -125,3 +130,9 @@ $headings-margin-bottom:     1.2rem;
 $card-cap-bg:              #fff !default;
 
 $pace-loader-color : darken($ls-color-primary,10%);
+$pitch-badge-info : #2196F3;
+/*
+	replacing path of flag icon
+*/
+/* TODO: Need to change path add at dynamically */
+$flag-icon-css-path: 'http://dev-esr.s3.amazonaws.com/assets/img/flags' !default;

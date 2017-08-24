@@ -1,6 +1,7 @@
 <?php
-
 namespace Laraspace\Api\Controllers;
+
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 use Illuminate\Http\Request;
 
@@ -16,6 +17,7 @@ use Laraspace\Api\Contracts\TournamentContract;
  */
 class TournamentController extends BaseController
 {
+    use ValidatesRequests;
     /**
      * @param object $tournamentObj
      */
@@ -39,6 +41,20 @@ class TournamentController extends BaseController
     }
 
     /**
+     * Show all Tournament Details By Status.
+     *
+     * Get a JSON representation of all the Age Groups.
+     *
+     * @Get("/tournament/status")
+     * @Versions({"v1"})
+     * @Response(200, body={"id": 10, "club_id": "foo"})
+     */
+    public function getTournamentByStatus(Request $request)
+    {
+        return $this->tournamentObj->getTournamentByStatus($request);
+    }
+
+    /**
      * Show all Tournament Templates.
      *
      * Get a JSON representation of all the Age Groups.
@@ -47,9 +63,23 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "json": "foo"})
      */
-    public function templates()
+    public function templates(Request $request)
     {
-        return $this->tournamentObj->templates();
+        return $this->tournamentObj->templates($request->all());
+    }
+
+    /**
+     * Show json Data for Template.
+     *
+     * Get a JSON representation of all the Age Groups.
+     *
+     * @Get("/templates")
+     * @Versions({"v1"})
+     * @Response(200, body={"id": 10, "json": "foo"})
+     */
+    public function getTemplate(Request $request)
+    {
+        return $this->tournamentObj->getTemplate($request->all());
     }
 
     /**
@@ -63,7 +93,7 @@ class TournamentController extends BaseController
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
     public function create(Request $request)
-    {                
+    {
         return $this->tournamentObj->create($request);
     }
 
@@ -88,8 +118,50 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function delete(Request $request)
+    public function delete($id)
     {
-        return $this->tournamentObj->delete($request);
+        return $this->tournamentObj->delete($id);
     }
+    public function tournamentSummary(Request $request)
+    {
+        return $this->tournamentObj->tournamentSummary($request);
+    }
+
+    public function generateReport(Request $request) {
+       return $this->tournamentObj->generateReport($request->all());
+    }
+    public function generatePrint(Request $request) {
+
+        // dd($this->tournamentObj->generatePrint($request->all()));
+       return $this->tournamentObj->generatePrint($request->all());
+    }
+    protected function formatValidationErrors(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        logger($validator->errors()->all());
+        return $validator->errors()->all();
+    }
+    public function updateStatus(Request $request) {
+       return $this->tournamentObj->updateStatus($request->all());
+    }
+    public function tournamentFilter(Request $request)
+    {
+      return $this->tournamentObj->tournamentFilter($request->all());
+    }
+    public function getAllCategory(Request $request)
+    {
+      return $this->tournamentObj->getAllCategory($request->all());
+    }
+    public function getUserLoginDefaultTournament(Request $request)
+    {
+      return $this->tournamentObj->getUserLoginDefaultTournament($request->all());
+    }
+     public function getUserLoginFavouriteTournament(Request $request)
+    {
+      return $this->tournamentObj->getUserLoginFavouriteTournament($request->all());
+    }
+    public function getTournamentClub(Request $request)
+    {
+      return $this->tournamentObj->getTournamentClub($request->all());
+    }
+
 }

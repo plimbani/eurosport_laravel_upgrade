@@ -9,52 +9,16 @@ import AuthService from './services/auth'
  |--------------------------------------------------------------------------|
  */
 
-//Dashboard
-
-import Basic from './views/admin/dashboard/Basic.vue'
-import Ecommerce from './views/admin/dashboard/Ecommerce.vue'
-import Finance from './views/admin/dashboard/Finance.vue'
-
 //Layouts
-import LayoutBasic from './views/layouts/LayoutBasic.vue'
 import LayoutHorizontal from './views/layouts/LayoutHorizontal.vue'
-import LayoutIconSidebar from './views/layouts/LayoutIconSidebar.vue'
 import LayoutLogin from './views/layouts/LayoutLogin.vue'
 import LayoutFront from './views/layouts/LayoutFront.vue'
 
-//Basic UI
-import Buttons from './views/admin/basic-ui/Buttons.vue'
-import Cards from './views/admin/basic-ui/Cards.vue'
-import Tabs from './views/admin/basic-ui/Tabs.vue'
-import Typography from './views/admin/basic-ui/Typography.vue'
-import Tables from './views/admin/basic-ui/Tables.vue'
-
-//Components
-import Datatables from './views/admin/components/Datatables.vue'
-import Notifications from './views/admin/components/Notifications.vue'
-import Graphs from './views/admin/components/Graphs.vue'
-
-//Forms
-import General from './views/admin/forms/General.vue'
-import Advanced from './views/admin/forms/Advanced.vue'
-import Layouts from './views/admin/forms/FormLayouts.vue'
-import Validation from './views/admin/forms/FormValidation.vue'
-import Editors from './views/admin/forms/Editors.vue'
-//import VeeValidate from './views/admin/forms/VeeValidate.vue'
-
-//Settings
-import Settings from './views/admin/Settings.vue'
-
-/*
- |--------------------------------------------------------------------------
- | Other
- |--------------------------------------------------------------------------|
- */
-
-//Auth
+//Login : Auth
 import Login from './views/auth/Login.vue'
 import Register from './views/auth/Register.vue'
 
+// Error : Not Found page
 import NotFoundPage from './views/errors/404.vue'
 
 /*
@@ -64,6 +28,7 @@ import NotFoundPage from './views/errors/404.vue'
  */
 
 import Home from './views/front/Home.vue'
+import FrontSchedule from './views/front/FrontScheduleResults.vue'
 
 /*
  |--------------------------------------------------------------------------
@@ -85,6 +50,10 @@ import Summary from './views/admin/eurosport/Summary.vue'
 import CompetationFormat from './views/admin/eurosport/CompetationFormat.vue'
 import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
 
+import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
+
+//import Referee from './views/admin/eurosport/Referee.vue'
+
 
 // UserManagement Layout
 import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
@@ -95,48 +64,37 @@ import UserList from './views/admin/users/List.vue'
 Vue.use(VueRouter)
 
 const routes = [
+   
     
-    /*
-     |--------------------------------------------------------------------------
-     | Layout Routes for DEMO
-     |--------------------------------------------------------------------------|
-     */
-
-    {
-        path: '/admin/layouts', component: LayoutBasic,
-        children: [
-            {
-                path: 'sidebar',
-                component: Basic
-            },
-        ]
-    },
-    {
-        path: '/admin/layouts', component: LayoutHorizontal,
-        children: [
-            {
-                path: 'horizontal',
-                component: Basic
-            },
-        ]
-    },
-    {
-        path: '/admin/layouts', component: LayoutIconSidebar,
-        children: [
-            {
-                path: 'icon-sidebar',
-                component: Basic
-            },
-        ]
-    },
-
     /*
      |--------------------------------------------------------------------------
      | EuroSport Route File
      |--------------------------------------------------------------------------|
      */
+     /*
+     |--------------------------------------------------------------------------
+     | Frontend Routes
+     |--------------------------------------------------------------------------|
+     */
 
     {
+        path: '/', component: LayoutFront,
+        children: [
+            {
+                path: '/',
+                component: Home,
+                name: 'home'
+            },
+            {
+                path: '/schedule_results',
+                component: FrontSchedule,
+                name: 'front_schedule'
+            },
+               
+        ]
+    },
+
+   /* {
         path: '/', component: LayoutHorizontal,
         meta: { requiresAuth: true },
         children: [
@@ -146,10 +104,22 @@ const routes = [
                 name: 'welcome'
             },                     
         ]
-    },
+    },*/
 
+    // Admin Backend Routes For Tournaments
     {
-        path: '/tournament', component: LayoutTournament,
+        path: '/admin', component: LayoutHorizontal,
+        meta: { requiresAuth: true }, 
+        children: [
+            {
+                path: '/',
+                component: Welcome,
+                name: 'welcome'       
+            }
+        ]
+    },    
+    {
+        path: '/admin', component: LayoutTournament,
         meta: { requiresAuth: true },   
         children: [
             {
@@ -176,13 +146,14 @@ const routes = [
                 path: 'pitch_capacity',
                 component: PitchCapacity,
                 name: 'pitch_capacity'
-            },            
-            // {
-            //     path: '/pitch',
-            //     component: PitchCapacity,
-            //     name: 'pitch'
-            // },            
-            
+            },
+            {
+                path: 'pitch_planner',
+                component: PitchPlanner,
+                name: 'pitch_planner'
+
+            } 
+             
         ]
     },
     {
@@ -197,102 +168,12 @@ const routes = [
         ]
     },
 
-    /*
-     |--------------------------------------------------------------------------
-     | Admin Backend Routes
-     |--------------------------------------------------------------------------|
-     */
-    {
-        path: '/admin', component: LayoutBasic,  // Change the desired Layout here
-        meta: { requiresAuth: true },
-        children: [
-
-            //Dashboard
-            {
-                path: 'dashboard/basic',
-                component: Basic,
-                name: 'dashboard',
-            },
-            {
-                path: 'dashboard/ecommerce',
-                component: Ecommerce
-            },
-            {
-                path: 'dashboard/finance',
-                component: Finance
-            },
-
-            //Basic UI
-            {
-                path: 'basic-ui/buttons',
-                component: Buttons
-            },
-            {
-                path: 'basic-ui/cards',
-                component: Cards
-            },
-            {
-                path: 'basic-ui/tabs',
-                component: Tabs
-            },
-            {
-                path: 'basic-ui/typography',
-                component: Typography
-            },
-            {
-                path: 'basic-ui/tables',
-                component: Tables
-            },
-
-            //Components
-            {
-                path: 'components/datatables',
-                component: Datatables
-            },
-            {
-                path: 'components/notifications',
-                component: Notifications
-            },
-            {
-                path: 'components/graphs',
-                component: Graphs
-            },
-
-            //Forms
-            {
-                path: 'forms/general',
-                component: General
-            },
-            {
-                path: 'forms/advanced',
-                component: Advanced
-            },
-            {
-                path: 'forms/layouts',
-                component: Layouts
-            },
-            {
-                path: 'forms/validation',
-                component: Validation
-            },
-            {
-                path: 'forms/editors',
-                component: Editors
-            },
-
-            //Settings
-            {
-                path: 'settings',
-                component: Settings
-            },
-        ]
-    },
-
-    /*
+   
+     /*
      |--------------------------------------------------------------------------
      | Auth & Registration Routes
      |--------------------------------------------------------------------------|
-     */
+    */
 
     {
         path: '/', component: LayoutLogin,
@@ -308,7 +189,7 @@ const routes = [
                 name: 'register'
             },
         ]
-    },
+    }, 
 
     // DEFAULT ROUTE
     {   path: '*', component : NotFoundPage }

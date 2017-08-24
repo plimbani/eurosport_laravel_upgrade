@@ -18,13 +18,13 @@ class TournamentRepository
 
         $startDate = Carbon::createFromFormat('m/d/Y', $tournamentData['tournaments_start_date']);
 
-        //$start_date =  Carbon::now()->format('Y-m-d', $tournamentData['tournaments_start_date']);
+ 
         $data['name'] = $tournamentData['tournaments_name'];
         $data['start_date'] = $startDate;
         $data['website'] = $tournamentData['tournaments_website'];
         $data['facebook'] = $tournamentData['tournaments_facebook'];
         $data['twitter'] = $tournamentData['tournaments_twitter'];
-        $data['end_date'] = Carbon::createFromFormat('m/d/Y', $tournamentData['tournaments_start_date'])->addDays($tournamentData['tournament_days']);
+        $data['end_date'] = Carbon::createFromFormat('d/m/Y', $tournamentData['tournaments_start_date'])->addDays($tournamentData['tournament_days']);
         $data['user_id'] = \Auth::id();
 
         // Todo: Set Default Temporary Values

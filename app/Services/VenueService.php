@@ -5,11 +5,16 @@ namespace Laraspace\Services;
 use Laraspace\Contracts\VenueContract;
 use Laraspace\Repositories\VenueRepository;
 
-class VenueService implements VenueContract
+class VenueTempService implements VenueContract
 {
     public function __construct(VenueRepository $venueRepoObj)
     {
         $this->venueRepoObj = $venueRepoObj;
+    }
+        public function __construct()
+    {
+        $this->pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
+        $this->pitchAvailableRepoObj = new \Laraspace\Api\Repositories\PitchAvailableRepository();
     }
 
     /*

@@ -12,6 +12,12 @@ class Pitch extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name','tournament_id', 'pitch_number', 'type', 'venue_id', 'comment', 'time_slot', 'availability'];
+    protected $fillable = ['name','tournament_id', 'pitch_number', 'type', 'venue_id', 'comment', 'time_slot', 'availability', 'pitch_capacity','size'];
     protected $dates = ['deleted_at'];
+
+
+    public function pitchAvailability()
+    {
+         return $this->hasMany('Laraspace\Models\PitchAvailable');
+    }
 }

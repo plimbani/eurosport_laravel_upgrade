@@ -8,9 +8,14 @@ use Carbon\Carbon;
 
 class Tournament extends Model
 {
+    public function club()
+    {
+        return $this->belongsToMany('Laraspace\Models\Club');
+    }
+
     use SoftDeletes;
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $table = 'tournaments';
 
@@ -33,23 +38,23 @@ class Tournament extends Model
 
     public function getStartDateAttribute($value)
     {
-         return Carbon::parse($value)->format('m/d/Y');
+         return Carbon::parse($value)->format('d/m/Y');
     }
      public function setStartDateAttribute($value)
     {
         $new_val = $value." 00:00:00";
-        $this->attributes['start_date'] =  Carbon::createFromFormat('m/d/Y', $value);
+        $this->attributes['start_date'] =  Carbon::createFromFormat('d/m/Y', $value);
 
     }
     public function getEndDateAttribute($value)
     {
-        return Carbon::parse($value)->format('m/d/Y');
+        return Carbon::parse($value)->format('d/m/Y');
     }
 
     public function setEndDateAttribute($value)
     {
         $new_val = $value." 00:00:00";
-        $this->attributes['end_date'] =   Carbon::createFromFormat('m/d/Y', $value);
+        $this->attributes['end_date'] =   Carbon::createFromFormat('d/m/Y', $value);
 
     }
 }

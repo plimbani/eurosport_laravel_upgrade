@@ -4,23 +4,19 @@
 			<div class="card-block">
 				<div class="row">
 					<div class="col-lg-12">
-						<div class="tabs tabs-primary summary-tab">
+						<div class="tabs tabs-primary">
 							<ul class="nav nav-tabs" role="tablist">
 								<li class="nav-item">
-									<a class="nav-link active" data-toggle="tab" 
-									 role="tab" @click="currentView='summaryTab'">Summary</a>
+									<a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'"><b>{{$lang.summary_label_summary}}</b></a>
 								</li>					  		 
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" 
-									href="#home2" role="tab" @click="currentView='summaryReport'">Reports</a>
+									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'"><b>{{$lang.summary_label_reports}}</b></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" 
-									href="#home2" role="tab" @click="GetSelectComponent('schedule_results')">Schedule and results</a>
+									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'"><b>{{$lang.summary_label_schedule}}</b></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" 
-									href="#home2" role="tab" @click="GetSelectComponent('messages')">Messages</a>
+									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'"><b>{{$lang.summary_label_message}}</b></a>
 								</li>
 							</ul>
 							<component :is="currentView"> </component>
@@ -36,15 +32,31 @@
 
 import SummaryTab from '../../../components/SummaryTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
+import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
+import Messages from '../../../components/Messages.vue'
 
 export default {
+
     data() {
        return {
          currentView:'summaryTab'
        }
     },	
     components: {
-        SummaryTab, SummaryReport
-    }
+        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages
+    },
+    mounted() {
+    	let tournamentId = this.$store.state.Tournament.tournamentId
+      if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
+      	toastr['error']('Please Select Tournament', 'Error');
+        this.$router.push({name: 'welcome'});
+      } else {
+          // First Set Menu and ActiveTab
+        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Summary'}
+          this.$store.dispatch('setActiveTab', currentNavigationData)
+      }
+      // Here we set currenct Schedule view null
+      this.$store.dispatch('setCurrentScheduleView','') 
+    }  
 }
 </script>

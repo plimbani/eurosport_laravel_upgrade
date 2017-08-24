@@ -5,6 +5,8 @@
 // Plugins
 @import '../plugins/bootstrap/scss/bootstrap';
 @import '../plugins/fontawesome/font-awesome';
+@import '../plugins/flag-icon-css-master/sass/flag-icon';
+@import '../plugins/customfonts/style';
 @import '../plugins/ladda/ladda.scss';
 @import '../plugins/customScrollBar/customScrollBar.scss';
 @import '../plugins/toastr/toastr.scss';
@@ -24,6 +26,13 @@
 @import "../plugins/alertify/alertify.scss";
 @import "../plugins/easypiecharts/easypiecharts.scss";
 @import "../plugins/metisMenu/metisMenu.scss";
+@import "../plugins/fullcalendar/fullcalendar.css";
+// @import "../plugins/fullcalendar-scheduler/scheduler.css";
+@import "../plugins/vue-multiselect/vue-multiselect.min.css";
+
+
+@import "../plugins/fullcalendar-scheduler/lib/fullcalendar.min.css";
+@import "../plugins/fullcalendar-scheduler/scheduler.css"; 
 
 // Option Skin.
 @import 'skins/skin-tyrell';
@@ -31,6 +40,9 @@
 @import 'skins/skin-targaryen';
 @import 'skins/skin-lannister';
 @import 'skins/skin-stark';
+
+// Color
+@import 'components/colors';
 
 // Content Styles
 @import 'base';
@@ -47,6 +59,7 @@
 
 // Components
 @import 'components/forms';
+@import 'components/euro-checkbox';
 @import 'components/buttons';
 @import 'components/cards';
 @import 'components/tabs';

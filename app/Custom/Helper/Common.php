@@ -1,25 +1,57 @@
 <?php
-namespace App\Custom\Helper;
+namespace Laraspace\Custom\Helper;
 
-use App\Mail\SendMail;
+use Laraspace\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 
 class Common {
-    /**
-     * Send mail
-     * @param  [type] $email_details    Email detail
-     * @param  [type] $email_recipients Email recipients
-     * @param  [type] $email_subject    Email subject
-     * @param  [type] $email_view       Email view
-     * @return JSON
-     */
-    static function sendMail($email_details, $email_recipients, $email_subject, $email_view)
-    {        
-        $contact_details = $email_details;
-        $recipient = $email_recipients;
-        Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view));
-        return response()->json([
-            'status' => 'suceess'
-        ]);
+
+    static function toExcel($lableArray, $dataArray, $otherParams,$output = 'xlsx',$download='yes',$columnFormat=''){
+        $excelCreateObj = \Excel::create(str_slug($otherParams['sheetTitle']), function($excel) use($lableArray, $dataArray, $otherParams,$columnFormat) {
+            $excel->setTitle($otherParams['sheetTitle']);
+            $excel->sheet($otherParams['sheetName'], function($sheet) use($lableArray, $dataArray, $otherParams,$columnFormat) {
+                $sheet->row(1, $lableArray);
+                $sheet->row(1, function($row){
+                    $row->setBackground("#1f844c");
+                    $row->setFontColor('#ffffff');
+                    $row->setFontWeight('bold');
+                    $row->setFontFamily('Arial');
+                    $row->setFontSize(10);
+                });
+                 if($columnFormat!=''){
+                $sheet->setColumnFormat($columnFormat); 
+                 }
+                $row_no = 2;
+                foreach ($dataArray as $data) {
+                     
+                    $sheet->row($row_no, $data);
+                    $row_no++;
+                }
+                
+                if($otherParams['boldLastRow']){
+                    $sheet->row(($row_no-1), function($row){
+                        $row->setFontWeight('bold');
+                    });
+                }
+            });
+        });
+         $excelCreateObj->export($output);   
+       
     }
+
+    static function sendMail($email_details, $email_recipients, $email_subject, $email_view, $email_from = null)
+       {        
+           $contact_details = $email_details;        
+           $recipient = $email_recipients;
+           if ($email_from != null && !empty($email_from)) {
+              Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view, $email_from));
+           }
+           else{
+               Mail::to($recipient)->send(new SendMail($contact_details, $email_subject,  $email_view));
+           }
+           return response()->json([
+               'status' => 'suceess',
+               'message' => 'Thank you for your message. We will aim to get back to you within the next 24 hours.'
+           ]);
+       }
 }
