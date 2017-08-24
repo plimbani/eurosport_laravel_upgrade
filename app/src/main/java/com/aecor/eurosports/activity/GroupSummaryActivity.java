@@ -182,11 +182,12 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
     private void getTeamFixtures() {
 
-        final ProgressHUD mProgressdialog = Utility.getProgressDialog(mContext);
-        String url = ApiConstants.GET_TEAM_FIXTURES;
-        final JSONObject requestJson = new JSONObject();
+
 
         if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressdialog = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.GET_TEAM_FIXTURES;
+            final JSONObject requestJson = new JSONObject();
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             try {
@@ -240,16 +241,18 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        }else{
+            checkConnection();
         }
     }
 
     private void getGroupStanding() {
 
-        final ProgressHUD mProgressdialog = Utility.getProgressDialog(mContext);
-        String url = ApiConstants.GET_GROUP_STANDING;
-        final JSONObject requestJson = new JSONObject();
 
         if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressdialog = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.GET_GROUP_STANDING;
+            final JSONObject requestJson = new JSONObject();
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             try {
@@ -303,6 +306,8 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        }else{
+            checkConnection();
         }
     }
 

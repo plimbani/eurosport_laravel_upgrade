@@ -111,10 +111,11 @@ public class ClubsClubFragment extends Fragment {
     }
 
     private void getClubList() {
-        final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
-        String url = ApiConstants.TOURNAMENT_CLUBS;
-        final JSONObject requestJson = new JSONObject();
+
         if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.TOURNAMENT_CLUBS;
+            final JSONObject requestJson = new JSONObject();
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             try {

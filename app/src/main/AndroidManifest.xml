@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".application.ApplicationClass"
@@ -72,9 +73,6 @@
             android:name=".activity.ForgotPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ForgotPasswordOtpActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -86,10 +84,6 @@
         <activity
             android:name=".activity.ProfileActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.ImageOptionDialogActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Dialog" />
         <activity
             android:name=".activity.NotificationAndSoundActivity"
             android:screenOrientation="portrait" />
@@ -152,6 +146,15 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </receiver>
+
+
+        <receiver
+            android:name=".util.ConnectivityChangeReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
     </application>

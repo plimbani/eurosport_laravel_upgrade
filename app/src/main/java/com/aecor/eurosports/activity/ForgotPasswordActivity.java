@@ -87,16 +87,17 @@ public class ForgotPasswordActivity extends BaseActivity {
     }
 
     private void forgotPassword() {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.FORGOT_PASSWORD;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("email", forgot_email_address.getText().toString().trim());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
 
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.FORGOT_PASSWORD;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("email", forgot_email_address.getText().toString().trim());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             AppLogger.LogE(TAG, "***** Forgot password request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
@@ -143,6 +144,8 @@ public class ForgotPasswordActivity extends BaseActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        }else{
+            checkConnection();
         }
     }
 

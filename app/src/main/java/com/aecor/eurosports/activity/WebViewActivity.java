@@ -54,6 +54,8 @@ public class WebViewActivity extends BaseAppCompactActivity {
         initView();
     }
 
+
+
     protected class MyWebClient extends WebViewClient {
 
         @Override

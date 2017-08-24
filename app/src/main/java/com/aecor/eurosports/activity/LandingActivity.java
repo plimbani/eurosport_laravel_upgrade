@@ -47,4 +47,6 @@ public class LandingActivity extends BaseActivity {
         startActivity(new Intent(mContext, RegisterActivity.class));
         finish();
     }
+
+
 }

@@ -68,10 +68,11 @@ public class FavouritesActivity extends BaseAppCompactActivity {
     }
 
     private void getTournamentList() {
-        final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
-        String url = ApiConstants.GET_TOURNAMENTS;
-        final JSONObject requestJson = new JSONObject();
         if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.GET_TOURNAMENTS;
+            final JSONObject requestJson = new JSONObject();
+
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
@@ -110,19 +111,22 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 
     private void getLoggedInUserFavouriteTournamentList() {
-        final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
-        String url = ApiConstants.GET_USER_FAVOURITE_LIST;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", Utility.getUserId(mContext));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.GET_USER_FAVOURITE_LIST;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("user_id", Utility.getUserId(mContext));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
@@ -159,6 +163,8 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 

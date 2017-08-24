@@ -85,22 +85,23 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
     @OnClick(R.id.btn_update)
     protected void onUpdateButtonClicked() {
-        String user_id = mAppPref.getString(AppConstants.PREF_USER_ID);
-        Utility.startProgress(mContext);
-        String url = ApiConstants.UPDATE_PROFILE + user_id;
-        final JSONObject requestJson = new JSONObject();
-        try {
 
-            requestJson.put("first_name", input_first_name.getText().toString().trim());
-            requestJson.put("last_name", input_last_name.getText().toString().trim());
-            requestJson.put("tournament_id", tournamet_id);
-            requestJson.put("locale", selectedLocale);
-            requestJson.put("user_id", user_id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         if (Utility.isInternetAvailable(mContext)) {
+            String user_id = mAppPref.getString(AppConstants.PREF_USER_ID);
+            Utility.startProgress(mContext);
+            String url = ApiConstants.UPDATE_PROFILE + user_id;
+            final JSONObject requestJson = new JSONObject();
+            try {
+
+                requestJson.put("first_name", input_first_name.getText().toString().trim());
+                requestJson.put("last_name", input_last_name.getText().toString().trim());
+                requestJson.put("tournament_id", tournamet_id);
+                requestJson.put("locale", selectedLocale);
+                requestJson.put("user_id", user_id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             AppLogger.LogE(TAG, "***** Profile update request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
@@ -140,6 +141,8 @@ public class ProfileActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 
@@ -224,16 +227,17 @@ public class ProfileActivity extends BaseAppCompactActivity {
     }
 
     private void setDefaultTournament(final String tournamentId) {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.SET_DEFAULT_TOURNAMENET;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", Utility.getUserId(mContext));
-            requestJson.put("tournament_id", tournamentId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.SET_DEFAULT_TOURNAMENET;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("user_id", Utility.getUserId(mContext));
+                requestJson.put("tournament_id", tournamentId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             AppLogger.LogE(TAG, "*** SET DEFAULT TOURNAMENT REQUEST ***" + requestJson.toString());
@@ -266,14 +270,16 @@ public class ProfileActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 
     private void getTournamentList() {
-        Utility.startProgress(mContext);
-        String url = ApiConstants.GET_TOURNAMENTS;
-        final JSONObject requestJson = new JSONObject();
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.GET_TOURNAMENTS;
+            final JSONObject requestJson = new JSONObject();
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
 
@@ -312,6 +318,8 @@ public class ProfileActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 

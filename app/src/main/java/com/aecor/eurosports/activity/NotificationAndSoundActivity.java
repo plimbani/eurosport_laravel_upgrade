@@ -103,16 +103,17 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
 
     private void getSettingsParam() {
 
-        Utility.startProgress(mContext);
-        String url = ApiConstants.GET_SETTINGS_ATTRIBUTE;
-        final JSONObject requestJson = new JSONObject();
-        try {
-            requestJson.put("user_id", Utility.getUserId(mContext));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         if (Utility.isInternetAvailable(mContext)) {
+
+            Utility.startProgress(mContext);
+            String url = ApiConstants.GET_SETTINGS_ATTRIBUTE;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("user_id", Utility.getUserId(mContext));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
@@ -179,48 +180,51 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
 
     }
 
     private void postSettingsParam() {
 
-        Utility.startProgress(mContext);
-        String url = ApiConstants.UPDATE_USER_SETTINGS;
-        final JSONObject requestJson = new JSONObject();
-        try {
-//            requestJson.put("user_id", Utility.getUserId(mContext));
-            JSONObject mUserData = new JSONObject();
-            mUserData.put("userId", Utility.getUserId(mContext));
-
-            JSONObject mUserSettings = new JSONObject();
-            if (sc_sound.isChecked()) {
-                mUserSettings.put("is_sound", "true");
-                mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, true);
-            } else {
-                mUserSettings.put("is_sound", "false");
-                mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, false);
-            }
-            if (sc_vibration.isChecked()) {
-                mUserSettings.put("is_vibration", "true");
-                mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, true);
-            } else {
-                mUserSettings.put("is_vibration", "false");
-                mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, false);
-            }
-            if (sc_notification.isChecked()) {
-                mUserSettings.put("is_notification", "true");
-                mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, true);
-            } else {
-                mUserSettings.put("is_notification", "false");
-                mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, false);
-            }
-            mUserData.put("userSettings", mUserSettings);
-            requestJson.put("userData", mUserData);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         if (Utility.isInternetAvailable(mContext)) {
+
+            Utility.startProgress(mContext);
+            String url = ApiConstants.UPDATE_USER_SETTINGS;
+            final JSONObject requestJson = new JSONObject();
+            try {
+//            requestJson.put("user_id", Utility.getUserId(mContext));
+                JSONObject mUserData = new JSONObject();
+                mUserData.put("userId", Utility.getUserId(mContext));
+
+                JSONObject mUserSettings = new JSONObject();
+                if (sc_sound.isChecked()) {
+                    mUserSettings.put("is_sound", "true");
+                    mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, true);
+                } else {
+                    mUserSettings.put("is_sound", "false");
+                    mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, false);
+                }
+                if (sc_vibration.isChecked()) {
+                    mUserSettings.put("is_vibration", "true");
+                    mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, true);
+                } else {
+                    mUserSettings.put("is_vibration", "false");
+                    mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, false);
+                }
+                if (sc_notification.isChecked()) {
+                    mUserSettings.put("is_notification", "true");
+                    mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, true);
+                } else {
+                    mUserSettings.put("is_notification", "false");
+                    mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, false);
+                }
+                mUserData.put("userSettings", mUserSettings);
+                requestJson.put("userData", mUserData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
@@ -246,6 +250,8 @@ public class NotificationAndSoundActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
 
     }

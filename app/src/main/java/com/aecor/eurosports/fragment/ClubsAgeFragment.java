@@ -109,11 +109,12 @@ public class ClubsAgeFragment extends Fragment {
     }
 
     private void getAgeCategories() {
-        final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
-        String url = ApiConstants.AGE_CATEGORIES;
-        final JSONObject requestJson = new JSONObject();
+
 
         if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.AGE_CATEGORIES;
+            final JSONObject requestJson = new JSONObject();
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             try {

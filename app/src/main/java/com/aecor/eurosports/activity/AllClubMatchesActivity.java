@@ -74,11 +74,11 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
 
     private void getAllClubMatches() {
 
-        final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
-        String url = ApiConstants.GET_TEAM_FIXTURES;
-        final JSONObject requestJson = new JSONObject();
 
         if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.GET_TEAM_FIXTURES;
+            final JSONObject requestJson = new JSONObject();
             RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             try {
@@ -133,6 +133,8 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
         }
     }
 

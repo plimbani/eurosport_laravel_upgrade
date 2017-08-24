@@ -102,6 +102,7 @@
     <string name="euro_sportring_contact">Euro-Sportring Contact</string>
     <string name="name">Name:</string>
     <string name="contact_number">Contact number:</string>
+    <string name="the_internet_connection_appears_to_be_offline">The internet connection appears to be offline.</string>
 
     <!--Volley-->
 

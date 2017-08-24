@@ -118,11 +118,11 @@ public class TeamListingActivity extends BaseAppCompactActivity {
 
     private void getTeamList() {
 
-        Utility.startProgress(mContext);
-        String url = ApiConstants.GET_TEAM_LIST;
-        final JSONObject requestJson = new JSONObject();
-        if (Utility.isInternetAvailable(mContext)) {
-            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+          if (Utility.isInternetAvailable(mContext)) {
+              Utility.startProgress(mContext);
+              String url = ApiConstants.GET_TEAM_LIST;
+              final JSONObject requestJson = new JSONObject();
+              RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             try {
                 requestJson.put(AppConstants.PREF_TOURNAMENT_ID, mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
