@@ -67,7 +67,7 @@
               </div>
             </div>
             <div v-else class="form-group text-left">
-                <div class="form-group row align-items-center">
+              <div class="form-group row align-items-center">
               <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
                 <div class="col-sm-8">
                   <div class="row">
@@ -103,9 +103,9 @@
               <button type="button" class="btn btn-danger pull-left"   @click="modalOpen('delete')"
               v-if="messageDetail.status != 'sent' ">Delete</button>
               </div>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
-              <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">Draft</button>
-              <button type="button" class="btn btn-primary" @click="modalOpen('send')" id="saveAge"  v-if="messageDetail.status != 'sent' ">Send</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_message_popup_cancle_button}}</button>
+              <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_draft_button}}</button>
+              <button type="button" class="btn btn-primary" @click="modalOpen('send')" id="saveAge"  v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_send_button}}</button>
               
           </div>
       </div>
