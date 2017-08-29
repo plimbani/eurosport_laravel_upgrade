@@ -29,7 +29,7 @@
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
-              <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft">Draft</button>
+              <button type="button" class="btn btn-warning" @click="setDraft" id="setDraft">Draft</button>
               <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge">Send</button>
           </div>
          
