@@ -56,11 +56,11 @@
                             v-validate="'required'"
                             name="content"
                             :class="{'is-danger': errors.has('content') }"
-                            v-model="messageDetail.content"   maxlength="100" ></textarea>
+                            v-model="messageDetail.content"></textarea>
                             <span class="help is-danger" v-show="errors.has('content')">
                               Field is required
                             </span>
-                            <span class="limiter">{{charactersLeft}}</span>
+                            <span>Suggested max characters 100. Characters used</span> <span v-bind:class="{'text-danger': hasError }" class="limiter">{{charactersLeft}}</span>
                       </div>
                     </div>
               </div>
@@ -143,7 +143,8 @@ export default {
       deleteConfirmMsg: 'Are you sure you would like to delete this message?',
       sendConfirmMsg: 'Are you sure you would like to send this message?',
       deleteAction: '',
-      status: '' 
+      status: '',
+      hasError: false
     }
   },
   props:['messageDetail'],
@@ -152,8 +153,8 @@ export default {
       var char = this.messageDetail.content.length,
           limit = 100;
       let remaining_char = (limit - char) ;
-
-      return "Suggested max characters "+limit+". Characters used "+char+".";
+      this.hasError = this.messageDetail.content.length > 100;
+      return char+".";
     },
     sentUser() {
       if(this.messageDetail.receiver.length > 1 ){
