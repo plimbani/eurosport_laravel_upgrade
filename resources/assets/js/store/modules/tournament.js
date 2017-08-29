@@ -59,7 +59,6 @@ const actions = {
 	)
   },
   SetTemplate ({commit}, tournamentData) {
-
 	Tournament.getTemplate(tournamentData).then (
 	  (response) => {
 		let TournamentRespData = {'json': response.data.data , 'TotalTime': tournamentData.totalTime}

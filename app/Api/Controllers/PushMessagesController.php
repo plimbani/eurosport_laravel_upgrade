@@ -55,7 +55,7 @@ class PushMessagesController extends BaseController
         \Log::info($request->all());
         return $this->response->array([]);
     }
-    private function sendToFCM($content,$token) {
+    private function sendToFCM($content,$token,$sound = 'default') {
 
         try {
              $optionBuiler = new OptionsBuilder();
@@ -63,10 +63,15 @@ class PushMessagesController extends BaseController
         $optionBuiler->setPriority('high');
         $optionBuiler->setContentAvailable(true);
 
+        // $isSound = $sound == 'true'? 'default' : '';
+        // $isSound = $sound;
+ 
         $notificationBuilder = new PayloadNotificationBuilder($content);
-        $notificationBuilder->setBody($content)
+          $notificationBuilder->setBody($content)
                             ->setTitle('Euro-Sportring')
-                            ->setSound('default');
+                            ->setSound($sound);
+        
+        
 
         $dataBuilder = new PayloadDataBuilder();
         $dataBuilder->addData(['test_data' => $content]);
@@ -180,10 +185,23 @@ class PushMessagesController extends BaseController
                 ]);
         }
         if($type == 'save') {
-          $userData = User::whereIn('id',$users)->pluck('fcm_id')->toArray();
-          $token = $userData;
+          $downstreamResponse1 = '';$downstreamResponse2 = '';
+        // dd($users); 
+          $userDataSoundOff = User::join('settings', 'users.id', '=', 'settings.user_id')->whereIn('users.id',$users)->where('settings.value->is_sound', 'false')->pluck('users.fcm_id')->toArray();
+          $tokenSoundOff = $userDataSoundOff;
+          // dd($tokenSoundOff);
+          if(!empty($tokenSoundOff)){
+            $downstreamResponse1 = $this->sendToFCM($content,$tokenSoundOff,'');
+          }
+          $userDataSoundOn = User::join('settings', 'users.id', '=', 'settings.user_id')->whereIn('users.id',$users)->where('settings.value->is_sound', 'true')->pluck('users.fcm_id')->toArray();
+          $tokenSoundOn = $userDataSoundOn;
+          // dd($tokenSoundOn);
+          if(!empty($tokenSoundOn)){
+            $downstreamResponse2 = $this->sendToFCM($content,$tokenSoundOn,'default');
+          }
+          
 
-          $downstreamResponse = $this->sendToFCM($content,$token);
+          
 
           $data['sent_from'] = $userId;
           $data['user_id'] = $users;
@@ -197,11 +215,11 @@ class PushMessagesController extends BaseController
           $data['content'] = $content;
           $data['status'] = 'queued';
           $data['tournament_id'] = $tournamentId;
-          $downstreamResponse = '';
+          $downstreamResponse1 = '';
         }
 
         // Now insert in DB
-        if($downstreamResponse === false) {
+        if($downstreamResponse1 === false || $downstreamResponse2 === false ) {
             return $this->response->array([
                     'data' => 'Problem on send notification',
                     'message' => "failure",
@@ -211,16 +229,15 @@ class PushMessagesController extends BaseController
         $this->insertInMessageHistory($data);
 
         return $this->response->array([
-                    'data' => $downstreamResponse,
+                    'data' => $downstreamResponse1,
                     'message' => "success",
                     "status_code" => 200
                 ]);
     }
     public function getMessages(Request $request) {
-        \Log::info($request->all());
         $messageData = $request->all();
         $tournamentId = $messageData['messageData']['tournament_id'];
-        $messageData = Message::where('tournament_id',$tournamentId)->With('sender')->With('tournament')->get()->toArray();
+        $messageData = Message::where('tournament_id',$tournamentId)->With(['sender','receiver','tournament'])->get()->toArray();
         return $this->response->array([
                     'data' => $messageData,
                     'message' => "success",

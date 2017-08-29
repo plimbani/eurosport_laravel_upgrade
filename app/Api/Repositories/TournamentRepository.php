@@ -446,10 +446,15 @@ class TournamentRepository
       $userData = UserFavourites::where('users_favourite.user_id','=',$data['user_id'])
               ->where('tournaments.status','=','Published')
               ->leftJoin('tournaments','tournaments.id','=','users_favourite.tournament_id')
+              ->leftJoin('tournament_contact','tournaments.id','=','tournament_contact.tournament_id')
               ->select('tournaments.*',
                 'users_favourite.*',
                 'tournaments.id as TournamentId',
                 'tournaments.start_date as TournamentStartTime',
+                'tournament_contact.first_name',
+                'tournament_contact.last_name',
+                'tournament_contact.telephone',
+                'tournament_contact.email',
                 \DB::raw('CONCAT("'.$this->tournamentLogo.'", tournaments.logo) AS tournamentLogo'))
               ->get()->toArray();
       //print_r($userData->toArray());

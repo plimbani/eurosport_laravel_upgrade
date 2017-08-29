@@ -168,4 +168,8 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      }
       $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp));
     }
+    public function settings()
+    {
+        return $this->hasOne('Laraspace\Models\Settings', 'user_id');
+    }
 }

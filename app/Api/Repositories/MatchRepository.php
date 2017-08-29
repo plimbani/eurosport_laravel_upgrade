@@ -79,7 +79,7 @@ class MatchRepository
             ->groupBy('temp_fixtures.id')
             ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'temp_fixtures.round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime',
                 'venues.id as venueId', 'competitions.id as competitionId',
-                'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',
+                'tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name','referee.last_name as referee_last_name',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
                 'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id','HomeFlag.logo as HomeFlagLogo','AwayFlag.logo as AwayFlagLogo',
                 'HomeFlag.country_flag as HomeCountryFlag',

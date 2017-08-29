@@ -49,12 +49,13 @@ class AuthController extends Controller
         if($token) {
           $userData = JWTAuth::toUser($token);
                 // here we put check for Mobile Users
+
           \Log::info('UserData');
           $isMobileUsers = \Request::header('IsMobileUser');
-
+           // dd($userData->is_mobile_user,$isMobileUsers);
           if($userData->is_mobile_user == 1 && $isMobileUsers != true) {
 
-          //  return response(['authenticated' => false,'message'=>'Mobile User not allowed to access.']);
+            return response(['authenticated' => false,'message'=>'Mobile User not allowed to access.']);
           }
           if($userData->is_active == 0) {
             return response(['authenticated' => false,'message'=>'Account de-activated please contact your administrator.']);
