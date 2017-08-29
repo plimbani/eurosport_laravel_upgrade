@@ -104,7 +104,7 @@
               v-if="messageDetail.status != 'sent' ">Delete</button>
               </div>
               <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_message_popup_cancle_button}}</button>
-              <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_draft_button}}</button>
+              <button type="button" class="btn btn-warning" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_draft_button}}</button>
               <button type="button" class="btn btn-primary" @click="modalOpen('send')" id="saveAge"  v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_send_button}}</button>
               
           </div>
