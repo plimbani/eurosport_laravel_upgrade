@@ -216,6 +216,7 @@ class PushMessagesController extends BaseController
           $data['status'] = 'queued';
           $data['tournament_id'] = $tournamentId;
           $downstreamResponse1 = '';
+          $downstreamResponse2 = '';
         }
 
         // Now insert in DB
