@@ -1,5 +1,5 @@
 <resources>
-     <string name="create_account">Crea account</string>
+    <string name="create_account">Crea account</string>
     <string name="sign_in">Registrati</string>
     <string name="firstname">Nome</string>
     <string name="surname">Cognome</string>
@@ -22,7 +22,7 @@
     <string name="set_defaault">Standard</string>
     <string name="default_tournament">Competizione standard selezionata</string>
 
-    <string name="teams">TEAM</string>
+    <string name="teams">Team</string>
     <string name="CLUBS">CLUB</string>
     <string name="CATEGORY">CATEGORIA</string>
     <string name="GROUPS">GRUPPI</string>
@@ -30,7 +30,7 @@
     <string name="hint_search_age_category">Cerca categoria d\'età</string>
     <string name="hint_search_groups">Cerca gruppi</string>
     <string name="no_data_available">Nessun dato disponibile</string>
-    <string name="team">TEAM</string>
+    <string name="team">Team</string>
 
     <string name="matches">Partite</string>
     <string name="league_table">tabella serie</string>
@@ -88,4 +88,30 @@
     <string name="deafult_tournament_cannot_be_removed_from_favourite">Impossibile rimuovere la competizione standard dai preferiti.</string>
     <string name="register_success">Controlla la tua casella di posta per verificare l\'indirizzo e-mail e completare la registrazione dell\'account</string>
 
+
+    <string name="january">Gennaio</string>
+    <string name="february">Febbraio</string>
+    <string name="march">Marzo</string>
+    <string name="april">Aprile</string>
+    <string name="may">Maggio</string>
+    <string name="june">Giugno</string>
+    <string name="july">Luglio</string>
+    <string name="august">Agosto</string>
+    <string name="september">Settembre</string>
+    <string name="october">Ottobre</string>
+    <string name="november">Novembre</string>
+    <string name="december">Dicembre</string>
+
+
+    <string name="jan">Gen</string>
+    <string name="feb">Feb</string>
+    <string name="mar">Mar</string>
+    <string name="apr">Apr</string>
+    <string name="jun">Giu</string>
+    <string name="jul">Lug</string>
+    <string name="aug">Ago</string>
+    <string name="sep">Set</string>
+    <string name="oct">Ott</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Dic</string>
 </resources>

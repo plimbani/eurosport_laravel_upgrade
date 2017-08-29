@@ -15,7 +15,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -35,12 +34,12 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -163,12 +162,6 @@ public class Utility {
         return bm;
     }
 
-    public static String encodeTobase64(Bitmap image) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        return "data:image/png;base64," + Base64.encodeToString(b, Base64.DEFAULT);
-    }
 
     public static void setupUI(final Context mContext, View view) {
 
@@ -254,15 +247,15 @@ public class Utility {
     }
 
 
-    public static String getFormattedTournamentDate(String startDateStr, String endDateStr, String language) {
+    public static String getFormattedTournamentDate(String startDateStr, String endDateStr, String language, Context mContext) {
         String torunamentFormatedDate = "";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale(language));
         try {
             int startYear;
-            String startMonth;
+            int startMonth;
             int startDate;
             int endYear;
-            String endMonth;
+            int endMonth;
             int endDate;
 
             Date start = sdf.parse(startDateStr);
@@ -271,25 +264,30 @@ public class Utility {
             mCal.setTime(start);
 
             startYear = mCal.get(Calendar.YEAR);
-            startMonth = mCal.getDisplayName(Calendar.MONTH, Calendar.LONG,new Locale(language));
+            startMonth = mCal.get(Calendar.MONTH);
             startDate = mCal.get(Calendar.DAY_OF_MONTH);
 
             mCal.setTime(end);
 
             endYear = mCal.get(Calendar.YEAR);
-            endMonth = mCal.getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale(language));
+            endMonth = mCal.get(Calendar.MONTH);
             endDate = mCal.get(Calendar.DAY_OF_MONTH);
 
             torunamentFormatedDate = startDate + " - " + endDate;
-            if (startMonth.equalsIgnoreCase(endMonth)) {
-                torunamentFormatedDate = torunamentFormatedDate + " " + startMonth;
+            String startMonthLocaleString;
+            String endMonthLocaleString;
+            startMonthLocaleString = mContext.getResources().getStringArray(R.array.month_names)[startMonth];
+            endMonthLocaleString = mContext.getResources().getStringArray(R.array.month_names)[endMonth];
+            if (startMonth == endMonth) {
+                torunamentFormatedDate = torunamentFormatedDate + " " + startMonthLocaleString;
             } else {
-                torunamentFormatedDate = startDate + " " + startMonth + " - " + endDate + " " + endMonth;
+                torunamentFormatedDate = startDate + " " + startMonthLocaleString + " - " + endDate + " " + endMonthLocaleString;
             }
+
             if (startYear == endYear) {
                 torunamentFormatedDate = torunamentFormatedDate + " " + startYear;
             } else {
-                torunamentFormatedDate = startDate + " " + startMonth + " " + startYear + " - " + endDate + " " + endMonth + " " + endYear;
+                torunamentFormatedDate = startDate + " " + startMonthLocaleString + " " + startYear + " - " + endDate + " " + endMonthLocaleString + " " + endYear;
 
             }
         } catch (ParseException e) {
@@ -299,20 +297,26 @@ public class Utility {
         return torunamentFormatedDate;
     }
 
-    public static String getDateFromDateTime(String dateTime, String language) throws ParseException {
+    public static String getDateFromDateTime(String dateTime, String language, Context mContext) throws ParseException {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale(language));
         Date d = df.parse(dateTime);
-        df = new SimpleDateFormat("dd\nMMM", new Locale(language));
-        return df.format(d);
+        Calendar myCal = new GregorianCalendar();
+        myCal.setTime(d);
+        String formattedDate = myCal.get(Calendar.DAY_OF_MONTH) + "\n" + mContext.getResources().getStringArray(R.array.month_names_short)[myCal.get(Calendar.MONTH)];
+        return formattedDate;
     }
 
-    public static String getDateTimeFromServerDate(String dateTime, String language) throws ParseException {
+    public static String getDateTimeFromServerDate(String dateTime, String language, Context mContext) throws ParseException {
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale(language));
         Date d = df.parse(dateTime);
-        df = new SimpleDateFormat("dd MMMM   |   HH:mm", new Locale(language));
-        return df.format(d);
+        Calendar myCal = new GregorianCalendar();
+        myCal.setTime(d);
+        String formattedDate = myCal.get(Calendar.DAY_OF_MONTH) + " " + mContext.getResources().getStringArray(R.array.month_names)[myCal.get(Calendar.MONTH)] + "  |  " + myCal.get(Calendar.HOUR_OF_DAY) + ":" + myCal.get(Calendar.MINUTE);
+
+        AppLogger.LogE(TAG, "df.format(d)" + df.format(d));
+        return formattedDate;
     }
 
     public static Context setLocale(Context context, String language) {

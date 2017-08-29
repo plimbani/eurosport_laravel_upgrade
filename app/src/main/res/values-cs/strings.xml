@@ -24,7 +24,7 @@
     <string name="set_defaault">Výchozí</string>
     <string name="default_tournament">Výchozí vybraný turnaj</string>
 
-    <string name="teams">TÝMY</string>
+    <string name="teams">Týmy</string>
     <string name="CLUBS">KLUBY</string>
     <string name="CATEGORY">KATEGORIE</string>
     <string name="GROUPS">SKUPINY</string>
@@ -33,7 +33,7 @@
     <string name="hint_search_groups">Hledat skupiny</string>
     <string name="no_data_available">Nejsou k dispozici žádná data</string>
 
-    <string name="team">TÝM</string>
+    <string name="team">Tým</string>
     <string name="matches">Zápasy</string>
     <string name="league_table">ligová tabulka</string>
     <string name="no_league_data_available">Nejsou k dispozici data o lize</string>
@@ -74,7 +74,7 @@
     <string name="polish">Polština</string>
     <string name="sound_notification">Zvuk</string>
     <string name="vibration_notification">Vibrace</string>
-    <string name="button_ok">OK</string>
+    <string name="button_ok">Ok</string>
     <string name="loading">Nahrávání</string>
     <string name="error">Chyba</string>
     <string name="confirm">Potvrdit</string>
@@ -88,6 +88,40 @@
     <string name="we_have_sent_password_reset_link">Zaslali jsme na vaši e-mailovou adresu odkaz pro resetování hesla.</string>
     <string name="deafult_tournament_cannot_be_removed_from_favourite">Výchozí turnaj nelze odebrat z oblíbených.</string>
     <string name="register_success">Zkontrolujte svoji e-mailovou schránku, potvrďte e-mailovou adresu a dokončete tak registraci účtu</string>
+
+
+    <string name="january">Leden</string>
+    <string name="february">Únor</string>
+    <string name="march">Březen</string>
+    <string name="april">Duben</string>
+    <string name="may">Květen</string>
+    <string name="june">Červen</string>
+    <string name="july">Červenec</string>
+    <string name="august">Srpen</string>
+    <string name="september">Září</string>
+    <string name="october">Říjen</string>
+    <string name="november">Listopad</string>
+    <string name="december">Prosinec</string>
+
+    <string name="jan">Led</string>
+    <string name="feb">Úno</string>
+    <string name="mar">Bře</string>
+    <string name="apr">Dub</string>
+    <string name="jun">Čer</string>
+    <string name="jul">Čvc</string>
+    <string name="aug">Srp</string>
+    <string name="sep">Zář</string>
+    <string name="oct">Říj</string>
+    <string name="nov">Lis</string>
+    <string name="dec">Pro</string>
+
+
+
+
+
+
+
+
 
 
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Euro-Sportring</string>
+    <string name="app_name" translatable="false">Euro-Sportring</string>
     <string name="create_account">Create account</string>
     <string name="sign_in">Sign in</string>
     <string name="update">Update</string>
@@ -10,7 +10,7 @@
     <string name="match_info">Match Info</string>
     <string name="age_categories">Age categories</string>
     <string name="settings">Settings</string>
-    <string name="title_activity_favourites">FAVOURITES</string>
+    <string name="title_activity_favourites" translatable="false">FAVOURITES</string>
     <string name="loading">Loading</string>
     <string name="email_address">Email address</string>
     <string name="password">Password</string>
@@ -38,21 +38,21 @@
     <string name="first_name">First Name</string>
     <string name="sound_notification">Sound</string>
     <string name="vibration_notification">Vibration</string>
-    <string name="notification">Push notifications</string>
+    <string name="notification">Notifications</string>
     <string name="view_club_match">View all club matches</string>
     <string name="view_league_table">View full league table</string>
     <string name="league_table">league table</string>
     <string name="no_data_available">No data available</string>
     <string name="venue">Venue</string>
     <string name="group_summary">GROUP</string>
-    <string name="G">G</string>
-    <string name="W">W</string>
-    <string name="D">D</string>
-    <string name="L">L</string>
-    <string name="A">A</string>
-    <string name="F">F</string>
-    <string name="plus_minus">+/-</string>
-    <string name="P">P</string>
+    <string name="G" translatable="false">G</string>
+    <string name="W" translatable="false">W</string>
+    <string name="D" translatable="false">D</string>
+    <string name="L" translatable="false">L</string>
+    <string name="A" translatable="false">A</string>
+    <string name="F" translatable="false">F</string>
+    <string name="plus_minus" translatable="false">+/-</string>
+    <string name="P" translatable="false">P</string>
     <string name="matches">Matches</string>
     <string name="game_information">Game information</string>
     <string name="days">Days</string>
@@ -63,7 +63,7 @@
     <string name="CATEGORY">CATEGORY</string>
     <string name="GROUPS">GROUPS</string>
     <string name="match_id">Match ID:</string>
-    <string name="progres_text_0">0</string>
+    <string name="progres_text_0" translatable="false">0</string>
     <string name="no_matches_available">No matches available</string>
     <string name="no_league_data_available">No league data available</string>
     <string name="hint_search_age_category">Search age category</string>
@@ -93,7 +93,7 @@
     <string name="euro_sportring_contact">Euro-Sportring Contact</string>
     <string name="name">Name:</string>
     <string name="contact_number">Contact number:</string>
-    <string name="the_internet_connection_appears_to_be_offline">The internet connection appears to be offline.</string>
+    <string name="the_internet_connection_appears_to_be_offline" translatable="false">The internet connection appears to be offline.</string>
 
     <!--Volley-->
 
@@ -106,6 +106,34 @@
     <string name="czech">Czech</string>
     <string name="danish">Danish</string>
     <string name="polish">Polish</string>
+
+
+    <!--Month Name-->
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+
+    <string name="jan">Jan</string>
+    <string name="feb">Feb</string>
+    <string name="mar">Mar</string>
+    <string name="apr">Apr</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="aug">Aug</string>
+    <string name="sep">Sep</string>
+    <string name="oct">Oct</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Dec</string>
+
 
     <string-array name="clubs_tabs">
         <item>@string/CLUBS</item>
@@ -133,5 +161,36 @@
         <item>cs</item>
         <item>da</item>
         <item>pl</item>
+    </string-array>
+
+
+    <string-array name="month_names">
+        <item>@string/january</item>
+        <item>@string/february</item>
+        <item>@string/march</item>
+        <item>@string/april</item>
+        <item>@string/may</item>
+        <item>@string/june</item>
+        <item>@string/july</item>
+        <item>@string/august</item>
+        <item>@string/september</item>
+        <item>@string/october</item>
+        <item>@string/november</item>
+        <item>@string/december</item>
+    </string-array>
+
+    <string-array name="month_names_short">
+        <item>@string/jan</item>
+        <item>@string/feb</item>
+        <item>@string/mar</item>
+        <item>@string/apr</item>
+        <item>@string/may</item>
+        <item>@string/jun</item>
+        <item>@string/jul</item>
+        <item>@string/aug</item>
+        <item>@string/sep</item>
+        <item>@string/oct</item>
+        <item>@string/nov</item>
+        <item>@string/dec</item>
     </string-array>
 </resources>

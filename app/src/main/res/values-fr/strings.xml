@@ -21,7 +21,7 @@
     <string name="set_favourite">Favori</string>
     <string name="set_defaault">Standard</string>
     <string name="default_tournament">Tournoi standard sélectionné</string>
-    <string name="teams">ÉQUIPES</string>
+    <string name="teams">Équipes</string>
     <string name="CLUBS">CLUBS</string>
     <string name="CATEGORY">CATÉGORIE</string>
     <string name="GROUPS">GROUPES</string>
@@ -29,7 +29,7 @@
     <string name="hint_search_age_category">Recherche catégorie d\'âge</string>
     <string name="hint_search_groups">Recherche de groupes</string>
     <string name="no_data_available">Aucune donnée disponible</string>
-    <string name="team">ÉQUIPE</string>
+    <string name="team">Équipe</string>
     <string name="matches">Matchs</string>
     <string name="league_table">Tableau de classement</string>
     <string name="no_league_data_available">Aucune donnée de classement disponible</string>
@@ -86,4 +86,30 @@
     <string name="deafult_tournament_cannot_be_removed_from_favourite">Le tournoi standard ne peut être supprimé de vos favoris.</string>
     <string name="register_success">Veuillez contrôler votre boîte de réception pour vérifier votre adresse e-mail et finaliser votre inscription.</string>
 
+
+    <string name="january">Janvier</string>
+    <string name="february">Février</string>
+    <string name="march">Mars</string>
+    <string name="april">Avril</string>
+    <string name="may">Mai</string>
+    <string name="june">Juin</string>
+    <string name="july">Juillet</string>
+    <string name="august">Août</string>
+    <string name="september">Septembre</string>
+    <string name="october">Octobre</string>
+    <string name="november">Novembre</string>
+    <string name="december">Décembre</string>
+
+
+    <string name="jan">Jan</string>
+    <string name="feb">Fév</string>
+    <string name="mar">Mar</string>
+    <string name="apr">Avr</string>
+    <string name="jun">Juin</string>
+    <string name="jul">Juil</string>
+    <string name="aug">Aoû</string>
+    <string name="sep">Sep</string>
+    <string name="oct">Oct</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Déc</string>
 </resources>

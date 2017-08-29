@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.application.ApplicationClass;
+import com.aecor.eurosports.util.ConnectivityChangeReceiver;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -15,16 +19,22 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class VenueMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class VenueMapActivity extends AppCompatActivity implements OnMapReadyCallback, ConnectivityChangeReceiver.ConnectivityReceiverListener {
 
     private GoogleMap mMap;
     private double latitude, longitude;
     private String label;
+    @BindView(R.id.tv_no_internet)
+    protected TextView tv_no_internet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venue_map);
+        ButterKnife.bind(this);
         initView();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -81,5 +91,27 @@ public class VenueMapActivity extends AppCompatActivity implements OnMapReadyCal
         mMap.addMarker(new MarkerOptions().position(venue).title(label).alpha(0.8f).flat(true));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(venue, 19));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(19), 1000, null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ApplicationClass.getInstance().setConnectivityListener(this);
+        checkConnection();
+    }
+
+    @Override
+    public void onNetworkConnectionChanged() {
+        checkConnection();
+    }
+
+    // Method to manually check connection status
+    protected void checkConnection() {
+        boolean isConnected = ConnectivityChangeReceiver.isConnected();
+        if (isConnected) {
+            tv_no_internet.setVisibility(View.GONE);
+        } else {
+            tv_no_internet.setVisibility(View.VISIBLE);
+        }
     }
 }
