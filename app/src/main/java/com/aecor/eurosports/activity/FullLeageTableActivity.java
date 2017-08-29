@@ -18,8 +18,10 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.application.ApplicationClass;
 import com.aecor.eurosports.model.LeagueModel;
 import com.aecor.eurosports.util.AppConstants;
+import com.aecor.eurosports.util.ConnectivityChangeReceiver;
 import com.aecor.eurosports.util.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -35,17 +37,20 @@ import butterknife.ButterKnife;
  * Created by system-local on 30-06-2017.
  */
 
-public class FullLeageTableActivity extends AppCompatActivity {
+public class FullLeageTableActivity extends AppCompatActivity implements ConnectivityChangeReceiver.ConnectivityReceiverListener {
     private ArrayList<LeagueModel> mLeagueModelData;
     @BindView(R.id.tl_group_rows)
     protected TableLayout tl_group_rows;
     @BindView(R.id.tv_group_table_title)
     protected TextView tv_group_table_title;
-//    @BindView(R.id.iv_testFlag)
+    //    @BindView(R.id.iv_testFlag)
 //    protected ImageView iv_testFlag;
     private Context mContext;
     private String mGroupName;
     private String mTeamId;
+    @BindView(R.id.tv_no_internet)
+    protected TextView tv_no_internet;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -190,5 +195,25 @@ public class FullLeageTableActivity extends AppCompatActivity {
         tl_group_rows.addView(seperatorView);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ApplicationClass.getInstance().setConnectivityListener(this);
+        checkConnection();
+    }
 
+    @Override
+    public void onNetworkConnectionChanged() {
+        checkConnection();
+    }
+
+    // Method to manually check connection status
+    protected void checkConnection() {
+        boolean isConnected = ConnectivityChangeReceiver.isConnected();
+        if (isConnected) {
+            tv_no_internet.setVisibility(View.GONE);
+        } else {
+            tv_no_internet.setVisibility(View.VISIBLE);
+        }
+    }
 }

@@ -30,7 +30,7 @@
     <string name="hint_search_age_category">Zoek leeftijdscategorie</string>
     <string name="hint_search_groups">Zoek groepen</string>
     <string name="no_data_available">Geen gegevens gevonden</string>
-    <string name="team">TEAM</string>
+    <string name="team">Team</string>
     <string name="league_table">stand</string>
     <string name="no_league_data_available">Geen standgegevens gevonden</string>
     <string name="no_matches_available">Geen wedstrijden gevonden</string>
@@ -73,7 +73,7 @@
     <string name="polish">Pools</string>
     <string name="sound_notification">Geluid</string>
     <string name="vibration_notification">Trillen</string>
-    <string name="button_ok">OK</string>
+    <string name="button_ok">Ok</string>
     <string name="loading">Laden</string>
     <string name="error">Fout</string>
     <string name="confirm">Bevestigen</string>
@@ -87,5 +87,32 @@
     <string name="we_have_sent_password_reset_link">We hebben een link voor het aanmaken van een nieuw wachtwoord naar je e-mailadres gestuurd.</string>
     <string name="deafult_tournament_cannot_be_removed_from_favourite">Standaardtoernooi kan niet worden verwijderd uit favorieten.</string>
     <string name="register_success">Kijk in je inbox om je e-mailadres te bevestigen en je accountregistratie af te ronden.</string>
+
+
+    <string name="january">Januari</string>
+    <string name="february">Februari</string>
+    <string name="march">Maart</string>
+    <string name="april">April</string>
+    <string name="may">Mei</string>
+    <string name="june">Juni</string>
+    <string name="july">Juli</string>
+    <string name="august">Augustus</string>
+    <string name="september">September</string>
+    <string name="october">Oktober</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+
+
+    <string name="jan">Jan</string>
+    <string name="feb">Feb</string>
+    <string name="mar">Mrt</string>
+    <string name="apr">Apr</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="aug">Aug</string>
+    <string name="sep">Sep</string>
+    <string name="oct">Okt</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Dec</string>
 
 </resources>

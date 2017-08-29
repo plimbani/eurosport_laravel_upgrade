@@ -138,7 +138,7 @@ public class HomeActivity extends BaseAppCompactActivity {
                     if (Utility.isNullOrEmpty(language)) {
                         language = "en";
                     }
-                    tv_tournamentDate.setText(Utility.getFormattedTournamentDate(mTournamentList.get(position).getStart_date(), mTournamentList.get(position).getEnd_date(), language));
+                    tv_tournamentDate.setText(Utility.getFormattedTournamentDate(mTournamentList.get(position).getStart_date(), mTournamentList.get(position).getEnd_date(), language, mContext));
                     if (timer != null) {
                         timer.cancel();
                         timer = new Timer();

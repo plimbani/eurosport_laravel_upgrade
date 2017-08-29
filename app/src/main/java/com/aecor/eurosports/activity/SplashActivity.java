@@ -26,6 +26,12 @@ import com.crashlytics.android.Crashlytics;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
@@ -40,12 +46,39 @@ public class SplashActivity extends BaseActivity {
     public void initView() {
         mAppSharedPref = AppPreference.getInstance(mContext);
 
+        printLocaleMonthName("2017-01-15 09:00:00");
+        printLocaleMonthName("2017-02-15 09:00:00");
+        printLocaleMonthName("2017-03-15 09:00:00");
+        printLocaleMonthName("2017-04-15 09:00:00");
+        printLocaleMonthName("2017-05-15 09:00:00");
+        printLocaleMonthName("2017-06-15 09:00:00");
+        printLocaleMonthName("2017-07-15 09:00:00");
+        printLocaleMonthName("2017-08-15 09:00:00");
+        printLocaleMonthName("2017-09-15 09:00:00");
+        printLocaleMonthName("2017-10-15 09:00:00");
+        printLocaleMonthName("2017-11-15 09:00:00");
+        printLocaleMonthName("2017-12-15 09:00:00");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 isUserLogin();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    private void printLocaleMonthName(String dateTime) {
+        String language = mAppSharedPref.getString(AppConstants.LANGUAGE_SELECTION);
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new Locale(language));
+        try {
+            Date d = df.parse(dateTime);
+            df = new SimpleDateFormat("MMMM | MMM ", new Locale(language));
+//            AppLogger.LogE(TAG, new String(df.format(d).getBytes("UTF-8"), "ISO-8859-1"));
+            AppLogger.LogE(TAG, df.format(d));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

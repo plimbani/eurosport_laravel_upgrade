@@ -328,7 +328,7 @@ public class TeamActivity extends BaseAppCompactActivity {
                 if (Utility.isNullOrEmpty(language)) {
                     language = "en";
                 }
-                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime(), language));
+                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime(), language, mContext));
             } else {
                 team_match_date.setText("");
             }

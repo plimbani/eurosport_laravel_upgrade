@@ -155,7 +155,7 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
                 if (Utility.isNullOrEmpty(language)) {
                     language = "en";
                 }
-                tv_dateTime.setText(Utility.getDateTimeFromServerDate(mTeamFixturesModel.getMatch_datetime(), language));
+                tv_dateTime.setText(Utility.getDateTimeFromServerDate(mTeamFixturesModel.getMatch_datetime(), language, mContext));
             } else {
                 tv_dateTime.setText("");
             }

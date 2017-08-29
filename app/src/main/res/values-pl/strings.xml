@@ -23,7 +23,7 @@
     <string name="set_favourite">Ulubiony</string>
     <string name="set_defaault">Domyślny</string>
     <string name="default_tournament">wybrano turniej domyślny</string>
-    <string name="teams">DRUŻYNY</string>
+    <string name="teams">Drużyny</string>
     <string name="CLUBS">KLUBY</string>
     <string name="CATEGORY">KATEGORIA</string>
     <string name="GROUPS">GRUPY</string>
@@ -31,10 +31,7 @@
     <string name="hint_search_age_category">Szukaj wg kategorii wiekowych</string>
     <string name="hint_search_groups">Szukaj wg grup</string>
     <string name="no_data_available">Brak danych</string>
-    <string name="team">DRUŻYNA</string>
-    <string name="G">Bramki</string>
-    <string name="plus_minus">Różnica bramek</string>
-    <string name="P">Punkty</string>
+    <string name="team">Drużyna</string>
     <string name="matches">Mecze</string>
     <string name="league_table">tabela ligowa</string>
     <string name="no_league_data_available">Brak danych</string>
@@ -52,11 +49,6 @@
     <string name="address">Adres</string>
     <string name="pitch_type">Rodzaj</string>
     <string name="title_activity_venue_map">Mapa miejsca</string>
-    <string name="F">Zdobyte bramki</string>
-    <string name="W">Zwycięstwo</string>
-    <string name="D">Remis</string>
-    <string name="L">Porażka</string>
-    <string name="A">Bramki stracone</string>
     <string name="team_matches">Mecze zespołowe</string>
     <string name="game_information">Informacje dot. rozgrywek</string>
     <string name="group_summary">GRUPA</string>
@@ -96,5 +88,29 @@
     <string name="deafult_tournament_cannot_be_removed_from_favourite">Turnieju domyślnego nie można usunąć z listy ulubionych.</string>
     <string name="register_success">Sprawdź swoją skrzynkę mailową, aby zweryfikować adres e-mail i dokończyć rejestrację.</string>
 
+    <string name="january">Styczeń</string>
+    <string name="february">Luty</string>
+    <string name="march">Marzec</string>
+    <string name="april">Kwiecień</string>
+    <string name="may">Maj</string>
+    <string name="june">Czerwiec</string>
+    <string name="july">Lipiec</string>
+    <string name="august">Sierpień</string>
+    <string name="september">Wrzesień</string>
+    <string name="october">Październik</string>
+    <string name="november">Listopad</string>
+    <string name="december">Grudzień</string>
 
+
+    <string name="jan">Sty</string>
+    <string name="feb">Lut</string>
+    <string name="mar">Mar</string>
+    <string name="apr">Kwi</string>
+    <string name="jun">Cze</string>
+    <string name="jul">Lip</string>
+    <string name="aug">Sie</string>
+    <string name="sep">Wrz</string>
+    <string name="oct">Paź</string>
+    <string name="nov">Lis</string>
+    <string name="dec">Gru</string>
 </resources>

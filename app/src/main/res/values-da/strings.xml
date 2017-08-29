@@ -22,7 +22,7 @@
     <string name="set_favourite">Favorit</string>
     <string name="set_defaault">Standard</string>
     <string name="default_tournament">Standardturnering valgt</string>
-    <string name="teams">HOLD</string>
+    <string name="teams">Hold</string>
     <string name="CLUBS">KLUBBER</string>
     <string name="CATEGORY">KATEGORI</string>
     <string name="GROUPS">GRUPPER</string>
@@ -30,7 +30,7 @@
     <string name="hint_search_age_category">Søg aldersgrupper</string>
     <string name="hint_search_groups">Søg grupper</string>
     <string name="no_data_available">Intet resultat fundet</string>
-    <string name="team">HOLD</string>
+    <string name="team">Hold</string>
     <string name="matches">Kampe</string>
     <string name="league_table">Klassement</string>
     <string name="no_league_data_available">Ingen ligadata fundet</string>
@@ -72,7 +72,7 @@
     <string name="polish">Polsk</string>
     <string name="sound_notification">Lyd</string>
     <string name="vibration_notification">Vibrering</string>
-    <string name="button_ok">OK</string>
+    <string name="button_ok">Ok</string>
     <string name="loading">Oploader</string>
     <string name="error">Fejl</string>
     <string name="confirm">Bekræfte</string>
@@ -86,5 +86,32 @@
     <string name="we_have_sent_password_reset_link">Vi har sendt et link til oprettelse af et nyt password til e-mail-adressen.</string>
     <string name="deafult_tournament_cannot_be_removed_from_favourite">Standardturneringer kan ikke fjernes fra favoritter.</string>
     <string name="register_success">Se i din indbakke for at bekræfte din e-mail-adresse og afslutte din kontooprettelse.</string>
+
+
+    <string name="january">Januar</string>
+    <string name="february">Februar</string>
+    <string name="march">Marts</string>
+    <string name="april">April</string>
+    <string name="may">Maj</string>
+    <string name="june">Juni</string>
+    <string name="july">Juli</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">Oktober</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+
+    <string name="jan">Jan</string>
+    <string name="feb">Feb</string>
+    <string name="mar">Mar</string>
+    <string name="apr">Apr</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="aug">Aug</string>
+    <string name="sep">Sep</string>
+    <string name="oct">Okt</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Dec</string>
+
 
 </resources>
