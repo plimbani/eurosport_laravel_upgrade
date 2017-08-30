@@ -29,7 +29,7 @@
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
-                      {{messageDetail.created_at}}
+                      {{messageDetail.created_at | formatDate}}
                     </div>
                   </div>
                 </div>
@@ -122,7 +122,7 @@
                   <div class="modal-body js-delete-confirmation-msg" v-if="status == 'delete'">{{ deleteConfirmMsg }}</div>
                   <div class="modal-body js-delete-confirmation-msg" v-else>{{ sendConfirmMsg }}</div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_cancel}}</button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_close}}</button>
                       <button type="submit" class="btn btn-primary" @click.prevent="confirmedAction()">{{$lang.user_management_save}}</button>
                   </div>
                   <input name="_method" value="DELETE" type="hidden" />
@@ -169,6 +169,11 @@ export default {
   mounted() {
    
   },
+  filters: {
+      formatDate: function(date) {
+      return moment(date).format("HH:mm:ss DD MMM YYYY");
+       },
+    },
   created: function() {
 
   },

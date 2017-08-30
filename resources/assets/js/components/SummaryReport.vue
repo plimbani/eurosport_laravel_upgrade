@@ -68,6 +68,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="row mb-4">
 						<div class="col-md-7">
 							<div class="row">
@@ -147,7 +148,7 @@
 						<div class="col-md-5">
 							<div class="row">
 								<div class="col-md-6">
-									<label><strong>{{$lang.summary_pitch}}</strong></label>
+									<label><strong>{{$lang.summary_pitch_select}}</strong></label>
 									<div class="">
 	  									<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
 	  										<option value="">Select</option>
@@ -156,7 +157,7 @@
 				         			</div>
 								</div>
 								<div class="col-md-6">
-									<label><strong>{{$lang.summary_referee}}</strong></label>
+									<label><strong>{{$lang.summary_referee_select}}</strong></label>
 									<div class="">
 					                   	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
 					                   		<option value="">Select</option>
@@ -199,7 +200,7 @@
 	                        <!--<th class="text-center" @click="sortReport('full_game')">{{$lang.summary_reports_game}}<i class="fa fa-fw fa-sort"></i></th>-->
                            <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
                           <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
-	                    </tr>
+                    </tr>
 	                </thead>
 	                <tbody>
 	                	<tr v-for="report in reports">

@@ -3,12 +3,12 @@
         <div class="card">
             <div class="card-block">
                 <div class="row">
-                   <div class="col-3 align-self-center">
-                <h6 class="mb-4"><strong>{{$lang.pitch_capacity}}</strong></h6>
-                </div>
-                <div class="col-9 align-self-center">
-                        <button type="button" class="btn btn-primary pull-right" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
-                    </div>
+                  <div class="col-3 align-self-center">
+                      <h6 class="mb-4"><strong>{{$lang.pitch_capacity}}</strong></h6>
+                  </div>
+                  <div class="col-9 align-self-center">
+                    <button type="button" class="btn btn-primary pull-right" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                  </div>
                 </div>
 
                 <addPitchDetail  v-if="pitchId=='' && dispPitch==true" ></addPitchDetail>

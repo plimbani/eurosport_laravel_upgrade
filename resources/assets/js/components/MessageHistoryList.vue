@@ -16,8 +16,8 @@
           </thead>
           <tbody>
               <tr v-for="(message, index) in messageList">
-                  <td class="text-center">{{message.created_at}} </td>
-                  <td class="text-center">{{message.content}}</td>
+                  <td class="text-center">{{message.created_at | formatDate}} </td>
+                  <td class="text-left">{{message.content}}</td>
                   <td class="text-center">{{message.sender.email}}</td>
                   <td class="text-center">{{message.tournament.name}}</td>
                   <td class="text-center" v-if="message.status == 'queued' ">Draft</td>
@@ -72,18 +72,25 @@ export default {
     // here we load the Competation Format data Based on tournament Id
     this.displayMessageList()
   },
-   filters: {
-    formatTime: function(time) {
-      var hours = Math.floor( time /   60);
-      var minutes = Math.floor(time % 60);
-      return hours+ 'h '+minutes+'m'
-    }
-  },
+  //  filters: {
+  //   formatTime: function(time) {
+  //     var hours = Math.floor( time /   60);
+  //     var minutes = Math.floor(time % 60);
+  //     return hours+ 'h '+minutes+'m'
+  //   }
+  // },
+  filters: {
+      formatDate: function(date) {
+      return moment(date).format("HH:mm:ss DD MMM YYYY");
+       },
+    },
   methods: {
     messageDetails(index) {
+
       let vm = this
+
       this.messageDetail = this.messageList[index]
-      console.log(this.messageDetail)
+      // console.log(this.messageDetail)
       this.messageDetailsStatus = true
 
        setTimeout(function(){
