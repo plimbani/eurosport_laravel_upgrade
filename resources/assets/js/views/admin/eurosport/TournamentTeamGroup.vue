@@ -62,7 +62,7 @@
             </div>
           </div>
         </div>
-
+<!--
           <div class="row align-items-center">
             <div class="col-sm-3">
               <h6 class="m-0"><strong>{{$lang.teams_team_list}}</strong></h6>
@@ -73,7 +73,7 @@
           </div>
           <div class="row">
 
-  			</div>
+  			</div> -->
   			<div class="row mt-4">
   				<div class="col-md-12">
           <form name="frmTeamAssign" id="frmTeamAssign">
