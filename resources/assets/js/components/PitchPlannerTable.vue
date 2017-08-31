@@ -177,7 +177,7 @@
                   // $( "span" ).css( "display", "inline" ).fadeOut( "slow" );
                 });
             })
-         $(".stages").on('shown.bs.collapse', function(){
+            $(".stages").on('shown.bs.collapse', function(){
 
                 alert('The collapsible content is about to be shown.');
             });
@@ -191,10 +191,10 @@
                 let vm =this;
              
                 this.currentView = currentTab
-                // vm.stageStatus = false;
+                 vm.stageStatus = false;
                // vm.GameStatus = false
                 setTimeout(function(){
-                    // vm.stageStatus = true
+                     vm.stageStatus = true
                     // vm.GameStatus = true
                     if(currentTab == 'refereeTab'){
                       vm.refereeReset()
