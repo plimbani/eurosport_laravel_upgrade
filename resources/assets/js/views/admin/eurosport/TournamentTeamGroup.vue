@@ -12,7 +12,7 @@
               <div class="col align-self-center">
                 <div class="row">
                   <div class="col-sm-4">
-                    <button type="button" class="btn btn-default w-100" id="profile_image_file">{{$lang.teams_select_file}}</button>
+                    <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">{{$lang.teams_select_file}}</button>
                   </div>
                   <div class="col">
                     <span id="filename"></span>
@@ -328,9 +328,14 @@
         }
         $('.selTeams').prop("disabled", false);
       },
-        getTeams(filterKey,filterValue) {
+      getTeams(filterKey,filterValue) {
+        if(this.age_category === '') {
+          this.teams = [];
+          return;
+        }
         this.teams = ''
-        let teamData = {'tournamentId':this.tournament_id,'filterKey':filterKey, 'filterValue': filterValue};
+        let ageCategoryId = this.age_category !== '' ? this.age_category.id : '';
+        let teamData = {'tournamentId':this.tournament_id, 'ageCategoryId' : ageCategoryId, 'filterKey':filterKey, 'filterValue': filterValue};
         // console.log(teamData,'td')
         Tournament.getTeams(teamData).then(
           (response) => {
@@ -408,6 +413,7 @@
 
         if(type == 'view'){
           if(this.age_category == ''){
+            this.teams = [];
             this.grpsView = ''
             return false;
           }
@@ -468,7 +474,8 @@
               // alert('error in getting json data')
             }
            )
-       }
+        }
+        this.getTeams(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue)
       },
       csvImport() {
         if($('#fileUpload').val()!=''){

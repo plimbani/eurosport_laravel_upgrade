@@ -40,6 +40,11 @@ class TeamRepository
                 // ->join('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
                 ->where('teams.tournament_id',$data['tournamentId']);
 
+                if(isset($data['ageCategoryId']) && $data['ageCategoryId'] != null && $data['ageCategoryId'] != '')
+                {
+                  $teamData =  $teamData->where('teams.age_group_id',$data['ageCategoryId']);
+                }
+
                 if(isset($data['filterValue']) && $data['filterValue'] != null && $data['filterValue'] != ''){
 
                     if($data['filterKey'] == 'age_category') {
