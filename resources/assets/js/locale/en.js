@@ -1,4 +1,4 @@
-module.exports = {
+module.exports= {
   hello: "World",
   welcome_text: "Hi {0}, Welcome to Tournament Planner. Got a question? Check the {{<strong>}}Help page or contact us for assistance.",
   welcome_manage_tournament: "Manage Tournaments",
@@ -74,6 +74,7 @@ module.exports = {
   user_management_user_save: "Save",
   user_management_confirmation: "Confirmation",
   user_management_cancel: "Cancel",
+  user_management_close: "Close",
   user_management_save: "Confirm",  
   user_management_resend: "Re-send",
   user_management_user_save:"Save",
