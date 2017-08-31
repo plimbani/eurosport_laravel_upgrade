@@ -32,6 +32,17 @@
     }
 }
 
+.fc-no-overlap {
+    .fc-body .fc-resource-area .fc-cell-content {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        line-height: 22px;
+    }
+    .fc-timeline-event {
+        padding: 0;
+    }
+}
+
 .planner_list_content .dashbox {
     padding: 10px;
     margin-bottom: 10px;
