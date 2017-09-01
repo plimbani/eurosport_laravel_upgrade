@@ -12,7 +12,7 @@
         <div class="modal-body">
         <form name="addMessage" id="addMessage" class="col-md-6 mt-4">
           <div class="form-group row align-items-center">
-            <div class="col-sm-4 form-control-label">{{$lang.summary_table_heading_status}}</div>
+            <div class="col-sm-4 form-control-label">Status</div>
               <div class="col-sm-8">
                 <div class="row">
                   <div class="col-sm-12" v-if="messageDetail.status == 'queued'">
@@ -80,7 +80,7 @@
           </div>
           <div class="form-group text-left" v-if="messageDetail.status == 'sent' ">
             <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">{{$lang.summary_table_heading_status_to}}</div>
+              <div class="col-sm-4 form-control-label">Sent tournament</div>
                 <div class="col-sm-8">
                   <div class="row" v-if="messageDetail.receiver">
                     <div class="col-sm-12" >
