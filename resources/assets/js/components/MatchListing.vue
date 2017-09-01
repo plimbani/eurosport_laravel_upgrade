@@ -48,19 +48,19 @@ export default {
 			matchData: [],otherData:[],matchDate:this.$store.state.Tournament.tournamentStartDate,tournamentDates:[],
 			currentComponent: this.$store.state.currentScheduleView,
 			'section': 'scheduleResult',
-      'filterStatus': true,
-      'currentDate':'',
-      'filterKey1': '',
-      'filterValue1': ''
+		    'filterStatus': true,
+		    'currentDate':'',
+		    'filterKey1': '',
+		    'filterValue1': ''
 		}
 	},
-  filters: {
-    formatDate: function(date) {
-      // return moment(date).format("ddd DD/MM/YYYY h:mm");
-      let SDate = moment(date,'DD/MM/YYYY')
-      return moment(SDate).format("DD MMM YYYY");
-    }
-  },
+	filters: {
+	    formatDate: function(date) {
+	      // return moment(date).format("ddd DD/MM/YYYY h:mm");
+	      let SDate = moment(date,'DD/MM/YYYY')
+	      return moment(SDate).format("DD MMM YYYY");
+	    }
+	},
 
 	mounted() {
 	  // First Called match Listing Data and then passed
@@ -73,7 +73,7 @@ export default {
 	  // By Default Set for ot Todays Date
 	  // this.currentDate = tournamentStartDate
     // here we call with all dates
-    this.matchDate = 'all'
+      this.matchDate = 'all'
 	  this.getAllMatches()
 	},
 	created: function() {
@@ -129,37 +129,35 @@ export default {
 			this.currentDate = this.matchDate
 
 			if(matchDate != 'all') {
-        if(this.filterKey1 != undefined) {
-          this.getAllMatches(matchDate,this.filterKey1,this.filterValue1)
-        } else {
-          this.getAllMatches(matchDate)
+		        if(this.filterKey1 != undefined) {
+		          this.getAllMatches(matchDate,this.filterKey1,this.filterValue1)
+		        } else {
+		          this.getAllMatches(matchDate)
+		        }
+		        console.log(this.filterKey1)
         }
-        console.log(this.filterKey1)
+		else {
+	        if(this.filterKey1 != undefined) {
+	          this.getAllMatches('',this.filterKey1,this.filterValue1)
+	        } else {
+	          this.getAllMatches()
+	        }
+	        console.log(this.filterKey1)
 
-      }
-			else {
-        if(this.filterKey1 != undefined) {
-          this.getAllMatches('',this.filterKey1,this.filterValue1)
-        } else {
-          this.getAllMatches()
+	      }
+	},
+	
+	getDateRange(startDate, stopDate, dateFormat)
+	{
+        var dateArray = [];
+
+        var currentDate = new Date(moment(startDate, 'DD/MM/YYYY'))
+        var stopDate = new Date(moment(stopDate,'DD/MM/YYYY'))
+
+        while (currentDate <= stopDate) {
+            dateArray.push( moment(currentDate).format('DD/MM/YYYY') )
+            currentDate = moment(currentDate).add(1, 'days');
         }
-        console.log(this.filterKey1)
-
-      }
-		},
-
-		getDateRange(startDate, stopDate, dateFormat)
-		{
-
-          var dateArray = [];
-
-          var currentDate = new Date(moment(startDate, 'DD/MM/YYYY'))
-          var stopDate = new Date(moment(stopDate,'DD/MM/YYYY'))
-
-          while (currentDate <= stopDate) {
-              dateArray.push( moment(currentDate).format('DD/MM/YYYY') )
-              currentDate = moment(currentDate).add(1, 'days');
-          }
         return dateArray;
 
 			  /*var dateArray = []
@@ -190,9 +188,9 @@ export default {
 			if(comp == 'drawDetails') {
 				this.getDrawDetails(id, Name,CompetationType)
 			}
-      if(comp == 'matchList') {
-        this.getAllMatches(this.currentDate)
-      }
+		    if(comp == 'matchList') {
+		        this.getAllMatches(this.currentDate)
+		    }
 		},
 		getDrawDetails(drawId, drawName,CompetationType='') {
 			let TournamentId = this.$store.state.Tournament.tournamentId
@@ -201,7 +199,7 @@ export default {
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
-      this.otherData.DrawType = CompetationType
+            this.otherData.DrawType = CompetationType
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
@@ -260,15 +258,16 @@ export default {
 
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = ''
-      if(date != '') {
-          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
-      } else {
-          tournamentData ={'tournamentId':TournamentId,'is_scheduled':1 }
-      }
+		    
+		    if(date != '') {
+		          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
+		    } else {
+		          tournamentData ={'tournamentId':TournamentId,'is_scheduled':1 }
+		    }
 
 			if(filterKey != '' && filterValue != '') {
-          tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
-	      }
+          		tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
+	        }
 
 		//	let TournamentId = this.$store.state.Tournament.tournamentId
 			//let tournamentData = {'tournamentId': TournamentId,
