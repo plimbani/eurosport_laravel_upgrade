@@ -5,18 +5,18 @@
   			<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
   			<form>
         <div class="form-group row">
-          <label class="col-sm-2 form-control-label">{{$lang.teams_name_import}}</label>
+          <label class="col-sm-2 form-control-label">Import teams</label>
          <div class="col-sm-10">
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div class="row">
               <div class="col align-self-center">
                 <div class="row">
                   <div class="col-sm-4">
-                    <button type="button" class="btn btn-default w-100" id="profile_image_file">{{$lang.teams_select_file}}</button>
+                    <button type="button" class="btn btn-default w-100" id="profile_image_file">Select list (excel files only)</button>
                   </div>
                   <div class="col">
                     <span id="filename"></span>
-                    <button type="button" @click="csvImport()"  class="btn btn-primary ml-4">{{$lang.teams_upload_team}}
+                    <button type="button" @click="csvImport()"  class="btn btn-primary ml-4">Upload teams
                     </button>
                   </div>
                 </div>
@@ -27,7 +27,7 @@
           </div>
         </div>
   				<div class="form-group row">
-            <label class="col-sm-2 form-control-label">{{$lang.teams_name_filter}}</label>
+            <label class="col-sm-2 form-control-label">Filter by</label>
             <div class="col-sm-10">
               <div class="row">
                 <div class="col-4">
@@ -143,7 +143,6 @@
 	export default {
     data() {
     return {
-        'rowlimit': 4,
         'teamSize': 5,
         'teams': [],
         // 'teamsIdList': '',
@@ -232,18 +231,6 @@
     // },
 
     methods: {
-      // groupName(grpName,no){
-      //   let vm =this
-      //   let fullName = grpName+no
-      //   let displayName = fullName
-      //    _.find(this.teams, function(team) {
-      //     if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
-      //       displayName = team.name
-      //     };
-      //   });
-      //   return displayName
-      // },
-
       groupFlag(grpName,no){
         let vm =this
         let fullName = grpName+no
