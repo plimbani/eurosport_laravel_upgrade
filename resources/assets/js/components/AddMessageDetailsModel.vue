@@ -184,6 +184,7 @@ export default {
     modalOpen(type) {
       this.status = type
       $('#delete_modal').modal('show')
+      
     },
     confirmedAction() {
       if(status == 'delete'){
@@ -208,6 +209,7 @@ export default {
                      vm.$root.$emit('displayMessageList')
                      $('#delete_modal').modal('hide')
                      $('#exampleDetailsModel').modal('hide')
+
                   }
                 },
               (error) => {
@@ -239,6 +241,7 @@ export default {
                     }
                       vm.$root.$emit('displayMessageList')
                       $('#exampleDetailsModel').modal('hide')
+                      setTimeout(Plugin.reloadPage, 1000);
                   }
 
                 },
@@ -272,6 +275,7 @@ export default {
 
                      vm.$root.$emit('displayMessageList')
                      $('#exampleDetailsModel').modal('hide')
+
                   }
                 },
               (error) => {
