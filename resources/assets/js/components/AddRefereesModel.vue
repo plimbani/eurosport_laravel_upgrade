@@ -168,8 +168,9 @@ export default {
                 (response) => {
                     toastr['success']('Referee edited successfully.', 'Success');
                     $('#refreesModal').modal('hide')
-                    this.$root.$emit('setRefereeReset')
-                    this.$root.$emit('setPitchPlanTab','refereeTab')
+                    this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
+                    // this.$root.$emit('setRefereeReset')
+                    // this.$root.$emit('setPitchPlanTab','refereeTab')
                   }
                 )
                } else {
@@ -177,9 +178,9 @@ export default {
                 (response) => {
                     toastr['success']('Referee added successfully.', 'Success');
                     $('#refreesModal').modal('hide')
-
-                    this.$root.$emit('setRefereeReset')
-                    this.$root.$emit('setPitchPlanTab','refereeTab')
+                    this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
+                    // this.$root.$emit('setRefereeReset')
+                    // this.$root.$emit('setPitchPlanTab','refereeTab')
                   }
                 )
               }
@@ -193,8 +194,9 @@ export default {
                toastr['success']('Referee has been removed successfully', 'Success');
                $('#delete_modal').modal('hide')
                $('#refreesModal').modal('hide')
-               this.$root.$emit('setRefereeReset')
-               this.$root.$emit('setPitchPlanTab','refereeTab')
+                this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
+               // this.$root.$emit('setRefereeReset')
+               // this.$root.$emit('setPitchPlanTab','refereeTab')
           }
           )
       },

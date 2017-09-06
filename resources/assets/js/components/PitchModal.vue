@@ -151,8 +151,11 @@ var moment = require('moment');
     },
     props: ['matchFixture','section'],
     mounted() {
-
-       Tournament.getReferees(this.tournamentId).then(
+      let tournamentData = {
+        'tournamentId':this.tournamentId,
+        'age_category':this.matchFixture.matchAgeGroupId
+      }
+       Tournament.getReferees(tournamentData).then(
         (response) => {
             this.referees = response.data.referees
         })
@@ -167,15 +170,25 @@ var moment = require('moment');
     matchFixtureDetail(){
       Tournament.getMatchFixtureDetail(this.matchId).then(
         (response) => {
+
             this.matchDetail = response.data.data
             this.matchDetail.id = this.matchId
           if(this.matchDetail.referee == null) {
+             this.matchFixture.refereeId = 0
+             this.matchFixture.refereeText = 'R'
           } else {
+            this.matchFixture.refereeText = this.matchDetail.referee.first_name+' '+this.matchDetail.referee.last_name
             this.matchDetail.referee.first_name = this.matchDetail.referee.last_name+', '+this.matchDetail.referee.first_name
             this.referee_name = this.matchDetail.referee.first_name
-          }
+            this.matchFixture.refereeId = this.matchDetail.referee_id
+           }
+           let colorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#2196F3' : 'green' // console.log(msg)
+            console.log(colorVal,'colorVal')
+            this.matchFixture.color = colorVal
+         // console.log(this.matchDetail,this.matchFixture)
          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
-
+  
+          $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
           this.matchDetail.matchTime = date.format('HH:mm ddd DD MMM YYYY')
 
@@ -192,6 +205,9 @@ var moment = require('moment');
       Tournament.removeAssignedReferee(this.matchDetail.id).then(
         (response) => {
           this.refereeRemoved = 'yes';
+          this.matchFixture.refereeId = 0
+          this.matchFixture.refereeText = 'R'
+          $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
           this.matchFixtureDetail()
           toastr.success('Referee has been removed successfully', 'Referee removed', {timeOut: 5000});
         }
@@ -200,7 +216,7 @@ var moment = require('moment');
     closeModal() {
       $('#matchScheduleModal').modal('hide');
       if(this.refereeRemoved == 'yes'){
-        this.$root.$emit('setPitchPlanTab','gamesTab')
+        // this.$root.$emit('setPitchReset')
       }
     },
     saveFixtureDetail(){
@@ -217,7 +233,7 @@ var moment = require('moment');
             Tournament.saveMatchResult(data).then(
               (response) => {
                 this.matchFixtureDetail()
-                this.$root.$emit('setPitchReset')
+                // this.$root.$emit('setPitchReset')
                 $('#matchScheduleModal').modal('hide')
 
                 toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
@@ -225,8 +241,9 @@ var moment = require('moment');
                 if(this.section == 'scheduleResult') {
                   let home_score = $('#home_team_score').val()
                   let away_score = $('#away_team_score').val()
-                  console.log('hscore'+home_score)
-                  console.log('ascore'+away_score)
+                  // console.log('hscore'+home_score)
+                  // console.log('ascore'+away_score)
+
                    let competationId = response.data.data.competationId
                    this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
                 } else {
@@ -250,7 +267,7 @@ var moment = require('moment');
         Tournament.saveMatchResult(data).then(
           (response) => {
             this.matchFixtureDetail()
-            this.$root.$emit('setPitchReset')
+            // this.$root.$emit('setPitchReset')
             $('#matchScheduleModal').modal('hide')
             toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
               if(this.section == 'scheduleResult') {
@@ -279,10 +296,15 @@ var moment = require('moment');
       let vm =this
       Tournament.matchUnschedule(this.matchId).then(
         (response) => {
-          vm.$root.$emit('setPitchReset')
+          // vm.$root.$emit('setPitchReset')
            $('#matchScheduleModal').modal('hide')
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
-          vm.$root.$emit('setPitchPlanTab','gamesTab')
+          
+          this.$store.dispatch('setMatches');
+          this.$store.dispatch('SetScheduledMatches');
+          $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [this.matchId] )
+          // this.$store.dispatch('setCompetationWithGames');
+          // vm.$root.$emit('setPitchPlanTab','gamesTab')
       })
     },
     matchPrint(ReportData) {

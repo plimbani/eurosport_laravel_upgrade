@@ -8,7 +8,9 @@ const state = {
   pitches: [],
   pitchCapacity: '',
   pitchData: '',
-  pitchId:0
+  pitchId:0,
+  stageView:'gamesTab',
+  stages:0
 
  }
 // getters
@@ -20,7 +22,8 @@ const getters = {
       availableStage.push(pitchAvailable.stage_no)
    });
     return availableStage
-  }
+  },
+  curStageView: state => state.stageView,
 }
 // actions
 const actions = {
@@ -94,6 +97,12 @@ const actions = {
   SetPitchId ({commit},pitchId) {
     commit(types.SET_PITCH_ID, pitchId)
   },
+  SetStageView ({commit},stageView) {
+    commit(types.SET_STAGE_VIEW, stageView)
+  },
+  SetStages ({commit},stages) {
+    commit(types.SET_STAGES, stages)
+  },
 
 }
 
@@ -110,6 +119,10 @@ const mutations = {
   [types.SET_PITCH_DATA] (state, response) {
     //alert(JSON.stringify(currentTournamentName))
     state.pitchData = response
+  },
+  [types.SET_STAGE_VIEW] (state, stageView) {
+    //alert(JSON.stringify(currentTournamentName))
+    state.stageView = stageView
   },
   [types.SET_PITCH_CAPACITY] (state, pitches) {
     // alert('hello in mutation')

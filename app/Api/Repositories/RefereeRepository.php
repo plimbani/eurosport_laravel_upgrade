@@ -12,11 +12,17 @@ class RefereeRepository
         $this->dbObj = DB::table('referee');
     }
 
-    public function getAllReferees($tournamentId)
+    public function getAllReferees($tournamentData)
     {
-        return Referee::where('tournament_id',$tournamentId)
-              ->orderBy('last_name','ASC')
-              ->get();
+        // dd($tournamentData['age_category']);
+        $age_category = $tournamentData['age_category'];
+         $RefereeData = Referee::where('tournament_id',$tournamentData['tournamentId'])
+              ->orderBy('last_name','ASC');
+
+            if($age_category !=''){
+                $RefereeData->whereRaw('FIND_IN_SET('.$age_category.',age_group_id)');
+            }
+            return $RefereeData->get();
     }
 
     public function createReferee($refereeData)

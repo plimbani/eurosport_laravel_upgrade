@@ -1,44 +1,66 @@
 <template>
-	<div class="tab-content planner_list_content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="text-center">
-					<button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3" disabled="disabled">{{$lang.pitch_planner_referee}}</button>
+  <div class="tab-content planner_list_content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="text-center">
+          <button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3" disabled="disabled">{{$lang.pitch_planner_referee}}</button>
 
-				</div>
-				
-				<div  v-for="referee in referees">
+        </div>
+        
+        <div v-if="refereeStatus"  v-for="referee in referees">
           <div  @click="editReferee(referee.id)">
-					  <draggable-referee :referee="referee" ></draggable-referee>
+            <draggable-referee :referee="referee" ></draggable-referee>
           </div>
-				</div>
-			</div>
-		</div>
+        </div>
+      </div>
+    </div>
     <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
-	</div>
+  </div>
 </template>
 
 <script type="text/babel">
   import DraggableReferee from './DraggableReferee';
-	import AddRefereesModel from './AddRefereesModel.vue'
-	import addReferee from '../components/AddReferee.vue'
-	import Tournament from '../api/tournament.js'
+  import AddRefereesModel from './AddRefereesModel.vue'
+  import addReferee from '../components/AddReferee.vue'
+  import Tournament from '../api/tournament.js'
 
-	export default {
-		data() {
+  export default {
+    data() {
             return {
-            	formValues: this.initialState(),
+              formValues: this.initialState(),
                 'tournamentId': this.$store.state.Tournament.tournamentId,
-                'referees': {},
+                // 'referees': {},
                 refereeId: '',
+                refereeStatus: true,
                 competationList: [{}]
                 }
         },
-		components: {
-		    AddRefereesModel, DraggableReferee
-		},
-		mounted(){
-            this.getAllReferee()
+    components: {
+        AddRefereesModel, DraggableReferee
+    },
+    computed:{
+      referees() {
+        return this.$store.state.Tournament.referees
+        // let vm = this
+        // vm.refereeStatus = false
+        // if(vm.$store.getters.getAllReferees) {
+        //   console.log('asd')
+        //     setTimeout(function(){
+        //   vm.refereeStatus = true
+        // },1000)
+        // return vm.$store.getters.getAllReferees
+        // } 
+        
+      }
+    },
+    created:function() {
+            this.$root.$on('getAllReferee', this.getAllreferees);
+
+    },
+    mounted(){
+           
+            this.$store.dispatch('getAllReferee',this.tournamentId);
+             // this.getAllreferees()
             $("#addReferee").on('hidden.bs.modal', function () {
                 $('#frmAddReferee')[0].reset()
             });
@@ -55,9 +77,13 @@
                 }
             });
         },
-		methods: {
-			initialState() {
-				return {
+    methods: {
+      getAllreferees() {
+       
+        this.referees = this.$store.state.Tournament.referees
+      },
+      initialState() {
+        return {
                     first_name: '',
                     last_name: '',
                     telephone: '',
@@ -65,8 +91,8 @@
                     age_group_id: [],
                     availability: ''
                 }
-			},
-			displayTournamentCompetationList () {
+      },
+      displayTournamentCompetationList () {
             // Only called if valid tournament id is Present
                 if (!isNaN(this.tournamentId)) {
                   // here we add data for
@@ -88,45 +114,45 @@
                   this.TournamentId = 0;
                 }
             },
-            getAllReferee() {
-                // Tournament.getReferees(this.tournamentId)rnamentId);
-                let vm = this
-                Tournament.getReferees(this.tournamentId).then(
-                  (response) => {
-                    if(response.data.referees){
-                      vm.referees = response.data.referees
-                      vm.$store.dispatch('SetTotalReferee', response.data.referees.length)
-                    }else{
-                      vm.referees = ''
-                      vm.$store.dispatch('SetTotalReferee', 0)
-                    }
+            // getAllReferee() {
+            //     // Tournament.getReferees(this.tournamentId)rnamentId);
+            //     let vm = this
+            //     Tournament.getReferees(this.tournamentId).then(
+            //       (response) => {
+            //         if(response.data.referees){
+            //           vm.referees = response.data.referees
+            //           vm.$store.dispatch('SetTotalReferee', response.data.referees.length)
+            //         }else{
+            //           vm.referees = ''
+            //           vm.$store.dispatch('SetTotalReferee', 0)
+            //         }
 
-                  },
-                  (error) => {
-                     console.log('Error occured during Tournament api ', error)
-                  }
-                )
-            },
+            //       },
+            //       (error) => {
+            //          console.log('Error occured during Tournament api ', error)
+            //       }
+            //     )
+            // },
             addReferee(){
 
                 $('#addReferee').modal('show')
             },
             editReferee (rId){
               this.refereeId = rId
-    		      Tournament.getRefereeDetail(rId).then(
-  		      	(response) => {
-  		      		// console.log(response.data.referee)
+              Tournament.getRefereeDetail(rId).then(
+              (response) => {
+                // console.log(response.data.referee)
 
                     this.formValues = response.data.referee
                     this.formValues.age_group_id = JSON.parse("[" + this.formValues.age_group_id + "]");
                     $('#refreesModal').modal('show')
                     }
-		      	 )
-		    }
+             )
+        }
             // editPitch(pitchId) {
             //     this.pitchId = pitchId
             //     this.$store.dispatch('PitchData',pitchId)
             // },
         }
-	}
+  }
 </script>

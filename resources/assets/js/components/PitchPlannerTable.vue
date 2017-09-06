@@ -23,7 +23,7 @@
                            Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
                           <div :id="'demo'+stage.stageNumber"
                           class="stages collapse in show" aria-expanded="true">
-                            <pitch-planner-stage :stage="stage" :currentView="currentView" :defaultView="defaultView"></pitch-planner-stage>
+                            <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>
                           </div>
                         </div>
                     </div>
@@ -84,11 +84,14 @@
                 return this.$store.state.Pitch.pitches;
             },
             totalMatchCount() {
-                return this.$store.state.Tournament.totalMatch
+                return this.$store.getters.totalMatch
             },
             totalRefereeCount() {
                 return this.$store.state.Tournament.totalReferee
-            }
+            },
+            // tournamentStages() {
+            //     return this.$store.getters.getTournamentStages
+            // },
             // tournamentStages() {
             //     let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
             //     let stages = [];
@@ -117,8 +120,11 @@
             this.$root.$on('setGameReset', this.gameReset);
             this.$root.$on('setRefereeReset', this.refereeReset);
             this.$root.$on('RefereeCount', this.refereeCount);
-            this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
+             // this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
+             // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
             this.$root.$on('setPitchPlanTab',this.setCurrentTab)
+            this.$root.$on('getAllReferee', this.getAllreferees);
+            // this.$root.$on('getTeamsByTournamentFilter', this.resetPitch);
 
         },
         data() {
@@ -126,7 +132,7 @@
                 'currentView':'gamesTab',
                 'currentButton' : 'horizontal',
                 'matchCount':'',
-                'tournamentStages': {},
+                 'tournamentStages': {},
                 'stageStatus':false,
                 'GameStatus':false,
                 'refereeStatus':false,
@@ -140,7 +146,6 @@
                 $('.pitch_planner_section').mCustomScrollbar({
                 'autoHideScrollbar':true
             });
-                            // return stages;
             this.resetPitch()
             $(document).ready(function() {
                 $(document).on('click', '.js-pitch-planner-bt', function(e){
@@ -187,20 +192,29 @@
           //         this.setView(this.defaultView);
         },
         methods: {
+            getAllreferees(){
+                
+            },
+            setFilter(){
+                this.$store.dispatch('setMatches')
+            },
             setCurrentTab(currentTab = 'refereeTab') {
                 let vm =this;
              
                 this.currentView = currentTab
-                 vm.stageStatus = false;
+                 // vm.stageStatus = false;
                // vm.GameStatus = false
-                setTimeout(function(){
-                     vm.stageStatus = true
-                    // vm.GameStatus = true
-                    if(currentTab == 'refereeTab'){
-                      vm.refereeReset()
-                    }
+               vm.$store.dispatch('SetStageView',currentTab)
+                // setTimeout(function(){
+                //      // vm.stageStatus = true
+                //     // vm.GameStatus = true
+                //     if(currentTab == 'refereeTab'){
+                //       // vm.refereeReset()
+                //       vm.$emit('getAllReferee');
+                //       // vm.$store.dispatch('getAllReferee', vm.$store.state.Tournament.tournamentId)
+                //     }
                    
-                },500)
+                // },500)
               
             },
             
@@ -248,8 +262,9 @@
             resetPitch() {
                 let vm = this
                 this.stageStatus = false
-                this.GameStatus = false
-                this.refereeStatus = false
+
+                // this.GameStatus = false
+                // this.refereeStatus = false
                 this.tournamentStages = ''
                let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
                 let stages = [];
@@ -272,11 +287,13 @@
                         pitches: availablePitchesForStage
                     });
                 }
-                setTimeout(function(){
                     vm.stageStatus = true
                     vm.GameStatus = true
                     vm.refereeStatus = true
-                    vm.tournamentStages = stages
+                    vm.$store.dispatch('setTournamentStages',stages)
+
+                setTimeout(function(){
+                     vm.tournamentStages = stages
                 },500)
             },
           gameReset() {

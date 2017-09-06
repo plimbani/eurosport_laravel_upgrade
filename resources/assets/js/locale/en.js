@@ -307,7 +307,7 @@ module.exports = {
   add_refree_modal_last_name: "Last name*",
   add_refree_modal_telephone: "Telephone",
   add_refree_modal_email: "Email",
-  add_refree_modal_category_age: "Category age*",
+  add_refree_modal_category_age: "Age category*",
   add_refree_modal_availability: "Availability",
   add_refree_modal_delete: "Delete",
   add_refree_modal_cancel: "Cancel",
