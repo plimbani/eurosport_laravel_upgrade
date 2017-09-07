@@ -183,7 +183,6 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     private void getTeamFixtures() {
 
 
-
         if (Utility.isInternetAvailable(mContext)) {
             final ProgressHUD mProgressdialog = Utility.getProgressDialog(mContext);
             String url = ApiConstants.GET_TEAM_FIXTURES;
@@ -241,7 +240,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
-        }else{
+        } else {
             checkConnection();
         }
     }
@@ -306,7 +305,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
-        }else{
+        } else {
             checkConnection();
         }
     }
@@ -331,7 +330,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 if (Utility.isNullOrEmpty(language)) {
                     language = "en";
                 }
-                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime(),language, mContext));
+                team_match_date.setText(Utility.getDateFromDateTime(mFixtureModel.getMatch_datetime(), language, mContext));
             } else {
                 team_match_date.setText("");
             }
@@ -398,11 +397,14 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-        } else {
+        } else if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && Integer.parseInt(mFixtureModel.getHomeScore()) < Integer.parseInt(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+        } else {
+            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         }
         matchesView.setOnClickListener(new View.OnClickListener() {
             @Override

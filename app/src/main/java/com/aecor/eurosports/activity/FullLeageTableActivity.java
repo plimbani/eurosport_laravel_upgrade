@@ -77,6 +77,12 @@ public class FullLeageTableActivity extends AppCompatActivity implements Connect
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title.toUpperCase());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,6 +91,8 @@ public class FullLeageTableActivity extends AppCompatActivity implements Connect
     }
 
     protected void initView() {
+
+
         if (mLeagueModelData != null && mLeagueModelData.size() > 0) {
             showBackButton(mGroupName);
             tv_group_table_title.setText(mGroupName);
@@ -102,6 +110,7 @@ public class FullLeageTableActivity extends AppCompatActivity implements Connect
                 finish();
                 return true;
             default:
+
                 return super.onOptionsItemSelected(item);
         }
     }

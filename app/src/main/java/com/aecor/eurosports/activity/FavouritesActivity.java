@@ -3,6 +3,9 @@ package com.aecor.eurosports.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -41,6 +44,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
 
     @Override
     protected void initView() {
+
         getTournamentList();
     }
 
@@ -177,7 +181,13 @@ public class FavouritesActivity extends BaseAppCompactActivity {
             favList.addAll(Arrays.asList(mFavTournamentList));
         }
         Collections.reverse(list);
+
+        if (list.size() > 5) {
+            favouriteList.setOverscrollFooter(new ColorDrawable(Color.TRANSPARENT));
+        }
         FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, list, favList);
         favouriteList.setAdapter(adapter);
+ 
+
     }
 }

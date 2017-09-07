@@ -313,7 +313,9 @@ public class Utility {
         Date d = df.parse(dateTime);
         Calendar myCal = new GregorianCalendar();
         myCal.setTime(d);
-        String formattedDate = myCal.get(Calendar.DAY_OF_MONTH) + " " + mContext.getResources().getStringArray(R.array.month_names)[myCal.get(Calendar.MONTH)] + "  |  " + myCal.get(Calendar.HOUR_OF_DAY) + ":" + myCal.get(Calendar.MINUTE);
+        String curTime = String.format("%02d:%02d", myCal.get(Calendar.HOUR_OF_DAY), myCal.get(Calendar.MINUTE));
+
+        String formattedDate = myCal.get(Calendar.DAY_OF_MONTH) + " " + mContext.getResources().getStringArray(R.array.month_names)[myCal.get(Calendar.MONTH)] + "  |  " + curTime;
 
         AppLogger.LogE(TAG, "df.format(d)" + df.format(d));
         return formattedDate;
