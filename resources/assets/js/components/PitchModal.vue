@@ -183,11 +183,11 @@ var moment = require('moment');
             this.matchFixture.refereeId = this.matchDetail.referee_id
            }
            let colorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#2196F3' : 'green' // console.log(msg)
-            console.log(colorVal,'colorVal')
+            // console.log(colorVal,'colorVal')
             this.matchFixture.color = colorVal
          // console.log(this.matchDetail,this.matchFixture)
          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
-  
+        console.log('updateEvent',this.matchFixture)
           $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
           this.matchDetail.matchTime = date.format('HH:mm ddd DD MMM YYYY')
@@ -302,7 +302,10 @@ var moment = require('moment');
           
           this.$store.dispatch('setMatches');
           this.$store.dispatch('SetScheduledMatches');
-          $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [this.matchId] )
+          setTimeout(function(){
+            console.log(vm.matchId)
+            $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchId] )
+          },500)
           // this.$store.dispatch('setCompetationWithGames');
           // vm.$root.$emit('setPitchPlanTab','gamesTab')
       })

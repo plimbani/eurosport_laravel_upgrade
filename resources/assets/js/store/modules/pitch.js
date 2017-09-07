@@ -129,13 +129,7 @@ const mutations = {
       let pitchCapacity = []
         var pitchTime = 0
         $.each(pitches,function( i,pitch){
-          // console.log(pitchTime,pitch.pitch_capacity)
-            // var pitchCapacity = pitch.pitch_capacity
-            // var pitchTimeArr = pitchCapacity.split('.');
-            // pitchTime = parseInt(pitchTime + parseInt(pitchTimeArr[0]*60)+parseInt(pitchTimeArr[1]))
-            pitchTime = parseInt(pitchTime + parseInt(pitch.pitch_capacity))
-
-
+          pitchTime = parseInt(pitchTime + parseInt(pitch.pitch_capacity))
         });
         // var minutes = pitchTime % 60;
         // var hours = (pitchTime - minutes) / 60;
