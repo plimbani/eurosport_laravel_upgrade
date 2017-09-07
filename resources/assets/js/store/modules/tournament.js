@@ -22,8 +22,8 @@ const state = {
   	filterKey:'',
   	filterValue: ''
   },
-  totalMatch:'',
-  totalReferee:'',
+  totalMatch:0,
+  totalReferee:0,
   referees:[],
   competationList:{},
   matches:[],
@@ -172,6 +172,7 @@ const actions = {
         'age_category':''
       }
        commit(types.SET_REFEREES,'')
+       commit(types.TOTAL_REFEREES, 0)
   	 Tournament.getReferees(tournamentData).then(
       (response) => {
         if(response.data.referees){
