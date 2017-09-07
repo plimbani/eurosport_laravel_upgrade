@@ -562,6 +562,10 @@ class MatchRepository
     {
       $updateData = [
         'is_scheduled' => 0,
+        'pitch_id' => 0,
+        'referee_id' => NULL,
+        'hometeam_score' => NULL,
+        'awayteam_score' => NULL,
       ];
      return DB::table('temp_fixtures')
             ->where('id', $matchId)
