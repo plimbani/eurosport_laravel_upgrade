@@ -8,7 +8,9 @@ const state = {
   pitches: [],
   pitchCapacity: '',
   pitchData: '',
-  pitchId:0
+  pitchId:0,
+  stageView:'gamesTab',
+  stages:0
 
  }
 // getters
@@ -20,7 +22,8 @@ const getters = {
       availableStage.push(pitchAvailable.stage_no)
    });
     return availableStage
-  }
+  },
+  curStageView: state => state.stageView,
 }
 // actions
 const actions = {
@@ -94,6 +97,12 @@ const actions = {
   SetPitchId ({commit},pitchId) {
     commit(types.SET_PITCH_ID, pitchId)
   },
+  SetStageView ({commit},stageView) {
+    commit(types.SET_STAGE_VIEW, stageView)
+  },
+  SetStages ({commit},stages) {
+    commit(types.SET_STAGES, stages)
+  },
 
 }
 
@@ -111,18 +120,16 @@ const mutations = {
     //alert(JSON.stringify(currentTournamentName))
     state.pitchData = response
   },
+  [types.SET_STAGE_VIEW] (state, stageView) {
+    //alert(JSON.stringify(currentTournamentName))
+    state.stageView = stageView
+  },
   [types.SET_PITCH_CAPACITY] (state, pitches) {
     // alert('hello in mutation')
       let pitchCapacity = []
         var pitchTime = 0
         $.each(pitches,function( i,pitch){
-          // console.log(pitchTime,pitch.pitch_capacity)
-            // var pitchCapacity = pitch.pitch_capacity
-            // var pitchTimeArr = pitchCapacity.split('.');
-            // pitchTime = parseInt(pitchTime + parseInt(pitchTimeArr[0]*60)+parseInt(pitchTimeArr[1]))
-            pitchTime = parseInt(pitchTime + parseInt(pitch.pitch_capacity))
-
-
+          pitchTime = parseInt(pitchTime + parseInt(pitch.pitch_capacity))
         });
         // var minutes = pitchTime % 60;
         // var hours = (pitchTime - minutes) / 60;

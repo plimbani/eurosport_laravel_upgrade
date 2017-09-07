@@ -35,9 +35,9 @@ class RefereeController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getReferees($tournamentId)
+    public function getReferees(Request $request)
     {
-        return $this->refereeObj->getAllReferees($tournamentId);
+        return $this->refereeObj->getAllReferees($request->all()['tournamentData']);
     }
 
     /**
