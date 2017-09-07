@@ -395,9 +395,23 @@
           }
         )
       },
-      onSelectAgeCategory(type,templateId = '') {
+      onSelectAgeCategory(stype,tId = '') {
         let tournamentTemplateId = ''
+        let type = stype
+        let templateId = ''
+        if(this.age_category != ''){
+          // console.log('asda')
+           type = 'filter'
+        }
 
+        if(tId == ''){
+           templateId = this.age_category.tournament_template_id
+        }else{
+           templateId = tId
+        }
+
+        let tournamentFilter = {'filterKey': 'age_category', 'filterValue':this.age_category }
+      this.$store.dispatch('setTournamentFilter', tournamentFilter);
         if(type == 'view'){
           if(this.age_category == ''){
             this.teams = [];
@@ -408,6 +422,7 @@
         }else{
           tournamentTemplateId = templateId
         }
+        // console.log(tournamentTemplateId,'tid')
         if(tournamentTemplateId != undefined && tournamentTemplateId != '' )
         {
           // Now here Fetch the appopriate Template of it
@@ -418,7 +433,6 @@
               //var JsonTemplateData = JSON.stringify(eval("(" + response.data.data + ")"));
 
               let jsonObj = JSON.parse(response.data.data)
-              // console.log(jsonObj)
               //let JsonTemplateData  = response.data.data
               // Now here we put data over there as per group
                let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
