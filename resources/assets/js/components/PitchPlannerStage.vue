@@ -17,7 +17,7 @@ import _ from 'lodash'
         data() {
             return {
                 'tournamentId': this.$store.state.Tournament.tournamentId,
-                'scheduledMatches': [],
+                 'scheduledMatches': [],
                 'unavailableBlock': [],
                 'setPitchModal': 0,
                 'matchFixture': {},
@@ -28,9 +28,10 @@ import _ from 'lodash'
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
                 'remBlock_id': 0,
                 'section': 'pitchPlanner',
+                // 'currentView': this.$store.getters.curStageView
             }
         },
-        props: [ 'stage' , 'defaultView', 'currentView'],
+        props: [ 'stage' , 'defaultView'],
         components: {
             PitchModal,
             DeleteModal1,
@@ -42,22 +43,44 @@ import _ from 'lodash'
                     pitch.resourceAreaWidth = '500px';
                 });
             },
+            currentView() {
+               return this.$store.getters.curStageView
+            },
             stageDate() {
                 return moment(this.stage.tournamentStartDate, 'DD/MM/YYYY');
-            }
+            },
+            // getScheduledMatches() {
+
+            //     return this.$store.getters.scheduledMatches
+
+            // }
+
         },
         created: function() {
-            this.$root.$on('getTeamsByTournamentFilter', this.setPitchPlannerFilter);
-
-            this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
+            // this.$root.$on('getTeamsByTournamentFilter', this.setPitchPlannerFilter);
+            // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
+            // this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
 
         },
         mounted() {
+            let cal = this.$el;
+            
             let vm = this
-
+            vm.initComponent()
+            // setTimeout(function(){
+            //     console.log('test')
+            //     $(cal).fullCalendar('refetchEventSources',vm.$store.getters.scheduledMatches);
+            //     $(cal).fullCalendar('refetchEvents');
+            // },12000)
             $(this.$el).fullCalendar('changeView', 'agendaDay');
             // this.getScheduledMatch()
-            setTimeout(function(){
+            
+        },
+        methods: {
+            initComponent(){
+                let vm = this
+                setTimeout(function(){
+                    
                 vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
                 // vm.getUnavailablePitch()
             },500)
@@ -77,11 +100,23 @@ import _ from 'lodash'
                     }
                 })
             },4000)
+            setTimeout(function(){
+                vm.initScheduler();
+            },1500)
 
-        },
-        methods: {
-            // matchSchedulerChange() {
-            //     $(this.$el).fullCalendar('eventOverlap', true);
+            },
+            matchSchedulerChange() {
+                return this.$store.getters.scheduledMatches
+                // $(this.$el).fullCalendar('eventOverlap', true);
+            },
+            // resetPitch(){
+            //     let vm = this
+
+            //     this.$store.dispatch('setMatches')
+            //     // vm.scheduledMatches = ''
+            //     vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
+            //    vm.reloadAllEvents()
+                
             // },
             pitchBreakAdd() {
                 let sPitch = []
@@ -109,7 +144,10 @@ import _ from 'lodash'
                     editable: true,
                     aspectRatio: 1.8,
                     eventDurationEditable: false,
-                    eventOverlap:this.currentView == 'refereeTab',
+                    eventOverlap:vm.currentView == 'refereeTab',
+                    // eventOverlap: function(stillEvent, movingEvent) {
+                    //      console.log(stillEvent, movingEvent)
+                    // },
                     droppable: true,
                     // height: 350,
                     width:'100px',
@@ -162,7 +200,6 @@ import _ from 'lodash'
                     drop: function(date, jsEvent, ui, resourceId) {
                         $(this).remove();
                     },
-
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                         // add match to scheduled matches table - api call
                         if(event.refereeId == -3 ){
@@ -173,18 +210,25 @@ import _ from 'lodash'
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
                                 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
                             };
+                            let cal = this.$el;
                             Tournament.assignReferee(matchData).then(
                                 (response) => {
-                                    
+                                    let updatedMatch = response.data.data;
+                                    console.log(response.data.data,'matchData')
                                     if(response.data.status_code == 200 && response.data.data != ''){
                                          toastr.success('Referee has been assigned successfully', 'Assigned Referee ', {timeOut: 5000});
-                                        vm.$root.$emit('setPitchPlanTab','refereeTab');
+                                        // vm.$root.$emit('setPitchPlanTab','refereeTab');
+                                        // console.log(vm.tournamentId,'tournamentId')
+                                        vm.$store.dispatch('getAllReferee',vm.tournamentId);
+                                        vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
+                                       vm.reloadAllEvents()
+                                        
                                     }else{
                                         toastr.error('Please assign referee properly', 'Assigned Referee ', {timeOut: 5000});
-                                        vm.$root.$emit('setPitchPlanTab','refereeTab');
+                                        
+                                        $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event.matchId] )
+                                        vm.$store.dispatch('getAllReferee',vm.tournamentId);
                                     }
-                                    
-                                    // console.log(response,'rs')
                                 },
                                 (error) => {
                                     toastr.error('Something goes wrong', 'Assigned Referee ', {timeOut: 5000});
@@ -207,7 +251,7 @@ import _ from 'lodash'
                                     (response) => {
                                         let msg = 'Unavailable block has been scheduled successfully'
                                         toastr.success('', 'Schedule Block', {timeOut: 5000});
-                                        vm.$root.$emit('setPitchReset')
+                                        // vm.$root.$emit('setPitchReset')
                                     },
                                     (error) => {
                                         console.log('Error occured during tournament api', error)
@@ -225,7 +269,9 @@ import _ from 'lodash'
                                 (response) => {
                                     toastr.success('Match has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
                                     
-                                        vm.$root.$emit('setGameReset')
+                                        // vm.$root.$emit('setGameReset')
+                                        vm.$store.dispatch('setMatches');
+                                        
                                 },
                                 (error) => {
                                     console.log('Error occured during tournament api', error)
@@ -244,12 +290,10 @@ import _ from 'lodash'
                         if(vm.currentView == 'refereeTab'){
                             revertFunc()
                             return false;
-                           
                         }
 
                         let ed = $(this)
                         if(event.refereeId == -1 || event.refereeId == -2){
-                            // vm.$root.$emit('setGameReset')
                             revertFunc();
                             setTimeout(function(){
                                 $('.fc-referee').each(function(referee){
@@ -283,12 +327,11 @@ import _ from 'lodash'
                                 }
                             )
                         }
-                        // console.log('eventDrop', event);
                     },
                     eventClick: function(calEvent, jsEvent, view) {
-                        console.log(calEvent,'ce')
-                        console.log(jsEvent,'je')
-                        console.log(view,'vi')
+                       
+                        // $('div.fc-unthemed').fullCalendar('updateEvent', calEvent);
+                       // return false;
                         if(calEvent.refereeId == -1){
                             return false
                         } else if(calEvent.refereeId == -2) {
@@ -320,14 +363,14 @@ import _ from 'lodash'
             handleEventClick(calEvent, jsEvent, view) {
                 // console.log(calEvent);
             },
-            setPitchPlannerFilter(filterKey,filterValue) {
-              let vm =this
+            // setPitchPlannerFilter(filterKey,filterValue) {
+            //   let vm =this
 
-              this.getScheduledMatch(filterKey,filterValue)
-              setTimeout(function(){
-                vm.$root.$emit('setPitchReset')
-              },1000)
-            },
+            //   // this.getScheduledMatch(filterKey,filterValue)
+            //   setTimeout(function(){
+            //     vm.$root.$emit('setPitchReset')
+            //   },1000)
+            // },
             deleteConfirmedBlock() {
 
                 Tournament.removeUnavailableBlock(this.remBlock_id).then(
@@ -342,8 +385,16 @@ import _ from 'lodash'
                 )
 
             },
+            reloadAllEvents(){
+                let vm = this
+                 $('.fc.fc-unthemed').fullCalendar( 'removeEvents' )
+            
+                setTimeout(function(){
+                    $('div.fc-unthemed').fullCalendar('addEventSource', vm.scheduledMatches);
+                },500)
+            },
             getScheduledMatch(filterKey='',filterValue='') {
-
+                // this.$store.dispatch('SetScheduledMatches');
                 let tournamentData= []
                 if(filterKey != '' && filterValue != '') {
                     tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id}
@@ -357,6 +408,7 @@ import _ from 'lodash'
                         let counter =999;
                         let rdata = response.data.data
                         // this.reports = response.data.data
+                        // console.log(rdata)
                         let sMatches = []
 
                         _.forEach(rdata, function(match) {
@@ -424,7 +476,8 @@ import _ from 'lodash'
                                     'refereeText': refereeName,
                                     'title':matchTitle,
                                     'color': colorVal,
-                                    'matchId':match.fid
+                                    'matchId':match.fid,
+                                    'matchAgeGroupId':match.age_group_id
                                 }
                                // console.log('match typeof')
                                // console.log(typeof match.homeScore)
@@ -452,7 +505,8 @@ import _ from 'lodash'
                                     'refereeText': 'R',
                                     'title':'Pitch is not available',
                                     'color': 'grey',
-                                    'matchId':-1
+                                    'matchId':-1,
+                                    'matchAgeGroupId':''
                                 }
 
                                 if(availability.stage_start_time != '08:00'){
@@ -465,7 +519,8 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title': 'Pitch is not available',
                                         'color': 'grey',
-                                        'matchId':-1
+                                        'matchId':-1,
+                                    'matchAgeGroupId':''
                                     }
                                     sMatches.push(mData1)
                                 }
@@ -479,7 +534,8 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
                                         'color': 'grey',
-                                        'matchId': -1
+                                        'matchId': -1,
+                                    'matchAgeGroupId':''
                                     }
                                 sMatches.push(mData2)
                                 }
@@ -488,11 +544,12 @@ import _ from 'lodash'
                                     counter = counter+1;
                                 });
                             });
+                        // console.log(sMatches,'smatches')
                         this.scheduledMatches =sMatches
                         this.getUnavailablePitch()
                         this.stageWithoutPitch()
                         setTimeout(function(){
-                            vm.initScheduler();
+                            // vm.initScheduler();
                         },1500)
                     }
                 )
@@ -514,7 +571,8 @@ import _ from 'lodash'
                     'refereeText': '',
                     'title': 'Pitch is not available',
                     'color': 'grey',
-                    'matchId': '111212'
+                    'matchId': '111212',
+                    'matchAgeGroupId':''
               }
                this.scheduledMatches.push(mData21)
                // Also Add for Resources as well
@@ -538,7 +596,8 @@ import _ from 'lodash'
                             'refereeText': '',
                             'title': 'Unavailable',
                             'color': 'grey',
-                            'matchId': 'block_'+block.id
+                            'matchId': 'block_'+block.id,
+                            'matchAgeGroupId':''
                         }
                         this.scheduledMatches.push(mData2)
                         this.unavailableBlock.push(mData2)

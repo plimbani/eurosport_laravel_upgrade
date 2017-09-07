@@ -67,7 +67,7 @@ $api->version('v1', function ($api) {
 
 
     //Referee api
-    $api->get('referees/{tournamentId}', 'Laraspace\Api\Controllers\RefereeController@getReferees');
+    $api->post('referees', 'Laraspace\Api\Controllers\RefereeController@getReferees');
     $api->post('referee/create', 'Laraspace\Api\Controllers\RefereeController@createReferee');
     $api->post('referee/update', 'Laraspace\Api\Controllers\RefereeController@updateReferee');
 

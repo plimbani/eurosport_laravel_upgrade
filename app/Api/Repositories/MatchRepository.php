@@ -9,6 +9,7 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\PitchUnavailable;
 use Laraspace\Models\Team;
+use Laraspace\Models\Referee;
 use DB;
 
 class MatchRepository
@@ -149,7 +150,7 @@ class MatchRepository
             ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
             ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
-            ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.match_winner',
+            ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.age_group_id','temp_fixtures.match_winner',
               'match_winner.name as MatchWinner',
                 'venues.id as venueId', 'competitions.id as competitionId',
                 'venues.venue_coordinates as venueCoordinates',
@@ -582,8 +583,16 @@ class MatchRepository
     }
     public function assignReferee($data)
     {
-      // dd($data);
-      $matchData = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
+       
+       $refereeData = Referee::find($data['refereeId'])->toArray();
+       // dd($refereeData);
+       $age_group = explode(',',$refereeData['age_group_id']);
+       // dd(explode(',',$refereeData['age_group_id']));
+
+       // if($age_category !=''){
+       //          Referee::whereRaw('FIND_IN_SET('.$data['refereeId'].',age_group_id)')->where('id');
+       //      }
+      $matchData    = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
                   ->where('match_endtime','>=',$data['matchStartDate'])
                   ->where('tournament_id',$data['tournamentId'])
                   ->where('is_scheduled',1)
@@ -593,13 +602,16 @@ class MatchRepository
                             ->orWhere('referee_id',0);
 
                   })
+                  ->whereIn('age_group_id',$age_group)
                   ->first();
                  // dd($matchData);
+                // $matchResult = $matchData;  
         if($matchData){
-          return  $matchData->update(
+          $result =  $matchData->update(
                       ['referee_id' => $data['refereeId']]
                       );
-           // return $matchData;
+          // dd($matchData);
+            return $matchData;
         }else{
           // dd('hi');
           return false;

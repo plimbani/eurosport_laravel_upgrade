@@ -23,7 +23,7 @@
                            Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
                           <div :id="'demo'+stage.stageNumber"
                           class="stages collapse in show" aria-expanded="true">
-                            <pitch-planner-stage :stage="stage" :currentView="currentView" :defaultView="defaultView"></pitch-planner-stage>
+                            <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>
                           </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                             <li class="nav-item">
                                 <a :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link px-3']"
                                 @click="setCurrentTab('gamesTab')"
-                                data-toggle="tab"  role="tab" href="#game-list">Games ({{totalMatchCount}})</a>
+                                data-toggle="tab" role="tab" href="#game-list">Games ({{totalMatchCount}})</a>
                             </li>
                             <li class="nav-item">
                                 <a :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link px-3']"
@@ -84,11 +84,18 @@
                 return this.$store.state.Pitch.pitches;
             },
             totalMatchCount() {
-                return this.$store.state.Tournament.totalMatch
+                return this.$store.getters.totalMatch
             },
             totalRefereeCount() {
                 return this.$store.state.Tournament.totalReferee
+            },
+            currentView() {
+              return this.$store.getters.curStageView  
             }
+            
+            // tournamentStages() {
+            //     return this.$store.getters.getTournamentStages
+            // },
             // tournamentStages() {
             //     let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
             //     let stages = [];
@@ -117,19 +124,22 @@
             this.$root.$on('setGameReset', this.gameReset);
             this.$root.$on('setRefereeReset', this.refereeReset);
             this.$root.$on('RefereeCount', this.refereeCount);
-            this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
+             this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
+             // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
             this.$root.$on('setPitchPlanTab',this.setCurrentTab)
+            this.$root.$on('getAllReferee', this.getAllreferees);
+            // this.$root.$on('getTeamsByTournamentFilter', this.resetPitch);
 
         },
         data() {
             return {
-                'currentView':'gamesTab',
+                // 'currentView':'gamesTab',
                 'currentButton' : 'horizontal',
                 'matchCount':'',
-                'tournamentStages': {},
+                 'tournamentStages': {},
                 'stageStatus':false,
-                'GameStatus':false,
-                'refereeStatus':false,
+                'GameStatus':true,
+                'refereeStatus':true,
                 'refereeCount': '',
                 'defaultView': 'agendaDay'
             };
@@ -140,7 +150,6 @@
                 $('.pitch_planner_section').mCustomScrollbar({
                 'autoHideScrollbar':true
             });
-                            // return stages;
             this.resetPitch()
             $(document).ready(function() {
                 $(document).on('click', '.js-pitch-planner-bt', function(e){
@@ -160,24 +169,17 @@
                 let setGameHeight = $('.tab-content').height()-100;
                 // $('#gameReferee').css('height',setGameHeight);
                 var stickyHeaderTop = (($('#gameReferee').offset().top ) - $('.site-header').offset().top);
-                // console.log(stickyHeaderTop, $('.site-header').offset().top,'stickytop')
                 $( window ).scroll(function() {
                       if( $(window).scrollTop() > (stickyHeaderTop - $('.site-header').height())  ) {
-                        // console.log('msg')
-                        // $('#gameReferee').addClass('affix');
                         $('#gameReferee').css({position: 'fixed', top: '0px', width: tabWith, 'margin-top':$('.site-header').height()});
                     } else {
                         $('#gameReferee').css({position: 'static', top: '0px',width:tabWith, 'margin-top':0});
-                        // $('#stickyalias').css('display', 'none');
-
                     }
-                    // console.log($('.pitch-planner-wrapper').offset())
-                    // console.log($('.pitch-planner-wrapper').outerHeight(),'outer')
-
+                    
                   // $( "span" ).css( "display", "inline" ).fadeOut( "slow" );
                 });
             })
-         $(".stages").on('shown.bs.collapse', function(){
+            $(".stages").on('shown.bs.collapse', function(){
 
                 alert('The collapsible content is about to be shown.');
             });
@@ -187,20 +189,28 @@
           //         this.setView(this.defaultView);
         },
         methods: {
+            getAllreferees(){
+                
+            },
+            setFilter(){
+
+                this.$store.dispatch('setMatches')
+                this.resetPitch()
+            },
             setCurrentTab(currentTab = 'refereeTab') {
                 let vm =this;
              
-                this.currentView = currentTab
-                // vm.stageStatus = false;
-               // vm.GameStatus = false
-                setTimeout(function(){
-                    // vm.stageStatus = true
-                    // vm.GameStatus = true
-                    if(currentTab == 'refereeTab'){
-                      vm.refereeReset()
-                    }
+               vm.$store.dispatch('SetStageView',currentTab)
+                // setTimeout(function(){
+                //      // vm.stageStatus = true
+                //     // vm.GameStatus = true
+                //     if(currentTab == 'refereeTab'){
+                //       // vm.refereeReset()
+                //       vm.$emit('getAllReferee');
+                //       // vm.$store.dispatch('getAllReferee', vm.$store.state.Tournament.tournamentId)
+                //     }
                    
-                },500)
+                // },500)
               
             },
             
@@ -235,12 +245,6 @@
                 }else{
                     $('.fc-agendaDay-button').click()
                 }
-
-                // this.stageStatus = false
-
-                // setTimeout(function(){
-                //     vm.stageStatus = true
-                // },200)
             },
             refereeCount(totReferee) {
                 this.refereeCount = totReferee
@@ -248,8 +252,9 @@
             resetPitch() {
                 let vm = this
                 this.stageStatus = false
-                this.GameStatus = false
-                this.refereeStatus = false
+                vm.tournamentStages = ''
+                // this.GameStatus = false
+                // this.refereeStatus = false
                 this.tournamentStages = ''
                let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
                 let stages = [];
@@ -272,36 +277,41 @@
                         pitches: availablePitchesForStage
                     });
                 }
+                    // vm.stageStatus = true
+                    // vm.GameStatus = true
+                    // vm.refereeStatus = true
+                    vm.$store.dispatch('setTournamentStages',stages)
+
                 setTimeout(function(){
-                    vm.stageStatus = true
-                    vm.GameStatus = true
-                    vm.refereeStatus = true
-                    vm.tournamentStages = stages
+                     vm.stageStatus = true
+                    // vm.GameStatus = true
+                    // vm.refereeStatus = true
+                     vm.tournamentStages = stages
                 },500)
             },
           gameReset() {
 
-            let vm =this
-             vm.GameStatus = false
-             vm.refereeStatus = false
+            // let vm =this
+            //  vm.GameStatus = false
+            //  vm.refereeStatus = false
 
-             setTimeout(function(){
-                  vm.refereeStatus = true
-                  vm.GameStatus = true
+            //  setTimeout(function(){
+            //       vm.refereeStatus = true
+            //       vm.GameStatus = true
 
-                    $('.nav-tabs a[href="#game-list"]').tab('show');
-              },500)
+            //         $('.nav-tabs a[href="#game-list"]').tab('show');
+            //   },500)
           },
           refereeReset() {
-            let vm =this
-             vm.GameStatus = false
-             vm.refereeStatus = false
+            // let vm =this
+            //  vm.GameStatus = false
+            //  vm.refereeStatus = false
 
-             setTimeout(function(){
-                    vm.refereeStatus = true
-                    vm.GameStatus = true
-                    $('.nav-tabs a[href="#referee-list"]').tab('show');
-                },500)
+            //  setTimeout(function(){
+            //         vm.refereeStatus = true
+            //         vm.GameStatus = true
+            //         $('.nav-tabs a[href="#referee-list"]').tab('show');
+            //     },500)
           },
 
           dispDate(date) {
