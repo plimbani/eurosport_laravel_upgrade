@@ -64,7 +64,7 @@
                                       <option value="9-a-side">{{$lang.pitch_modal_details_size_side_three}}</option>
                                       <option value="11-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
                                       <!--<option value="Handball">{{$lang.pitch_modal_details_size_side_handball}}</option>-->
-                                      <option value="Indoor">{{$lang.pitch_modal_details_size_side_indoor}}</option>
+                                      <option value="Indoor">{{$lang.pitch_modal_button_next}}</option>
                                   </select>
                                   <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
                               </div>
@@ -201,7 +201,7 @@
                                         <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                     </div>
                                   </div>
-                                  <div class="col-md-3">                                                                    <span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
+                                  <div class="col-md-3"><span :id="'stage_capacity1_s1pan'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
                                     <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity1'+day" value="0.00">
                                     <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity1_min'+day" value="0">
                                   </div>

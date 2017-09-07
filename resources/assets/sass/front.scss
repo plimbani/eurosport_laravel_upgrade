@@ -20,11 +20,35 @@
     // height: 20px;
 }
 
+.fc-time-grid {
+    &-event {
+        .fc-time,
+        .fc-title {
+            font-size: 12.75px;
+        }
+    }
+    .fc-slats td {
+        height: 0.85em;
+    }
+}
+
+.fc-no-overlap {
+    .fc-body .fc-resource-area .fc-cell-content {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        line-height: 22px;
+    }
+    .fc-timeline-event {
+        padding: 0;
+    }
+}
+
 .planner_list_content .dashbox {
     padding: 10px;
     margin-bottom: 10px;
     text-align: left;
     cursor: pointer;
+    font-size: 12.75px;
 }
 
 select.form-control {
@@ -113,6 +137,7 @@ table#Competition-modal-table {
 }
 
 
+
 /*.pitch_planner_section {
   height: 1200px;
 }
@@ -126,6 +151,7 @@ table#Competition-modal-table {
     background-color: grey;
     border: 1px solid grey;
 }
+
 .bg-light-grey {
     background-color: color("grey", "lighten-5");
 }
@@ -208,7 +234,7 @@ table#Competition-modal-table {
         }
         a {
             cursor: pointer;
-          }
+        }
 
         &.active a {
             z-index: 2;

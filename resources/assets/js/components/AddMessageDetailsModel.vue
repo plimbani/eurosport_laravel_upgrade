@@ -3,132 +3,131 @@
   <div class="modal" id="exampleDetailsModel" tabindex="-1" role="dialog" aria-labelledby="exampleDetailsModel" style="display: none;" aria-hidden="true"  data-animation="false">
     <div class="modal-dialog modal-lg" id="messageDetail" role="document">
       <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{$lang.summary_message_popup_messagedetails}}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-              </button>
-          </div>
-          <div class="modal-body">
-          <form name="addMessage" id="addMessage" class="col-md-6 mt-4">
-            <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">{{$lang.summary_table_heading_status}}</div>
-                <div class="col-sm-8">
-                  <div class="row">
-                    <div class="col-sm-12" v-if="messageDetail.status == 'queued'">
-                      Draft
-                    </div>
-                    <div class="col-sm-12" v-else>
-                      Sent
-                    </div>
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{$lang.summary_message_popup_messagedetails}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+        <form name="addMessage" id="addMessage" class="col-md-6 mt-4">
+          <div class="form-group row align-items-center">
+            <div class="col-sm-4 form-control-label">Status</div>
+              <div class="col-sm-8">
+                <div class="row">
+                  <div class="col-sm-12" v-if="messageDetail.status == 'queued'">
+                    Draft
+                  </div>
+                  <div class="col-sm-12" v-else>
+                    Sent
                   </div>
                 </div>
-            </div>
+              </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_date}}</div>
+              <div class="col-sm-8">
+                <div class="row">
+                  <div class="col-sm-12">
+                    {{messageDetail.created_at | formatDate}}
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="form-group text-left">
             <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_date}}</div>
+              <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_sender}}</div>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
-                      {{messageDetail.created_at}}
+                      {{messageDetail.sender.email}}
                     </div>
                   </div>
                 </div>
-            </div>
-            <div class="form-group text-left">
-              <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_sender}}</div>
-                  <div class="col-sm-8">
-                    <div class="row">
-                      <div class="col-sm-12">
-                        {{messageDetail.sender.email}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <div class="form-group text-left" v-if="messageDetail.status == 'queued'">
-              <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
-              <div class="col-sm-12">
-                    <div class="row">
-                      <div class="col-sm-12">
-                         <textarea class="form-control" rows="6"
-                            v-validate="'required'"
-                            name="content"
-                            :class="{'is-danger': errors.has('content') }"
-                            v-model="messageDetail.content"   maxlength="100" ></textarea>
-                            <span class="help is-danger" v-show="errors.has('content')">
-                              Field is required
-                            </span>
-                            <span class="limiter">{{charactersLeft}}</span>
-                      </div>
-                    </div>
               </div>
-              </div>
-            </div>
-            <div v-else class="form-group text-left">
-                <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
-                <div class="col-sm-8">
-                  <div class="row">
-                    <div class="col-sm-12">
-                      {{messageDetail.content}}
-                    </div>
-                  </div>
-                </div>
-            </div>
-            </div>
-            <div class="form-group text-left" v-if="messageDetail.status == 'sent' ">
-              <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">{{$lang.summary_table_heading_status_to}}</div>
-                  <div class="col-sm-8">
-                    <div class="row" v-if="messageDetail.receiver">
-                      <div class="col-sm-12" >
-                        {{sentUser}}
-                      </div>
-                    </div>
-                    <div class="row" v-else>
-                      <div class="col-sm-12" >
-                        -
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <!-- <span class="limiter">{{charactersLeft}}</span> -->
-          </form>
           </div>
+          <div class="form-group text-left" v-if="messageDetail.status == 'queued'">
+            <div class="form-group row align-items-center">
+            <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-12">
+                   <textarea class="form-control" rows="6"
+                      v-validate="'required'"
+                      name="content"
+                      :class="{'is-danger': errors.has('content') }"
+                      v-model="messageDetail.content"></textarea>
+                      <span class="help is-danger" v-show="errors.has('content')">
+                        Field is required
+                      </span>
+                      <span>Suggested max characters 100. Characters used</span> <span v-bind:class="{'text-danger': hasError }" class="limiter">{{charactersLeft}}</span>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div v-else class="form-group text-left">
+            <div class="form-group row align-items-center">
+            <div class="col-sm-4 form-control-label">{{$lang.summary_message_popup_messagedetails_message}}</div>
+              <div class="col-sm-8">
+                <div class="row">
+                  <div class="col-sm-12">
+                    {{messageDetail.content}}
+                  </div>
+                </div>
+              </div>
+          </div>
+          </div>
+          <div class="form-group text-left" v-if="messageDetail.status == 'sent' ">
+            <div class="form-group row align-items-center">
+              <div class="col-sm-4 form-control-label">Sent tournament</div>
+                <div class="col-sm-8">
+                  <div class="row" v-if="messageDetail.receiver">
+                    <div class="col-sm-12" >
+                      {{sentUser}}
+                    </div>
+                  </div>
+                  <div class="row" v-else>
+                    <div class="col-sm-12" >
+                      -
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <!-- <span class="limiter">{{charactersLeft}}</span> -->
+        </form>
+        </div>
           <div class="modal-footer">
               <div>
               <button type="button" class="btn btn-danger pull-left"   @click="modalOpen('delete')"
               v-if="messageDetail.status != 'sent' ">Delete</button>
               </div>
-              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
-              <button type="button" class="btn btn-primary" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">Draft</button>
-              <button type="button" class="btn btn-primary" @click="modalOpen('send')" id="saveAge"  v-if="messageDetail.status != 'sent' ">Send</button>
-              
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-warning" @click="setDraft" id="setDraft" v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_draft_button}}</button>
+              <button type="button" class="btn btn-primary" @click="modalOpen('send')" id="saveAge"  v-if="messageDetail.status != 'sent' ">{{$lang.summary_message_popup_send_button}}</button>
           </div>
       </div>
     </div>
   </div>
   <div class="modal fade bg-modal-color refdel" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog delete-modal" role="document">
-          <div class="modal-content">
-              <form method="delete" class="js-delete-modal-form">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="myModalLabel">{{$lang.user_management_confirmation}}</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  </div>
-                  <div class="modal-body js-delete-confirmation-msg" v-if="status == 'delete'">{{ deleteConfirmMsg }}</div>
-                  <div class="modal-body js-delete-confirmation-msg" v-else>{{ sendConfirmMsg }}</div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_cancel}}</button>
-                      <button type="submit" class="btn btn-primary" @click.prevent="confirmedAction()">{{$lang.user_management_save}}</button>
-                  </div>
-                  <input name="_method" value="DELETE" type="hidden" />
-              </form>
-          </div>
+      <div class="modal-dialog delete-modal" role="document">
+        <div class="modal-content">
+            <form method="delete" class="js-delete-modal-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">{{$lang.user_management_confirmation}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body js-delete-confirmation-msg" v-if="status == 'delete'">{{ deleteConfirmMsg }}</div>
+                <div class="modal-body js-delete-confirmation-msg" v-else>{{ sendConfirmMsg }}</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_close}}</button>
+                    <button type="submit" class="btn btn-primary" @click.prevent="confirmedAction()">{{$lang.user_management_save}}</button>
+                </div>
+                <input name="_method" value="DELETE" type="hidden" />
+            </form>
         </div>
+      </div>
   </div>
 </div>
 </template>
@@ -143,7 +142,8 @@ export default {
       deleteConfirmMsg: 'Are you sure you would like to delete this message?',
       sendConfirmMsg: 'Are you sure you would like to send this message?',
       deleteAction: '',
-      status: '' 
+      status: '',
+      hasError: false
     }
   },
   props:['messageDetail'],
@@ -152,8 +152,8 @@ export default {
       var char = this.messageDetail.content.length,
           limit = 100;
       let remaining_char = (limit - char) ;
-
-      return "Suggested max characters "+limit+". Characters used "+char+".";
+      this.hasError = this.messageDetail.content.length > 100;
+      return char+".";
     },
     sentUser() {
       if(this.messageDetail.receiver.length > 1 ){
@@ -168,6 +168,11 @@ export default {
   mounted() {
    
   },
+  filters: {
+      formatDate: function(date) {
+      return moment(date).format("HH:mm:ss DD MMM YYYY");
+       },
+    },
   created: function() {
 
   },
@@ -179,6 +184,7 @@ export default {
     modalOpen(type) {
       this.status = type
       $('#delete_modal').modal('show')
+      
     },
     confirmedAction() {
       if(status == 'delete'){
@@ -203,6 +209,7 @@ export default {
                      vm.$root.$emit('displayMessageList')
                      $('#delete_modal').modal('hide')
                      $('#exampleDetailsModel').modal('hide')
+
                   }
                 },
               (error) => {
@@ -234,6 +241,7 @@ export default {
                     }
                       vm.$root.$emit('displayMessageList')
                       $('#exampleDetailsModel').modal('hide')
+                      setTimeout(Plugin.reloadPage, 1000);
                   }
 
                 },
@@ -267,6 +275,7 @@ export default {
 
                      vm.$root.$emit('displayMessageList')
                      $('#exampleDetailsModel').modal('hide')
+
                   }
                 },
               (error) => {

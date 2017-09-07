@@ -4,15 +4,41 @@
   		<div class="card-block">
   			<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
   			<form>
+        <div class="form-group row">
+          <label class="col-sm-2 form-control-label">Import teams</label>
+         <div class="col-sm-10">
+            <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col align-self-center">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <button type="button" class="btn btn-default w-100" id="profile_image_file">Select list (excel files only)</button>
+                  </div>
+                  <div class="col">
+                    <span id="filename"></span>
+                    <button type="button" @click="csvImport()"  class="btn btn-primary ml-4">Upload teams
+                    </button>
+                  </div>
+                </div>
+                  <input type="file" name="fileUpload" @change="setFileName(this)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
+              </div>
+            </div>
+          </form>
+          </div>
+        </div>
   				<div class="form-group row">
-            <label class="col-sm-2 form-control-label">{{$lang.teams_name_category}}</label>
-            <div class="col-sm-4">
-              <div class="form-group">
-                  <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
-                    <option value="">{{$lang.teams_select}}</option>
-                    <option v-for="option in options"
-                     v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
-                  </select>
+            <label class="col-sm-2 form-control-label">Filter by</label>
+            <div class="col-sm-10">
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-group">
+                    <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
+                      <option value="">{{$lang.teams_select_age_category}}</option>
+                      <option v-for="option in options"
+                       v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -22,48 +48,32 @@
             <div class="col-sm-3 m_card hoverable m-2"  v-for="(group, index) in grpsView">
                 <div class="card-content">
                    <span class="card-title text-primary"><strong>
-                   {{group['groups']['group_name']}}</strong></span>
-                   <p class="text-primary" v-for="n in group['group_count']"><strong><span v-text="groupName(group['groups']['group_name'],n)"></span></strong></p>
+                   {{group['groups']['group_name'] }}</strong></span>
+                    <p class="text-primary" v-for="n in group['group_count']"><strong><span :class="groupFlag(group['groups']['group_name'],n)" ></span>
+                    {{groupName(group['groups']['group_name'],n) | truncate(20)}}</strong></p>
                 </div>
             </div>
           </div>
           <div v-else class="d-flex justify-content-center">
             <div class="col-sm-9  m-8">
                 <div class="card-content">
-
-                   <span class="card-title"> {{$lang.teams_name_select}}</span>
-
+                   <span class="card-title"> {{ $lang.teams_name_select }}</span>
                 </div>
             </div>
           </div>
         </div>
-
+<!--
           <div class="row align-items-center">
             <div class="col-sm-3">
               <h6 class="m-0"><strong>{{$lang.teams_team_list}}</strong></h6>
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-12">
               <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
             </div>
           </div>
           <div class="row">
-          <div class="col-sm-12">
-            <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
-            <div>
-            <button type="button" class="btn btn-default" id="profile_image_file">{{$lang.teams_select_file}}</button>&nbsp;&nbsp;<span id="filename"></span>
 
-              <input type="file" name="fileUpload" @change="setFileName(this)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
-              <small class="form-text text-muted">{{$lang.teams_excel_text}}</small>
-
-            </div>
-	  				<button type="button" @click="csvImport()"  class="btn btn-primary mt-2">{{$lang.teams_upload_team}}
-            </button>
-
-            </form>
-           <!--  <p class="mt-4 mb-0">Once you have uploaded teams choose a category name from the filter above to allocate teams</p> -->
-
-	  			</div>
-  			</div>
+  			</div> -->
   			<div class="row mt-4">
   				<div class="col-md-12">
           <form name="frmTeamAssign" id="frmTeamAssign">
@@ -87,7 +97,7 @@
                       <td>{{team.name}}</td>
                       <td>
                       	<!-- <img :src="team.logo" width="20"> {{team.country_name}} -->
-                            <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
+                          <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
                       </td>
                       <td>{{team.place}} </td>
                       <td>{{team.category_age}} </td>
@@ -168,6 +178,17 @@
       }
     },
 
+    filters: {
+      truncate: function(string, value) {
+        if(string.length <= value) {
+            return string;
+        } else {
+            return string.substring(0, value) + '...';
+        }
+      },
+    },
+
+
 
     mounted() {
       let tournamentId = this.$store.state.Tournament.tournamentId
@@ -210,7 +231,18 @@
     // },
 
     methods: {
-      groupName(grpName,no){
+      groupFlag(grpName,no){
+        let vm =this
+        let fullName = grpName+no
+        let displayName = fullName
+         _.find(this.teams, function(team) {
+          if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
+            displayName =  'flag-icon flag-icon-'+team.country_flag
+          } ;
+        });
+        return displayName
+      },
+       groupName(grpName,no){
         let vm =this
         let fullName = grpName+no
         let displayName = fullName
@@ -221,6 +253,7 @@
         });
         return displayName
       },
+
       isSelected(grp,index){
         return false
 
