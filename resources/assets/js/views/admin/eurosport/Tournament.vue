@@ -1,24 +1,33 @@
-<template> 
+<template>
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="tabs tabs-primary">
-							<ul class="nav nav-tabs" role="tablist">
-								<li class="nav-item">
-									<a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'"><b>{{$lang.summary_label_summary}}</b></a>
-								</li>					  		 
-								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'"><b>{{$lang.summary_label_reports}}</b></a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'"><b>{{$lang.summary_label_schedule}}</b></a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'"><b>{{$lang.summary_label_message}}</b></a>
-								</li>
-							</ul>
+              <div class="row justify-content-between">
+                <div class="col-sm-10">
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'"><b>{{$lang.summary_label_summary}}</b></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'"><b>{{$lang.summary_label_reports}}</b></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'"><b>{{$lang.summary_label_schedule}}</b></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'"><b>{{$lang.summary_label_message}}</b></a>
+                    </li>
+                   <AddMessageModel v-if="messageStatus"></AddMessageModel>
+                  </ul>
+                </div>
+                <div class="col d-flex justify-content-end">
+                  <button type="button" class="btn btn-primary"
+                       @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
+                </div>
+              </div>
 							<component :is="currentView"> </component>
 						</div>
 					</div>
@@ -34,16 +43,19 @@ import SummaryTab from '../../../components/SummaryTab.vue'
 import SummaryReport from '../../../components/SummaryReport.vue'
 import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
+import AddMessageModel from '../../../components/AddMessageModel.vue'
+
 
 export default {
 
     data() {
        return {
-         currentView:'summaryTab'
+         currentView:'summaryTab',
+        messageStatus: false
        }
-    },	
+    },
     components: {
-        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages
+        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel
     },
     mounted() {
     	let tournamentId = this.$store.state.Tournament.tournamentId
@@ -56,7 +68,21 @@ export default {
           this.$store.dispatch('setActiveTab', currentNavigationData)
       }
       // Here we set currenct Schedule view null
-      this.$store.dispatch('setCurrentScheduleView','') 
-    }  
+      this.$store.dispatch('setCurrentScheduleView','')
+    },
+
+     methods: {
+         addMessage() {
+        let vm =this
+        this.messageStatus = true
+        this.type='add'
+        setTimeout(function(){
+          $('#exampleModal').modal('show')
+            $("#exampleModal").on('hidden.bs.modal', function () {
+              vm.messageStatus = false
+          });
+        },500)
+    }
+    }
 }
 </script>
