@@ -45,7 +45,7 @@
   			</form>
         <div class="block-bg age-category mb-4">
           <div class="d-flex justify-content-center" v-if="grpsView.length != 0">
-            <div class="col-sm-3 m_card hoverable m-2"  v-for="(group, index) in grpsView">
+            <div class="col-sm-4 m_card hoverable m-2"  v-for="(group, index) in grpsView">
                 <div class="card-content">
                    <span class="card-title text-primary"><strong>
                    {{group['groups']['group_name'] }}</strong></span>
