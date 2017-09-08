@@ -1,12 +1,12 @@
 <template>
   <div class="tab-content planner_list_content">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12" v-if= "matchStatus == true">
         <div v-if="competitionWithGames.length == 0">
               {{$lang.pitch_planner_no_games}}
         </div>
         <div class="text-center" v-else v-for="(competition,index) in competitionWithGames">
-          <div v-if="competition.matchList &&  competition.matchList.length > 0">
+          <div v-if="competition.matchList &&  competition.matchList.length > 0" >
             <h6 class="mb-0" ><strong>{{competition.group_name}}</strong></h6>
             <div v-if="competition.matchCount == 0">
                 {{$lang.pitch_planner_no_games}}
@@ -37,10 +37,11 @@ export default {
   data() {
     return {
       tournamentId: this.$store.state.Tournament.tournamentId,
-      matches: [],
+      
       competationList: [],
       matchGame: [],
       totalMatch: '',
+      matchStatus: true,
       matchCompetition:{'matchList':''},
       'filterStatus': true,
       'tournamentFilter': this.$store.state.Tournament.tournamentFiler
@@ -48,75 +49,26 @@ export default {
   },
   computed: {
     competitionWithGames(){
-      let competitionGroup = this.competationList
-      let allMatches = this.matches
-      let matchCount = 0
-      let matchCountDisplay = 0
-      if(this.competationList.length > 0 && this.matches.length > 0){
-
-        _.forEach(this.competationList, function(competition) {
-        let cname = competition.group_name
-        let comp = []
-        let that = this
-        matchCount = 0
-        // matchCount = 0
-          _.find(allMatches, function (match) {
-            let round = ''
-            let matchTime = 0
-            if(match.group_name == competition.group_name){
-              if(match.round == 'Round Robin'){
-                round = 'RR-'
-                matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
-              }else if(match.round == 'Elimination'){
-                round = 'EL-'
-                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
-
-              }else if(match.round == 'Final'){
-                round = 'FN-'
-                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
-              }
-
-              let fullgame1 = match.full_game;
-
-              if(match.Away_id != 0 && match.Home_id != 0) {
-                fullgame1 = ''
-              }
-               let mtchNumber = match.match_number
-               let mtchNumber1 = mtchNumber.split(".")
-
-              let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
-              if(match.Away_id != 0 && match.Home_id != 0)
-              {
-                 fullgame1 = ''
-                 mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
-              } else {
-                mtchNum = mtchNum+mtchNumber1[2]
-              }
-
-              var person = {'fullGame':fullgame1,'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled};
-              comp.push(person)
-
-              if(match.is_scheduled!=1){
-                matchCount = matchCount + 1
-                matchCountDisplay = matchCountDisplay + 1
-              }
-            }
-            competition.matchCount = matchCount
-          })
-          competition.matchList = comp
-
-
-        })
-
-        this.matchCompetition = this.competationList
-        this.totalMatch = matchCountDisplay
-        this.$store.dispatch('SetTotalMatch', this.totalMatch)
-        return this.competationList
+      
+      if(this.$store.state.Tournament.totalMatch > 0){
+        // this.matchStatus = true
+        return this.$store.getters.getAllCompetitionWithGames
       }else{
-        this.totalMatch = matchCountDisplay
-        this.$store.dispatch('SetTotalMatch', this.totalMatch)
-        return this.competationList
+        return [];
       }
+    },
+
+     matches(){
+      console.log('asad')
+      return this.$store.state.Tournament.matches
+      // this.matchStatus = false
+      // let matchList = ''
+
+      // if(this.$store.state.Tournament.totalMatch > 0){
+      //   this.matchStatus = true
+      //   matchList = this.$store.getters.getMatches
+      // }
+      // return matchList
     }
   },
   created: function() {
@@ -124,7 +76,7 @@ export default {
   },
   mounted() {
     this.displayFixtures(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue);
-
+    this.$store.dispatch('setCompetationWithGames');
     $("#game-list").mCustomScrollbar({
       'autoHideScrollbar':true
     });
@@ -139,11 +91,8 @@ export default {
       } else {
           tdata ={'tournamentId':this.tournamentId }
       }
-      Tournament.getFixtures(tdata).then(
-          (response)=> {
-            this.matches = response.data.data
-          }
-        )
+      this.$store.dispatch('setMatches')
+      
     },
     displayTournamentCompetationList () {
     // Only called if valid tournament id is Present
@@ -153,6 +102,7 @@ export default {
         Tournament.getCompetationFormat(TournamentData).then(
         (response) => {
           this.competationList = response.data.data
+          this.$store.dispatch('setCompetationList',this.competationList)
         },
         (error) => {
          console.log('Error occured during Tournament api', error)

@@ -39,6 +39,7 @@ export default {
                 stick: true, // maintain when user navigates (see docs on the renderEvent method),
                 duration: this.match.matchTime ? moment.duration(this.match.matchTime, 'minutes') : moment.duration(60, 'minutes'),
                 matchId: this.match.matchId,
+                matchAgeGroupId: this.match.ageGroupId,
                 forceEventDuration: true,
                 
             });

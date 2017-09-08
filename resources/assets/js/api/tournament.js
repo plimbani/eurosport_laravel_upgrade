@@ -43,8 +43,9 @@ export default {
   getTeamsGroup (teamData) {
     return api.post('teams/availableGroup',{'teamData':teamData})
   },
-  getReferees(tournamentId) {
-    return api.get('referees/'+tournamentId)
+  getReferees(tournamentData) {
+
+    return api.post('referees',{'tournamentData':tournamentData})
   },
   createTeam(teamData) {
     // console.log(teamData)

@@ -12,7 +12,7 @@
               <div class="col align-self-center">
                 <div class="row">
                   <div class="col-sm-4">
-                    <button type="button" class="btn btn-default w-100" id="profile_image_file">Select list (excel files only)</button>
+                    <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select list (excel files only)</button>
                   </div>
                   <div class="col">
                     <span id="filename"></span>
@@ -315,9 +315,14 @@
         }
         $('.selTeams').prop("disabled", false);
       },
-        getTeams(filterKey,filterValue) {
+      getTeams(filterKey,filterValue) {
+        if(this.age_category === '') {
+          this.teams = [];
+          return;
+        }
         this.teams = ''
-        let teamData = {'tournamentId':this.tournament_id,'filterKey':filterKey, 'filterValue': filterValue};
+        let ageCategoryId = this.age_category !== '' ? this.age_category.id : '';
+        let teamData = {'tournamentId':this.tournament_id, 'ageCategoryId' : ageCategoryId, 'filterKey':filterKey, 'filterValue': filterValue};
         // console.log(teamData,'td')
         Tournament.getTeams(teamData).then(
           (response) => {
@@ -390,11 +395,26 @@
           }
         )
       },
-      onSelectAgeCategory(type,templateId = '') {
+      onSelectAgeCategory(stype,tId = '') {
         let tournamentTemplateId = ''
+        let type = stype
+        let templateId = ''
+        if(this.age_category != ''){
+          // console.log('asda')
+           type = 'filter'
+        }
 
+        if(tId == ''){
+           templateId = this.age_category.tournament_template_id
+        }else{
+           templateId = tId
+        }
+
+        let tournamentFilter = {'filterKey': 'age_category', 'filterValue':this.age_category }
+      this.$store.dispatch('setTournamentFilter', tournamentFilter);
         if(type == 'view'){
           if(this.age_category == ''){
+            this.teams = [];
             this.grpsView = ''
             return false;
           }
@@ -402,6 +422,7 @@
         }else{
           tournamentTemplateId = templateId
         }
+        // console.log(tournamentTemplateId,'tid')
         if(tournamentTemplateId != undefined && tournamentTemplateId != '' )
         {
           // Now here Fetch the appopriate Template of it
@@ -412,7 +433,6 @@
               //var JsonTemplateData = JSON.stringify(eval("(" + response.data.data + ")"));
 
               let jsonObj = JSON.parse(response.data.data)
-              // console.log(jsonObj)
               //let JsonTemplateData  = response.data.data
               // Now here we put data over there as per group
                let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
@@ -455,7 +475,8 @@
               // alert('error in getting json data')
             }
            )
-       }
+        }
+        this.getTeams(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue)
       },
       csvImport() {
         if($('#fileUpload').val()!=''){

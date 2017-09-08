@@ -1,7 +1,7 @@
 import * as types from '../mutation-types'
 import _ from 'lodash'
 import Tournament from '../../api/tournament'
-
+import moment from 'moment'
 
 // initial state
 const state = {
@@ -22,11 +22,39 @@ const state = {
   	filterKey:'',
   	filterValue: ''
   },
-  totalMatch:'',
-  totalReferee:'',
+  totalMatch:0,
+  totalReferee:0,
+  referees:[],
+  competationList:{},
+  matches:[],
+  matchCompetition:{'matchList':''},
+  competitionWithGames: {},
+  tournamentStages: {},
+  scheduledMatches: [],
 }
 // getters
 const getters = {
+   getAllReferees: state => {
+      return state.referees
+    },
+    getTournamentStages: state => {
+      return state.tournamentStages
+    },
+    getCompetitionList: state => {
+       return state.competationList
+    },
+    getAllCompetitionWithGames: function(state) {
+      return state.competitionWithGames
+    },
+    getMatches: state => {
+      return state.matches
+    },
+    totalMatch: state => {
+      return state.totalMatch
+    },
+    scheduledMatches: state => {
+      return state.scheduledMatches
+    }
 
 }
 // actions
@@ -46,6 +74,31 @@ const actions = {
   SetTotalReferee ({commit}, totalReferee) {
 	commit(types.TOTAL_REFEREES, totalReferee)
   },
+  setCompetationList({commit}, competition) {
+  commit(types.COMPETITION_LIST, competition)
+  },
+
+  setTournamentStages({commit}, tournamentStages) {
+  commit(types.TOURNAMENT_STAGES, tournamentStages)
+  },
+  setMatches({commit,state}) {
+      commit(types.SET_MATCHES, '')
+    let tdata = {}
+    if(state.tournamentFiler.filterKey != '' && state.tournamentFiler.filterValue != '') {
+        tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'fiterEnable':true}
+    } else {
+        tdata ={'tournamentId':state.tournamentId }
+    }
+    Tournament.getFixtures(tdata).then(
+    (response)=> {
+       commit(types.SET_MATCHES, response.data.data)
+       commit(types.SET_COMPETITION_WITH_GAMES)
+     
+    }
+  )
+    
+  },
+  
   
 
   SetVenues ({commit},tournamentId) {
@@ -111,6 +164,44 @@ const actions = {
   },
   setTournamentFilter({commit}, filterData) {
   	commit(types.SET_TOURNAMENT_FILTER, filterData)
+  },
+  getAllReferee({commit}, tournamentId){
+  	// let referees = ''
+    let tournamentData = {
+        'tournamentId':tournamentId,
+        'age_category':''
+      }
+       commit(types.SET_REFEREES,'')
+       commit(types.TOTAL_REFEREES, 0)
+  	 Tournament.getReferees(tournamentData).then(
+      (response) => {
+        if(response.data.referees){
+          // vm.referees = response.data.referees
+          // vm.$store.dispatch('SetTotalReferee', response.data.referees.length)
+          commit(types.TOTAL_REFEREES, response.data.referees.length)
+           commit(types.SET_REFEREES, response.data.referees)
+        }else{
+          // vm.referees = ''
+          // vm.$store.dispatch('SetTotalReferee', 0)
+        }
+
+      },
+      (error) => {
+         console.log('Error occured during Tournament api ', error)
+      }
+    )
+  },
+  setCompetationWithGames({commit}) {
+    commit(types.SET_COMPETITION_WITH_GAMES)
+  },
+  SetScheduledMatches({commit,state}) {
+    let tournamentData= []
+    if(state.tournamentFiler.filterKey != '' && state.tournamentFiler.filterValue != '') {
+        tournamentData ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id}
+    } else {
+        tournamentData ={'tournamentId':state.tournamentId }
+    }
+             
   }
 }
 
@@ -172,6 +263,102 @@ const mutations = {
 	state.tournamentFiler.filterKey = filterData.filterKey;
 	state.tournamentFiler.filterValue = filterData.filterValue;
 
+  },
+  [types.SET_REFEREES] (state, refereeData) {
+  	state.referees = refereeData;
+  },
+  [types.COMPETITION_LIST] (state, competitionList) {
+    state.competationList = competitionList;
+  },
+  [types.TOURNAMENT_STAGES] (state, tournamentStages) {
+    state.tournamentStages = '';
+    state.tournamentStages = tournamentStages;
+  },
+  
+  [types.SET_MATCHES] (state, matches) {
+    state.matches = '';
+    state.matches = matches;
+  },
+  [types.SET_SCHEDULED_MATCHES] (state, scheduledMatches) {
+    state.scheduledMatches = [];
+    state.scheduledMatches = scheduledMatches;
+  },
+  [types.SET_COMPETITION_WITH_GAMES] (state) {
+    // console.log(state.competationList,'state.competationList')
+      let competitionGroup = state.competationList
+      let allMatches = state.matches
+      let matchCount = 0
+      let matchCountDisplay = 0
+      if(state.competationList.length > 0 && state.matches.length > 0){
+
+        _.forEach(state.competationList, function(competition) {
+        let cname = competition.group_name
+        let comp = []
+        let that = this
+        matchCount = 0
+        // matchCount = 0
+          _.find(allMatches, function (match) {
+            
+            let round = ''
+            let matchTime = 0
+            if(match.group_name == competition.group_name){
+              if(match.round == 'Round Robin'){
+                round = 'RR-'
+                matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
+              }else if(match.round == 'Elimination'){
+                round = 'EL-'
+                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
+
+              }else if(match.round == 'Final'){
+                round = 'FN-'
+                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
+              }
+
+              let fullgame1 = match.full_game;
+
+              if(match.Away_id != 0 && match.Home_id != 0) {
+                fullgame1 = ''
+              }
+               let mtchNumber = match.match_number
+               let mtchNumber1 = mtchNumber.split(".")
+
+              let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
+              if(match.Away_id != 0 && match.Home_id != 0)
+              {
+                 fullgame1 = ''
+                 mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
+              } else {
+                mtchNum = mtchNum+mtchNumber1[2]
+              }
+
+              var person = {'fullGame':fullgame1,'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
+              comp.push(person)
+
+              if(match.is_scheduled!=1){
+                matchCount = matchCount + 1
+                matchCountDisplay = matchCountDisplay + 1
+              }
+            }
+            competition.matchCount = matchCount
+          })
+          competition.matchList = comp
+
+
+        })
+        // console.log(competationList,'')
+        // console.log(state.competationList)
+        state.matchCompetition = state.competationList
+        state.totalMatch = matchCountDisplay
+        // state.totalMatch = totalMatch;
+        // this.$store.dispatch('SetTotalMatch', this.totalMatch)
+         state.competitionWithGames = state.competationList
+      }else{
+        state.totalMatch = matchCountDisplay
+        // this.$store.dispatch('SetTotalMatch', this.totalMatch)
+        state.competitionWithGames = state.competationList
+      }
+    
+    
   },
 
 }
