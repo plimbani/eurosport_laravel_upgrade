@@ -29,6 +29,11 @@
     }
     .fc-slats td {
         height: 0.85em;
+        line-height: 0.85em;
+        span {
+            font-size: 0.8em;
+            line-height: 0.85em;
+        }
     }
 }
 
