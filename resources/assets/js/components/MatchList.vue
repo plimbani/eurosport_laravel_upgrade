@@ -92,10 +92,12 @@ export default {
            if(round == 'Round Robin') {
               return value
             }
-            if(!isNaN(value.slice(-1))) {
-              return value.substring(0,value.length-1)
-            } else {
-              return value
+            if(value){
+              if(!isNaN(value.slice(-1))) {
+                return value.substring(0,value.length-1)
+              } else {
+                return value
+              }
             }
       }
 

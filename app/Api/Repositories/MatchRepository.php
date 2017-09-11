@@ -591,12 +591,7 @@ class MatchRepository
        $refereeData = Referee::find($data['refereeId'])->toArray();
        // dd($refereeData);
        $age_group = explode(',',$refereeData['age_group_id']);
-       // dd(explode(',',$refereeData['age_group_id']));
-
-       // if($age_category !=''){
-       //          Referee::whereRaw('FIND_IN_SET('.$data['refereeId'].',age_group_id)')->where('id');
-       //      }
-      $matchData    = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
+       $matchData    = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
                   ->where('match_endtime','>=',$data['matchStartDate'])
                   ->where('tournament_id',$data['tournamentId'])
                   ->where('is_scheduled',1)
@@ -604,22 +599,21 @@ class MatchRepository
                   ->Where(function($query){
                       $query->where('referee_id',NULL)
                             ->orWhere('referee_id',0);
-
-                  })
-                  ->whereIn('age_group_id',$age_group)
-                  ->first();
-                 // dd($matchData);
-                // $matchResult = $matchData;  
-        if($matchData){
-          $result =  $matchData->update(
-                      ['referee_id' => $data['refereeId']]
-                      );
-          // dd($matchData);
-            return $matchData;
-        }else{
-          // dd('hi');
-          return false;
-        }
+                  });
+      if( $matchData->count() == 0){
+        return ['status'=> false,'data' => 'Please assign referee properly'];
+      }else{
+        if($age_group){
+        $matchData = $matchData->whereIn('age_group_id',$age_group)->first(); 
+          if(!$matchData){
+            return ['status' => false, 'data' => 'This referee is not authorised to referee this age category'];
+          }else{
+             $result =  $matchData->update(['referee_id' => $data['refereeId']]);
+          return  ['status' => true, 'data' => $matchData];
+          }
+        } 
+      }
+                  
     }
     public function saveResult($data)
     {
