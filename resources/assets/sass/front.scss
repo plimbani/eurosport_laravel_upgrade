@@ -33,8 +33,21 @@
         span {
             font-size: 0.8em;
             line-height: 0.85em;
+            font-weight: 800;
         }
     }
+}
+
+.fc-unthemed th {
+    font-weight: 800;
+}
+
+.tab-content.planner_list_content {
+    margin-top: 0px;
+}
+
+#game-list {
+    top: -17px;
 }
 
 .fc-no-overlap {
@@ -42,6 +55,7 @@
         padding-top: 0px;
         padding-bottom: 0px;
         line-height: 22px;
+        font-weight: 800;
     }
     .fc-timeline-event {
         padding: 0;
@@ -273,6 +287,11 @@ table#Competition-modal-table {
             }
         }
     }
+}
+
+#profile_image_file {
+    text-align: left;
+    font-size: 15px;
 }
 
 #matchSchedule {
