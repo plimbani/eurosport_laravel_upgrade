@@ -53,7 +53,8 @@ class UserService implements UserContract
      */
     public function create($data)
     {
-
+      // dd($data);
+  
         // Data Initilization
         $data = $data->all();
 
@@ -70,21 +71,22 @@ class UserService implements UserContract
         // TODO: we put condition for Set up for Mobile User Data
         // TODO Check For Mobile Users
         $isMobileUsers = \Request::header('IsMobileUser');
-
+        $data['is_mobile_user'] = false;
         if($isMobileUsers != '' ) {
           $data['is_mobile_user'] = true;
         }
-        // Also check From Desktop
 
+        // Also check From Desktop
+         $userData['user']['is_mobile_user'] = false;
         if(isset($data['registerType']) && trim($data['registerType']) == 'mobile') {
-          $userData['user']['is_mobile_user'] = 1;
+          $userData['user']['is_mobile_user'] = true;
           $data['userType'] = '5';
           $data['organisation'] = 'EuroSportring';
          // $userPassword = Hash::make(trim($data['password']));
         }
         // here we check that if userType is
 
-        if(isset($isMobileUsers) && $isMobileUsers!= '')
+        if(isset($isMobileUsers) && $isMobileUsers == true)
         {
           $data['name'] = $data['first_name'];
           $data['surname'] = $data['sur_name'];
@@ -110,6 +112,7 @@ class UserService implements UserContract
         $userData['user']['name']=$data['name']." ".$data['surname'];
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
+        $userData['user']['userType']=$data['userType'];
 
        if(isset($data['user_image']) && $data['user_image']!='')
         {
@@ -131,15 +134,17 @@ class UserService implements UserContract
         $userData['user']['token'] = $token;
 
         \Log::info('Insert in UserTable');
-        $userObj=$this->userRepoObj->create($userData['user']);
-
-        if(get_class($userObj) == 'Illuminate\Database\QueryException' )
+        $userRes=$this->userRepoObj->create($userData['user']);
+        \Log::info('deleted user');
+        if($userRes['status'] == false )
           {
             return ['status_code' => '200', 'message' => 'Email already Exist'];
           }
-        $userObj->attachRole($data['userType']);
+        $userObj = $userRes['user'];
+        // $userObj->roles()->sync($data['userType'])
+        // $userObj->attachRole($data['userType']);
         // Here we add code for Mobile Users to relate tournament to users
-       if(isset($isMobileUsers) && $isMobileUsers!= '')
+       if(isset($isMobileUsers) && $isMobileUsers!= '' && ($userRes['status'] == 'created'))
         {
           \Log::info('Insert in User Favourite table');
           $user_id = $userObj->id;
@@ -147,7 +152,6 @@ class UserService implements UserContract
           if($data['tournament_id'] == '' || $data['tournament_id'] == 0)
                 $data['tournament_id'] = 1;
           $userFavouriteData['tournament_id'] = $data['tournament_id'];
-          $userFavouriteData['is_default'] = 1;
           $this->userRepoObj->createUserFavourites($userFavouriteData);
           // Also Add settings Data
           $userSettings['user_id'] = $user_id;
