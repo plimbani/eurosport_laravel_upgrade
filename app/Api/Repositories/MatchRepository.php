@@ -587,7 +587,6 @@ class MatchRepository
     }
     public function assignReferee($data)
     {
-       
        $refereeData = Referee::find($data['refereeId'])->toArray();
        // dd($refereeData);
        $age_group = explode(',',$refereeData['age_group_id']);
@@ -600,6 +599,13 @@ class MatchRepository
                       $query->where('referee_id',NULL)
                             ->orWhere('referee_id',0);
                   });
+      if($data['filterKey']!='') {
+        if($data['filterKey'] == 'age_category'){
+          $matchData->where('age_group_id',$data['filterValue']['id']);
+        } else {
+          $matchData->where('venue_id',$data['filterValue']['id']);
+        }
+      }          
       if( $matchData->count() == 0){
         return ['status'=> false,'data' => 'Please assign referee properly'];
       }else{
