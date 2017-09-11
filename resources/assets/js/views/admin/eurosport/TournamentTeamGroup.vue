@@ -27,13 +27,13 @@
           </div>
         </div>
   				<div class="form-group row">
-            <label class="col-sm-2 form-control-label">Filter by</label>
+            <label class="col-sm-2 form-control-label">Filter by age category</label>
             <div class="col-sm-10">
               <div class="row">
                 <div class="col-4">
                   <div class="form-group">
                     <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
-                      <option value="">{{$lang.teams_select_age_category}}</option>
+                      <option value="">{{$lang.teams_all_age_category}}</option>
                       <option v-for="option in options"
                        v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
                     </select>
@@ -103,7 +103,7 @@
                       <td>{{team.category_age}} </td>
                       <td>{{team.age_name}} </td>
 
-                      <td v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != ''">
+                      <td v-if="age_category != ''">
                         <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:click="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="" class="blnk">{{seleTeam}}</option>
                           <optgroup :label="group.groups.group_name"
@@ -215,7 +215,7 @@
           $('#fileUpload').trigger('click')
         })
 
-      this.getTeams(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue)
+      this.getTeams()
 
     },
     created: function() {
@@ -277,7 +277,7 @@
         if(filterKey == 'age_category'){
           this.onSelectAgeCategory('filter',filterValue.tournament_template_id)
         }
-        this.getTeams(filterKey,filterValue)
+        this.getTeams()
       },
       selectTrue(team_group,index,assigned_group){
         if(team_group+index == assigned_group){
@@ -315,14 +315,14 @@
         }
         $('.selTeams').prop("disabled", false);
       },
-      getTeams(filterKey,filterValue) {
-        if(this.age_category === '') {
-          this.teams = [];
-          return;
-        }
+      getTeams() {
+        // if(this.age_category === '') {
+        //   this.teams = [];
+        //   return;
+        // }
         this.teams = ''
         let ageCategoryId = this.age_category !== '' ? this.age_category.id : '';
-        let teamData = {'tournamentId':this.tournament_id, 'ageCategoryId' : ageCategoryId, 'filterKey':filterKey, 'filterValue': filterValue};
+        let teamData = {'tournamentId':this.tournament_id, 'ageCategoryId' : ageCategoryId, 'filterKey':'age_category', 'filterValue': ageCategoryId};
         // console.log(teamData,'td')
         Tournament.getTeams(teamData).then(
           (response) => {
@@ -409,14 +409,13 @@
         }else{
            templateId = tId
         }
-
         let tournamentFilter = {'filterKey': 'age_category', 'filterValue':this.age_category }
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
         if(type == 'view'){
           if(this.age_category == ''){
             this.teams = [];
             this.grpsView = ''
-            return false;
+            // return false;
           }
           tournamentTemplateId = this.age_category.tournament_template_id
         }else{
@@ -437,8 +436,9 @@
               // Now here we put data over there as per group
                let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
                let availGroupTeam = []
-               if(type == 'filter'){
+               // if(type == 'filter'){
                   this.grps = jsonCompetationFormatDataFirstRound
+                  this.grpsView = jsonCompetationFormatDataFirstRound
                   _.forEach(this.grps, function(group) {
                     for(var i = 1; i <= group.group_count; i++ ){
                       // let gname = group.groups.group_name+i
@@ -446,16 +446,16 @@
                     }
 
                   });
-               }else{
-                  this.grpsView = jsonCompetationFormatDataFirstRound
-                  _.forEach(this.grpsView, function(group) {
-                    for(var i = 1; i <= group.group_count; i++ ){
-                      // let gname = group.groups.group_name+i
-                      availGroupTeam.push(group.groups.group_name+i)
-                    }
+               // }else{
+                  // this.grpsView = jsonCompetationFormatDataFirstRound
+                  // _.forEach(this.grpsView, function(group) {
+                  //   for(var i = 1; i <= group.group_count; i++ ){
+                  //     // let gname = group.groups.group_name+i
+                  //     availGroupTeam.push(group.groups.group_name+i)
+                  //   }
 
-                  });
-               }
+                  // });
+               // }
 
 
               this.availableGroupsTeam = availGroupTeam
@@ -476,7 +476,7 @@
             }
            )
         }
-        this.getTeams(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue)
+        this.getTeams()
       },
       csvImport() {
         if($('#fileUpload').val()!=''){
@@ -491,9 +491,12 @@
            axios.post('/api/team/create',files).then(response =>  {
           if(response.data.bigFileSize == true){
             toastr['error']('Total Team size is more than available. Only top '+this.teamSize+' teams have been added.', 'Error');
+          }else{
+            toastr['success']('teams are uploaded successfully', 'Success');
           }
           this.filterStatus = true
-          this.getTeams(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue)
+          this.getTeams()
+
                                 // this.pitchId = response.data.pitchId
           }).catch(error => {
 
