@@ -208,7 +208,9 @@ import _ from 'lodash'
                                 'refereeId': event.id,
                                 'pitchId': event.resourceId,
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
-                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
+                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss'),
+                                'filterKey':vm.tournamentFilter.filterKey,
+                                'filterValue':vm.tournamentFilter.filterValue
                             };
                             let cal = this.$el;
                             Tournament.assignReferee(matchData).then(
