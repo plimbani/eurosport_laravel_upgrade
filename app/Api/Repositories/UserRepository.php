@@ -149,7 +149,7 @@ class UserRepository {
             if($deletedUser){
                 $deletedUser->restore();
 
-                $userData = User::find($deletedUser['id'])->update($data);
+                $userData = User::find($deletedUser['id'])->update($userData);
                
                 // $userData->roles()->detatch();
                 $user = User::find($deletedUser['id']);
