@@ -33,38 +33,38 @@ class TeamRepository
     public function getAllFromFilter($data)
     {
 
-          $teamData =  Team::join('countries', function ($join) {
-                        $join->on('teams.country_id', '=', 'countries.id');
-                    })
-                ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
-                // ->join('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
-                ->where('teams.tournament_id',$data['tournamentId']);
+    $teamData =  Team::join('countries', function ($join) {
+                  $join->on('teams.country_id', '=', 'countries.id');
+              })
+          ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+          // ->join('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
+          ->where('teams.tournament_id',$data['tournamentId']);
 
-                if(isset($data['ageCategoryId']) && $data['ageCategoryId'] != null && $data['ageCategoryId'] != '')
-                {
-                  $teamData =  $teamData->where('teams.age_group_id',$data['ageCategoryId']);
-                }
+          if(isset($data['ageCategoryId']) && $data['ageCategoryId'] != null && $data['ageCategoryId'] != '')
+          {
+            $teamData =  $teamData->where('teams.age_group_id',$data['ageCategoryId']);
+          }
 
-                // if(isset($data['filterValue']) && $data['filterValue'] != null && $data['filterValue'] != ''){
+          // if(isset($data['filterValue']) && $data['filterValue'] != null && $data['filterValue'] != ''){
 
-                //     if($data['filterKey'] == 'age_category') {
-                //      $teamData =  $teamData->where('teams.age_group_id',$data['filterValue']['id']);
+          //     if($data['filterKey'] == 'age_category') {
+          //      $teamData =  $teamData->where('teams.age_group_id',$data['filterValue']['id']);
 
-                //     } else if($data['filterKey'] == 'country') {
-                //         $teamData =   $teamData->where('teams.country_id',$data['filterValue']['id']);
+          //     } else if($data['filterKey'] == 'country') {
+          //         $teamData =   $teamData->where('teams.country_id',$data['filterValue']['id']);
 
-                //     }else if($data['filterKey'] == 'team') {
-                //         $teamData =  $teamData->where('teams.name',$data['filterValue']['name']);
+          //     }else if($data['filterKey'] == 'team') {
+          //         $teamData =  $teamData->where('teams.name',$data['filterValue']['name']);
 
-                //     }
-                // }
-                if(isset($data['team_id']) && $data['team_id'] != '') {
-                   $teamData = $teamData->whereIn('teams.id',explode(",",$data['team_id']));
-                }
-            return $teamData->distinct('teams.id')->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag as country_flag',
-                    // 'competitions.name as competationName','competitions.id as competationId',
-                    'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age')
-                ->get();
+          //     }
+          // }
+          if(isset($data['team_id']) && $data['team_id'] != '') {
+             $teamData = $teamData->whereIn('teams.id',explode(",",$data['team_id']));
+          }
+          return $teamData->distinct('teams.id')->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag as country_flag',
+              // 'competitions.name as competationName','competitions.id as competationId',
+              'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age')
+          ->get();
     }
 
       public function getClubData($tournamentData)
@@ -108,7 +108,7 @@ class TeamRepository
                 ->get();
         }
 
-public function getAllFromTournamentId($tournamentId)
+    public function getAllFromTournamentId($tournamentId)
     {
         return  Team::join('countries', function ($join) {
                         $join->on('teams.country_id', '=', 'countries.id');
@@ -165,7 +165,8 @@ public function getAllFromTournamentId($tournamentId)
           'tournament_competation_template.group_name','tournament_competation_template.category_age')
         ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
         ->get();
-        $competId = 0;
+        // dd($compData);
+        $competId = NULL;
         foreach($compData as $ddata) {
            $asGroup = preg_replace('/[0-9]+/', '', $groupName);
            $cc1 = $ddata['group_name'].'-'.$ddata['category_age'].'-'.$asGroup;
@@ -175,12 +176,20 @@ public function getAllFromTournamentId($tournamentId)
             break;
            }
         }
-
+        
+ // dd($groupName,$team_id,$competId);
+        // if()
+        $assignGroup = NULL;
+        if($groupName!= NULL){
+          $assignGroup = preg_replace('/[0-9]+/', '', $groupName);
+        }
         Team::where('id', $team_id)->update([
             'group_name' => $groupName,
-            'assigned_group' => preg_replace('/[0-9]+/', '', $groupName),
+            'assigned_group' => $assignGroup,
             'competation_id' => $competId
-            ]);
+        ]);
+
+         // dd('a');
         // Also Add in MatchStaning table
         // First check if record exist if yes then update else create
         $match_standing = DB::table('match_standing')
