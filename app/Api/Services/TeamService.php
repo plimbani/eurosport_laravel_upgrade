@@ -25,6 +25,7 @@ class TeamService implements TeamContract
     public function getTeams($teamData)
     {
         $data = $teamData->toArray()['teamData'];
+        // dd($data);
         // Here we send Status Code and Messages
         $data = $this->teamRepoObj->getAllFromFilter($data);
 
@@ -70,6 +71,17 @@ class TeamService implements TeamContract
 
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
+    public function getAllFromCompetitionId($data)
+    {
+      // dd($data);
+        $data = $this->teamRepoObj->getAllFromCompetitionId($data['tournamentData']['competitionId']);
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
+        }
+
+        return ['status_code' => '505', 'message' => 'Error in Data']; 
+    }
+    
 
     /**
      * create New Team.

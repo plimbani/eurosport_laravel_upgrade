@@ -588,7 +588,7 @@ class MatchRepository
     public function assignReferee($data)
     {
        $refereeData = Referee::find($data['refereeId'])->toArray();
-       // dd($refereeData);
+        // dd($data);
        $age_group = explode(',',$refereeData['age_group_id']);
        $matchData    = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
                   ->where('match_endtime','>=',$data['matchStartDate'])
@@ -599,8 +599,8 @@ class MatchRepository
                       $query->where('referee_id',NULL)
                             ->orWhere('referee_id',0);
                   });
-      if($data['filterKey']!='') {
-        if($data['filterKey'] == 'age_category'){
+      if($data['filterKey']!='' && $data['filterValue']!= '') {
+        if($data['filterKey'] == 'age_category' ){
           $matchData->where('age_group_id',$data['filterValue']['id']);
         } else {
           $matchData->where('venue_id',$data['filterValue']['id']);

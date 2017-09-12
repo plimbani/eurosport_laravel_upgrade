@@ -190,6 +190,8 @@ $api->version('v1', function ($api) {
     $api->post('tournaments/getTournamentClub','Laraspace\Api\Controllers\TournamentController@getTournamentClub');
 
     $api->post('teams/getTeamsList','Laraspace\Api\Controllers\TeamController@getTeamsList');
+    $api->post('teams/getTeamsListByCompetition','Laraspace\Api\Controllers\TeamController@getAllFromCompetitionId');
+    
     $api->post('users/postSetting','Laraspace\Api\Controllers\UserController@postSetting');
     $api->post('users/getSetting','Laraspace\Api\Controllers\UserController@getSetting');
     $api->post('users/updateProfileImage','Laraspace\Api\Controllers\UserController@setUserImage');
