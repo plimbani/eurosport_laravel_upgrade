@@ -174,7 +174,8 @@ import _ from 'lodash'
                             slotLabelFormat:"HH:mm",
                             timeFormat: 'H:mm',
                             resourceAreaWidth: '100px',
-                            width:100,
+                            // width:75,
+                            slotWidth:18,
                             resourceLabelText: ' ',
                         },
                         agendaDay: {
