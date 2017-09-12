@@ -54,6 +54,10 @@ class TeamController extends BaseController
     {
       return $this->teamObj->getAllTournamentTeams($request->all());
     }
+    public function getAllFromCompetitionId(Request $request)
+    {
+      return $this->teamObj->getAllFromCompetitionId($request->all());
+    }
 
 
     /**

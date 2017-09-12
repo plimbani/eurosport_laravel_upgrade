@@ -22,6 +22,8 @@ interface TeamContract
     public function getAllTeamsGroup($request);
     
     public function delete($request);
+    public function getAllFromCompetitionId($request);
+    
     
     
 }

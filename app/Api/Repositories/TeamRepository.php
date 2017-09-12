@@ -45,19 +45,19 @@ class TeamRepository
                   $teamData =  $teamData->where('teams.age_group_id',$data['ageCategoryId']);
                 }
 
-                if(isset($data['filterValue']) && $data['filterValue'] != null && $data['filterValue'] != ''){
+                // if(isset($data['filterValue']) && $data['filterValue'] != null && $data['filterValue'] != ''){
 
-                    if($data['filterKey'] == 'age_category') {
-                     $teamData =  $teamData->where('teams.age_group_id',$data['filterValue']['id']);
+                //     if($data['filterKey'] == 'age_category') {
+                //      $teamData =  $teamData->where('teams.age_group_id',$data['filterValue']['id']);
 
-                    } else if($data['filterKey'] == 'country') {
-                        $teamData =   $teamData->where('teams.country_id',$data['filterValue']['id']);
+                //     } else if($data['filterKey'] == 'country') {
+                //         $teamData =   $teamData->where('teams.country_id',$data['filterValue']['id']);
 
-                    }else if($data['filterKey'] == 'team') {
-                        $teamData =  $teamData->where('teams.name',$data['filterValue']['name']);
+                //     }else if($data['filterKey'] == 'team') {
+                //         $teamData =  $teamData->where('teams.name',$data['filterValue']['name']);
 
-                    }
-                }
+                //     }
+                // }
                 if(isset($data['team_id']) && $data['team_id'] != '') {
                    $teamData = $teamData->whereIn('teams.id',explode(",",$data['team_id']));
                 }
@@ -121,6 +121,11 @@ public function getAllFromTournamentId($tournamentId)
                     'tournament_competation_template.group_name as age_name')
                  ->get();
 
+    }
+
+    public function getAllFromCompetitionId($competationId)
+    {
+      return Team::where('competation_id',$competationId)->orderBy('name', 'asc')->get();
     }
 
     public function create($data)

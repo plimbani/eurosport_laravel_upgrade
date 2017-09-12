@@ -17,6 +17,10 @@ export default {
   getAllTournamentTemplate(tournamentData){
   	return api.post('tournaments/templates', {'tournamentData': tournamentData})
   },
+  getAllTeamsFromCompetitionId(tournamentData){
+    return api.post('teams/getTeamsListByCompetition', {'tournamentData': tournamentData})
+  },
+  
   saveCompetationFormat(compeationFormatData) {
   	return api.post('age_group/createCompetationFomat', {'compeationFormatData': compeationFormatData})
   },
