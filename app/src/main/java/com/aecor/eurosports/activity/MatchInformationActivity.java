@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -185,6 +186,30 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
             tv_venue.setText(mVenueDetail);
         } else {
             tv_venue.setText("");
+        }
+
+
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeScore()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getAwayScore()) && mTeamFixturesModel.getHomeScore().equalsIgnoreCase(mTeamFixturesModel.getAwayScore())) {
+            tv_team_score_1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            tv_team_score_2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+
+        } else if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeScore()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getAwayScore()) && Integer.parseInt(mTeamFixturesModel.getHomeScore()) > Integer.parseInt(mTeamFixturesModel.getAwayScore())) {
+            tv_team_score_1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            tv_team_score_2.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+        } else if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeScore()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getAwayScore()) && Integer.parseInt(mTeamFixturesModel.getHomeScore()) < Integer.parseInt(mTeamFixturesModel.getAwayScore())) {
+            tv_team_score_1.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            tv_team_score_2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+        } else {
+            tv_team_score_1.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            tv_team_score_2.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+            tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         }
     }
 
