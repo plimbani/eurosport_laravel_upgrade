@@ -5,27 +5,29 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="tabs tabs-primary">
-              <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                  <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'"><b>{{$lang.summary_label_summary}}</b></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'"><b>{{$lang.summary_label_reports}}</b></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'"><b>{{$lang.summary_label_schedule}}</b></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'"><b>{{$lang.summary_label_message}}</b></a>
-                </li>
-            <!--    <AddMessageModel v-if="messageStatus"></AddMessageModel> -->
-              </ul>
-                <!-- <div class="col justify-content-end" v-show="currentView=='messages'">
-
+             <div class="row justify-content-between">
+              <div class="col-sm-10">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'"><b>{{$lang.summary_label_summary}}</b></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'"><b>{{$lang.summary_label_reports}}</b></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'"><b>{{$lang.summary_label_schedule}}</b></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'"><b>{{$lang.summary_label_message}}</b></a>
+                  </li>
+                 <AddMessageModel v-if="messageStatus"></AddMessageModel>
+                </ul>
+                </div>
+                <div class="col justify-content-end" v-show="currentView=='messages'">
                   <button type="button" class="btn btn-primary"
                        @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
-                </div> -->
-
+                </div>
+              </div>
 							<component :is="currentView"> </component>
 						</div>
 					</div>
