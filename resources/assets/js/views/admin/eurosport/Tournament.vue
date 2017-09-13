@@ -23,7 +23,8 @@
                    <AddMessageModel v-if="messageStatus"></AddMessageModel>
                   </ul>
                 </div>
-                <div class="col d-flex justify-content-end">
+                <div class="col justify-content-end" v-show="currentView=='messages'">
+
                   <button type="button" class="btn btn-primary"
                        @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
                 </div>
@@ -72,7 +73,7 @@ export default {
     },
 
      methods: {
-         addMessage() {
+      addMessage() {
         let vm =this
         this.messageStatus = true
         this.type='add'
