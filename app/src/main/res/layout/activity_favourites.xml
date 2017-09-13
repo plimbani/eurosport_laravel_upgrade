@@ -21,10 +21,10 @@
             android:id="@+id/favourite_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:footerDividersEnabled="false" />
+            android:layout_weight="1" />
 
         <View
+            android:id="@+id/v_seperator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/view_line" />

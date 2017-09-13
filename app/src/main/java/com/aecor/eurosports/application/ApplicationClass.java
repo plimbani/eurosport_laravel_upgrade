@@ -1,7 +1,6 @@
 package com.aecor.eurosports.application;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 
 import com.aecor.eurosports.util.ConnectivityChangeReceiver;
 
@@ -11,7 +10,6 @@ import com.aecor.eurosports.util.ConnectivityChangeReceiver;
 public class ApplicationClass extends Application {
     private static ApplicationClass sInstance;
 
-    SharedPreferences mPref;
 
     public static ApplicationClass getInstance() {
         return sInstance;
