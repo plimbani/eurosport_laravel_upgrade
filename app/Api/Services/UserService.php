@@ -138,7 +138,7 @@ class UserService implements UserContract
         \Log::info('deleted user');
         if($userRes['status'] == false )
           {
-            return ['status_code' => '200', 'message' => 'Email already Exist'];
+            return ['status_code' => '200', 'message' => 'This email already exists.'];
           }
         $userObj = $userRes['user'];
         // $userObj->roles()->sync($data['userType'])
