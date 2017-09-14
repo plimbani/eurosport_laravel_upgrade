@@ -20,8 +20,11 @@
         <ListView
             android:id="@+id/favourite_list"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:divider="@color/view_line"
+            android:dividerHeight="1px"
+            android:footerDividersEnabled="true" />
 
         <View
             android:id="@+id/v_seperator"

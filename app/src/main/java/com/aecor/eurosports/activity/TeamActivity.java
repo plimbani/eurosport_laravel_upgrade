@@ -75,6 +75,17 @@ public class TeamActivity extends BaseAppCompactActivity {
     private AppPreference mPreference;
     private LeagueModel mLeagueModelData[];
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_team);
+        super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
+        mContext = this;
+        mTeamDetailModel = getIntent().getParcelableExtra(AppConstants.ARG_TEAM_DETAIL);
+        initView();
+    }
+
     @OnClick(R.id.tv_view_full_league_table)
     protected void onFullLeagueViewClicked() {
         Intent mFullLeagueTableIntent = new Intent(mContext, FullLeageTableActivity.class);
@@ -109,13 +120,13 @@ public class TeamActivity extends BaseAppCompactActivity {
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            iv_team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+                            iv_team_flag.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
                         }
                     });
         } else {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
                     R.drawable.globe);
-            iv_team_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH, AppConstants.MAX_IMAGE_HEIGHT));
+            iv_team_flag.setImageBitmap(Utility.scaleBitmap(icon, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
         }
 
         if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryName())) {
@@ -219,15 +230,6 @@ public class TeamActivity extends BaseAppCompactActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_team);
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-        mContext = this;
-        mTeamDetailModel = getIntent().getParcelableExtra(AppConstants.ARG_TEAM_DETAIL);
-        initView();
-    }
 
 
     private void addGroupLeagueRow(LeagueModel mLeagueModel) {

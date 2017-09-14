@@ -65,14 +65,29 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void isUserLogin() {
-        String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
-        String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
 
-        if (Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
-            startActivity(new Intent(mContext, LandingActivity.class));
-            finish();
+        if (Utility.isInternetAvailable(mContext)) {
+
+            String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
+            String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
+
+            if (Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
+                startActivity(new Intent(mContext, LandingActivity.class));
+                finish();
+            } else {
+                checkuser();
+            }
         } else {
-            checkuser();
+            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                @Override
+                public void onPositiveButtonClicked() {
+                    if (mContext instanceof SplashActivity) {
+                        finishAffinity();
+                    }
+                }
+
+            });
         }
     }
 

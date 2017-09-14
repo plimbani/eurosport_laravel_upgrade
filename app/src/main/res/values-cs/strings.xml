@@ -114,14 +114,10 @@
     <string name="oct">Říj</string>
     <string name="nov">Lis</string>
     <string name="dec">Pro</string>
-
-
-
-
-
-
-
-
+    <string name="notification">Oznámení</string>
+    <string name="name">Jméno:</string>
+    <string name="first_name">Křestní jméno</string>
+    <string name="get_otp">Odeslat</string>
 
 
 </resources>

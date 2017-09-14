@@ -47,13 +47,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:id="@+id/iv_tournament_detail"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="left|center"
-                            android:padding="10dp"
-                            android:src="@drawable/icon_tournament_details" />
 
                         <TextView
                             android:id="@+id/tv_tournamentDate"
@@ -63,6 +56,15 @@
                             android:gravity="center"
                             android:text="@string/matches"
                             android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/iv_tournament_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="left|center"
+                            android:padding="10dp"
+                            android:src="@drawable/icon_tournament_details" />
+
                     </FrameLayout>
 
                     <ImageView

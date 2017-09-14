@@ -93,6 +93,10 @@
             android:padding="15dp"
             android:text="@string/logout" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightGray" />
     </LinearLayout>
 
     <include

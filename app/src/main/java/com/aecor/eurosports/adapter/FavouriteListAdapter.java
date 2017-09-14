@@ -56,13 +56,6 @@ public class FavouriteListAdapter extends BaseAdapter {
         mContext = context;
 
         this.mTournamentList = list;
-        /*Collections.sort(mTournamentList, new Comparator<TournamentModel>() {
-            @Override
-            public int compare(TournamentModel lhs, TournamentModel rhs) {
-                //here getTitle() method return app name...
-                return lhs.getStart_date().compareTo(rhs.getStart_date());
-            }
-        });*/
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mFavTournamentList = favlist;
@@ -187,6 +180,14 @@ public class FavouriteListAdapter extends BaseAdapter {
     }
 
     private boolean checkDefault(TournamentModel tournamentModal) {
+//        for (int i = 0; i < mFavTournamentList.size(); i++) {
+//            if (mFavTournamentList.get(i).getTournament_id().equalsIgnoreCase(tournamentModal.getId()) && mFavTournamentList.get(i).getIs_default() == 1) {
+//                mPreference.setString(AppConstants.PREF_TOURNAMENT_ID);
+//                return true;
+//            }
+//        }
+//        return false;
+////
         return tournamentModal.getId().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_TOURNAMENT_ID));
     }
 
@@ -268,7 +269,8 @@ public class FavouriteListAdapter extends BaseAdapter {
                 requestJson.put("tournament_id", tournamentId);
             } catch (Exception e) {
                 e.printStackTrace();
-            }   RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+            }
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             AppLogger.LogE(TAG, "*** SET DEFAULT TOURNAMENT REQUEST ***" + requestJson.toString());
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
