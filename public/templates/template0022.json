@@ -3,7 +3,7 @@
 	"tournament_id": "0022",
 	"tournament_teams": 10,
 	"tournament_name": "T.10.4 (v1)",
-  "template_font_color": "rgb(146,208,80)",
+    "template_font_color": "rgb(255,0,0)",
 	"competition_round": "RR 1-3/4-6/7-10",
 	"competition_group_round": "2x (RR 1x3), (PM 1x4)",
 	"competation_format": "RR/PM",
