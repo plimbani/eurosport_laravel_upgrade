@@ -140,11 +140,37 @@ class UserRepository {
         'is_mobile_user' => (isset($data['is_mobile_user'])) ? $data['is_mobile_user'] : 0,
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
         ];
+        $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
+        // if($deletedUser){
+        //     $user = $deletedUser->restore();
+        // }
+         // $deletedUser;
         try {
-          return User::create($userData);
+            if($deletedUser){
+                $deletedUser->restore();
+
+                $userData = User::find($deletedUser['id'])->update($userData);
+               
+                // $userData->roles()->detatch();
+                $user = User::find($deletedUser['id']);
+                $user->roles()->sync($data['userType']);
+                return ['status' => 'updated', 'user' => $user];
+
+                // return {'status':'updated','user':$user};
+               
+                 // return  $deletedUser->attachRole($data['userType']);
+            }else{
+                    $user = User::create($userData);
+                    $user->attachRole($data['userType']);
+                    return ['status'=>'created','user'=>$user];
+
+
+                    // print_r($user);
+                   // return  $user->attachRole($data['userType']);
+              }
         }
         catch (\PDOException  $e) {
-          return $e;
+         return ['status'=>false];
           //return $e->errorInfo[1]);
         }
 

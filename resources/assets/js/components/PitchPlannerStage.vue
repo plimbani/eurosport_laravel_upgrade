@@ -174,7 +174,8 @@ import _ from 'lodash'
                             slotLabelFormat:"HH:mm",
                             timeFormat: 'H:mm',
                             resourceAreaWidth: '100px',
-                            width:100,
+                            // width:75,
+                            slotWidth:18,
                             resourceLabelText: ' ',
                         },
                         agendaDay: {
@@ -208,23 +209,23 @@ import _ from 'lodash'
                                 'refereeId': event.id,
                                 'pitchId': event.resourceId,
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
-                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
+                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss'),
+                                'filterKey':vm.tournamentFilter.filterKey,
+                                'filterValue':vm.tournamentFilter.filterValue
                             };
                             let cal = this.$el;
                             Tournament.assignReferee(matchData).then(
                                 (response) => {
                                     let updatedMatch = response.data.data;
-                                    console.log(response.data.data,'matchData')
-                                    if(response.data.status_code == 200 && response.data.data != ''){
+                                    if(response.data.status_code == 200 && response.data.data.status == true){
                                          toastr.success('Referee has been assigned successfully', 'Assigned Referee ', {timeOut: 5000});
-                                        // vm.$root.$emit('setPitchPlanTab','refereeTab');
-                                        // console.log(vm.tournamentId,'tournamentId')
                                         vm.$store.dispatch('getAllReferee',vm.tournamentId);
                                         vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
                                        vm.reloadAllEvents()
                                         
                                     }else{
-                                        toastr.error('Please assign referee properly', 'Assigned Referee ', {timeOut: 5000});
+                                        let errorMsg = updatedMatch.data;
+                                        toastr.error(errorMsg, 'Assigned Referee ', {timeOut: 5000});
                                         
                                         $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event.matchId] )
                                         vm.$store.dispatch('getAllReferee',vm.tournamentId);

@@ -187,7 +187,7 @@ var moment = require('moment');
             this.matchFixture.color = colorVal
          // console.log(this.matchDetail,this.matchFixture)
          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
-        console.log('updateEvent',this.matchFixture)
+      
           $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
           this.matchDetail.matchTime = date.format('HH:mm ddd DD MMM YYYY')
@@ -298,16 +298,17 @@ var moment = require('moment');
         (response) => {
           // vm.$root.$emit('setPitchReset')
            $('#matchScheduleModal').modal('hide')
+           setTimeout(function(){
+
+            $('div.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchFixture._id] )
+           },200)
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
           
           this.$store.dispatch('setMatches');
           this.$store.dispatch('SetScheduledMatches');
-          setTimeout(function(){
-            console.log(vm.matchId)
-            $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchId] )
-          },500)
+          // $('div.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchId] )
           // this.$store.dispatch('setCompetationWithGames');
-          // vm.$root.$emit('setPitchPlanTab','gamesTab')
+          // vm.$root.$emit('reloadEvents')
       })
     },
     matchPrint(ReportData) {

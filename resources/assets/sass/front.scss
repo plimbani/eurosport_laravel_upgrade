@@ -24,19 +24,50 @@
     &-event {
         .fc-time,
         .fc-title {
-            font-size: 12.75px;
+            font-size: 0.95em;
+            line-height: 0.85em;
+            padding-top: 0.15em;
         }
     }
     .fc-slats td {
         height: 0.85em;
+        line-height: 0.85em;
+        span {
+            font-size: 0.8em;
+            line-height: 0.85em;
+            font-weight: 800;
+        }
     }
 }
+
+.fc-unthemed th {
+    font-weight: 800;
+}
+
+.tab-content.planner_list_content {
+    margin-top: 0px;
+}
+
+.fc-resource-cell {
+    font-size: 0.85em;
+}
+
+#game-list {
+    top: -17px;
+}
+
+.fc-cell-text {
+    font-size: 0.85em;
+    line-height: 0.85;
+}
+
 
 .fc-no-overlap {
     .fc-body .fc-resource-area .fc-cell-content {
         padding-top: 0px;
         padding-bottom: 0px;
         line-height: 22px;
+        font-weight: 800;
     }
     .fc-timeline-event {
         padding: 0;
@@ -52,6 +83,7 @@
 }
 
 select.form-control {
+    padding: $btn-padding-y $btn-padding-x;
     &:not([size]):not([multiple]) {
         background-color: #ffffff !important;
         background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 100% 50%;
@@ -164,7 +196,8 @@ table#Competition-modal-table {
     background-color: white;
     color: black;
     padding: 1px 2px;
-    font-size: 10px;
+    font-size: 0.95em;
+    line-height: 0.85;
     border-radius: 3px;
 }
 
@@ -268,6 +301,12 @@ table#Competition-modal-table {
             }
         }
     }
+}
+
+#profile_image_file {
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.5;
 }
 
 #matchSchedule {

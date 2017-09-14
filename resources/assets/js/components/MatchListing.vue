@@ -246,6 +246,13 @@ export default {
 					if(response.data.status_code == 200) {
 
 						this.matchData = response.data.data
+						let vm =this
+
+					    setTimeout(function(){
+					      vm.matchData = _.orderBy(vm.matchData, ['match_datetime'], ['asc'])
+					       // console.log(newArray)
+					       // vm.matchData = 
+					    },100)
 						// here we add extra Field Fot Not Displat Location
 					}
 				},
@@ -272,11 +279,14 @@ export default {
 		//	let TournamentId = this.$store.state.Tournament.tournamentId
 			//let tournamentData = {'tournamentId': TournamentId,
 		//	'tournamentDate':date,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue}
-
+			let vm =this
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
 						this.matchData = response.data.data
+						setTimeout(function(){
+					      vm.matchData = _.orderBy(vm.matchData, ['match_datetime'], ['asc'])
+					    },100)
 					}
 				},
 				(error) => {
