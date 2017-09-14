@@ -192,6 +192,9 @@ public class FavouritesActivity extends BaseAppCompactActivity {
 //        if (list.size() > 5) {
 //            favouriteList.setOverscrollFooter(new ColorDrawable(Color.TRANSPARENT));
 //        }
+
+        favouriteList.addFooterView(new View(mContext));
+
         FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, list, favList);
         favouriteList.setAdapter(adapter);
 
