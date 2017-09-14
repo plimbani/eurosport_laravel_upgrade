@@ -113,4 +113,9 @@
     <string name="oct">Paź</string>
     <string name="nov">Lis</string>
     <string name="dec">Gru</string>
+    <string name="notification">Powiadomienia</string>
+    <string name="euro_sportring_contact">Kontakt Euro-Sportring</string>
+    <string name="name">Imię:</string>
+    <string name="first_name">Imię</string>
+    <string name="get_otp">Zatwierdź</string>
 </resources>

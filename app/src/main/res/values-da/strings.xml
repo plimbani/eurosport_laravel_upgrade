@@ -112,6 +112,12 @@
     <string name="oct">Okt</string>
     <string name="nov">Nov</string>
     <string name="dec">Dec</string>
+    <string name="notification">underretninger</string>
+    <string name="contact_number">Kontakt nummer:</string>
+    <string name="euro_sportring_contact">Euro-Sportring Kontakt</string>
+    <string name="name">Navn:</string>
+    <string name="first_name">Fornavn</string>
+    <string name="get_otp">Indsende</string>
 
 
 </resources>

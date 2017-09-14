@@ -184,14 +184,14 @@ public class FavouritesActivity extends BaseAppCompactActivity {
         }
         Collections.reverse(list);
 
-//        if (list.size() > 5) {
-//            v_seperator.setVisibility(View.GONE);
-//        }else{
-//            v_seperator.setVisibility(View.VISIBLE);
-//        }
         if (list.size() > 5) {
-            favouriteList.setOverscrollFooter(new ColorDrawable(Color.TRANSPARENT));
+            v_seperator.setVisibility(View.GONE);
+        } else {
+            v_seperator.setVisibility(View.VISIBLE);
         }
+//        if (list.size() > 5) {
+//            favouriteList.setOverscrollFooter(new ColorDrawable(Color.TRANSPARENT));
+//        }
         FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, list, favList);
         favouriteList.setAdapter(adapter);
 

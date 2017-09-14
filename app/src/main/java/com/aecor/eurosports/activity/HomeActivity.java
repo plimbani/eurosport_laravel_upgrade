@@ -392,12 +392,19 @@ public class HomeActivity extends BaseAppCompactActivity {
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
         for (int i = 1; i < list.size(); i++) {
-            AppLogger.LogE(TAG, "default tournament id " + mPreference.getString(AppConstants.PREF_TOURNAMENT_ID));
-            if (list.get(i).getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+            if (list.get(i).getIs_default() == 1) {
+                mPreference.setString(AppConstants.PREF_TOURNAMENT_ID, list.get(i).getTournament_id());
                 AppLogger.LogE(TAG, "selected pos" + tournamentPosition);
                 tournamentPosition = i;
                 break;
             }
+//
+//            AppLogger.LogE(TAG, "default tournament id " + mPreference.getString(AppConstants.PREF_TOURNAMENT_ID));
+//            if (list.get(i).getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+//                AppLogger.LogE(TAG, "selected pos" + tournamentPosition);
+//                tournamentPosition = i;
+//                break;
+//            }
         }
         this.mTournamentList = list;
 //        if (Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
