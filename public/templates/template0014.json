@@ -1,7 +1,7 @@
 {
 	"total_matches": 24,
 	"tournament_id": "0014",
-  "template_font_color": "rgb(146,208,80)",
+    "template_font_color": "rgb(255,0,0)",
 	"tournament_teams": 8,
 	"tournament_name": "T.8.6",
 	"competition_round": "RR 1-4/5-8",
