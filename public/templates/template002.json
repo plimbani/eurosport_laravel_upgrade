@@ -3,7 +3,7 @@
   "total_matches": 11,
   "remark":"2 tms 3M",
   "tournament_id": "002",
-  "template_font_color": "rgb(255,0,0)",
+  "template_font_color": "rgb(255,192,0)",
   "tournament_teams": 6,
   "tournament_name": "T.6.4",
   "competition_round": "PM 1-4/5-6",
@@ -193,11 +193,11 @@
           "group_name": "Group-PM2",
           "match": [{
             "in_between": "PM2G1WR - PM2G2WR",
-            "match_number": "CAT.PM3.G1.1A_2B_WR-2A_1B_WR"
+            "match_number": "CAT.PM3.G1.(PM2_G1_WR)-(PM2.G2.WR)"
           },
           {
             "in_between": "PM2G1LR - PM2G2LR",
-            "match_number": "CAT.PM3.G2.1A_2B_LR-2A_1B_LR"
+            "match_number": "CAT.PM3.G2.(PM2.G1.LR)-(PM2.G2.LR)"
           },
           {
             "in_between": "3A- 3B",
