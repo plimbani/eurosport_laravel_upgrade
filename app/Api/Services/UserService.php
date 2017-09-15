@@ -138,7 +138,7 @@ class UserService implements UserContract
         \Log::info('deleted user');
         if($userRes['status'] == false )
           {
-            return ['status_code' => '200', 'message' => 'Email already Exist'];
+            return ['status_code' => '200', 'message' => 'This email already exists.'];
           }
         $userObj = $userRes['user'];
         // $userObj->roles()->sync($data['userType'])
@@ -153,6 +153,7 @@ class UserService implements UserContract
           if($data['tournament_id'] == '' || $data['tournament_id'] == 0)
                 $data['tournament_id'] = 1;
           $userFavouriteData['tournament_id'] = $data['tournament_id'];
+          $userFavouriteData['is_default']= 1;
           $this->userRepoObj->createUserFavourites($userFavouriteData);
         //  return ['status_code' => '200', 'message' => 'Mobile Data Sucessfully Inserted'];
         }
@@ -381,13 +382,20 @@ class UserService implements UserContract
        // Make it default for that record
        $userFavouriteData = UserFavourites::where('user_id','=',$user_id)
               ->where('tournament_id','=',$tournament_id)->get();
+         // $userData = UserFavourites::where('user_id','=',$user_id)->get();
+              // $data =  UserFavourites::where('user_id','=',$user_id)
+              //    ->update(['is_default'=>0]);
       if(count($userFavouriteData) == 0) {
         // Insert value and set default
+         // $userData = UserFavourites::where('user_id','=',$user_id)
+         //      ->get();
+        
         $userFavouriteData = array();
         $userFavouriteData['user_id'] =  $user_id;
         $userFavouriteData['tournament_id']  = $tournament_id;
         $userFavouriteData['is_default']  = 1;
-
+        UserFavourites::where('user_id','=',$user_id)
+                 ->update(['is_default'=>0]);
         $data =   UserFavourites::create($userFavouriteData);
         unset($userFavouriteData);
         return ['status_code'=>'200','message'=>'Default tournament created successfully'];

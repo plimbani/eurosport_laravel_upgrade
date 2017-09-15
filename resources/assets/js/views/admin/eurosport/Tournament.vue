@@ -6,7 +6,7 @@
 					<div class="col-lg-12">
 						<div class="tabs tabs-primary">
              <div class="row justify-content-between">
-              <div class="col-sm-10">
+              <div class="col-sm-12">
                 <ul class="nav nav-tabs" role="tablist">
                   <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'"><b>{{$lang.summary_label_summary}}</b></a>
@@ -20,12 +20,12 @@
                   <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'"><b>{{$lang.summary_label_message}}</b></a>
                   </li>
+                  <div class="col display-flex align-items-center justify-content-end" v-show="currentView=='messages'">
+                    <button type="button" class="btn btn-primary"
+                         @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
+                  </div>
                  <AddMessageModel v-if="messageStatus"></AddMessageModel>
                 </ul>
-                </div>
-                <div class="col justify-content-end" v-show="currentView=='messages'">
-                  <button type="button" class="btn btn-primary"
-                       @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
                 </div>
               </div>
 							<component :is="currentView"> </component>

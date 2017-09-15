@@ -170,6 +170,7 @@ table#Competition-modal-table {
 
 
 
+
 /*.pitch_planner_section {
   height: 1200px;
 }
@@ -320,4 +321,10 @@ table#Competition-modal-table {
 
 .btn-color-black--light {
     color: $ls-color-black--light;
+}
+
+.display-flex {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
 }

@@ -7,7 +7,7 @@
         </div>
         <div class="text-center" v-else v-for="(competition,index) in competitionWithGames">
           <div v-if="competition.matchList &&  competition.matchList.length > 0" >
-            <h6 class="mb-0" ><strong>{{competition.group_name}}</strong></h6>
+            <h6 class="mb-1 mt-1"><strong>{{competition.group_name}}</strong></h6>
             <div v-if="competition.matchCount == 0">
                 {{$lang.pitch_planner_no_games}}
             </div>

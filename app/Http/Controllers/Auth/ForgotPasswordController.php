@@ -57,7 +57,7 @@ class ForgotPasswordController extends Controller
           unset($_SESSION['otp_key']);
         }
         if($response == 'passwords.user') {
-          $msg = "This email address is not recognised";
+          $msg = "This email address is not recognised.";
         }
         return $response == Password::RESET_LINK_SENT
                     ? ['status' => '200','message'=>$msg,'otp'=>$otp]
