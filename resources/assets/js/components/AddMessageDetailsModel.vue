@@ -122,7 +122,7 @@
                 <div class="modal-body js-delete-confirmation-msg" v-else>{{ sendConfirmMsg }}</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_close}}</button>
-                    <button type="submit" class="btn btn-primary" @click.prevent="confirmedAction()">{{$lang.user_management_save}}</button>
+                    <button type="submit" class="btn btn-primary" @click.prevent="confirmedAction(status)">{{$lang.user_management_save}}</button>
                 </div>
                 <input name="_method" value="DELETE" type="hidden" />
             </form>
@@ -166,7 +166,7 @@ export default {
     }
   },
   mounted() {
-   
+
   },
   filters: {
       formatDate: function(date) {
@@ -184,13 +184,13 @@ export default {
     modalOpen(type) {
       this.status = type
       $('#delete_modal').modal('show')
-      
+
     },
-    confirmedAction() {
+    confirmedAction(status) {
       if(status == 'delete'){
         this.setDelete()
       } else {
-        this.sendMessage() 
+        this.sendMessage()
       }
     },
     setDelete() {
