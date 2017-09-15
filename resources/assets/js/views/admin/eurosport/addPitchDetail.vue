@@ -308,7 +308,7 @@ export default {
           obj['date'+i] = $('.datestage'+i).val();
           $('#stage_start_time'+i).timepicker({
               minTime: '08:00',
-              maxTime: '19:00',
+              maxTime: '20:00',
               'timeFormat': 'H:i'
           })
       }
