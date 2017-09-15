@@ -144,6 +144,7 @@ class UserService implements UserContract
         // $userObj->roles()->sync($data['userType'])
         // $userObj->attachRole($data['userType']);
         // Here we add code for Mobile Users to relate tournament to users
+        $user_id = $userObj->id;
        if(isset($isMobileUsers) && $isMobileUsers!= '' && ($userRes['status'] == 'created'))
         {
           \Log::info('Insert in User Favourite table');
@@ -153,12 +154,12 @@ class UserService implements UserContract
                 $data['tournament_id'] = 1;
           $userFavouriteData['tournament_id'] = $data['tournament_id'];
           $this->userRepoObj->createUserFavourites($userFavouriteData);
-          // Also Add settings Data
-          $userSettings['user_id'] = $user_id;
-          $userSettings['value'] = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
-           $this->userRepoObj->createUserSettings($userSettings);
         //  return ['status_code' => '200', 'message' => 'Mobile Data Sucessfully Inserted'];
         }
+        // Also Add settings Data
+        $userSettings['user_id'] = $user_id;
+        $userSettings['value'] = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
+        $this->userRepoObj->createUserSettings($userSettings);
         if ($data) {
             \Log::info('Sent email');
             $email_details = array();
@@ -277,24 +278,6 @@ class UserService implements UserContract
           // here we add code for Tournament id update
 
         }
-
-        if(isset($data['user_image']) && $data['user_image']!='')
-        {
-         // echo \Route::current();
-            //$isBase64 = btoa(atob($data['user_image']));
-
-            //$info = $this->s3->has('dev-esr/'.$data['user_image']);
-            //if($info) {
-              // $imagename = $data['user_image'];
-            //} else {
-              $imagename = $this->saveUsersLogo($data, $data['id']);
-              $userData['user']['user_image']=$imagename;
-           // }
-        } else {
-
-          $userData['user']['user_image']=$imagename;
-        }
-
 
         $userData['user']['name']=$data['name']." ".$data['surname'];
         ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
