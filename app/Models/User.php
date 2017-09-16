@@ -42,6 +42,8 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'blocker_id',
         'settings',
         'is_mobile_user',
+        'is_desktop_user',
+        'registered_from',
         'locale',
         'fcm_id'
     ];

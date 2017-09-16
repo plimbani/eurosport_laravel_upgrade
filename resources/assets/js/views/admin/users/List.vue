@@ -8,8 +8,7 @@
                 <div class="card-block">
                     <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-6">
-                            <p v-if="registerType != 'mobile'">{{$lang.user_management_sentence}}</p>
-                            <p v-else>{{$lang.user_management_sentence_tournament}}</p>
+                            <p>{{$lang.user_management_all_users_sentence}}</p>
                         </div>
                         <div class="col-md-6">
                           <div class="row justify-content-end">
@@ -41,10 +40,10 @@
                                         <th>{{$lang.user_desktop_name}}</th>
                                         <th>{{$lang.user_desktop_surname}}</th>
                                         <th>{{$lang.user_desktop_email}}</th>
-                                        <th v-if="registerType != 'mobile'">{{$lang.user_desktop_organisation}}</th>
-                                        <th v-else>Date & time</th>
-                                        <th v-if="registerType != 'mobile'">{{$lang.user_desktop_usertype}}</th>
+                                        <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
+                                        <th>{{$lang.user_desktop}}</th>
+                                        <th>{{$lang.user_mobile}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
                                 </thead>
@@ -53,14 +52,22 @@
                                     <td>{{ user.person_detail.first_name }}</td>
                                     <td>{{ user.person_detail.last_name }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td v-if="user.is_mobile_user == 0">{{ user.organisation }}</td>
-                                    <td v-else>{{user.created_at | formatDate}}</td>
-                                    <td v-if="(user.roles).length>0 && registerType != 'mobile'">{{ user.roles[0].name }}</td>
-
-                                    <td v-if="user.is_verified == 1 && user.is_mobile_user == 0">Accepted</td>
-                                    <td class="text-left" v-if="user.is_mobile_user == 1 && user.is_verified == 1">Verified</td>
-                                    <td class="text-left" v-if="user.is_verified == 0">
-                                    <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
+                                    <td>{{ user.roles[0].name }}</td>
+                                    <td v-if="user.is_verified == 1">Verified</td>
+                                    <td v-else>
+                                      <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
+                                    </td>
+                                    <td>
+                                      <i class="jv-icon jv-checked-arrow text-success"
+                                        v-if="user.is_desktop_user == true"></i>
+                                      <i class="jv-icon jv-close text-danger"
+                                        v-else></i>
+                                    </td>
+                                    <td>
+                                      <i class="jv-icon jv-checked-arrow text-success"
+                                        v-if="user.is_mobile_user == true"></i>
+                                      <i class="jv-icon jv-close text-danger"
+                                        v-else></i>
                                     </td>
                                     <td>
                                         <a class="text-primary" href="javascript:void(0)"
@@ -75,8 +82,7 @@
                                         <i class="jv-icon jv-dustbin"></i>
                                         </a>
                                         &nbsp;
-                                        <a v-if="IsSuperAdmin == true"
-
+                                        <!--<a v-if="IsSuperAdmin == true"
                                         href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you
                                         would like to
@@ -89,11 +95,11 @@
                                         v-if="user.is_active == true"></i>
                                         <i class="jv-icon jv-close text-danger"
                                         v-else></i>
-                                        </a>
+                                        </a>-->
                                     </td>
                                   </tr>
                                   <tr>
-                                    <td colspan="7">
+                                    <td colspan="8">
                                       <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="20"  class="paginate-list">
                                       </paginate>
                                       <paginate-links for="userpagination"
@@ -112,7 +118,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :userEmailData="userEmailData" :registerType="registerType"></user-modal>
+        :userRoles="userRoles" :userEmailData="userEmailData"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -141,7 +147,6 @@
         },
         data() {
             return {
-                userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user? Removing this user will delete their account and information.',
                 resendConfirm: 'Are you sure you would like to send this user another invite?',
@@ -165,7 +170,6 @@
 
         props: {
             userList: Object,
-            registerType: String
         },
         computed: {
             IsSuperAdmin() {
@@ -194,7 +198,7 @@
              $('.site-footer').addClass('sticky');
            }
           },2000 )
-          this.getRoles()
+          this.getRolesWithData()
 
          setTimeout(() => {
             this.shown = true
@@ -204,20 +208,20 @@
           clear() {
             this.userListSearch = ''
             //call method for refresh
-            this.$root.$emit('clearSearch',this.registerType)
+            this.$root.$emit('clearSearch')
           },
           searchUserData() {
             // console.log(this.userListSearch);
-            this.$root.$emit('setSearch',this.registerType,this.userListSearch);
+            this.$root.$emit('setSearch',this.userListSearch);
             var first_name = $("#user_first_name").val();
             var last_name = $("#user_last_name").val();
             var email = $("#user_email").val();
             var searchdata = "&first_name="+ first_name + "&last_name=" + last_name + "&email=" + email;
          },
-          getRoles() {
-            User.getRoles().then(
+          getRolesWithData() {
+            User.getRolesWithData().then(
               (response)=> {
-                this.userRoles = response.data;
+                this.userRoles = response.data.roles;
               },
               (error)=> {
                 console.log('error in getting Roles')
@@ -333,7 +337,7 @@
                   if(this.userListSearch!=''){
                       userSearch = 'userData='+this.userListSearch
                   }
-                   window.location.href = "/api/users/getUserTableData?report_download=yes&registerType="+this.registerType+'&'+userSearch;
+                   window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch;
                    // userData += '&report_download=yes'
                    // window.location.href = "/api/users/getUserTableData?=report_download=yes&registerType=desktop&userData=";
 

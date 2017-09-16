@@ -35,6 +35,7 @@ module.exports= {
 
   user_management_desktopuser: "Desktop users",
   user_management_mobileuser: "Mobile users",
+  user_management_user: "Users",
   user_desktop_name: "Name",
   user_desktop_surname: "Surname",
   user_desktop_email: "Email address",
@@ -43,11 +44,14 @@ module.exports= {
   user_desktop_usertype: "User type",
   user_desktop_action: "Action",
   user_desktop_status: "Status",
+  user_desktop: "Desktop",
+  user_mobile: "Mobile",
 
   user_management_add_new_user: "Add new user",
   // user_management_edit_user: "Edit User",
   user_management_sentence: "Add, edit and remove Euro-Sportring Tournament Planner users.",
   user_management_sentence_tournament: "Add, edit and remove Euro-Sportring mobile users.",
+  user_management_all_users_sentence: "Add, edit and remove Euro-Sportring users.",
   user_management_add_name: "Name*",
   user_management_clear_button: "Clear",  
   user_management_add_name_required: "This field is required.",

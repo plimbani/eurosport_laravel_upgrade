@@ -20,18 +20,12 @@
                     <i class="jv-icon jv-calendar"></i>&nbsp;<span id="date">{{date}}</span>
                 </li>
                 <li>
-                    <a href="#" data-toggle="dropdown"  class="avatar">
-                        <img v-if="userData.image" :src="userData.image" alt="Avatar">
-                        <img v-else src='/assets/img/profile.png' alt="Avatar">
-                    </a>
-                </li>
-                <li>
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" aria-haspopup="true" data-close-others="true" aria-expanded="true">
                         <span class="username username-hide-on-mobile">{{userData.name}}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                         <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
-                         <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#user_profile"><i class="fa fa-user"></i>{{$lang.siteheader_userprofile}}</a>
+                         <a href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fa fa-user"></i>{{$lang.siteheader_userprofile}}</a>
                         <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>
@@ -61,7 +55,7 @@
             </ul>
         </div>
     </header>
-     <user :userData="userData"  ></user>
+     <user :userData="userData" :emailExist="emailExist" @showEmailExists="showEmailExists" @hideEmailExists="hideEmailExists"></user>
 </div>
 </template>
 
@@ -86,7 +80,8 @@
                 'curTime': '' ,
                 'name': '',
                 'image': '',
-                'userData':[]
+                'userData':[],
+                'emailExist': false,
             }
         },
         // computed: {
@@ -203,24 +198,34 @@
                 this.$router.push({'name':'welcome'})
             },
             clock(){
-            var m_names = new Array("Jan", "Feb", "Mar",
-            "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-            "Oct", "Nov", "Dec");
+                var m_names = new Array("Jan", "Feb", "Mar",
+                "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                "Oct", "Nov", "Dec");
 
-            var d = new Date();
-            var curr_date = d.getDate();
-            var curr_month = d.getMonth();
-            var curr_year = d.getFullYear();
-            this.date = curr_date + " " + m_names[curr_month]
-            + " " + curr_year
+                var d = new Date();
+                var curr_date = d.getDate();
+                var curr_month = d.getMonth();
+                var curr_year = d.getFullYear();
+                this.date = curr_date + " " + m_names[curr_month]
+                + " " + curr_year
 
-            var curr_hours = d.getHours();
-            var curr_minutes = d.getMinutes();
-            if (curr_minutes < 10) {
-                curr_minutes = "0" + curr_minutes;
-            }
-            this.curTime = curr_hours + ":" + curr_minutes;
-        }
+                var curr_hours = d.getHours();
+                var curr_minutes = d.getMinutes();
+                if (curr_minutes < 10) {
+                    curr_minutes = "0" + curr_minutes;
+                }
+                this.curTime = curr_hours + ":" + curr_minutes;
+            },
+            showEditProfileModal() {
+                this.emailExist = false;
+                $("#user_profile").modal('show');
+            },
+            showEmailExists() {
+                this.emailExist = true;
+            },
+            hideEmailExists() {
+                this.emailExist = false;
+            },
         },
         computed: {
             TournamentName() {

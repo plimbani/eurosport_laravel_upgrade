@@ -53,15 +53,20 @@ class AuthController extends Controller
           \Log::info('UserData');
           $isMobileUsers = \Request::header('IsMobileUser');
            // dd($userData->is_mobile_user,$isMobileUsers);
-          if($userData->is_mobile_user == 1 && $isMobileUsers != true) {
 
-            return response(['authenticated' => false,'message'=>'Mobile User not allowed to access.']);
+          if( $userData->is_verified == 0 ) {
+            return response(['authenticated' => false, 'message'=>'Account is not verified.']);
           }
+
+          if( ($userData->is_mobile_user == 0 && $isMobileUsers == true) || ($userData->is_desktop_user == 0 && $isMobileUsers != true) ) {
+            return response(['authenticated' => false, 'message'=>'Account is de-activated. Please contact your administrator.']);
+          }
+
           if($userData->is_active == 0) {
             return response(['authenticated' => false,'message'=>'Account de-activated please contact your administrator.']);
           }
           \Log::info('Success');
-          if($userData->is_mobile_user == 1) {
+          //if($userData->is_mobile_user == 1) {
 
             $path = getenv('S3_URL').'/assets/img/users/';
             $userDataQuery = \Laraspace\Models\User::where('users.id',$userData->id)
@@ -86,8 +91,8 @@ class AuthController extends Controller
              $userDetails['tournament_id'] = $userData->tournament_id;
              $userDetails['user_id'] = $userData->id;
              $userDetails['locale'] = $userData->locale;
-             $userSettings = Settings::where('user_id','=',$userData->id)->first()->toArray();
-             $userDetails['settings'] = $userSettings;
+             $userSettings = Settings::where('user_id','=',$userData->id)->first();
+             $userDetails['settings'] = $userSettings ? $userSettings->toArray() : null;
 
              $tournament_id = array();
              return response(['authenticated' => true,'userData'=> $userDetails]);
@@ -100,8 +105,8 @@ class AuthController extends Controller
             //$userData['first_name'] = $userInfo[0]['first_name'];
             //print_r($userInfo[0]);exit;
             //return response(['authenticated' => true,'userData'=>$userData]);
-          }
-          return response(['authenticated' => true]);
+          //}
+          //return response(['authenticated' => true]);
         }
         \Log::info('NOT GETTING TOKEN');
     }
