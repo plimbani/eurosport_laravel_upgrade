@@ -23,7 +23,7 @@ import _ from 'lodash'
                 'matchFixture': {},
                 'pitchBreak':{},
                 'minDatePitch': '08:00:00',
-                'maxDatePitch': '19:05:00',
+                'maxDatePitch': '20:05:00',
                 'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
                 'remBlock_id': 0,
@@ -168,7 +168,7 @@ import _ from 'lodash'
                             name:'timeView',
                             buttonText: 'Time view',
                             minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
-                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'19:00:00',
+                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'20:00:00',
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15',
                             slotLabelFormat:"HH:mm",
@@ -182,7 +182,7 @@ import _ from 'lodash'
                             name:'agendaView',
                             buttonText: 'Agenda view',
                             minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
-                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'19:00:00',
+                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'20:00:00',
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15',
                             slotLabelFormat:"HH:mm",
@@ -494,7 +494,7 @@ import _ from 'lodash'
                                 if(availability.stage_start_time != '08:00:00' ){
                                     minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'))
                                 }
-                                if(availability.stage_start_time != '19:00:00' ){
+                                if(availability.stage_start_time != '20:00:00' ){
                                     maxTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'))
                                 }
                                 let mData = {
@@ -525,12 +525,12 @@ import _ from 'lodash'
                                     }
                                     sMatches.push(mData1)
                                 }
-                                if(availability.stage_end_time != '19:00'){
+                                if(availability.stage_end_time != '20:00'){
                                     let mData2 = {
                                         'id': 'end_'+counter,
                                         'resourceId': pitch.id,
                                         'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'),
-                                        'end': moment.utc(availability.stage_start_date+' '+'19:00:00','DD/MM/YYYY HH:mm:ss'),
+                                        'end': moment.utc(availability.stage_start_date+' '+'20:00:00','DD/MM/YYYY HH:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
@@ -561,7 +561,7 @@ import _ from 'lodash'
 
               if(this.stage.pitches.length == 0) {
                 let start_date = this.stage.tournamentStartDate + '08:00:00'
-                let end_date = this.stage.tournamentStartDate + '19:00:00'
+                let end_date = this.stage.tournamentStartDate + '20:00:00'
 
                 let mData21 = {
                     'id': '111212',

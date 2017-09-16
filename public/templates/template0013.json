@@ -220,36 +220,36 @@
             "match_number": "CAT.PM2.G1.1A-2B"
           }, {
             "in_between": "1B-2A",
-            "match_number": "CAT.PM2.G1.1B-2A"
+            "match_number": "CAT.PM2.G2.1B-2A"
           }, {
-            "in_between": "CAT.PM2.G1.C12WR-C3C4WR",
-            "match_number": "CAT.PM2.G2.1A_2B_WR-1B_2A_WR"
+            "in_between": "3A-4B",
+            "match_number": "CAT.PM2.G3.3A-4B"
           }, {
-            "in_between": "CAT.PM2.G1.C12LR-C34LR",
-            "match_number": "CAT.PM2.G3.1A_2B_LR-1B_2A_LR"
+            "in_between": "3B-4A",
+            "match_number": "CAT.PM2.G4.3B-4A"
           }]
         }
       }]
     }, {
-      "name": "Round 2",
+      "name": "Round 3",
       "match_type": [{
-        "name": "PM-5-8",
+        "name": "PM-1*8",
         "total_match": 4,
         "group_count": 4,
         "groups": {
           "group_name": "PM",
           "match": [{
-            "in_between": "3A-4B",
-            "match_number": "CAT.PM2.G1.3A-4B"
+            "in_between": "PM2G1WR - PM2G2WR",  
+            "match_number": "CAT.PM3.G1.PM2_G1_WR-PM2_G2_WR"
           }, {
-            "in_between": "3B-4A",
-            "match_number": "CAT.PM2.G1.3B-4A"
+            "in_between": "PM2G1LR - PM2G2LR",
+            "match_number": "CAT.PM3.G1.PM2_G1_LR-PM2_G2_LR"
           }, {
-            "in_between": "CAT.PM2.G1.D12WR-D34WR",
-            "match_number": "CAT.PM2.G2.3A_4B_WR-3A_4B_WR"
+            "in_between": "PM2G3WR - PM2G4WR",
+            "match_number": "CAT.PM3.G1.PM2_G3_WR-PM2_G4_WR"
           }, {
-            "in_between": "CAT.PM2.G1.D12LR-D34LR",
-            "match_number": "CAT.PM2.G2.3A_4B_LR-3A_4B_LR"
+            "in_between": "PM2G3LR - PM2G4LR",
+            "match_number": "CAT.PM3.G1.PM2_G3_LR-PM2_G4_LR"
           }]
         }
       }]
