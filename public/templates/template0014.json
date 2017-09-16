@@ -87,19 +87,19 @@
 	            "group_name": "Group-D",
 	            "team_count": 4,
 	            "teams": [{
-	                "position": "1",
+	                "position": "5",
 	                "team": "1D"
 	              },
 	              {
-	                "position": "2",
+	                "position": "6",
 	                "team": "2D"
 	              },
 	              {
-	                "position": "3",
+	                "position": "7",
 	                "team": "3D"
 	              },
 	              {
-	                "position": "4",
+	                "position": "8",
 	                "team": "4D"
 	              }
 	            ]
