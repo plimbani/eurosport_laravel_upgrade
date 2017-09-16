@@ -10,7 +10,7 @@
               </button>
           </div>
           <div class="modal-body">
-          <form name="addMessage" id="addMessage" class="col-md-5 mt-4">
+          <form name="addMessage" id="addMessage" class="col-md-6 mt-4">
             <div class="form-group text-left">
               <label>{{$lang.summary_message_compose_message}}*</label>
 
@@ -22,10 +22,11 @@
               <span class="help is-danger" v-show="errors.has('content')">
                 Field is required
               </span>
+              <div>
+                <span>Suggested max characters 100. Characters used</span> <span v-bind:class="{'text-danger': hasError }" class="limiter">{{charactersLeft}}</span>
+              </div>
             </div>
           </form>
-
-          <span>Suggested max characters 100. Characters used</span> <span v-bind:class="{'text-danger': hasError }" class="limiter">{{charactersLeft}}</span> 
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
@@ -34,7 +35,7 @@
 
               <button type="button" class="btn btn-primary" @click="sendMessage" id="saveAge">{{$lang.summary_message_popup_send_button}}</button>
           </div>
-         
+
       </div>
 
 
@@ -54,8 +55,8 @@ export default {
       content:'',
       deleteConfirmMsg:'Are you sure you would like to send this message?',
       hasError: false
-      
-      
+
+
     }
   },
 
@@ -96,7 +97,7 @@ computed: {
                         }
                          $('#exampleModal').modal('hide')
                          vm.$root.$emit('displayMessageList')
-                        
+
                       }
                     },
                   (error) => {
