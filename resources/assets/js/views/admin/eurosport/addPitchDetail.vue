@@ -378,12 +378,12 @@ export default {
 
               $('#stage_break_start'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '19:00',
+                  maxTime: '20:00',
                   'timeFormat': 'H:i'
               });
               $('#stage_end_time'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '19:00',
+                  maxTime: '20:00',
                   'timeFormat': 'H:i'
               });
               $('#stage_break_start'+stage).val('')
@@ -393,7 +393,7 @@ export default {
           if(curId.indexOf('stage_break_start') >= 0){
              $('#stage_continue_time'+stage).timepicker({
                   minTime: newTime,
-                  maxTime: '19:00',
+                  maxTime: '20:00',
                   'timeFormat': 'H:i'
               });
               $('#stage_continue_time'+stage).val('')
@@ -402,7 +402,7 @@ export default {
           if(curId.indexOf('stage_continue_time') >= 0 ){
               $('#stage_end_time'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '19:00',
+                  maxTime: '20:00',
                   'timeFormat': 'H:i'
               });
               $('#stage_end_time'+stage).val('')
@@ -629,7 +629,7 @@ export default {
 
                   $('#stage_start_time'+stage).timepicker({
                       minTime:  '08:00',
-                      maxTime: '19:00',
+                      maxTime: '20:00',
                       'timeFormat': 'H:i'
                   })
                   // $('.ls-timepicker').not('.stage_start_time').attr('disabled','disabled');
