@@ -54,19 +54,19 @@
 	            "team_count": 4,
 	            "teams": [{
 	                "position": "1",
-	                "team": "1C / CAT.PM1.G2.C5 winner"
+	                "team": "1C / CAT.PM1.G3 winner"
 	              },
 	              {
 	                "position": "2",
-	                "team": "2C / CAT.PM1.G2.C5 loser"
+	                "team": "2C / CAT.PM1.G3 loser"
 	              },
 	              {
 	                "position": "3",
-	                "team": "3C / CAT.PM1.G3.C6 winner"
+	                "team": "3C / CAT.PM1.G4 winner"
 	              },
 	              {
 	                "position": "4",
-	                "team": "4C / CAT.PM1.G3.C6 loser"
+	                "team": "4C / CAT.PM1.G4 loser"
 	              }
 	            ]
 	          }
@@ -254,7 +254,7 @@
 			"match_type": [{
 				"name": "RR-1*3",
 				"total_match": 3,
-        "group_count": 3,
+        		"group_count": 3,
 				"groups": {
 				"group_name": "Group-A",
 					"match": [{
@@ -271,7 +271,7 @@
 			},{
 				"name": "RR-1*3",
 				"total_match": 3,
-        "group_count": 3,
+        		"group_count": 3,
 				"groups": {
 					"group_name": "Group-B",
 					"match": [{
@@ -289,7 +289,7 @@
 			{
 			"name": "PM-1*4",
 			"total_match": 4,
-      "group_count": 4,
+      		"group_count": 4,
 			"groups": {
 				"group_name": "Group-PM1",
 				"match": [{
@@ -297,13 +297,13 @@
 					"match_number": "CAT.PM1.G1.C1-C2"
 				}, {
 					"in_between": "3-4",
-					"match_number": "CAT.PM1.G1.C3-C4"
+					"match_number": "CAT.PM1.G2.C3-C4"
 				}, {
-					"in_between": "CAT.PM1.G1.C1-C2WR",
-					"match_number": "CAT.PM3.G1.1A_2B_WR-2A_1B_WR"
+					"in_between": "PM1G1WR - PM1G2WR",
+					"match_number": "CAT.PM1.G3.PM1_G1_WR-PM2_G2_WR"       
 				}, {
-					"in_between": "CAT.PM1.G1.C1-C2LR",
-					"match_number": "CAT.PM1.G3.C12LR-C34LR"
+					"in_between": "PM1G1LR - PM1G2LR",
+					"match_number": "CAT.PM1.G4.PM1_G1_LR-PM2_G2_LR"
 				}
 			]
 			}
