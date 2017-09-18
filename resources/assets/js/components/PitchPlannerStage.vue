@@ -17,7 +17,7 @@ import _ from 'lodash'
         data() {
             return {
                 'tournamentId': this.$store.state.Tournament.tournamentId,
-                 'scheduledMatches': [],
+                'scheduledMatches': [],
                 'unavailableBlock': [],
                 'setPitchModal': 0,
                 'matchFixture': {},
@@ -39,7 +39,7 @@ import _ from 'lodash'
         computed: {
             pitchesData() {
                 return _.forEach(this.stage.pitches, (pitch) => {
-                    pitch.title = pitch.pitch_number;
+                    pitch.title = pitch.pitch_number+' ('+pitch.size+')';
                     pitch.resourceAreaWidth = '500px';
                 });
             },
@@ -64,7 +64,7 @@ import _ from 'lodash'
         },
         mounted() {
             let cal = this.$el;
-            
+
             let vm = this
             vm.initComponent()
             // setTimeout(function(){
@@ -74,13 +74,13 @@ import _ from 'lodash'
             // },12000)
             $(this.$el).fullCalendar('changeView', 'agendaDay');
             // this.getScheduledMatch()
-            
+
         },
         methods: {
             initComponent(){
                 let vm = this
                 setTimeout(function(){
-                    
+
                 vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
                 // vm.getUnavailablePitch()
             },500)
@@ -116,7 +116,7 @@ import _ from 'lodash'
             //     // vm.scheduledMatches = ''
             //     vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
             //    vm.reloadAllEvents()
-                
+
             // },
             pitchBreakAdd() {
                 let sPitch = []
@@ -161,7 +161,7 @@ import _ from 'lodash'
                     },
                     // scrollTime: '14:00',
                     eventLimit: true, // allow "more" link when too many events
-                    
+
 
                     views: {
                         timelineDay: {
@@ -222,11 +222,11 @@ import _ from 'lodash'
                                         vm.$store.dispatch('getAllReferee',vm.tournamentId);
                                         vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
                                        vm.reloadAllEvents()
-                                        
+
                                     }else{
                                         let errorMsg = updatedMatch.data;
                                         toastr.error(errorMsg, 'Assigned Referee ', {timeOut: 5000});
-                                        
+
                                         $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event.matchId] )
                                         vm.$store.dispatch('getAllReferee',vm.tournamentId);
                                     }
@@ -269,18 +269,18 @@ import _ from 'lodash'
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
                                     toastr.success('Match has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
-                                    
+
                                         // vm.$root.$emit('setGameReset')
                                         vm.$store.dispatch('setMatches');
-                                        
+
                                 },
                                 (error) => {
                                     console.log('Error occured during tournament api', error)
                                 }
                             )
-                            }   
+                            }
                         }
-                        
+
                             // console.log('eventReceive', event);
                     },
                     eventAfterAllRender: function(view ){
@@ -330,7 +330,7 @@ import _ from 'lodash'
                         }
                     },
                     eventClick: function(calEvent, jsEvent, view) {
-                       
+
                         // $('div.fc-unthemed').fullCalendar('updateEvent', calEvent);
                        // return false;
                         if(calEvent.refereeId == -1){
@@ -389,7 +389,7 @@ import _ from 'lodash'
             reloadAllEvents(){
                 let vm = this
                  $('.fc.fc-unthemed').fullCalendar( 'removeEvents' )
-            
+
                 setTimeout(function(){
                     $('div.fc-unthemed').fullCalendar('addEventSource', vm.scheduledMatches);
                 },500)

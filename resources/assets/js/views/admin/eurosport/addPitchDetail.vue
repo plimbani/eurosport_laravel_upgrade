@@ -64,7 +64,7 @@
                                       <option value="9-a-side">{{$lang.pitch_modal_details_size_side_three}}</option>
                                       <option value="11-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
                                       <!--<option value="Handball">{{$lang.pitch_modal_details_size_side_handball}}</option>-->
-                                      <option value="Indoor">{{$lang.pitch_modal_button_next}}</option>
+                                      <!-- <option value="Indoor">{{$lang.pitch_modal_button_next}}</option> -->
                                   </select>
                                   <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
                               </div>
