@@ -20,7 +20,7 @@
                     </button>
                   </div>
                 </div>
-                  <input type="file" name="fileUpload" @change="setFileName(this)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
+                  <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
               </div>
             </div>
           </form>
@@ -44,14 +44,16 @@
           </div>
   			</form>
         <div class="block-bg age-category mb-4">
-          <div class="d-flex justify-content-center" v-if="grpsView.length != 0">
-            <div class="col-sm-4 m_card hoverable m-2"  v-for="(group, index) in grpsView">
+          <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
+            <div class="col-sm-3 my-2"  v-for="(group, index) in grpsView">
+              <div class="m_card hoverable h-100 m-0">
                 <div class="card-content">
                    <span class="card-title text-primary"><strong>
                    {{group['groups']['group_name'] }}</strong></span>
-                    <p class="text-primary" v-for="n in group['group_count']"><strong><span :class="groupFlag(group['groups']['group_name'],n)" ></span>
+                    <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group['groups']['group_name'],n)" ></span>
                     {{groupName(group['groups']['group_name'],n) | truncate(20)}}</strong></p>
                 </div>
+              </div>
             </div>
           </div>
           <div v-else class="d-flex justify-content-center">
@@ -160,7 +162,8 @@
         'beforeChangeGroupName': '',
         'section': 'teams',
         'filterStatus': true,
-        'seleTeam':'De-select'
+        'seleTeam':'De-select',
+        'canUploadTeamFile': true
         // 'tournamentFilter':{
         //   'filterKey':'team',
         //   'filterValue': ''
@@ -263,7 +266,13 @@
           this.onAssignGroup(id)
         }
       },
-      setFileName(file) {
+      setFileName(file, event) {
+        this.canUploadTeamFile = true;
+        var extensionsplit = event.target.files[0].name.split(".");
+        var extension = extensionsplit[extensionsplit.length - 1];
+        if(extension != 'xls' && extension != 'xlsx') {
+          this.canUploadTeamFile = false;
+        }
         var filename = $('#fileUpload').val();
         var lastIndex = filename.lastIndexOf('\\');
 
@@ -480,13 +489,15 @@
       },
       csvImport() {
         if($('#fileUpload').val()!=''){
-
+          if(this.canUploadTeamFile == false) {
+            toastr['error']('Please upload an excel file.', 'Error');
+            return;
+          }
           let files  = new FormData($("#frmCsvImport")[0]);
           // files.append('ageCategory', this.age_category.id);
           files.append('tournamentId', this.tournament_id);
           files.append('teamSize', this.teamSize);
           // let uploadFile = document.getElementById('frmCsvImport');
-
           this.filterStatus = false
            axios.post('/api/team/create',files).then(response =>  {
           if(response.data.bigFileSize == true){
@@ -496,17 +507,13 @@
           }
           this.filterStatus = true
           this.getTeams()
-
-                                // this.pitchId = response.data.pitchId
           }).catch(error => {
 
           });
         }else{
            toastr['error']('Please upload csv file.', 'Error');
         }
-
       }
-
     }
   }
 </script>
