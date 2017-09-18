@@ -88,11 +88,19 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
 
         if (Utility.isInternetAvailable(mContext)) {
+            ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
             String user_id = mAppPref.getString(AppConstants.PREF_USER_ID);
             Utility.startProgress(mContext);
             String url = ApiConstants.UPDATE_PROFILE + user_id;
             final JSONObject requestJson = new JSONObject();
             try {
+                profileModel.setFirst_name(input_first_name.getText().toString().trim());
+                profileModel.setSur_name(input_last_name.getText().toString().trim());
+                profileModel.setTournament_id(tournamet_id);
+                mAppPref.setString(AppConstants.PREF_PROFILE, GsonConverter.getInstance().encodeToJsonString(profileModel));
+                mAppPref.setString(AppConstants.PREF_TOURNAMENT_ID, tournamet_id + "");
+                mAppPref.setString(AppConstants.PREF_USER_LOCALE, selectedLocale);
+                mAppPref.setString(AppConstants.LANGUAGE_SELECTION, selectedLocale);
 
                 requestJson.put("first_name", input_first_name.getText().toString().trim());
                 requestJson.put("last_name", input_last_name.getText().toString().trim());
@@ -172,13 +180,15 @@ public class ProfileActivity extends BaseAppCompactActivity {
         } else {
             input_first_name.setText("");
         }
-        tournamet_id = Integer.parseInt(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID));
+
         if (!Utility.isNullOrEmpty(profileModel.getSur_name())) {
             input_last_name.setText(profileModel.getSur_name());
         } else {
             input_last_name.setText("");
         }
-
+        if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+            tournamet_id = Integer.parseInt(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID));
+        }
         setLanguageSpinner();
     }
 
@@ -202,6 +212,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
                 if (position > 0) {
                     if (mTournamentList != null && mTournamentList.get(position) != null && Utility.isNullOrEmpty(mTournamentList.get(position).getTournament_id())) {
                         tournamet_id = Integer.parseInt(mTournamentList.get(position).getId());
+
                         setDefaultTournament(mTournamentList.get(position).getId());
                     }
                 }
@@ -333,10 +344,14 @@ public class ProfileActivity extends BaseAppCompactActivity {
         list.addAll(Arrays.asList(mTournamentList));
         list.add(0, mHintModel);
         selectedTournamentPos = 0;
-        for (int i = 1; i < list.size(); i++) {
-            if (list.get(i).getId().equalsIgnoreCase(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
-                selectedTournamentPos = i;
-                break;
+
+
+        if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+            for (int i = 1; i < list.size(); i++) {
+                if (list.get(i).getId().equalsIgnoreCase(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                    selectedTournamentPos = i;
+                    break;
+                }
             }
         }
         this.mTournamentList = list;
