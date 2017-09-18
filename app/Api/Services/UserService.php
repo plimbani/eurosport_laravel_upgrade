@@ -146,7 +146,7 @@ class UserService implements UserContract
         // $userObj->attachRole($data['userType']);
         // Here we add code for Mobile Users to relate tournament to users
         $user_id = $userObj->id;
-       if(isset($isMobileUsers) && $isMobileUsers!= '' && ($userRes['status'] == 'created'))
+        if(($userRes['status'] == 'created'))
         {
           \Log::info('Insert in User Favourite table');
           $user_id = $userObj->id;
@@ -323,6 +323,10 @@ class UserService implements UserContract
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
 
         $this->userRepoObj->update($userData['user'], $userId);
+
+        if(isset($data['tournament_id'])) {
+          $this->setDefaultFavourite(['user_id' => $userId, 'tournament_id' => $data['tournament_id']]);
+        }
 
         $userObj->detachAllRoles();
         $userObj->attachRole($data['userType']);

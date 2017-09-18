@@ -68,6 +68,18 @@
                         <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_tournament}}</label>
+                    <div class="col-sm-6">
+                      <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" v-model="formValues.tournament_id">
+                        <option value="">Select</option>
+                        <option v-for="tournament in publishedTournaments" v-bind:value="tournament.id">
+                            {{ tournament.name }}
+                        </option>
+                      </select>
+                      <span class="help is-danger" v-show="errors.has('tournament_id')">{{$lang.user_management_tournament_required}}</span>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
@@ -94,6 +106,7 @@ import { ErrorBag } from 'vee-validate';
                     resendEmail: '',
                     userEmailData1: this.userEmailData,
                     userEmail2: '',
+                    tournament_id: '',
                 },
 
                 userRolesOptions: [],
@@ -115,7 +128,7 @@ import { ErrorBag } from 'vee-validate';
             }
             this.userRolesOptions =  this.userRoles
         },
-        props:['userId','userRoles','userEmailData'],
+        props:['userId','userRoles','userEmailData','publishedTournaments'],
         methods: {
             initialState() {
                 this.$data.formValues.id = '',
