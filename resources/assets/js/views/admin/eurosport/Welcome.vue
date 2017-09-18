@@ -116,7 +116,7 @@ computed: {
       let tournamentAdd  = {name:'', 'currentPage':'Users'}
       this.$store.dispatch('SetTournamentName', tournamentAdd)
 
-      this.$router.push({ name: 'users_list', params: {registerType:'desktop'}})
+      this.$router.push({ name: 'users_list' })
     }
   }
 }

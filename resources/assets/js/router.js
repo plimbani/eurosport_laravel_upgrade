@@ -157,15 +157,17 @@ const routes = [
         ]
     },
     {
-        path: '/users', component: LayoutUserManagement,
+        path: '/users',
+        component: LayoutUserManagement,
         meta: { requiresAuth: true },
-        children: [
-            {
-                path: ':registerType',
-                component: UserList,
-                name: 'users_list'
-            }
-        ]
+        name: 'users_list'
+        // children: [
+        //     {
+        //         path: '/',
+        //         component: UserList,
+        //         name: 'users_list'
+        //     }
+        // ]
     },
 
    

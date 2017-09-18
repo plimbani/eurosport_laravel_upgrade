@@ -38,16 +38,9 @@ class UserRepository {
 
     public function getUsersByRegisterType($data)
     {
-        $registerType = $data['registerType'];
+        $registerType = '';
 
-        if($registerType=="desktop") {
-            $isMobileUser=0;
-        } else if($registerType=="mobile") {
-            $isMobileUser=1;
-        }
-
-        $user = User::with(["personDetail", "roles"])
-                    ->where('users.is_mobile_user', $isMobileUser);
+        $user = User::with(["personDetail", "roles"]);
 
         if(isset($data['userData'])) {
             $user->where(function($query) use($data) {
@@ -71,53 +64,36 @@ class UserRepository {
 
             foreach ($userData as $user) {
 
-               // print_r($user->roles);exit;
-
-                if($user->is_mobile_user ==1){
-                    $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
-                } else {
-                    $status = ($user->is_verified == 1) ? 'Accepted': 'Resend';
-                }
+                $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
+                $isDesktopUser = ($user->is_desktop_user == 1) ? 'Yes': 'No';
+                $isMobileUser = ($user->is_mobile_user == 1) ? 'Yes': 'No';
 
                 $roleName = $user->roles[0]->name;
-                if($registerType == 'desktop') {
-                    $ddata = [
+                
+                $ddata = [
                         $user->personDetail['first_name'],
                         $user->personDetail['last_name'],
                         $user->email,
-                        $user->organisation,
                         $roleName,
-                        $status
+                        $status,
+                        $isDesktopUser,
+                        $isMobileUser,
                     ];
-                } else {
-                    $ddata = [
-                        $user->personDetail['first_name'],
-                        $user->personDetail['last_name'],
-                        $user->email,
-                        date_format($user->created_at,"H:i d M Y"),
-                        //HH:mm  DD MMM YYYY
-                        $status
-                    ];
-                }
 
                 array_push($dataArray, $ddata);
             }
-             $otherParams = [
+
+            $otherParams = [
                     'sheetTitle' =>"UserReport",
                     'sheetName' => "UserReport",
                     'boldLastRow' => false
                 ];
-           if($registerType == 'desktop') {
-                $lableArray = [
-                    'Name','Surname' ,'Email address', 'Organisation','User type', 'Status'
-                ];
-            } else {
-               $lableArray = [
-                    'Name','Surname' ,'Email address', 'Date & time','Status'
-                ];
-            }
+
+            $lableArray = [
+                'Name', 'Surname' ,'Email address', 'User type', 'Status', 'Desktop', 'Mobile'
+            ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
-        \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
+            \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
          }
 
          return  $user->get();
@@ -137,7 +113,9 @@ class UserRepository {
         'is_online' => 0,
         'is_active' => (isset($data['is_mobile_user'])) ? 0 : 1,
         'is_blocked' => 0 ,
-        'is_mobile_user' => (isset($data['is_mobile_user'])) ? $data['is_mobile_user'] : 0,
+        'is_mobile_user' => $data['is_mobile_user'] ? 1 : 0,
+        'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
+        'registered_from' => $data['registered_from'] ? 1 : 0,
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
         ];
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
@@ -223,7 +201,7 @@ class UserRepository {
           $users->password = Hash::make($password);
         // $users->password = $password;
         $user =  $users->save();
-        return ($users->is_mobile_user == 1) ? 'Mobile' : 'Desktop';
+        return ($users->roles[0]->id == 5) ? 'Mobile' : 'Desktop';
 
     }
     public function createUserSettings($userData)

@@ -6,15 +6,11 @@
 					<div class="tabs tabs-primary user_tabs">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
-								<a class="nav-link" :class="{'active' : this.$route.params.registerType=='desktop'}" data-toggle="tab"
-								href="#desktop" role="tab" @click="getSelectComponent('desktop')">{{$lang.user_management_desktopuser}}</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" :class="{'active' : this.$route.params.registerType=='mobile'}" data-toggle="tab"
-								href="#mobile" role="tab" @click="getSelectComponent('mobile')">{{$lang.user_management_mobileuser}}</a>
+								<a class="nav-link active" data-toggle="tab"
+								href="javascript:void(0)" role="tab">{{$lang.user_management_user}}</a>
 							</li>
 						</ul>
-						<router-view :userList="userList" :registerType="registerType"></router-view>
+						<UserList :userList="userList"></UserList>
 					</div>
 				</div>
 			</div>
@@ -24,6 +20,7 @@
 
 <script type="text/babel">
 import User from '../../../api/users.js'
+import UserList from '../../admin/users/List.vue'
 export default {
 	data() {
 		return {
@@ -31,29 +28,30 @@ export default {
 			'userList': {
 				'userData': [],
 				'userCount': 0,
-				'registerType': '',
 				'listStatus': 1,
       			'emaildata':[]
 			}
 		}
 	},
+	components: {
+		UserList
+	},
 	created() {
-	  this.getSelectComponent(this.$route.params.registerType);
+	  this.getSelectComponent();
 	  this.$root.$on('setSearch', this.getSelectComponent);
     this.$root.$on('clearSearch', this.clearSearch);
 	},
 	methods: {
-  clearSearch(registerType) {
-    this.getSelectComponent(registerType)
+  clearSearch() {
+    this.getSelectComponent()
   },
-	getSelectComponent(registerType, userData='') {
+	getSelectComponent(userData='') {
 	  let emaildata = []
 	  let user1Data = {}
-	  this.registerType = registerType
 	  if(userData != '') {
-	  	  user1Data = {registerType:registerType, 'userData': userData}
+	  	  user1Data = {'userData': userData}
 	  } else {
-	      user1Data = {registerType:registerType}
+	      user1Data = {}
 	  }
       User.getUsersByRegisterType(user1Data).then(
         (response)=> {
@@ -83,7 +81,7 @@ export default {
         }
       )
 
-      this.$router.push({name: 'users_list', params: { registerType: registerType }})
+      // this.$router.push({name: 'users_list', params: { registerType: registerType }})
 			/*axios.get("/api/getUsersByRegisterType/"+registerType).then((response) => {
 
 				if('users' in response.data) {

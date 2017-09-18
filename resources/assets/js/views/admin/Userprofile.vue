@@ -29,28 +29,10 @@
                         <label class="col-sm-4 form-control-label">{{$lang.user_management_email}}</label>
                         <div class="col-sm-7">
 
-                            <input v-model="userData.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email') }" name="email" type="email" class="form-control" placeholder="Enter email address">
+                            <input v-model="userData.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email') }" name="email" type="email" class="form-control" placeholder="Enter email address" @change="hideEmailExistMessage()">
                             <i v-show="errors.has('email')" class="fa fa-warning"></i>
                             <span class="help is-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 control-label">{{$lang.user_management_image}}</label>
-                        <div class="col-sm-7">
-                            <div v-if="!image">
-                             <img v-if="userData.image"
-                             v-bind:src="userData.image" width="100px" height="100px"/>
-                            <img v-else src="http://placehold.it/250x250" width="100px" height="100px"/>
-                                    <button type="button" class="btn btn-default" name="btnImage" id="btnImage">Choose file</button>
-
-                            </div>
-                            <div v-else>
-                                <img :src="image" width="100px" height="100px"/>
-                                <button class="btn btn-default" @click="removeImage">Remove image</button>
-                            </div>
-                                <input type="file" class="btn btn-default" id="selectFile" style="display:none;" @change="onFileChange">
-                                <p class="help-block">Maximum size of 1 MB.<br/>
-                                Image dimensions 250 x 250.</p>
+                            <span class="help is-danger" v-if="emailExist == true">Email already exist</span>
                         </div>
                     </div>
                 </div>
@@ -69,35 +51,29 @@
    data() {
         return {
         'userId': 1,
-        'image': '',
-        'name': ''
+        'name': '',
         }
     },
     mounted(){
-        $('#btnImage').on('click',function(){
-        $('#selectFile').trigger('click')
-    })
     },
 
-    props: ['userData'],
+    props: ['userData', 'emailExist'],
     methods : {
         updateUser(){
         this.userId = this.userData.id
         let that = this;
-        this.userData.user_image = this.image;
-        // TODO: we check if not set image and save use existing image
-        if(this.userData.user_image == '') {
-          this.userData.user_image = this.userData.image
-        }
 
         User.updateUser(this.userId,this.userData).then(
           (response)=> {
+            if(response.data.status_code == 500) {
+              this.$emit('showEmailExists');
+              return;
+            }
             toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                 $("#user_profile").modal("hide");
                 // setTimeout(Plugin.reloadPage, 2000);
           },
           (error)=> {
-
           }
         )
            /*  axios.post("/api/user/update/"+this.userId,this.userData).then((response) => {
@@ -106,29 +82,22 @@
                  setTimeout(Plugin.reloadPage, 2000);
             }); */
         },
-            onFileChange(e) {
-              var files = e.target.files || e.dataTransfer.files;
-              if (!files.length)
-                return;
-              // Here also Call function
-              if(Plugin.ValidateImageSize(files) == true) {
-                this.createImage(files[0]);
-              }            },
-            createImage(file) {
-            // here we validate the Image Dimensions
-              var reader = new FileReader();
-              var vm = this;
-              reader.onload = (e) => {
-                var image = new Image();
-                vm.image = e.target.result;
-              };
 
-              reader.readAsDataURL(file);
-            },
-            removeImage: function (e) {
-              this.image = '';
-               e.preventDefault();
-            },
+        createImage(file) {
+        // here we validate the Image Dimensions
+          var reader = new FileReader();
+          var vm = this;
+          reader.onload = (e) => {
+            var image = new Image();
+            vm.image = e.target.result;
+          };
+
+          reader.readAsDataURL(file);
+        },
+
+        hideEmailExistMessage() {
+          this.$emit('hideEmailExists');
+        },
    }
 }
 </script>

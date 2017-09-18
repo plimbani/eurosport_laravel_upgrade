@@ -34,6 +34,7 @@ module.exports = {
 
   user_management_desktopuser: "FDesktop users",
   user_management_mobileuser: "FMobile users",
+  user_management_user: "FUsers",
   user_desktop_name: "FName",
   user_desktop_surname: "FSurname",
   user_desktop_email: "FEmail address",
