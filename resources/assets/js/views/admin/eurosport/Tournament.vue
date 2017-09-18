@@ -20,7 +20,7 @@
                   <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'"><b>{{$lang.summary_label_message}}</b></a>
                   </li>
-                  <div class="col display-flex align-items-center justify-content-end" v-show="currentView=='messages'">
+                  <div class="col display-flex align-items-center justify-content-end padding-right-zero" v-show="currentView=='messages'">
                     <button type="button" class="btn btn-primary"
                          @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
                   </div>
