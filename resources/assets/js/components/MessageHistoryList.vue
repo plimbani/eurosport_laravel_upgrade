@@ -16,7 +16,7 @@
           <tbody>
               <tr v-for="(message, index) in messageList">
                   <td class="text-center">{{message.created_at | formatDate}} </td>
-                  <td class="text-left">{{message.content}}</td>
+                  <td class="text-left wordbreak">{{message.content}}</td>
                   <td class="text-center">{{message.sender.email}}</td>
                   <td class="text-center">{{message.tournament.name}}</td>
                   <td class="text-center" v-if="message.status == 'queued' ">Draft</td>

@@ -159,6 +159,9 @@ textarea {
     tbody {
         td {
             vertical-align: middle;
+            &.wordbreak {
+                word-break: break-word;
+            }
         }
     }
 }
