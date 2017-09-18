@@ -276,7 +276,7 @@ class UserService implements UserContract
         $userData['user']=array();
         $userObj = User::findOrFail($userId);
 
-        if($data['emailAddress']) {
+        if(isset($data['emailAddress'])) {
           $userEmailExists = User::where('email', $data['emailAddress'])->where('id', '!=', $userId)->count();
           if($userEmailExists > 0) {
             return ['status_code' => '500', 'message' => 'This email already exists.'];
