@@ -49,7 +49,7 @@ module.exports= {
   user_management_sentence: "Add, edit and remove Euro-Sportring Tournament Planner users.",
   user_management_sentence_tournament: "Add, edit and remove Euro-Sportring mobile users.",
   user_management_add_name: "Name*",
-  user_management_clear_button: "Clear",  
+  user_management_clear_button: "Clear",
   user_management_add_name_required: "This field is required.",
   user_management_placeholder_name: "Enter first name",
   user_management_add_surname: "Surname*",
@@ -75,7 +75,7 @@ module.exports= {
   user_management_confirmation: "Confirmation",
   user_management_cancel: "Cancel",
   user_management_close: "Close",
-  user_management_save: "Confirm",  
+  user_management_save: "Confirm",
   user_management_resend: "Re-send",
   user_management_user_save:"Save",
   user_management_de_activate: "Are you sure you would like to de-activate this user?",
@@ -133,7 +133,7 @@ module.exports= {
   tournament_label: "Tournament details",
   teams_groups_label: "Teams and groups",
 
-  competation_age_categories: "Age categories", 
+  competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",
   competation_button_back: "Back",
   competation_button_next: "Next",
@@ -295,7 +295,7 @@ module.exports= {
   pitch_planner_no_games: "All games scheduled",
   pitch_planner_horizontal: "Horizontal",
   pitch_planner_vertical: "Vertical",
-  
+
 
   // pitch_planner_first_name: "First name*",
   // pitch_planner_last_name: "Last name*",
@@ -308,7 +308,7 @@ module.exports= {
   // pitch_planner_cancel: "Cancel",
   // pitch_planner_save: "Save",
 
-  pitch_planner_referee: "Add referee", 
+  pitch_planner_referee: "Add referee",
   add_referees_model: "Referee Details",
   add_refree_modal_first_name: "First name*",
   add_refree_modal_validation: "This field is require",
@@ -405,7 +405,7 @@ module.exports= {
   summary_status: "Status",
   summary_button_publish: "Publish",
   summary_button_unpublish: "Unpublish",
-  summary_button_popup_publish_text: "Publish Tournament",  
+  summary_button_popup_publish_text: "Publish Tournament",
   summary_button_publish_text: "Please confirm you would like to publish this tournament?",
   summary_tab_popup_publish_cancel_button: "Cancel",
   summary_tab_popup_publish_confirm_button: "Confirm",
@@ -429,7 +429,7 @@ module.exports= {
   summary_message: "Use the filters below to generate a report.",
   summary_button_download: "Download",
   summary_button_print: "Print",
-  summary_age_category: "Category name",
+  summary_age_category: "Category",
   summary_club: "Club",
   summary_team: "Team",
   summary_from: "From date",
@@ -448,8 +448,8 @@ module.exports= {
   summary_from_select: "Select",
   summary_to_select: "Select",
   summary_location_select: "Select",
-  summary_pitch_select: "Select",
-  summary_referee_select: "Select",
+  summary_pitch_select: "Pitch",
+  summary_referee_select: "Referee",
 
   summary_reports_date: "Date(time)",
   summary_reports_date_time: "Date and time",
@@ -498,7 +498,7 @@ module.exports= {
   // summary_message_sent_to: "Sent to",
 
   summary_message_compose_message: "Compose your message",
-  summary_message_button_send: "Send", 
+  summary_message_button_send: "Send",
   summary_label: "Summary",
 
   summary_label_summary: "Dashboard",
