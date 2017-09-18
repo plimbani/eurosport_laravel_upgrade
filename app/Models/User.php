@@ -174,4 +174,9 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     {
         return $this->hasOne('Laraspace\Models\Settings', 'user_id');
     }
+
+    public function defaultFavouriteTournament()
+    {
+        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id')->where('is_default', 1);
+    }
 }

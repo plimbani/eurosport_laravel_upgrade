@@ -74,6 +74,8 @@ module.exports= {
   user_management_placeholder_organisation: "Enter organisation name",
   user_management_user_type: "User type*",
   user_management_user_type_required: "This field is required.",
+  user_management_tournament: "Tournament*",
+  user_management_tournament_required: "This field is required.",
   user_management_user_cancle: "Cancel",
   user_management_user_save: "Save",
   user_management_confirmation: "Confirmation",

@@ -40,7 +40,7 @@ class UserRepository {
     {
         $registerType = '';
 
-        $user = User::with(["personDetail", "roles"]);
+        $user = User::with(["personDetail", "roles", "defaultFavouriteTournament"]);
 
         if(isset($data['userData'])) {
             $user->where(function($query) use($data) {
@@ -174,7 +174,12 @@ class UserRepository {
              "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
             ->where("users.id", "=", $userId)
             ->first();
-       return json_encode($user);
+
+        $defaultFavouriteTournament = DB::table('users_favourite')->where('user_id', $user->id)->where('is_default', 1)->first();
+
+        $user->tournament_id = $defaultFavouriteTournament ? $defaultFavouriteTournament->tournament_id : null;
+
+        return json_encode($user);
     }
 
     public function update($data, $userId)

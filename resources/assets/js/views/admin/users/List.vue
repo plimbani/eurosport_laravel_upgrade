@@ -118,7 +118,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :userEmailData="userEmailData"></user-modal>
+        :userRoles="userRoles" :userEmailData="userEmailData" :publishedTournaments="publishedTournaments"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -135,6 +135,7 @@
     import UserModal  from  '../../../components/UserModal.vue'
     import ActiveModal  from  '../../../components/ActiveModal.vue'
     import User from '../../../api/users.js'
+    import Tournament from '../../../api/tournament.js'
     import VuePaginate from 'vue-paginate'
 
 
@@ -162,6 +163,7 @@
                 reportQuery:'',
                 enb: false,
                 userRoles: [],
+                publishedTournaments: [],
                 userEmailData: this.userList,
                 paginate: ['userpagination'],
                 shown: false
@@ -198,7 +200,8 @@
              $('.site-footer').addClass('sticky');
            }
           },2000 )
-          this.getRolesWithData()
+          this.getRolesWithData();
+          this.getPublishedTournaments();
 
          setTimeout(() => {
             this.shown = true
@@ -230,6 +233,17 @@
            // axios.get("/api/roles-for-select").then((response) => {
              //       this.userRoles = response.data;
                // });
+            },
+            getPublishedTournaments() {
+              let data = { 'status' : 'Published' }
+              Tournament.getTournamentByStatus(data).then(
+                (response)=> {
+                  this.publishedTournaments = response.data.data;
+                },
+                (error)=> {
+                  console.log('error in getting Roles')
+                }
+              )
             },
             closeConfirm() {
               this.enb =  false
