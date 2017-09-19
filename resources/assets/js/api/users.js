@@ -10,6 +10,9 @@ export default {
  getRoles() {
     return api.get('roles-for-select')
   },
+  getRolesWithData() {
+    return api.get('roles')
+  },
   getUsersByRegisterType(param) {
     return api.post('users/getUsersByRegisterType',param)
   },

@@ -34,6 +34,7 @@ module.exports = {
 
   user_management_desktopuser: "FDesktop users",
   user_management_mobileuser: "FMobile users",
+  user_management_user: "FUsers",
   user_desktop_name: "FName",
   user_desktop_surname: "FSurname",
   user_desktop_email: "FEmail address",
@@ -69,6 +70,8 @@ module.exports = {
   user_management_placeholder_organisation: "FEnter organisation name",
   user_management_user_type: "FUser type*",
   user_management_user_type_required: "FThis field is required.",
+  user_management_tournament: "FTournament*",
+  user_management_tournament_required: "FThis field is required.",
   user_management_user_cancle: "FCancel",
   user_management_user_save: "FSave",
   user_management_confirmation: "FConfirmation",

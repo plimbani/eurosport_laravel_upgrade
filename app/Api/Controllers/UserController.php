@@ -140,7 +140,7 @@ class UserController extends BaseController
       }
 
       // TODO: Here we put Code for Mobile Verification
-      if(isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['is_mobile_user'] == 1) {
+      if(isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['registered_from'] == 0) {
 
         //TODO: Need to put code for change Status For User with user Update
         //$usersDetail['key'] = $key;
@@ -153,7 +153,7 @@ class UserController extends BaseController
         // Already set the password
        // $usersDetail['password'] = $usersPasswords[0]['password'];
        // $result = $this->userRepoObj->createPassword($usersDetail);
-        return redirect('/mlogin');
+          return redirect('/mlogin');
       }
 
       // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
@@ -183,13 +183,25 @@ class UserController extends BaseController
       $email_details['token'] =  $userData->token;
       $email_details['is_mobile_user'] = 0;
       $recipient = $userData->email;
-      if($userData->is_mobile_user == 1) {
-       //   $email_templates = 'emails.users.mobile_create';
-          // $email_msg = 'Euro-Sportring email verification';
-          $email_details['is_mobile_user'] = 1;
+      $email_templates = null;
+      $email_msg = null;
+      
+      if($userData->registered_from === 0)
+      {
+        $email_templates = 'emails.users.mobile_user';
+        $email_msg = 'Euro-Sportring - Email Verification';
+      } else {
+        if($userData->roles[0]->id == 5) {
+          $email_templates = 'emails.users.mobile_user_registered_from_desktop';
+          $email_msg = 'Euro-Sportring - Set password';
+        } else {
+          $email_templates = 'emails.users.desktop_user';
+          $email_msg = 'Euro-Sportring Tournament Planner - Set password';
+        }
       }
+
       // dd($email_details,$recipient);
-      Common::sendMail($email_details, $recipient, 'Euro-Sportring Tournament Planner - Set Password', 'emails.users.create');
+      Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
       // return redirect('/login');
     }
 

@@ -68,7 +68,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="row mb-4">
 						<div class="col-md-7">
 							<div class="row">
@@ -498,8 +498,8 @@ export default {
     	getReferees() {
     		if (!isNaN(this.TournamentId)) {
 		      // here we add data for
-		      let TournamentData = {'tournament_id': this.TournamentId}
-		      Tournament.getReferees(this.TournamentId).then(
+		      let TournamentData = {'tournamentId': this.TournamentId,'age_category':''}
+		      Tournament.getReferees(TournamentData).then(
 		      (response) => {
 		        this.referees = response.data.referees
 		        // console.log(this.competationList);
