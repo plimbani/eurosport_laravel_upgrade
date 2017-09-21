@@ -2,7 +2,7 @@
   "total_matches": 30,
   "tournament_id": "0019",
   "tournament_teams": 9,
-  "remark":"3 tms 4M",
+  "remark":"3 tms 8M",
    "template_font_color": "rgb(217,149,148)",
   "tournament_name": "T.9.6",
   "competition_round": "PM 1-4/RR 5-9",
@@ -58,6 +58,32 @@
               {
                 "position": "5",
                 "team": "5B"
+              }
+            ]
+          },
+          {
+            "Ranking": "Ranking C",
+            "group_name": "Group-C",
+            "team_count": 5,
+            "teams": [{
+                "position": "5",
+                "team": "1C"
+              },
+              {
+                "position": "6",
+                "team": "2C"
+              },
+              {
+                "position": "7",
+                "team": "3C"
+              },
+              {
+                "position": "8",
+                "team": "4C"
+              },
+              {
+                "position": "9",
+                "team": "5C"
               }
             ]
           }
@@ -240,22 +266,22 @@
         "groups": {
           "group_name": "Group-PM1",
          "match": [{
-            "in_between": "1A - 2B",
+            "in_between": "1A-2B",
             "match_number": "CAT.PM2.G1.1A-2B"
           }, {
-            "in_between": "1B - 2A",
+            "in_between": "1B-2A",
             "match_number": "CAT.PM2.G2.1B-2A"
           }]
         },
-        "total_match": 4
+        "total_match": 2
       },
     {
-        "name": "RR-5*9",
+        "name": "RR-1*4",
         "group_count": 5,
         "groups": {
           "group_name": "Group-C",
           "match": [{
-            "in_between": "3A-3B",
+            "in_between": "3A-5B",
             "match_number": "CAT.RR2.01.3A-3B"
           }, {
             "in_between": "3B-4A",
@@ -305,7 +331,7 @@
             "match_number": "CAT.PM3.G1.PM2_G1_LR-PM2_G2_LR"
           }]
         },
-        "total_match": 4
+        "total_match": 2
       }
     ]
     }
