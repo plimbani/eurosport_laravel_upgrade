@@ -32,6 +32,7 @@ module.exports= {
   login_forgot_password_message: "Enter your e-mail address below to reset your password.",
   login_back_button: "Back to login",
   login_reset_button: "Reset password",
+  login_set_password_message: "Account registration complete. You can now login.",
 
   user_management_desktopuser: "Desktop users",
   user_management_mobileuser: "Mobile users",
@@ -74,8 +75,8 @@ module.exports= {
   user_management_placeholder_organisation: "Enter organisation name",
   user_management_user_type: "User type*",
   user_management_user_type_required: "This field is required.",
-  user_management_tournament: "Tournament*",
-  user_management_tournament_required: "This field is required.",
+  user_management_default_app_tournament: "Default app tournament*",
+  user_management_default_app_tournament_required: "This field is required.",
   user_management_user_cancle: "Cancel",
   user_management_user_save: "Save",
   user_management_confirmation: "Confirmation",

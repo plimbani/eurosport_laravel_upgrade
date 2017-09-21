@@ -305,7 +305,7 @@ class UserService implements UserContract
             $email_details['name'] = $data['name'];
             $recipient = $data['emailAddress'];
             $email_templates = 'emails.users.change_user_from_mobile_to_desktop';
-            $email_msg = 'Euro-Sportring Tournament Planner - Admin Access';
+            $email_msg = 'Euro-Sportring Tournament Planner - Admin access';
             Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
 
             $userData['user']['is_desktop_user'] = 1;

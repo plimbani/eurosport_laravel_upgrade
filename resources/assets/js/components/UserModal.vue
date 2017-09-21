@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_tournament}}</label>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" v-model="formValues.tournament_id">
                         <option value="">Select</option>
@@ -77,7 +77,7 @@
                             {{ tournament.name }}
                         </option>
                       </select>
-                      <span class="help is-danger" v-show="errors.has('tournament_id')">{{$lang.user_management_tournament_required}}</span>
+                      <span class="help is-danger" v-show="errors.has('tournament_id')">{{$lang.user_management_default_app_tournament_required}}</span>
                     </div>
                 </div>
             </div>

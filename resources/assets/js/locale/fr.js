@@ -31,6 +31,7 @@ module.exports = {
   login_forgot_password_message: "FEnter your e-mail address below to reset your password.",
   login_back_button: "FBack to login",
   login_reset_button: "FReset password",
+  login_set_password_message: "FAccount registration complete. You can now login.",
 
   user_management_desktopuser: "FDesktop users",
   user_management_mobileuser: "FMobile users",
@@ -70,8 +71,8 @@ module.exports = {
   user_management_placeholder_organisation: "FEnter organisation name",
   user_management_user_type: "FUser type*",
   user_management_user_type_required: "FThis field is required.",
-  user_management_tournament: "FTournament*",
-  user_management_tournament_required: "FThis field is required.",
+  user_management_default_app_tournament: "FDefault app tournament*",
+  user_management_default_app_tournament_required: "FThis field is required.",
   user_management_user_cancle: "FCancel",
   user_management_user_save: "FSave",
   user_management_confirmation: "FConfirmation",

@@ -66,7 +66,7 @@
                                      <div class="alert alert-success my-3 d-inline-flex align-items-start">
                                             <i class="jv-icon jv-checked-arrow text-success mr-2">
                                             </i>
-    <p class="mb-1">Your email has been verified you can&nbsp;login to your account.</p>
+    <p class="mb-1">Your account registration is complete. You can now login to the mobile app.</p>
                                         </div>
                                     @endif
                                     </div>

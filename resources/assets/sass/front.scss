@@ -56,11 +56,11 @@
     top: -17px;
 }
 
+
 .fc-cell-text {
     font-size: 0.85em;
     line-height: 0.85;
 }
-
 
 .fc-no-overlap {
     .fc-body .fc-resource-area .fc-cell-content {
@@ -334,3 +334,10 @@ table#Competition-modal-table {
 .msg-history-add-msg {
     margin-bottom: $card-spacer-x
 }
+.margin-top-15 {
+    margin-top:15px;
+}
+.padding-zero {
+    padding: 0px;
+}
+.page-dropdown { -webkit-box-flex: 0;-ms-flex: 0 0 10%; flex: 0 0 10%; max-width: 10%;}

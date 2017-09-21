@@ -1,5 +1,8 @@
 <template>
     <div v-if="loginData.forgotpassword==0">
+    <div class="alert alert-success margin-top-15" v-if="$route.params.verified=='yes'">
+        {{$lang.login_set_password_message}}
+    </div>
     <form id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
             <input type="email" class="form-control form-control-danger" placeholder="Enter email" name="email"

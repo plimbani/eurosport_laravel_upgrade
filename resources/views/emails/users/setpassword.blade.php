@@ -76,9 +76,8 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" onChange="checkPasswordMatch();">
+                                            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation">
                                         </div>
-                                        <div class="form-group" id="divCheckPasswordMatch"></div>
                                         <div class="h4 text-center mt-4">
                                             <button type="submit" id="addButton" class="btn btn-primary">
                                                 Set password
@@ -104,23 +103,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
 <script type="text/javascript">
-    function checkPasswordMatch() {
-        var password = $("#password").val();
-        var confirmPassword = $("#password-confirm").val();
-
-        if (password != confirmPassword) {
-            $("#divCheckPasswordMatch").html("");
-            $("#addButton").html("Set password");
-        } else {
-            $("#divCheckPasswordMatch").html("Your user account is now complete!");
-            $("#addButton").html("Go to login page");
-        }
-    }
-
-
-    $(document).ready(function () {
-       $("#password-confirm").keyup(checkPasswordMatch);
-    });
 
 $("#js-frm-password-activation").validate({
   rules: {
