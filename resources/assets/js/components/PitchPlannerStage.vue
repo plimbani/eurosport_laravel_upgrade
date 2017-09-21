@@ -551,7 +551,7 @@ import _ from 'lodash'
                         this.stageWithoutPitch()
                         setTimeout(function(){
                             // vm.initScheduler();
-                        },1500)
+                        },2500)
                     }
                 )
             },

@@ -298,7 +298,7 @@ export default {
       handler: function (val,oldval){
         // here we watch for changes for data
         if(this.number_teams != '' && this.minimum_matches != '')
-          this.TournamentCompetationList(val)
+          // this.TournamentCompetationList(val)
       },
       deep:true
     },
@@ -320,7 +320,6 @@ export default {
     },
     number_teams: function(val){
       let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
-
       if(this.minimum_matches != '' && val != '') {
         this.trempVal = true
         this.competation_format.minimum_matches = val

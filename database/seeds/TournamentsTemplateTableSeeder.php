@@ -43,6 +43,7 @@ class TournamentsTemplateTableSeeder extends Seeder
           [ 'name' => 'T.8.3(v1)',
           'json_data' => file_get_contents(public_path('templates/template009.json')), 'total_teams' => '8', 'minimum_matches' => '3',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
           [ 'name' => 'T.8.3(v2)',
           'json_data' => file_get_contents(public_path('templates/template0010.json')), 'total_teams' => '8', 'minimum_matches' => '3',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
@@ -71,8 +72,8 @@ class TournamentsTemplateTableSeeder extends Seeder
           [ 'name' => 'T.9.5 (v2)',
           'json_data' => file_get_contents(public_path('templates/template0019.json')), 'total_teams' => '9', 'minimum_matches' => '5',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-          [ 'name' => 'T.9.6',
-          'json_data' => file_get_contents(public_path('templates/template0020.json')), 'total_teams' => '9', 'minimum_matches' => '6',
+          [ 'name' => 'T.9.7',
+          'json_data' => file_get_contents(public_path('templates/template0020.json')), 'total_teams' => '9', 'minimum_matches' => '7',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
 
@@ -89,18 +90,178 @@ class TournamentsTemplateTableSeeder extends Seeder
           'json_data' => file_get_contents(public_path('templates/template0025.json')), 'total_teams' => '10', 'minimum_matches' => '5',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
-             [ 'name' => 'T.20.5',
+          [ 'name' => 'T.20.5',
           'json_data' => file_get_contents(public_path('templates/template0082.json')), 'total_teams' => '20', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
-               [ 'name' => 'T.20.6 (v1)',
+          [ 'name' => 'T.20.6 (v1)',
           'json_data' => file_get_contents(public_path('templates/template0083.json')), 'total_teams' => '20', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
-                 [ 'name' => 'T.20.6 (v2)',
+          [ 'name' => 'T.20.6 (v2)',
           'json_data' => file_get_contents(public_path('templates/template0084.json')), 'total_teams' => '20', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
-           [ 'name' => 'T.20.6 (v3)',
-          'json_data' => file_get_contents(public_path('templates/template0085.json')), 'total_teams' => '20', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')]
+          [ 'name' => 'T.20.6 (v3)',
+          'json_data' => file_get_contents(public_path('templates/template0085.json')), 'total_teams' => '20', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
+          [ 'name' => 'T.15.3',
+          'json_data' => file_get_contents(public_path('templates/template0049.json')), 'total_teams' => '15', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.15.4',
+          'json_data' => file_get_contents(public_path('templates/template0050.json')), 'total_teams' => '15', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.15.5 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0051.json')), 'total_teams' => '15', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.15.5 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0052.json')), 'total_teams' => '15', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.15.6',
+          'json_data' => file_get_contents(public_path('templates/template0053.json')), 'total_teams' => '15', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.18.3',
+          'json_data' => file_get_contents(public_path('templates/template0066.json')), 'total_teams' => '18', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.18.4',
+          'json_data' => file_get_contents(public_path('templates/template0068.json')), 'total_teams' => '18', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.18.6 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0072.json')), 'total_teams' => '18', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.18.6 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0073.json')), 'total_teams' => '18', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.10.6',
+          'json_data' => file_get_contents(public_path('templates/template0026.json')), 'total_teams' => '10', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.11.4 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0027.json')), 'total_teams' => '11', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.11.4 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0028.json')), 'total_teams' => '11', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.21.3',
+          'json_data' => file_get_contents(public_path('templates/template0086.json')), 'total_teams' => '21', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.21.4',
+          'json_data' => file_get_contents(public_path('templates/template0088.json')), 'total_teams' => '21', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.21.5',
+          'json_data' => file_get_contents(public_path('templates/template0089.json')), 'total_teams' => '21', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+
+          [ 'name' => 'T.11.5',
+          'json_data' => file_get_contents(public_path('templates/template0031.json')), 'total_teams' => '11', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.11.6',
+          'json_data' => file_get_contents(public_path('templates/template0032.json')), 'total_teams' => '11', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.12.3',
+          'json_data' => file_get_contents(public_path('templates/template0033.json')), 'total_teams' => '12', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.12.4',
+          'json_data' => file_get_contents(public_path('templates/template0034.json')), 'total_teams' => '12', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.12.5 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0035.json')), 'total_teams' => '12', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.12.5 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0036.json')), 'total_teams' => '12', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.12.6',
+          'json_data' => file_get_contents(public_path('templates/template0037.json')), 'total_teams' => '12', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.13.3',
+          'json_data' => file_get_contents(public_path('templates/template0038.json')), 'total_teams' => '13', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.13.4',
+          'json_data' => file_get_contents(public_path('templates/template0039.json')), 'total_teams' => '13', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],          
+
+          [ 'name' => 'T.13.5',
+          'json_data' => file_get_contents(public_path('templates/template0041.json')), 'total_teams' => '13', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.13.6',
+          'json_data' => file_get_contents(public_path('templates/template0042.json')), 'total_teams' => '13', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.14.3',
+          'json_data' => file_get_contents(public_path('templates/template0043.json')), 'total_teams' => '14', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.14.4',
+          'json_data' => file_get_contents(public_path('templates/template0044.json')), 'total_teams' => '14', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.14.5 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0045.json')), 'total_teams' => '14', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.19.5',
+          'json_data' => file_get_contents(public_path('templates/template0077.json')), 'total_teams' => '19', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.19.6',
+          'json_data' => file_get_contents(public_path('templates/template0078.json')), 'total_teams' => '19', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.21.6',
+          'json_data' => file_get_contents(public_path('templates/template0092.json')), 'total_teams' => '21', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.22.3',
+          'json_data' => file_get_contents(public_path('templates/template0093.json')), 'total_teams' => '22', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.22.4 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0095.json')), 'total_teams' => '22', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.22.4 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0097.json')), 'total_teams' => '22', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.22.5 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0098.json')), 'total_teams' => '22', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.22.5 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0099.json')), 'total_teams' => '22', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.22.6',
+          'json_data' => file_get_contents(public_path('templates/template0100.json')), 'total_teams' => '22', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.23.3',
+          'json_data' => file_get_contents(public_path('templates/template0101.json')), 'total_teams' => '23', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.23.6',
+          'json_data' => file_get_contents(public_path('templates/template0106.json')), 'total_teams' => '23', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.24.3',
+          'json_data' => file_get_contents(public_path('templates/template0108.json')), 'total_teams' => '24', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+
+          [ 'name' => 'T.14.6',
+          'json_data' => file_get_contents(public_path('templates/template0048.json')), 'total_teams' => '14', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        
+           [ 'name' => 'T.14.5 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0046.json')), 'total_teams' => '14', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          
+          [ 'name' => 'T.16.4 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0056.json')), 'total_teams' => '16', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        
+          [ 'name' => 'T.16.5 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0057.json')), 'total_teams' => '16', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        
+          [ 'name' => 'T.16.5 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0058.json')), 'total_teams' => '16', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          ['name' => 'T.16.6',
+          'json_data' => file_get_contents(public_path('templates/template0059.json')), 'total_teams' => '16', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.17.3',
+          'json_data' => file_get_contents(public_path('templates/template0060.json')), 'total_teams' => '17', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          ['name' => 'T.17.5',
+          'json_data' => file_get_contents(public_path('templates/template0062.json')), 'total_teams' => '17', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          ['name' => 'T.17.6',
+          'json_data' => file_get_contents(public_path('templates/template0064.json')), 'total_teams' => '17', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        
+          [ 'name' => 'T.23.4 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0102.json')), 'total_teams' => '23', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+        
+          [ 'name' => 'T.23.4 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0103.json')), 'total_teams' => '23', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.23.5 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0104.json')), 'total_teams' => '23', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
     }
 }

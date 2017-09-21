@@ -291,7 +291,7 @@
 			"total_match": 4,
       "group_count": 4,
 			"groups": {
-				"group_name": "Group-PM1",
+				"group_name": "Group-PM",
 				"match": [{
 					"in_between": "1-2",
 					"match_number": "CAT.PM1.G1.C1-C2"
@@ -299,11 +299,11 @@
 					"in_between": "3-4",
 					"match_number": "CAT.PM1.G1.C3-C4"
 				}, {
-					"in_between": "CAT.PM1.G1.C1-C2WR",
-					"match_number": "CAT.PM3.G1.1A_2B_WR-2A_1B_WR"
+					"in_between": "CAT.PM1.G1WR-CAT.PM1.G2WR",
+					"match_number": "CAT.PM3.G1.C1_C2_WR-C3_C4_WR"
 				}, {
-					"in_between": "CAT.PM1.G1.C1-C2LR",
-					"match_number": "CAT.PM1.G3.C12LR-C34LR"
+					"in_between": "CAT.PM1.G1LR-CAT.PM1.G2LR",
+					"match_number": "CAT.PM3.G1.C1_C2_LR-C3_C4_LR"
 				}
 			]
 			}
