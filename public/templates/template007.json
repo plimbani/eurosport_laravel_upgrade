@@ -1,5 +1,5 @@
 {
-  "total_matches": 16,
+  "total_matches": 18,
   "tournament_id": "007",
   "remark":"1 tm 4M",
   "template_font_color": "rgb(255,192,0)",
@@ -9,7 +9,7 @@
   "competition_group_round": "1x3, 1x4",
   "competation_format": "RR/PM",
   "tournament_min_match": 5,
-  "avg_game_team":4.6,
+  "avg_game_team":5.1,
   "tournament_competition_ranking": {
     "format_name": [{
       "round": "Round 1",
@@ -277,7 +277,7 @@
         }
       },
       {
-        "name": "RR-5*7",
+        "name": "RR-1*3",
         "total_match": 3,
         "group_count": 3,
         "groups": {
