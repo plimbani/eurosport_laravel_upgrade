@@ -74,14 +74,14 @@
           <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.minimum_matches') }">
             <div class="col-sm-4 form-control-label">{{$lang.competation_label_minimum_matches}}</div>
             <div class="col-sm-8">
-              <div class="row"6
+              <div class="row">
                 <div class="col-sm-12">
                   <select class="form-control ls-select2"
                   name="minimum_matches"
                   v-validate="'required'" :class="{'is-danger': errors.has('minimum_matches') }"
                   v-model="minimum_matches">
                       <option value="">{{$lang.competation_modal_select_minimum_matches}}</option>
-                      <option v-if="n > 2" v-for="n in (8)"
+                      <option v-if="n > 2" v-for="n in (7)"
                       v-bind:value="n">
                      {{n}}
                     </option>
@@ -298,6 +298,7 @@ export default {
       handler: function (val,oldval){
         // here we watch for changes for data
         if(this.number_teams != '' && this.minimum_matches != ''){
+          
           // this.TournamentCompetationList(val)
         }
       },
@@ -321,6 +322,7 @@ export default {
     },
     number_teams: function(val){
       let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
+
       if(this.minimum_matches != '' && val != '') {
         this.trempVal = true
         this.competation_format.minimum_matches = val
@@ -572,8 +574,8 @@ export default {
                 //return true
               } else {
               //alert('3')
-	        //return false
-	      }
+          //return false
+        }
 
               if(!$('input[name="tournamentTemplate"]')  )  {
                // alert('No Template')
