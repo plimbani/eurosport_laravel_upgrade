@@ -93,7 +93,7 @@ class TournamentService implements TournamentContract
     public function templates($data=array())
     {
         // Here we send Status Code and Messages
-        $data1 = $this->tournamentRepoObj->getAllTemplates($data);
+        $data1 = $this->tournamentRepoObj->getAllTemplatesFromMatches($data);
 
         if ($data1) {
           //TODO: here we Add Some Extra Fields For merge with TemplateData
@@ -147,7 +147,7 @@ class TournamentService implements TournamentContract
         if(!$json_data){
           echo 'Problem in Template';
           print_r($jsonData);
-          echo 'hi';exit;
+         exit;
         }
 
 
