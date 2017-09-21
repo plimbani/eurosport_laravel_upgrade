@@ -301,10 +301,10 @@
 				}, {
 
 					"in_between": "CAT.PM1.G1WR-CAT.PM1.G2WR",
-					"match_number": "CAT.PM3.G1.C1_C2_WR-C3_C4_WR"
+					"match_number": "CAT.PM1.G1.C1_C2_WR-C3_C4_WR"
 				}, {
 					"in_between": "CAT.PM1.G1LR-CAT.PM1.G2LR",
-					"match_number": "CAT.PM3.G1.C1_C2_LR-C3_C4_LR"
+					"match_number": "CAT.PM1.G1.C1_C2_LR-C3_C4_LR"
 
 				}
 			]
