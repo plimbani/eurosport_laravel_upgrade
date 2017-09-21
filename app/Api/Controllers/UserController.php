@@ -169,7 +169,7 @@ class UserController extends BaseController
       $usersDetail['key'] = $key;
       $usersDetail['password'] = $password;
       $result = $this->userRepoObj->createPassword($usersDetail);
-      return ($result == 'Mobile') ?  redirect('/mlogin') : redirect('/login');
+      return ($result == 'Mobile') ?  redirect('/mlogin') : redirect('/login/yes');
     }
 
 

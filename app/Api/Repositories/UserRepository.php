@@ -38,24 +38,21 @@ class UserRepository {
 
     public function getUsersByRegisterType($data)
     {
-        $registerType = '';
-
-        $user = User::with(["personDetail", "roles", "defaultFavouriteTournament"]);
+        $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
+                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                ->join('people', 'people.id', '=', 'users.person_id');
 
         if(isset($data['userData'])) {
-            $user->where(function($query) use($data) {
-                $query->where('users.email', 'like', "%" . $data['userData'] . "%")
-                    ->orWhereHas('personDetail', function ($query1) use($data) {
-                        if(isset($data['userData'])) {
-                            $query1->where('people.first_name', 'like', "%" . $data['userData'] . "%");
-                        }
-                        if(isset($data['userData'])) {
-                            $query1->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
-                        }
-                    });
-            });
+            $user = $user->where('users.email', 'like', "%" . $data['userData'] . "%")
+                        ->orWhere('people.first_name', 'like', "%" . $data['userData'] . "%")
+                        ->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
         }
-         $user->orderBy('users.created_at','desc');
+
+        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale');
+
+        $user->orderBy('people.last_name','asc');
+
+
          $userData = $user->get();
 
          $dataArray = array();
@@ -67,14 +64,12 @@ class UserRepository {
                 $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
                 $isDesktopUser = ($user->is_desktop_user == 1) ? 'Yes': 'No';
                 $isMobileUser = ($user->is_mobile_user == 1) ? 'Yes': 'No';
-
-                $roleName = $user->roles[0]->name;
                 
                 $ddata = [
-                        $user->personDetail['first_name'],
-                        $user->personDetail['last_name'],
+                        $user->first_name,
+                        $user->last_name,
                         $user->email,
-                        $roleName,
+                        $user->role_name,
                         $status,
                         $isDesktopUser,
                         $isMobileUser,

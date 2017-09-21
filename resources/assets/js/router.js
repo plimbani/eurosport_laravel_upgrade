@@ -181,7 +181,7 @@ const routes = [
         path: '/', component: LayoutLogin,
         children: [
             {
-                path: 'login',
+                path: 'login/:verified*',
                 component: Login,
                 name: 'login'
             },

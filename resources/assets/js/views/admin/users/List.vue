@@ -6,33 +6,46 @@
         <div class="tab-content">
             <div class="card">
                 <div class="card-block">
-                    <div class="row d-flex flex-row align-items-center">
+                    <div class="row d-flex flex-row align-items-center mb-3 ">
                         <div class="col-md-6">
-                            <p>{{$lang.user_management_all_users_sentence}}</p>
+                            <p class="mb-0">{{$lang.user_management_all_users_sentence}}</p>
                         </div>
                         <div class="col-md-6">
-                          <div class="row justify-content-end">
-                              <div class="col-md-6">
-                                 <div class="form-group">
+                          <div class="row justify-content-end align-items-center">
+                              <div class="col">
+                                <form class="form-inline">
+                                  <div class="form-group">
+                                     <input type="text" class="form-control"
+                                          v-on:keyup="searchUserData" v-model="userListSearch"
+                                          placeholder="Search for a user">
+                                  </div>
+                                  <button type="button" class="btn btn-primary" @click='clear()'>{{$lang.user_management_clear_button}}</button>
+                                </form>
+                                 <!-- <div class="form-group">
                                       <div>
                                           <input type="text" class="form-control"
                                           v-on:keyup="searchUserData" v-model="userListSearch"
                                           placeholder="Search for a user">
                                       </div>
-                                  </div>
+                                  </div> -->
                               </div>
-                               <div class="col-md-3">
+                              <div class="col-4">
+                                <button type="button" class="btn btn-primary pull-right" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
+                              </div>
+                             <!--  <div class="col-md-3">
                                   <div class="form-group">
                                       <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.user_management_clear_button}}</button>
                                   </div>
-                              </div>
-                              <div class="col-md-3">
-                                  <div class="form-group">
+                              </div> -->
+                              <!-- <div class="col-md-3">
+                                  <div class="form-group mb-0">
                                       <button type="button" class="btn btn-primary w-100" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
                                   </div>
-                              </div>
+                              </div> -->
                           </div>
                         </div>
+                    </div>
+                    <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-12">
                             <table class="table add-category-table">
                                 <thead>
@@ -42,28 +55,28 @@
                                         <th>{{$lang.user_desktop_email}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
-                                        <th>{{$lang.user_desktop}}</th>
-                                        <th>{{$lang.user_mobile}}</th>
+                                        <th class="text-center">{{$lang.user_desktop}}</th>
+                                        <th class="text-center">{{$lang.user_mobile}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                   <tr class="" v-for="user in paginated('userpagination')">
-                                    <td>{{ user.person_detail.first_name }}</td>
-                                    <td>{{ user.person_detail.last_name }}</td>
+                                    <td>{{ user.first_name }}</td>
+                                    <td>{{ user.last_name }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td>{{ user.roles[0].name }}</td>
+                                    <td>{{ user.role_name }}</td>
                                     <td v-if="user.is_verified == 1">Verified</td>
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                       <i class="jv-icon jv-checked-arrow text-success"
                                         v-if="user.is_desktop_user == true"></i>
                                       <i class="jv-icon jv-close text-danger"
                                         v-else></i>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                       <i class="jv-icon jv-checked-arrow text-success"
                                         v-if="user.is_mobile_user == true"></i>
                                       <i class="jv-icon jv-close text-danger"
@@ -98,17 +111,30 @@
                                         </a>-->
                                     </td>
                                   </tr>
-                                  <tr>
-                                    <td colspan="8">
-                                      <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="20"  class="paginate-list">
-                                      </paginate>
-                                      <paginate-links for="userpagination"
-                                        :show-step-links="true" :async="true">
-                                      </paginate-links>
-                                    </td>
-                                  </tr>
+                                  <tr><td colspan="8"></td></tr>
                                 </tbody>
                             </table>
+                            <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
+                              </paginate>
+                              <div class="row d-flex flex-row align-items-center">
+                                <div class="col page-dropdown">
+                                  <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
+                                    <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+                                        {{ recordCount }}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="col">
+                                  <span v-if="$refs.paginator">
+                                    Viewing {{ $refs.paginator.pageItemsCount }} results
+                                  </span>
+                                </div>
+                                <div class="col-md-6">
+                                  <paginate-links for="userpagination"
+                                    :show-step-links="true" :async="true" class="mb-0">
+                                  </paginate-links>
+                                </div>
+                              </div>
                         </div>
                         <div v-if="userList.userCount == 0" class="col-md-12">
                             <h6 class="block text-center">No record found</h6>
@@ -166,7 +192,9 @@
                 publishedTournaments: [],
                 userEmailData: this.userList,
                 paginate: ['userpagination'],
-                shown: false
+                shown: false,
+                no_of_records: 20,
+                recordCounts: [5,10,20,50,100]
             }
         },
 
