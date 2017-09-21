@@ -1,7 +1,7 @@
 {
 	"total_matches": 24,
 	"tournament_id": "0014",
-  "template_font_color": "rgb(146,208,80)",
+    "template_font_color": "rgb(146,208,80)",
 	"tournament_teams": 8,
 	"tournament_name": "T.8.6",
 	"competition_round": "RR 1-4/5-8",
@@ -87,19 +87,19 @@
 	            "group_name": "Group-D",
 	            "team_count": 4,
 	            "teams": [{
-	                "position": "1",
+	                "position": "5",
 	                "team": "1D"
 	              },
 	              {
-	                "position": "2",
+	                "position": "6",
 	                "team": "2D"
 	              },
 	              {
-	                "position": "3",
+	                "position": "7",
 	                "team": "3D"
 	              },
 	              {
-	                "position": "4",
+	                "position": "8",
 	                "team": "4D"
 	              }
 	            ]
@@ -202,7 +202,7 @@
 			"match_type": [{
 				"name": "RR-1*4",
 				"total_match": 6,
-        "group_count":4,
+      			"group_count":4,
 				"groups": {
 					"group_name": "Group-A",
 					"match": [{
@@ -257,7 +257,7 @@
 				"match_type": [{
 				"name": "RR-1*4",
 				"total_match": 6,
-        "group_count": 4,
+        		"group_count": 4,
 				"groups": {
 					"group_name": "Group-C",
 					"match": [{
@@ -282,29 +282,29 @@
 				}
 			},
 			{
-				"name": "RR-5-8",
+			"name": "RR-1*4",
 		    "total_match": 6,
 		    "group_count": 4,
 				"groups": {
 					"group_name": "Group-D",
 					"match": [{
-						"in_between": "3A-3B",
-						"match_number": "CAT.RR1.01.3A-3B"
+						"in_between": "3A-3B", 
+						"match_number": "CAT.RR2.01.3A-3B"
 					}, {
 						"in_between": "4A-4B",
-						"match_number": "CAT.RR1.01.4A-4B"
+						"match_number": "CAT.RR2.01.4A-4B"
 					}, {
 						"in_between": "3A-4A",
-						"match_number": "CAT.RR1.02.3A-4A"
+						"match_number": "CAT.RR2.02.3A-4A"
 					},  {
 						"in_between": "3B-4B",
-						"match_number": "CAT.RR1.02.3B-4B"
+						"match_number": "CAT.RR2.02.3B-4B"
 					},  {
 						"in_between": "3A-4B",
-						"match_number": "CAT.RR1.03.3A-4B"
+						"match_number": "CAT.RR2.03.3A-4B"
 					}, {
 						"in_between": "3B-4A",
-						"match_number": "CAT.RR1.03.3B-4A"
+						"match_number": "CAT.RR2.03.3B-4A"
 					}]
 				}
 			}

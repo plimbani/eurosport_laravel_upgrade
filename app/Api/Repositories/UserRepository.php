@@ -38,31 +38,21 @@ class UserRepository {
 
     public function getUsersByRegisterType($data)
     {
-        $registerType = $data['registerType'];
-
-        if($registerType=="desktop") {
-            $isMobileUser=0;
-        } else if($registerType=="mobile") {
-            $isMobileUser=1;
-        }
-
-        $user = User::with(["personDetail", "roles"])
-                    ->where('users.is_mobile_user', $isMobileUser);
+        $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
+                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                ->join('people', 'people.id', '=', 'users.person_id');
 
         if(isset($data['userData'])) {
-            $user->where(function($query) use($data) {
-                $query->where('users.email', 'like', "%" . $data['userData'] . "%")
-                    ->orWhereHas('personDetail', function ($query1) use($data) {
-                        if(isset($data['userData'])) {
-                            $query1->where('people.first_name', 'like', "%" . $data['userData'] . "%");
-                        }
-                        if(isset($data['userData'])) {
-                            $query1->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
-                        }
-                    });
-            });
+            $user = $user->where('users.email', 'like', "%" . $data['userData'] . "%")
+                        ->orWhere('people.first_name', 'like', "%" . $data['userData'] . "%")
+                        ->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
         }
-         $user->orderBy('users.created_at','desc');
+
+        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale');
+
+        $user->orderBy('people.last_name','asc');
+
+
          $userData = $user->get();
 
          $dataArray = array();
@@ -71,53 +61,34 @@ class UserRepository {
 
             foreach ($userData as $user) {
 
-               // print_r($user->roles);exit;
-
-                if($user->is_mobile_user ==1){
-                    $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
-                } else {
-                    $status = ($user->is_verified == 1) ? 'Accepted': 'Resend';
-                }
-
-                $roleName = $user->roles[0]->name;
-                if($registerType == 'desktop') {
-                    $ddata = [
-                        $user->personDetail['first_name'],
-                        $user->personDetail['last_name'],
+                $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
+                $isDesktopUser = ($user->is_desktop_user == 1) ? 'Yes': 'No';
+                $isMobileUser = ($user->is_mobile_user == 1) ? 'Yes': 'No';
+                
+                $ddata = [
+                        $user->first_name,
+                        $user->last_name,
                         $user->email,
-                        $user->organisation,
-                        $roleName,
-                        $status
+                        $user->role_name,
+                        $status,
+                        $isDesktopUser,
+                        $isMobileUser,
                     ];
-                } else {
-                    $ddata = [
-                        $user->personDetail['first_name'],
-                        $user->personDetail['last_name'],
-                        $user->email,
-                        date_format($user->created_at,"H:i d M Y"),
-                        //HH:mm  DD MMM YYYY
-                        $status
-                    ];
-                }
 
                 array_push($dataArray, $ddata);
             }
-             $otherParams = [
+
+            $otherParams = [
                     'sheetTitle' =>"UserReport",
                     'sheetName' => "UserReport",
                     'boldLastRow' => false
                 ];
-           if($registerType == 'desktop') {
-                $lableArray = [
-                    'Name','Surname' ,'Email address', 'Organisation','User type', 'Status'
-                ];
-            } else {
-               $lableArray = [
-                    'Name','Surname' ,'Email address', 'Date & time','Status'
-                ];
-            }
+
+            $lableArray = [
+                'Name', 'Surname' ,'Email address', 'User type', 'Status', 'Desktop', 'Mobile'
+            ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
-        \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
+            \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
          }
 
          return  $user->get();
@@ -137,7 +108,9 @@ class UserRepository {
         'is_online' => 0,
         'is_active' => (isset($data['is_mobile_user'])) ? 0 : 1,
         'is_blocked' => 0 ,
-        'is_mobile_user' => (isset($data['is_mobile_user'])) ? $data['is_mobile_user'] : 0,
+        'is_mobile_user' => $data['is_mobile_user'] ? 1 : 0,
+        'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
+        'registered_from' => $data['registered_from'] ? 1 : 0,
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
         ];
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
@@ -196,7 +169,12 @@ class UserRepository {
              "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
             ->where("users.id", "=", $userId)
             ->first();
-       return json_encode($user);
+
+        $defaultFavouriteTournament = DB::table('users_favourite')->where('user_id', $user->id)->where('is_default', 1)->first();
+
+        $user->tournament_id = $defaultFavouriteTournament ? $defaultFavouriteTournament->tournament_id : null;
+
+        return json_encode($user);
     }
 
     public function update($data, $userId)
@@ -223,7 +201,7 @@ class UserRepository {
           $users->password = Hash::make($password);
         // $users->password = $password;
         $user =  $users->save();
-        return ($users->is_mobile_user == 1) ? 'Mobile' : 'Desktop';
+        return ($users->roles[0]->id == 5) ? 'Mobile' : 'Desktop';
 
     }
     public function createUserSettings($userData)

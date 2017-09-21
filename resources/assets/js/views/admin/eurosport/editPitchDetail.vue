@@ -356,7 +356,7 @@ var moment = require('moment');
             setTimeout(function(){
                 $('.ls-timepicker').timepicker({
                     minTime: '08:00',
-                    maxTime: '19:00',
+                    maxTime: '20:00',
                     timeFormat: 'H:i'
                 });
              },500)

@@ -3,7 +3,7 @@
 	"tournament_id": "0022",
 	"tournament_teams": 10,
 	"tournament_name": "T.10.4 (v1)",
-  "template_font_color": "rgb(146,208,80)",
+    "template_font_color": "rgb(146,208,80)",
 	"competition_round": "RR 1-3/4-6/7-10",
 	"competition_group_round": "2x (RR 1x3), (PM 1x4)",
 	"competation_format": "RR/PM",
@@ -54,19 +54,19 @@
 	            "team_count": 4,
 	            "teams": [{
 	                "position": "1",
-	                "team": "1C / CAT.PM1.G2.C5 winner"
+	                "team": "1C / CAT.PM1.G3 winner"
 	              },
 	              {
 	                "position": "2",
-	                "team": "2C / CAT.PM1.G2.C5 loser"
+	                "team": "2C / CAT.PM1.G3 loser"
 	              },
 	              {
 	                "position": "3",
-	                "team": "3C / CAT.PM1.G3.C6 winner"
+	                "team": "3C / CAT.PM1.G4 winner"
 	              },
 	              {
 	                "position": "4",
-	                "team": "4C / CAT.PM1.G3.C6 loser"
+	                "team": "4C / CAT.PM1.G4 loser"
 	              }
 	            ]
 	          }
@@ -254,7 +254,7 @@
 			"match_type": [{
 				"name": "RR-1*3",
 				"total_match": 3,
-        "group_count": 3,
+        		"group_count": 3,
 				"groups": {
 				"group_name": "Group-A",
 					"match": [{
@@ -271,7 +271,7 @@
 			},{
 				"name": "RR-1*3",
 				"total_match": 3,
-        "group_count": 3,
+        		"group_count": 3,
 				"groups": {
 					"group_name": "Group-B",
 					"match": [{
@@ -289,7 +289,7 @@
 			{
 			"name": "PM-1*4",
 			"total_match": 4,
-      "group_count": 4,
+      		"group_count": 4,
 			"groups": {
 				"group_name": "Group-PM",
 				"match": [{
@@ -297,13 +297,15 @@
 					"match_number": "CAT.PM1.G1.C1-C2"
 				}, {
 					"in_between": "3-4",
-					"match_number": "CAT.PM1.G1.C3-C4"
+					"match_number": "CAT.PM1.G2.C3-C4"
 				}, {
+
 					"in_between": "CAT.PM1.G1WR-CAT.PM1.G2WR",
 					"match_number": "CAT.PM3.G1.C1_C2_WR-C3_C4_WR"
 				}, {
 					"in_between": "CAT.PM1.G1LR-CAT.PM1.G2LR",
 					"match_number": "CAT.PM3.G1.C1_C2_LR-C3_C4_LR"
+
 				}
 			]
 			}

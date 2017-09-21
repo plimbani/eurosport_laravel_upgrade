@@ -192,12 +192,12 @@
         "groups": {
           "group_name": "Group-PM2",
           "match": [{
-            "in_between": "PM2G1WR - PM2G2WR",
-            "match_number": "CAT.PM3.G1.1A_2B_WR-2A_1B_WR"
+            "in_between": "PM2.G1WR - PM2.G2WR", 
+            "match_number": "CAT.PM3.G1.PM2_G1_WR-PM2_G2_WR"
           },
           {
-            "in_between": "PM2G1LR - PM2G2LR",
-            "match_number": "CAT.PM3.G2.1A_2B_LR-2A_1B_LR"
+            "in_between": "PM2.G1LR - PM2.G2LR",
+            "match_number": "CAT.PM3.G2.PM2_G1_LR-PM2_G2_LR"
           },
           {
             "in_between": "3A- 3B",

@@ -42,6 +42,8 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'blocker_id',
         'settings',
         'is_mobile_user',
+        'is_desktop_user',
+        'registered_from',
         'locale',
         'fcm_id'
     ];
@@ -171,5 +173,10 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     public function settings()
     {
         return $this->hasOne('Laraspace\Models\Settings', 'user_id');
+    }
+
+    public function defaultFavouriteTournament()
+    {
+        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id')->where('is_default', 1);
     }
 }

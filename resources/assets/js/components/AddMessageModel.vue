@@ -91,7 +91,7 @@ computed: {
                     (response) => {
                       if(response.data.status_code == 200) {
                       if(response.data.message == 'success') {
-                         toastr.success('Notification sent successfully.', 'Push notification ', {timeOut: 2000});
+                         toastr.success('Message sent successfully', 'App Message', {timeOut: 2000});
                         } else {
                           toastr.error(response.data.data, 'Push notification ', {timeOut: 2000});
                         }
@@ -126,7 +126,7 @@ computed: {
                 (response) => {
                     if(response.data.status_code == 200) {
                      if(response.data.message == 'success') {
-                     toastr.success('Notification sent successfully.', 'Push notification ', {timeOut: 2000});
+                     toastr.success('Message saved successfully', 'App Message', {timeOut: 2000});
                     } else {
                       toastr.error(response.data.data, 'Push notification ', {timeOut: 2000});
                     }

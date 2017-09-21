@@ -81,7 +81,7 @@
                   v-validate="'required'" :class="{'is-danger': errors.has('minimum_matches') }"
                   v-model="minimum_matches">
                       <option value="">{{$lang.competation_modal_select_minimum_matches}}</option>
-                      <option v-if="n > 2" v-for="n in (6)"
+                      <option v-if="n > 2" v-for="n in (7)"
                       v-bind:value="n">
                      {{n}}
                     </option>

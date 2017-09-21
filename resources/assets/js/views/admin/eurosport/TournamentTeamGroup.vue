@@ -511,7 +511,7 @@
 
           });
         }else{
-           toastr['error']('Please upload csv file.', 'Error');
+           toastr['error']('Please upload an excel file.', 'Error');
         }
       }
     }

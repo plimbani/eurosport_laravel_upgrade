@@ -48,39 +48,36 @@
                         <span class="help is-danger" v-show="errors.has('pass')">{</span>
                     </div>
                 </div> -->
-                <div class="form-group row"  v-if="registerType != 'mobile'">
-                    <label class="col-md-5 control-label">{{$lang.user_management_image}}</label>
+                <div class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
-                        <div v-if="!image">
-                          <button type="button" class="btn btn-default" id="profile_image_file">{{$lang.user_image_choose_file}}</button>
-                          <input type="file" name="userImg" id="userImg" style="display:none;" @change="onFileChange">
-                          <p class="help-block">{{$lang.user_image_size}}<br/>
-                          Image dimensions 250 x 250.</p>
-                        </div>
-                         <div v-else>
-                            <img :src="image" width="40px" height="50px"/>
-                            <button class="btn btn-default" @click="removeImage">{{$lang.user_image_remove}}</button>
-                        </div>
+                      <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()">
+                        <option value="">Select</option>
+                        <option v-for="role in userRolesOptions" v-bind:value="role.id">
+                            {{ role.name }}
+                        </option>
+                      </select>
+                      <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
                     </div>
                 </div>
-                <div class="form-group row"  v-if="registerType != 'mobile'">
+                <div class="form-group row" v-show="showOrganisation">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
                     <div class="col-sm-6">
-                        <input v-model="formValues.organisation" v-validate="'required'" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
+                        <input v-model="formValues.organisation" v-validate="{ rules: { required: showOrganisation } }" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
                         <i v-show="errors.has('organisation')" class="fa fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
                     </div>
                 </div>
-                <div class="form-group row" v-if="registerType != 'mobile'">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
+                <div class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
                     <div class="col-sm-6">
-                      <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType">
+                      <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" v-model="formValues.tournament_id">
                         <option value="">Select</option>
-                        <option v-for="(role, id) in userRolesOptions" v-bind:value="id">
-                            {{ role }}
+                        <option v-for="tournament in publishedTournaments" v-bind:value="tournament.id">
+                            {{ tournament.name }}
                         </option>
                       </select>
-                      <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
+                      <span class="help is-danger" v-show="errors.has('tournament_id')">{{$lang.user_management_default_app_tournament_required}}</span>
                     </div>
                 </div>
             </div>
@@ -106,10 +103,10 @@ import { ErrorBag } from 'vee-validate';
                     emailAddress: '',
                     organisation: '',
                     userType: '',
-                    user_image: '',
                     resendEmail: '',
                     userEmailData1: this.userEmailData,
                     userEmail2: '',
+                    tournament_id: '',
                 },
 
                 userRolesOptions: [],
@@ -118,25 +115,20 @@ import { ErrorBag } from 'vee-validate';
                 resendConfirm: 'Are you sure you would like to send this user another invite?',
 
                 deleteAction: '',
-                image: '',
                 emailData:[],
-                existEmail: false
+                existEmail: false,
+                showOrganisation: false
             }
         },
         created() {
-            // this.getRoles();
         },
         mounted(){
-            $('#profile_image_file').click(function(){
-                $('#userImg').trigger('click')
-            })
             if(this.userId!=''){
                 this.editUser(this.userId)
             }
             this.userRolesOptions =  this.userRoles
-
         },
-        props:['userId','userRoles','userEmailData','registerType'],
+        props:['userId','userRoles','userEmailData','publishedTournaments'],
         methods: {
             initialState() {
                 this.$data.formValues.id = '',
@@ -145,7 +137,6 @@ import { ErrorBag } from 'vee-validate';
                 this.formValues.emailAddress= '',
                 this.formValues.organisation= '',
                 this.formValues.userType= '',
-                this.formValues.user_image= '',
                  this.formValues.resendEmail= ''
             },
            editUser(id) {
@@ -155,13 +146,8 @@ import { ErrorBag } from 'vee-validate';
                   (response)=> {
                     this.userModalTitle="Edit User";
                     this.$data.formValues = response.data;
-                    this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress
-                    let image = this.$data.formValues.image
-                    if(image != null && image != '') {
-                      this.image =  this.$data.formValues.image;
-                    } else {
-                      this.image=''
-                    }
+                    this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress;
+                    this.userTypeChanged();
                   },
                   (error)=> {
                     console.log('Error in Edit User')
@@ -169,26 +155,7 @@ import { ErrorBag } from 'vee-validate';
                 )
 
             },
-            getRoles() {
-              User.getRoles().then(
-                (response)=> {
-                  this.userRolesOptions = response.data;
-                },
-                (error)=> {
-                  console.log('Error In getting Roles')
-                }
-              )
-             /*   axios.get("/api/roles-for-select").then((response) => {
-                    this.userRolesOptions = response.data;
-                }); */
-            },
 
-            onFileChange(e) {
-              var files = e.target.files || e.dataTransfer.files;
-              if (!files.length)
-                return;
-              this.createImage(files[0]);
-            },
             createImage(file) {
               var image = new Image();
               var reader = new FileReader();
@@ -199,20 +166,15 @@ import { ErrorBag } from 'vee-validate';
               };
               reader.readAsDataURL(file);
             },
-            removeImage: function (e) {
-              this.image = '';
-              e.preventDefault();
-            },
             prepareDeleteResource(id) {
                 this.deleteAction="/api/user/delete/"+id;
             },
             updateUserList() {
-              let registerData = {'registerType':this.registerType}
-              console.log(registerData)
+              let data = {}
               //if(this.$route.params.registerType == '' || this.$route.params.registerType == null)
                 //  registerType = this.registerType
               //  alert('hello called')
-              User.getUsersByRegisterType(registerData).then(
+              User.getUsersByRegisterType(data).then(
                 (response)=> {
                    if('users' in response.data) {
                         this.userList.userData = response.data.users;
@@ -243,12 +205,6 @@ import { ErrorBag } from 'vee-validate';
             },
             validateBeforeSubmit1() {
                 this.$validator.validateAll().then(() => {
-                   if(this.registerType == 'mobile') {
-                          this.formValues.registerType = 'mobile'
-                        } else {
-                          this.formValues.registerType = 'desktop'
-                        }
-
                     if(this.$data.formValues.id=="") {
                     var a = this.userEmailData.emaildata.indexOf(this.$data.formValues.emailAddress)
 
@@ -258,7 +214,6 @@ import { ErrorBag } from 'vee-validate';
                       return false
                     }
 
-                        this.formValues.user_image = this.image;
                         // here we add code for Mobile user for create user
 
                         User.createUser(this.formValues).then(
@@ -266,8 +221,8 @@ import { ErrorBag } from 'vee-validate';
                             toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                              setTimeout(Plugin.reloadPage, 1000);
-                            this.$data.formValues = this.initialState();
-                            this.updateUserList();
+                            // this.$data.formValues = this.initialState();
+                            // this.updateUserList();
 
                           },
                           (error)=>{
@@ -294,7 +249,6 @@ import { ErrorBag } from 'vee-validate';
                     if(a != -1 ) {
                       // here we check value position is diferent
                       if(arr[a] == this.$data.formValues.userEmail2) {
-                        console.log('same')
                       } else {
                         this.existEmail = true
                       return false
@@ -304,7 +258,6 @@ import { ErrorBag } from 'vee-validate';
 
 
 
-                    this.formValues.user_image = this.image;
                     let that = this
                     setTimeout(function(){
                       User.updateUser(that.formValues.id,that.formValues).then(
@@ -312,8 +265,8 @@ import { ErrorBag } from 'vee-validate';
                           toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
                             $("#user_form_modal").modal("hide");
                             setTimeout(Plugin.reloadPage, 500);
-                            that.$data.formValues = that.initialState();
-                            that.updateUserList();
+                            // that.$data.formValues = that.initialState();
+                            // that.updateUserList();
                           },
                           (error)=>{
                             console.log(error)
@@ -336,7 +289,19 @@ import { ErrorBag } from 'vee-validate';
                     // toastr['error']('Please fill all required fields ', 'Error')
                  });
             },
+            userTypeChanged() {
+              let roleData = null;
+              let selectedUserType = this.formValues.userType;
 
+              if(selectedUserType) {
+                roleData = _.head(_.filter(this.userRolesOptions, function(o) { return selectedUserType == o.id; }));
+              }
+
+              this.showOrganisation = false;
+              if(roleData && roleData.slug !== 'mobile.user') {
+                this.showOrganisation = true;
+              }
+            },
         }
     }
 </script>
