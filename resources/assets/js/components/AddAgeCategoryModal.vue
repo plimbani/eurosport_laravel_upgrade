@@ -297,8 +297,10 @@ export default {
     competation_format: {
       handler: function (val,oldval){
         // here we watch for changes for data
-        if(this.number_teams != '' && this.minimum_matches != '')
-          this.TournamentCompetationList(val)
+        if(this.number_teams != '' && this.minimum_matches != ''){
+          
+          // this.TournamentCompetationList(val)
+        }
       },
       deep:true
     },
@@ -572,8 +574,8 @@ export default {
                 //return true
               } else {
               //alert('3')
-	        //return false
-	      }
+          //return false
+        }
 
               if(!$('input[name="tournamentTemplate"]')  )  {
                // alert('No Template')

@@ -55,12 +55,8 @@
 	                "team": "4B"
 	              }
 	            ]
-	          }
-	        ]
-	    },
-		{
-	      "round": "Round 2",
-	      "groups":[{
+	          },
+	          {
 	            "Ranking": "Ranking C",
 	            "group_name": "Group-C",
 	            "team_count": 4,
@@ -82,7 +78,7 @@
 	              }
 	            ]
 	          },
-	          {
+	           {
 	            "Ranking": "Ranking D",
 	            "group_name": "Group-D",
 	            "team_count": 4,
@@ -105,7 +101,8 @@
 	            ]
 	          }
 	        ]
-	    }]
+	    }
+		]
   	},
     "tournament_competition_graphic_view": {
 	    "format_name": [{
@@ -303,7 +300,7 @@
 						"in_between": "3A-4B",
 						"match_number": "CAT.RR2.03.3A-4B"
 					}, {
-						"in_between": "3B-4A",
+						"in_between": "3B-4A",	
 						"match_number": "CAT.RR2.03.3B-4A"
 					}]
 				}
