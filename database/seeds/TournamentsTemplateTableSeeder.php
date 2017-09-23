@@ -267,6 +267,9 @@ class TournamentsTemplateTableSeeder extends Seeder
           [ 'name' => 'T.23.5 (v1)',
           'json_data' => file_get_contents(public_path('templates/template0104.json')), 'total_teams' => '23', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
+           [ 'name' => 'T.23.5 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0105.json')), 'total_teams' => '23', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
           [ 'name' => 'T.24.4',
           'json_data' => file_get_contents(public_path('templates/template0109.json')), 'total_teams' => '24', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         
