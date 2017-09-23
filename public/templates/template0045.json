@@ -264,22 +264,22 @@
 					"group_name": "Group-E",
 					"match": [{
 						"in_between": "1A-1B",
-						"match_number": "CAT.RR2.01.E1-E2.1A-1B"
+						"match_number": "CAT.RR2.01.1A-1B"
 					},{
 						"in_between": "1C-1D",
-						"match_number": "CAT.RR2.01.E3-E4.1C-1D"
+						"match_number": "CAT.RR2.01.1C-1D"
 					},{
 						"in_between": "1A-1C",
-						"match_number": "CAT.RR2.02.E1-E3.1A-1C"
+						"match_number": "CAT.RR2.02.1A-1C"
 					},{
 						"in_between": "1B-1D",
-						"match_number": "CAT.RR2.02.E2-E4.1B-1D"
+						"match_number": "CAT.RR2.02.1B-1D"
 					}, {
 						"in_between": "1A-1D",
-						"match_number": "CAT.RR2.03.E1-E4.1A-1D"
+						"match_number": "CAT.RR2.03.1A-1D"
 					}, {
 						"in_between": "1B-1C",
-						"match_number": "CAT.RR2.03.E2-E3.1B-1C"
+						"match_number": "CAT.RR2.03.1B-1C"
 					}]
 				}
 			},{
@@ -290,22 +290,22 @@
 					"group_name": "Group-F",
 					"match": [{
 						"in_between": "2A-2B",
-						"match_number": "CAT.RR2.01.F1-F2.2A-2B"
+						"match_number": "CAT.RR2.01.2A-2B"
 					},{
 						"in_between": "2C-2D",
-						"match_number": "CAT.RR2.01.F3-F4.2C-2D"
+						"match_number": "CAT.RR2.01.2C-2D"
 					},{
 						"in_between": "2A-2C",
-						"match_number": "CAT.RR2.02.F1-F3.2A-2C"
+						"match_number": "CAT.RR2.02.2A-2C"
 					},{
 						"in_between": "2B-2D",
-						"match_number": "CAT.RR2.02.F2-F4.2B-2D"
+						"match_number": "CAT.RR2.02.2B-2D"
 					}, {
 						"in_between": "2A-2D",
-						"match_number": "CAT.RR2.03.F1-F4.2A-2D"
+						"match_number": "CAT.RR2.03.2A-2D"
 					}, {
 						"in_between": "2B-2C",
-						"match_number": "CAT.RR2.03.F2-F3.2B-2C"
+						"match_number": "CAT.RR2.03.2B-2C"
 					}]
 				}
 			},{
@@ -316,22 +316,22 @@
 					"group_name": "Group-G",
 					"match": [{
 						"in_between": "3A-3B",
-						"match_number": "CAT.RR2.01.G1-G2.3A-3B"
+						"match_number": "CAT.RR2.01.3A-3B"
 					},{
 						"in_between": "3C-3D",
-						"match_number": "CAT.RR2.01.G3-G4.3C-3D"
+						"match_number": "CAT.RR2.01.3C-3D"
 					},{
 						"in_between": "3A-3C",
-						"match_number": "CAT.RR2.02.G1-G3.3A-3C"
+						"match_number": "CAT.RR2.02.3A-3C"
 					},{
 						"in_between": "3B-3D",
-						"match_number": "CAT.RR2.02.G2-G4.3B-3D"
+						"match_number": "CAT.RR2.02.3B-3D"
 					}, {
 						"in_between": "3A-3D",
-						"match_number": "CAT.RR2.03.G1-G4.3A-3D"
+						"match_number": "CAT.RR2.03.3A-3D"
 					}, {
 						"in_between": "3B-3C",
-						"match_number": "CAT.RR2.03.G2-G3.3B-3C"
+						"match_number": "CAT.RR2.03.3B-3C"
 					}]
 				}
 			},{

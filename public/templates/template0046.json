@@ -166,7 +166,7 @@
             "match_type": [{
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-A",
                     "match": [{
@@ -196,13 +196,16 @@
                     }, {
                         "in_between": "3-4",
                         "match_number": "CAT.RR1.05.A3-A4"
+                    }, {
+                        "in_between": "4-5",
+                        "match_number": "CAT.RR1.06.A4-A5"
                     }
                 ]
                 }
             },{
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-B",
                     "match": [{
@@ -244,7 +247,7 @@
             }, {
                 "name": "RR-1*4",
                 "total_match": 6,
-                "group_count": 12,
+                "group_count": 4,
                 "groups": {
                     "group_name": "Group-C",
                     "match": [{
@@ -282,13 +285,13 @@
                     "group_name": "Group-D",
                     "match": [{
                         "in_between": "1A-1B",
-                        "match_number": "CAT.RR2.01.D1-D2"
+                        "match_number": "CAT.RR2.01.1A-1B"
                     }, {
                         "in_between": "1A-1C",
-                        "match_number": "CAT.RR2.02.D1-D3"
+                        "match_number": "CAT.RR2.02.1A-1C"
                     }, {
                         "in_between": "1B-1C",
-                        "match_number": "CAT.RR2.03.D2-D3"
+                        "match_number": "CAT.RR2.03.1B-1C"
                     }
                   ]
                 }
@@ -300,13 +303,13 @@
                     "group_name": "Group-E",
                     "match": [{
                         "in_between": "2A-2B",
-                        "match_number": "CAT.RR2.01.E1-E2"
+                        "match_number": "CAT.RR2.01.2A-2B"
                     }, {
                         "in_between": "2A-2C",
-                        "match_number": "CAT.RR2.01.E1-E3"
+                        "match_number": "CAT.RR2.01.2A-2C"
                     }, {
                         "in_between": "2B-2C",
-                        "match_number": "CAT.RR2.03.E2-E3"
+                        "match_number": "CAT.RR2.03.2B-2C"
                     }
                   ]
                 }
@@ -318,13 +321,13 @@
                     "group_name": "Group-F",
                     "match": [{
                         "in_between": "3A-3B",
-                        "match_number": "CAT.RR2.01.F1-F2"
+                        "match_number": "CAT.RR2.01.3A-3B"
                     }, {
                         "in_between": "3A-3C",
-                        "match_number": "CAT.RR2.01.F1-F3"
+                        "match_number": "CAT.RR2.01.3A-3C"
                     }, {
                         "in_between": "3B-3C",
-                        "match_number": "CAT.RR2.03.F2-F3"
+                        "match_number": "CAT.RR2.03.3B-3C"
                     }
                   ]
                 }
@@ -336,13 +339,13 @@
                     "group_name": "Group-G",
                     "match": [{
                         "in_between": "4A-4B",
-                        "match_number": "CAT.RR2.01.G1-G2"
+                        "match_number": "CAT.RR2.01.4A-4B"
                     }, {
                         "in_between": "4A-4C",
-                        "match_number": "CAT.RR2.02.G1-G3"
+                        "match_number": "CAT.RR2.02.4A-4C"
                     }, {
                         "in_between": "4B-4C",
-                        "match_number": "CAT.RR2.03.G2-G3"
+                        "match_number": "CAT.RR2.03.4B-4C"
                     }
                   ]
                 }
@@ -354,7 +357,7 @@
                     "group_name": "Group-PM",
                     "match": [{
                         "in_between": "5A-5B",
-                        "match_number": "CAT.RR2.G1"
+                        "match_number": "CAT.RR2.G1.5A-5B"
                     }
                   ]
                 }

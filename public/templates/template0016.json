@@ -302,10 +302,10 @@
 						"match_number": "CAT.RR2.01.1A-1B"
 					}, {
 						"in_between": "1A-1C",
-						"match_number": "CAT.RR2.02.D1-D3"
+						"match_number": "CAT.RR2.02.1A-1C"
 					}, {
 						"in_between": "1B-1C",
-						"match_number": "CAT.RR2.03.D2-D3"
+						"match_number": "CAT.RR2.03.1B-1C"
 					}]
 				}
 			}, {
