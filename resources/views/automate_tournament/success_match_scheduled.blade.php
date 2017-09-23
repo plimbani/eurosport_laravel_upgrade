@@ -13,7 +13,7 @@
             <h3 class="text-success">Match has been scheduled and result has been inserted successfully.</h3>
           @endif
           @if($status == 'error')
-            <h3 class="text-danger">Error which running.</h3>
+            <h3 class="text-danger">Error while running.</h3>
           @endif
         </div>
         <br><br><br><br><br>
