@@ -204,10 +204,16 @@ class MatchController extends BaseController
             
             $matchRepoObj->setMatchSchedule($matchData);
 
+            $awayTeamScore = rand(1,10);
+            $homeTeamScore = rand(1,10);
+            while($homeTeamScore == $awayTeamScore) {
+                $homeTeamScore = rand(1,10);
+            }
+
             $matchData = [
-                'awayTeamScore' => rand(1,10),
+                'awayTeamScore' => $awayTeamScore,
                 'comments' => NULL,
-                'homeTeamScore' => rand(1,10),
+                'homeTeamScore' => $homeTeamScore,
                 'matchId' => $fixture->id,
                 'matchStatus' => NULL,
                 'matchWinner' => NULL,
