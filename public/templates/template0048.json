@@ -88,7 +88,7 @@
             "match_type": [{
                 "name": "RR-1*7",
                 "total_match": 21,
-                "group_count": 42,
+                "group_count": 7,
                 "groups": {
                     "group_name": "Group-A",
                     "match": [{
@@ -160,7 +160,7 @@
             },{
                 "name": "RR-1*7",
                 "total_match": 21,
-                "group_count": 42,
+                "group_count": 7,
                 "groups": {
                     "group_name": "Group-B",
                     "match": [{
@@ -236,7 +236,7 @@
             "name": "Round 2",
             "match_type": [
                 {
-                "name": "PM-1",
+                "name": "PM-1*4",
                 "total_match": 2,
                 "group_count": 4,
                 "groups": {
@@ -263,14 +263,11 @@
                     "group_name": "Group-PM2",
                     "match":  [{
                         "in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",
-                        "match_number": "CAT.PM3.G1.1A_1B_WR-1B_2A_WR"
+                        "match_number": "CAT.PM3.G1.1A_2B_WR-1B_2A_WR"
                     }, {
                         "in_between": "CAT.PM2.G1LR-CAT.PM2.G2LR",
-                        "match_number": "CAT.PM3.G2.1B_2A_LR-1A_1B_LR"
-                    }, {
-                        "in_between": "CAT.PM2.G3WR-CAT.PM2.G4WR",
-                        "match_number": "CAT.PM3.G3.2A_2B_WR-2C_2D_WR"
-                    } 
+                        "match_number": "CAT.PM3.G2.1A_2B_LR-1B_2A_LR"
+                    }
                   ]
                 }
             }]
