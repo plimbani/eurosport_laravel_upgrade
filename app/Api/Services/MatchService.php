@@ -610,7 +610,6 @@ class MatchService implements MatchContract
     }
     public function calculateCupLeagueTable($id) {
         $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
-
         $fix1=array();
 
         foreach($singleFixture as $singleFxture)
@@ -630,7 +629,6 @@ class MatchService implements MatchContract
         // Set the fix1 single record team
 
         $cup_competition_id = $fix1['CupFixture']['cupcompetition'];
-
         //$this->CupCompetition->id = $cup_competition_id;
         //$comType = $this->CupCompetition->field('competition_type');
         $home = false;
@@ -648,13 +646,16 @@ class MatchService implements MatchContract
             $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
                 ->where('competition_id','=',$cup_competition_id)
+                ->where(function ($query) use ($findTeams)  {
+                    $query ->whereIn('away_team',$findTeams)
+                         ->orWhereIn('home_team',$findTeams);
+                })
                 //->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
-                ->whereIn('away_team',$findTeams)
-                ->ORwhereIn('home_team',$findTeams)
+                // ->whereIn('away_team',$findTeams)
+                // ->ORwhereIn('home_team',$findTeams)
                 ->where('round','=' , 'Round Robin')
                 ->get();
-                //print_r($matches);exit;
-
+           
             $fixtu = array();
             foreach($matches as $key1=>$match)
             {
@@ -676,7 +677,6 @@ class MatchService implements MatchContract
                 $ageGroupList[$fix1['CupFixture']['awayteam']] = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,'away_goal' => 0,'home_goal'=>0);
             //}
             // iterate fixtures data
-
             foreach ($comp_fixtures as $key => $fix) {
                 // Initilize winner as Not Declare
                 $winnerTeam = 'nd';
@@ -746,7 +746,6 @@ class MatchService implements MatchContract
                         }
                     }
                 }
-
                 // if WinnerTeam is Not Declare
                 if ( $winnerTeam != 'nd') {
 
@@ -945,6 +944,7 @@ class MatchService implements MatchContract
                             ->get()->first();
             $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
             $sendData = array();
+
             // if its exist update it
             if ( count($homeTeamExist) > 0){
                 //$this->CupLeagueTable->id = $homeTeamExist->id;
@@ -1043,11 +1043,10 @@ class MatchService implements MatchContract
                 $sendData['away'] = $data2;
             }
         }
-
         // Now here call Function for Placing Match Team Assignments
 
-        $this->TeamPMAssign($sendData);
-       // $this->PMTeamAssignment($sendData);
+        // $this->TeamPMAssign($sendData);
+       $this->TeamPMAssignKp($sendData);
 
         return $cup_competition_id ;
     }
@@ -1070,6 +1069,243 @@ class MatchService implements MatchContract
 
     }
 
+    private function TeamPMAssignKp($data)
+    {
+        $compId = $data['home']['competition_id'];
+        $cupId = $compId;
+       
+        //$cupRoundrobinData = $this->CupRoundrobin->find('first', array('conditions' => array('comp_id' => $cupId)));
+
+        //$groupTeams = json_decode($cupRoundrobinData['CupRoundrobin']['groups'],true);
+        $comp = DB::table('temp_fixtures')
+                    // ->join('competitions','competitions.id','temp_fixtures.competition_id')
+                    ->where('temp_fixtures.competition_id','=',$compId)
+                    ->select('temp_fixtures.home_team','temp_fixtures.away_team')->get();
+        foreach ($comp as $key => $value) {
+          $home_team_arr[] = $value->home_team;
+          $away_team_arr[] = $value->away_team;
+        }
+        $teamList = array_unique(array_merge($home_team_arr,$away_team_arr));
+        
+         // $teams = DB::table('teams')->where('competation_id','=',$compId)->get();
+         $teams = DB::table('teams')->whereIn('id',$teamList)->get();
+           // dd($teams);
+        // $team_ids = $data['home']['team_id'].','.$data['away']['team_id'];
+        // $teams = DB::table('teams')->whereIn('id',[$data['home']['team_id'],$data['away']['team_id']])->get();
+        // print_r($teams);exit;
+        $defaultArray = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,
+          'home_goal' => 0,'away_goal' => 0,'goal_difference' => 0,'Total' => 0,
+          'manual_override' => 0,'group_winner' => 0);
+       // foreach ($groupTeams as $gkey => $gvvalue) {
+        //    $i =1;
+            foreach ($teams as $gkey => $gvalue) {
+                //$teamExist = $this->CupLeagueTable->find('first', array('conditions'
+                // => array('comp_id' => $cupId, 'team_id' => $gvalue)));
+                // check in match standing table for that team and Group Id
+                $teamExist = DB::table('match_standing')
+                        ->Join('teams','teams.id','=','match_standing.team_id')
+                        ->Join('competitions','match_standing.competition_id','=','competitions.id')
+                        ->select('teams.*','match_standing.*','competitions.name as compName')
+                              ->where('match_standing.competition_id',$cupId)
+                               ->where('teams.id',$gvalue->id)
+                               ->get()->first();
+                $winPoints = 3; $losePoints =0;$drawPoints=1;
+
+              
+                $assigned_group =  '';
+                if($teamExist){
+                  $group = explode('-',$teamExist->compName);
+                  $assigned_group = $group[2].'-'.$group[3];
+                }else{
+                   return;
+                }
+                // echo "<pre>"; print_r($teamExist); echo "</pre>";
+                // $group = explode('-',$teamExist->compName);
+                // echo "<pre>"; print_r($group); echo "</pre>";
+                // $assigned_group = $group[2].'-'.$group[3];
+                 // print_r($teamExist);
+                if ( count($teamExist) > 0){
+
+                    $calculatedArray[$compId][$gvalue->id]['Played'] = $teamExist->played;
+                    $calculatedArray[$compId][$gvalue->id]['Won'] = $teamExist->won;
+                    $calculatedArray[$compId][$gvalue->id]['Lost'] = $teamExist->lost;
+                    $calculatedArray[$compId][$gvalue->id]['Draw'] = $teamExist->draws;
+                    $calculatedArray[$compId][$gvalue->id]['home_goal'] = $teamExist->goal_for;
+                    $calculatedArray[$compId][$gvalue->id]['away_goal'] = $teamExist->goal_against;
+                    $total = ( ( (int)$teamExist->won * $winPoints ) + ( (int)$teamExist->draws * $drawPoints) )  + ( (int)$teamExist->lost * $losePoints);
+
+                    $goal_difference = ( (int)$teamExist->goal_for  - (int)$teamExist->goal_against );
+                    $calculatedArray[$compId][$gvalue->id]['goal_difference'] = $goal_difference;
+                    $calculatedArray[$compId][$gvalue->id]['Total'] = $total;
+                    $calculatedArray[$compId][$gvalue->id]['teamid'] = $gvalue->id;
+                     $calculatedArray[$compId][$gvalue->id]['teamName'] =
+                     $teamExist->name;
+                     $calculatedArray[$compId][$gvalue->id]['teamGroup'] =
+                     $assigned_group;
+                      $calculatedArray[$compId][$gvalue->id]['teamGroupName'] =
+                     $teamExist->group_name;
+                      $calculatedArray[$compId][$gvalue->id]['teamAgeGroup'] =
+                     $teamExist->age_group_id;
+                     $groupAlphabet = explode('-',$assigned_group);
+                     $groupAlphabet = $groupAlphabet[1];
+               //  $calculatedArray[$compId][$gvalue->id]['teamAgeGroupPlaceHolder']
+               //  =  $i.$groupAlphabet;
+                 //   $calculatedArray[$gkey][$gvalue]['manual_override'] =  $teamExist['CupLeagueTable']['manual_override'];
+                 //   $calculatedArray[$gkey][$gvalue]['group_winner'] =  $teamExist['CupLeagueTable']['group_winner'];
+                } else {
+                  // dd($teamExist,$gvalue->id,$cupId);
+                  // echo "<pre>"; print_r($teamExist); echo "</pre>";exit;
+                    $calculatedArray[$compId][$gvalue->id] = $defaultArray;
+                    $calculatedArray[$compId][$gvalue->id]['teamid'] = $gvalue->id;
+                    $calculatedArray[$compId][$gvalue->id]['teamName'] =
+                     $teamExist->name;
+                    $calculatedArray[$compId][$gvalue->id]['teamGroup'] =
+                     $assigned_group;
+                   $calculatedArray[$compId][$gvalue->id]['teamGroupName'] =
+                     $teamExist->group_name;
+                      $calculatedArray[$compId][$gvalue->id]['teamAgeGroup'] =
+                     $teamExist->age_group_id;
+                     $groupAlphabet = explode('-',$assigned_group);
+                     $groupAlphabet = $groupAlphabet[1];
+                // $calculatedArray[$compId][$gvalue->id]['teamAgeGroupPlaceHolder']
+               //  =  $i.$groupAlphabet;
+
+                }
+              //  $i++;
+            }
+       // }
+       // echo 'Before Sort';
+
+      //  echo 'After Sort';
+        $for_override_condition = array();
+        foreach ($calculatedArray as $ckey => $cvalue) {
+            $mid = $cid = $did = $overrride = $group_winner = array();
+            foreach ($cvalue as $cckey => $ccvalue) {
+
+               $mid[$cckey]  = (int)$ccvalue['Total'];
+               $cid[$cckey]  = (int)$ccvalue['Played'];
+               $did[$cckey]  = (int)$ccvalue['goal_difference'];
+              // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
+              // $group_winner[$cckey]  = (int)$ccvalue['group_winner'];
+              // $for_override_condition[$ckey][$cckey] = (int)$ccvalue['manual_override'];
+            }
+
+            array_multisort($mid, SORT_DESC,$did, SORT_DESC,$cid, SORT_DESC,$cvalue);
+            $calculatedArray[$ckey] = $cvalue;
+        }
+        $i=1;
+        // dd($calculatedArray);
+        if(count($calculatedArray) > 0) {
+          foreach($calculatedArray[$cupId] as $kky=>$data) {
+            // echo "<pre>"; print_r($data); echo "</pre>";
+            $groupAlphabet = explode('-',$data['teamGroup']);
+            $groupAlphabet = $groupAlphabet[1];
+            $calculatedArray[$cupId][$kky]['teamAgeGroupPlaceHolder'] = $i.$groupAlphabet;
+            $i++;
+          }
+        } else {
+          return $cupId;
+        }
+       // print_r($calculatedArray);
+       // exit;
+        // Now we have sorted array with TeamId
+        $ageGroupId = 0;
+        $temptournamentId  =0;
+        $particularGroup = '';
+        if(isset($calculatedArray[$cupId][0]['teamAgeGroup']))
+        {
+          $temptournamentId = $teamExist->tournament_id;
+          $ageGroupId = $calculatedArray[$cupId][0]['teamAgeGroup'];
+          $particularGroup = $calculatedArray[$cupId][0]['teamGroup'];
+        }
+
+        $reportQuery = DB::table('temp_fixtures')
+        ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam',
+
+          'temp_fixtures.away_team as AwayTeamId')
+        ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
+        ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
+        ->leftJoin('tournament_template','tournament_template.id','=','tournament_competation_template.tournament_template_id')
+        ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
+        ->where('temp_fixtures.tournament_id','=',$temptournamentId)
+        ->get();
+       // print_r($calculatedArray);
+       //exit;
+       // print_r($reportQuery);
+       // exit;
+        $matches = $reportQuery;
+        // print_r($matches);exit;
+        //print_r($matches);exit;
+        // dd($calculatedArray[$cupId]);
+        if($matches) {
+           foreach($matches as $key=>$match) {
+            //$templateData = json_decode($match->JsonData,true);
+            // echo "<pre>"; print_r($match); echo "</pre>";
+            $exmatchNumber = explode('.',$match->MatchNumber);
+            $value = explode('-',$exmatchNumber[2]);
+            $homeTeam = $value[0];
+            // echo "<pre>"; print_r($value); echo "</pre>";
+            //$homeTeam = $match->HomeTeam;
+
+            if($homeTeam) {
+              foreach($calculatedArray[$cupId] as $dd1) {
+
+                if($homeTeam == $dd1['teamAgeGroupPlaceHolder']) {
+
+                  //echo $matchId = $match->matchID;
+                  //echo $matchNumber = $match->MatchNumber;
+
+
+                  $updatedMatchNumer =  str_replace($homeTeam,$dd1['teamName'],$match->MatchNumber);
+                  $homeTeamId = $dd1['teamid'];
+                  $updateArray = [
+                  'home_team_name'=> $dd1['teamName'],
+                  'home_team'=>$dd1['teamid']
+                  ];
+                 // echo '<pre>';
+                //  print_r($updateArray);
+                  // dd($this->checkForEndRR($cupId) );
+                  if($this->checkForEndRR($cupId) == true) {
+                    DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
+                    unset($updateArray);
+                  }
+                  //echo '<br>';
+                }
+                // check if value is changed
+                //if($match->HomeTeamId != $dd1[''])
+
+              }
+            }
+            $awayTeam = $value[1];
+            //$awayTeam = $match->AwayTeam;
+            if($awayTeam) {
+              foreach($calculatedArray[$cupId] as $dd1) {
+                if($awayTeam == $dd1['teamAgeGroupPlaceHolder']) {
+                  $updatedMatchNumer =  str_replace($awayTeam,$dd1['teamName'],$match->MatchNumber);
+                  $awayTeamId = $dd1['teamid'];
+                  $updateArray = [
+                  'away_team_name'=> $dd1['teamName'],
+                  'away_team'=>$dd1['teamid']
+                  ];
+                  if($this->checkForEndRR($cupId) == true) {
+                    DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
+                    unset($updateArray);
+                 }
+                }else {
+                 // echo 'hi-Away';
+                }
+              }
+            }
+
+            // else check if its new change
+
+          }
+
+        }
+
+
+        return ;
+    }
     private function TeamPMAssign($data)
     {
         $compId = $data['home']['competition_id'];
@@ -1079,7 +1315,7 @@ class MatchService implements MatchContract
 
         //$groupTeams = json_decode($cupRoundrobinData['CupRoundrobin']['groups'],true);
         $teams = DB::table('teams')->where('competation_id','=',$compId)->get();
-        //print_r($teams);exit;
+        // print_r($teams);exit;
         $defaultArray = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,
           'home_goal' => 0,'away_goal' => 0,'goal_difference' => 0,'Total' => 0,
           'manual_override' => 0,'group_winner' => 0);
@@ -1209,7 +1445,7 @@ class MatchService implements MatchContract
         //print_r($matches);exit;
         //print_r($matches);exit;
         if($matches) {
-          foreach($matches as $key=>$match) {
+           foreach($matches as $key=>$match) {
             //$templateData = json_decode($match->JsonData,true);
             $exmatchNumber = explode('.',$match->MatchNumber);
             //print_r($exmatchNumber);exit;
