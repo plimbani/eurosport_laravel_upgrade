@@ -10,7 +10,7 @@
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-12">
-              <h3><u>Published Tournments</u></h3>
+              <h3><u>Published Tournaments</u></h3>
             </div>
             @foreach($publishedTournaments as $tournament)
               <div class="col-md-12">
@@ -22,7 +22,7 @@
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-12">
-              <h3><u>Unpublished Tournments</u></h3>
+              <h3><u>Unpublished Tournaments</u></h3>
             </div>
             @foreach($unpublishedTournaments as $tournament)
               <div class="col-md-12">
