@@ -9,7 +9,12 @@
       <div class="row">
         <br><br>
         <div class="col-md-12">
-          <h3 class="text-success">Match has been scheduled and result has been inserted successfully.</h3>
+          @if($status == 'success')
+            <h3 class="text-success">Match has been scheduled and result has been inserted successfully.</h3>
+          @endif
+          @if($status == 'error')
+            <h3 class="text-danger">Error which running.</h3>
+          @endif
         </div>
         <br><br><br><br><br>
         <div class="col-md-12">
