@@ -11,16 +11,29 @@
             </div>
           </div>
           <div class="modal-body" id="pitch_model_body">
+          <form method="delete" class="js-delete-modal-form">
             
             <!-- <div class="modal-header"> -->
             <h5 class="modal-title" id="myModalLabel">
               Do you wish to manually override the final standings of the group? If so please tick the button and select the ranking of the teams below
+              <input type="checkbox" name="chkposition" v-model="chkposition">
             </h5>
-            <div></div>
+
+            <div class="row" v-if="chkposition" v-for="n in teams.length">
+              <div class="col-md-3">Position {{n}}</div>
+              <div class="col-md-6">
+                <select class="form-control ls-select2 col-sm-4">
+                  <option value="">Select Team</option>
+                  <option :value="team.id" v-for="team in teams" @change="assignTeamPosition()">{{team.name}}</option>
+                </select>
+              </div>
+              <div class="col-md-3"></div>
+                
+            </div>
                
             <!-- </div> -->
             <!-- <div class="modal-body js-delete-confirmation-msg">{{ deleteConfirmMsg }}</div> -->
-            <form method="delete" class="js-delete-modal-form">
+            
               <div class="modal-footer">
                   <button type="button" class="btn btn-danger"  @click="hideModal()">{{$lang.user_management_cancel}}</button>
                   <button type="submit" class="btn btn-primary" @click.prevent="confirmDelete()">{{$lang.user_management_save}}</button>
@@ -39,7 +52,9 @@ import Tournament from '../api/tournament.js'
         props: ['competitionId'],
         data() {
           return {
-            redeleteConfirmMsg: ''
+            redeleteConfirmMsg: '',
+            teams: [],
+            chkposition: false
           }
         },
         mounted() {
@@ -47,7 +62,9 @@ import Tournament from '../api/tournament.js'
           setTimeout(function(){
             Tournament.getAllTeamsFromCompetitionId({'competitionId':vm.competitionId}).then(
             (response) => {
-              // console.log(response.data.data)
+              console.log(response.data.data,'rd')
+              vm.teams = response.data.data
+              vm.teams = _.orderBy(vm.teams, ['name'], ['asc']);
             })
           },200)
           
@@ -59,6 +76,11 @@ import Tournament from '../api/tournament.js'
             hideModal() {
                 $('#delete_modal').modal('hide')
                 return false
+            },
+            closeModal() {
+                $('#delete_modal').modal('hide')
+                return false
+              
             }
         }
     }
