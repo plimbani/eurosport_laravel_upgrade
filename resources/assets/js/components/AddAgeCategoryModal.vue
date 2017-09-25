@@ -298,7 +298,7 @@ export default {
       handler: function (val,oldval){
         // here we watch for changes for data
         if(this.number_teams != '' && this.minimum_matches != ''){
-          
+
           // this.TournamentCompetationList(val)
         }
       },
@@ -441,7 +441,9 @@ export default {
             // here we set some of values for Edit Form
             this.competation_format = resp
             this.competation_format.ageCategory_name = resp.group_name;
-            
+
+            this.value = resp.category_age;
+
             // set minimum matches and number of teams
             this.number_teams = resp.total_teams
             this.minimum_matches  = resp.min_matches
@@ -618,7 +620,7 @@ export default {
     },
     onChange (value) {
       this.value = value
-      if (value.indexOf('Reset me!') !== -1) this.value = []
+      // if (value.indexOf('Reset me!') !== -1) this.value = []
     },
     onSelect (option) {
       if (option === 'Disable me!') this.isDisabled = true
