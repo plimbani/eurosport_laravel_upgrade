@@ -6,10 +6,15 @@ namespace Laraspace\Api\Controllers;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Laraspace\Models\TempFixture;
+use Laraspace\Models\Pitch;
+use Laraspace\Models\Tournament;
+use Laraspace\Models\TournamentCompetationTemplates;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\MatchContract;
 use JWTAuth;
+use Carbon\Carbon;
 
 /**
  * Matches Resource Description.
@@ -130,5 +135,100 @@ class MatchController extends BaseController
     public function updateScore(Request $request)
     {
         return $this->matchObj->updateScore($request);
+    }
+
+    public function automateMatchScheduleAndResult(Request $request, $tournamentId = null, $ageGroupId = null)
+    {
+        $status = 'success';
+        try {
+            if($tournamentId === null) {
+                $publishedTournaments = Tournament::where('status', 'Published')->get();
+                $unpublishedTournaments = Tournament::where('status', 'Unpublished')->get();
+                return view('automate_tournament.tournaments', compact('publishedTournaments', 'unpublishedTournaments'));
+            }
+
+            if($ageGroupId === null) {
+                $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
+
+                return view('automate_tournament.competetions', compact('tournamentCompetationTemplates'));
+            }
+
+            $matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+            $matchServiceObj = new \Laraspace\Api\Services\MatchService();
+            $pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
+
+            TempFixture::where('tournament_id', '=', $tournamentId)->update(['is_scheduled' => 0]);
+            $tournamentFixtures = TempFixture::where('age_group_id', '=', $ageGroupId)->where('tournament_id', '=', $tournamentId)->get();
+            $pitch = $pitchRepoObj->getAllPitches($tournamentId)->first();
+            $pitchAvailability = $pitch->pitchAvailability;
+            $pitchAvailabilityIndex = 0;
+            $stageMinutes = 0;
+
+            foreach($tournamentFixtures as $fixture) {
+                $stageStartDate = $pitchAvailability[$pitchAvailabilityIndex]->stage_start_date;
+                $stageStartTime = $pitchAvailability[$pitchAvailabilityIndex]->stage_start_time;
+                $stageEndDate = $pitchAvailability[$pitchAvailabilityIndex]->stage_end_date;
+                $stageEndTime = $pitchAvailability[$pitchAvailabilityIndex]->stage_end_time;
+                $startDate = Carbon::createFromFormat('d/m/Y H:i', $stageStartDate . ' ' . $stageStartTime);
+                $endDate = Carbon::createFromFormat('d/m/Y H:i', $stageEndDate . ' ' . $stageEndTime);
+                $diffInMinutes = $startDate->diffInMinutes($endDate);
+
+                if( ($stageMinutes + 30) <= $diffInMinutes) {
+                    $matchStartDate = $startDate->copy()->addMinutes($stageMinutes)->toDateTimeString();
+                    $stageMinutes += 30;
+                    $matchEndDate = $startDate->copy()->addMinutes($stageMinutes)->toDateTimeString();
+                } else {
+                    if(isset($pitchAvailability[$pitchAvailabilityIndex + 1])) {
+                        $pitchAvailabilityIndex++;
+
+                        $stageStartDate = $pitchAvailability[$pitchAvailabilityIndex]->stage_start_date;
+                        $stageStartTime = $pitchAvailability[$pitchAvailabilityIndex]->stage_start_time;
+                        $stageEndDate = $pitchAvailability[$pitchAvailabilityIndex]->stage_end_date;
+                        $stageEndTime = $pitchAvailability[$pitchAvailabilityIndex]->stage_end_time;
+                        $startDate = Carbon::createFromFormat('d/m/Y H:i', $stageStartDate . ' ' . $stageStartTime);
+                        $endDate = Carbon::createFromFormat('d/m/Y H:i', $stageEndDate . ' ' . $stageEndTime);
+                        $diffInMinutes = $startDate->diffInMinutes($endDate);
+
+                        $stageMinutes = 0;
+                        $matchStartDate = $startDate->copy()->addMinutes($stageMinutes)->toDateTimeString();
+                        $stageMinutes += 30;
+                        $matchEndDate = $startDate->copy()->addMinutes($stageMinutes)->toDateTimeString();
+                    }
+                }
+
+                $matchData = [
+                    'matchEndDate' => $matchEndDate,
+                    'matchId' => $fixture->id,
+                    'matchStartDate' => $matchStartDate,
+                    'pitchId' => $pitch->id,
+                    'tournamentId' => $tournamentId,
+                ];
+                
+                $matchRepoObj->setMatchSchedule($matchData);
+
+                $awayTeamScore = rand(1,20);
+                $homeTeamScore = rand(1,20);
+                while($homeTeamScore == $awayTeamScore) {
+                    $homeTeamScore = rand(1,20);
+                }
+
+                $matchData = [
+                    'awayTeamScore' => $awayTeamScore,
+                    'comments' => NULL,
+                    'homeTeamScore' => $homeTeamScore,
+                    'matchId' => $fixture->id,
+                    'matchStatus' => NULL,
+                    'matchWinner' => NULL,
+                    'refereeId' => NULL,
+                ];
+
+                $matchResult = $matchRepoObj->saveResult($matchData);
+                $competationId = $matchServiceObj->calculateCupLeagueTable($matchData['matchId']);
+            }
+        } catch(\Exception $e) {
+            $status = 'error';
+        }
+
+        return view('automate_tournament.success_match_scheduled', compact('status') );
     }
 }

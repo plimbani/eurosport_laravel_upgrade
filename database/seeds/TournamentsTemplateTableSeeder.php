@@ -314,8 +314,28 @@ class TournamentsTemplateTableSeeder extends Seeder
           'json_data' => file_get_contents(public_path('templates/template0112.json')), 'total_teams' => '24', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
           [ 'name' => 'T.25.3',
-          'json_data' => file_get_contents(public_path('templates/template0113.json')), 'total_teams' => '25', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')]
+          'json_data' => file_get_contents(public_path('templates/template0113.json')), 'total_teams' => '25', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+         
+          [ 'name' => 'T.25.5',
+          'json_data' => file_get_contents(public_path('templates/template0116.json')), 'total_teams' => '25', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
 
+          [ 'name' => 'T.25.6',
+          'json_data' => file_get_contents(public_path('templates/template0118.json')), 'total_teams' => '25', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.26.3',
+          'json_data' => file_get_contents(public_path('templates/template0119.json')), 'total_teams' => '26', 'minimum_matches' => '3','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.26.4',
+          'json_data' => file_get_contents(public_path('templates/template0121.json')), 'total_teams' => '26', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.26.6',
+          'json_data' => file_get_contents(public_path('templates/template0123.json')), 'total_teams' => '26', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.27.4 (v1)',
+          'json_data' => file_get_contents(public_path('templates/template0125.json')), 'total_teams' => '27', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+
+          [ 'name' => 'T.27.4 (v2)',
+          'json_data' => file_get_contents(public_path('templates/template0126.json')), 'total_teams' => '27', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
     }
 }
