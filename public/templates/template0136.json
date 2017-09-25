@@ -3,7 +3,7 @@
     "tournament_id": "0136",
     "tournament_teams": 28,
     "tournament_name": "T.28.6 (v1)",
-    "template_font_color": "rgb(146,208,80)",
+    "template_font_color": "rgb(255,192,0)",
     "competition_round": "PM 1-16/17-24/25-28",
     "competition_group_round": "4x4,4x3",
     "competation_format": "",
@@ -365,11 +365,11 @@
             "name": "Round 2",
             "match_type": [
                 {
-                "name": "PM-1",
+                "name": "PM-1*28",
                 "total_match": 14,
                 "group_count": 28,
                 "groups": {
-                    "group_name": "Group-PM2",
+                    "group_name": "Group-PM1",
                     "match":  [{
                         "in_between": "1A-1B",
                         "match_number": "CAT.PM2.G1.1A-1B"
@@ -419,7 +419,7 @@
     }, {
             "name": "Round 3",
             "match_type": [{
-                "name": "PM-2",
+                "name": "PM-1*24",
                 "total_match": 12,
                 "group_count": 24,
                 "groups": {
@@ -471,7 +471,7 @@
             "name": "Round 4",
             "match_type": [
                 {
-                "name": "PM-3",
+                "name": "PM-1*16",
                 "total_match": 8,
                 "group_count": 16,
                 "groups": {
@@ -487,7 +487,7 @@
                         "match_number": "CAT.PM4.G3.(PM3_G1_LR)-(PM3_G2_LR)"
                     }, {
                         "in_between": "CAT.PM3.G3LR-CAT.PM3.G4LR",
-                        "match_number": "CAT.PM4.G3.(PM3_G3_LR)-(PM3_G4_LR)"    
+                        "match_number": "CAT.PM4.G4.(PM3_G3_LR)-(PM3_G4_LR)"    
                     }, {
                         "in_between": "CAT.PM3.G5WR-CAT.PM3.G6WR",
                         "match_number": "CAT.PM4.G5.(PM3_G5_WR)-(PM3_G6_WR)"
@@ -508,9 +508,9 @@
     {
             "name": "Round 5",
             "match_type": [{
-                "name": "PM-4",
-                "total_match": 12,
-                "group_count": 24,
+                "name": "PM-1*28",
+                "total_match": 14,
+                "group_count": 28,
                 "groups": {
                     "group_name": "Group-PM4",
                     "match": [{
@@ -527,34 +527,34 @@
                         "match_number": "CAT.PM5.G4.(PM4_G3_LR)-(PM2_G4_LR)"
                     }, {
                         "in_between": "CAT.PM4.G5WR-CAT.PM4.G6WR",  
-                        "match_number": "CAT.PM5.G5.(PM4_G5_WR)-(PM5_G6_WR)"
+                        "match_number": "CAT.PM5.G5.(PM4_G5_WR)-(PM4_G6_WR)"
                     }, {
                         "in_between": "CAT.PM4.G5LR-CAT.PM4.G6LR",
-                        "match_number": "CAT.PM5.G6.(PM4_G5_LR)-(PM5_G6_LR)"
+                        "match_number": "CAT.PM5.G6.(PM4_G5_LR)-(PM4_G6_LR)"
                     }, {
                         "in_between": "CAT.PM4.G7WR-CAT.PM2.G8WR",
-                        "match_number": "CAT.PM5.G7.(PM4_G7_WR)-(PM5_G8_WR)"
+                        "match_number": "CAT.PM5.G7.(PM4_G7_WR)-(PM4_G8_WR)"
                     }, {
                         "in_between": "CAT.PM4.G7LR-CAT.PM4.G8LR",
-                        "match_number": "CAT.PM5.G8.(PM4_G7_LR)-(PM5_G8_LR)"
+                        "match_number": "CAT.PM5.G8.(PM4_G7_LR)-(PM4_G8_LR)"
                     },{
                         "in_between": "CAT.PM4.G9WR-CAT.PM4.G10WR",
-                        "match_number": "CAT.PM5.G9.(PM4_G9_WR)-(PM5_G10_WR)"
+                        "match_number": "CAT.PM5.G9.(PM3_G9_WR)-(PM3_G10_WR)"
                     }, {
                         "in_between": "CAT.PM4.G9LR-CAT.PM4.G10LR",
-                        "match_number": "CAT.PM5.G10.(PM4_G9_LR)-(PM5_G10_LR)"
+                        "match_number": "CAT.PM5.G10.(PM3_G9_LR)-(PM3_G10_LR)"
                     }, {
                         "in_between": "CAT.PM4.G11WR-CAT.PM4.G12WR",
-                        "match_number": "CAT.PM5.G11.(PM4_G11_WR)-(PM5_G12_WR)"
+                        "match_number": "CAT.PM5.G11.(PM3_G11_WR)-(PM3_G12_WR)"
                     }, {
                         "in_between": "CAT.PM4.G11LR-CAT.PM4.G12LR",
-                        "match_number": "CAT.PM5.G12.(PM4_G11_LR)-(PM5_G12_LR)"
+                        "match_number": "CAT.PM5.G12.(PM3_G11_LR)-(PM3_G12_LR)"
                     }, {
                         "in_between": "CAT.PM4.G13WR-CAT.PM4.G14WR",
-                        "match_number": "CAT.PM5.G13.(PM4_G13_WR)-(PM5_G14_WR)"
+                        "match_number": "CAT.PM5.G13.(PM2_G13_WR)-(PM2_G14_WR)"
                     }, {
                         "in_between": "CAT.PM4.G13LR-CAT.PM4.G14LR",
-                        "match_number": "CAT.PM5.G15.(PM4_G13_LR)-(PM5_G14_LR)"
+                        "match_number": "CAT.PM5.G14.(PM2_G13_LR)-(PM2_G14_LR)"
                     }
                   ]
                 }
