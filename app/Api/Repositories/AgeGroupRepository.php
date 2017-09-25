@@ -74,6 +74,7 @@ class AgeGroupRepository
      return $competationIds;
     }
     public function createCompeationFormat($data){
+      // echo "<pre>";print_r($data);echo "</pre>";exit;
       // here first we save the Age Group
       // $ageGroupData['name'] = $data['ageCategory_name'];
       // $ageGroupId = AgeGroup::create($ageGroupData)->id;
@@ -104,14 +105,14 @@ class AgeGroupRepository
 
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
       // here we also update the affected table like competaions and temp_fixtures
-      if(trim($data['oldageCat']) != trim($data['ageCategory_name']."-".$data['category_age'])) {
+      // if(trim($data['oldageCat']) != trim($data['ageCategory_name']."-".$data['category_age'])) {
         // Here call function to update in tables
         $updataArr = array();
         $updataArr['tournament_id'] = $data['tournament_id'];
         $updataArr['age_cat_id'] = $data['competation_format_id'];
         $updataArr['newCatname'] = trim($data['ageCategory_name']."-".$data['category_age']);
         $this->updateAgeCatAndName($updataArr);
-      }
+      // }
       return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
       //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
@@ -280,9 +281,9 @@ class AgeGroupRepository
     }
     public function addFixturesIntoTemp($fixtureArray,$competationArr)
     {
-
+      // echo "<pre>"; print_r($fixtureArray); echo "</pre>";
       foreach($fixtureArray as $key=>$fixture) {
-
+        // echo '1'."<br>";
 
           $groupArr = explode('|',$key);
           $groupName = $groupArr[1];
@@ -299,13 +300,15 @@ class AgeGroupRepository
           // Team Assignement
           $fixtu=explode('.',$fixture);
           $teams = explode('-',$fixtu[count($fixtu)-1]);
-
+          // echo "<pre>"; print_r($teams); echo "</pre>";
           $homeTeam = $teams[0];
           $away_team = $teams[1];
 
           // Todo   column
           // replace Fixture Name with Actual Group Name
           // $ageGroup = $ageGroup.'-';
+
+          // echo "<pre>"; print_r(1); echo "</pre>";
           $fixture_n = str_replace('CAT.', $ageGroup.'-',$fixture);
           $teampfixtureTable=DB::table('temp_fixtures');
           $teampfixtureTable->insert(
