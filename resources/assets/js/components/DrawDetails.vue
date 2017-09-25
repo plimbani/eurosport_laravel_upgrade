@@ -1,77 +1,78 @@
 <template>
 <div>
-<div class="form-group">
-  <a @click="setCurrentTabView(currentTabView)" data-toggle="tab" href="javascript:void(0)"
-  role="tab" aria-expanded="true"
-  class="btn btn-primary">
-  <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{setCurrentMsg}}</a>
-</div>
-<div class="form-group row d-flex flex-row align-items-center">
-<div class="col d-flex flex-column align-items-start">
-    <div class="my-3"><select class="form-control ls-select2"
-    v-on:change="onChangeDrawDetails"
-    v-model="DrawName">
-      <option value="">Select</option>
-      <option
-      v-for="option in drawList"
-      v-bind:value="option"
-      >{{option.name}}
-      </option>
-    </select>
+  <div class="form-group">
+    <a @click="setCurrentTabView(currentTabView)" data-toggle="tab" href="javascript:void(0)"
+    role="tab" aria-expanded="true"
+    class="btn btn-primary">
+    <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{setCurrentMsg}}</a>
   </div>
-  <div v-if="otherData.DrawType != 'Elimination'"><label class="mt-3"><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
-</div>
-</div>
+  <div class="form-group row d-flex flex-row align-items-center">
+    <div class="col d-flex flex-column align-items-start">
+        <div class="my-3"><select class="form-control ls-select2"
+        v-on:change="onChangeDrawDetails"
+        v-model="DrawName">
+          <option value="">Select</option>
+          <option
+          v-for="option in drawList"
+          v-bind:value="option"
+          >{{option.name}}
+          </option>
+        </select>
+      </div>
+      <div v-if="otherData.DrawType != 'Elimination'"><label class="mt-3"><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
+    </div>
+  </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
 
-<table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0" >
-	<thead>
-    <tr>
-        <th></th>
-       <th v-for="(match,index) in match1Data" class="text-center">
-       <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
-       <span>{{match.TeamName}}</span></th>
-       <!-- <img :src="match.TeamFlag" width="20"> &nbsp;<span>{{match.TeamName}}</span></th> -->
-    </tr>
-  </thead>
-  <tbody>
-  	<tr v-for="(match,index) in match1Data">
-
-    		<td>
-
-    			<!-- <a href="" class="pull-left text-left text-primary"> -->
-           <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
-    			  <!-- <img :src="match.TeamCountryFlag" width="20"> &nbsp; -->
-    			    <span>{{match.TeamName}}</span>
-
-    			  <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->
-
-    		</td>
-
-
-        <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
-          <div class="text-center" v-if="teamMatch.score == null && teamMatch != 'Y' && teamMatch != 'X' ">
-        {{teamMatch.date | formatDate}}</div>
-          <div class="text-center" v-else> {{teamMatch.score}}</div>
-
-          <!--<div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>-->
-        </td>
-
+  <table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0" >
+  	<thead>
+      <tr>
+          <th></th>
+         <th v-for="(match,index) in match1Data" class="text-center">
+         <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
+         <span>{{match.TeamName}}</span></th>
+         <!-- <img :src="match.TeamFlag" width="20"> &nbsp;<span>{{match.TeamName}}</span></th> -->
       </tr>
-  </tbody>
-</table>
-<span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available
-<div class="mt-2"></div>
-</span>
+    </thead>
+    <tbody>
+    	<tr v-for="(match,index) in match1Data">
 
-<h6 v-if="CompRound == 'Round Robin'"> {{otherData.DrawName}} standings</h6>
-<teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0" >
-</teamStanding>
-<div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
-</div>
+      		<td>
 
-<h6>{{otherData.DrawName}} matches</h6>
-<matchList :matchData="matchData"></matchList>
+      			<!-- <a href="" class="pull-left text-left text-primary"> -->
+             <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
+      			  <!-- <img :src="match.TeamCountryFlag" width="20"> &nbsp; -->
+      			    <span>{{match.TeamName}}</span>
+
+      			  <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->
+
+      		</td>
+
+
+          <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
+            <div class="text-center" v-if="teamMatch.score == null && teamMatch != 'Y' && teamMatch != 'X' ">
+          {{teamMatch.date | formatDate}}</div>
+            <div class="text-center" v-else> {{teamMatch.score}}</div>
+
+            <!--<div class="text-center" v-if="teamMatch != 'X'">{{teamMatch.score | getStatus}}</div>-->
+          </td>
+
+        </tr>
+    </tbody>
+  </table>
+  <span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available
+    <div class="mt-2"></div>
+  </span>
+
+  <h6 v-if="CompRound == 'Round Robin'"> {{otherData.DrawName}} standings  <a @click="manualRankingModalOpen()"></a></h6>
+  <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
+  </teamStanding>
+  <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
+  </div>
+
+  <h6>{{otherData.DrawName}} matches</h6>
+  <matchList :matchData="matchData"></matchList>
+  <manualRanking :competitionId="currentCompetationId"></manualRanking>
 </div>
 </template>
 <script type="text/babel">
@@ -80,6 +81,7 @@ import MatchList from './MatchList.vue'
 import LocationList from'./LocationList.vue'
 import TeamStanding from './TeamStanding.vue'
 import Tournament from '../api/tournament.js'
+import ManualRanking from './manualRankingModal.vue'
 
 export default {
 	props: ['matchData','otherData'],
@@ -91,7 +93,8 @@ export default {
             match1Data:[],error:false,errorMsg:'',
             drawList:'',
             DrawName:[],
-            CompRound:'Round Robin',match12Data:''
+            CompRound:'Round Robin',match12Data:'',
+            teamStatus: true
         }
     },
     created: function() {
@@ -185,10 +188,13 @@ export default {
         }
     },
 	components: {
-        MatchList,LocationList,MatchListing,TeamStanding
+        MatchList,LocationList,MatchListing,TeamStanding,ManualRanking
 	},
     methods: {
+        manualRankingModalOpen() {
+          $('#manual_ranking_modal').modal('show')
 
+        },
         onChangeDrawDetails() {
 
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
@@ -199,8 +205,7 @@ export default {
           // this.matchData = this.drawList
           this.setTeamData()
           this.currentCompetationId = Id
-
-          this.$children[1].getData(this.currentCompetationId)
+          // this.$children[1].getData(this.currentCompetationId)
          /* let Id = this.DrawName.id
           let Name = this.DrawName.name
           if(Id != undefined && Name != undefined)
@@ -248,6 +253,11 @@ export default {
                     this.errorMsg = response.data.message
                     this.error=true
                   }
+                  this.teamStatus = false
+                  let vm = this
+                  setTimeout(function(){
+                    vm.teamStatus = true
+                  },500)
                 },
                 (error)=> {}
 
