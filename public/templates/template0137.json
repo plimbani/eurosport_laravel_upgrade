@@ -698,14 +698,14 @@
                 "groups": {
                     "group_name": "Group-PM2",
                     "match":  [{
-                        "in_between": "1G-1k",
-                        "match_number": "CAT.PM3.G1.1G-1k"
+                        "in_between": "1G-1K",
+                        "match_number": "CAT.PM3.G1.1G-1K"
                     }, {
-                        "in_between": "2G-2k",
-                        "match_number": "CAT.PM3.G2.2G-2k"
+                        "in_between": "2G-2K",
+                        "match_number": "CAT.PM3.G2.2G-2K"
                     }, {
-                        "in_between": "3G-3k",
-                        "match_number": "CAT.PM3.G3.3G-3k"
+                        "in_between": "3G-3K",
+                        "match_number": "CAT.PM3.G3.3G-3K"
                     }, {
                         "in_between": "1H-1L",
                         "match_number": "CAT.PM3.G4.1H-1L"    
