@@ -4,7 +4,7 @@
 	"tournament_teams": 21,
 	"tournament_name": "T.21.6",
   "template_font_color": "rgb(255,192,0)",
-	"competition_round": "(PM1-4/5-8/9-12/13-16/17-20)",
+	"competition_round": "PM1-4/5-8/9-12/13-16/17-20",
 	"competition_group_round": "3x5,1x6",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 6,
