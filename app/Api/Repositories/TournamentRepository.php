@@ -28,7 +28,33 @@ class TournamentRepository
        $status = $tournamentData['status'];
        return Tournament::where('status',$status)->get();
     }
-    public function getAll($status='')
+    public function getAll($status='', $userId=null)
+    {
+      if($status == '') {
+          $data = Tournament::
+                  select('tournaments.*',
+                 \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo),"" ) as tournamentLogo'));
+      } else {
+        $data = Tournament::where('status','=','Published')
+                ->select('tournaments.*',
+                \DB::raw('IF(tournaments.logo is not null,CONCAT("'.$this->tournamentLogo.'", tournaments.logo),"" ) as tournamentLogo'));
+
+      }
+
+      if($userId) {
+        $data = $data->where('user_id', $userId);
+      }
+      $data = $data->get();
+
+      return $data;
+      /*if($status == '') {
+        return Tournament::get();
+      }
+      else{
+        return Tournament::where('status','=','Published')->get();
+      }*/
+    }
+    public function getAuthUserCreatedTournaments($status='')
     {
       if($status == '') {
           $data = Tournament::
@@ -94,8 +120,6 @@ class TournamentRepository
 
         // For New One We set Status as Unpublished
 
-        $newdata['user_id'] = 1;
-
         if($data['image_logo'] != ''){
             $newdata['logo'] = $data['image_logo'];
         } else {
@@ -118,6 +142,7 @@ class TournamentRepository
 
         } else {
          $newdata['status'] = 'Unpublished';
+         $newdata['user_id'] = $data['user_id'];
          $tournamentId = Tournament::create($newdata)->id;
         }
         //$tournamentId = Tournament::create($newdata)->id;
