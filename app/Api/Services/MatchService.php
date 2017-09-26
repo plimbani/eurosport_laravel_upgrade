@@ -379,6 +379,7 @@ class MatchService implements MatchContract
     private function secondRoundElimination($singleFixture,$updatedval,$var) {
       // Now here we propgate the result to the descender teams
       //echo '1';exit;
+      // dd($singleFixture,$updatedval,$var);
       $age_category_id = $singleFixture->age_group_id;
       $tournament_id   = $singleFixture->tournament_id;
 
@@ -386,8 +387,9 @@ class MatchService implements MatchContract
       $match_number = $singleFixture->match_number;
       $match_number = explode(".",$match_number);
       $frs = explode("-",$match_number[0]);
-      $val = $frs[2]."_".$match_number[1];
 
+      $val = $frs[2]."_".$match_number[1];
+    // print_r($val);exit;
       $home_team_score = $singleFixture->hometeam_score;
       $away_team_score = $singleFixture->awayteam_score;
 
@@ -409,11 +411,16 @@ class MatchService implements MatchContract
         $looserTeam = $singleFixture->away_team_name;
         $looserId = $singleFixture->away_team;
       }
+
       // Now fire a query which gives two record Winner and Looser
       $results = TempFixture::where('age_group_id','=',$age_category_id)->where('tournament_id','=',$tournament_id)
-         ->whereRaw(DB::raw("match_number like '%(".$val."_WR)%' OR  match_number like '%(".$val."_LR)%' "))->get();
+      ->where(function($query) use ($val) {
+        $query->whereRaw(DB::raw("match_number like '%(".$val."_WR)%' OR  match_number like '%(".$val."_LR)%' "));
+      })->get();
+         // dd($results,$age_category_id,$tournament_id,$val);
       // here we get two records 1 for Winner and other for looser
       foreach($results as $record) {
+        // echo "<pre>"; print_r($record); echo "</pre>";
         // we have record
        // echo 'Match Id'.$record->id;
         // here first we check condition for Draw if it is then use match_winner field
@@ -421,6 +428,7 @@ class MatchService implements MatchContract
        $rec_mtchNumber = explode(".",$record->match_number);
        $teams =  $rec_mtchNumber[2];
        $teams = explode("-",$teams);
+       // echo "<pre>"; print_r($teams); echo "</pre>";
        $homeTeam = $teams[0];$awayTeam = $teams[1];
        // if its winner then
        if(strpos($record->match_number,"WR") !== false)
@@ -481,6 +489,10 @@ class MatchService implements MatchContract
       $teams_arr = explode('.', $singleFixture->match_number);
 
       $teams = $teams_arr[count($teams_arr)-1];
+      $selTeams = explode('-',$teams);
+      $SelhomeTeam = $selTeams[0];
+      $SelawayTeam = $selTeams[1];
+      // echo "<pre>"; print_r($selTeams); echo "</pre>";
       foreach($matches as $match) {
 
         $matchNumber = explode('.',$match->match_number);
@@ -489,63 +501,78 @@ class MatchService implements MatchContract
         $mtsTeams = explode('-',$matchTeams);
         //print_r($mtsTeams);
         // Teams For that Matches
+        // echo "<pre>"; print_r($mtsTeams); echo "</pre>";
         $homeTeam = $mtsTeams[0];
         $awayTeam = $mtsTeams[1];
         // Get hometeam=1A awayTeam =2B
         // here we check it For 2nd round Eliminbation
-
+        // echo "<pre>"; print_r($mtsTeams); echo "</pre>";
 
         // First For Winner
         $modifiedTeams = str_replace('-','_',$teams);
       //  echo 'Hi MOD Teams<br>';
         //print_r($modifiedTeams);exit;
         if (strpos($modifiedTeams, 'WR') !== false) {
-
-          $selTeams = explode('-',$teams);
-          $SelhomeTeam = $selTeams[0];
-          $SelawayTeam = $selTeams[1];
-
+          // echo "asd";echo $homeTeam;
+          
+          // echo "<pre>"; print_r($mtsTeams); echo "</pre>";
           $var = '';
-
           if($SelhomeTeam == $homeTeam ) {
+            // echo "SDF";exit;
             $match1 = $match;
+            
           }
+          if($homeTeam[0] == '(') {
+              if(isset($match1) && $match1 != ''){
+
+                $this->secondRoundElimination($match1,$match,'WR');
+              }
+            }
           if($SelawayTeam==$awayTeam) {
             $match2=$match;
-          }
-          // here check for Multiple Value for detect the updated record value
-
-          if($homeTeam[0] == '(') {
-            $this->secondRoundElimination($match1,$match,'WR');
+            
           }
           if($awayTeam[strlen($awayTeam)-1]==')') {
-            $this->secondRoundElimination($match2,$match,'WR');
-          }
+              if(isset($match2) && $match1 != ''){
+                $this->secondRoundElimination($match2,$match,'WR');
+              }
+            }
+          // here check for Multiple Value for detect the updated record value
+
+          
+          
         }
 
         if (strpos($modifiedTeams, 'LR') !== false) {
+          // echo "<pre>"; print_r(); echo "</pre>";
+          // $selTeams = explode('-',$teams);
+          // $SelhomeTeam = $selTeams[0];
+          // $SelawayTeam = $selTeams[1];
+          
 
-          $selTeams = explode('-',$teams);
-          $SelhomeTeam = $selTeams[0];
-          $SelawayTeam = $selTeams[1];
           $var = '';
           if($SelhomeTeam == $homeTeam ) {
             // here we get that Match
             $match1 = $match;
+            
+          }
+          if($homeTeam[0] == '(') {
+             if(isset($match1) && $match1 != ''){
+              $this->secondRoundElimination($match1,$match,'LR');
+            }
           }
           if($SelawayTeam==$awayTeam) {
             $match2=$match;
           }
+          if($awayTeam[strlen($awayTeam)-1]==')'){
+              //echo 'false';exit;
+             if(isset($match2) && $match2 != ''){
+                $this->secondRoundElimination($match2,$match,'LR');
+              }
+            }
           // here check for Multiple Value for detect the updated record value
 
-          if($homeTeam[0] == '(') {
-            //echo 'yes';exit;
-            $this->secondRoundElimination($match1,$match,'LR');
-          }
-          if($awayTeam[strlen($awayTeam)-1]==')'){
-            //echo 'false';exit;
-            $this->secondRoundElimination($match2,$match,'LR');
-          }
+          
         }
 
         $modifiedTeamsWinner = $modifiedTeams.'_WR';
@@ -611,7 +638,7 @@ class MatchService implements MatchContract
     public function calculateCupLeagueTable($id) {
         $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
         $fix1=array();
-
+        // dd($singleFixture );
         foreach($singleFixture as $singleFxture)
         {
           $fix1['CupFixture']['cupcompetition'] = $singleFxture->competition_id;
@@ -944,7 +971,7 @@ class MatchService implements MatchContract
                             ->get()->first();
             $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
             $sendData = array();
-
+            // dd($homeTeamExist);
             // if its exist update it
             if ( count($homeTeamExist) > 0){
                 //$this->CupLeagueTable->id = $homeTeamExist->id;
@@ -961,6 +988,7 @@ class MatchService implements MatchContract
                 $data['goal_against'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'];
 
                 //$data = $ageGroupList[$fix1['CupFixture']['hometeam']];
+                // dd($data,$homeTeamExist->id);
                 DB::table('match_standing')->where('id',$homeTeamExist->id)->update($data);
                 $sendData['home'] = $data;
                 $sendData['home']['competition_id'] = $homeTeamExist->competition_id;
@@ -995,7 +1023,7 @@ class MatchService implements MatchContract
                             ->where('competition_id','=',$cup_competition_id)
                             ->where('team_id',$fix1['CupFixture']['awayteam'])
                             ->get()->first();
-
+            // dd($awayTeamExist);
             if ( count($awayTeamExist) > 0){
                // $this->CupLeagueTable->id = $awayTeamExist['CupLeagueTable']['id'];
               //  $data = $ageGroupList[$fix1['CupFixture']['awayteam']];
@@ -1047,7 +1075,7 @@ class MatchService implements MatchContract
 
         // $this->TeamPMAssign($sendData);
        $this->TeamPMAssignKp($sendData);
-
+     
         return $cup_competition_id ;
     }
     /*
@@ -1071,6 +1099,7 @@ class MatchService implements MatchContract
 
     private function TeamPMAssignKp($data)
     {
+      // dd($data);
         $compId = $data['home']['competition_id'];
         $cupId = $compId;
        
@@ -1119,7 +1148,6 @@ class MatchService implements MatchContract
                 }else{
                    return;
                 }
-                // echo "<pre>"; print_r($teamExist); echo "</pre>";
                 // $group = explode('-',$teamExist->compName);
                 // echo "<pre>"; print_r($group); echo "</pre>";
                 // $assigned_group = $group[2].'-'.$group[3];
@@ -1197,7 +1225,6 @@ class MatchService implements MatchContract
         // dd($calculatedArray);
         if(count($calculatedArray) > 0) {
           foreach($calculatedArray[$cupId] as $kky=>$data) {
-            // echo "<pre>"; print_r($data); echo "</pre>";
             $groupAlphabet = explode('-',$data['teamGroup']);
             $groupAlphabet = $groupAlphabet[1];
             $calculatedArray[$cupId][$kky]['teamAgeGroupPlaceHolder'] = $i.$groupAlphabet;
@@ -1244,7 +1271,6 @@ class MatchService implements MatchContract
             $exmatchNumber = explode('.',$match->MatchNumber);
             $value = explode('-',$exmatchNumber[2]);
             $homeTeam = $value[0];
-            // echo "<pre>"; print_r($value); echo "</pre>";
             //$homeTeam = $match->HomeTeam;
 
             if($homeTeam) {
