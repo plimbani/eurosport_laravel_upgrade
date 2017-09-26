@@ -49,7 +49,7 @@ class TournamentService implements TournamentContract
               $userId = $authUser->id;
             }
           }
-          $data = $this->tournamentRepoObj->getAll('', $userId);
+          $data = $this->tournamentRepoObj->getAll('', null);
         }
 
         if ($data) {
