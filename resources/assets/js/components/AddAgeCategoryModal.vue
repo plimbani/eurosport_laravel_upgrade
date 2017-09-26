@@ -310,6 +310,7 @@ export default {
       let tournamentData={'minimum_matches':val,'total_teams':this.number_teams}
 
       if(val != '' && this.number_teams != '') {
+        // console.log(val,'val')
         this.trempVal = true
         this.competation_format.minimum_matches = val
         this.competation_format.total_teams = this.number_teams
@@ -325,7 +326,7 @@ export default {
 
       if(this.minimum_matches != '' && val != '') {
         this.trempVal = true
-        this.competation_format.minimum_matches = val
+        this.competation_format.minimum_matches = this.minimum_matches
         this.competation_format.total_teams = this.number_teams
 
         this.TournamentCompetationList(this.competation_format)
@@ -436,7 +437,7 @@ export default {
 
         Tournament.getCompetationFormat(TournamentData).then(
           (response) => {
-
+            // return false;
             let resp = response.data.data[0]
             // here we set some of values for Edit Form
             this.competation_format = resp
@@ -446,6 +447,7 @@ export default {
 
             // set minimum matches and number of teams
             this.number_teams = resp.total_teams
+            // this.minimum_matches  = resp.min_matches
             this.minimum_matches  = resp.min_matches
             // Now here we have to append the value of game_duration
             //this.game_duration_rr_array.push(['130':'320'])
@@ -566,6 +568,10 @@ export default {
      this.$validator.validateAll().then(
           (response) => {
             if(this.dispTempl == true) {
+              return false;
+            }
+            // console.log(this.isInvalid);
+            if(this.isInvalid == true) {
               return false;
             }
             //  if(Object.keys(this.competation_format.tournamentTemplate).length == 0)
