@@ -4,7 +4,7 @@
 	"tournament_teams": 21,
 	"tournament_name": "T.21.4",
   "template_font_color": "rgb(148,208,80)",
-	"competition_round": "SF",
+	"competition_round": "SF - F/SMF",
 	"competition_group_round": "3x5,1x6",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 4,
@@ -12,112 +12,117 @@
 	"tournament_competition_ranking": {
 	    "format_name": [{
 	      "round": "Round 1",
-	      "groups":[{
-	            "Ranking": "Ranking A",
-	            "group_name": "Group-A",
-	            "team_count": 5,
-	            "teams": [{
-	                "position": "1",
-	                "team": "1A"
-	              },
-	              {
-	                "position": "2",
-	                "team": "2A"
-	              },
-	              {
-	                "position": "3",
-	                "team": "3A"
-	              },
-	              {
-	                "position": "4",
-	                "team": "4A"
-	              },
-	              {
-	                "position": "5",
-	                "team": "5A"
-	              }
-	            ]
-	          },
-	          {
-	            "Ranking": "Ranking B",
-	            "group_name": "Group-B",
-	            "team_count": 5,
-	            "teams": [{
-	                "position": "1",
-	                "team": "1B"
-	              },
-	              {
-	                "position": "2",
-	                "team": "2B"
-	              },
-	              {
-	                "position": "3",
-	                "team": "3B"
-	              },
-	              {
-	                "position": "4",
-	                "team": "4B"
-	              },
-	              {
-	                "position": "5",
-	                "team": "5B"
-	              }
-	            ]
-	          }
+	      "groups":[
+	      		{
+		            "Ranking": "Ranking A",
+		            "group_name": "Group-A",
+		            "team_count": 5,
+		            "teams": [{
+		                "position": "1",
+		                "team": "1A"
+		              },
+		              {
+		                "position": "2",
+		                "team": "2A"
+		              },
+		              {
+		                "position": "3",
+		                "team": "3A"
+		              },
+		              {
+		                "position": "4",
+		                "team": "4A"
+		              },
+		              {
+		                "position": "5",
+		                "team": "5A"
+		              }
+		            ]
+		        },
+	          	{
+		            "Ranking": "Ranking B",
+		            "group_name": "Group-B",
+		            "team_count": 5,
+		            "teams": [{
+		                "position": "1",
+		                "team": "1B"
+		              },
+		              {
+		                "position": "2",
+		                "team": "2B"
+		              },
+		              {
+		                "position": "3",
+		                "team": "3B"
+		              },
+		              {
+		                "position": "4",
+		                "team": "4B"
+		              },
+		              {
+		                "position": "5",
+		                "team": "5B"
+		              }
+		            ]
+		        },
+		        {
+		            "Ranking": "Ranking C",
+		            "group_name": "Group-C",
+		            "team_count": 5,
+		            "teams": [{
+		                "position": "1",
+		                "team": "1C"
+		              },
+		              {
+		                "position": "2",
+		                "team": "2C"
+		              },
+		              {
+		                "position": "3",
+		                "team": "3C"
+		              },
+		              {
+		                "position": "4",
+		                "team": "4C"
+		              },
+		              {
+		                "position": "5",
+		                "team": "5C"
+		              }
+		            ]
+		        },
+		        {
+		            "Ranking": "Ranking D",
+		            "group_name": "Group-D",
+		            "team_count": 6,
+		            "teams": [{
+		                "position": "1",
+		                "team": "1D"
+		              },
+		              {
+		                "position": "2",
+		                "team": "2D"
+		              },
+		              {
+		                "position": "3",
+		                "team": "3D"
+		              },
+		              {
+		                "position": "4",
+		                "team": "4D"
+		              },
+		              {
+		                "position": "5",
+		                "team": "5D"
+		              },
+		              {
+		                "position": "6",
+		                "team": "6D"
+		              }
+		            ]
+		        }
 	        ]
-	    },
-	    {
-            "Ranking": "Ranking C",
-            "group_name": "Group-C",
-            "team_count": 5,
-            "teams": [{
-                "position": "1",
-                "team": "1C"
-              },
-              {
-                "position": "2",
-                "team": "2C"
-              },
-              {
-                "position": "3",
-                "team": "3C"
-              },
-              {
-                "position": "4",
-                "team": "4C"
-              },
-              {
-                "position": "5",
-                "team": "5C"
-              }
-            ]
-          },
-          {
-            "Ranking": "Ranking D",
-            "group_name": "Group-D",
-            "team_count": 5,
-            "teams": [{
-                "position": "1",
-                "team": "1D"
-              },
-              {
-                "position": "2",
-                "team": "2D"
-              },
-              {
-                "position": "3",
-                "team": "3D"
-              },
-              {
-                "position": "4",
-                "team": "4D"
-              },
-              {
-                "position": "5",
-                "team": "5D"
-              }
-            ]
-          }
+	    }
         ]
     },
 	"tournament_competation_format": {
@@ -296,17 +301,17 @@
 			"name": "Round 2",
 			"match_type": [
 				{
-					"name": "PM-1*2",
+					"name": "PM-1*4",
 					"total_match": 2,
 	        		"group_count": 4,
 					"groups": {
 						"group_name": "Group-PM1",
 						"match": [{
 							"in_between": "1A-1B",
-							"match_number": "CAT.PM2.G1"
+							"match_number": "CAT.PM2.G1.1A-1B"
 						}, {
 							"in_between": "1C-1D",
-							"match_number": "CAT.PM2.G2"
+							"match_number": "CAT.PM2.G2.1C-1D"
 						}]
 					}
 				}
@@ -316,7 +321,7 @@
 			"name": "Round 3",
 			"match_type": [
 				{
-					"name": "PM-1*2",
+					"name": "PM-1*4",
 					"total_match": 2,
 	        		"group_count": 4,
 					"groups": {

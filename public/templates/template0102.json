@@ -4,7 +4,7 @@
     "tournament_teams": 23,
     "tournament_name": "T.23.4 (v1)",
     "template_font_color": "rgb(146,208,80)",
-    "competition_round": "(PM1-2),(RR1-3)",
+    "competition_round": "(PM1-2),(RR1-3) - F/SMF",
     "competition_group_round": "(2x4),(3x5)",
     "competation_format": "",
     "tournament_min_match": 4,
@@ -133,8 +133,11 @@
                     "team": "5E"
                   }
                 ]
-              },
-               {
+              }
+            ]
+        },{
+            "round": "Round 2",
+            "groups":[{
                 "Ranking": "Ranking F",
                 "group_name": "Group-F",
                 "team_count": 3,
@@ -148,11 +151,10 @@
                   },
                   {
                     "position": "3",
-                    "team": "3G"
+                    "team": "3F"
                   }
                 ]
-              }
-            ]
+            }]
         }]
     },
     "tournament_competation_format": {
@@ -161,7 +163,7 @@
             "match_type": [{
                 "name": "RR-1*4",
                 "total_match": 6,
-                "group_count": 12,
+                "group_count": 4,
                 "groups": {
                     "group_name": "Group-A",
                     "match": [{
@@ -182,16 +184,13 @@
                     }, {
                         "in_between": "2-3",
                         "match_number": "CAT.RR1.03.A2-A3"
-                    }, {
-                        "in_between": "3-5",
-                        "match_number": "CAT.RR1.04.A3-A5"
                     }
                 ]
                 }
             },{
                 "name": "RR-1*4",
                 "total_match": 6,
-                "group_count": 12,
+                "group_count": 4,
                 "groups": {
                     "group_name": "Group-B",
                     "match": [{
@@ -218,7 +217,7 @@
             }, {
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-C",
                     "match": [{
@@ -257,7 +256,7 @@
             }, {
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-D",
                     "match": [{
@@ -296,7 +295,7 @@
             }, {
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-E",
                     "match": [{
@@ -339,14 +338,14 @@
             "name": "Round 2",
             "match_type": [
                 {
-                "name": "PM",
+                "name": "PM-1*2",
                 "total_match": 1,
-                "group_count": 1,
+                "group_count": 2,
                 "groups": {
                     "group_name": "Group-PM1",
                     "match": [{
                         "in_between": "1A-1B",
-                        "match_number": "CAT.PM2.G2.1A-1B"
+                        "match_number": "CAT.PM2.G1.1A-1B"
                     }
                   ]
                 }
@@ -355,16 +354,16 @@
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
-                    "group_name": "Group-E",
+                    "group_name": "Group-F",
                     "match": [{
                         "in_between": "1C-1D",
-                        "match_number": "CAT.RR2.01.F1-F2"
+                        "match_number": "CAT.RR2.01.1C-1D"
                     }, {
                         "in_between": "1C-1E",
-                        "match_number": "CAT.RR2.02.F1-F3"
+                        "match_number": "CAT.RR2.02.1C-1E"
                     }, {
                         "in_between": "1D-1E",
-                        "match_number": "CAT.RR2.03.F2-F3"
+                        "match_number": "CAT.RR2.03.1D-1E"
                     }
                   ]
                 }
@@ -374,17 +373,17 @@
             "name": "Round 3",
             "match_type": [
                 {
-                "name": "PM-2",
+                "name": "PM-1*4",
                 "total_match": 2,
                 "group_count": 4,
                 "groups": {
                     "group_name": "Group-PM2",
                     "match":  [{
-                        "in_between": "1F-(CAT.PM2.G1 WR)",
-                        "match_number": "CAT.PM3.G1.1F-(PM2_G1_WR)"
+                        "in_between": "1F-CAT.PM2.G1WR",
+                        "match_number": "CAT.PM3.G1.1F-1A_1B_WR"
                     }, {
-                        "in_between": "2F-(CAT.PM2.G1 LR)",
-                        "match_number": "CAT.PM3.G1.2F-(PM2_G1_LR)"
+                        "in_between": "2F-CAT.PM2.G1LR",
+                        "match_number": "CAT.PM3.G2.2F-1A_1B_LR"
                     } 
                   ]
                 }
