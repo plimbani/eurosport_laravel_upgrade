@@ -2,7 +2,7 @@
 
 export default {
   getAllTournaments() {
-  	return api.get('api/tournaments')
+  	return api.get('tournaments')
   },
   getAllClubs(tournamentData) {
     // alert('helll')
