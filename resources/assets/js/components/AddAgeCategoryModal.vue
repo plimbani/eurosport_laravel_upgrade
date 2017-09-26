@@ -570,6 +570,7 @@ export default {
             if(this.dispTempl == true) {
               return false;
             }
+            // console.log(this.isInvalid);
             if(this.isInvalid == true) {
               return false;
             }
