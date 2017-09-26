@@ -2,7 +2,7 @@
 
 export default {
   getAllTournaments() {
-  	return axios.get('api/tournaments')
+  	return api.get('api/tournaments')
   },
   getAllClubs(tournamentData) {
     // alert('helll')
