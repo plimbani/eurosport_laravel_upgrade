@@ -3,12 +3,12 @@
 	"tournament_id": "0095",
 	"tournament_teams": 22,
 	"tournament_name": "T.22.4 (v1)",
-  "template_font_color": "rgb(148,208,80)",
+	"template_font_color": "rgb(148,208,80)",
 	"competition_round": "2x(RR1-3/6-8/7-9/PM10-11) - F/SMF",
 	"competition_group_round": "2x(2x4,1x3)",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 4,
-  "avg_game_team":4.7,
+    "avg_game_team":4.7,
 	"tournament_competition_ranking": {
 	    "format_name": [{
 	      "round": "Round 1",

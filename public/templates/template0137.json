@@ -160,8 +160,11 @@
                     "team": "4F"
                   }
                 ]
-              },
-              {
+              }
+            ]
+        }, {
+        "round": "Round 2",
+        "groups":[{
                 "Ranking": "Ranking G",
                 "group_name": "Group-G",
                 "team_count": 3,
@@ -178,8 +181,7 @@
                     "team": "3G"
                   }
                 ]
-              },
-               {
+              },  {
                 "Ranking": "Ranking H",
                 "group_name": "Group-H",
                 "team_count": 3,
@@ -196,8 +198,7 @@
                     "team": "3H"
                   }
                 ]
-              },
-              {
+              },{
                 "Ranking": "Ranking I",
                 "group_name": "Group-I",
                 "team_count": 3,
@@ -214,8 +215,7 @@
                     "team": "3I"
                   }
                 ]
-              },
-              {
+              }, {
                 "Ranking": "Ranking J",
                 "group_name": "Group-J",
                 "team_count": 3,
@@ -232,8 +232,7 @@
                     "team": "3J"
                   }
                 ]
-              },
-              {
+              }, {
                 "Ranking": "Ranking K",
                 "group_name": "Group-K",
                 "team_count": 3,
@@ -250,8 +249,7 @@
                     "team": "3K"
                   }
                 ]
-              },
-              {
+              }, {
                 "Ranking": "Ranking L",
                 "group_name": "Group-L",
                 "team_count": 3,
@@ -268,8 +266,7 @@
                     "team": "3L"
                   }
                 ]
-              },
-              {
+              }, {
                 "Ranking": "Ranking M",
                 "group_name": "Group-M",
                 "team_count": 3,
@@ -286,8 +283,7 @@
                     "team": "3M"
                   }
                 ]
-              },
-              {
+              }, {
                 "Ranking": "Ranking N",
                 "group_name": "Group-N",
                 "team_count": 3,
@@ -304,9 +300,8 @@
                     "team": "3N"
                   }
                 ]
-              }
-            ]
-        }]
+              }]
+      }]
     },
     "tournament_competation_format": {
         "format_name": [{

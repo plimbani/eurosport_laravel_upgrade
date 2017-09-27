@@ -152,10 +152,11 @@
                 ]
               }
             ]
-        },{
+
+        }, {
           "round": "Round 2",
           "groups":[{
-                "Ranking": "Ranking F",
+                  "Ranking": "Ranking F",
                 "group_name": "Group-F",
                 "team_count": 3,
                 "teams": [{
@@ -243,8 +244,7 @@
                     "team": "3J"
                   }
                 ]
-              }
-            ]
+              }]
         }]
     },
     "tournament_competation_format": {
@@ -518,10 +518,10 @@
                         "match_number": "CAT.RR2.01.1C-1D"
                     }, {
                         "in_between": "1C-1E",
-                        "match_number": "CAT.RR2.01.1C-1E"
+                        "match_number": "CAT.RR2.02.1C-1E"
                     }, {
                         "in_between": "1D-1E",
-                        "match_number": "CAT.RR2.01.1D-1E"
+                        "match_number": "CAT.RR2.03.1D-1E"
                     }]
                 }
             },
@@ -610,11 +610,11 @@
                 "groups": {
                     "group_name": "Group-PM2",
                     "match":  [{
-                        "in_between": "1A_1B_WR-1F",
-                        "match_number": "CAT.PM3.G1.1A_1B_WR-1F"
+                        "in_between": "1F-CAT.PM2.G1WR",
+                        "match_number": "CAT.PM3.G1.1F-1A_1B_WR"
                     }, {
-                        "in_between": "1A_1B_WR-2F",
-                        "match_number": "CAT.PM3.G2.1A_1B_LR-2F"
+                        "in_between": "2F-CAT.PM2.G1LR",
+                        "match_number": "CAT.PM3.G2.2F-1A_1B_LR"
                     }
                   ]
                 }

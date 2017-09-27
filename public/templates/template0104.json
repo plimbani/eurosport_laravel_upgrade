@@ -2,7 +2,7 @@
     "total_matches": 67,    
     "tournament_id": "0104",
     "tournament_teams": 23,
-    "tournament_name": "T.23.5 (v1)",
+    "tournament_name": "T.23.5 (v1)",   
     "template_font_color": "rgb(146,208,80)",
     "competition_round": "(PM 1-4/5-8),(RR 1-3/4-5/6-8/9-12/13-15) - F/SMF",
     "competition_group_round": "(2x4),(3x5)",
@@ -14,7 +14,7 @@
           "round": "Round 1",
           "groups":[{
                 "Ranking": "Ranking A",
-                "group_name": "Group-A",    
+                "group_name": "Group-A",
                 "team_count": 4,
                 "teams": [{
                     "position": "1",
@@ -31,10 +31,9 @@
                   {
                     "position": "4",
                     "team": "4A"
-                  }
+                  }                               
                 ]
-              },
-              {
+              },{
                 "Ranking": "Ranking B",
                 "group_name": "Group-B",
                 "team_count": 4,
@@ -55,8 +54,7 @@
                     "team": "4B"
                   }
                 ]
-              },
-               {
+              },{
                 "Ranking": "Ranking C",
                 "group_name": "Group-C",
                 "team_count": 5,
@@ -81,8 +79,7 @@
                     "team": "5C"
                   }
                 ]
-              },
-              {
+              },{
                 "Ranking": "Ranking D",
                 "group_name": "Group-D",
                 "team_count": 5,
@@ -107,8 +104,7 @@
                     "team": "5D"
                   }
                 ]
-              },
-               {
+              },{
                 "Ranking": "Ranking E",
                 "group_name": "Group-E",
                 "team_count": 5,
@@ -133,11 +129,14 @@
                     "team": "5E"
                   }
                 ]
-              }
+
+              }                      
             ]
-        },{
+        },
+        {
           "round": "Round 2",
-          "groups":[{
+          "groups":[
+            {
                 "Ranking": "Ranking F",
                 "group_name": "Group-F",
                 "team_count": 3,
@@ -154,8 +153,7 @@
                     "team": "3F"
                   }
                 ]
-              },
-              {
+            },{
                 "Ranking": "Ranking G",
                 "group_name": "Group-G",
                 "team_count": 3,
@@ -172,8 +170,7 @@
                     "team": "3G"
                   }
                 ]
-              },
-              {
+            }, {
                 "Ranking": "Ranking H",
                 "group_name": "Group-H",
                 "team_count": 3,
@@ -190,8 +187,7 @@
                     "team": "3H"
                   }
                 ]
-              },
-              {
+            },  {
                 "Ranking": "Ranking I",
                 "group_name": "Group-I",
                 "team_count": 3,
@@ -208,8 +204,7 @@
                     "team": "3I"
                   }
                 ]
-              },
-              {
+            }, {
                 "Ranking": "Ranking J",
                 "group_name": "Group-J",
                 "team_count": 3,
@@ -226,8 +221,7 @@
                     "team": "3J"
                   }
                 ]
-              }
-            ]
+            }]
         }]
     },
     "tournament_competation_format": {
@@ -431,7 +425,7 @@
                   ]
                 }
             }, {
-                "name": "RR-1*3",
+                "name": "RR-1-3",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -449,7 +443,7 @@
                   ]
                 }
             }, {
-                "name": "RR-4*6",
+                "name": "RR-4-6",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -467,7 +461,7 @@
                   ]
                 }
             }, {
-                "name": "RR-7*9",
+                "name": "RR-7-9",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -485,7 +479,7 @@
                   ]
                 }
             }, {
-                "name": "RR-10*12",
+                "name": "RR-10-12",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -503,7 +497,7 @@
                   ]
                 }
             }, {
-                "name": "RR-13*15",
+                "name": "RR-13-15",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
