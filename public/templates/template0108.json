@@ -159,7 +159,7 @@
 	              {
 	                "position": "3",
 	                "team": "3G"
-	              },
+	              }
 	            ]
 	        },{
 	            "Ranking": "Ranking H",
@@ -176,7 +176,7 @@
 	              {
 	                "position": "3",
 	                "team": "3H"
-	              },
+	              }
 	            ]
 	        }]
 	    }]
