@@ -150,9 +150,12 @@
                     "team": "5E"
                   }
                 ]
-              },
-              {
-                "Ranking": "Ranking F",
+              }
+            ]
+        }, {
+          "round": "Round 2",
+          "groups":[{
+                  "Ranking": "Ranking F",
                 "group_name": "Group-F",
                 "team_count": 3,
                 "teams": [{
@@ -240,8 +243,7 @@
                     "team": "3J"
                   }
                 ]
-              }
-            ]
+              }]
         }]
     },
     "tournament_competation_format": {
