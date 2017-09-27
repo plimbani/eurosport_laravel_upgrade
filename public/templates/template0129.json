@@ -4,9 +4,9 @@
     "tournament_teams": 27,
     "tournament_name": "T.27.6",
     "template_font_color": "rgb(146,208,80)",
-    "competition_round": "(PM 1-2/3-4/5-6/7-8/9-10/11-12),(RR 1-3/4-6/7-9/10-12/13-15)",
+    "competition_round": "(PM 1-2/3-4/5-6/7-8/9-10/11-12),(RR 1-3/4-6/7-9/10-12/13-15) - F/SMF",
     "competition_group_round": "(2x6),(3x5)",
-    "competation_format": "",
+    "competation_format": "F/SMF",
     "tournament_min_match": 6,
     "remark":"",
     "avg_game_team":6.1,
@@ -150,8 +150,11 @@
                     "team": "5E"
                   }
                 ]
-              },
-              {
+              }
+            ]
+        },{
+          "round": "Round 2",
+          "groups":[{
                 "Ranking": "Ranking F",
                 "group_name": "Group-F",
                 "team_count": 3,
@@ -481,7 +484,7 @@
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
-                    "group_name": "Group-PM-1",
+                    "group_name": "Group-PM1",
                     "match": [{
                         "in_between": "1A-1B",
                         "match_number": "CAT.PM2.G1.1A-1B"
