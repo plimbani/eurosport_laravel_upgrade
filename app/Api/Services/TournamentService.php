@@ -9,6 +9,8 @@ use PDF;
 use Laraspace\Models\Venue;
 use Laraspace\Models\Team;
 use Validate;
+use JWTAuth;
+use Laraspace\Models\User;
 
 class TournamentService implements TournamentContract
 {
@@ -35,10 +37,19 @@ class TournamentService implements TournamentContract
         // Here we send Status Code and Messages
         $isMobileUsers = \Request::header('IsMobileUser');
         if( $isMobileUsers != '') {
-          $data = $this->tournamentRepoObj->getAll('published');
+          $data = $this->tournamentRepoObj->getAll('published', null);
         }
         else {
-          $data = $this->tournamentRepoObj->getAll();
+          $token=JWTAuth::getToken();
+          $userId = null;
+          if($token)
+          {
+            $authUser = JWTAuth::parseToken()->toUser();
+            if($authUser && User::find($authUser->id)->hasRole('tournament.administrator')) {
+              $userId = $authUser->id;
+            }
+          }
+          $data = $this->tournamentRepoObj->getAll('', $userId);
         }
 
         if ($data) {

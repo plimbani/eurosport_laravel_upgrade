@@ -291,6 +291,7 @@
 var moment = require('moment');
 import location from '../../../components/Location.vue'
 import Tournament from '../../../api/tournament.js'
+import Ls from './../../../services/ls'
 export default {
 data() {
 return {
@@ -489,7 +490,8 @@ this.$validator.validateAll().then(
   // here we check if tournament id is Set then
   this.tournament.tournamentId = this.tournamentId
   // we can take length of how much we have to move for loop
-  this.tournament.locationCount = this.customCount
+  this.tournament.locationCount = this.customCount;
+  this.tournament.user_id = JSON.parse(Ls.get('userData')).id;
   let msg=''
   if(this.tournament.tournamentId == 0){
     msg = 'Tournament details added successfully.'
