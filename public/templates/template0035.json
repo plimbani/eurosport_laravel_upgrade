@@ -4,7 +4,7 @@
 	"tournament_teams": 12,
 	"tournament_name": "T.12.5 (v1)",
     "template_font_color": "rgb(148,208,80)",
-	"competition_round": "(PM 1-8), (RR 9-12)",
+	"competition_round": "PM 1-8, RR 9-12",
 	"competition_group_round": "4x3",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 5,

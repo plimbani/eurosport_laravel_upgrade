@@ -1,7 +1,7 @@
 <template>
 <div>
 
-<table class="table table-hover table-bordered" v-if="standingData.length > 0">
+<table class="mt-3 table table-hover table-bordered mt-3" v-if="standingData.length > 0">
 	<thead>
 
 		<th class="text-center"></th>

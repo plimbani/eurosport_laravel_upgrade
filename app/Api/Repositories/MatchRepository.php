@@ -273,6 +273,7 @@ class MatchRepository
           ->leftjoin('teams', 'match_standing.team_id', '=', 'teams.id')
           ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
           ->leftjoin('competitions', 'match_standing.competition_id', '=', 'competitions.id')
+          // ->join('temp_fixtures', 'match_standing.competition_id', '=', 'competitions.id')
           ->select('match_standing.*','teams.*',
 
             DB::raw('match_standing.goal_for - match_standing.goal_against as GoalDifference'),
@@ -311,6 +312,7 @@ class MatchRepository
                 DB::raw('CONCAT(temp_fixtures.home_team, "-", temp_fixtures.away_team) AS teamsFix'),
                 'temp_fixtures.match_datetime as matchDateTime'
                   ) ->get();
+        // dd($totalMatches->toArray());  
       $matchArr = array();
       $matchDate = array();
       //print_r($teamData);exit;
@@ -327,18 +329,39 @@ class MatchRepository
       }  else {
           $errorMsg= 'No Matches';
       }
-     // print_r($);exit;
-      $teamData = DB::table('teams')
+
+      $comp = DB::table('temp_fixtures')
+                    // ->join('competitions','competitions.id','temp_fixtures.competition_id')
+                    ->where('temp_fixtures.tournament_id','=',$tournamentData['tournamentId'])
+                    ->where('temp_fixtures.competition_id','=',$tournamentData['competationId'])
+                    ->select('temp_fixtures.home_team','temp_fixtures.away_team')->get();
+        foreach ($comp as $key => $value) {
+          $home_team_arr[] = $value->home_team;
+          $away_team_arr[] = $value->away_team;
+        }
+        $teamList = array_unique(array_merge($home_team_arr,$away_team_arr));
+        
+         // $teams = DB::table('teams')->where('competation_id','=',$compId)->get();
+         $teamData = DB::table('teams')
                     ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
                     ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
                     ->leftjoin('competitions', 'competitions.id', '=', 'teams.competation_id')
                     ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo',
                       'countries.country_flag as TeamCountryFlag'
-                      )
-                    ->where('teams.tournament_id',$tournamentData['tournamentId'])
-                    ->where('competitions.id',$tournamentData['competationId'])
-                    ->get();
+                      )->whereIn('teams.id',$teamList)->get();
 
+     // print_r($matchDate);exit;
+      // $teamData = DB::table('teams')
+      //               ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
+      //               ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+      //               ->leftjoin('competitions', 'competitions.id', '=', 'teams.competation_id')
+      //               ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo',
+      //                 'countries.country_flag as TeamCountryFlag'
+      //                 )
+      //               ->where('teams.tournament_id',$tournamentData['tournamentId'])
+      //               ->where('competitions.id',$tournamentData['competationId'])
+      //               ->get();
+                    // dd($teamData);
       $numTeamsArray = array();
       $teamDetails=array();
 
