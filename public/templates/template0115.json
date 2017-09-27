@@ -4,9 +4,9 @@
     "tournament_teams": 25,
     "tournament_name": "T.25.4",
     "template_font_color": "rgb(146,208,80)",
-    "competition_round": "(PM 1-4/5-8/9-12),(PM 1-4/5-8/9-12)",
+    "competition_round": "(PM 1-4/5-8/9-12),(PM 1-4/5-8/9-12) - F/SMF",
     "competition_group_round": "(4x3), (3x3,1x4)",
-    "competation_format": "",
+    "competation_format": "F/SMF",
     "tournament_min_match": 4,
     "remark":"1 tm 1M",
     "avg_game_team":4.2,
@@ -377,7 +377,7 @@
             "name": "Round 3",
             "match_type": [
                 {
-                "name": "PM-2",
+                "name": "PM-1*24",
                 "total_match": 12,
                 "group_count": 24,
                 "groups": {
@@ -427,7 +427,7 @@
             "name": "Round 4",
             "match_type": [
                 {
-                "name": "PM-3",
+                "name": "PM-1*4",
                 "total_match": 2,
                 "group_count": 4,
                 "groups": {

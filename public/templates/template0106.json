@@ -4,7 +4,7 @@
 	"tournament_teams": 23,
 	"tournament_name": "T.23.6",
   	"template_font_color": "rgb(148,208,80)",
-	"competition_round": "(PM 1-4/5-8/9-12/13-16/17-20),(RR 21-23)",
+	"competition_round": "PM 1-4/5-8/9-12/13-16/17-20,RR 21-23",
 	"competition_group_round": "3x6,1x5",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 6,
@@ -147,9 +147,9 @@
 	              {
 	                "position": "3E",
 	                "team": "23"
-	              },
+	              }
 	            ]
-	          },
+	          }
 	        ]
 	    }
         ]
@@ -428,34 +428,34 @@
 						"group_name": "Group-PM2",
 						"match": [{
 							"in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",
-							"match_number": "CAT.PM3.G1.(PM2.G1.WR)-(PM2.G2.WR)"
+							"match_number": "CAT.PM3.G1.1A_1B_WR-1C_1D_WR"
 						},{
 							"in_between": "CAT.PM2.G1LR-CAT.PM2.G2LR",
-							"match_number": "CAT.PM3.G2.(PM2.G1.LR)-(PM2.G2.LR)"
+							"match_number": "CAT.PM3.G2.1A_1B_LR-1C_1D_LR"
 						},{
 							"in_between": "CAT.PM2.G3WR-CAT.PM2.G4WR",
-							"match_number": "CAT.PM3.G3.(PM2.G3.WR)-(PM2.G4.WR)"
+							"match_number": "CAT.PM3.G3.2A_2B_WR-2C_2D_WR"
 						},{
 							"in_between": "CAT.PM2.G3LR-CAT.PM2.G4LR",
-							"match_number": "CAT.PM3.G4.(PM2.G3.LR)-(PM2.G4.LR)"
+							"match_number": "CAT.PM3.G4.2A_2B_LR-2C_2D_LR"
 						},{
 							"in_between": "CAT.PM2.G5WR-CAT.PM2.G6WR",
-							"match_number": "CAT.PM3.G5.(PM2.G5.WR)-(PM2.G6.WR)"
+							"match_number": "CAT.PM3.G5.3A_3B_WR-3C_3D_WR"
 						},{
 							"in_between": "CAT.PM2.G5LR-CAT.PM2.G6LR",
-							"match_number": "CAT.PM3.G6.(PM2.G5.LR)-(PM2.G6.LR)"
+							"match_number": "CAT.PM3.G6.3A_3B_LR-3C_3D_LR"
 						},{
 							"in_between": "CAT.PM2.G7WR-CAT.PM2.G8WR",
-							"match_number": "CAT.PM3.G7.(PM2.G7.WR)-(PM2.G8.WR)"
+							"match_number": "CAT.PM3.G7.4A_4B_WR-4C_4D_WR"
 						},{
 							"in_between": "CAT.PM2.G7LR-CAT.PM2.G8LR",
-							"match_number": "CAT.PM3.G8.(PM2.G7.LR)-(PM2.G8.LR)"
+							"match_number": "CAT.PM3.G8.4A_4B_LR-4C_4D_LR"
 						},{
 							"in_between": "CAT.PM2.G9WR-CAT.PM2.G10WR",
-							"match_number": "CAT.PM3.G9.(PM2.G9.WR)-(PM2.G10.WR)"
+							"match_number": "CAT.PM3.G9.5A_5B_WR-5C_5D_WR"
 						},{
 							"in_between": "CAT.PM2.G9LR-CAT.PM2.G10LR",
-							"match_number": "CAT.PM3.G10.(PM2.G9.LR)-(PM2.G10.LR)"
+							"match_number": "CAT.PM3.G10.5A_5B_LR-5C_5D_LR"
 						}]
 					}
 				}

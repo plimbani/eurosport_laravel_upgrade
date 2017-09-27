@@ -4,7 +4,7 @@
 	"tournament_teams": 19,
 	"tournament_name": "T.19.5",
     "template_font_color": "rgb(148,208,80)",
-	"competition_round": "(PM 1-4/5-8/9-12/13-16), (RR 17-19)",
+	"competition_round": "PM 1-4/5-8/9-12/13-16, RR 17-19",
 	"competition_group_round": "3x5,1x4",
 	"competation_format": "RR, PM/1F",
 	"tournament_min_match": 5,
@@ -35,7 +35,7 @@
 	              {
 	                "position": "5",
 	                "team": "5A"
-	              }	              	              
+	              }
 	            ]
 	          },
 	          {
@@ -61,7 +61,7 @@
 	              {
 	                "position": "5",
 	                "team": "5B"
-	              }             	              
+	              }
 	            ]
 	          },
 	          {
@@ -87,7 +87,7 @@
 				  {
 	                "position": "5",
 	                "team": "5C"
-	              }	                 
+	              }
 	            ]
 	          },
 	          {
@@ -109,7 +109,7 @@
 				  {
 	                "position": "4",
 	                "team": "4D"
-	              } 	                          	              	                         
+	              }
 	            ]
 	          }
 	        ]
@@ -318,7 +318,7 @@
 				"total_match": 3,
         		"group_count": 3,
 				"groups": {
-					"group_name": "Group-PM1",
+					"group_name": "Group-E",
 					"match": [{
 						"in_between": "5A-5B",
 						"match_number": "CAT.RR2.01.5A-5B"

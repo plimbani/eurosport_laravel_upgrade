@@ -227,7 +227,7 @@
                     "group_name": "Group-PM1",
                     "match": [{
                         "in_between": "1A-2C",
-                        "match_number": "CAT.PM2.G1.1A-1C"
+                        "match_number": "CAT.PM2.G1.1A-2C"
                     }, {
                         "in_between": "1B-2D",
                         "match_number": "CAT.PM2.G2.1B-2D"

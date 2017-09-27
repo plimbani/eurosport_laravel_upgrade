@@ -277,7 +277,7 @@
 						"match_number": "CAT.RR1.02.D1-D2"
 					}, {
 						"in_between": "4-6",
-						"match_number": "CAT.RR1.02.D4-C6"
+						"match_number": "CAT.RR1.02.D4-D6"
 					}, {
 						"in_between": "1-4",
 						"match_number": "CAT.RR1.03.D1-D4"
@@ -286,7 +286,7 @@
 						"match_number": "CAT.RR1.03.D2-D3"
 					}, {
 						"in_between": "5-6",
-						"match_number": "CAT.RR1.03.D5-C6"
+						"match_number": "CAT.RR1.03.D5-D6"
 					}, {
 						"in_between": "1-5",
 						"match_number": "CAT.RR1.04.D1-D5"
@@ -295,10 +295,10 @@
 						"match_number": "CAT.RR1.04.D2-D4"
 					}, {
 						"in_between": "3-6",
-						"match_number": "CAT.RR1.04.D3-C6"
+						"match_number": "CAT.RR1.04.D3-D6"
 					}, {
 						"in_between": "1-6",
-						"match_number": "CAT.RR1.05.D1-C6"
+						"match_number": "CAT.RR1.05.D1-D6"
 					}, {
 						"in_between": "2-5",
 						"match_number": "CAT.RR1.05.D2-D5"
@@ -307,7 +307,7 @@
 						"match_number": "CAT.RR1.05.D3-D4"
 					}, {
 						"in_between": "2-6",
-						"match_number": "CAT.RR1.06.D2-C6"
+						"match_number": "CAT.RR1.06.D2-D6"
 					}, {
 						"in_between": "3-5",
 						"match_number": "CAT.RR1.06.D3-D5"

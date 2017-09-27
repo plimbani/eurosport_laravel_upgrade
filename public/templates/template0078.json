@@ -4,7 +4,7 @@
 	"tournament_teams": 19,
 	"tournament_name": "T.19.6",
     "template_font_color": "rgb(148,208,80)",
-	"competition_round": "(PM 1-8/9-16), (RR 17-19)",
+	"competition_round": "PM 1-8/9-16, RR 17-19",
 	"competition_group_round": "3x5,1x4",
 	"competation_format": "RR, PM/1F",
 	"tournament_min_match": 6,
@@ -35,7 +35,7 @@
 	              {
 	                "position": "5",
 	                "team": "5A"
-	              }	              	              
+	              }
 	            ]
 	          },
 	          {
@@ -61,7 +61,7 @@
 	              {
 	                "position": "5",
 	                "team": "5B"
-	              }             	              
+	              }
 	            ]
 	          },
 	          {
@@ -87,7 +87,7 @@
 				  {
 	                "position": "5",
 	                "team": "5C"
-	              }	                 
+	              }
 	            ]
 	          },
 	          {
@@ -109,7 +109,7 @@
 				  {
 	                "position": "4",
 	                "team": "4D"
-	              } 	                          	              	                         
+	              }
 	            ]
 	          }
 	        ]
