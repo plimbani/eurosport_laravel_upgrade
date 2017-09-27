@@ -404,7 +404,7 @@
 							"match_number": "CAT.RR2.02.G1-G3"
 						}, {
 							"in_between": "2B-2C",
-							"match_number": "CAT.RR2.03.D2-G3"
+							"match_number": "CAT.RR2.03.G2-G3"
 						}]
 					}
 				},
@@ -484,7 +484,7 @@
 							"match_number": "CAT.PM3.G1.1F-1D_1E_WR"
 						},{
 							"in_between": "2F-CAT.PM2.G1LR",
-							"match_number": "CAT.PM3.G2.2F-1D_1E_LR"
+							"match_number": "CAT.PM3.G2.2F-1D_1E_LR"	
 						}]
 					}
 				}
