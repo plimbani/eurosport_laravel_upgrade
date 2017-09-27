@@ -539,6 +539,7 @@ class TournamentRepository
 
       $url = getenv('S3_URL');
       $clubData = Team::where('teams.tournament_id','=',$data['tournament_id'])
+                  ->whereNotNull('teams.group_name')
                   ->leftJoin('clubs','clubs.id','=','teams.club_id')
                   ->leftjoin('countries','countries.id','=','teams.country_id')
                   ->select('clubs.id as ClubId','clubs.name as clubName','countries.id as countryId','countries.name as CountryName',
