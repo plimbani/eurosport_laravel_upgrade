@@ -4,11 +4,11 @@
 	"tournament_teams": 22,
 	"tournament_name": "T.22.5 (v1)",
   "template_font_color": "rgb(148,208,80)",
-	"competition_round": "(RR1-3/4-6/7-9/10-12), (PM1-2/3-4/5-6/7-8/9-10)",
-	"competition_group_round": "3x4,2x5",
+	"competition_round": "(RR1-3/4-6/7-9/10-12), (PM1-2/3-4/5-6/7-8/9-10) - F/SMF",
+	"competition_group_round": "(3x4),(2x5)",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 5,
-  "avg_game_team":5.2,
+    "avg_game_team":5.2,
 	"tournament_competition_ranking": {
 	    "format_name": [{
 	      "round": "Round 1",
@@ -380,13 +380,13 @@
 						"group_name": "Group-F",
 						"match": [{
 							"in_between": "1A-1B",
-							"match_number": "CAT.RR2.01.F1-F2"
+							"match_number": "CAT.RR2.01.1A-1B"
 						}, {
 							"in_between": "1A-1C",
-							"match_number": "CAT.RR2.02.F1-F3"
+							"match_number": "CAT.RR2.02.1A-1C"
 						}, {
 							"in_between": "1B-1C",
-							"match_number": "CAT.RR2.03.F2-F3"
+							"match_number": "CAT.RR2.03.1B-1C"
 						}]
 					}
 				},
@@ -398,13 +398,13 @@
 						"group_name": "Group-G",
 						"match": [{
 							"in_between": "2A-2B",
-							"match_number": "CAT.RR2.01.G1-D2"
+							"match_number": "CAT.RR2.01.2A-2B"
 						}, {
 							"in_between": "2A-2C",
-							"match_number": "CAT.RR2.02.G1-G3"
+							"match_number": "CAT.RR2.02.2A-2C"
 						}, {
 							"in_between": "2B-2C",
-							"match_number": "CAT.RR2.03.D2-G3"
+							"match_number": "CAT.RR2.03.2B-2C"
 						}]
 					}
 				},
@@ -416,13 +416,13 @@
 						"group_name": "Group-H",
 						"match": [{
 							"in_between": "3A-3B",
-							"match_number": "CAT.RR2.01.H1-H2"
+							"match_number": "CAT.RR2.01.3A-3B"
 						}, {
 							"in_between": "3A-3C",
-							"match_number": "CAT.RR2.02.H1-H3"
+							"match_number": "CAT.RR2.02.3A-3C"
 						}, {
 							"in_between": "3B-3C",
-							"match_number": "CAT.RR2.03.H2-H3"
+							"match_number": "CAT.RR2.03.3B-3C"
 						}]
 					}
 				},
@@ -434,13 +434,13 @@
 						"group_name": "Group-I",
 						"match": [{
 							"in_between": "4A-4B",
-							"match_number": "CAT.RR2.01.I1-I2"
+							"match_number": "CAT.RR2.01.4A-4B"
 						}, {
 							"in_between": "4A-4C",
-							"match_number": "CAT.RR2.02.I1-I3"
+							"match_number": "CAT.RR2.02.4A-4C"
 						}, {
 							"in_between": "4B-4C",
-							"match_number": "CAT.RR2.03.I2-I3"
+							"match_number": "CAT.RR2.03.4B-4C"
 						}]
 					}
 				},
@@ -484,7 +484,7 @@
 							"match_number": "CAT.PM3.G1.1F-1D_1E_WR"
 						},{
 							"in_between": "2F-CAT.PM2.G1LR",
-							"match_number": "CAT.PM3.G2.2F-1D_1E_LR"
+							"match_number": "CAT.PM3.G2.2F-1D_1E_LR"	
 						}]
 					}
 				}

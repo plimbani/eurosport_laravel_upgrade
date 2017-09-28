@@ -120,8 +120,12 @@ class MatchService implements MatchContract
     public function getStanding($data)
     {
         $data = $data->all();
+       
+      // $standingResData = $this->refreshMatchStanding($data['tournamentData']);
+        // if($res){
+          $standingResData = $this->matchRepoObj->getStanding($data['tournamentData']);
+        // }
 
-        $standingResData = $this->matchRepoObj->getStanding($data['tournamentData']);
 
         if ($standingResData) {
             return ['status_code' => '200', 'data' => $standingResData,'message' => 'Match Standing data'];
@@ -428,7 +432,6 @@ class MatchService implements MatchContract
        $rec_mtchNumber = explode(".",$record->match_number);
        $teams =  $rec_mtchNumber[2];
        $teams = explode("-",$teams);
-       // echo "<pre>"; print_r($teams); echo "</pre>";
        $homeTeam = $teams[0];$awayTeam = $teams[1];
        // if its winner then
        if(strpos($record->match_number,"WR") !== false)
@@ -635,6 +638,26 @@ class MatchService implements MatchContract
       exit;
       print_r($matches);exit;
     }
+
+    public function refreshStanding($data) {
+      $data = $data['tournamentData']; 
+    $standingCount =  DB::table('match_standing')
+                            ->where('tournament_id','=',$data['tournamentId'])
+                            ->where('competition_id','=',$data['competitionId'])->count();
+     
+      // if($standingCount == 0){                      
+        $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
+        // dd($groupFixture);
+          foreach ($groupFixture as $key => $value) {
+           // echo "<pre>"; print_r($value); echo "</pre>";
+            $this->calculateCupLeagueTable($value->id);
+          }
+          $standingResData = $this->matchRepoObj->getStanding($data);
+           if ($standingResData) {
+            return ['status_code' => '200', 'data' => $standingResData,'message' => 'Match Standing data'];
+        }
+      // }
+    }
     public function calculateCupLeagueTable($id) {
         $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
         $fix1=array();
@@ -670,6 +693,14 @@ class MatchService implements MatchContract
         }
         $comType = 'C';
         if ($comType == 'C') {
+            $result = DB::table('match_standing')
+                            ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
+                            ->where('competition_id','>',$cup_competition_id)
+                            // ->whereIn('team_id',$findTeams)
+                            ->delete();
+            
+
+            // dd($result,$fix1['CupFixture']['tournamentId'],$cup_competition_id,$findTeams);                
             $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
                 ->where('competition_id','=',$cup_competition_id)
@@ -849,8 +880,6 @@ class MatchService implements MatchContract
                         }
 
                     }else{
-
-
                         // 1 if home team is Winner
                         if ( $winnerTeam == $fix1['CupFixture']['hometeam']) {
 
@@ -953,8 +982,6 @@ class MatchService implements MatchContract
                                 }
                             }
                         }
-
-
                     }
                 }
             }
@@ -969,6 +996,7 @@ class MatchService implements MatchContract
                             ->where('competition_id','=',$cup_competition_id)
                             ->where('team_id',$fix1['CupFixture']['hometeam'])
                             ->get()->first();
+                            
             $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
             $sendData = array();
             // dd($homeTeamExist);

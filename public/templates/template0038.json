@@ -5,7 +5,7 @@
 	"tournament_name": "T.13.3",
     "template_font_color": "rgb(148,208,80)",
 	"competition_round": "RR 1-3",
-	"competition_group_round": "2x4, 1x5",
+	"competition_group_round": "(2x4), (1x5)",
 	"competation_format": "RR",
 	"tournament_min_match": 3,
   	"avg_game_team":3.8,
@@ -164,7 +164,7 @@
 			},{
 				"name": "RR-1*5",
 				"total_match": 10,
-        		"group_count": 4,
+        		"group_count": 5,
 				"groups": {
 					"group_name": "Group-C",
 					"match": [{
@@ -209,13 +209,13 @@
 					"group_name": "Group-D",
             		"match": [{
 						"in_between": "1A-1B",
-						"match_number": "CAT.RR2.01.D1-D2.1A-1B"
+						"match_number": "CAT.RR2.01.1A-1B"
 					}, {
 						"in_between": "1A-1C",
-						"match_number": "CAT.RR2.02.D1-D3.1A-1C"
+						"match_number": "CAT.RR2.02.1A-1C"
 					}, {
 						"in_between": "1B-1C",
-						"match_number": "CAT.RR2.03.D2-D3.1B-1C"
+						"match_number": "CAT.RR2.03.1B-1C"
 					}]
 				},
 				"total_match": 3

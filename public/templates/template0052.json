@@ -4,7 +4,7 @@
 	"tournament_teams": 15,
 	"tournament_name": "T.15.5 (v2)",
     "template_font_color": "rgb(148,208,80)",
-	"competition_round": "RR 1-4/5-8/9-12/13-15",
+	"competition_round": "RR 1-4/5-8/9-12/13-15 - F",
 	"competition_group_round": "3x4, 1x3",
 	"competation_format": "RR",
 	"tournament_min_match": 5,

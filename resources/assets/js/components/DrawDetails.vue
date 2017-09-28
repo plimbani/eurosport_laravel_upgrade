@@ -19,12 +19,17 @@
           </option>
         </select>
       </div>
-      <div v-if="otherData.DrawType != 'Elimination'"><label class="mt-3"><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label></div>
+      <div v-if="otherData.DrawType != 'Elimination'">
+        <label class="mt-3 mb-0"><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label>
+      </div>
+      <span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available
+          <div class="mt-2"></div>
+      </span>
     </div>
   </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
 
-  <table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0" >
+  <table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
   	<thead>
       <tr>
           <th></th>
@@ -60,15 +65,15 @@
         </tr>
     </tbody>
   </table>
-  <span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available
-    <div class="mt-2"></div>
-  </span>
 
-  <h6 v-if="CompRound == 'Round Robin'"> {{otherData.DrawName}} standings  <a @click="manualRankingModalOpen()"></a></h6>
+  <div class="form-group">
+<h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0"> {{otherData.DrawName}} standings <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1'"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span></h6>
   <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
   </teamStanding>
   <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
+  </div>    
   </div>
+  
 
   <h6>{{otherData.DrawName}} matches</h6>
   <matchList :matchData="matchData"></matchList>
@@ -102,7 +107,7 @@ export default {
     },
   mounted() {
     this.setTeamData()
-
+    // this.refreshStanding();
     // here call method to get All Draws
     let TournamentId = this.$store.state.Tournament.tournamentId
     let currDId = this.currentCompetationId
@@ -195,14 +200,35 @@ export default {
           $('#manual_ranking_modal').modal('show')
 
         },
+        refreshStanding() {
+          let tournamentData = {'tournamentId': this.DrawName.tournament_id,'competitionId': this.DrawName.id}
+          Tournament.refreshStanding(tournamentData).then(
+                (response)=> {
+                  if(response.data.status_code == 200){
+                     this.teamStatus = false
+                      let vm = this
+                      setTimeout(function(){
+                        vm.teamStatus = true
+                      },200)
+                  }
+                  
+                },
+                (error)=> {
+
+                }
+
+               )
+        },
         onChangeDrawDetails() {
 
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
           let Id = this.DrawName.id
           let Name = this.DrawName.name
-
-          this.$root.$emit('changeDrawListComp',Id, Name);
+          let CompetationType = this.DrawName.competation_type
+          // console.log(Id, Name,Comp,'123')
+          this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
           // this.matchData = this.drawList
+          this.refreshStanding()
           this.setTeamData()
           this.currentCompetationId = Id
           // this.$children[1].getData(this.currentCompetationId)
@@ -269,7 +295,10 @@ export default {
           if(setCurrentTabView == 'drawsListing')
           {
             this.$store.dispatch('setCurrentScheduleView','drawList')
-            this.$root.$emit('changeDrawListComp')
+            let Id = this.DrawName.id
+          let Name = this.DrawName.name
+          let Comp = this.DrawName.competation_type
+            this.$root.$emit('changeDrawListComp',Id, Name,Comp);
           }
            if(setCurrentTabView == 'teamListing')
           {

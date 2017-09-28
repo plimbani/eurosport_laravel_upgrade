@@ -147,11 +147,11 @@
 					}]
 				}
 			},{
-				"name": "RR-1*3",
+				"name": "RR-1*4",
 				"total_match": 6,
         		"group_count": 4,
 				"groups": {
-					"group_name": "Group-D",
+					"group_name": "Group-D",	
 					"match": [{
 						"in_between": "1-2",
 						"match_number": "DAT.RR1.01.D1-D2"
