@@ -611,10 +611,11 @@
                     "group_name": "Group-PM2",
                     "match":  [{
                         "in_between": "CAT.PM2.G1WR-1F",
-                        "match_number": "CAT.PM3.G1.1F-1A_1B_WR"
+                        "match_number": "CAT.PM3.G1.1A_1B_WR-1F"
                     }, {
                         "in_between": "CAT.PM2.G1LR-2F",
-                        "match_number": "CAT.PM3.G2.2F-1A_1B_LR"
+                        "match_number": "CAT.PM3.G2.1A_1B_LR-2F"
+
                     }
                   ]
                 }
