@@ -65,6 +65,10 @@ $api->version('v1', function ($api) {
     $api->post('teams/teamsTournament',
         'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
 
+    // Manually change team name
+    $api->post('teams/changeTeamName',
+        'Laraspace\Api\Controllers\TeamController@changeTeamName');
+
 
     //Referee api
     $api->post('referees', 'Laraspace\Api\Controllers\RefereeController@getReferees');

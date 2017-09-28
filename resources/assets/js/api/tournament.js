@@ -157,5 +157,8 @@ export default {
  },
  getTournamentMessages(messageData) {
   return api.post('users/getMessage',{'messageData': messageData})
+ },
+ changeTeamName(teamData) {
+  return api.post('teams/changeTeamName', {'teamData': teamData})
  }
 }
