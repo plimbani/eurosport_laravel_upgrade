@@ -479,7 +479,7 @@
         }, {
             "name": "Round 2",
             "match_type": [{
-                "name": "PM1",
+                "name": "PM-1",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -609,10 +609,10 @@
                 "groups": {
                     "group_name": "Group-PM2",
                     "match":  [{
-                        "in_between": "1F-CAT.PM2.G1WR",
+                        "in_between": "CAT.PM2.G1WR-1F",
                         "match_number": "CAT.PM3.G1.1F-1A_1B_WR"
                     }, {
-                        "in_between": "2F-CAT.PM2.G1LR",
+                        "in_between": "CAT.PM2.G1LR-2F",
                         "match_number": "CAT.PM3.G2.2F-1A_1B_LR"
                     }
                   ]

@@ -283,7 +283,7 @@
             }, {
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-C",
                     "match": [{
@@ -322,7 +322,7 @@
             }, {
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-D",
                     "match": [{
@@ -361,7 +361,7 @@
             }, {
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-E",
                     "match": [{
@@ -404,8 +404,8 @@
             "name": "Round 2",
             "match_type": [{
                 "name": "PM",
-                "total_match": 1,
-                "group_count": 1,
+                "total_match": 4,
+                "group_count": 8,
                 "groups": {
                     "group_name": "Group-PM1",
                     "match": [{
