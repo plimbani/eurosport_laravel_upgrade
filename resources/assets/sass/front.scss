@@ -341,3 +341,13 @@ table#Competition-modal-table {
     padding: 0px;
 }
 .page-dropdown { -webkit-box-flex: 0;-ms-flex: 0 0 10%; flex: 0 0 10%; max-width: 10%;}
+
+.team-edit-section .btn-group[role="group"] input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0 
+}
+
+#frmTeamAssign .table th, .table td {
+    vertical-align: middle;
+}

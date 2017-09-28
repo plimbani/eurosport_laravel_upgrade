@@ -144,4 +144,9 @@ class TeamController extends BaseController
     {
       return $this->teamObj->getTeamsList($request->all());
     }
+
+    public function changeTeamName(Request $request)
+    {
+        return $this->teamObj->changeTeamName($request->all());
+    }
 }
