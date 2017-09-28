@@ -4,9 +4,11 @@
 			<div class="col-md-6">
 				<span>{{$lang.summary_message}}</span>
 			</div>
-			<div class="col-md-6 text-right">
-				<button type="button" class="btn btn-primary" @click='exportReport()'>{{$lang.summary_button_download}}</button>
-        		<button class="btn btn-primary mr-4"  @click="exportPrint()">{{$lang.summary_button_print}}</button>
+			<div class="col-md-6">
+				<div class="d-flex align-items-center justify-content-end">
+					<button class="btn btn-primary mr-1" @click='exportReport()'>{{$lang.summary_button_download}}</button>
+					<button class="btn btn-primary"  @click="exportPrint()">{{$lang.summary_button_print}}</button>
+				</div>
 			</div>
 		</div>
 		<div class="block-bg mt-4">
@@ -171,11 +173,11 @@
 					<div class="row">
 						<div class="col-md-5">
 							<div class="row">
-								<div class="col-sm-4">
-									<button type="button" name="clearButton" id="clearButton" class="btn btn-primary w-100" @click="clearForm()">{{$lang.summary_button_clear}}</button>
-								</div>
-								<div class="col-sm-4">
-									<button type="button" name="generateReport" id="generateReport" class="btn btn-primary w-100" @click="generateReport()">{{$lang.summary_button_generate}}</button>
+								<div class="col-md-6">
+									<div class="d-flex align-items-center">
+										<button type="button" name="clearButton" id="clearButton" class="btn btn-primary mr-1" @click="clearForm()">{{$lang.summary_button_clear}}</button>
+										<button type="button" name="generateReport" id="generateReport" class="btn btn-primary" @click="generateReport()">{{$lang.summary_button_generate}}</button>
+									</div>
 								</div>
 		                	</div>
 						</div>

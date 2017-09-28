@@ -1,13 +1,14 @@
 {
-    "total_matches": 60,
+    "total_matches": 62,
     "tournament_id": "0084",
     "tournament_teams": 20,
     "tournament_name": "T.20.6 (v2)",
     "template_font_color": "rgb(146,208,80)",
-    "competition_round": "PM 1-2/3-4/5-6/7-8/9-10",
-    "competition_group_round": "4x5",
+    "competition_round": "2x (PM1-4/5-8),(PM17-20) - F/SMF",
+    "competition_group_round": "(2x5),(2x5)",
     "competation_format": "F/SMF",
     "tournament_min_match": 6,
+    "avg_game_team":6.2,
     "tournament_competition_ranking": {
         "format_name": [{
           "round": "Round 1",
@@ -329,9 +330,9 @@
             "name": "Round 3",
             "match_type": [
                 {
-                "name": "PM-1*16",
-                "total_match": 8,
-                "group_count": 16,
+                "name": "PM-1*10",
+                "total_match": 10,
+                "group_count": 20,
                 "groups": {
                     "group_name": "Group-PM2",
                     "match": [{
@@ -358,6 +359,12 @@
                     },{
                         "in_between": "CAT.PM2.G7LR-CAT.PM2.G8LR",
                         "match_number": "CAT.PM3.G8.3C_4D_LR-4C_3D_LR"
+                    },{
+                        "in_between": "CAT.PM2.G9WR-CAT.PM2.G10WR",
+                        "match_number": "CAT.PM3.G9.5A_5B_WR-5C_5D_WR"
+                    },{
+                        "in_between": "CAT.PM2.G9LR-CAT.PM2.G10LR",
+                        "match_number": "CAT.PM3.G10.5A_5B_LR-5C_5D_LR"
                     }
                   ]
                 }
@@ -373,11 +380,11 @@
                 "groups": {
                     "group_name": "Group-PM3",
                     "match": [{
-                        "in_between": "CAT.PM3.G1WR-CAT.PM3.G3WR",
-                        "match_number": "CAT.PM4.G1.(PM3_G1_WR)-(PM3_G3_WR)"
+                        "in_between": "CAT.PM3.G1WR-CAT.PM3.G5WR",
+                        "match_number": "CAT.PM4.G1.(PM3_G1_WR)-(PM3_G5_WR)"
                     }, {
-                        "in_between": "CAT.PM3.G1LR-CAT.PM3.G3LR",
-                        "match_number": "CAT.PM4.G2.(PM3_G1_LR)-(PM3_G3_LR)"
+                        "in_between": "CAT.PM3.G1LR-CAT.PM3.G5LR",
+                        "match_number": "CAT.PM4.G2.(PM3_G1_LR)-(PM3_G5_LR)"
                     }
                   ]
                 }

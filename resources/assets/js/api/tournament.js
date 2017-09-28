@@ -106,6 +106,9 @@ export default {
   getAllMatches(tournamentId) {
     return api.post('match/getFixtures',{'tournamentId': tournamentId})
   },
+  refreshStanding(tournamentData) {
+    return api.post('match/refreshStanding',{'tournamentData': tournamentData})
+  },
   updateStatus(tournamentData) {
     return api.post('tournament/updateStatus',{'tournamentData': tournamentData})
   },

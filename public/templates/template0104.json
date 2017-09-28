@@ -2,9 +2,9 @@
     "total_matches": 67,    
     "tournament_id": "0104",
     "tournament_teams": 23,
-    "tournament_name": "T.23.5 (v1)",
+    "tournament_name": "T.23.5 (v1)",   
     "template_font_color": "rgb(146,208,80)",
-    "competition_round": "(PM 1-4/5-8),(RR 1-3/4-5/6-8/9-12/13-15)",
+    "competition_round": "(PM 1-4/5-8),(RR 1-3/4-5/6-8/9-12/13-15) - F/SMF",
     "competition_group_round": "(2x4),(3x5)",
     "competation_format": "",
     "tournament_min_match": 5,
@@ -14,7 +14,7 @@
           "round": "Round 1",
           "groups":[{
                 "Ranking": "Ranking A",
-                "group_name": "Group-A",    
+                "group_name": "Group-A",
                 "team_count": 4,
                 "teams": [{
                     "position": "1",
@@ -31,10 +31,9 @@
                   {
                     "position": "4",
                     "team": "4A"
-                  }
+                  }                               
                 ]
-              },
-              {
+              },{
                 "Ranking": "Ranking B",
                 "group_name": "Group-B",
                 "team_count": 4,
@@ -55,8 +54,7 @@
                     "team": "4B"
                   }
                 ]
-              },
-               {
+              },{
                 "Ranking": "Ranking C",
                 "group_name": "Group-C",
                 "team_count": 5,
@@ -81,8 +79,7 @@
                     "team": "5C"
                   }
                 ]
-              },
-              {
+              },{
                 "Ranking": "Ranking D",
                 "group_name": "Group-D",
                 "team_count": 5,
@@ -107,8 +104,7 @@
                     "team": "5D"
                   }
                 ]
-              },
-               {
+              },{
                 "Ranking": "Ranking E",
                 "group_name": "Group-E",
                 "team_count": 5,
@@ -133,8 +129,14 @@
                     "team": "5E"
                   }
                 ]
-              },
-               {
+
+              }                      
+            ]
+        },
+        {
+          "round": "Round 2",
+          "groups":[
+            {
                 "Ranking": "Ranking F",
                 "group_name": "Group-F",
                 "team_count": 3,
@@ -151,8 +153,7 @@
                     "team": "3F"
                   }
                 ]
-              },
-              {
+            },{
                 "Ranking": "Ranking G",
                 "group_name": "Group-G",
                 "team_count": 3,
@@ -169,8 +170,7 @@
                     "team": "3G"
                   }
                 ]
-              },
-              {
+            }, {
                 "Ranking": "Ranking H",
                 "group_name": "Group-H",
                 "team_count": 3,
@@ -187,8 +187,7 @@
                     "team": "3H"
                   }
                 ]
-              },
-              {
+            },  {
                 "Ranking": "Ranking I",
                 "group_name": "Group-I",
                 "team_count": 3,
@@ -205,8 +204,7 @@
                     "team": "3I"
                   }
                 ]
-              },
-              {
+            }, {
                 "Ranking": "Ranking J",
                 "group_name": "Group-J",
                 "team_count": 3,
@@ -223,8 +221,7 @@
                     "team": "3J"
                   }
                 ]
-              }
-            ]
+            }]
         }]
     },
     "tournament_competation_format": {
@@ -233,7 +230,7 @@
             "match_type": [{
                 "name": "RR-1*4",
                 "total_match": 6,
-                "group_count": 12,
+                "group_count": 4,
                 "groups": {
                     "group_name": "Group-A",
                     "match": [{
@@ -260,7 +257,7 @@
             },{
                 "name": "RR-1*4",
                 "total_match": 6,
-                "group_count": 12,
+                "group_count": 4,
                 "groups": {
                     "group_name": "Group-B",
                     "match": [{
@@ -287,7 +284,7 @@
             }, {
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-C",
                     "match": [{
@@ -326,7 +323,7 @@
             }, {
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-D",
                     "match": [{
@@ -365,7 +362,7 @@
             }, {
                 "name": "RR-1*5",
                 "total_match": 10,
-                "group_count": 20,
+                "group_count": 5,
                 "groups": {
                     "group_name": "Group-E",
                     "match": [{
@@ -408,8 +405,8 @@
             "name": "Round 2",
             "match_type": [{
                 "name": "PM",
-                "total_match": 1,
-                "group_count": 1,
+                "total_match": 4,
+                "group_count": 8,
                 "groups": {
                     "group_name": "Group-PM1",
                     "match": [{
@@ -428,7 +425,7 @@
                   ]
                 }
             }, {
-                "name": "RR-1*3",
+                "name": "RR-1-3",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -446,7 +443,7 @@
                   ]
                 }
             }, {
-                "name": "RR-4*6",
+                "name": "RR-4-6",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -464,7 +461,7 @@
                   ]
                 }
             }, {
-                "name": "RR-7*9",
+                "name": "RR-7-9",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -482,7 +479,7 @@
                   ]
                 }
             }, {
-                "name": "RR-10*12",
+                "name": "RR-10-12",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -500,7 +497,7 @@
                   ]
                 }
             }, {
-                "name": "RR-13*15",
+                "name": "RR-13-15",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -517,8 +514,7 @@
                     }
                   ]
                 }
-            }
-        ]
+            }]
         },
         {
             "name": "Round 3",
@@ -528,7 +524,7 @@
                 "total_match": 4,
                 "group_count": 8,
                 "groups": {
-                    "group_name": "Group-PM1",
+                    "group_name": "Group-PM2",
                     "match":  [{
                         "in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",
                         "match_number": "CAT.PM3.G1.1A_1B_WR-2A_2B_WR"
@@ -545,8 +541,8 @@
                   ]
                 }
             }]
-    },
-     {
+        },
+        {
             "name": "Round 4",
             "match_type": [
                 {
@@ -556,16 +552,15 @@
                 "groups": {
                     "group_name": "Group-PM3",
                     "match":  [{
-                        "in_between": "1F-(CAT.PM3.G1 wr)",
-                        "match_number": "CAT.PM4.G1.1F-(CAT.PM3.G1 WR)"
+                        "in_between": "1F-CAT.PM3.G1WR",
+                        "match_number": "CAT.PM4.G1.1F-(PM3_G1_WR)"
                     }, {
-                        "in_between": "2F-(CAT.PM3.G1 lr)",
-                        "match_number": "CAT.PM4.G2.2F-(CAT.PM3.G1 LR)"
+                        "in_between": "2F-CAT.PM3.G1LR",
+                        "match_number": "CAT.PM4.G2.2F-(PM3_G1_LR)"
                     }
                   ]
                 }
             }]
-    }
-  ]
+        }]
     }
 }

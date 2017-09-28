@@ -136,6 +136,10 @@ class MatchController extends BaseController
     {
         return $this->matchObj->updateScore($request);
     }
+    public function refreshStanding(Request $request)
+    {
+        return $this->matchObj->refreshStanding($request->all());
+    }
 
     public function automateMatchScheduleAndResult(Request $request, $tournamentId = null, $ageGroupId = null)
     {

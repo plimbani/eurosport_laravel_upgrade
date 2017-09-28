@@ -4,8 +4,8 @@
 	"tournament_teams": 26,
 	"tournament_name": "T.26.3",
   	"template_font_color": "rgb(148,208,80)",
-	"competition_round": "(PM 1-4),(PM 1-2)",
-	"competition_group_round": "4x4,2x5",
+	"competition_round": "PM 1-4,PM 1-2 - F",
+	"competition_group_round": "(4x4),(2x5)",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 3,
   	"avg_game_team":3.8,
@@ -257,7 +257,7 @@
 					}]
 				}
 			},{
-				"name": "RR-1*4",
+				"name": "RR-1*5",
 				"total_match": 10,
         		"group_count": 5,
 				"groups": {
@@ -281,7 +281,7 @@
 						"in_between": "2-4",
 						"match_number": "CAT.RR1.03.E2-E4"
 					}, {
-						"in_between": "3-5",
+						"in_between": "3-5",	
 						"match_number": "CAT.RR1.04.E3-E5"
 					}, {
 						"in_between": "1-2",
