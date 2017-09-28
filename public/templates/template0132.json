@@ -166,8 +166,11 @@
                     "team": "4G"
                   }
                 ]
-              },
-               {
+              }         
+            ]
+        }, {
+          "round": "Round 2",
+          "groups":[{
                 "Ranking": "Ranking H",
                 "group_name": "Group-H",
                 "team_count": 3,
@@ -184,8 +187,11 @@
                     "team": "3H"
                   }
                 ]
-              },
-              {
+              }
+              ]
+        }, {
+          "round": "Round 3",
+          "groups":[{
                 "Ranking": "Ranking I",
                 "group_name": "Group-I",
                 "team_count": 3,
@@ -203,7 +209,7 @@
                   }
                 ]
               }
-            ]
+              ]
         }]
     },
     "tournament_competation_format": {
@@ -452,11 +458,11 @@
                         "in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",  
                         "match_number": "CAT.RR3.01.1A_1B_WR-1C_1D_WR"  
                     }, {
-                        "in_between": "1A_1B_WR-1H",
-                        "match_number": "CAT.RR3.02.1A_1B_WR-1H"
+                        "in_between": "CAT.PM2.G1WR-1H",
+                        "match_number": "CAT.RR3.02.1H-1A_1B_WR"
                     }, {
-                        "in_between": "1C_1D_WR-1H",
-                        "match_number": "CAT.RR3.03.1C_1D_WR-1H"
+                        "in_between": "CAT.PM2.G2WR-1H",
+                        "match_number": "CAT.RR3.03.1H-1C_1D_WR"
                     }
                   ]
                 }

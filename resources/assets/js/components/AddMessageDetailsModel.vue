@@ -184,7 +184,6 @@ export default {
     modalOpen(type) {
       this.status = type
       $('#delete_modal').modal('show')
-
     },
     confirmedAction(status) {
       if(status == 'delete'){
@@ -238,10 +237,11 @@ export default {
                       toastr.success('Message sent successfully', 'App Message ', {timeOut: 2000});
                     } else {
                       toastr.error(response.data.data, 'Push notification ', {timeOut: 2000});
-                    }
-                      vm.$root.$emit('displayMessageList')
+                    }   
+                      $('#delete_modal').modal('hide')                   
                       $('#exampleDetailsModel').modal('hide')
-                      setTimeout(Plugin.reloadPage, 1000);
+                      vm.$root.$emit('displayMessageList')
+                      // setTimeout(Plugin.reloadPage, 1000);
                   }
 
                 },
