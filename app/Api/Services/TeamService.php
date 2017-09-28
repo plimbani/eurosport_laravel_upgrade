@@ -259,4 +259,14 @@ class TeamService implements TeamContract
         }
     }
 
+    public function changeTeamName($data)
+    {
+      // here first we get the key and based on that we listed out team details
+      $data = $this->teamRepoObj->changeTeamName($data['teamData']);
+      if ($data) {
+          return ['status_code' => '200', 'data'=>$data,
+          'message' => 'Data Successfully Deleted'];
+      }
+    }
+
 }

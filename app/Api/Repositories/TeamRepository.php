@@ -309,4 +309,13 @@ class TeamRepository
               DB::raw('CONCAT("'.$this->AwsUrl.'", countries.logo) AS countryLogo'))
             ->where('teams.tournament_id','=',$tournamentId)->get();
     }
+
+    public function changeTeamName($data)
+    {
+      $teamId = $data['team_id'];
+      $teamName = $data['team_name'];
+      Team::where('id', $teamId)->update(['name' => $teamName]);
+      TempFixture::where('home_team', $teamId)->update(['home_team_name' => $teamName]);
+      TempFixture::where('away_team', $teamId)->update(['away_team_name' => $teamName]);
+    }
 }

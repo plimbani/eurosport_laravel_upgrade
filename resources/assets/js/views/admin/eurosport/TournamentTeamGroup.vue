@@ -94,9 +94,21 @@
                   </tr>
               </thead>
                 <tbody v-if="teams.length!=0">
-                    <tr  v-for="team in teams">
+                    <tr v-for="(team, index) in teams">
                       <td>{{team.esr_reference}}</td>
-                      <td>{{team.name}}</td>
+                      <td class="team-edit-section">
+                        <div v-show="!(team.id in teamsInEdit)">
+                          <span>{{team.name}}</span>
+                          <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
+                        </div>
+                        <div v-show="(team.id in teamsInEdit)">
+                          <div class="btn-group btn-group-sm w-100" role="group">
+                            <input type="text" class="form-control" v-model="team.name" />
+                            <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-times text-center text-danger" aria-hidden="true"></i></a>
+                            <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-check text-center text-primary" aria-hidden="true"></i></a>
+                          </div>
+                        </div>
+                      </td>
                       <td>
                       	<!-- <img :src="team.logo" width="20"> {{team.country_name}} -->
                           <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
@@ -163,7 +175,8 @@
         'section': 'teams',
         'filterStatus': true,
         'seleTeam':'De-select',
-        'canUploadTeamFile': true
+        'canUploadTeamFile': true,
+        'teamsInEdit': {},
         // 'tournamentFilter':{
         //   'filterKey':'team',
         //   'filterValue': ''
@@ -337,9 +350,9 @@
           (response) => {
             this.teams = response.data.data
 
-            _.forEach(response.data.data, function(key,team) {
-             //  console.log(team.id)
-             // this.teamsIdList=team.id
+            let vm = this;
+            _.forEach(response.data.data, function(team, key) {
+
             });
           },
         (error) => {
@@ -513,7 +526,39 @@
         }else{
            toastr['error']('Please upload an excel file.', 'Error');
         }
-      }
+      },
+      editTeamName: function(event, teamId, teamName){
+        Vue.set(this.teamsInEdit, teamId, _.clone(teamName));
+        Vue.nextTick(function() {
+          $(event.target).closest('.team-edit-section').find('input')[0].focus();
+        });
+      },
+      cancelTeamNameChange: function(teamId) {
+        let vm = this;
+        _.map(this.teams, function(o) {
+          if(o.id === teamId) {
+            o.name = vm.teamsInEdit[teamId];
+            Vue.delete(vm.teamsInEdit, teamId);
+          }
+        });
+      },
+      saveTeamNameChanges: function(event, teamId, teamName) {
+        if(teamName.trim() === '') {
+          toastr['error']('Please enter team name.', 'Error');
+          $(event.target).closest('.team-edit-section').find('input')[0].focus();
+          return false;
+        }
+        let teamData = {'team_id': teamId, 'team_name': teamName}
+        Tournament.changeTeamName(teamData).then(
+          (response) => {
+            Vue.delete(this.teamsInEdit, teamId);
+            toastr['success']('Team name have been changed successfully', 'Success');
+          },
+          (error) => {
+             console.log('Error occured during team name api ', error)
+          }
+        )
+      },
     }
   }
 </script>
