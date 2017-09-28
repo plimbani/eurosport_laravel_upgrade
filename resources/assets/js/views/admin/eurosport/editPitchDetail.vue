@@ -430,11 +430,9 @@ var moment = require('moment');
                     });
                     $('#stage_break_start'+stage).val('')
 
-
                     $('#stage_continue_time'+stage).val('')
 
-
-                    // $('#stage_end_time'+stage).val('')
+                    $('#stage_end_time'+stage).val('')
                 }
                 if(curId.indexOf('stage_break_start') >= 0){
 
