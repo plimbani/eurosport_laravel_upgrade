@@ -23,7 +23,7 @@ interface TeamContract
     
     public function delete($request);
     public function getAllFromCompetitionId($request);
-    
+    public function changeTeamName($request);
     
     
 }

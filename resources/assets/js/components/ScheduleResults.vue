@@ -87,7 +87,7 @@ export default {
   },
 	methods: {
     lastUpdatedDate(updatedDate) {
-      this.lastUpdatedDateValue = moment(updatedDate.date).format("hh:mm ddd DD MMM YYYY")
+      this.lastUpdatedDateValue = moment(updatedDate.date).format("Do MMM YYYY HH:mm")
     },
 		AllTournament(){
 		 this.$router.push({'name':'home'})

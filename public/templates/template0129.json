@@ -480,7 +480,7 @@
         }, {
             "name": "Round 2",
             "match_type": [{
-                "name": "PM1",
+                "name": "PM-1",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
@@ -615,6 +615,7 @@
                     }, {
                         "in_between": "CAT.PM2.G1LR-2F",
                         "match_number": "CAT.PM3.G2.1A_1B_LR-2F"
+
                     }
                   ]
                 }
