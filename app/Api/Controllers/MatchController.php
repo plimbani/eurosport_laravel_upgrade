@@ -144,7 +144,7 @@ class MatchController extends BaseController
     public function automateMatchScheduleAndResult(Request $request, $tournamentId = null, $ageGroupId = null)
     {
         $status = 'success';
-        try {
+        // try {
             if($tournamentId === null) {
                 $publishedTournaments = Tournament::where('status', 'Published')->get();
                 $unpublishedTournaments = Tournament::where('status', 'Unpublished')->get();
@@ -229,9 +229,9 @@ class MatchController extends BaseController
                 $matchResult = $matchRepoObj->saveResult($matchData);
                 $competationId = $matchServiceObj->calculateCupLeagueTable($matchData['matchId']);
             }
-        } catch(\Exception $e) {
-            $status = 'error';
-        }
+        // } catch(\Exception $e) {
+        //     $status = 'error';
+        // }
 
         return view('automate_tournament.success_match_scheduled', compact('status') );
     }
