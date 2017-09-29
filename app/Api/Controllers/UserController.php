@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Laraspace\Api\Contracts\UserContract;
 use JWTAuth;
 use Laraspace\Models\User;
+use Laraspace\Models\Role;
 use Laraspace\Api\Repositories\UserRepository;
 use Laraspace\Custom\Helper\Common;
 
@@ -191,7 +192,8 @@ class UserController extends BaseController
         $email_templates = 'emails.users.mobile_user';
         $email_msg = 'Euro-Sportring - Email Verification';
       } else {
-        if($userData->roles[0]->id == 5) {
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+        if($userData->roles[0]->id == $mobileUserRoleId) {
           $email_templates = 'emails.users.mobile_user_registered_from_desktop';
           $email_msg = 'Euro-Sportring - Set password';
         } else {

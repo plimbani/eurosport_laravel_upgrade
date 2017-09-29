@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Password;
 use Laraspace\Custom\Helper\Common;
 use Illuminate\Mail\Message;
 use Laraspace\Models\User;
+use Laraspace\Models\Role;
 use Hash;
 
 use App\Mail\SendMail;
@@ -57,6 +58,7 @@ class UserService implements UserContract
   
         // Data Initilization
         $data = $data->all();
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
 
         \Log::info('User Create Method Called');
         $userData=array();
@@ -96,7 +98,7 @@ class UserService implements UserContract
           $data['surname'] = $data['sur_name'];
           $data['emailAddress'] = $data['email'];
           $data['organisation'] = NULL;
-          $data['userType'] = '5';
+          $data['userType'] = $mobileUserRoleId;
           \Log::info('passwod b4 encrupt '.$data['password']);
           $userPassword = Hash::make(trim($data['password']));
           $data['tournament_id']=$data['tournament_id'];
@@ -128,7 +130,7 @@ class UserService implements UserContract
         // We cant Allow untikl its set password
         $userData['user']['password']=$userPassword;
 
-        if($userData['user']['userType'] == '5') {
+        if($userData['user']['userType'] == $mobileUserRoleId) {
           $userData['user']['is_desktop_user'] = false;
         }
 
@@ -174,7 +176,7 @@ class UserService implements UserContract
               $email_templates = 'emails.users.mobile_user';
               $email_msg = 'Euro-Sportring - Email Verification';
             } else {
-              if($userData['user']['userType'] == '5') {
+              if($userData['user']['userType'] == $mobileUserRoleId) {
                 $email_templates = 'emails.users.mobile_user_registered_from_desktop';
                 $email_msg = 'Euro-Sportring - Set password';
               } else {
@@ -271,6 +273,7 @@ class UserService implements UserContract
     {
 
         $data = $data->all();
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData=array();
         $userData['people']=array();
         $userData['user']=array();
@@ -296,11 +299,11 @@ class UserService implements UserContract
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
           $data['organisation'] = NULL;
-          $data['userType'] = '5';
+          $data['userType'] = $mobileUserRoleId;
           // here we add code for Tournament id update
 
         } else {
-          if($userObj->roles[0]->id == 5 && $data['userType'] != '5') {
+          if($userObj->roles[0]->id == $mobileUserRoleId && $data['userType'] != $mobileUserRoleId) {
             $email_details = array();
             $email_details['name'] = $data['name'];
             $recipient = $data['emailAddress'];
@@ -311,7 +314,7 @@ class UserService implements UserContract
             $userData['user']['is_desktop_user'] = 1;
           }
 
-          if($userObj->roles[0]->id != 5 && $data['userType'] == '5') {
+          if($userObj->roles[0]->id != $mobileUserRoleId && $data['userType'] == $mobileUserRoleId) {
             $userData['user']['is_desktop_user'] = 0;
             $data['organisation'] = NULL;
           }
