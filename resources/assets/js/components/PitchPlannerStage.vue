@@ -448,7 +448,8 @@ import _ from 'lodash'
                                     }
                                 }
                               // console.log('match is'+JSON.stringify(match))
-                              let colorVal = (match.homeScore == null && match.AwayScore == null) ? '#2196F3' : 'green'
+                              let colorVal = (match.homeScore == null && match.AwayScore == null) ? '#e9e9e9' : 'green';
+                              let borderColorVal = (match.homeScore == null && match.AwayScore == null) ? '#d3d3d3' : 'green';
                               if(scheduleBlock){
                                 colorVal = 'grey'
                               }
@@ -477,8 +478,10 @@ import _ from 'lodash'
                                     'refereeText': refereeName,
                                     'title':matchTitle,
                                     'color': colorVal,
+                                    'borderColor': borderColorVal,
                                     'matchId':match.fid,
-                                    'matchAgeGroupId':match.age_group_id
+                                    'matchAgeGroupId':match.age_group_id,
+                                    'categoryAgeColor': match.category_age_color
                                 }
                                // console.log('match typeof')
                                // console.log(typeof match.homeScore)
@@ -506,8 +509,10 @@ import _ from 'lodash'
                                     'refereeText': 'R',
                                     'title':'Pitch is not available',
                                     'color': 'grey',
+                                    'borderColor': 'grey',
                                     'matchId':-1,
-                                    'matchAgeGroupId':''
+                                    'matchAgeGroupId':'',
+                                    'categoryAgeColor': ''
                                 }
 
                                 if(availability.stage_start_time != '08:00'){
@@ -520,8 +525,10 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title': 'Pitch is not available',
                                         'color': 'grey',
+                                        'borderColor': 'grey',
                                         'matchId':-1,
-                                    'matchAgeGroupId':''
+                                        'matchAgeGroupId':'',
+                                        'categoryAgeColor': ''
                                     }
                                     sMatches.push(mData1)
                                 }
@@ -535,8 +542,10 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
                                         'color': 'grey',
+                                        'borderColor': 'grey',
                                         'matchId': -1,
-                                    'matchAgeGroupId':''
+                                        'matchAgeGroupId':'',
+                                        'categoryAgeColor': ''
                                     }
                                 sMatches.push(mData2)
                                 }

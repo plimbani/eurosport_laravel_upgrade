@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\User;
+use Laraspace\Models\Role;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Settings;
 use DB;
@@ -189,6 +190,7 @@ class UserRepository {
 
     public function createPassword($usersDetail)
     {
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $key = $usersDetail['key'];
         $password = (isset($usersDetail['password']) && $usersDetail['password']!='') ? $usersDetail['password'] : '';
         $usersPassword = User::where('token', $key)->first();
@@ -201,7 +203,7 @@ class UserRepository {
           $users->password = Hash::make($password);
         // $users->password = $password;
         $user =  $users->save();
-        return ($users->roles[0]->id == 5) ? 'Mobile' : 'Desktop';
+        return ($users->roles[0]->id == $mobileUserRoleId) ? 'Mobile' : 'Desktop';
 
     }
     public function createUserSettings($userData)

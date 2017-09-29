@@ -14,7 +14,7 @@ class PermissionUserTableSeeder extends Seeder
     {   
         DB::table('permission_user')->truncate();
         $permission = DB::table('permissions')->take(3)->get()->toArray();
-        $users = DB::table('users')->take(3)->select('id')->get()->toArray();
+        $users = DB::table('users')->take(1)->select('id')->get()->toArray();
         
         DB::table('permission_user')->insert([
         	[ 'permission_id' => $permission[array_rand($permission)]->id, 'user_id' => $users[array_rand($users)]->id, 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
