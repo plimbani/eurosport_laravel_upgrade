@@ -8351,36 +8351,43 @@ TimeGrid.mixin({
 				''
 				) +
 			'>' +
-				'<div class="fc-content">' +
-					(timeText ?
-						'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
-						'<div class="fc-time"' +
-						' data-start="' + htmlEscape(startTimeText) + '"' +
-						' data-full="' + htmlEscape(fullTimeText) + '"' +
-						'>' +
-							'<span>' + htmlEscape(timeText) + '</span>' +
-						'</div>' :
+				'<div class="scheduled-match-content">' +
+
+					'<div class="fc-content">' +
+						(timeText ?
+							'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
+							'<div class="fc-time"' +
+							' data-start="' + htmlEscape(startTimeText) + '"' +
+							' data-full="' + htmlEscape(fullTimeText) + '"' +
+							'>' +
+								'<span>' + htmlEscape(timeText) + '</span>' +
+							'</div>' :
+							''
+							) +
+						(event.title ?
+							
+							'<div class="fc-title">' +
+								htmlEscape(event.title) +
+							'</div>' :
+							''
+							) +
+					'</div>' +
+					'<div class="fc-bg"/>' +
+					/* TODO: write CSS for this
+					(isResizableFromStart ?
+						'<div class="fc-resizer fc-start-resizer" />' :
 						''
 						) +
-					(event.title ?
-						
-						'<div class="fc-title">' +
-							htmlEscape(event.title) +
-						'</div>' :
+					*/
+					(isResizableFromEnd ?
+						'<div class="fc-resizer fc-end-resizer" />' :
+						''
+						) +
+					(event.categoryAgeColor ?
+					'<div class="scheduled-match-content-strip" style="background: ' + event.categoryAgeColor + '"></div>' :
 						''
 						) +
 				'</div>' +
-				'<div class="fc-bg"/>' +
-				/* TODO: write CSS for this
-				(isResizableFromStart ?
-					'<div class="fc-resizer fc-start-resizer" />' :
-					''
-					) +
-				*/
-				(isResizableFromEnd ?
-					'<div class="fc-resizer fc-end-resizer" />' :
-					''
-					) +
 			'</a>';
 	},
 

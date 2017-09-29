@@ -182,9 +182,11 @@ var moment = require('moment');
             this.referee_name = this.matchDetail.referee.first_name
             this.matchFixture.refereeId = this.matchDetail.referee_id
            }
-           let colorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#2196F3' : 'green' // console.log(msg)
+           let colorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#e9e9e9' : 'green' // console.log(msg)
+           let borderColorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#d3d3d3' : 'green';
             // console.log(colorVal,'colorVal')
-            this.matchFixture.color = colorVal
+            this.matchFixture.color = colorVal;
+            this.matchFixture.borderColor = borderColorVal;
          // console.log(this.matchDetail,this.matchFixture)
          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
       
