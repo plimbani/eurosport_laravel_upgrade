@@ -21,7 +21,7 @@
               <div class="row">
                 <div class="col-sm-12">
                   <input type="text" class="form-control"
-                  placeholder="e.g. U11, U16-A"  v-validate="'required'" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
+                  placeholder="e.g. U11, U16-A"  v-validate="'required|alpha_num'" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
                   <i v-show="errors.has('ageCategory_name')" class="fa fa-warning"></i>
                   <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_name_category_required}}</span>
                 </div>
@@ -103,7 +103,7 @@
             <div class="col-sm-8">
               <div class="row align-items-center">
                 <span class="col-sm-2">2 <small>X</small></span>
-                <select class="form-control ls-select2 col-sm-4" v-model="competation_format.game_duration_RR">
+                <select class="form-control ls-select2 col-sm-4" v-model="competation_format.game_duration_RR" @change="updateMatchTime()">
                 <option v-for="(item,key) in game_duration_rr_array[0]"
                  v-bind:value="item">{{key}}</option>
                     <!--<option value="20">10</option>
@@ -114,7 +114,7 @@
                 <span v-if="competation_format.game_duration_RR
                 == 'other' " class="col-sm-3">
                  <input type="number" placeholder="" v-model="competation_format.game_duration_RR_other"
-                 min="0" class="form-control">
+                 min="0" class="form-control" @input="updateMatchTime()">
                 </span>
                 <span class="col-md-3">{{$lang.competation_modal_duration_final_minutes}}</span>
               </div>
@@ -125,13 +125,13 @@
             <div class="col-sm-8">
               <div class="row align-items-center">
                 <span class="col-sm-2">2 <small>X</small></span>
-                <select class="form-control ls-select2 col-sm-4 " v-model="competation_format.game_duration_FM">
+                <select class="form-control ls-select2 col-sm-4 " v-model="competation_format.game_duration_FM" @change="updateMatchTime()">
                     <option v-for="(item,key) in game_duration_fm_array[0]"
                     v-bind:value="item">{{key}}</option>
                 </select>
                  <span v-if="competation_format.game_duration_FM
                 == 'other' "  class="col-sm-3">
-                 <input type="number" class="form-control" placeholder="" v-model="competation_format.game_duration_FM_other"min="0">
+                 <input type="number" class="form-control" placeholder="" v-model="competation_format.game_duration_FM_other"min="0" @input="updateMatchTime()">
                 </span>
                 <span class="col-md-2">{{$lang.competation_modal_duration_final_minutes}}</span>
               </div>
@@ -142,7 +142,7 @@
             <div class="col-sm-8">
               <div class="row">
                 <div class="col-sm-4">
-                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_RR" min="0">
+                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_RR" min="0" @change="updateMatchTime()">
                 </div>
                 <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_minutes}}</span>
               </div>
@@ -153,7 +153,7 @@
             <div class="col-sm-8">
              <div class="row">
               <div class="col-sm-4">
-                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_FM" min="0">
+                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_FM" min="0" @input="updateMatchTime()">
                 </div>
                 <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_final_minutes}}</span>
                 </div>
@@ -164,7 +164,7 @@
             <div class="col-sm-8">
               <div class="row align-items-center">
                 <div class="col-sm-4">
-                  <select class="form-control ls-select2" v-model="competation_format.match_interval_RR">
+                  <select class="form-control ls-select2" v-model="competation_format.match_interval_RR" @change="updateMatchTime()">
                      <option v-for="(item,key) in match_interval_rr_array[0]"
                    v-bind:value="item">{{key}}</option>
                   </select>
@@ -172,7 +172,7 @@
                 <span v-if="competation_format.match_interval_RR
                   == 'other' " class="col-sm-4">
                   <input type="number" placeholder="" v-model="competation_format.match_interval_RR_other"
-                   min="0" class="form-control">
+                   min="0" class="form-control" @input="updateMatchTime()">
                 </span>
                 <span class="col-md-4">{{$lang.competation_modal_match_minutes}}</span>
               </div>
@@ -183,14 +183,14 @@
             <div class="col-sm-8">
               <div class="row align-items-center">
                 <div class="col-sm-4">
-                    <select class="form-control ls-select2" v-model="competation_format.match_interval_FM">
+                    <select class="form-control ls-select2" v-model="competation_format.match_interval_FM" @change="updateMatchTime()">
                     <option v-for="(item,key) in match_interval_fm_array[0]"
                    v-bind:value="item">{{key}}</option>
                     </select>
                 </div>
                 <span v-if="competation_format.match_interval_FM == 'other' " class="col-sm-4">
                    <input type="number" placeholder="" v-model="competation_format.match_interval_FM_other"
-                   min="0" class="form-control">
+                   min="0" class="form-control" @change="updateMatchTime()">
                 </span>
                 <span class="col-sm-4">{{$lang.competation_modal_match_interval_final_minutes}}</span>
               </div>
@@ -270,6 +270,7 @@
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
 import Multiselect from 'vue-multiselect'
+import _ from 'lodash'
 
 export default {
   components: { Multiselect },
@@ -398,10 +399,8 @@ export default {
      this.$root.$on('setCompetationFormatData', this.setEdit);
      this.$root.$on('createAgeCategory', this.createAgeCategory);
   },
-
   methods: {
     checkV(id) {
-
       if(this.competation_format.tournament_template_id == id) {
         $('#tournament_template_'+id).prop('checked','checked')
       }
@@ -538,20 +537,15 @@ export default {
 
       return data
     },
-
     TournamentCompetationList(tournamentData=[]) {
-
       Tournament.getAllTournamentTemplate(tournamentData).then(
-      (response) => {
-
-        this.options = response.data.data
-
-      },
-      (error) => {
-         console.log('Error occured during Tournament Templates api ', error)
-      }
+        (response) => {
+          this.options = response.data.data
+        },
+        (error) => {
+           console.log('Error occured during Tournament Templates api ', error)
+        }
       )
-
     },
     saveAgeCategory() {
       // Now here we have  to Save it Age Catgory
@@ -565,8 +559,8 @@ export default {
       // Add for Other Options
       // TODO: select First Template From  Selection
       // this.competation_format.tournamentTemplate = this.options[0]
-    // console.log(this.competation_format)
-    // TODO: Comment code for Pickup first template
+      // console.log(this.competation_format)
+      // TODO: Comment code for Pickup first template
      // this.competation_format.nwTemplate =  this.options[0]
      // this.competation_format.nwTemplate =  this.options[0]
      this.competation_format.nwTemplate =  this.competation_format.tournamentTemplate
@@ -646,8 +640,75 @@ export default {
     },
     onTouch () {
       this.isTouched = true
-    }
+    },
+    updateMatchTime: _.debounce(function (e) {
+      var game_duration_RR = this.competation_format.game_duration_RR;
+      var game_duration_RR_other = this.competation_format.game_duration_RR_other;
+      var game_duration_FM = this.competation_format.game_duration_FM;
+      var game_duration_FM_other= this.competation_format.game_duration_FM_other;
+      var halftime_break_RR = this.competation_format.halftime_break_RR;
+      var halftime_break_FM = this.competation_format.halftime_break_FM;
+      var match_interval_RR= this.competation_format.match_interval_RR;
+      var match_interval_RR_other= this.competation_format.match_interval_RR_other;
+      var match_interval_FM= this.competation_format.match_interval_FM;
+      var match_interval_FM_other= this.competation_format.match_interval_FM_other;
 
+      if(game_duration_RR == 'other') {
+        game_duration_RR = 2 * game_duration_RR_other;
+      }
+      if(game_duration_FM == 'other') {
+        game_duration_FM = 2 * game_duration_FM_other;
+      }
+      if(match_interval_RR == 'other') {
+        match_interval_RR = match_interval_RR_other;
+      }
+      if(match_interval_FM == 'other') {
+        match_interval_FM = match_interval_FM_other;
+      }
+
+      let vm = this;
+      let templates = this.options
+
+      templates.forEach(function(value, index) {
+        var jsonData = JSON.parse(value.json_data);
+        var total_round = jsonData.tournament_competation_format.format_name.length;
+        var total_rr_time = 0;
+        var total_final_time = 0;
+        var total_time = 0;
+        var roundFinal;
+
+        if(jsonData.competition_round == 'F') {
+          roundFinal = 1;
+        } else {
+          roundFinal = 0;
+        }
+
+        for(var i = 0; i < total_round - roundFinal; i++) {
+          var round = jsonData.tournament_competation_format.format_name[i].match_type;          
+          round.forEach(function(value) {
+            var total_round_match = value.total_match;
+            total_rr_time+= parseInt(game_duration_RR * total_round_match);
+            total_rr_time+= parseInt(halftime_break_RR * total_round_match);
+            total_rr_time+= parseInt(match_interval_RR * total_round_match);
+          })
+        }
+
+        if(jsonData.competition_round == 'F') {
+          var final_round = jsonData.tournament_competation_format.format_name;          
+          final_round = final_round.pop();
+          var total_final_match = final_round.match_type[0].total_match;
+          total_final_time = parseInt(game_duration_FM * total_final_match);
+          total_final_time += parseInt(halftime_break_FM * total_final_match);
+          total_final_time += parseInt(match_interval_FM * total_final_match);
+        } else {
+          total_final_time = 0;
+        }
+
+        total_time = total_rr_time + total_final_time;
+
+        vm.options[index].total_time = total_time;
+      });
+    }, 200)
   }
 }
 </script>
