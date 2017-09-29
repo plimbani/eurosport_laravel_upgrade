@@ -12,7 +12,7 @@ class TournamentsTemplateTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tournament_template')->truncate();
+        // DB::table('tournament_template')->truncate();
         DB::table('tournament_template')->insert([
           [ 'name' => 'T.6.3',
           'json_data' => file_get_contents(public_path('templates/template001.json')),
@@ -66,11 +66,11 @@ class TournamentsTemplateTableSeeder extends Seeder
           [ 'name' => 'T.9.4 (v2)',
            'json_data' => file_get_contents(public_path('templates/template0017.json')), 'total_teams' => '9', 'minimum_matches' => '4',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-          [ 'name' => 'T.9.5 (v1)',
+          [ 'name' => 'T.9.5',
           'json_data' => file_get_contents(public_path('templates/template0018.json')), 'total_teams' => '9', 'minimum_matches' => '5',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-          [ 'name' => 'T.9.5 (v2)',
-          'json_data' => file_get_contents(public_path('templates/template0019.json')), 'total_teams' => '9', 'minimum_matches' => '5',
+          [ 'name' => 'T.9.6',
+          'json_data' => file_get_contents(public_path('templates/template0019.json')), 'total_teams' => '9', 'minimum_matches' => '6',
 
             'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'T.9.7',
