@@ -175,6 +175,7 @@ export default {
       this.index =  index
       this.setPitchModal = 1
       this.matchFixture.id = match.fid
+      this.matchFixture.matchAgeGroupId = this.matchData[0].age_group_id
       let mtchNumber = match.match_number
        let mtchNumber1 = mtchNumber.split(".")
 
