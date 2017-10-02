@@ -1,4 +1,4 @@
-{
+	{
 	"total_matches": 46,
 	"tournament_id": "0113",
 	"tournament_teams": 25,
@@ -320,7 +320,7 @@
 		},{
 			"name": "Round 2",
 			"match_type": [{
-					"name": "PM-1*6",
+					"name": "PM-1",
 					"total_match": 3,
 	        		"group_count": 6,
 					"groups": {
@@ -341,7 +341,7 @@
 		},{
 			"name": "Round 3",
 			"match_type": [{
-				"name": "PM-1*4",
+				"name": "PM-2",
 				"total_match": 2,
         		"group_count": 4,
 				"groups": {
@@ -358,7 +358,7 @@
 		},{
 			"name": "Round 4",
 			"match_type": [{
-				"name": "PM-1*2",
+				"name": "PM-3",
 				"total_match": 1,
         		"group_count": 2,
 				"groups": {
