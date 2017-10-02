@@ -229,7 +229,7 @@
     }, {
       "name": "Round 2",
       "match_type": [{
-        "name": "PM-5*7",
+        "name": "RR-1*3",
         "total_match": 3,
         "group_count": 3,
         "groups": {

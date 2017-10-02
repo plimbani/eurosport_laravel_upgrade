@@ -359,7 +359,7 @@
 				"name": "PM-1*2",
         "group_count": 2,
 				"groups": {
-					"group_name": "Group-PM3",
+					"group_name": "Group-PM1",
 					"match": [{
 						"in_between": "1C-2C",
 						"match_number": "CAT.PM3.G1.1C-2C"

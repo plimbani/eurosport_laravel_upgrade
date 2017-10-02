@@ -302,9 +302,11 @@ export default {
       $('.ls-datepicker').datepicker('setEndDate', this.tournamentEndDate);
       for(let i=1;i<=this.tournamentDays;i++){
           capacity['day'+i]= '0.00'
+          let j= i-1;
+          startDate = new Date(moment(this.tournamentStartDate, 'DD/MM/YYYY').add(j, 'days').format('MM/DD/YYYY'));
           $('.datestage'+i).datepicker('setDate', moment(startDate, 'MM/DD/YYYY').format('DD/MM/YYYY'))
           this.disableDate.push( $('.datestage'+i).val());
-          startDate.setDate(new Date(moment(this.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY')).getDate() + i)
+          // startDate.setDate()
           obj['date'+i] = $('.datestage'+i).val();
           $('#stage_start_time'+i).timepicker({
               minTime: '08:00',

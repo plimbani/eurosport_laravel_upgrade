@@ -155,6 +155,7 @@ module.exports= {
   competation_manage: "Manage",
   compeattion_template: "Template name",
   competation_label: "Competition formats",
+  competation_modal_team_interval: "Team interval*", 
 
   competation_modal_age_category: "Match Schedule – Template",
   competation_label_name_category: "Category name*",
@@ -319,7 +320,7 @@ module.exports= {
   pitch_planner_referee: "Add referee",
   add_referees_model: "Referee Details",
   add_refree_modal_first_name: "First name*",
-  add_refree_modal_validation: "This field is require",
+  add_refree_modal_validation: "This field is required",
   add_refree_modal_last_name: "Last name*",
   add_refree_modal_telephone: "Telephone",
   add_refree_modal_email: "Email",
