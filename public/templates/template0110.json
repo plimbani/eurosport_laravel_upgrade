@@ -296,7 +296,7 @@
 			"name": "Round 2",
 			"match_type": [
 				{
-					"name": "PM-1*24",
+					"name": "PM-1",
 					"total_match": 12,
 	        		"group_count": 24,
 					"groups": {
@@ -344,7 +344,7 @@
 		},{
 			"name": "Round 3",
 			"match_type": [{
-				"name": "PM-1*24",
+				"name": "PM-2",
 				"total_match": 12,
         		"group_count": 24,
 				"groups": {
@@ -391,7 +391,7 @@
 		},{
 			"name": "Round 4",
 			"match_type": [{
-					"name": "PM-1*24",
+					"name": "PM-3",
 					"total_match": 12,
 	        		"group_count": 24,
 					"groups": {
