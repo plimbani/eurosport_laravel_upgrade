@@ -169,10 +169,8 @@
                    v-bind:value="item">{{key}}</option>
                   </select>
                 </div>
-                <span v-if="competation_format.match_interval_RR
-                  == 'other' " class="col-sm-4">
-                  <input type="number" placeholder="" v-model="competation_format.match_interval_RR_other"
-                   min="0" class="form-control" @input="updateMatchTime()">
+                <span v-if="competation_format.match_interval_RR == 'other' " class="col-sm-4">
+                  <input type="number" placeholder="" v-model="competation_format.match_interval_RR_other" min="0" class="form-control" @input="updateMatchTime()">
                 </span>
                 <span class="col-md-4">{{$lang.competation_modal_match_minutes}}</span>
               </div>
@@ -194,6 +192,27 @@
                 </span>
                 <span class="col-sm-4">{{$lang.competation_modal_match_interval_final_minutes}}</span>
               </div>
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_team_interval}}</div>
+            <div class="col-sm-8">
+              <div class="row align-items-center">
+                <div class="col-sm-4">
+                    <input type="number" placeholder="" v-validate="'required'"  name="team_interval"  v-model="competation_format.team_interval"
+                   min="0" class="form-control">
+                    <i v-show="errors.has('team_interval')" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('team_interval')">{{$lang.competation_modal_team_interval_required}}</span>
+                </div>
+
+               <!--  <span v-if="competation_format.team_interval == '' " class="col-sm-4">
+                   <input type="number" placeholder="" v-model="competation_format.team_interval"
+                   min="0" class="form-control" @change="updateMatchTime()">
+                </span> -->
+                <span class="col-sm-4">{{$lang.competation_modal_team_interval_minutes}}</span>
+                
+              </div>
+
             </div>
           </div>
           <div class="form-group row align-items-top"
@@ -432,7 +451,7 @@ export default {
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:''
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'30'
       }
     },
     setEdit(id) {
