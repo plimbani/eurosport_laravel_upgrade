@@ -8,6 +8,7 @@ module.exports= {
   welcome_add_new_tournament_review: "Review",
   welcome_add_new_tournament_publish: "Publish",
   welcome_add_new_user: 'Manage users',
+  welcome_manage_user: 'Manage Users',
   welcome_add_user: 'Add new tournament',
   welcome_see_tournament_admin_view: 'See tournament administrator view',
   welcome_add_button_new_tournament: 'Add new tournament',
@@ -33,6 +34,7 @@ module.exports= {
   login_back_button: "Back to login",
   login_reset_button: "Reset password",
   login_set_password_message: "Account registration complete. You can now login.",
+  login_password_update_message: "Your password has been updated.",
 
   user_management_desktopuser: "Desktop users",
   user_management_mobileuser: "Mobile users",
@@ -97,7 +99,7 @@ module.exports= {
   tournament_website: "Website",
   tournament_facebook: "Facebook",
   tournament_twitter: "Twitter",
-  tournament_tournament_logo: "Choose file",
+  tournament_tournament_logo: "Tournament logo",
   tournament_tournament_choose_button: "Choose file",
   tournament_tournament_remove_button: "Remove image",
   tournament_eurosporting: "Euro-Sportring contact",
@@ -155,6 +157,8 @@ module.exports= {
   compeattion_template: "Template name",
   competation_label: "Competition formats",
   competation_modal_team_interval: "Team interval*", 
+  competation_modal_team_interval_minutes: "minutes",
+  competation_modal_team_interval_required: "Team interval is required", 
 
   competation_modal_age_category: "Match Schedule – Template",
   competation_label_name_category: "Category name*",

@@ -1,7 +1,10 @@
 <template>
     <div v-if="loginData.forgotpassword==0">
-    <div class="alert alert-success margin-top-15" v-if="$route.params.verified=='yes'">
+    <div class="alert alert-success margin-top-15" v-if="$route.params.status=='verified'">
         {{$lang.login_set_password_message}}
+    </div>
+    <div class="alert alert-success margin-top-15" v-if="$route.params.status=='passwordupdated'">
+        {{$lang.login_password_update_message}}
     </div>
     <form id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
         <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">

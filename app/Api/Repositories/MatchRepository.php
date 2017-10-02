@@ -570,6 +570,16 @@ class MatchRepository
 
     public function setMatchSchedule($data)
     {
+      dd($data);
+      $teamInterval = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval')->first()->toArray();
+      TempFixture::where('pitch_id', $data['pitchId'])
+                  ->where('venue_id',$pitchData->venue_id)
+                  ->where('is_scheduled',1)
+                  ->where(function($query) {
+                    $query->where('match_endtime');
+                  });
+      dd($teamInterval['team_interval']);
+
       $pitchData = Pitch::find($data['pitchId']);
       $updateData = [
         'venue_id' => $pitchData->venue_id,

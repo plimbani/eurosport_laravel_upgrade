@@ -2,7 +2,6 @@
 
 namespace Laraspace\Api\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Password;
 use Mail;

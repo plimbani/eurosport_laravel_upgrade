@@ -154,6 +154,7 @@ import _ from 'lodash'
                     defaultView: vm.defaultView,
                     defaultDate: vm.stageDate,
                     selectable: true,
+                    durationEditable : true,
                     header: false,
                     header: {
                         left: '',
@@ -255,7 +256,7 @@ import _ from 'lodash'
                                         // vm.$root.$emit('setPitchReset')
                                     },
                                     (error) => {
-                                        console.log('Error occured during tournament api', error)
+                                        // console.log('Error occured during tournament api', error)
                                     }
                                 )
                                 vm.$root.$emit('setGameReset')
@@ -275,7 +276,7 @@ import _ from 'lodash'
 
                                 },
                                 (error) => {
-                                    console.log('Error occured during tournament api', error)
+                                    // console.log('Error occured during tournament api', error)
                                 }
                             )
                             }
@@ -381,7 +382,7 @@ import _ from 'lodash'
                         toastr.success('Block has been deleted successfully.', 'Delete Block', {timeOut: 5000});
                     },
                     (error) => {
-                        console.log('Error occured during tournament api', error)
+                        // console.log('Error occured during tournament api', error)
                     }
                 )
 
@@ -435,7 +436,6 @@ import _ from 'lodash'
                             }
                             let mtc = ''
                             mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
-                            //console.log(mtc)
                             match.match_number = mtc
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
@@ -447,7 +447,6 @@ import _ from 'lodash'
                                         scheduleBlock = true
                                     }
                                 }
-                              // console.log('match is'+JSON.stringify(match))
                               let colorVal = (match.homeScore == null && match.AwayScore == null) ? '#e9e9e9' : 'green';
                               let borderColorVal = (match.homeScore == null && match.AwayScore == null) ? '#d3d3d3' : 'green';
                               if(scheduleBlock){
@@ -468,7 +467,6 @@ import _ from 'lodash'
                                 refereeId = match.referee_id?match.referee_id:0
                                  matchTitle = match.match_number
                               }
-                             // console.log(val)
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
@@ -483,9 +481,6 @@ import _ from 'lodash'
                                     'matchAgeGroupId':match.age_group_id,
                                     'categoryAgeColor': match.category_age_color
                                 }
-                               // console.log('match typeof')
-                               // console.log(typeof match.homeScore)
-                              //  console.log(mData)
                             sMatches.push(mData)
                             }
                         });

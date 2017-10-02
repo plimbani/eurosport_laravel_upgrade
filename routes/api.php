@@ -21,10 +21,10 @@ Route::group(['prefix' => 'auth'], function () {
 
 
 });
-Route::get('password/reset/{token}', 'Laraspace\Api\Controllers\PasswordController@getReset');
-Route::post('password/reset', 'Laraspace\Api\Controllers\PasswordController@postReset');
+Route::get('password/reset/{token}', '\Laraspace\Api\Controllers\PasswordController@getReset');
+Route::post('password/reset', '\Laraspace\Api\Controllers\PasswordController@postReset');
 //Route::post('password/email', 'Laraspace\Api\Controllers\PasswordController@postEmail');
-Route::get('/mlogin', 'Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
+Route::get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
 
 $api = app('Dingo\Api\Routing\Router');
 

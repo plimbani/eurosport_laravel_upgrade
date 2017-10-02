@@ -101,6 +101,7 @@ class AgeGroupRepository
       // TODO: Add total_teams and min_matches For particular Age Category
       $tournamentCompeationTemplate['total_teams'] =$data['total_teams'];
       $tournamentCompeationTemplate['min_matches']= $data['min_matches'];
+      $tournamentCompeationTemplate['team_interval']= $data['team_interval'];
       // Insert value in Database
       // here we check value for Edit as Well
 

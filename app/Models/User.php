@@ -151,24 +151,27 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      */
     public function sendPasswordResetNotification($token)
     {
-      $name = (isset($this->personDetail->first_name)) ? $this->personDetail->first_name : $this->name;
-      $send_otp='';
-       // Set OTP
-       if($this->is_mobile_user ==  1) {
-       $send_otp = str_random(4);
-       $encoded_otp = base64_encode($this->id."|".$send_otp);
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+        $name = (isset($this->personDetail->first_name)) ? $this->personDetail->first_name : $this->name;
+        $send_otp='';
+        $subject = 'Euro-Sportring Tournament Planner - Reset password';
+        // Set OTP
+        if($this->roles()->first()->id == $mobileUserRoleId) {
+            $subject = 'Euro-Sportring - Password Reset';
+            // $send_otp = str_random(4);
+            // $encoded_otp = base64_encode($this->id."|".$send_otp);
 
-       $userOTP = new UserOtp();
-       $userOTP->user_id = $this->id;
-       $userOTP->encoded_key = $encoded_otp;
-       $userOTP->save();
-       //Session::set('opt_value', $encoded_otp);
-       if(isset($_SESSION['otp_key']))
-          unset($_SESSION['otp_key']);
-      $_SESSION['otp_key'] = $send_otp;
-      // request()->session()->put('otp_value', $encoded_otp);
-     }
-      $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp));
+            // $userOTP = new UserOtp();
+            // $userOTP->user_id = $this->id;
+            // $userOTP->encoded_key = $encoded_otp;
+            // $userOTP->save();
+            // //Session::set('opt_value', $encoded_otp);
+            // if(isset($_SESSION['otp_key']))
+            //   unset($_SESSION['otp_key']);
+            // $_SESSION['otp_key'] = $send_otp;
+            // request()->session()->put('otp_value', $encoded_otp);
+        }
+        $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject));
     }
     public function settings()
     {

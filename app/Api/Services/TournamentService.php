@@ -225,7 +225,9 @@ class TournamentService implements TournamentContract
 
         $remark =  (isset($json_data->remark)) ? $json_data->remark : '';
         // TODO: add avg_game_team
-        $avg_game_team = (isset($json_data->avg_game_team)) ? $json_data->avg_game_team : '';
+        // Added below json decode to not affect above code and it is due to round issue of average team
+        $string_json_data = json_decode(preg_replace('/:\s*(\-?\d+(\.\d+)?([e|E][\-|\+]\d+)?)/', ': "$1"', $jsonData));
+        $avg_game_team = (isset($string_json_data->avg_game_team)) ? $string_json_data->avg_game_team : '';
         return array($total_time,$total_matches,$disp_format_name, $template_font_color,$remark,$avg_game_team);
     }
 

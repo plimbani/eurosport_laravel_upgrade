@@ -171,6 +171,10 @@ table#Competition-modal-table {
 
 
 
+
+
+
+
 /*.pitch_planner_section {
   height: 1200px;
 }
@@ -328,27 +332,38 @@ table#Competition-modal-table {
     display: -ms-flexbox;
     display: flex;
 }
+
 .padding-right-zero {
-    padding-right:0;
+    padding-right: 0;
 }
+
 .msg-history-add-msg {
     margin-bottom: $card-spacer-x
 }
+
 .margin-top-15 {
-    margin-top:15px;
+    margin-top: 15px;
 }
+
 .padding-zero {
     padding: 0px;
 }
-.page-dropdown { -webkit-box-flex: 0;-ms-flex: 0 0 10%; flex: 0 0 10%; max-width: 10%;}
+
+.page-dropdown {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 10%;
+    flex: 0 0 10%;
+    max-width: 10%;
+}
 
 .team-edit-section .btn-group[role="group"] input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    border-right: 0 
+    border-right: 0
 }
 
-#frmTeamAssign .table th, .table td {
+#frmTeamAssign .table th,
+.table td {
     vertical-align: middle;
 }
 
@@ -356,6 +371,7 @@ table#Competition-modal-table {
     position: relative;
     padding-right: 1.5rem !important;
 }
+
 .unscheduled-match-content-strip {
     position: absolute;
     right: 0;
@@ -365,11 +381,13 @@ table#Competition-modal-table {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
+
 .scheduled-match-content {
     height: 100%;
     position: relative;
     padding-right: 1.5rem !important;
 }
+
 .scheduled-match-content-strip {
     position: absolute;
     right: 0;
@@ -379,6 +397,23 @@ table#Competition-modal-table {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
+
 .fc-unthemed td.fc-today {
     background: #ffffff;
+}
+
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    cursor: pointer;
+    display: block;
+    position: relative;
+    padding: 0.5rem 0.75rem;
+    height: 18px;
+}
+
+input[type=number]:hover::-webkit-inner-spin-button {
+    background: #fff url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 100% 50%;
+    position: relative;
+    right: -12px;
 }
