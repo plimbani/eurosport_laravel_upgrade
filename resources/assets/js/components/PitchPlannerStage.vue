@@ -269,10 +269,24 @@ import _ from 'lodash'
                                 // let vm1 = this
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
-                                    toastr.success('Match has been scheduled successfully', 'Schedule Match', {timeOut: 5000});
+                                    if(response.data.status_code == 200 ){
+                                        if(response.data.data != -1){
+                                             toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                            vm.$store.dispatch('setMatches');
+                                        }else{
+                                           // setTimeout(function(){
+                                            $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event.matchId])
+                                           // },200)
+                                            // console.log(event.matchId)
+                                            // $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event.matchId] )
+                                            vm.$store.dispatch('setMatches');
+                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                        }
 
-                                        // vm.$root.$emit('setGameReset')
-                                        vm.$store.dispatch('setMatches');
+                                       
+                                        
+                                    }
+                                       // vm.$root.$emit('setGameReset')
 
                                 },
                                 (error) => {
