@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Str;
+use Laraspace\Models\User;
+use Laraspace\Models\Role;
 
 class ResetPasswordController extends Controller
 {
@@ -125,38 +127,37 @@ class ResetPasswordController extends Controller
         // here we check for Mobile user
         $data = $request->all();
 
-        $mobileUser =
-        \Laraspace\Models\User::where(['email'=>$data['email'], 'is_mobile_user'=>'1'])
-            ->first();
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+        $userData = User::where(['email'=>$data['email']])->first();
 
-        if($mobileUser) {
-            $data['otp'] = (isset($data['otp'])) ? $data['otp'] : '1';
-        //   if($this->isValidOTP($mobileUser, $data['otp'])) {
-            // if its valid otp
-            $mobileUser->password =  \Hash::make($data['password']);
-            $mobileUser->save();
-            $response = 'passwords.reset';
-          // } else {
-           // return response(['status_code' => 319,'message'=>'Sorry code Expired']);
-          // }
-        } else {
+        // if($userData->roles[0]->id == $mobileUserRoleId) {
+        //     $data['otp'] = (isset($data['otp'])) ? $data['otp'] : '1';
+        // //   if($this->isValidOTP($mobileUser, $data['otp'])) {
+        //     // if its valid otp
+        //     $mobileUser->password =  \Hash::make($data['password']);
+        //     $mobileUser->save();
+        //     $response = 'passwords.reset';
+        //   // } else {
+        //    // return response(['status_code' => 319,'message'=>'Sorry code Expired']);
+        //   // }
+        // } else {
 
-          $response = $this->broker()->reset(
-              $this->credentials($request), function ($user, $password) {
-                $this->resetPassword($user, $password);
-              }
-          );
-        }
+        $response = $this->broker()->reset(
+          $this->credentials($request), function ($user, $password) {
+            $this->resetPassword($user, $password);
+          }
+        );
+        // }
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
 
-         $response == Password::PASSWORD_RESET
-                    ? $this->sendResetResponse($response)
-                    : $this->sendResetFailedResponse($request, $response);
-          if(!$mobileUser)
-            return redirect('/login');
-          else
+        $response == Password::PASSWORD_RESET
+                ? $this->sendResetResponse($response)
+                : $this->sendResetFailedResponse($request, $response);
+        if($userData->roles[0]->id != $mobileUserRoleId)
+            return redirect('/login/passwordupdated');
+        else
             return redirect('/mlogin')->with('reset','reset password');
     }
 

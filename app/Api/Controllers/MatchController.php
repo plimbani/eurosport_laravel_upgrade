@@ -161,7 +161,8 @@ class MatchController extends BaseController
             $matchServiceObj = new \Laraspace\Api\Services\MatchService();
             $pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
 
-            TempFixture::where('tournament_id', '=', $tournamentId)->update(['is_scheduled' => 0]);
+            TempFixture::where('tournament_id', '=', $tournamentId)->update(['is_scheduled' => 0, 'pitch_id' => null, 'hometeam_score' => null, 'awayteam_score' => null]);
+
             $tournamentFixtures = TempFixture::where('age_group_id', '=', $ageGroupId)->where('tournament_id', '=', $tournamentId)->get();
             $pitch = $pitchRepoObj->getAllPitches($tournamentId)->first();
             $pitchAvailability = $pitch->pitchAvailability;
