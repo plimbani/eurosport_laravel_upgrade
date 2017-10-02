@@ -371,7 +371,7 @@
                 "total_match": 10,
                 "group_count": 20,
                 "groups": {
-                    "group_name": "PM",
+                    "group_name": "Group-PM1",
                     "match": [{
                         "in_between": "1A-1B",
                         "match_number": "CAT.PM2.G1.1A-1B"
@@ -416,7 +416,7 @@
                 "total_match": 2,
                 "group_count": 4,
                 "groups": {
-                    "group_name": "Group-PM",
+                    "group_name": "Group-PM2",
                     "match": [{
                         "in_between": "CAT.PM2.G1WR-CAT.PM3.G6WR",
                         "match_number": "CAT.PM3.G1.1A_1B_WR-1C_1D_WR"

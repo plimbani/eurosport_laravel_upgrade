@@ -11,7 +11,7 @@
         <div class="my-3"><select class="form-control ls-select2"
         v-on:change="onChangeDrawDetails"
         v-model="DrawName">
-          <option value="">Select</option>
+          <!-- <option value="">Select</option> -->
           <option
           v-for="option in drawList"
           v-bind:value="option"
@@ -99,7 +99,8 @@ export default {
             drawList:'',
             DrawName:[],
             CompRound:'Round Robin',match12Data:'',
-            teamStatus: true
+            teamStatus: true,
+            matchStatus: true
         }
     },
     created: function() {
@@ -201,7 +202,11 @@ export default {
 
         },
         refreshStanding() {
-          let tournamentData = {'tournamentId': this.DrawName.tournament_id,'competitionId': this.DrawName.id}
+          let compId = ''
+          if(this.currentCompetationId!=undefined){
+            let compId = this.currentCompetationId
+          }
+          let tournamentData = {'tournamentId': this.$store.state.Tournament.tournamentId,'competitionId': compId}
           Tournament.refreshStanding(tournamentData).then(
                 (response)=> {
                   if(response.data.status_code == 200){
@@ -225,7 +230,6 @@ export default {
           let Id = this.DrawName.id
           let Name = this.DrawName.name
           let CompetationType = this.DrawName.competation_type
-          // console.log(Id, Name,Comp,'123')
           this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
           // this.matchData = this.drawList
           this.refreshStanding()
