@@ -601,6 +601,7 @@ class MatchRepository
      // if($matchResultCount >0){
      //  return -1 ;
      // }     
+       $pitchData = Pitch::find($data['pitchId']);
       $updateData = [
         'venue_id' => $pitchData->venue_id,
         'pitch_id' => $data['pitchId'],
