@@ -34,6 +34,7 @@ module.exports= {
   login_back_button: "Back to login",
   login_reset_button: "Reset password",
   login_set_password_message: "Account registration complete. You can now login.",
+  login_password_update_message: "Your password has been updated.",
 
   user_management_desktopuser: "Desktop users",
   user_management_mobileuser: "Mobile users",

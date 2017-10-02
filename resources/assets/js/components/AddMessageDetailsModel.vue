@@ -170,7 +170,7 @@ export default {
   },
   filters: {
       formatDate: function(date) {
-      return moment(date).format("HH:mm:ss D MMM YYYY");
+      return moment(date).format("Do MMM YYYY HH:mm:ss");
        },
     },
   created: function() {
