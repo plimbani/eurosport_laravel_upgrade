@@ -5,7 +5,7 @@
 	"remark":"3 tms 4M",
 	"tournament_name": "T.15.5 (v1)",
     "template_font_color": "rgb(255,192,0)",
-	"competition_round": "PM 1-4/5-8/9-12,RR 13-15",
+	"competition_round": "PM1-4/5-8/9-12/RR13-15",
 	"competition_group_round": "3x4, 1x3",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 5,
