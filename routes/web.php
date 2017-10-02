@@ -17,12 +17,13 @@ Route::get('tournament/report/reportExport','\Laraspace\Api\Controllers\Tourname
    
     Route::get('user/setpassword/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 
+// Route::get('setpassword/{sstoken}', '\Laraspace\Api\Controllers\UserController@setPassword');
+Route::get('pdf/footer', 'PDFController@getFooter')->name('pdf.footer');
+
 Route::get('/{vue?}', function () {
     return view('app');
 
 })->where('vue', '[\/\w\.-]*')->name('home');
-
-// Route::get('setpassword/{sstoken}', '\Laraspace\Api\Controllers\UserController@setPassword');
 
 Route::post('/passwordactivate', [
     'as' => 'password', 'uses' => '\Laraspace\Api\Controllers\UserController@passwordActivate'

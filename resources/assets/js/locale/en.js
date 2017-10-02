@@ -157,6 +157,8 @@ module.exports= {
   compeattion_template: "Template name",
   competation_label: "Competition formats",
   competation_modal_team_interval: "Team interval*", 
+  competation_modal_team_interval_minutes: "minutes",
+  competation_modal_team_interval_required: "Team interval is required", 
 
   competation_modal_age_category: "Match Schedule – Template",
   competation_label_name_category: "Category name*",
