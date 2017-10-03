@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -88,6 +89,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
 
         if (Utility.isInternetAvailable(mContext)) {
+            Utility.setLocale(mContext, selectedLocale);
             ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
             String user_id = mAppPref.getString(AppConstants.PREF_USER_ID);
             Utility.startProgress(mContext);
@@ -214,6 +216,8 @@ public class ProfileActivity extends BaseAppCompactActivity {
                         tournamet_id = Integer.parseInt(mTournamentList.get(position).getId());
 
                         setDefaultTournament(mTournamentList.get(position).getId());
+                        mAppPref.setString(AppConstants.PREF_TOURNAMENT_ID, tournamet_id + "");
+
                     }
                 }
             }
@@ -228,7 +232,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 languagePos = position;
                 selectedLocale = localeKeys[position];
-                Utility.setLocale(mContext, selectedLocale);
+//                Utility.setLocale(mContext, selectedLocale);
 //                initView();
             }
 
@@ -408,6 +412,27 @@ public class ProfileActivity extends BaseAppCompactActivity {
         @Override
         public void afterTextChanged(Editable s) {
             checkValidation();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent mSettingsIntent = new Intent(mContext, SettingsActivity.class);
+        startActivity(mSettingsIntent);
+        finish();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

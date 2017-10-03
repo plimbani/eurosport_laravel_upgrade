@@ -90,6 +90,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
         mContext = this;
         ButterKnife.bind(this);
         mPref = AppPreference.getInstance(mContext);
+        updateAppLocale();
         initFooterContent();
     }
 
@@ -177,17 +178,21 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
 
     @Override
     protected void onResume() {
-        String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
-        if (Utility.isNullOrEmpty(language))
-            Utility.setLocale(mContext, "en");
-        else
-            Utility.setLocale(mContext, language);
+        updateAppLocale();
         changeBottomTabAccordingToFlag();
         ApplicationClass.getInstance().setConnectivityListener(this);
         checkConnection();
 
         super.onResume();
 
+    }
+
+    protected void updateAppLocale(){
+        String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
+        if (Utility.isNullOrEmpty(language))
+            Utility.setLocale(mContext, "en");
+        else
+            Utility.setLocale(mContext, language);
     }
 
     // Method to manually check connection status
