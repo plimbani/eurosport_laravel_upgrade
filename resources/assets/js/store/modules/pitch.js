@@ -61,7 +61,6 @@ const actions = {
 
       },
       (error) => {
-        console.log('Error occured during Get pitches detail ', error)
       }
     )
   },
@@ -72,7 +71,6 @@ const actions = {
         // commit(types.SET_PITCH_ID, response.data.pitchId)
       },
       (error) => {
-        console.log('Error occured during Add new pitch', error)
       }
     )
   },
@@ -89,7 +87,6 @@ const actions = {
 
       },
       (error) => {
-        console.log('Error occured during Add new pitch', error)
       }
     )
   },

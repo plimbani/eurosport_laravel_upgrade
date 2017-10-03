@@ -108,7 +108,6 @@
                     if (error.response.status == 401) {
                                 // toastr['error']('Invalid Credentials', 'Error');
                     }else{
-                        console.log('Error', error.message);
                     }
                 });
             });

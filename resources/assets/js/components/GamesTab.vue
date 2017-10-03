@@ -59,7 +59,6 @@ export default {
     },
 
      matches(){
-      console.log('asad')
       return this.$store.state.Tournament.matches
       // this.matchStatus = false
       // let matchList = ''
@@ -105,7 +104,6 @@ export default {
           this.$store.dispatch('setCompetationList',this.competationList)
         },
         (error) => {
-         console.log('Error occured during Tournament api', error)
         }
         )
       } else {

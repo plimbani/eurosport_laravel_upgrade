@@ -211,8 +211,7 @@ export default {
 
                   }
                 },
-              (error) => {
-                console.log('Error occured during Save Compeation Fomat api ', error)
+              (error) => {                
               }
             )
           }
@@ -245,8 +244,7 @@ export default {
                   }
 
                 },
-              (error) => {
-                console.log('Error occured during Save Compeation Fomat api ', error)
+              (error) => {                
               }
             )
           }
@@ -278,8 +276,7 @@ export default {
 
                   }
                 },
-              (error) => {
-                console.log('Error occured during Save Compeation Fomat api ', error)
+              (error) => {                
               }
             )
           }

@@ -49,7 +49,6 @@ import Tournament from '../../../api/tournament.js'
                   this.referees = response.data.referees
                   },
                   (error) => {
-                     console.log('Error occured during Tournament api ', error)
                   }
                   )
             },

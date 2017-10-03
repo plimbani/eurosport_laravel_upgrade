@@ -224,7 +224,6 @@
             this.options = response.data.data
         },
         (error) => {
-            console.log('Error occured during Tournament api ', error)
         }
         )
         $('#profile_image_file').click(function(){
@@ -356,7 +355,6 @@
             });
           },
         (error) => {
-           console.log('Error occured during Tournament api ', error)
         }
         )
         //  Tournament.getTeamsGroup(teamData).then(
@@ -400,7 +398,6 @@
             toastr['success']('Groups are assigned successfully', 'Success');
           },
           (error) => {
-             console.log('Error occured during Tournament api ', error)
           }
         )
         }
@@ -413,7 +410,6 @@
             this.options = response.data.data
           },
           (error) => {
-             console.log('Error occured during Tournament api ', error)
           }
         )
       },
@@ -555,7 +551,6 @@
             toastr['success']('Team name have been changed successfully', 'Success');
           },
           (error) => {
-             console.log('Error occured during team name api ', error)
           }
         )
       },

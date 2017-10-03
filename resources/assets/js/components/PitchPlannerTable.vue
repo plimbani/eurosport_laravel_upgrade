@@ -184,6 +184,13 @@
                 alert('The collapsible content is about to be shown.');
             });
 
+            // let externalHeight = $("header").height() + $(".page-header").height() + $(".nav nav-tabs").height() + $(".card-block .items-center.justify-content-start").height() + $(".js-pitch-planner-bt").height() + 50;
+            // let externalHeight = $("header").height() + $("#gameReferee .nav.nav-tabs").height() + parseInt($(".card").css('margin-bottom').replace('px', ''));
+            // console.log('externalHeight', externalHeight);
+            // $("#game-list").css('height', ($( window ).height()-externalHeight) + 'px');
+            // $("#referee-list").css('height', ($( window ).height()-externalHeight) + 'px');
+
+
          // TODO set Default View
 
           //         this.setView(this.defaultView);

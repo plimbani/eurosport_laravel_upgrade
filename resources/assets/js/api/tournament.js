@@ -52,7 +52,6 @@ export default {
     return api.post('referees',{'tournamentData':tournamentData})
   },
   createTeam(teamData) {
-    // console.log(teamData)
     return api.post('team/create',{'teamData': teamData})
   },
   assignGroups(data) {

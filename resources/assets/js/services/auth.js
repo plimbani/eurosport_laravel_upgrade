@@ -16,7 +16,6 @@ export default {
             }
             else {
                 // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
             }
         });
 
@@ -32,7 +31,6 @@ export default {
             toastr['success']('Logged out!', 'Success');
             setTimeout(Plugin.reloadPage, 1000);
         }).catch(error => {
-            console.log('Error', error.message);
         });
         // Reload
     },
@@ -46,7 +44,6 @@ export default {
             }
             return !!response.data.authenticated;
         }).catch(error => {
-            console.log('Error', error.message);
         });
     },
 

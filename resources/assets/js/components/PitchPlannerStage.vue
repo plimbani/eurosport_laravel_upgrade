@@ -339,7 +339,6 @@ import _ from 'lodash'
                                     toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
                                 },
                                 (error) => {
-                                    console.log('Error occured during Tournament api ', error)
                                 }
                             )
                         }
@@ -623,13 +622,11 @@ import _ from 'lodash'
                         });
                     },
                     (error) => {
-                        console.log('Error occured during Tournament api ', error)
                     }
                 )
             }
         }
     };
     $('.fc-referee').click(function(){
-        console.log(this,'asd')
     })
 </script>
