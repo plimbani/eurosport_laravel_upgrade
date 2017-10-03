@@ -66,6 +66,7 @@ public class SettingsActivity extends BaseAppCompactActivity {
     protected void onProfileClicked() {
         Intent mHelpIntent = new Intent(mContext, ProfileActivity.class);
         startActivity(mHelpIntent);
+        finish();
 
     }
 

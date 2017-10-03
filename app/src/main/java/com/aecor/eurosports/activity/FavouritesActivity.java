@@ -145,9 +145,16 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                     try {
                         AppLogger.LogE(TAG, "Get Logged in user favourite tournamenet list " + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                            TournamentModel mFavTournamentList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
-                            if (mFavTournamentList != null && mFavTournamentList.length > 0) {
-                                setTournamnetAdapter(mAllTournamentList, mFavTournamentList);
+                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                TournamentModel mFavTournamentList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
+                                if (mFavTournamentList != null && mFavTournamentList.length > 0) {
+                                    setTournamnetAdapter(mAllTournamentList, mFavTournamentList);
+                                } else {
+                                    setTournamnetAdapter(mAllTournamentList, null);
+                                }
+                            } else {
+                                setTournamnetAdapter(mAllTournamentList, null);
+
                             }
                         }
 
