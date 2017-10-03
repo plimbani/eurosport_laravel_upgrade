@@ -107,7 +107,6 @@ const actions = {
 		commit(types.SET_VENUES, response.data.data)
 	  },
 	  (error) => {
-		console.log('Error occured during Get pitches detail ', error)
 	  }
 	)
   },
@@ -118,7 +117,6 @@ const actions = {
 		commit(types.SET_TEMPLATE, TournamentRespData)
 	  },
 	  (error) => {
-		console.log('Error occured during Set Template Fomat api ', error)
 	  }
 	)
   },
@@ -137,7 +135,6 @@ const actions = {
 		// commit(types.SAVE_TOURNAMENT, response.data)
 	  },
 	  (error) => {
-		console.log('Error occured during Save Compeation Fomat api ', error)
 	  }
 	)
   },
@@ -157,7 +154,6 @@ const actions = {
 		// commit(types.SAVE_TOURNAMENT, response.data)
 	  },
 	  (error) => {
-		console.log('Error occured during SaveTournament api ', error)
 	  }
 	)
 
@@ -187,7 +183,6 @@ const actions = {
 
       },
       (error) => {
-         console.log('Error occured during Tournament api ', error)
       }
     )
   },

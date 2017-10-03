@@ -40,8 +40,6 @@
                 this.$emit('confirmed');
             },
             close() {
-                //console.log(this)
-                //console.log(this.$parent.enb )
                 this.$parent.enb = false
              // this.$emit('closeModal')
             }

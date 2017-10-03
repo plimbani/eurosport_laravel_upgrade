@@ -161,10 +161,8 @@ export default {
           time_sum += b['total_time']
         },0);
        this.$store.dispatch('SetTournamentTotalTime', time_sum);
-        // console.log(this.competationList);
       },
       (error) => {
-         console.log('Error occured during Tournament api ', error)
       }
       )
     } else {

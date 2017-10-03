@@ -35,7 +35,6 @@ export default {
         this.tournaments = response.data.data
       },
       (error) => {
-         console.log('Error occured during Tournament api ', error)
       }
     )
   },

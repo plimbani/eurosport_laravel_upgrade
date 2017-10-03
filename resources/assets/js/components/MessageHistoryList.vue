@@ -128,7 +128,6 @@ export default {
         }
       },
       (error) => {
-         console.log('Error occured during Tournament api ', error)
       }
       )
     } else {

@@ -72,7 +72,6 @@ var moment = require('moment');
     },
     methods: {
       setFilter() {
-        console.log('filter call')
       }
     },
     components: {

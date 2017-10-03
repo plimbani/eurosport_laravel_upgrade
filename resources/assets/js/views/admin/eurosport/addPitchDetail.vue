@@ -543,7 +543,6 @@ export default {
                               // toastr['error']('Invalid Credentials', 'Error');
                           } else {
                               //   happened in setting up the request that triggered an Error
-                              console.log('Error', error.message);
                           }
                       });
 

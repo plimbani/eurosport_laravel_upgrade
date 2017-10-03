@@ -70,7 +70,6 @@
                     var index = vm.todos.indexOf(todo)
                     vm.todos.splice(index, 1)
                 }.bind(this), function(error){
-                    console.log(error);
                 });
 
             },
@@ -79,9 +78,7 @@
                 var url = '/admin/todos/toggleTodo/' + todo.id , vm = this;
 
                 vm.$http.post(url, {completed : todo.completed}).then(function(request){
-                    console.log(request);
                 }.bind(this), function(error){
-                    console.log(error);
                 });
 
             }

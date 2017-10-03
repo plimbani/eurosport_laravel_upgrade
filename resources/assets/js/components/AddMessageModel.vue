@@ -100,8 +100,7 @@ computed: {
 
                       }
                     },
-                  (error) => {
-                    console.log('Error occured during Save Compeation Fomat api ', error)
+                  (error) => {                  
                   }
                 )
               }
@@ -135,8 +134,7 @@ computed: {
                      $('#exampleModal').modal('hide')
                   }
                 },
-              (error) => {
-                console.log('Error occured during Save Compeation Fomat api ', error)
+              (error) => {              
               }
             )
           }

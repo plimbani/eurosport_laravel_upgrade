@@ -563,7 +563,6 @@
             }
         ]
     },
-
     {
             "name": "Round 3",
             "match_type": [
@@ -575,13 +574,13 @@
                     "group_name": "Group-PM2",
                     "match":  [{
                         "in_between": "CAT.PM2.G1WR-CAT.PM2.G5WR",
-                        "match_number": "CAT.PM3.01.1A_1B_WR-1C_1D_WR"
+                        "match_number": "CAT.RR3.01.1A_1B_WR-1C_1D_WR"
                     }, {
                         "in_between": "CAT.PM2.G1WR-1H",
-                        "match_number": "CAT.PM3.02.1A_1B_WR-1H"
+                        "match_number": "CAT.RR3.02.1A_1B_WR-1H"
                     }, {
                         "in_between": "CAT.PM2.G5WR-1H",
-                        "match_number": "CAT.PM3.03.1C_1D_WR-1H"
+                        "match_number": "CAT.RR3.03.1C_1D_WR-1H"
                     }
                   ]
                 }

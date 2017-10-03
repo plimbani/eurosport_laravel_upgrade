@@ -339,7 +339,6 @@ var moment = require('moment');
                 val = 1
             },
               (error) => {
-                console.log('Error occured during SaveTournament api ', error)
               }
             )
 

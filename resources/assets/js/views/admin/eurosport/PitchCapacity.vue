@@ -349,7 +349,6 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                         toastr['error']('Invalid Credentials', 'Error');
                     } else {
                         // Something happened in setting up the request that triggered an Error
-                        console.log('Error', error.message);
                     }
                 });
             },
