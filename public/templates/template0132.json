@@ -4,7 +4,7 @@
     "tournament_teams": 28,
     "tournament_name": "T.28.3",
     "template_font_color": "rgb(146,208,80)",
-    "competition_round": "PM 1-2, PM 1-2,RR 1-3 - RR 1-3",
+    "competition_round": "PM1-2,PM1-2,RR1-3 - RR1-3",
     "competition_group_round": "(2x4),(2x4),(3x4)",
     "competation_format": "",
     "tournament_min_match": 3,
@@ -409,7 +409,7 @@
         }, {
             "name": "Round 2",
             "match_type": [{
-                "name": "PM-1",
+                "name": "PM-1*4",
                 "total_match": 2,
                 "group_count": 4,
                 "groups": {
@@ -444,30 +444,30 @@
             }
         ]
     },
-
     {
             "name": "Round 3",
             "match_type": [
                 {
-                "name": "RR-1*3",
+                "name": "PM-2",
                 "total_match": 3,
                 "group_count": 3,
                 "groups": {
                     "group_name": "Group-I",
                     "match":  [{
                         "in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",  
-                        "match_number": "CAT.RR3.01.1A_1B_WR-1C_1D_WR"  
+                        "match_number": "CAT.PM3.01.1A_1B_WR-1C_1D_WR"  
                     }, {
                         "in_between": "CAT.PM2.G1WR-1H",
-                        "match_number": "CAT.RR3.02.1A_1B_WR-1H"
+                        "match_number": "CAT.PM3.02.1A_1B_WR-1H"
                     }, {
                         "in_between": "CAT.PM2.G2WR-1H",
-                        "match_number": "CAT.RR3.03-1C_1D_WR-1H"
+                        "match_number": "CAT.PM3.03.1C_1D_WR-1H"
                     }
                   ]
                 }
             }]
     }
+
   ]
     }
 }
