@@ -184,11 +184,9 @@ var moment = require('moment');
            }
            let colorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#e9e9e9' : 'green' // console.log(msg)
            let borderColorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#d3d3d3' : 'green';
-            // console.log(colorVal,'colorVal')
             this.matchFixture.color = colorVal;
             this.matchFixture.borderColor = borderColorVal;
-         // console.log(this.matchDetail,this.matchFixture)
-         // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
+          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
       
           $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
@@ -243,8 +241,6 @@ var moment = require('moment');
                 if(this.section == 'scheduleResult') {
                   let home_score = $('#home_team_score').val()
                   let away_score = $('#away_team_score').val()
-                  // console.log('hscore'+home_score)
-                  // console.log('ascore'+away_score)
 
                    let competationId = response.data.data.competationId
                    this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
@@ -301,16 +297,12 @@ var moment = require('moment');
           // vm.$root.$emit('setPitchReset')
            $('#matchScheduleModal').modal('hide')
            setTimeout(function(){
-
-            $('div.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchFixture._id] )
+             $('div.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchFixture._id] )
            },200)
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
           
           this.$store.dispatch('setMatches');
           this.$store.dispatch('SetScheduledMatches');
-          // $('div.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchId] )
-          // this.$store.dispatch('setCompetationWithGames');
-          // vm.$root.$emit('reloadEvents')
       })
     },
     matchPrint(ReportData) {
@@ -339,7 +331,6 @@ var moment = require('moment');
                 val = 1
             },
               (error) => {
-                console.log('Error occured during SaveTournament api ', error)
               }
             )
 

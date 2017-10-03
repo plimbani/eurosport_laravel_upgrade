@@ -59,16 +59,7 @@ export default {
     },
 
      matches(){
-      console.log('asad')
       return this.$store.state.Tournament.matches
-      // this.matchStatus = false
-      // let matchList = ''
-
-      // if(this.$store.state.Tournament.totalMatch > 0){
-      //   this.matchStatus = true
-      //   matchList = this.$store.getters.getMatches
-      // }
-      // return matchList
     }
   },
   created: function() {
