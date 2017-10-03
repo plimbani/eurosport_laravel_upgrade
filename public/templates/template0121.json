@@ -368,9 +368,9 @@
 		},{
 			"name": "Round 3",
 			"match_type": [{
-				"name": "PM-1*24",
-				"total_match": 12,
-        		"group_count": 24,
+				"name": "PM-1*26",
+				"total_match": 13,
+        		"group_count": 26,
 				"groups": {
 					"group_name": "Group-PM2",
 					"match": [{
