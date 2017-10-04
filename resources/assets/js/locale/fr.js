@@ -288,7 +288,7 @@ module.exports = {
   pitch_modal_availability_time: "FTime",
   pitch_modal_availability_capacity: "FCapacity",
   pitch_modal_availability_button_addstage: "FAdd stage",
-  pitch_modal_availability_button_add: "FAdd Statge",
+  pitch_modal_availability_button_add: "FAdd stage",
 
   pitch_modal_edit_pitch_button: "FDelete",
   pitch_modal_edit_pitch_cancel_button: "FCancel",
