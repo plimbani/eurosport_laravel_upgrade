@@ -295,7 +295,7 @@ module.exports= {
   pitch_modal_availability_time: "Time",
   pitch_modal_availability_capacity: "Capacity",
   pitch_modal_availability_button_addstage: "Add stage",
-  pitch_modal_availability_button_add: "Add Statge",
+  pitch_modal_availability_button_add: "Add stage",
 
   pitch_modal_edit_pitch_button: "Delete",
   pitch_modal_edit_pitch_cancel_button: "Cancel",
