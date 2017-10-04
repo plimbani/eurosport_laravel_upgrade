@@ -10,7 +10,7 @@
                   <th class="text-center">{{$lang.compeattion_template}}</th>
                   <th class="text-center">{{$lang.competation_competation_format}}</th>
                   <th class="text-center">{{$lang.competation_total_matches}}</th>
-                  <th class="text-center">{{$lang.competation_total_time}}</th>
+                  <th class="text-center" width="90px">{{$lang.competation_total_time}}</th>
                   <th class="text-center">{{$lang.competation_match_schedule}}</th>
                   <th class="text-center">{{$lang.competation_manage}}</th>
               </tr>
@@ -88,7 +88,7 @@ export default {
     formatTime: function(time) {
       var hours = Math.floor( time /   60);
       var minutes = Math.floor(time % 60);
-      return hours+ 'h '+minutes+'m'
+      return (hours < 10 ? '0' + hours : hours) + 'h '+ (minutes < 10 ? '0' + minutes : minutes) +'m'
     }
   },
   methods: {
