@@ -386,9 +386,6 @@ var moment = require('moment');
                     $('#stage_end_time'+stage).removeAttr('disabled')
                   }
 
-
-
-
                 }else if(curId.indexOf('stage_break_start') >= 0) {
                   if($('#stage_break_chk_'+stage).is(':checked')){
                     $('#stage_continue_time'+stage).removeAttr('disabled')
@@ -420,12 +417,12 @@ var moment = require('moment');
 
                     $('#stage_break_start'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '19:00',
+                        maxTime: '20:00',
                         timeFormat: 'H:i'
                     });
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '19:00',
+                        maxTime: '20:00',
                         timeFormat: 'H:i'
                     });
                     $('#stage_break_start'+stage).val('')
@@ -438,7 +435,7 @@ var moment = require('moment');
 
                    $('#stage_continue_time'+stage).timepicker({
                         minTime: newTime,
-                        maxTime: '19:00',
+                        maxTime: '20:00',
                         timeFormat: 'H:i'
                     });
                     $('#stage_continue_time'+stage).val('')
@@ -450,7 +447,7 @@ var moment = require('moment');
 
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '19:00',
+                        maxTime: '20:00',
                         'timeFormat': 'H:i'
                     });
                     $('#stage_end_time'+stage).val('')
@@ -680,7 +677,7 @@ var moment = require('moment');
 
                         $('#stage_start_time'+stage).timepicker({
                             minTime: '08:00',
-                            maxTime: '19:00',
+                            maxTime: '20:00',
                             timeFormat: 'H:i'
                         })
                         $('#stage_break_start'+stage+',#stage_continue_time'+stage+',#stage_end_time'+stage).attr('disabled','disabled');
