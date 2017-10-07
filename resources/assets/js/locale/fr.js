@@ -518,6 +518,11 @@ module.exports = {
   summary_schedule_matches_score: "FScore",
   summary_schedule_matches_location: "FLocation",
   summary_table_heading_status: "Status",
+
+
+  manual_ranking_team_required: "FThis field is required",
+  manual_ranking_cancel: "FCancel",
+  manual_ranking_save: "FSave",
   // tournament_filter_age_category_match: "Category",
   // summary_table_heading_status_to: "Sent tournament",
  } 

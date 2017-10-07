@@ -8,6 +8,7 @@ use Validator;
 use Laraspace\Model\Role;
 use PDF;
 use Laraspace\Models\TempFixture;
+use Laraspace\Models\Competition;
 
 class MatchService implements MatchContract
 {
@@ -1133,6 +1134,9 @@ class MatchService implements MatchContract
     {
       // dd($data);
         $compId = $data['home']['competition_id'];
+
+        $competition = Competition::find($compId);
+
         $cupId = $compId;
        
         //$cupRoundrobinData = $this->CupRoundrobin->find('first', array('conditions' => array('comp_id' => $cupId)));
@@ -1156,7 +1160,7 @@ class MatchService implements MatchContract
         // print_r($teams);exit;
         $defaultArray = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,
           'home_goal' => 0,'away_goal' => 0,'goal_difference' => 0,'Total' => 0,
-          'manual_override' => 0,'group_winner' => 0);
+          'manual_override' => 0,'group_winner' => 0, 'manual_order' => 0);
        // foreach ($groupTeams as $gkey => $gvvalue) {
         //    $i =1;
             foreach ($teams as $gkey => $gvalue) {
@@ -1197,6 +1201,7 @@ class MatchService implements MatchContract
                     $goal_difference = ( (int)$teamExist->goal_for  - (int)$teamExist->goal_against );
                     $calculatedArray[$compId][$gvalue->id]['goal_difference'] = $goal_difference;
                     $calculatedArray[$compId][$gvalue->id]['Total'] = $total;
+                    $calculatedArray[$compId][$gvalue->id]['manual_order'] = $teamExist->manual_order;
                     $calculatedArray[$compId][$gvalue->id]['teamid'] = $gvalue->id;
                      $calculatedArray[$compId][$gvalue->id]['teamName'] =
                      $teamExist->name;
@@ -1239,18 +1244,22 @@ class MatchService implements MatchContract
       //  echo 'After Sort';
         $for_override_condition = array();
         foreach ($calculatedArray as $ckey => $cvalue) {
-            $mid = $cid = $did = $overrride = $group_winner = array();
+            $manual_order = $mid = $cid = $did = $overrride = $group_winner = array();
             foreach ($cvalue as $cckey => $ccvalue) {
-
+               $manual_order[$cckey]  = (int)$ccvalue['manual_order'];
                $mid[$cckey]  = (int)$ccvalue['Total'];
                $cid[$cckey]  = (int)$ccvalue['Played'];
                $did[$cckey]  = (int)$ccvalue['goal_difference'];
+               
               // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
               // $group_winner[$cckey]  = (int)$ccvalue['group_winner'];
               // $for_override_condition[$ckey][$cckey] = (int)$ccvalue['manual_override'];
             }
-
-            array_multisort($mid, SORT_DESC,$did, SORT_DESC,$cid, SORT_DESC,$cvalue);
+            if($competition->is_manual_override_standing == 1) {
+              array_multisort($manual_order, SORT_ASC,$mid, SORT_DESC,$did, SORT_DESC,$cid, SORT_DESC,$cvalue);
+            } else {
+              array_multisort($mid, SORT_DESC,$did, SORT_DESC,$cid, SORT_DESC,$cvalue);
+            }
             $calculatedArray[$ckey] = $cvalue;
         }
         $i=1;
@@ -1584,6 +1593,11 @@ class MatchService implements MatchContract
         //echo 'hellotrue';
         return true;
       }
+    }
+
+    public function saveStandingsManually($request) {
+        $this->matchRepoObj->saveStandingsManually($request->all()['data']);
+        return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];    
     }
 }
 

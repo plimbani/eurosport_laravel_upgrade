@@ -159,5 +159,8 @@ export default {
  },
  changeTeamName(teamData) {
   return api.post('teams/changeTeamName', {'teamData': teamData})
+ },
+ saveStandingsManually(data) {
+  return api.post('match/saveStandingsManually', {data})
  }
 }

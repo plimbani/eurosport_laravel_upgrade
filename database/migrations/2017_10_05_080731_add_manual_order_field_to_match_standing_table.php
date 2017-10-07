@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTeamIntervalToTournamentCompetitionTemplates extends Migration
+class AddManualOrderFieldToMatchStandingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddTeamIntervalToTournamentCompetitionTemplates extends Migration
      */
     public function up()
     {
-        Schema::table('tournament_competation_template', function($table) {
-            $table->integer('team_interval')->nullable()->after('match_interval_FM');
+        Schema::table('match_standing', function($table) {
+           $table->boolean('manual_order')->nullable()->after('goal_against');
         });
     }
 
@@ -25,8 +25,8 @@ class AddTeamIntervalToTournamentCompetitionTemplates extends Migration
      */
     public function down()
     {
-        Schema::table('tournament_competation_template', function($table) {
-            $table->dropColumn('team_interval');
+        Schema::table('match_standing', function($table) {
+            $table->dropColumn('manual_order');
         });
     }
 }
