@@ -158,7 +158,7 @@ module.exports = {
   competation_label_age_category_name: "FAge category*",
   competation_label_age_category: "FCategory age*",
   compeattion_label_category: "FAge Category*",
-  competation_modal_name_category_required: "FCategory name is required. Characters like underscore (_), dot (.), hyphen (-) are not allowed.",
+  competation_modal_name_category_required: "FCategory name is required. Only alpha-numeric and slash (/) are allowed.",
   competation_modal_age_category_required: "FCategory age is required",
   competation_modal_select_templates: "FSelect template*",
   competation_modal_select_template_list: "FSelect template",

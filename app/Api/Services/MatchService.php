@@ -1244,21 +1244,22 @@ class MatchService implements MatchContract
       //  echo 'After Sort';
         $for_override_condition = array();
         foreach ($calculatedArray as $ckey => $cvalue) {
-            $manual_order = $mid = $cid = $did = $overrride = $group_winner = array();
+            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = array();
             foreach ($cvalue as $cckey => $ccvalue) {
                $manual_order[$cckey]  = (int)$ccvalue['manual_order'];
                $mid[$cckey]  = (int)$ccvalue['Total'];
-               $cid[$cckey]  = (int)$ccvalue['Played'];
+               // $cid[$cckey]  = (int)$ccvalue['Played'];
                $did[$cckey]  = (int)$ccvalue['goal_difference'];
-               
+               $eid[$cckey]  = (int)$ccvalue['home_goal'];
               // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
               // $group_winner[$cckey]  = (int)$ccvalue['group_winner'];
               // $for_override_condition[$ckey][$cckey] = (int)$ccvalue['manual_override'];
             }
+            
             if($competition->is_manual_override_standing == 1) {
-              array_multisort($manual_order, SORT_ASC,$mid, SORT_DESC,$did, SORT_DESC,$cid, SORT_DESC,$cvalue);
+              array_multisort($manual_order, SORT_ASC,$mid, SORT_DESC,$did, SORT_DESC,$eid, SORT_DESC,$cvalue);
             } else {
-              array_multisort($mid, SORT_DESC,$did, SORT_DESC,$cid, SORT_DESC,$cvalue);
+              array_multisort($mid, SORT_DESC,$did, SORT_DESC,$eid, SORT_DESC,$cvalue);
             }
             $calculatedArray[$ckey] = $cvalue;
         }

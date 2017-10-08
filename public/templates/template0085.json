@@ -388,11 +388,11 @@
                         "in_between": "CAT.PM3.G5WR-CAT.PM3.G6WR",
                         "match_number": "CAT.PM4.G5.(PM3_G5_WR)-(PM3_G6_WR)"
                     },{
-                        "in_between": "CAT.PM3.G7WR-CAT.PM3.G8WR",
-                        "match_number": "CAT.PM4.G6.(PM3_G7_WR)-(PM3_G8_WR)"
-                    },{
                         "in_between": "CAT.PM3.G5LR-CAT.PM3.G6LR",
-                        "match_number": "CAT.PM4.G7.(PM3_G5_LR)-(PM3_G6_LR)"
+                        "match_number": "CAT.PM4.G6.(PM3_G5_LR)-(PM3_G6_LR)"
+                    },{
+                        "in_between": "CAT.PM3.G7WR-CAT.PM3.G8WR",
+                        "match_number": "CAT.PM4.G7.(PM3_G7_WR)-(PM3_G8_WR)"
                     },{
                         "in_between": "CAT.PM3.G7LR-CAT.PM3.G8LR",
                         "match_number": "CAT.PM4.G8.(PM3_G7_LR)-(PM3_G8_LR)"
