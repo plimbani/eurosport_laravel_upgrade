@@ -69,7 +69,7 @@
   <div class="form-group">
 <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0"> 
   {{otherData.DrawName}} standings
-  <a href="#" @click="manualRankingModalOpen()"><span><u>(manual ranking)</u></span></a>
+  <a href="#" @click="manualRankingModalOpen()"><span>(<u>manual ranking</u>)</span></a>
   <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1'"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
 </h6>
   <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
