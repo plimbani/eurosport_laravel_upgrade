@@ -14,7 +14,7 @@ class AddManualOrderFieldToMatchStandingTable extends Migration
     public function up()
     {
         Schema::table('match_standing', function($table) {
-           $table->boolean('manual_order')->nullable()->after('goal_against');
+           $table->integer('manual_order')->nullable()->after('goal_against');
         });
     }
 
