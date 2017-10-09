@@ -4,7 +4,7 @@
     "tournament_teams": 27,
     "tournament_name": "T.27.5",
     "template_font_color": "rgb(146,208,80)",
-    "competition_round": "(PM  1-3/4-6/7-9/10-12),(RR 1-3/4-6/7-9/10-12/13-15) - F/SMF",
+    "competition_round": "(RR  1-3/4-6/7-9/10-12),(RR 1-3/4-6/7-9/10-12/13-15) - F/SMF",
     "competition_group_round": "(3x4), (3x5)",
     "competation_format": "F/SMF",
     "tournament_min_match": 5,

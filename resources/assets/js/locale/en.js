@@ -165,7 +165,7 @@ module.exports= {
   competation_label_age_category_name: "Age category*",
   competation_label_age_category: "Category age*",
   compeattion_label_category: "Age Category*",
-  competation_modal_name_category_required: "Category name is required. Only alpha-numeric value is allowed",
+  competation_modal_name_category_required: "Category name is required. Only alpha-numeric and slash (/) are allowed.",
   competation_modal_age_category_required: "Category age is required",
   competation_modal_select_templates: "Select template*",
   competation_modal_select_template_list: "Select template",
@@ -295,7 +295,7 @@ module.exports= {
   pitch_modal_availability_time: "Time",
   pitch_modal_availability_capacity: "Capacity",
   pitch_modal_availability_button_addstage: "Add stage",
-  pitch_modal_availability_button_add: "Add Statge",
+  pitch_modal_availability_button_add: "Add stage",
 
   pitch_modal_edit_pitch_button: "Delete",
   pitch_modal_edit_pitch_cancel_button: "Cancel",

@@ -150,7 +150,6 @@ import { ErrorBag } from 'vee-validate';
                     this.userTypeChanged();
                   },
                   (error)=> {
-                    console.log('Error in Edit User')
                   }
                 )
 
@@ -185,7 +184,6 @@ import { ErrorBag } from 'vee-validate';
                     }
                 },
                 (error) => {
-                   console.log(error)
                 }
               )
               /*
@@ -226,7 +224,6 @@ import { ErrorBag } from 'vee-validate';
 
                           },
                           (error)=>{
-                            console.log(error)
                           }
 
                         )
@@ -269,7 +266,6 @@ import { ErrorBag } from 'vee-validate';
                             // that.updateUserList();
                           },
                           (error)=>{
-                            console.log(error)
                           }
 
                         )
@@ -285,7 +281,6 @@ import { ErrorBag } from 'vee-validate';
 
                     }
                 }).catch((errors) => {
-                     console.log(errors)
                     // toastr['error']('Please fill all required fields ', 'Error')
                  });
             },

@@ -96,7 +96,6 @@ export default {
           this.$store.dispatch('setCompetationList',this.competationList)
         },
         (error) => {
-         console.log('Error occured during Tournament api', error)
         }
         )
       } else {

@@ -13,9 +13,11 @@
 	}
 </style>
 
+@if($tournamentData->tournamentLogo)
 <center>
-<img  src="{{ asset('assets/img/logo-desk.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+<img src="{{ $tournamentData->tournamentLogo }}" height="100">
 </center>
+@endif
 
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
 	<h4>Reports</h4>

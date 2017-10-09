@@ -84,7 +84,7 @@ class PushMessagesController extends BaseController
 
        /* $token = "f7ExTxZrh4o:APA91bHxEdDIm-ezv3_wl4qE0TKygzUZBJeC1HZvia-vdZ4-THffbx6PGGANrE_XaRE9TCeuPRO61wRGkJcS2tFNVPe7xL7Yvtdw3IxStgm2Gx4Ehmuvu5sGrOfiyZzl_rTJkciCU4jM"; */
         // $token = "etZg2KA4O4M:APA91bHPFpP8wJirQrhl1aEktjwsgqBP9Fp_hkArKqZxsls-WwboMSAisEQ64NQDglig9oSMLYWF2M4GriJN6CGShmB96h5gf6MNL-Xqep-6QMlUZD8vO4gvwwUsZG_-DhdpaDCXVhik";
-
+         \Log::info($data);
          $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
 
 
@@ -104,6 +104,8 @@ class PushMessagesController extends BaseController
         $downstreamResponse->tokensToRetry();
         return $downstreamResponse;
         } catch(\Exception $e) {
+          \Log::info("exception=========");
+          \Log::info($e->message());
           return false;
         }
 
@@ -191,12 +193,14 @@ class PushMessagesController extends BaseController
           $tokenSoundOff = $userDataSoundOff;
           // dd($tokenSoundOff);
           if(!empty($tokenSoundOff)){
+            \Log::info("tokenSoundOff".$tokenSoundOff);
             $downstreamResponse1 = $this->sendToFCM($content,$tokenSoundOff,'');
           }
           $userDataSoundOn = User::join('settings', 'users.id', '=', 'settings.user_id')->whereIn('users.id',$users)->where('settings.value->is_sound', 'true')->pluck('users.fcm_id')->toArray();
           $tokenSoundOn = $userDataSoundOn;
           // dd($tokenSoundOn);
           if(!empty($tokenSoundOn)){
+            \Log::info("tokenSoundOn".$tokenSoundOn);
             $downstreamResponse2 = $this->sendToFCM($content,$tokenSoundOn,'default');
           }
           

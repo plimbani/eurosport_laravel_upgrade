@@ -21,7 +21,7 @@
               <div class="row">
                 <div class="col-sm-12">
                   <input type="text" class="form-control"
-                  placeholder="e.g. U11, U16-A"  v-validate="'required|alpha_num'" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
+                  placeholder="e.g. U11, U16-A"  v-validate="{ rules: { required : true, regex: /^[a-zA-Z0-9\/ ]*$/ } }" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
                   <i v-show="errors.has('ageCategory_name')" class="fa fa-warning"></i>
                   <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_name_category_required}}</span>
                 </div>
@@ -339,7 +339,6 @@ export default {
       let tournamentData={'minimum_matches':val,'total_teams':this.number_teams}
 
       if(val != '' && this.number_teams != '') {
-        // console.log(val,'val')
         this.trempVal = true
         this.competation_format.minimum_matches = val
         this.competation_format.total_teams = this.number_teams
@@ -535,7 +534,6 @@ export default {
 
           },
           (error) => {
-             console.log('Error occured during Tournament api ', error)
           }
         )
         this.isAgeCategoryDisabled = true;
@@ -562,7 +560,6 @@ export default {
           this.options = response.data.data
         },
         (error) => {
-           console.log('Error occured during Tournament Templates api ', error)
         }
       )
     },
@@ -578,7 +575,6 @@ export default {
       // Add for Other Options
       // TODO: select First Template From  Selection
       // this.competation_format.tournamentTemplate = this.options[0]
-      // console.log(this.competation_format)
       // TODO: Comment code for Pickup first template
      // this.competation_format.nwTemplate =  this.options[0]
      // this.competation_format.nwTemplate =  this.options[0]
@@ -592,7 +588,6 @@ export default {
             if(this.dispTempl == true) {
               return false;
             }
-            // console.log(this.isInvalid);
             if(this.isInvalid == true) {
               return false;
             }
@@ -635,13 +630,11 @@ export default {
                   }
               },
               (error) => {
-                console.log('Error occured during Save Compeation Fomat api ', error)
               }
             )
             $('#saveAge').attr('data-dismiss','modal')
           },
           (error) => {
-            console.log('Error occured during SaveTournament api ', error)
           }
       )
       //this.$store.state.dispatch('saveAgeCategory', this.competation_format)

@@ -98,11 +98,9 @@ import Tournament from '../api/tournament.js'
                   let TournamentData = {'tournament_id': this.tournamentId}
                   Tournament.getCompetationFormat(TournamentData).then(
                   (response) => {
-                    this.competationList = response.data.data
-                    // console.log(this.competationList);
+                    this.competationList = response.data.data                    
                   },
                   (error) => {
-                     console.log('Error occured during Tournament api ', error)
                   }
                   )
                 } else {
@@ -119,7 +117,6 @@ import Tournament from '../api/tournament.js'
 
                     },
                     (error) => {
-                        console.log('Error occured during Tournament api ', error)
                     }
                     )
 

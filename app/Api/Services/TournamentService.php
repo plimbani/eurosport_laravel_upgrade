@@ -8,9 +8,11 @@ use Carbon\Carbon;
 use PDF;
 use Laraspace\Models\Venue;
 use Laraspace\Models\Team;
+use Laraspace\Models\Tournament;
 use Validate;
 use JWTAuth;
 use Laraspace\Models\User;
+use View;
 
 class TournamentService implements TournamentContract
 {
@@ -24,6 +26,7 @@ class TournamentService implements TournamentContract
     {
         $this->tournamentRepoObj = $tournamentRepoObj;
         $this->getAWSUrl = getenv('S3_URL');
+        $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
     }
 
      /*
@@ -281,8 +284,6 @@ class TournamentService implements TournamentContract
     }
     private function saveTournamentLogo($data, $id='')
     {
-
-
        if($data['tournamentData']['image_logo'] != '')
        {
             // here we check using preg_replace that if its change image or not
@@ -586,8 +587,11 @@ class TournamentService implements TournamentContract
 
     public function generatePrint($data)
     {
+      $tournamentData = Tournament::where('id', '=', $data['tournament_id'])->select(DB::raw('CONCAT("'.$this->tournamentLogo.'", logo) AS tournamentLogo'))->first();
+
+
         $reportQuery = DB::table('temp_fixtures')
-            // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
+            ->leftJoin('tournaments', 'temp_fixtures.tournament_id', '=', 'tournaments.id')
             ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
             ->leftjoin('teams as home_team', function ($join) {
                 $join->on('home_team.id', '=', 'temp_fixtures.home_team');
@@ -605,12 +609,13 @@ class TournamentService implements TournamentContract
             ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
             ->groupBy('temp_fixtures.id')
             ->select('temp_fixtures.id as fid','temp_fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.last_name as referee_last_name','referee.first_name as referee_first_name',
-               'home_team.name as HomeTeam','away_team.name as AwayTeam',
+               'home_team.name as HomeTeam','away_team.name as AwayTeam', 'tournaments.logo',
 
               'HomeFlag.country_flag as HomeCountryFlag',
               'AwayFlag.country_flag as AwayCountryFlag',
                DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
-                DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
+               DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
+               DB::raw('CONCAT("'.$this->getAWSUrl.'", tournaments.logo) AS tournamentLogo'),
               'home_team.name as HomeTeam','away_team.name as AwayTeam',
               DB::raw('CONCAT(referee.last_name,",",referee.first_name) as refereeFullName'),
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
@@ -716,16 +721,17 @@ class TournamentService implements TournamentContract
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
         // echo $reportQuery->toSql();exit;
         $reportData = $reportQuery->get();
-        // dd($reportData->all());
+        // dd($reportData->all()); 
         $date = new \DateTime(date('H:i d M Y'));
+        // $footer = View::make('summary.footer');  
         // $date->setTimezone();.
-        $pdf = PDF::loadView('summary.report',['data' => $reportData->all()])
+        $pdf = PDF::loadView('summary.report',['data' => $reportData->all(), 'tournamentData' => $tournamentData])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
-            ->setOption('header-font-name', 'Open Sans')
+            ->setOption('header-font-name', 'Open Sans')  
             ->setOrientation('portrait')
-            ->setOption('footer-right', 'Page [page] of [toPage]')
+            ->setOption('footer-html', route('pdf.footer'))
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);

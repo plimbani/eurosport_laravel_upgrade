@@ -9,7 +9,7 @@
 	"competition_group_round": "1x4, 1x5",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 5,
-  "avg_game_team":5.3,
+     "avg_game_team":5.3,
 	"tournament_competition_ranking": {
 	    "format_name": [{
 	      "round": "Round 1",
@@ -216,8 +216,7 @@
 					}, {
 						"in_between": "2-4",
 						"match_number": "CAT.RR1.03.B2-B4"
-					},
-					{
+					}, {
 						"in_between": "3-5",
 						"match_number": "CAT.RR1.04.B3-B5"
 					}, {
@@ -262,18 +261,18 @@
 				"name": "PM-2",
                 "group_count": 8,
 				"groups": {
-					"group_name": "Group-PM1",
+					"group_name": "Group-PM2",
                      "match": [{
-						"in_between": "PM2.G1WR - PM2.G2WR",
+						"in_between": "PM2G1WR-PM2G2WR",
 						"match_number": "CAT.PM3.G1.1A_2B_WR-1B_2A_WR"
 					}, {
-						"in_between": "PM2.G1LR - PM2.G2LR",
+						"in_between": "PM2G1LR-PM2G2LR",
 						"match_number": "CAT.PM3.G2.1A_2B_LR-1B_2A_LR"
 					}, {
-						"in_between": "PM2.G3WR - PM2.G4WR",
-						"match_number": "CAT.PM3.G3.3A_4B_WR-3B_4A_WR"
+						"in_between": "PM2G3WR-PM2G4WR",
+						"match_number": "CAT.PM3.G3.3A_4B_WR-3B_4A_WR"	
 					}, {
-						"in_between": "PM2.G3LR - PM2.G4LR",
+						"in_between": "PM2G3LR-PM2G4LR",
 						"match_number": "CAT.PM3.G4.3A_4B_LR-3B_4A_LR"
 					}]
 				},

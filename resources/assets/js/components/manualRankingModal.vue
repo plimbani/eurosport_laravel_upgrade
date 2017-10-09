@@ -62,7 +62,6 @@ import Tournament from '../api/tournament.js'
           setTimeout(function(){
             Tournament.getAllTeamsFromCompetitionId({'competitionId':vm.competitionId}).then(
             (response) => {
-              console.log(response.data.data,'rd')
               vm.teams = response.data.data
               vm.teams = _.orderBy(vm.teams, ['name'], ['asc']);
             })

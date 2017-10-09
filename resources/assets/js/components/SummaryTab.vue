@@ -156,7 +156,6 @@
             }
 	    		},
 	    		(error) => {
-	    			console.log('Errr in status update')
 	    		}
 	    		);
 

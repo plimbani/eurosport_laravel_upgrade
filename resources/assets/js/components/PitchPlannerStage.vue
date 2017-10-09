@@ -67,14 +67,24 @@ import _ from 'lodash'
             let vm = this
             vm.initComponent()
             $(this.$el).fullCalendar('changeView', 'agendaDay');
+
+            $(window).scroll(function() {
+                if($(".pitch_planner_section").length > 0) {
+                    setGameAndRefereeTabHeight();
+                }
+            });
+            // this.getScheduledMatch()
         },
         methods: {
             initComponent(){
                 let vm = this
                 setTimeout(function(){
-                vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
-            },500)
-
+                    vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
+                    if($(".pitch_planner_section").length > 0) {
+                        setGameAndRefereeTabHeight();
+                    }
+                    // vm.getUnavailablePitch()
+                },500)
             setTimeout(function(){
                 $('.fc-referee').each(function(referee){
                     if(this.id == -1 || this.id == -2 ){
@@ -92,6 +102,10 @@ import _ from 'lodash'
             },4000)
             setTimeout(function(){
                 vm.initScheduler();
+
+                if($(".pitch_planner_section").length > 0) {
+                    setGameAndRefereeTabHeight();
+                }
             },3500)
 
             },
@@ -302,7 +316,6 @@ import _ from 'lodash'
                                     
                                 },
                                 (error) => {
-                                    console.log('Error occured during Tournament api ', error)
                                 }
                             )
                         }
@@ -579,11 +592,26 @@ import _ from 'lodash'
                         });
                     },
                     (error) => {
-                        console.log('Error occured during Tournament api ', error)
                     }
                 )
             }
         }
     };
-   
+
+</script>
+    $('.fc-referee').click(function(){
+    })
+    function setGameAndRefereeTabHeight() {
+        var $el = $(".tab-content .card-block .pitch-planner-wrapper");
+        var elH = $el.outerHeight(),
+        H   = $(window).height(),
+        r   = $el[0].getBoundingClientRect(), t=r.top, b=r.bottom;
+        var considerHeaderHeight = 0;
+        if(($(window).scrollTop() + $("header").height()) > $el.offset().top) {
+            considerHeaderHeight = $("header").height();
+        }              
+        var leftViewHeight = Math.max(0, t>0? Math.min(elH, H-t) : (b<H?b:H)) - $("#gameReferee .nav.nav-tabs").height() - parseInt($("#gameReferee .tab-content").css('margin-top').replace('px', '')) - considerHeaderHeight - 10;
+        $("#game-list").css('height', leftViewHeight + 'px');
+        $("#referee-list").css('height', leftViewHeight + 'px');
+    }
 </script>

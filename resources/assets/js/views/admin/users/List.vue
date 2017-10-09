@@ -255,7 +255,6 @@
                 this.userRoles = response.data.roles;
               },
               (error)=> {
-                console.log('error in getting Roles')
               }
             )
            // axios.get("/api/roles-for-select").then((response) => {
@@ -269,7 +268,6 @@
                   this.publishedTournaments = response.data.data;
                 },
                 (error)=> {
-                  console.log('error in getting Roles')
                 }
               )
             },

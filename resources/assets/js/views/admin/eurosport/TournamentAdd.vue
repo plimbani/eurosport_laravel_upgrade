@@ -507,7 +507,6 @@ this.$validator.validateAll().then(
   // commit(types.SAVE_TOURNAMENT, response.data)
 },
 (error) => {
-  console.log('Error occured during SaveTournament api ', error)
 }
 )
 },

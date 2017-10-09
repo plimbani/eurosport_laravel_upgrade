@@ -98,7 +98,6 @@ export default {
 
   	        this.getAllMatches(this.currentDate,filterKey,filterValue)
         	}
-          console.log('set3')
 
 	      //  if(filterKey == 'age_category'){
 	        //  this.onSelectAgeCategory('filter',filterValue.tournament_template_id)
@@ -119,7 +118,6 @@ export default {
 	            });
 	          },
 	        (error) => {
-	           console.log('Error occured during Tournament api ', error)
 	        }
 	        )
 	    },
@@ -134,7 +132,6 @@ export default {
 		        } else {
 		          this.getAllMatches(matchDate)
 		        }
-		        console.log(this.filterKey1)
         }
 		else {
 	        if(this.filterKey1 != undefined) {
@@ -142,7 +139,6 @@ export default {
 	        } else {
 	          this.getAllMatches()
 	        }
-	        console.log(this.filterKey1)
 
 	      }
 	},

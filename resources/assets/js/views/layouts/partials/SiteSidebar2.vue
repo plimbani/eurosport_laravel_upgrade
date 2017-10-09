@@ -80,7 +80,6 @@
             }
         },
         mounted(){
-          console.log(this.$route);
         },
 
         methods : {

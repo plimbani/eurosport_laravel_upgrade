@@ -1243,14 +1243,15 @@ class MatchService implements MatchContract
             foreach ($cvalue as $cckey => $ccvalue) {
 
                $mid[$cckey]  = (int)$ccvalue['Total'];
-               $cid[$cckey]  = (int)$ccvalue['Played'];
+               // $cid[$cckey]  = (int)$ccvalue['Played'];
                $did[$cckey]  = (int)$ccvalue['goal_difference'];
+               $eid[$cckey]  = (int)$ccvalue['home_goal'];
               // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
               // $group_winner[$cckey]  = (int)$ccvalue['group_winner'];
               // $for_override_condition[$ckey][$cckey] = (int)$ccvalue['manual_override'];
             }
 
-            array_multisort($mid, SORT_DESC,$did, SORT_DESC,$cid, SORT_DESC,$cvalue);
+            array_multisort($mid, SORT_DESC,$did, SORT_DESC,$eid, SORT_DESC,$cvalue);
             $calculatedArray[$ckey] = $cvalue;
         }
         $i=1;

@@ -106,8 +106,7 @@
                     this.competationList = responseData
                     // console.log(this.competationList);
                   },
-                  (error) => {
-                     console.log('Error occured during Tournament api ', error)
+                  (error) => {              
                   }
                   )
                 } else {

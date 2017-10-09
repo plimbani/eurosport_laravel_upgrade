@@ -129,7 +129,6 @@
                        this.$store.dispatch('getUserDetails', UserData);
                   },
                   (error)=> {
-                    console.log('Error Getting User Details')
                   }
                 );
 
@@ -185,7 +184,6 @@
                     this.$data.userData = response.data;
                   },
                   (error)=> {
-                    console.log('Error in Edit User')
                   }
                 );
                 /*axios.get("/api/user/edit/"+id).then((response) => {

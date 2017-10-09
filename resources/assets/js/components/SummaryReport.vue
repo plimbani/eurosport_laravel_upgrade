@@ -102,6 +102,8 @@
 											<option value="18:00">18:00</option>
 											<option value="18:30">18:30</option>
 											<option value="19:00">19:00</option>
+											<option value="19:30">19:30</option>
+											<option value="20:00">20:00</option>
 										</select>
 				                    </div>
 								</div>
@@ -133,6 +135,8 @@
 											<option value="18:00">18:00</option>
 											<option value="18:30">18:30</option>
 											<option value="19:00">19:00</option>
+											<option value="19:30">19:30</option>
+											<option value="20:00">20:00</option>
 										</select>
 				                    </div>
 								</div>
@@ -310,7 +314,6 @@ export default {
         }
         let data = this.teams
         if(data.length == 0) {
-          console.log('data length uis zero')
           let vm =  this
           setTimeout(function(){
             vm.getClubs()
@@ -321,8 +324,6 @@ export default {
 
           data = this.teams
           //data = this.teams
-          console.log('Team After assignment')
-          console.log(data)
         }
         let age_category_id = this.age_category_id
         let ids = []
@@ -366,7 +367,6 @@ export default {
         let ids = []
         let Cids = []
         let team =  this.team
-        console.log(team)
         var uniqueArray = data.filter(function(item, pos) {
             // Find that record which contains
             if(team == item['id']) {
@@ -399,15 +399,12 @@ export default {
                   if($.inArray(item['age_group_id'], ids) === -1) ids.push(item['age_group_id']);
                     //ids.push(item['age_group_id'])
                }, {});
-               console.log('club is')
-               console.log(ids)
                // Now here we pass the array as parameter
                 this.displayTournamentCompetationList(ids.join())
 
 		          },
 
 		          (error) => {
-		             console.log('Error occured during Tournament api ', error)
 		          }
 		        )
     		},
@@ -430,7 +427,6 @@ export default {
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
-		         console.log('Error occured during Tournament api ', error)
 		      }
 		      )
 		    } else {
@@ -456,7 +452,6 @@ export default {
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
-		         console.log('Error occured during Tournament api ', error)
 		      }
 		      )
 		    } else {
@@ -473,7 +468,6 @@ export default {
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
-		         console.log('Error occured during Tournament api ', error)
 		      }
 		      )
 		    } else {
@@ -490,7 +484,6 @@ export default {
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
-		         console.log('Error occured during Tournament api ', error)
 		      }
 		      )
 		    } else {
@@ -507,7 +500,6 @@ export default {
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
-		         console.log('Error occured during Tournament api ', error)
 		      }
 		      )
 		    } else {
@@ -521,20 +513,16 @@ export default {
 	          // here we add data for
             let  TournamentData;
             if(club_id != '') {
-              console.log('WithCL')
               TournamentData = {'tournament_id': this.TournamentId,'club_id':club_id}
             } else {
-              console.log('WithOutCL')
               TournamentData = {'tournament_id': this.TournamentId}
             }
 
 	          Tournament.getAllClubs(TournamentData).then(
 	          (response) => {
-              console.log('In RESP')
 	            this.clubs = response.data.data
 	          },
 	          (error) => {
-	             console.log('Error occured during Tournament api ', error)
 	          }
 	          )
 	        } else {
@@ -569,7 +557,6 @@ export default {
 		       },
 
 		      (error) => {
-		         console.log('Error occured during Tournament api ', error)
 		      }
 		      )
 		    } else {
@@ -608,7 +595,6 @@ export default {
            },
 
           (error) => {
-             console.log('Error occured during Tournament api ', error)
           }
           )
         }
