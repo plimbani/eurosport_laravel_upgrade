@@ -598,7 +598,6 @@ import _ from 'lodash'
         }
     };
 
-</script>
     $('.fc-referee').click(function(){
     })
     function setGameAndRefereeTabHeight() {
