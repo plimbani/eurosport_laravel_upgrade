@@ -92,7 +92,7 @@ import _ from 'lodash'
             },4000)
             setTimeout(function(){
                 vm.initScheduler();
-            },1500)
+            },3500)
 
             },
             matchSchedulerChange() {
@@ -171,7 +171,7 @@ import _ from 'lodash'
                     resources: vm.pitchesData,
                     events: vm.scheduledMatches,
                     drop: function(date, jsEvent, ui, resourceId) {
-                        $(this).remove();
+                       // $(this).remove();
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                         if(event.refereeId == -3 ){
@@ -523,9 +523,9 @@ import _ from 'lodash'
                         this.scheduledMatches =sMatches
                         this.getUnavailablePitch()
                         this.stageWithoutPitch()
-                        setTimeout(function(){
-                            // vm.initScheduler();
-                        },2500)
+                        // setTimeout(function(){
+                        //     vm.initScheduler();
+                        // },4500)
                     }
                 )
             },

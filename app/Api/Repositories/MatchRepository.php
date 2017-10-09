@@ -299,7 +299,8 @@ class MatchRepository
           $reportQuery->orderBy('match_standing.points','desc')
                       ->orderBy('GoalDifference','desc')
                       ->orderBy('match_standing.goal_for','desc');
-           //print_r($reportQuery->get());exit;
+
+           // print_r($reportQuery->toSql());exit;
           return $reportQuery->get();
     }
     public function getDrawTable($tournamentData){
@@ -576,6 +577,7 @@ class MatchRepository
       $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
       $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
       $teams = array($teamData['home_team'],$teamData['away_team'] );
+      
       $pitchData = Pitch::find($data['pitchId']);
       $matchResultCount = TempFixture::where('pitch_id', $data['pitchId'])
                   ->where('venue_id',$pitchData->venue_id)
@@ -587,21 +589,24 @@ class MatchRepository
                     $query1->whereIn('home_team',$teams)
                     ->orWhereIn('away_team',$teams) ; 
                   })
+
                   ->where(function($query) use ($team_interval,$startTime,$endTime,$data) {
-                     $edStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes(0);
+                      $edStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes(0);
                       $edEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes($team_interval);
                       $sdStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
                       $sdEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
                       $query->where(function($query2) use ($sdStartTime,$sdEndTime) {
-                        $query2->where('match_endtime','>',$sdStartTime)->where('match_endtime','<',$sdEndTime);
+                        $query2->where('match_endtime','>',$sdStartTime)->where('match_endtime','<=',$sdEndTime);
                       });
                        $query->orWhere(function($query3) use ($edStartTime,$edEndTime) {
-                        $query3->where('match_datetime','>',$edStartTime)->where('match_datetime','<',$edEndTime);
+                         $query3->where('match_datetime','>=',$edStartTime)->where('match_datetime','<',$edEndTime);
                       });
                         $query->orWhere(function($query4) use ($data) {
                         $query4->where('match_datetime','>',$data['matchStartDate'])->where('match_datetime','<',$data['matchEndDate']);
                       });
-                   })->get();
+                   })
+                  ->get();
+                  // dd($matchResultCount->toArray());
      if($matchResultCount->count() >0){
       return -1 ;
      }     
