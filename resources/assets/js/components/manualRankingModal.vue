@@ -98,16 +98,19 @@ import _ from 'lodash';
             saveStandingsManually() {
               let vm = this;
               this.$validator.validateAll().then(() => {
+                this.closeModal();
+                $("body .js-loader").removeClass('d-none');
                 let data = {'competitionId' : this.competitionId, 'teamDetails': this.teamDetails, 'tournament_id':this.$store.state.Tournament.tournamentId, 'isManualOverrideStanding': this.is_competition_manual_override_standing == 1 ? true : false}
                 vm.$emit('competitionAsManualStanding', this.is_competition_manual_override_standing)
                 Tournament.saveStandingsManually(data).then((response) => {
+                  $("body .js-loader").addClass('d-none');
                   if(this.is_competition_manual_override_standing == 0) {
                     this.teamDetails = _.cloneDeep(_.map(vm.standingData, (o) => {
                       return '';
                     }));
                   }
+                  vm.$emit('refreshStanding', this.competitionId)
                   vm.$root.$emit('setStandingData', this.competitionId)
-                  this.closeModal();
                   toastr.success(response.data.message, 'Manual Ranking Updated', {timeOut: 5000});
                 });
               }).catch(() => {

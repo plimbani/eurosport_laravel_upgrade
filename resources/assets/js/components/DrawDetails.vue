@@ -81,7 +81,7 @@
 
   <h6>{{otherData.DrawName}} matches</h6>
   <matchList :matchData="matchData"></matchList>
-  <manualRanking :competitionId="currentCompetationId" :matchData="match1Data" :isManualOverrideStanding="DrawName.is_manual_override_standing" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
+  <manualRanking :competitionId="currentCompetationId" :matchData="match1Data" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
 </template>
 <script type="text/babel">
@@ -209,14 +209,16 @@ export default {
           $('#manual_ranking_modal').modal('show');
         },
         refreshStanding() {
+          $("body .js-loader").removeClass('d-none');
           let compId = ''
           if(this.currentCompetationId!=undefined){
-            let compId = this.currentCompetationId
+            compId = this.DrawName.id
           }
           let tournamentData = {'tournamentId': this.$store.state.Tournament.tournamentId,'competitionId': compId}
           Tournament.refreshStanding(tournamentData).then(
                 (response)=> {
                   if(response.data.status_code == 200){
+                    $("body .js-loader").addClass('d-none');
                      this.teamStatus = false
                       let vm = this
                       setTimeout(function(){

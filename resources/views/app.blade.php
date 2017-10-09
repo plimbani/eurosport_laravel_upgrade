@@ -33,6 +33,11 @@
 
 </head>
 <body class="layout-default skin-default">
+    <div class="loader js-loader d-none">
+        <svg class="circular" height="50" width="50">
+            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10" />
+        </svg>
+    </div>
 <div id="app" class="template-container">
     <div class="mobile-menu-overlay" v-on:click.prevent="onOverlayClick"></div>
     <transition name="fade" mode="out-in">

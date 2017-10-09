@@ -9,6 +9,7 @@ use Laraspace\Model\Role;
 use PDF;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Competition;
+use Laraspace\Models\TeamManualRanking;
 
 class MatchService implements MatchContract
 {
@@ -674,6 +675,7 @@ class MatchService implements MatchContract
           $fix1['CupFixture']['awayteam'] = $singleFxture->away_team;
           $fix1['CupFixture']['tournamentId'] = $singleFxture->tournament_id;
           $fix1['CupFixture']['match_round'] = $singleFxture->round;
+          $fix1['CupFixture']['age_group_id'] = $singleFxture->age_group_id;
         }
         if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
         {
@@ -698,6 +700,41 @@ class MatchService implements MatchContract
         }
         $comType = 'C';
         if ($comType == 'C') {
+
+            // Manual standing insert - start
+            $allCompetitions = Competition::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('tournament_competation_template_id','=',$fix1['CupFixture']['age_group_id'])->where('id','>',$cup_competition_id)->get();
+
+            \Log::info("all competitions");
+            \Log::info($allCompetitions);
+
+            foreach($allCompetitions as $competition)
+            {
+              if($competition->is_manual_override_standing == 1) {
+                $allCompetitionStandings = DB::table('match_standing')->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $competition->id)->get();
+
+                \Log::info("all competitions stadingds");
+                \Log::info($allCompetitionStandings);
+
+                foreach($allCompetitionStandings as $standing) {
+                  $teamManualRanking = TeamManualRanking::where('tournament_id','=',$standing->tournament_id)->where('competition_id', '=', $standing->competition_id)->where('team_id', '=', $standing->team_id)->first();
+
+                  if($teamManualRanking) {
+                    $teamManualRanking->manual_order = $standing->manual_order;
+                    $teamManualRanking->save();
+                  } else {
+                    $teamManualRanking = new TeamManualRanking();
+                    $teamManualRanking->tournament_id = $standing->tournament_id;
+                    $teamManualRanking->competition_id = $standing->competition_id;
+                    $teamManualRanking->team_id = $standing->team_id;
+                    $teamManualRanking->manual_order = $standing->manual_order;
+                    $teamManualRanking->save();
+                  }
+                  
+                }
+              }
+            }
+            // Manual standing insert - end
+
             $result = DB::table('match_standing')
                             ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
                             ->where('competition_id','>',$cup_competition_id)
@@ -1044,6 +1081,13 @@ class MatchService implements MatchContract
                 $data3['lost'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'];
                 $data3['goal_for'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'];
                 $data3['goal_against'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'];
+
+                $teamManualRanking = TeamManualRanking::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $cup_competition_id)->where('team_id', '=', $fix1['CupFixture']['hometeam'])->first();
+                if($teamManualRanking) {
+                  $data3['manual_order'] = $teamManualRanking->manual_order;
+                  $teamManualRanking->delete();
+                }
+
                 DB::table('match_standing')->insert($data3);
                 $sendData['home'] = $data3;
                 //$this->CupLeagueTable->save($data);
@@ -1099,6 +1143,13 @@ class MatchService implements MatchContract
                 $data2['lost'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'];
                 $data2['goal_for'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'];
                 $data2['goal_against'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'];
+
+                $teamManualRanking = TeamManualRanking::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $cup_competition_id)->where('team_id', '=', $fix1['CupFixture']['awayteam'])->first();
+                if($teamManualRanking) {
+                  $data2['manual_order'] = $teamManualRanking->manual_order;
+                  $teamManualRanking->delete();
+                }
+
                 DB::table('match_standing')->insert($data2);
                 //$sendData = $data2;
                 $sendData['away'] = $data2;
