@@ -28,7 +28,7 @@ class TournamentRepository
        $status = $tournamentData['status'];
        return Tournament::where('status',$status)->get();
     }
-    public function getAll($status='', $userId=null)
+    public function getAll($status='', $user=null)
     {
       if($status == '') {
           $data = Tournament::
@@ -41,8 +41,9 @@ class TournamentRepository
 
       }
 
-      if($userId) {
-        $data = $data->where('user_id', $userId);
+      if($user) {
+        $tournaments = $user->tournaments()->pluck('id');
+        $data = $data->whereIn('id', $tournaments);
       }
       $data = $data->get();
 
