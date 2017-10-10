@@ -808,4 +808,9 @@ class TournamentService implements TournamentContract
         }
       }
     }
+
+    public function addTournamentDetails($tournamentDetailData)
+    {
+      $tournamentDetailData = $this->tournamentRepoObj->addTournamentDetails($tournamentDetailData['tournamentDetailData']);
+    }
 }

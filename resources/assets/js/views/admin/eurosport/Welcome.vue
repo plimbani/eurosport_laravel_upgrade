@@ -16,7 +16,11 @@
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
           </div>
           <div class="card-block text-center">
-            <div class= "form-group">
+            <div class="form-group">
+              <button type="button" class="btn btn-success col-sm-8" data-target="#tournament_details_modal" data-toggle="modal">{{$lang.welcome_add_button_tournament_details}}</button>
+              <AddTournamentDetailsModal></AddTournamentDetailsModal>
+            </div>
+            <div class= "form-group">            
               <button class="btn btn-primary col-sm-8 btn-theme"
               @click="addNewTournament()" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')">
               {{$lang.welcome_add_button_new_edition}}</button>
@@ -54,10 +58,12 @@
 </template>
 <script>
 import TournamentDropDown from '../../../components/TournamentDropDown.vue'
+import AddTournamentDetailsModal  from  '../../../components/AddTournamentDetailsModal.vue'
 import Ls from '../../../services/ls'
 export default {
   components : {
-    TournamentDropDown
+    TournamentDropDown,
+    AddTournamentDetailsModal
   },
 
 computed: {

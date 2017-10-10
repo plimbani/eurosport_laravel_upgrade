@@ -417,3 +417,8 @@ input[type=number]:hover::-webkit-inner-spin-button {
 .pitch-planner-item .fc-event, .planner_list_content .dashbox.unscheduled-match-content, .planner_list_content .raferee_details {
     border-radius: 0px;
 }
+
+.warning-box {
+    border-color: $brand-danger;
+    position: relative;
+}

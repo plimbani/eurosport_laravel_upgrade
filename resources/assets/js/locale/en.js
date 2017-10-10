@@ -12,7 +12,8 @@ module.exports= {
   welcome_add_user: 'Add new tournament',
   welcome_see_tournament_admin_view: 'See tournament administrator view',
   welcome_add_button_new_tournament: 'Add new tournament',
-  welcome_add_button_new_edition: 'Add new tournament',
+  welcome_add_button_new_edition: 'Create full tournament',
+  welcome_add_button_tournament_details: 'Add tournament details only',
 
   siteheader_name: "Chris",
   siteheader_settings: "Settings",
@@ -69,6 +70,20 @@ module.exports= {
   user_image_choose_file: "Choose file",
   user_image_size: "Maximum size of 1 MB.",
   // user_image_dimensions: "Image dimensions 250 x 250.",
+
+  tournament_detail_add_name: "Tournament Name*",
+  tournament_detail_max_teams: "Maximum teams*",
+  tournament_detail_start_date: "Tournament start date*",
+  tournament_detail_end_date: "Tournament end date*",
+
+  tournament_detail_cancle: "Cancel",
+  tournament_detail_save: "Save",
+
+  tournament_details_add_name_required: "Tournament name required",
+  tournament_details_max_team_required: "Tournament maximum team required",
+  tournament_details_start_date_required: "Tournament start date required",
+  tournament_details_end_date_required: "Tournament end date required",
+
   user_image_remove: "Remove image",
   user_management_password: "Password*",
   user_management_placeholder_password: "Enter password",
