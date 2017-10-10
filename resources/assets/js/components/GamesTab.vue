@@ -60,14 +60,6 @@ export default {
 
      matches(){
       return this.$store.state.Tournament.matches
-      // this.matchStatus = false
-      // let matchList = ''
-
-      // if(this.$store.state.Tournament.totalMatch > 0){
-      //   this.matchStatus = true
-      //   matchList = this.$store.getters.getMatches
-      // }
-      // return matchList
     }
   },
   created: function() {
