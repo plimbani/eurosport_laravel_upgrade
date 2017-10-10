@@ -221,7 +221,7 @@ class TeamRepository
         }
 
 
-        TempFixture::where('home_team_name', $gname[1])
+        TempFixture::where('home_team_placeholder_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
             ->where('competition_id',$competId)
             // ->where('age_group_id',$data['age_group'])
@@ -234,7 +234,7 @@ class TeamRepository
                 'home_team_name' => $team->name,
                 'home_team' => $team_id
             ]);
-        TempFixture::where('away_team_name', $gname[1])
+        TempFixture::where('away_team_placeholder_name', $gname[1])
             ->where('tournament_id',$data['tournament_id'])
             ->where('competition_id',$competId)
             // ->where('age_group_id',$data['age_group'])
