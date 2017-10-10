@@ -113,6 +113,7 @@ class TournamentRepository
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
+        $newdata['maximum_teams'] = $data['maximum_teams'];
         $newdata['start_date'] = $data['start_date'] ? $data['start_date'] : '';
         $newdata['end_date'] = $data['end_date'] ? $data['end_date'] : '';
         $newdata['website'] = $data['website'] ? $data['website'] : '';
@@ -207,6 +208,7 @@ class TournamentRepository
           'facebook' => $data['facebook'],
           'twitter' => $data['twitter'],
           'website' => $data['website'],
+          'maximum_teams' => $data['maximum_teams'],
         );
 
         return $tournamentData;
