@@ -13,6 +13,8 @@ module.exports= {
   welcome_see_tournament_admin_view: 'See tournament administrator view',
   welcome_add_button_new_tournament: 'Add new tournament',
   welcome_add_button_new_edition: 'Add new tournament',
+  welcome_add_tournament_permission: 'Tournament Permissions',
+
 
   siteheader_name: "Chris",
   siteheader_settings: "Settings",

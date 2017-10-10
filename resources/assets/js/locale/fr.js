@@ -12,6 +12,7 @@ module.exports = {
   welcome_add_user: 'Add new edition',
   welcome_see_tournament_admin_view: "Fvoir la vue de l'administrateur du tournoi",
   welcome_add_new_tournament: 'Ajouter un nouveau tournoi',
+  welcome_add_tournament_permission: 'FTournament Permissions',
 
   siteheader_name: "FChris",
   siteheader_settings: "FSettings",
