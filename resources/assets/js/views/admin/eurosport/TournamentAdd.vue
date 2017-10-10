@@ -10,7 +10,8 @@
             <div class="form-group" :class="{'has-error': errors.has('tournament.name') }">
                 <label class="col-sm-4 form-control-label">{{$lang.tournament_name}}*</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
+                    <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"  v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('tournament_name') }">
+                    <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-else  v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
                     <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
                 </div>
                 <span class="help is-danger" v-show="errors.has('tournament_name')">Tournament name required</span>
@@ -20,7 +21,7 @@
             <div class="form-group" :class="{'has-error': errors.has('tournament.maximum_teams') }">
                 <label class="col-sm-4 form-control-label">{{$lang.maximum_teams}}*</label>
                 <div class="input-group">
-                    <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="(userRole == 'Internal administrator' && currentPage == 'Edit Tournament')"  readonly="readonly" :class="{'is-danger': errors.has('maximum_teams') }">
+                    <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('maximum_teams') }">
                     <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-else   :class="{'is-danger': errors.has('maximum_teams') }">
                     <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
                 </div>
@@ -36,8 +37,8 @@
                   <span class="input-group-addon">
                       <i class="jv-icon jv-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker"
-                   id="tournament_start_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  readonly="readonly" id="tournament_start_date">
+                  <input type="text" class="form-control ls-datepicker" v-else id="tournament_start_date">
               </div>
             </div>
           </div>
@@ -48,8 +49,8 @@
                   <span class="input-group-addon">
                       <i class="jv-icon jv-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker"
-                   id="tournament_end_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  readonly="readonly" id="tournament_end_date">
+                  <input type="text" class="form-control ls-datepicker" v-else id="tournament_end_date">
               </div>
             </div>
           </div>
@@ -327,12 +328,6 @@ customCount:0,
 tournamentId: 0,
 imagePath :''
 }
-},
-computed: {
- currentPage: function() {
- return this.$store.state.currentPage;
-}
-
 },
 components: {
 location: location
