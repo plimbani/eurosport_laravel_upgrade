@@ -41,6 +41,7 @@
 		  let tournamentSel  = {
 		  	name:name,
 		  	id:id,
+		  	maximum_teams:this.tournament.maximum_teams,
 		  	tournamentDays: tournamentDays,
 		  	tournamentLogo: this.tournament.tournamentLogo,
 		  	tournamentStatus:this.tournament.status,
