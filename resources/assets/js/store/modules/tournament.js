@@ -6,7 +6,6 @@ import moment from 'moment'
 // initial state
 const state = {
   tournamentName: '',
-  maximumTeams: '',
   tournamentStartDate:"",
   tournamentEndDate:"",
   tournamentId: '',
@@ -208,7 +207,6 @@ const mutations = {
   [types.CURRENT_TOURNAMENT] (state, currentTournament) {
  	//alert(JSON.stringify(currentTournamentName))
   state.tournamentName = currentTournament.name
-	state.maximumTeams = currentTournament.maximum_teams
 	state.tournamentStartDate = currentTournament.tournamentStartDate!='' ? currentTournament.tournamentStartDate: ''
 	state.tournamentEndDate = currentTournament.tournamentEndDate != '' ? currentTournament.tournamentEndDate: ''
 	state.tournamentDays = currentTournament.tournamentDays ? parseInt(currentTournament.tournamentDays)  : 1
@@ -224,8 +222,7 @@ const mutations = {
   [types.SAVE_TOURNAMENT] (state, tournamentData) {
   
 	state.tournamentName = tournamentData.name
-  state.maximumTeams = tournamentData.maximum_teams
-	state.tournamentId = tournamentData.id
+  state.tournamentId = tournamentData.id
 	state.tournamentStartDate = tournamentData.tournamentStartDate
 	state.tournamentEndDate = tournamentData.tournamentEndDate
 	state.tournamentStatus = tournamentData.tournamentStatus
