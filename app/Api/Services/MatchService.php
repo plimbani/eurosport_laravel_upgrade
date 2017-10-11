@@ -488,7 +488,7 @@ class MatchService implements MatchContract
       //print_r($compIds);exit;
       $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$tournament_id)
-                ->where('round','=' , 'Elimination')
+                // ->where('round','=' , 'Elimination')
                 ->where('age_group_id','=',$ageGroupId)
                 ->get();
 

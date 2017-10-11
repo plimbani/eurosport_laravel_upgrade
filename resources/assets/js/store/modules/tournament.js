@@ -66,7 +66,7 @@ const actions = {
 	commit(types.SET_TOURNAMENT_STATUS, status)
   },
   SetTournamentName ({commit}, tournamentData) {
-	commit(types.CURRENT_TOURNAMENT, tournamentData)
+  commit(types.CURRENT_TOURNAMENT, tournamentData)
   },
   SetTotalMatch ({commit}, totalMatch) {
 	commit(types.TOTAL_MATCHES, totalMatch)
@@ -85,9 +85,9 @@ const actions = {
       commit(types.SET_MATCHES, '')
     let tdata = {}
     if(state.tournamentFiler.filterKey != '' && state.tournamentFiler.filterValue != '') {
-        tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'fiterEnable':true}
+        tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'fiterEnable':true,'is_scheduled':false}
     } else {
-        tdata ={'tournamentId':state.tournamentId }
+        tdata ={'tournamentId':state.tournamentId,'is_scheduled':false}
     }
     Tournament.getFixtures(tdata).then(
     (response)=> {
@@ -139,15 +139,14 @@ const actions = {
 	)
   },
   SaveTournamentDetails ({commit}, tournamentData) {
-	Tournament.saveTournament(tournamentData).then(
+  Tournament.saveTournament(tournamentData).then(
 
 	  (response) => {
 
 		if(response.data.status_code == 200) {
 		  // Now here we set the tournament Id and Name
 		  //let data1 = {'tournamentData':response.data.data}
-
-		  commit(types.CURRENT_TOURNAMENT, response.data.data)
+      commit(types.CURRENT_TOURNAMENT, response.data.data)
 		} else {
 		  alert('Error Occured')
 		}
@@ -207,7 +206,7 @@ const mutations = {
   },
   [types.CURRENT_TOURNAMENT] (state, currentTournament) {
  	//alert(JSON.stringify(currentTournamentName))
-	state.tournamentName = currentTournament.name
+  state.tournamentName = currentTournament.name
 	state.tournamentStartDate = currentTournament.tournamentStartDate!='' ? currentTournament.tournamentStartDate: ''
 	state.tournamentEndDate = currentTournament.tournamentEndDate != '' ? currentTournament.tournamentEndDate: ''
 	state.tournamentDays = currentTournament.tournamentDays ? parseInt(currentTournament.tournamentDays)  : 1
@@ -221,9 +220,9 @@ const mutations = {
   state.twitter = currentTournament.twitter
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {
-
+  
 	state.tournamentName = tournamentData.name
-	state.tournamentId = tournamentData.id
+  state.tournamentId = tournamentData.id
 	state.tournamentStartDate = tournamentData.tournamentStartDate
 	state.tournamentEndDate = tournamentData.tournamentEndDate
 	state.tournamentStatus = tournamentData.tournamentStatus
@@ -279,7 +278,6 @@ const mutations = {
     state.scheduledMatches = scheduledMatches;
   },
   [types.SET_COMPETITION_WITH_GAMES] (state) {
-    // console.log(state.competationList,'state.competationList')
       let competitionGroup = state.competationList
       let allMatches = state.matches
       let matchCount = 0
@@ -340,16 +338,11 @@ const mutations = {
 
 
         })
-        // console.log(competationList,'')
-        // console.log(state.competationList)
         state.matchCompetition = state.competationList
         state.totalMatch = matchCountDisplay
-        // state.totalMatch = totalMatch;
-        // this.$store.dispatch('SetTotalMatch', this.totalMatch)
-         state.competitionWithGames = state.competationList
+        state.competitionWithGames = state.competationList
       }else{
         state.totalMatch = matchCountDisplay
-        // this.$store.dispatch('SetTotalMatch', this.totalMatch)
         state.competitionWithGames = state.competationList
       }
     
