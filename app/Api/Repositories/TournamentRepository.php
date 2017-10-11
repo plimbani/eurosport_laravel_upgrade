@@ -16,6 +16,7 @@ use Laraspace\Models\Referee;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Competition;
 use Carbon\Carbon;
+use JWTAuth;
 
 class TournamentRepository
 {
@@ -551,5 +552,20 @@ class TournamentRepository
                   ->groupBy('clubs.id','countries.id')
                    ->get();
       return (count($clubData) > 0) ? $clubData : 0;
+    }
+
+    public function addTournamentDetails($tournamentDetailData)
+    {
+      $token=JWTAuth::getToken();
+      $authUser = JWTAuth::parseToken()->toUser();
+      $userId = $authUser->id;
+      $tournament = new Tournament();
+      $tournament->name = $tournamentDetailData['tournament_name'];
+      $tournament->maximum_teams = $tournamentDetailData['tournament_max_teams'];
+      $tournament->user_id = $userId;
+      $tournament->start_date = $tournamentDetailData['tournament_start_date'];
+      $tournament->end_date = $tournamentDetailData['tournament_end_date'];
+      $tournament->status = 'Unpublished';
+      $tournament->save();
     }
 }

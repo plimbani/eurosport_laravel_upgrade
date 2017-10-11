@@ -148,6 +148,8 @@ $api->version('v1', function ($api) {
     $api->post('tournament/allCategory',
         'Laraspace\Api\Controllers\TournamentController@getAllCategory');
 
+    $api->post('tournament/details/add', 'Laraspace\Api\Controllers\TournamentController@addTournamentDetails');
+
     // User Stuff
     $api->get('users', 'Laraspace\Api\Controllers\UserController@getUsers');
     $api->get('users1',function() {
