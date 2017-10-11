@@ -14,6 +14,9 @@ module.exports = {
   welcome_add_new_tournament: 'Ajouter un nouveau tournoi',
   welcome_add_tournament_permission: 'FTournament Permissions',
 
+  welcome_add_button_new_edition: 'FCreate full tournament',
+  welcome_add_button_tournament_details: 'FAdd tournament details only',
+  
   siteheader_name: "FChris",
   siteheader_settings: "FSettings",
   siteheader_userprofile: "FUser Profile",
@@ -66,6 +69,20 @@ module.exports = {
   user_image_choose_file: "FChoose file",
   user_image_size: "FMaximum size of 1 MB.",
   // user_image_dimensions: "FImage dimensions 250 x 250.",
+
+  tournament_detail_add_name: "FTournament Name*",
+  tournament_detail_max_teams: "FMaximum teams*",
+  tournament_detail_start_date: "FTournament start date*",
+  tournament_detail_end_date: "FTournament end date*",
+
+  tournament_detail_cancle: "FCancel",
+  tournament_detail_save: "FSave",
+
+  tournament_details_add_name_required: "FTournament name required",
+  tournament_details_max_team_required: "FTournament maximum team required",
+  tournament_details_start_date_required: "FTournament start date required",
+  tournament_details_end_date_required: "FTournament end date required",
+
   user_image_remove: "FRemove image",
   user_management_password: "FPassword*",
   user_management_placeholder_password: "FEnter password",
@@ -521,4 +538,7 @@ module.exports = {
   summary_table_heading_status: "Status",
   // tournament_filter_age_category_match: "Category",
   // summary_table_heading_status_to: "Sent tournament",
+  
+  // Tournament permission
+  user_management_tournament_permission_title: "FTournament Permissions",
  } 

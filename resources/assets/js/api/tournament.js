@@ -159,5 +159,8 @@ export default {
  },
  changeTeamName(teamData) {
   return api.post('teams/changeTeamName', {'teamData': teamData})
+ },
+ addTournamentDetail(tournamentDetailData) {
+  return axios.post('/api/tournament/details/add', {'tournamentDetailData': tournamentDetailData})
  }
 }
