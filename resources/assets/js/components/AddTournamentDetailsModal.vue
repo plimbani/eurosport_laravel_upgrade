@@ -16,7 +16,7 @@
 		                      <input v-model="formValues.tournament_name" v-validate="'required'"
 		                      :class="{'is-danger': errors.has('tournament_name') }"
 		                      name="tournament_name" type="text"
-		                      class="form-control" placeholder="Enter Tournament name">
+		                      class="form-control" placeholder="Enter tournament name">
 		                      <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
 		                      <span class="help is-danger" v-show="errors.has('tournament_name')">{{$lang.tournament_details_add_name_required}}
 		                      </span>
@@ -30,7 +30,7 @@
 		                      name="tournament_max_teams" type="text"
 		                      class="form-control" placeholder="Enter maximum teams">
 		                      <i v-show="errors.has('tournament_max_teams')" class="fa fa-warning"></i>
-		                      <span class="help is-danger" v-show="errors.has('tournament_max_teams')">{{$lang.tournament_details_add_name_required}}
+		                      <span class="help is-danger" v-show="errors.has('tournament_max_teams')">{{$lang.tournament_details_max_team_required}}
 		                      </span>
 		                  </div>
 		                </div>	
@@ -92,19 +92,7 @@ export default {
 	mounted() {
 		Plugin.initPlugins(['DatePicker'])
 
-		var start_date = new Date(moment(this.$store.state.Tournament.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'));
-		start_date = moment().format('DD/MM/YYYY')
-		if(start_date != ''){
-			$('#tournament_details_start_date').datepicker('setDate', start_date)
-		}
-
-		let tEndDate = ''
-		if(this.$store.state.Tournament.tournamentEndDate!= undefined){
-			tEndDate = new Date(moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
-			$('#tournament_details_end_date').datepicker('setDate', tEndDate)
-		} else {
-			$('#tournament_details_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
-		}
+		$('#tournament_details_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
 
 		$('#tournament_details_start_date').datepicker().on('changeDate',function(){
 			$('#tournament_details_end_date').datepicker('setStartDate', $('#tournament_details_start_date').val())
