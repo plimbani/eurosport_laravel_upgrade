@@ -86,9 +86,9 @@ const actions = {
       commit(types.SET_MATCHES, '')
     let tdata = {}
     if(state.tournamentFiler.filterKey != '' && state.tournamentFiler.filterValue != '') {
-        tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'fiterEnable':true}
+        tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'fiterEnable':true,'is_scheduled':false}
     } else {
-        tdata ={'tournamentId':state.tournamentId }
+        tdata ={'tournamentId':state.tournamentId,'is_scheduled':false}
     }
     Tournament.getFixtures(tdata).then(
     (response)=> {
