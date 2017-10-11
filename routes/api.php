@@ -202,6 +202,10 @@ $api->version('v1', function ($api) {
     $api->post('users/updateProfileImage','Laraspace\Api\Controllers\UserController@setUserImage');
 
     $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
+
+    $api->post('user/changeTournamentPermission','Laraspace\Api\Controllers\UserController@changeTournamentPermission');
+    $api->get('user/getUserTournaments/{id}','Laraspace\Api\Controllers\UserController@getUserTournaments');
+    
 });
 
 

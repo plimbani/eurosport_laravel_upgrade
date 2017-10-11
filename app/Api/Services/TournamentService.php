@@ -44,15 +44,16 @@ class TournamentService implements TournamentContract
         }
         else {
           $token=JWTAuth::getToken();
-          $userId = null;
+          $user = null;
           if($token)
           {
             $authUser = JWTAuth::parseToken()->toUser();
-            if($authUser && User::find($authUser->id)->hasRole('tournament.administrator')) {
-              $userId = $authUser->id;
+            $userObj = User::find($authUser->id);
+            if($authUser && $userObj->hasRole('tournament.administrator')) {
+              $user = $userObj;
             }
           }
-          $data = $this->tournamentRepoObj->getAll('', $userId);
+          $data = $this->tournamentRepoObj->getAll('', $user);
         }
 
         if ($data) {
