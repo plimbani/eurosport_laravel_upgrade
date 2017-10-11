@@ -72,7 +72,7 @@ module.exports= {
   user_image_size: "Maximum size of 1 MB.",
   // user_image_dimensions: "Image dimensions 250 x 250.",
 
-  tournament_detail_add_name: "Tournament Name*",
+  tournament_detail_add_name: "Tournament name*",
   tournament_detail_max_teams: "Maximum teams*",
   tournament_detail_start_date: "Tournament start date*",
   tournament_detail_end_date: "Tournament end date*",
@@ -81,7 +81,7 @@ module.exports= {
   tournament_detail_save: "Save",
 
   tournament_details_add_name_required: "Tournament name required",
-  tournament_details_max_team_required: "Tournament maximum team required",
+  tournament_details_max_team_required: "Maximum teams required",
   tournament_details_start_date_required: "Tournament start date required",
   tournament_details_end_date_required: "Tournament end date required",
 
@@ -293,6 +293,7 @@ module.exports= {
   pitch_modal_details_indoor: "Indoor",
   pitch_modal_details_other: "Other",
   pitch_modal_details_location: "Location",
+  pitch_modal_details_location_required: "Pitch location is required.",
   pitch_modal_details_size: "Size",
   pitch_modal_pitch_size: "Select pitch size",
   pitch_modal_details_size_side: "5-a-side",
