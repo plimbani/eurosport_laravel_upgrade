@@ -520,4 +520,7 @@ module.exports = {
   summary_table_heading_status: "Status",
   // tournament_filter_age_category_match: "Category",
   // summary_table_heading_status_to: "Sent tournament",
+  
+  // Tournament permission
+  user_management_tournament_permission_title: "FTournament Permissions",
  } 
