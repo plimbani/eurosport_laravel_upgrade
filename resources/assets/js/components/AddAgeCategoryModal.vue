@@ -635,6 +635,7 @@ export default {
                     this.$root.$emit('displayCompetationList')
                   } else if(response.data.status_code == 403) {
                     this.exceedTeamLimit = true;
+                    $('body').scrollTop();
                   } else {
                     alert('Error Occured')
                   }
