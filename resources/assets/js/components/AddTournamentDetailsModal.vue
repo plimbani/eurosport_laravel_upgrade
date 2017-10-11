@@ -93,6 +93,7 @@ export default {
 		Plugin.initPlugins(['DatePicker'])
 
 		$('#tournament_details_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
+		$('#tournament_details_end_date').datepicker('setStartDate', $('#tournament_details_start_date').val())
 
 		$('#tournament_details_start_date').datepicker().on('changeDate',function(){
 			$('#tournament_details_end_date').datepicker('setStartDate', $('#tournament_details_start_date').val())
