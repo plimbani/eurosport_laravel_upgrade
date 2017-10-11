@@ -17,15 +17,15 @@
                 <span class="help is-danger" v-show="errors.has('tournament_name')">Tournament name required</span>
             </div>
           </div>
-           <div class="col-sm-6">
+          <div class="col-sm-6">
             <div class="form-group" :class="{'has-error': errors.has('tournament.maximum_teams') }">
-                <label class="col-sm-4 form-control-label">{{$lang.maximum_teams}}*</label>
-                <div class="input-group">
-                    <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('maximum_teams') }">
-                    <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-else   :class="{'is-danger': errors.has('maximum_teams') }">
-                    <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
-                </div>
-                <span class="help is-danger" v-show="errors.has('maximum_teams')">Maximum teams required</span>
+              <label class="col-sm-4 form-control-label">{{$lang.maximum_teams}}*</label>
+              <div class="input-group">
+                 <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('maximum_teams') }">
+                 <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-else   :class="{'is-danger': errors.has('maximum_teams') }">
+                 <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
+              </div>
+             <span class="help is-danger" v-show="errors.has('maximum_teams')">Maximum teams required</span>
             </div>
           </div>
         </div>

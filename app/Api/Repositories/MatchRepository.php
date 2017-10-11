@@ -230,9 +230,12 @@ class MatchRepository
             // TODO: add constraint to only Show which are Scheduled
             $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',$tournamentData['is_scheduled']);
           }
+          if(isset($tournamentData['fixture_date']))
+          {
+            $reportQuery =  $reportQuery->whereDate('temp_fixtures.match_datetime','=',$tournamentData['fixture_date']);
+          }
 
-          // dd($tournamentData);
-            // Todo Added Condition For Filtering Purpose on Pitch Planner
+          // Todo Added Condition For Filtering Purpose on Pitch Planner
           if(isset($tournamentData['fiterEnable'])){
             if(isset($tournamentData['filterKey']) && $tournamentData['filterKey'] !='') {
               switch($tournamentData['filterKey']) {
@@ -258,9 +261,7 @@ class MatchRepository
               }
             }
           }
-
-          // dd($reportQuery->get());
-        return $reportQuery->get();
+      return $reportQuery->get();
     }
     private function getTeamsForClub($club_id, $tournamentId)
     {
