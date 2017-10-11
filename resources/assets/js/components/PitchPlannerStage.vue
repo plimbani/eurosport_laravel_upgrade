@@ -106,7 +106,9 @@ import _ from 'lodash'
                 if($(".pitch_planner_section").length > 0) {
                     setGameAndRefereeTabHeight();
                 }
-            },4000)
+
+            },5000)
+
 
             },
             matchSchedulerChange() {
