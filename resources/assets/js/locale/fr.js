@@ -70,7 +70,7 @@ module.exports = {
   user_image_size: "FMaximum size of 1 MB.",
   // user_image_dimensions: "FImage dimensions 250 x 250.",
 
-  tournament_detail_add_name: "FTournament Name*",
+  tournament_detail_add_name: "FTournament name*",
   tournament_detail_max_teams: "FMaximum teams*",
   tournament_detail_start_date: "FTournament start date*",
   tournament_detail_end_date: "FTournament end date*",
@@ -79,7 +79,7 @@ module.exports = {
   tournament_detail_save: "FSave",
 
   tournament_details_add_name_required: "FTournament name required",
-  tournament_details_max_team_required: "FTournament maximum team required",
+  tournament_details_max_team_required: "FMaximum teams required",
   tournament_details_start_date_required: "FTournament start date required",
   tournament_details_end_date_required: "FTournament end date required",
 
