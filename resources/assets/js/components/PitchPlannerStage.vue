@@ -85,27 +85,13 @@ import _ from 'lodash'
                     }
                     // vm.getUnavailablePitch()
                 // },500)
-            setTimeout(function(){
-                $('.fc-referee').each(function(referee){
-                    if(this.id == -1 || this.id == -2 ){
-                        $(this).closest('.fc-event').addClass('bg-grey');
-                    }
-                })
-
-            },2000)
-            setTimeout(function(){
-                $('.fc-referee').each(function(referee){
-                    if(this.id == -1 || this.id == -2 ){
-                        $(this).closest('.fc-event').addClass('bg-grey');
-                    }
-                })
-            },4000)
+            
             setTimeout(function(){
                 
                 if($(".pitch_planner_section").length > 0) {
                     setGameAndRefereeTabHeight();
                 }
-            },3500)
+            },1000)
 
             },
             matchSchedulerChange() {
@@ -280,21 +266,9 @@ import _ from 'lodash'
                         let ed = $(this)
                         if(event.refereeId == -1 || event.refereeId == -2){
                             revertFunc();
-                            setTimeout(function(){
-                                // $('.fc-referee').each(function(referee){
-                                //     if(this.id == -1 || this.id == -2){
-                                //         $(this).closest('.fc-event').addClass('bg-grey');
-                                //     }
-                                // })
-                            },200)
+                            
                         }else{
-                            setTimeout(function(){
-                                // $('.fc-referee').each(function(referee){
-                                //     if(this.id == -1 || this.id == -2){
-                                //         $(this).closest('.fc-event').addClass('bg-grey');
-                                //     }
-                                // })
-                            },200)
+                            
                             let matchId = event.id ? event.id : event.matchId
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
@@ -379,7 +353,7 @@ import _ from 'lodash'
 
                 setTimeout(function(){
                     $('div.fc-unthemed').fullCalendar('addEventSource', vm.scheduledMatches);
-                },500)
+                },1000)
             },
             getScheduledMatch(filterKey='',filterValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
