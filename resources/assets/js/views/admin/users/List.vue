@@ -95,6 +95,11 @@
                                         <i class="jv-icon jv-dustbin"></i>
                                         </a>
                                         &nbsp;
+                                        <a v-if="user.role_slug == 'tournament.administrator'" class="text-primary icon-size-1-2" href="javascript:void(0)"
+                                        @click="editTournamentPermission(user)">
+                                        <i class="fa fa-eye fa-1x"></i>
+                                        </a>
+                                        &nbsp;
                                         <!--<a v-if="IsSuperAdmin == true"
                                         href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you
@@ -153,6 +158,7 @@
            @confirmed="activeConfirmed()"
            @closeModal="closeConfirm()">
          </active-modal>
+         <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -160,6 +166,7 @@
     import ResendModal from '../../../components/Resendmail.vue'
     import UserModal  from  '../../../components/UserModal.vue'
     import ActiveModal  from  '../../../components/ActiveModal.vue'
+    import TournamentPermissionModal from '../../../components/TournamentPermissionModal.vue'
     import User from '../../../api/users.js'
     import Tournament from '../../../api/tournament.js'
     import VuePaginate from 'vue-paginate'
@@ -170,7 +177,8 @@
             DeleteModal,
             ResendModal,
             UserModal,
-            ActiveModal
+            ActiveModal,
+            TournamentPermissionModal
         },
         data() {
             return {
@@ -194,7 +202,8 @@
                 paginate: ['userpagination'],
                 shown: false,
                 no_of_records: 20,
-                recordCounts: [5,10,20,50,100]
+                recordCounts: [5,10,20,50,100],
+                currentUserInTournamentPermission: null
             }
         },
 
@@ -381,7 +390,14 @@
                    // userData += '&report_download=yes'
                    // window.location.href = "/api/users/getUserTableData?=report_download=yes&registerType=desktop&userData=";
 
-             }
+             },
+            editTournamentPermission(user) {
+              this.currentUserInTournamentPermission = user;
+              console.log('user', user);
+              this.$root.$emit('getUserTournaments', user);
+              $('#tournament_permission_modal').modal('show')
+
+            }
         }
     }
 </script>
