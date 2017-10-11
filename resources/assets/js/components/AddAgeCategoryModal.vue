@@ -635,6 +635,7 @@ export default {
                     this.$root.$emit('displayCompetationList')
                   } else if(response.data.status_code == 403) {
                     this.exceedTeamLimit = true;
+                    $('.add-category-table .modal').animate({ scrollTop: 0}, 500);
                   } else {
                     alert('Error Occured')
                   }

@@ -37,7 +37,7 @@
                   <span class="input-group-addon">
                       <i class="jv-icon jv-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  readonly="readonly" id="tournament_start_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  disabled="disabled" id="tournament_start_date">
                   <input type="text" class="form-control ls-datepicker" v-else id="tournament_start_date">
               </div>
             </div>
@@ -49,7 +49,7 @@
                   <span class="input-group-addon">
                       <i class="jv-icon jv-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  readonly="readonly" id="tournament_end_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  disabled="disabled" id="tournament_end_date">
                   <input type="text" class="form-control ls-datepicker" v-else id="tournament_end_date">
               </div>
             </div>
