@@ -94,6 +94,7 @@ module.exports= {
   user_management_user_type: "User type*",
   user_management_user_type_required: "This field is required.",
   user_management_default_app_tournament: "Default app tournament*",
+  maximum_teams: "Maximum teams",
   user_management_default_app_tournament_required: "This field is required.",
   user_management_user_cancle: "Cancel",
   user_management_user_save: "Save",
