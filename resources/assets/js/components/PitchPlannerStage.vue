@@ -357,11 +357,12 @@ import _ from 'lodash'
             },
             getScheduledMatch(filterKey='',filterValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
-                let tournamentData= []
+                let tournamentData= [];
+                let fixtureDate = moment(this.stageDate).format('YYYY-MM-DD');
                 if(filterKey != '' && filterValue != '') {
-                    tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id}
+                    tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id,'is_scheduled':true,'fixture_date':fixtureDate}
                 } else {
-                    tournamentData ={'tournamentId':this.tournamentId }
+                    tournamentData ={'tournamentId':this.tournamentId,'is_scheduled':true,'fixture_date':fixtureDate}
                 }
                 // let tournamentData ={'tournamentId':this.tournamentId }
                 Tournament.getFixtures(tournamentData).then(
