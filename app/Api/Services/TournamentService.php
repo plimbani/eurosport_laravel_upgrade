@@ -383,6 +383,7 @@ class TournamentService implements TournamentContract
      */
     public function delete($tournamentId)
     {
+        DB::table('tournament_user')->where('tournament_id', $tournamentId)->delete();
         $data = $this->tournamentRepoObj->delete($tournamentId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
