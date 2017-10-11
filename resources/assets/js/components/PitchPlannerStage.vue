@@ -334,18 +334,18 @@ import _ from 'lodash'
                         }else{
                             vm.setPitchModal = 1
                             vm.matchFixture = calEvent
-                            setTimeout(function() {
+                             setTimeout(function() {
                                 $('#matchScheduleModal').modal('show')
                                 $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                     vm.setPitchModal = 0
                                     // setTimeout(function(){
-                                        vm.matchFixture = {}
-                                        vm.$store.dispatch('setCompetationWithGames');
-                                        vm.getScheduledMatch('age_category','')
+                                    vm.matchFixture = {}
+                                    vm.$store.dispatch('setCompetationWithGames');
+                                    vm.getScheduledMatch('age_category','')
                                     // },500)
                                     
                                 });
-                            },200);
+                             },100);
                         }
                     },
                     resourceAreaWidth: {
