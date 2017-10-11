@@ -109,7 +109,6 @@ module.exports= {
   tournament_manage_edition: "Select an existing tournament",
   tournament_information: "Tournament information",
   tournament_name: "Tournament name",
-  maximum_teams: "Maximum teams",
   tournament_start_date: "Tournament start date",
   tournament_end_date: "Tournament end date",
   tournament_show_optional_details: "Show optional details",
