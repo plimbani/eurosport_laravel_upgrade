@@ -297,7 +297,8 @@ class MatchRepository
           $reportQuery = $reportQuery->where('match_standing.tournament_id', $tournamentData['tournamentId']);
           }
 
-          $reportQuery->orderBy('match_standing.points','desc')
+          $reportQuery->orderBy('match_standing.manual_order','asc')
+                      ->orderBy('match_standing.points','desc')
                       ->orderBy('GoalDifference','desc')
                       ->orderBy('match_standing.goal_for','desc');
 
@@ -745,5 +746,23 @@ class MatchRepository
       return DB::table('temp_fixtures')
             ->where('id', $matchData['matchId'])
             ->update($updateData);
+    }
+
+    public function saveStandingsManually($data) {
+      $competitionId = $data['competitionId'];
+      $tournamentId = $data['tournament_id'];
+      $teamDetails = $data['teamDetails'];
+
+      $competition = Competition::find($competitionId);
+      $competition->is_manual_override_standing = $data['isManualOverrideStanding'] == true ? 1 : 0;
+      $competition->save();
+
+      if($data['isManualOverrideStanding'] == true) {
+          foreach ($teamDetails as $key => $teamId) {
+              $teamStanding = DB::table('match_standing')->where('tournament_id', $tournamentId)->where('competition_id', $competitionId)->where('team_id', $teamId)->update(['manual_order' => $key+1]);
+          }
+      } else {
+          $teamStanding = DB::table('match_standing')->where('competition_id', $competitionId)->update(['manual_order' => null]);
+      }
     }
 }
