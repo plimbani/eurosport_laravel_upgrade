@@ -56,8 +56,12 @@ class AgeGroupService implements AgeGroupContract
         $tournamentTotalTeamSum = $tournamentTotalTeamSumObj->pluck('total_teams')->sum();
         $totalCheckTeams = $data['total_teams'] + $tournamentTotalTeamSum;
 
-        if($maximumTeams && ($totalCheckTeams > $maximumTeams)) {
-          return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament'];
+        if($maximumTeams == null) {
+          return ['status_code' => '403', 'message' => 'Please add maximum teams limit on "Tournament details" page.'];
+        }
+
+        if(($totalCheckTeams > $maximumTeams)) {
+          return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament.'];
         }
 
         // TODO: Here we set the value for Other Data
