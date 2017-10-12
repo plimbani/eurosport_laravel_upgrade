@@ -27,15 +27,16 @@
                           <div class="form-group row">
                               <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_location}}*</label>
                               <div class="col-sm-6">
-                                  <select name="location" id="location" class="form-control" >
+                                  <select name="location" id="location" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('location') }">
                                       <option :value="venue.id" v-for="(venue,key) in venues">{{venue.name}}</option>
                                   </select>
+                                   <span class="help is-danger" v-show="errors.has('location')">{{$lang.pitch_modal_details_location_required}}</span>
                               </div>
                           </div>
                           <div class="form-group row">
                               <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_name}}</label>
                               <div class="col-sm-6">
-                                  <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number"   class="form-control">
+                                  <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number" id="pitch_number" class="form-control">
                                       <i v-show="errors.has('pitch_number')" class="fa fa-warning"></i>
                                   <span class="help is-danger" v-show="errors.has('pitch_number')">{{ $lang.pitch_modal_details_name_required }}</span>
                               </div>
