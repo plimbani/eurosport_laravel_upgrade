@@ -16,14 +16,18 @@
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
           </div>
           <div class="card-block text-center">
-            <div class= "form-group">
+            <div class="form-group" v-if="(userDetails.role_name != 'Tournament administrator')">
+              <button v-if="(userDetails.role_name != 'Tournament administrator')" type="button" class="btn btn-success col-sm-8" data-target="#tournament_details_modal" data-toggle="modal">{{$lang.welcome_add_button_tournament_details}}</button>
+              <AddTournamentDetailsModal></AddTournamentDetailsModal>
+            </div>
+            <div class= "form-group" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')">
               <button class="btn btn-primary col-sm-8 btn-theme"
               @click="addNewTournament()" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')">
               {{$lang.welcome_add_button_new_edition}}</button>
             </div>
-              <div class="form-group">
-                <tournamentDropDown></tournamentDropDown>
-              </div>
+            <div class="form-group">
+              <tournamentDropDown></tournamentDropDown>
+            </div>
           </div>
         </div>
       </div>
@@ -32,7 +36,9 @@
         <div class="card-header">
           <h5 class="text-center"
           v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')"><strong>{{$lang.welcome_manage_user}}</strong></h5>
-          <h5 class="text-center" v-else><strong>{{$lang.welcome_add_tournament}}</strong>
+          <h5 class="text-center" v-if="(userDetails.role_name == 'Tournament administrator')"><strong>{{$lang.welcome_add_tournament_permission}}</strong></h5>
+          <h5 class="text-center" v-if="(userDetails.role_name == 'Internal administrator')"><strong>{{$lang.welcome_add_tournament}}</strong></h5>
+          <!-- <h5 class="text-center" v-else><strong>{{$lang.welcome_add_tournament}}</strong> -->
           </h5>
         </div>
         <div class="card-block text-center">
@@ -43,8 +49,8 @@
                 <li class="text-left">{{$lang.welcome_add_new_tournament_publish}}!</li>
               </ol>
             </div>
-            <button class="btn btn-primary col-sm-8 btn-theme" @click="addNewTournament()" v-if="(userDetails.role_name == 'Tournament administrator' || userDetails.role_name == 'Internal administrator') ">{{$lang.welcome_add_user}} </button>
-            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList()" v-else>{{$lang.welcome_add_new_user}}</button>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="addNewTournament()" v-if="(userDetails.role_name == 'Internal administrator') ">{{$lang.welcome_add_button_new_edition}} </button>
+            <button class="btn btn-primary col-sm-8 btn-theme" @click="userList()" v-if="(userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">{{$lang.welcome_add_new_user}}</button>
             <br>
         </div>
       </div>
@@ -54,10 +60,12 @@
 </template>
 <script>
 import TournamentDropDown from '../../../components/TournamentDropDown.vue'
+import AddTournamentDetailsModal  from  '../../../components/AddTournamentDetailsModal.vue'
 import Ls from '../../../services/ls'
 export default {
   components : {
-    TournamentDropDown
+    TournamentDropDown,
+    AddTournamentDetailsModal
   },
 
 computed: {
