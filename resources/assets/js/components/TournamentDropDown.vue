@@ -52,9 +52,9 @@
         twitter:this.tournament.twitter
       }
     	  this.$store.dispatch('SetTournamentName', tournamentSel)
-    	  let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Formats'}
+    	  let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Tournament details'}
     	  this.$store.dispatch('setActiveTab', currentNavigationData)
-    	  this.$router.push({name:'competation_format'})
+    	  this.$router.push({name:'tournament_add'})
 			// this.$store.dispatch('SetTournamentName','Your Tournament')
 			// alert(this.option.name)
 			// alert(this.tournament)

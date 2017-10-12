@@ -91,13 +91,14 @@ export default {
 	},
 	mounted() {
 		Plugin.initPlugins(['DatePicker'])
-
-		$('#tournament_details_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
-		$('#tournament_details_end_date').datepicker('setStartDate', $('#tournament_details_start_date').val())
-
+		let that = this;
 		$('#tournament_details_start_date').datepicker().on('changeDate',function(){
 			$('#tournament_details_end_date').datepicker('setStartDate', $('#tournament_details_start_date').val())
 			$('#tournament_details_end_date').datepicker('clearDates')
+			that.errors.remove('tournament_start_date');
+		});
+		$('#tournament_details_end_date').datepicker().on('changeDate',function(){
+			that.errors.remove('tournament_end_date');
 		});
 	},
 	methods: {
