@@ -122,7 +122,7 @@ import _ from 'lodash';
                 return false
             },
             sortTeams() {
-              let matchData = _.sortBy(_.cloneDeep(this.matchData), (o) => { return o.TeamName });
+              let matchData = _.sortBy(_.cloneDeep(this.matchData), (o) => { return _.lowerCase(o.TeamName) });
               this.teams = _.map(matchData, (o) => { return { id: o.id,  name: o.TeamName }; });
             }
         }
