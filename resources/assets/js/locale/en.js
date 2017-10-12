@@ -12,7 +12,9 @@ module.exports= {
   welcome_add_user: 'Add new tournament',
   welcome_see_tournament_admin_view: 'See tournament administrator view',
   welcome_add_button_new_tournament: 'Add new tournament',
-  welcome_add_button_new_edition: 'Add new tournament',
+  welcome_add_button_new_edition: 'Create full tournament',
+  welcome_add_tournament_permission: 'Tournament Permissions',
+  welcome_add_button_tournament_details: 'Add tournament details only',
 
   siteheader_name: "Chris",
   siteheader_settings: "Settings",
@@ -69,6 +71,20 @@ module.exports= {
   user_image_choose_file: "Choose file",
   user_image_size: "Maximum size of 1 MB.",
   // user_image_dimensions: "Image dimensions 250 x 250.",
+
+  tournament_detail_add_name: "Tournament name*",
+  tournament_detail_max_teams: "Maximum teams*",
+  tournament_detail_start_date: "Tournament start date*",
+  tournament_detail_end_date: "Tournament end date*",
+
+  tournament_detail_cancle: "Cancel",
+  tournament_detail_save: "Save",
+
+  tournament_details_add_name_required: "Tournament name required",
+  tournament_details_max_team_required: "Maximum teams required",
+  tournament_details_start_date_required: "Tournament start date required",
+  tournament_details_end_date_required: "Tournament end date required",
+
   user_image_remove: "Remove image",
   user_management_password: "Password*",
   user_management_placeholder_password: "Enter password",
@@ -78,6 +94,7 @@ module.exports= {
   user_management_user_type: "User type*",
   user_management_user_type_required: "This field is required.",
   user_management_default_app_tournament: "Default app tournament*",
+  maximum_teams: "Maximum teams",
   user_management_default_app_tournament_required: "This field is required.",
   user_management_user_cancle: "Cancel",
   user_management_user_save: "Save",
@@ -276,6 +293,7 @@ module.exports= {
   pitch_modal_details_indoor: "Indoor",
   pitch_modal_details_other: "Other",
   pitch_modal_details_location: "Location",
+  pitch_modal_details_location_required: "Pitch location is required.",
   pitch_modal_details_size: "Size",
   pitch_modal_pitch_size: "Select pitch size",
   pitch_modal_details_size_side: "5-a-side",
@@ -534,4 +552,6 @@ module.exports= {
   // tournament_filter_age_category_match: "Category",
   // summary_table_heading_status_to: "Sent tournament",
 
+  // Tournament permission
+  user_management_tournament_permission_title: "Tournament Permissions",
 }

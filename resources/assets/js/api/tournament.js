@@ -162,5 +162,8 @@ export default {
  },
  saveStandingsManually(data) {
   return api.post('match/saveStandingsManually', {data})
+ },
+ addTournamentDetail(tournamentDetailData) {
+  return axios.post('/api/tournament/details/add', {'tournamentDetailData': tournamentDetailData})
  }
 }

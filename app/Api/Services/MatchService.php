@@ -490,7 +490,7 @@ class MatchService implements MatchContract
       //print_r($compIds);exit;
       $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$tournament_id)
-                ->where('round','=' , 'Elimination')
+                // ->where('round','=' , 'Elimination')
                 ->where('age_group_id','=',$ageGroupId)
                 ->get();
 
@@ -736,10 +736,10 @@ class MatchService implements MatchContract
             // Manual standing insert - end
 
             $result = DB::table('match_standing')
-                            ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
-                            ->where('competition_id','>',$cup_competition_id)
-                            // ->whereIn('team_id',$findTeams)
-                            ->delete();
+                            ->join('competitions', 'match_standing.competition_id', '=', 'competitions.id')
+                            ->where('match_standing.tournament_id','=',$fix1['CupFixture']['tournamentId'])
+                            ->where('match_standing.competition_id','>',$cup_competition_id)
+                            ->where('competitions.tournament_competation_template_id', '=', $fix1['CupFixture']['age_group_id'])->delete();
             
 
             // dd($result,$fix1['CupFixture']['tournamentId'],$cup_competition_id,$findTeams);                

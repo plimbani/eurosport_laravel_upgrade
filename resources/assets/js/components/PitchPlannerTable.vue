@@ -150,7 +150,11 @@
                 $('.pitch_planner_section').mCustomScrollbar({
                 'autoHideScrollbar':true
             });
-            this.resetPitch()
+                let vm = this
+            setTimeout(function(){
+                vm.resetPitch();
+            },500)    
+            
             $(document).ready(function() {
                 $(document).on('click', '.js-pitch-planner-bt', function(e){
                     $(".js-pitch-planner-bt").removeClass('btn-primary').addClass('btn-secondary');
