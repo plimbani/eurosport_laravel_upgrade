@@ -105,6 +105,7 @@ $api->version('v1', function ($api) {
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
     $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore');
     $api->post('match/refreshStanding', 'Laraspace\Api\Controllers\MatchController@refreshStanding');
+    $api->post('match/saveStandingsManually', 'Laraspace\Api\Controllers\MatchController@saveStandingsManually');
 
 
 
