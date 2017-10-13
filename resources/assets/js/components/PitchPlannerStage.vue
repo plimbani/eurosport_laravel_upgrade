@@ -511,7 +511,6 @@ import _ from 'lodash'
                         
                         this.stageWithoutPitch()
                         this.getUnavailablePitch()
-                       
                         $('.fc-referee').each(function(referee){
                             if(this.id == -1 || this.id == -2 ){
                                 $(this).closest('.fc-event').addClass('bg-grey');
@@ -571,6 +570,7 @@ import _ from 'lodash'
                      vm1.initScheduler();
                     },
                     (error) => {
+                        vm1.initScheduler();
                     }
                 )
             }
