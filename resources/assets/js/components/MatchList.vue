@@ -211,10 +211,12 @@ export default {
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
 		},
 		updateScore(matchId,index) {
+      $("body .js-loader").removeClass('d-none');
       this.index =  index
       let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
         Tournament.updateScore(matchData).then(
             (response) => {
+              $("body .js-loader").addClass('d-none');
 
               let competationId =response.data.data.competationId
 
