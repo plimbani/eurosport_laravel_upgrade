@@ -15,9 +15,15 @@
             
             <!-- <div class="modal-header"> -->
             <div class="form-group row">
-              <div class="col-sm-12">
-                <input type="checkbox" name="chkposition" v-model="is_competition_manual_override_standing" :true-value="1" :false-value="0">
-                <span>Do you wish to manually override the final standings of the group? If so please tick the button and select the ranking of the teams below:</span>
+              <div class="col-sm-12 d-flex align-items-start">
+                <div>
+                  <div class="checkbox">
+                    <div class="c-input">
+                        <input type="checkbox" id="is_competition_manual_override_standing" class="euro-checkbox" name="chkposition" v-model="is_competition_manual_override_standing" :true-value="1" :false-value="0" />
+                        <label for="is_competition_manual_override_standing">Do you wish to manually override the final standings of the group? If so please tick the button and select the ranking of the teams below.</label>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="form-group row" :class="{'has-error': errors.has('manual_teams') }" v-if="is_competition_manual_override_standing" v-for="n in teams.length">
@@ -34,11 +40,11 @@
             <!-- </div> -->
             <!-- <div class="modal-body js-delete-confirmation-msg">{{ deleteConfirmMsg }}</div> -->
             
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.manual_ranking_cancel}}</button>
-                  <button type="submit" class="btn btn-primary" @click.prevent="saveStandingsManually()">{{$lang.manual_ranking_save}}</button>
-              </div>
             </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.manual_ranking_cancel}}</button>
+              <button type="submit" class="btn btn-primary" @click.prevent="saveStandingsManually()">{{$lang.manual_ranking_save}}</button>
           </div>
         </div>
       </div>
