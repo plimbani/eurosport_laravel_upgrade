@@ -417,3 +417,6 @@ input[type=number]:hover::-webkit-inner-spin-button {
 .pitch-planner-item .fc-event, .planner_list_content .dashbox.unscheduled-match-content, .planner_list_content .raferee_details {
     border-radius: 0px;
 }
+.modal-backdrop.show {
+    background-color: rgba(0,0,0,0.7);
+}
