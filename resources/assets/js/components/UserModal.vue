@@ -13,21 +13,21 @@
                 <div class="form-group row" :class="{'has-error': errors.has('name') }">
                   <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
                   <div class="col-sm-6">
-                      <input v-model="formValues.name" v-validate="'required'"
+                      <input v-model="formValues.name" v-validate="'required|alpha_spaces'"
                       :class="{'is-danger': errors.has('name') }"
                       name="name" type="text"
                       class="form-control" placeholder="Enter first name">
                       <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                      <span class="help is-danger" v-show="errors.has('name')">{{$lang.user_management_add_name_required}}
+                      <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}
                       </span>
                   </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
                     <div class="col-sm-6">
-                        <input v-model="formValues.surname" v-validate="'required|alpha'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
+                        <input v-model="formValues.surname" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
                         <i v-show="errors.has('surname')" class="fa fa-warning"></i>
-                        <span class="help is-danger" v-show="errors.has('surname')">{{$lang.user_management_add_surname_required}}</span>
+                        <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -117,7 +117,33 @@ import { ErrorBag } from 'vee-validate';
                 deleteAction: '',
                 emailData:[],
                 existEmail: false,
-                showOrganisation: false
+                showOrganisation: false,
+                errorMessages: {
+                  en: {
+                    custom: {
+                      name: {
+                        required: 'This field is required.',
+                        alpha_spaces: 'Only alphabetic characters and spaces are allowed.',
+                      },
+                      surname: {
+                        required: 'This field is required.',
+                        alpha_spaces: 'Only alphabetic characters and spaces are allowed.',
+                      }
+                    }
+                  },
+                  fr: {
+                    custom: {
+                      name: {
+                        required: 'FThis field is required.',
+                        alpha_spaces: 'FOnly alphabetic characters and spaces are allowed.',
+                      },
+                      surname: {
+                        required: 'FThis field is required.',
+                        alpha_spaces: 'FOnly alphabetic characters and spaces are allowed.',
+                      }
+                    }
+                  }
+                }
             }
         },
         created() {
@@ -127,6 +153,8 @@ import { ErrorBag } from 'vee-validate';
                 this.editUser(this.userId)
             }
             this.userRolesOptions =  this.userRoles
+
+            this.$validator.updateDictionary(this.errorMessages);
         },
         props:['userId','userRoles','userEmailData','publishedTournaments'],
         methods: {

@@ -39,6 +39,11 @@ export default {
   },
   deleteUser(deleteUrl) {
     return api.post(deleteUrl)
-  }
-
+  },
+  changeTournamentPermission(permissionData) {
+    return api.post('user/changeTournamentPermission', permissionData)
+  },
+  getUserTournaments(userId) {
+    return api.get('user/getUserTournaments/' + userId)
+  },
 }
