@@ -574,47 +574,47 @@ class MatchRepository
 
     public function setMatchSchedule($data)
     {
-      $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
-      $team_interval =   $teamData['team_interval'];
-      $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
-      $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
-      $teams = array($teamData['home_team'],$teamData['away_team'] );
+      // $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
+      // $team_interval =   $teamData['team_interval'];
+      // $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
+      // $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
+      // $teams = array($teamData['home_team'],$teamData['away_team'] );
       
       $pitchData = Pitch::find($data['pitchId']);
-      $matchResultCount = TempFixture::where('tournament_id',$data['tournamentId'])
-                  ->where('id','!=',$data['matchId'])
-                  ->where('is_scheduled',1)
-                  ->where(function($query1) use ($teams) {
-                    $query1->whereIn('home_team',$teams)
-                    ->orWhereIn('away_team',$teams) ; 
-                  })
+      // $matchResultCount = TempFixture::where('tournament_id',$data['tournamentId'])
+      //             ->where('id','!=',$data['matchId'])
+      //             ->where('is_scheduled',1)
+      //             ->where(function($query1) use ($teams) {
+      //               $query1->whereIn('home_team',$teams)
+      //               ->orWhereIn('away_team',$teams) ; 
+      //             })
 
-                  ->where(function($query) use ($team_interval,$startTime,$endTime,$data) {
-                      $edStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes(0);
-                      $edEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes($team_interval);
-                      $sdStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
-                      $sdEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
-                      $query->where(function($query2) use ($sdStartTime,$sdEndTime) {
-                        $query2->where('match_endtime','>',$sdStartTime)->where('match_endtime','<=',$sdEndTime);
-                      });
-                      $query->orWhere(function($query3) use ($edStartTime,$edEndTime) {
-                         $query3->where('match_datetime','>=',$edStartTime)->where('match_datetime','<',$edEndTime);
-                      });
-                      $query->orWhere(function($query4) use ($data) {
-                        $query4->where('match_datetime','>',$data['matchStartDate'])->where('match_datetime','<',$data['matchEndDate']);
-                      });
-                       $query->orWhere(function($query5) use ($data) {
-                        $query5->where('match_datetime','>=',$data['matchStartDate'])->where('match_datetime','<=',$data['matchEndDate']);
-                      });
-                       $query->orWhere(function($query6) use ($data) {
-                        $query6->where('match_endtime','>=',$data['matchStartDate'])->where('match_endtime','<=',$data['matchEndDate']);
-                      });
-                   })
-                  ->get();
+      //             ->where(function($query) use ($team_interval,$startTime,$endTime,$data) {
+      //                 $edStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes(0);
+      //                 $edEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes($team_interval);
+      //                 $sdStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
+      //                 $sdEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
+      //                 $query->where(function($query2) use ($sdStartTime,$sdEndTime) {
+      //                   $query2->where('match_endtime','>',$sdStartTime)->where('match_endtime','<=',$sdEndTime);
+      //                 });
+      //                 $query->orWhere(function($query3) use ($edStartTime,$edEndTime) {
+      //                    $query3->where('match_datetime','>=',$edStartTime)->where('match_datetime','<',$edEndTime);
+      //                 });
+      //                 $query->orWhere(function($query4) use ($data) {
+      //                   $query4->where('match_datetime','>',$data['matchStartDate'])->where('match_datetime','<',$data['matchEndDate']);
+      //                 });
+      //                  $query->orWhere(function($query5) use ($data) {
+      //                   $query5->where('match_datetime','>=',$data['matchStartDate'])->where('match_datetime','<=',$data['matchEndDate']);
+      //                 });
+      //                  $query->orWhere(function($query6) use ($data) {
+      //                   $query6->where('match_endtime','>=',$data['matchStartDate'])->where('match_endtime','<=',$data['matchEndDate']);
+      //                 });
+      //              })
+      //             ->get();
                     // dd($matchResultCount->count());
-     if($matchResultCount->count() >0){
-      return -1 ;
-     }     
+     // if($matchResultCount->count() >0){
+     //  return -1 ;
+     // }     
       $updateData = [
         'venue_id' => $pitchData->venue_id,
         'pitch_id' => $data['pitchId'],
