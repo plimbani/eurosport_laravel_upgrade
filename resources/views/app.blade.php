@@ -37,7 +37,7 @@
             padding: 0.6rem 0.75rem;
         }
         input[type=number]:hover::-webkit-inner-spin-button {
-            right: 1px;
+            right: 2px;
         }
       }}
     </style>
