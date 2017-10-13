@@ -49,7 +49,7 @@ class UserRepository {
                         ->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
         }
 
-        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale');
+        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale');
 
         $user->orderBy('people.last_name','asc');
 
@@ -233,4 +233,15 @@ class UserRepository {
       return User::where('email',$email)->update($updatedValue);
     }
 
+    public function changeTournamentPermission($data) {
+      $user = User::find($data['user']['id']);
+      $user->tournaments()->sync([]);
+      $user->tournaments()->attach($data['tournaments']);
+      return true;
+    } 
+
+    public function getUserTournaments($id) {
+      $user = User::find($id);
+      return $user->tournaments()->pluck('id');
+    }
 }

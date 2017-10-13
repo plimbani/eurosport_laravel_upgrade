@@ -44,15 +44,16 @@ class TournamentService implements TournamentContract
         }
         else {
           $token=JWTAuth::getToken();
-          $userId = null;
+          $user = null;
           if($token)
           {
             $authUser = JWTAuth::parseToken()->toUser();
-            if($authUser && User::find($authUser->id)->hasRole('tournament.administrator')) {
-              $userId = $authUser->id;
+            $userObj = User::find($authUser->id);
+            if($authUser && $userObj->hasRole('tournament.administrator')) {
+              $user = $userObj;
             }
           }
-          $data = $this->tournamentRepoObj->getAll('', $userId);
+          $data = $this->tournamentRepoObj->getAll('', $user);
         }
 
         if ($data) {
@@ -382,6 +383,7 @@ class TournamentService implements TournamentContract
      */
     public function delete($tournamentId)
     {
+        DB::table('tournament_user')->where('tournament_id', $tournamentId)->delete();
         $data = $this->tournamentRepoObj->delete($tournamentId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
@@ -807,5 +809,10 @@ class TournamentService implements TournamentContract
           return;
         }
       }
+    }
+
+    public function addTournamentDetails($tournamentDetailData)
+    {
+      $tournamentDetailData = $this->tournamentRepoObj->addTournamentDetails($tournamentDetailData['tournamentDetailData']);
     }
 }

@@ -30,7 +30,17 @@
     <meta name="msapplication-TileImage" content="/assets/admin/img/favicons/mstile-144x144.png">
     <meta name="msapplication-config" content="/assets/admin/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#333333">
-
+    <style>
+      @media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) { 
+      @media {
+        input[type=number] {
+            padding: 0.6rem 0.75rem;
+        }
+        input[type=number]:hover::-webkit-inner-spin-button {
+            right: 1px;
+        }
+      }}
+    </style>
 </head>
 <body class="layout-default skin-default">
 <div id="app" class="template-container">
