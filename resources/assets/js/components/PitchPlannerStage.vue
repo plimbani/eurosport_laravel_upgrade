@@ -508,14 +508,14 @@ import _ from 'lodash'
                                 });
                             });
                         this.scheduledMatches =sMatches
-                        this.getUnavailablePitch()
+                        
                         this.stageWithoutPitch()
-                        vm.initScheduler();
-                            $('.fc-referee').each(function(referee){
-                                if(this.id == -1 || this.id == -2 ){
-                                    $(this).closest('.fc-event').addClass('bg-grey');
-                                }
-                            })
+                        this.getUnavailablePitch()
+                        $('.fc-referee').each(function(referee){
+                            if(this.id == -1 || this.id == -2 ){
+                                $(this).closest('.fc-event').addClass('bg-grey');
+                            }
+                        })
                     }
                 )
             },
@@ -567,8 +567,10 @@ import _ from 'lodash'
                         this.scheduledMatches.push(mData2)
                         this.unavailableBlock.push(mData2)
                         });
+                     vm1.initScheduler();
                     },
                     (error) => {
+                        vm1.initScheduler();
                     }
                 )
             }
