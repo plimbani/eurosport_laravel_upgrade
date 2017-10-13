@@ -207,7 +207,7 @@
                     <input type="number" placeholder="" v-validate="'required'"  name="team_interval"  v-model="competation_format.team_interval"
                    min="0" class="form-control">
                     <i v-show="errors.has('team_interval')" class="fa fa-warning"></i>
-                  <span class="help is-danger" v-show="errors.has('team_interval')">{{$lang.competation_modal_team_interval_required}}</span>
+                 
                 </div>
 
                <!--  <span v-if="competation_format.team_interval == '' " class="col-sm-4">
@@ -217,7 +217,7 @@
                 <span class="col-sm-4">{{$lang.competation_modal_team_interval_minutes}}</span>
                 
               </div>
-
+               <span class="help is-danger" v-show="errors.has('team_interval')">{{$lang.competation_modal_team_interval_required}}</span>
             </div>
           </div>
           <div class="form-group row align-items-top"
