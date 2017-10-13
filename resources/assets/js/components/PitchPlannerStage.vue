@@ -118,6 +118,7 @@ import _ from 'lodash'
             },
             initScheduler() {
                 let vm = this;
+                 $("body .js-loader").addClass('d-none');
                 $(this.$el).fullCalendar({
                     editable: true,
                     aspectRatio: 1.8,
@@ -512,7 +513,7 @@ import _ from 'lodash'
                         
                         this.stageWithoutPitch()
                         this.getUnavailablePitch()
-                        $("body .js-loader").addClass('d-none');
+
                         $('.fc-referee').each(function(referee){
                             if(this.id == -1 || this.id == -2 ){
                                 $(this).closest('.fc-event').addClass('bg-grey');
