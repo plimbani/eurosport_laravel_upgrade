@@ -274,7 +274,7 @@
                     // fetch pitches available for this day
                     let currentDateString  = tournamentStartDate.format('DD/MM/YYYY');
                     // console.log(currentDateString)
-                    let availablePitchesForStage = _.filter(this.pitches, (pitch) => {
+                    let availablePitchesForStage = _.filter(this.$store.state.Pitch.pitches, (pitch) => {
                 return  _.find(pitch.pitch_availability, {
                             'stage_start_date': currentDateString
                         });

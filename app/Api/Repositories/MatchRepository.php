@@ -581,10 +581,7 @@ class MatchRepository
       $teams = array($teamData['home_team'],$teamData['away_team'] );
       
       $pitchData = Pitch::find($data['pitchId']);
-      $matchResultCount = TempFixture::where('pitch_id', $data['pitchId'])
-                  ->where('venue_id',$pitchData->venue_id)
-                  ->where('tournament_id',$data['tournamentId'])
-
+      $matchResultCount = TempFixture::where('tournament_id',$data['tournamentId'])
                   ->where('id','!=',$data['matchId'])
                   ->where('is_scheduled',1)
                   ->where(function($query1) use ($teams) {
@@ -600,15 +597,21 @@ class MatchRepository
                       $query->where(function($query2) use ($sdStartTime,$sdEndTime) {
                         $query2->where('match_endtime','>',$sdStartTime)->where('match_endtime','<=',$sdEndTime);
                       });
-                       $query->orWhere(function($query3) use ($edStartTime,$edEndTime) {
+                      $query->orWhere(function($query3) use ($edStartTime,$edEndTime) {
                          $query3->where('match_datetime','>=',$edStartTime)->where('match_datetime','<',$edEndTime);
                       });
-                        $query->orWhere(function($query4) use ($data) {
+                      $query->orWhere(function($query4) use ($data) {
                         $query4->where('match_datetime','>',$data['matchStartDate'])->where('match_datetime','<',$data['matchEndDate']);
+                      });
+                       $query->orWhere(function($query5) use ($data) {
+                        $query5->where('match_datetime','>=',$data['matchStartDate'])->where('match_datetime','<=',$data['matchEndDate']);
+                      });
+                       $query->orWhere(function($query6) use ($data) {
+                        $query6->where('match_endtime','>=',$data['matchStartDate'])->where('match_endtime','<=',$data['matchEndDate']);
                       });
                    })
                   ->get();
-                  // dd($matchResultCount->toArray());
+                    // dd($matchResultCount->count());
      if($matchResultCount->count() >0){
       return -1 ;
      }     
