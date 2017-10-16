@@ -69,8 +69,8 @@
   <div class="form-group">
 <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0"> 
   {{otherData.DrawName}} standings
-  <a href="#" @click="manualRankingModalOpen()"><span>(<u>manual ranking</u>)</span></a>
-  <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1'"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
+  <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist"><span>(<u>manual ranking</u>)</span></a>
+  <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
 </h6>
   <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
   </teamStanding>
@@ -81,7 +81,7 @@
 
   <h6>{{otherData.DrawName}} matches</h6>
   <matchList :matchData="matchData"></matchList>
-  <manualRanking :competitionId="currentCompetationId" :matchData="match1Data" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
+  <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
 </template>
 <script type="text/babel">
@@ -107,7 +107,8 @@ export default {
             },
             CompRound:'Round Robin',match12Data:'',
             teamStatus: true,
-            matchStatus: true
+            matchStatus: true,
+            teamList: []
         }
     },
     created: function() {
@@ -198,7 +199,11 @@ export default {
             msg = 'match list'
           }
           return msg
-        }
+        },
+        isUserDataExist() {
+          return this.$store.state.isAdmin
+          //return this.$store.state.Users.userDetails.id
+        },
     },
 	components: {
         MatchList,LocationList,MatchListing,TeamStanding,ManualRanking
@@ -273,6 +278,7 @@ export default {
 
             }
              this.GenerateDrawTable(this.currentCompetationId)
+             this.getTeamsListByCompetition(this.currentCompetationId)
         },
         GenerateDrawTable(currentCompetationId) {
 
@@ -302,6 +308,21 @@ export default {
                )
           }
 
+        },
+        getTeamsListByCompetition(currentCompetationId) {
+          if(currentCompetationId != undefined) {
+            let tournamentId = this.$store.state.Tournament.tournamentId
+            let tournamentData = {'competitionId':currentCompetationId}
+               Tournament.getAllTeamsFromCompetitionId(tournamentData).then(
+                (response)=> {
+                  if(response.data.status_code == 200){
+                    this.teamList = response.data.data 
+                  }
+                },
+                (error)=> {}
+
+               )
+          }
         },
         setCurrentTabView(setCurrentTabView) {
           if(setCurrentTabView == 'drawsListing')
