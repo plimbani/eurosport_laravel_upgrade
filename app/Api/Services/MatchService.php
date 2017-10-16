@@ -1231,7 +1231,7 @@ class MatchService implements MatchContract
                 $assigned_group =  '';
                 if($teamExist){
                   $group = explode('-',$teamExist->compName);
-                  $assigned_group = $group[2].'-'.$group[3];
+                  $assigned_group = $group[count($group)-2].'-'.$group[count($group)-1];
                 }else{
                    return;
                 }
@@ -1315,7 +1315,6 @@ class MatchService implements MatchContract
             $calculatedArray[$ckey] = $cvalue;
         }
         $i=1;
-        // dd($calculatedArray);
         if(count($calculatedArray) > 0) {
           foreach($calculatedArray[$cupId] as $kky=>$data) {
             $groupAlphabet = explode('-',$data['teamGroup']);
@@ -1365,7 +1364,6 @@ class MatchService implements MatchContract
             $value = explode('-',$exmatchNumber[2]);
             $homeTeam = $value[0];
             //$homeTeam = $match->HomeTeam;
-
             if($homeTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
 
@@ -1381,9 +1379,7 @@ class MatchService implements MatchContract
                   'home_team_name'=> $dd1['teamName'],
                   'home_team'=>$dd1['teamid']
                   ];
-                 // echo '<pre>';
-                //  print_r($updateArray);
-                  // dd($this->checkForEndRR($cupId) );
+                  
                   if($this->checkForEndRR($cupId) == true) {
                     DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
                     unset($updateArray);
@@ -1409,20 +1405,15 @@ class MatchService implements MatchContract
                   if($this->checkForEndRR($cupId) == true) {
                     DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
                     unset($updateArray);
-                 }
+                  }
                 }else {
                  // echo 'hi-Away';
                 }
               }
             }
-
             // else check if its new change
-
           }
-
         }
-
-
         return ;
     }
     private function TeamPMAssign($data)
