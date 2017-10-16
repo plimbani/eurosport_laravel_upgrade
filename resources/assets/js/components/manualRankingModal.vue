@@ -54,7 +54,7 @@
 import Tournament from '../api/tournament.js'
 import _ from 'lodash';
     export default  {
-        props: ['competitionId', 'matchData', 'isManualOverrideStanding'],
+        props: ['competitionId', 'teamList', 'isManualOverrideStanding'],
         data() {
           return {
             redeleteConfirmMsg: '',
@@ -128,8 +128,8 @@ import _ from 'lodash';
                 return false
             },
             sortTeams() {
-              let matchData = _.sortBy(_.cloneDeep(this.matchData), (o) => { return _.lowerCase(o.TeamName) });
-              this.teams = _.map(matchData, (o) => { return { id: o.id,  name: o.TeamName }; });
+              let teamList = _.sortBy(_.cloneDeep(this.teamList), (o) => { return _.lowerCase(o.name) });
+              this.teams = _.map(teamList, (o) => { return { id: o.id,  name: o.name }; });
             }
         }
     }
