@@ -78,6 +78,7 @@ import _ from 'lodash'
         methods: {
             initComponent(){
                 let vm = this
+                $("body .js-loader").removeClass('d-none');
                 // setTimeout(function(){
                     vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
                     if($(".pitch_planner_section").length > 0) {
@@ -117,6 +118,7 @@ import _ from 'lodash'
             },
             initScheduler() {
                 let vm = this;
+                 $("body .js-loader").addClass('d-none');
                 $(this.$el).fullCalendar({
                     editable: true,
                     aspectRatio: 1.8,
@@ -511,6 +513,7 @@ import _ from 'lodash'
                         
                         this.stageWithoutPitch()
                         this.getUnavailablePitch()
+
                         $('.fc-referee').each(function(referee){
                             if(this.id == -1 || this.id == -2 ){
                                 $(this).closest('.fc-event').addClass('bg-grey');

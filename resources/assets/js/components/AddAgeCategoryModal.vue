@@ -458,7 +458,7 @@ export default {
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'30'
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40'
       }
     },
     setEdit(id) {

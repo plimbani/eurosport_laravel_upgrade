@@ -544,6 +544,11 @@ module.exports= {
   summary_schedule_matches_score: "Score",
   summary_schedule_matches_location: "Location",
   summary_table_heading_status: "Status",
+
+
+  manual_ranking_team_required: "This field is required",
+  manual_ranking_cancel: "Cancel",
+  manual_ranking_save: "Save",
   // tournament_filter_age_category_match: "Category",
   // summary_table_heading_status_to: "Sent tournament",
 
