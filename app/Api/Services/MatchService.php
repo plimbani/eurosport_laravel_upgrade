@@ -398,8 +398,9 @@ class MatchService implements MatchContract
       $match_number = explode(".",$match_number);
       $frs = explode("-",$match_number[0]);
 
-      $val = $frs[2]."_".$match_number[1];
-    // print_r($val);exit;
+      $val = $frs[count($frs)-1]."_".$match_number[1];
+      // $val = $frs[count($frs)-1]."_".$match_number[count($match_number)-1];
+     // print_r($match_number);exit;
       $home_team_score = $singleFixture->hometeam_score;
       $away_team_score = $singleFixture->awayteam_score;
 
