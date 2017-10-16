@@ -165,5 +165,8 @@ export default {
  },
  addTournamentDetail(tournamentDetailData) {
   return axios.post('/api/tournament/details/add', {'tournamentDetailData': tournamentDetailData})
- }
+ },
+ getCategoryCompetitions(data) {
+  return api.post('tournament/getCategoryCompetitions', data)
+ },
 }

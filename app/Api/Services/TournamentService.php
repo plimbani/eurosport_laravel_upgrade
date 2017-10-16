@@ -815,4 +815,9 @@ class TournamentService implements TournamentContract
     {
       $tournamentDetailData = $this->tournamentRepoObj->addTournamentDetails($tournamentDetailData['tournamentDetailData']);
     }
+
+    public function getCategoryCompetitions($data)
+    {
+      return $this->tournamentRepoObj->getCategoryCompetitions($data); 
+    }
 }

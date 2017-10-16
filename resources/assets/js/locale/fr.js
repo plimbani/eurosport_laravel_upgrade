@@ -546,4 +546,7 @@ module.exports = {
   
   // Tournament permission
   user_management_tournament_permission_title: "FTournament Permissions",
+
+  // Group colours
+  pitch_planner_group_colours: "FGroup colours",
  } 

@@ -4,6 +4,7 @@
             <div class="col-md-12 mb-3">
                 <button class="btn btn-secondary btn-md js-pitch-planner-bt horizontal"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</button>
                 <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
+                <button class="btn btn-primary btn-md vertical" v-if="isGroupFilterSet" @click="openGroupCompetitionColourModal()">{{$lang.pitch_planner_group_colours}}</button>
             </div>
         </div>
 
@@ -58,6 +59,8 @@
                 </div>
             </div>
         </div>
+
+        <GroupCompetitionColour></GroupCompetitionColour>
     </div>
 </template>
 <script>
@@ -65,10 +68,11 @@
     import GamesTab from './GamesTab.vue'
     import RefereesTab from './RefereesTab.vue'
     import PitchPlannerStage from './PitchPlannerStage.vue'
+    import GroupCompetitionColour from './GroupCompetitionColourModal.vue'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage
+            GamesTab, RefereesTab, PitchPlannerStage, GroupCompetitionColour
         },
         computed: {
             GameActiveTab () {
@@ -91,6 +95,12 @@
             },
             currentView() {
               return this.$store.getters.curStageView  
+            },
+            isGroupFilterSet() {
+              if(this.$store.state.Tournament.tournamentFiler.filterValue != '') {
+                return true;
+              }
+              return false;
             }
             
             // tournamentStages() {
@@ -328,6 +338,10 @@
           dispDate(date) {
             var date1 = moment(date, 'DD/MM/YYYY')
             return date1.format('ddd DD MMM YYYY')
+          },
+          openGroupCompetitionColourModal(){
+            this.$root.$emit('getCategoryCompetitions')
+            $('#group_competition_modal').modal('show');
           }
         }
     }

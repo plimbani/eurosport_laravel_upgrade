@@ -568,4 +568,17 @@ class TournamentRepository
       $tournament->status = 'Unpublished';
       $tournament->save();
     }
+
+    public function getCategoryCompetitions($data)
+    {
+      $categoryCompetitions = Competition::where('tournament_competation_template_id', $data['ageGroupId']);
+      if(isset($data['competationType'])) {
+        $categoryCompetitions = $categoryCompetitions->where('competation_type', $data['competationType']);
+      }
+      if(isset($data['competationRoundNo'])) {
+        $categoryCompetitions = $categoryCompetitions->where('competation_round_no', $data['competationRoundNo']);
+      }
+      $categoryCompetitions = $categoryCompetitions->get();
+      return $categoryCompetitions;
+    }
 }
