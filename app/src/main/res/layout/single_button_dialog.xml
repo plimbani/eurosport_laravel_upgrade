@@ -9,7 +9,6 @@
         style="@style/text_black_title"
         android:layout_height="50dp"
         android:background="@color/colorPrimaryDark"
-        android:text="Title"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
 

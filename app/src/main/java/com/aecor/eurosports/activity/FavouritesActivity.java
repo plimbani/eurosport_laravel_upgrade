@@ -27,9 +27,14 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -201,10 +206,21 @@ public class FavouritesActivity extends BaseAppCompactActivity {
 //        }
 
         favouriteList.addFooterView(new View(mContext));
+        Collections.sort(list, new Comparator<TournamentModel>() {
+            DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+
+            public int compare(TournamentModel o1, TournamentModel o2) {
+                try {
+                    return f.parse(o2.getStart_date()).compareTo(f.parse(o1.getStart_date()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        });
 
         FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, list, favList);
         favouriteList.setAdapter(adapter);
-
 
     }
 }

@@ -171,12 +171,12 @@ public class ClubsClubFragment extends Fragment {
         List<ClubModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mClubList));
         Collections.sort(list, new Comparator<ClubModel>() {
-            @Override
-            public int compare(ClubModel lhs, ClubModel rhs) {
-                //here getTitle() method return app name...
-                return lhs.getClubName().compareTo(rhs.getClubName());
+            public int compare(ClubModel o1, ClubModel o2) {
+                return o1.getClubName().compareTo(o2.getClubName());
             }
         });
+
+
         adapter = new ClubAdapter((Activity) mContext, list);
         rv_clubList.setAdapter(adapter);
         rl_search.setVisibility(View.VISIBLE);

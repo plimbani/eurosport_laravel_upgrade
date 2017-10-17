@@ -29,7 +29,12 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 
@@ -104,7 +109,20 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 TeamFixturesModel mTeamFixtureData[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamFixturesModel[].class);
+
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
+                                    Collections.sort(Arrays.asList(mTeamFixtureData), new Comparator<TeamFixturesModel>() {
+                                        DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+                                        public int compare(TeamFixturesModel o1, TeamFixturesModel o2) {
+                                            try {
+                                                return f.parse(o1.getMatch_datetime()).compareTo(f.parse(o2.getMatch_datetime()));
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                                throw new IllegalArgumentException(e);
+                                            }
+                                        }
+                                    });
                                     for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
                                         addMatchesRow(aMTeamFixtureData);
                                     }
