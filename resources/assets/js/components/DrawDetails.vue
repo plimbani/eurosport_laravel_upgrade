@@ -137,6 +137,7 @@ export default {
             }, {});
             this.DrawName = drawname1
             this.CompRound = round
+            this.refreshStanding();
             //this.DrawName = this.matchData[0];
             // find record of that
           }
