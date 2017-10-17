@@ -182,10 +182,14 @@ var moment = require('moment');
             this.referee_name = this.matchDetail.referee.first_name
             this.matchFixture.refereeId = this.matchDetail.referee_id
            }
-           let colorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#e9e9e9' : 'green' // console.log(msg)
-           let borderColorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#d3d3d3' : 'green';
+           let colorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#e9e9e9' : this.matchDetail.category_age.category_age_color // console.log(msg)
+           let borderColorVal = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? '#d3d3d3' : this.matchDetail.category_age.category_age_color;
+           let fixtureStripColor = (this.matchDetail.hometeam_score == null && this.matchDetail.awayteam_score == null) ? this.matchDetail.category_age.category_age_color : this.matchDetail.competition.color_code
+
             this.matchFixture.color = colorVal;
             this.matchFixture.borderColor = borderColorVal;
+            this.matchFixture.fixtureStripColor = fixtureStripColor;
+            
           // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
       
           $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);

@@ -143,5 +143,11 @@ export default {
         diffDays = diffDays + 1
         return diffDays
 // return Math.floor(( Date.parse(date2) - Date.parse(date1) ) / 86400000);
-    }
+    },
+    colorPicker(){
+        console.log('color picker initilised');
+        $('.js-colorpicker').colorpicker({
+            format : 'hex'
+        });
+    },
 }

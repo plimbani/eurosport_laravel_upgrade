@@ -169,4 +169,7 @@ export default {
  getCategoryCompetitions(data) {
   return api.post('tournament/getCategoryCompetitions', data)
  },
+ saveCategoryCompetitionColor(data) {
+  return api.post('tournament/saveCategoryCompetitionColor', {competitionsColorData:  data})
+ }
 }
