@@ -17,7 +17,7 @@
               <div class="col-sm-3 form-control-label">{{ competition.name }}*</div>
               <div class="col-sm-6">
                 <div class="input-group js-colorpicker">              
-                  <input type="text" :name="`competition_color${key}`" v-model="competitionsColorData[competition.id]" v-validate="'required'" :class="{'is-danger': errors.has('competition_color'), 'form-control' : true }" />
+                  <input type="text" :name="`competition_color${key}`" @input="competitionsColorData[competition.id]" v-validate="'required'" :class="{'is-danger': errors.has('competition_color'), 'form-control' : true }" :data-competition-id="competition.id" />
                   <span class="input-group-addon"><i></i></span>
                 </div>
                 <span class="help is-danger" v-show="errors.has(`competition_color${key}`)">{{$lang.manual_ranking_team_required}}</span>
@@ -65,7 +65,13 @@ import _ from 'lodash';
                         vm.competitionsColorData[o.id] = o.color_code ? o.color_code : '';
                       });
                       setTimeout(function(){
-                        Plugin.initPlugins(['colorPicker']);
+                        $('.js-colorpicker').colorpicker({
+                          format : 'hex',
+                        }).on('changeColor', function() {
+                            let inputObj = $(this).children('input');
+                            let competitionId = inputObj.data('competition-id');
+                            vm.competitionsColorData[competitionId] = inputObj.val();
+                        });
                       }, 1000);
                     }
                   },
@@ -84,7 +90,8 @@ import _ from 'lodash';
                 Tournament.saveCategoryCompetitionColor(this.competitionsColorData).then(
                     (response)=> {
                       if(response.data.status_code == 200) {
-                        
+                        this.competitionsColorData = {};
+                        this.closeModal();
                       }
                     },
                     (error) => {
