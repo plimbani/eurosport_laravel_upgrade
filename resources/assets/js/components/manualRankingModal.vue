@@ -26,7 +26,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-group row" :class="{'has-error': errors.has('manual_teams') }" v-if="is_competition_manual_override_standing" v-for="n in teams.length">
+            <div class="form-group row" :class="{'has-error': errors.has('manual_teams') }" v-if="is_competition_manual_override_standing" v-for="n in teamCount">
               <div class="col-sm-3 form-control-label">Position {{n}}*</div>
               <div class="col-sm-9">
                 <select class="form-control ls-select2 col-sm-4" :name="`manual_teams${n}`" id="manual_teams" v-model="teamDetails[n-1]" v-validate="'required'" :class="{'is-danger': errors.has('manual_teams') }">
@@ -54,7 +54,7 @@
 import Tournament from '../api/tournament.js'
 import _ from 'lodash';
     export default  {
-        props: ['competitionId', 'teamList', 'isManualOverrideStanding'],
+        props: ['competitionId', 'teamList', 'isManualOverrideStanding', 'teamCount'],
         data() {
           return {
             redeleteConfirmMsg: '',
@@ -73,6 +73,7 @@ import _ from 'lodash';
         methods: {
             getStandingData(currentLCompetationId) {
               if(currentLCompetationId != 0) {
+                let vm = this;
                 this.is_competition_manual_override_standing = this.isManualOverrideStanding;
                 this.sortTeams();
 
@@ -83,14 +84,18 @@ import _ from 'lodash';
                 Tournament.getStanding(tournamentData).then(
                   (response)=> {
                     if(response.data.status_code == 200) {
-                      this.standingData = response.data.data
-                      this.teamDetails = _.map(response.data.data, (o) => {
+                      vm.standingData = response.data.data
+                      vm.teamDetails = _.map(response.data.data, (o) => {
                         if(o.manual_order == null) {
                           return '';
                         } else {
                           return o.id;
                         }
                       });
+                      let standingTeamLength = response.data.data.length;
+                      for(let i = standingTeamLength; i < vm.teamCount; i++) {
+                        vm.teamDetails[i]  = '';
+                      }
                       // here we add extra Field Fot Not Displat Location
                     }
                   },
