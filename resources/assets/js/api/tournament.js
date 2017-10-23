@@ -171,5 +171,8 @@ export default {
  },
  saveCategoryCompetitionColor(data) {
   return api.post('tournament/saveCategoryCompetitionColor', {competitionsColorData:  data})
+ },
+ getAllCompetitionTeamsFromFixture(tournamentData){
+  return api.post('teams/getAllCompetitionTeamsFromFixture', {'tournamentData': tournamentData})
  }
 }

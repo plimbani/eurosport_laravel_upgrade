@@ -147,10 +147,12 @@
             <div class="col-sm-8">
               <div class="row">
                 <div class="col-sm-4">
-                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_RR" min="0" @change="updateMatchTime()">
+                  <input type="number" class="form-control" name="half_time_break" v-validate="'required'" placeholder="" v-model="competation_format.halftime_break_RR" min="0" @change="updateMatchTime()">
+                  <i v-show="errors.has('half_time_break')" class="fa fa-warning"></i>
                 </div>
                 <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_minutes}}</span>
               </div>
+               <span class="help is-danger" v-show="errors.has('half_time_break')">{{$lang.competation_modal_half_time_break_required}}</span>
             </div>
           </div>
           <div class="form-group row align-items-center">
@@ -158,10 +160,12 @@
             <div class="col-sm-8">
              <div class="row">
               <div class="col-sm-4">
-                  <input type="number" class="form-control" placeholder="" v-model="competation_format.halftime_break_FM" min="0" @input="updateMatchTime()">
+                  <input type="number" class="form-control" name="half_time_break_final" v-validate="'required'" placeholder="" v-model="competation_format.halftime_break_FM" min="0" @input="updateMatchTime()">
+                   <i v-show="errors.has('half_time_break_final')" class="fa fa-warning"></i>
                 </div>
                 <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_final_minutes}}</span>
                 </div>
+                 <span class="help is-danger" v-show="errors.has('half_time_break_final')">{{$lang.competation_modal_half_time_break_final_required}}</span>
             </div>
           </div>
           <div class="form-group row align-items-center">

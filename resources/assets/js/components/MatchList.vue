@@ -36,12 +36,11 @@
 					<span class="text-center">{{match.AwayTeam}}</span>
 					<!-- </a>	 -->
 				</td>
-				<td class="text-center">
-
-        		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid,index1)"><span v-else>{{match.homeScore}}</span> -
-        		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
-        		  @change="updateScore(match.fid,index1)"><span v-else>{{match.AwayScore}}</span>
-      		    </td>
+				<td class="text-center js-match-list">
+      		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid,index1)"><span v-else>{{match.homeScore}}</span> -
+      		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
+      		  @change="updateScore(match.fid,index1)"><span v-else>{{match.AwayScore}}</span>
+      	</td>
 				<td v-if="isHideLocation !=  false">
 					<a class="pull-left text-left">
 					{{match.venue_name}} - {{match.pitch_number}}
@@ -124,7 +123,7 @@ export default {
     DeleteModal1,
   },
 	mounted() {
-		$('body').on('keypress', 'input',function(e) {
+		$('.js-match-list').on('keypress', 'input',function(e) {
 		    var a = [];
 		    var k = e.which;
 		    var i;
@@ -138,7 +137,6 @@ export default {
         if(e.target.value.length > 2) {
           e.preventDefault();
         }
-
 		});
     let vm = this
 

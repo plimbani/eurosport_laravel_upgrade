@@ -69,7 +69,7 @@
   <div class="form-group">
 <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0"> 
   {{otherData.DrawName}} standings
-  <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist"><span>(<u>manual ranking</u>)</span></a>
+  <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
   <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
 </h6>
   <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
@@ -81,7 +81,7 @@
 
   <h6>{{otherData.DrawName}} matches</h6>
   <matchList :matchData="matchData"></matchList>
-  <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
+  <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
 </template>
 <script type="text/babel">
@@ -108,7 +108,8 @@ export default {
             CompRound:'Round Robin',match12Data:'',
             teamStatus: true,
             matchStatus: true,
-            teamList: []
+            teamList: [],
+            teamCount: 0,
         }
     },
     created: function() {
@@ -137,6 +138,7 @@ export default {
             }, {});
             this.DrawName = drawname1
             this.CompRound = round
+            this.refreshStanding();
             //this.DrawName = this.matchData[0];
             // find record of that
           }
@@ -278,7 +280,7 @@ export default {
 
             }
              this.GenerateDrawTable(this.currentCompetationId)
-             this.getTeamsListByCompetition(this.currentCompetationId)
+             this.getTeamsListFromFixtures(this.currentCompetationId)
         },
         GenerateDrawTable(currentCompetationId) {
 
@@ -309,14 +311,15 @@ export default {
           }
 
         },
-        getTeamsListByCompetition(currentCompetationId) {
+        getTeamsListFromFixtures(currentCompetationId) {
           if(currentCompetationId != undefined) {
             let tournamentId = this.$store.state.Tournament.tournamentId
             let tournamentData = {'competitionId':currentCompetationId}
-               Tournament.getAllTeamsFromCompetitionId(tournamentData).then(
+               Tournament.getAllCompetitionTeamsFromFixture(tournamentData).then(
                 (response)=> {
                   if(response.data.status_code == 200){
-                    this.teamList = response.data.data 
+                    this.teamList = response.data.data.teams
+                    this.teamCount = response.data.data.teamSize
                   }
                 },
                 (error)=> {}

@@ -787,7 +787,7 @@ class TournamentService implements TournamentContract
       $tournament_id = $resultData['id'];
       $coordinates = [];
       foreach ($venue as $location) {
-        $address = $location->address1.', '.$location->city.', '.$location->postcode.', '.$location->state.', '.$location->country;
+        $address = $location->address1.', '.$location->city.', '.$location->postcode.', '.$location->country;
         try {
           /*$geocode = Geocoder::geocode("$name, Tanzania")->toArray();
           return Response::json($geocode);*/
