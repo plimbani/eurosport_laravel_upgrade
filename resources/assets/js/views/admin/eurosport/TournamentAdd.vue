@@ -6,14 +6,26 @@
       <h6><strong>{{$lang.tournament_information}}</strong></h6>
       <form name="tournamentName" enctype="multipart/form-data">
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <div class="form-group" :class="{'has-error': errors.has('tournament.name') }">
-                <label class="col-sm-2 form-control-label">{{$lang.tournament_name}}*</label>
+                <label class="col-sm-4 form-control-label">{{$lang.tournament_name}}*</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
+                    <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"  v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('tournament_name') }">
+                    <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-else  v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
                     <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
                 </div>
                 <span class="help is-danger" v-show="errors.has('tournament_name')">Tournament name required</span>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group" :class="{'has-error': errors.has('tournament.maximum_teams') }">
+              <label class="col-sm-4 form-control-label">{{$lang.maximum_teams}}*</label>
+              <div class="input-group">
+                 <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('maximum_teams') }">
+                 <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-else   :class="{'is-danger': errors.has('maximum_teams') }">
+                 <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
+              </div>
+             <span class="help is-danger" v-show="errors.has('maximum_teams')">Maximum teams required</span>
             </div>
           </div>
         </div>
@@ -25,8 +37,8 @@
                   <span class="input-group-addon">
                       <i class="jv-icon jv-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker"
-                   id="tournament_start_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  disabled="disabled" id="tournament_start_date">
+                  <input type="text" class="form-control ls-datepicker" v-else id="tournament_start_date">
               </div>
             </div>
           </div>
@@ -37,8 +49,8 @@
                   <span class="input-group-addon">
                       <i class="jv-icon jv-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker"
-                   id="tournament_end_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  disabled="disabled" id="tournament_end_date">
+                  <input type="text" class="form-control ls-datepicker" v-else id="tournament_end_date">
               </div>
             </div>
           </div>
@@ -296,8 +308,9 @@ export default {
 data() {
 return {
 tournament: {name:' ',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
-image_logo:'',test_value:'',del_location:'0'
+image_logo:'',test_value:'',del_location:'0',maximum_teams:''
 },
+userRole:this.$store.state.Users.userDetails.role_name,
 locations: [
 {
 tournament_venue_name: "",
@@ -328,6 +341,7 @@ $('#btnSelect').on('click',function(){
 })
 
 let tId = this.$store.state.Tournament.tournamentId
+ this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
 if(tId.length != 0) {
 this.tournamentId = this.$store.state.Tournament.tournamentId
 // Now here we call method for getting the tournament Data
@@ -371,6 +385,7 @@ Tournament.tournamentSummaryData(this.tournamentId).then(
 );
 // here we set data from state for tournament
 this.tournament.name = this.$store.state.Tournament.tournamentName
+this.tournament.maximum_teams = this.$store.state.Tournament.maximumTeams
 if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null || this.$store.state.Tournament.tournamentLogo != '')
 {
 this.image = this.$store.state.Tournament.tournamentLogo

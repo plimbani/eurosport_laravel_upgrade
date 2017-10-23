@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTeamIntervalToTournamentCompetitionTemplates extends Migration
+class AddMaximumTeamsToTournamentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddTeamIntervalToTournamentCompetitionTemplates extends Migration
      */
     public function up()
     {
-        Schema::table('tournament_competation_template', function($table) {
-            $table->integer('team_interval')->nullable()->after('match_interval_FM');
+        Schema::table('tournaments', function($table) {
+            $table->integer('maximum_teams')->after('name')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddTeamIntervalToTournamentCompetitionTemplates extends Migration
      */
     public function down()
     {
-        Schema::table('tournament_competation_template', function($table) {
-            $table->dropColumn('team_interval');
+        Schema::table('tournaments', function($table) {
+            $table->dropColumn('maximum_teams');
         });
     }
 }

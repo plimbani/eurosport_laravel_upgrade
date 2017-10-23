@@ -105,6 +105,7 @@ $api->version('v1', function ($api) {
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
     $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore');
     $api->post('match/refreshStanding', 'Laraspace\Api\Controllers\MatchController@refreshStanding');
+    $api->post('match/saveStandingsManually', 'Laraspace\Api\Controllers\MatchController@saveStandingsManually');
 
 
 
@@ -147,6 +148,8 @@ $api->version('v1', function ($api) {
     $api->post('tournament/getDropDownData','Laraspace\Api\Controllers\TournamentController@tournamentFilter');
     $api->post('tournament/allCategory',
         'Laraspace\Api\Controllers\TournamentController@getAllCategory');
+
+    $api->post('tournament/details/add', 'Laraspace\Api\Controllers\TournamentController@addTournamentDetails');
 
     // User Stuff
     $api->get('users', 'Laraspace\Api\Controllers\UserController@getUsers');
@@ -202,6 +205,10 @@ $api->version('v1', function ($api) {
     $api->post('users/updateProfileImage','Laraspace\Api\Controllers\UserController@setUserImage');
 
     $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
+
+    $api->post('user/changeTournamentPermission','Laraspace\Api\Controllers\UserController@changeTournamentPermission');
+    $api->get('user/getUserTournaments/{id}','Laraspace\Api\Controllers\UserController@getUserTournaments');
+    
 });
 
 

@@ -97,7 +97,7 @@ export default {
     },
 
     DatePicker(){
-        $('.ls-datepicker').datepicker();
+        $('.ls-datepicker').datepicker({autoclose: true});
     },
 
     Editors(){

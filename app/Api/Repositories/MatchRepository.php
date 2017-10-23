@@ -230,9 +230,12 @@ class MatchRepository
             // TODO: add constraint to only Show which are Scheduled
             $reportQuery =  $reportQuery->where('temp_fixtures.is_scheduled','=',$tournamentData['is_scheduled']);
           }
+          if(isset($tournamentData['fixture_date']))
+          {
+            $reportQuery =  $reportQuery->whereDate('temp_fixtures.match_datetime','=',$tournamentData['fixture_date']);
+          }
 
-          // dd($tournamentData);
-            // Todo Added Condition For Filtering Purpose on Pitch Planner
+          // Todo Added Condition For Filtering Purpose on Pitch Planner
           if(isset($tournamentData['fiterEnable'])){
             if(isset($tournamentData['filterKey']) && $tournamentData['filterKey'] !='') {
               switch($tournamentData['filterKey']) {
@@ -258,9 +261,7 @@ class MatchRepository
               }
             }
           }
-
-          // dd($reportQuery->get());
-        return $reportQuery->get();
+      return $reportQuery->get();
     }
     private function getTeamsForClub($club_id, $tournamentId)
     {
@@ -296,10 +297,12 @@ class MatchRepository
           $reportQuery = $reportQuery->where('match_standing.tournament_id', $tournamentData['tournamentId']);
           }
 
-          $reportQuery->orderBy('match_standing.points','desc')
+          $reportQuery->orderBy('match_standing.manual_order','asc')
+                      ->orderBy('match_standing.points','desc')
                       ->orderBy('GoalDifference','desc')
                       ->orderBy('match_standing.goal_for','desc');
-           //print_r($reportQuery->get());exit;
+
+           // print_r($reportQuery->toSql());exit;
           return $reportQuery->get();
     }
     public function getDrawTable($tournamentData){
@@ -571,37 +574,47 @@ class MatchRepository
 
     public function setMatchSchedule($data)
     {
-     //  // dd($data['matchStartDate']);
-     //  // Carbon::parse($data['matchStartDate'])->format('d/m/Y');
-     
-     //  // $newStartDate = $startDate->subMinutes(30); 
-     //   // dd($startDate);
-     //  $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
-     // $team_interval =   $teamData['team_interval'];
-     //  $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
-     //  $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
-     // $teams = array($teamData['home_team'],$teamData['away_team'] );
-     // // $startTime = $startDate->subMinutes(0);
-     // // $endTime = $startDate->subMinutes($team_interval);
-     // // dd($startTime,$endTime);
-     //  $pitchData = Pitch::find($data['pitchId']);
-     //  $matchResultCount = TempFixture::where('pitch_id', $data['pitchId'])
-     //              // ->where('venue_id',$pitchData->venue_id)
-     //              ->where('is_scheduled',1)
-     //              ->where(function($query1) use ($teams) {
-     //                $query1->whereIn('home_team',$teams)
-     //                ->orWhereIn('away_team',$teams) ; 
-     //              })
-     //              ->where(function($query) use($team_interval,$startTime,$endTime) {
-     //                $query->whereBetween('match_endtime',array($startTime,$endTime))
-     //                ->orWhereBetween('match_datetime',array($startTime,$endTime))
-     //                ;
-     //              })
-     //              ->get()->count();
-     // if($matchResultCount >0){
+      // $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
+      // $team_interval =   $teamData['team_interval'];
+      // $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
+      // $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
+      // $teams = array($teamData['home_team'],$teamData['away_team'] );
+      
+      $pitchData = Pitch::find($data['pitchId']);
+      // $matchResultCount = TempFixture::where('tournament_id',$data['tournamentId'])
+      //             ->where('id','!=',$data['matchId'])
+      //             ->where('is_scheduled',1)
+      //             ->where(function($query1) use ($teams) {
+      //               $query1->whereIn('home_team',$teams)
+      //               ->orWhereIn('away_team',$teams) ; 
+      //             })
+
+      //             ->where(function($query) use ($team_interval,$startTime,$endTime,$data) {
+      //                 $edStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes(0);
+      //                 $edEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchEndDate'])->addMinutes($team_interval);
+      //                 $sdStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
+      //                 $sdEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
+      //                 $query->where(function($query2) use ($sdStartTime,$sdEndTime) {
+      //                   $query2->where('match_endtime','>',$sdStartTime)->where('match_endtime','<=',$sdEndTime);
+      //                 });
+      //                 $query->orWhere(function($query3) use ($edStartTime,$edEndTime) {
+      //                    $query3->where('match_datetime','>=',$edStartTime)->where('match_datetime','<',$edEndTime);
+      //                 });
+      //                 $query->orWhere(function($query4) use ($data) {
+      //                   $query4->where('match_datetime','>',$data['matchStartDate'])->where('match_datetime','<',$data['matchEndDate']);
+      //                 });
+      //                  $query->orWhere(function($query5) use ($data) {
+      //                   $query5->where('match_datetime','>=',$data['matchStartDate'])->where('match_datetime','<=',$data['matchEndDate']);
+      //                 });
+      //                  $query->orWhere(function($query6) use ($data) {
+      //                   $query6->where('match_endtime','>=',$data['matchStartDate'])->where('match_endtime','<=',$data['matchEndDate']);
+      //                 });
+      //              })
+      //             ->get();
+                    // dd($matchResultCount->count());
+     // if($matchResultCount->count() >0){
      //  return -1 ;
      // }     
-       $pitchData = Pitch::find($data['pitchId']);
       $updateData = [
         'venue_id' => $pitchData->venue_id,
         'pitch_id' => $data['pitchId'],
@@ -736,5 +749,23 @@ class MatchRepository
       return DB::table('temp_fixtures')
             ->where('id', $matchData['matchId'])
             ->update($updateData);
+    }
+
+    public function saveStandingsManually($data) {
+      $competitionId = $data['competitionId'];
+      $tournamentId = $data['tournament_id'];
+      $teamDetails = $data['teamDetails'];
+
+      $competition = Competition::find($competitionId);
+      $competition->is_manual_override_standing = $data['isManualOverrideStanding'] == true ? 1 : 0;
+      $competition->save();
+
+      if($data['isManualOverrideStanding'] == true) {
+          foreach ($teamDetails as $key => $teamId) {
+              $teamStanding = DB::table('match_standing')->where('tournament_id', $tournamentId)->where('competition_id', $competitionId)->where('team_id', $teamId)->update(['manual_order' => $key+1]);
+          }
+      } else {
+          $teamStanding = DB::table('match_standing')->where('competition_id', $competitionId)->update(['manual_order' => null]);
+      }
     }
 }

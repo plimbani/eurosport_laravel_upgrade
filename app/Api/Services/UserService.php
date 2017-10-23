@@ -515,4 +515,17 @@ class UserService implements UserContract
 
     }
 
+    public function changeTournamentPermission($data) {
+      $data = $this->userRepoObj->changeTournamentPermission($data);
+      if($data) {
+        return ['status_code'=>'200','message'=>'Tournament permissions has been updated successfully.'];
+      } else {
+        return ['status_code'=>'200','message'=>'Problem on updating'];
+      }     
+    }
+
+    public function getUserTournaments($id) {
+      return $this->userRepoObj->getUserTournaments($id); 
+    }
+
 }

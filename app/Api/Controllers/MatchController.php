@@ -236,4 +236,9 @@ class MatchController extends BaseController
 
         return view('automate_tournament.success_match_scheduled', compact('status') );
     }
+
+    public function saveStandingsManually(Request $request)
+    {
+        return $this->matchObj->saveStandingsManually($request);
+    }
 }

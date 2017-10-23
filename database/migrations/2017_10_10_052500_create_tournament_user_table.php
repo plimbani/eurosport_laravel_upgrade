@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTeamIntervalToTournamentCompetitionTemplates extends Migration
+class CreateTournamentUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddTeamIntervalToTournamentCompetitionTemplates extends Migration
      */
     public function up()
     {
-        Schema::table('tournament_competation_template', function($table) {
-            $table->integer('team_interval')->nullable()->after('match_interval_FM');
+        Schema::create('tournament_user', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned()->index();
+            $table->integer('tournament_id')->unsigned()->index();
         });
     }
 
@@ -25,8 +26,6 @@ class AddTeamIntervalToTournamentCompetitionTemplates extends Migration
      */
     public function down()
     {
-        Schema::table('tournament_competation_template', function($table) {
-            $table->dropColumn('team_interval');
-        });
+        Schema::dropIfExists('tournament_user');
     }
 }
