@@ -282,7 +282,7 @@ export default {
     	this.getReferees()
       this.getClubs()
       let stdate  = false
-    	$('.ls-datepicker').datepicker()
+    	$('.ls-datepicker').datepicker({autoclose: true})
     	$('#start_date').datepicker().on('changeDate',function(){
             $('#end_date').datepicker('setStartDate', $('#start_date').val())
         });
