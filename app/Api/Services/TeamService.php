@@ -269,4 +269,14 @@ class TeamService implements TeamContract
       }
     }
 
+    public function getAllCompetitionTeamsFromFixture($data)
+    {
+        $data = $this->teamRepoObj->getAllCompetitionTeamsFromFixture($data['tournamentData']['competitionId']);
+        if ($data) {
+            return ['status_code' => '200', 'data' => $data];
+        }
+
+        return ['status_code' => '505', 'message' => 'Error in Data']; 
+    }
+
 }
