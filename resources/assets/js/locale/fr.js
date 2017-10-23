@@ -191,8 +191,10 @@ module.exports = {
   competation_modal_duration_final_minutes: "Fminutes",
   competation_modal_game_duration_final: "FGame duration final*",
   competation_modal_half_time_break: "FHalf-time break RR/EM/PM*",
+  competation_modal_half_time_break_required: "FHalf-time break is required.",
   competation_modal_half_time_break_minutes: "Fminutes",
   competation_modal_half_time_break_final: "FHalf-time break final*",
+  competation_modal_half_time_break_final_required: "FHalf-time break final is required.",
   competation_modal_half_time_break_final_minutes: "Fminutes",
 
   competation_modal_match_interval: "FMatch interval RR/EM/PM*",
