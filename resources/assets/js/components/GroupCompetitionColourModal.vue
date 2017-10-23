@@ -17,10 +17,10 @@
               <div class="col-sm-3 form-control-label">{{ competition.name }}*</div>
               <div class="col-sm-6">
                 <div class="input-group js-colorpicker">              
-                  <input type="text" :name="`competition_color${key}`" v-model="competitionsColorData[competition.id]" @input="competitionsColorData[competition.id]" v-validate="'required'" :class="{'is-danger': errors.has('competition_color'), 'form-control' : true }" :data-competition-id="competition.id" />
+                  <input type="text" :name="`competition_color${key}`" v-model="competitionsColorData[competition.id]" @input="competitionsColorData[competition.id]" v-validate="{ rules: {required: true, regex: /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/i} }" :class="{'is-danger': errors.has('competition_color'), 'form-control' : true }" :data-competition-id="competition.id" />
                   <span class="input-group-addon"><i></i></span>
                 </div>
-                <span class="help is-danger" v-show="errors.has(`competition_color${key}`)">{{$lang.manual_ranking_team_required}}</span>
+                <span class="help is-danger" v-show="errors.has(`competition_color${key}`)">{{ errors.first(`competition_color${key}`) }}</span>
               </div>
             </div>
             
@@ -42,7 +42,21 @@ import _ from 'lodash';
         data() {
           return {
             competitions: [],
-            competitionsColorData: {}
+            competitionsColorData: {},
+            errorMessages: {
+              en: {
+                messages: {
+                  regex: () => 'The field format is invalid.',
+                  required: () => 'This field is required.'
+                }
+              },
+              fr: {
+                messages: {
+                  regex: () => 'FThe field format is invalid.',
+                  required: () => 'This field is required.'
+                }
+              }
+            }
           }
         },
         created: function() {
@@ -50,6 +64,7 @@ import _ from 'lodash';
         },
         mounted() {
           this.$root.$on('getCategoryCompetitions', this.getCategoryCompetitions);
+          this.$validator.updateDictionary(this.errorMessages);
         },
         methods: {
             getCategoryCompetitions() {
