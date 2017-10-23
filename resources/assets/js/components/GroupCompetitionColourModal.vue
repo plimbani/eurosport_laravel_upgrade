@@ -3,7 +3,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel"></h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{ $lang.pitch_planner_group_colours_title }}</h5>
             <div class="d-flex align-items-center">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal()">
                 <span aria-hidden="true">×</span>
@@ -17,7 +17,7 @@
               <div class="col-sm-3 form-control-label">{{ competition.name }}*</div>
               <div class="col-sm-6">
                 <div class="input-group js-colorpicker">              
-                  <input type="text" :name="`competition_color${key}`" @input="competitionsColorData[competition.id]" v-validate="'required'" :class="{'is-danger': errors.has('competition_color'), 'form-control' : true }" :data-competition-id="competition.id" />
+                  <input type="text" :name="`competition_color${key}`" v-model="competitionsColorData[competition.id]" @input="competitionsColorData[competition.id]" v-validate="'required'" :class="{'is-danger': errors.has('competition_color'), 'form-control' : true }" :data-competition-id="competition.id" />
                   <span class="input-group-addon"><i></i></span>
                 </div>
                 <span class="help is-danger" v-show="errors.has(`competition_color${key}`)">{{$lang.manual_ranking_team_required}}</span>
@@ -56,6 +56,8 @@ import _ from 'lodash';
               let vm = this;
               let filterValue = this.$store.state.Tournament.tournamentFiler.filterValue
               let data = {'ageGroupId': filterValue.id, 'competationType': 'Round Robin', 'competationRoundNo': 'Round 1' }
+              this.competitionsColorData = {};
+              this.competitions = [];
 
               Tournament.getCategoryCompetitions(data).then(
                   (response)=> {
@@ -72,7 +74,7 @@ import _ from 'lodash';
                             let competitionId = inputObj.data('competition-id');
                             vm.competitionsColorData[competitionId] = inputObj.val();
                         });
-                      }, 1000);
+                      }, 500);
                     }
                   },
                   (error) => {
@@ -91,6 +93,7 @@ import _ from 'lodash';
                     (response)=> {
                       if(response.data.status_code == 200) {
                         this.competitionsColorData = {};
+                        this.$root.$emit('getPitchesByTournamentFilter','','');
                         this.closeModal();
                       }
                     },

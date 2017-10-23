@@ -557,4 +557,5 @@ module.exports= {
 
   // Group colours
   pitch_planner_group_colours: "Group colours",
+  pitch_planner_group_colours_title: "Group Colours",
 }
