@@ -13,6 +13,7 @@ import MatchList from './MatchList.vue'
 import DrawDetails from './DrawDetails.vue'
 import LocationList from './LocationList.vue'
 import TeamDetails from './TeamDetails.vue'
+import TeamList from './TeamList.vue'
 
 export default {
 	data() {
@@ -33,7 +34,7 @@ export default {
 		this.getAllDraws()
 	},
 	components: {
-		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails
+		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails,TeamList
 	},
 	created: function() {
     this.$root.$on('changeDrawListComp', this.setMatchData);
