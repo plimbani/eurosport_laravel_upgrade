@@ -299,7 +299,7 @@ class UserService implements UserContract
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
           $data['organisation'] = NULL;
-          $data['userType'] = $mobileUserRoleId;
+          $data['userType'] = $userObj->roles[0]->id;
           // here we add code for Tournament id update
 
         } else {
