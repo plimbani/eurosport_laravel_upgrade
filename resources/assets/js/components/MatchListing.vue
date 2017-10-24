@@ -123,6 +123,7 @@ export default {
 	    },
 
 		onChangeMatchDate(){
+
 			let matchDate = this.matchDate
 			this.currentDate = this.matchDate
 
@@ -258,7 +259,7 @@ export default {
 			)
 		},
 		getAllMatches(date='',filterKey='',filterValue='') {
-
+			$("body .js-loader").removeClass('d-none');
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = ''
 		    
@@ -278,6 +279,7 @@ export default {
 			let vm =this
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
+					$("body .js-loader").addClass('d-none');
 					if(response.data.status_code == 200) {
 						this.matchData = response.data.data
 						setTimeout(function(){

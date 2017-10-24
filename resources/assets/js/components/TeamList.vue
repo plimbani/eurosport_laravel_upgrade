@@ -9,7 +9,7 @@
 			<th class="text-center">{{$lang.teams_categories_label}}</th>
 		</thead>
 		<tbody>
-			<tr v-for="team in matchData">
+			<tr v-for="team in paginated('userpagination')">
 				<td>
 					<!-- <a  href="" @click.prevent="changeTeam(team.id, team.name)"> -->
 						<!--<img :src="team.logo" width="20">-->
@@ -25,6 +25,27 @@
 		</tbody>
 	</table>
 	<span v-else>No information to display</span>
+		<paginate v-if="shown" name="userpagination" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
+	    </paginate>
+	    <div class="row d-flex flex-row align-items-center">
+	        <div class="col page-dropdown">
+	            <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
+		          	<option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+		              {{ recordCount }}
+		         	 </option>
+	       		 </select>
+	      	</div>
+	      	<div class="col">
+		        <span v-if="$refs.paginator">
+		          Viewing {{ $refs.paginator.pageItemsCount }} results
+		        </span>
+	      	</div>
+	     	<div class="col-md-6">
+		        <paginate-links for="userpagination"
+		          :show-step-links="true" :async="true" class="mb-0">
+		        </paginate-links>
+	      	</div>
+	    </div>
 	</div>
 </div>
 </template>
@@ -34,11 +55,20 @@
 import TeamDetails from './TeamDetails.vue'
 import DrawDetails from './DrawDetails.vue'
 import LocationList from './LocationList.vue'
+import VuePaginate from 'vue-paginate'
 
 export default {
 	props:['matchData'],
 	components: {
 		TeamDetails, DrawDetails,LocationList
+	},
+	data() {
+	return {
+	      paginate: ['userpagination'],
+	      shown: true,
+	      no_of_records: 20,
+	      recordCounts: [5,10,20,50,100]
+		}
 	},
 	methods: {
 		changeTeam(Id, Name) {
