@@ -551,20 +551,3 @@ input[type=number] {
     border-color: $brand-danger;
     position: relative;
 }
-
-//Styles added to show Horizontal Scroll Bar
-.fc-view-container {
-  width: auto;
-}
-.fc-view-container .fc-view {
-  overflow-x: scroll;
-}
-.fc-view-container .fc-view > table {
-  width: 760px;
-}
-.fc-view-container .fc-view.fc-timelineDay-view > table {
-  width: 760px !important;
-}
-.fc-view-container .fc-view.fc-timelineDay-view {
-  overflow-x: hidden;
-}
