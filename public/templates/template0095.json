@@ -459,14 +459,14 @@
 					"groups": {
 						"group_name": "Group-J",
 						"match": [{
-							"in_between": "1A-1B",
-							"match_number": "CAT.RR2.01.1A-1B"
+							"in_between": "1D-1E",
+							"match_number": "CAT.RR2.01.1D-1E"
 						}, {
-							"in_between": "1A-1C",
-							"match_number": "CAT.RR2.02.1A-1C"
+							"in_between": "1D-1F",
+							"match_number": "CAT.RR2.02.1D-1F"
 						}, {
-							"in_between": "1B-1C",
-							"match_number": "CAT.RR2.03.1B-1C"
+							"in_between": "1E-1F",
+							"match_number": "CAT.RR2.03.1E-1F"
 						}]
 					}
 				},
@@ -477,14 +477,14 @@
 					"groups": {
 						"group_name": "Group-K",
 						"match": [{
-							"in_between": "2A-2B",
-							"match_number": "CAT.RR2.01.2A-2B"
+							"in_between": "2D-2E",
+							"match_number": "CAT.RR2.01.2D-2E"
 						}, {
-							"in_between": "2A-2C",
-							"match_number": "CAT.RR2.02.2A-2C"
+							"in_between": "2D-2F",
+							"match_number": "CAT.RR2.02.2D-2F"
 						}, {
-							"in_between": "2B-2C",
-							"match_number": "CAT.RR2.03.2B-2C"
+							"in_between": "2E-2F",
+							"match_number": "CAT.RR2.03.2E-2F"
 						}]
 					}
 				},
@@ -495,14 +495,14 @@
 					"groups": {
 						"group_name": "Group-L",
 						"match": [{
-							"in_between": "3A-3B",
-							"match_number": "CAT.RR2.01.3A-3B"
+							"in_between": "3D-3E",
+							"match_number": "CAT.RR2.01.3D-3E"
 						}, {
-							"in_between": "3A-3C",
-							"match_number": "CAT.RR2.02.3A-3C"
+							"in_between": "3D-3F",
+							"match_number": "CAT.RR2.02.3D-3F"
 						}, {
-							"in_between": "3B-3C",
-							"match_number": "CAT.RR2.03.3B-3C"
+							"in_between": "3E-3F",
+							"match_number": "CAT.RR2.03.3E-3F"
 						}]
 					}
 				},
