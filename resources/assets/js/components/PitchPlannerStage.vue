@@ -256,7 +256,12 @@ import _ from 'lodash'
                         }
                     },
                     eventAfterAllRender: function(view ){
-                         $('#add_referee').prop('disabled', false);
+                        $('#add_referee').prop('disabled', false);
+                        // Code for horizontal scroll bar
+                        let totalPitches = vm.stage.pitches.length;
+                        if(totalPitches > 6) {
+                            $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * 125) + 'px');
+                        }
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
@@ -330,6 +335,7 @@ import _ from 'lodash'
                     //schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
                     schedulerLicenseKey: '0097912839-fcs-1497264705',
                 });
+                
             },
             handleEventClick(calEvent, jsEvent, view) {
                 // console.log(calEvent);
