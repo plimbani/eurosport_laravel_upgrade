@@ -256,7 +256,7 @@ import _ from 'lodash'
                         }
                     },
                     eventAfterAllRender: function(view ){
-                        $('#add_referee').prop('disabled', false);
+                         $('#add_referee').prop('disabled', false);
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
