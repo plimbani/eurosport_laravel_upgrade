@@ -97,7 +97,7 @@
               return this.$store.getters.curStageView  
             },
             isGroupFilterSet() {
-              if(this.$store.state.Tournament.tournamentFiler.filterValue != '') {
+              if(this.$store.state.Tournament.tournamentFiler.filterKey == 'age_category' && this.$store.state.Tournament.tournamentFiler.filterValue != '') {
                 return true;
               }
               return false;
