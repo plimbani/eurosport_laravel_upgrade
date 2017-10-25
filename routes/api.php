@@ -88,7 +88,7 @@ $api->version('v1', function ($api) {
 
     $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
 
-    $api->post('match/getStanding','Laraspace\Api\Controllers\MatchController@getStanding');
+    $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding');
 
     $api->post('match/getDrawTable','Laraspace\Api\Controllers\MatchController@getDrawTable');
     $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
