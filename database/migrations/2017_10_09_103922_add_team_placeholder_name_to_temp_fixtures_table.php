@@ -27,8 +27,8 @@ class AddTeamPlaceholderNameToTempFixturesTable extends Migration
     public function down()
     {
         Schema::table('temp_fixtures', function($table) {
-            $table->dropColumn('home_team_format_name');
-            $table->dropColumn('away_team_format_name');
+            $table->dropColumn('home_team_placeholder_name');
+            $table->dropColumn('away_team_placeholder_name');
         });
     }
 }
