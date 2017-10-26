@@ -59,8 +59,8 @@
                 </div>
             </div>
         </div>
-
         <GroupCompetitionColour></GroupCompetitionColour>
+        <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
     </div>
 </template>
 <script>
@@ -69,10 +69,12 @@
     import RefereesTab from './RefereesTab.vue'
     import PitchPlannerStage from './PitchPlannerStage.vue'
     import GroupCompetitionColour from './GroupCompetitionColourModal.vue'
+    import AddRefereesModel from './AddRefereesModel.vue'
+    import Tournament from '../api/tournament.js'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, GroupCompetitionColour
+            GamesTab, RefereesTab, PitchPlannerStage, GroupCompetitionColour, AddRefereesModel
         },
         computed: {
             GameActiveTab () {
@@ -140,6 +142,8 @@
             this.$root.$on('getAllReferee', this.getAllreferees);
             // this.$root.$on('getTeamsByTournamentFilter', this.resetPitch);
 
+            this.$root.$on('editReferee', this.editReferee);
+
         },
         data() {
             return {
@@ -151,7 +155,11 @@
                 'GameStatus':true,
                 'refereeStatus':true,
                 'refereeCount': '',
-                'defaultView': 'agendaDay'
+                'defaultView': 'agendaDay',
+                'refereeId': '',
+                'tournamentId': this.$store.state.Tournament.tournamentId,
+                'competationList': [{}],
+                'formValues': this.initialState(),
             };
         },
         props: {
@@ -204,12 +212,64 @@
             // $("#game-list").css('height', ($( window ).height()-externalHeight) + 'px');
             // $("#referee-list").css('height', ($( window ).height()-externalHeight) + 'px');
 
+            this.displayTournamentCompetationList()
+
+            let this1 = this
+              $("#refreesModal").on('hidden.bs.modal', function () {
+                if(!$('#refreesModal').is(':visible')){
+                  this1.refereeId = ''
+                  this1.formValues = this1.initialState()
+                }
+            });
+
 
          // TODO set Default View
 
           //         this.setView(this.defaultView);
         },
         methods: {
+            initialState() {
+                return {
+                            first_name: '',
+                            last_name: '',
+                            telephone: '',
+                            email: '',
+                            age_group_id: [],
+                            availability: ''
+                        }
+            },
+            displayTournamentCompetationList () {
+            // Only called if valid tournament id is Present
+                if (!isNaN(this.tournamentId)) {
+                  // here we add data for
+                  let responseData=[];
+                  let TournamentData = {'tournament_id': this.tournamentId}
+                  Tournament.getCompetationFormat(TournamentData).then(
+                  (response) => {
+                    responseData = response.data.data
+                    // responseData.unshift({'id':0,'category_age':'Select all'}) 
+                    // this.competationList.push({'id':0,'category_age':'Select all'})
+                    this.competationList = responseData
+                    // console.log(this.competationList);
+                  },
+                  (error) => {              
+                  }
+                  )
+                } else {
+                  this.TournamentId = 0;
+                }
+            },
+            editReferee (rId){
+                this.refereeId = rId
+                Tournament.getRefereeDetail(rId).then(
+                  (response) => {
+                    // console.log(response.data.referee)
+                    this.formValues = response.data.referee
+                    this.formValues.age_group_id = JSON.parse("[" + this.formValues.age_group_id + "]");
+                    $('#refreesModal').modal('show')
+                    }
+                 )
+            },
             getAllreferees(){
                 
             },
