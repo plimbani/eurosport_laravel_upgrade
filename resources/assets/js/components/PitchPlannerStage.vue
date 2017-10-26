@@ -259,8 +259,8 @@ import _ from 'lodash'
                          $('#add_referee').prop('disabled', false);
                          // Code for horizontal scroll bar
                          let totalPitches = vm.stage.pitches.length;
-                         if(totalPitches > 6) {
-                            $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * 125) + 'px');
+                         if(totalPitches > 8) {
+                            $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * 95) + 'px');
                          }
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
