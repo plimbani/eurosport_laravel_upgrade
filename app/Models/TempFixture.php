@@ -30,6 +30,18 @@ class TempFixture extends Model
     {
         return $this->belongsTo('Laraspace\Models\Venue');
     }
+    public function competition()
+    {
+        return $this->belongsTo('Laraspace\Models\Competition');
+    }
+    public function categoryAge()
+    {
+        return $this->belongsTo('Laraspace\Models\TournamentCompetationTemplates', 'age_group_id');
+    }
+    public function winnerTeam()
+    {
+        return $this->belongsTo('Laraspace\Models\Team', 'match_winner');
+    }
     public function getMatchNumberAttribute($value)
     {
       if($value) {

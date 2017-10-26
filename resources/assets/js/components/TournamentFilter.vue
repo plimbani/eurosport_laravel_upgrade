@@ -137,9 +137,13 @@ export default {
           }
 
           this.options =response.data.data
-           if(tourament_key == 'age_category'){
+          if(tourament_key == 'age_category'){
             this.dropDown = ""
             this.setFilterValue()
+          }
+          if(tourament_key == 'location') {
+            let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
+            this.$store.dispatch('setTournamentFilter', tournamentFilter);
           }
         },
         (error) => {

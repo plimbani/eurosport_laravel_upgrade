@@ -551,3 +551,7 @@ input[type=number] {
     border-color: $brand-danger;
     position: relative;
 }
+
+.colorpicker {
+  z-index: 99999;
+}

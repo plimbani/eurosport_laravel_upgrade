@@ -408,10 +408,14 @@ import _ from 'lodash'
                                         scheduleBlock = true
                                     }
                                 }
-                              let colorVal = (match.homeScore == null && match.AwayScore == null) ? '#e9e9e9' : 'green';
-                              let borderColorVal = (match.homeScore == null && match.AwayScore == null) ? '#d3d3d3' : 'green';
+                              let colorVal = (match.homeScore == null && match.AwayScore == null) ? '#e9e9e9' : match.category_age_color;
+                              let borderColorVal = (match.homeScore == null && match.AwayScore == null) ? '#d3d3d3' : match.category_age_color;
+                              let fixtureStripColor = (match.homeScore == null && match.AwayScore == null) ? match.category_age_color : match.competation_color_code;
+
                               if(scheduleBlock){
                                 colorVal = 'grey'
+                                borderColorVal = 'grey'
+                                fixtureStripColor = 'grey'
                               }
                               let lastName = match.last_name
                               let firstName = match.first_name
@@ -439,7 +443,7 @@ import _ from 'lodash'
                                     'borderColor': borderColorVal,
                                     'matchId':match.fid,
                                     'matchAgeGroupId':match.age_group_id,
-                                    'categoryAgeColor': match.category_age_color
+                                    'fixtureStripColor': fixtureStripColor
                                 }
                             sMatches.push(mData)
                             }
@@ -467,7 +471,7 @@ import _ from 'lodash'
                                     'borderColor': 'grey',
                                     'matchId':-1,
                                     'matchAgeGroupId':'',
-                                    'categoryAgeColor': ''
+                                    'fixtureStripColor': ''
                                 }
 
                                 if(availability.stage_start_time != '08:00'){
@@ -483,7 +487,7 @@ import _ from 'lodash'
                                         'borderColor': 'grey',
                                         'matchId':-1,
                                         'matchAgeGroupId':'',
-                                        'categoryAgeColor': ''
+                                        'fixtureStripColor': ''
                                     }
                                     sMatches.push(mData1)
                                 }
@@ -500,7 +504,7 @@ import _ from 'lodash'
                                         'borderColor': 'grey',
                                         'matchId': -1,
                                         'matchAgeGroupId':'',
-                                        'categoryAgeColor': ''
+                                        'fixtureStripColor': ''
                                     }
                                 sMatches.push(mData2)
                                 }
