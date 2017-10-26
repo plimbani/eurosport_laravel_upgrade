@@ -119,15 +119,20 @@ class MatchService implements MatchContract
      *
      * @return [type]
      */
-    public function getStanding($data)
+    public function getStanding($data, $refreshStanding)
     {
         $data = $data->all();
-       
-      // $standingResData = $this->refreshMatchStanding($data['tournamentData']);
-        // if($res){
-          $standingResData = $this->matchRepoObj->getStanding($data['tournamentData']);
-        // }
+        $tournamentData = $data['tournamentData'];
 
+        $standingResData = $this->matchRepoObj->getStanding($tournamentData);
+
+        if($refreshStanding && $refreshStanding == 'yes' && isset($tournamentData['competitionId']) && $tournamentData['competitionId'] != '')
+        {
+            $competition = Competition::find($tournamentData['competitionId']);
+            if(count($standingResData) != $competition->team_size) {
+                return $this->refreshStanding($data);
+            }
+        }
 
         if ($standingResData) {
             return ['status_code' => '200', 'data' => $standingResData,'message' => 'Match Standing data'];
