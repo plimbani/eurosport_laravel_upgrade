@@ -114,7 +114,7 @@ class TournamentRepository
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
-        $newdata['maximum_teams'] = $data['maximum_teams'];
+        $newdata['maximum_teams'] = $data['maximum_teams']; 
         $newdata['start_date'] = $data['start_date'] ? $data['start_date'] : '';
         $newdata['end_date'] = $data['end_date'] ? $data['end_date'] : '';
         $newdata['website'] = $data['website'] ? $data['website'] : '';
@@ -161,11 +161,15 @@ class TournamentRepository
 
         // Save Tournament Contact Data
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
-           // Update Touranment Table Data
-          $updatedData = TournamentContact::where('tournament_id', $tournamentId)->update($tournamentContactData);
 
+          $tournamentResult = TournamentContact::where('tournament_id', $tournamentId)->get();
+            if($tournamentResult->count() == 0) {
+              TournamentContact::create($tournamentContactData);
+            } else {
+              $updatedData = TournamentContact::where('tournament_id', $tournamentId)->update($tournamentContactData);
+            }
         } else {
-         TournamentContact::create($tournamentContactData);
+          TournamentContact::create($tournamentContactData);
         }
 
         unset($tournamentContactData);
@@ -210,7 +214,7 @@ class TournamentRepository
           'twitter' => $data['twitter'],
           'website' => $data['website'],
           'maximum_teams' => $data['maximum_teams'],
-        );
+        ); 
 
         return $tournamentData;
     }
