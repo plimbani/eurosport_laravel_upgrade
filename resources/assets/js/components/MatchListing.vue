@@ -23,7 +23,7 @@
 		</div>
 	</div>
     <component :is="currentScheduleView"
-    :matchData="matchData" :otherData="otherData"
+    :matchData1="matchData" :matchData="matchData" :otherData="otherData"
     > </component>
   </div>
 </template>

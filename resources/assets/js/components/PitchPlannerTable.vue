@@ -4,6 +4,7 @@
             <div class="col-md-12 mb-3">
                 <button class="btn btn-secondary btn-md js-pitch-planner-bt horizontal"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</button>
                 <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
+                <button class="btn btn-primary btn-md vertical" v-if="isGroupFilterSet" @click="openGroupCompetitionColourModal()">{{$lang.pitch_planner_group_colours}}</button>
             </div>
         </div>
 
@@ -58,6 +59,8 @@
                 </div>
             </div>
         </div>
+        <GroupCompetitionColour></GroupCompetitionColour>
+        <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
     </div>
 </template>
 <script>
@@ -65,10 +68,13 @@
     import GamesTab from './GamesTab.vue'
     import RefereesTab from './RefereesTab.vue'
     import PitchPlannerStage from './PitchPlannerStage.vue'
+    import GroupCompetitionColour from './GroupCompetitionColourModal.vue'
+    import AddRefereesModel from './AddRefereesModel.vue'
+    import Tournament from '../api/tournament.js'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage
+            GamesTab, RefereesTab, PitchPlannerStage, GroupCompetitionColour, AddRefereesModel
         },
         computed: {
             GameActiveTab () {
@@ -91,6 +97,12 @@
             },
             currentView() {
               return this.$store.getters.curStageView  
+            },
+            isGroupFilterSet() {
+              if(this.$store.state.Tournament.tournamentFiler.filterKey == 'age_category' && this.$store.state.Tournament.tournamentFiler.filterValue != '') {
+                return true;
+              }
+              return false;
             }
             
             // tournamentStages() {
@@ -130,6 +142,8 @@
             this.$root.$on('getAllReferee', this.getAllreferees);
             // this.$root.$on('getTeamsByTournamentFilter', this.resetPitch);
 
+            this.$root.$on('editReferee', this.editReferee);
+
         },
         data() {
             return {
@@ -141,7 +155,11 @@
                 'GameStatus':true,
                 'refereeStatus':true,
                 'refereeCount': '',
-                'defaultView': 'agendaDay'
+                'defaultView': 'agendaDay',
+                'refereeId': '',
+                'tournamentId': this.$store.state.Tournament.tournamentId,
+                'competationList': [{}],
+                'formValues': this.initialState(),
             };
         },
         props: {
@@ -194,12 +212,64 @@
             // $("#game-list").css('height', ($( window ).height()-externalHeight) + 'px');
             // $("#referee-list").css('height', ($( window ).height()-externalHeight) + 'px');
 
+            this.displayTournamentCompetationList()
+
+            let this1 = this
+              $("#refreesModal").on('hidden.bs.modal', function () {
+                if(!$('#refreesModal').is(':visible')){
+                  this1.refereeId = ''
+                  this1.formValues = this1.initialState()
+                }
+            });
+
 
          // TODO set Default View
 
           //         this.setView(this.defaultView);
         },
         methods: {
+            initialState() {
+                return {
+                            first_name: '',
+                            last_name: '',
+                            telephone: '',
+                            email: '',
+                            age_group_id: [],
+                            availability: ''
+                        }
+            },
+            displayTournamentCompetationList () {
+            // Only called if valid tournament id is Present
+                if (!isNaN(this.tournamentId)) {
+                  // here we add data for
+                  let responseData=[];
+                  let TournamentData = {'tournament_id': this.tournamentId}
+                  Tournament.getCompetationFormat(TournamentData).then(
+                  (response) => {
+                    responseData = response.data.data
+                    // responseData.unshift({'id':0,'category_age':'Select all'}) 
+                    // this.competationList.push({'id':0,'category_age':'Select all'})
+                    this.competationList = responseData
+                    // console.log(this.competationList);
+                  },
+                  (error) => {              
+                  }
+                  )
+                } else {
+                  this.TournamentId = 0;
+                }
+            },
+            editReferee (rId){
+                this.refereeId = rId
+                Tournament.getRefereeDetail(rId).then(
+                  (response) => {
+                    // console.log(response.data.referee)
+                    this.formValues = response.data.referee
+                    this.formValues.age_group_id = JSON.parse("[" + this.formValues.age_group_id + "]");
+                    $('#refreesModal').modal('show')
+                    }
+                 )
+            },
             getAllreferees(){
                 
             },
@@ -328,6 +398,10 @@
           dispDate(date) {
             var date1 = moment(date, 'DD/MM/YYYY')
             return date1.format('ddd DD MMM YYYY')
+          },
+          openGroupCompetitionColourModal(){
+            this.$root.$emit('getCategoryCompetitions')
+            $('#group_competition_modal').modal('show');
           }
         }
     }

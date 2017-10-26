@@ -175,6 +175,8 @@ table#Competition-modal-table {
 
 
 
+
+
 /*.pitch_planner_section {
   height: 1200px;
 }
@@ -356,15 +358,38 @@ table#Competition-modal-table {
     max-width: 10%;
 }
 
+
 .team-edit-section .btn-group[role="group"] input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-right: 0
 }
 
-#frmTeamAssign .table th,
-.table td {
-    vertical-align: middle;
+#frmTeamAssign {
+    .table {
+        th,
+        td {
+            vertical-align: middle;
+        }
+        thead {
+            tr {
+                th {
+                    &:nth-child(2) {
+                        max-width: 200px
+                    }
+                }
+            }
+        }
+        tbody {
+            tr {
+                td {
+                    &:nth-child(2) {
+                        max-width: 200px
+                    }
+                }
+            }
+        }
+    }
 }
 
 .planner_list_content .dashbox.unscheduled-match-content {
@@ -415,88 +440,94 @@ input[type=number]:hover::-webkit-inner-spin-button {
 }
 
 input[type=number] {
-  padding-left: 1rem;
+    padding-left: 1rem;
 }
 
-.pitch-planner-item .fc-event, .planner_list_content .dashbox.unscheduled-match-content, .planner_list_content .raferee_details {
+.pitch-planner-item .fc-event,
+.planner_list_content .dashbox.unscheduled-match-content,
+.planner_list_content .raferee_details {
     border-radius: 0px;
 }
 
 .loader {
-  position: fixed;
-  z-index: 99999;
-  background: rgba(255,255,255,0.5);
-  width: 100%;
-  height: 100vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+    position: fixed;
+    z-index: 99999;
+    background: rgba(255, 255, 255, 0.5);
+    width: 100%;
+    height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 }
+
 .loader .circular {
-  -webkit-animation: rotate 2s linear infinite;
-          animation: rotate 2s linear infinite;
-  height: 50px;
-  width: 50px;
+    -webkit-animation: rotate 2s linear infinite;
+    animation: rotate 2s linear infinite;
+    height: 50px;
+    width: 50px;
 }
+
 .loader .path {
-  stroke-dasharray: 1, 200;
-  stroke-dashoffset: 0;
-  -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
-          animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
-  stroke-linecap: round;
-  stroke: #2196F3;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    stroke-linecap: round;
+    stroke: #2196F3;
 }
 
 @-webkit-keyframes rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
+
 @-webkit-keyframes dash {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -35;
-  }
-  100% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -124;
-  }
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124;
+    }
 }
+
 @keyframes dash {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -35;
-  }
-  100% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -124;
-  }
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124;
+    }
 }
 
 .modal-backdrop.show {
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .icon-size-1-2 {
@@ -504,50 +535,73 @@ input[type=number] {
 }
 
 .button.is-loading {
-  color: transparent !important;
-  pointer-events: none;
-  position: relative;
+    color: transparent !important;
+    pointer-events: none;
+    position: relative;
 }
 
 .button.is-loading:after {
-  -webkit-animation: spinAround 500ms infinite linear;
-          animation: spinAround 500ms infinite linear;
-  border: 2px solid #dbdbdb;
-  border-radius: 290486px;
-  border-right-color: transparent;
-  border-top-color: transparent;
-  content: "";
-  display: block;
-  height: 1em;
-  position: relative;
-  width: 1em;
-  position: absolute;
-  left: calc(50% - (1em / 2));
-  top: calc(50% - (1em / 2));
-  position: absolute !important;
+    -webkit-animation: spinAround 500ms infinite linear;
+    animation: spinAround 500ms infinite linear;
+    border: 2px solid #dbdbdb;
+    border-radius: 290486px;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    content: "";
+    display: block;
+    height: 1em;
+    position: relative;
+    width: 1em;
+    position: absolute;
+    left: calc(50% - (1em / 2));
+    top: calc(50% - (1em / 2));
+    position: absolute !important;
 }
 
 @-webkit-keyframes spinAround {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(359deg);
-            transform: rotate(359deg);
-  }
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
 }
+
 @keyframes spinAround {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(359deg);
-            transform: rotate(359deg);
-  }
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
 }
+
 .warning-box {
     border-color: $brand-danger;
     position: relative;
+}
+
+.colorpicker {
+  z-index: 99999;
+}
+
+//Styles added to show Horizontal Scroll Bar
+.fc-view-container {
+  width: auto;
+}
+.fc-view-container .fc-view {
+  overflow-x: scroll;
+}
+.fc-view-container .fc-view > table {
+  width: 760px;
+}
+.fc-view-container .fc-view.fc-timelineDay-view > table {
+  width: 760px !important;
+}
+.fc-view-container .fc-view.fc-timelineDay-view {
+  overflow-x: hidden;
 }

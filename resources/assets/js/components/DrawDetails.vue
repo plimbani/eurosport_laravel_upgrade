@@ -80,7 +80,7 @@
   
 
   <h6>{{otherData.DrawName}} matches</h6>
-  <matchList :matchData="matchData"></matchList>
+  <matchList :matchData1="matchData"></matchList>
   <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
 </template>
