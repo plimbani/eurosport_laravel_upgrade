@@ -414,6 +414,8 @@ import _ from 'lodash'
 
                               if(scheduleBlock){
                                 colorVal = 'grey'
+                                borderColorVal = 'grey'
+                                fixtureStripColor = 'grey'
                               }
                               let lastName = match.last_name
                               let firstName = match.first_name
