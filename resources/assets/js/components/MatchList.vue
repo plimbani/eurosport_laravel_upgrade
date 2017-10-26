@@ -11,7 +11,7 @@
 			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
       <th class="text-center"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
 		</thead>
-		<tbody>
+		<tbody> 
 			<tr v-for="(match,index1) in matchData">
 				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
@@ -65,7 +65,7 @@ import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
 
 export default {
-	props: ['matchData'],
+	props: ['matchData1'],
   components: {
             PitchModal,
             DeleteModal1,
@@ -110,6 +110,12 @@ export default {
 			}
 		},
 
+    matchData() {
+       let vm = this;
+       return  _.sortBy(vm.matchData1,['match_datetime'] );
+     },
+    
+    
 	isUserDataExist() {
       return this.$store.state.isAdmin
 	    //return this.$store.state.Users.userDetails.id
@@ -138,7 +144,7 @@ export default {
           e.preventDefault();
         }
 		});
-    let vm = this
+
 
     $(document).on('hidden.bs.modal', '#matchScheduleModal', function (event) {
       // here we close the compoent
@@ -148,7 +154,7 @@ export default {
 	},
 	  created: function() {
       this.$root.$on('reloadMatchList', this.setScore);
-    },
+    },  
 	methods: {
     setScore(homescore,AwayScore,competationId) {
       let vm = this
