@@ -130,7 +130,7 @@ export default {
 
             vm.drawList = response.data.data
             vm.drawList.map(function(value, key) {
-              if(value.competation_type == 'Elimination') {
+              if(value.actual_competition_type == 'Elimination') {
                 value.name = _.replace(value.name, '-Group', '');
 
                 return value;
