@@ -116,7 +116,7 @@ module.exports = {
   tournament_tournament_logo: "FTournament logo",
   tournament_tournament_choose_button: "FChoose file",
   tournament_tournament_remove_button: "FRemove image",
-  tournament_eurosporting: "FEuro-Sportring contact",
+  tournament_eurosporting: "FContact",
   tournament_first_name: "FFirst name",
   tournament_validation_first_name: "FFirst name required",
   tournament_last_name: "FLast name",

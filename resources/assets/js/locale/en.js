@@ -119,7 +119,7 @@ module.exports= {
   tournament_tournament_logo: "Tournament logo",
   tournament_tournament_choose_button: "Choose file",
   tournament_tournament_remove_button: "Remove image",
-  tournament_eurosporting: "Euro-Sportring contact",
+  tournament_eurosporting: "Contact",
   tournament_first_name: "First name",
   tournament_validation_first_name: "First name required",
   tournament_last_name: "Last name",
