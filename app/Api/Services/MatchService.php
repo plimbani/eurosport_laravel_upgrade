@@ -175,6 +175,16 @@ class MatchService implements MatchContract
             return ['status_code' => '300', 'message' => $scheduledResult];
         }
     }
+
+    public function checkTeamIntervalforMatches($matchData) {
+      $matchListResult = $this->matchRepoObj->checkTeamIntervalforMatches($matchData->all());
+        if ($matchListResult) {
+            return ['status_code' => '200', 'data' => $matchListResult, 'message' => 'Match scheduled successfully'];
+        } else {
+            return ['status_code' => '300', 'message' => $matchListResult];
+        }
+    }
+
     public function generateMatchPrint($matchData)
     {
 

@@ -14,6 +14,7 @@ class TeamService implements TeamContract
     public function __construct(TeamRepository $teamRepoObj)
     {
         $this->teamRepoObj = $teamRepoObj;
+        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
     }
 
     /*
@@ -212,12 +213,22 @@ class TeamService implements TeamContract
 
     public function assignTeams($data)
     {
+
+        $teamsList = $this->teamRepoObj->getAllUpdatedTeam($data);
+       
+        $tournamentId = $data['data']['tournament_id'];
+        $ageGroupId  = $data['data']['age_group'];
+       
+        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId);
+        
+        $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
         foreach ($data['data']['teamdata'] as $key => $value) {
             $team_id = str_replace('sel_', '', $value['name']);
             // $team_id = str_replace('sel_', '', $value['value']);
             $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);
             # code...
         }
+
         return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
         public function getAllTeamsGroup($data)
