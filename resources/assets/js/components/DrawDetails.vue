@@ -123,10 +123,20 @@ export default {
     let currDId = this.currentCompetationId
     let round = 'Round Robin'
     let drawname1 = []
+    let vm = this
       Tournament.getAllDraws(TournamentId).then(
         (response)=> {
           if(response.data.status_code == 200) {
             this.drawList = response.data.data
+
+            vm.drawList = response.data.data
+            vm.drawList.map(function(value, key) {
+              if(value.actual_competition_type == 'Elimination') {
+                value.name = _.replace(value.name, '-Group', '');
+
+                return value;
+              }
+            })
 
             var uniqueArray = response.data.data.filter(function(item, pos) {
 
