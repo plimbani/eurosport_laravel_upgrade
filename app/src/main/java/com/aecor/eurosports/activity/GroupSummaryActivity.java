@@ -39,9 +39,13 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -212,6 +216,18 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                                 TeamFixturesModel mTeamFixtureData[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamFixturesModel[].class);
                                 ll_match_header.setVisibility(View.VISIBLE);
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
+                                    Collections.sort(Arrays.asList(mTeamFixtureData), new Comparator<TeamFixturesModel>() {
+                                        DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+                                        public int compare(TeamFixturesModel o1, TeamFixturesModel o2) {
+                                            try {
+                                                return f.parse(o1.getMatch_datetime()).compareTo(f.parse(o2.getMatch_datetime()));
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                                throw new IllegalArgumentException(e);
+                                            }
+                                        }
+                                    });
                                     for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
                                         addMatchesRow(aMTeamFixtureData);
                                     }

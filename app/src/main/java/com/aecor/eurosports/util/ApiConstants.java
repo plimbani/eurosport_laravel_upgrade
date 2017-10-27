@@ -11,8 +11,8 @@ public class ApiConstants {
     //    public static final String BASE_URL = "http://esr.aecordigitalqa.com/api/"; // Aecor QA
     //    www.esrtmp.com -> live
     //    qa.esrtmp.com -> qa
-        public static final String BASE_URL = "https://www.esrtmp.com/api/"; // ESR Live
-//    public static final String BASE_URL = "https://qa.esrtmp.com/api/"; // ESR QA
+//        public static final String BASE_URL = "https://www.esrtmp.com/api/"; // ESR Live
+    public static final String BASE_URL = "https://qa.esrtmp.com/api/"; // ESR QA
 
     public static final String GET_TOURNAMENTS = BASE_URL + "tournaments";
     public static final String SIGN_IN = BASE_URL + "auth/login";
@@ -31,7 +31,7 @@ public class ApiConstants {
     public static final String TOURNAMENT_CLUBS = BASE_URL + "tournaments/getTournamentClub";
     public static final String GET_TEAM_LIST = BASE_URL + "teams/getTeamsList";
     public static final String GET_TEAM_FIXTURES = BASE_URL + "match/getFixtures";
-    public static final String GET_GROUP_STANDING = BASE_URL + "match/getStanding";
+    public static final String GET_GROUP_STANDING = BASE_URL + "match/getStanding/yes";
     public static final String POST_FCM_TOKEN = BASE_URL + "users/updatefcm";
 }
     

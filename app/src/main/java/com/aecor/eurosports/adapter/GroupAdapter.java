@@ -62,7 +62,11 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         final ClubGroupModel mGroupModel = mGroupList.get(position);
         if (!Utility.isNullOrEmpty(mGroupModel.getName())) {
-            holder.individual_list_item.setText(mGroupModel.getName());
+            if (!Utility.isNullOrEmpty(mGroupModel.getActual_competition_type()) && mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+                holder.individual_list_item.setText(mGroupModel.getName().replace("Group-", ""));
+            } else {
+                holder.individual_list_item.setText(mGroupModel.getName());
+            }
         }
         holder.ll_list_parent.setOnClickListener(new View.OnClickListener() {
             @Override

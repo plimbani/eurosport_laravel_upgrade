@@ -17,6 +17,7 @@ public class ClubGroupModel implements Parcelable {
     private String created_at;
     private String updated_at;
     private String group_name;
+    private String actual_competition_type;
 
     protected ClubGroupModel(Parcel in) {
         id = in.readString();
@@ -28,6 +29,7 @@ public class ClubGroupModel implements Parcelable {
         created_at = in.readString();
         updated_at = in.readString();
         group_name = in.readString();
+        actual_competition_type = in.readString();
     }
 
     public static final Creator<ClubGroupModel> CREATOR = new Creator<ClubGroupModel>() {
@@ -119,6 +121,14 @@ public class ClubGroupModel implements Parcelable {
         return 0;
     }
 
+    public String getActual_competition_type() {
+        return actual_competition_type;
+    }
+
+    public void setActual_competition_type(String actual_competition_type) {
+        this.actual_competition_type = actual_competition_type;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
@@ -130,5 +140,6 @@ public class ClubGroupModel implements Parcelable {
         dest.writeString(created_at);
         dest.writeString(updated_at);
         dest.writeString(group_name);
+        dest.writeString(actual_competition_type);
     }
 }
