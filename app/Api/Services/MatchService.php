@@ -587,12 +587,6 @@ class MatchService implements MatchContract
 
         $modifiedTeamsWinner = $modifiedTeams.'_WR';
 
-        \Log::info('$singleFixture->hometeam_score');
-        \Log::info($singleFixture->hometeam_score);
-
-        \Log::info('$singleFixture->awayteam_score');
-        \Log::info($singleFixture->awayteam_score);
-
         if($homeTeam  == $modifiedTeamsWinner) {
           $hometeamName = null;
           $homeTeamId = 0;
