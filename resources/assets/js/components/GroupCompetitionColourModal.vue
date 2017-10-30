@@ -10,26 +10,22 @@
               </button>
             </div>
           </div>
-          <div class="modal-body" id="pitch_model_body">
           <form method="post" class="js-group-competition-colour-modal-form">
-            
-            <div class="form-group row" :class="{'has-error': errors.has('competition_color') }" v-for="(competition, key) in competitions">
-              <div class="col-sm-3 form-control-label">{{ competition.name }}*</div>
-              <div class="col-sm-6">
-                <div class="input-group js-colorpicker">              
-                  <input type="text" :name="`competition_color${key}`" v-model="competitionsColorData[competition.id]" @input="competitionsColorData[competition.id]" v-validate="{ rules: {required: true, regex: /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/i} }" :class="{'is-danger': errors.has('competition_color'), 'form-control' : true }" :data-competition-id="competition.id" />
-                  <span class="input-group-addon"><i></i></span>
+            <div class="modal-body" id="pitch_model_body">
+                
+                <div class="form-group row" v-for="(competition, key) in competitions">
+                  <div class="col-sm-3 form-control-label">{{ competition.name }}*</div>
+                  <div class="col-sm-6">
+                    <input type="text" class="js-colorpicker" :name="`competitionsColor[${key}]`" v-model="competitionsColorData[competition.id]" @input="competitionsColorData[competition.id]" :class="{'form-control demo minicolors-input' : true }" :data-competition-id="competition.id" />
+                  </div>
                 </div>
-                <span class="help is-danger" v-show="errors.has(`competition_color${key}`)">{{ errors.first(`competition_color${key}`) }}</span>
-              </div>
+                
             </div>
-            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.manual_ranking_cancel}}</button>
+                <input type="submit" class="btn btn-primary" v-bind:value="$lang.manual_ranking_save" />
+            </div>
           </form>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.manual_ranking_cancel}}</button>
-              <button type="button" class="btn btn-primary" @click.prevent="saveCompetitionColour()">{{$lang.manual_ranking_save}}</button>
-          </div>
         </div>
       </div>
     </div>
@@ -43,20 +39,6 @@ import _ from 'lodash';
           return {
             competitions: [],
             competitionsColorData: {},
-            errorMessages: {
-              en: {
-                messages: {
-                  regex: () => 'The field format is invalid.',
-                  required: () => 'This field is required.'
-                }
-              },
-              fr: {
-                messages: {
-                  regex: () => 'FThe field format is invalid.',
-                  required: () => 'This field is required.'
-                }
-              }
-            }
           }
         },
         created: function() {
@@ -64,7 +46,8 @@ import _ from 'lodash';
         },
         mounted() {
           this.$root.$on('getCategoryCompetitions', this.getCategoryCompetitions);
-          this.$validator.updateDictionary(this.errorMessages);
+          this.initiazeGroupCompetitionValidation();
+          // this.$validator.updateDictionary(this.errorMessages);
         },
         methods: {
             getCategoryCompetitions() {
@@ -82,12 +65,29 @@ import _ from 'lodash';
                         vm.competitionsColorData[o.id] = o.color_code ? o.color_code : '';
                       });
                       setTimeout(function(){
-                        $('.js-colorpicker').colorpicker({
+                        $('.js-colorpicker').minicolors({
+                          animationSpeed: 50,
+                          animationEasing: 'swing',
                           format : 'hex',
-                        }).on('changeColor', function() {
-                            let inputObj = $(this).children('input');
+                          theme: 'bootstrap',
+                          position: 'bottom right',
+                          change : function() {
+                            let inputObj = $(this);
                             let competitionId = inputObj.data('competition-id');
-                            vm.competitionsColorData[competitionId] = inputObj.val();
+                            vm.$set(vm.competitionsColorData, competitionId, inputObj.val());
+                            //vm.competitionsColorData[competitionId] = inputObj.val();
+                            return;
+                          }
+                        });
+                        $('[name*="competitionsColor"]').each(function () {
+                          $(this).rules('add', {
+                              required: true,
+                              pattern: /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/i,
+                              messages: {
+                                required: "This field is required.",
+                                pattern: "This field is invalid."
+                              }
+                          });
                         });
                       }, 500);
                     }
@@ -101,22 +101,34 @@ import _ from 'lodash';
                 $('#group_competition_modal').modal('hide')
                 return false
             },
-            saveCompetitionColour() {
-              // let vm = this;
-              this.$validator.validateAll().then(() => {
-                Tournament.saveCategoryCompetitionColor(this.competitionsColorData).then(
-                    (response)=> {
-                      if(response.data.status_code == 200) {
-                        this.competitionsColorData = {};
-                        this.$root.$emit('getPitchesByTournamentFilter','','');
-                        this.closeModal();
-                      }
-                    },
-                    (error) => {
-                      alert('Error in getting category competitions')
-                    }
-                  )
-              }).catch(() => {});
+            initiazeGroupCompetitionValidation() {
+              let vm = this;
+              $('.js-group-competition-colour-modal-form').validate({
+                  ignore: [],
+                  debug: false,
+                  focusInvalid: false,
+                  messages: {
+                  },
+                  rules: {
+                  },
+                  errorPlacement: function (error, element) { // render error placement for each input type     
+                    element.parent().parent().append(error);
+                  },
+                  submitHandler: function (form) {
+                    Tournament.saveCategoryCompetitionColor(vm.competitionsColorData).then(
+                          (response)=> {
+                            if(response.data.status_code == 200) {
+                              vm.competitionsColorData = {};
+                              vm.$root.$emit('getPitchesByTournamentFilter','','');
+                              vm.closeModal();
+                            }
+                          },
+                          (error) => {
+                            alert('Error in getting category competitions')
+                          }
+                        )
+                  }
+              });
             },
         }
     }
