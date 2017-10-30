@@ -311,4 +311,18 @@ class TeamRepository
       TempFixture::where('home_team', $teamId)->update(['home_team_name' => $teamName]);
       TempFixture::where('away_team', $teamId)->update(['away_team_name' => $teamName]);
     }
+
+    public function getAllCompetitionTeamsFromFixture($competationId)
+    {
+      $competitionFixtures = TempFixture::where('competition_id',$competationId);
+      $homeTeams = $competitionFixtures->pluck('home_team')->toArray();
+      $awayTeams = $competitionFixtures->pluck('away_team')->toArray();
+      $competitionTeams = array_values(array_unique(array_merge($homeTeams, $awayTeams)));
+      $teams = [];
+      $teamSize = Competition::find($competationId)->team_size;
+      if(count($competitionTeams) > 0) {
+        $teams = Team::whereIn('id', $competitionTeams)->orderBy('name', 'asc')->get();
+      }
+      return ['teams' => $teams, 'teamSize' => $teamSize];
+    }
 }

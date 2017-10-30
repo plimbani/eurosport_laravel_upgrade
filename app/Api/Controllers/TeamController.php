@@ -153,4 +153,9 @@ class TeamController extends BaseController
     {
         return $this->teamObj->changeTeamName($request->all());
     }
+
+    public function getAllCompetitionTeamsFromFixture(Request $request)
+    {
+      return $this->teamObj->getAllCompetitionTeamsFromFixture($request->all());
+    }
 }
