@@ -91,7 +91,10 @@ class MatchController extends BaseController
         return $this->matchObj->getDrawTable($request);
     }
     public function scheduleMatch(Request $request) {
-         return $this->matchObj->scheduleMatch($request);
+        return $this->matchObj->scheduleMatch($request);
+    }
+    public function checkTeamIntervalforMatches(Request $request) {
+        return $this->matchObj->checkTeamIntervalforMatches($request);
     }
     public function unscheduleMatch(Request $request) {
         return $this->matchObj->unscheduleMatch($request);
