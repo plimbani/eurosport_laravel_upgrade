@@ -148,7 +148,7 @@ export default {
 
     $(document).on('hidden.bs.modal', '#matchScheduleModal', function (event) {
       // here we close the compoent
-      vm.setPitchModal = 0
+      this.setPitchModal = 0
     });
 
 	},
