@@ -4,7 +4,7 @@
             <div>{{match.matchName}}</div>
             <div>{{match.fullGame}}</div>
             <div>({{match.matchTime}} min)</div>
-            <div class="unscheduled-match-content-strip" :style="{background: categoryAgeColor}"></div>
+            <div class="unscheduled-match-content-strip" :style="{background: fixtureStripColor}"></div>
         </div>
         <div class="dark_grey_bg card p-2 m-0 text-center" v-else>
             <div>Unavailable 60 mins</div>
@@ -17,7 +17,7 @@
 <script type="text/babel">
 import moment from 'moment'
 export default {
-    props: ['match', 'categoryAgeColor'],
+    props: ['match', 'fixtureStripColor'],
     data() {
       return {
             'tournamentFilter': this.$store.state.Tournament.tournamentFiler 
@@ -43,7 +43,7 @@ export default {
                 matchId: this.match.matchId,
                 matchAgeGroupId: this.match.ageGroupId,
                 forceEventDuration: true,
-                categoryAgeColor: this.categoryAgeColor
+                fixtureStripColor: this.fixtureStripColor
                 
             });
 
