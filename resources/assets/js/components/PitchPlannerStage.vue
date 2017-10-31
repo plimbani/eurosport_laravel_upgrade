@@ -60,6 +60,8 @@ import _ from 'lodash'
             // this.$root.$on('getTeamsByTournamentFilter', this.setPitchPlannerFilter);
             // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
             // this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
+             this.$root.$on('reloadAllEvents', this.reloadAllEvents);
+            
 
         },
         mounted() {
@@ -193,7 +195,7 @@ import _ from 'lodash'
                                          toastr.success('Referee has been assigned successfully', 'Assigned Referee ', {timeOut: 5000});
                                         vm.$store.dispatch('getAllReferee',vm.tournamentId);
                                         vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
-                                       vm.reloadAllEvents()
+                                        vm.reloadAllEvents()
 
                                     }else{
                                         let errorMsg = updatedMatch.data;
@@ -240,6 +242,8 @@ import _ from 'lodash'
                                         if(response.data.data != -1){
                                             vm.$store.dispatch('setMatches');
                                              toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                             vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
+                                             vm.reloadAllEvents()
                                         }else{
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
                                             vm.$store.dispatch('setMatches');
@@ -283,7 +287,14 @@ import _ from 'lodash'
                                 (response) => {
                                     if(response.data.data != -1){
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
-                                            
+                                            let myFirstPromise =new Promise((resolve, reject) => {
+                                                resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue));
+                                            });
+                                           
+                                            myFirstPromise.then((successMessage) => {
+                                              vm.reloadAllEvents();  
+                                            });
+                                            // vm.reloadAllEvents()
                                         }else{
                                             revertFunc();
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
@@ -523,8 +534,11 @@ import _ from 'lodash'
                                 $(this).closest('.fc-event').addClass('bg-grey');
                             }
                         })
+                       
                     }
+
                 )
+              return "Finish";  
             },
             stageWithoutPitch() {
 

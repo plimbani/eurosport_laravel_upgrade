@@ -219,7 +219,7 @@ class TeamService implements TeamContract
         $tournamentId = $data['data']['tournament_id'];
         $ageGroupId  = $data['data']['age_group'];
        
-        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId':true);
+        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId' =>false);
         
         $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
         foreach ($data['data']['teamdata'] as $key => $value) {

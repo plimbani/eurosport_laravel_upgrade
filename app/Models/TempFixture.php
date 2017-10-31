@@ -15,7 +15,7 @@ class TempFixture extends Model
      */
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'tournament_id','competition_id','venue_id', 'age_group_id','referee_id' ,'pitch_id','is_scheduled','match_datetime', 'match_endtime','match_number','round','home_team_name',
-    'home_team','away_team_name', 'away_team', 'comments', 'match_winner', 'match_status','hometeam_score','awayteam_score','hometeam_point','awayteam_point','match_result_id','bracket_json','updated_at','deleted_at','minimum_team_interval_flag'];
+    'home_team','away_team_name','home_team_placeholder_name','away_team_placeholder_name', 'away_team', 'comments', 'match_winner', 'match_status','hometeam_score','awayteam_score','hometeam_point','awayteam_point','match_result_id','bracket_json','updated_at','deleted_at','minimum_team_interval_flag'];
 
     protected $dates = ['match_datetime', 'match_endtime', 'created_at', 'updated_at', 'deleted_at'];
     public function referee()
