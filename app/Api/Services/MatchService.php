@@ -249,6 +249,17 @@ class MatchService implements MatchContract
         $matchResult = $this->matchRepoObj->saveResult($matchData->all()['matchData']);
 
         $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+
+        $result = TempFixture::where('id',$matchData->all()['matchData']['matchId'])->first()->toArray();
+        $tournamentId = $result['tournament_id'];
+        $ageGroupId  = $result['age_group_id'];
+        $teamsList =array($result['home_team'],$result['away_team']);
+       
+        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>true);
+        
+        $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
+        
+       
         $data['competationId'] = $competationId;
         if ($matchResult) {
             return ['status_code' => '200', 'data' => $data];
@@ -258,6 +269,7 @@ class MatchService implements MatchContract
     }
     public function unscheduleMatch($matchData) {
         $scheduledResult = $this->matchRepoObj->matchUnschedule($matchData->all()['matchData']);
+        
         if ($scheduledResult) {
             return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match scheduled successfully'];
         } else {
@@ -293,6 +305,15 @@ class MatchService implements MatchContract
 
        $scoreUpdate = $this->matchRepoObj->updateScore($matchData->all()['matchData']);
        $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+       $result = TempFixture::where('id',$matchData->all()['matchData']['matchId'])->first()->toArray();
+        $tournamentId = $result['tournament_id'];
+        $ageGroupId  = $result['age_group_id'];
+        $teamsList =array($result['home_team'],$result['away_team']);
+       
+        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>true);
+        
+        $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
+        
        $data['competationId'] = $competationId;
         if ($scoreUpdate) {
             return ['status_code' => '200', 'data' => $data, 'message' => 'Score updated successfully'];
