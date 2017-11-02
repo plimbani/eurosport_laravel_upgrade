@@ -229,7 +229,7 @@ table#Competition-modal-table {
 }
 
 .fc-ltr .fc-time-grid .fc-event-container {
-    margin: 0 3px 0 1px;
+    margin: 0 1px 0 1px;
 }
 
 .multiselect__tag {
@@ -608,4 +608,12 @@ input[type=number] {
 
 label.error {
   color: #ff3860;
+}
+
+.fc-event {
+  border: none;
+}
+
+.fc-time-grid-event .fc-content {
+  padding: 1px;
 }
