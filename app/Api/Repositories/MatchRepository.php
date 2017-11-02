@@ -132,7 +132,7 @@ class MatchRepository
         $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$matchData['tournamentId'])
                 ->where('age_group_id','=',$matchData['ageGroupId'])
-                 // ->where('is_scheduled',1)
+                 ->where('is_scheduled',1)
                 ->where(function ($query) use ($matchData)  {
                   if($matchData['teamId']){
 
@@ -162,7 +162,7 @@ class MatchRepository
           }
         }
         // echo "<pre>"; print_r($unsetFlag); echo "</pre>";
-         // dd($setFlag,$unsetFlag);
+          // dd($setFlag,$unsetFlag);
         TempFixture::whereIn('id',$setFlag)->update(['minimum_team_interval_flag' => 1]);
         TempFixture::whereIn('id',$unsetFlag)->update(['minimum_team_interval_flag' => 0]);
          return true;
@@ -173,9 +173,10 @@ class MatchRepository
      // $data = array($data);
      // dd($data);
       $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data->id)->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
-      $team_interval =   $teamData['team_interval'];
+      $team_interval =  $teamData['team_interval'];
       $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data->match_datetime)->subMinutes($team_interval);
       $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data->match_datetime)->subMinutes(0);
+      
       if($teamData['home_team']!=0 && $teamData['away_team']!=0) {
         $teamId = true;
         $teams = array($teamData['home_team'],$teamData['away_team'] );
@@ -717,10 +718,10 @@ class MatchRepository
                     $query->orWhere(function($query4) use ($data) {
                       $query4->where('match_datetime','>',$data['matchStartDate'])->where('match_datetime','<',$data['matchEndDate']);
                     });
-                     $query->orWhere(function($query5) use ($data) {
+                    $query->orWhere(function($query5) use ($data) {
                       $query5->where('match_datetime','>=',$data['matchStartDate'])->where('match_datetime','<=',$data['matchEndDate']);
                     });
-                     $query->orWhere(function($query6) use ($data) {
+                    $query->orWhere(function($query6) use ($data) {
                       $query6->where('match_endtime','>=',$data['matchStartDate'])->where('match_endtime','<=',$data['matchEndDate']);
                     });
                  })
@@ -749,27 +750,32 @@ class MatchRepository
         'is_scheduled' => 1,
         'minimum_team_interval_flag' => $setFlag,
       ];
-       $matchData = array('teams'=>$teams,'tournamentId'=>$data['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
-        // dd($matchData);
-        $matchresult =  $this->checkTeamIntervalforMatches($matchData);
-      return $updateResult = DB::table('temp_fixtures')
+       $updateResult = DB::table('temp_fixtures')
             ->where('id', $data['matchId'])
             ->update($updateData);
-      
-      // if($updateResult) {
-        // dd($updateResult);
-       
-     
 
-      // }
-
+       $matchData = array('teams'=>$teams,'tournamentId'=>$data['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
+        // dd($matchData);
+       $matchresult =  $this->checkTeamIntervalforMatches($matchData);
+       return $updateResult;
     }
     public function matchUnschedule($matchId)
     {
       
       $matchData = DB::table('temp_fixtures')->find($matchId);
       // dd($matchData);
-      if($matchData->home_team !=0 && $matchData->away_team !=0) {
+
+      $updateData = [
+        'is_scheduled' => 0,
+        'pitch_id' => 0,
+        'referee_id' => NULL,
+        'hometeam_score' => NULL,
+        'awayteam_score' => NULL,
+      ];
+     $updateResult =  DB::table('temp_fixtures')
+            ->where('id', $matchId)
+            ->update($updateData);
+      // if($matchData->home_team !=0 && $matchData->away_team !=0) {
         if($matchData->home_team != 0 && $matchData->away_team != 0) {
           $teamId = true;
           $teamsList = array($matchData->home_team, $matchData->away_team);
@@ -784,18 +790,8 @@ class MatchRepository
         $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>$teamId);
         
         $matchresult =  $this->checkTeamIntervalforMatches($matchData);
-      }
-     
-      $updateData = [
-        'is_scheduled' => 0,
-        'pitch_id' => 0,
-        'referee_id' => NULL,
-        'hometeam_score' => NULL,
-        'awayteam_score' => NULL,
-      ];
-     return DB::table('temp_fixtures')
-            ->where('id', $matchId)
-            ->update($updateData);
+      // }
+     return $updateResult;
     }
 
     public function getAllScheduledMatches($data)
@@ -816,7 +812,7 @@ class MatchRepository
        $refereeData = Referee::find($data['refereeId'])->toArray();
         // dd($data);
        $age_group = explode(',',$refereeData['age_group_id']);
-       $matchData    = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
+       $matchData = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
                   ->where('match_endtime','>=',$data['matchStartDate'])
                   ->where('tournament_id',$data['tournamentId'])
                   ->where('is_scheduled',1)
@@ -836,7 +832,7 @@ class MatchRepository
         return ['status'=> false,'data' => 'Please assign referee properly'];
       }else{
         if($age_group){
-        $matchData = $matchData->whereIn('age_group_id',$age_group)->first(); 
+        $matchData = $matchData->whereIn('age_group_id',$age_group)->first();
           if(!$matchData){
             return ['status' => false, 'data' => 'This referee is not authorised to referee this age category'];
           }else{
@@ -913,10 +909,13 @@ class MatchRepository
       $competitionId = $data['competitionId'];
       $tournamentId = $data['tournament_id'];
       $teamDetails = $data['teamDetails'];
-
-      $competition = Competition::find($competitionId);
-      $competition->is_manual_override_standing = $data['isManualOverrideStanding'] == true ? 1 : 0;
-      $competition->save();
+   
+      if(count($data['teamDetails']) > 0) {
+        
+        $competition = Competition::find($competitionId);
+        $competition->is_manual_override_standing = $data['isManualOverrideStanding'] == true ? 1 : 0;
+        $competition->save();  
+      }
 
       if($data['isManualOverrideStanding'] == true) {
           foreach ($teamDetails as $key => $teamId) {
@@ -925,5 +924,7 @@ class MatchRepository
       } else {
           $teamStanding = DB::table('match_standing')->where('competition_id', $competitionId)->update(['manual_order' => null]);
       }
+      // $competition = Competition::find($competitionId);
+     
     }
 }

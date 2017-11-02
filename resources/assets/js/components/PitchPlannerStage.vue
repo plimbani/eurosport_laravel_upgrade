@@ -287,11 +287,11 @@ import _ from 'lodash'
                                 (response) => {
                                     if(response.data.data != -1){
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
-                                            let myFirstPromise =new Promise((resolve, reject) => {
+                                            let matchScheduleChk =new Promise((resolve, reject) => {
                                                 resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue));
                                             });
                                            
-                                            myFirstPromise.then((successMessage) => {
+                                            matchScheduleChk.then((successMessage) => {
                                               vm.reloadAllEvents();  
                                             });
                                             // vm.reloadAllEvents()
@@ -361,11 +361,12 @@ import _ from 'lodash'
 
             },
             reloadAllEvents(){
-                let vm = this
-                 $('.fc.fc-unthemed').fullCalendar( 'removeEvents' )
-
+                let vm = this;
+                let ev = this.$el;
+                $(ev).fullCalendar( 'removeEvents' )
+                 // console.log(this.$el);
                 setTimeout(function(){
-                    $('div.fc-unthemed').fullCalendar('addEventSource', vm.scheduledMatches);
+                    $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                 },1000)
             },
             getScheduledMatch(filterKey='',filterValue='') {
