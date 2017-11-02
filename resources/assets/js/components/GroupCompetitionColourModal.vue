@@ -74,8 +74,8 @@ import _ from 'lodash';
                           change : function() {
                             let inputObj = $(this);
                             let competitionId = inputObj.data('competition-id');
-                            vm.$set(vm.competitionsColorData, competitionId, inputObj.val());
-                            //vm.competitionsColorData[competitionId] = inputObj.val();
+                            // vm.$set(vm.competitionsColorData, competitionId, inputObj.val());
+                            vm.competitionsColorData[competitionId] = inputObj.val();
                             return;
                           }
                         });
@@ -118,9 +118,9 @@ import _ from 'lodash';
                     Tournament.saveCategoryCompetitionColor(vm.competitionsColorData).then(
                           (response)=> {
                             if(response.data.status_code == 200) {
-                              vm.competitionsColorData = {};
-                              vm.$root.$emit('getPitchesByTournamentFilter','','');
                               vm.closeModal();
+                              vm.competitionsColorData = {};
+                              vm.$root.$emit('resetPitchesOnCategoryColorSave','','');
                             }
                           },
                           (error) => {

@@ -234,6 +234,7 @@ import _ from 'lodash'
                                     }
                                 })
                             }else{
+
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
@@ -270,7 +271,6 @@ import _ from 'lodash'
                             revertFunc();
                             
                         }else{
-                            
                             let matchId = event.id ? event.id : event.matchId
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
@@ -408,9 +408,9 @@ import _ from 'lodash'
                                         scheduleBlock = true
                                     }
                                 }
-                              let colorVal = (match.homeScore == null && match.AwayScore == null) ? '#e9e9e9' : match.category_age_color;
-                              let borderColorVal = (match.homeScore == null && match.AwayScore == null) ? '#d3d3d3' : match.category_age_color;
-                              let fixtureStripColor = (match.homeScore == null && match.AwayScore == null) ? match.category_age_color : match.competation_color_code;
+                              let colorVal = match.category_age_color;
+                              let borderColorVal = match.category_age_color;
+                              let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
 
                               if(scheduleBlock){
                                 colorVal = 'grey'

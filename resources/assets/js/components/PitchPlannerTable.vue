@@ -101,6 +101,15 @@
                 return true;
               }
               return false;
+            },
+            competitionWithGames(){
+      
+              if(this.$store.state.Tournament.totalMatch > 0){
+                // this.matchStatus = true
+                return this.$store.getters.getAllCompetitionWithGames
+              }else{
+                return [];
+              }
             }
             
             // tournamentStages() {
@@ -134,6 +143,7 @@
             this.$root.$on('setGameReset', this.gameReset);
             this.$root.$on('setRefereeReset', this.refereeReset);
             this.$root.$on('RefereeCount', this.refereeCount);
+            this.$root.$on('resetPitchesOnCategoryColorSave', this.resetPitchesOnCategoryColorSave);
              this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
              // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
             this.$root.$on('setPitchPlanTab',this.setCurrentTab)
@@ -214,8 +224,41 @@
                 
             },
             setFilter(){
-
                 this.$store.dispatch('setMatches')
+                this.resetPitch()
+            },
+            resetPitchesOnCategoryColorSave() {
+                let vm = this;
+                this.$store.dispatch('setMatches').then(function() {
+                    let agecategory = null;
+                    if(vm.$store.state.Tournament.tournamentFiler.filterValue != '') {
+                        let competitionWithGames = _.cloneDeep(vm.competitionWithGames);
+                        _.map(competitionWithGames, function(category, index) {
+                            if(vm.$store.state.Tournament.tournamentFiler.filterValue.id == category.id) {
+                                agecategory = category;
+                            }
+                        });
+
+                        if(agecategory != null) {
+                            $(".js-draggable-events").each(function(index){
+                                let event = $(this).data('event');
+                                let draggableEvent = $(this);
+
+                                if(typeof event != "undefined" && typeof event.matchId != "undefined") {
+                                    _.map(agecategory.matchList, function(match, matchIndex) {
+                                        if(event.matchId == match.matchId) {
+                                          event.fixtureStripColor = match.competationColorCode != null ? match.competationColorCode : '#FFFFFF';    
+                                          draggableEvent.data('event', event);
+                                        }
+                                    });
+                                }
+                                
+                            });
+                        }
+
+                    }
+                    
+                })
                 this.resetPitch()
             },
             setCurrentTab(currentTab = 'refereeTab') {
