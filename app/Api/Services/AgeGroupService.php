@@ -6,12 +6,14 @@ use Laraspace\Models\Tournament;
 use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Api\Repositories\AgeGroupRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\Team;
 
 class AgeGroupService implements AgeGroupContract
 {
     public function __construct(AgeGroupRepository $ageRepoObj)
     {
         $this->ageGroupObj = $ageRepoObj;
+        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
     }
 
      /*
@@ -91,6 +93,11 @@ class AgeGroupService implements AgeGroupContract
         $data['total_match'] = $totalmatch;
         $data['disp_format_name'] = $dispFormatname;
 
+        if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
+
+            $mininterval = TournamentCompetationTemplates::where('id', '=', $data['competation_format_id'])->first()->team_interval;
+           
+        }
 
         $id = $this->ageGroupObj->createCompeationFormat($data);
 
@@ -109,6 +116,20 @@ class AgeGroupService implements AgeGroupContract
 
                 $id = $data['competation_format_id'];
                 $this->addCompetationGroups($id,$data);
+
+            } else {
+             
+              if($data['team_interval'] >= $mininterval) {
+
+                $teamsList = Team::where('age_group_id',$data['competation_format_id'])->pluck('id');
+
+                $tournamentId = $data['tournament_id'];
+                $ageGroupId  = $data['competation_format_id'];
+
+                $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId' =>false);
+                
+                $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
+              }
             }
 
         } else {
