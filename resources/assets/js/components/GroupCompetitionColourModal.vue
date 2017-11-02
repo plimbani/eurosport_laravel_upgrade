@@ -117,10 +117,10 @@ import _ from 'lodash';
                   submitHandler: function (form) {
                     Tournament.saveCategoryCompetitionColor(vm.competitionsColorData).then(
                           (response)=> {
-                            if(response.data.status_code == 200) {
-                              vm.closeModal();
+                            if(response.data.status_code == 200) {                    
                               vm.competitionsColorData = {};
                               vm.$root.$emit('resetPitchesOnCategoryColorSave','','');
+                              vm.closeModal();
                             }
                           },
                           (error) => {
