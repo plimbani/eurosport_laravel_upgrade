@@ -285,9 +285,9 @@ class MatchService implements MatchContract
         }
     }
     public function updateScore($matchData) {
-
        $scoreUpdate = $this->matchRepoObj->updateScore($matchData->all()['matchData']);
        $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+      
        $data['competationId'] = $competationId;
         if ($scoreUpdate) {
             return ['status_code' => '200', 'data' => $data, 'message' => 'Score updated successfully'];
@@ -756,348 +756,10 @@ class MatchService implements MatchContract
           // changes for #247
           $competition = Competition::where('id', $singleFxture->competition_id)->first();          
           if($competition->competation_type == 'Elimination' && $competition->actual_competition_type == 'Round Robin') {
-
-            $matches = DB::table('temp_fixtures')
-                ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
-                ->where('competition_id','=',$cup_competition_id)
-                ->where(function ($query) use ($findTeams)  {
-                    $query ->whereIn('away_team',$findTeams)
-                         ->orWhereIn('home_team',$findTeams);
-                })->where('round','=' , 'Elimination')->get();
-
-            $fixtu = array();
-            foreach($matches as $key1=>$match)
-            {
-              $fixtu[$key1]['CupFixture']['hometeamscore'] = (string)$match->hometeam_score;
-              $fixtu[$key1]['CupFixture']['awayteamscore'] = (string)$match->awayteam_score;
-
-              $fixtu[$key1]['CupFixture']['hometeam'] = $match->home_team;
-              $fixtu[$key1]['CupFixture']['awayteam'] = $match->away_team;
-              $fixtu[$key1]['CupFixture']['HomeTeamScoreAfterExtraTime']='';             
-            }
-
-            $comp_fixtures = $fixtu;
-            $ageGroupList = array();
-
-            $ageGroupList[$fix1['CupFixture']['hometeam']] = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,'home_goal' => 0,'away_goal'=>0);
-
-            $ageGroupList[$fix1['CupFixture']['awayteam']] = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,'away_goal' => 0,'home_goal'=>0);
-
-            foreach ($comp_fixtures as $key => $fix) {
-              $winnerTeam = 'nd';
-
-              if($fix['CupFixture']['hometeamscore'] != '' && ($fix['CupFixture']['awayteamscore'] != '')&& empty($fix['CupFixture']['Abandoned'])) {
-                  if($fix['CupFixture']['hometeamscore']  == $fix['CupFixture']['awayteamscore']){                        
-                      if ($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] != '' && $fix['CupFixture']['AwayTeamScoreAfterExtraTime'] != '' ){
-                          if($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] == $fix['CupFixture']['AwayTeamScoreAfterExtraTime']){
-                              if ($fix['CupFixture']['HomeTeamScoreAfterPen'] != '' && $fix['CupFixture']['AwayTeamScoreAfterPen'] != ''){
-                                  if($fix['CupFixture']['HomeTeamScoreAfterPen'] == $fix['CupFixture']['AwayTeamScoreAfterPen']){
-                                      $winnerTeam = -1;
-                                  } else {
-                                      if($fix['CupFixture']['HomeTeamScoreAfterPen'] > $fix['CupFixture']['AwayTeamScoreAfterPen']){
-                                          $winnerTeam = $fix['CupFixture']['hometeam'];
-                                          $home = true;
-                                      } else {
-                                          $winnerTeam = $fix['CupFixture']['awayteam'];
-                                      }
-                                  }
-                              }else{
-                                  $winnerTeam = -1;
-                              }
-                          } else {
-
-                            // Hometeamscore extratime is greter than awayteamscore
-                              if($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] > $fix['CupFixture']['AwayTeamScoreAfterExtraTime']){
-                                  $winnerTeam = $fix['CupFixture']['hometeam'];
-                                  $home = true;
-                              } else {
-                                  $winnerTeam = $fix['CupFixture']['awayteam'];
-                              }
-                          }
-                      }else{
-                          $winnerTeam = -1;
-                      }
-                  } else {
-                      if($fix['CupFixture']['hometeamscore'] > $fix['CupFixture']['awayteamscore']){
-                        $winnerTeam = $fix['CupFixture']['hometeam'];
-                        $home = true;
-                      } else {
-                        $winnerTeam = $fix['CupFixture']['awayteam'];
-                      }
-                  }
-              } else {
-                  if(!empty($fix['CupFixture']['Abandoned'])){
-                      if($fix['CupFixture']['Abandoned'] == 'HomeWin'){
-                          $winnerTeam = $fix['CupFixture']['hometeam'];
-                      }
-
-                      if($fix['CupFixture']['Abandoned'] == 'AwayWin'){
-                          $winnerTeam = $fix['CupFixture']['awayteam'];
-                      }
-
-                      if($fix['CupFixture']['Abandoned'] == 'Draw'){
-                          $winnerTeam = -1;
-                      }
-                  }
-              }
-
-              if ($winnerTeam != 'nd') {
-                  if ( $winnerTeam == -1) {                       
-                    // 1. check if has same Home id
-                    if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['hometeam']) {
-                        $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
-                        $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] + 1;
-                        if ($fix['CupFixture']['hometeamscore'] != '') {
-                            $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                        }
-                        if ($fix['CupFixture']['awayteamscore'] != '') {
-                            $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                        }
-                    } else{
-                        if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['awayteam'] ) {
-                            $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] =
-                            (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
-                            $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] + 1;
-
-                            if ($fix['CupFixture']['awayteamscore'] != '') {
-                              $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                            }
-
-                            if ($fix['CupFixture']['hometeamscore'] != '') {
-                              $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                            }
-                        }
-                    }
-
-                    // 2. check if has same awayteam
-                    if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['awayteam']) {
-                        $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
-                        $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] + 1;
-                        // Add home_goal Score for awayTeam
-                        if ($fix['CupFixture']['awayteamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] =
-                          (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] +
-                          (int)$fix['CupFixture']['awayteamscore'];
-                        }
-                        // Add away_goal score for hometeam
-                        if ($fix['CupFixture']['hometeamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] =
-                          (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] +
-                          (int)$fix['CupFixture']['hometeamscore'];
-                        }
-                    } else {
-                        // if awayteam for singlerecord is same as hometeam for iterate
-                        if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['hometeam'] ) {
-                            $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] =
-                            (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
-                            $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] + 1;
-
-                            if ($fix['CupFixture']['hometeamscore'] != '') {
-                              $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                            }
-
-                            if ($fix['CupFixture']['awayteamscore'] != '') {
-                              $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                            }
-                        }
-                    }
-                  } else{
-                      // 1 if home team is Winner
-                      if ( $winnerTeam == $fix1['CupFixture']['hometeam']) {
-                          $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] =
-                          (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
-
-                          $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] + 1;
-
-                          if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['hometeam']) {
-                              if ($fix['CupFixture']['hometeamscore'] != '') {
-                                $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                              }
-                              if ($fix['CupFixture']['awayteamscore'] != '') {
-                                $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                              }
-                          } else {
-                              if ($fix['CupFixture']['awayteamscore'] != '') {
-                                $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                              }
-                              if ($fix['CupFixture']['hometeamscore'] != '') {
-                                $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                              }
-                          }                            
-                      } else {
-                          if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['hometeam']) {
-                            $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
-                            $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Lost']+ 1;
-
-                            if ($fix['CupFixture']['hometeamscore'] != '') {
-                              $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                            }
-
-                            if ($fix['CupFixture']['awayteamscore'] != '') {
-                              $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                            }
-                          }
-
-                          if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['awayteam']) {
-                            $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
-                            $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Lost']+ 1;
-
-                            if ($fix['CupFixture']['awayteamscore'] != '') {
-                                $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                            }
-
-                            if ($fix['CupFixture']['hometeamscore'] != '') {
-                                $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                            }
-                          }
-                      }
-                      if ($winnerTeam == $fix1['CupFixture']['awayteam']) {
-                          $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
-
-                          $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] + 1;
-
-                          if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['hometeam']) {
-                            if ($fix['CupFixture']['hometeamscore'] != '') {
-                              $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                            }
-                            if ($fix['CupFixture']['awayteamscore'] != '') {
-                              $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                            }
-                          } else {
-                              if ($fix['CupFixture']['awayteamscore'] != '') {
-                                  $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                              }
-                              if ($fix['CupFixture']['hometeamscore'] != '') {
-                                  $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                              }
-                          }                            
-                      } else {
-                          if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['awayteam']) {
-                              $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
-                              $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Lost']+ 1;
-                              if ($fix['CupFixture']['awayteamscore'] != '') {
-                                $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                              }
-                              if ($fix['CupFixture']['hometeamscore'] != '') {
-                                $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                              }
-                          }
-
-                          if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['hometeam']) {
-                              $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
-                              $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Lost']+ 1;
-
-                              if ($fix['CupFixture']['hometeamscore'] != '') {
-                                $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                              }
-                              if ($fix['CupFixture']['awayteamscore'] != '') {
-                                $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                              }
-                          }
-                      }
-                  }
-              }
-            }
-
-            $homeTeamExist = DB::table('match_standing')
-                            ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
-                            ->where('competition_id','=',$cup_competition_id)
-                            ->where('team_id',$fix1['CupFixture']['hometeam'])
-                            ->get()->first();
-
-            $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
-            $sendData = array();
-
-            if (count($homeTeamExist) > 0){
-                $data = array();
-
-                $data['points'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] * $losePoints;
-                $data['played'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'];
-                $data['won'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'];
-                $data['draws'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'];
-                $data['lost'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'];
-                $data['goal_for'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'];
-                $data['goal_against'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'];
-
-                DB::table('match_standing')->where('id',$homeTeamExist->id)->update($data);
-                $sendData['home'] = $data;
-                $sendData['home']['competition_id'] = $homeTeamExist->competition_id;
-                $sendData['home']['team_id'] = $homeTeamExist->team_id;
-            } else {
-                $data3 = array();
-
-                $data3['competition_id'] = $cup_competition_id;
-                $data3['tournament_id'] = $fix1['CupFixture']['tournamentId'];
-                $data3['team_id'] = $fix1['CupFixture']['hometeam'];
-                $data3['points'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] * $losePoints;
-                $data3['played'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'];
-                $data3['won'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'];
-                $data3['draws'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'];
-                $data3['lost'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'];
-                $data3['goal_for'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'];
-                $data3['goal_against'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'];
-
-                $teamManualRanking = TeamManualRanking::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $cup_competition_id)->where('team_id', '=', $fix1['CupFixture']['hometeam'])->first();
-                if($teamManualRanking) {
-                  $data3['manual_order'] = $teamManualRanking->manual_order;
-                  $teamManualRanking->delete();
-                }
-
-                DB::table('match_standing')->insert($data3);
-                $sendData['home'] = $data3;              
-            }
-
-            $awayTeamExist = DB::table('match_standing')
-                            ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
-                            ->where('competition_id','=',$cup_competition_id)
-                            ->where('team_id',$fix1['CupFixture']['awayteam'])
-                            ->get()->first();
-
-            if (count($awayTeamExist) > 0){
-                $data1 = array();
-                
-                $data1['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
-
-                $data1['played'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'];
-                $data1['won'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'];
-                $data1['draws'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'];
-                $data1['lost'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'];
-                $data1['goal_for'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'];
-                $data1['goal_against'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'];
-
-                //$data = $ageGroupList[$fix1['CupFixture']['hometeam']];
-                DB::table('match_standing')->where('id',$awayTeamExist->id)->update($data1);
-                $sendData['away'] = $data1;
-                $sendData['away']['competition_id'] = $awayTeamExist->competition_id;
-                $sendData['away']['team_id'] = $awayTeamExist->team_id;              
-            } else {
-                $data2 = array();
-
-                $data2['competition_id'] = $cup_competition_id;
-                $data2['team_id'] = $fix1['CupFixture']['awayteam'];
-                $data2['tournament_id'] = $fix1['CupFixture']['tournamentId'];
-                $data2['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
-                $data2['played'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'];
-                $data2['won'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'];
-                $data2['draws'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'];
-                $data2['lost'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'];
-                $data2['goal_for'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'];
-                $data2['goal_against'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'];
-
-                $teamManualRanking = TeamManualRanking::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $cup_competition_id)->where('team_id', '=', $fix1['CupFixture']['awayteam'])->first();
-                if($teamManualRanking) {
-                  $data2['manual_order'] = $teamManualRanking->manual_order;
-                  $teamManualRanking->delete();
-                }
-
-                DB::table('match_standing')->insert($data2);                
-                $sendData['away'] = $data2;
-
-            }
-            return $this->TeamPMAssignKp($sendData);
+              $this->generateStandingsForPlacingMatches($fix1, $cup_competition_id, $findTeams);
           }   
 
-          return $competitionId;       
+          return $competitionId;
           // end #247
         }
         $comType = 'C';
@@ -2044,5 +1706,346 @@ class MatchService implements MatchContract
         $this->matchRepoObj->saveStandingsManually($request->all()['data']);
         return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];    
     }
-}
 
+    public function generateStandingsForPlacingMatches($fix1, $cup_competition_id, $findTeams) {
+      $matches = DB::table('temp_fixtures')
+                ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
+                ->where('competition_id','=',$cup_competition_id)
+                ->where(function ($query) use ($findTeams)  {
+                    $query ->whereIn('away_team',$findTeams)
+                         ->orWhereIn('home_team',$findTeams);
+                })->where('round','=' , 'Elimination')->get();
+
+      $fixtu = array();
+      foreach($matches as $key1=>$match)
+      {
+        $fixtu[$key1]['CupFixture']['hometeamscore'] = (string)$match->hometeam_score;
+        $fixtu[$key1]['CupFixture']['awayteamscore'] = (string)$match->awayteam_score;
+
+        $fixtu[$key1]['CupFixture']['hometeam'] = $match->home_team;
+        $fixtu[$key1]['CupFixture']['awayteam'] = $match->away_team;
+        $fixtu[$key1]['CupFixture']['HomeTeamScoreAfterExtraTime']='';             
+      }
+
+      $comp_fixtures = $fixtu;
+      $ageGroupList = array();
+
+      $ageGroupList[$fix1['CupFixture']['hometeam']] = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,'home_goal' => 0,'away_goal'=>0);
+
+      $ageGroupList[$fix1['CupFixture']['awayteam']] = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,'away_goal' => 0,'home_goal'=>0);
+
+      foreach ($comp_fixtures as $key => $fix) {
+        $winnerTeam = 'nd';
+
+        if($fix['CupFixture']['hometeamscore'] != '' && ($fix['CupFixture']['awayteamscore'] != '')&& empty($fix['CupFixture']['Abandoned'])) {
+            if($fix['CupFixture']['hometeamscore']  == $fix['CupFixture']['awayteamscore']){                        
+                if ($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] != '' && $fix['CupFixture']['AwayTeamScoreAfterExtraTime'] != '' ){
+                    if($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] == $fix['CupFixture']['AwayTeamScoreAfterExtraTime']){
+                        if ($fix['CupFixture']['HomeTeamScoreAfterPen'] != '' && $fix['CupFixture']['AwayTeamScoreAfterPen'] != ''){
+                            if($fix['CupFixture']['HomeTeamScoreAfterPen'] == $fix['CupFixture']['AwayTeamScoreAfterPen']){
+                                $winnerTeam = -1;
+                            } else {
+                                if($fix['CupFixture']['HomeTeamScoreAfterPen'] > $fix['CupFixture']['AwayTeamScoreAfterPen']){
+                                    $winnerTeam = $fix['CupFixture']['hometeam'];
+                                    $home = true;
+                                } else {
+                                    $winnerTeam = $fix['CupFixture']['awayteam'];
+                                }
+                            }
+                        }else{
+                            $winnerTeam = -1;
+                        }
+                    } else {
+
+                      // Hometeamscore extratime is greter than awayteamscore
+                        if($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] > $fix['CupFixture']['AwayTeamScoreAfterExtraTime']){
+                            $winnerTeam = $fix['CupFixture']['hometeam'];
+                            $home = true;
+                        } else {
+                            $winnerTeam = $fix['CupFixture']['awayteam'];
+                        }
+                    }
+                }else{
+                    $winnerTeam = -1;
+                }
+            } else {
+                if($fix['CupFixture']['hometeamscore'] > $fix['CupFixture']['awayteamscore']){
+                  $winnerTeam = $fix['CupFixture']['hometeam'];
+                  $home = true;
+                } else {
+                  $winnerTeam = $fix['CupFixture']['awayteam'];
+                }
+            }
+        } else {
+            if(!empty($fix['CupFixture']['Abandoned'])){
+                if($fix['CupFixture']['Abandoned'] == 'HomeWin'){
+                    $winnerTeam = $fix['CupFixture']['hometeam'];
+                }
+
+                if($fix['CupFixture']['Abandoned'] == 'AwayWin'){
+                    $winnerTeam = $fix['CupFixture']['awayteam'];
+                }
+
+                if($fix['CupFixture']['Abandoned'] == 'Draw'){
+                    $winnerTeam = -1;
+                }
+            }
+        }
+
+        if ($winnerTeam != 'nd') {
+            if ( $winnerTeam == -1) {                       
+              // 1. check if has same Home id
+              if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['hometeam']) {
+                  $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
+                  $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] + 1;
+                  if ($fix['CupFixture']['hometeamscore'] != '') {
+                      $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                  }
+                  if ($fix['CupFixture']['awayteamscore'] != '') {
+                      $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                  }
+              } else{
+                  if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['awayteam'] ) {
+                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] =
+                      (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
+                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] + 1;
+
+                      if ($fix['CupFixture']['awayteamscore'] != '') {
+                        $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                      }
+
+                      if ($fix['CupFixture']['hometeamscore'] != '') {
+                        $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                      }
+                  }
+              }
+
+              // 2. check if has same awayteam
+              if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['awayteam']) {
+                  $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
+                  $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] + 1;
+                  // Add home_goal Score for awayTeam
+                  if ($fix['CupFixture']['awayteamscore'] != '') {
+                    $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] =
+                    (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] +
+                    (int)$fix['CupFixture']['awayteamscore'];
+                  }
+                  // Add away_goal score for hometeam
+                  if ($fix['CupFixture']['hometeamscore'] != '') {
+                    $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] =
+                    (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] +
+                    (int)$fix['CupFixture']['hometeamscore'];
+                  }
+              } else {
+                  // if awayteam for singlerecord is same as hometeam for iterate
+                  if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['hometeam'] ) {
+                      $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] =
+                      (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
+                      $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] + 1;
+
+                      if ($fix['CupFixture']['hometeamscore'] != '') {
+                        $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                      }
+
+                      if ($fix['CupFixture']['awayteamscore'] != '') {
+                        $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                      }
+                  }
+              }
+            } else{
+                // 1 if home team is Winner
+                if ( $winnerTeam == $fix1['CupFixture']['hometeam']) {
+                    $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] =
+                    (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
+
+                    $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] + 1;
+
+                    if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['hometeam']) {
+                        if ($fix['CupFixture']['hometeamscore'] != '') {
+                          $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                        }
+                        if ($fix['CupFixture']['awayteamscore'] != '') {
+                          $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                        }
+                    } else {
+                        if ($fix['CupFixture']['awayteamscore'] != '') {
+                          $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                        }
+                        if ($fix['CupFixture']['hometeamscore'] != '') {
+                          $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                        }
+                    }                            
+                } else {
+                    if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['hometeam']) {
+                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
+                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Lost']+ 1;
+
+                      if ($fix['CupFixture']['hometeamscore'] != '') {
+                        $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                      }
+
+                      if ($fix['CupFixture']['awayteamscore'] != '') {
+                        $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                      }
+                    }
+
+                    if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['awayteam']) {
+                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
+                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Lost']+ 1;
+
+                      if ($fix['CupFixture']['awayteamscore'] != '') {
+                          $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                      }
+
+                      if ($fix['CupFixture']['hometeamscore'] != '') {
+                          $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                      }
+                    }
+                }
+                if ($winnerTeam == $fix1['CupFixture']['awayteam']) {
+                    $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
+
+                    $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] + 1;
+
+                    if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['hometeam']) {
+                      if ($fix['CupFixture']['hometeamscore'] != '') {
+                        $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                      }
+                      if ($fix['CupFixture']['awayteamscore'] != '') {
+                        $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                      }
+                    } else {
+                        if ($fix['CupFixture']['awayteamscore'] != '') {
+                            $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                        }
+                        if ($fix['CupFixture']['hometeamscore'] != '') {
+                            $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                        }
+                    }                            
+                } else {
+                    if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['awayteam']) {
+                        $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
+                        $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Lost']+ 1;
+                        if ($fix['CupFixture']['awayteamscore'] != '') {
+                          $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                        }
+                        if ($fix['CupFixture']['hometeamscore'] != '') {
+                          $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                        }
+                    }
+
+                    if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['hometeam']) {
+                        $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
+                        $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Lost']+ 1;
+
+                        if ($fix['CupFixture']['hometeamscore'] != '') {
+                          $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                        }
+                        if ($fix['CupFixture']['awayteamscore'] != '') {
+                          $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                        }
+                    }
+                }
+            }
+        }
+      }
+
+      $homeTeamExist = DB::table('match_standing')
+                      ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
+                      ->where('competition_id','=',$cup_competition_id)
+                      ->where('team_id',$fix1['CupFixture']['hometeam'])
+                      ->get()->first();
+
+      $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
+      $sendData = array();
+
+      if (count($homeTeamExist) > 0){
+          $data = array();
+
+          $data['points'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] * $losePoints;
+          $data['played'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'];
+          $data['won'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'];
+          $data['draws'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'];
+          $data['lost'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'];
+          $data['goal_for'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'];
+          $data['goal_against'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'];
+
+          DB::table('match_standing')->where('id',$homeTeamExist->id)->update($data);
+          $sendData['home'] = $data;
+          $sendData['home']['competition_id'] = $homeTeamExist->competition_id;
+          $sendData['home']['team_id'] = $homeTeamExist->team_id;
+      } else {
+          $data3 = array();
+
+          $data3['competition_id'] = $cup_competition_id;
+          $data3['tournament_id'] = $fix1['CupFixture']['tournamentId'];
+          $data3['team_id'] = $fix1['CupFixture']['hometeam'];
+          $data3['points'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] * $losePoints;
+          $data3['played'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'];
+          $data3['won'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'];
+          $data3['draws'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'];
+          $data3['lost'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'];
+          $data3['goal_for'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'];
+          $data3['goal_against'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'];
+
+          $teamManualRanking = TeamManualRanking::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $cup_competition_id)->where('team_id', '=', $fix1['CupFixture']['hometeam'])->first();
+          if($teamManualRanking) {
+            $data3['manual_order'] = $teamManualRanking->manual_order;
+            $teamManualRanking->delete();
+          }
+
+          DB::table('match_standing')->insert($data3);
+          $sendData['home'] = $data3;              
+      }
+
+      $awayTeamExist = DB::table('match_standing')
+                      ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
+                      ->where('competition_id','=',$cup_competition_id)
+                      ->where('team_id',$fix1['CupFixture']['awayteam'])
+                      ->get()->first();
+
+      if (count($awayTeamExist) > 0){
+          $data1 = array();
+          
+          $data1['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
+
+          $data1['played'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'];
+          $data1['won'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'];
+          $data1['draws'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'];
+          $data1['lost'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'];
+          $data1['goal_for'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'];
+          $data1['goal_against'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'];
+
+          //$data = $ageGroupList[$fix1['CupFixture']['hometeam']];
+          DB::table('match_standing')->where('id',$awayTeamExist->id)->update($data1);
+          $sendData['away'] = $data1;
+          $sendData['away']['competition_id'] = $awayTeamExist->competition_id;
+          $sendData['away']['team_id'] = $awayTeamExist->team_id;              
+      } else {
+          $data2 = array();
+
+          $data2['competition_id'] = $cup_competition_id;
+          $data2['team_id'] = $fix1['CupFixture']['awayteam'];
+          $data2['tournament_id'] = $fix1['CupFixture']['tournamentId'];
+          $data2['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
+          $data2['played'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'];
+          $data2['won'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'];
+          $data2['draws'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'];
+          $data2['lost'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'];
+          $data2['goal_for'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'];
+          $data2['goal_against'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'];
+
+          $teamManualRanking = TeamManualRanking::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $cup_competition_id)->where('team_id', '=', $fix1['CupFixture']['awayteam'])->first();
+          if($teamManualRanking) {
+            $data2['manual_order'] = $teamManualRanking->manual_order;
+            $teamManualRanking->delete();
+          }
+
+          DB::table('match_standing')->insert($data2);                
+          $sendData['away'] = $data2;
+
+      }
+      $this->TeamPMAssignKp($sendData);
+    }
+
+}
