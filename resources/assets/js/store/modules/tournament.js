@@ -303,7 +303,7 @@ const mutations = {
             
             let round = ''
             let matchTime = 0
-            if(match.group_name == competition.group_name){
+            if(match.age_group_id == competition.id){
               if(match.round == 'Round Robin'){
                 round = 'RR-'
                 matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
