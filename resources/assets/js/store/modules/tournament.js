@@ -91,13 +91,16 @@ const actions = {
     } else {
         tdata ={'tournamentId':state.tournamentId}
     }
-    Tournament.getFixtures(tdata).then(
-    (response)=> {
-       commit(types.SET_MATCHES, response.data.data)
-       commit(types.SET_COMPETITION_WITH_GAMES)
-     
-    }
-  )
+
+    return new Promise((resolve, reject) => {
+      Tournament.getFixtures(tdata).then(
+        (response)=> {
+           commit(types.SET_MATCHES, response.data.data)
+           commit(types.SET_COMPETITION_WITH_GAMES)
+           resolve();
+        }
+      )
+    });
     
   },
   
@@ -282,6 +285,8 @@ const mutations = {
     state.scheduledMatches = scheduledMatches;
   },
   [types.SET_COMPETITION_WITH_GAMES] (state) {
+      state.competitionWithGames = {};
+      state.totalMatch = 0;
       let competitionGroup = state.competationList
       let allMatches = state.matches
       let matchCount = 0
@@ -298,7 +303,7 @@ const mutations = {
             
             let round = ''
             let matchTime = 0
-            if(match.group_name == competition.group_name){
+            if(match.age_group_id == competition.id){
               if(match.round == 'Round Robin'){
                 round = 'RR-'
                 matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
@@ -312,6 +317,8 @@ const mutations = {
               }
 
               let fullgame1 = match.full_game;
+
+              let competationColorCode = match.competation_color_code;
 
               if(match.Away_id != 0 && match.Home_id != 0) {
                 fullgame1 = ''
@@ -328,7 +335,7 @@ const mutations = {
                 mtchNum = mtchNum+mtchNumber1[2]
               }
 
-              var person = {'fullGame':fullgame1,'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
+              var person = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
               comp.push(person)
 
               if(match.is_scheduled!=1){
