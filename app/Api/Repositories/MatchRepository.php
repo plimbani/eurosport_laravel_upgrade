@@ -151,6 +151,18 @@ class MatchRepository
       }
 
     }
+
+    public function checkTeamIntervalForMatchesOnCategoryUpdate($matchData) {
+      $matches = [];
+      $matches = DB::table('temp_fixtures')
+              ->where('tournament_id','=',$matchData['tournamentId'])
+              ->where('age_group_id','=',$matchData['ageGroupId'])
+               ->where('is_scheduled',1)
+              ->get()->toArray();
+           
+        return  $this->findMatchInterval($matches);
+    }
+
     public function findMatchInterval($matches='') {
 
       if(count($matches) > 0){
@@ -176,6 +188,11 @@ class MatchRepository
      // dd($data);
       $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data->id)->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
       $team_interval =  $teamData['team_interval'];
+
+      if($team_interval == 0) {
+        return false;
+      }
+
       $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data->match_datetime)->subMinutes($team_interval);
       $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data->match_datetime)->subMinutes(0);
       

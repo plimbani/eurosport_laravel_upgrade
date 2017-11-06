@@ -123,18 +123,12 @@ class AgeGroupService implements AgeGroupContract
               if($data['team_interval'] != $mininterval) {
                
               $teamsList = Team::where('age_group_id',$data['competation_format_id'])->pluck('id')->toArray();
-              
-              $team = TempFixture::where('age_group_id',$data['competation_format_id'])->pluck('home_team_placeholder_name');
-            
-              $away = TempFixture::where('age_group_id',$data['competation_format_id'])->pluck('away_team_placeholder_name');
-              // echo "<pre>"; print_r($team); echo "</pre>";
  
                 $tournamentId = $data['tournament_id'];
                 $ageGroupId  = $data['competation_format_id'];
 
-                $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'home_team'=>$team,'away_team'=>$away,'teamId' =>false);
-                // echo "<pre>"; print_r($matchData); echo "</pre>";exit();
-                $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
+                $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
+                $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
                 
               }
             }
