@@ -755,7 +755,7 @@ class MatchRepository
       }
 
       $setFlag = 1;
-           
+      }     
       $updateData = [
         'venue_id' => $pitchData->venue_id,
         'pitch_id' => $data['pitchId'],
