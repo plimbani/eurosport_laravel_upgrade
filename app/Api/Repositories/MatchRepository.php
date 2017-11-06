@@ -152,6 +152,25 @@ class MatchRepository
 
     }
 
+            // ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
+            // ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
+            // ->groupBy('temp_fixtures.id')
+            // ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name','competitions.color_code as competation_color_code' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.age_group_id','temp_fixtures.match_winner',
+            //   'match_winner.name as MatchWinner',
+            //     'venues.id as venueId', 'competitions.id as competitionId',
+            //     'venues.venue_coordinates as venueCoordinates',
+            //     'pitches.type as pitchType','venues.address1 as venueaddress',
+            //     'venues.state as venueState','venues.county as venueCounty',
+            //     'venues.city as venueCity','venues.country as venueCountry',
+            //     'venues.postcode as venuePostcode',
+            //     'tournament_competation_template.group_name as group_name',
+            //     'tournament_competation_template.category_age_color as category_age_color','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name','temp_fixtures.referee_id as referee_id','referee.first_name as first_name','referee.last_name as last_name','home_team.name as HomeTeam','away_team.name as AwayTeam',
+            //     'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id',
+            //     DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
+            //     DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
+            //     'HomeFlag.country_flag as HomeCountryFlag',
+            //     'AwayFlag.country_flag as AwayCountryFlag',
+
     public function checkTeamIntervalForMatchesOnCategoryUpdate($matchData) {
       $matches = [];
       $matches = DB::table('temp_fixtures')
@@ -275,7 +294,7 @@ class MatchRepository
           ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
           ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
           ->groupBy('temp_fixtures.id')
-          ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name' , 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.age_group_id','temp_fixtures.match_winner',
+          ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name','competitions.color_code as competation_color_code', 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.age_group_id','temp_fixtures.match_winner',
             'match_winner.name as MatchWinner',
               'venues.id as venueId', 'competitions.id as competitionId',
               'venues.venue_coordinates as venueCoordinates',
@@ -697,6 +716,11 @@ class MatchRepository
     {
       $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
       $team_interval =   $teamData['team_interval'];
+
+      if($team_interval == 0) {
+        return false;
+      }
+      
       // dd($data);
       $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
       $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
@@ -755,17 +779,7 @@ class MatchRepository
       }
 
       $setFlag = 1;
-        // if($this->setFlagFixture($match)){
-          //   $setFlag[] = $match->id;
-          // }else{
-          //   $unsetFlag[] = $match->id;
-          // }
-        // }
-        // echo "<pre>"; print_r($matchResultCount); echo "</pre>";
-        // dd($setFlag,$unsetFlag);
-        // TempFixture::whereIn('id',$data['matchId'])->update(['minimum_team_interval_flag' => 1]);
-        // TempFixture::whereIn('id',$unsetFlag)->update(['minimum_team_interval_flag' => 0]);
-     }     
+      }     
       $updateData = [
         'venue_id' => $pitchData->venue_id,
         'pitch_id' => $data['pitchId'],
@@ -885,9 +899,7 @@ class MatchRepository
 
     public function getMatchDetail($matchId)
     {
-        return TempFixture::leftjoin('teams as winner_team', function ($join) {
-                $join->on('winner_team.id', '=', 'temp_fixtures.match_winner');
-            })->with('referee','pitch')->find($matchId);
+        return TempFixture::with('referee','pitch','competition', 'winnerTeam', 'categoryAge')->find($matchId);
     }
 
     public function getLastUpdateValue($tournamentId)
