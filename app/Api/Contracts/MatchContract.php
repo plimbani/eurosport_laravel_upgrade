@@ -49,6 +49,8 @@ interface MatchContract
     public function updateScore($matchData);
     public function generateMatchPrint($matchData);
     public function refreshStanding($matchData);
+    public function checkTeamIntervalforMatches($matchData);
+    
    
     
 }
