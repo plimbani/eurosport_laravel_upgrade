@@ -36,12 +36,7 @@ class TeamController extends BaseController
      */
     public function getTeams(Request $request)
     {
-        // dd($request->all());
        return  $result = $this->teamObj->getTeams($request);
-        // $teamsList = array('21539','21540','21541');
-        // $matchData = array('teams'=>$teamsList,'tournamentId'=>'26','ageGroupId'=>'1127');
-        // $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
-        // $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
     }
 
     public function getClubs(Request $request)
@@ -100,11 +95,8 @@ class TeamController extends BaseController
                 // });
             });
         }, 'ISO-8859-1');
-        // if($this->data['totalSize'] > $this->data['teamSize'] ){     
-        //     return ['bigFileSize' =>  true];
-        // }else{
             return ['bigFileSize' =>  false];
-        // }
+     
     }
     public function assignTeam(Request $request) {
         // dd($request->all());

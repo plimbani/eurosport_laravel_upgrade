@@ -755,17 +755,7 @@ class MatchRepository
       }
 
       $setFlag = 1;
-        // if($this->setFlagFixture($match)){
-          //   $setFlag[] = $match->id;
-          // }else{
-          //   $unsetFlag[] = $match->id;
-          // }
-        // }
-        // echo "<pre>"; print_r($matchResultCount); echo "</pre>";
-        // dd($setFlag,$unsetFlag);
-        // TempFixture::whereIn('id',$data['matchId'])->update(['minimum_team_interval_flag' => 1]);
-        // TempFixture::whereIn('id',$unsetFlag)->update(['minimum_team_interval_flag' => 0]);
-     }     
+           
       $updateData = [
         'venue_id' => $pitchData->venue_id,
         'pitch_id' => $data['pitchId'],
