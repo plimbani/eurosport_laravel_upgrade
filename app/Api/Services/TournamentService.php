@@ -815,4 +815,16 @@ class TournamentService implements TournamentContract
     {
       $tournamentDetailData = $this->tournamentRepoObj->addTournamentDetails($tournamentDetailData['tournamentDetailData']);
     }
+
+    public function getCategoryCompetitions($data)
+    {
+      $competitions = $this->tournamentRepoObj->getCategoryCompetitions($data);
+      return ['status_code' => '200', 'competitions' => $competitions];
+    }
+
+    public function saveCategoryCompetitionColor($data)
+    {
+      $this->tournamentRepoObj->saveCategoryCompetitionColor($data['competitionsColorData']);  
+      return ['status_code' => '200', 'message' => 'Group colors have been saved successfully.'];
+    }
 }
