@@ -1670,14 +1670,6 @@ class MatchService implements MatchContract
 
     public function saveStandingsManually($request) {
         $this->matchRepoObj->saveStandingsManually($request->all()['data']);
-
-        // $competitionId = $request->all()['data']['competitionId'];
-        // $tournamentId = $request->all()['data']['tournament_id'];
-        // $teamDetails = $request->all()['data']['teamDetails'];
-        // // $this->refreshStanding($request->all()['data']);
-        // $results = Team::find($request->all()['data']['teamDetails'][0]);
-        // $matchranking = array('teams'=>$teamDetails,'tournamentId'=>$tournamentId,'ageGroupId'=>$results->age_group_id,'teamId'=>true);
-        // $this->checkTeamIntervalforMatches($matchranking);
         return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];    
     }
 }
