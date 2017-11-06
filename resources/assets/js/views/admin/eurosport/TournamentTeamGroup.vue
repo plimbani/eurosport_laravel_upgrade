@@ -323,9 +323,10 @@
 
           $('.selTeams').prop("disabled", true);
             $(".selTeams option:contains("+$('#sel_'+id).val()+")").not( $('.sel_'+id)).attr("disabled","disabled");
+            // $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not( $('.sel_'+id)).attr("disabled","disabled");
         }
         if(this.beforeChangeGroupName!=''){
-          $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");
+          $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeProp("disabled");
         }
         if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)
