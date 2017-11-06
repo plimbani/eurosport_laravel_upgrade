@@ -7,6 +7,7 @@ use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Api\Repositories\AgeGroupRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Team;
+use Laraspace\Models\TempFixture;
 
 class AgeGroupService implements AgeGroupContract
 {
@@ -119,16 +120,22 @@ class AgeGroupService implements AgeGroupContract
 
             } else {
              
-              if($data['team_interval'] >= $mininterval) {
-
-                $teamsList = Team::where('age_group_id',$data['competation_format_id'])->pluck('id');
-
+              if($data['team_interval'] != $mininterval) {
+               
+              $teamsList = Team::where('age_group_id',$data['competation_format_id'])->pluck('id')->toArray();
+              
+              $team = TempFixture::where('age_group_id',$data['competation_format_id'])->pluck('home_team_placeholder_name');
+            
+              $away = TempFixture::where('age_group_id',$data['competation_format_id'])->pluck('away_team_placeholder_name');
+              // echo "<pre>"; print_r($team); echo "</pre>";
+ 
                 $tournamentId = $data['tournament_id'];
                 $ageGroupId  = $data['competation_format_id'];
 
-                $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId' =>false);
-                
+                $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'home_team'=>$team,'away_team'=>$away,'teamId' =>false);
+                // echo "<pre>"; print_r($matchData); echo "</pre>";exit();
                 $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
+                
               }
             }
 

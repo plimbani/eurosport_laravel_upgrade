@@ -145,12 +145,14 @@ class MatchRepository
                 })
                 ->get()->toArray();
                 // dd($matches);
+             
           return  $this->findMatchInterval($matches);
         
       }
 
     }
     public function findMatchInterval($matches='') {
+
       if(count($matches) > 0){
         $setFlag=array();
         $unsetFlag=array();
@@ -731,7 +733,7 @@ class MatchRepository
                 $setFlag = 0;
      if($matchResultCount->count() >0){
       // dd($teamData);
-      if( (strpos($teamData['match_number'],"RR1") != -1) || (strpos($teamData['match_number'],"PM1" ) != -1)) {
+      if( (strpos($teamData['match_number'],"RR1") != false) || (strpos($teamData['match_number'],"PM1" ) != false)) {
         return -1;
       }
 
