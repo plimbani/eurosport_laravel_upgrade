@@ -716,6 +716,11 @@ class MatchRepository
     {
       $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
       $team_interval =   $teamData['team_interval'];
+
+      if($team_interval == 0) {
+        return false;
+      }
+      
       // dd($data);
       $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
       $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
