@@ -10,6 +10,7 @@ use PDF;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Competition;
 use Laraspace\Models\TeamManualRanking;
+use Laraspace\Models\Team;
 
 class MatchService implements MatchContract
 {
@@ -175,6 +176,17 @@ class MatchService implements MatchContract
             return ['status_code' => '300', 'message' => $scheduledResult];
         }
     }
+
+    public function checkTeamIntervalforMatches($matchData) {
+      // dd($matchData->all());
+      $matchListResult = $this->matchRepoObj->checkTeamIntervalforMatches($matchData->all());
+        if ($matchListResult) {
+            return ['status_code' => '200', 'data' => $matchListResult, 'message' => 'Match scheduled successfully'];
+        } else {
+            return ['status_code' => '300', 'message' => $matchListResult];
+        }
+    }
+
     public function generateMatchPrint($matchData)
     {
 
@@ -239,6 +251,17 @@ class MatchService implements MatchContract
         $matchResult = $this->matchRepoObj->saveResult($matchData->all()['matchData']);
 
         $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+
+        $result = TempFixture::where('id',$matchData->all()['matchData']['matchId'])->first()->toArray();
+        $tournamentId = $result['tournament_id'];
+        $ageGroupId  = $result['age_group_id'];
+        $teamsList =array($result['home_team'],$result['away_team']);
+       
+        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>true);
+        
+        $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
+        
+       
         $data['competationId'] = $competationId;
         if ($matchResult) {
             return ['status_code' => '200', 'data' => $data];
@@ -248,6 +271,7 @@ class MatchService implements MatchContract
     }
     public function unscheduleMatch($matchData) {
         $scheduledResult = $this->matchRepoObj->matchUnschedule($matchData->all()['matchData']);
+        
         if ($scheduledResult) {
             return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match scheduled successfully'];
         } else {
@@ -283,6 +307,15 @@ class MatchService implements MatchContract
 
        $scoreUpdate = $this->matchRepoObj->updateScore($matchData->all()['matchData']);
        $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+       $result = TempFixture::where('id',$matchData->all()['matchData']['matchId'])->first()->toArray();
+        $tournamentId = $result['tournament_id'];
+        $ageGroupId  = $result['age_group_id'];
+        $teamsList =array($result['home_team'],$result['away_team']);
+       
+        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>true);
+        
+        $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
+        
        $data['competationId'] = $competationId;
         if ($scoreUpdate) {
             return ['status_code' => '200', 'data' => $data, 'message' => 'Score updated successfully'];
@@ -1349,10 +1382,6 @@ class MatchService implements MatchContract
         ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
         ->where('temp_fixtures.tournament_id','=',$temptournamentId)
         ->get();
-       // print_r($calculatedArray);
-       //exit;
-       // print_r($reportQuery);
-       // exit;
         $matches = $reportQuery;
         // print_r($matches);exit;
         //print_r($matches);exit;
@@ -1641,6 +1670,14 @@ class MatchService implements MatchContract
 
     public function saveStandingsManually($request) {
         $this->matchRepoObj->saveStandingsManually($request->all()['data']);
+
+        // $competitionId = $request->all()['data']['competitionId'];
+        // $tournamentId = $request->all()['data']['tournament_id'];
+        // $teamDetails = $request->all()['data']['teamDetails'];
+        // // $this->refreshStanding($request->all()['data']);
+        // $results = Team::find($request->all()['data']['teamDetails'][0]);
+        // $matchranking = array('teams'=>$teamDetails,'tournamentId'=>$tournamentId,'ageGroupId'=>$results->age_group_id,'teamId'=>true);
+        // $this->checkTeamIntervalforMatches($matchranking);
         return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];    
     }
 }
