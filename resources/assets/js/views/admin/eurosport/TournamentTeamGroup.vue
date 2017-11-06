@@ -82,22 +82,22 @@
   					<table class="table table-hover table-bordered">
               <thead>
                   <tr>
-                      <th class="text-center">{{$lang.teams_reference}}</th>
+                      <th width="150px" class="text-center">{{$lang.teams_reference}}</th>
                       <th class="text-center">{{$lang.teams_name}}</th>
                       <th class="text-center">{{$lang.teams_country}}</th>
                       <th class="text-center">{{$lang.teams_place}}</th>
                       <th class="text-center">{{$lang.teams_age_category}}</th>
-                      <th class="text-center">{{$lang.teams_name_category}}</th>
+                      <th  class="text-center">{{$lang.teams_name_category}}</th>
 
                       <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_group}}</th>
-                      <th class="text-center" v-else>{{$lang.teams_age_category_group}}</th>
+                      <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_group}}</th>
                   </tr>
               </thead>
                 <tbody v-if="teams.length!=0">
                     <tr v-for="(team, index) in teams">
-                      <td>{{team.esr_reference}}</td>
+                      <td width="150px">{{team.esr_reference}}</td>
                       <td class="team-edit-section">
-                        <div v-show="!(team.id in teamsInEdit)">
+                        <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
                           <span>{{team.name}}</span>
                           <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
                         </div>
@@ -117,7 +117,7 @@
                       <td>{{team.category_age}} </td>
                       <td>{{team.age_name}} </td>
 
-                      <td v-if="age_category != ''">
+                      <td width="130px" v-if="age_category != ''">
                         <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:click="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="" class="blnk">{{seleTeam}}</option>
                           <optgroup :label="group.groups.group_name"
@@ -126,7 +126,7 @@
                           </optgroup>
                         </select>
                       </td>
-                      <td v-else>{{team.group_name}}</td>
+                      <td width="130px" v-else>{{team.group_name}}</td>
                     </tr>
 
                 </tbody>
@@ -323,9 +323,10 @@
 
           $('.selTeams').prop("disabled", true);
             $(".selTeams option:contains("+$('#sel_'+id).val()+")").not( $('.sel_'+id)).attr("disabled","disabled");
+            // $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not( $('.sel_'+id)).attr("disabled","disabled");
         }
         if(this.beforeChangeGroupName!=''){
-          $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");
+          $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeProp("disabled");
         }
         if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)

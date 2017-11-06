@@ -119,15 +119,20 @@ class MatchService implements MatchContract
      *
      * @return [type]
      */
-    public function getStanding($data)
+    public function getStanding($data, $refreshStanding)
     {
         $data = $data->all();
-       
-      // $standingResData = $this->refreshMatchStanding($data['tournamentData']);
-        // if($res){
-          $standingResData = $this->matchRepoObj->getStanding($data['tournamentData']);
-        // }
+        $tournamentData = $data['tournamentData'];
 
+        $standingResData = $this->matchRepoObj->getStanding($tournamentData);
+
+        if($refreshStanding && $refreshStanding == 'yes' && isset($tournamentData['competitionId']) && $tournamentData['competitionId'] != '')
+        {
+            $competition = Competition::find($tournamentData['competitionId']);
+            if(count($standingResData) != $competition->team_size) {
+                return $this->refreshStanding($data);
+            }
+        }
 
         if ($standingResData) {
             return ['status_code' => '200', 'data' => $standingResData,'message' => 'Match Standing data'];
@@ -588,56 +593,105 @@ class MatchService implements MatchContract
         $modifiedTeamsWinner = $modifiedTeams.'_WR';
 
         if($homeTeam  == $modifiedTeamsWinner) {
-          if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
-          {
-            $hometeamName = $singleFixture->home_team_name;
-            $homeTeamId = $singleFixture->home_team;
-           }else {
-            $hometeamName = $singleFixture->away_team_name;
-            $homeTeamId = $singleFixture->away_team;
-           }
-           $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
-           DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
+          $hometeamName = null;
+          $homeTeamId = 0;
+
+          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+            if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
+            {
+              $hometeamName = $singleFixture->home_team_name;
+              $homeTeamId = $singleFixture->home_team;
+            }else {
+              $hometeamName = $singleFixture->away_team_name;
+              $homeTeamId = $singleFixture->away_team;
+            }
+          }
+
+          if($hometeamName == null && $homeTeamId == 0) {
+            $fixture = TempFixture::where('id',$match->id)->first();
+            $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId];
+            $fixture->update($updateArray);
+          } else {
+            $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
+            DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
+          }
         }
         if($awayTeam  == $modifiedTeamsWinner) {
-          if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
-         {
-            $awayteamName = $singleFixture->home_team_name;
-            $awayTeamId = $singleFixture->home_team;
-         }else {
-            $awayteamName = $singleFixture->away_team_name;
-            $awayTeamId = $singleFixture->away_team;
-         }
-         $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
-         DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
+          $awayteamName = null;
+          $awayTeamId = 0;
+
+          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+            if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
+            {
+              $awayteamName = $singleFixture->home_team_name;
+              $awayTeamId = $singleFixture->home_team;
+            }else {
+              $awayteamName = $singleFixture->away_team_name;
+              $awayTeamId = $singleFixture->away_team;
+            }
+          }
+
+          if($awayteamName == null && $awayTeamId == 0) {
+            $fixture = TempFixture::where('id',$match->id)->first();
+            $updateArray = [ 'away_team_name'=> $fixture->away_team_placeholder_name,'away_team'=>$awayTeamId];
+            $fixture->update($updateArray);
+          } else {
+            $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
+            DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
+          }
+          
         }
         // For Looser
         $modifiedTeamsLooser = $modifiedTeams.'_LR';
 
         if($homeTeam  == $modifiedTeamsLooser) {
-            if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
-         {
-            $hometeamName = $singleFixture->home_team_name;
-            $homeTeamId = $singleFixture->home_team;
+          $hometeamName = null;
+          $homeTeamId = 0;
 
-         }else {
-              $hometeamName = $singleFixture->away_team_name;
-               $homeTeamId = $singleFixture->away_team;
-         }
-         $updateArray = ['home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
-         DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
+          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+            if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
+            {
+              $hometeamName = $singleFixture->home_team_name;
+              $homeTeamId = $singleFixture->home_team;
+
+            }else {
+                $hometeamName = $singleFixture->away_team_name;
+                 $homeTeamId = $singleFixture->away_team;
+            }
+          }
+
+          if($hometeamName == null && $homeTeamId == 0) {
+            $fixture = TempFixture::where('id',$match->id)->first();
+            $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId];
+            $fixture->update($updateArray);
+          } else {
+            $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
+            DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
+          }
         }
         if($awayTeam  == $modifiedTeamsLooser) {
-             if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
-         {
-               $awayteamName = $singleFixture->home_team_name;
-               $awayTeamId = $singleFixture->home_team;
-         }else {
-               $awayteamName = $singleFixture->away_team_name;
-               $awayTeamId = $singleFixture->away_team;
-         }
-         $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
-         DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
+          $awayteamName = null;
+          $awayTeamId = 0;
+
+          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+            if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
+            {
+                 $awayteamName = $singleFixture->home_team_name;
+                 $awayTeamId = $singleFixture->home_team;
+            }else {
+                 $awayteamName = $singleFixture->away_team_name;
+                 $awayTeamId = $singleFixture->away_team;
+            }
+          }
+          
+          if($awayteamName == null && $awayTeamId == 0) {
+            $fixture = TempFixture::where('id',$match->id)->first();
+            $updateArray = [ 'away_team_name'=> $fixture->away_team_placeholder_name,'away_team'=>$awayTeamId];
+            $fixture->update($updateArray);
+          } else {
+            $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
+            DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
+          }
         }
       }
 
