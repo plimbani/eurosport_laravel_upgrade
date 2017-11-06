@@ -97,7 +97,7 @@
                     <tr v-for="(team, index) in teams">
                       <td width="150px">{{team.esr_reference}}</td>
                       <td class="team-edit-section">
-                        <div class="d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
+                        <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
                           <span>{{team.name}}</span>
                           <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
                         </div>
