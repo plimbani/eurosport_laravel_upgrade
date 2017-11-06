@@ -159,8 +159,6 @@ class AgeGroupService implements AgeGroupContract
                 }
 
                 $group_name[$val]['comp_roundd']=$json_data->tournament_competation_format->format_name[$i]->name;
-
-                $group_name[$val]['round_slug']='round' . $i;
                 // Now here For Loop for create Fixture array
                 foreach($round->groups->match as $key1=>$matches) {
                     $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key1;

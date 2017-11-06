@@ -78,7 +78,6 @@ class AgeGroupRepository
        $competationIds[$i]['ageGroup'] = $age_group;
        $competationIds[$i]['ageGroupId'] = $competation_data['tournament_competation_template_id'];
        $competationIds[$i]['competation_type'] = $competaon_type;
-       $competationIds[$i]['round_slug'] = $groups['round_slug'];
 
        $i++;
       }
