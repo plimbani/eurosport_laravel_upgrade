@@ -168,13 +168,16 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         } else {
             showBackButton(getString(R.string.group_summary));
         }
+        tv_view_full_league_table.setVisibility(View.GONE);
+
         if (mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
             tl_group_rows.setVisibility(View.VISIBLE);
-            tv_view_full_league_table.setVisibility(View.GONE);
+            getGroupStanding();
+        } else if (mGroupModel.getCompetation_type() != null && !Utility.isNullOrEmpty(mGroupModel.getCompetation_type()) && mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION) && mGroupModel.getActual_competition_type() != null && !Utility.isNullOrEmpty(mGroupModel.getActual_competition_type()) && mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
+            tl_group_rows.setVisibility(View.VISIBLE);
             getGroupStanding();
         } else {
             tl_group_rows.setVisibility(View.GONE);
-            tv_view_full_league_table.setVisibility(View.GONE);
         }
         getTeamFixtures();
     }
