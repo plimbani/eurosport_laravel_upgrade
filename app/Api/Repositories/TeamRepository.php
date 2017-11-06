@@ -153,7 +153,12 @@ class TeamRepository
     {
 
         $team = Team::find($team_id);
-        $gname = explode('-',$groupName);
+        $checkForRoundRobin = strpos($groupName, 'Group');
+        if ($checkForRoundRobin === false) {
+          $gname = explode('-',$groupName)[2];
+        } else {
+          $gname = explode('-',$groupName)[1];
+        }
         // Now here we get the age_group_id
         $temData = Team::where('id',$team_id)->get();
         $ageGroupId = $temData[0]['age_group_id'];
@@ -162,19 +167,29 @@ class TeamRepository
         ->where('competitions.tournament_id','=',$data['tournament_id'])
         ->select('competitions.id as CompId',
           'competitions.name as compName',
+          'competitions.actual_name as actualCompName',
           'tournament_competation_template.group_name','tournament_competation_template.category_age')
         ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
         ->get();
         // dd($compData);
         $competId = NULL;
         foreach($compData as $ddata) {
-           $asGroup = preg_replace('/[0-9]+/', '', $groupName);
-           $cc1 = $ddata['group_name'].'-'.$ddata['category_age'].'-'.$asGroup;
-           // if its found then break it
-           if($ddata['compName'] == $cc1) {
+          if ($checkForRoundRobin === false) {
+            $splitGroupName = explode('-', $groupName);
+            $asGroup = $splitGroupName[0] . '-' . $splitGroupName[1];
+          } else {
+            $asGroup = preg_replace('/[0-9]+/', '', $groupName);
+          }
+
+          $cc1 = $ddata['group_name'].'-'.$ddata['category_age'].'-'.$asGroup;
+
+          $compName = $checkForRoundRobin === false ? $ddata['actualCompName'] : $ddata['compName'];
+          
+          // if its found then break it
+          if($compName == $cc1) {
             $competId = $ddata['CompId'];
             break;
-           }
+          }
         }
         
  // dd($groupName,$team_id,$competId);
@@ -189,7 +204,7 @@ class TeamRepository
             'competation_id' => $competId
         ]);
 
-        TempFixture::where('home_team_placeholder_name', $gname[1])
+        TempFixture::where('home_team_placeholder_name', $gname)
             ->where('tournament_id',$data['tournament_id'])
             ->where('competition_id',$competId)
             // ->where('age_group_id',$data['age_group'])
@@ -202,7 +217,7 @@ class TeamRepository
                 'home_team_name' => $team->name,
                 'home_team' => $team_id
             ]);
-        TempFixture::where('away_team_placeholder_name', $gname[1])
+        TempFixture::where('away_team_placeholder_name', $gname)
             ->where('tournament_id',$data['tournament_id'])
             ->where('competition_id',$competId)
             // ->where('age_group_id',$data['age_group'])

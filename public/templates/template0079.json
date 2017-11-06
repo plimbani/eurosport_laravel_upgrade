@@ -64,36 +64,35 @@
             "name": "Round 1",
             "match_type": [{
                 "name": "PM-1*16",
-                "actual_name": "PM-1*16",
                 "total_match": 8,
                 "group_count": 16,
+                "consider_in_team_assignment": 1,
                 "groups": {
                     "group_name": "Group-PM",
-                    "display_group_name": "Pos-",
                     "match": [{
                         "in_between": "1-2",
-                        "match_number": "CAT.PM1.G1.1PM-2PM"
+                        "match_number": "CAT.PM1.G1.PM1-PM2"
                     }, {
                         "in_between": "3-4",
-                        "match_number": "CAT.PM1.G2.3PM-4PM"
+                        "match_number": "CAT.PM1.G2.PM3-PM4"
                     }, {
                         "in_between": "5-6",
-                        "match_number": "CAT.PM1.G3.5PM-6PM"
+                        "match_number": "CAT.PM1.G3.PM5-PM6"
                     }, {
                         "in_between": "7-8",
-                        "match_number": "CAT.PM1.G4.7PM-8PM"
+                        "match_number": "CAT.PM1.G4.PM7-PM8"
                     }, {
                         "in_between": "9-10",
-                        "match_number": "CAT.PM1.G5.9PM-10PM"
+                        "match_number": "CAT.PM1.G5.PM9-PM10"
                     }, {
                         "in_between": "11-12",
-                        "match_number": "CAT.PM1.G6.11PM-12PM"
+                        "match_number": "CAT.PM1.G6.PM11-PM12"
                     }, {
                         "in_between": "13-14",
-                        "match_number": "CAT.PM1.G7.13PM-14PM"
+                        "match_number": "CAT.PM1.G7.PM13-PM14"
                     }, {
                         "in_between": "15-16",
-                        "match_number": "CAT.PM1.G8.15PM-16PM"
+                        "match_number": "CAT.PM1.G8.PM15-PM16"
                     }]
                 }
             },{

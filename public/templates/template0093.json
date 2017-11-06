@@ -80,32 +80,34 @@
 				"name": "PM-1*16",
 				"total_match": 8,
                 "group_count": 16,
+                "consider_in_team_assignment": 1,
 				"groups": {
 					"group_name": "Group-PM",
+					"actual_group_name": "Pos-A",
 					"match": [{
 						"in_between": "1-2",
-						"match_number": "CAT.PM1.G1.1PM-2PM"
+						"match_number": "CAT.PM1.G1.1-2"
 					}, {
 						"in_between": "3-4",
-						"match_number": "CAT.PM1.G2.3PM-4PM"
+						"match_number": "CAT.PM1.G2.3-4"
 					}, {
 						"in_between": "5-6",
-						"match_number": "CAT.PM1.G3.5PM-6PM"
+						"match_number": "CAT.PM1.G3.5-6"
 					}, {
 						"in_between": "7-8",
-						"match_number": "CAT.PM1.G4.7PM-8PM"
+						"match_number": "CAT.PM1.G4.7-8"
 					}, {
 						"in_between": "9-10",
-						"match_number": "CAT.PM1.G5.9PM-10PM"
+						"match_number": "CAT.PM1.G5.9-10"
 					}, {
 						"in_between": "11-12",
-						"match_number": "CAT.PM1.G6.11PM-12PM"
+						"match_number": "CAT.PM1.G6.11-12"
 					}, {
 						"in_between": "13-14",
-						"match_number": "CAT.PM1.G7.13PM-14PM"
+						"match_number": "CAT.PM1.G7.13-14"
 					}, {
 						"in_between": "15-16",
-						"match_number": "CAT.PM1.G8.15PM-16PM"
+						"match_number": "CAT.PM1.G8.15-16"
 					}]
 				}
 			},{
@@ -116,28 +118,28 @@
 					"group_name": "Group-PM1",
 					"match": [{
 						"in_between": "CAT.PM1.G1WR-CAT.PM1.G2WR",
-						"match_number": "CAT.PM1.G9.1PM_2PM_WR-3PM_4PM_WR"
+						"match_number": "CAT.PM1.G9.1_2_WR-3_4_WR"
 					}, {
 						"in_between": "CAT.PM1.G3WR-CAT.PM1.G4WR",
-						"match_number": "CAT.PM1.G10.5PM_6PM_WR-7PM_8PM_WR"
+						"match_number": "CAT.PM1.G10.5_6_WR-7_8_WR"
 					}, {
 						"in_between": "CAT.PM1.G1LR-CAT.PM1.G2LR",
-						"match_number": "CAT.PM1.G11.1PM_2PM_LR-3PM_4PM_LR"
+						"match_number": "CAT.PM1.G11.1_2_LR-3_4_LR"
 					}, {
 						"in_between": "CAT.PM1.G3LR-CAT.PM1.G4LR",
-						"match_number": "CAT.PM1.G12.5PM_6PM_LR-7PM_8PM_LR"
+						"match_number": "CAT.PM1.G12.5_6_LR-7_8_LR"
 					}, {
 						"in_between": "CAT.PM1.G5WR-CAT.PM1.G6WR",
-						"match_number": "CAT.PM1.G13.9PM_10PM_WR-11PM_12PM_WR"
+						"match_number": "CAT.PM1.G13.9_10_WR-11_12_WR"
 					}, {
 						"in_between": "CAT.PM1.G7WR-CAT.PM1.G8WR",
-						"match_number": "CAT.PM1.G14.13PM_14PM_WR-15PM_16PM_WR"
+						"match_number": "CAT.PM1.G14.13_14_WR-15_16_WR"
 					}, {
 						"in_between": "CAT.PM1.G5LR-CAT.PM1.G6LR",
-						"match_number": "CAT.PM1.G15.9PM_10PM_LR-11PM_12PM_LR"
+						"match_number": "CAT.PM1.G15.9_10_LR-11_12_LR"
 					}, {
 						"in_between": "CAT.PM1.G7LR-CAT.PM1.G8LR",
-						"match_number": "CAT.PM1.G16.13PM_14PM_LR-15PM_16PM_LR"
+						"match_number": "CAT.PM1.G16.13_14_LR-15_16_LR"
 					}]
 				}
 			},{
@@ -145,7 +147,7 @@
 				"total_match": 8,
         		"group_count": 16,
 				"groups": {
-					"group_name": "Group-PM1",
+					"group_name": "Group-PM2",
 					"match": [{
 						"in_between": "CAT.PM1.G9WR-CAT.PM1.G10WR",
 						"match_number": "CAT.PM1.G17.(PM1_G9_WR)-(PM1_G10_WR)"
@@ -216,7 +218,7 @@
 					"total_match": 3,
 	        		"group_count": 6,
 					"groups": {
-						"group_name": "Group-PM2",
+						"group_name": "Group-PM3",
 						"match": [{
 							"in_between": "1A-1B",
 							"match_number": "CAT.PM2.G1.1A-1B"
@@ -240,16 +242,16 @@
 					"total_match": 3,
 	        		"group_count": 3,
 					"groups": {
-						"group_name": "Group-PM3",
+						"group_name": "Group-C",
 						"match": [{
 							"in_between": "CAT.PM1.G17WR-CAT.PM1.G21WR",
-							"match_number": "CAT.RR3.01.C1-C2.(PM1_G17_WR)-(PM1_G21_WR)"
+							"match_number": "CAT.RR3.01.(PM1_G17_WR)-(PM1_G21_WR)"
 						},{
 							"in_between": "CAT.PM1.G17WR-CAT.PM2.G1WR",
-							"match_number": "CAT.RR3.02.C1-C3.(PM1_G17_WR)-1A_1B_WR"
+							"match_number": "CAT.RR3.02.(PM1_G17_WR)-1A_1B_WR"
 						},{
 							"in_between": "CAT.PM1.G21WR-CAT.PM2.G1WR",
-							"match_number": "CAT.RR3.03.C2-C3.(PM1_G21_WR)-1A_1B_WR"
+							"match_number": "CAT.RR3.03.(PM1_G21_WR)-1A_1B_WR"
 						}]
 					}
 				}

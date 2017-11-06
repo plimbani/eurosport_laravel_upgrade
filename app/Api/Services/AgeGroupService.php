@@ -146,7 +146,7 @@ class AgeGroupService implements AgeGroupContract
         for($i=0;$i<$totalRound;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
-            foreach($rounds as $key=>$round) {              
+            foreach($rounds as $key=>$round) {
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
                 $group_name[$val]['team_count']=$round->group_count;
@@ -159,6 +159,8 @@ class AgeGroupService implements AgeGroupContract
                 }
 
                 $group_name[$val]['comp_roundd']=$json_data->tournament_competation_format->format_name[$i]->name;
+
+                $group_name[$val]['round_slug']='round' . $i;
                 // Now here For Loop for create Fixture array
                 foreach($round->groups->match as $key1=>$matches) {
                     $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key1;
