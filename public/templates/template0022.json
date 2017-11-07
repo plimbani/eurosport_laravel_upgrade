@@ -291,7 +291,7 @@
 			"total_match": 4,
       		"group_count": 4,
 			"groups": {
-				"group_name": "Group-PM",
+				"group_name": "Group-PM1",
 				"match": [{
 					"in_between": "1-2",
 					"match_number": "CAT.PM1.G1.C1-C2"

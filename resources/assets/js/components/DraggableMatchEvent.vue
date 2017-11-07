@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <div v-if="match != 'unavailable'" class="unscheduled-match-content draggable-event dashbox p-2 text-center hoverable">
+    <div class="js-draggable-events">
+        <div v-if="match != 'unavailable'" class="unscheduled-match-content draggable-event dashbox p-2 text-center hoverable" :style="{background: fixtureBackgroundColor}">
             <div>{{match.matchName}}</div>
             <div>{{match.fullGame}}</div>
             <div>({{match.matchTime}} min)</div>
-            <div class="unscheduled-match-content-strip" :style="{background: categoryAgeColor}"></div>
+            <div class="unscheduled-match-content-strip" :style="{background: match.competationColorCode != null ? match.competationColorCode : '#FFFFFF'}"></div>
         </div>
         <div class="dark_grey_bg card p-2 m-0 text-center" v-else>
             <div>Unavailable 60 mins</div>
@@ -17,7 +17,7 @@
 <script type="text/babel">
 import moment from 'moment'
 export default {
-    props: ['match', 'categoryAgeColor'],
+    props: ['match', 'fixtureBackgroundColor'],
     data() {
       return {
             'tournamentFilter': this.$store.state.Tournament.tournamentFiler 
@@ -36,14 +36,14 @@ export default {
                 title: this.match.matchName ? this.match.matchName : 'unavailable', // use the element's text as the event title
                 refereeId: this.match=='unavailable'?-2:'0', // use the element's text as the event title
                 refereeText: 'R', // use the element's text as the event title
-                color: this.match.matchName ? '#e9e9e9' : '#55595c',
-                borderColor: this.match.matchName ? '#d3d3d3' : '#55595c',
+                color: this.fixtureBackgroundColor,
+                borderColor: this.fixtureBackgroundColor,
                 stick: true, // maintain when user navigates (see docs on the renderEvent method),
                 duration: this.match.matchTime ? moment.duration(this.match.matchTime, 'minutes') : moment.duration(60, 'minutes'),
                 matchId: this.match.matchId,
                 matchAgeGroupId: this.match.ageGroupId,
                 forceEventDuration: true,
-                categoryAgeColor: this.categoryAgeColor
+                fixtureStripColor: this.match.competationColorCode != null ? this.match.competationColorCode : '#FFFFFF'
                 
             });
 
