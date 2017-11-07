@@ -221,9 +221,9 @@
 				{
 				"name": "PM-1*4",
 				"total_match": 2,
-        "group_count": 4,
+        		"group_count": 4,
 				"groups": {
-					"group_name": "Group-PM",
+					"group_name": "Group-PM1",
 					"match": [{
 						"in_between": "1A-1B",
 						"match_number": "CAT.PM2.G1.1A-1B"
