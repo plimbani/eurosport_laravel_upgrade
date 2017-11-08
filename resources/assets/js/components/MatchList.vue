@@ -25,7 +25,7 @@
 				<td align="right">
 					<!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
 						<!-- <span class="text-center">{{match.HomeTeam}}</span> -->
-            <span class="text-center" v-if="(match.homeTeamId == '0' && match.homeTeamName == '@^^@')">{{ 'Group-' + match.homePlaceholder }}</span>
+            <span class="text-center" v-if="(match.homeTeamId == '0' && match.homeTeamName == '@^^@')">{{ getHoldingName(match.competation_actual_name, match.homePlaceholder) }}</span>
             <span class="text-center" v-else>{{ match.HomeTeam }}</span>
 						<!--<img :src="match.HomeFlagLogo" width="20">-->
               		 <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
@@ -36,7 +36,7 @@
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
              		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
 					<!-- <span class="text-center">{{ match.AwayTeam}}</span> -->
-          <span class="text-center" v-if="(match.awayTeamId == '0' && match.awayTeamName == '@^^@')">{{ 'Group-' + match.awayPlaceholder }}</span>
+          <span class="text-center" v-if="(match.awayTeamId == '0' && match.awayTeamName == '@^^@')">{{ getHoldingName(match.competation_actual_name, match.awayPlaceholder) }}</span>
           <span class="text-center" v-else>{{ match.AwayTeam }}</span>
 					<!-- </a>	 -->
 				</td>
@@ -244,7 +244,13 @@ export default {
              //this.$parent.$options.methods.getStandingData(tournamentId,6)
         })
     },
-
+    getHoldingName(competitionActualName, placeholder) {
+      if(competitionActualName.indexOf('Group') !== -1){
+        return 'Group-' + placeholder;
+      } else if(competitionActualName.indexOf('Pos') !== -1){
+        return 'Pos-' + placeholder;
+      }
+    }
 	},
 
 }
