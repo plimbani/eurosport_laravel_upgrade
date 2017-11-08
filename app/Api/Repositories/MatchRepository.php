@@ -693,7 +693,7 @@ class MatchRepository
       return $teamArray;
     }
 
-    public function setMatchSchedule($data)
+    public function setMatchSchedule($data, $allowSchedulingForcefully = false)
     {
       $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
       $team_interval =   $teamData['team_interval'];
@@ -753,7 +753,7 @@ class MatchRepository
                 // echo "<pre>"; print_r($matchResultCount->count()); echo "</pre>";
                   // dd($matchResultCount->count());
                 $setFlag = 0;
-     if($matchResultCount->count() >0){
+     if($matchResultCount->count() >0 && $allowSchedulingForcefully == false){
       // dd($teamData);
       if( (strpos($teamData['match_number'],"RR1") != false) || (strpos($teamData['match_number'],"PM1" ) != false)) {
         return -1;
