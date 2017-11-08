@@ -67,7 +67,7 @@ import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
 
 export default {
-	props: ['matchData1'],
+	props: ['matchData1', 'DrawName'],
   components: {
             PitchModal,
             DeleteModal1,
@@ -232,6 +232,11 @@ export default {
               let tournamentId  =  this.$store.state.Tournament.tournamentId
               // Now here we have to call the SetScore method
               this.setScore($('input[name="home_score['+matchId+']"]').val(),$('input[name="away_score['+matchId+']"]').val(),competationId)
+
+              let Id = this.DrawName.id
+              let Name = this.DrawName.name
+              let CompetationType = this.DrawName.competation_type
+              this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
               //this.$root.$emit('setDrawTable',competationId)
               //this.$root.$emit('setStandingData',competationId)
              //this.$parent.$options.methods.getStandingData(tournamentId,6)

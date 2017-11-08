@@ -410,80 +410,88 @@ class MatchService implements MatchContract
       $away_team_score = $singleFixture->awayteam_score;
 
       // FOr Winner Conditions
-      if($home_team_score >  $away_team_score) {
-        $winnerTeam = $singleFixture->home_team_name;
-        $winnerId = $singleFixture->home_team;
+      if($home_team_score != null && $away_team_score != null) {
+        if($home_team_score >=  $away_team_score) {
+          $winnerTeam = $singleFixture->home_team_name;
+          $winnerId = $singleFixture->home_team;
+        }
+        if($home_team_score <  $away_team_score) {
+          $winnerTeam = $singleFixture->away_team_name;
+          $winnerId = $singleFixture->away_team;
+        }
       }
-      if($home_team_score <  $away_team_score) {
-        $winnerTeam = $singleFixture->away_team_name;
-        $winnerId = $singleFixture->away_team;
-      }
+
       // FOr Looser Conditions
-      if($home_team_score <  $away_team_score) {
-        $looserTeam = $singleFixture->home_team_name;
-        $looserId = $singleFixture->home_team;
+      if($home_team_score != null && $away_team_score != null) {
+        if($home_team_score <  $away_team_score) {
+          $looserTeam = $singleFixture->home_team_name;
+          $looserId = $singleFixture->home_team;
+        }
+        if($home_team_score >=  $away_team_score) {
+          $looserTeam = $singleFixture->away_team_name;
+          $looserId = $singleFixture->away_team;
+        }
       }
-      if($home_team_score >  $away_team_score) {
-        $looserTeam = $singleFixture->away_team_name;
-        $looserId = $singleFixture->away_team;
+
+      if($home_team_score != null && $away_team_score != null) {   
+        // Now fire a query which gives two record Winner and Looser
+        $results = DB::table('temp_fixtures')->where('age_group_id','=',$age_category_id)->where('tournament_id','=',$tournament_id)
+        ->where(function($query) use ($val) {
+          $query->whereRaw(DB::raw("match_number like '%(".$val."_WR)%' OR  match_number like '%(".$val."_LR)%' "));
+        })->get();
+        
+        // here we get two records 1 for Winner and other for looser
+        foreach($results as $record) {
+          // echo "<pre>"; print_r($record); echo "</pre>";
+          // we have record
+         // echo 'Match Id'.$record->id;
+          // here first we check condition for Draw if it is then use match_winner field
+          // here check if Home Score is Greater than away score
+         $rec_mtchNumber = explode(".",$record->match_number);
+         $teams =  $rec_mtchNumber[2];
+         $teams = explode("-",$teams);
+         $homeTeam = $teams[0];$awayTeam = $teams[1];
+         // if its winner then
+         if(strpos($record->match_number,"WR") !== false)
+         {
+           // its Home team
+           if(trim("(".$val."_WR)") == trim($homeTeam)) {
+           // echo 'homeW';
+            TempFixture::where('id',$record->id)->update([
+              'home_team_name'=> $winnerTeam,
+              'home_team'=> $winnerId
+            ]);
+           }
+
+           if(trim("(".$val."_WR)") == trim($awayTeam)) {
+            TempFixture::where('id',$record->id)->update([
+              'away_team_name'=> $winnerTeam,
+              'away_team'=> $winnerId
+            ]);
+           }
+
+           // its away team
+         }
+         // if its looser then
+         if(strpos($record->match_number,"LR") !== false)
+         {
+          if(trim("(".$val."_LR)") == trim($homeTeam)) {
+            TempFixture::where('id',$record->id)->update([
+              'home_team_name'=> $looserTeam,
+              'home_team'=> $looserId
+            ]);
+           }
+
+           if(trim("(".$val."_LR)") == trim($awayTeam)) {
+            TempFixture::where('id',$record->id)->update([
+              'away_team_name'=> $looserTeam,
+              'away_team'=> $looserId
+            ]);
+           }
+         }
+        }
       }
 
-      // Now fire a query which gives two record Winner and Looser
-      $results = TempFixture::where('age_group_id','=',$age_category_id)->where('tournament_id','=',$tournament_id)
-      ->where(function($query) use ($val) {
-        $query->whereRaw(DB::raw("match_number like '%(".$val."_WR)%' OR  match_number like '%(".$val."_LR)%' "));
-      })->get();
-         // dd($results,$age_category_id,$tournament_id,$val);
-      // here we get two records 1 for Winner and other for looser
-      foreach($results as $record) {
-        // echo "<pre>"; print_r($record); echo "</pre>";
-        // we have record
-       // echo 'Match Id'.$record->id;
-        // here first we check condition for Draw if it is then use match_winner field
-        // here check if Home Score is Greater than away score
-       $rec_mtchNumber = explode(".",$record->match_number);
-       $teams =  $rec_mtchNumber[2];
-       $teams = explode("-",$teams);
-       $homeTeam = $teams[0];$awayTeam = $teams[1];
-       // if its winner then
-       if(strpos($record->match_number,"WR") !== false)
-       {
-         // its Home team
-         if(trim("(".$val."_WR)") == trim($homeTeam)) {
-         // echo 'homeW';
-          TempFixture::where('id',$record->id)->update([
-            'home_team_name'=> $winnerTeam,
-            'home_team'=> $winnerId
-          ]);
-         }
-
-         if(trim("(".$val."_WR)") == trim($awayTeam)) {
-          TempFixture::where('id',$record->id)->update([
-            'away_team_name'=> $winnerTeam,
-            'away_team'=> $winnerId
-          ]);
-         }
-
-         // its away team
-       }
-       // if its looser then
-       if(strpos($record->match_number,"LR") !== false)
-       {
-        if(trim("(".$val."_LR)") == trim($homeTeam)) {
-          TempFixture::where('id',$record->id)->update([
-            'home_team_name'=> $looserTeam,
-            'home_team'=> $looserId
-          ]);
-         }
-
-         if(trim("(".$val."_LR)") == trim($awayTeam)) {
-          TempFixture::where('id',$record->id)->update([
-            'away_team_name'=> $looserTeam,
-            'away_team'=> $looserId
-          ]);
-         }
-       }
-      }
       return ;
     }
     private function calculateEliminationTeams($singleFixture, $findTeams) {
@@ -597,7 +605,7 @@ class MatchService implements MatchContract
           $homeTeamId = 0;
 
           if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
-            if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
+            if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
             {
               $hometeamName = $singleFixture->home_team_name;
               $homeTeamId = $singleFixture->home_team;
@@ -621,7 +629,7 @@ class MatchService implements MatchContract
           $awayTeamId = 0;
 
           if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
-            if($singleFixture->hometeam_score > $singleFixture->awayteam_score)
+            if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
             {
               $awayteamName = $singleFixture->home_team_name;
               $awayTeamId = $singleFixture->home_team;
