@@ -14,7 +14,7 @@ class AddTeamIntervalToTournamentCompetitionTemplates extends Migration
     public function up()
     {
         Schema::table('tournament_competation_template', function($table) {
-            $table->integer('team_interval')->nullable();
+            $table->integer('team_interval')->nullable()->after('match_interval_FM');
         });
     }
 

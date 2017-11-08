@@ -23,7 +23,7 @@
 		</div>
 	</div>
     <component :is="currentScheduleView"
-    :matchData="matchData" :otherData="otherData"
+    :matchData1="matchData" :matchData="matchData" :otherData="otherData"
     > </component>
   </div>
 </template>
@@ -79,6 +79,7 @@ export default {
 	created: function() {
        this.$root.$on('changeComp', this.setMatchData);
        this.$root.$on('getMatchByTournamentFilter', this.setFilter);
+       this.$root.$on('changeDrawListComp', this.setMatchData);
   	},
 	computed: {
 		currentScheduleView() {

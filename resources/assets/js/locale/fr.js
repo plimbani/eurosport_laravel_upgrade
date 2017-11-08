@@ -12,7 +12,11 @@ module.exports = {
   welcome_add_user: 'Add new edition',
   welcome_see_tournament_admin_view: "Fvoir la vue de l'administrateur du tournoi",
   welcome_add_new_tournament: 'Ajouter un nouveau tournoi',
+  welcome_add_tournament_permission: 'FTournament Permissions',
 
+  welcome_add_button_new_edition: 'FCreate full tournament',
+  welcome_add_button_tournament_details: 'FAdd tournament details only',
+  
   siteheader_name: "FChris",
   siteheader_settings: "FSettings",
   siteheader_userprofile: "FUser Profile",
@@ -65,6 +69,20 @@ module.exports = {
   user_image_choose_file: "FChoose file",
   user_image_size: "FMaximum size of 1 MB.",
   // user_image_dimensions: "FImage dimensions 250 x 250.",
+
+  tournament_detail_add_name: "FTournament name*",
+  tournament_detail_max_teams: "FMaximum teams*",
+  tournament_detail_start_date: "FTournament start date*",
+  tournament_detail_end_date: "FTournament end date*",
+
+  tournament_detail_cancle: "FCancel",
+  tournament_detail_save: "FSave",
+
+  tournament_details_add_name_required: "FTournament name required",
+  tournament_details_max_team_required: "FMaximum teams required",
+  tournament_details_start_date_required: "FTournament start date required",
+  tournament_details_end_date_required: "FTournament end date required",
+
   user_image_remove: "FRemove image",
   user_management_password: "FPassword*",
   user_management_placeholder_password: "FEnter password",
@@ -98,7 +116,7 @@ module.exports = {
   tournament_tournament_logo: "FTournament logo",
   tournament_tournament_choose_button: "FChoose file",
   tournament_tournament_remove_button: "FRemove image",
-  tournament_eurosporting: "FEuro-Sportring contact",
+  tournament_eurosporting: "FContact",
   tournament_first_name: "FFirst name",
   tournament_validation_first_name: "FFirst name required",
   tournament_last_name: "FLast name",
@@ -173,8 +191,10 @@ module.exports = {
   competation_modal_duration_final_minutes: "Fminutes",
   competation_modal_game_duration_final: "FGame duration final*",
   competation_modal_half_time_break: "FHalf-time break RR/EM/PM*",
+  competation_modal_half_time_break_required: "FHalf-time break is required.",
   competation_modal_half_time_break_minutes: "Fminutes",
   competation_modal_half_time_break_final: "FHalf-time break final*",
+  competation_modal_half_time_break_final_required: "FHalf-time break final is required.",
   competation_modal_half_time_break_final_minutes: "Fminutes",
 
   competation_modal_match_interval: "FMatch interval RR/EM/PM*",
@@ -518,6 +538,18 @@ module.exports = {
   summary_schedule_matches_score: "FScore",
   summary_schedule_matches_location: "FLocation",
   summary_table_heading_status: "Status",
+
+
+  manual_ranking_team_required: "FThis field is required",
+  manual_ranking_cancel: "FCancel",
+  manual_ranking_save: "FSave",
   // tournament_filter_age_category_match: "Category",
   // summary_table_heading_status_to: "Sent tournament",
+  
+  // Tournament permission
+  user_management_tournament_permission_title: "FTournament Permissions",
+
+  // Group colours
+  pitch_planner_group_colours: "FGroup colours",
+  pitch_planner_group_colours_title: "FGroup Colours",
  } 

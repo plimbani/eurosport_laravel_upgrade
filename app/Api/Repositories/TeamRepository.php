@@ -151,103 +151,80 @@ class TeamRepository
 
     public function assignGroup($team_id,$groupName,$data='')
     {
+      $team = Team::find($team_id);
+      $gname = explode('-',$groupName);
+      $temData = Team::where('id',$team_id)->get();
+      $ageGroupId = $temData[0]['age_group_id'];
 
-        $team = Team::find($team_id);
-        $gname = explode('-',$groupName);
-        // Now here we get the age_group_id
-        $temData = Team::where('id',$team_id)->get();
-        $ageGroupId = $temData[0]['age_group_id'];
-        // Now query in competation table and find the competationId
-         $compData = Competition::leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
+      $compData = Competition::leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
         ->where('competitions.tournament_id','=',$data['tournament_id'])
         ->select('competitions.id as CompId',
           'competitions.name as compName',
           'tournament_competation_template.group_name','tournament_competation_template.category_age')
         ->where('competitions.tournament_competation_template_id','=',$ageGroupId)
         ->get();
-        // dd($compData);
-        $competId = NULL;
-        foreach($compData as $ddata) {
-           $asGroup = preg_replace('/[0-9]+/', '', $groupName);
-           $cc1 = $ddata['group_name'].'-'.$ddata['category_age'].'-'.$asGroup;
-           // if its found then break it
-           if($ddata['compName'] == $cc1) {
-            $competId = $ddata['CompId'];
-            break;
-           }
+
+      $competId = NULL;
+      foreach($compData as $ddata) {
+        $asGroup = preg_replace('/[0-9]+/', '', $groupName);
+        $cc1 = $ddata['group_name'].'-'.$ddata['category_age'].'-'.$asGroup;
+        if($ddata['compName'] == $cc1) {
+        $competId = $ddata['CompId'];
+          break;
         }
-        
- // dd($groupName,$team_id,$competId);
-        // if()
-        $assignGroup = NULL;
-        if($groupName!= NULL){
-          $assignGroup = preg_replace('/[0-9]+/', '', $groupName);
-        }
+      }
+      
+      $assignGroup = NULL;
+      if($groupName!= NULL){
+        $assignGroup = preg_replace('/[0-9]+/', '', $groupName);
+      }
+      
+      if($groupName == ''){
         Team::where('id', $team_id)->update([
-            'group_name' => $groupName,
-            'assigned_group' => $assignGroup,
-            'competation_id' => $competId
+          'group_name' => null,
+          'assigned_group' => null,
+          'competation_id' => null
+        ]);
+        
+        TempFixture::where('home_team', $team_id)
+          ->where('tournament_id',$data['tournament_id'])
+          ->where('age_group_id',$ageGroupId) //1409
+          ->update([
+            'home_team_name' => '@^^@',
+            'home_team' => 0
         ]);
 
-         // dd('a');
-        // Also Add in MatchStaning table
-        // First check if record exist if yes then update else create
-        $match_standing = DB::table('match_standing')
-        ->where('tournament_id','=',$data['tournament_id'])
-        ->where('competition_id','=',$competId)
-        ->where('team_id','=',$team_id)->get();
-        $matchStandData = array();
-        if($match_standing->isEmpty())
-        {
-          // if empty create it
-          $matchStandData['competition_id'] = $competId;
-          $matchStandData['tournament_id'] = $data['tournament_id'];
-          $matchStandData['team_id'] = $team_id;
-          $matchStandData['points'] = 0;$matchStandData['played'] = 0;
-          $matchStandData['won'] = 0;$matchStandData['draws'] = 0;
-          $matchStandData['lost'] = 0;$matchStandData['goal_for'] = 0;
-          $matchStandData['goal_against'] = 0;
-          DB::table('match_standing')->insert($matchStandData);
+        TempFixture::where('away_team', $team_id)
+          ->where('tournament_id',$data['tournament_id'])
+          ->where('age_group_id',$ageGroupId)
+          ->update([
+            'away_team_name' => '@^^@',
+            'away_team' => 0
+        ]);
+      } else {
 
-        } else {
-          // check if competation id is Same then no need to update it
-          if($match_standing[0]->competition_id != $competId) {
-            // Update it
-            $matchStandData['competition_id'] = $competId;
-            // Update it
-            DB::table('match_standing')->where('id','=',$match_standing[0]->id)
-            ->update($matchStandData);
-          }
-        }
+      Team::where('id', $team_id)->update([
+        'group_name' => $groupName,
+        'assigned_group' => $assignGroup,
+        'competation_id' => $competId
+      ]);
 
+      TempFixture::where('home_team_placeholder_name', $gname[1])
+        ->where('tournament_id',$data['tournament_id'])
+        ->where('competition_id',$competId)
+        ->update([
+            'home_team_name' => $team->name,
+            'home_team' => $team_id
+        ]);
 
-        TempFixture::where('home_team_name', $gname[1])
-            ->where('tournament_id',$data['tournament_id'])
-            ->where('competition_id',$competId)
-            // ->where('age_group_id',$data['age_group'])
-          /*  ->update([
-                'home_team_name' => $team->name,
-                'home_team' => $team_id,
-                'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
-            ]); */
-             ->update([
-                'home_team_name' => $team->name,
-                'home_team' => $team_id
-            ]);
-        TempFixture::where('away_team_name', $gname[1])
-            ->where('tournament_id',$data['tournament_id'])
-            ->where('competition_id',$competId)
-            // ->where('age_group_id',$data['age_group'])
-            ->update([
-                'away_team_name' => $team->name,
-                'away_team' => $team_id
-            ]);
-         /*   ->update([
-                'away_team_name' => $team->name,
-                'away_team' => $team_id,
-                'match_number' => DB::raw("REPLACE(match_number, '".$gname[1]."', '".$team->name."')")
-            ]);*/
-
+      TempFixture::where('away_team_placeholder_name', $gname[1])
+        ->where('tournament_id',$data['tournament_id'])
+        ->where('competition_id',$competId)
+        ->update([
+            'away_team_name' => $team->name,
+            'away_team' => $team_id
+        ]);
+      }
     }
     public function edit($data)
     {
@@ -317,5 +294,19 @@ class TeamRepository
       Team::where('id', $teamId)->update(['name' => $teamName]);
       TempFixture::where('home_team', $teamId)->update(['home_team_name' => $teamName]);
       TempFixture::where('away_team', $teamId)->update(['away_team_name' => $teamName]);
+    }
+
+    public function getAllCompetitionTeamsFromFixture($competationId)
+    {
+      $competitionFixtures = TempFixture::where('competition_id',$competationId);
+      $homeTeams = $competitionFixtures->pluck('home_team')->toArray();
+      $awayTeams = $competitionFixtures->pluck('away_team')->toArray();
+      $competitionTeams = array_values(array_unique(array_merge($homeTeams, $awayTeams)));
+      $teams = [];
+      $teamSize = Competition::find($competationId)->team_size;
+      if(count($competitionTeams) > 0) {
+        $teams = Team::whereIn('id', $competitionTeams)->orderBy('name', 'asc')->get();
+      }
+      return ['teams' => $teams, 'teamSize' => $teamSize];
     }
 }

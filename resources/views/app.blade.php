@@ -30,9 +30,24 @@
     <meta name="msapplication-TileImage" content="/assets/admin/img/favicons/mstile-144x144.png">
     <meta name="msapplication-config" content="/assets/admin/img/favicons/browserconfig.xml">
     <meta name="theme-color" content="#333333">
-
+    <style>
+      @media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) { 
+      @media {
+        input[type=number] {
+            padding: 0.6rem 0.75rem;
+        }
+        input[type=number]:hover::-webkit-inner-spin-button {
+            right: 2px;
+        }
+      }}
+    </style>
 </head>
 <body class="layout-default skin-default">
+    <div class="loader js-loader d-none">
+        <svg class="circular" height="50" width="50">
+            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10" />
+        </svg>
+    </div>
 <div id="app" class="template-container">
     <div class="mobile-menu-overlay" v-on:click.prevent="onOverlayClick"></div>
     <transition name="fade" mode="out-in">

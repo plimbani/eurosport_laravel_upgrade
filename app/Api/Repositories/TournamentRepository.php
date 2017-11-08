@@ -16,6 +16,7 @@ use Laraspace\Models\Referee;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Competition;
 use Carbon\Carbon;
+use JWTAuth;
 
 class TournamentRepository
 {
@@ -28,7 +29,7 @@ class TournamentRepository
        $status = $tournamentData['status'];
        return Tournament::where('status',$status)->get();
     }
-    public function getAll($status='', $userId=null)
+    public function getAll($status='', $user=null)
     {
       if($status == '') {
           $data = Tournament::
@@ -41,8 +42,9 @@ class TournamentRepository
 
       }
 
-      if($userId) {
-        $data = $data->where('user_id', $userId);
+      if($user) {
+        $tournaments = $user->tournaments()->pluck('id');
+        $data = $data->whereIn('id', $tournaments);
       }
       $data = $data->get();
 
@@ -112,6 +114,7 @@ class TournamentRepository
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
+        $newdata['maximum_teams'] = $data['maximum_teams']; 
         $newdata['start_date'] = $data['start_date'] ? $data['start_date'] : '';
         $newdata['end_date'] = $data['end_date'] ? $data['end_date'] : '';
         $newdata['website'] = $data['website'] ? $data['website'] : '';
@@ -158,11 +161,15 @@ class TournamentRepository
 
         // Save Tournament Contact Data
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
-           // Update Touranment Table Data
-          $updatedData = TournamentContact::where('tournament_id', $tournamentId)->update($tournamentContactData);
 
+          $tournamentResult = TournamentContact::where('tournament_id', $tournamentId)->get();
+            if($tournamentResult->count() == 0) {
+              TournamentContact::create($tournamentContactData);
+            } else {
+              $updatedData = TournamentContact::where('tournament_id', $tournamentId)->update($tournamentContactData);
+            }
         } else {
-         TournamentContact::create($tournamentContactData);
+          TournamentContact::create($tournamentContactData);
         }
 
         unset($tournamentContactData);
@@ -206,7 +213,8 @@ class TournamentRepository
           'facebook' => $data['facebook'],
           'twitter' => $data['twitter'],
           'website' => $data['website'],
-        );
+          'maximum_teams' => $data['maximum_teams'],
+        ); 
 
         return $tournamentData;
     }
@@ -548,5 +556,40 @@ class TournamentRepository
                   ->groupBy('clubs.id','countries.id')
                    ->get();
       return (count($clubData) > 0) ? $clubData : 0;
+    }
+
+    public function addTournamentDetails($tournamentDetailData)
+    {
+      $token=JWTAuth::getToken();
+      $authUser = JWTAuth::parseToken()->toUser();
+      $userId = $authUser->id;
+      $tournament = new Tournament();
+      $tournament->name = $tournamentDetailData['tournament_name'];
+      $tournament->maximum_teams = $tournamentDetailData['tournament_max_teams'];
+      $tournament->user_id = $userId;
+      $tournament->start_date = $tournamentDetailData['tournament_start_date'];
+      $tournament->end_date = $tournamentDetailData['tournament_end_date'];
+      $tournament->status = 'Unpublished';
+      $tournament->save();
+    }
+
+    public function getCategoryCompetitions($data)
+    {
+      $categoryCompetitions = Competition::where('tournament_competation_template_id', $data['ageGroupId']);
+      if(isset($data['competationType'])) {
+        $categoryCompetitions = $categoryCompetitions->where('competation_type', $data['competationType']);
+      }
+      if(isset($data['competationRoundNo'])) {
+        $categoryCompetitions = $categoryCompetitions->where('competation_round_no', $data['competationRoundNo']);
+      }
+      $categoryCompetitions = $categoryCompetitions->get();
+      return $categoryCompetitions;
+    }
+
+    public function saveCategoryCompetitionColor($competitionColorData)
+    {
+      foreach($competitionColorData as $key=>$data) {
+        $competition = Competition::where('id', $key)->update(['color_code' => $data]);
+      }
     }
 }

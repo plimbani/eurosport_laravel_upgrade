@@ -163,5 +163,17 @@ class TournamentController extends BaseController
     {
       return $this->tournamentObj->getTournamentClub($request->all());
     }
+    public function addTournamentDetails(Request $request)
+    {
+        return $this->tournamentObj->addTournamentDetails($request->all());
+    }
+    public function getCategoryCompetitions(Request $request)
+    {
+        return $this->tournamentObj->getCategoryCompetitions($request->all());
+    }
+    public function saveCategoryCompetitionColor(Request $request)
+    {
+        return $this->tournamentObj->saveCategoryCompetitionColor($request->all());   
+    }
 
 }

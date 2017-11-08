@@ -84,8 +84,8 @@ class MatchController extends BaseController
     public function getFixtures(Request $request){
         return $this->matchObj->getFixtures($request);
     }
-    public function getStanding(Request $request){
-        return $this->matchObj->getStanding($request);
+    public function getStanding(Request $request, $refreshStanding = null){
+        return $this->matchObj->getStanding($request, $refreshStanding);
     }
     public function getDrawTable(Request $request) {
         return $this->matchObj->getDrawTable($request);
@@ -235,5 +235,10 @@ class MatchController extends BaseController
         }
 
         return view('automate_tournament.success_match_scheduled', compact('status') );
+    }
+
+    public function saveStandingsManually(Request $request)
+    {
+        return $this->matchObj->saveStandingsManually($request);
     }
 }

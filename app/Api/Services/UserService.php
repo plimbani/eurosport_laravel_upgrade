@@ -299,7 +299,7 @@ class UserService implements UserContract
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
           $data['organisation'] = NULL;
-          $data['userType'] = $mobileUserRoleId;
+          $data['userType'] = $userObj->roles[0]->id;
           // here we add code for Tournament id update
 
         } else {
@@ -513,6 +513,19 @@ class UserService implements UserContract
           return ['status_code'=>200,'message'=>'success','data'=>$appUsers];
         }
 
+    }
+
+    public function changeTournamentPermission($data) {
+      $data = $this->userRepoObj->changeTournamentPermission($data);
+      if($data) {
+        return ['status_code'=>'200','message'=>'Tournament permissions has been updated successfully.'];
+      } else {
+        return ['status_code'=>'200','message'=>'Problem on updating'];
+      }     
+    }
+
+    public function getUserTournaments($id) {
+      return $this->userRepoObj->getUserTournaments($id); 
     }
 
 }

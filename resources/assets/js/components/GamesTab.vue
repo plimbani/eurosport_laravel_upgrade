@@ -15,7 +15,7 @@
             v-if="match.isScheduled!=1"
             v-for="match in competition.matchList"
             :data-text="match.matchName">
-                <draggable-match-event :match="match" :categoryAgeColor="competition.category_age_color"></draggable-match-event>
+                <draggable-match-event :match="match" :fixtureBackgroundColor="competition.category_age_color"></draggable-match-event>
             </div>
           </div>
         </div>
@@ -60,14 +60,6 @@ export default {
 
      matches(){
       return this.$store.state.Tournament.matches
-      // this.matchStatus = false
-      // let matchList = ''
-
-      // if(this.$store.state.Tournament.totalMatch > 0){
-      //   this.matchStatus = true
-      //   matchList = this.$store.getters.getMatches
-      // }
-      // return matchList
     }
   },
   created: function() {

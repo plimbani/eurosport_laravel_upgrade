@@ -2,8 +2,10 @@
 
 namespace Laraspace\Api\Services;
 
+use Laraspace\Models\Tournament;
 use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Api\Repositories\AgeGroupRepository;
+use Laraspace\Models\TournamentCompetationTemplates;
 
 class AgeGroupService implements AgeGroupContract
 {
@@ -40,6 +42,28 @@ class AgeGroupService implements AgeGroupContract
         // Now here we set and Calculate and Save Data in
         //  tournament_competation_template Table
         $data = $data['compeationFormatData'];
+
+        // Check if maximum team exceeds
+        $totalCheckTeams = 0;
+
+        $tournamentTotalTeamSumObj = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id']);
+        $maximumTeams = Tournament::find($data['tournament_id'])->maximum_teams;
+
+        if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
+          $tournamentTotalTeamSumObj = $tournamentTotalTeamSumObj->where('id', '!=' ,$data['competation_format_id']);
+        }
+
+        $tournamentTotalTeamSum = $tournamentTotalTeamSumObj->pluck('total_teams')->sum();
+        $totalCheckTeams = $data['total_teams'] + $tournamentTotalTeamSum;
+
+        if($maximumTeams == null) {
+          return ['status_code' => '403', 'message' => 'Please add maximum teams limit on "Tournament details" page.'];
+        }
+
+        if(($totalCheckTeams > $maximumTeams)) {
+          return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament.'];
+        }
+
         // TODO: Here we set the value for Other Data
         // Impliclityly Add 2 For Multiplication
         if($data['game_duration_RR'] == 'other') {
@@ -122,11 +146,17 @@ class AgeGroupService implements AgeGroupContract
         for($i=0;$i<$totalRound;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
-            foreach($rounds as $key=>$round) {
+            foreach($rounds as $key=>$round) {              
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
                 $group_name[$val]['team_count']=$round->group_count;
-                $group_name[$val]['match_type']=$round->name;
+                $group_name[$val]['match_type']=$round->name;     
+
+                if(isset($round->actual_name)) {
+                  $group_name[$val]['actual_name'] = $round->actual_name;
+                } else {
+                  $group_name[$val]['actual_name'] = $round->name;
+                }
 
                 $group_name[$val]['comp_roundd']=$json_data->tournament_competation_format->format_name[$i]->name;
                 // Now here For Loop for create Fixture array

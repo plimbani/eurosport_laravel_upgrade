@@ -13,6 +13,8 @@ import MatchList from './MatchList.vue'
 import DrawDetails from './DrawDetails.vue'
 import LocationList from './LocationList.vue'
 import TeamDetails from './TeamDetails.vue'
+import TeamList from './TeamList.vue'
+import _ from 'lodash'
 
 export default {
 	data() {
@@ -33,7 +35,7 @@ export default {
 		this.getAllDraws()
 	},
 	components: {
-		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails
+		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails,TeamList
 	},
 	created: function() {
     this.$root.$on('changeDrawListComp', this.setMatchData);
@@ -57,19 +59,27 @@ export default {
 		},
 		getAllDraws() {
 			let TournamentId = this.$store.state.Tournament.tournamentId
+			let vm = this
   			Tournament.getAllDraws(TournamentId).then(
   				(response)=> {
   					if(response.data.status_code == 200) {
-  						this.matchData = response.data.data
-           //   this.lastUpdateValue = response.data.updatedValue
-              this.$root.$emit('lastUpdateDate',response.data.updatedValue)
+  						vm.matchData = response.data.data
+						vm.matchData.map(function(value, key) {
+							if(value.actual_competition_type == 'Elimination') {
+								value.name = _.replace(value.name, '-Group', '');
+
+								return value;
+							}
+						})
+           	//   this.lastUpdateValue = response.data.updatedValue
+            this.$root.$emit('lastUpdateDate',response.data.updatedValue)
   					}
   				},
   				(error) => {
   					alert('Error in Getting Draws')
   				}
   			)
-        // Emit it to call for parent
+        	 // Emit it to call for parent
 
 		},
 		getDrawDetails(drawId, drawName,CompetationType='') {

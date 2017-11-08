@@ -67,7 +67,11 @@
   </table>
 
   <div class="form-group">
-<h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0"> {{otherData.DrawName}} standings <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1'"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span></h6>
+<h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0"> 
+  {{otherData.DrawName}} standings
+  <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
+  <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
+</h6>
   <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
   </teamStanding>
   <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
@@ -76,8 +80,8 @@
   
 
   <h6>{{otherData.DrawName}} matches</h6>
-  <matchList :matchData="matchData"></matchList>
-  <manualRanking :competitionId="currentCompetationId"></manualRanking>
+  <matchList :matchData1="matchData"></matchList>
+  <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
 </template>
 <script type="text/babel">
@@ -87,6 +91,7 @@ import LocationList from'./LocationList.vue'
 import TeamStanding from './TeamStanding.vue'
 import Tournament from '../api/tournament.js'
 import ManualRanking from './manualRankingModal.vue'
+import _ from 'lodash'
 
 export default {
 	props: ['matchData','otherData'],
@@ -97,10 +102,14 @@ export default {
             currentCompetationId: 0,
             match1Data:[],error:false,errorMsg:'',
             drawList:'',
-            DrawName:[],
+            DrawName:{
+              is_manual_override_standing: 0
+            },
             CompRound:'Round Robin',match12Data:'',
             teamStatus: true,
-            matchStatus: true
+            matchStatus: true,
+            teamList: [],
+            teamCount: 0,
         }
     },
     created: function() {
@@ -114,10 +123,20 @@ export default {
     let currDId = this.currentCompetationId
     let round = 'Round Robin'
     let drawname1 = []
+    let vm = this
       Tournament.getAllDraws(TournamentId).then(
         (response)=> {
           if(response.data.status_code == 200) {
             this.drawList = response.data.data
+
+            vm.drawList = response.data.data
+            vm.drawList.map(function(value, key) {
+              if(value.actual_competition_type == 'Elimination') {
+                value.name = _.replace(value.name, '-Group', '');
+
+                return value;
+              }
+            })
 
             var uniqueArray = response.data.data.filter(function(item, pos) {
 
@@ -129,6 +148,7 @@ export default {
             }, {});
             this.DrawName = drawname1
             this.CompRound = round
+            this.refreshStanding();
             //this.DrawName = this.matchData[0];
             // find record of that
           }
@@ -191,25 +211,31 @@ export default {
             msg = 'match list'
           }
           return msg
-        }
+        },
+        isUserDataExist() {
+          return this.$store.state.isAdmin
+          //return this.$store.state.Users.userDetails.id
+        },
     },
 	components: {
         MatchList,LocationList,MatchListing,TeamStanding,ManualRanking
 	},
     methods: {
         manualRankingModalOpen() {
-          $('#manual_ranking_modal').modal('show')
-
+          this.$root.$emit('getStandingDataForManualRanking', this.currentCompetationId)
+          $('#manual_ranking_modal').modal('show');
         },
         refreshStanding() {
+          $("body .js-loader").removeClass('d-none');
           let compId = ''
           if(this.currentCompetationId!=undefined){
-            let compId = this.currentCompetationId
+            compId = this.DrawName.id
           }
           let tournamentData = {'tournamentId': this.$store.state.Tournament.tournamentId,'competitionId': compId}
           Tournament.refreshStanding(tournamentData).then(
                 (response)=> {
                   if(response.data.status_code == 200){
+                    $("body .js-loader").addClass('d-none');
                      this.teamStatus = false
                       let vm = this
                       setTimeout(function(){
@@ -245,7 +271,6 @@ export default {
             return teamId.Home_id
         },
         setTeamData() {
-
             let tempMatchdata = (this.matchData.length > 0 && !this.matchData[0].hasOwnProperty('fid')) ? this.matchData : this.drawList
 
             this.currentCompetationId = this.otherData.DrawId
@@ -263,9 +288,9 @@ export default {
                // Here call Function for getting result
                //let tournamentId = this.$store.state.Tournament.tournamentId
 
-
             }
              this.GenerateDrawTable(this.currentCompetationId)
+             this.getTeamsListFromFixtures(this.currentCompetationId)
         },
         GenerateDrawTable(currentCompetationId) {
 
@@ -277,6 +302,7 @@ export default {
                   if(response.data.status_code == 200){
 
                     this.match1Data = response.data.data
+                    
                   }
                   if(response.data.status_code == 300){
                     this.match1Data = []
@@ -294,6 +320,22 @@ export default {
                )
           }
 
+        },
+        getTeamsListFromFixtures(currentCompetationId) {
+          if(currentCompetationId != undefined) {
+            let tournamentId = this.$store.state.Tournament.tournamentId
+            let tournamentData = {'competitionId':currentCompetationId}
+               Tournament.getAllCompetitionTeamsFromFixture(tournamentData).then(
+                (response)=> {
+                  if(response.data.status_code == 200){
+                    this.teamList = response.data.data.teams
+                    this.teamCount = response.data.data.teamSize
+                  }
+                },
+                (error)=> {}
+
+               )
+          }
         },
         setCurrentTabView(setCurrentTabView) {
           if(setCurrentTabView == 'drawsListing')
@@ -319,6 +361,9 @@ export default {
         //  this.$store.dispatch('setCurrentScheduleView','drawList')
         //  this.$root.$emit('changeDrawListComp')
         },
+        competitionAsManualStanding(isManualOverrideStanding) {
+          this.DrawName.is_manual_override_standing = isManualOverrideStanding;
+        }
     }
 }
 </script>
