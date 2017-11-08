@@ -233,10 +233,10 @@ class MatchRepository
               $query4->where('match_datetime','>',$data->match_datetime)->where('match_datetime','<',$data->match_endtime);
             });
             $query->orWhere(function($query5) use ($data) {
-              $query5->where('match_datetime','>=',$data->match_datetime)->where('match_datetime','<=',$data->match_endtime);
+              $query5->where('match_datetime','>=',$data->match_datetime)->where('match_datetime','<',$data->match_endtime);
             });
             $query->orWhere(function($query6) use ($data) {
-              $query6->where('match_endtime','>=',$data->match_datetime)->where('match_endtime','<=',$data->match_endtime);
+              $query6->where('match_endtime','>',$data->match_datetime)->where('match_endtime','<=',$data->match_endtime);
             });
          })
         ->get();
