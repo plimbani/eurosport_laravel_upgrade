@@ -8383,8 +8383,8 @@ TimeGrid.mixin({
 						'<div class="fc-resizer fc-end-resizer" />' :
 						''
 						) +
-					(event.categoryAgeColor ?
-					'<div class="scheduled-match-content-strip" style="background: ' + event.categoryAgeColor + '"></div>' :
+					(event.fixtureStripColor ?
+					'<div class="scheduled-match-content-strip" style="background: ' + event.fixtureStripColor + '"></div>' :
 						''
 						) +
 				'</div>' +

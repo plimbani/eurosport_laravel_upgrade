@@ -699,11 +699,11 @@
             "name": "Round 3",
             "match_type": [
                 {
-                "name": "PM-2",
+                "name": "PM-1",
                 "total_match": 2,
                 "group_count": 4,
                 "groups": {
-                    "group_name": "Group-PM2",
+                    "group_name": "Group-PM1",
                     "match":  [{
                         "in_between": "1G-1K",
                         "match_number": "CAT.PM3.G1.1G-1K"

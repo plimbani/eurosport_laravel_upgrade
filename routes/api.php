@@ -88,7 +88,7 @@ $api->version('v1', function ($api) {
 
     $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
 
-    $api->post('match/getStanding','Laraspace\Api\Controllers\MatchController@getStanding');
+    $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding');
 
     $api->post('match/getDrawTable','Laraspace\Api\Controllers\MatchController@getDrawTable');
     $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
@@ -209,6 +209,10 @@ $api->version('v1', function ($api) {
 
     $api->post('user/changeTournamentPermission','Laraspace\Api\Controllers\UserController@changeTournamentPermission');
     $api->get('user/getUserTournaments/{id}','Laraspace\Api\Controllers\UserController@getUserTournaments');
+
+    $api->post('tournament/getCategoryCompetitions', 'Laraspace\Api\Controllers\TournamentController@getCategoryCompetitions');
+
+    $api->post('tournament/saveCategoryCompetitionColor', 'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
 
     $api->post('teams/getAllCompetitionTeamsFromFixture','Laraspace\Api\Controllers\TeamController@getAllCompetitionTeamsFromFixture');
     
