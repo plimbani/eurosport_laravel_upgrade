@@ -274,7 +274,7 @@ export default {
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
           let Id = this.DrawName.id
           let Name = this.DrawName.name
-          let CompetationType = this.DrawName.competation_type
+          let CompetationType = this.DrawName.actual_competition_type
           this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
           // this.matchData = this.drawList
           this.refreshStanding()

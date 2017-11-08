@@ -460,8 +460,8 @@ import _ from 'lodash'
                                     'borderColor': borderColorVal,
                                     'matchId':match.fid,
                                     'matchAgeGroupId':match.age_group_id,
-                                    'displayFlag': match.min_interval_flag == 1 ?'block':'',
-                                    'fixtureStripColor': fixtureStripColor
+                                    'fixtureStripColor': fixtureStripColor,
+                                    'displayFlag': match.min_interval_flag == 1 ?'block':''
                                 }
                             sMatches.push(mData)
                             }
@@ -489,8 +489,8 @@ import _ from 'lodash'
                                     'borderColor': 'grey',
                                     'matchId':-1,
                                     'matchAgeGroupId':'',
-                                    'displayFlag': '',
-                                    'fixtureStripColor': ''
+                                    'fixtureStripColor': '',
+                                    'displayFlag': ''
                                 }
 
                                 if(availability.stage_start_time != '08:00'){
@@ -506,8 +506,8 @@ import _ from 'lodash'
                                         'borderColor': 'grey',
                                         'matchId':-1,
                                         'matchAgeGroupId':'',
-                                        'displayFlag':'',
-                                        'fixtureStripColor': ''
+                                        'fixtureStripColor': '',
+                                        'displayFlag':''
                                     }
                                     sMatches.push(mData1)
                                 }
@@ -524,8 +524,8 @@ import _ from 'lodash'
                                         'borderColor': 'grey',
                                         'matchId': -1,
                                         'matchAgeGroupId':'',
-                                        'displayFlag':'',
-                                        'fixtureStripColor': ''
+                                        'fixtureStripColor': '',
+                                        'displayFlag':''
                                     }
                                 sMatches.push(mData2)
                                 }
