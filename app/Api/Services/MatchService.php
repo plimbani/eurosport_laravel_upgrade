@@ -164,7 +164,7 @@ class MatchService implements MatchContract
         $scheduledResult = $this->matchRepoObj->setMatchSchedule($matchData->all()['matchData']);
         if ($scheduledResult) {
             if($scheduledResult != -1){
-            return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully'];
+              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully'];
             }else {
                return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.'];
             }
