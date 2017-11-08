@@ -149,6 +149,13 @@ class AgeGroupService implements AgeGroupContract
             foreach($rounds as $key=>$round) {
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
+
+                if(isset($round->groups->actual_group_name)) {
+                  $group_name[$val]['actual_group_name']=$round->groups->actual_group_name;
+                } else {
+                  $group_name[$val]['actual_group_name']=$round->groups->group_name;
+                }
+                
                 $group_name[$val]['team_count']=$round->group_count;
                 $group_name[$val]['match_type']=$round->name;     
 
@@ -163,6 +170,15 @@ class AgeGroupService implements AgeGroupContract
                 foreach($round->groups->match as $key1=>$matches) {
                     $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key1;
                     $fixture_array[$newVal] = $matches->match_number;
+                }
+
+                if(isset($round->dependent_groups)) {
+                  foreach($round->dependent_groups as $key=>$group) {
+                    foreach($group->groups->match as $key1=>$matches) {
+                      $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key.$key1;
+                      $fixture_array[$newVal] = $matches->match_number;
+                    }
+                  }
                 }
             }
         }

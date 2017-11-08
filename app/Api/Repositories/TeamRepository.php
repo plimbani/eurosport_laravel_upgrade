@@ -198,6 +198,10 @@ class TeamRepository
         if($groupName!= NULL){
           $assignGroup = preg_replace('/[0-9]+/', '', $groupName);
         }
+        if ($checkForRoundRobin === false) {
+          $splitGroupName = explode('-', $groupName);
+          $assignGroup = $splitGroupName[0] . '-' . $splitGroupName[1];
+        }
         Team::where('id', $team_id)->update([
             'group_name' => $groupName,
             'assigned_group' => $assignGroup,

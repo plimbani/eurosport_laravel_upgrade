@@ -50,7 +50,7 @@
                 <div class="card-content">
                    <span class="card-title text-primary"><strong>
                    {{ getGroupName(group) }}</strong></span>
-                    <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group['groups']['group_name'],n)" ></span>
+                    <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group,n)" ></span>
                     {{groupName(group,n) | truncate(20)}}</strong></p>
                 </div>
               </div>
@@ -126,7 +126,7 @@
                           </optgroup>
                         </select>
                       </td>
-                      <td width="130px" v-else>{{team.group_name}}</td>
+                      <td width="130px" v-else>{{ getModifiedDisplayGroupName(team.group_name) }}</td>
                     </tr>
 
                 </tbody>
@@ -246,9 +246,17 @@
     // },
 
     methods: {
-      groupFlag(grpName,no){
+      groupFlag(group,no){
         let vm =this
-        let fullName = grpName+no
+        
+        let fullName = null
+        if(typeof group['groups']['actual_group_name'] != "undefined") {
+          let actualGroupName = group['groups']['actual_group_name'];
+          fullName = actualGroupName + '-' + no;
+        } else {
+          fullName = group['groups']['group_name']+no;
+        }
+
         let displayName = fullName
          _.find(this.teams, function(team) {
           if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
@@ -317,10 +325,13 @@
       },
       beforeChange(gid) {
         let gdata = $('#sel_'+gid).find('option:selected').val()
+        // if(gdata != '' && gdata.indexOf('Pos') !== -1) {
+        //   let name = gdata.split('-');
+        //   gdata = name[0] + '-' + name[2]
+        // }
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
-
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue == '') {
           //this.seleTeam = ''
@@ -329,10 +340,11 @@
         if(groupValue!='' && groupValue!= undefined ){
 
           $('.selTeams').prop("disabled", true);
-            $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not( $('.sel_'+id)).attr("disabled","disabled");
+            $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not( $('.sel_'+id)).prop("disabled","disabled");
         }
         if(this.beforeChangeGroupName!=''){
-          $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");
+          // $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");
+          $(".selTeams option").filter('[value='+ this.beforeChangeGroupName +']').prop("disabled", false);
         }
         if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)
@@ -602,6 +614,13 @@
           return group['groups']['actual_group_name'] + '-' + n
         }
         return group['groups']['group_name'] + n
+      },
+      getModifiedDisplayGroupName(groupName) {
+        if(groupName != null && groupName.indexOf('Pos') !== -1) {
+          let name = groupName.split('-');
+          return name[0] + '-' + name[2]
+        }
+        return groupName;
       },
     }
   }

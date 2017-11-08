@@ -46,7 +46,9 @@ class AgeGroupRepository
        $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
        $competations['tournament_id'] = $competation_data['tournament_id'];
        $comp_group = $groups['group_name'];
+       $actual_comp_group = $groups['actual_group_name'];
        $competations['name'] = $age_group.'-'.$comp_group;
+       $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
        $competations['team_size'] = $groups['team_count'];
        // here last group we consider as Final or Elimination Match
        // Means Last one
