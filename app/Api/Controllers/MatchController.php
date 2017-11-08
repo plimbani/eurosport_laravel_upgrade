@@ -212,7 +212,7 @@ class MatchController extends BaseController
                     'tournamentId' => $tournamentId,
                 ];
                 
-                $matchRepoObj->setMatchSchedule($matchData);
+                $matchRepoObj->setMatchSchedule($matchData, true);
 
                 $awayTeamScore = rand(1,20);
                 $homeTeamScore = rand(1,20);
