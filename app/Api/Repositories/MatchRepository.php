@@ -174,6 +174,12 @@ class MatchRepository
                 'temp_fixtures.pitch_id as pitchId',
                 'temp_fixtures.is_scheduled',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
+                'temp_fixtures.home_team_name as homeTeamName',
+                'temp_fixtures.away_team_name as awayTeamName',
+                'temp_fixtures.home_team as homeTeamId',
+                'temp_fixtures.away_team as awayTeamId',
+                'temp_fixtures.home_team_placeholder_name as homePlaceholder',
+                'temp_fixtures.away_team_placeholder_name as awayPlaceholder',
                 'tournament_competation_template.game_duration_RR',
                 'tournament_competation_template.game_duration_FM',
                 'tournament_competation_template.halftime_break_RR',
@@ -317,6 +323,7 @@ class MatchRepository
                 DB::raw('CONCAT(temp_fixtures.home_team, "-", temp_fixtures.away_team) AS teamsFix'),
                 'temp_fixtures.match_datetime as matchDateTime'
                   ) ->get();
+
         // dd($totalMatches->toArray());  
       $matchArr = array();
       $matchDate = array();
