@@ -127,6 +127,7 @@ import _ from 'lodash'
                     eventDurationEditable: false,
                     eventOverlap:vm.currentView == 'refereeTab',
                     droppable: true,
+                    defaultTimedEventDuration: '00:00',
                     width:'100px',
                     defaultView: vm.defaultView,
                     defaultDate: vm.stageDate,
