@@ -148,17 +148,45 @@ class TeamRepository
             ]);
     }
 
+    public function getAllUpdatedTeam($teamdata)
+    {
+      $tournamentId = $teamdata['data']['tournament_id'];
+      $ageGroupId  = $teamdata['data']['age_group'];
+      
+       $existGroups = Array();
+        foreach ($teamdata['data']['teamdata'] as $key => $data) {
+            $teamname = explode('_', $data['name']);
+            $existGroups[$teamname[1]] = $data['value'];
+        }
 
+        $results = Team::where('tournament_id',$tournamentId)
+                  ->where('age_group_id','=',$ageGroupId)->get();
+     
+        $updatedGroups = Array();
+          foreach ($results as $key => $result) {
+                     $updatedGroups[$result->id] = $result->group_name;
+          }     
+        // echo "<pre>"; print_r($arr); echo "</pre>";exit();
+         $differentResult = array_diff_assoc($existGroups,$updatedGroups);
+         $keyResults = array_keys($differentResult); 
+          // dd($res);
+          // $res1 = array_diff_key($abb,$arr);
+            // print_r($res);
+          // dd($res1);  
+          return $keyResults;   
+    }  
     public function assignGroup($team_id,$groupName,$data='')
     {
 
         $team = Team::find($team_id);
+
         $checkForRoundRobin = strpos($groupName, 'Group');
         if ($checkForRoundRobin === false) {
           $gname = explode('-',$groupName)[2];
         } else {
           $gname = explode('-',$groupName)[1];
         }
+
         // Now here we get the age_group_id
         $temData = Team::where('id',$team_id)->get();
         $ageGroupId = $temData[0]['age_group_id'];
@@ -191,9 +219,7 @@ class TeamRepository
             break;
           }
         }
-        
- // dd($groupName,$team_id,$competId);
-        // if()
+
         $assignGroup = NULL;
         if($groupName!= NULL){
           $assignGroup = preg_replace('/[0-9]+/', '', $groupName);

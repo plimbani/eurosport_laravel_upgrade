@@ -60,6 +60,8 @@ import _ from 'lodash'
             // this.$root.$on('getTeamsByTournamentFilter', this.setPitchPlannerFilter);
             // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
             // this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
+             this.$root.$on('reloadAllEvents', this.reloadAllEvents);
+            
 
         },
         mounted() {
@@ -125,6 +127,7 @@ import _ from 'lodash'
                     eventDurationEditable: false,
                     eventOverlap:vm.currentView == 'refereeTab',
                     droppable: true,
+                    defaultTimedEventDuration: '00:00',
                     width:'100px',
                     defaultView: vm.defaultView,
                     defaultDate: vm.stageDate,
@@ -193,7 +196,7 @@ import _ from 'lodash'
                                          toastr.success('Referee has been assigned successfully', 'Assigned Referee ', {timeOut: 5000});
                                         vm.$store.dispatch('getAllReferee',vm.tournamentId);
                                         vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
-                                       vm.reloadAllEvents()
+                                        vm.reloadAllEvents()
 
                                     }else{
                                         let errorMsg = updatedMatch.data;
@@ -241,6 +244,8 @@ import _ from 'lodash'
                                         if(response.data.data != -1){
                                             vm.$store.dispatch('setMatches');
                                              toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                             vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
+                                             vm.reloadAllEvents()
                                         }else{
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
                                             vm.$store.dispatch('setMatches');
@@ -288,7 +293,14 @@ import _ from 'lodash'
                                 (response) => {
                                     if(response.data.data != -1){
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
-                                            
+                                            let matchScheduleChk =new Promise((resolve, reject) => {
+                                                resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue));
+                                            });
+                                           
+                                            matchScheduleChk.then((successMessage) => {
+                                              vm.reloadAllEvents();  
+                                            });
+                                            // vm.reloadAllEvents()
                                         }else{
                                             revertFunc();
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
@@ -355,11 +367,12 @@ import _ from 'lodash'
 
             },
             reloadAllEvents(){
-                let vm = this
-                 $('.fc.fc-unthemed').fullCalendar( 'removeEvents' )
-
+                let vm = this;
+                let ev = this.$el;
+                $(ev).fullCalendar( 'removeEvents' )
+                 // console.log(this.$el);
                 setTimeout(function(){
-                    $('div.fc-unthemed').fullCalendar('addEventSource', vm.scheduledMatches);
+                    $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                 },1000)
             },
             getScheduledMatch(filterKey='',filterValue='') {
@@ -448,7 +461,8 @@ import _ from 'lodash'
                                     'borderColor': borderColorVal,
                                     'matchId':match.fid,
                                     'matchAgeGroupId':match.age_group_id,
-                                    'fixtureStripColor': fixtureStripColor
+                                    'fixtureStripColor': fixtureStripColor,
+                                    'displayFlag': match.min_interval_flag == 1 ?'block':''
                                 }
                             sMatches.push(mData)
                             }
@@ -476,7 +490,8 @@ import _ from 'lodash'
                                     'borderColor': 'grey',
                                     'matchId':-1,
                                     'matchAgeGroupId':'',
-                                    'fixtureStripColor': ''
+                                    'fixtureStripColor': '',
+                                    'displayFlag': ''
                                 }
 
                                 if(availability.stage_start_time != '08:00'){
@@ -492,7 +507,8 @@ import _ from 'lodash'
                                         'borderColor': 'grey',
                                         'matchId':-1,
                                         'matchAgeGroupId':'',
-                                        'fixtureStripColor': ''
+                                        'fixtureStripColor': '',
+                                        'displayFlag':''
                                     }
                                     sMatches.push(mData1)
                                 }
@@ -509,7 +525,8 @@ import _ from 'lodash'
                                         'borderColor': 'grey',
                                         'matchId': -1,
                                         'matchAgeGroupId':'',
-                                        'fixtureStripColor': ''
+                                        'fixtureStripColor': '',
+                                        'displayFlag':''
                                     }
                                 sMatches.push(mData2)
                                 }
@@ -528,8 +545,11 @@ import _ from 'lodash'
                                 $(this).closest('.fc-event').addClass('bg-grey');
                             }
                         })
+                       
                     }
+
                 )
+              return "Finish";  
             },
             stageWithoutPitch() {
 
@@ -549,7 +569,9 @@ import _ from 'lodash'
                     'title': 'Pitch is not available',
                     'color': 'grey',
                     'matchId': '111212',
-                    'matchAgeGroupId':''
+                    'matchAgeGroupId':'',
+                    'displayFlag':''
+
               }
                this.scheduledMatches.push(mData21)
                // Also Add for Resources as well
@@ -574,7 +596,8 @@ import _ from 'lodash'
                             'title': 'Unavailable',
                             'color': 'grey',
                             'matchId': 'block_'+block.id,
-                            'matchAgeGroupId':''
+                            'matchAgeGroupId':'',
+                            'displayFlag':''
                         }
                         this.scheduledMatches.push(mData2)
                         this.unavailableBlock.push(mData2)
