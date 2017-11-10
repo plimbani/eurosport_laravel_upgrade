@@ -189,7 +189,6 @@ class TeamRepository
       
       $temData = Team::where('id',$team_id)->get();
       $ageGroupId = $temData[0]['age_group_id'];
-
       $competId = NULL;
       
       if($groupName == ''){
