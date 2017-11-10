@@ -218,12 +218,15 @@
   		             		<td v-else></td>
 	                		<!--<td>{{report.full_game}}</td>-->
                       <td align="right">
-                       <span class="text-center">{{report.HomeTeam}}</span>
+                       <span class="text-center" v-if="(report.homeTeam == '0' && report.homeTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.homePlaceholder) }}</span>
+                       <span class="text-center" v-else>{{ report.HomeTeam }}</span>
                        <span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
                       </td>
                       <td align="left">
                         <span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
-                        <span class="text-center">{{report.AwayTeam}}</span>
+                        <!-- <span class="text-center">{{report.AwayTeam}}</span> -->
+                        <span class="text-center" v-if="(report.awayTeam == '0' && report.awayTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.awayPlaceholder) }}</span>
+                       <span class="text-center" v-else>{{ report.AwayTeam }}</span>
                       </td>
                       <!--<td></td>-->
 	                	</tr>
@@ -600,15 +603,22 @@ export default {
         }
       }
     },
-		exportPrint() {
-    		let ReportData = this.reportQuery
-    		if(ReportData!=''){
-    			var win = window.open("/api/tournament/report/print?"+ReportData, '_blank');
-          win.focus();
-    		}else{
-    			toastr['error']('Records not available', 'Error');
-    		}
+	exportPrint() {
+		let ReportData = this.reportQuery
+		if(ReportData!=''){
+			var win = window.open("/api/tournament/report/print?"+ReportData, '_blank');
+      win.focus();
+		}else{
+			toastr['error']('Records not available', 'Error');
 		}
+	},
+	getHoldingName(competitionActualName, placeholder) {
+      if(competitionActualName.indexOf('Group') !== -1){
+        return 'Group-' + placeholder;
+      } else if(competitionActualName.indexOf('Pos') !== -1){
+        return 'Pos-' + placeholder;
+      }
+    }
   }
 }
 
