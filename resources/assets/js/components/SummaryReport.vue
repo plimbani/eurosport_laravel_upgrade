@@ -218,12 +218,13 @@
   		             		<td v-else></td>
 	                		<!--<td>{{report.full_game}}</td>-->
                       <td align="right">
-                       <span class="text-center">{{report.HomeTeam}}</span>
+                       <span class="text-center">{{ (report.homeTeam == '0' && report.homeTeamName == '@^^@') ? 'Group-'+ report.homePlaceholder : report.HomeTeam }}</span>
                        <span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
                       </td>
                       <td align="left">
                         <span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
-                        <span class="text-center">{{report.AwayTeam}}</span>
+                        <!-- <span class="text-center">{{report.AwayTeam}}</span> -->
+                        <span class="text-center">{{ (report.awayTeam == '0' && report.awayTeamName == '@^^@') ? 'Group-'+ report.awayPlaceholder : report.AwayTeam }}</span>
                       </td>
                       <!--<td></td>-->
 	                	</tr>

@@ -28,7 +28,6 @@
     </div>
   </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
-
   <table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
   	<thead>
       <tr>
