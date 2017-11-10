@@ -165,7 +165,7 @@
 							"match_number": "CAT.PM1.G21.(PM1_G13_WR)-(PM1_G14_WR)"
 						}, {
 							"in_between": "CAT.PM1.G13LR-CAT.PM1.G14LR",
-							"match_number": "CAT.PM1.G22.(PM1_G13_LR)-(PM1_G13_LR)"
+							"match_number": "CAT.PM1.G22.(PM1_G13_LR)-(PM1_G14_LR)"
 						}, {
 							"in_between": "CAT.PM1.G15WR-CAT.PM1.G16WR",
 							"match_number": "CAT.PM1.G23.(PM1_G15_WR)-(PM1_G16_WR)"

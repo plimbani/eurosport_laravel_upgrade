@@ -167,7 +167,7 @@ class TournamentService implements TournamentContract
 
 
         $disp_format_name = $json_data->tournament_teams .' teams: '.
-        $json_data->competition_group_round.' - '.$json_data->competition_round;
+        $json_data->competition_group_round.($json_data->competition_round != '' ? ' - '.$json_data->competition_round : '');
 
         $total_matches = $json_data->total_matches;
 

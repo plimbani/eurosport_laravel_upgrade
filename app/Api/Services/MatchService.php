@@ -556,7 +556,7 @@ class MatchService implements MatchContract
             
           }
           if($awayTeam[strlen($awayTeam)-1]==')') {
-              if(isset($match2) && $match1 != ''){
+              if(isset($match2) && $match2 != ''){
                 $this->secondRoundElimination($match2,$match,'WR');
               }
             }
