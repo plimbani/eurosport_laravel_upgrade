@@ -9,7 +9,7 @@
 			<th class="text-center">{{$lang.teams_categories_label}}</th>
 		</thead>
 		<tbody>
-			<tr v-for="team in paginated('userpagination')">
+			<tr v-for="team in paginated('teamlist')">
 				<td>
 					<!-- <a  href="" @click.prevent="changeTeam(team.id, team.name)"> -->
 						<!--<img :src="team.logo" width="20">-->
@@ -25,7 +25,7 @@
 		</tbody>
 	</table>
 	<span v-else>No information to display</span>
-		<paginate v-if="shown" name="userpagination" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
+		<paginate  name="teamlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
 	    </paginate>
 	    <div class="row d-flex flex-row align-items-center">
 	        <div class="col page-dropdown">
@@ -41,8 +41,8 @@
 		        </span>
 	      	</div>
 	     	<div class="col-md-6">
-		        <paginate-links for="userpagination"
-		          :show-step-links="true" :async="true" class="mb-0">
+		        <paginate-links for="teamlist"
+		          :show-step-links="true" :limit="2" :async="true" class="mb-0">
 		        </paginate-links>
 	      	</div>
 	    </div>
@@ -64,8 +64,8 @@ export default {
 	},
 	data() {
 	return {
-	      paginate: ['userpagination'],
-	      shown: true,
+	      paginate: ['teamlist'],
+	      shown: false,
 	      no_of_records: 20,
 	      recordCounts: [5,10,20,50,100]
 		}
