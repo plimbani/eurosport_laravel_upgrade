@@ -224,8 +224,6 @@ export default {
       let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
         Tournament.updateScore(matchData).then(
             (response) => {
-              $("body .js-loader").addClass('d-none');
-
               let competationId =response.data.data.competationId
 
               toastr.success('Score has been updated successfully', 'Score Updated', {timeOut: 5000}
@@ -237,7 +235,10 @@ export default {
 
               let Id = this.DrawName.id
               let Name = this.DrawName.name
-              let CompetationType = this.DrawName.competation_type
+              let CompetationType = this.DrawName.actual_competation_type
+
+              $("body .js-loader").addClass('d-none');
+              
               this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
               //this.$root.$emit('setDrawTable',competationId)
               //this.$root.$emit('setStandingData',competationId)

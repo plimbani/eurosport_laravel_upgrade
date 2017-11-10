@@ -118,7 +118,7 @@
                       <td>{{team.age_name}} </td>
 
                       <td width="130px" v-if="age_category != ''">
-                        <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:click="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
+                        <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="" class="blnk">{{seleTeam}}</option>
                           <optgroup :label="group.groups.group_name"
                           v-for="group in grps">
@@ -343,7 +343,6 @@
             $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not( $('.sel_'+id)).prop("disabled","disabled");
         }
         if(this.beforeChangeGroupName!=''){
-          // $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");
           $(".selTeams option").filter('[value='+ this.beforeChangeGroupName +']').prop("disabled", false);
         }
         if(groupValue != null && groupValue != '')  {

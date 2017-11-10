@@ -1,10 +1,10 @@
 {
   "total_matches": 12,
-   "tournament_id": "0010",
+  "tournament_id": "0010",
   "template_font_color": "rgb(146,208,80)",
   "tournament_teams": 8,
   "tournament_name": "T.8.3 (v2)",
-  "competition_round": "F",
+  "competition_round": "",
   "competition_group_round": "PM 1-8",
   "competation_format": "RR/PM",
   "tournament_min_match": 3,
@@ -95,8 +95,10 @@
         "name": "PM-1*8",
         "total_match": 4,
         "group_count": 8,
+        "consider_in_team_assignment": 1,
         "groups": {
-          "group_name": "Group-PM",
+          "group_name": "Group-PM1",
+          "actual_group_name": "Pos-A",
           "match": [
           {
             "in_between": "1-2",
@@ -123,7 +125,7 @@
         "total_match": 4,
         "group_count": 8,
         "groups": {
-          "group_name": "Group-PM1",
+          "group_name": "Group-PM2",
           "match": [
             {
             "in_between": "CAT.PM1.G1WR-CAT.PM1.G2WR",
@@ -149,7 +151,7 @@
         "total_match": 4,
         "group_count": 8,
         "groups": {
-          "group_name": "Group-PM2",
+          "group_name": "Group-PM3",
           "match": [
             {
             "in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",
