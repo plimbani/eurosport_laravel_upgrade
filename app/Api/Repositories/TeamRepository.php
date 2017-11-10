@@ -148,7 +148,58 @@ class TeamRepository
             ]);
     }
 
+    public function getAllUpdatedTeam($teamdata)
+    {
+      // dd( $teamdata['data']);
+      $tournamentId = $teamdata['data']['tournament_id'];
+      $ageGroupId  = $teamdata['data']['age_group'];
+      
+       $existGroups = Array();
+        foreach ($teamdata['data']['teamdata'] as $key => $data) {
+            $teamname = explode('_', $data['name']);
+            $existGroups[$teamname[1]] = $data['value'];
+        }
 
+        $results = Team::where('tournament_id',$tournamentId)
+                  ->where('age_group_id','=',$ageGroupId)->get();
+     
+        $updatedGroups = Array();
+          foreach ($results as $key => $result) {
+                     $updatedGroups[$result->id] = $result->group_name;
+          }     
+        // echo "<pre>"; print_r($arr); echo "</pre>";exit();
+          $differentResult = array_diff_assoc($existGroups,$updatedGroups);
+          $keyResults = array_keys($differentResult); 
+          return $keyResults;   
+    }  
+    public function updateMatches($teams='',$matchData='')
+    {
+      // dd($teams);
+      if(count($teams)>0){
+        // dd('as');
+        $matches = [];
+        $matches = DB::table('temp_fixtures')
+                ->where('tournament_id','=',$matchData['tournament_id'])
+                ->where('age_group_id','=',$matchData['age_group'])
+                 ->where('is_scheduled',1)
+                ->where(function ($query) use ($matchData,$teams)  {
+                  // if($matchData['teamId']){
+                    $query ->whereIn('away_team',$teams)
+                         ->orWhereIn('home_team',$teams);
+                 
+                })  
+                ->update([
+                    "temp_fixtures.home_team_name" => DB::raw("temp_fixtures.home_team_placeholder_name"),
+                    "temp_fixtures.away_team_name" => DB::raw("temp_fixtures.away_team_placeholder_name"),
+                    'home_team' => 0,
+                    'away_team' => 0,
+                    'hometeam_score' => NULL,
+                    'awayteam_score' => NULL,
+
+                  ]);
+                // dd($matches);
+      }
+    }
     public function assignGroup($team_id,$groupName,$data='')
     {
 

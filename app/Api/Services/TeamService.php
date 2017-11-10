@@ -212,15 +212,23 @@ class TeamService implements TeamContract
 
     public function assignTeams($data)
     {
+        $this->UpdateMatches($data);
         foreach ($data['data']['teamdata'] as $key => $value) {
             $team_id = str_replace('sel_', '', $value['name']);
             // $team_id = str_replace('sel_', '', $value['value']);
             $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);
             # code...
         }
-        return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+        
+        // return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
-        public function getAllTeamsGroup($data)
+
+    private function UpdateMatches($data) {
+      $changedTeams = $this->teamRepoObj->getAllUpdatedTeam($data);
+      $this->teamRepoObj->updateMatches($changedTeams,$data['data']);
+    }
+    
+    public function getAllTeamsGroup($data)
     {
         foreach ($data['data']['teamdata'] as $key => $value) {
             $team_id = str_replace('sel_', '', $value['name']);
