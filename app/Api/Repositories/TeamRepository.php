@@ -156,15 +156,6 @@ class TeamRepository
       $temData = Team::where('id',$team_id)->get();
       $ageGroupId = $temData[0]['age_group_id'];
 
-      // for group assignment validation
-      // $tempFixtures = TempFixture::where('tournament_id', $data['tournament_id'])
-      //                             ->where('age_group_id', $ageGroupId)
-      //                             ->where(function($query){
-      //                               $query->orWhereNotNull('hometeam_score')
-      //                                     ->orWhereNotNull('awayteam_score');
-      //                             })->get()->count();
-
-
       $compData = Competition::leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
         ->where('competitions.tournament_id','=',$data['tournament_id'])
         ->select('competitions.id as CompId',
