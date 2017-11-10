@@ -234,6 +234,7 @@ import _ from 'lodash'
                                     }
                                 })
                             }else{
+
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
@@ -257,6 +258,11 @@ import _ from 'lodash'
                     },
                     eventAfterAllRender: function(view ){
                          $('#add_referee').prop('disabled', false);
+                         // Code for horizontal scroll bar
+                         let totalPitches = vm.stage.pitches.length;
+                         if(totalPitches > 8) {
+                            $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * 95) + 'px');
+                         }
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
@@ -270,7 +276,6 @@ import _ from 'lodash'
                             revertFunc();
                             
                         }else{
-                            
                             let matchId = event.id ? event.id : event.matchId
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
@@ -408,10 +413,14 @@ import _ from 'lodash'
                                         scheduleBlock = true
                                     }
                                 }
-                              let colorVal = (match.homeScore == null && match.AwayScore == null) ? '#e9e9e9' : 'green';
-                              let borderColorVal = (match.homeScore == null && match.AwayScore == null) ? '#d3d3d3' : 'green';
+                              let colorVal = match.category_age_color;
+                              let borderColorVal = match.category_age_color;
+                              let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
+
                               if(scheduleBlock){
                                 colorVal = 'grey'
+                                borderColorVal = 'grey'
+                                fixtureStripColor = 'grey'
                               }
                               let lastName = match.last_name
                               let firstName = match.first_name
@@ -439,7 +448,7 @@ import _ from 'lodash'
                                     'borderColor': borderColorVal,
                                     'matchId':match.fid,
                                     'matchAgeGroupId':match.age_group_id,
-                                    'categoryAgeColor': match.category_age_color
+                                    'fixtureStripColor': fixtureStripColor
                                 }
                             sMatches.push(mData)
                             }
@@ -467,7 +476,7 @@ import _ from 'lodash'
                                     'borderColor': 'grey',
                                     'matchId':-1,
                                     'matchAgeGroupId':'',
-                                    'categoryAgeColor': ''
+                                    'fixtureStripColor': ''
                                 }
 
                                 if(availability.stage_start_time != '08:00'){
@@ -483,7 +492,7 @@ import _ from 'lodash'
                                         'borderColor': 'grey',
                                         'matchId':-1,
                                         'matchAgeGroupId':'',
-                                        'categoryAgeColor': ''
+                                        'fixtureStripColor': ''
                                     }
                                     sMatches.push(mData1)
                                 }
@@ -500,7 +509,7 @@ import _ from 'lodash'
                                         'borderColor': 'grey',
                                         'matchId': -1,
                                         'matchAgeGroupId':'',
-                                        'categoryAgeColor': ''
+                                        'fixtureStripColor': ''
                                     }
                                 sMatches.push(mData2)
                                 }

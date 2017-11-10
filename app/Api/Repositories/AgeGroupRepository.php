@@ -58,9 +58,20 @@ class AgeGroupRepository
        } else {
         $competaon_type = 'Round Robin';
        }
+
+       $actualName = explode('-', $groups['actual_name']);
+       
+       if($actualName[0] == 'PM') {
+         $actualCompetitionType = 'Elimination';
+       } else {
+         $actualCompetitionType = 'Round Robin';
+       }  
+
        //$competaon_type = $competaon_type.'-'.$groups['comp_roundd'];
+
        $competations['competation_type'] = $competaon_type;
-       $competations['competation_round_no'] = $groups['comp_roundd'];
+       $competations['actual_competition_type'] = $actualCompetitionType;
+       $competations['competation_round_no'] = $groups['comp_roundd'];       
        $competationIds[$i]['id'] = Competition::create($competations)->id;
        $competationIds[$i]['name'] = $comp_group;
        $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];
@@ -317,10 +328,12 @@ class AgeGroupRepository
             ['match_number'=>$fixture_n,
             'tournament_id'=>$tournamentId,'competition_id'=>$competationId,
             'home_team_name'=>$homeTeam,'match_result_id'=> 0,
+            'home_team_placeholder_name'=>$homeTeam,
             'created_at'=> new \DateTime(),
             'round'=>$round,
             'age_group_id'=>$ageGroupId,
-            'away_team_name'=>$away_team,'venue_id'=>0,'pitch_id'=>0]
+            'away_team_name'=>$away_team,'venue_id'=>0,'pitch_id'=>0,
+            'away_team_placeholder_name'=>$away_team]
           );
       }
 
