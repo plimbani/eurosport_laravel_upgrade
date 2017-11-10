@@ -275,9 +275,6 @@ class MatchRepository
     }
     public function getStanding($tournamentData)
     {
-        //print_r($tournamentData);
-        //print_r($tournamentData);exit;
-        //$url = getenv('S3_URL');
         $reportQuery = DB::table('match_standing')
           ->leftjoin('teams', 'match_standing.team_id', '=', 'teams.id')
           ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
@@ -308,8 +305,55 @@ class MatchRepository
                       ->orderBy('GoalDifference','desc')
                       ->orderBy('match_standing.goal_for','desc');
 
-           // print_r($reportQuery->toSql());exit;
-          return $reportQuery->get();
+          $tempFixtures = DB::table('temp_fixtures')
+                          ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId'])
+                          ->where('temp_fixtures.competition_id', $tournamentData['competitionId'])
+                          ->select(                            
+                            DB::raw('CONCAT(temp_fixtures.home_team_placeholder_name, "-", temp_fixtures.away_team_placeholder_name) AS teamsPlaceHolderName'),
+                            'temp_fixtures.home_team_placeholder_name as homeTeamPlaceholderName',
+                            'temp_fixtures.away_team_placeholder_name as awayTeamPlaceholderName',
+                            'temp_fixtures.home_team as homeTeam',
+                            'temp_fixtures.away_team as awayTeam',
+                            'temp_fixtures.home_team_name as homeTeamName',
+                            'temp_fixtures.away_team_name as awayTeamName',
+                            'temp_fixtures.age_group_id as ageGroupId')
+                          ->get();
+
+          // below code for standing data of dis-selected teams
+
+          $home_team_placeholder_name_array = [];
+          $away_team_placeholder_name_array = [];
+
+          foreach($tempFixtures as $fixture) {
+            if($fixture->homeTeam == 0 && $fixture->homeTeamName == '@^^@') {
+              $home_team_placeholder_name_array[] = $fixture->homeTeamPlaceholderName;              
+            } else if($fixture->awayTeam == 0 && $fixture->awayTeamName == '@^^@') {
+              $away_team_placeholder_name_array[] = $fixture->awayTeamPlaceholderName;              
+            }
+          }
+
+          $teamPlaceholderList = array_unique(array_merge($home_team_placeholder_name_array, $away_team_placeholder_name_array));
+          $allStandingDataArray = [];
+          foreach ($teamPlaceholderList as $key => $teamPlaceholder) {
+              $standingData = [
+                'id'=>null, 'tournament_id'=>$tournamentData['tournamentId'], 'competition_id'=>$tournamentData['competitionId'], 
+                'team_id'=>null, 'points'=>0, 'played'=>0, 'won'=>0, 'draws'=>0, 'lost'=>0, 'goal_for'=>0, 'goal_against'=>0, 
+                'manual_order'=>null, 'created_at'=>null, 'updated_at'=>null, 'deleted_at'=>null, 'assigned_group'=>null,
+                'user_id'=>null, 'age_group_id'=>null, 'club_id'=>null, 'group_name'=>null, 'name'=>'Group-'. $teamPlaceholder, 
+                'place'=>null, 'website'=>null, 'facebook'=>null, 'twitter'=>null, 'shirt_color'=>null, 'esr_reference'=>null, 
+                'country_id'=>null, 'GoalDifference'=>null, 'teamFlag'=>null, 'teamCountryFlag'=>null
+              ];
+
+              $allStandingDataArray[] = $standingData;
+          }
+
+          $holdingTeamStandings = collect($allStandingDataArray);
+          $competitionStandings = $reportQuery->get();
+
+          $mergedStandings = $holdingTeamStandings->merge($competitionStandings);
+
+          // end
+          return $mergedStandings;
     }
     public function getDrawTable($tournamentData){
 
@@ -321,7 +365,12 @@ class MatchRepository
                 ->select(
                 DB::raw('CONCAT(temp_fixtures.hometeam_score, "-", temp_fixtures.awayteam_score) AS scoresFix'),
                 DB::raw('CONCAT(temp_fixtures.home_team, "-", temp_fixtures.away_team) AS teamsFix'),
-                'temp_fixtures.match_datetime as matchDateTime'
+                DB::raw('CONCAT(temp_fixtures.home_team_placeholder_name, "-", temp_fixtures.away_team_placeholder_name) AS teamsPlaceHolderName'),
+                'temp_fixtures.match_datetime as matchDateTime',
+                'temp_fixtures.home_team as homeTeam',
+                'temp_fixtures.away_team as awayTeam',
+                'temp_fixtures.home_team_name as homeTeamName',
+                'temp_fixtures.away_team_name as awayTeamName'
                   ) ->get();
 
         // dd($totalMatches->toArray());  
@@ -347,6 +396,8 @@ class MatchRepository
                     ->where('temp_fixtures.tournament_id','=',$tournamentData['tournamentId'])
                     ->where('temp_fixtures.competition_id','=',$tournamentData['competationId'])
                     ->select('temp_fixtures.home_team','temp_fixtures.away_team')->get();
+        $home_team_arr = [];
+        $away_team_arr = [];
         foreach ($comp as $key => $value) {
           $home_team_arr[] = $value->home_team;
           $away_team_arr[] = $value->away_team;

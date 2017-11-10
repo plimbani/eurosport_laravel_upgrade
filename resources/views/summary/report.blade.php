@@ -46,12 +46,12 @@
     		@endif
     		<!--<td align="center">{{ $report->full_game }}</td>-->
             <td align="right">
-               <span class="text-center">{{ $report->HomeTeam }}</span>
+               <span class="text-center">{{ ($report->homeTeam == '0' && $report->homeTeamName == '@^^@') ? 'Group-'. $report->homePlaceholder : $report->homeTeam }}</span>
                <img src="{{ $report->HomeFlagLogo }}" width="20">&nbsp;
             </td>
             <td align="left">
             &nbsp;<img src="{{ $report->AwayFlagLogo }}" width="20">
-            <span class="text-center">{{ $report->AwayTeam }}</span>
+            <span class="text-center">{{ ($report->awayTeam == '0' && $report->awayTeamName == '@^^@') ? 'Group-'. $report->awayPlaceholder : $report->awayTeam }}</span>
             </td>
     	</tr>
     @endforeach
