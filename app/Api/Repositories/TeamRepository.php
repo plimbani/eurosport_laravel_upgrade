@@ -178,6 +178,7 @@ class TeamRepository
     public function assignGroup($team_id,$groupName,$data='')
     {
       $team = Team::find($team_id);
+
       $checkForRoundRobin = strpos($groupName, 'Group');
       if($groupName!='') {
         if ($checkForRoundRobin === false) {

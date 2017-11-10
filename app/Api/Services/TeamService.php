@@ -214,11 +214,9 @@ class TeamService implements TeamContract
 
     public function assignTeams($data)
     {
-
       $teamsList = $this->teamRepoObj->getAllUpdatedTeam($data);
       $tournamentId = $data['data']['tournament_id'];
       $ageGroupId  = $data['data']['age_group'];
-     
       $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId' =>false);
       $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
 

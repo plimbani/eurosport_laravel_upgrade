@@ -289,7 +289,6 @@ class MatchRepository
               DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
               'HomeFlag.country_flag as HomeCountryFlag',
               'AwayFlag.country_flag as AwayCountryFlag',
-
               'HomeFlag.name as HomeCountryName',
               'AwayFlag.name as AwayCountryName',
               'temp_fixtures.hometeam_score as homeScore',
