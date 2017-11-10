@@ -25,7 +25,7 @@
 				<td align="right">
 					<!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
 						<!-- <span class="text-center">{{match.HomeTeam}}</span> -->
-            <span class="text-center">{{ (match.homeTeamId == '0' && match.homeTeamName == '@^^@') ? 'Group-' + match.homePlaceholder : match.HomeTeam }}</span>
+            <span class="text-center">{{ (match.Home_id == '0' && match.homeTeamName == '@^^@') ? 'Group-' + match.homePlaceholder : match.HomeTeam }}</span>
 						<!--<img :src="match.HomeFlagLogo" width="20">-->
               		 <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
 					<!-- </a> -->
@@ -35,7 +35,7 @@
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
              		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
 					<!-- <span class="text-center">{{ match.AwayTeam}}</span> -->
-          <span class="text-center">{{ (match.awayTeamId == '0' && match.awayTeamName == '@^^@') ? 'Group-' + match.awayPlaceholder : match.AwayTeam }}</span>
+          <span class="text-center">{{ (match.Away_id == '0' && match.awayTeamName == '@^^@') ? 'Group-' + match.awayPlaceholder : match.AwayTeam }}</span>
 					<!-- </a>	 -->
 				</td>
 				<td class="text-center js-match-list">

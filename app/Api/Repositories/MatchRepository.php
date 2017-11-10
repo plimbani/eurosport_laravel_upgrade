@@ -176,8 +176,6 @@ class MatchRepository
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
                 'temp_fixtures.home_team_name as homeTeamName',
                 'temp_fixtures.away_team_name as awayTeamName',
-                'temp_fixtures.home_team as homeTeamId',
-                'temp_fixtures.away_team as awayTeamId',
                 'temp_fixtures.home_team_placeholder_name as homePlaceholder',
                 'temp_fixtures.away_team_placeholder_name as awayPlaceholder',
                 'tournament_competation_template.game_duration_RR',
