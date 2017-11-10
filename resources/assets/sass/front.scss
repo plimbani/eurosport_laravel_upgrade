@@ -621,3 +621,19 @@ label.error {
 .custom-d-flex {
     display: flex;
 }
+
+.badge-custom {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    z-index: 99;
+    padding: 7px;
+    border-radius: 50%;
+    color: red;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.1);
+    -webkit-box-shadow: 7px 10px 21px -13px rgba(0,0,0,0.29);
+    -moz-box-shadow: 7px 10px 21px -13px rgba(0,0,0,0.29);
+    box-shadow: 3px 7px 14px -7px rgba(0,0,0,0.39);
+    display:none;
+}
