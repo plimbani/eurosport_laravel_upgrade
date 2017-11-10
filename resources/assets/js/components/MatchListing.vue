@@ -47,7 +47,7 @@ export default {
 		return {
 			matchData: [],otherData:[],matchDate:this.$store.state.Tournament.tournamentStartDate,tournamentDates:[],
 			currentComponent: this.$store.state.currentScheduleView,
-			'section': 'scheduleResult',
+			'section': 'scheduleResult',	
 		    'filterStatus': true,
 		    'currentDate':'',
 		    'filterKey1': '',
