@@ -360,6 +360,7 @@ module.exports= {
   teams_name_select: "Select category",
   teams_age_category: "Category age",
   teams_age_category_group: "Group",
+  teams_age_category_allocate: "Allocate",
   // teams_select_age_category: "Select category name",
   teams_select: "Select",
   teams_select_age_category: "Select an age category",

@@ -243,7 +243,7 @@ export default {
 
               let Id = this.DrawName.id
               let Name = this.DrawName.name
-              let CompetationType = this.DrawName.actual_competation_type
+              let CompetationType = this.DrawName.actual_competition_type
 
               $("body .js-loader").addClass('d-none');
               
