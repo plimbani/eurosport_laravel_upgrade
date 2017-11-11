@@ -467,7 +467,7 @@ class MatchRepository
           $holdingTeamStandings = collect($allStandingDataArray);
           $competitionStandings = $reportQuery->get();
 
-          $mergedStandings = $holdingTeamStandings->merge($competitionStandings);
+          $mergedStandings = $competitionStandings->merge($holdingTeamStandings);
 
           // end
           return $mergedStandings;
@@ -487,42 +487,78 @@ class MatchRepository
                 'temp_fixtures.home_team as homeTeam',
                 'temp_fixtures.away_team as awayTeam',
                 'temp_fixtures.home_team_name as homeTeamName',
-                'temp_fixtures.away_team_name as awayTeamName'
+                'temp_fixtures.away_team_name as awayTeamName',
+                'temp_fixtures.home_team_placeholder_name as homeTeamPlaceholderName',
+                'temp_fixtures.away_team_placeholder_name as awayTeamPlaceholderName'
                   ) ->get();
-
-        // dd($totalMatches->toArray());  
+ 
       $matchArr = array();
       $matchDate = array();
-      //print_r($teamData);exit;
 
       if(!$totalMatches->isEmpty() && $totalMatches->count() > 0)
       {
         $isMatchExist = true;
         foreach($totalMatches as $data) {
+          $homeTeam = null;
+          $awayTeam = null;
 
-          $newkey = sprintf('%s',$data->teamsFix);
-          $matchArr[$data->teamsFix] = $data->scoresFix;
-          $matchDate[$data->teamsFix] = $data->matchDateTime;
+          if($data->homeTeam == 0 && $data->homeTeamName == '@^^@') {
+            $homeTeam = $data->homeTeamPlaceholderName;
+          } else {
+            $homeTeam = $data->homeTeam;
+          }
+
+          if($data->awayTeam == 0 && $data->awayTeamName == '@^^@') {
+            $awayTeam = $data->awayTeamPlaceholderName;
+          } else {
+            $awayTeam = $data->awayTeam;
+          }
+
+          $key = $homeTeam . '-' . $awayTeam;
+          $matchArr[$key] = $data->scoresFix;
+          $matchDate[$key] = $data->matchDateTime;
         }
       }  else {
           $errorMsg= 'No Matches';
       }
 
-      $comp = DB::table('temp_fixtures')
+        $comp = DB::table('temp_fixtures')
                     // ->join('competitions','competitions.id','temp_fixtures.competition_id')
                     ->where('temp_fixtures.tournament_id','=',$tournamentData['tournamentId'])
                     ->where('temp_fixtures.competition_id','=',$tournamentData['competationId'])
-                    ->select('temp_fixtures.home_team','temp_fixtures.away_team')->get();
+                    ->select('temp_fixtures.home_team','temp_fixtures.away_team', 'temp_fixtures.home_team_name as homeTeamName', 'temp_fixtures.away_team_name as awayTeamName', 'temp_fixtures.home_team_placeholder_name as homeTeamPlaceholderName', 'temp_fixtures.away_team_placeholder_name as awayTeamPlaceholderName')->orderBy('homeTeamPlaceholderName')->orderBy('awayTeamPlaceholderName')->get();
+
+        $competition = Competition::find($tournamentData['competationId']);
+        $splittedCompetitionActualName = explode('-', $competition->actual_name);
+        $inititalOfHolidingName = isset($splittedCompetitionActualName[2]) ? $splittedCompetitionActualName[2] . '-' : '';
+
         $home_team_arr = [];
         $away_team_arr = [];
+        $team_placeholder_name_arr_all = [];
+        $all_competition_placeholders = [];
+
         foreach ($comp as $key => $value) {
-          $home_team_arr[] = $value->home_team;
-          $away_team_arr[] = $value->away_team;
+          if($value->home_team == 0 && $value->homeTeamName == '@^^@') {
+            $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $value->homeTeamPlaceholderName;
+          } 
+          if($value->away_team == 0 && $value->awayTeamName == '@^^@') {
+            $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $value->awayTeamPlaceholderName;
+          }
+          
+          if( $value->home_team != 0 ) {
+            $home_team_arr[] = $value->home_team;
+            $team_placeholder_name_arr_all[] = $value->home_team;
+          }
+          if( $value->away_team != 0 ) {
+            $away_team_arr[] = $value->away_team;
+            $team_placeholder_name_arr_all[] = $value->away_team;
+          }
         }
+
         $teamList = array_unique(array_merge($home_team_arr,$away_team_arr));
+        $teamPlaceholderList = array_values(array_unique($team_placeholder_name_arr_all));
         
-         // $teams = DB::table('teams')->where('competation_id','=',$compId)->get();
-         $teamData = DB::table('teams')
+        $teamData = DB::table('teams')
                     ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
                     ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
                     ->leftjoin('competitions', 'competitions.id', '=', 'teams.competation_id')
@@ -530,26 +566,13 @@ class MatchRepository
                       'countries.country_flag as TeamCountryFlag'
                       )->whereIn('teams.id',$teamList)->get();
 
-     // print_r($matchDate);exit;
-      // $teamData = DB::table('teams')
-      //               ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
-      //               ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
-      //               ->leftjoin('competitions', 'competitions.id', '=', 'teams.competation_id')
-      //               ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo',
-      //                 'countries.country_flag as TeamCountryFlag'
-      //                 )
-      //               ->where('teams.tournament_id',$tournamentData['tournamentId'])
-      //               ->where('competitions.id',$tournamentData['competationId'])
-      //               ->get();
-                    // dd($teamData);
-      $numTeamsArray = array();
       $teamDetails=array();
 
       if(!$teamData->isEmpty() && $teamData->count() > 0)
       {
 
         foreach($teamData as $Tdata) {
-          $numTeamsArray[]=$Tdata->TeamId;
+          //$numTeamsArray[]=$Tdata->TeamId;
           $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
           $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
           $teamDetails[$Tdata->TeamId]['TeamCountryFlag']=$Tdata->TeamCountryFlag;
@@ -560,79 +583,64 @@ class MatchRepository
         return $errorMsg;
       }
 
-      //$table=array();
       $htmlData='';
       $arr1=array();
-      //print_r($numTeamsArray);
-      //print_r($matchArr);
-     //exit;
       $matchNotExist=false;
-      for($i=0;$i<count($numTeamsArray);$i++)
+      for($i=0;$i<count($teamPlaceholderList);$i++)
       {
-        $arr1[$i]['id'] = $numTeamsArray[$i];
-        $arr1[$i]['TeamName'] = $teamDetails[$numTeamsArray[$i]]['TeamName'];
-        $arr1[$i]['TeamFlag'] = $teamDetails[$numTeamsArray[$i]]['TeamFlag'];
-        $arr1[$i]['TeamCountryFlag'] = $teamDetails[$numTeamsArray[$i]]['TeamCountryFlag'];
-        for($j=0;$j<count($numTeamsArray);$j++)
+        $rowKey = null;
+
+        if (in_array($teamPlaceholderList[$i], $teamList)) {
+          $teamId = $teamPlaceholderList[$i];
+          $rowKey = $teamId;
+          $arr1[$i]['id'] = $teamId;
+          $arr1[$i]['TeamName'] = $teamDetails[$teamId]['TeamName'];
+          $arr1[$i]['TeamFlag'] = $teamDetails[$teamId]['TeamFlag'];
+          $arr1[$i]['TeamCountryFlag'] = $teamDetails[$teamId]['TeamCountryFlag'];
+        } else {
+          $rowKey = explode('-', $teamPlaceholderList[$i])[1];
+          $arr1[$i]['id'] = null;
+          $arr1[$i]['TeamName'] = $teamPlaceholderList[$i];
+          $arr1[$i]['TeamFlag'] = null;
+          $arr1[$i]['TeamCountryFlag'] = null;
+        }
+
+        for($j=0;$j<count($teamPlaceholderList);$j++)
         {
-          // Here we check if Result is Declare or not
+          $colKey = null;
+          if (in_array($teamPlaceholderList[$j], $teamList)) {
+            $colKey = $teamPlaceholderList[$j];
+          } else {
+            $colKey = explode('-', $teamPlaceholderList[$j])[1];
+          }
+
           if($isMatchExist ==  true)
           {
-
             if($i==$j)
             {
               $arr1[$i]['matches'][$j] ='Y';
-              // we set another variable for same team
             }
             else
             {
-              $teamId = $numTeamsArray[$i];
-              //echo 'Team id is'.$teamId;
-              $rowKey=$numTeamsArray[$i];
-              $colKey=$numTeamsArray[$j];
-
-              // Now here we explode it and check
-              if($teamId == $rowKey)
-              {
-               // print_r($matchArr);exit;
-                if(array_key_exists($rowKey.'-'.$colKey, $matchArr))
-                {
-                  $arr1[$i]['matches'][$j]['score']= $matchArr[$rowKey.'-'.$colKey];
-                  $arr1[$i]['matches'][$j]['date']= $matchDate[$rowKey.'-'.$colKey];
-                  $arr1[$i]['matches'][$j]['home']= $rowKey;
-                  $arr1[$i]['matches'][$j]['away']= $colKey;
-                }
-                else
-                {
-                // Flip it
-
-                /*  if(isset($matchArr[$colKey.'-'.$rowKey])){
-                       $nwArr = explode('-',$matchArr[$colKey.'-'.$rowKey]);
-                       $arr1[$i]['matches'][$j]['score']= $nwArr[1].'-'.$nwArr[0];
-                       $arr1[$i]['matches'][$j]['home']= $rowKey;
-                      $arr1[$i]['matches'][$j]['away']= $colKey;
-                  } */
-                  $arr1[$i]['matches'][$j]= 'X';
-                }
+              if(array_key_exists($rowKey.'-'.$colKey, $matchArr)) {
+                $arr1[$i]['matches'][$j]['score']= $matchArr[$rowKey.'-'.$colKey];
+                $arr1[$i]['matches'][$j]['date']= $matchDate[$rowKey.'-'.$colKey];
+                $arr1[$i]['matches'][$j]['home']= $rowKey;
+                $arr1[$i]['matches'][$j]['away']= $colKey;
+              } else {
+                $arr1[$i]['matches'][$j]= 'X';
               }
             }
-         }
-         // Match is Not Exist Yet
-         // TODO : Not needed
-         else
-         {
-
+          } else {
             $matchNotExist=true;
             $arr1[$i]['matches'][$j]['score'] = '';
-
-         }
+          }
         }
       }
 
       if($matchNotExist == true) {
         return array();
       }
-   //   print_r($arr1);exit;
       return $arr1;
 
     }

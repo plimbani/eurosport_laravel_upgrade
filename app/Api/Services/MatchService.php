@@ -749,7 +749,11 @@ class MatchService implements MatchContract
      
       // if($standingCount == 0){                      
         $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
-        // dd($groupFixture);
+          
+        $result = DB::table('match_standing')
+                            ->where('match_standing.tournament_id','=',$data['tournamentId'])
+                            ->where('match_standing.competition_id','=',$data['competitionId'])->delete();
+
           foreach ($groupFixture as $key => $value) {
            // echo "<pre>"; print_r($value); echo "</pre>";
             $this->calculateCupLeagueTable($value->id);
@@ -797,7 +801,7 @@ class MatchService implements MatchContract
           // changes for #247
           $competition = Competition::where('id', $singleFxture->competition_id)->first();          
           if($competition->competation_type == 'Elimination' && $competition->actual_competition_type == 'Round Robin') {
-              $this->generateStandingsForPlacingMatches($fix1, $cup_competition_id, $findTeams,'Elimination');
+              $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams,'Elimination');
           }   
 
           return $competitionId;
@@ -816,9 +820,6 @@ class MatchService implements MatchContract
             {
               if($competition->is_manual_override_standing == 1) {
                 $allCompetitionStandings = DB::table('match_standing')->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $competition->id)->get();
-
-                \Log::info("all competitions stadingds");
-                \Log::info($allCompetitionStandings);
 
                 foreach($allCompetitionStandings as $standing) {
                   $teamManualRanking = TeamManualRanking::where('tournament_id','=',$standing->tournament_id)->where('competition_id', '=', $standing->competition_id)->where('team_id', '=', $standing->team_id)->first();
@@ -848,7 +849,7 @@ class MatchService implements MatchContract
             
 
             // dd($result,$fix1['CupFixture']['tournamentId'],$cup_competition_id,$findTeams);                
-            $this->generateStandingsForPlacingMatches($fix1, $cup_competition_id, $findTeams, 'Round Robin');
+            $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams, 'Round Robin');
      
         return $cup_competition_id;
       }
@@ -1330,7 +1331,7 @@ class MatchService implements MatchContract
         return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];    
     }
 
-    public function generateStandingsForPlacingMatches($fix1, $cup_competition_id, $findTeams, $competitionType) {
+    public function generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams, $competitionType) {
       $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
                 ->where('competition_id','=',$cup_competition_id)
