@@ -423,9 +423,12 @@ class MatchRepository
                       ->orderBy('match_standing.goal_for','desc');
 
           $tempFixtures = DB::table('temp_fixtures')
+                          ->leftjoin('competitions', 'temp_fixtures.competition_id', '=', 'competitions.id')
                           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId'])
                           ->where('temp_fixtures.competition_id', $tournamentData['competitionId'])
-                          ->select(                            
+                          ->where('competitions.actual_competition_type', 'Round Robin')
+                          ->where('competitions.competation_round_no', 'Round 1')
+                          ->select(
                             DB::raw('CONCAT(temp_fixtures.home_team_placeholder_name, "-", temp_fixtures.away_team_placeholder_name) AS teamsPlaceHolderName'),
                             'temp_fixtures.home_team_placeholder_name as homeTeamPlaceholderName',
                             'temp_fixtures.away_team_placeholder_name as awayTeamPlaceholderName',
