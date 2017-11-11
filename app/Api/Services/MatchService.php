@@ -779,7 +779,7 @@ class MatchService implements MatchContract
         }
         if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
         {
-          return false;
+          return $singleFxture->competition_id;
         }
 
 
