@@ -41,9 +41,9 @@
 					<!-- </a>	 -->
 				</td>
 				<td class="text-center js-match-list">
-      		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid,index1)"><span v-else>{{match.homeScore}}</span> -
+      		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
       		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
-      		  @change="updateScore(match.fid,index1)"><span v-else>{{match.AwayScore}}</span>
+      		  @change="updateScore(match,index1)"><span v-else>{{match.AwayScore}}</span>
       	</td>
 				<td v-if="isHideLocation !=  false">
 					<a class="pull-left text-left">
@@ -218,7 +218,15 @@ export default {
 		changeTeamDetails() {
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
 		},
-		updateScore(matchId,index) {
+		updateScore(match,index) {
+      let matchId = match.fid;
+      if(match.Home_id == 0 || match.Away_id == 0) {
+        toastr.error('Both home and away teams should be there for score update.');
+        $('input[name="home_score['+matchId+']"]').val('');
+        $('input[name="away_score['+matchId+']"]').val('');
+        return false;
+      }
+
       $("body .js-loader").removeClass('d-none');
       this.index =  index
       let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
