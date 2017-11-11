@@ -90,7 +90,7 @@
                       <th  class="text-center">{{$lang.teams_name_category}}</th>
 
                       <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_group}}</th>
-                      <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_group}}</th>
+                      <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
                   </tr>
               </thead>
                 <tbody v-if="teams.length!=0">
