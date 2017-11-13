@@ -410,12 +410,15 @@
 
         });
         let teamData = {'teamdata': teamAssign1,'group' : grpMain ,'tournament_id':this.tournament_id, 'age_group':this.age_category.id }
+        $("body .js-loader").removeClass('d-none');
         if(error == false){
           Tournament.assignGroups(teamData).then(
           (response) => {
             toastr['success']('Groups are assigned successfully', 'Success');
+            $("body .js-loader").addClass('d-none');
           },
           (error) => {
+            $("body .js-loader").addClass('d-none');
           }
         )
         }
