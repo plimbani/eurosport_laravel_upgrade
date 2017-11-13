@@ -80,10 +80,10 @@
 
   <h6>{{otherData.DrawName}} matches</h6>
   <matchList :matchData1="matchData"></matchList>
-  <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
+  <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshManualStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
 </template>
-<script type="text/babel">
+<script>
 import MatchListing from './MatchListing.vue'
 import MatchList from './MatchList.vue'
 import LocationList from'./LocationList.vue'
@@ -220,11 +220,31 @@ export default {
         MatchList,LocationList,MatchListing,TeamStanding,ManualRanking
 	},
     methods: {
+        refreshManualStanding() {
+          let vm =this;
+          let refreshManual =new Promise((resolve, reject) => {
+            let ref = vm.refreshStanding(resolve) ;
+          });
+         
+          refreshManual.then( (msg) => {
+            let teamRes = _.map(vm.teamList, (o) => {
+              if(o.id != '') {
+                return o.id;
+              }
+            });
+             // return false;
+            
+            let sendData = {'teams': teamRes,'tournamentId':this.DrawName.tournament_id,'ageGroupId':this.DrawName.tournament_competation_template_id,'teamId':true} 
+           Tournament.checkTeamIntervalforMatches(sendData);
+          },
+          );
+          // this.refreshStanding();
+        },
         manualRankingModalOpen() {
           this.$root.$emit('getStandingDataForManualRanking', this.currentCompetationId)
           $('#manual_ranking_modal').modal('show');
         },
-        refreshStanding() {
+        refreshStanding(resolve='') {
           $("body .js-loader").removeClass('d-none');
           let compId = ''
           if(this.currentCompetationId!=undefined){
@@ -232,29 +252,28 @@ export default {
           }
           let tournamentData = {'tournamentId': this.$store.state.Tournament.tournamentId,'competitionId': compId}
           Tournament.refreshStanding(tournamentData).then(
-                (response)=> {
-                  if(response.data.status_code == 200){
-                    $("body .js-loader").addClass('d-none');
-                     this.teamStatus = false
-                      let vm = this
-                      setTimeout(function(){
-                        vm.teamStatus = true
-                      },200)
+            (response)=> {
+              if(response.data.status_code == 200){
+                $("body .js-loader").addClass('d-none');
+                 this.teamStatus = false
+                  let vm = this
+                  if(resolve!=''){
+                    resolve('done');
                   }
+                  setTimeout(function(){
+                    vm.teamStatus = true
                   
-                },
-                (error)=> {
+                  },200)
 
-                }
-
-               )
+              }
+            },
+           )
         },
         onChangeDrawDetails() {
-
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
           let Id = this.DrawName.id
           let Name = this.DrawName.name
-          let CompetationType = this.DrawName.competation_type
+          let CompetationType = this.DrawName.actual_competition_type
           this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
           // this.matchData = this.drawList
           this.refreshStanding()

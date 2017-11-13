@@ -6,6 +6,7 @@ use Laraspace\Api\Contracts\TeamContract;
 use Laraspace\Api\Repositories\TeamRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Club;
+use Laraspace\Models\TempFixture;
 
 
 
@@ -14,6 +15,7 @@ class TeamService implements TeamContract
     public function __construct(TeamRepository $teamRepoObj)
     {
         $this->teamRepoObj = $teamRepoObj;
+        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
     }
 
     /*
@@ -212,21 +214,54 @@ class TeamService implements TeamContract
 
     public function assignTeams($data)
     {
-        $this->UpdateMatches($data);
-        foreach ($data['data']['teamdata'] as $key => $value) {
-            $team_id = str_replace('sel_', '', $value['name']);
-            // $team_id = str_replace('sel_', '', $value['value']);
-            $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);
-            # code...
+
+      // $this->UpdateMatches($data);
+      $teamsList = $this->teamRepoObj->getAllUpdatedTeam($data);
+      
+      $tournamentId = $data['data']['tournament_id'];
+      $ageGroupId  = $data['data']['age_group'];
+      $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId' =>false);
+      $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
+
+      $teamData = $data['data']['teamdata'];
+
+      // for group assignment validation
+      $tempFixturesCount = TempFixture::where('tournament_id', $data['data']['tournament_id'])
+                                  ->where('age_group_id', $data['data']['age_group'])
+                                  ->where(function($query){
+                                    $query->orWhereNotNull('hometeam_score')
+                                          ->orWhereNotNull('awayteam_score');
+                                  })->get()->count();
+
+      if($tempFixturesCount > 0) {
+        $this->teamRepoObj->updateMatches($teamsList,$data['data']);
+        $tournamentCompetationTemplatesTotalTeamsCount = TournamentCompetationTemplates::where('id', $data['data']['age_group'])->first();
+
+        $finalTeamdata = [];
+        foreach ($teamData as $key => $team) {
+          if($team['value'] != '') {
+            $finalTeamdata[] = $team; 
+          }
+        } 
+
+        if(count($finalTeamdata) != $tournamentCompetationTemplatesTotalTeamsCount->total_teams) {
+          return ['status_code' => '422', 'message' => 'You need to assign all teams.'];
         }
-        
-        // return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
+      }
+
+      foreach ($teamData as $key => $value) {
+          $team_id = str_replace('sel_', '', $value['name']);
+          $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);
+          # code...
+      }
+      return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
 
-    private function UpdateMatches($data) {
-      $changedTeams = $this->teamRepoObj->getAllUpdatedTeam($data);
-      $this->teamRepoObj->updateMatches($changedTeams,$data['data']);
-    }
+    // private function UpdateMatches($data) {
+    //   $changedTeams = $this->teamRepoObj->getAllUpdatedTeam($data);
+    //   return $this->teamRepoObj->updateMatches($changedTeams,$data['data']);
+
+    // }
     
     public function getAllTeamsGroup($data)
     {

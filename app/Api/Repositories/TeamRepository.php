@@ -150,7 +150,7 @@ class TeamRepository
 
     public function getAllUpdatedTeam($teamdata)
     {
-      // dd( $teamdata['data']);
+
       $tournamentId = $teamdata['data']['tournament_id'];
       $ageGroupId  = $teamdata['data']['age_group'];
       
@@ -181,12 +181,11 @@ class TeamRepository
         $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$matchData['tournament_id'])
                 ->where('age_group_id','=',$matchData['age_group'])
-                 ->where('is_scheduled',1)
+                ->where('is_scheduled',1)
                 ->where(function ($query) use ($matchData,$teams)  {
                   // if($matchData['teamId']){
                     $query ->whereIn('away_team',$teams)
                          ->orWhereIn('home_team',$teams);
-                 
                 })  
                 ->update([
                     "temp_fixtures.home_team_name" => DB::raw("temp_fixtures.home_team_placeholder_name"),
@@ -198,23 +197,15 @@ class TeamRepository
 
                   ]);
                 // dd($matches);
-      }
+       }
     }
+
     public function assignGroup($team_id,$groupName,$data='')
     {
       $team = Team::find($team_id);
       $gname = explode('-',$groupName);
       $temData = Team::where('id',$team_id)->get();
       $ageGroupId = $temData[0]['age_group_id'];
-
-      // for group assignment validation
-      // $tempFixtures = TempFixture::where('tournament_id', $data['tournament_id'])
-      //                             ->where('age_group_id', $ageGroupId)
-      //                             ->where(function($query){
-      //                               $query->orWhereNotNull('hometeam_score')
-      //                                     ->orWhereNotNull('awayteam_score');
-      //                             })->get()->count();
-
 
       $compData = Competition::leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
         ->where('competitions.tournament_id','=',$data['tournament_id'])
@@ -229,7 +220,7 @@ class TeamRepository
         $asGroup = preg_replace('/[0-9]+/', '', $groupName);
         $cc1 = $ddata['group_name'].'-'.$ddata['category_age'].'-'.$asGroup;
         if($ddata['compName'] == $cc1) {
-        $competId = $ddata['CompId'];
+          $competId = $ddata['CompId'];
           break;
         }
       }
@@ -282,7 +273,7 @@ class TeamRepository
         ->where('competition_id',$competId)
         ->update([
             'away_team_name' => $team->name,
-            'away_team' => $team_id
+            'away_team' => $team_id,
         ]);
       }
     }

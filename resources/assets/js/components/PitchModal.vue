@@ -15,7 +15,7 @@
           <div class="modal-body" id="pitch_model_body">
             <div class="form-group row mb-0">
               <label class="col-sm-3">{{$lang.pitch_modal_match_number}}</label><p class="col-sm-9"> {{matchFixture.title}}</p>
-              <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{matchDetail.home_team_name == '@^^@' ? '' : matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name == '@^^@' ? '' : matchDetail.away_team_name}}) </p>
+              <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{ (matchDetail.home_team == 0 && matchDetail.home_team_name == '@^^@') ? 'Group-'+matchDetail.home_team_placeholder_name : matchDetail.home_team_name }}) and Team 2 ({{ (matchDetail.away_team == 0 && matchDetail.away_team_name == '@^^@') ? 'Group-'+matchDetail.away_team_placeholder_name : matchDetail.away_team_name }}) </p>
               <label class="col-sm-3">{{$lang.pitch_modal_date}}</label><p class="col-sm-9">{{matchDetail.matchTime}}</p>
               <label class="col-sm-3">{{$lang.pitch_modal_pitch_details}}</label><p class="col-sm-9"
               v-if="matchDetail.pitch && matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}}</p>
@@ -55,7 +55,7 @@
                   Result
                 </label>
                 <div class="col-sm-6 align-self-center">
-                  Team 1 ({{matchDetail.home_team_name == '@^^@' ? '' : matchDetail.home_team_name}})
+                  Team 1 ({{ (matchDetail.home_team == 0 && matchDetail.home_team_name == '@^^@') ? 'Group-'+matchDetail.home_team_placeholder_name : matchDetail.home_team_name}})
                 </div>
                 <div class="col-sm-3 align-self-center">
                   <input type="number" min="0" name="home_team_score"
@@ -66,7 +66,7 @@
                   &nbsp;
                 </label>
                 <div class="col-sm-6 align-self-center">
-                  Team 2 ({{matchDetail.away_team_name == '@^^@' ? '' : matchDetail.away_team_name}})
+                  Team 2 ({{ (matchDetail.away_team == 0 && matchDetail.away_team_name == '@^^@') ? 'Group-'+matchDetail.away_team_placeholder_name : matchDetail.away_team_name }})
                 </div>
                 <div class="col-sm-3 align-self-center">
                   <input type="number" min="0" name="away_team_score"
@@ -102,8 +102,8 @@
                    v-validate="'required'" :class="{'is-danger': errors.has('match_winner') }"
                    id="match_winner" class="form-control ls-select2">
                       <option value="">Please select</option>
-                      <option :value="matchDetail.home_team">Team 1 ({{matchDetail.home_team_name}})</option>
-                      <option :value="matchDetail.away_team">Team 2 ({{matchDetail.away_team_name}})</option>
+                      <option :value="matchDetail.home_team">Team 1 ({{ (matchDetail.home_team == 0 && matchDetail.home_team_name == '@^^@') ? 'Group-'+matchDetail.home_team_placeholder_name : matchDetail.home_team_name }})</option>
+                      <option :value="matchDetail.away_team">Team 2 ({{ (matchDetail.away_team == 0 && matchDetail.away_team_name == '@^^@') ? 'Group-'+matchDetail.away_team_placeholder_name : matchDetail.away_team_name }})</option>
                   </select>
                   <span class="help is-danger" v-show="errors.has('match_winner')">This field is required</span>
                 </div>
@@ -226,6 +226,11 @@ var moment = require('moment');
     },
     saveFixtureDetail(){
 
+        if(($('#home_team_score').val() != '' || $('#away_team_score').val() != '') && (this.matchDetail.home_team == 0 || this.matchDetail.away_team == 0)) {
+          toastr.error('Both home and away teams should be there for score update.');
+          return false;
+        }
+
         if(this.match_result == true) {
 
           this.$validator.validateAll().then(() => {
@@ -308,6 +313,9 @@ var moment = require('moment');
           
           this.$store.dispatch('setMatches');
           this.$store.dispatch('SetScheduledMatches');
+          this.$root.$emit('reloadAllEvents')
+          
+
       })
     },
     matchPrint(ReportData) {
