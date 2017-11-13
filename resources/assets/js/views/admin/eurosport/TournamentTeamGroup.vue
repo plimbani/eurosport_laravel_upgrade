@@ -415,7 +415,7 @@
           Tournament.assignGroups(teamData).then(
           (response) => {
             if(response.data.status_code == '200') {
-              toastr['success']('Groups are assigned successfully', 'Success');
+              toastr['success']('Teams are allocated successfully', 'Success');
             } else {
               toastr.error(response.data.message, 'Error', {timeOut: 2000});
             }
