@@ -98,9 +98,8 @@ class TeamController extends BaseController
             return ['bigFileSize' =>  false];
      
     }
-    public function assignTeam(Request $request) {
-        // dd($request->all());
-         $this->teamObj->assignTeams($request->all());
+    public function assignTeam(Request $request) {        
+        return $this->teamObj->assignTeams($request->all());
     }
     public function getAllTeamsGroup(Request $request) {
         $this->teamObj->getAllTeamsGroup($request->all());

@@ -168,9 +168,16 @@ class AgeGroupService implements AgeGroupContract
         for($i=0;$i<$totalRound;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
-            foreach($rounds as $key=>$round) {              
+            foreach($rounds as $key=>$round) {
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
+
+                if(isset($round->groups->actual_group_name)) {
+                  $group_name[$val]['actual_group_name']=$round->groups->actual_group_name;
+                } else {
+                  $group_name[$val]['actual_group_name']=$round->groups->group_name;
+                }
+                
                 $group_name[$val]['team_count']=$round->group_count;
                 $group_name[$val]['match_type']=$round->name;     
 
@@ -185,6 +192,15 @@ class AgeGroupService implements AgeGroupContract
                 foreach($round->groups->match as $key1=>$matches) {
                     $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key1;
                     $fixture_array[$newVal] = $matches->match_number;
+                }
+
+                if(isset($round->dependent_groups)) {
+                  foreach($round->dependent_groups as $key=>$group) {
+                    foreach($group->groups->match as $key1=>$matches) {
+                      $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key.$key1;
+                      $fixture_array[$newVal] = $matches->match_number;
+                    }
+                  }
                 }
             }
         }
@@ -205,7 +221,7 @@ class AgeGroupService implements AgeGroupContract
 
         // $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
         $disp_format_name = $json_data->tournament_teams .' teams: '.
-        $json_data->competition_group_round.' - '.$json_data->competition_round;
+        $json_data->competition_group_round.($json_data->competition_round != '' ? ' - '.$json_data->competition_round : '');
 
         $total_matches = $json_data->total_matches;
 

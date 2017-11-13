@@ -24,7 +24,9 @@
 				</td>
 				<td align="right">
 					<!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
-						<span class="text-center">{{match.HomeTeam}}</span>
+						<!-- <span class="text-center">{{match.HomeTeam}}</span> -->
+            <span class="text-center" v-if="(match.Home_id == '0' && match.homeTeamName == '@^^@')">{{ getHoldingName(match.competition_actual_name, match.homePlaceholder) }}</span>
+            <span class="text-center" v-else>{{ match.HomeTeam }}</span>
 						<!--<img :src="match.HomeFlagLogo" width="20">-->
               		 <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
 					<!-- </a> -->
@@ -33,13 +35,15 @@
 					<!-- <a   href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)"> -->
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
              		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
-					<span class="text-center">{{match.AwayTeam}}</span>
+					<!-- <span class="text-center">{{ match.AwayTeam}}</span> -->
+          <span class="text-center" v-if="(match.Away_id == '0' && match.awayTeamName == '@^^@')">{{ getHoldingName(match.competition_actual_name, match.awayPlaceholder) }}</span>
+          <span class="text-center" v-else>{{ match.AwayTeam }}</span>
 					<!-- </a>	 -->
 				</td>
 				<td class="text-center js-match-list">
-      		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid,index1)"><span v-else>{{match.homeScore}}</span> -
+      		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
       		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
-      		  @change="updateScore(match.fid,index1)"><span v-else>{{match.AwayScore}}</span>
+      		  @change="updateScore(match,index1)"><span v-else>{{match.AwayScore}}</span>
       	</td>
 				<td v-if="isHideLocation !=  false">
 					<a class="pull-left text-left">
@@ -65,7 +69,7 @@ import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
 
 export default {
-	props: ['matchData1'],
+	props: ['matchData1', 'DrawName'],
   components: {
             PitchModal,
             DeleteModal1,
@@ -214,14 +218,20 @@ export default {
 		changeTeamDetails() {
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
 		},
-		updateScore(matchId,index) {
+		updateScore(match,index) {
+      let matchId = match.fid;
+      if(match.Home_id == 0 || match.Away_id == 0) {
+        toastr.error('Both home and away teams should be there for score update.');
+        $('input[name="home_score['+matchId+']"]').val('');
+        $('input[name="away_score['+matchId+']"]').val('');
+        return false;
+      }
+
       $("body .js-loader").removeClass('d-none');
       this.index =  index
       let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
         Tournament.updateScore(matchData).then(
             (response) => {
-              $("body .js-loader").addClass('d-none');
-
               let competationId =response.data.data.competationId
 
               toastr.success('Score has been updated successfully', 'Score Updated', {timeOut: 5000}
@@ -230,12 +240,26 @@ export default {
               let tournamentId  =  this.$store.state.Tournament.tournamentId
               // Now here we have to call the SetScore method
               this.setScore($('input[name="home_score['+matchId+']"]').val(),$('input[name="away_score['+matchId+']"]').val(),competationId)
+
+              let Id = this.DrawName.id
+              let Name = this.DrawName.name
+              let CompetationType = this.DrawName.actual_competition_type
+
+              $("body .js-loader").addClass('d-none');
+              
+              this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
               //this.$root.$emit('setDrawTable',competationId)
               //this.$root.$emit('setStandingData',competationId)
              //this.$parent.$options.methods.getStandingData(tournamentId,6)
         })
     },
-
+    getHoldingName(competitionActualName, placeholder) {
+      if(competitionActualName.indexOf('Group') !== -1){
+        return 'Group-' + placeholder;
+      } else if(competitionActualName.indexOf('Pos') !== -1){
+        return 'Pos-' + placeholder;
+      }
+    }
 	},
 
 }
