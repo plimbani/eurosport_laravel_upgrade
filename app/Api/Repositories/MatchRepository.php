@@ -814,8 +814,8 @@ class MatchRepository
                  })
                 ->get();
                 
-      if($matchResultCount->count() >0 && $allowSchedulingForcefully == false){
-        if( (strpos($teamData['match_number'],"RR1") != false) || (strpos($teamData['match_number'],"PM1" ) != false)) {
+      if($matchResultCount->count() >0){
+        if( $allowSchedulingForcefully == false && ((strpos($teamData['match_number'],"RR1") != false) || (strpos($teamData['match_number'],"PM1" ) != false)) ) {
           return -1;
         }
 
