@@ -49,9 +49,9 @@
               <div class="m_card hoverable h-100 m-0">
                 <div class="card-content">
                    <span class="card-title text-primary"><strong>
-                   {{group['groups']['group_name'] }}</strong></span>
-                    <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group['groups']['group_name'],n)" ></span>
-                    {{groupName(group['groups']['group_name'],n) | truncate(20)}}</strong></p>
+                   {{ getGroupName(group) }}</strong></span>
+                    <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group,n)" ></span>
+                    {{groupName(group,n) | truncate(20)}}</strong></p>
                 </div>
               </div>
             </div>
@@ -89,8 +89,8 @@
                       <th class="text-center">{{$lang.teams_age_category}}</th>
                       <th  class="text-center">{{$lang.teams_name_category}}</th>
 
-                      <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_group}}</th>
-                      <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_group}}</th>
+                      <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
+                      <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
                   </tr>
               </thead>
                 <tbody v-if="teams.length!=0">
@@ -120,13 +120,13 @@
                       <td width="130px" v-if="age_category != ''">
                         <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="" class="blnk">{{seleTeam}}</option>
-                          <optgroup :label="group.groups.group_name"
+                          <optgroup :label="getGroupName(group)"
                           v-for="group in grps">
-                            <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)"  :value="group['groups']['group_name']+n" >{{group['groups']['group_name']}}{{n}} </option>
+                            <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)" :value="getGroupValueInSelection(group, n)" >{{ getGroupDisplayNameInSelection(group, n) }} </option>
                           </optgroup>
                         </select>
                       </td>
-                      <td width="130px" v-else>{{team.group_name}}</td>
+                      <td width="130px" v-else>{{ getModifiedDisplayGroupName(team.group_name) }}</td>
                     </tr>
 
                 </tbody>
@@ -166,8 +166,8 @@
         'selected': null,
         'value': '',
         'options': [],
-        'grpsView': '',
-        'grps': '',
+        'grpsView': [],
+        'grps': [],
         'fileUpload' : '',
         'availableGroupsTeam': [],
         'selectedGroupsTeam': [],
@@ -246,9 +246,17 @@
     // },
 
     methods: {
-      groupFlag(grpName,no){
+      groupFlag(group,no){
         let vm =this
-        let fullName = grpName+no
+        
+        let fullName = null
+        if(typeof group['groups']['actual_group_name'] != "undefined") {
+          let actualGroupName = group['groups']['actual_group_name'];
+          fullName = actualGroupName + '-' + no;
+        } else {
+          fullName = group['groups']['group_name']+no;
+        }
+
         let displayName = fullName
          _.find(this.teams, function(team) {
           if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
@@ -257,9 +265,16 @@
         });
         return displayName
       },
-       groupName(grpName,no){
+       groupName(group,no){
         let vm =this
-        let fullName = grpName+no
+        let fullName = null
+        if(typeof group['groups']['actual_group_name'] != "undefined") {
+          let actualGroupName = group['groups']['actual_group_name'].split('-');
+          fullName = actualGroupName[0] + '-' + no;
+        } else {
+          fullName = group['groups']['group_name']+no;
+        }
+        
         let displayName = fullName
          _.find(this.teams, function(team) {
           if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
@@ -310,6 +325,10 @@
       },
       beforeChange(gid) {
         let gdata = $('#sel_'+gid).find('option:selected').val()
+        // if(gdata != '' && gdata.indexOf('Pos') !== -1) {
+        //   let name = gdata.split('-');
+        //   gdata = name[0] + '-' + name[2]
+        // }
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
@@ -391,12 +410,19 @@
 
         });
         let teamData = {'teamdata': teamAssign1,'group' : grpMain ,'tournament_id':this.tournament_id, 'age_group':this.age_category.id }
+        $("body .js-loader").removeClass('d-none');
         if(error == false){
           Tournament.assignGroups(teamData).then(
           (response) => {
-            toastr['success']('Groups are assigned successfully', 'Success');
+            if(response.data.status_code == '200') {
+              toastr['success']('Groups are assigned successfully', 'Success');
+            } else {
+              toastr.error(response.data.message, 'Error', {timeOut: 2000});
+            }
+            $("body .js-loader").addClass('d-none');
           },
           (error) => {
+            $("body .js-loader").addClass('d-none');
           }
         )
         }
@@ -431,7 +457,7 @@
         if(type == 'view'){
           if(this.age_category == ''){
             this.teams = [];
-            this.grpsView = ''
+            this.grpsView = []
             // return false;
           }
           tournamentTemplateId = this.age_category.tournament_template_id
@@ -453,14 +479,31 @@
               // Now here we put data over there as per group
                let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
                let availGroupTeam = []
+               let vm = this;
                // if(type == 'filter'){
-                  this.grps = jsonCompetationFormatDataFirstRound
-                  this.grpsView = jsonCompetationFormatDataFirstRound
-                  _.forEach(this.grps, function(group) {
-                    for(var i = 1; i <= group.group_count; i++ ){
-                      // let gname = group.groups.group_name+i
-                      availGroupTeam.push(group.groups.group_name+i)
+                  this.grps = []
+                  this.grpsView = []
+                  _.forEach(jsonCompetationFormatDataFirstRound, function(group) {
+                    let splitGroupName = group.name.split('-');
+                    let competitionType = splitGroupName[0];
+
+                    if(competitionType == 'PM' && typeof group.consider_in_team_assignment == "undefined") {
+                      return;
                     }
+
+                    let groupName = null;
+                    if(competitionType == 'PM' && group.consider_in_team_assignment == 1) {
+                      groupName = group.groups.actual_group_name + '-';
+                    } else {
+                      groupName = group.groups.group_name;
+                    }
+                    
+                    for(var i = 1; i <= group.group_count; i++ ){
+                      availGroupTeam.push(groupName+i)
+                    }
+
+                    vm.grpsView.push(group);
+                    vm.grps.push(group);
 
                   });
                // }else{
@@ -552,6 +595,38 @@
           (error) => {
           }
         )
+      },
+      getGroupName(group) {
+        let splitGroupName = group['name'].split('-');
+        let competitionType = splitGroupName[0];
+        if( competitionType == 'PM' ) {
+          return group['groups']['group_name'].replace('Group-', '')
+        }
+        return group['groups']['group_name']
+      },
+      getGroupDisplayNameInSelection(group, n) {
+        let splitGroupName = group['name'].split('-');
+        let competitionType = splitGroupName[0];
+        if( competitionType == 'PM') {
+          let actualGroupName = group['groups']['actual_group_name'].split('-');
+          return actualGroupName[0] + '-' + n
+        }
+        return group['groups']['group_name'] + n
+      },
+      getGroupValueInSelection(group, n) {
+        let splitGroupName = group['name'].split('-');
+        let competitionType = splitGroupName[0];
+        if( competitionType == 'PM') {
+          return group['groups']['actual_group_name'] + '-' + n
+        }
+        return group['groups']['group_name'] + n
+      },
+      getModifiedDisplayGroupName(groupName) {
+        if(groupName != null && groupName.indexOf('Pos') !== -1) {
+          let name = groupName.split('-');
+          return name[0] + '-' + name[2]
+        }
+        return groupName;
       },
     }
   }

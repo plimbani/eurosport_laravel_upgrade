@@ -20,7 +20,11 @@ export default {
 	data() {
 		return {
 			drawsData:[],
-			matchData:[], otherData:[],
+			matchData:[], otherData:{
+				DrawName: null,
+				DrawId: null,
+				DrawType: null,
+			},
 			drawsList: [],draw:''
 		}
 	},
@@ -83,7 +87,6 @@ export default {
 
 		},
 		getDrawDetails(drawId, drawName,CompetationType='') {
-
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
 			'competitionId':drawId,'is_scheduled':1}

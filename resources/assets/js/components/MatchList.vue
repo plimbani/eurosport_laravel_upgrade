@@ -11,8 +11,9 @@
 			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
       <th class="text-center"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
 		</thead>
-		<tbody> 
-			<tr v-for="(match,index1) in matchData">
+
+		<tbody>
+			<tr v-for="(match,index1) in paginated('matchlist')">
 				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
 
@@ -24,7 +25,9 @@
 				</td>
 				<td align="right">
 					<!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
-						<span class="text-center">{{match.HomeTeam}}</span>
+						<!-- <span class="text-center">{{match.HomeTeam}}</span> -->
+            <span class="text-center" v-if="(match.Home_id == '0' && match.homeTeamName == '@^^@')">{{ getHoldingName(match.competition_actual_name, match.homePlaceholder) }}</span>
+            <span class="text-center" v-else>{{ match.HomeTeam }}</span>
 						<!--<img :src="match.HomeFlagLogo" width="20">-->
               		 <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
 					<!-- </a> -->
@@ -33,13 +36,15 @@
 					<!-- <a   href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)"> -->
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
              		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
-					<span class="text-center">{{match.AwayTeam}}</span>
+					<!-- <span class="text-center">{{ match.AwayTeam}}</span> -->
+          <span class="text-center" v-if="(match.Away_id == '0' && match.awayTeamName == '@^^@')">{{ getHoldingName(match.competition_actual_name, match.awayPlaceholder) }}</span>
+          <span class="text-center" v-else>{{ match.AwayTeam }}</span>
 					<!-- </a>	 -->
 				</td>
 				<td class="text-center js-match-list">
-      		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match.fid,index1)"><span v-else>{{match.homeScore}}</span> -
+      		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
       		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
-      		  @change="updateScore(match.fid,index1)"><span v-else>{{match.AwayScore}}</span>
+      		  @change="updateScore(match,index1)"><span v-else>{{match.AwayScore}}</span>
       	</td>
 				<td v-if="isHideLocation !=  false">
 					<a class="pull-left text-left">
@@ -53,6 +58,27 @@
 			</tr>
 		</tbody>
 	</table>
+    <paginate name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
+    </paginate>
+    <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" class="row d-flex flex-row align-items-center">
+      <div class="col page-dropdown">
+        <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
+          <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+              {{ recordCount }}
+          </option>
+        </select>
+      </div>
+      <div class="col">
+        <span v-if="$refs.paginator">
+          Viewing {{ $refs.paginator.pageItemsCount }} results
+        </span>
+      </div>
+      <div class="col-md-6">
+        <paginate-links for="matchlist"
+          :show-step-links="true" :limit="2" :async="true" class="mb-0">
+        </paginate-links>
+      </div>
+    </div>
   <!--<span v-else>No information available</span>-->
   <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal" :section="section"></pitch-modal>
 
@@ -63,9 +89,10 @@
 import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
+import VuePaginate from 'vue-paginate'
 
 export default {
-	props: ['matchData1'],
+	props: ['matchData1', 'DrawName'],
   components: {
             PitchModal,
             DeleteModal1,
@@ -77,7 +104,11 @@ export default {
       'matchFixture': {},
       'section': 'scheduleResult',
       'currentMatch': {},
-      'index':''
+      'index':'',
+      paginate: ['matchlist'],
+      shown: false,
+      no_of_records: 20,
+      recordCounts: [5,10,20,50,100]
 		}
 	},
 
@@ -150,7 +181,6 @@ export default {
       // here we close the compoent
       this.setPitchModal = 0
     });
-
 	},
 	  created: function() {
       this.$root.$on('reloadMatchList', this.setScore);
@@ -208,20 +238,26 @@ export default {
 			let Id = competition.competitionId
 			let Name = competition.group_name+'-'+competition.competation_name
       let CompetationType = competition.round
-			this.$root.$emit('changeComp', Id, Name,CompetationType);
+			this.$root.$emit('changeComp', Id, Name,CompetationType);  
 			//this.$emit('changeComp',Id);
 		},
 		changeTeamDetails() {
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
 		},
-		updateScore(matchId,index) {
+		updateScore(match,index) {
+      let matchId = match.fid;
+      if(match.Home_id == 0 || match.Away_id == 0) {
+        toastr.error('Both home and away teams should be there for score update.');
+        $('input[name="home_score['+matchId+']"]').val('');
+        $('input[name="away_score['+matchId+']"]').val('');
+        return false;
+      }
+
       $("body .js-loader").removeClass('d-none');
       this.index =  index
       let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
         Tournament.updateScore(matchData).then(
             (response) => {
-              $("body .js-loader").addClass('d-none');
-
               let competationId =response.data.data.competationId
 
               toastr.success('Score has been updated successfully', 'Score Updated', {timeOut: 5000}
@@ -230,12 +266,26 @@ export default {
               let tournamentId  =  this.$store.state.Tournament.tournamentId
               // Now here we have to call the SetScore method
               this.setScore($('input[name="home_score['+matchId+']"]').val(),$('input[name="away_score['+matchId+']"]').val(),competationId)
+
+              let Id = this.DrawName.id
+              let Name = this.DrawName.name
+              let CompetationType = this.DrawName.actual_competition_type
+
+              $("body .js-loader").addClass('d-none');
+              
+              this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
               //this.$root.$emit('setDrawTable',competationId)
               //this.$root.$emit('setStandingData',competationId)
              //this.$parent.$options.methods.getStandingData(tournamentId,6)
         })
     },
-
+    getHoldingName(competitionActualName, placeholder) {
+      if(competitionActualName.indexOf('Group') !== -1){
+        return 'Group-' + placeholder;
+      } else if(competitionActualName.indexOf('Pos') !== -1){
+        return 'Pos-' + placeholder;
+      }
+    }
 	},
 
 }

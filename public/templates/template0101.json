@@ -85,8 +85,10 @@
 				"name": "PM-1*16",
 				"total_match": 8,
                 "group_count": 16,
+                "consider_in_team_assignment": 1,
 				"groups": {
 					"group_name": "Group-PM1",
+					"actual_group_name": "Pos-A",
 					"match": [{
 						"in_between": "1-2",
 						"match_number": "CAT.PM1.G1.1-2"
@@ -112,71 +114,72 @@
 						"in_between": "15-16",
 						"match_number": "CAT.PM1.G8.15-16"
 					}]
-				}
-			},{
-				"name": "PM-1*16",
-				"total_match": 8,
-        		"group_count": 16,
-				"groups": {
-					"group_name": "Group-PM2",
-					"match": [{
-						"in_between": "CAT.PM1.G1WR-CAT.PM1.G2WR",
-						"match_number": "CAT.PM1.G9.1_2_WR-3_4_WR"
-					}, {
-						"in_between": "CAT.PM1.G3WR-CAT.PM1.G4WR",
-						"match_number": "CAT.PM1.G10.5_6_WR-7_8_WR"
-					}, {
-						"in_between": "CAT.PM1.G1LR-CAT.PM1.G2LR",
-						"match_number": "CAT.PM1.G11.1_2_LR-3_4_LR"
-					}, {
-						"in_between": "CAT.PM1.G3LR-CAT.PM1.G4LR",
-						"match_number": "CAT.PM1.G12.5_6_LR-7_8_LR"
-					}, {
-						"in_between": "CAT.PM1.G5WR-CAT.PM1.G6WR",
-						"match_number": "CAT.PM1.G13.9_10_WR-11_12_WR"
-					}, {
-						"in_between": "CAT.PM1.G7WR-CAT.PM1.G8WR",
-						"match_number": "CAT.PM1.G14.13_14_WR-15_16_WR"
-					}, {
-						"in_between": "CAT.PM1.G5LR-CAT.PM1.G6LR",
-						"match_number": "CAT.PM1.G15.9_10_LR-11_12_LR"
-					}, {
-						"in_between": "CAT.PM1.G7LR-CAT.PM1.G8LR",
-						"match_number": "CAT.PM1.G16.13_14_LR-15_16_LR"
-					}]
-				}
-			},{
-				"name": "PM-1*16",
-				"total_match": 8,
-        		"group_count": 16,
-				"groups": {
-					"group_name": "Group-PM3",
-					"match": [{
-						"in_between": "CAT.PM1.G9WR-CAT.PM1.G10WR",
-						"match_number": "CAT.PM1.G17.(PM1.G9.WR)-(PM1.G10.WR)"
-					}, {
-						"in_between": "CAT.PM1.G9LR-CAT.PM1.G10LR",
-						"match_number": "CAT.PM1.G18.(PM1.G9.LR)-(PM1.G10.LR)"
-					}, {
-						"in_between": "CAT.PM1.G11WR-CAT.PM1.G12WR",
-						"match_number": "CAT.PM1.G19.(PM1.G11.WR)-(PM1.G12.WR)"
-					}, {
-						"in_between": "CAT.PM1.G11LR-CAT.PM1.G12LR",
-						"match_number": "CAT.PM1.G20.(PM1.G11.LR)-(PM1.G12.LR)"
-					}, {
-						"in_between": "CAT.PM1.G13WR-CAT.PM1.G14WR",
-						"match_number": "CAT.PM1.G21.(PM1.G13.WR)-(PM1.G14.WR)"
-					}, {
-						"in_between": "CAT.PM1.G13LR-CAT.PM1.G14LR",
-						"match_number": "CAT.PM1.G22.(PM1.G13.LR)-(PM1.G14.LR)"
-					}, {
-						"in_between": "CAT.PM1.G15WR-CAT.PM1.G16WR",
-						"match_number": "CAT.PM1.G23.(PM1.G15.WR)-(PM1.G16.WR)"
-					}, {
-						"in_between": "CAT.PM1.G15LR-CAT.PM1.G16LR",
-						"match_number": "CAT.PM1.G24.(PM1.G15.LR)-(PM1.G16.LR)"
-					}]
-				}
+				},
+				"dependent_groups": [{
+					"name": "PM-1*16",
+					"total_match": 8,
+	        		"group_count": 16,
+					"groups": {
+						"group_name": "Group-PM1",
+						"match": [{
+							"in_between": "CAT.PM1.G1WR-CAT.PM1.G2WR",
+							"match_number": "CAT.PM1.G9.1_2_WR-3_4_WR"
+						}, {
+							"in_between": "CAT.PM1.G3WR-CAT.PM1.G4WR",
+							"match_number": "CAT.PM1.G10.5_6_WR-7_8_WR"
+						}, {
+							"in_between": "CAT.PM1.G1LR-CAT.PM1.G2LR",
+							"match_number": "CAT.PM1.G11.1_2_LR-3_4_LR"
+						}, {
+							"in_between": "CAT.PM1.G3LR-CAT.PM1.G4LR",
+							"match_number": "CAT.PM1.G12.5_6_LR-7_8_LR"
+						}, {
+							"in_between": "CAT.PM1.G5WR-CAT.PM1.G6WR",
+							"match_number": "CAT.PM1.G13.9_10_WR-11_12_WR"
+						}, {
+							"in_between": "CAT.PM1.G7WR-CAT.PM1.G8WR",
+							"match_number": "CAT.PM1.G14.13_14_WR-15_16_WR"
+						}, {
+							"in_between": "CAT.PM1.G5LR-CAT.PM1.G6LR",
+							"match_number": "CAT.PM1.G15.9_10_LR-11_12_LR"
+						}, {
+							"in_between": "CAT.PM1.G7LR-CAT.PM1.G8LR",
+							"match_number": "CAT.PM1.G16.13_14_LR-15_16_LR"
+						}]
+					}
+				},{
+					"name": "PM-1*16",
+					"total_match": 8,
+	        		"group_count": 16,
+					"groups": {
+						"group_name": "Group-PM1",
+						"match": [{
+							"in_between": "CAT.PM1.G9WR-CAT.PM1.G10WR",
+							"match_number": "CAT.PM1.G17.(PM1_G9_WR)-(PM1_G10_WR)"
+						}, {
+							"in_between": "CAT.PM1.G9LR-CAT.PM1.G10LR",
+							"match_number": "CAT.PM1.G18.(PM1_G9_LR)-(PM1_G10_LR)"
+						}, {
+							"in_between": "CAT.PM1.G11WR-CAT.PM1.G12WR",
+							"match_number": "CAT.PM1.G19.(PM1_G11_WR)-(PM1_G12_WR)"
+						}, {
+							"in_between": "CAT.PM1.G11LR-CAT.PM1.G12LR",
+							"match_number": "CAT.PM1.G20.(PM1_G11_LR)-(PM1_G12_LR)"
+						}, {
+							"in_between": "CAT.PM1.G13WR-CAT.PM1.G14WR",
+							"match_number": "CAT.PM1.G21.(PM1_G13_WR)-(PM1_G14_WR)"
+						}, {
+							"in_between": "CAT.PM1.G13LR-CAT.PM1.G14LR",
+							"match_number": "CAT.PM1.G22.(PM1_G13_LR)-(PM1_G14_LR)"
+						}, {
+							"in_between": "CAT.PM1.G15WR-CAT.PM1.G16WR",
+							"match_number": "CAT.PM1.G23.(PM1_G15_WR)-(PM1_G16_WR)"
+						}, {
+							"in_between": "CAT.PM1.G15LR-CAT.PM1.G16LR",
+							"match_number": "CAT.PM1.G24.(PM1_G15_LR)-(PM1_G16_LR)"
+						}]
+					}
+				}]
 			},{
 				"name": "RR-1*4",
 				"total_match": 6,
@@ -230,7 +233,7 @@
 					"total_match": 3,
 	        		"group_count": 6,
 					"groups": {
-						"group_name": "Group-PM4",
+						"group_name": "Group-PM2",
 						"match": [{
 							"in_between": "1A-1B",
 							"match_number": "CAT.PM2.G1.1A-1B"
@@ -253,16 +256,16 @@
 					"total_match": 3,
 	        		"group_count": 3,
 					"groups": {
-						"group_name": "Group-PM5",
+						"group_name": "Group-PM3",
 						"match": [{
 							"in_between": "CAT.PM1.G17WR-CAT.PM1.G21WR",
-							"match_number": "CAT.RR3.01.(PM1.G17.WR)-(PM1.G21.WR)"
+							"match_number": "CAT.RR3.01.(PM1_G17_WR)-(PM1_G21_WR)"
 						},{
 							"in_between": "CAT.PM1.G17WR-CAT.PM2.G1WR",
-							"match_number": "CAT.RR3.02.(PM1.G17.WR)-(PM2.G1.WR)"
+							"match_number": "CAT.RR3.02.(PM1_G17_WR)-1A_1B_WR"
 						},{
 							"in_between": "CAT.PM1.G21WR-CAT.PM2.G1WR",
-							"match_number": "CAT.RR3.03.(PM1.G21.WR)-(PM2.G1.WR)"
+							"match_number": "CAT.RR3.03.(PM1_G21_WR)-1A_1B_WR"
 						}]
 					}
 				}
