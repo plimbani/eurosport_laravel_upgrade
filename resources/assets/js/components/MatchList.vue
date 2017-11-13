@@ -11,8 +11,9 @@
 			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
       <th class="text-center"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
 		</thead>
-		<tbody> 
-			<tr v-for="(match,index1) in matchData">
+
+		<tbody>
+			<tr v-for="(match,index1) in paginated('matchlist')">
 				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
 
@@ -57,6 +58,27 @@
 			</tr>
 		</tbody>
 	</table>
+    <paginate name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
+    </paginate>
+    <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" class="row d-flex flex-row align-items-center">
+      <div class="col page-dropdown">
+        <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
+          <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+              {{ recordCount }}
+          </option>
+        </select>
+      </div>
+      <div class="col">
+        <span v-if="$refs.paginator">
+          Viewing {{ $refs.paginator.pageItemsCount }} results
+        </span>
+      </div>
+      <div class="col-md-6">
+        <paginate-links for="matchlist"
+          :show-step-links="true" :limit="2" :async="true" class="mb-0">
+        </paginate-links>
+      </div>
+    </div>
   <!--<span v-else>No information available</span>-->
   <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal" :section="section"></pitch-modal>
 
@@ -67,6 +89,7 @@
 import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
+import VuePaginate from 'vue-paginate'
 
 export default {
 	props: ['matchData1', 'DrawName'],
@@ -81,7 +104,11 @@ export default {
       'matchFixture': {},
       'section': 'scheduleResult',
       'currentMatch': {},
-      'index':''
+      'index':'',
+      paginate: ['matchlist'],
+      shown: false,
+      no_of_records: 20,
+      recordCounts: [5,10,20,50,100]
 		}
 	},
 
@@ -154,7 +181,6 @@ export default {
       // here we close the compoent
       this.setPitchModal = 0
     });
-
 	},
 	  created: function() {
       this.$root.$on('reloadMatchList', this.setScore);
@@ -212,7 +238,7 @@ export default {
 			let Id = competition.competitionId
 			let Name = competition.group_name+'-'+competition.competation_name
       let CompetationType = competition.round
-			this.$root.$emit('changeComp', Id, Name,CompetationType);
+			this.$root.$emit('changeComp', Id, Name,CompetationType);  
 			//this.$emit('changeComp',Id);
 		},
 		changeTeamDetails() {
