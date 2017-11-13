@@ -89,7 +89,7 @@
                       <th class="text-center">{{$lang.teams_age_category}}</th>
                       <th  class="text-center">{{$lang.teams_name_category}}</th>
 
-                      <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_group}}</th>
+                      <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
                       <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
                   </tr>
               </thead>
@@ -120,7 +120,7 @@
                       <td width="130px" v-if="age_category != ''">
                         <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="" class="blnk">{{seleTeam}}</option>
-                          <optgroup :label="group.groups.group_name"
+                          <optgroup :label="getGroupName(group)"
                           v-for="group in grps">
                             <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)" :value="getGroupValueInSelection(group, n)" >{{ getGroupDisplayNameInSelection(group, n) }} </option>
                           </optgroup>
