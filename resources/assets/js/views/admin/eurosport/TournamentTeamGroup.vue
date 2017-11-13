@@ -414,7 +414,7 @@
         if(error == false){
           Tournament.assignGroups(teamData).then(
           (response) => {
-            toastr['success']('Groups are assigned successfully', 'Success');
+            toastr['success']('Teams are allocated successfully', 'Success');
             $("body .js-loader").addClass('d-none');
           },
           (error) => {
