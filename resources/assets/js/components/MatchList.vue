@@ -107,7 +107,7 @@ export default {
       'index':'',
       paginate: ['matchlist'],
       shown: false,
-      no_of_records: 20,
+      no_of_records: 50,
       recordCounts: [5,10,20,50,100]
 		}
 	},
