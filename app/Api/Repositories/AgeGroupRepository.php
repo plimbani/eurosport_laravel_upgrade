@@ -325,15 +325,21 @@ class AgeGroupRepository
           $fixture_n = str_replace('CAT.', $ageGroup.'-',$fixture);
           $teampfixtureTable=DB::table('temp_fixtures');
           $teampfixtureTable->insert(
-            ['match_number'=>$fixture_n,
-            'tournament_id'=>$tournamentId,'competition_id'=>$competationId,
-            'home_team_name'=>$homeTeam,'match_result_id'=> 0,
-            'home_team_placeholder_name'=>$homeTeam,
-            'created_at'=> new \DateTime(),
-            'round'=>$round,
-            'age_group_id'=>$ageGroupId,
-            'away_team_name'=>$away_team,'venue_id'=>0,'pitch_id'=>0,
-            'away_team_placeholder_name'=>$away_team]
+            [
+              'match_number'=>$fixture_n,
+              'tournament_id'=>$tournamentId,
+              'competition_id'=>$competationId,
+              'home_team_name'=>$homeTeam,
+              'home_team_placeholder_name'=>$homeTeam,
+              'match_result_id'=> 0,
+              'created_at'=> new \DateTime(),
+              'round'=>$round,
+              'age_group_id'=>$ageGroupId,
+              'away_team_name'=>$away_team,
+              'away_team_placeholder_name'=>$away_team,
+              'venue_id'=>0,
+              'pitch_id'=>0
+            ]
           );
       }
 
