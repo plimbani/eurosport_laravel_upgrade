@@ -46,7 +46,9 @@ class AgeGroupRepository
        $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
        $competations['tournament_id'] = $competation_data['tournament_id'];
        $comp_group = $groups['group_name'];
+       $actual_comp_group = $groups['actual_group_name'];
        $competations['name'] = $age_group.'-'.$comp_group;
+       $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
        $competations['team_size'] = $groups['team_count'];
        // here last group we consider as Final or Elimination Match
        // Means Last one
@@ -71,7 +73,7 @@ class AgeGroupRepository
 
        $competations['competation_type'] = $competaon_type;
        $competations['actual_competition_type'] = $actualCompetitionType;
-       $competations['competation_round_no'] = $groups['comp_roundd'];       
+       $competations['competation_round_no'] = $groups['comp_roundd'];
        $competationIds[$i]['id'] = Competition::create($competations)->id;
        $competationIds[$i]['name'] = $comp_group;
        $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];

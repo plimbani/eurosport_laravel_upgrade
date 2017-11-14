@@ -408,11 +408,25 @@ import _ from 'lodash'
                             let Placeawayteam =  teams[1]
 
                             if(match.Home_id != 0){
-                            Placehometeam = match.HomeTeam
+                                Placehometeam = match.HomeTeam
+                            } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
+                                if(match.competition_actual_name.indexOf('Group') !== -1) {
+                                    Placehometeam = 'Group-' + match.homePlaceholder
+                                } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                                    Placehometeam = 'Pos-' + match.homePlaceholder
+                                }
                             }
+
                             if(match.Away_id != 0){
-                            Placeawayteam = match.AwayTeam
+                                Placeawayteam = match.AwayTeam
+                            } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
+                                if(match.competition_actual_name.indexOf('Group') !== -1) {
+                                    Placeawayteam = 'Group-' + match.awayPlaceholder
+                                } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                                    Placeawayteam = 'Pos-' + match.awayPlaceholder
+                                }
                             }
+
                             let mtc = ''
                             mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
                             match.match_number = mtc
