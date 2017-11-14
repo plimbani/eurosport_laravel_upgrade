@@ -737,10 +737,6 @@ class MatchService implements MatchContract
                             ->where('tournament_id','=',$data['tournamentId'])
                             ->where('competition_id','=',$data['competitionId'])->count();
 
-      $result = DB::table('match_standing')
-                            ->where('match_standing.tournament_id','=',$data['tournamentId'])
-                            ->where('match_standing.competition_id','=',$data['competitionId'])->delete();
-
       $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
 
       foreach ($groupFixture as $key => $value) {
