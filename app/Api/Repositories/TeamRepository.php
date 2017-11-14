@@ -172,6 +172,19 @@ class TeamRepository
           $keyResults = array_keys($differentResult); 
           return $keyResults;   
     }  
+
+    public function getAllGroupTeam($teamData) {
+      $results =  DB::table('teams')
+                  ->whereIn('competation_id',function($q) use ($teamData){
+                    $q->from('teams')
+                      ->whereIn('id',$teamData)
+                      ->select('competation_id')
+                      ->get();
+                  })
+                  ->select('id')
+                  ->get()->toArray();
+      return array_column($results, 'id');
+    }
     public function updateMatches($teams='',$matchData='')
     {
       // dd($teams);
