@@ -410,13 +410,21 @@ import _ from 'lodash'
                             if(match.Home_id != 0){
                                 Placehometeam = match.HomeTeam
                             } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
-                                Placehometeam = 'Group-' + match.homePlaceholder
+                                if(match.competition_actual_name.indexOf('Group') !== -1) {
+                                    Placehometeam = 'Group-' + match.homePlaceholder
+                                } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                                    Placehometeam = 'Pos-' + match.homePlaceholder
+                                }
                             }
 
                             if(match.Away_id != 0){
                                 Placeawayteam = match.AwayTeam
                             } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
-                                Placeawayteam = 'Group-' + match.awayPlaceholder
+                                if(match.competition_actual_name.indexOf('Group') !== -1) {
+                                    Placeawayteam = 'Group-' + match.awayPlaceholder
+                                } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                                    Placeawayteam = 'Pos-' + match.awayPlaceholder
+                                }
                             }
 
                             let mtc = ''
