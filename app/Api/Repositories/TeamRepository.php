@@ -150,6 +150,7 @@ class TeamRepository
 
     public function getAllUpdatedTeam($teamdata)
     {
+
       $tournamentId = $teamdata['data']['tournament_id'];
       $ageGroupId  = $teamdata['data']['age_group'];
       
@@ -167,14 +168,51 @@ class TeamRepository
                      $updatedGroups[$result->id] = $result->group_name;
           }     
         // echo "<pre>"; print_r($arr); echo "</pre>";exit();
-         $differentResult = array_diff_assoc($existGroups,$updatedGroups);
-         $keyResults = array_keys($differentResult); 
-          // dd($res);
-          // $res1 = array_diff_key($abb,$arr);
-            // print_r($res);
-          // dd($res1);  
+          $differentResult = array_diff_assoc($existGroups,$updatedGroups);
+          $keyResults = array_keys($differentResult); 
           return $keyResults;   
     }  
+
+    public function getAllGroupTeam($teamData) {
+      $results =  DB::table('teams')
+                  ->whereIn('competation_id',function($q) use ($teamData){
+                    $q->from('teams')
+                      ->whereIn('id',$teamData)
+                      ->select('competation_id')
+                      ->get();
+                  })
+                  ->select('id')
+                  ->get()->toArray();
+      return array_column($results, 'id');
+    }
+    public function updateMatches($teams='',$matchData='')
+    {
+      // dd($teams);
+      if(count($teams)>0){
+        // dd('as');
+        $matches = [];
+        $matches = DB::table('temp_fixtures')
+                ->where('tournament_id','=',$matchData['tournament_id'])
+                ->where('age_group_id','=',$matchData['age_group'])
+                ->where('is_scheduled',1)
+                ->where(function ($query) use ($matchData,$teams)  {
+                  // if($matchData['teamId']){
+                    $query ->whereIn('away_team',$teams)
+                         ->orWhereIn('home_team',$teams);
+                })  
+                ->update([
+                    "temp_fixtures.home_team_name" => DB::raw("temp_fixtures.home_team_placeholder_name"),
+                    "temp_fixtures.away_team_name" => DB::raw("temp_fixtures.away_team_placeholder_name"),
+                    'home_team' => 0,
+                    'away_team' => 0,
+                    'hometeam_score' => NULL,
+                    'awayteam_score' => NULL,
+
+                  ]);
+                // dd($matches);
+       }
+    }
+
     public function assignGroup($team_id,$groupName,$data='')
     {
       $team = Team::find($team_id);

@@ -214,7 +214,10 @@ class TeamService implements TeamContract
 
     public function assignTeams($data)
     {
-      $teamsList = $this->teamRepoObj->getAllUpdatedTeam($data);
+
+      // $this->UpdateMatches($data);
+      $teamsData = $this->teamRepoObj->getAllUpdatedTeam($data);
+      $teamsList = $this->teamRepoObj->getAllGroupTeam($teamsData);
       $tournamentId = $data['data']['tournament_id'];
       $ageGroupId  = $data['data']['age_group'];
       $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId' =>false);
@@ -228,26 +231,28 @@ class TeamService implements TeamContract
                                   ->where(function($query){
                                     $query->orWhereNotNull('hometeam_score')
                                           ->orWhereNotNull('awayteam_score');
-                                  })->get()->count();
+                                  })
+                                  ->get()->count();
 
-      if($tempFixturesCount > 0) {
+      if($tempFixturesCount > 0) { 
+        
         $tournamentCompetationTemplatesTotalTeamsCount = TournamentCompetationTemplates::where('id', $data['data']['age_group'])->first();
 
         $finalTeamdata = [];
-        foreach ($teamData as $key => $data) {
-          if($data['value'] != '') {
-            $finalTeamdata[] = $data; 
+        foreach ($teamData as $key => $team) {
+          if($team['value'] != '') {
+            $finalTeamdata[] = $team; 
           }
-        }
+        } 
 
         if(count($finalTeamdata) != $tournamentCompetationTemplatesTotalTeamsCount->total_teams) {
           return ['status_code' => '422', 'message' => 'You need to assign all teams.'];
         }
+        $this->teamRepoObj->updateMatches($teamsList,$data['data']);
       }
 
       foreach ($teamData as $key => $value) {
           $team_id = str_replace('sel_', '', $value['name']);
-          // $team_id = str_replace('sel_', '', $value['value']);
           $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);
           # code...
       }
