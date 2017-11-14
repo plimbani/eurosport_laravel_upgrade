@@ -13,7 +13,7 @@
 		</thead>
 
 		<tbody>
-			<tr v-for="(match,index1) in paginated('matchlist')">
+			<tr v-for="(match,index1) in getMatchList()">
 				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
 
@@ -54,11 +54,11 @@
 			</tr>
 		</tbody>
 	</table>
-    <paginate name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
+    <paginate v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
     </paginate>
     <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" class="row d-flex flex-row align-items-center">
       <div class="col page-dropdown">
-        <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
+        <select class="form-control ls-select2"  name="no_of_records" v-model="no_of_records">
           <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
               {{ recordCount }}
           </option>
@@ -101,13 +101,12 @@ export default {
       'section': 'scheduleResult',
       'currentMatch': {},
       'index':'',
-      paginate: ['matchlist'],
+      paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
       no_of_records: 20,
       recordCounts: [5,10,20,50,100]
 		}
 	},
-
 
   filters: {
     formatDate: function(date) {
@@ -261,7 +260,14 @@ export default {
              //this.$parent.$options.methods.getStandingData(tournamentId,6)
         })
     },
-
+    getMatchList() {
+      if(this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') {
+        return this.paginated('matchlist'); 
+      } else {
+        return this.matchData;
+      }
+      
+    },
 	},
 
 }
