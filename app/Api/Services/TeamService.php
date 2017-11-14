@@ -248,7 +248,7 @@ class TeamService implements TeamContract
         if(count($finalTeamdata) != $tournamentCompetationTemplatesTotalTeamsCount->total_teams) {
           return ['status_code' => '422', 'message' => 'You need to assign all teams.'];
         }
-        $this->teamRepoObj->updateMatches($teamsList,$data['data']);
+        $this->teamRepoObj->updateMatches($teamsList,$teamsData,$data['data']);
       }
 
       foreach ($teamData as $key => $value) {
