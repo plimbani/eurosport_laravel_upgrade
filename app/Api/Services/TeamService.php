@@ -7,6 +7,8 @@ use Laraspace\Api\Repositories\TeamRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Club;
 use Laraspace\Models\TempFixture;
+use Laraspace\Models\Competition;
+use DB;
 
 
 
@@ -244,6 +246,17 @@ class TeamService implements TeamContract
           return ['status_code' => '422', 'message' => 'You need to assign all teams.'];
         }
       }
+
+      // $competationIdArray = array();
+      // $competationIdArray = Competition::where('tournament_id',$tournamentId)
+      //        ->where('tournament_competation_template_id',$ageGroupId)->get()
+      //        ->pluck('id');
+
+      // if(count($competationIdArray) > 0) {
+      //   $matchStandings = DB::table('match_standing')
+      //     ->where('tournament_id','=',$tournamentId)
+      //     ->whereIn('competition_id',$competationIdArray)->delete();
+      // }
 
       foreach ($teamData as $key => $value) {
           $team_id = str_replace('sel_', '', $value['name']);
