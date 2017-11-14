@@ -107,7 +107,7 @@ export default {
       'index':'',
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
-      no_of_records: 50,
+      no_of_records: 20,
       recordCounts: [5,10,20,50,100]
 		}
 	},
