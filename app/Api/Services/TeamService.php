@@ -234,9 +234,9 @@ class TeamService implements TeamContract
         $tournamentCompetationTemplatesTotalTeamsCount = TournamentCompetationTemplates::where('id', $data['data']['age_group'])->first();
 
         $finalTeamdata = [];
-        foreach ($teamData as $key => $data) {
-          if($data['value'] != '') {
-            $finalTeamdata[] = $data; 
+        foreach ($teamData as $key => $team) {
+          if($team['value'] != '') {
+            $finalTeamdata[] = $team; 
           }
         }
 
