@@ -257,7 +257,7 @@
 					"total_match": 3,
 	        		"group_count": 3,
 					"groups": {
-						"group_name": "Group-PM3",
+						"group_name": "Group-C",
 						"match": [{
 							"in_between": "CAT.PM1.G17WR-CAT.PM1.G21WR",
 							"match_number": "CAT.RR3.01.(PM1_G17_WR)-(PM1_G21_WR)"
