@@ -61,6 +61,21 @@
             <input type="hidden" v-model="competation_format.category_age_color">
           </div>
 
+          <div class="form-group row align-items-center">
+            <label class="col-sm-4 form-control-label">Pitch Size*</label>
+            <div class="col-sm-8">
+              <select name="pitch_size" id="pitch_size" class="form-control ls-select2" v-model="competation_format.pitch_size" v-validate="'required'" :class="{'is-danger': errors.has('pitch_size') }">
+                 <option value="">{{$lang.pitch_modal_pitch_size}}</option>
+                    <option value="5-a-side">{{$lang.pitch_modal_details_size_side}}</option>
+                    <option value="7-a-side">{{$lang.pitch_modal_details_size_side_one}}</option>
+                    <option value="8-a-side">{{$lang.pitch_modal_details_size_side_two}}</option>
+                    <option value="9-a-side">{{$lang.pitch_modal_details_size_side_three}}</option>
+                    <option value="11-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
+              </select>
+              <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
+            </div>
+          </div>
+
           <div class="form-group row align-items-center" :class="{'has-error': errors.has('number_teams') }">
             <div class="col-sm-4 form-control-label">{{$lang.competation_label_number_teams}}</div>
             <div class="col-sm-8">
@@ -458,7 +473,7 @@ export default {
     },
     initialState() {
       return {
-         ageCategory_name:'',category_age:'',category_age_color:null,game_duration_RR:'20',game_duration_FM:'20',
+         ageCategory_name:'',category_age:'',pitch_size:'',category_age_color:null,game_duration_RR:'20',game_duration_FM:'20',
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
