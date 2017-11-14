@@ -185,28 +185,48 @@ class TeamRepository
                   ->get()->toArray();
       return array_column($results, 'id');
     }
-    public function updateMatches($teams='',$matchData='')
+    public function updateMatches($allTeams='',$swapTeam='',$matchData='')
     {
       // dd($teams);
-      if(count($teams)>0){
-        // dd('as');
+      if(count($allTeams)>0){
+        // dd($swapTeam);
+        $teams = array_diff($allTeams, $swapTeam);
         $matches = [];
         $matches = DB::table('temp_fixtures')
-                ->where('tournament_id','=',$matchData['tournament_id'])
-                ->where('age_group_id','=',$matchData['age_group'])
-                ->where('is_scheduled',1)
-                ->where(function ($query) use ($matchData,$teams)  {
-                  // if($matchData['teamId']){
-                    $query ->whereIn('away_team',$teams)
-                         ->orWhereIn('home_team',$teams);
-                })  
+                ->join('competitions', 'temp_fixtures.competition_id', '=', 'competitions.id')
+                ->where('temp_fixtures.tournament_id','=',$matchData['tournament_id'])
+                ->where('temp_fixtures.age_group_id','=',$matchData['age_group'])
+                ->where('temp_fixtures.is_scheduled',1)
+                ->where('competitions.competation_round_no','!=', 'Round 1')
+                ->where(function($q) use ($matchData,$teams){
+                  $q->whereIn('temp_fixtures.away_team',$teams)
+                    ->orWhereIn('temp_fixtures.home_team',$teams);
+                })
                 ->update([
                     "temp_fixtures.home_team_name" => DB::raw("temp_fixtures.home_team_placeholder_name"),
                     "temp_fixtures.away_team_name" => DB::raw("temp_fixtures.away_team_placeholder_name"),
-                    'home_team' => 0,
-                    'away_team' => 0,
-                    'hometeam_score' => NULL,
-                    'awayteam_score' => NULL,
+                    'temp_fixtures.home_team' => 0,
+                    'temp_fixtures.away_team' => 0,
+                    'temp_fixtures.hometeam_score' => NULL,
+                    'temp_fixtures.awayteam_score' => NULL,
+
+                  ]);
+
+          $matches2 = DB::table('temp_fixtures')
+                ->where('temp_fixtures.tournament_id','=',$matchData['tournament_id'])
+                ->where('temp_fixtures.age_group_id','=',$matchData['age_group'])
+                ->where('temp_fixtures.is_scheduled',1)
+                ->where(function($q2) use ($matchData,$swapTeam){
+                  $q2->whereIn('temp_fixtures.away_team',$swapTeam)
+                    ->orWhereIn('temp_fixtures.home_team',$swapTeam);
+                })
+                ->update([
+                    "temp_fixtures.home_team_name" => DB::raw("temp_fixtures.home_team_placeholder_name"),
+                    "temp_fixtures.away_team_name" => DB::raw("temp_fixtures.away_team_placeholder_name"),
+                    'temp_fixtures.home_team' => 0,
+                    'temp_fixtures.away_team' => 0,
+                    'temp_fixtures.hometeam_score' => NULL,
+                    'temp_fixtures.awayteam_score' => NULL,
 
                   ]);
                 // dd($matches);
