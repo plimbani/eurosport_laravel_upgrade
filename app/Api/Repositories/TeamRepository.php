@@ -7,6 +7,7 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Competition;
 use Laraspace\Models\Club;
+use Laraspace\Models\TeamManualRanking;
 use DB;
 
 class TeamRepository
@@ -181,14 +182,16 @@ class TeamRepository
                       ->select('competation_id')
                       ->get();
                   })
+                  ->where('assigned_group', 'LIKE', '%Group%')
                   ->select('id')
                   ->get()->toArray();
       return array_column($results, 'id');
     }
     public function updateMatches($allTeams='',$swapTeam='',$matchData='')
     {
-      // dd($teams);
-      if(count($allTeams)>0){
+      
+      $affectedTeams = array_values(array_unique(array_merge($allTeams, $swapTeam)));
+      if(count($affectedTeams)>0){
         // dd($swapTeam);
         $teams = array_diff($allTeams, $swapTeam);
         $matches = [];
@@ -198,9 +201,9 @@ class TeamRepository
                 ->where('temp_fixtures.age_group_id','=',$matchData['age_group'])
                 ->where('temp_fixtures.is_scheduled',1)
                 ->where('competitions.competation_round_no','!=', 'Round 1')
-                ->where(function($q) use ($matchData,$teams){
-                  $q->whereIn('temp_fixtures.away_team',$teams)
-                    ->orWhereIn('temp_fixtures.home_team',$teams);
+                ->where(function($q) use ($matchData,$affectedTeams){
+                  $q->whereIn('temp_fixtures.away_team',$affectedTeams)
+                    ->orWhereIn('temp_fixtures.home_team',$affectedTeams);
                 })
                 ->update([
                     "temp_fixtures.home_team_name" => DB::raw("temp_fixtures.home_team_placeholder_name"),
@@ -233,7 +236,7 @@ class TeamRepository
        }
     }
 
-    public function assignGroup($team_id,$groupName,$data='')
+    public function assignGroup($team_id,$groupName,$data='',$tempFixturesCount)
     {
       $team = Team::find($team_id);
 
@@ -257,22 +260,25 @@ class TeamRepository
           'competation_id' => null
         ]);
         
-        TempFixture::where('home_team', $team_id)
-          ->where('tournament_id',$data['tournament_id'])
-          ->where('age_group_id',$ageGroupId)
-          ->update([
-            'home_team_name' => '@^^@',
-            'home_team' => 0
-        ]);
+        if($tempFixturesCount == 0) {
+          TempFixture::where('home_team', $team_id)
+            ->where('tournament_id',$data['tournament_id'])
+            ->where('age_group_id',$ageGroupId)
+            ->update([
+              'home_team_name' => '@^^@',
+              'home_team' => 0
+          ]);
 
-        TempFixture::where('away_team', $team_id)
-          ->where('tournament_id',$data['tournament_id'])
-          ->where('age_group_id',$ageGroupId)
-          ->update([
-            'away_team_name' => '@^^@',
-            'away_team' => 0
-        ]);
-      } else {
+          TempFixture::where('away_team', $team_id)
+            ->where('tournament_id',$data['tournament_id'])
+            ->where('age_group_id',$ageGroupId)
+            ->update([
+              'away_team_name' => '@^^@',
+              'away_team' => 0
+          ]);
+        }
+      }
+      if($groupName != '') {
         $compData = Competition::leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
         ->where('competitions.tournament_id','=',$data['tournament_id'])
         ->select('competitions.id as CompId',
@@ -412,5 +418,27 @@ class TeamRepository
         $teams = Team::whereIn('id', $competitionTeams)->orderBy('name', 'asc')->get();
       }
       return ['teams' => $teams, 'teamSize' => $teamSize];
+    }
+
+    public function saveTeamManualRankingFromStandings($tournamentId, $ageGroupId, $teamsList)
+    {
+      $competationIdArray = array();
+
+      $competationIdArray = DB::table('temp_fixtures')
+                  ->where(function($q) use ($teamsList){
+                    $q->whereIn('temp_fixtures.away_team', $teamsList)
+                      ->orWhereIn('temp_fixtures.home_team', $teamsList);
+                  })
+                  ->where('age_group_id', $ageGroupId)
+                  ->pluck('competition_id')
+                  ->toArray();
+
+      $competationIdArray = array_values(array_unique($competationIdArray));
+
+      if(count($competationIdArray) > 0) {
+        $matchStandings = DB::table('match_standing')
+          ->where('tournament_id','=',$tournamentId)
+          ->whereIn('competition_id',$competationIdArray)->delete();
+      }
     }
 }

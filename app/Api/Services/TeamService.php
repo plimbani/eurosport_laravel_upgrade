@@ -222,7 +222,6 @@ class TeamService implements TeamContract
       $teamsList = $this->teamRepoObj->getAllGroupTeam($teamsData);
       $tournamentId = $data['data']['tournament_id'];
       $ageGroupId  = $data['data']['age_group'];
-      // $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId' =>false);
        
       $teamData = $data['data']['teamdata'];
 
@@ -258,12 +257,11 @@ class TeamService implements TeamContract
 
       foreach ($teamData as $key => $value) {
           $team_id = str_replace('sel_', '', $value['name']);
-          $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);
+          $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data'],$tempFixturesCount);
           # code...
       }
       $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
       $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
-      // $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
 
       return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
