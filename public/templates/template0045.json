@@ -10,6 +10,7 @@
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 5,
   	"avg_game_team":5.3,
+  	"final_round": "F",
 	"tournament_competition_ranking": {
 	    "format_name": [{
 	      "round": "Round 1",
