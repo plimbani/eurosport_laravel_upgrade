@@ -206,6 +206,7 @@ class MatchRepository
       $matchResultCount = TempFixture::where('tournament_id',$teamData['tournament_id'])
         ->where('id','!=',$data->id)
         ->where('is_scheduled',1)
+        ->where('age_group_id',$teamData['age_group_id'])
         ->where(function($query1) use ($teams,$teamId) {
           if($teamId){
             $query1->whereIn('home_team',$teams)
@@ -817,13 +818,14 @@ class MatchRepository
       $matchResultCount = TempFixture::where('tournament_id',$data['tournamentId'])
                 ->where('id','!=',$data['matchId'])
                 ->where('is_scheduled',1)
+                ->where('age_group_id',$teamData['age_group_id'])
                 ->where(function($query1) use ($teams,$teamId) {
                   if($teamId){
                     $query1->whereIn('home_team',$teams)
-                  ->orWhereIn('away_team',$teams) ; 
+                           ->orWhereIn('away_team',$teams) ; 
                   } else{
                     $query1->whereIn('home_team_placeholder_name',$teams)
-                  ->orWhereIn('away_team_placeholder_name',$teams) ;   
+                            ->orWhereIn('away_team_placeholder_name',$teams) ;   
                   }
 
                 })

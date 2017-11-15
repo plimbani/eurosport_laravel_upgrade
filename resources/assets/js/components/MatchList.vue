@@ -255,6 +255,7 @@ export default {
       $("body .js-loader").removeClass('d-none');
       this.index =  index
       let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
+      let vm = this;
         Tournament.updateScore(matchData).then(
             (response) => {
               let competationId =response.data.data.competationId
@@ -262,17 +263,23 @@ export default {
               toastr.success('Score has been updated successfully', 'Score Updated', {timeOut: 5000}
                 );
 
-              let tournamentId  =  this.$store.state.Tournament.tournamentId
+              let tournamentId  =  vm.$store.state.Tournament.tournamentId
               // Now here we have to call the SetScore method
-              this.setScore($('input[name="home_score['+matchId+']"]').val(),$('input[name="away_score['+matchId+']"]').val(),competationId)
+              vm.setScore($('input[name="home_score['+matchId+']"]').val(),$('input[name="away_score['+matchId+']"]').val(),competationId)
 
-              let Id = this.DrawName.id
-              let Name = this.DrawName.name
-              let CompetationType = this.DrawName.actual_competition_type
+
+              if(vm.$store.state.currentScheduleView == 'drawDetails') {
+                let Id = vm.DrawName.id
+                let Name = vm.DrawName.name
+                let CompetationType = vm.DrawName.actual_competition_type
+                
+                vm.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
+              } if(vm.$store.state.currentScheduleView == 'matchList') {
+                vm.$root.$emit('changeDrawListComp','','','');
+              }
 
               $("body .js-loader").addClass('d-none');
-              
-              this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
+
               //this.$root.$emit('setDrawTable',competationId)
               //this.$root.$emit('setStandingData',competationId)
              //this.$parent.$options.methods.getStandingData(tournamentId,6)
