@@ -189,7 +189,6 @@ class TeamRepository
     {
       // dd($teams);
       if(count($allTeams)>0){
-        // dd($allTeams);
         $teams = array_diff($allTeams, $swapTeam);
         $matches = [];
         $matches = DB::table('temp_fixtures')
@@ -220,7 +219,6 @@ class TeamRepository
                     'temp_fixtures.hometeam_score' => NULL,
                     'temp_fixtures.awayteam_score' => NULL,
                 ]);
-                // dd($matches);
       } if($swapTeam > 0) {
           $matches3 = DB::table('temp_fixtures')
                 ->where('temp_fixtures.tournament_id','=',$matchData['tournament_id'])
@@ -232,7 +230,6 @@ class TeamRepository
                     'temp_fixtures.away_team' => 0,
                     'temp_fixtures.hometeam_score' => NULL,
                     'temp_fixtures.awayteam_score' => NULL,
-
                 ]);
 
           $matches4 = DB::table('temp_fixtures')
@@ -245,9 +242,7 @@ class TeamRepository
                     'temp_fixtures.home_team' => 0,
                     'temp_fixtures.hometeam_score' => NULL,
                     'temp_fixtures.awayteam_score' => NULL,
-
                   ]);
-                // dd($matches);
        }
     }
 
