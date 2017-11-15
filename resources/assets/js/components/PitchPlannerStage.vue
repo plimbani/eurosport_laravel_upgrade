@@ -441,11 +441,13 @@ import _ from 'lodash'
                                     }
                                 }
                               let colorVal = match.category_age_color;
+                              let textColorVal = match.category_age_font_color;
                               let borderColorVal = match.category_age_color;
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
 
                               if(scheduleBlock){
                                 colorVal = 'grey'
+                                textColorVal = '#000000'
                                 borderColorVal = 'grey'
                                 fixtureStripColor = 'grey'
                               }
@@ -472,6 +474,7 @@ import _ from 'lodash'
                                     'refereeText': refereeName,
                                     'title':matchTitle,
                                     'color': colorVal,
+                                    'textColor': textColorVal,
                                     'borderColor': borderColorVal,
                                     'matchId':match.fid,
                                     'matchAgeGroupId':match.age_group_id,
@@ -501,6 +504,7 @@ import _ from 'lodash'
                                     'refereeText': 'R',
                                     'title':'Pitch is not available',
                                     'color': 'grey',
+                                    'textColorVal': '#000000',
                                     'borderColor': 'grey',
                                     'matchId':-1,
                                     'matchAgeGroupId':'',
@@ -518,6 +522,7 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title': 'Pitch is not available',
                                         'color': 'grey',
+                                        'textColorVal': '#000000',
                                         'borderColor': 'grey',
                                         'matchId':-1,
                                         'matchAgeGroupId':'',
@@ -536,6 +541,7 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
                                         'color': 'grey',
+                                        'textColorVal': '#000000',
                                         'borderColor': 'grey',
                                         'matchId': -1,
                                         'matchAgeGroupId':'',
@@ -582,6 +588,7 @@ import _ from 'lodash'
                     'refereeText': '',
                     'title': 'Pitch is not available',
                     'color': 'grey',
+                    'textColorVal': '#000000',
                     'matchId': '111212',
                     'matchAgeGroupId':'',
                     'displayFlag':''
@@ -609,6 +616,7 @@ import _ from 'lodash'
                             'refereeText': '',
                             'title': 'Unavailable',
                             'color': 'grey',
+                            'textColorVal': '#000000',
                             'matchId': 'block_'+block.id,
                             'matchAgeGroupId':'',
                             'displayFlag':''
