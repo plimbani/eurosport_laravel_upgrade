@@ -189,10 +189,8 @@ class TeamRepository
     }
     public function updateMatches($allTeams='',$swapTeam='',$matchData='')
     {
-      
-      $affectedTeams = array_values(array_unique(array_merge($allTeams, $swapTeam)));
-      if(count($affectedTeams)>0){
-        // dd($swapTeam);
+      // dd($teams);
+      if(count($allTeams)>0){
         $teams = array_diff($allTeams, $swapTeam);
         $matches = [];
         $matches = DB::table('temp_fixtures')
@@ -201,38 +199,52 @@ class TeamRepository
                 ->where('temp_fixtures.age_group_id','=',$matchData['age_group'])
                 ->where('temp_fixtures.is_scheduled',1)
                 ->where('competitions.competation_round_no','!=', 'Round 1')
-                ->where(function($q) use ($matchData,$affectedTeams){
-                  $q->whereIn('temp_fixtures.away_team',$affectedTeams)
-                    ->orWhereIn('temp_fixtures.home_team',$affectedTeams);
-                })
+                ->whereIn('temp_fixtures.away_team',$teams)
                 ->update([
-                    "temp_fixtures.home_team_name" => DB::raw("temp_fixtures.home_team_placeholder_name"),
                     "temp_fixtures.away_team_name" => DB::raw("temp_fixtures.away_team_placeholder_name"),
-                    'temp_fixtures.home_team' => 0,
                     'temp_fixtures.away_team' => 0,
                     'temp_fixtures.hometeam_score' => NULL,
                     'temp_fixtures.awayteam_score' => NULL,
 
                   ]);
 
-          $matches2 = DB::table('temp_fixtures')
+        $matches2 = DB::table('temp_fixtures')
+                ->join('competitions', 'temp_fixtures.competition_id', '=', 'competitions.id')
                 ->where('temp_fixtures.tournament_id','=',$matchData['tournament_id'])
                 ->where('temp_fixtures.age_group_id','=',$matchData['age_group'])
                 ->where('temp_fixtures.is_scheduled',1)
-                ->where(function($q2) use ($matchData,$swapTeam){
-                  $q2->whereIn('temp_fixtures.away_team',$swapTeam)
-                    ->orWhereIn('temp_fixtures.home_team',$swapTeam);
-                })
+                ->where('competitions.competation_round_no','!=', 'Round 1')
+                ->whereIn('temp_fixtures.home_team',$teams)
                 ->update([
                     "temp_fixtures.home_team_name" => DB::raw("temp_fixtures.home_team_placeholder_name"),
-                    "temp_fixtures.away_team_name" => DB::raw("temp_fixtures.away_team_placeholder_name"),
                     'temp_fixtures.home_team' => 0,
+                    'temp_fixtures.hometeam_score' => NULL,
+                    'temp_fixtures.awayteam_score' => NULL,
+                ]);
+      } if($swapTeam > 0) {
+          $matches3 = DB::table('temp_fixtures')
+                ->where('temp_fixtures.tournament_id','=',$matchData['tournament_id'])
+                ->where('temp_fixtures.age_group_id','=',$matchData['age_group'])
+                ->where('temp_fixtures.is_scheduled',1)
+                ->whereIn('temp_fixtures.away_team',$swapTeam)
+                ->update([
+                    "temp_fixtures.away_team_name" => DB::raw("temp_fixtures.away_team_placeholder_name"),
                     'temp_fixtures.away_team' => 0,
                     'temp_fixtures.hometeam_score' => NULL,
                     'temp_fixtures.awayteam_score' => NULL,
+                ]);
 
+          $matches4 = DB::table('temp_fixtures')
+                ->where('temp_fixtures.tournament_id','=',$matchData['tournament_id'])
+                ->where('temp_fixtures.age_group_id','=',$matchData['age_group'])
+                ->where('temp_fixtures.is_scheduled',1)
+                ->whereIn('temp_fixtures.home_team',$swapTeam)
+                ->update([
+                    "temp_fixtures.home_team_name" => DB::raw("temp_fixtures.home_team_placeholder_name"),
+                    'temp_fixtures.home_team' => 0,
+                    'temp_fixtures.hometeam_score' => NULL,
+                    'temp_fixtures.awayteam_score' => NULL,
                   ]);
-                // dd($matches);
        }
     }
 
