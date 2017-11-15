@@ -222,9 +222,7 @@ class TeamService implements TeamContract
       $teamsList = $this->teamRepoObj->getAllGroupTeam($teamsData);
       $tournamentId = $data['data']['tournament_id'];
       $ageGroupId  = $data['data']['age_group'];
-      $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId' =>false);
-      $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
-
+       
       $teamData = $data['data']['teamdata'];
 
       // for group assignment validation
@@ -234,7 +232,8 @@ class TeamService implements TeamContract
                                     $query->orWhereNotNull('hometeam_score')
                                           ->orWhereNotNull('awayteam_score');
                                   })
-                                  ->get()->count();
+                                  ->get()
+                                  ->count();
 
       if($tempFixturesCount > 0) { 
         
@@ -243,32 +242,27 @@ class TeamService implements TeamContract
         $finalTeamdata = [];
         foreach ($teamData as $key => $team) {
           if($team['value'] != '') {
-            $finalTeamdata[] = $team; 
+            $finalTeamdata[] = $team;
           }
         } 
 
         if(count($finalTeamdata) != $tournamentCompetationTemplatesTotalTeamsCount->total_teams) {
           return ['status_code' => '422', 'message' => 'You need to assign all teams.'];
         }
+        
         $this->teamRepoObj->updateMatches($teamsList,$teamsData,$data['data']);
       }
 
-      // $competationIdArray = array();
-      // $competationIdArray = Competition::where('tournament_id',$tournamentId)
-      //        ->where('tournament_competation_template_id',$ageGroupId)->get()
-      //        ->pluck('id');
-
-      // if(count($competationIdArray) > 0) {
-      //   $matchStandings = DB::table('match_standing')
-      //     ->where('tournament_id','=',$tournamentId)
-      //     ->whereIn('competition_id',$competationIdArray)->delete();
-      // }
+      $this->teamRepoObj->saveTeamManualRankingFromStandings($tournamentId, $ageGroupId, $teamsList);
 
       foreach ($teamData as $key => $value) {
           $team_id = str_replace('sel_', '', $value['name']);
-          $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);
+          $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data'],$tempFixturesCount);
           # code...
       }
+      $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
+      $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
+
       return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
     
