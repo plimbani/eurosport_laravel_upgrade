@@ -220,9 +220,8 @@ class TeamService implements TeamContract
       $teamsList = $this->teamRepoObj->getAllGroupTeam($teamsData);
       $tournamentId = $data['data']['tournament_id'];
       $ageGroupId  = $data['data']['age_group'];
-      $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId' =>false);
-      $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
-
+      // $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId' =>false);
+       
       $teamData = $data['data']['teamdata'];
 
       // for group assignment validation
@@ -232,7 +231,8 @@ class TeamService implements TeamContract
                                     $query->orWhereNotNull('hometeam_score')
                                           ->orWhereNotNull('awayteam_score');
                                   })
-                                  ->get()->count();
+                                  ->get()
+                                  ->count();
 
       if($tempFixturesCount > 0) { 
         
@@ -256,6 +256,10 @@ class TeamService implements TeamContract
           $this->teamRepoObj->assignGroup($team_id,$value['value'],$data['data']);
           # code...
       }
+      $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
+      $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
+      // $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
+
       return ['status_code' => '200', 'message' => 'Data Successfully Updated'];
     }
     
