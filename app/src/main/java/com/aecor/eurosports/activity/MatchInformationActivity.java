@@ -83,16 +83,45 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         } else {
             tv_team_score_2.setText("");
         }
-        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeTeam())) {
-            tv_team_name_1.setText(mTeamFixturesModel.getHomeTeam());
+        if (mTeamFixturesModel.getHome_id().equalsIgnoreCase("0") && !Utility.isNullOrEmpty(mTeamFixturesModel.getHomeTeamName()) && mTeamFixturesModel.getHomeTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
+            if (!Utility.isNullOrEmpty(mTeamFixturesModel.getCompetition_actual_name()) && mTeamFixturesModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
+                tv_team_name_1.setText(AppConstants.COMPETATION_NAME_GROUP + "-" + mTeamFixturesModel.getHomePlaceholder());
+            } else if (!Utility.isNullOrEmpty(mTeamFixturesModel.getCompetition_actual_name()) && mTeamFixturesModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
+                tv_team_name_1.setText(AppConstants.COMPETATION_NAME_POS + "-" + mTeamFixturesModel.getHomePlaceholder());
+            } else {
+                if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeTeam())) {
+                    tv_team_name_1.setText(mTeamFixturesModel.getHomeTeam());
+                } else {
+                    tv_team_name_1.setText("");
+                }
+            }
         } else {
-            tv_team_name_1.setText("");
+            if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeTeam())) {
+                tv_team_name_1.setText(mTeamFixturesModel.getHomeTeam());
+            } else {
+                tv_team_name_1.setText("");
+            }
         }
-        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getAwayTeam())) {
-            tv_team_name_2.setText(mTeamFixturesModel.getAwayTeam());
+        if (mTeamFixturesModel.getAway_id().equalsIgnoreCase("0") && !Utility.isNullOrEmpty(mTeamFixturesModel.getAwayTeamName()) && mTeamFixturesModel.getAwayTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
+            if (!Utility.isNullOrEmpty(mTeamFixturesModel.getCompetition_actual_name()) && mTeamFixturesModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
+                tv_team_name_2.setText(AppConstants.COMPETATION_NAME_GROUP + "-" + mTeamFixturesModel.getAwayPlaceholder());
+            } else if (!Utility.isNullOrEmpty(mTeamFixturesModel.getCompetition_actual_name()) && mTeamFixturesModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
+                tv_team_name_2.setText(AppConstants.COMPETATION_NAME_POS + "-" + mTeamFixturesModel.getAwayPlaceholder());
+            } else {
+                if (!Utility.isNullOrEmpty(mTeamFixturesModel.getAwayTeam())) {
+                    tv_team_name_2.setText(mTeamFixturesModel.getAwayTeam());
+                } else {
+                    tv_team_name_2.setText("");
+                }
+            }
         } else {
-            tv_team_name_2.setText("");
+            if (!Utility.isNullOrEmpty(mTeamFixturesModel.getAwayTeam())) {
+                tv_team_name_2.setText(mTeamFixturesModel.getAwayTeam());
+            } else {
+                tv_team_name_2.setText("");
+            }
         }
+
         String referee_name = "";
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getFirst_name())) {
             referee_name = mTeamFixturesModel.getFirst_name() + " ";

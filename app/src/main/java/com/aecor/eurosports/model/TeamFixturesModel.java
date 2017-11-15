@@ -13,6 +13,7 @@ public class TeamFixturesModel implements Parcelable {
     private String match_number;
     private String round;
     private String competation_name;
+    private String competition_actual_name;
     private String team_size;
     private String match_datetime;
     private String match_endtime;
@@ -56,12 +57,17 @@ public class TeamFixturesModel implements Parcelable {
     private String full_game;
     private String match_status;
     private String MatchWinner;
+    private String homePlaceholder;
+    private String awayPlaceholder;
+    private String homeTeamName;
+    private String awayTeamName;
 
     protected TeamFixturesModel(Parcel in) {
         fid = in.readString();
         match_number = in.readString();
         round = in.readString();
         competation_name = in.readString();
+        competition_actual_name = in.readString();
         team_size = in.readString();
         match_datetime = in.readString();
         match_endtime = in.readString();
@@ -105,6 +111,71 @@ public class TeamFixturesModel implements Parcelable {
         full_game = in.readString();
         match_status = in.readString();
         MatchWinner = in.readString();
+        homePlaceholder = in.readString();
+        awayPlaceholder = in.readString();
+        homeTeamName = in.readString();
+        awayTeamName = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(fid);
+        dest.writeString(match_number);
+        dest.writeString(round);
+        dest.writeString(competation_name);
+        dest.writeString(competition_actual_name);
+        dest.writeString(team_size);
+        dest.writeString(match_datetime);
+        dest.writeString(match_endtime);
+        dest.writeString(venueId);
+        dest.writeString(competitionId);
+        dest.writeString(venueCoordinates);
+        dest.writeString(pitchType);
+        dest.writeString(venueaddress);
+        dest.writeString(venueState);
+        dest.writeString(venueCounty);
+        dest.writeString(venueCity);
+        dest.writeString(venueCountry);
+        dest.writeString(venuePostcode);
+        dest.writeString(group_name);
+        dest.writeString(venue_name);
+        dest.writeString(pitch_number);
+        dest.writeString(referee_name);
+        dest.writeString(referee_id);
+        dest.writeString(first_name);
+        dest.writeString(last_name);
+        dest.writeString(HomeTeam);
+        dest.writeString(AwayTeam);
+        dest.writeString(Home_id);
+        dest.writeString(Away_id);
+        dest.writeString(HomeFlagLogo);
+        dest.writeString(AwayFlagLogo);
+        dest.writeString(HomeCountryFlag);
+        dest.writeString(HomeCountryName);
+        dest.writeString(AwayCountryName);
+        dest.writeString(homeScore);
+        dest.writeString(AwayScore);
+        dest.writeString(pitchId);
+        dest.writeString(is_scheduled);
+        dest.writeString(game_duration_RR);
+        dest.writeString(game_duration_FM);
+        dest.writeString(halftime_break_RR);
+        dest.writeString(halftime_break_FM);
+        dest.writeString(match_interval_RR);
+        dest.writeString(match_interval_FM);
+        dest.writeString(tid);
+        dest.writeString(full_game);
+        dest.writeString(match_status);
+        dest.writeString(MatchWinner);
+        dest.writeString(homePlaceholder);
+        dest.writeString(awayPlaceholder);
+        dest.writeString(homeTeamName);
+        dest.writeString(awayTeamName);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<TeamFixturesModel> CREATOR = new Creator<TeamFixturesModel>() {
@@ -149,6 +220,14 @@ public class TeamFixturesModel implements Parcelable {
 
     public void setCompetation_name(String competation_name) {
         this.competation_name = competation_name;
+    }
+
+    public String getCompetition_actual_name() {
+        return competition_actual_name;
+    }
+
+    public void setCompetition_actual_name(String competition_actual_name) {
+        this.competition_actual_name = competition_actual_name;
     }
 
     public String getTeam_size() {
@@ -479,19 +558,6 @@ public class TeamFixturesModel implements Parcelable {
         this.full_game = full_game;
     }
 
-    public String getMatchWinner() {
-        return MatchWinner;
-    }
-
-    public void setMatchWinner(String matchWinner) {
-        MatchWinner = matchWinner;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
     public String getMatch_status() {
         return match_status;
     }
@@ -500,54 +566,43 @@ public class TeamFixturesModel implements Parcelable {
         this.match_status = match_status;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(fid);
-        dest.writeString(match_number);
-        dest.writeString(round);
-        dest.writeString(competation_name);
-        dest.writeString(team_size);
-        dest.writeString(match_datetime);
-        dest.writeString(match_endtime);
-        dest.writeString(venueId);
-        dest.writeString(competitionId);
-        dest.writeString(venueCoordinates);
-        dest.writeString(pitchType);
-        dest.writeString(venueaddress);
-        dest.writeString(venueState);
-        dest.writeString(venueCounty);
-        dest.writeString(venueCity);
-        dest.writeString(venueCountry);
-        dest.writeString(venuePostcode);
-        dest.writeString(group_name);
-        dest.writeString(venue_name);
-        dest.writeString(pitch_number);
-        dest.writeString(referee_name);
-        dest.writeString(referee_id);
-        dest.writeString(first_name);
-        dest.writeString(last_name);
-        dest.writeString(HomeTeam);
-        dest.writeString(AwayTeam);
-        dest.writeString(Home_id);
-        dest.writeString(Away_id);
-        dest.writeString(HomeFlagLogo);
-        dest.writeString(AwayFlagLogo);
-        dest.writeString(HomeCountryFlag);
-        dest.writeString(HomeCountryName);
-        dest.writeString(AwayCountryName);
-        dest.writeString(homeScore);
-        dest.writeString(AwayScore);
-        dest.writeString(pitchId);
-        dest.writeString(is_scheduled);
-        dest.writeString(game_duration_RR);
-        dest.writeString(game_duration_FM);
-        dest.writeString(halftime_break_RR);
-        dest.writeString(halftime_break_FM);
-        dest.writeString(match_interval_RR);
-        dest.writeString(match_interval_FM);
-        dest.writeString(tid);
-        dest.writeString(full_game);
-        dest.writeString(match_status);
-        dest.writeString(MatchWinner);
+    public String getMatchWinner() {
+        return MatchWinner;
+    }
+
+    public void setMatchWinner(String matchWinner) {
+        MatchWinner = matchWinner;
+    }
+
+    public String getHomePlaceholder() {
+        return homePlaceholder;
+    }
+
+    public void setHomePlaceholder(String homePlaceholder) {
+        this.homePlaceholder = homePlaceholder;
+    }
+
+    public String getAwayPlaceholder() {
+        return awayPlaceholder;
+    }
+
+    public void setAwayPlaceholder(String awayPlaceholder) {
+        this.awayPlaceholder = awayPlaceholder;
+    }
+
+    public String getHomeTeamName() {
+        return homeTeamName;
+    }
+
+    public void setHomeTeamName(String homeTeamName) {
+        this.homeTeamName = homeTeamName;
+    }
+
+    public String getAwayTeamName() {
+        return awayTeamName;
+    }
+
+    public void setAwayTeamName(String awayTeamName) {
+        this.awayTeamName = awayTeamName;
     }
 }

@@ -215,16 +215,45 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
         } else {
             team2_score.setText("");
         }
-        if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
-            team1_name.setText(mFixtureModel.getHomeTeam());
+        if (mFixtureModel.getHome_id().equalsIgnoreCase("0") && !Utility.isNullOrEmpty(mFixtureModel.getHomeTeamName()) && mFixtureModel.getHomeTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
+            if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
+                team1_name.setText(AppConstants.COMPETATION_NAME_GROUP + "-" + mFixtureModel.getHomePlaceholder());
+            } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
+                team1_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getHomePlaceholder());
+            } else {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
+                    team1_name.setText(mFixtureModel.getHomeTeam());
+                } else {
+                    team1_name.setText("");
+                }
+            }
         } else {
-            team1_name.setText("");
+            if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
+                team1_name.setText(mFixtureModel.getHomeTeam());
+            } else {
+                team1_name.setText("");
+            }
         }
-        if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeam())) {
-            team2_name.setText(mFixtureModel.getAwayTeam());
+        if (mFixtureModel.getAway_id().equalsIgnoreCase("0") && !Utility.isNullOrEmpty(mFixtureModel.getAwayTeamName()) && mFixtureModel.getAwayTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
+            if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
+                team2_name.setText(AppConstants.COMPETATION_NAME_GROUP + "-" + mFixtureModel.getAwayPlaceholder());
+            } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
+                team2_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getAwayPlaceholder());
+            } else {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeam())) {
+                    team2_name.setText(mFixtureModel.getAwayTeam());
+                } else {
+                    team2_name.setText("");
+                }
+            }
         } else {
-            team2_name.setText("");
+            if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeam())) {
+                team2_name.setText(mFixtureModel.getAwayTeam());
+            } else {
+                team2_name.setText("");
+            }
         }
+
         if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && mFixtureModel.getHomeScore().equalsIgnoreCase(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));

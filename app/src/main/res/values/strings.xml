@@ -44,7 +44,7 @@
     <string name="league_table">league table</string>
     <string name="no_data_available">No data available</string>
     <string name="venue">Venue</string>
-    <string name="group_summary">GROUP</string>
+    <string name="group_summary">GROUP SUMMARY</string>
     <string name="G" translatable="false">G</string>
     <string name="W" translatable="false">W</string>
     <string name="D" translatable="false">D</string>
