@@ -243,26 +243,18 @@ class TeamService implements TeamContract
         $finalTeamdata = [];
         foreach ($teamData as $key => $team) {
           if($team['value'] != '') {
-            $finalTeamdata[] = $team; 
+            $finalTeamdata[] = $team;
           }
         } 
 
         if(count($finalTeamdata) != $tournamentCompetationTemplatesTotalTeamsCount->total_teams) {
           return ['status_code' => '422', 'message' => 'You need to assign all teams.'];
         }
+        
         $this->teamRepoObj->updateMatches($teamsList,$teamsData,$data['data']);
       }
 
-      // $competationIdArray = array();
-      // $competationIdArray = Competition::where('tournament_id',$tournamentId)
-      //        ->where('tournament_competation_template_id',$ageGroupId)->get()
-      //        ->pluck('id');
-
-      // if(count($competationIdArray) > 0) {
-      //   $matchStandings = DB::table('match_standing')
-      //     ->where('tournament_id','=',$tournamentId)
-      //     ->whereIn('competition_id',$competationIdArray)->delete();
-      // }
+      $this->teamRepoObj->saveTeamManualRankingFromStandings($tournamentId, $ageGroupId, $teamsList);
 
       foreach ($teamData as $key => $value) {
           $team_id = str_replace('sel_', '', $value['name']);
