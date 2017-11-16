@@ -712,33 +712,23 @@ export default {
         var total_rr_time = 0;
         var total_final_time = 0;
         var total_time = 0;
-        var roundFinal;
+        var isFinalMatch;
 
-        if(jsonData.competition_round == 'F') {
-          roundFinal = 1;
+        if(typeof jsonData.final_round != 'undefined' && (jsonData.final_round == 'F' || jsonData.final_round == 'F/SMF')) {
+          isFinalMatch = true;
         } else {
-          roundFinal = 0;
+          isFinalMatch = false;
         }
 
-        for(var i = 0; i < total_round - roundFinal; i++) {
-          var round = jsonData.tournament_competation_format.format_name[i].match_type;          
-          round.forEach(function(value) {
-            var total_round_match = value.total_match;
-            total_rr_time+= parseInt(game_duration_RR * total_round_match);
-            total_rr_time+= parseInt(halftime_break_RR * total_round_match);
-            total_rr_time+= parseInt(match_interval_RR * total_round_match);
-          })
-        }
+        var total_round_match = isFinalMatch ? value.total_match - 1 : value.total_match;
+        total_rr_time+= parseInt(game_duration_RR * total_round_match);
+        total_rr_time+= parseInt(halftime_break_RR * total_round_match);
+        total_rr_time+= parseInt(match_interval_RR * total_round_match);
 
-        if(jsonData.competition_round == 'F') {
-          var final_round = jsonData.tournament_competation_format.format_name;          
-          final_round = final_round.pop();
-          var total_final_match = final_round.match_type[0].total_match;
-          total_final_time = parseInt(game_duration_FM * total_final_match);
-          total_final_time += parseInt(halftime_break_FM * total_final_match);
-          total_final_time += parseInt(match_interval_FM * total_final_match);
-        } else {
-          total_final_time = 0;
+        if(isFinalMatch) {
+          total_final_time = parseInt(game_duration_FM);
+          total_final_time += parseInt(halftime_break_FM);
+          total_final_time += parseInt(match_interval_FM);
         }
 
         total_time = total_rr_time + total_final_time;
