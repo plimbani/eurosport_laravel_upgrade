@@ -178,44 +178,30 @@ class TournamentService implements TournamentContract
         // we use -1 loop for only consider round robin matches
         // TODO: We change logic to Only Consider final Matches
 
-        if($json_data->competition_round == 'F') {
-          // Its Final Round
-          $roundFinal = 1;
+        if(isset($json_data->final_round) && ($json_data->final_round == 'F' || $json_data->final_round == 'F/SMF')) {
+          $isFinalMatch = true;
         } else {
-          $roundFinal = 0;
-        }
-        for($i=0;$i<$totalRound-$roundFinal;$i++){
-            // Now here we calculate followng fields
-            $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
-            // Now here we have to for loop for match_type
-
-            foreach($rounds as $round) {
-               $total_round_match = $round->total_match;
-               // Calculate Game Duration for RR
-               $total_rr_time+= $data['game_duration_RR'] * $total_round_match;
-               // Calculate  half Time Break for RR
-               $total_rr_time+= $data['halftime_break_RR'] * $total_round_match;
-              // Calculate Match Interval
-               $total_rr_time+= $data['match_interval_RR'] * $total_round_match;
-           }
-
+          $isFinalMatch = false;
         }
 
-        // Now we calculate final match time
-        if($json_data->competition_round == 'F')
-        {
-          $final_round = array_pop($json_data->tournament_competation_format->format_name);
 
-          // we know that we have only one Final Round Over here
-          $total_final_match = $final_round->match_type[0]->total_match;
+        $total_round_match = $isFinalMatch ? $total_matches - 1 : $total_matches;
+        // Calculate Game Duration for RR
+        $total_rr_time+= $data['game_duration_RR'] * $total_round_match;
+        // Calculate  half Time Break for RR
+        $total_rr_time+= $data['halftime_break_RR'] * $total_round_match;
+        // Calculate Match Interval
+        $total_rr_time+= $data['match_interval_RR'] * $total_round_match;
 
-          $total_final_time  = $data['game_duration_FM']  * $total_final_match;
-          $total_final_time += $data['halftime_break_FM'] * $total_final_match;
-          $total_final_time += $data['match_interval_FM'] * $total_final_match;
-
-        } else {
-          $total_final_time  = 0;
+        if($isFinalMatch) {
+          // Calculate Game Duration for RR
+          $total_final_time+= $data['game_duration_FM'];
+          // Calculate  half Time Break for RR
+          $total_final_time+= $data['halftime_break_FM'];
+          // Calculate Match Interval
+          $total_final_time+= $data['match_interval_FM'];
         }
+
         // Now we sum up round robin and final match
         $total_time = $total_rr_time + $total_final_time;
 
