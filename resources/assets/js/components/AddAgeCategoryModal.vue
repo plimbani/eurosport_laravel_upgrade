@@ -103,11 +103,14 @@
             </div>
           </div>
 
-          <div class="form-group row align-items-center">
+          <div class="form-group row align-items-center" v-model="isSelected">
             <div class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</div>
             <div class="col-sm-8">
               <div class="row align-items-center">
-                <span class="col-sm-2">2 <small>X</small></span>
+                <select class="form-control ls-select2 col-sm-2">
+                      <option isSelected>1 x</option>
+                      <option selected="selected">2 x</option>
+                </select>
                 <select class="form-control ls-select2 col-sm-4" v-model="competation_format.game_duration_RR" @change="updateMatchTime()">
                 <option v-for="(item,key) in game_duration_rr_array[0]"
                  v-bind:value="item">{{key}}</option>
@@ -121,7 +124,7 @@
                  <input type="number" placeholder="" v-model="competation_format.game_duration_RR_other"
                  min="0" class="form-control" @input="updateMatchTime()">
                 </span>
-                <span class="col-md-3">{{$lang.competation_modal_duration_final_minutes}}</span>
+                <span class="col-md-2">{{$lang.competation_modal_duration_final_minutes}}</span>
               </div>
             </div>
           </div>
@@ -129,7 +132,10 @@
             <div class="col-sm-4 form-control-label">{{$lang.competation_modal_duration_final}}</div>
             <div class="col-sm-8">
               <div class="row align-items-center">
-                <span class="col-sm-2">2 <small>X</small></span>
+                <select id="duration" name="duration" class="form-control ls-select2 col-sm-2">
+                      <option>1 x</option>
+                      <option selected="selected">2 x</option>
+                </select>
                 <select class="form-control ls-select2 col-sm-4 " v-model="competation_format.game_duration_FM" @change="updateMatchTime()">
                     <option v-for="(item,key) in game_duration_fm_array[0]"
                     v-bind:value="item">{{key}}</option>
@@ -142,7 +148,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group row align-items-center">
+          <div class="form-group row align-items-center" v-show="isSelected">
             <div class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break}}</div>
             <div class="col-sm-8">
               <div class="row">
@@ -325,6 +331,7 @@ export default {
       isAgeCategoryDisabled: false,
       exceedTeamLimit: false,
       exceedTeamLimitMessage: '',
+      isSelected: '',
       isSaveInProcess: false,
       categoryAgeArr: ['U08/5','U09','U09/5','U09/7','U10','U10/5','U10/7','U10/9','U10/5A','U10/7A','U10/5B','U10/7B','U11','U11/11','U11/7','U11/7A','U11/7B','U12','U12/7','U12/8','U12/9','U12-A','U12/7A','U12/8A','U12-B','U12/7B','U12/8B','U13','U13/7','U13/8','U13/9','U13-A','U13/7A','U13/8A','U13/9A','U13-B','U13/8B','U13/9B','U14','U14/7','U14-A','U14-B','U15','U15/7','U15-A','U15-B','U16','U16-A','U16-B','U17','U17-A','U17-B','U18','U19','U19-A','U19-B','U10-U9','G08/5','G09/5','G09/7','G10/5','G10/7','G10/7A','G10/7B','G11','G11/7','G12','G12/7','G12/8','G12/9','G12/7A','G12/7B','G13','G13/7','G13/8','G13/9','G13/7A','G13/7B','G14','G14/7','G14/8','G14-A','G14-B','G15','G15/7','G15/8','G15-A','G15-B','G16','G17','G17/7','G17-A','G17-B','G18','G18/7','G18-A','G18-B','G19','G19-A','G19-B','M-O','M-O/5','M-O/7','M32','M35','M35/7','W-O','W-O/7'],
       categoryAgeColorArr: {
