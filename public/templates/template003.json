@@ -1,14 +1,15 @@
 {
 	"total_matches": 16,
 	"tournament_id": "003",
-  "template_font_color": "rgb(148,208,80)",
+    "template_font_color": "rgb(148,208,80)",
 	"tournament_teams": 6,
 	"tournament_name": "T.6.5",
-	 "competition_round": "F",
+	"competition_round": "F",
 	"competition_group_round": "1x6",
 	"competation_format": "RR, PM/F",
 	"tournament_min_match": 5,
-  "avg_game_team":5.3,
+    "avg_game_team":5.3,
+    "final_round": "F",
 	"tournament_competition_ranking": {
 	    "format_name": [{
 	      "round": "Round 1",
