@@ -10,6 +10,7 @@
     "competation_format": "",
     "tournament_min_match": 5,
     "avg_game_team":5.0,
+    "final_round": "F/SMF",
     "tournament_competition_ranking": {
         "format_name": [{
           "round": "Round 1",
