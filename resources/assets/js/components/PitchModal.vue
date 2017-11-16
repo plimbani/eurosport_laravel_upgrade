@@ -184,10 +184,12 @@ var moment = require('moment');
            }
            
            let colorVal = this.matchDetail.category_age.category_age_color;
+           let textColorVal = this.matchDetail.category_age.category_age_font_color;
            let borderColorVal = this.matchDetail.category_age.category_age_color;
            let fixtureStripColor = this.matchDetail.competition.color_code != null ? this.matchDetail.competition.color_code : '#FFFFFF';
 
             this.matchFixture.color = colorVal;
+            this.matchFixture.textColor = textColorVal;
             this.matchFixture.borderColor = borderColorVal;
             this.matchFixture.fixtureStripColor = fixtureStripColor;
             
