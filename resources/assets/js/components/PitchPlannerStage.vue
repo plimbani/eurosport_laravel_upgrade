@@ -447,7 +447,7 @@ import _ from 'lodash'
 
                               if(scheduleBlock){
                                 colorVal = 'grey'
-                                textColorVal = '#000000'
+                                textColorVal = '#FFFFFF'
                                 borderColorVal = 'grey'
                                 fixtureStripColor = 'grey'
                               }
@@ -504,7 +504,7 @@ import _ from 'lodash'
                                     'refereeText': 'R',
                                     'title':'Pitch is not available',
                                     'color': 'grey',
-                                    'textColorVal': '#000000',
+                                    'textColor': '#FFFFFF',
                                     'borderColor': 'grey',
                                     'matchId':-1,
                                     'matchAgeGroupId':'',
@@ -522,7 +522,7 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title': 'Pitch is not available',
                                         'color': 'grey',
-                                        'textColorVal': '#000000',
+                                        'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
                                         'matchId':-1,
                                         'matchAgeGroupId':'',
@@ -541,7 +541,7 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
                                         'color': 'grey',
-                                        'textColorVal': '#000000',
+                                        'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
                                         'matchId': -1,
                                         'matchAgeGroupId':'',
@@ -588,7 +588,7 @@ import _ from 'lodash'
                     'refereeText': '',
                     'title': 'Pitch is not available',
                     'color': 'grey',
-                    'textColorVal': '#000000',
+                    'textColor': '#FFFFFF',
                     'matchId': '111212',
                     'matchAgeGroupId':'',
                     'displayFlag':''
@@ -616,7 +616,7 @@ import _ from 'lodash'
                             'refereeText': '',
                             'title': 'Unavailable',
                             'color': 'grey',
-                            'textColorVal': '#000000',
+                            'textColor': '#FFFFFF',
                             'matchId': 'block_'+block.id,
                             'matchAgeGroupId':'',
                             'displayFlag':''
