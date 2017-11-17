@@ -174,12 +174,6 @@ export default {
           e.preventDefault();
         }
 		});
-
-
-    $(document).on('hidden.bs.modal', '#matchScheduleModal', function (event) {
-      // here we close the compoent
-      this.setPitchModal = 0
-    });
 	},
 	  created: function() {
       this.$root.$on('reloadMatchList', this.setScore);
@@ -198,6 +192,7 @@ export default {
       }
     },
     openPitchModal(match,index) {
+      let vm = this;
       this.currentMatch =  match
       this.index =  index
       this.setPitchModal = 1
@@ -207,15 +202,42 @@ export default {
        let mtchNumber1 = mtchNumber.split(".")
 
       let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
-      if(match.Away_id != 0 && match.Home_id != 0)
-      {
-         mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
-      } else {
-        mtchNum = mtchNum+mtchNumber1[2]
+
+      let lastElm = mtchNumber1[2]
+      let teams = lastElm.split("-")
+      let Placehometeam =  teams[0]
+      let Placeawayteam =  teams[1]
+
+      if(match.Home_id != 0){
+          Placehometeam = match.HomeTeam
+      } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
+          if(match.competition_actual_name.indexOf('Group') !== -1) {
+              Placehometeam = 'Group-' + match.homePlaceholder
+          } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+              Placehometeam = 'Pos-' + match.homePlaceholder
+          }
       }
+
+      if(match.Away_id != 0){
+          Placeawayteam = match.AwayTeam
+      } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
+          if(match.competition_actual_name.indexOf('Group') !== -1) {
+              Placeawayteam = 'Group-' + match.awayPlaceholder
+          } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+              Placeawayteam = 'Pos-' + match.awayPlaceholder
+          }
+      }
+
+      mtchNum = mtchNum+Placehometeam+'-'+Placeawayteam
+
       this.matchFixture.title = mtchNum
       setTimeout(function() {
         $('#matchScheduleModal').modal('show')
+
+        $("#matchScheduleModal").on('hidden.bs.modal', function () {
+            vm.setPitchModal = 0
+            vm.matchFixture = {}
+        });
       },200);
 
     },
