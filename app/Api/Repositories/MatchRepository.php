@@ -173,6 +173,7 @@ class MatchRepository
                 'temp_fixtures.awayteam_score as AwayScore',
                 'temp_fixtures.pitch_id as pitchId',
                 'temp_fixtures.is_scheduled',
+                'temp_fixtures.is_final_round_match',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
                 'tournament_competation_template.game_duration_RR',
                 'tournament_competation_template.game_duration_FM',

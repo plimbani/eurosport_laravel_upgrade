@@ -301,19 +301,12 @@ const mutations = {
         // matchCount = 0
           _.find(allMatches, function (match) {
             
-            let round = ''
             let matchTime = 0
             if(match.group_name == competition.group_name){
-              if(match.round == 'Round Robin'){
-                round = 'RR-'
+              if(match.is_final_round_match == 1){
+                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
+              } else {
                 matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
-              }else if(match.round == 'Elimination'){
-                round = 'EL-'
-                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
-
-              }else if(match.round == 'Final'){
-                round = 'FN-'
-                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
               }
 
               let fullgame1 = match.full_game;
