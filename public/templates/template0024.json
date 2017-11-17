@@ -262,7 +262,8 @@
 						"match_number": "CAT.PM2.G1.1A_2B_WR-2A_1B_WR"
 					}, {
 						"in_between": "CAT.PM2.G1LR-CAT.PM2.G2LR",
-						"match_number": "CAT.PM2.G1.1A_2B_LR-2A_1B_LR"
+						"match_number": "CAT.PM2.G1.1A_2B_LR-2A_1B_LR",
+						"is_final_match": 1
 					}]
 				}
 			}]

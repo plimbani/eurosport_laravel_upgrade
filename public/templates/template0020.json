@@ -363,7 +363,8 @@
 					"group_name": "Group-PM1",
 					"match": [{
 						"in_between": "1C-2C",
-						"match_number": "CAT.PM3.G1.1C-2C"
+						"match_number": "CAT.PM3.G1.1C-2C",
+                        "is_final_match": 1
 					}]
 				},
 				"total_match": 1

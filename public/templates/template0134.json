@@ -601,7 +601,8 @@
                     "group_name": "Group-PM3",
                     "match":  [{
                         "in_between": "1H-CAT.PM3.G1WR",
-                        "match_number": "CAT.PM4.G1.1H-(PM3_G1_WR)"
+                        "match_number": "CAT.PM4.G1.1H-(PM3_G1_WR)",
+                        "is_final_match": 1
                     }, {
                         "in_between": "2H-CAT.PM3.G1LR",
                         "match_number": "CAT.PM4.G2.2H-(PM3_G1_LR)"
