@@ -394,7 +394,8 @@
 						"group_name": "Group-PM1",
 						"match": [{
 							"in_between": "1G-1H",
-							"match_number": "CAT.PM3.G1.1G-1H"
+							"match_number": "CAT.PM3.G1.1G-1H",
+                        	"is_final_match": 1
 						}]
 					}
 				}

@@ -207,7 +207,8 @@
 					"match": [
 					{
 						"in_between": "1A-1B",
-						"match_number": "CAT.PM2.G1.1A-1B"
+						"match_number": "CAT.PM2.G1.1A-1B",
+						"is_final_match": 1
 					}]
 				}
 			}]
