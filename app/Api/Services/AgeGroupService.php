@@ -143,6 +143,7 @@ class AgeGroupService implements AgeGroupContract
         $totalRound = count($json_data->tournament_competation_format->format_name);
         $group_name=array();
         $fixture_array = array();
+        $fixture_is_final_match_array = array();
         for($i=0;$i<$totalRound;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
@@ -163,6 +164,11 @@ class AgeGroupService implements AgeGroupContract
                 foreach($round->groups->match as $key1=>$matches) {
                     $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key1;
                     $fixture_array[$newVal] = $matches->match_number;
+                    if(isset($matches->is_final_match)) {
+                      $fixture_is_final_match_array[$newVal] = $matches->is_final_match;
+                    } else {
+                      $fixture_is_final_match_array[$newVal] = 0;
+                    }
                 }
             }
         }
@@ -170,7 +176,7 @@ class AgeGroupService implements AgeGroupContract
         $competation_array=$this->ageGroupObj->addCompetations($competationData,$group_name);
         // Now here we insert Fixtures
 
-        $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array);
+        $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$fixture_is_final_match_array,$competation_array);
         //exit;
 
     }
