@@ -502,6 +502,9 @@ export default {
             // Now here we have to append the value of game_duration
             //this.game_duration_rr_array.push(['130':'320'])
 
+            this.initialHalfBreakRR = this.competation_format.halftime_break_RR
+            this.initialHalfBreakFM = this.competation_format.halftime_break_FM
+
             if(this.competation_format.game_duration_RR != '10' && this.competation_format.game_duration_RR != '15' && this.competation_format.game_duration_RR != '20')
             {
 
@@ -524,7 +527,7 @@ export default {
               // set option other for game_duration_rr
               this.competation_format.game_duration_FM = 'other'
               // set value in for other
-              this.competation_format.game_duration_FM_other = Math.floor(gameRval1/2)
+              this.competation_format.game_duration_FM_other = Math.floor(gameRval1)
             }
 
             if(this.competation_format.match_interval_RR != '5' && this.competation_format.match_interval_RR != '10')
@@ -556,6 +559,8 @@ export default {
 
             this.competation_format.competation_format_id = resp.id
 
+            this.showHideHalfTimeBreakRR();
+            this.showHideHalfTimeBreakFM();
           },
           (error) => {
           }
@@ -686,7 +691,7 @@ export default {
     showHideHalfTimeBreakRR() {
       if(this.competation_format.halves_RR == 2) {
         this.haveTwoHalvesRR = true;
-        this.competation_format.halftime_break_RR = '5';
+        this.competation_format.halftime_break_RR = this.initialHalfBreakRR;
       } else {
         this.haveTwoHalvesRR = false;
         this.competation_format.halftime_break_RR = '0';
@@ -696,7 +701,7 @@ export default {
     showHideHalfTimeBreakFM() {
       if(this.competation_format.halves_FM == 2) {
         this.haveTwoHalvesFM = true;
-        this.competation_format.halftime_break_FM = '5';
+        this.competation_format.halftime_break_FM = this.initialHalfBreakFM;
       } else {
         this.haveTwoHalvesFM = false;
         this.competation_format.halftime_break_FM = '0';

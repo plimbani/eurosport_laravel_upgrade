@@ -178,7 +178,7 @@ class AgeGroupService implements AgeGroupContract
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
                 $group_name[$val]['team_count']=$round->group_count;
-                $group_name[$val]['match_type']=$round->name;     
+                $group_name[$val]['match_type']=$round->name;
 
                 if(isset($round->actual_name)) {
                   $group_name[$val]['actual_name'] = $round->actual_name;

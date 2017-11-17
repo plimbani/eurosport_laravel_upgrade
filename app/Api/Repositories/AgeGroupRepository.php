@@ -101,9 +101,9 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
       $tournamentCompeationTemplate['total_time'] =$data['total_time'];
 
-      $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR'];
+      $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR']/$data['halves_RR'];
       $tournamentCompeationTemplate['halves_RR'] = $data['halves_RR'];
-      $tournamentCompeationTemplate['game_duration_FM']= $data['game_duration_FM'];
+      $tournamentCompeationTemplate['game_duration_FM']= $data['game_duration_FM']/$data['halves_FM'];
       $tournamentCompeationTemplate['halves_FM'] = $data['halves_FM'];
       $tournamentCompeationTemplate['halftime_break_RR']= $data['halftime_break_RR'];
       $tournamentCompeationTemplate['halftime_break_FM']= $data['halftime_break_FM'];
