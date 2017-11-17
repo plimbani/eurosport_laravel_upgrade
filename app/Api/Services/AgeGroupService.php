@@ -70,11 +70,17 @@ class AgeGroupService implements AgeGroupContract
         // TODO: Here we set the value for Other Data
         // Impliclityly Add 2 For Multiplication
         if($data['game_duration_RR'] == 'other') {
-          $data['game_duration_RR'] = 2 * $data['game_duration_RR_other'];
+          $data['game_duration_RR'] = $data['halves_RR'] * $data['game_duration_RR_other'];
+        } else {
+          $data['game_duration_RR'] = $data['halves_RR'] * $data['game_duration_RR'];
         }
+
         if($data['game_duration_FM'] == 'other') {
-          $data['game_duration_FM'] = 2 * $data['game_duration_FM_other'];
+          $data['game_duration_FM'] = $data['halves_FM'] * $data['game_duration_FM_other'];
+        } else {
+          $data['game_duration_FM'] = $data['halves_FM'] * $data['game_duration_FM'];
         }
+
         if($data['match_interval_RR'] == 'other') {
           $data['match_interval_RR'] = $data['match_interval_RR_other'];
         }
