@@ -129,6 +129,7 @@
                                     </div>
                                   </div>
                                   <div class="col-md-3">
+
                                   </div>
                                 </div>
                                 <div class="row align-items-center mb-3">
@@ -151,11 +152,12 @@
                                     </div>
                                   </div>
                                   <div class="col-md-3">
+                                   
                                   </div>
                                 </div>
                                 <div :class="'row align-items-center mb-3 stageInvisible chk_disable_'+day ">
                                   <div class="col-md-3">
-                                      Stage {{day}} continued
+                                      Break end
                                   </div>
                                   <div class="col-md-3">
                                     <div class="input-group">
@@ -177,8 +179,25 @@
                                     </div>
                                   </div>
                                   <div class="col-md-3">
+                                      <a href="#" class="btn btn-primary"  @click="addBreak(day)">{{$lang.pitch_detail_break_add}}</a>
                                   </div>
                                 </div>
+                                <div v-if="breakEnable" >
+                                <div class="row align-items-center mb-3" v-for="n in stage_break[day]">
+                                  <div class="col-md-3">
+                                    Break{{n}} 
+                                  </div>
+                                  <div class="col-md-3">
+                                    <input type="text" :name="'break_start_'+day+'_'+n" v-validate="'required'" :class="[errors.has('break_start_'+day+'_'+n)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'break_start_'+day+'_'+n">
+                                  </div>
+                                  <div class="col-md-3">
+                                    <input type="text" :name="'break_end_'+day+'_'+n" v-validate="'required'" :class="[errors.has('break_end_'+day+'_'+n)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'break_end_'+day+'_'+n">
+                                  </div>
+                                   <div class="col-md-3">
+                                    
+                                  </div>
+                                </div>
+                              </div>
                                 <div class="row align-items-center mb-3">
                                   <div class="col-md-3">
                                       Stage {{day}} end
@@ -235,7 +254,7 @@
 </div>
 </template>
 
-<script type="text/babel">
+<script>
 var moment = require('moment');
 export default {
 
@@ -249,7 +268,9 @@ export default {
           'removeStage': [],
           'disableDate': [],
           'stage_capacity' : [],
-          'availableDate': []
+          'availableDate': [],
+          'stage_break': [],
+          'breakEnable': true
 
           }
   },
@@ -295,7 +316,9 @@ export default {
       let sDate = []
       var startDate = new Date(moment(this.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
       var obj ={}
-
+      // var stageBreak=[] ;
+      var stageBreak = '{"stageBreak":[]}';
+      var sBreak = JSON.parse(stageBreak);
       $('[data-toggle="tooltip"]').tooltip();
 
       $('.ls-datepicker').datepicker('setStartDate', this.tournamentStartDate);
@@ -314,7 +337,26 @@ export default {
               maxTime: '20:00',
               'timeFormat': 'H:i'
           })
+           stageBreak = [{'day':i,'break':'1'}];
+           
+
+          sBreak['stageBreak'].push({"day":i,"break":1});
+
+          // let k = i+1;
+         // stageBreak['day'+i] = '1';
+         
+         // jsonData[columnName] = column.value;
+         // stageBreak.filter( Number );
+         // array_filter(stageBreak);
       }
+      // this.stage_break.push( va);
+      // stageBreak = JSON.stringify(obj);
+
+      let arr = [];
+      _.map( sBreak['stageBreak'], function(s) {
+        arr[s.day] = s.break;
+      });
+       this.stage_break= arr;
       let disableDate = this.disableDate;
       this.stage_date.push(obj)
       $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
@@ -517,8 +559,13 @@ export default {
           this.$store.dispatch('SetPitches',this.tournamentId);
       },
       nextStage() {
-
-              $('.nav-tabs a[href="#availability"]').tab('show');
+        $('.nav-tabs a[href="#availability"]').tab('show');
+      },
+      addBreak(day) {
+        this.breakEnable = false;
+        this.stage_break[day] = parseInt(this.stage_break[day]) +1;
+        console.log(this.stage_break[day]);
+        this.breakEnable = true;
       },
       savePitchDetails () {
           this.$validator.validateAll().then(() => {
