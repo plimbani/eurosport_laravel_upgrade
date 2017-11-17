@@ -166,7 +166,8 @@
 					"group_name": "Group-PM1",
 					"match": [{
 						"in_between": "1A - 2A",
-						"match_number": "CAT.PM2.G1.1A-2A"
+						"match_number": "CAT.PM2.G1.1A-2A",
+						"is_final_match": 1
 					}]
 				}
 			}]

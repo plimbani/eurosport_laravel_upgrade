@@ -374,7 +374,8 @@
 						"group_name": "Group-PM2",
 						"match": [{
 							"in_between": "CAT.PM2.G1WR-CAT.PM2.G6WR",
-							"match_number": "CAT.PM3.G1.1A_1B_WR-1C_1D_WR"
+							"match_number": "CAT.PM3.G1.1A_1B_WR-1C_1D_WR",
+							"is_final_match": 1
 						},{
 							"in_between": "CAT.PM2.G1LR-CAT.PM2.G6LR",
 							"match_number": "CAT.PM3.G2.1A_1B_LR-1C_1D_LR"

@@ -343,7 +343,8 @@
 					"group_name": "Group-PM1",
 					"match": [{
 						"in_between": "4C-4D",
-						"match_number": "CAT.PM2.G1.4C-4D"
+						"match_number": "CAT.PM2.G1.4C-4D",
+						"is_final_match": 1
 					}]
 				}
 			}]
