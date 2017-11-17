@@ -308,6 +308,9 @@ var moment = require('moment');
           
           this.$store.dispatch('setMatches');
           this.$store.dispatch('SetScheduledMatches');
+          this.$root.$emit('reloadAllEvents')
+          
+
       })
     },
     matchPrint(ReportData) {

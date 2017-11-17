@@ -560,4 +560,6 @@ module.exports= {
   // Group colours
   pitch_planner_group_colours: "Group colours",
   pitch_planner_group_colours_title: "Group Colours",
+
+  pitch_detail_break_add: "Add break",
 }
