@@ -46,12 +46,32 @@
     		@endif
     		<!--<td align="center">{{ $report->full_game }}</td>-->
             <td align="right">
-               <span class="text-center">{{ $report->HomeTeam }}</span>
+                <span class="text-center">
+                    @if($report->homeTeam == '0' && $report->homeTeamName == '@^^@')
+                        @if(strpos($report->competition_actual_name, 'Group') !== false)
+                            {{ 'Group-' . $report->homePlaceholder }}
+                        @elseif(strpos($report->competition_actual_name, 'Pos') !== false)
+                            {{ 'Pos-' . $report->homePlaceholder }}
+                        @endif
+                    @else
+                        {{ $report->HomeTeam }}
+                    @endif
+                </span>
                <img src="{{ $report->HomeFlagLogo }}" width="20">&nbsp;
             </td>
             <td align="left">
             &nbsp;<img src="{{ $report->AwayFlagLogo }}" width="20">
-            <span class="text-center">{{ $report->AwayTeam }}</span>
+                <span class="text-center">
+                    @if($report->awayTeam == '0' && $report->awayTeamName == '@^^@')                        
+                        @if(strpos($report->competition_actual_name, 'Group') !== false)
+                            {{ 'Group-' . $report->awayPlaceholder }}
+                        @elseif(strpos($report->competition_actual_name, 'Pos') !== false)
+                            {{ 'Pos-' . $report->awayPlaceholder }}
+                        @endif
+                    @else
+                        {{ $report->AwayTeam }}
+                    @endif
+                </span>
             </td>
     	</tr>
     @endforeach

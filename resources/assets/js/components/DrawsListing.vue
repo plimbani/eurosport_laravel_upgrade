@@ -20,7 +20,11 @@ export default {
 	data() {
 		return {
 			drawsData:[],
-			matchData:[], otherData:[],
+			matchData:[], otherData:{
+				DrawName: null,
+				DrawId: null,
+				DrawType: null,
+			},
 			drawsList: [],draw:''
 		}
 	},
@@ -83,7 +87,7 @@ export default {
 
 		},
 		getDrawDetails(drawId, drawName,CompetationType='') {
-
+			$("body .js-loader").removeClass('d-none');
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
 			'competitionId':drawId,'is_scheduled':1}
@@ -96,10 +100,12 @@ export default {
 				(response)=> {
 					if(response.data.status_code == 200) {
 						this.matchData = response.data.data
+						$("body .js-loader").addClass('d-none');
 					}
 				},
 				(error) => {
 					alert('Error in Getting Draws')
+					$("body .js-loader").addClass('d-none');
 				}
 			)
 		},
