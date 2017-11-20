@@ -562,4 +562,5 @@ module.exports= {
   pitch_planner_group_colours_title: "Group Colours",
 
   pitch_detail_break_add: "Add break",
+  pitch_detail_break_remove: "Remove break",
 }
