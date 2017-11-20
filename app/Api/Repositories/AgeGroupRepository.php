@@ -294,7 +294,7 @@ class AgeGroupRepository
     public function FindTemplate($id) {
      return  DB::table('tournament_template')->where('id',$id)->first();
     }
-    public function addFixturesIntoTemp($fixtureArray,$competationArr)
+    public function addFixturesIntoTemp($fixtureArray,$fixtureIsFinalMatchArray,$competationArr)
     {
       // echo "<pre>"; print_r($fixtureArray); echo "</pre>";
       foreach($fixtureArray as $key=>$fixture) {
@@ -336,6 +336,7 @@ class AgeGroupRepository
               'match_result_id'=> 0,
               'created_at'=> new \DateTime(),
               'round'=>$round,
+              'is_final_round_match'=>$fixtureIsFinalMatchArray[$key],
               'age_group_id'=>$ageGroupId,
               'away_team_name'=>$away_team,
               'away_team_placeholder_name'=>$away_team,
