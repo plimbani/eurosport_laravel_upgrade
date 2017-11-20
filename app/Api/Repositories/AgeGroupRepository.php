@@ -294,9 +294,8 @@ class AgeGroupRepository
     public function FindTemplate($id) {
      return  DB::table('tournament_template')->where('id',$id)->first();
     }
-    public function addFixturesIntoTemp($fixtureArray,$competationArr)
+    public function addFixturesIntoTemp($fixtureArray,$competationArr,$fixtureMatchDetailArray)
     {
-      // echo "<pre>"; print_r($fixtureArray); echo "</pre>";
       foreach($fixtureArray as $key=>$fixture) {
         // echo '1'."<br>";
 
@@ -312,6 +311,7 @@ class AgeGroupRepository
               $round = $group['competation_type'];
             }
           }
+
           // Team Assignement
           $fixtu=explode('.',$fixture);
           $teams = explode('-',$fixtu[count($fixtu)-1]);
@@ -329,16 +329,19 @@ class AgeGroupRepository
           $teampfixtureTable->insert(
             [
               'match_number'=>$fixture_n,
+              'display_match_number'=>$fixtureMatchDetailArray[$key]['display_match_number'],
               'tournament_id'=>$tournamentId,
               'competition_id'=>$competationId,
               'home_team_name'=>$homeTeam,
               'home_team_placeholder_name'=>$homeTeam,
+              'display_home_team_placeholder_name'=>$fixtureMatchDetailArray[$key]['display_home_team_placeholder_name'],
               'match_result_id'=> 0,
               'created_at'=> new \DateTime(),
               'round'=>$round,
               'age_group_id'=>$ageGroupId,
               'away_team_name'=>$away_team,
               'away_team_placeholder_name'=>$away_team,
+              'display_away_team_placeholder_name'=>$fixtureMatchDetailArray[$key]['display_away_team_placeholder_name'],
               'venue_id'=>0,
               'pitch_id'=>0
             ]

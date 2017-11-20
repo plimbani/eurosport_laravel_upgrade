@@ -165,6 +165,8 @@ class AgeGroupService implements AgeGroupContract
         $totalRound = count($json_data->tournament_competation_format->format_name);
         $group_name=array();
         $fixture_array = array();
+        $fixture_match_detail_array = array();
+
         for($i=0;$i<$totalRound;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
@@ -192,6 +194,11 @@ class AgeGroupService implements AgeGroupContract
                 foreach($round->groups->match as $key1=>$matches) {
                     $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key1;
                     $fixture_array[$newVal] = $matches->match_number;
+                    $fixture_match_detail_array[$newVal] = [
+                      'display_match_number' => (isset($matches->display_match_number) ? $matches->display_match_number : null),
+                      'display_home_team_placeholder_name' => (isset($matches->display_home_team_placeholder_name) ? $matches->display_home_team_placeholder_name : null),
+                      'display_away_team_placeholder_name' => (isset($matches->display_away_team_placeholder_name) ? $matches->display_away_team_placeholder_name : null)
+                    ];
                 }
 
                 if(isset($round->dependent_groups)) {
@@ -199,6 +206,7 @@ class AgeGroupService implements AgeGroupContract
                     foreach($group->groups->match as $key1=>$matches) {
                       $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key.$key1;
                       $fixture_array[$newVal] = $matches->match_number;
+
                     }
                   }
                 }
@@ -208,7 +216,7 @@ class AgeGroupService implements AgeGroupContract
         $competation_array=$this->ageGroupObj->addCompetations($competationData,$group_name);
         // Now here we insert Fixtures
 
-        $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array);
+        $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array,$fixture_match_detail_array);
         //exit;
 
     }
