@@ -14,13 +14,11 @@ class PitchRepository
 
     public function getAllPitches($tournamentId)
     {
-        return Pitch::with('pitchAvailability')->where('tournament_id',$tournamentId)->get();
+        return Pitch::with(['pitchAvailability','pitchAvailability.pitchBreaks'])->where('tournament_id',$tournamentId)->get();
     }
 
     public function createPitch($pitchData)
     {
-        // dd($pitchData);
-
         return Pitch::create([
             'tournament_id' => $pitchData['tournamentId'],
             'pitch_number' => $pitchData['pitch_number'],
