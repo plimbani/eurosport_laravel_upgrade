@@ -6,12 +6,15 @@ use Laraspace\Models\Tournament;
 use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Api\Repositories\AgeGroupRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\Team;
+use Laraspace\Models\TempFixture;
 
 class AgeGroupService implements AgeGroupContract
 {
     public function __construct(AgeGroupRepository $ageRepoObj)
     {
         $this->ageGroupObj = $ageRepoObj;
+        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
     }
 
      /*
@@ -91,6 +94,11 @@ class AgeGroupService implements AgeGroupContract
         $data['total_match'] = $totalmatch;
         $data['disp_format_name'] = $dispFormatname;
 
+        if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
+
+            $mininterval = TournamentCompetationTemplates::where('id', '=', $data['competation_format_id'])->first()->team_interval;
+           
+        }
 
         $id = $this->ageGroupObj->createCompeationFormat($data);
 
@@ -109,6 +117,20 @@ class AgeGroupService implements AgeGroupContract
 
                 $id = $data['competation_format_id'];
                 $this->addCompetationGroups($id,$data);
+
+            } else {
+             
+              if($data['team_interval'] != $mininterval) {
+               
+              $teamsList = Team::where('age_group_id',$data['competation_format_id'])->pluck('id')->toArray();
+ 
+                $tournamentId = $data['tournament_id'];
+                $ageGroupId  = $data['competation_format_id'];
+
+                $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
+                $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
+                
+              }
             }
 
         } else {
@@ -146,9 +168,16 @@ class AgeGroupService implements AgeGroupContract
         for($i=0;$i<$totalRound;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
-            foreach($rounds as $key=>$round) {              
+            foreach($rounds as $key=>$round) {
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
+
+                if(isset($round->groups->actual_group_name)) {
+                  $group_name[$val]['actual_group_name']=$round->groups->actual_group_name;
+                } else {
+                  $group_name[$val]['actual_group_name']=$round->groups->group_name;
+                }
+                
                 $group_name[$val]['team_count']=$round->group_count;
                 $group_name[$val]['match_type']=$round->name;     
 
@@ -163,6 +192,15 @@ class AgeGroupService implements AgeGroupContract
                 foreach($round->groups->match as $key1=>$matches) {
                     $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key1;
                     $fixture_array[$newVal] = $matches->match_number;
+                }
+
+                if(isset($round->dependent_groups)) {
+                  foreach($round->dependent_groups as $key=>$group) {
+                    foreach($group->groups->match as $key1=>$matches) {
+                      $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key.$key1;
+                      $fixture_array[$newVal] = $matches->match_number;
+                    }
+                  }
                 }
             }
         }
@@ -183,7 +221,7 @@ class AgeGroupService implements AgeGroupContract
 
         // $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
         $disp_format_name = $json_data->tournament_teams .' teams: '.
-        $json_data->competition_group_round.' - '.$json_data->competition_round;
+        $json_data->competition_group_round.($json_data->competition_round != '' ? ' - '.$json_data->competition_round : '');
 
         $total_matches = $json_data->total_matches;
 
