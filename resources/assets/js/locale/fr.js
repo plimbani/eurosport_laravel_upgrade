@@ -353,6 +353,7 @@ module.exports = {
   teams_name_select: "FSelect category",
   teams_age_category: "FCategory age",
   teams_age_category_group: "FGroup",
+  teams_age_category_allocate: "FAllocate",
   // teams_select_age_category: "FSelect category name",
   teams_select: "FSelect",
   teams_select_age_category: "FSelect an age category",
