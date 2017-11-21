@@ -323,8 +323,12 @@ const mutations = {
               if(match.Away_id != 0 && match.Home_id != 0) {
                 fullgame1 = ''
               }
-               let mtchNumber = match.match_number
-               let mtchNumber1 = mtchNumber.split(".")
+              let displayMatchNumber = match.displayMatchNumber
+              let displayHomeTeamPlaceholder = match.displayHomeTeamPlaceholderName
+              let displayAwayTeamPlaceholder = match.displayAwayTeamPlaceholderName
+
+              let mtchNumber = match.match_number
+              let mtchNumber1 = mtchNumber.split(".")
 
               let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
               let teams = mtchNumber1[2].split("-")
@@ -341,7 +345,7 @@ const mutations = {
                   }
               }
 
-              if(match.Away_id != 0){
+              if(match.Away_id != 0){ 
                   Placeawayteam = match.AwayTeam
               } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
                   if(match.competition_actual_name.indexOf('Group') !== -1) {
