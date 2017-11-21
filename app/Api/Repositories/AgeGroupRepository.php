@@ -325,11 +325,17 @@ class AgeGroupRepository
 
           // echo "<pre>"; print_r(1); echo "</pre>";
           $fixture_n = str_replace('CAT.', $ageGroup.'-',$fixture);
+          $displayMatchNumber = null;
+
+          if($fixtureMatchDetailArray[$key]['display_match_number'] != null) {
+            $displayMatchNumber = str_replace('CAT.', $ageGroup.'-', $fixtureMatchDetailArray[$key]['display_match_number']);
+          }      
+
           $teampfixtureTable=DB::table('temp_fixtures');
           $teampfixtureTable->insert(
             [
               'match_number'=>$fixture_n,
-              'display_match_number'=>$fixtureMatchDetailArray[$key]['display_match_number'],
+              'display_match_number'=>$displayMatchNumber,
               'tournament_id'=>$tournamentId,
               'competition_id'=>$competationId,
               'home_team_name'=>$homeTeam,

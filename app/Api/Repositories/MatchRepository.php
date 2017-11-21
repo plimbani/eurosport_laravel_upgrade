@@ -275,7 +275,7 @@ class MatchRepository
           ->leftjoin('match_results', 'temp_fixtures.match_result_id', '=', 'match_results.id')
           ->leftjoin('referee', 'referee.id', '=', 'temp_fixtures.referee_id')
           ->groupBy('temp_fixtures.id')
-          ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' ,'competitions.competation_type as round' ,'competitions.name as competation_name','competitions.actual_name as competition_actual_name','competitions.color_code as competation_color_code', 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.age_group_id','temp_fixtures.match_winner',
+          ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' , 'temp_fixtures.display_match_number as displayMatchNumber'  ,'competitions.competation_type as round' ,'competitions.name as competation_name','competitions.actual_name as competition_actual_name','competitions.color_code as competation_color_code', 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.age_group_id','temp_fixtures.match_winner',
             'match_winner.name as MatchWinner',
               'venues.id as venueId', 'competitions.id as competitionId',
               'venues.venue_coordinates as venueCoordinates',
@@ -300,7 +300,9 @@ class MatchRepository
               'temp_fixtures.home_team_name as homeTeamName',
               'temp_fixtures.away_team_name as awayTeamName',
               'temp_fixtures.home_team_placeholder_name as homePlaceholder',
+              'display_home_team_placeholder_name as displayHomeTeamPlaceholderName',
               'temp_fixtures.away_team_placeholder_name as awayPlaceholder',
+              'display_home_team_placeholder_name as displayAwayTeamPlaceholderName',
               'tournament_competation_template.game_duration_RR',
               'tournament_competation_template.game_duration_FM',
               'tournament_competation_template.halftime_break_RR',
