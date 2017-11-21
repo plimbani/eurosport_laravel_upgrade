@@ -302,7 +302,7 @@ class MatchRepository
               'temp_fixtures.home_team_placeholder_name as homePlaceholder',
               'display_home_team_placeholder_name as displayHomeTeamPlaceholderName',
               'temp_fixtures.away_team_placeholder_name as awayPlaceholder',
-              'display_home_team_placeholder_name as displayAwayTeamPlaceholderName',
+              'display_away_team_placeholder_name as displayAwayTeamPlaceholderName',
               'tournament_competation_template.game_duration_RR',
               'tournament_competation_template.game_duration_FM',
               'tournament_competation_template.halftime_break_RR',

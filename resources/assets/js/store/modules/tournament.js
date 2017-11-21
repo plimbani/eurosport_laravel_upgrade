@@ -326,6 +326,7 @@ const mutations = {
               let displayMatchNumber = match.displayMatchNumber
               let displayHomeTeamPlaceholder = match.displayHomeTeamPlaceholderName
               let displayAwayTeamPlaceholder = match.displayAwayTeamPlaceholderName
+              let displayMatchName = displayMatchNumber;
 
               let mtchNumber = match.match_number
               let mtchNumber1 = mtchNumber.split(".")
@@ -336,36 +337,30 @@ const mutations = {
               let Placeawayteam =  teams[1]
 
               if(match.Home_id != 0){
-                  Placehometeam = match.HomeTeam
+                  Placehometeam = displayHomeTeamPlaceholder = match.HomeTeam
               } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
                   if(match.competition_actual_name.indexOf('Group') !== -1) {
-                      Placehometeam = 'Group-' + match.homePlaceholder
+                      Placehometeam = displayHomeTeamPlaceholder = 'Group-' + match.homePlaceholder
                   } else if(match.competition_actual_name.indexOf('Pos') !== -1){
-                      Placehometeam = 'Pos-' + match.homePlaceholder
+                      Placehometeam = displayHomeTeamPlaceholder = 'Pos-' + match.homePlaceholder
                   }
               }
 
               if(match.Away_id != 0){ 
-                  Placeawayteam = match.AwayTeam
+                  Placeawayteam = displayAwayTeamPlaceholder = match.AwayTeam
               } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
                   if(match.competition_actual_name.indexOf('Group') !== -1) {
-                      Placeawayteam = 'Group-' + match.awayPlaceholder
+                      Placeawayteam = displayAwayTeamPlaceholder = 'Group-' + match.awayPlaceholder
                   } else if(match.competition_actual_name.indexOf('Pos') !== -1){
-                      Placeawayteam = 'Pos-' + match.awayPlaceholder
+                      Placeawayteam = displayAwayTeamPlaceholder = 'Pos-' + match.awayPlaceholder
                   }
               }
 
               mtchNum = mtchNum+Placehometeam+'-'+Placeawayteam
 
-              // if(match.Away_id != 0 && match.Home_id != 0)
-              // {
-              //    fullgame1 = ''
-              //    mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
-              // } else {
-              //   mtchNum = mtchNum+mtchNumber1[2]
-              // }
+              displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
 
-              var person = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
+              var person = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum, 'displayMatchName': displayMatchName,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
               comp.push(person)
 
               if(match.is_scheduled!=1){
