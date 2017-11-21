@@ -106,8 +106,7 @@
                       <option value="">Please select</option>
                       <option :value="matchDetail.home_team">Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
                       </option>
-                      <option :value="matchDetail.away_team">Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_nam, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }})
-                      </option>
+                      <option :value="matchDetail.away_team">Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }})</option>
                   </select>
                   <span class="help is-danger" v-show="errors.has('match_winner')">This field is required</span>
                 </div>
