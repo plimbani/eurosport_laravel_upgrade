@@ -144,7 +144,11 @@ var moment = require('moment');
     data() {
        return {
          'tournamentId': this.$store.state.Tournament.tournamentId,
-         'matchDetail':{},
+         'matchDetail':{
+          'competition': {
+            'actual_name': null
+          }
+         },
          'referees': {},
          'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
          'referee_name' : '',
