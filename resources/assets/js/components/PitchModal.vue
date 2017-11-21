@@ -23,18 +23,18 @@
             <p class="mt-0 refree_name">
             <div v-if="matchDetail.referee">
               <div class="form-group row">
-                  <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
-                    Referee
-                  </label>
-                  <div class="col-sm-6 align-self-center">
-                      <input class="form-control mr-sm-2" type="text"
-                      v-model="matchDetail.referee.first_name"
-                      readonly>
+                <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                  Referee
+                </label>
+                <div class="col-sm-6 align-self-center">
+                    <input class="form-control mr-sm-2" type="text"
+                    v-model="matchDetail.referee.first_name"
+                    readonly>
 
-                  </div>
-                  <div class="col-sm-3 align-self-center">
-                      <a class="btn btn-danger w-100" href="javascript:void(0)" @click="removeReferee()">{{$lang.pitch_modal_remove_button}}</a>
-                  </div>
+                </div>
+                <div class="col-sm-3 align-self-center">
+                    <a class="btn btn-danger w-100" href="javascript:void(0)" @click="removeReferee()">{{$lang.pitch_modal_remove_button}}</a>
+                </div>
               </div>
             </div>
             <div class="row" v-else>
