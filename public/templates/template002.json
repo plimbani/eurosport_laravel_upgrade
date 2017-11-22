@@ -257,10 +257,10 @@
                                 },
                                 {
                                     "in_between": "PM2.G1LR - PM2.G2LR",
-                                    "match_number": "CAT.PM3.G2.2A_1B_LR-1A_2B_LR",
+                                    "match_number": "CAT.PM3.G2.1A_2B_LR-2A_1B_LR",
                                     "display_match_number": "CAT.3.2.lrs.(@HOME-@AWAY)",
-                                    "display_home_team_placeholder_name": "2.2",
-                                    "display_away_team_placeholder_name": "2.1"
+                                    "display_home_team_placeholder_name": "2.1",
+                                    "display_away_team_placeholder_name": "2.2"
                                 },
                                 {
                                     "in_between": "3A- 3B",
