@@ -573,7 +573,7 @@ class MatchController extends BaseController
                         }
                     } else {
                         $displayAwayTeamPlaceHolderName = '#' . $homeAwayTeamPlaceHolder[1];
-                        $splittedMatchNumber[3] = '-@AWAY';
+                        $splittedMatchNumber[3] .= '-@AWAY';
                     }
                 }
             } else if(strpos($homeTeamPlaceHolder, '(') !== false || strpos($awayTeamPlaceHolder, '(') !== false) {
