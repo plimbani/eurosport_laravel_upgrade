@@ -352,7 +352,7 @@
                                     "display_away_team_placeholder_name": "2.2"
                                 },
                                 {
-                                    "in_between": "CAT.PM2.G1.WR-CAT.PM2.G2.WR",
+                                    "in_between": "CAT.PM2.G1.LR-CAT.PM2.G2.LR",
                                     "match_number": "CAT.PM3.G2.1A_2B_LR-2A_1B_LR",
                                     "display_match_number": "CAT.3.2.lrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "2.1",
