@@ -14,7 +14,7 @@ class TournamentsTemplateTableSeeder extends Seeder
     public function run()
     {
       DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        DB::table('tournament_template')->delete();
+        DB::table('tournament_template')->truncate();
         DB::table('tournament_template')->insert([
           [ 'name' => 'T.6.3',
           'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template001.json'))),

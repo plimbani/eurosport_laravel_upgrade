@@ -440,7 +440,7 @@ input[type=number]:hover::-webkit-inner-spin-button {
 }
 
 input[type=number] {
-    padding-left: 1rem;
+    padding-left: 1rem !important;
 }
 
 .pitch-planner-item .fc-event,

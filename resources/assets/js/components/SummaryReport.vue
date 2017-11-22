@@ -614,7 +614,7 @@ export default {
 	},
 	getHoldingName(competitionActualName, placeholder) {
       if(competitionActualName.indexOf('Group') !== -1){
-        return 'Group-' + placeholder;
+        return placeholder;
       } else if(competitionActualName.indexOf('Pos') !== -1){
         return 'Pos-' + placeholder;
       }
