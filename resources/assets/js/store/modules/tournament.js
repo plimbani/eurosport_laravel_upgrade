@@ -101,10 +101,10 @@ const actions = {
         }
       )
     });
-    
+
   },
-  
-  
+
+
 
   SetVenues ({commit},tournamentId) {
 	Tournament.getAllVenues(tournamentId).then (
@@ -200,7 +200,7 @@ const actions = {
     } else {
         tournamentData ={'tournamentId':state.tournamentId }
     }
-             
+
   }
 }
 
@@ -226,7 +226,7 @@ const mutations = {
   state.twitter = currentTournament.twitter
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {
-  
+
 	state.tournamentName = tournamentData.name
   state.maximumTeams = tournamentData.maximum_teams
   state.tournamentId = tournamentData.id
@@ -258,9 +258,9 @@ const mutations = {
   [types.TOTAL_REFEREES] (state, totalReferees) {
 	state.totalReferee = totalReferees;
   },
-  
+
   [types.SET_TOURNAMENT_FILTER] (state, filterData) {
-  	
+
 	state.tournamentFiler.filterKey = filterData.filterKey;
 	state.tournamentFiler.filterValue = filterData.filterValue;
 
@@ -275,7 +275,7 @@ const mutations = {
     state.tournamentStages = '';
     state.tournamentStages = tournamentStages;
   },
-  
+
   [types.SET_MATCHES] (state, matches) {
     state.matches = '';
     state.matches = matches;
@@ -300,7 +300,7 @@ const mutations = {
         matchCount = 0
         // matchCount = 0
           _.find(allMatches, function (match) {
-            
+
             let round = ''
             let matchTime = 0
             if(match.age_group_id == competition.id){
@@ -340,7 +340,7 @@ const mutations = {
                   Placehometeam = displayHomeTeamPlaceholder = match.HomeTeam
               } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
                   if(match.competition_actual_name.indexOf('Group') !== -1) {
-                      Placehometeam = displayHomeTeamPlaceholder = 'Group-' + match.homePlaceholder
+                      Placehometeam = displayHomeTeamPlaceholder = match.homePlaceholder
                   } else if(match.competition_actual_name.indexOf('Pos') !== -1){
                       Placehometeam = displayHomeTeamPlaceholder = 'Pos-' + match.homePlaceholder
                   }
@@ -350,7 +350,7 @@ const mutations = {
                   Placeawayteam = displayAwayTeamPlaceholder = match.AwayTeam
               } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
                   if(match.competition_actual_name.indexOf('Group') !== -1) {
-                      Placeawayteam = displayAwayTeamPlaceholder = 'Group-' + match.awayPlaceholder
+                      Placeawayteam = displayAwayTeamPlaceholder = match.awayPlaceholder
                   } else if(match.competition_actual_name.indexOf('Pos') !== -1){
                       Placeawayteam = displayAwayTeamPlaceholder = 'Pos-' + match.awayPlaceholder
                   }
@@ -381,8 +381,8 @@ const mutations = {
         state.totalMatch = matchCountDisplay
         state.competitionWithGames = state.competationList
       }
-    
-    
+
+
   },
 
 }

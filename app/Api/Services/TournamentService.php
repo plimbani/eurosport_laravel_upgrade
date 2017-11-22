@@ -440,9 +440,9 @@ class TournamentService implements TournamentContract
 
         if(isset($data['sel_ageCategory'])  && $data['sel_ageCategory']!= ''){
           $reportQuery->where('tournament_competation_template.id',$data['sel_ageCategory']);
-        }            
+        }
         if(isset($data['start_date'])  && $data['start_date']!= '' ){
-          $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date'])->toDateString();    
+          $start_date = Carbon::createFromFormat('d/m/Y', $data['start_date'])->toDateString();
           $reportQuery = $reportQuery->whereDate('temp_fixtures.match_datetime','>=',$start_date);
         }
         if(isset($data['end_date'])  && $data['end_date']!= '' ){
@@ -465,9 +465,9 @@ class TournamentService implements TournamentContract
           $tournamentId = $data['tournament_id'];
           $getTeamId = Team::where('club_id','=',$club_id)->where('tournament_id','=',$tournamentId)->pluck('teams.id')->toArray();
           $reportQuery =  $reportQuery->whereIn('temp_fixtures.home_team',$getTeamId)
-            ->orWhereIn('temp_fixtures.away_team',$getTeamId);            
+            ->orWhereIn('temp_fixtures.away_team',$getTeamId);
         }
-        if(isset($data['sel_teams'])  && $data['sel_teams']!= '' ){            
+        if(isset($data['sel_teams'])  && $data['sel_teams']!= '' ){
           $team = $data['sel_teams'];
           $reportQuery = $reportQuery->where(function ($query) use($team) {
             $query->where('temp_fixtures.home_team',$team)
@@ -518,7 +518,7 @@ class TournamentService implements TournamentContract
 
               if($reportRec->homeTeam == '0' && $reportRec->homeTeamName == '@^^@') {
                 if(strpos($reportRec->competition_actual_name, 'Group') !== false) {
-                  $homeTeam = 'Group-' . $reportRec->homePlaceholder;
+                  $homeTeam = $reportRec->homePlaceholder;
                 } else if(strpos($reportRec->competition_actual_name, 'Pos') !== false) {
                   $homeTeam = 'Pos-' . $reportRec->homePlaceholder;
                 }
@@ -528,7 +528,7 @@ class TournamentService implements TournamentContract
 
               if($reportRec->awayTeam == '0' && $reportRec->awayTeamName == '@^^@') {
                 if(strpos($reportRec->competition_actual_name, 'Group') !== false) {
-                  $awayTeam = 'Group-' . $reportRec->awayPlaceholder;
+                  $awayTeam = $reportRec->awayPlaceholder;
                 } else if(strpos($reportRec->competition_actual_name, 'Pos') !== false) {
                   $awayTeam = 'Pos-' . $reportRec->awayPlaceholder;
                 }
@@ -709,15 +709,15 @@ class TournamentService implements TournamentContract
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
         // echo $reportQuery->toSql();exit;
         $reportData = $reportQuery->get();
-        // dd($reportData->all()); 
+        // dd($reportData->all());
         $date = new \DateTime(date('H:i d M Y'));
-        // $footer = View::make('summary.footer');  
+        // $footer = View::make('summary.footer');
         // $date->setTimezone();.
         $pdf = PDF::loadView('summary.report',['data' => $reportData->all(), 'tournamentData' => $tournamentData])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
-            ->setOption('header-font-name', 'Open Sans')  
+            ->setOption('header-font-name', 'Open Sans')
             ->setOrientation('portrait')
             ->setOption('footer-html', route('pdf.footer'))
             ->setOption('header-right', $date->format('H:i d M Y'))
@@ -810,7 +810,7 @@ class TournamentService implements TournamentContract
 
     public function saveCategoryCompetitionColor($data)
     {
-      $this->tournamentRepoObj->saveCategoryCompetitionColor($data['competitionsColorData']);  
+      $this->tournamentRepoObj->saveCategoryCompetitionColor($data['competitionsColorData']);
       return ['status_code' => '200', 'message' => 'Group colors have been saved successfully.'];
     }
 }
