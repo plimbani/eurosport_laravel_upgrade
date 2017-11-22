@@ -207,7 +207,11 @@ class AgeGroupService implements AgeGroupContract
                     foreach($group->groups->match as $key1=>$matches) {
                       $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key.$key1;
                       $fixture_array[$newVal] = $matches->match_number;
-
+                      $fixture_match_detail_array[$newVal] = [
+                        'display_match_number' => (isset($matches->display_match_number) ? $matches->display_match_number : null),
+                        'display_home_team_placeholder_name' => (isset($matches->display_home_team_placeholder_name) ? $matches->display_home_team_placeholder_name : null),
+                        'display_away_team_placeholder_name' => (isset($matches->display_away_team_placeholder_name) ? $matches->display_away_team_placeholder_name : null)
+                      ];
                     }
                   }
                 }
