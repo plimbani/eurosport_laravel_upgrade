@@ -415,10 +415,10 @@
                                 },
                                 {
                                     "in_between": "CAT.PM2.G1LR-CAT.PM2.G5LR",
-                                    "match_number": "CAT.PM3.G1.1C_1D_LR-1A_1B_LR",
+                                    "match_number": "CAT.PM3.G2.1A_1B_LR-1C_1D_LR",
                                     "display_match_number": "CAT.3.1.lrs.(@HOME-@AWAY)",
-                                    "display_home_team_placeholder_name": "2.5",
-                                    "display_away_team_placeholder_name": "2.1"
+                                    "display_home_team_placeholder_name": "2.1",
+                                    "display_away_team_placeholder_name": "2.5"
                                 }
                             ]
                         }

@@ -584,7 +584,7 @@
                                     "display_home_team_placeholder_name": "3.7",
                                     "display_away_team_placeholder_name": "3.8"
                                 },
-                                {
+                                {   
                                     "in_between": "CAT.PM3.G5LR-CAT.PM3.G6LR",
                                     "match_number": "CAT.PM4.G7.(PM3_G5_LR)-(PM3_G6_LR)",
                                     "display_match_number": "CAT.4.7.lrs.(@HOME-@AWAY)",
@@ -599,7 +599,7 @@
                                     "display_away_team_placeholder_name": "3.8"
                                 },
                                 {
-                                    "in_between": "CAT.PM3.G7LR-CAT.PM3.G8LR",
+                                    "in_between": "5C-5D",
                                     "match_number": "CAT.PM4.G9.5C-5D",
                                     "display_match_number": "CAT.4.9.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#5C",
