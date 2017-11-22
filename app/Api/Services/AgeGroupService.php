@@ -158,6 +158,7 @@ class AgeGroupService implements AgeGroupContract
         $competationData['tournament_competation_template_id'] = $tournament_competation_template_id;
         $competationData['tournament_id'] = $data['tournament_id'];
         $competationData['age_group_name'] = $data['ageCategory_name'].'-'.$data['category_age'];
+        $categoryAge = $data['category_age'];
         $json_data = json_decode($data['tournamentTemplate']['json_data']);
 
 
@@ -216,7 +217,7 @@ class AgeGroupService implements AgeGroupContract
         $competation_array=$this->ageGroupObj->addCompetations($competationData,$group_name);
         // Now here we insert Fixtures
 
-        $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array,$fixture_match_detail_array);
+        $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array,$fixture_match_detail_array, $categoryAge);
         //exit;
 
     }
