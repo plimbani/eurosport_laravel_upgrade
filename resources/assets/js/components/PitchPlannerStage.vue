@@ -61,7 +61,7 @@ import _ from 'lodash'
             // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
             // this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
              this.$root.$on('reloadAllEvents', this.reloadAllEvents);
-            
+
 
         },
         mounted() {
@@ -88,9 +88,9 @@ import _ from 'lodash'
                     }
                     // vm.getUnavailablePitch()
                 // },500)
-            
+
             setTimeout(function(){
-                
+
                 if($(".pitch_planner_section").length > 0) {
                     setGameAndRefereeTabHeight();
                 }
@@ -279,7 +279,7 @@ import _ from 'lodash'
                         let ed = $(this)
                         if(event.refereeId == -1 || event.refereeId == -2){
                             revertFunc();
-                            
+
                         }else{
                             let matchId = event.id ? event.id : event.matchId
                             let matchData = {
@@ -296,16 +296,16 @@ import _ from 'lodash'
                                             let matchScheduleChk =new Promise((resolve, reject) => {
                                                 resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue));
                                             });
-                                           
+
                                             matchScheduleChk.then((successMessage) => {
-                                              vm.reloadAllEvents();  
+                                              vm.reloadAllEvents();
                                             });
                                             // vm.reloadAllEvents()
                                         }else{
                                             revertFunc();
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
                                         }
-                                    
+
                                 },
                                 (error) => {
                                 }
@@ -336,7 +336,7 @@ import _ from 'lodash'
                                     vm.$store.dispatch('setCompetationWithGames');
                                     vm.getScheduledMatch('age_category','')
                                     // },500)
-                                    
+
                                 });
                              },100);
                         }
@@ -351,7 +351,7 @@ import _ from 'lodash'
             handleEventClick(calEvent, jsEvent, view) {
                 // console.log(calEvent);
             },
-            
+
             deleteConfirmedBlock() {
 
                 Tournament.removeUnavailableBlock(this.remBlock_id).then(
@@ -411,7 +411,7 @@ import _ from 'lodash'
                                 Placehometeam = match.HomeTeam
                             } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
                                 if(match.competition_actual_name.indexOf('Group') !== -1) {
-                                    Placehometeam = 'Group-' + match.homePlaceholder
+                                    Placehometeam = match.homePlaceholder
                                 } else if(match.competition_actual_name.indexOf('Pos') !== -1){
                                     Placehometeam = 'Pos-' + match.homePlaceholder
                                 }
@@ -421,7 +421,7 @@ import _ from 'lodash'
                                 Placeawayteam = match.AwayTeam
                             } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
                                 if(match.competition_actual_name.indexOf('Group') !== -1) {
-                                    Placeawayteam = 'Group-' + match.awayPlaceholder
+                                    Placeawayteam = match.awayPlaceholder
                                 } else if(match.competition_actual_name.indexOf('Pos') !== -1){
                                     Placeawayteam = 'Pos-' + match.awayPlaceholder
                                 }
@@ -550,7 +550,7 @@ import _ from 'lodash'
                                 });
                             });
                         this.scheduledMatches =sMatches
-                        
+
                         this.stageWithoutPitch()
                         this.getUnavailablePitch()
 
@@ -559,11 +559,11 @@ import _ from 'lodash'
                                 $(this).closest('.fc-event').addClass('bg-grey');
                             }
                         })
-                       
+
                     }
 
                 )
-              return "Finish";  
+              return "Finish";
             },
             stageWithoutPitch() {
 
@@ -636,7 +636,7 @@ import _ from 'lodash'
         var considerHeaderHeight = 0;
         if(($(window).scrollTop() + $("header").height()) > $el.offset().top) {
             considerHeaderHeight = $("header").height();
-        }              
+        }
         var leftViewHeight = Math.max(0, t>0? Math.min(elH, H-t) : (b<H?b:H)) - $("#gameReferee .nav.nav-tabs").height() - parseInt($("#gameReferee .tab-content").css('margin-top').replace('px', '')) - considerHeaderHeight - 10;
         $("#game-list").css('height', leftViewHeight + 'px');
         $("#referee-list").css('height', leftViewHeight + 'px');
