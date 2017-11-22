@@ -321,10 +321,10 @@
                                 },
                                 {
                                     "in_between": "1B - 2B",
-                                    "match_number": "CAT.RR2.02.1B-2A",
+                                    "match_number": "CAT.RR2.02.1B-2B",
                                     "display_match_number": "CAT.2.2.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#1B",
-                                    "display_away_team_placeholder_name": "#2A"
+                                    "display_away_team_placeholder_name": "#2B"
                                 },
                                 {
                                     "in_between": "1A - 2B",
