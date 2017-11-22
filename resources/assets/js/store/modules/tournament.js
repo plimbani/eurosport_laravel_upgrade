@@ -101,10 +101,10 @@ const actions = {
         }
       )
     });
-    
+
   },
-  
-  
+
+
 
   SetVenues ({commit},tournamentId) {
 	Tournament.getAllVenues(tournamentId).then (
@@ -200,7 +200,7 @@ const actions = {
     } else {
         tournamentData ={'tournamentId':state.tournamentId }
     }
-             
+
   }
 }
 
@@ -226,7 +226,7 @@ const mutations = {
   state.twitter = currentTournament.twitter
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {
-  
+
 	state.tournamentName = tournamentData.name
   state.maximumTeams = tournamentData.maximum_teams
   state.tournamentId = tournamentData.id
@@ -258,9 +258,9 @@ const mutations = {
   [types.TOTAL_REFEREES] (state, totalReferees) {
 	state.totalReferee = totalReferees;
   },
-  
+
   [types.SET_TOURNAMENT_FILTER] (state, filterData) {
-  	
+
 	state.tournamentFiler.filterKey = filterData.filterKey;
 	state.tournamentFiler.filterValue = filterData.filterValue;
 
@@ -275,7 +275,7 @@ const mutations = {
     state.tournamentStages = '';
     state.tournamentStages = tournamentStages;
   },
-  
+
   [types.SET_MATCHES] (state, matches) {
     state.matches = '';
     state.matches = matches;
@@ -300,20 +300,13 @@ const mutations = {
         matchCount = 0
         // matchCount = 0
           _.find(allMatches, function (match) {
-            
             let round = ''
             let matchTime = 0
-            if(match.group_name == competition.group_name){
-              if(match.round == 'Round Robin'){
-                round = 'RR-'
-                matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
-              }else if(match.round == 'Elimination'){
-                round = 'EL-'
-                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
-
-              }else if(match.round == 'Final'){
-                round = 'FN-'
-                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
+            if(match.age_group_id == competition.id){
+              if(match.is_final_round_match == 1){
+                matchTime = parseInt(competition.game_duration_FM * competition.halves_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
+              } else {
+                matchTime = parseInt(competition.game_duration_RR * competition.halves_FM) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
               }
 
               let fullgame1 = match.full_game;
@@ -323,19 +316,44 @@ const mutations = {
               if(match.Away_id != 0 && match.Home_id != 0) {
                 fullgame1 = ''
               }
-               let mtchNumber = match.match_number
-               let mtchNumber1 = mtchNumber.split(".")
+              let displayMatchNumber = match.displayMatchNumber
+              let displayHomeTeamPlaceholder = match.displayHomeTeamPlaceholderName
+              let displayAwayTeamPlaceholder = match.displayAwayTeamPlaceholderName
+              let displayMatchName = displayMatchNumber;
+
+              let mtchNumber = match.match_number
+              let mtchNumber1 = mtchNumber.split(".")
 
               let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
-              if(match.Away_id != 0 && match.Home_id != 0)
-              {
-                 fullgame1 = ''
-                 mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
-              } else {
-                mtchNum = mtchNum+mtchNumber1[2]
+              let teams = mtchNumber1[2].split("-")
+              let Placehometeam =  teams[0]
+              let Placeawayteam =  teams[1]
+
+              if(match.Home_id != 0){
+                  Placehometeam = displayHomeTeamPlaceholder = match.HomeTeam
+              } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
+                  if(match.competition_actual_name.indexOf('Group') !== -1) {
+                      Placehometeam = displayHomeTeamPlaceholder = match.homePlaceholder
+                  } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                      Placehometeam = displayHomeTeamPlaceholder = 'Pos-' + match.homePlaceholder
+                  }
               }
 
-              var person = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
+              if(match.Away_id != 0){ 
+                  Placeawayteam = displayAwayTeamPlaceholder = match.AwayTeam
+              } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
+                  if(match.competition_actual_name.indexOf('Group') !== -1) {
+                      Placeawayteam = displayAwayTeamPlaceholder = match.awayPlaceholder
+                  } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                      Placeawayteam = displayAwayTeamPlaceholder = 'Pos-' + match.awayPlaceholder
+                  }
+              }
+
+              mtchNum = mtchNum+Placehometeam+'-'+Placeawayteam
+
+              displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
+
+              var person = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum, 'displayMatchName': displayMatchName,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
               comp.push(person)
 
               if(match.is_scheduled!=1){
@@ -356,8 +374,8 @@ const mutations = {
         state.totalMatch = matchCountDisplay
         state.competitionWithGames = state.competationList
       }
-    
-    
+
+
   },
 
 }
