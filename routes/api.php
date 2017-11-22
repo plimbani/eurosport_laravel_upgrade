@@ -215,6 +215,10 @@ $api->version('v1', function ($api) {
     $api->post('tournament/saveCategoryCompetitionColor', 'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
 
     $api->post('teams/getAllCompetitionTeamsFromFixture','Laraspace\Api\Controllers\TeamController@getAllCompetitionTeamsFromFixture');
+
+    $api->get('generateDisplayMatchNumber','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumber')->name('generate.display.match.number');
+
+    $api->get('generateDisplayMatchNumberForDb','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumberForDB')->name('generate.display.match.number.for.db');
     
 });
 

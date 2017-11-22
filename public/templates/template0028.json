@@ -375,9 +375,9 @@
                                 },
                                 {
                                     "in_between": "3B-3C",
-                                    "match_number": "CAT.RR2.03.3A-3C",
+                                    "match_number": "CAT.RR2.03.3B-3C",
                                     "display_match_number": "CAT.2.3.@HOME-@AWAY",
-                                    "display_home_team_placeholder_name": "#3A",
+                                    "display_home_team_placeholder_name": "#3B",
                                     "display_away_team_placeholder_name": "#3C"
                                 }
                             ]

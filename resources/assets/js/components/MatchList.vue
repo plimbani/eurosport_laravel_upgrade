@@ -198,8 +198,14 @@ export default {
       this.setPitchModal = 1
       this.matchFixture.id = match.fid
       this.matchFixture.matchAgeGroupId = this.matchData[0].age_group_id
+
+      let displayMatchNumber = match.displayMatchNumber
+      let displayHomeTeamPlaceholder = match.displayHomeTeamPlaceholderName
+      let displayAwayTeamPlaceholder = match.displayAwayTeamPlaceholderName
+      let displayMatchName = displayMatchNumber;
+
       let mtchNumber = match.match_number
-       let mtchNumber1 = mtchNumber.split(".")
+      let mtchNumber1 = mtchNumber.split(".")
 
       let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
 
@@ -209,28 +215,29 @@ export default {
       let Placeawayteam =  teams[1]
 
       if(match.Home_id != 0){
-          Placehometeam = match.HomeTeam
+          Placehometeam = displayHomeTeamPlaceholder = match.HomeTeam
       } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
           if(match.competition_actual_name.indexOf('Group') !== -1) {
-              Placehometeam = 'Group-' + match.homePlaceholder
+              Placehometeam = displayHomeTeamPlaceholder = 'Group-' + match.homePlaceholder
           } else if(match.competition_actual_name.indexOf('Pos') !== -1){
-              Placehometeam = 'Pos-' + match.homePlaceholder
+              Placehometeam = displayHomeTeamPlaceholder = 'Pos-' + match.homePlaceholder
           }
       }
 
       if(match.Away_id != 0){
-          Placeawayteam = match.AwayTeam
+          Placeawayteam = displayAwayTeamPlaceholder = match.AwayTeam
       } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
           if(match.competition_actual_name.indexOf('Group') !== -1) {
-              Placeawayteam = 'Group-' + match.awayPlaceholder
+              Placeawayteam = displayAwayTeamPlaceholder = 'Group-' + match.awayPlaceholder
           } else if(match.competition_actual_name.indexOf('Pos') !== -1){
-              Placeawayteam = 'Pos-' + match.awayPlaceholder
+              Placeawayteam = displayAwayTeamPlaceholder = 'Pos-' + match.awayPlaceholder
           }
       }
 
       mtchNum = mtchNum+Placehometeam+'-'+Placeawayteam
+      displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
 
-      this.matchFixture.title = mtchNum
+      this.matchFixture.title = displayMatchName
       setTimeout(function() {
         $('#matchScheduleModal').modal('show')
 
