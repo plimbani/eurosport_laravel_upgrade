@@ -243,7 +243,7 @@
                                 {
                                     "in_between": "3-4",
                                     "match_number": "CAT.RR1.01.B3-B4",
-                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "B3",
                                     "display_away_team_placeholder_name": "B4"
                                 },
