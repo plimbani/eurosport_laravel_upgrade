@@ -217,7 +217,7 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
         }
         if (mFixtureModel.getHome_id().equalsIgnoreCase("0") && !Utility.isNullOrEmpty(mFixtureModel.getHomeTeamName()) && mFixtureModel.getHomeTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
             if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
-                team1_name.setText(AppConstants.COMPETATION_NAME_GROUP + "-" + mFixtureModel.getHomePlaceholder());
+                team1_name.setText(mFixtureModel.getHomePlaceholder());
             } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
                 team1_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getHomePlaceholder());
             } else {
@@ -236,7 +236,7 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
         }
         if (mFixtureModel.getAway_id().equalsIgnoreCase("0") && !Utility.isNullOrEmpty(mFixtureModel.getAwayTeamName()) && mFixtureModel.getAwayTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
             if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
-                team2_name.setText(AppConstants.COMPETATION_NAME_GROUP + "-" + mFixtureModel.getAwayPlaceholder());
+                team2_name.setText(mFixtureModel.getAwayPlaceholder());
             } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
                 team2_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getAwayPlaceholder());
             } else {

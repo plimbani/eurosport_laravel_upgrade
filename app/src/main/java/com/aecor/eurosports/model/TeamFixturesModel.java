@@ -11,7 +11,8 @@ public class TeamFixturesModel implements Parcelable {
 
     private String fid;
     private String match_number;
-    private String round;
+    private String displayMatchNumber;
+     private String round;
     private String competation_name;
     private String competition_actual_name;
     private String team_size;
@@ -61,10 +62,15 @@ public class TeamFixturesModel implements Parcelable {
     private String awayPlaceholder;
     private String homeTeamName;
     private String awayTeamName;
+    private String displayHomeTeamPlaceholderName;
+    private String displayAwayTeamPlaceholderName;
 
     protected TeamFixturesModel(Parcel in) {
+        displayHomeTeamPlaceholderName = in.readString();
+        displayAwayTeamPlaceholderName = in.readString();
         fid = in.readString();
         match_number = in.readString();
+        displayMatchNumber = in.readString();
         round = in.readString();
         competation_name = in.readString();
         competition_actual_name = in.readString();
@@ -119,8 +125,11 @@ public class TeamFixturesModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(displayHomeTeamPlaceholderName);
+        dest.writeString(displayAwayTeamPlaceholderName);
         dest.writeString(fid);
         dest.writeString(match_number);
+        dest.writeString(displayMatchNumber);
         dest.writeString(round);
         dest.writeString(competation_name);
         dest.writeString(competition_actual_name);
@@ -189,6 +198,30 @@ public class TeamFixturesModel implements Parcelable {
             return new TeamFixturesModel[size];
         }
     };
+
+    public String getDisplayMatchNumber() {
+        return displayMatchNumber;
+    }
+
+    public void setDisplayMatchNumber(String displayMatchNumber) {
+        this.displayMatchNumber = displayMatchNumber;
+    }
+
+    public String getDisplayHomeTeamPlaceholderName() {
+        return displayHomeTeamPlaceholderName;
+    }
+
+    public void setDisplayHomeTeamPlaceholderName(String displayHomeTeamPlaceholderName) {
+        this.displayHomeTeamPlaceholderName = displayHomeTeamPlaceholderName;
+    }
+
+    public String getDisplayAwayTeamPlaceholderName() {
+        return displayAwayTeamPlaceholderName;
+    }
+
+    public void setDisplayAwayTeamPlaceholderName(String displayAwayTeamPlaceholderName) {
+        this.displayAwayTeamPlaceholderName = displayAwayTeamPlaceholderName;
+    }
 
     public String getFid() {
         return fid;

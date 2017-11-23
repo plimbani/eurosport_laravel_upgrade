@@ -59,4 +59,6 @@ public class AppConstants {
     public static final String TEAM_NAME_PLACE_HOLDER = "@^^@";
     public static final String COMPETATION_NAME_GROUP = "Group";
     public static final String COMPETATION_NAME_POS = "Pos";
+    public static final String KEY_HOME = "@HOME";
+    public static final String KEY_AWAY = "@AWAY";
 }

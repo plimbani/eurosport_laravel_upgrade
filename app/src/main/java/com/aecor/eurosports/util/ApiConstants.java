@@ -7,12 +7,12 @@ public class ApiConstants {
 
 
     //    public static final String BASE_URL = "http://192.168.0.6:8180/api/"; // Aecor Local
-//    public static final String BASE_URL = "http://mukesh-eurosport.dev.aecortech.com/api/"; // Aecor Local
+    public static final String BASE_URL = "http://mukesh-eurosport.dev.aecortech.com/api/"; // Aecor Local
     //    public static final String BASE_URL = "http://esr.aecordigitalqa.com/api/"; // Aecor QA
     //    www.esrtmp.com -> live
     //    qa.esrtmp.com -> qa
 //        public static final String BASE_URL = "https://www.esrtmp.com/api/"; // ESR Live
-    public static final String BASE_URL = "https://qa.esrtmp.com/api/"; // ESR QA
+//    public static final String BASE_URL = "https://qa.esrtmp.com/api/"; // ESR QA
 //    public static final String BASE_URL = "http://sunny-eurosport.dev.aecortech.com/api/";
 
     public static final String GET_TOURNAMENTS = BASE_URL + "tournaments";
