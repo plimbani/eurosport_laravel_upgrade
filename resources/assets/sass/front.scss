@@ -93,6 +93,21 @@ select.form-control {
     }
 }
 
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent !important;
+    border-style: solid;
+    border-width: 0 !important;
+    margin-left: 0;
+    margin-top: 0;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 35px;
+    height: 35px;
+    background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat;
+}
+
 #test tbody>tr {
     &:nth-of-type(3n+1) {
         background: #FFFF00;
@@ -167,6 +182,7 @@ table#Competition-modal-table {
 #outerGame {
     margin-bottom: 100px
 }
+
 
 
 
@@ -586,36 +602,40 @@ input[type=number] {
 }
 
 .colorpicker {
-  z-index: 99999;
+    z-index: 99999;
 }
 
 //Styles added to show Horizontal Scroll Bar
 .fc-view-container {
-  width: auto;
+    width: auto;
 }
+
 .fc-view-container .fc-view {
-  overflow-x: scroll;
+    overflow-x: scroll;
 }
-.fc-view-container .fc-view > table {
-  width: 760px;
+
+.fc-view-container .fc-view>table {
+    width: 760px;
 }
-.fc-view-container .fc-view.fc-timelineDay-view > table {
-  width: 760px !important;
+
+.fc-view-container .fc-view.fc-timelineDay-view>table {
+    width: 760px !important;
 }
+
 .fc-view-container .fc-view.fc-timelineDay-view {
-  overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 label.error {
-  color: #ff3860;
+    color: #ff3860;
 }
 
 .fc-event {
-  border: none;
+    border: none;
 }
 
 .fc-time-grid-event .fc-content {
-  padding: 1px;
+    padding: 1px;
 }
 
 .custom-d-flex {
@@ -631,9 +651,9 @@ label.error {
     border-radius: 50%;
     color: red;
     background: #fff;
-    border: 1px solid rgba(0,0,0,.1);
-    -webkit-box-shadow: 7px 10px 21px -13px rgba(0,0,0,0.29);
-    -moz-box-shadow: 7px 10px 21px -13px rgba(0,0,0,0.29);
-    box-shadow: 3px 7px 14px -7px rgba(0,0,0,0.39);
-    display:none;
+    border: 1px solid rgba(0, 0, 0, .1);
+    -webkit-box-shadow: 7px 10px 21px -13px rgba(0, 0, 0, 0.29);
+    -moz-box-shadow: 7px 10px 21px -13px rgba(0, 0, 0, 0.29);
+    box-shadow: 3px 7px 14px -7px rgba(0, 0, 0, 0.39);
+    display: none;
 }

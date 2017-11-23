@@ -32,7 +32,7 @@
               <div class="row">
                 <div class="col-4">
                   <div class="form-group">
-                    <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
+                    <select class="form-control" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
                       <option value="">{{$lang.teams_all_age_category}}</option>
                       <option v-for="option in options"
                        v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
@@ -117,7 +117,7 @@
                       <td>{{team.category_age}} </td>
                       <td>{{team.age_name}} </td>
 
-                      <td width="130px" v-if="age_category != ''">
+                      <td width="130px" v-if="age_category != ''" style="position: relative">
                         <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="" class="blnk">{{seleTeam}}</option>
                           <optgroup :label="getGroupName(group)"
@@ -248,7 +248,7 @@
     methods: {
       groupFlag(group,no){
         let vm =this
-        
+
         let fullName = null
         if(typeof group['groups']['actual_group_name'] != "undefined") {
           let actualGroupName = group['groups']['actual_group_name'];
@@ -274,7 +274,7 @@
         } else {
           fullName = group['groups']['group_name']+no;
         }
-        
+
         let displayName = fullName
          _.find(this.teams, function(team) {
           if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
@@ -324,6 +324,7 @@
         beforeChange()
       },
       beforeChange(gid) {
+        console.log('calling');
         let gdata = $('#sel_'+gid).find('option:selected').val()
         // if(gdata != '' && gdata.indexOf('Pos') !== -1) {
         //   let name = gdata.split('-');
@@ -332,19 +333,20 @@
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
+        console.log('onAssignGroup');
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue == '') {
           //this.seleTeam = ''
           $('#sel_'+id+' .blnk').html('')
         }
         if(groupValue!='' && groupValue!= undefined ){
-
           $('.selTeams').prop("disabled", true);
-            $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not( $('.sel_'+id)).prop("disabled","disabled");
+          $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not( $('.sel_'+id)).prop("disabled","disabled");
         }
         if(this.beforeChangeGroupName!=''){
           $(".selTeams option").filter('[value='+ this.beforeChangeGroupName +']').prop("disabled", false);
         }
+        Plugin.initPlugins(['Select2withoutSearch']);
         if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)
         }
@@ -366,7 +368,9 @@
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
-
+            setTimeout(function(){
+              Plugin.initPlugins(['Select2withoutSearch']);
+            }, 2000);
             let vm = this;
             _.forEach(response.data.data, function(team, key) {
 
@@ -497,7 +501,7 @@
                     } else {
                       groupName = group.groups.group_name;
                     }
-                    
+
                     for(var i = 1; i <= group.group_count; i++ ){
                       availGroupTeam.push(groupName+i)
                     }
