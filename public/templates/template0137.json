@@ -1029,7 +1029,7 @@
                                 {
                                     "in_between": "5D-5E",
                                     "match_number": "CAT.PM2.G1.5D-5E",
-                                    "display_match_number": "CAT.2.1.@HOME-@AWAY",
+                                    "display_match_number": "CAT.2.2.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#5D",
                                     "display_away_team_placeholder_name": "#5E"
                                 }
@@ -1137,14 +1137,14 @@
                                     "match_number": "CAT.PM3.G13.5A_5B_WR-5D_5E_WR",
                                     "display_match_number": "CAT.3.13.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "2.1",
-                                    "display_away_team_placeholder_name": "2.1"
+                                    "display_away_team_placeholder_name": "2.2"
                                 },
                                 {
                                     "in_between": "CAT.PM2.G1LR-CAT.PM2.G2LR",
                                     "match_number": "CAT.PM3.G14.5A_5B_LR-5D_5E_LR",
                                     "display_match_number": "CAT.3.14.lrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "2.1",
-                                    "display_away_team_placeholder_name": "2.1"
+                                    "display_away_team_placeholder_name": "2.2"
                                 }
                             ]
                         }
