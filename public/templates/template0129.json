@@ -964,14 +964,14 @@
                                 {
                                     "in_between": "CAT.PM2.G1WR-1F",
                                     "match_number": "CAT.PM3.G1.1A_1B_WR-1F",
-                                    "display_match_number": "CAT.3.1.-@AWAY",
+                                    "display_match_number": "CAT.3.1.wrs.(@HOME)-@AWAY",
                                     "display_home_team_placeholder_name": "2.1",
                                     "display_away_team_placeholder_name": "#1F"
                                 },
                                 {
                                     "in_between": "CAT.PM2.G1LR-2F",
                                     "match_number": "CAT.PM3.G2.1A_1B_LR-2F",
-                                    "display_match_number": "CAT.3.2.-@AWAY",
+                                    "display_match_number": "CAT.3.2.lrs.(@HOME)-@AWAY",
                                     "display_home_team_placeholder_name": "2.1",
                                     "display_away_team_placeholder_name": "#2F"
                                 }
