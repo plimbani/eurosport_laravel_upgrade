@@ -645,23 +645,23 @@
                                 {
                                     "in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",
                                     "match_number": "CAT.RR3.01.G1-G2.1A_1B_WR-1C_1D_WR",
-                                    "display_match_number": "CAT.3.1.@HOME-@AWAY",
-                                    "display_home_team_placeholder_name": "#G1",
-                                    "display_away_team_placeholder_name": "#G2"
+                                    "display_match_number": "CAT.3.1.wrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.1",
+                                    "display_away_team_placeholder_name": "2.2"
                                 },
                                 {
                                     "in_between": "CAT.PM2.G1WR-CAT.PM2.G3WR",
                                     "match_number": "CAT.RR3.02.G1-G3.1A_1B_WR-1E_1F_WR",
-                                    "display_match_number": "CAT.3.2.@HOME-@AWAY",
-                                    "display_home_team_placeholder_name": "#G1",
-                                    "display_away_team_placeholder_name": "#G3"
+                                    "display_match_number": "CAT.3.2.wrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.1",
+                                    "display_away_team_placeholder_name": "2.3"
                                 },
                                 {
                                     "in_between": "CAT.PM2.G2WR-CAT.PM2.G3WR",
                                     "match_number": "CAT.RR3.03.G2-G3.1C_1D_WR-1E_1F_WR",
-                                    "display_match_number": "CAT.3.3.@HOME-@AWAY",
-                                    "display_home_team_placeholder_name": "#G2",
-                                    "display_away_team_placeholder_name": "#G3"
+                                    "display_match_number": "CAT.3.3.wrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.2",
+                                    "display_away_team_placeholder_name": "2.3"
                                 }
                             ]
                         }
