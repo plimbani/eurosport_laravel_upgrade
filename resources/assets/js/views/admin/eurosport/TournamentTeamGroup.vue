@@ -268,16 +268,19 @@
        groupName(group,no){
         let vm =this
         let fullName = null
+        let actualFullName = null
         if(typeof group['groups']['actual_group_name'] != "undefined") {
+          actualFullName = group['groups']['actual_group_name'] + '-' + no;
           let actualGroupName = group['groups']['actual_group_name'].split('-');
           fullName = actualGroupName[0] + '-' + no;
         } else {
-          fullName = group['groups']['group_name']+no;
+          fullName = actualFullName = group['groups']['group_name']+no;
         }
         
         let displayName = fullName
-         _.find(this.teams, function(team) {
-          if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
+
+        _.find(this.teams, function(team) {
+          if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
             displayName =  team.name
           } ;
         });
