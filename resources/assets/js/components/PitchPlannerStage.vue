@@ -61,7 +61,7 @@ import _ from 'lodash'
             // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
             // this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
              this.$root.$on('reloadAllEvents', this.reloadAllEvents);
-            
+
 
         },
         mounted() {
@@ -88,9 +88,9 @@ import _ from 'lodash'
                     }
                     // vm.getUnavailablePitch()
                 // },500)
-            
+
             setTimeout(function(){
-                
+
                 if($(".pitch_planner_section").length > 0) {
                     setGameAndRefereeTabHeight();
                 }
@@ -279,7 +279,7 @@ import _ from 'lodash'
                         let ed = $(this)
                         if(event.refereeId == -1 || event.refereeId == -2){
                             revertFunc();
-                            
+
                         }else{
                             let matchId = event.id ? event.id : event.matchId
                             let matchData = {
@@ -296,16 +296,16 @@ import _ from 'lodash'
                                             let matchScheduleChk =new Promise((resolve, reject) => {
                                                 resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue));
                                             });
-                                           
+
                                             matchScheduleChk.then((successMessage) => {
-                                              vm.reloadAllEvents();  
+                                              vm.reloadAllEvents();
                                             });
                                             // vm.reloadAllEvents()
                                         }else{
                                             revertFunc();
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
                                         }
-                                    
+
                                 },
                                 (error) => {
                                 }
@@ -336,7 +336,7 @@ import _ from 'lodash'
                                     vm.$store.dispatch('setCompetationWithGames');
                                     vm.getScheduledMatch('age_category','')
                                     // },500)
-                                    
+
                                 });
                              },100);
                         }
@@ -351,7 +351,7 @@ import _ from 'lodash'
             handleEventClick(calEvent, jsEvent, view) {
                 // console.log(calEvent);
             },
-            
+
             deleteConfirmedBlock() {
 
                 Tournament.removeUnavailableBlock(this.remBlock_id).then(
@@ -411,7 +411,7 @@ import _ from 'lodash'
                                 Placehometeam = match.HomeTeam
                             } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
                                 if(match.competition_actual_name.indexOf('Group') !== -1) {
-                                    Placehometeam = 'Group-' + match.homePlaceholder
+                                    Placehometeam = match.homePlaceholder
                                 } else if(match.competition_actual_name.indexOf('Pos') !== -1){
                                     Placehometeam = 'Pos-' + match.homePlaceholder
                                 }
@@ -421,7 +421,7 @@ import _ from 'lodash'
                                 Placeawayteam = match.AwayTeam
                             } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
                                 if(match.competition_actual_name.indexOf('Group') !== -1) {
-                                    Placeawayteam = 'Group-' + match.awayPlaceholder
+                                    Placeawayteam = match.awayPlaceholder
                                 } else if(match.competition_actual_name.indexOf('Pos') !== -1){
                                     Placeawayteam = 'Pos-' + match.awayPlaceholder
                                 }
@@ -441,7 +441,13 @@ import _ from 'lodash'
                                     }
                                 }
                               let colorVal = match.category_age_color;
-                              let borderColorVal = match.category_age_color;
+                              var isBright = (parseInt(vm.getBrightness(match.category_age_color)) > 160);
+                              let borderColorVal;
+                              if(isBright) {
+                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, -40);
+                              } else {
+                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, 40);
+                              }
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
 
                               if(scheduleBlock){
@@ -550,7 +556,7 @@ import _ from 'lodash'
                                 });
                             });
                         this.scheduledMatches =sMatches
-                        
+
                         this.stageWithoutPitch()
                         this.getUnavailablePitch()
 
@@ -559,11 +565,11 @@ import _ from 'lodash'
                                 $(this).closest('.fc-event').addClass('bg-grey');
                             }
                         })
-                       
+
                     }
 
                 )
-              return "Finish";  
+              return "Finish";
             },
             stageWithoutPitch() {
 
@@ -622,6 +628,49 @@ import _ from 'lodash'
                         vm1.initScheduler();
                     }
                 )
+            },
+            LightenDarkenColor(colorCode, amount) {
+                var usePound = false;
+
+                if (colorCode[0] == "#") {
+                    colorCode = colorCode.slice(1);
+                    usePound = true;
+                }
+
+                var num = parseInt(colorCode, 16);
+
+                var r = (num >> 16) + amount;
+
+                if (r > 255) {
+                    r = 255;
+                } else if (r < 0) {
+                    r = 0;
+                }
+
+                var b = ((num >> 8) & 0x00FF) + amount;
+
+                if (b > 255) {
+                    b = 255;
+                } else if (b < 0) {
+                    b = 0;
+                }
+
+                var g = (num & 0x0000FF) + amount;
+
+                if (g > 255) {
+                    g = 255;
+                } else if (g < 0) {
+                    g = 0;
+                }
+
+                return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
+            },
+            getBrightness(hexCode) {
+              hexCode = hexCode.replace('#', '');
+              var c_r = parseInt(hexCode.substr(0, 2),16);
+              var c_g = parseInt(hexCode.substr(2, 2),16);
+              var c_b = parseInt(hexCode.substr(4, 2),16);
+              return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
             }
         }
     };
@@ -636,7 +685,7 @@ import _ from 'lodash'
         var considerHeaderHeight = 0;
         if(($(window).scrollTop() + $("header").height()) > $el.offset().top) {
             considerHeaderHeight = $("header").height();
-        }              
+        }
         var leftViewHeight = Math.max(0, t>0? Math.min(elH, H-t) : (b<H?b:H)) - $("#gameReferee .nav.nav-tabs").height() - parseInt($("#gameReferee .tab-content").css('margin-top').replace('px', '')) - considerHeaderHeight - 10;
         $("#game-list").css('height', leftViewHeight + 'px');
         $("#referee-list").css('height', leftViewHeight + 'px');

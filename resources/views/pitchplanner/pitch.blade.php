@@ -41,7 +41,7 @@
 
             @if($data['home_team'] == 0 && $data['home_team_name'] == '@^^@')
                 @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                    {{ 'Group-' . $data['home_team_placeholder_name'] }}
+                    {{ $data['home_team_placeholder_name'] }}
                 @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
                     {{ 'Pos-' . $data['home_team_placeholder_name'] }}
                 @endif
@@ -54,7 +54,7 @@
             <td>&nbsp;Team 1 (
               @if($data['home_team'] == 0 && $data['home_team_name'] == '@^^@')
                   @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                      {{ 'Group-' . $data['home_team_placeholder_name'] }}
+                      {{ $data['home_team_placeholder_name'] }}
                   @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
                       {{ 'Pos-' . $data['home_team_placeholder_name'] }}
                   @endif
@@ -64,7 +64,7 @@
               ) and Team 2 (
               @if($data['away_team'] == 0 && $data['away_team_name'] == '@^^@')
                   @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                      {{ 'Group-' . $data['away_team_placeholder_name'] }}
+                      {{ $data['away_team_placeholder_name'] }}
                   @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
                       {{ 'Pos-' . $data['away_team_placeholder_name'] }}
                   @endif
@@ -95,7 +95,7 @@
              <td>&nbsp;Team 1 (
               @if($data['home_team'] == 0 && $data['home_team_name'] == '@^^@')
                   @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                      {{ 'Group-' . $data['home_team_placeholder_name'] }}
+                      {{ $data['home_team_placeholder_name'] }}
                   @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
                       {{ 'Pos-' . $data['home_team_placeholder_name'] }}
                   @endif
@@ -106,7 +106,7 @@
               &nbsp;Team 2 (
               @if($data['away_team'] == 0 && $data['away_team_name'] == '@^^@')
                   @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                      {{ 'Group-' . $data['away_team_placeholder_name'] }}
+                      {{ $data['away_team_placeholder_name'] }}
                   @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
                       {{ 'Pos-' . $data['away_team_placeholder_name'] }}
                   @endif
