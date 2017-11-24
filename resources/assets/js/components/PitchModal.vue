@@ -182,7 +182,7 @@ var moment = require('moment');
             this.referee_name = this.matchDetail.referee.first_name
             this.matchFixture.refereeId = this.matchDetail.referee_id
            }
-           
+
            let colorVal = this.matchDetail.category_age.category_age_color;
            let borderColorVal = this.matchDetail.category_age.category_age_color;
            let fixtureStripColor = this.matchDetail.competition.color_code != null ? this.matchDetail.competition.color_code : '#FFFFFF';
@@ -190,9 +190,9 @@ var moment = require('moment');
             this.matchFixture.color = colorVal;
             this.matchFixture.borderColor = borderColorVal;
             this.matchFixture.fixtureStripColor = fixtureStripColor;
-            
+
           // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
-      
+
           $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
           this.matchDetail.matchTime = date.format('HH:mm ddd DD MMM YYYY')
@@ -310,11 +310,11 @@ var moment = require('moment');
              $('div.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchFixture._id] )
            },200)
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
-          
+
           this.$store.dispatch('setMatches');
           this.$store.dispatch('SetScheduledMatches');
           this.$root.$emit('reloadAllEvents')
-          
+
 
       })
     },
@@ -361,7 +361,7 @@ var moment = require('moment');
     },
     getHoldingName(competitionActualName, placeholder) {
       if(competitionActualName.indexOf('Group') !== -1){
-        return 'Group-' + placeholder;
+        return placeholder;
       } else if(competitionActualName.indexOf('Pos') !== -1){
         return 'Pos-' + placeholder;
       }

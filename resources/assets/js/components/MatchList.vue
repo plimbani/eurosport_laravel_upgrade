@@ -144,8 +144,8 @@ export default {
        let vm = this;
        return  _.sortBy(vm.matchData1,['match_datetime'] );
      },
-    
-    
+
+
 	isUserDataExist() {
       return this.$store.state.isAdmin
 	    //return this.$store.state.Users.userDetails.id
@@ -177,7 +177,7 @@ export default {
 	},
 	  created: function() {
       this.$root.$on('reloadMatchList', this.setScore);
-    },  
+    },
 	methods: {
     setScore(homescore,AwayScore,competationId) {
       let vm = this
@@ -212,7 +212,7 @@ export default {
           Placehometeam = match.HomeTeam
       } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
           if(match.competition_actual_name.indexOf('Group') !== -1) {
-              Placehometeam = 'Group-' + match.homePlaceholder
+              Placehometeam = match.homePlaceholder
           } else if(match.competition_actual_name.indexOf('Pos') !== -1){
               Placehometeam = 'Pos-' + match.homePlaceholder
           }
@@ -222,7 +222,7 @@ export default {
           Placeawayteam = match.AwayTeam
       } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
           if(match.competition_actual_name.indexOf('Group') !== -1) {
-              Placeawayteam = 'Group-' + match.awayPlaceholder
+              Placeawayteam = match.awayPlaceholder
           } else if(match.competition_actual_name.indexOf('Pos') !== -1){
               Placeawayteam = 'Pos-' + match.awayPlaceholder
           }
@@ -259,7 +259,7 @@ export default {
 			let Id = competition.competitionId
 			let Name = competition.group_name+'-'+competition.competation_name
       let CompetationType = competition.round
-			this.$root.$emit('changeComp', Id, Name,CompetationType);  
+			this.$root.$emit('changeComp', Id, Name,CompetationType);
 			//this.$emit('changeComp',Id);
 		},
 		changeTeamDetails() {
@@ -294,7 +294,7 @@ export default {
                 let Id = vm.DrawName.id
                 let Name = vm.DrawName.name
                 let CompetationType = vm.DrawName.actual_competition_type
-                
+
                 vm.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
               } if(vm.$store.state.currentScheduleView == 'matchList') {
                 vm.$root.$emit('changeDrawListComp','','','');
@@ -309,18 +309,18 @@ export default {
     },
     getHoldingName(competitionActualName, placeholder) {
       if(competitionActualName.indexOf('Group') !== -1){
-        return 'Group-' + placeholder;
+        return placeholder;
       } else if(competitionActualName.indexOf('Pos') !== -1){
         return 'Pos-' + placeholder;
       }
     },
     getMatchList() {
       if(this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') {
-        return this.paginated('matchlist'); 
+        return this.paginated('matchlist');
       } else {
         return this.matchData;
       }
-      
+
     },
 	},
 
