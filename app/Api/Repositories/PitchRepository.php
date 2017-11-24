@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\Pitch;
+use Laraspace\Models\TournamentCompetationTemplates;
 use DB;
 
 class PitchRepository
@@ -14,6 +15,11 @@ class PitchRepository
 
     public function getAllPitches($tournamentId)
     {
+          // $pitch = DB::table('tournament_competation_template')
+          //                   ->where('tournament_id',$tournamentId)
+          //                   ->groupBy('pitch_size')
+          //                   ->get();
+        //echo "<pre>";print_r($pitch);echo "</pre>";exit;                 
         return Pitch::with('pitchAvailability')->where('tournament_id',$tournamentId)->get();
     }
 

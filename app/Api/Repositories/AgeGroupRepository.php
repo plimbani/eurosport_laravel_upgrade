@@ -18,7 +18,7 @@ class AgeGroupRepository
     }
 
     public function create($data)
-    {
+    {   
         return AgeGroup::create($data);
     }
 
@@ -91,16 +91,17 @@ class AgeGroupRepository
       // $ageGroupId = AgeGroup::create($ageGroupData)->id;
 
       // here we save the tournament_competation_template
+     
       $tournamentCompeationTemplate = array();
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
       $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
       $tournamentCompeationTemplate['category_age'] = $data['category_age'];
+      $tournamentCompeationTemplate['pitch_size'] = $data['pitch_size'];
       $tournamentCompeationTemplate['category_age_color'] = $data['category_age_color'];
       $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
       $tournamentCompeationTemplate['total_time'] =$data['total_time'];
-
       $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR'];
       $tournamentCompeationTemplate['game_duration_FM']= $data['game_duration_FM'];
       $tournamentCompeationTemplate['halftime_break_RR']= $data['halftime_break_RR'];
@@ -325,15 +326,21 @@ class AgeGroupRepository
           $fixture_n = str_replace('CAT.', $ageGroup.'-',$fixture);
           $teampfixtureTable=DB::table('temp_fixtures');
           $teampfixtureTable->insert(
-            ['match_number'=>$fixture_n,
-            'tournament_id'=>$tournamentId,'competition_id'=>$competationId,
-            'home_team_name'=>$homeTeam,'match_result_id'=> 0,
-            'home_team_placeholder_name'=>$homeTeam,
-            'created_at'=> new \DateTime(),
-            'round'=>$round,
-            'age_group_id'=>$ageGroupId,
-            'away_team_name'=>$away_team,'venue_id'=>0,'pitch_id'=>0,
-            'away_team_placeholder_name'=>$away_team]
+            [
+              'match_number'=>$fixture_n,
+              'tournament_id'=>$tournamentId,
+              'competition_id'=>$competationId,
+              'home_team_name'=>$homeTeam,
+              'home_team_placeholder_name'=>$homeTeam,
+              'match_result_id'=> 0,
+              'created_at'=> new \DateTime(),
+              'round'=>$round,
+              'age_group_id'=>$ageGroupId,
+              'away_team_name'=>$away_team,
+              'away_team_placeholder_name'=>$away_team,
+              'venue_id'=>0,
+              'pitch_id'=>0
+            ]
           );
       }
 
