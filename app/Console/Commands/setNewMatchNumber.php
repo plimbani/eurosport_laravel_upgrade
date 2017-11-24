@@ -67,7 +67,7 @@ class setNewMatchNumber extends Command
 
                 $updatedMatchDetail = $this->matchObj->processMatch($data, $match);
                     
-                $fixture->display_match_number = $updatedMatchDetail['display_match_number'];
+                $fixture->display_match_number = str_replace('CAT.', $fixture->categoryAge->category_age . '.', $updatedMatchDetail['display_match_number']);
                 $fixture->display_home_team_placeholder_name = $updatedMatchDetail['display_home_team_placeholder_name'];
                 $fixture->display_away_team_placeholder_name = $updatedMatchDetail['display_away_team_placeholder_name'];
                 $fixture->save();
