@@ -248,7 +248,7 @@
     methods: {
       groupFlag(group,no){
         let vm =this
-        
+
         let fullName = null
         if(typeof group['groups']['actual_group_name'] != "undefined") {
           let actualGroupName = group['groups']['actual_group_name'];
@@ -276,7 +276,7 @@
         } else {
           fullName = actualFullName = group['groups']['group_name']+no;
         }
-        
+
         let displayName = fullName
 
         _.find(this.teams, function(team) {
@@ -503,7 +503,7 @@
                     } else {
                       groupName = group.groups.group_name;
                     }
-                    
+
                     for(var i = 1; i <= group.group_count; i++ ){
                       availGroupTeam.push(groupName+i)
                     }
@@ -609,7 +609,7 @@
           let actualGroupName = group['groups']['actual_group_name'].split('-');
           return actualGroupName[0] + '-' + n
         }
-        return group['groups']['group_name'] + n
+        return (group['groups']['group_name']).replace('Group-','') + n
       },
       getGroupValueInSelection(group, n) {
         let splitGroupName = group['name'].split('-');
@@ -623,6 +623,9 @@
         if(groupName != null && groupName.indexOf('Pos') !== -1) {
           let name = groupName.split('-');
           return name[0] + '-' + name[2]
+        }
+        if(groupName != null) {
+          return groupName.replace('Group-','');
         }
         return groupName;
       },
