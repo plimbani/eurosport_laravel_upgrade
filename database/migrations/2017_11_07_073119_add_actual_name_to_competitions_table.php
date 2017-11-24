@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMinimumTeamIntervalTempfixture extends Migration
+class AddActualNameToCompetitionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddMinimumTeamIntervalTempfixture extends Migration
      */
     public function up()
     {
-        Schema::table('temp_fixtures', function($table) {
-            $table->integer('minimum_team_interval_flag')->after('round')->default(0);
+        Schema::table('competitions', function (Blueprint $table) {
+            $table->string('actual_name')->nullable()->after('name')->default(NULL);
         });
     }
 
@@ -25,8 +25,8 @@ class AddMinimumTeamIntervalTempfixture extends Migration
      */
     public function down()
     {
-        Schema::table('temp_fixtures', function($table) {
-            $table->dropColumn('minimum_team_interval_flag');
+        Schema::table('competitions', function($table) {
+            $table->dropColumn('actual_name');
         });
     }
 }

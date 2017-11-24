@@ -101,10 +101,10 @@ const actions = {
         }
       )
     });
-    
+
   },
-  
-  
+
+
 
   SetVenues ({commit},tournamentId) {
 	Tournament.getAllVenues(tournamentId).then (
@@ -200,7 +200,7 @@ const actions = {
     } else {
         tournamentData ={'tournamentId':state.tournamentId }
     }
-             
+
   }
 }
 
@@ -226,7 +226,7 @@ const mutations = {
   state.twitter = currentTournament.twitter
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {
-  
+
 	state.tournamentName = tournamentData.name
   state.maximumTeams = tournamentData.maximum_teams
   state.tournamentId = tournamentData.id
@@ -258,9 +258,9 @@ const mutations = {
   [types.TOTAL_REFEREES] (state, totalReferees) {
 	state.totalReferee = totalReferees;
   },
-  
+
   [types.SET_TOURNAMENT_FILTER] (state, filterData) {
-  	
+
 	state.tournamentFiler.filterKey = filterData.filterKey;
 	state.tournamentFiler.filterValue = filterData.filterValue;
 
@@ -275,7 +275,7 @@ const mutations = {
     state.tournamentStages = '';
     state.tournamentStages = tournamentStages;
   },
-  
+
   [types.SET_MATCHES] (state, matches) {
     state.matches = '';
     state.matches = matches;
@@ -300,7 +300,7 @@ const mutations = {
         matchCount = 0
         // matchCount = 0
           _.find(allMatches, function (match) {
-            
+
             let round = ''
             let matchTime = 0
             if(match.age_group_id == competition.id){
@@ -327,13 +327,39 @@ const mutations = {
                let mtchNumber1 = mtchNumber.split(".")
 
               let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
-              if(match.Away_id != 0 && match.Home_id != 0)
-              {
-                 fullgame1 = ''
-                 mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
-              } else {
-                mtchNum = mtchNum+mtchNumber1[2]
+              let teams = mtchNumber1[2].split("-")
+              let Placehometeam =  teams[0]
+              let Placeawayteam =  teams[1]
+
+              if(match.Home_id != 0){
+                  Placehometeam = match.HomeTeam
+              } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
+                  if(match.competition_actual_name.indexOf('Group') !== -1) {
+                      Placehometeam = match.homePlaceholder
+                  } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                      Placehometeam = 'Pos-' + match.homePlaceholder
+                  }
               }
+
+              if(match.Away_id != 0){
+                  Placeawayteam = match.AwayTeam
+              } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
+                  if(match.competition_actual_name.indexOf('Group') !== -1) {
+                      Placeawayteam = match.awayPlaceholder
+                  } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                      Placeawayteam = 'Pos-' + match.awayPlaceholder
+                  }
+              }
+
+              mtchNum = mtchNum+Placehometeam+'-'+Placeawayteam
+
+              // if(match.Away_id != 0 && match.Home_id != 0)
+              // {
+              //    fullgame1 = ''
+              //    mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
+              // } else {
+              //   mtchNum = mtchNum+mtchNumber1[2]
+              // }
 
               var person = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
               comp.push(person)
@@ -356,8 +382,8 @@ const mutations = {
         state.totalMatch = matchCountDisplay
         state.competitionWithGames = state.competationList
       }
-    
-    
+
+
   },
 
 }
