@@ -50,6 +50,48 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                      <h6 class="mb-1"><strong>{{$lang.pitch_summary}}</strong></h6>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="result col-md-12">
+                        <table class="table table-hover table-bordered mt-2 pitch_size_summary" v-if="pitches">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">{{$lang.pitch_size}}</th>
+                                    <th class="text-center">{{$lang.pitch_available_time}}</th>
+                                    <th class="text-center">{{$lang.pitch_totaL_time}}</th>
+                                    <th class="text-center">{{$lang.pitch_balance}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(pitchSizeDetail, pitchSize) in pitchSizeWiseSummaryArray">
+                                    <td class="text-center">{{ pitchSize }}</td>
+                                    <td class="text-center">{{ pitchSizeDetail.availableTime }}</td>
+                                    <td class="text-center">{{ pitchSizeDetail.timeRequired }}</td>
+                                    <td class="text-center" :class="[pitchSizeDetail.balanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeDetail.balance }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">{{ $lang.totals }}</td>
+                                    <td class="text-center">{{ pitchSizeWiseSummaryTotal.totalAvailableTime }}</td>
+                                    <td class="text-center">{{ pitchSizeWiseSummaryTotal.totalTimeRequired }}</td>
+                                    <td class="text-center" :class="[pitchSizeWiseSummaryTotal.totalBalanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeWiseSummaryTotal.totalBalance }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-3 align-self-center">
+                      <h6 class="mb-2"><strong>{{$lang.pitch_totals}}</strong></h6>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="result col-md-12">
                         <div class="dashbox mb-2">
                             <p class="row">
                                 <label class="col-md-3"><strong>{{$lang.pitch_totaL_time}}</strong></label>
@@ -74,6 +116,8 @@
 import editPitchDetail from '../../../views/admin/eurosport/editPitchDetail.vue'
 import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
 import DeleteModal from '../../../components/DeleteModal.vue'
+import Pitch from '../../../api/pitch'
+
     export default {
         data() {
             return {
@@ -88,13 +132,27 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 'availableDate': [],
                 'deleteConfirmMsg': 'Are you sure you would like to delete this pitch? All matches on this pitch will be un-scheduled.',
                 'deletePitchId': '',
-                'dispPitch': false
-                }
+                'dispPitch': false,
+                'pitchSizeWiseSummaryData': {
+                    'allPitchSizes': [],
+                    'totalAvailableTimePitchSizeWise': {},
+                    'totalTimeRequiredPitchSizeWise': {},
+                },
+                'pitchSizeWiseSummaryArray': {},
+                'pitchSizeWiseSummaryTotal': {
+                    'totalAvailableTime': 0,
+                    'totalTimeRequired': 0,
+                    'totalBalance': 0,
+                    'totalBalanceSign': '+',
+                },
+            }
         },
 
         created: function() {
-             this.$root.$on('displayPitch', this.displayPitch);
-             this.$root.$on('pitchrefresh', this.getAllPitches);
+            this.$root.$on('displayPitch', this.displayPitch);
+            this.$root.$on('pitchrefresh', this.getAllPitches);
+            this.$root.$on('getPitchSizeWiseSummary', this.getPitchSizeWiseSummary);
+            this.getPitchSizeWiseSummary();
         },
         components: {
             editPitchDetail,addPitchDetail,DeleteModal
@@ -318,6 +376,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                     $('#addPitchModal').modal('show')
                     $("#addPitchModal").on('hidden.bs.modal', function () {
                        vm.getAllPitches()
+                       vm.getPitchSizeWiseSummary();
                        vm.$root.$emit('')
                   });
                 },1000)
@@ -336,6 +395,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
 
             },
             removePitch(pitchId) {
+                let vm = this;
                 // this.$store.dispatch('removePitch',pitchId)
                 // toastr['warning']('All schedules with this pitch will be removerd', 'Warning');
                 return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
@@ -343,7 +403,8 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                    $("#delete_modal").modal("hide");
                     toastr.success('Pitch successfully deleted.', 'Delete Pitch', {timeOut: 5000});
                     // toastr['success']('Pitch Successfully removed', 'Success');
-                    this.getAllPitches()
+                    vm.getAllPitches();
+                    vm.getPitchSizeWiseSummary();
                     }).catch(error => {
                     if (error.response.status == 401) {
                         toastr['error']('Invalid Credentials', 'Error');
@@ -359,7 +420,99 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 //     toastr.success('User has been deleted succesfully.', 'Delete User', {timeOut: 5000});
                 //     this.updateUserList();
                 // });
-            }
+            },
+            getPitchSizeWiseSummary() {
+                if (!isNaN(this.tournamentId)) {
+                    let vm = this;
+                    vm.pitchSizeWiseSummaryData = this.defaultPitchSizeWiseSummaryData();
+                    vm.pitchSizeWiseSummaryArray = {};
+                    vm.pitchSizeWiseSummaryTotal = this.defaultPitchSizeWiseSummaryTotal();
+
+                    Pitch.getPitchSizeWiseSummary(this.tournamentId).then (
+                      (response) => {
+                        vm.pitchSizeWiseSummaryData = response.data;
+                        let allPitchSizes = response.data.allPitchSizes;
+                        let totalAvailableTime = 0;
+                        let totalTimeRequired = 0;
+                        let totalBalance = 0;
+
+                        for(let i=0; i<allPitchSizes.length; i++) {
+                            let pitchSize = allPitchSizes[i];
+                            let pitchSizeDetail = {};
+                            let availableTime = vm.getAvailableTimeOfPitchSize(pitchSize);
+                            let timeRequired = vm.getRequiredTimeForPitchSize(pitchSize);
+                            let balance = vm.getPitchSizeBalance(pitchSize);
+
+                            totalAvailableTime += availableTime;
+                            totalTimeRequired += timeRequired;
+                            totalBalance += balance;
+
+                            pitchSizeDetail.availableTime = ( ((availableTime - (availableTime % 60)) / 60) + ' hrs ' + (availableTime % 60) + ' mins');
+                            pitchSizeDetail.timeRequired = ( ((timeRequired - (timeRequired % 60)) / 60) + ' hrs ' + (timeRequired % 60) + ' mins');
+                            pitchSizeDetail.balance = ( ((balance - (balance % 60)) / 60) + ' hrs ' + (balance % 60) + ' mins');                            
+                            pitchSizeDetail.balanceSign = balance < 0 ? '-' : '+';
+
+                            vm.pitchSizeWiseSummaryArray[pitchSize] = pitchSizeDetail;
+                        }
+
+                        vm.pitchSizeWiseSummaryTotal.totalAvailableTime = ( ((totalAvailableTime - (totalAvailableTime % 60)) / 60) + ' hrs ' + (totalAvailableTime % 60) + ' mins');
+                        vm.pitchSizeWiseSummaryTotal.totalTimeRequired = ( ((totalTimeRequired - (totalTimeRequired % 60)) / 60) + ' hrs ' + (totalTimeRequired % 60) + ' mins');
+                        vm.pitchSizeWiseSummaryTotal.totalBalance = ( ((totalBalance - (totalBalance % 60)) / 60) + ' hrs ' + (totalBalance % 60) + ' mins');
+                        vm.pitchSizeWiseSummaryTotal.totalBalanceSign = totalBalance < 0 ? '-' : '+';
+                      },
+                      (error) => {
+                      }
+                    )
+                } else {
+                  this.TournamentId = 0;
+                }
+            },
+            defaultPitchSizeWiseSummaryData() {
+                return {
+                    'allPitchSizes': [],
+                    'totalAvailableTimePitchSizeWise': {},
+                    'totalTimeRequiredPitchSizeWise': {},
+                }
+            },
+            defaultPitchSizeWiseSummaryTotal() {
+                return {
+                    'totalAvailableTime': 0,
+                    'totalTimeRequired': 0,
+                    'totalBalance': 0,
+                    'totalBalanceSign': '+',
+                };
+            },
+            getAvailableTimeOfPitchSize(pitchSize) {
+                let totalAvailableTimePitchSizeWise = this.pitchSizeWiseSummaryData.totalAvailableTimePitchSizeWise;
+                let timeInMinutes = 0;
+                if(totalAvailableTimePitchSizeWise.hasOwnProperty(pitchSize)) {
+                    timeInMinutes = parseInt(totalAvailableTimePitchSizeWise[pitchSize]);
+                }
+                return timeInMinutes;
+            },
+            getRequiredTimeForPitchSize(pitchSize) {
+                let totalTimeRequiredPitchSizeWise = this.pitchSizeWiseSummaryData.totalTimeRequiredPitchSizeWise;
+                let timeInMinutes = 0;
+                if(totalTimeRequiredPitchSizeWise.hasOwnProperty(pitchSize)) {
+                    timeInMinutes = parseInt(totalTimeRequiredPitchSizeWise[pitchSize]);                
+                }
+                return timeInMinutes;
+            },
+            getPitchSizeBalance(pitchSize) {
+                let totalAvailableTimePitchSizeWise = this.pitchSizeWiseSummaryData.totalAvailableTimePitchSizeWise;
+                let totalTimeRequiredPitchSizeWise = this.pitchSizeWiseSummaryData.totalTimeRequiredPitchSizeWise;
+                let totalAvailableTime = 0;
+                let totalTimeRequired = 0;
+
+                if(totalAvailableTimePitchSizeWise.hasOwnProperty(pitchSize)) {
+                    totalAvailableTime = parseInt(totalAvailableTimePitchSizeWise[pitchSize]);
+                }
+                if(totalTimeRequiredPitchSizeWise.hasOwnProperty(pitchSize)) {
+                    totalTimeRequired = parseInt(totalTimeRequiredPitchSizeWise[pitchSize]);
+                }
+
+                return (totalAvailableTime - totalTimeRequired);
+            },
         }
     }
 </script>

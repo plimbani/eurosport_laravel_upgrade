@@ -276,7 +276,11 @@ module.exports= {
   pitch_size_handball: "Handball",
   pitch_totaL_time: "Total time required",
   pitch_total_capacity: "Total pitch capacity",
+  pitch_available_time: "Total available time",
   pitch_balance: "Balance",
+  pitch_summary: "Pitch summary",
+  pitch_totals: "Pitch totals",
+  totals: "Totals",
 
   pitch_availability_stage: "Stage",
   pitch_availability_date: "Date",

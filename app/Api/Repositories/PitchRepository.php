@@ -23,6 +23,20 @@ class PitchRepository
         return Pitch::with('pitchAvailability')->where('tournament_id',$tournamentId)->get();
     }
 
+    public function getPitchSizeWiseSummary($tournamentId)
+    {
+        $totalAvailableTimePitchSizeWise = Pitch::where('tournament_id', $tournamentId)->select('size', DB::raw('SUM(pitch_capacity) AS totalAvailableTime'))->groupBy('size')->get();
+        $totalTimeRequiredPitchSizeWise = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->select('pitch_size', DB::raw('SUM(total_time) AS totalTimeRequired'))->groupBy('pitch_size')->get();
+
+        $totalAvailableTimePitchSizeWiseData = $totalAvailableTimePitchSizeWise->pluck('totalAvailableTime', 'size');
+        $totalTimeRequiredPitchSizeWiseData = $totalTimeRequiredPitchSizeWise->pluck('totalTimeRequired', 'pitch_size');
+        $totalAvailableTimePitchSizeWiseKeys = $totalAvailableTimePitchSizeWiseData->keys()->all();
+        $totalTimeRequiredPitchSizeWiseKeys = $totalTimeRequiredPitchSizeWiseData->keys()->all();
+        $allPitchSizes = array_values(array_unique(array_merge($totalAvailableTimePitchSizeWiseKeys, $totalTimeRequiredPitchSizeWiseKeys)));
+
+        return array('totalAvailableTimePitchSizeWise' => $totalAvailableTimePitchSizeWiseData, 'totalTimeRequiredPitchSizeWise' => $totalTimeRequiredPitchSizeWiseData, 'allPitchSizes' => $allPitchSizes);
+    }
+
     public function createPitch($pitchData)
     {
         // dd($pitchData);
