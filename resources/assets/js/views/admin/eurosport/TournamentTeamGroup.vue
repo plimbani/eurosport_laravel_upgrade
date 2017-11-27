@@ -118,13 +118,14 @@
                       <td>{{team.age_name}} </td>
 
                       <td width="130px" v-if="age_category != ''" style="position: relative">
-                        <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
+                        <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName"></teamSelect>
+                        <!-- <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
                           <option value="" class="blnk">{{seleTeam}}</option>
                           <optgroup :label="getGroupName(group)"
                           v-for="group in grps">
                             <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)" :value="getGroupValueInSelection(group, n)" >{{ getGroupDisplayNameInSelection(group, n) }} </option>
                           </optgroup>
-                        </select>
+                        </select> -->
                       </td>
                       <td width="130px" v-else>{{ getModifiedDisplayGroupName(team.group_name) }}</td>
                     </tr>
@@ -149,6 +150,8 @@
    import Tournament from '../../../api/tournament.js'
    import _ from 'lodash'
    import TournamentFilter from '../../../components/TournamentFilter.vue'
+   import teamSelect from '../../../components/teamSelect/teamSelect.vue'
+
    import Vue from 'vue'
 
    // Vue.filter('groupName', function (value) {
@@ -186,7 +189,8 @@
     },
 
     components: {
-      TournamentFilter
+      TournamentFilter,
+      teamSelect
     },
     computed: {
        tournamentFilter: function() {
@@ -235,6 +239,8 @@
     },
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
+      // this.$root.$on('onAssignGroup', this.onAssignGroup);
+      // this.$root.$on('beforeChange', this.beforeChange);
     },
 
     // watch: {
@@ -324,7 +330,6 @@
         beforeChange()
       },
       beforeChange(gid) {
-        console.log('calling');
         let gdata = $('#sel_'+gid).find('option:selected').val()
         // if(gdata != '' && gdata.indexOf('Pos') !== -1) {
         //   let name = gdata.split('-');
@@ -333,7 +338,6 @@
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
-        console.log('onAssignGroup');
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue == '') {
           //this.seleTeam = ''
@@ -346,7 +350,6 @@
         if(this.beforeChangeGroupName!=''){
           $(".selTeams option").filter('[value='+ this.beforeChangeGroupName +']').prop("disabled", false);
         }
-        Plugin.initPlugins(['Select2withoutSearch']);
         if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)
         }
@@ -355,6 +358,13 @@
           this.availableGroupsTeam.splice(index, 1);
         }
         $('.selTeams').prop("disabled", false);
+      },
+      assignTeamGroupName(id,val) {
+        _.map(this.teams, function(team){
+          if (id == team.id) {
+            team.group_name = val;
+          }
+        });
       },
       getTeams() {
         // if(this.age_category === '') {
@@ -368,9 +378,6 @@
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
-            setTimeout(function(){
-              Plugin.initPlugins(['Select2withoutSearch']);
-            }, 2000);
             let vm = this;
             _.forEach(response.data.data, function(team, key) {
 
