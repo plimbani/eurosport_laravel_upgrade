@@ -241,12 +241,12 @@ import _ from 'lodash'
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
-                                        if(response.data.data != -1){
+                                        if(response.data.data != -1 && response.data.data != -2){
                                             vm.$store.dispatch('setMatches');
                                              toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
                                              vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
                                              vm.reloadAllEvents()
-                                        }else{
+                                        } else {
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
                                             vm.$store.dispatch('setMatches');
                                             vm.matchFixture = {}
