@@ -149,7 +149,7 @@
                                         <div class="align-self-center p-1">
                                             <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
                                         </div>
-                                     
+
                                     </div>
                                      <a href="#" :class="'btn btn-primary stageInvisible chk_disable_'+day "  @click="addBreak(day)">{{$lang.pitch_detail_break_add}}</a>
                                   </div>
@@ -169,7 +169,7 @@
                                         <div class="align-self-center p-1">
                                             <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
                                         </div>
-                                     
+
                                     </div>
                                   </div>
                                   <div class="col-md-3">
@@ -180,18 +180,18 @@
                                       <div class="align-self-center p-1">
                                           <i v-show="errors.has('stage_continue_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Continue time is required"></i>
                                       </div>
-                                       
+
                                     </div>
                                   </div>
                                   <div class="col-md-3">
-                                     
+
                                   </div>
                                 </div> -->
                                 <div v-if="breakEnable[day]">
-                                  <div  v-for="n in stage_break[day]">  
+                                  <div  v-for="n in stage_break[day]">
                                   <div class="row align-items-center mb-3" >
                                     <div class="col-md-3">
-                                      Break{{n}} start 
+                                      Break{{n}} start
                                     </div>
                                     <div class="col-md-3">
                                       <!-- <div class="d-flex flex-nowrap justify-content-between align-items-center">
@@ -201,7 +201,7 @@
                                           <div class="align-self-center p-1">
                                               <i v-show="errors.has('stage_break_start'+day+'-'+n)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
                                           </div>
-                                       
+
                                       </div> -->
                                     </div>
                                     <div class="col-md-3">
@@ -212,11 +212,11 @@
                                           <div class="align-self-center p-1">
                                               <i v-show="errors.has('stage_break_start'+day+'-'+n)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
                                           </div>
-                                       
+
                                       </div>
                                     </div>
                                      <div class="col-md-3">
-                                      
+
                                     </div>
                                   </div>
                                   <div class="row align-items-center mb-3" >
@@ -239,7 +239,7 @@
                                       </div>
                                     </div>
                                      <div class="col-md-3">
-                                      
+
                                     </div>
                                   </div>
                                 </div>
@@ -248,7 +248,7 @@
 
                                   </div>
                                   <div class="col-md-3">
-                                    
+
                                      <a href="#" :class="'btn btn-primary chk_disable_'+day "  @click="addBreak(day)">{{$lang.pitch_detail_break_add}}</a>
                                   </div>
                                   <div class="col-md-3">
@@ -397,13 +397,13 @@ export default {
               'timeFormat': 'H:i'
           })
            stageBreak = [{'day':i,'break':'0'}];
-           
+
 
           sBreak['stageBreak'].push({"day":i,"break":1});
 
           // let k = i+1;
          // stageBreak['day'+i] = '1';
-         
+
          // jsonData[columnName] = column.value;
          // stageBreak.filter( Number );
          // array_filter(stageBreak);
@@ -452,7 +452,7 @@ export default {
             if($('#stage_break_chk_'+stage).is(':checked')){
                $('.stage_chk_active'+stage).attr('disabled','disabled')
               $('#stage_break_start'+stage+'-'+breakno).removeAttr('disabled')
-             
+
               $('#stage_end_time'+stage).attr('disabled','disabled')
             }else{
 
@@ -466,12 +466,12 @@ export default {
             // let stageArr = stage.split('-');
             // stage = stageArr[0];
             // let breakno =   stageArr[1];
-           
+
             if($('#stage_break_chk_'+stage).is(':checked')){
               $('#stage_continue_time'+stage+'-'+breakno).removeAttr('disabled');
               $('#stage_end_time'+stage).attr('disabled','disabled')
               curTime = $('#stage_break_start'+stage+'-'+breakno).val()
-               
+
             }
           }else if(curId.indexOf('stage_continue_time') >= 0) {
             if($('#stage_break_chk_'+stage).is(':checked')){
@@ -482,7 +482,7 @@ export default {
               curTime = $('#stage_end_time'+stage).val()
           }
           let newTime = ''
-          
+
             updatedTime =  curTime.split(':')
           if(curTime.indexOf('pm') >= 0 && (updatedTime[0]!= '12')) {
               let hrs = parseInt(updatedTime[0])+12
@@ -506,7 +506,7 @@ export default {
               //     maxTime: '20:00',
               //     'timeFormat': 'H:i'
               // });
-              
+
               $('#stage_end_time'+stage).timepicker({
                   minTime:  newTime,
                   maxTime: '20:00',
@@ -557,9 +557,9 @@ export default {
              // console.log(breakDiff);
             }
           }
-          
+
               let totBreakDiff = break_diff - breakDiff;
-          
+
               // var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
               // var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
               // var diff = diff1 + diff2
@@ -636,7 +636,7 @@ export default {
             $('#stage_break_start'+stage)
             $('.stage_chk_active'+stage).removeAttr('disabled','disabled')
              $('#stage_end_time'+stage).val('');
-           
+
             curTime =  $('#stage_start_time'+stage).val();
           }else{
               $('.stage_chk_active'+stage).attr('disabled','disabled')
@@ -648,7 +648,7 @@ export default {
             that.breakEnable = [];
             that.breakEnable = brk
 
-            
+
             let updatedTime =curTime.split(':');
             let hrs = parseInt(updatedTime[0])
                 let min = updatedTime[1].split(' ')[0]  == '30' ? '30' : '00'
@@ -660,7 +660,7 @@ export default {
                 maxTime: '20:00',
                 timeFormat: 'H:i'
               });
-            },500) 
+            },500)
         }else{
           $('.stage_chk_active'+stage).val($('#stage_start_time'+stage).val())
           $('.stage_chk_active'+stage).attr('disabled','disabled')
@@ -693,7 +693,7 @@ export default {
         // this.breakEnable[day] = false;
         let brk = this.breakEnable;
         let last_break = this.stage_break[day];
-        
+
         if($('#break_start_time'+day+'-'+last_break).val() != '' && $('#stage_continue_time'+day+'-'+last_break).val() != '') {
           let curTime =  $('#stage_continue_time'+day+'-'+last_break).val();
           let updatedTime =curTime.split(':');
@@ -711,11 +711,11 @@ export default {
               maxTime: '20:00',
               timeFormat: 'H:i'
           });
-          },1000)  
+          },1000)
         } else {
           toastr['error']('Please add last break time ', 'Error')
         }
-        
+
 
       },
       removeBreak(day) {
@@ -724,11 +724,11 @@ export default {
               let brk = this.breakEnable;
               this.breakEnable = [];
               this.stage_break[day] = parseInt(this.stage_break[day]) -1;
-              this.breakEnable = brk;  
+              this.breakEnable = brk;
               $('#stage_end_time'+day).removeAttr('disabled','disabled');
 
         }
-        
+
       },
       savePitchDetails () {
           this.$validator.validateAll().then(() => {
