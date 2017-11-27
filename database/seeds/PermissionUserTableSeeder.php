@@ -12,7 +12,7 @@ class PermissionUserTableSeeder extends Seeder
      */
     public function run()
     {   
-        DB::table('permission_user')->truncate();
+        DB::table('permission_user')->delete();
         $permission = DB::table('permissions')->take(3)->get()->toArray();
         $users = DB::table('users')->take(1)->select('id')->get()->toArray();
         
