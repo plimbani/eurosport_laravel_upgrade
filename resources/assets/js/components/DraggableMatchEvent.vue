@@ -1,7 +1,7 @@
 <template>
     <div class="js-draggable-events">
         <div v-if="match != 'unavailable'" class="unscheduled-match-content draggable-event dashbox p-2 text-center hoverable" :style="{background: fixtureBackgroundColor}">
-            <div>{{match.matchName}}</div>
+            <div>{{match.displayMatchName}}</div>
             <div>{{match.fullGame}}</div>
             <div>({{match.matchTime}} min)</div>
             <div class="unscheduled-match-content-strip" :style="{background: match.competationColorCode != null ? match.competationColorCode : '#FFFFFF'}"></div>
@@ -33,7 +33,7 @@ export default {
             $(this.$el).data('event', {
                 id: this.match.id,
 
-                title: this.match.matchName ? this.match.matchName : 'unavailable', // use the element's text as the event title
+                title: this.match.displayMatchName ? this.match.displayMatchName : 'unavailable', // use the element's text as the event title
                 refereeId: this.match=='unavailable'?-2:'0', // use the element's text as the event title
                 refereeText: 'R', // use the element's text as the event title
                 color: this.fixtureBackgroundColor,
