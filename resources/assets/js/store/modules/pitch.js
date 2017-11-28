@@ -38,25 +38,25 @@ const actions = {
         _.forEach(pitches , function(pitchAvailable, index) {
           let i = 1;
           let stage ={};
-          //let breaks = {};
+          let breaks = {};
+          let timeStage;
+          let stageTime;
 
             _.forEach(pitchAvailable.pitch_availability, function(pitchAvailable1) {
-              if(pitchAvailable1.break_enable == '1') {
 
+              if(pitchAvailable1.break_enable == '1') {
+                  let stageStr = "Stage "+i+": "+pitchAvailable1.stage_start_time+'-';
+              
               _.forEach(pitchAvailable1.pitch_breaks, function(pitchBreaks) {
 
-                // console.log(pitchBreaks);
-                  // stage[pitchAvailable.id+"_"+i] =  "Stage "+i+": "+moment(pitchAvailable1.stage_start_time,["HH:mm"]).format("H:mm")+"-"+moment(pitchAvailable1.stage_end_time,["HH:mm"]).format("H:mm")
-                  //console.log(Stval)
-                
-                i++;
+                stageStr = stageStr +pitchBreaks.break_start+','+pitchBreaks.break_end+'-';
               
               }); 
-              stage[pitchAvailable.id+"_"+i] =  "Stage "+i+": "+moment(pitchAvailable1.stage_start_time,["HH:mm"]).format("H:mm")+"-"+moment(pitchAvailable1.stage_end_time,["HH:mm"]).format("H:mm")
-              // console.log(stage);
-               
-              } 
-               response.data.pitches[index].pitch_av_text = stage; 
+                stageStr = stageStr + pitchAvailable1.stage_end_time;
+                stageTime = stageStr; 
+              
+              }  
+               response.data.pitches[index].pitch_av_text = stageTime; 
             });
 
         });
@@ -90,7 +90,7 @@ const actions = {
 
           // commit(types.SET_PITCH_ID, response.data.data.pitchdetail.id)
 
-          $('#editPitch').modal('show')
+          $('#editPitch').modal('show') 
         },500)
 
       },
