@@ -54,7 +54,7 @@
 		          let actualGroupName = group['groups']['actual_group_name'].split('-');
 		          return actualGroupName[0] + '-' + n
 		        }
-		        return group['groups']['group_name'] + n
+		        return (group['groups']['group_name']).replace('Group-','') + n
 		    }
 	  	}
 	}

@@ -119,13 +119,6 @@
 
                       <td width="130px" v-if="age_category != ''" style="position: relative">
                         <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName"></teamSelect>
-                        <!-- <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:focus="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
-                          <option value="" class="blnk">{{seleTeam}}</option>
-                          <optgroup :label="getGroupName(group)"
-                          v-for="group in grps">
-                            <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)" :value="getGroupValueInSelection(group, n)" >{{ getGroupDisplayNameInSelection(group, n) }} </option>
-                          </optgroup>
-                        </select> -->
                       </td>
                       <td width="130px" v-else>{{ getModifiedDisplayGroupName(team.group_name) }}</td>
                     </tr>
@@ -291,11 +284,6 @@
           } ;
         });
         return displayName
-      },
-
-      isSelected(grp,index){
-        return false
-
       },
       initialfunc(id){
         if($('#sel_'+id).find('option:selected').text()!=''){
@@ -612,23 +600,6 @@
           return group['groups']['group_name'].replace('Group-', '')
         }
         return group['groups']['group_name']
-      },
-      getGroupDisplayNameInSelection(group, n) {
-        let splitGroupName = group['name'].split('-');
-        let competitionType = splitGroupName[0];
-        if( competitionType == 'PM') {
-          let actualGroupName = group['groups']['actual_group_name'].split('-');
-          return actualGroupName[0] + '-' + n
-        }
-        return (group['groups']['group_name']).replace('Group-','') + n
-      },
-      getGroupValueInSelection(group, n) {
-        let splitGroupName = group['name'].split('-');
-        let competitionType = splitGroupName[0];
-        if( competitionType == 'PM') {
-          return group['groups']['actual_group_name'] + '-' + n
-        }
-        return group['groups']['group_name'] + n
       },
       getModifiedDisplayGroupName(groupName) {
         if(groupName != null && groupName.indexOf('Pos') !== -1) {
