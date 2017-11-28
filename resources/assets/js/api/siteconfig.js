@@ -7,7 +7,7 @@ import axios from 'axios'
 var instance = axios.create({
 
   // baseURL: 'http://rishab-eurosport.dev.aecortech.com/api/',
-  baseURL: 'http://esr.aecordigitalqa.com/api/',
+  baseURL: 'http://sunny-eurosport.dev.aecortech.com/api/',
   timeout: 50000
 })
 /*
