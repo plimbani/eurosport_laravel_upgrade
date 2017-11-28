@@ -15,7 +15,7 @@
           <div class="modal-body" id="pitch_model_body">
             <div class="form-group row mb-0">
               <label class="col-sm-3">{{$lang.pitch_modal_match_number}}</label><p class="col-sm-9"> {{matchFixture.title}}</p>
-              <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{ (matchDetail.home_team == 0 && matchDetail.home_team_name == '@^^@') ? getHoldingName(matchDetail.competition.actual_name, matchDetail.home_team_placeholder_name) : matchDetail.home_team_name }}) and Team 2 ({{ (matchDetail.away_team == 0 && matchDetail.away_team_name == '@^^@') ? getHoldingName(matchDetail.competition.actual_name, matchDetail.away_team_placeholder_name) : matchDetail.away_team_name }}) </p>
+              <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }}) and Team 2 ({{  getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }}) </p>
               <label class="col-sm-3">{{$lang.pitch_modal_date}}</label><p class="col-sm-9">{{matchDetail.matchTime}}</p>
               <label class="col-sm-3">{{$lang.pitch_modal_pitch_details}}</label><p class="col-sm-9"
               v-if="matchDetail.pitch && matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}}</p>
@@ -23,18 +23,18 @@
             <p class="mt-0 refree_name">
             <div v-if="matchDetail.referee">
               <div class="form-group row">
-                  <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
-                    Referee
-                  </label>
-                  <div class="col-sm-6 align-self-center">
-                      <input class="form-control mr-sm-2" type="text"
-                      v-model="matchDetail.referee.first_name"
-                      readonly>
+                <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                  Referee
+                </label>
+                <div class="col-sm-6 align-self-center">
+                    <input class="form-control mr-sm-2" type="text"
+                    v-model="matchDetail.referee.first_name"
+                    readonly>
 
-                  </div>
-                  <div class="col-sm-3 align-self-center">
-                      <a class="btn btn-danger w-100" href="javascript:void(0)" @click="removeReferee()">{{$lang.pitch_modal_remove_button}}</a>
-                  </div>
+                </div>
+                <div class="col-sm-3 align-self-center">
+                    <a class="btn btn-danger w-100" href="javascript:void(0)" @click="removeReferee()">{{$lang.pitch_modal_remove_button}}</a>
+                </div>
               </div>
             </div>
             <div class="row" v-else>
@@ -55,7 +55,8 @@
                   Result
                 </label>
                 <div class="col-sm-6 align-self-center">
-                  Team 1 ({{ (matchDetail.home_team == 0 && matchDetail.home_team_name == '@^^@') ? getHoldingName(matchDetail.competition.actual_name, matchDetail.home_team_placeholder_name) : matchDetail.home_team_name}})
+                  Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
+                  display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
                 </div>
                 <div class="col-sm-3 align-self-center">
                   <input type="number" min="0" name="home_team_score"
@@ -66,7 +67,8 @@
                   &nbsp;
                 </label>
                 <div class="col-sm-6 align-self-center">
-                  Team 2 ({{ (matchDetail.away_team == 0 && matchDetail.away_team_name == '@^^@') ? getHoldingName(matchDetail.competition.actual_name, matchDetail.away_team_placeholder_name) : matchDetail.away_team_name }})
+                  Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.
+                  display_away_team_placeholder_name, matchDetail.competition.actual_name) }})
                 </div>
                 <div class="col-sm-3 align-self-center">
                   <input type="number" min="0" name="away_team_score"
@@ -102,8 +104,9 @@
                    v-validate="'required'" :class="{'is-danger': errors.has('match_winner') }"
                    id="match_winner" class="form-control ls-select2">
                       <option value="">Please select</option>
-                      <option :value="matchDetail.home_team">Team 1 ({{ (matchDetail.home_team == 0 && matchDetail.home_team_name == '@^^@') ? getHoldingName(matchDetail.competition.actual_name, matchDetail.home_team_placeholder_name) : matchDetail.home_team_name }})</option>
-                      <option :value="matchDetail.away_team">Team 2 ({{ (matchDetail.away_team == 0 && matchDetail.away_team_name == '@^^@') ? getHoldingName(matchDetail.competition.actual_name, matchDetail.away_team_placeholder_name) : matchDetail.away_team_name }})</option>
+                      <option :value="matchDetail.home_team">Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
+                      </option>
+                      <option :value="matchDetail.away_team">Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }})</option>
                   </select>
                   <span class="help is-danger" v-show="errors.has('match_winner')">This field is required</span>
                 </div>
@@ -140,7 +143,11 @@ var moment = require('moment');
     data() {
        return {
          'tournamentId': this.$store.state.Tournament.tournamentId,
-         'matchDetail':{},
+         'matchDetail':{
+          'competition': {
+            'actual_name': null
+          }
+         },
          'referees': {},
          'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
          'referee_name' : '',
@@ -182,7 +189,7 @@ var moment = require('moment');
             this.referee_name = this.matchDetail.referee.first_name
             this.matchFixture.refereeId = this.matchDetail.referee_id
            }
-           
+
            let colorVal = this.matchDetail.category_age.category_age_color;
            let borderColorVal = this.matchDetail.category_age.category_age_color;
            let fixtureStripColor = this.matchDetail.competition.color_code != null ? this.matchDetail.competition.color_code : '#FFFFFF';
@@ -190,9 +197,9 @@ var moment = require('moment');
             this.matchFixture.color = colorVal;
             this.matchFixture.borderColor = borderColorVal;
             this.matchFixture.fixtureStripColor = fixtureStripColor;
-            
+
           // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
-      
+
           $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
           this.matchDetail.matchTime = date.format('HH:mm ddd DD MMM YYYY')
@@ -310,11 +317,11 @@ var moment = require('moment');
              $('div.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchFixture._id] )
            },200)
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
-          
+
           this.$store.dispatch('setMatches');
           this.$store.dispatch('SetScheduledMatches');
           this.$root.$emit('reloadAllEvents')
-          
+
 
       })
     },
@@ -361,11 +368,19 @@ var moment = require('moment');
     },
     getHoldingName(competitionActualName, placeholder) {
       if(competitionActualName.indexOf('Group') !== -1){
-        return 'Group-' + placeholder;
+        return placeholder;
       } else if(competitionActualName.indexOf('Pos') !== -1){
         return 'Pos-' + placeholder;
       }
-    }
-  }
+    },
+    getTeamName(teamId, teamName, teamPlaceHolder, competitionActualName){
+      if(teamId != 0){
+          return teamName;
+      } else if(teamId == 0 && teamName == '@^^@') {
+          return this.getHoldingName(competitionActualName, teamPlaceHolder)
+      }
+      return teamPlaceHolder;
+    },
+  } 
 }
 </script>

@@ -49,7 +49,7 @@
                 <span class="text-center">
                     @if($report->homeTeam == '0' && $report->homeTeamName == '@^^@')
                         @if(strpos($report->competition_actual_name, 'Group') !== false)
-                            {{ 'Group-' . $report->homePlaceholder }}
+                            {{ $report->homePlaceholder }}
                         @elseif(strpos($report->competition_actual_name, 'Pos') !== false)
                             {{ 'Pos-' . $report->homePlaceholder }}
                         @endif
@@ -62,9 +62,9 @@
             <td align="left">
             &nbsp;<img src="{{ $report->AwayFlagLogo }}" width="20">
                 <span class="text-center">
-                    @if($report->awayTeam == '0' && $report->awayTeamName == '@^^@')                        
+                    @if($report->awayTeam == '0' && $report->awayTeamName == '@^^@')
                         @if(strpos($report->competition_actual_name, 'Group') !== false)
-                            {{ 'Group-' . $report->awayPlaceholder }}
+                            {{ $report->awayPlaceholder }}
                         @elseif(strpos($report->competition_actual_name, 'Pos') !== false)
                             {{ 'Pos-' . $report->awayPlaceholder }}
                         @endif

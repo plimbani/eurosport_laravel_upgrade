@@ -274,16 +274,19 @@
        groupName(group,no){
         let vm =this
         let fullName = null
+        let actualFullName = null
         if(typeof group['groups']['actual_group_name'] != "undefined") {
+          actualFullName = group['groups']['actual_group_name'] + '-' + no;
           let actualGroupName = group['groups']['actual_group_name'].split('-');
           fullName = actualGroupName[0] + '-' + no;
         } else {
-          fullName = group['groups']['group_name']+no;
+          fullName = actualFullName = group['groups']['group_name']+no;
         }
 
         let displayName = fullName
-         _.find(this.teams, function(team) {
-          if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
+
+        _.find(this.teams, function(team) {
+          if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
             displayName =  team.name
           } ;
         });
@@ -338,14 +341,14 @@
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
+        $('.selTeams').prop("disabled", true);
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue == '') {
           //this.seleTeam = ''
           $('#sel_'+id+' .blnk').html('')
         }
         if(groupValue!='' && groupValue!= undefined ){
-          $('.selTeams').prop("disabled", true);
-          $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not( $('.sel_'+id)).prop("disabled","disabled");
+            $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not( $('.sel_'+id)).prop("disabled",true);
         }
         if(this.beforeChangeGroupName!=''){
           $(".selTeams option").filter('[value='+ this.beforeChangeGroupName +']').prop("disabled", false);
@@ -357,6 +360,7 @@
         if (index > -1) {
           this.availableGroupsTeam.splice(index, 1);
         }
+        document.activeElement.blur();
         $('.selTeams').prop("disabled", false);
       },
       assignTeamGroupName(id,val) {
@@ -378,13 +382,15 @@
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
-            let vm = this;
-            _.forEach(response.data.data, function(team, key) {
-
-            });
+            let that = this
+            setTimeout(function(){
+              $('.selTeams').each(function( index ) {
+                that.initialfunc($(this).data('id'))
+              })
+            },1000)
           },
-        (error) => {
-        }
+          (error) => {
+          }
         )
         //  Tournament.getTeamsGroup(teamData).then(
         //   (response) => {
@@ -531,15 +537,6 @@
 
               this.availableGroupsTeam = availGroupTeam
               this.teamSize = jsonObj.tournament_teams
-
-              let that = this
-
-
-              setTimeout(function(){
-                $('.selTeams').each(function( index ) {
-                  that.initialfunc($(this).data('id'))
-                })
-              },1000)
             },
             (error)=> {
               toastr['error']('error in getting json data.', 'Error');
@@ -547,6 +544,7 @@
             }
            )
         }
+        this.beforeChangeGroupName = ''
         this.getTeams()
       },
       csvImport() {
