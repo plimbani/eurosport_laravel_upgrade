@@ -45,31 +45,26 @@
           </tbody>
           <AddAgeCateogryModel v-if="categoryStatus"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-          <competationModal :templateData="templateData" :totalTime="totalTime"></competationModal>
-            <div class="modal fade p-0" id="large-image-modal" tabindex="-1" role="dialog" aria-labelledby="large-image-modal" aria-hidden="true">
-              <div class="modal-dialog modal-full" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="d-flex align-items-center justify-content-centers">
-                      <div class="d-block mx-auto">
-                        <img src="https://image.prntscr.com/image/2pYwsqIZS7mv59HxwI8HKA.jpg">
-                        <!-- <img src="//placehold.it/250x250"> -->
-                      </div>
+          <competationModal :templateData="templateData" :totalTime="totalTime" :templateImage="templateImage"></competationModal>
+          <div class="modal fade p-0" id="large-image-modal" tabindex="-1" role="dialog" aria-labelledby="large-image-modal" aria-hidden="true">
+            <div class="modal-dialog modal-full" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Template {{templateData.tournament_name}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="d-flex align-items-center justify-content-centers">
+                    <div class="d-block mx-auto">
+                      <img v-bind:src="'/'+templateImage">
                     </div>
                   </div>
-                  <!-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                  </div> -->
-                </div>
+                </div>  
               </div>
             </div>
+          </div>
         </table>
       </div>
     </div>
@@ -94,6 +89,7 @@ export default {
       deleteConfirmMsg: 'Are you sure you would like to delete this age category?',deleteAction: '',
       templateData:[],
       totalTime: '',
+      templateImage: '',
       categoryStatus: false
     }
   },
@@ -144,7 +140,8 @@ export default {
          Tournament.getTemplate(TemplateData).then(
           (response) => {
           if(response.data.status_code==200){
-            this.templateData = JSON.parse(response.data.data)
+            this.templateData = JSON.parse(response.data.data.json_data)
+            this.templateImage = response.data.data.image
             this.totalTime = tTime
              $("#competationmodal").modal("show");
           }

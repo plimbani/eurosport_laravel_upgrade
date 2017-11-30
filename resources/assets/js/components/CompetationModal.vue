@@ -21,8 +21,7 @@
               <div class="col-md-12">
                 <div class="d-flex justify-content-center">
                   <div class="d-block mx-auto">
-                    <img class="img-fluid" src="https://image.prntscr.com/image/2pYwsqIZS7mv59HxwI8HKA.jpg">
-                    <!-- <img class="img-fluid" src="//placehold.it/250x250"> -->
+                    <img class="img-fluid" v-bind:src="'/'+templateImage">
                   </div>
                 </div>
               </div>
@@ -82,7 +81,7 @@
 </template>
 <script type="text/babel">
    export default {
-     props: ['templateData','totalTime'],
+     props: ['templateData','totalTime','templateImage'],
      filters: {
     formatTime: function(time) {
       var hours = Math.floor( time /   60);
