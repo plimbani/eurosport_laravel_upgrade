@@ -10,7 +10,23 @@
         </div>
         <div class="modal-body">
           <form name="ageCategoryName">
-            <div class="row d-flex">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="d-flex justify-content-end">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#large-image-modal">View image</button>
+                </div>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-md-12">
+                <div class="d-flex justify-content-center">
+                  <div class="d-block mx-auto">
+                    <img class="img-fluid" v-bind:src="'/'+templateImage">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <div class="col-md-6">
                 <div class="jumbotron mb-0 px-4 py-4">
                   <p class="row">
@@ -65,7 +81,7 @@
 </template>
 <script type="text/babel">
    export default {
-     props: ['templateData','totalTime'],
+     props: ['templateData','totalTime','templateImage'],
      filters: {
     formatTime: function(time) {
       var hours = Math.floor( time /   60);
