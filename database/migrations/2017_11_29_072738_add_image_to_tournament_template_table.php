@@ -14,7 +14,7 @@ class AddImageToTournamentTemplateTable extends Migration
     public function up()
     {
         Schema::table('tournament_template', function($table) {
-           $table->string('image', 100)->nullable()->after('json_data');
+           $table->string('image')->nullable()->after('json_data');
         });
     }
 
