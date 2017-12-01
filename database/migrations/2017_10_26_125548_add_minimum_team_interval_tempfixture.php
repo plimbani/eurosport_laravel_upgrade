@@ -13,7 +13,7 @@ class AddMinimumTeamIntervalTempfixture extends Migration
      */
     public function up()
     {
-        Schema::table('temp_fixture', function($table) {
+        Schema::table('temp_fixtures', function($table) {
             $table->integer('minimum_team_interval_flag')->after('round')->default(0);
         });
     }
@@ -25,7 +25,7 @@ class AddMinimumTeamIntervalTempfixture extends Migration
      */
     public function down()
     {
-        Schema::table('temp_fixture', function($table) {
+        Schema::table('temp_fixtures', function($table) {
             $table->dropColumn('minimum_team_interval_flag');
         });
     }
