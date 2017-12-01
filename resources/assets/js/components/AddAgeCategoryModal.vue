@@ -72,7 +72,7 @@
                   v-validate="'required'" :class="{'is-danger': errors.has('number_teams') }"
                   v-model="number_teams">
                       <option value="">{{$lang.competation_modal_select_number_teams}}</option>
-                      <option v-if="n > 5" v-for="n in (28)"
+                      <option v-if="n > 3" v-for="n in (28)"
                       v-bind:value="n">
                      {{n}}
                     </option>
