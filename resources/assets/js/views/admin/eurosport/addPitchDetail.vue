@@ -252,7 +252,7 @@
                                      <a href="#" :class="'btn btn-primary chk_disable_'+day "  @click="addBreak(day)">{{$lang.pitch_detail_break_add}}</a>
                                   </div>
                                   <div class="col-md-3">
-                                    <a href="#" :class="'btn btn-danger  chk_disable_'+day "  @click="removeBreak(day)">{{$lang.pitch_detail_break_remove}}</a>
+                                    <a href="#" :class="'btn btn-danger  chk_disable_'+day " v-if="stage_break[day] > 1" @click="removeBreak(day)">{{$lang.pitch_detail_break_remove}}</a>
                                   </div>
                                 </div>
                               </div>

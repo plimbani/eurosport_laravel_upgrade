@@ -102,32 +102,22 @@ import _ from 'lodash'
             },
             pitchBreakAdd() {
                 let sPitch = [];
-                let pBreak = [];
                 _.forEach(this.stage.pitches, (pitch) => {
                     _.forEach(pitch.pitch_availability, (availability) => {
+                        console.log(availability);
                         _.forEach(availability.pitch_breaks, (pitchBreak) => {
-                        pBreak.push({
+                            console.log('stage',pitch.id,availability.stage_start_date,pitchBreak.break_start,pitchBreak.break_end);
+                        sPitch.push({
                             'id': '',
-                            'resourceId': availability.id,
-                            'start':moment.utc(availability.stage_start_date+' '+availability.break_start,'DD/MM/YYYY hh:mm:ss'),
-                            'end': moment.utc(availability.stage_start_date+' '+availability.break_end,'DD/MM/YYYY hh:mm:ss'),
+                            'resourceId': pitch.id,
+                            'start':moment.utc(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
+                            'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                             'refereeId': -1,
                             'refereeText': '',
                             'title':'Pitch is not available',
                             'matchId':''
                             })
-
-                          });  
-                    sPitch.push({
-                            'id': '',
-                            'resourceId': availability.id,
-                            'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
-                            'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
-                            'refereeId': -1,
-                            'refereeText': '',
-                            'title':'Pitch is not available',
-                            'matchId':''
-                        })
+                        });  
                     });
                 });
                 this.pitchBreak = sPitch
