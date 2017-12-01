@@ -101,9 +101,23 @@ import _ from 'lodash'
                 return this.$store.getters.scheduledMatches
             },
             pitchBreakAdd() {
-                let sPitch = []
+                let sPitch = [];
+                let pBreak = [];
                 _.forEach(this.stage.pitches, (pitch) => {
                     _.forEach(pitch.pitch_availability, (availability) => {
+                        _.forEach(availability.pitch_breaks, (pitchBreak) => {
+                        pBreak.push({
+                            'id': '',
+                            'resourceId': availability.id,
+                            'start':moment.utc(availability.stage_start_date+' '+availability.break_start,'DD/MM/YYYY hh:mm:ss'),
+                            'end': moment.utc(availability.stage_start_date+' '+availability.break_end,'DD/MM/YYYY hh:mm:ss'),
+                            'refereeId': -1,
+                            'refereeText': '',
+                            'title':'Pitch is not available',
+                            'matchId':''
+                            })
+
+                          });  
                     sPitch.push({
                             'id': '',
                             'resourceId': availability.id,
