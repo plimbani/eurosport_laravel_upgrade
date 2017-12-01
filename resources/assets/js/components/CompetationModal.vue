@@ -13,7 +13,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="d-flex justify-content-end">
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#large-image-modal">View image</button>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#large-image-modal">Enlarge</button>
                 </div>
               </div>
             </div>

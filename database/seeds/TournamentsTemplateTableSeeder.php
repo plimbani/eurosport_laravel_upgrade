@@ -362,22 +362,22 @@ class TournamentsTemplateTableSeeder extends Seeder
           'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0055.json'))), 'image' => 'template_images/template0055.jpg', 'total_teams' => '16', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
           [ 'name' => 'T.4.4',
-          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0139.json'))), 'total_teams' => '4', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
+          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0139.json'))), 'image' => 'template_images/template0139.jpg', 'total_teams' => '4', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
           [ 'name' => 'T.4.5',
-          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0140.json'))), 'total_teams' => '4', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
+          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0140.json'))), 'image' => 'template_images/template0140.jpg', 'total_teams' => '4', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
           [ 'name' => 'T.4.6',
-          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0141.json'))), 'total_teams' => '4', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
+          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0141.json'))), 'image' => 'template_images/template0141.jpg', 'total_teams' => '4', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
           [ 'name' => 'T.5.4',
-          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0142.json'))), 'total_teams' => '5', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
+          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0142.json'))), 'image' => 'template_images/template0142.jpg', 'total_teams' => '5', 'minimum_matches' => '4','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
           [ 'name' => 'T.5.5',
-          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0143.json'))), 'total_teams' => '5', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
+          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0143.json'))), 'image' => 'template_images/template0143.jpg', 'total_teams' => '5', 'minimum_matches' => '5','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
            [ 'name' => 'T.5.6',
-          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0144.json'))), 'total_teams' => '5', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
+          'json_data' => jsonMin::minify(file_get_contents(public_path('templates/template0144.json'))), 'image' => 'template_images/template0144.jpg', 'total_teams' => '5', 'minimum_matches' => '6','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
 
         ]);
