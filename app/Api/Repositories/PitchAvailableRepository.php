@@ -19,7 +19,7 @@ class PitchAvailableRepository
     }
     public function getPitchData($pitchId)
     {
-        return PitchAvailable::where('pitch_id', $pitchId)->get();
+        return PitchAvailable::with('pitchbreaks')->where('pitch_id', $pitchId)->get();
     }
     
 
@@ -38,7 +38,7 @@ class PitchAvailableRepository
                     // $break_start_time = $pitchData['stage_start_time'.$i];
                     // $break_end_time = $pitchData['stage_start_time'.$i];
                 }
-$pitchAvailableData = PitchAvailable::create([
+                $pitchAvailableData = PitchAvailable::create([
                     'tournament_id' => $pitchData['tournamentId'],
                     'pitch_id' => $pitchId,
                     'stage_no' => $i,
@@ -82,6 +82,7 @@ $pitchAvailableData = PitchAvailable::create([
     }
     public function removePitchAvailability($pitchId)
     {
+        PitchBreaks::where('pitch_id',$pitchId)->delete();
         return PitchAvailable::where('pitch_id',$pitchId)->delete();
     }
     
