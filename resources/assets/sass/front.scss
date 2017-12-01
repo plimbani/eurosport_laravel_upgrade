@@ -93,6 +93,21 @@ select.form-control {
     }
 }
 
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent !important;
+    border-style: solid;
+    border-width: 0 !important;
+    margin-left: 0;
+    margin-top: 0;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 35px;
+    height: 35px;
+    background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat;
+}
+
 #test tbody>tr {
     &:nth-of-type(3n+1) {
         background: #FFFF00;
@@ -167,17 +182,6 @@ table#Competition-modal-table {
 #outerGame {
     margin-bottom: 100px
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*.pitch_planner_section {
   height: 1200px;
@@ -615,8 +619,6 @@ input[type=number] {
 label.error {
     color: #ff3860;
 }
-
-
 
 /*.fc-event {
   border: none;
