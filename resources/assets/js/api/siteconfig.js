@@ -5,9 +5,7 @@ import axios from 'axios'
 // EndPoint API
 
 var instance = axios.create({
-
-  baseURL: 'http://mukesh-eurosport.dev.aecortech.com/api/',
-  //baseURL: 'http://esr.aecordigitalqa.com/api/',
+  baseURL: 'http://esr.aecordigitalqa.com/api/',
   timeout: 50000
 })
 /*
