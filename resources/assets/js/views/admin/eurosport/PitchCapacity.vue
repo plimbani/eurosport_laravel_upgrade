@@ -33,8 +33,8 @@
                                     <td class="text-center">{{pitch.size}}</td>
                                     <td class="text-center" style="text-transform: capitalize;">{{pitch.type}}</td>
                                     <td>
-                                        <p v-for="pitchStage in pitch.pitch_av_text">
-                                        {{pitchStage}}</p>
+                                        <label v-for="pitchStage in pitch.pitch_av_text">
+                                        {{pitchStage}}</label>
                                         <!--<p>Stage 2: 10am-1pm, 3pm-5pm</p>
                                         <p>Stage 3: 10am-2pm</p>-->
                                     </td>
