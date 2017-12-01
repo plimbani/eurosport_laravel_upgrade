@@ -397,6 +397,11 @@ import _ from 'lodash'
                             let refereeId = ''
                             let matchTitle = ''
 
+                            let displayMatchNumber = match.displayMatchNumber
+                            let displayHomeTeamPlaceholder = match.displayHomeTeamPlaceholderName
+                            let displayAwayTeamPlaceholder = match.displayAwayTeamPlaceholderName
+                            let displayMatchName = displayMatchNumber;
+
                             let mtchNumber = match.match_number
                             let mtchNumber1 = mtchNumber.split(".")
                             let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
@@ -408,28 +413,31 @@ import _ from 'lodash'
                             let Placeawayteam =  teams[1]
 
                             if(match.Home_id != 0){
-                                Placehometeam = match.HomeTeam
+                                Placehometeam = displayHomeTeamPlaceholder = match.HomeTeam
                             } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
                                 if(match.competition_actual_name.indexOf('Group') !== -1) {
-                                    Placehometeam = match.homePlaceholder
+                                    Placehometeam = displayHomeTeamPlaceholder = match.homePlaceholder
                                 } else if(match.competition_actual_name.indexOf('Pos') !== -1){
-                                    Placehometeam = 'Pos-' + match.homePlaceholder
+                                    Placehometeam = displayHomeTeamPlaceholder = 'Pos-' + match.homePlaceholder
                                 }
                             }
 
                             if(match.Away_id != 0){
-                                Placeawayteam = match.AwayTeam
+                                Placeawayteam = displayAwayTeamPlaceholder = match.AwayTeam
                             } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
                                 if(match.competition_actual_name.indexOf('Group') !== -1) {
-                                    Placeawayteam = match.awayPlaceholder
+                                    Placeawayteam = displayAwayTeamPlaceholder = match.awayPlaceholder
                                 } else if(match.competition_actual_name.indexOf('Pos') !== -1){
-                                    Placeawayteam = 'Pos-' + match.awayPlaceholder
+                                    Placeawayteam = displayAwayTeamPlaceholder = 'Pos-' + match.awayPlaceholder
                                 }
                             }
 
                             let mtc = ''
                             mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
                             match.match_number = mtc
+
+                            displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
+                            
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
                                     if( filterValue != '' && filterValue.id != match.tid){
@@ -464,10 +472,10 @@ import _ from 'lodash'
                               }
                               if(scheduleBlock){
                                 refereeId = -1
-                                matchTitle = 'Match scheduled - '+match.match_number
+                                matchTitle = 'Match scheduled - '+displayMatchName
                               }else{
                                 refereeId = match.referee_id?match.referee_id:0
-                                 matchTitle = match.match_number
+                                 matchTitle = displayMatchName
                               }
                                 let mData =  {
                                     'id': match.fid,
