@@ -122,7 +122,7 @@
           <div class="modal-footer justify-content-between">
 
             <div class="">
-              <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()">{{$lang.pitch_modal_unschedule}}</button>
+              <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()"><i class="fa fa-undo" aria-hidden="true"></i>{{$lang.pitch_modal_unschedule}}</button>
             </div>
             <div class="">
               <button type="button" class="btn btn-danger" data-dismiss="modal" @click="closeModal()">{{$lang.pitch_modal_cancel}}</button>
