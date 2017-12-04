@@ -451,9 +451,8 @@ export default {
               curTime = $('#stage_start_time'+stage).val()
             if($('#stage_break_chk_'+stage).is(':checked')){
                $('.stage_chk_active'+stage).attr('disabled','disabled')
-              $('#stage_break_start'+stage+'-'+breakno).removeAttr('disabled')
-
-              $('#stage_end_time'+stage).attr('disabled','disabled')
+               $('#stage_break_start'+stage+'-'+breakno).removeAttr('disabled')
+               $('#stage_end_time'+stage).attr('disabled','disabled')
             }else{
 
               setTimeout(function(){
