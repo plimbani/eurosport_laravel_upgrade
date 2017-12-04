@@ -177,6 +177,12 @@
                                       Break {{n}} start
                                     </div>
                                     <div class="col-md-3">
+                                       <div class="input-group">
+                                          <span class="input-group-addon">
+                                              <i class="jv-icon jv-calendar"></i>
+                                          </span>
+                                          <input type="text" :name="'stage_break_start'+day" :id="'stage_break_start'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
+                                      </div>
                                       <!-- <div class="d-flex flex-nowrap justify-content-between align-items-center">
                                           <div   :class="'align-self-center w-100 chk_disable_'+day ">
                                               <input type="text" :name="'stage_break_start'+day+'-'+n" v-validate="'required'" :class="[errors.has('stage_break_start'+day+'-'+n)?'is-danger': '', 'form-control ls-timepicker stage_break_start stage_chk_active'+day]"  :id="'stage_break_start'+day+'-'+n" >
@@ -207,6 +213,12 @@
                                       Break {{n}} end
                                     </div>
                                     <div class="col-md-3">
+                                      <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="jv-icon jv-calendar"></i>
+                                        </span>
+                                        <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
+                                      </div>
                                       <!-- <input type="text" :name="'stage_break'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]"> -->
                                      <!--  <input type="text" :name="'stage_continue_date'+day+'-'+n" :id="'stage_continue_date'+day+'-'+n" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+day]"> -->
                                     </div>
@@ -235,7 +247,7 @@
                                      <a href="#" :class="'btn btn-primary chk_disable_'+day "  @click="addBreak(day)">{{$lang.pitch_detail_break_add}}</a>
                                   </div>
                                   <div class="col-md-3">
-                                    <a href="#" :class="'btn btn-danger  chk_disable_'+day "  @click="removeBreak(day)">{{$lang.pitch_detail_break_remove}}</a>
+                                    <a href="#" :class="'btn btn-danger  chk_disable_'+day " v-if="stage_break[day] > 1"  @click="removeBreak(day)">{{$lang.pitch_detail_break_remove}}</a>
                                   </div>
                                 </div>
                               </div>
@@ -381,11 +393,11 @@ var moment = require('moment');
                  this1.removeStage.push(i);
                  // console.log(this1.pitchData);
                     _.find(this1.pitchData.pitchAvailable, function (pitchAvailable) {
-                      
+
 
                     // => Logs `1` then `2`.
                     if(pitchAvailable.stage_no == i){
-                     
+
                        sBreak['stageBreak'].push({"day":i,"break":pitchAvailable.pitchbreaks.length})
                         _.map( sBreak['stageBreak'], function(s) {
                           arr[s.day] = s.break;
@@ -396,8 +408,8 @@ var moment = require('moment');
                             brk[s.day] = false;
                            }
                         });
-                        this1.stage_break= arr;  
-                        this1.breakEnable= brk;                    
+                        this1.stage_break= arr;
+                        this1.breakEnable= brk;
                         $('#stage_start_time'+pitchAvailable.stage_no).val(pitchAvailable.stage_start_time)
                         $('#stage_end_time'+pitchAvailable.stage_no).val(pitchAvailable.stage_end_time)
                         if(pitchAvailable.break_enable == 1){
@@ -417,8 +429,8 @@ var moment = require('moment');
                         //     brk[s.day] = false;
                         //    }
                         // });
-                        // this1.stage_break= arr;  
-                        //  this1.breakEnable= brk;                      
+                        // this1.stage_break= arr;
+                        //  this1.breakEnable= brk;
                         $('#stage_break_chk_'+i).attr('checked','checked')
                         $('.chk_disable_'+i).removeClass('stageInvisible')
                         //Pitch break code start
@@ -434,15 +446,15 @@ var moment = require('moment');
                               $('#stage_break_start'+pitchAvailable.stage_no+'-'+breakCnt).val(pitchBreak.break_start);
                               $('#stage_continue_time'+pitchAvailable.stage_no+'-'+breakCnt).val(pitchBreak.break_end);
                             },2000)
-                          
-                           
+
+
                           });
-                           
+
                         }else{
-                          
+
                            $('.stage_chk_active'+i).attr('disabled','disabled')
                         }
-                       
+
                         this1.disableDate.push(pitchAvailable.stage_start_date);
                         // var index =  this1.availableDate.indexOf(pitchAvailable.stage_start_date);
                         // this1.availableDate.splice(index, 1);
@@ -478,8 +490,8 @@ var moment = require('moment');
                 startDate.setDate(new Date(moment(this1.tournamentStartDate, 'DD/MM/YYYY').format('MM/DD/YYYY')).getDate() + i)
 
             }
-              
-              
+
+
               // _.map( sBreak['stageBreak'], function(s) {
               //   // arr[s.day]['break'] = s.break;
               //   // arr[s.day]['break'] = s.break;
