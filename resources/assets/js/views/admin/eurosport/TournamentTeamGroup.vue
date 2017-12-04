@@ -248,7 +248,7 @@
     methods: {
       groupFlag(group,no){
         let vm =this
-        
+
         let fullName = null
         if(typeof group['groups']['actual_group_name'] != "undefined") {
           let actualGroupName = group['groups']['actual_group_name'];
@@ -276,7 +276,7 @@
         } else {
           fullName = actualFullName = group['groups']['group_name']+no;
         }
-        
+
         let displayName = fullName
 
         _.find(this.teams, function(team) {
@@ -480,7 +480,7 @@
             (response) => {
               //var JsonTemplateData = JSON.stringify(eval("(" + response.data.data + ")"));
 
-              let jsonObj = JSON.parse(response.data.data)
+              let jsonObj = JSON.parse(response.data.data.json_data)
               //let JsonTemplateData  = response.data.data
               // Now here we put data over there as per group
                let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
@@ -503,7 +503,7 @@
                     } else {
                       groupName = group.groups.group_name;
                     }
-                    
+
                     for(var i = 1; i <= group.group_count; i++ ){
                       availGroupTeam.push(groupName+i)
                     }
