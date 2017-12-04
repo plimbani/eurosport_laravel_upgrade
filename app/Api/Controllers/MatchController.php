@@ -283,7 +283,7 @@ class MatchController extends BaseController
                     $data['allTemplateMatchNumber'] = $allTemplateMatchNumber;
 
                     foreach($matches as $matchKey=>$match) {
-                        $updatedMatchDetail = $this->processMatch($data, $match);
+                        $updatedMatchDetail = $this->matchObj->processMatch($data, $match);
                         $updatedRoundInfo['match_type'][$matchTypeKey]['groups']['match'][$matchKey] = $updatedMatchDetail;
                     }
 
@@ -292,7 +292,7 @@ class MatchController extends BaseController
                             $matches = $dependentMatches['groups']['match'];
                             foreach($matches as $matchKey=>$match) {
                                 $dependentData = array_merge($data, ['notToAllowRoundOne' => true]);
-                                $updatedMatchDetail = $this->processMatch($dependentData, $match);
+                                $updatedMatchDetail = $this->matchObj->processMatch($dependentData, $match);
                                 $updatedRoundInfo['match_type'][$matchTypeKey]['dependent_groups'][$dependentKey]['groups']['match'][$matchKey] = $updatedMatchDetail;
                             }
                         }
@@ -333,7 +333,7 @@ class MatchController extends BaseController
                 $match = [];
                 $match['match_number'] = str_replace($category, 'CAT.', $fixture->match_number);
 
-                $updatedMatchDetail = $this->processMatch($data, $match);
+                $updatedMatchDetail = $this->matchObj->processMatch($data, $match);
                     
                 $fixture->display_match_number = $updatedMatchDetail['display_match_number'];
                 $fixture->display_home_team_placeholder_name = $updatedMatchDetail['display_home_team_placeholder_name'];

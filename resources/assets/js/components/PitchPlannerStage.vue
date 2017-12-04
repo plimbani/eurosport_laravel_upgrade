@@ -449,7 +449,13 @@ import _ from 'lodash'
                                     }
                                 }
                               let colorVal = match.category_age_color;
-                              let borderColorVal = match.category_age_color;
+                              var isBright = (parseInt(vm.getBrightness(match.category_age_color)) > 160);
+                              let borderColorVal;
+                              if(isBright) {
+                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, -40);
+                              } else {
+                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, 40);
+                              }
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
 
                               if(scheduleBlock){
@@ -630,6 +636,49 @@ import _ from 'lodash'
                         vm1.initScheduler();
                     }
                 )
+            },
+            LightenDarkenColor(colorCode, amount) {
+                var usePound = false;
+
+                if (colorCode[0] == "#") {
+                    colorCode = colorCode.slice(1);
+                    usePound = true;
+                }
+
+                var num = parseInt(colorCode, 16);
+
+                var r = (num >> 16) + amount;
+
+                if (r > 255) {
+                    r = 255;
+                } else if (r < 0) {
+                    r = 0;
+                }
+
+                var b = ((num >> 8) & 0x00FF) + amount;
+
+                if (b > 255) {
+                    b = 255;
+                } else if (b < 0) {
+                    b = 0;
+                }
+
+                var g = (num & 0x0000FF) + amount;
+
+                if (g > 255) {
+                    g = 255;
+                } else if (g < 0) {
+                    g = 0;
+                }
+
+                return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
+            },
+            getBrightness(hexCode) {
+              hexCode = hexCode.replace('#', '');
+              var c_r = parseInt(hexCode.substr(0, 2),16);
+              var c_g = parseInt(hexCode.substr(2, 2),16);
+              var c_b = parseInt(hexCode.substr(4, 2),16);
+              return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
             }
         }
     };

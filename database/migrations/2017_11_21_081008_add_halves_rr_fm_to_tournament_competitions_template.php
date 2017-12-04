@@ -14,8 +14,8 @@ class AddHalvesRrFmToTournamentCompetitionsTemplate extends Migration
     public function up()
     {
           Schema::table('tournament_competation_template', function($table) {
-           $table->string('halves_RR')->nullable()->after('game_duration_RR');
-           $table->string('halves_FM')->nullable()->after('game_duration_FM');
+           $table->integer('halves_RR')->nullable()->after('game_duration_RR');
+           $table->integer('halves_FM')->nullable()->after('game_duration_FM');
         });
     
     }
