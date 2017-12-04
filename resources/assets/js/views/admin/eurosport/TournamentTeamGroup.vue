@@ -322,10 +322,6 @@
       },
       beforeChange(gid) {
         let gdata = $('#sel_'+gid).find('option:selected').val()
-        // if(gdata != '' && gdata.indexOf('Pos') !== -1) {
-        //   let name = gdata.split('-');
-        //   gdata = name[0] + '-' + name[2]
-        // }
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
@@ -336,7 +332,7 @@
           $('#sel_'+id+' .blnk').html('')
         }
         if(groupValue!='' && groupValue!= undefined ){
-            $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not( $('.sel_'+id)).prop("disabled",true);
+            $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not($('.sel_'+id)).prop("disabled",true);
         }
         if(this.beforeChangeGroupName!=''){
           $(".selTeams option").filter('[value='+ this.beforeChangeGroupName +']').prop("disabled", false);
@@ -350,6 +346,7 @@
         }
         document.activeElement.blur();
         $('.selTeams').prop("disabled", false);
+        $('.selTeams').select2({ minimumResultsForSearch: Infinity });
       },
       assignTeamGroupName(id,val) {
         _.map(this.teams, function(team){
