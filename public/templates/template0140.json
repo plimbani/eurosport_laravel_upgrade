@@ -105,7 +105,7 @@
                 "name": "Round 2",
                 "match_type": [
                     {
-                        "name": "PM-1",
+                        "name": "PM-1*4",
                         "total_match": 2,
                         "group_count": 4,
                         "groups": {
@@ -134,21 +134,21 @@
                 "name": "Round 3",
                 "match_type": [
                     {
-                        "name": "PM-2",
+                        "name": "PM-1*4",
                         "total_match": 2,
                         "group_count": 4,
                         "groups": {
                             "group_name": "Group-PM2",
                             "match": [
                                 {
-                                    "in_between": "CAT.PM3.G1WR-CAT.PM3.G2WR",
+                                    "in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",
                                     "match_number": "CAT.PM3.G1.1A_4A_WR-2A_3A_WR",
                                     "display_match_number": "CAT.3.1.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "2.1",
                                     "display_away_team_placeholder_name": "2.2"
                                 },
                                 {
-                                    "in_between": "CAT.PM3.G1LR-CAT.PM3.G2LR",
+                                    "in_between": "CAT.PM2.G1LR-CAT.PM2.G2LR",
                                     "match_number": "CAT.PM3.G2.1A_4A_LR-2A_3A_LR",
                                     "display_match_number": "CAT.3.2.lrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "2.1",

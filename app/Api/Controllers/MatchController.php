@@ -10,6 +10,9 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\Tournament;
 use Laraspace\Models\TournamentCompetationTemplates;
+use File;
+use Storage;
+use DB;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\MatchContract;
@@ -238,6 +241,107 @@ class MatchController extends BaseController
         }
 
         return view('automate_tournament.success_match_scheduled', compact('status') );
+    }
+
+    public function generateDisplayMatchNumber(Request $request)
+    {
+        $files = File::allFiles('templates');
+        foreach ($files as $file)
+        {
+            $allTemplateMatchNumber = [];
+            $filePath = (string)$file;
+            $updatedFilePath = str_replace('templates/', 'updatedtemplates/', $filePath);
+            $json = json_decode(file_get_contents($filePath), true);
+            $updatedJson = $json;
+
+            $allRounds = $json['tournament_competation_format']['format_name'];
+
+            foreach($allRounds as $round) {
+                foreach($round['match_type'] as $matchType) {
+                    $allTemplateMatchNumber = array_merge($allTemplateMatchNumber, $matchType['groups']['match']);
+                    if(isset($matchType['dependent_groups'])) {
+                        foreach($matchType['dependent_groups'] as $dependentMatches) {
+                            $allTemplateMatchNumber = array_merge($allTemplateMatchNumber, $dependentMatches['groups']['match']);
+                        }
+                    }
+                }
+            }
+            $allTemplateMatchNumber = array_column($allTemplateMatchNumber, 'match_number');
+            $allUpdatedRounds = [];
+            $updatedRoundInfo = null;
+
+            foreach($allRounds as $round) {
+                $updatedRoundInfo = $round;
+                $roundName = $round['name'];
+                $matchTypes = $round['match_type'];
+
+                foreach($matchTypes as $matchTypeKey=>$matchType) {
+                    $matches = $matchType['groups']['match'];
+
+                    $data = [];
+                    $data['roundName'] = $roundName;
+                    $data['allTemplateMatchNumber'] = $allTemplateMatchNumber;
+
+                    foreach($matches as $matchKey=>$match) {
+                        $updatedMatchDetail = $this->matchObj->processMatch($data, $match);
+                        $updatedRoundInfo['match_type'][$matchTypeKey]['groups']['match'][$matchKey] = $updatedMatchDetail;
+                    }
+
+                    if(isset($matchType['dependent_groups'])) {
+                        foreach($matchType['dependent_groups'] as $dependentKey => $dependentMatches) {
+                            $matches = $dependentMatches['groups']['match'];
+                            foreach($matches as $matchKey=>$match) {
+                                $dependentData = array_merge($data, ['notToAllowRoundOne' => true]);
+                                $updatedMatchDetail = $this->matchObj->processMatch($dependentData, $match);
+                                $updatedRoundInfo['match_type'][$matchTypeKey]['dependent_groups'][$dependentKey]['groups']['match'][$matchKey] = $updatedMatchDetail;
+                            }
+                        }
+                    }
+                }
+
+                array_push($allUpdatedRounds,$updatedRoundInfo);
+            }
+
+            $updatedJson['tournament_competation_format']['format_name'] = $allUpdatedRounds;
+            Storage::put($updatedFilePath, json_encode($updatedJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+        echo "All templates processed.";exit;
+    }
+
+    public function generateDisplayMatchNumberForDB(Request $request)
+    {
+        $tournamentCompetationTemplates = TournamentCompetationTemplates::all();
+
+        foreach($tournamentCompetationTemplates as $tournamentCompetationTemplate) {
+            $tempFixtures = TempFixture::with('competition', 'categoryAge')
+                            ->where('temp_fixtures.age_group_id', $tournamentCompetationTemplate->id)
+                            ->get();
+
+            $allTemplateMatchNumber = [];
+            foreach($tempFixtures as $fixture) {
+                $category = $fixture->categoryAge->group_name . '-' . $fixture->categoryAge->category_age . '-';
+                $allTemplateMatchNumber[] = str_replace($category, 'CAT.', $fixture->match_number);
+            }
+
+            foreach($tempFixtures as $fixture) {
+                $category = $fixture->categoryAge->group_name . '-' . $fixture->categoryAge->category_age . '-';
+
+                $data = [];
+                $data['roundName'] = $fixture->competition->competation_round_no;
+                $data['allTemplateMatchNumber'] = $allTemplateMatchNumber;
+
+                $match = [];
+                $match['match_number'] = str_replace($category, 'CAT.', $fixture->match_number);
+
+                $updatedMatchDetail = $this->matchObj->processMatch($data, $match);
+                    
+                $fixture->display_match_number = $updatedMatchDetail['display_match_number'];
+                $fixture->display_home_team_placeholder_name = $updatedMatchDetail['display_home_team_placeholder_name'];
+                $fixture->display_away_team_placeholder_name = $updatedMatchDetail['display_away_team_placeholder_name'];
+                $fixture->save();
+            }
+        }
+        echo "All DB templates processed.";exit;
     }
 
     public function saveStandingsManually(Request $request)
