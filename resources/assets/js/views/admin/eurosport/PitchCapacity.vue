@@ -452,17 +452,37 @@ import Tournament from '../../../api/tournament.js'
                             totalTimeRequired += timeRequired;
                             totalBalance += balance;
 
+                            let minutes = balance % 60;
+                            let hours = (balance - minutes) / 60;
+
+                            if(minutes<0){
+                                minutes = parseInt(0 - minutes)
+                            }
+                            if(hours<0){
+                                hours = parseInt(0 - hours)
+                            }
+
                             pitchSizeDetail.availableTime = ( ((availableTime - (availableTime % 60)) / 60) + ' hrs ' + (availableTime % 60) + ' mins');
                             pitchSizeDetail.timeRequired = ( ((timeRequired - (timeRequired % 60)) / 60) + ' hrs ' + (timeRequired % 60) + ' mins');
-                            pitchSizeDetail.balance = ( ((balance - (balance % 60)) / 60) + ' hrs ' + (balance % 60) + ' mins');                            
+                            pitchSizeDetail.balance = (balance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );                            
                             pitchSizeDetail.balanceSign = balance < 0 ? '-' : '+';
 
                             vm.pitchSizeWiseSummaryArray[pitchSize] = pitchSizeDetail;
                         }
 
+                        let minutes = totalBalance % 60;
+                        let hours = (totalBalance - minutes) / 60;
+
+                        if(minutes<0){
+                            minutes = parseInt(0 - minutes)
+                        }
+                        if(hours<0){
+                            hours = parseInt(0 - hours)
+                        }
+
                         vm.pitchSizeWiseSummaryTotal.totalAvailableTime = ( ((totalAvailableTime - (totalAvailableTime % 60)) / 60) + ' hrs ' + (totalAvailableTime % 60) + ' mins');
                         vm.pitchSizeWiseSummaryTotal.totalTimeRequired = ( ((totalTimeRequired - (totalTimeRequired % 60)) / 60) + ' hrs ' + (totalTimeRequired % 60) + ' mins');
-                        vm.pitchSizeWiseSummaryTotal.totalBalance = ( ((totalBalance - (totalBalance % 60)) / 60) + ' hrs ' + (totalBalance % 60) + ' mins');
+                        vm.pitchSizeWiseSummaryTotal.totalBalance = (totalBalance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
                         vm.pitchSizeWiseSummaryTotal.totalBalanceSign = totalBalance < 0 ? '-' : '+';
                       },
                       (error) => {
