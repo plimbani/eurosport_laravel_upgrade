@@ -500,10 +500,11 @@ import _ from 'lodash'
                         let minTimePitchAvail = []
                         let maxTimePitchAvail = []
                         let sPitch = []
+                        let stageFlag;
                         _.forEach(this.stage.pitches, (pitch) => {
                             _.forEach(pitch.pitch_availability, (availability) => {
+                                stageFlag = false;
                                 _.forEach(availability.pitch_breaks, (pitchBreak) => {
-                                    console.log('hi',pitchBreak);
                                 if(availability.stage_start_time != '08:00:00' ){
                                     minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'))
                                 }
@@ -526,7 +527,7 @@ import _ from 'lodash'
                                     'displayFlag': ''
                                 }
 
-                                if(availability.stage_start_time != '08:00'){
+                                if(availability.stage_start_time != '08:00' && stageFlag == false){
                                     let mData1 = {
                                         'id': 'start_'+counter,
                                         'resourceId': pitch.id,
@@ -544,7 +545,7 @@ import _ from 'lodash'
                                     }
                                     sMatches.push(mData1)
                                 }
-                                if(availability.stage_end_time != '20:00'){
+                                if(availability.stage_end_time != '20:00' && stageFlag == false){
                                     let mData2 = {
                                         'id': 'end_'+counter,   
                                         'resourceId': pitch.id,
@@ -564,7 +565,8 @@ import _ from 'lodash'
                                 }
 
                                 sMatches.push(mData)
-                                    counter = counter+1;
+                                counter = counter+1;
+                                stageFlag = true;
                                 });
                             });
                            }); 
