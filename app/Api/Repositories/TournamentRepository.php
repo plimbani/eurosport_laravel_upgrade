@@ -143,7 +143,6 @@ class TournamentRepository
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
-        $newdata['slug'] = $this->generateSlug($data['name'],'');
         $newdata['maximum_teams'] = $data['maximum_teams'];
         $newdata['start_date'] = $data['start_date'] ? $data['start_date'] : '';
         $newdata['end_date'] = $data['end_date'] ? $data['end_date'] : '';
@@ -174,6 +173,7 @@ class TournamentRepository
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
+         $newdata['slug'] = $this->generateSlug($data['name'],'');
          $newdata['status'] = 'Unpublished';
          $newdata['user_id'] = $data['user_id'];
          $tournamentId = Tournament::create($newdata)->id;
