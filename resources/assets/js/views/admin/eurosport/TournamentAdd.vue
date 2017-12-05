@@ -341,8 +341,9 @@ $('#btnSelect').on('click',function(){
 })
 
 let tId = this.$store.state.Tournament.tournamentId
- this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
+ 
 if(tId.length != 0) {
+this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
 this.tournamentId = this.$store.state.Tournament.tournamentId
 // Now here we call method for getting the tournament Data
 // we call Summary
