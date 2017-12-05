@@ -440,11 +440,12 @@ var moment = require('moment');
 
                           _.forEach(pitchAvailable.pitchbreaks, function(pitchBreak,bCnt)  {
                             // console.log(bCnt);
-                              console.log( $('#stage_break_start'+pitchAvailable.stage_no+'-'+breakCnt).val());
+                            
                             let breakCnt = parseInt(bCnt)+1;
                             setTimeout(function(){
                               $('#stage_break_start'+pitchAvailable.stage_no+'-'+breakCnt).val(pitchBreak.break_start);
                               $('#stage_continue_time'+pitchAvailable.stage_no+'-'+breakCnt).val(pitchBreak.break_end);
+                              $('.datestage'+i).val($('#stage_start_date'+i).val())
                             },2000)
 
 
@@ -592,11 +593,14 @@ var moment = require('moment');
                         maxTime: '20:00',
                         timeFormat: 'H:i'
                     });
+                     $('#stage_break_start'+stage).timepicker('option', 'minTime', newTime); 
                     $('#stage_end_time'+stage+'-'+breakno).timepicker({
                         minTime:  newTime,
                         maxTime: '20:00',
                         timeFormat: 'H:i'
                     });
+                     $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime); 
+
                     $('#stage_break_start'+stage).val('')
 
                     $('#stage_continue_time'+stage).val('')
@@ -610,6 +614,8 @@ var moment = require('moment');
                         maxTime: '20:00',
                         timeFormat: 'H:i'
                     });
+                     $('#stage_continue_time'+stage).timepicker('option', 'minTime', newTime); 
+
                     $('#stage_continue_time'+stage).val('')
 
                     $('#stage_end_time'+stage).val('')
@@ -622,6 +628,8 @@ var moment = require('moment');
                         maxTime: '20:00',
                         'timeFormat': 'H:i'
                     });
+                     $('#stage_continue_time'+stage).timepicker('option', 'minTime', newTime); 
+
                     $('#stage_end_time'+stage).val('')
                 }
 
@@ -743,6 +751,8 @@ var moment = require('moment');
                       maxTime: '20:00',
                       timeFormat: 'H:i'
                     });
+                     $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime); 
+                    
                   },500)
 
                 }else{
@@ -811,6 +821,8 @@ var moment = require('moment');
                       maxTime: '20:00',
                       timeFormat: 'H:i'
                   });
+                    $('.datestage'+day).val($('#stage_start_date'+day).val())
+                     $('#stage_end_time'+day).timepicker('option', 'minTime', newTime); 
                   },1000)
                 } else {
                   toastr['error']('Please add last break time ', 'Error')

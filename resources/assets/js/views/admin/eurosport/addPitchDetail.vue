@@ -644,16 +644,20 @@ export default {
         let curTime = '08:00';
         if(this.checked){
           if($('#stage_start_time'+stage).val()!=''){
-            $('#stage_break_start'+stage)
+            $('#stage_break_start'+stage);
+
             $('.stage_chk_active'+stage).removeAttr('disabled','disabled')
-             $('#stage_end_time'+stage).val('');
+            $('#stage_end_time'+stage).val('');
+
+            $('#stage_end_time'+stage).val('');
 
             curTime =  $('#stage_start_time'+stage).val();
           }else{
-              $('.stage_chk_active'+stage).attr('disabled','disabled')
+            $('.stage_chk_active'+stage).attr('disabled','disabled')
             $('#stage_end_time'+stage).attr('disabled','disabled');
           }
-            $('.chk_disable_'+stage).removeClass('stageInvisible')
+            
+            $('.chk_disable_'+stage).removeClass('stageInvisible');
             that.breakEnable[stage] = true;
             let brk = that.breakEnable;
             that.breakEnable = [];
@@ -662,8 +666,9 @@ export default {
 
             let updatedTime =curTime.split(':');
             let hrs = parseInt(updatedTime[0])
-                let min = updatedTime[1].split(' ')[0]  == '30' ? '30' : '00'
-               let newTime = hrs+':'+min+':00'
+              let min = updatedTime[1].split(' ')[0]  == '30' ? '30' : '00'
+              let newTime = hrs+':'+min+':00'
+
 
           setTimeout(function(){
               $('.stage_chk_active'+stage).timepicker({
@@ -671,6 +676,7 @@ export default {
                 maxTime: '20:00',
                 timeFormat: 'H:i'
               });
+              $('.datestage'+stage).val($('#stage_start_date'+stage).val())
             },500)
         }else{
           $('.stage_chk_active'+stage).val($('#stage_start_time'+stage).val())
@@ -722,6 +728,7 @@ export default {
               maxTime: '20:00',
               timeFormat: 'H:i'
           });
+            $('.datestage'+day).val($('#stage_start_date'+day).val())
           },1000)
         } else {
           toastr['error']('Please add last break time ', 'Error')
