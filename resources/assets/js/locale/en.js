@@ -360,6 +360,7 @@ module.exports= {
   teams_name_select: "Select category",
   teams_age_category: "Category age",
   teams_age_category_group: "Group",
+  teams_age_category_allocate: "Allocate",
   // teams_select_age_category: "Select category name",
   teams_select: "Select",
   teams_select_age_category: "Select an age category",
@@ -560,4 +561,7 @@ module.exports= {
   // Group colours
   pitch_planner_group_colours: "Group colours",
   pitch_planner_group_colours_title: "Group Colours",
+
+  pitch_detail_break_add: "Add break",
+  pitch_detail_break_remove: "Remove break",
 }

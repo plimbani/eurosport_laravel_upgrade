@@ -174,5 +174,8 @@ export default {
  },
  getAllCompetitionTeamsFromFixture(tournamentData){
   return api.post('teams/getAllCompetitionTeamsFromFixture', {'tournamentData': tournamentData})
+ },
+checkTeamIntervalforMatches(matchData){
+  return api.post('match/checkTeamIntervalforMatches', matchData)
  }
 }
