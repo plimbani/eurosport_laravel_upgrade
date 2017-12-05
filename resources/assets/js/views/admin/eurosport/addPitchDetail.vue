@@ -194,6 +194,12 @@
                                       Break{{n}} start
                                     </div>
                                     <div class="col-md-3">
+                                      <div class="input-group">
+                                          <span class="input-group-addon">
+                                              <i class="jv-icon jv-calendar"></i>
+                                          </span>
+                                          <input type="text" :name="'stage_break_start'+day" :id="'stage_break_start'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
+                                      </div>
                                       <!-- <div class="d-flex flex-nowrap justify-content-between align-items-center">
                                           <div   :class="'align-self-center w-100 chk_disable_'+day ">
                                               <input type="text" :name="'stage_break_start'+day+'-'+n" v-validate="'required'" :class="[errors.has('stage_break_start'+day+'-'+n)?'is-danger': '', 'form-control ls-timepicker stage_break_start stage_chk_active'+day]"  :id="'stage_break_start'+day+'-'+n" >
@@ -224,6 +230,12 @@
                                       Break{{n}}  end
                                     </div>
                                     <div class="col-md-3">
+                                      <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="jv-icon jv-calendar"></i>
+                                        </span>
+                                        <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
+                                      </div>
                                       <!-- <input type="text" :name="'stage_break'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]"> -->
                                      <!--  <input type="text" :name="'stage_continue_date'+day+'-'+n" :id="'stage_continue_date'+day+'-'+n" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+day]"> -->
                                     </div>

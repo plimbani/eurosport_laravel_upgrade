@@ -90,7 +90,6 @@ import _ from 'lodash'
                 // },500)
 
             setTimeout(function(){
-
                 if($(".pitch_planner_section").length > 0) {
                     setGameAndRefereeTabHeight();
                 }
@@ -101,12 +100,11 @@ import _ from 'lodash'
                 return this.$store.getters.scheduledMatches
             },
             pitchBreakAdd() {
+                
                 let sPitch = [];
                 _.forEach(this.stage.pitches, (pitch) => {
                     _.forEach(pitch.pitch_availability, (availability) => {
-                        console.log(availability);
                         _.forEach(availability.pitch_breaks, (pitchBreak) => {
-                            console.log('stage',pitch.id,availability.stage_start_date,pitchBreak.break_start,pitchBreak.break_end);
                         sPitch.push({
                             'id': '',
                             'resourceId': pitch.id,
@@ -114,7 +112,7 @@ import _ from 'lodash'
                             'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                             'refereeId': -1,
                             'refereeText': '',
-                            'title':'Pitch is not available',
+                            'title':'Pitch',
                             'matchId':''
                             })
                         });  
@@ -504,6 +502,8 @@ import _ from 'lodash'
                         let sPitch = []
                         _.forEach(this.stage.pitches, (pitch) => {
                             _.forEach(pitch.pitch_availability, (availability) => {
+                                _.forEach(availability.pitch_breaks, (pitchBreak) => {
+                                    console.log('hi',pitchBreak);
                                 if(availability.stage_start_time != '08:00:00' ){
                                     minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'))
                                 }
@@ -513,8 +513,8 @@ import _ from 'lodash'
                                 let mData = {
                                     'id': counter,
                                     'resourceId': pitch.id,
-                                    'start':moment(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
-                                    'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
+                                    'start':moment(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
+                                    'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                                     'refereeId': -1,
                                     'refereeText': 'R',
                                     'title':'Pitch is not available',
@@ -546,7 +546,7 @@ import _ from 'lodash'
                                 }
                                 if(availability.stage_end_time != '20:00'){
                                     let mData2 = {
-                                        'id': 'end_'+counter,
+                                        'id': 'end_'+counter,   
                                         'resourceId': pitch.id,
                                         'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'),
                                         'end': moment.utc(availability.stage_start_date+' '+'20:00:00','DD/MM/YYYY HH:mm:ss'),
@@ -567,6 +567,7 @@ import _ from 'lodash'
                                     counter = counter+1;
                                 });
                             });
+                           }); 
                         this.scheduledMatches =sMatches
 
                         this.stageWithoutPitch()
