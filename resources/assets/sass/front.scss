@@ -661,3 +661,7 @@ label.error {
 .multiselect__single {
     font-size: 15px;
 }
+
+.form-control[disabled="disabled"] {
+    opacity: 0.6;
+}
