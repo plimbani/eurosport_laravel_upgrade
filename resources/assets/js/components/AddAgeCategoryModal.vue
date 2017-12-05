@@ -63,7 +63,7 @@
           </div>
 
           <div class="form-group row align-items-center">
-            <label class="col-sm-4 form-control-label">Pitch Size*</label>
+            <label class="col-sm-4 form-control-label">Pitch size*</label>
             <div class="col-sm-8">
               <select name="pitch_size" id="pitch_size" class="form-control ls-select2" v-model="competation_format.pitch_size" v-validate="'required'" :class="{'is-danger': errors.has('pitch_size') }" :disabled="isPitchSizeDisabled">
                  <option value="">{{$lang.pitch_modal_pitch_size}}</option>
