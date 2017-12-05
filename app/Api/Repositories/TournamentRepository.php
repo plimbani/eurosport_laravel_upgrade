@@ -80,8 +80,11 @@ class TournamentRepository
         }*/
     }
     public function getTemplate($tournamentTemplateId) {
-
-        return TournamentTemplates::find($tournamentTemplateId)->json_data;
+        $tournamentTemplateData = [];
+        $tournamentTemplate = TournamentTemplates::find($tournamentTemplateId);
+        $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
+        $tournamentTemplateData['image'] = $tournamentTemplate->image;
+        return $tournamentTemplateData;
     }
     public function getAllTemplates($data=array())
     {
@@ -101,7 +104,7 @@ class TournamentRepository
       // dd( $data);
       if(is_array($data) && count($data['tournamentData'])>0 && $data['tournamentData']['minimum_matches']!='' && $data['tournamentData']['total_teams']!=''){
         // TODO: need to Add
-        return TournamentTemplates::where(['total_teams'=>$data['tournamentData']['total_teams'],'minimum_matches' => $data['tournamentData']['minimum_matches']])->get();
+        return TournamentTemplates::where(['total_teams'=>$data['tournamentData']['total_teams'],'minimum_matches' => $data['tournamentData']['minimum_matches']])->orderBy('name')->get();
       } else {
         // here we modified the data
         return; 

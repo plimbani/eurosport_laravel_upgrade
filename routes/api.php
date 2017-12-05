@@ -106,6 +106,7 @@ $api->version('v1', function ($api) {
     $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore');
     $api->post('match/refreshStanding', 'Laraspace\Api\Controllers\MatchController@refreshStanding');
     $api->post('match/saveStandingsManually', 'Laraspace\Api\Controllers\MatchController@saveStandingsManually');
+    $api->post('match/checkTeamIntervalforMatches', 'Laraspace\Api\Controllers\MatchController@checkTeamIntervalforMatches');
 
 
 
@@ -214,6 +215,10 @@ $api->version('v1', function ($api) {
     $api->post('tournament/saveCategoryCompetitionColor', 'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
 
     $api->post('teams/getAllCompetitionTeamsFromFixture','Laraspace\Api\Controllers\TeamController@getAllCompetitionTeamsFromFixture');
+
+    $api->get('generateDisplayMatchNumber','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumber')->name('generate.display.match.number');
+
+    $api->get('generateDisplayMatchNumberForDb','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumberForDB')->name('generate.display.match.number.for.db');
     
 });
 
