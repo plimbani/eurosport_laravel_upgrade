@@ -517,6 +517,7 @@ var moment = require('moment');
             $("#editPitch").on('hidden.bs.modal', function () {
                 this5.$root.$emit('pitchrefresh');
                 this5.$store.dispatch('SetPitchId',0);
+                this5.$root.$emit('getPitchSizeWiseSummary');
             });
             $(document).ready(function(){
               $("body").on('click','.stage_break_chk',function(){

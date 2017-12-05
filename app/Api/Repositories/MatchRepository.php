@@ -284,7 +284,7 @@ class MatchRepository
               'venues.city as venueCity','venues.country as venueCountry',
               'venues.postcode as venuePostcode',
               'tournament_competation_template.group_name as group_name',
-              'tournament_competation_template.category_age_color as category_age_color','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name','temp_fixtures.referee_id as referee_id','referee.first_name as first_name','referee.last_name as last_name','home_team.name as HomeTeam','away_team.name as AwayTeam',
+              'tournament_competation_template.category_age_color as category_age_color','tournament_competation_template.category_age_font_color as category_age_font_color','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name','temp_fixtures.referee_id as referee_id','referee.first_name as first_name','referee.last_name as last_name','home_team.name as HomeTeam','away_team.name as AwayTeam',
               'temp_fixtures.home_team as Home_id','temp_fixtures.away_team as Away_id','temp_fixtures.minimum_team_interval_flag as min_interval_flag',
               DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
               DB::raw('CONCAT("'.$this->getAWSUrl.'", AwayFlag.logo) AS AwayFlagLogo'),
@@ -296,7 +296,9 @@ class MatchRepository
               'temp_fixtures.awayteam_score as AwayScore',
               'temp_fixtures.pitch_id as pitchId',
               'temp_fixtures.is_scheduled',
+              'temp_fixtures.is_final_round_match',
               'home_team.name as HomeTeam','away_team.name as AwayTeam',
+              'tournament_competation_template.halves_RR',
               'temp_fixtures.home_team_name as homeTeamName',
               'temp_fixtures.away_team_name as awayTeamName',
               'temp_fixtures.home_team_placeholder_name as homePlaceholder',
@@ -304,6 +306,7 @@ class MatchRepository
               'temp_fixtures.away_team_placeholder_name as awayPlaceholder',
               'display_away_team_placeholder_name as displayAwayTeamPlaceholderName',
               'tournament_competation_template.game_duration_RR',
+              'tournament_competation_template.halves_FM',
               'tournament_competation_template.game_duration_FM',
               'tournament_competation_template.halftime_break_RR',
               'tournament_competation_template.halftime_break_FM',
@@ -800,12 +803,17 @@ class MatchRepository
 
     public function setMatchSchedule($data, $allowSchedulingForcefully = false)
     {
-      $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
+      $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','tournament_competation_template.pitch_size','temp_fixtures.*')->first()->toArray();
       $team_interval =   $teamData['team_interval'];
 
       $pitchData = Pitch::find($data['pitchId']);
+      $pitchSize = $pitchData->size;
+      $ageCategoryPitchSize = $teamData['pitch_size'];
       $setFlag = 0;
 
+      if($pitchSize!=$ageCategoryPitchSize) {
+        return -2;
+      }
 
       $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
       $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
