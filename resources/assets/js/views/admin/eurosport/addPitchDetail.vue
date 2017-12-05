@@ -292,8 +292,8 @@
                                     </div>
                                   </div>
                                   <div class="col-md-3"><span :id="'stage_capacity1_span'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
-                                    <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity1'+day" value="0.00">
-                                    <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity1_min'+day" value="0">
+                                    <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity'+day" value="0.00">
+                                    <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity_min'+day" value="0">
                                   </div>
                                 </div>
                               </div>
@@ -533,10 +533,12 @@ export default {
               //     maxTime: '20:00',
               //     'timeFormat': 'H:i'
               // });
+              // $('.stage_chk_active'+stage).timepicker('option', 'minTime', newTime); 
               $('#stage_continue_time'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
 
               $('#stage_continue_time'+stage+'-'+breakno).val('')
-              $('#stage_end_time'+stage).val('')
+              $('#stage_end_time'+stage).val('');
+              vm.removeBreak(stage,parseInt(breakno));
           }
           if(curId.indexOf('stage_continue_time') >= 0 ){
               $('#stage_end_time'+stage).timepicker({
@@ -545,55 +547,12 @@ export default {
                   'timeFormat': 'H:i'
               });
               $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime); 
-              $('#stage_end_time'+stage).val('')
+              $('#stage_end_time'+stage).val('');
+              vm.removeBreak(stage,parseInt(breakno));
+              // vm.stage_break[stage] = breakno;
           }
 
-          if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage+'-'+breakno).val() == '' || $('#stage_continue_time'+stage+'-'+breakno).val() == ''  ) {
-              $('#stage_capacity1_span'+stage).text('0.00 hrs');
-              $('#stage_capacity1'+stage).val('0.00');
-          }else {
-
-          var stageTimeStart = new Date("01/01/2017 "+ $('#stage_start_time'+stage).val());
-          var stageTimeEnd = new Date("01/01/2017 " + $('#stage_end_time'+stage).val());
-          var stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage+'-'+breakno).val());
-           var stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage+'-'+breakno).val());
-          var break_diff = (stageTimeEnd - stageTimeStart) / 60000;
-          let totBreaks = vm.stage_break[stage];
-          var curBreakDiff = 0;
-          // var break_diff = diff;
-          let breakDiff = 0;
-          if($('#stage_break_chk_'+stage).is(':checked') ) {
-            for(let i=1;i<=totBreaks;i++) {
-               stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage+'-'+i).val());
-               console.log(stage,i,$('#stage_continue_time'+stage+'-'+i).val(),'stageBreakEnd');
-               stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage+'-'+i).val());
-               console.log(stageBreakEnd,'stageBreakEnd');
-               curBreakDiff = parseInt((stageBreakEnd - stageBreakStart) / 60000);
-               breakDiff = parseInt(breakDiff + curBreakDiff);
-             // console.log(breakDiff);
-            }
-          }
-
-              let totBreakDiff = break_diff - breakDiff;
-
-              // var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
-              // var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
-              // var diff = diff1 + diff2
-              if(totBreakDiff > 0){
-                var minutes = totBreakDiff % 60;
-                var hours = parseInt(totBreakDiff - minutes) / 60;
-                var time_val = hours+ '.' +minutes
-                  minutes = (minutes == '0') ? '00' : minutes
-                var time = hours+ ':' +minutes +' hrs'
-              }else {
-                  var time_val = '0.0'
-                  var time = '00:00 hrs'
-              }
-          $('#stage_capacity1'+stage).val(time_val);
-          $('#stage_capacity1_min'+stage).val(totBreakDiff);
-          $('#stage_capacity1_span'+stage).text(time);
-          }
-
+            vm.setStageCapacity(stage,breakno);
       })
 
       // $(".ls-datepicker").on("change", function(e) {
@@ -742,16 +701,27 @@ export default {
 
 
       },
-      removeBreak(day) {
+      removeBreak(day,brkNo = 0) {
         // this.breakEnable[day] = false;
-        if(parseInt(this.stage_break[day]) > 1){
-              let brk = this.breakEnable;
-              this.breakEnable = [];
-              this.stage_break[day] = parseInt(this.stage_break[day]) -1;
-              this.breakEnable = brk;
-              $('#stage_end_time'+day).removeAttr('disabled','disabled');
+          if(brkNo!=0){
+             let brk = this.breakEnable;
+                this.breakEnable = [];
+                this.stage_break[day] = parseInt(brkNo);
+                this.breakEnable = brk;
+                $('#stage_end_time'+day).removeAttr('disabled','disabled');
+                this.setStageCapacity(day,parseInt(brkNo))
+          }else{
+            if(parseInt(this.stage_break[day]) > 1){
+                let brk = this.breakEnable;
+                this.breakEnable = [];
+                this.stage_break[day] = parseInt(this.stage_break[day]) -1;
+                this.breakEnable = brk;
+                $('#stage_end_time'+day).removeAttr('disabled','disabled');
+                this.setStageCapacity(day,parseInt(brkNo))
 
+          }  
         }
+        
 
       },
       savePitchDetails () {
@@ -822,23 +792,51 @@ export default {
               return true
           }
       },
-      setStageCapacity(stage) {
+      setStageCapacity(stage,breakno) {
+        let vm =this;
+        stage = parseInt(stage);
+        breakno = parseInt(breakno);
+        if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage+'-'+breakno).val() == '' || $('#stage_continue_time'+stage+'-'+breakno).val() == ''  ) {
+              $('#stage_capacity_span'+stage).text('0.00 hrs');
+              $('#stage_capacity'+stage).val('0.00');
+          }else {
+           var stageTimeStart = new Date("01/01/2017 "+ $('#stage_start_time'+stage).val());
+          var stageTimeEnd = new Date("01/01/2017 " + $('#stage_end_time'+stage).val());
+          var stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage+'-'+breakno).val());
+          var stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage+'-'+breakno).val());
+            var break_diff = (stageTimeEnd - stageTimeStart) / 60000;
+              let totBreaks = vm.stage_break[stage];
+              var curBreakDiff = 0;
+              // var break_diff = diff;
+              let breakDiff = 0;
+              if($('#stage_break_chk_'+stage).is(':checked') ) {
+                for(let i=1;i<=totBreaks;i++) {
+                   stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage+'-'+i).val());
+                   stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage+'-'+i).val());
+                   curBreakDiff = parseInt((stageBreakEnd - stageBreakStart) / 60000);
+                   breakDiff = parseInt(breakDiff + curBreakDiff);
+                }
+              }
+              let totBreakDiff = break_diff - breakDiff;
 
-          let stage_start_date = $('#stage_start_date'+stage).val();
-          let stage_start_time = $('#stage_start_time'+stage).val();
-          let stage_end_date = $('#stage_end_date'+stage).val();
-          let stage_end_time = $('#stage_end_time'+stage).val();
-          var timeStart = new Date(stage_start_date + stage_start_time);
-          var timeEnd = new Date(stage_end_date + stage_end_time);
-          if(timeStart && timeEnd) {
-              var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
-              var minutes = diff % 60;
-              var hours = (diff - minutes) / 60;
-              minutes = (minutes == '0') ? '00' : minutes
-             this.stage_capacity['day'+stage] = hours+ ':' +minutes
-          }
-          // return hours+ ':' +minutes
-          // return 10.30 *stage
+              // var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
+              // var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
+              // var diff = diff1 + diff2
+              if(totBreakDiff > 0){
+                var minutes = totBreakDiff % 60;
+                var hours = parseInt(totBreakDiff - minutes) / 60;
+                var time_val = hours+ '.' +minutes
+                  minutes = (minutes == '0') ? '00' : minutes
+                var time = hours+ ':' +minutes +' hrs'
+              }else {
+                  var time_val = '0.0'
+                  var time = '00:00 hrs'
+              }
+          $('#stage_capacity'+stage).val(time_val);
+          $('#stage_capacity_min'+stage).val(totBreakDiff);
+          $('#stage_capacity1_span'+stage).text(time);
+
+        }
       },
       setDatepicker(tStartDate,tEndDate,disableDate,availableDate,stage) {
               // let availableDate = this.availableDate
@@ -902,13 +900,8 @@ export default {
                var that = this
                that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,
                 that.disableDate,that.availableDate,stage);
-
-
           }
-
       },
-
-
   }
 }
 

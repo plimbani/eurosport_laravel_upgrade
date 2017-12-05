@@ -564,12 +564,14 @@ var moment = require('moment');
                     $('#stage_continue_time'+stage+'-'+breakno).removeAttr('disabled');
                     $('#stage_end_time'+stage).attr('disabled','disabled')
                     curTime = $('#stage_break_start'+stage+'-'+breakno).val()
+                    vm.removeBreak(stage,breakno);
                   }
                 }else if(curId.indexOf('stage_continue_time') >= 0) {
                   if($('#stage_break_chk_'+stage).is(':checked')){
                     $('#stage_end_time'+stage).removeAttr('disabled')
                     curTime = $('#stage_continue_time'+stage+'-'+breakno).val()
                   }
+                  vm.removeBreak(stage,breakno);
                 }else if(curId.indexOf('stage_end_time') >= 0) {
                     curTime = $('#stage_end_time'+stage).val()
                 }
@@ -631,51 +633,8 @@ var moment = require('moment');
                      
                     $('#stage_end_time'+stage).val('')
                 }
-
-                if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage+'-'+breakno).val() == '' || $('#stage_continue_time'+stage+'-'+breakno).val() == ''  ) {
-                    $('#stage_capacity_span'+stage).text('0.00 hrs');
-                    $('#stage_capacity'+stage).val('0.00');
-                }else {
-                 var stageTimeStart = new Date("01/01/2017 "+ $('#stage_start_time'+stage).val());
-                var stageTimeEnd = new Date("01/01/2017 " + $('#stage_end_time'+stage).val());
-                var stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage+'-'+breakno).val());
-                var stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage+'-'+breakno).val());
-                  var break_diff = (stageTimeEnd - stageTimeStart) / 60000;
-                    let totBreaks = vm.stage_break[stage];
-                    var curBreakDiff = 0;
-                    // var break_diff = diff;
-                    let breakDiff = 0;
-                    if($('#stage_break_chk_'+stage).is(':checked') ) {
-                      for(let i=1;i<=totBreaks;i++) {
-                         stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage+'-'+i).val());
-                         stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage+'-'+i).val());
-                         curBreakDiff = parseInt((stageBreakEnd - stageBreakStart) / 60000);
-                         breakDiff = parseInt(breakDiff + curBreakDiff);
-                       // console.log(breakDiff);
-                      }
-                    }
-                    let totBreakDiff = break_diff - breakDiff;
-
-                    // var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
-                    // var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
-                    // var diff = diff1 + diff2
-                    if(totBreakDiff > 0){
-                      var minutes = totBreakDiff % 60;
-                      var hours = parseInt(totBreakDiff - minutes) / 60;
-                      var time_val = hours+ '.' +minutes
-                        minutes = (minutes == '0') ? '00' : minutes
-                      var time = hours+ ':' +minutes +' hrs'
-                    }else {
-                        var time_val = '0.0'
-                        var time = '00:00 hrs'
-                    }
-
-                $('#stage_capacity'+stage).val(time_val);
-                $('#stage_capacity_min'+stage).val(totBreakDiff);
-                $('#stage_capacity_span'+stage).text(time);
-
-                }
-
+                this1.setStageCapacity(stage,breakno);
+ 
             })
 
             var that = this1
@@ -791,6 +750,52 @@ var moment = require('moment');
                 // this.$store.dispatch('SetPitches',this.tournamentId);
 
             },
+            setStageCapacity(stage,breakno) {
+              let vm =this;
+              // console.log(stage,breakno);
+              if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage+'-'+breakno).val() == '' || $('#stage_continue_time'+stage+'-'+breakno).val() == ''  ) {
+                    $('#stage_capacity_span'+stage).text('0.00 hrs');
+                    $('#stage_capacity'+stage).val('0.00');
+                }else {
+                 var stageTimeStart = new Date("01/01/2017 "+ $('#stage_start_time'+stage).val());
+                var stageTimeEnd = new Date("01/01/2017 " + $('#stage_end_time'+stage).val());
+                var stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage+'-'+breakno).val());
+                var stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage+'-'+breakno).val());
+                  var break_diff = (stageTimeEnd - stageTimeStart) / 60000;
+                    let totBreaks = vm.stage_break[stage];
+                    var curBreakDiff = 0;
+                    // var break_diff = diff;
+                    let breakDiff = 0;
+                    if($('#stage_break_chk_'+stage).is(':checked') ) {
+                      for(let i=1;i<=totBreaks;i++) {
+                         stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage+'-'+i).val());
+                         stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage+'-'+i).val());
+                         curBreakDiff = parseInt((stageBreakEnd - stageBreakStart) / 60000);
+                         breakDiff = parseInt(breakDiff + curBreakDiff);
+                      }
+                    }
+                    let totBreakDiff = break_diff - breakDiff;
+
+                    // var diff1 = (stageBreakStart - stageTimeStart) / 60000; //dividing by seconds and milliseconds
+                    // var diff2 = (stageTimeEnd - stageBreakEnd) / 60000; //dividing by seconds and milliseconds
+                    // var diff = diff1 + diff2
+                    if(totBreakDiff > 0){
+                      var minutes = totBreakDiff % 60;
+                      var hours = parseInt(totBreakDiff - minutes) / 60;
+                      var time_val = hours+ '.' +minutes
+                        minutes = (minutes == '0') ? '00' : minutes
+                      var time = hours+ ':' +minutes +' hrs'
+                    }else {
+                        var time_val = '0.0'
+                        var time = '00:00 hrs'
+                    }
+
+                $('#stage_capacity'+stage).val(time_val);
+                $('#stage_capacity_min'+stage).val(totBreakDiff);
+                $('#stage_capacity_span'+stage).text(time);
+
+              }
+            },
             nextStage() {
                 $('.nav-tabs a[href="#availability"]').tab('show');
             },
@@ -830,14 +835,23 @@ var moment = require('moment');
 
               },
 
-            removeBreak(day) {
-              if(parseInt(this.stage_break[day]) > 1){
-                    let brk = this.breakEnable;
-                    this.breakEnable = [];
-                    this.stage_break[day] = parseInt(this.stage_break[day]) -1;
-                    this.breakEnable = brk;
-                    $('#stage_end_time'+day).removeAttr('disabled','disabled');
-
+            removeBreak(day,brkNo = 0) {
+              if(brkNo!=0){
+               let brk = this.breakEnable;
+                  this.breakEnable = [];
+                  this.stage_break[day] = parseInt(brkNo);
+                  this.breakEnable = brk;
+                  $('#stage_end_time'+day).removeAttr('disabled','disabled');
+                  this.setStageCapacity(day,parseInt(brkNo))
+              }else{
+                if(parseInt(this.stage_break[day]) > 1){
+                  let brk = this.breakEnable;
+                  this.breakEnable = [];
+                  this.stage_break[day] = parseInt(this.stage_break[day]) -1;
+                  this.breakEnable = brk;
+                  $('#stage_end_time'+day).removeAttr('disabled','disabled');
+                  this.setStageCapacity(day,this.stage_break[day]);
+                }
               }
 
             },
@@ -911,24 +925,24 @@ var moment = require('moment');
                     return true
                 }
             },
-            setStageCapacity(stage) {
+            // setStageCapacity(stage) {
 
-                let stage_start_date = $('#stage_start_date'+stage).val();
-                let stage_start_time = $('#stage_start_time'+stage).val();
-                let stage_end_date = $('#stage_end_date'+stage).val();
-                let stage_end_time = $('#stage_end_time'+stage).val();
-                var timeStart = new Date("01/01/2017 " + stage_start_time);
-                var timeEnd = new Date("01/01/2017 " + stage_end_time);
-                if(timeStart && timeEnd) {
-                    var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
-                    var minutes = diff % 60;
-                    var hours = (diff - minutes) / 60;
-                    minutes = (minutes == '0') ? '00' : minutes
-                   this.stage_capacity['day'+stage] = hours+ ':' +minutes
-                }
-                // return hours+ ':' +minutes
-                // return 10.30 *stage
-            },
+            //     let stage_start_date = $('#stage_start_date'+stage).val();
+            //     let stage_start_time = $('#stage_start_time'+stage).val();
+            //     let stage_end_date = $('#stage_end_date'+stage).val();
+            //     let stage_end_time = $('#stage_end_time'+stage).val();
+            //     var timeStart = new Date("01/01/2017 " + stage_start_time);
+            //     var timeEnd = new Date("01/01/2017 " + stage_end_time);
+            //     if(timeStart && timeEnd) {
+            //         var diff = (timeEnd - timeStart) / 60000; //dividing by seconds and milliseconds
+            //         var minutes = diff % 60;
+            //         var hours = (diff - minutes) / 60;
+            //         minutes = (minutes == '0') ? '00' : minutes
+            //        this.stage_capacity['day'+stage] = hours+ ':' +minutes
+            //     }
+            //     // return hours+ ':' +minutes
+            //     // return 10.30 *stage
+            // },
             setDatepicker(tStartDate,tEndDate,disableDate,availableDate,stage) {
                     // let availableDate = this.availableDate
                     let that =this
