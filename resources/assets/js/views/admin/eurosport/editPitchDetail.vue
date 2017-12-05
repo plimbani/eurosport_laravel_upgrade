@@ -594,16 +594,16 @@ var moment = require('moment');
                         timeFormat: 'H:i'
                     });
                      $('#stage_break_start'+stage).timepicker('option', 'minTime', newTime); 
-                    $('#stage_end_time'+stage+'-'+breakno).timepicker({
+                    $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
                         maxTime: '20:00',
                         timeFormat: 'H:i'
                     });
                      $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime); 
 
-                    $('#stage_break_start'+stage).val('')
+                    $('#stage_break_start'+stage+'-'+breakno).val('')
 
-                    $('#stage_continue_time'+stage).val('')
+                    $('#stage_continue_time'+stage+'-'+breakno).val('')
 
                     $('#stage_end_time'+stage).val('')
                 }
@@ -614,22 +614,21 @@ var moment = require('moment');
                         maxTime: '20:00',
                         timeFormat: 'H:i'
                     });
-                     $('#stage_continue_time'+stage).timepicker('option', 'minTime', newTime); 
+                     $('#stage_continue_time'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
 
-                    $('#stage_continue_time'+stage).val('')
+                    $('#stage_continue_time'+stage+'-'+breakno).val('')
 
                     $('#stage_end_time'+stage).val('')
 
                 }
                 if(curId.indexOf('stage_continue_time') >= 0 ){
 
-                    $('#stage_end_time'+stage+'-'+breakno).timepicker({
+                    $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
                         maxTime: '20:00',
                         'timeFormat': 'H:i'
                     });
-                     $('#stage_continue_time'+stage).timepicker('option', 'minTime', newTime); 
-
+                     
                     $('#stage_end_time'+stage).val('')
                 }
 
@@ -752,7 +751,7 @@ var moment = require('moment');
                       timeFormat: 'H:i'
                     });
                      $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime); 
-                    
+                     $('.datestage'+stage).val($('#stage_start_date'+stage).val())
                   },500)
 
                 }else{
@@ -809,14 +808,14 @@ var moment = require('moment');
 
                   let hrs = parseInt(updatedTime[0])
                   let min = updatedTime[1].split(' ')[0]  == '30' ? '30' : '00'
-                 let newTime = hrs+':'+min+':00'
-                    this.breakEnable = [];
-                    this.stage_break[day] = parseInt(this.stage_break[day]) +1;
+                  let newTime = hrs+':'+min+':00'
+                  this.breakEnable = [];
+                  let  curBreakNo =   this.stage_break[day] = parseInt(this.stage_break[day]) +1;
                     this.breakEnable = brk;
                     $('#stage_end_time'+day).val('');
                     $('#stage_end_time'+day).attr('disabled','disabled');
                 setTimeout(function(){
-                    $('#stage_break_start'+day+'-'+this1.stage_break[day]).timepicker({
+                    $('#stage_break_start'+day+'-'+curBreakNo+', #stage_continue_time'+day+'-'+curBreakNo).timepicker({
                       minTime: newTime,
                       maxTime: '20:00',
                       timeFormat: 'H:i'

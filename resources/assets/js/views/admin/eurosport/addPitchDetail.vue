@@ -528,11 +528,13 @@ export default {
                $('#stage_end_time'+stage).val('')
           }
           if(curId.indexOf('stage_break_start') >= 0){
-                $('#stage_continue_time'+stage+'-'+breakno).timepicker({
-                  minTime: newTime,
-                  maxTime: '20:00',
-                  'timeFormat': 'H:i'
-              });
+              //   $('#stage_continue_time'+stage+'-'+breakno).timepicker({
+              //     minTime: newTime,
+              //     maxTime: '20:00',
+              //     'timeFormat': 'H:i'
+              // });
+              $('#stage_continue_time'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
+
               $('#stage_continue_time'+stage+'-'+breakno).val('')
               $('#stage_end_time'+stage).val('')
           }
@@ -542,18 +544,19 @@ export default {
                   maxTime: '20:00',
                   'timeFormat': 'H:i'
               });
+              $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime); 
               $('#stage_end_time'+stage).val('')
           }
 
-          if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage).val() == '' || $('#stage_continue_time'+stage).val() == ''  ) {
+          if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage+'-'+breakno).val() == '' || $('#stage_continue_time'+stage+'-'+breakno).val() == ''  ) {
               $('#stage_capacity1_span'+stage).text('0.00 hrs');
               $('#stage_capacity1'+stage).val('0.00');
           }else {
 
           var stageTimeStart = new Date("01/01/2017 "+ $('#stage_start_time'+stage).val());
           var stageTimeEnd = new Date("01/01/2017 " + $('#stage_end_time'+stage).val());
-          var stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage).val());
-          var stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage).val());
+          var stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage+'-'+breakno).val());
+           var stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage+'-'+breakno).val());
           var break_diff = (stageTimeEnd - stageTimeStart) / 60000;
           let totBreaks = vm.stage_break[stage];
           var curBreakDiff = 0;
@@ -562,7 +565,9 @@ export default {
           if($('#stage_break_chk_'+stage).is(':checked') ) {
             for(let i=1;i<=totBreaks;i++) {
                stageBreakStart = new Date("01/01/2017 " + $('#stage_break_start'+stage+'-'+i).val());
+               console.log(stage,i,$('#stage_continue_time'+stage+'-'+i).val(),'stageBreakEnd');
                stageBreakEnd = new Date("01/01/2017 " + $('#stage_continue_time'+stage+'-'+i).val());
+               console.log(stageBreakEnd,'stageBreakEnd');
                curBreakDiff = parseInt((stageBreakEnd - stageBreakStart) / 60000);
                breakDiff = parseInt(breakDiff + curBreakDiff);
              // console.log(breakDiff);
@@ -714,16 +719,17 @@ export default {
         if($('#break_start_time'+day+'-'+last_break).val() != '' && $('#stage_continue_time'+day+'-'+last_break).val() != '') {
           let curTime =  $('#stage_continue_time'+day+'-'+last_break).val();
           let updatedTime =curTime.split(':');
+          // let curBreakNo = 0;
           let hrs = parseInt(updatedTime[0])
               let min = updatedTime[1].split(' ')[0]  == '30' ? '30' : '00'
              let newTime = hrs+':'+min+':00'
             this.breakEnable = [];
-            this.stage_break[day] = parseInt(this.stage_break[day]) +1;
+            let  curBreakNo = this.stage_break[day]  = parseInt(this.stage_break[day]) +1;
             this.breakEnable = brk;
             $('#stage_end_time'+day).val('');
             $('#stage_end_time'+day).attr('disabled','disabled');
         setTimeout(function(){
-            $('.ls-timepicker').timepicker({
+            $('#stage_break_start'+day+'-'+curBreakNo+', #stage_continue_time'+day+'-'+curBreakNo).timepicker({
               minTime: newTime,
               maxTime: '20:00',
               timeFormat: 'H:i'
