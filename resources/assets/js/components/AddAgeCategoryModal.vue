@@ -307,7 +307,7 @@
             </div>
             <div class="col-sm-12 form-control-label">
               <div class="form-text text-muted dispTemplate" style="display:none">
-                Template key: Green = recommended, Red = not recommended, Amber = last resort
+                Template key: Green = recommended, Red = not recommended, Amber = not preferred
               </div>
             </div>
           </div>
