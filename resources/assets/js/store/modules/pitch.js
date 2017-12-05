@@ -45,7 +45,7 @@ const actions = {
             
               if(pitchAvailable1.break_enable == '0' || pitchAvailable1.break_enable == '1'  ) {
                   
-                let stageStr = "Stage " + i +" : "+pitchAvailable1.stage_start_time+'-';
+                let stageStr = "Day " + i +" : "+pitchAvailable1.stage_start_time+'-';
             
               _.forEach(pitchAvailable1.pitch_breaks, function(pitchBreaks) {
 
