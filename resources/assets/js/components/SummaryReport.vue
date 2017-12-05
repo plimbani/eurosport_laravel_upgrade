@@ -20,14 +20,14 @@
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_from}}</strong></label>
 									<div class="">
-										 <input type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
+										 <input placeholder="All" type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
 						                 <span style="color:red;" id="start_date_validation"></span>
 				                    </div>
 								</div>
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_to}}</strong></label>
 									<div class="">
-			            				 <input type="text" name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
+			            				 <input placeholder="All" type="text" name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
 				                    	<span style="color:red;" id="end_date_validation"></span>
 				                    </div>
 								</div>
@@ -78,7 +78,7 @@
 									<label><strong>{{$lang.summary_from_time}}</strong></label>
 									<div>
 										<select name="start_time" id="start_time"  class="form-control ls-select2">
-											<option value="">Select</option>
+											<option value="">All</option>
 											<option value="08:00">08:00</option>
 											<option value="08:30">08:30</option>
 											<option value="09:00">09:00</option>
@@ -111,7 +111,7 @@
 									<label><strong>{{$lang.summary_to_time}}</strong></label>
 									<div>
 										<select name="end_time" id="end_time"  class="form-control ls-select2">
-											<option value="">Select</option>
+											<option value="">All</option>
 											<option value="08:00">08:00</option>
 											<option value="08:30">08:30</option>
 											<option value="09:00">09:00</option>
@@ -144,7 +144,7 @@
 									<label><strong>{{$lang.summary_location}}</strong></label>
 									<div class="">
 				                     	<select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
-				                     		<option value="">Select</option>
+				                     		<option value="">All</option>
 				                    		<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
 				                    	</select>
 								    </div>
@@ -157,7 +157,7 @@
 									<label><strong>{{$lang.summary_pitch_select}}</strong></label>
 									<div class="">
 	  									<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
-	  										<option value="">Select</option>
+	  										<option value="">All</option>
 	  				           				<option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
 	  				        			</select>
 				         			</div>
@@ -166,7 +166,7 @@
 									<label><strong>{{$lang.summary_referee_select}}</strong></label>
 									<div class="">
 					                   	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
-					                   		<option value="">Select</option>
+					                   		<option value="">All</option>
 					                  		<option v-for="(referee, index) in referees" :value="referee.id">{{referee.last_name}}, {{referee.first_name}}</option>
 					                    </select>
 							        </div>
@@ -174,18 +174,14 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-5">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="d-flex align-items-center">
-										<button type="button" name="clearButton" id="clearButton" class="btn btn-primary mr-1" @click="clearForm()">{{$lang.summary_button_clear}}</button>
-										<button type="button" name="generateReport" id="generateReport" class="btn btn-primary" @click="generateReport()">{{$lang.summary_button_generate}}</button>
-									</div>
-								</div>
-		                	</div>
+					<div class="row align-items-center">
+						<div class="col-md-12">
+							<div class="d-flex align-items-center justify-content-end">
+								<button type="button" name="clearButton" id="clearButton" class="btn btn-primary mr-1" @click="clearForm()">{{$lang.summary_button_clear}}</button>
+								<button type="button" name="generateReport" id="generateReport" class="btn btn-primary" @click="generateReport()">{{$lang.summary_button_generate}}</button>
+							</div>
 						</div>
-					</div>
+					</div>	
 				</div>
 			</form>
 		</div>
@@ -203,7 +199,7 @@
 	                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}<i class="fa fa-fw fa-sort"></i></th>
-	                        <!--<th class="text-center" @click="sortReport('full_game')">{{$lang.summary_reports_game}}<i class="fa fa-fw fa-sort"></i></th>-->
+	                        <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}<i class="fa fa-fw fa-sort"></i></th>
                            <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
                           <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
                     </tr>
@@ -213,10 +209,10 @@
 	                		<td>{{report.match_datetime | formatDate }}</td>
 	                		<td>{{report.group_name}}</td>
 	                		<td>{{report.venue_name}}</td>
-	                		<td>{{report.pitch_number}}</td>
+	                		<td>{{(report.pitch_number)}}</td>
 	                		<td v-if="report.referee_last_name && report.referee_first_name">{{report.referee_last_name}}, {{report.referee_first_name}}</td>
   		             		<td v-else></td>
-	                		<!--<td>{{report.full_game}}</td>-->
+	                		<td>{{displayMatch(report.displayMatchNumber,report.displayHomeTeamPlaceholder,report.displayAwayTeamPlaceholder)}}</td>
                       <td align="right">
                        <span class="text-center" v-if="(report.homeTeam == '0' && report.homeTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.homePlaceholder) }}</span>
                        <span class="text-center" v-else>{{ report.HomeTeam }}</span>
@@ -542,6 +538,10 @@ export default {
           $("#start_date_validation").html("");
       },
 
+      displayMatch(displayMatchNumber,displayHomeTeamPlaceholder,displayAwayTeamPlaceholder) {
+      	return displayMatchNumber.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
+      },
+
     	generateReport() {
     		let edata = $("#end_date_validation").html();
     		let sdata = $("#end_date_validation").html();
@@ -603,6 +603,7 @@ export default {
         }
       }
     },
+
 	exportPrint() {
 		let ReportData = this.reportQuery
 		if(ReportData!=''){
