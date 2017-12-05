@@ -803,12 +803,17 @@ class MatchRepository
 
     public function setMatchSchedule($data, $allowSchedulingForcefully = false)
     {
-      $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','temp_fixtures.*')->first()->toArray();
+      $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','tournament_competation_template.pitch_size','temp_fixtures.*')->first()->toArray();
       $team_interval =   $teamData['team_interval'];
 
       $pitchData = Pitch::find($data['pitchId']);
+      $pitchSize = $pitchData->size;
+      $ageCategoryPitchSize = $teamData['pitch_size'];
       $setFlag = 0;
 
+      if($pitchSize!=$ageCategoryPitchSize) {
+        return -2;
+      }
 
       $startTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes($team_interval);
       $endTime =  Carbon::createFromFormat('Y-m-d H:i:s', $data['matchStartDate'])->subMinutes(0);
