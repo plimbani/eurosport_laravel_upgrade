@@ -4,7 +4,7 @@
             <div class="card-block">
                 <div class="row">
                   <div class="col-3 align-self-center">
-                      <h6 class="mb-4"><strong>{{$lang.pitch_capacity}}</strong></h6>
+                      <h6 class="mb-0"><strong>{{$lang.pitch_capacity}}</strong></h6>
                   </div>
                   <div class="col-9 align-self-center">
                     <button type="button" class="btn btn-primary pull-right" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
@@ -17,7 +17,7 @@
 
                 <div class="row mt-4">
                     <div class="result col-md-12">
-                         <table class="table table-hover table-bordered mt-4 pitch_capacity_table" v-if="pitches">
+                         <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="pitches">
                             <thead>
                                 <tr>
                                     <th class="text-center">{{$lang.pitch_modal_details_name}}</th>
@@ -50,16 +50,19 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div v-else>
+                            <p class="text-muted">No pitch found.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row my-3">
                   <div class="col-3 align-self-center">
-                      <h6 class="mb-1"><strong>{{$lang.pitch_summary}}</strong></h6>
+                      <h6 class="mb-0 text-muted"><strong>{{$lang.pitch_summary}}</strong></h6>
                   </div>
                 </div>
                 <div class="row">
                     <div class="result col-md-12">
-                        <table class="table table-hover table-bordered mt-2 pitch_size_summary" v-if="pitches">
+                        <table class="table table-hover table-bordered mb-0 pitch_size_summary" v-if="pitchSizeWiseSummaryArray">
                             <thead>
                                 <tr>
                                     <th class="text-center">{{$lang.pitch_size}}</th>
@@ -76,7 +79,7 @@
                                     <td class="text-center" :class="[pitchSizeDetail.balanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeDetail.balance }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center">{{ $lang.totals }}</td>
+                                    <td class="text-center"><strong>{{ $lang.totals }}</strong></td>
                                     <td class="text-center">{{ pitchSizeWiseSummaryTotal.totalAvailableTime }}</td>
                                     <td class="text-center">{{ pitchSizeWiseSummaryTotal.totalTimeRequired }}</td>
                                     <td class="text-center" :class="[pitchSizeWiseSummaryTotal.totalBalanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeWiseSummaryTotal.totalBalance }}</td>
@@ -85,9 +88,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row my-3">
                   <div class="col-3 align-self-center">
-                      <h6 class="mb-2"><strong>{{$lang.pitch_totals}}</strong></h6>
+                      <h6 class="mb-0 text-muted"><strong>{{$lang.pitch_totals}}</strong></h6>
                   </div>
                 </div>
                 <div class="row">
@@ -117,6 +120,7 @@ import editPitchDetail from '../../../views/admin/eurosport/editPitchDetail.vue'
 import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
 import DeleteModal from '../../../components/DeleteModal.vue'
 import Pitch from '../../../api/pitch'
+import Tournament from '../../../api/tournament.js'
 
     export default {
         data() {
@@ -153,6 +157,7 @@ import Pitch from '../../../api/pitch'
             this.$root.$on('pitchrefresh', this.getAllPitches);
             this.$root.$on('getPitchSizeWiseSummary', this.getPitchSizeWiseSummary);
             this.getPitchSizeWiseSummary();
+            this.displayTournamentCompetationList();
         },
         components: {
             editPitchDetail,addPitchDetail,DeleteModal
@@ -512,6 +517,27 @@ import Pitch from '../../../api/pitch'
                 }
 
                 return (totalAvailableTime - totalTimeRequired);
+            },
+            displayTournamentCompetationList () {
+                this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
+                // Only called if valid tournament id is Present
+                if (!isNaN(this.TournamentId)) {
+                    // here we add data for
+                    let TournamentData = {'tournament_id': this.TournamentId}
+                    Tournament.getCompetationFormat(TournamentData).then(
+                    (response) => {
+                        let time_sum= 0;
+                        response.data.data.reduce(function (a,b) {
+                            time_sum += b['total_time']
+                        },0);
+                        this.$store.dispatch('SetTournamentTotalTime', time_sum);
+                    },
+                    (error) => {
+                    }
+                    )
+                } else {
+                  this.TournamentId = 0;
+                }
             },
         }
     }

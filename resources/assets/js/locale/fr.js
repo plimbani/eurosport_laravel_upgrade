@@ -286,7 +286,7 @@ module.exports = {
   pitch_modal_details_type: "FType",
   pitch_modal_details_number: "FNumber*",
   pitch_modal_details_type_required: "FPitch type is required.",
-  pitch_modal_details_size_required: "FPitch size is required.",
+  pitch_modal_details_size_required: "FPitch size is required",
   pitch_modal_pitch_type: "FSelect pitch type",
   pitch_modal_details_grass: "FGrass",
   pitch_modal_details_artificial:"Artificial",
