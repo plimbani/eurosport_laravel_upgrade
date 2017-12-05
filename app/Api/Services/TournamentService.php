@@ -99,6 +99,18 @@ class TournamentService implements TournamentContract
         return ['status_code' => '505', 'message' => self::ERROR_MSG];
     }
 
+    public function getTournamentBySlug($data)
+    {
+      $tournamentData = $data;
+      $data = $this->tournamentRepoObj->getTournamentsBySlug($tournamentData);
+
+      if ($data) {
+          return ['status_code' => '200', 'data' => $data];
+      }
+
+      return ['status_code' => '505', 'message' => self::ERROR_MSG];
+    }
+
     /*
      * Get All Templates
      *

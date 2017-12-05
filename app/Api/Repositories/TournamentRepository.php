@@ -29,6 +29,11 @@ class TournamentRepository
        $status = $tournamentData['status'];
        return Tournament::where('status',$status)->get();
     }
+    public function getTournamentsBySlug($tournamentData)
+    {
+      $slug = $tournamentData;
+      return Tournament::where('slug',$slug)->first();
+    }
     public function getAll($status='', $user=null)
     {
       if($status == '') {
@@ -173,7 +178,7 @@ class TournamentRepository
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
-         $newdata['slug'] = $this->generateSlug($data['name'],'');
+         $newdata['slug'] = $this->generateSlug($data['name'].Carbon::createFromFormat('d/m/Y', $newdata['start_date'])->year,'');
          $newdata['status'] = 'Unpublished';
          $newdata['user_id'] = $data['user_id'];
          $tournamentId = Tournament::create($newdata)->id;

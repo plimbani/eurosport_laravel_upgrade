@@ -64,8 +64,8 @@ import UserList from './views/admin/users/List.vue'
 Vue.use(VueRouter)
 
 const routes = [
-   
-    
+
+
     /*
      |--------------------------------------------------------------------------
      | EuroSport Route File
@@ -86,11 +86,11 @@ const routes = [
                 name: 'home'
             },
             {
-                path: '/schedule_results',
+                path: '/schedule_results/:tournamentname',
                 component: FrontSchedule,
                 name: 'front_schedule'
             },
-               
+
         ]
     },
 
@@ -102,36 +102,36 @@ const routes = [
                 path: '/',
                 component: Welcome,
                 name: 'welcome'
-            },                     
+            },
         ]
     },*/
 
     // Admin Backend Routes For Tournaments
     {
         path: '/admin', component: LayoutHorizontal,
-        meta: { requiresAuth: true }, 
+        meta: { requiresAuth: true },
         children: [
             {
                 path: '/',
                 component: Welcome,
-                name: 'welcome'       
+                name: 'welcome'
             }
         ]
-    },    
+    },
     {
         path: '/admin', component: LayoutTournament,
-        meta: { requiresAuth: true },   
+        meta: { requiresAuth: true },
         children: [
             {
                 path: 'tournaments_summary_details',
                 component: TournamentSummaryDetails,
                 name: 'tournaments_summary_details'
-            }, 
+            },
             {
                 path: 'teams_groups',
                 component: TournamentTeamGroup,
                 name: 'teams_groups'
-            }, 
+            },
             {
                 path: 'tournament_add',
                 component: TournamentAdd,
@@ -141,7 +141,7 @@ const routes = [
                 path: 'competation_format',
                 component: CompetationFormat,
                 name: 'competation_format'
-            }, 
+            },
             {
                 path: 'pitch_capacity',
                 component: PitchCapacity,
@@ -152,8 +152,8 @@ const routes = [
                 component: PitchPlanner,
                 name: 'pitch_planner'
 
-            } 
-             
+            }
+
         ]
     },
     {
@@ -170,7 +170,7 @@ const routes = [
         // ]
     },
 
-   
+
      /*
      |--------------------------------------------------------------------------
      | Auth & Registration Routes
@@ -191,7 +191,7 @@ const routes = [
                 name: 'register'
             },
         ]
-    }, 
+    },
 
     // DEFAULT ROUTE
     {   path: '*', component : NotFoundPage }

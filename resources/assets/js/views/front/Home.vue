@@ -47,6 +47,7 @@ export default {
      let tournamentSel  = {
         name:name,
         id:id,
+        tournamentSlug: tournament.slug,
         tournamentLogo: tournament.logo,
         tournamentStatus:tournament.status,
         tournamentStartDate:tournament.start_date,
@@ -55,7 +56,7 @@ export default {
       this.$store.dispatch('SetTournamentName', tournamentSel)
         // After Set We have to Redirect to Schedule View
       if(this.$store.state.Tournament.tournamentId != undefined) {
-        this.$router.push({'name':'front_schedule'})
+        this.$router.push({'name':'front_schedule', params: { tournamentname: tournament.slug }})
       }
     }
   }
