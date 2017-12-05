@@ -21,7 +21,8 @@ const state = {
   website:'website',
   tournamentFiler:{
   	filterKey:'',
-  	filterValue: ''
+  	filterValue: '',
+    filterDependentValue: ''
   },
   totalMatch:0,
   totalReferee:0,

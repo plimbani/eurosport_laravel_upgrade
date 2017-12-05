@@ -7,7 +7,7 @@
               <h6 class="m-0"><strong>{{$lang.pitch_planner_label}}</strong></h6>
             </div>
             <div class="col-9 align-self-center">
-              <tournamentFilter :section="section"></tournamentFilter>
+              <pitchPlannerFilter :section="section"></pitchPlannerFilter>
             </div>
             <div>
 
@@ -26,7 +26,7 @@
 var moment = require('moment');
 	import PitchModal from '../../../components/PitchModal.vue';
 	import PitchPlannerTable from '../../../components/PitchPlannerTable.vue';
-  import TournamentFilter from '../../../components/TournamentFilter.vue';
+  import PitchPlannerFilter from '../../../components/PitchPlannerFilter.vue';
 
 	export default {
     data() {
@@ -75,7 +75,7 @@ var moment = require('moment');
       }
     },
     components: {
-        PitchModal, PitchPlannerTable, TournamentFilter
+        PitchModal, PitchPlannerTable, PitchPlannerFilter
     }
 }
 </script>
