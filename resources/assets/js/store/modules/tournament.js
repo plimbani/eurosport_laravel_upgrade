@@ -22,6 +22,7 @@ const state = {
   tournamentFiler:{
   	filterKey:'',
   	filterValue: '',
+    filterDependentKey: '',
     filterDependentValue: ''
   },
   totalMatch:0,
@@ -84,11 +85,10 @@ const actions = {
   commit(types.TOURNAMENT_STAGES, tournamentStages)
   },
   setMatches({commit,state}) {
-      commit(types.SET_MATCHES, '')
+    commit(types.SET_MATCHES, '')
     let tdata = {}
     if(state.tournamentFiler.filterKey != '' && state.tournamentFiler.filterValue != '') {
-        tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'fiterEnable':true
-      }
+      tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'filterDependentValue':state.tournamentFiler.filterDependentValue,'filterDependentKey':state.tournamentFiler.filterDependentKey,'fiterEnable':true}
     } else {
         tdata ={'tournamentId':state.tournamentId}
     }
@@ -264,6 +264,8 @@ const mutations = {
 
 	state.tournamentFiler.filterKey = filterData.filterKey;
 	state.tournamentFiler.filterValue = filterData.filterValue;
+  state.tournamentFiler.filterDependentValue = filterData.filterDependentValue;
+  state.tournamentFiler.filterDependentKey = filterData.filterDependentKey;
 
   },
   [types.SET_REFEREES] (state, refereeData) {

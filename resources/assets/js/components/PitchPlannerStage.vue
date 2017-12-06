@@ -58,7 +58,6 @@ import _ from 'lodash'
         },
         created: function() {
             // this.$root.$on('getTeamsByTournamentFilter', this.setPitchPlannerFilter);
-            // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
             // this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
              this.$root.$on('reloadAllEvents', this.reloadAllEvents);
 

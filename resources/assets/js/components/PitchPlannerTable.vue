@@ -146,8 +146,7 @@
             this.$root.$on('setRefereeReset', this.refereeReset);
             this.$root.$on('RefereeCount', this.refereeCount);
             this.$root.$on('resetPitchesOnCategoryColorSave', this.resetPitchesOnCategoryColorSave);
-             this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
-             // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
+            this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
             this.$root.$on('setPitchPlanTab',this.setCurrentTab)
             this.$root.$on('getAllReferee', this.getAllreferees);
             // this.$root.$on('getTeamsByTournamentFilter', this.resetPitch);
@@ -380,7 +379,7 @@
                 // this.GameStatus = false
                 // this.refereeStatus = false
                 this.tournamentStages = ''
-               let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
+                let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
                 let stages = [];
                 for (var i = 1; i <= this.tournamentDays; i++) {
 
@@ -388,7 +387,7 @@
                     let currentDateString  = tournamentStartDate.format('DD/MM/YYYY');
                     // console.log(currentDateString)
                     let availablePitchesForStage = _.filter(this.$store.state.Pitch.pitches, (pitch) => {
-                return  _.find(pitch.pitch_availability, {
+                        return  _.find(pitch.pitch_availability, {
                             'stage_start_date': currentDateString
                         });
                     });

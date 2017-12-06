@@ -35,8 +35,13 @@
       </select>
     </div>
     <div class="form-group" v-show="filterBy == 'age_category'">
-      <select class="form-control ls-select2" v-model="groups">
+      <select class="form-control ls-select2" v-model="selectedGroup" @change="setDependentFilterValue()" style="width:200px">
         <option value="">Select group</option>
+        <option :value="group.id"
+        v-for="group in groups"
+        v-bind:value="group.id">
+          {{ group.actual_name }}
+        </option>
       </select>
     </div>
     <div class="form-group">
@@ -55,10 +60,13 @@ export default {
       dropDownData: [],
       dropDown: '',
       options:[],
-      selectMsg: 'Select a Team',
+      selectMsg: 'Select',
       filterKey: '',
       filterValue: '',
+      filterDependentKey: 'group',
+      filterDependentValue: '',
       groups: [],
+      selectedGroup: '',
     }
   },
   computed: {
@@ -78,6 +86,7 @@ export default {
     //   this.setFilterValue()
     //   $('#competation_group').prop("checked",true)
     // }
+    this.clearFilter()
   },
   methods: {
     clearFilter(){
@@ -85,17 +94,33 @@ export default {
       this.dropDown = ''
       this.filterKey = this.filterBy
       this.filterValue = this.dropDown
-      let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
-      this.$store.dispatch('setTournamentFilter', tournamentFilter);
-      this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
+      this.getMatchesByFilter()
       //$('#age_category').trigger('click')
       //this.getDropDownData('age_category')
     },
     setFilterValue() {
       this.filterValue = this.dropDown
-      let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
-      this.$store.dispatch('setTournamentFilter', tournamentFilter);
-      this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
+      this.groups = []
+
+      if(this.filterBy == 'age_category' && this.dropDown != '') {
+        this.selectedGroup = this.filterDependentValue = ''
+        let tournamentId = this.$store.state.Tournament.tournamentId
+        let tournamentData = {'ageGroupId': this.dropDown.id}
+        Tournament.getCategoryCompetitions(tournamentData).then(
+          (response) => {
+            this.groups = response.data.competitions
+            this.getMatchesByFilter();
+          },
+          (error) => {
+          }
+        )
+      } else {
+        this.getMatchesByFilter();
+      }
+    },
+    setDependentFilterValue() {
+      this.filterDependentValue = this.selectedGroup
+      this.getMatchesByFilter()
     },
     getDropDownData() {
       if(this.filterBy == '') {
@@ -104,6 +129,7 @@ export default {
       }
 
       this.dropDown = ''
+      this.filterDependentValue = ''
       let filterBy = this.filterBy;
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key
@@ -113,28 +139,33 @@ export default {
       Tournament.getDropDownData(tournamentData).then(
         (response) => {
           // here we fill the options
-          switch(filterBy){
-            case 'age_category':
-              this.selectMsg = 'Select'
-              break
-            case 'location':
-              this.selectMsg = 'Select'
-              break
-          }
+          // switch(filterBy){
+          //   case 'age_category':
+          //     this.selectMsg = 'Select'
+          //     break
+          //   case 'location':
+          //     this.selectMsg = 'Select'
+          //     break
+          // }
 
-          this.options =response.data.data
-          if(filterBy == 'age_category'){
-            this.dropDown = ""
-            this.setFilterValue()
-          }
-          if(filterBy == 'location') {
-            let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
-            this.$store.dispatch('setTournamentFilter', tournamentFilter);
-          }
+          this.options = response.data.data
+          // if(filterBy == 'age_category'){
+          //   this.setFilterValue()
+          // }
+          // if(filterBy == 'location') {
+          //   let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
+          //   this.$store.dispatch('setTournamentFilter', tournamentFilter);
+          // }
+          this.setFilterValue()
         },
         (error) => {
         }
       )
+    },
+    getMatchesByFilter() {
+      let tournamentFilter = {'filterKey': this.filterKey,'filterValue':this.filterValue,'filterDependentKey': this.filterDependentKey,'filterDependentValue': this.filterDependentValue}
+      this.$store.dispatch('setTournamentFilter', tournamentFilter);
+      this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue,this.filterDependentKey,this.filterDependentValue);
     }
   }
 }

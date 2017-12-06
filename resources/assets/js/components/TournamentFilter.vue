@@ -106,7 +106,6 @@ export default {
         this.$root.$emit('getTeamsByTournamentFilter',this.filterKey,this.filterValue);
       }else if(this.activePath == 'pitch_planner'){
         this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
-        //this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
       } else {
         this.$root.$emit('getMatchByTournamentFilter',this.filterKey,this.filterValue);
       }
