@@ -104,7 +104,7 @@
                               <div class="card-block">
                                 <div class="row align-items-center mb-3">
                                   <div class="col-md-3">
-                                      Stage {{day}}
+                                      Day {{day}}
                                   </div>
                                   <div class="col-md-3">
                                     <div class="input-group">
@@ -270,7 +270,7 @@
                               </div>
                                 <div class="row align-items-center mb-3">
                                   <div class="col-md-3">
-                                      Stage {{day}} end
+                                      Day {{day}} end
                                   </div>
                                   <div class="col-md-3">
                                     <div class="input-group">
@@ -286,7 +286,7 @@
                                             <input :name="'stage_end_time'+day" :id="'stage_end_time'+day" type="text"  v-validate="'required'" :class="[errors.has('stage_end_time'+day)?'is-danger': '', 'form-control ls-timepicker']">
                                         </div>
                                         <div class="align-self-center p-1">
-                                            <i v-show="errors.has('stage_end_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Stage end time is required"></i>
+                                            <i v-show="errors.has('stage_end_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Day end time is required"></i>
                                         </div>
                                         <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                     </div>
