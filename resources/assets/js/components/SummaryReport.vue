@@ -174,17 +174,17 @@
 							</div>
 						</div>
 					</div>
-					<div class="row align-items-center">
-						<div class="col-md-12">
-							<div class="d-flex align-items-center justify-content-end">
-								<button type="button" name="clearButton" id="clearButton" class="btn btn-primary mr-1" @click="clearForm()">{{$lang.summary_button_clear}}</button>
-								<button type="button" name="generateReport" id="generateReport" class="btn btn-primary" @click="generateReport()">{{$lang.summary_button_generate}}</button>
-							</div>
-						</div>
-					</div>	
 				</div>
 			</form>
 		</div>
+		<div class="row align-items-center mt-4">
+			<div class="col-md-12">
+				<div class="d-flex align-items-center justify-content-end">
+					<button type="button" name="clearButton" id="clearButton" class="btn btn-primary mr-1" @click="clearForm()">{{$lang.summary_button_clear}}</button>
+					<button type="button" name="generateReport" id="generateReport" class="btn btn-primary" @click="generateReport()">{{$lang.summary_button_generate}}</button>
+				</div>
+			</div>
+		</div>	
 		<div class="row mt-4" id="summary_report_table">
 			<div class="col-md-12">
 					<div id="report_logo" style="display:none;">
