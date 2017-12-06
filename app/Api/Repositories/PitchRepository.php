@@ -15,12 +15,8 @@ class PitchRepository
 
     public function getAllPitches($tournamentId)
     {
-          // $pitch = DB::table('tournament_competation_template')
-          //                   ->where('tournament_id',$tournamentId)
-          //                   ->groupBy('pitch_size')
-          //                   ->get();
-        //echo "<pre>";print_r($pitch);echo "</pre>";exit;                 
-        return Pitch::with('pitchAvailability')->where('tournament_id',$tournamentId)->get();
+        return Pitch::with(['pitchAvailability','pitchAvailability.pitchBreaks'])->where('tournament_id',$tournamentId)->get();
+
     }
 
     public function getPitchSizeWiseSummary($tournamentId)
@@ -39,8 +35,6 @@ class PitchRepository
 
     public function createPitch($pitchData)
     {
-        // dd($pitchData);
-
         return Pitch::create([
             'tournament_id' => $pitchData['tournamentId'],
             'pitch_number' => $pitchData['pitch_number'],
