@@ -546,12 +546,7 @@ class TournamentService implements TournamentContract
                 $refName =   $reportRec->referee_last_name . ', ' . $reportRec->referee_first_name;
               } 
 
-              // $displayMatchNumber = str_replace('@HOME','',$displayHomeTeamPlaceholder);
-              // echo "<pre>"; print_r($displayMatchNumber); echo "</pre>";exit();
               $displayMatchNumber = str_replace('@HOME',$reportRec->displayHomeTeamPlaceholder,str_replace('@AWAY',$reportRec->displayAwayTeamPlaceholder,$reportRec->displayMatchNumber));
-              // $displayAway = str_replace('@AWAY',$reportRec->displayAwayTeamPlaceholder,$reportRec->displayMatchNumber);
-
-
 
               $ddata = [
                 $reportRec->match_datetime,
@@ -563,10 +558,7 @@ class TournamentService implements TournamentContract
                 $homeTeam,
                 $awayTeam,
               ];
-              
-
               array_push($dataArray, $ddata);
-            
             }
             $otherParams = [
               'sheetTitle' => "Report3",

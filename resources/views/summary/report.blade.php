@@ -45,7 +45,6 @@
     		<td align="center"></td>
     		@endif
     		<td>{{ str_replace('@HOME',$report->displayHomeTeamPlaceholder,str_replace('@AWAY',$report->displayAwayTeamPlaceholder,$report->displayMatchNumber)) }}</td>
-              <!-- $displayHome = str_replace('@HOME',$reportRec->displayHomeTeamPlaceholder,$reportRec->displayMatchNumber); -->
             <td align="right">
                 <span class="text-center">
                     @if($report->homeTeam == '0' && $report->homeTeamName == '@^^@')
