@@ -551,7 +551,8 @@ var moment = require('moment');
                   if($('#stage_break_chk_'+stage).is(':checked')){
                     $('#stage_break_start'+stage+'-'+breakno).removeAttr('disabled')
                     $('.stage_chk_active'+stage).attr('disabled','disabled')
-                    $('#stage_end_time'+stage).attr('disabled','disabled')
+                    $('#stage_end_time'+stage).attr('disabled','disabled');
+                     $('#stage_break_start'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
                   }else{
                     setTimeout(function(){
                       $('.stage_chk_active'+stage).val($('#stage_start_time'+stage).val())
