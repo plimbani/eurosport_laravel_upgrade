@@ -68,7 +68,7 @@ export default {
 	},
 	mounted(){
 		let vm = this;
-		let TournamentData = {'slug':this.$route.params.tournamentname}
+		let TournamentData = {'slug':this.$route.params.tournamentslug}
 	    Tournament.getTournamentBySlug(TournamentData).then(
 	      (response) => {
 		    let tournamentSel  = {

@@ -86,7 +86,7 @@ const routes = [
                 name: 'home'
             },
             {
-                path: '/schedule_results/:tournamentname',
+                path: '/schedule_results/:tournamentslug',
                 component: FrontSchedule,
                 name: 'front_schedule'
             },

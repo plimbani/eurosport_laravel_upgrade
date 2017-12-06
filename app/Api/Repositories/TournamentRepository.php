@@ -20,6 +20,7 @@ use JWTAuth;
 
 class TournamentRepository
 {
+  public $slug;
     public function __construct()
     {
       $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
@@ -118,7 +119,6 @@ class TournamentRepository
 
     }
 
-    public $slug;
     /**
      * Generate slug
      *

@@ -56,7 +56,7 @@ export default {
       this.$store.dispatch('SetTournamentName', tournamentSel)
         // After Set We have to Redirect to Schedule View
       if(this.$store.state.Tournament.tournamentId != undefined) {
-        this.$router.push({'name':'front_schedule', params: { tournamentname: tournament.slug }})
+        this.$router.push({'name':'front_schedule', params: { tournamentslug: tournament.slug }})
       }
     }
   }
