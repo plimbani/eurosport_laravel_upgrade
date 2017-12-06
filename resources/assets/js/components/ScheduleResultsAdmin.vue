@@ -103,7 +103,6 @@ export default {
 			Tournament.getCompetationFormat(TournamentData).then(
 			  	(response) => {
 			 		this.competationList = response.data.data
-			 		console.log('hi',this.competationList)
 			  		},
 			    (error) => {
 
