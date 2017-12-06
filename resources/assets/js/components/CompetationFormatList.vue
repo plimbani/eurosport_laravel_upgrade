@@ -12,7 +12,7 @@
                   <th class="text-center">{{$lang.competation_total_matches}}</th>
                   <th class="text-center" width="90px">{{$lang.competation_total_time}}</th>
                   <th class="text-center">{{$lang.competation_match_schedule}}</th>
-                  <th class="text-center">{{$lang.competation_manage}}</th>
+                  <th class="text-center" width="79px">{{$lang.competation_manage}}</th>
               </tr>
           </thead>
           <tbody>

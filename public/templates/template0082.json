@@ -9,6 +9,7 @@
     "competation_format": "F/SMF",
     "tournament_min_match": 5,
     "avg_game_team": 5.2,
+    "final_round": "F/SMF",
     "tournament_competition_ranking": {
         "format_name": [
             {
@@ -642,7 +643,8 @@
                                     "match_number": "CAT.PM3.G1.1A_1B_WR-1C_1D_WR",
                                     "display_match_number": "CAT.3.1.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "2.1",
-                                    "display_away_team_placeholder_name": "2.6"
+                                    "display_away_team_placeholder_name": "2.6",
+                                    "is_final_match": 1
                                 },
                                 {
                                     "in_between": "CAT.PM2.G1LR-CAT.PM2.G6LR",

@@ -18,7 +18,7 @@ class AgeGroupRepository
     }
 
     public function create($data)
-    {
+    {   
         return AgeGroup::create($data);
     }
 
@@ -93,18 +93,24 @@ class AgeGroupRepository
       // $ageGroupId = AgeGroup::create($ageGroupData)->id;
 
       // here we save the tournament_competation_template
+     
       $tournamentCompeationTemplate = array();
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
       $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
       $tournamentCompeationTemplate['category_age'] = $data['category_age'];
+      $tournamentCompeationTemplate['pitch_size'] = $data['pitch_size'];
       $tournamentCompeationTemplate['category_age_color'] = $data['category_age_color'];
+      $tournamentCompeationTemplate['category_age_font_color'] = $data['category_age_font_color'];
       $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
       $tournamentCompeationTemplate['total_time'] =$data['total_time'];
 
-      $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR'];
-      $tournamentCompeationTemplate['game_duration_FM']= $data['game_duration_FM'];
+      $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR']/$data['halves_RR'];
+      $tournamentCompeationTemplate['halves_RR'] = $data['halves_RR'];
+      $tournamentCompeationTemplate['game_duration_FM']= $data['game_duration_FM']/$data['halves_FM'];
+      $tournamentCompeationTemplate['halves_FM'] = $data['halves_FM'];
+
       $tournamentCompeationTemplate['halftime_break_RR']= $data['halftime_break_RR'];
       $tournamentCompeationTemplate['halftime_break_FM']= $data['halftime_break_FM'];
       $tournamentCompeationTemplate['match_interval_RR']= $data['match_interval_RR'];
@@ -294,6 +300,7 @@ class AgeGroupRepository
     public function FindTemplate($id) {
      return  DB::table('tournament_template')->where('id',$id)->first();
     }
+
     public function addFixturesIntoTemp($fixtureArray,$competationArr,$fixtureMatchDetailArray, $categoryAge)
     {
       foreach($fixtureArray as $key=>$fixture) {
@@ -344,6 +351,7 @@ class AgeGroupRepository
               'match_result_id'=> 0,
               'created_at'=> new \DateTime(),
               'round'=>$round,
+              'is_final_round_match'=>$fixtureMatchDetailArray[$key]['is_final_match'],
               'age_group_id'=>$ageGroupId,
               'away_team_name'=>$away_team,
               'away_team_placeholder_name'=>$away_team,
