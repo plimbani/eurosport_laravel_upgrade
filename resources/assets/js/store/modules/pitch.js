@@ -7,7 +7,7 @@ import moment from 'moment'
 const state = {
   pitches: [],
   pitchCapacity: '',
-  pitchData: '',
+  pitchData: {},
   pitchId:0,
   stageView:'gamesTab',
   stages:0

@@ -240,12 +240,12 @@ import _ from 'lodash'
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
-                                        if(response.data.data != -1){
+                                        if(response.data.data != -1 && response.data.data != -2){
                                             vm.$store.dispatch('setMatches');
                                              toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
                                              vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
                                              vm.reloadAllEvents()
-                                        }else{
+                                        } else {
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
                                             vm.$store.dispatch('setMatches');
                                             vm.matchFixture = {}
@@ -455,10 +455,12 @@ import _ from 'lodash'
                               } else {
                                 borderColorVal = vm.LightenDarkenColor(match.category_age_color, 40);
                               }
+                              let textColorVal = match.category_age_font_color;
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
 
                               if(scheduleBlock){
                                 colorVal = 'grey'
+                                textColorVal = '#FFFFFF'
                                 borderColorVal = 'grey'
                                 fixtureStripColor = 'grey'
                               }
@@ -485,6 +487,7 @@ import _ from 'lodash'
                                     'refereeText': refereeName,
                                     'title':matchTitle,
                                     'color': colorVal,
+                                    'textColor': textColorVal,
                                     'borderColor': borderColorVal,
                                     'matchId':match.fid,
                                     'matchAgeGroupId':match.age_group_id,
@@ -514,6 +517,7 @@ import _ from 'lodash'
                                     'refereeText': 'R',
                                     'title':'Pitch is not available',
                                     'color': 'grey',
+                                    'textColor': '#FFFFFF',
                                     'borderColor': 'grey',
                                     'matchId':-1,
                                     'matchAgeGroupId':'',
@@ -531,6 +535,7 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title': 'Pitch is not available',
                                         'color': 'grey',
+                                        'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
                                         'matchId':-1,
                                         'matchAgeGroupId':'',
@@ -549,6 +554,7 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
                                         'color': 'grey',
+                                        'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
                                         'matchId': -1,
                                         'matchAgeGroupId':'',
@@ -595,6 +601,7 @@ import _ from 'lodash'
                     'refereeText': '',
                     'title': 'Pitch is not available',
                     'color': 'grey',
+                    'textColor': '#FFFFFF',
                     'matchId': '111212',
                     'matchAgeGroupId':'',
                     'displayFlag':''
@@ -622,6 +629,7 @@ import _ from 'lodash'
                             'refereeText': '',
                             'title': 'Unavailable',
                             'color': 'grey',
+                            'textColor': '#FFFFFF',
                             'matchId': 'block_'+block.id,
                             'matchAgeGroupId':'',
                             'displayFlag':''

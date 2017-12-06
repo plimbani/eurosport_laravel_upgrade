@@ -112,6 +112,7 @@ $api->version('v1', function ($api) {
 
     //pitch api
     $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');
+    $api->get('getPitchSizeWiseSummary/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitchSizeWiseSummary');
     $api->get('pitch/show/{pitchId}', 'Laraspace\Api\Controllers\PitchController@show');
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');
     $api->post('pitch/edit/{id}', 'Laraspace\Api\Controllers\PitchController@edit');

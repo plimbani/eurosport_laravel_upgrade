@@ -344,6 +344,391 @@ class MatchController extends BaseController
         echo "All DB templates processed.";exit;
     }
 
+    public function processMatch($data, $match)
+    {
+        $roundName = $data['roundName'];
+        $allTemplateMatchNumber = $data['allTemplateMatchNumber'];
+        $notToAllowRoundOne = isset($data['notToAllowRoundOne']) ? $data['notToAllowRoundOne'] : false;
+
+        $updatedMatchDetail = $match;
+        $matchNumber = $updatedMatchDetail['match_number'];
+        $splittedMatchNumber = explode('.', $matchNumber);
+        $splittedMatchNumber[1] = str_replace('RR', '', str_replace('PM', '', $splittedMatchNumber[1]));
+        $splittedMatchNumber[2] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $splittedMatchNumber[2]));
+        $homeAwayTeamPlaceHolder = explode('-', $splittedMatchNumber[3]);
+        $homeTeamPlaceHolder = $homeAwayTeamPlaceHolder[0];
+        $awayTeamPlaceHolder = $homeAwayTeamPlaceHolder[1];
+
+        if($roundName == 'Round 1' && $notToAllowRoundOne == false) {
+            $splittedMatchNumber[3] = '@HOME-@AWAY';
+            $displayHomeTeamPlaceHolderName = $homeAwayTeamPlaceHolder[0];
+            $displayAwayTeamPlaceHolderName = $homeAwayTeamPlaceHolder[1];
+        }
+
+        if($roundName != 'Round 1' || $notToAllowRoundOne) {
+            if(strpos($homeTeamPlaceHolder, '(') !== false && strpos($awayTeamPlaceHolder, '(') !== false) {
+                $bracketStarted = false;
+
+                // For home team
+                $isWinnerOrLooser = null;
+                if((strpos($homeTeamPlaceHolder, '_WR') !== false)) {
+                    $isWinnerOrLooser = '_WR';
+                }
+                if((strpos($homeTeamPlaceHolder, '_LR') !== false)) {
+                    $isWinnerOrLooser = '_LR';
+                }
+
+                $changedHomeTeamPlaceHolder = str_replace('(', '', $homeTeamPlaceHolder);
+                $changedHomeTeamPlaceHolder = str_replace(')', '', $changedHomeTeamPlaceHolder);
+                $changedHomeTeamPlaceHolder = explode('_', str_replace($isWinnerOrLooser, '', $changedHomeTeamPlaceHolder));
+                $changedHomeTeamPlaceHolder[0] = str_replace('RR', '', str_replace('PM', '', $changedHomeTeamPlaceHolder[0]));
+                $changedHomeTeamPlaceHolder[1] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $changedHomeTeamPlaceHolder[1]));
+
+                $displayHomeTeamPlaceHolderName = $changedHomeTeamPlaceHolder[0] . '.' . $changedHomeTeamPlaceHolder[1];
+
+                if($isWinnerOrLooser == '_WR') {
+                    $splittedMatchNumber[3] = 'wrs.(@HOME';
+                    $bracketStarted = true;
+                } else if($isWinnerOrLooser == '_LR') {
+                    $splittedMatchNumber[3] = 'lrs.(@HOME';
+                    $bracketStarted = true;
+                }
+
+                // For away team
+                $isWinnerOrLooser = null;
+                if((strpos($awayTeamPlaceHolder, '_WR') !== false)) {
+                    $isWinnerOrLooser = '_WR';
+                }
+                if((strpos($awayTeamPlaceHolder, '_LR') !== false)) {
+                    $isWinnerOrLooser = '_LR';
+                }
+
+                $changedAwayTeamPlaceHolder = str_replace('(', '', $awayTeamPlaceHolder);
+                $changedAwayTeamPlaceHolder = str_replace(')', '', $changedAwayTeamPlaceHolder);
+                $changedAwayTeamPlaceHolder = explode('_', str_replace($isWinnerOrLooser, '', $changedAwayTeamPlaceHolder));
+                $changedAwayTeamPlaceHolder[0] = str_replace('RR', '', str_replace('PM', '', $changedAwayTeamPlaceHolder[0]));
+                $changedAwayTeamPlaceHolder[1] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $changedAwayTeamPlaceHolder[1]));
+
+                $displayAwayTeamPlaceHolderName = $changedAwayTeamPlaceHolder[0] . '.' . $changedAwayTeamPlaceHolder[1];
+
+                if($bracketStarted) {
+                    $splittedMatchNumber[3] .= '-@AWAY)';
+                } else {
+                    if($isWinnerOrLooser == '_WR') {
+                        $splittedMatchNumber[3] .= '-wrs.(@AWAY)';
+                    } else if($isWinnerOrLooser == '_LR') {
+                        $splittedMatchNumber[3] .= '-lrs.(@AWAY)';
+                    }
+                }
+            } else if(strpos($homeTeamPlaceHolder, '(') === false && strpos($awayTeamPlaceHolder, '(') === false) {
+                if(strpos($homeTeamPlaceHolder, '_WR') === false && strpos($homeTeamPlaceHolder, '_LR') === false && strpos($awayTeamPlaceHolder, '_WR') === false && strpos($awayTeamPlaceHolder, '_LR') === false) {
+                    $splittedMatchNumber[3] = '@HOME-@AWAY';
+                    $displayMatchNumber = $splittedMatchNumber[0].'.'.$splittedMatchNumber[1].'.'.$splittedMatchNumber[2].'.'.$splittedMatchNumber[3];
+
+                    $displayHomeTeamPlaceHolderName = '#' . $homeAwayTeamPlaceHolder[0];
+                    $displayAwayTeamPlaceHolderName = '#' . $homeAwayTeamPlaceHolder[1];
+                } else if(strpos($homeTeamPlaceHolder, '_WR') !== false && strpos($awayTeamPlaceHolder, '_WR') !== false) {
+                    $splittedMatchNumber[3] = 'wrs.(@HOME-@AWAY)';
+                    $displayMatchNumber = $splittedMatchNumber[0].'.'.$splittedMatchNumber[1].'.'.$splittedMatchNumber[2].'.'.$splittedMatchNumber[3];
+
+                    // Get home placeholder
+                    $searchHomeTeamPlaceHolder = str_replace('_', '-', str_replace('_WR', '', $homeTeamPlaceHolder));
+                    $searchHomeTeamMatchNumber = array_filter($allTemplateMatchNumber, function($value) use ($searchHomeTeamPlaceHolder) {
+                        if(strpos($value, $searchHomeTeamPlaceHolder) !== false) {
+                            return $value;
+                        }
+                    });
+                    if(count($searchHomeTeamMatchNumber) == 1) {
+                        $splittedSearchHomeTeamMatchNumber = explode('.', array_values($searchHomeTeamMatchNumber)[0]);
+                        $splittedSearchHomeTeamMatchNumber[1] = str_replace('RR', '', str_replace('PM', '', $splittedSearchHomeTeamMatchNumber[1]));
+                        $splittedSearchHomeTeamMatchNumber[2] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $splittedSearchHomeTeamMatchNumber[2]));
+                        $displayHomeTeamPlaceHolderName = $splittedSearchHomeTeamMatchNumber[1] . '.' . $splittedSearchHomeTeamMatchNumber[2];
+                    } else {
+                        echo "issue found" . $homeTeamPlaceHolder;
+                    }
+
+                    // Get away placeholder
+                    $searchAwayTeamPlaceHolder = str_replace('_', '-', str_replace('_WR', '', $awayTeamPlaceHolder));
+                    $searchAwayTeamMatchNumber = array_filter($allTemplateMatchNumber, function($value) use ($searchAwayTeamPlaceHolder) {
+                        if(strpos($value, $searchAwayTeamPlaceHolder) !== false) {
+                            return $value;
+                        }
+                    });
+                    if(count($searchAwayTeamMatchNumber) == 1) {
+                        $splittedSearchAwayTeamMatchNumber = explode('.', array_values($searchAwayTeamMatchNumber)[0]);
+                        $splittedSearchAwayTeamMatchNumber[1] = str_replace('RR', '', str_replace('PM', '', $splittedSearchAwayTeamMatchNumber[1]));
+                        $splittedSearchAwayTeamMatchNumber[2] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $splittedSearchAwayTeamMatchNumber[2]));
+                        $displayAwayTeamPlaceHolderName = $splittedSearchAwayTeamMatchNumber[1] . '.' . $splittedSearchAwayTeamMatchNumber[2];
+                    } else {
+                        echo "issue found" . $awayTeamPlaceHolder;
+                    }
+                } else if(strpos($homeTeamPlaceHolder, '_LR') !== false && strpos($awayTeamPlaceHolder, '_LR') !== false) {
+                    $splittedMatchNumber[3] = 'lrs.(@HOME-@AWAY)';
+                    $displayMatchNumber = $splittedMatchNumber[0].'.'.$splittedMatchNumber[1].'.'.$splittedMatchNumber[2].'.'.$splittedMatchNumber[3];
+
+                    // Get home placeholder
+                    $searchHomeTeamPlaceHolder = str_replace('_', '-', str_replace('_LR', '', $homeTeamPlaceHolder));
+                    $searchHomeTeamMatchNumber = array_filter($allTemplateMatchNumber, function($value) use ($searchHomeTeamPlaceHolder) {
+                        if(strpos($value, $searchHomeTeamPlaceHolder) !== false) {
+                            return $value;
+                        }
+                    });
+                    if(count($searchHomeTeamMatchNumber) == 1) {
+                        $splittedSearchHomeTeamMatchNumber = explode('.', array_values($searchHomeTeamMatchNumber)[0]);
+                        $splittedSearchHomeTeamMatchNumber[1] = str_replace('RR', '', str_replace('PM', '', $splittedSearchHomeTeamMatchNumber[1]));
+                        $splittedSearchHomeTeamMatchNumber[2] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $splittedSearchHomeTeamMatchNumber[2]));
+                        $displayHomeTeamPlaceHolderName = $splittedSearchHomeTeamMatchNumber[1] . '.' . $splittedSearchHomeTeamMatchNumber[2];
+                    } else {
+                        echo "issue found" . $homeTeamPlaceHolder;
+                    }
+
+                    // Get away placeholder
+                    $searchAwayTeamPlaceHolder = str_replace('_', '-', str_replace('_LR', '', $awayTeamPlaceHolder));
+                    $searchAwayTeamMatchNumber = array_filter($allTemplateMatchNumber, function($value) use ($searchAwayTeamPlaceHolder) {
+                        if(strpos($value, $searchAwayTeamPlaceHolder) !== false) {
+                            return $value;
+                        }
+                    });
+                    if(count($searchAwayTeamMatchNumber) == 1) {
+                        $splittedSearchAwayTeamMatchNumber = explode('.', array_values($searchAwayTeamMatchNumber)[0]);
+                        $splittedSearchAwayTeamMatchNumber[1] = str_replace('RR', '', str_replace('PM', '', $splittedSearchAwayTeamMatchNumber[1]));
+                        $splittedSearchAwayTeamMatchNumber[2] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $splittedSearchAwayTeamMatchNumber[2]));
+                        $displayAwayTeamPlaceHolderName = $splittedSearchAwayTeamMatchNumber[1] . '.' . $splittedSearchAwayTeamMatchNumber[2];
+                    } else {
+                        echo "issue found" . $awayTeamPlaceHolder;;
+                    }
+                } else if(strpos($homeTeamPlaceHolder, '_WR') !== false || strpos($homeTeamPlaceHolder, '_LR') !== false || strpos($awayTeamPlaceHolder, '_WR') !== false || strpos($awayTeamPlaceHolder, '_LR') !== false) {
+                    $bracketStarted = false;
+                    if((strpos($homeTeamPlaceHolder, '_WR') !== false || strpos($homeTeamPlaceHolder, '_LR') !== false)) {
+
+                        $isWinnerOrLooser = null;
+                        if((strpos($homeTeamPlaceHolder, '_WR') !== false)) {
+                            $isWinnerOrLooser = '_WR';
+                        }
+                        if((strpos($homeTeamPlaceHolder, '_LR') !== false)) {
+                            $isWinnerOrLooser = '_LR';
+                        }
+
+                        // Get home placeholder
+                        $searchHomeTeamPlaceHolder = str_replace('_', '-', str_replace($isWinnerOrLooser, '', $homeTeamPlaceHolder));
+                        $searchHomeTeamMatchNumber = array_filter($allTemplateMatchNumber, function($value) use ($searchHomeTeamPlaceHolder) {
+                            if(strpos($value, $searchHomeTeamPlaceHolder) !== false) {
+                                return $value;
+                            }
+                        });
+                        if(count($searchHomeTeamMatchNumber) == 1) {
+                            $splittedSearchHomeTeamMatchNumber = explode('.', array_values($searchHomeTeamMatchNumber)[0]);
+                            $splittedSearchHomeTeamMatchNumber[1] = str_replace('RR', '', str_replace('PM', '', $splittedSearchHomeTeamMatchNumber[1]));
+                            $splittedSearchHomeTeamMatchNumber[2] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $splittedSearchHomeTeamMatchNumber[2]));
+                            $displayHomeTeamPlaceHolderName = $splittedSearchHomeTeamMatchNumber[1] . '.' . $splittedSearchHomeTeamMatchNumber[2];
+
+                            if($isWinnerOrLooser == '_WR') {
+                                $splittedMatchNumber[3] = 'wrs.(@HOME';
+                                $bracketStarted = true;
+                            } else if($isWinnerOrLooser == '_LR') {
+                                $splittedMatchNumber[3] = 'lrs.(@HOME';
+                                $bracketStarted = true;
+                            }
+                        } else {
+                            echo "issue found";
+                        }
+                    } else {
+                        $displayHomeTeamPlaceHolderName = '#' . $homeAwayTeamPlaceHolder[0];
+                        $splittedMatchNumber[3] = '@HOME';
+                    }
+
+                    if((strpos($awayTeamPlaceHolder, '_WR') !== false || strpos($awayTeamPlaceHolder, '_LR') !== false)) {
+                        $isWinnerOrLooser = null;
+                        if((strpos($awayTeamPlaceHolder, '_WR') !== false)) {
+                            $isWinnerOrLooser = '_WR';
+                        }
+                        if((strpos($awayTeamPlaceHolder, '_LR') !== false)) {
+                            $isWinnerOrLooser = '_LR';
+                        }
+
+                        // Get away placeholder
+                        $searchAwayTeamPlaceHolder = str_replace('_', '-', str_replace($isWinnerOrLooser, '', $awayTeamPlaceHolder));
+                        $searchAwayTeamMatchNumber = array_filter($allTemplateMatchNumber, function($value) use ($searchAwayTeamPlaceHolder) {
+                            if(strpos($value, $searchAwayTeamPlaceHolder) !== false) {
+                                return $value;
+                            }
+                        });
+                        if(count($searchAwayTeamMatchNumber) == 1) {
+                            $splittedSearchAwayTeamMatchNumber = explode('.', array_values($searchAwayTeamMatchNumber)[0]);
+                            $splittedSearchAwayTeamMatchNumber[1] = str_replace('RR', '', str_replace('PM', '', $splittedSearchAwayTeamMatchNumber[1]));
+                            $splittedSearchAwayTeamMatchNumber[2] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $splittedSearchAwayTeamMatchNumber[2]));
+                            $displayAwayTeamPlaceHolderName = $splittedSearchAwayTeamMatchNumber[1] . '.' . $splittedSearchAwayTeamMatchNumber[2];
+
+                            if($bracketStarted) {
+                                $splittedMatchNumber[3] .= '-@AWAY)';
+                            } else {
+                                if($isWinnerOrLooser == '_WR') {
+                                    $splittedMatchNumber[3] .= '-wrs.(@AWAY)';
+                                } else if($isWinnerOrLooser == '_LR') {
+                                    $splittedMatchNumber[3] .= '-lrs.(@AWAY)';
+                                }
+                            }
+                        } else {
+                            echo "issue found";
+                        }
+                    } else {
+                        $displayAwayTeamPlaceHolderName = '#' . $homeAwayTeamPlaceHolder[1];
+                        $splittedMatchNumber[3] .= '-@AWAY';
+                    }
+                }
+            } else if(strpos($homeTeamPlaceHolder, '(') !== false || strpos($awayTeamPlaceHolder, '(') !== false) {
+                $bracketStarted = false;
+                if(strpos($homeTeamPlaceHolder, '(') === false) {
+                    if((strpos($homeTeamPlaceHolder, '_WR') !== false || strpos($homeTeamPlaceHolder, '_LR') !== false)) {
+
+                        $isWinnerOrLooser = null;
+                        if((strpos($homeTeamPlaceHolder, '_WR') !== false)) {
+                            $isWinnerOrLooser = '_WR';
+                        }
+                        if((strpos($homeTeamPlaceHolder, '_LR') !== false)) {
+                            $isWinnerOrLooser = '_LR';
+                        }
+
+                        // Get home placeholder
+                        $searchHomeTeamPlaceHolder = str_replace('_', '-', str_replace($isWinnerOrLooser, '', $homeTeamPlaceHolder));
+                        $searchHomeTeamMatchNumber = array_filter($allTemplateMatchNumber, function($value) use ($searchHomeTeamPlaceHolder) {
+                            if(strpos($value, $searchHomeTeamPlaceHolder) !== false) {
+                                return $value;
+                            }
+                        });
+                        if(count($searchHomeTeamMatchNumber) == 1) {
+                            $splittedSearchHomeTeamMatchNumber = explode('.', array_values($searchHomeTeamMatchNumber)[0]);
+                            $splittedSearchHomeTeamMatchNumber[1] = str_replace('RR', '', str_replace('PM', '', $splittedSearchHomeTeamMatchNumber[1]));
+                            $splittedSearchHomeTeamMatchNumber[2] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $splittedSearchHomeTeamMatchNumber[2]));
+                            $displayHomeTeamPlaceHolderName = $splittedSearchHomeTeamMatchNumber[1] . '.' . $splittedSearchHomeTeamMatchNumber[2];
+
+                            if($isWinnerOrLooser == '_WR') {
+                                $splittedMatchNumber[3] = 'wrs.(@HOME';
+                                $bracketStarted = true;
+                            } else if($isWinnerOrLooser == '_LR') {
+                                $splittedMatchNumber[3] = 'lrs.(@HOME';
+                                $bracketStarted = true;
+                            }
+                        } else {
+                            echo "issue found" . $homeTeamPlaceHolder;
+                        }
+
+                    } else {
+                        $displayHomeTeamPlaceHolderName = '#' . $homeAwayTeamPlaceHolder[0];
+                        $splittedMatchNumber[3] = '@HOME';
+                    }
+                } else {
+                    $isWinnerOrLooser = null;
+                    if((strpos($homeTeamPlaceHolder, '_WR') !== false)) {
+                        $isWinnerOrLooser = '_WR';
+                    }
+                    if((strpos($homeTeamPlaceHolder, '_LR') !== false)) {
+                        $isWinnerOrLooser = '_LR';
+                    }
+
+                    $changedHomeTeamPlaceHolder = str_replace('(', '', $homeTeamPlaceHolder);
+                    $changedHomeTeamPlaceHolder = str_replace(')', '', $changedHomeTeamPlaceHolder);
+                    $changedHomeTeamPlaceHolder = explode('_', str_replace($isWinnerOrLooser, '', $changedHomeTeamPlaceHolder));
+                    $changedHomeTeamPlaceHolder[0] = str_replace('RR', '', str_replace('PM', '', $changedHomeTeamPlaceHolder[0]));
+                    $changedHomeTeamPlaceHolder[1] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $changedHomeTeamPlaceHolder[1]));
+
+                    $displayHomeTeamPlaceHolderName = $changedHomeTeamPlaceHolder[0] . '.' . $changedHomeTeamPlaceHolder[1];
+
+
+                    if($isWinnerOrLooser == '_WR') {
+                        $splittedMatchNumber[3] = 'wrs.(@HOME';
+                        $bracketStarted = true;
+                    } else if($isWinnerOrLooser == '_LR') {
+                        $splittedMatchNumber[3] = 'lrs.(@HOME';
+                        $bracketStarted = true;
+                    }
+                }
+                
+                if(strpos($awayTeamPlaceHolder, '(') === false) {
+                    if((strpos($awayTeamPlaceHolder, '_WR') !== false || strpos($awayTeamPlaceHolder, '_LR') !== false)) {
+
+                        $isWinnerOrLooser = null;
+                        if((strpos($awayTeamPlaceHolder, '_WR') !== false)) {
+                            $isWinnerOrLooser = '_WR';
+                        }
+                        if((strpos($awayTeamPlaceHolder, '_LR') !== false)) {
+                            $isWinnerOrLooser = '_LR';
+                        }
+
+                        // Get away placeholder
+                        $searchAwayTeamPlaceHolder = str_replace('_', '-', str_replace($isWinnerOrLooser, '', $awayTeamPlaceHolder));
+                        $searchAwayTeamMatchNumber = array_filter($allTemplateMatchNumber, function($value) use ($searchAwayTeamPlaceHolder) {
+                            if(strpos($value, $searchAwayTeamPlaceHolder) !== false) {
+                                return $value;
+                            }
+                        });
+                        if(count($searchAwayTeamMatchNumber) == 1) {
+                            $splittedSearchAwayTeamMatchNumber = explode('.', array_values($searchAwayTeamMatchNumber)[0]);
+                            $splittedSearchAwayTeamMatchNumber[1] = str_replace('RR', '', str_replace('PM', '', $splittedSearchAwayTeamMatchNumber[1]));
+                            $splittedSearchAwayTeamMatchNumber[2] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $splittedSearchAwayTeamMatchNumber[2]));
+                            $displayAwayTeamPlaceHolderName = $splittedSearchAwayTeamMatchNumber[1] . '.' . $splittedSearchAwayTeamMatchNumber[2];
+
+                            if($bracketStarted) {
+                                $splittedMatchNumber[3] .= '-@AWAY)';
+                            } else {
+                                if($isWinnerOrLooser == '_WR') {
+                                    $splittedMatchNumber[3] .= '-wrs.(@AWAY)';
+                                } else if($isWinnerOrLooser == '_LR') {
+                                    $splittedMatchNumber[3] .= '-lrs.(@AWAY)';
+                                }
+                            }
+                        } else {
+                            echo "issue found" . $awayTeamPlaceHolder;
+                        }
+                    } else {
+                        $displayAwayTeamPlaceHolderName = '#' . $homeAwayTeamPlaceHolder[1];
+
+                        if($bracketStarted) {
+                            $splittedMatchNumber[3] .= ')-@AWAY';
+                        } else {
+                            $splittedMatchNumber[3] .= '-@AWAY';
+                        }                                        
+                    }
+                } else {
+                    $isWinnerOrLooser = null;
+                    if((strpos($awayTeamPlaceHolder, '_WR') !== false)) {
+                        $isWinnerOrLooser = '_WR';
+                    }
+                    if((strpos($awayTeamPlaceHolder, '_LR') !== false)) {
+                        $isWinnerOrLooser = '_LR';
+                    }
+
+                    $changedAwayTeamPlaceHolder = str_replace('(', '', $awayTeamPlaceHolder);
+                    $changedAwayTeamPlaceHolder = str_replace(')', '', $changedAwayTeamPlaceHolder);
+                    $changedAwayTeamPlaceHolder = explode('_', str_replace($isWinnerOrLooser, '', $changedAwayTeamPlaceHolder));
+                    $changedAwayTeamPlaceHolder[0] = str_replace('RR', '', str_replace('PM', '', $changedAwayTeamPlaceHolder[0]));
+                    $changedAwayTeamPlaceHolder[1] = preg_replace('/^0+/', '', preg_replace('/^G+/', '', $changedAwayTeamPlaceHolder[1]));
+
+                    $displayAwayTeamPlaceHolderName = $changedAwayTeamPlaceHolder[0] . '.' . $changedAwayTeamPlaceHolder[1];
+
+
+                    if($bracketStarted) {
+                        $splittedMatchNumber[3] .= '-@AWAY)';
+                    } else {
+                        if($isWinnerOrLooser == '_WR') {
+                            $splittedMatchNumber[3] .= '-wrs.(@AWAY)';
+                        } else if($isWinnerOrLooser == '_LR') {
+                            $splittedMatchNumber[3] .= '-lrs.(@AWAY)';
+                        }
+                    }
+                }
+            }
+        }
+
+        $displayMatchNumber = $splittedMatchNumber[0].'.'.$splittedMatchNumber[1].'.'.$splittedMatchNumber[2].'.'.$splittedMatchNumber[3];
+
+        $updatedMatchDetail['display_match_number'] = $displayMatchNumber;
+        $updatedMatchDetail['display_home_team_placeholder_name'] = $displayHomeTeamPlaceHolderName;
+        $updatedMatchDetail['display_away_team_placeholder_name'] = $displayAwayTeamPlaceHolderName;
+
+        return $updatedMatchDetail;
+    }
+
     public function saveStandingsManually(Request $request)
     {
         return $this->matchObj->saveStandingsManually($request);
