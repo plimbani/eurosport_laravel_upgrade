@@ -20,6 +20,11 @@ class PitchService implements PitchContract
         return $this->pitchRepoObj->getAllPitches($tournamentId);
     }
 
+    public function getPitchSizeWiseSummary($tournamentId)
+    {
+        return $this->pitchRepoObj->getPitchSizeWiseSummary($tournamentId);
+    }
+
     /**
      * create New Pitch.
      *

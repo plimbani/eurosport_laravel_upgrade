@@ -9,6 +9,7 @@
     "competation_format": "RR, PM/F",
     "tournament_min_match": 3,
     "avg_game_team": 3.8,
+    "final_round": "F",
     "tournament_competition_ranking": {
         "format_name": [
             {
@@ -619,7 +620,8 @@
                                     "match_number": "CAT.PM4.G1.(PM3_G1_WR)-1E_1F_WR",
                                     "display_match_number": "CAT.4.1.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "3.1",
-                                    "display_away_team_placeholder_name": "2.3"
+                                    "display_away_team_placeholder_name": "2.3",
+                                    "is_final_match": 1
                                 }
                             ]
                         }
