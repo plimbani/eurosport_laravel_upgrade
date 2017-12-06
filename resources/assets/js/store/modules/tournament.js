@@ -306,7 +306,7 @@ const mutations = {
               if(match.is_final_round_match == 1){
                 matchTime = parseInt(competition.game_duration_FM * competition.halves_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
               } else {
-                matchTime = parseInt(competition.game_duration_RR * competition.halves_FM) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
+                matchTime = parseInt(competition.game_duration_RR * competition.halves_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
               }
 
               let fullgame1 = match.full_game;
