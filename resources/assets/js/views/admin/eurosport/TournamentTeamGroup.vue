@@ -454,8 +454,8 @@
         }else{
            templateId = tId
         }
-        let tournamentFilter = {'filterKey': 'age_category', 'filterValue':this.age_category }
-      this.$store.dispatch('setTournamentFilter', tournamentFilter);
+        let tournamentFilter = {'filterKey': 'age_category', 'filterValue':this.age_category, 'filterDependentKey': '', 'filterDependentValue': '' }
+        this.$store.dispatch('setTournamentFilter', tournamentFilter);
         if(type == 'view'){
           if(this.age_category == ''){
             this.teams = [];

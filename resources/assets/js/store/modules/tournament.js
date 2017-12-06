@@ -261,12 +261,10 @@ const mutations = {
   },
 
   [types.SET_TOURNAMENT_FILTER] (state, filterData) {
-
-	state.tournamentFiler.filterKey = filterData.filterKey;
-	state.tournamentFiler.filterValue = filterData.filterValue;
-  state.tournamentFiler.filterDependentValue = filterData.filterDependentValue;
-  state.tournamentFiler.filterDependentKey = filterData.filterDependentKey;
-
+    state.tournamentFiler.filterKey = filterData.filterKey;
+    state.tournamentFiler.filterValue = filterData.filterValue;
+    state.tournamentFiler.filterDependentKey = (typeof filterData.filterDependentKey != 'undefined') ? filterData.filterDependentKey : '';
+    state.tournamentFiler.filterDependentValue = (typeof filterData.filterDependentValue != 'undefined') ? filterData.filterDependentValue : '';
   },
   [types.SET_REFEREES] (state, refereeData) {
   	state.referees = refereeData;

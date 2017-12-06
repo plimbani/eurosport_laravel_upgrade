@@ -1,5 +1,5 @@
 <template>
-  <form  class="form-inline pull-right">
+  <form  class="form-inline d-flex justify-content-end">
     <div class="form-group">
       <label for="nameInput" class="control-label">
         <strong>{{$lang.teams_filter}}</strong>
@@ -102,6 +102,10 @@ export default {
       this.filterValue = this.dropDown
       this.groups = []
 
+      if(this.dropDown == '') {
+        this.filterDependentValue = ''
+      }
+
       if(this.filterBy == 'age_category' && this.dropDown != '') {
         this.selectedGroup = this.filterDependentValue = ''
         let tournamentId = this.$store.state.Tournament.tournamentId
@@ -138,24 +142,7 @@ export default {
       'keyData':filterBy,'type':this.section}
       Tournament.getDropDownData(tournamentData).then(
         (response) => {
-          // here we fill the options
-          // switch(filterBy){
-          //   case 'age_category':
-          //     this.selectMsg = 'Select'
-          //     break
-          //   case 'location':
-          //     this.selectMsg = 'Select'
-          //     break
-          // }
-
           this.options = response.data.data
-          // if(filterBy == 'age_category'){
-          //   this.setFilterValue()
-          // }
-          // if(filterBy == 'location') {
-          //   let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
-          //   this.$store.dispatch('setTournamentFilter', tournamentFilter);
-          // }
           this.setFilterValue()
         },
         (error) => {

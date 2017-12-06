@@ -248,7 +248,7 @@ import _ from 'lodash'
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
                                             vm.$store.dispatch('setMatches');
                                             vm.matchFixture = {}
-                                            vm.getScheduledMatch('age_category','')
+                                            vm.getScheduledMatch()
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
                                         }
                                     }
