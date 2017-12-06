@@ -64,7 +64,7 @@ class PitchService implements PitchContract
         // Call function to check if particular pitch has some schedule matches in that time
         // if its have it then unschedule it
 
-        // dd($dataArr);
+        // dd($dataArr,$pitchId);
         $pitchdata = $this->pitchRepoObj->edit($dataArr,$pitchId);
 
         if($pitchdata){

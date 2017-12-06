@@ -35,8 +35,8 @@
                                     <td>
                                         <p v-for="pitchStage in pitch.pitch_av_text">
                                         {{pitchStage}}</p>
-                                        <!--<p>Stage 2: 10am-1pm, 3pm-5pm</p>
-                                        <p>Stage 3: 10am-2pm</p>-->
+                                        <!--<p>Day 2: 10am-1pm, 3pm-5pm</p>
+                                        <p>Day 3: 10am-2pm</p>-->
                                     </td>
                                     <td class="text-center">
                                         <span class="align-middle">
