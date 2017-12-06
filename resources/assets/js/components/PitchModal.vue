@@ -122,7 +122,7 @@
           <div class="modal-footer justify-content-between">
 
             <div class="">
-              <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()">{{$lang.pitch_modal_unschedule}}</button>
+              <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()"><i class="fa fa-undo" aria-hidden="true"></i>{{$lang.pitch_modal_unschedule}}</button>
             </div>
             <div class="">
               <button type="button" class="btn btn-danger" data-dismiss="modal" @click="closeModal()">{{$lang.pitch_modal_cancel}}</button>
@@ -191,10 +191,12 @@ var moment = require('moment');
            }
 
            let colorVal = this.matchDetail.category_age.category_age_color;
+           let textColorVal = this.matchDetail.category_age.category_age_font_color;
            let borderColorVal = this.matchDetail.category_age.category_age_color;
            let fixtureStripColor = this.matchDetail.competition.color_code != null ? this.matchDetail.competition.color_code : '#FFFFFF';
 
             this.matchFixture.color = colorVal;
+            this.matchFixture.textColor = textColorVal;
             this.matchFixture.borderColor = borderColorVal;
             this.matchFixture.fixtureStripColor = fixtureStripColor;
 

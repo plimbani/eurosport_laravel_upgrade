@@ -217,7 +217,7 @@
                                         <span class="input-group-addon">
                                             <i class="jv-icon jv-calendar"></i>
                                         </span>
-                                        <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
+                                        <input type="text" :name="'stage_break'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
                                       </div>
                                       <!-- <input type="text" :name="'stage_break'+day" :id="'stage_continue_date'+day" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+ day]"> -->
                                      <!--  <input type="text" :name="'stage_continue_date'+day+'-'+n" :id="'stage_continue_date'+day+'-'+n" disabled="disabled" readonly="" :class="['form-control sdate ls-datepicker datestage'+day]"> -->
@@ -391,8 +391,7 @@ var moment = require('moment');
 
                  this1.availableDate.push($('.datestage'+i).val())
                  this1.removeStage.push(i);
-                 // console.log(this1.pitchData);
-                    _.find(this1.pitchData.pitchAvailable, function (pitchAvailable) {
+                  _.find(this1.pitchData.pitchAvailable, function (pitchAvailable) {
 
 
                     // => Logs `1` then `2`.
@@ -413,24 +412,7 @@ var moment = require('moment');
                         $('#stage_start_time'+pitchAvailable.stage_no).val(pitchAvailable.stage_start_time)
                         $('#stage_end_time'+pitchAvailable.stage_no).val(pitchAvailable.stage_end_time)
                         if(pitchAvailable.break_enable == 1){
-                          // console.log(pitchAvailable.pitchbreaks.length);
-
-                         // stageBreak = [{'day':i,'break':pitchAvailable.pitchbreaks.length}];
-
-
-                         // console.log('stageBreak',stageBreak);
-                        // sBreak['stageBreak'].push({"day":i,"break":pitchAvailable.pitchbreaks.length})
-                        // _.map( sBreak['stageBreak'], function(s) {
-                        //   arr[s.day] = s.break;
-                        //    if(s.break > 0){
-
-                        //     brk[s.day] = true;
-                        //    }else{
-                        //     brk[s.day] = false;
-                        //    }
-                        // });
-                        // this1.stage_break= arr;
-                        //  this1.breakEnable= brk;
+                        
                         $('#stage_break_chk_'+i).attr('checked','checked')
                         $('.chk_disable_'+i).removeClass('stageInvisible')
                         //Pitch break code start
@@ -439,7 +421,6 @@ var moment = require('moment');
                         let bCnt = 1;
 
                           _.forEach(pitchAvailable.pitchbreaks, function(pitchBreak,bCnt)  {
-                            // console.log(bCnt);
                             
                             let breakCnt = parseInt(bCnt)+1;
                             setTimeout(function(){
@@ -492,22 +473,6 @@ var moment = require('moment');
 
             }
 
-
-              // _.map( sBreak['stageBreak'], function(s) {
-              //   // arr[s.day]['break'] = s.break;
-              //   // arr[s.day]['break'] = s.break;
-              //    if(s.break > 0){
-
-              //     brk[s.day] = true;
-              //    }else{
-              //     brk[s.day] = false;
-              //    }
-              // });
-               // this1.stage_break= arr;
-               // this1.breakEnable= brk;
-               // console.log(this.breakEnable);
-              // let disableDate = this.disableDate;
-              // this.stage_date.push(obj)
               $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
               // this.stage_capacity.push(capacity)
 
@@ -530,7 +495,6 @@ var moment = require('moment');
                let stage = $(this)[0].id;
                let curTime = ''
 
-               // console.log(stage_id)
                stage = stage.replace('stage_start_time','')
                stage = stage.replace('stage_break_start','')
                stage = stage.replace('stage_continue_time','')
@@ -550,9 +514,9 @@ var moment = require('moment');
                   curTime = $('#stage_start_time'+stage).val()
                   if($('#stage_break_chk_'+stage).is(':checked')){
                     $('#stage_break_start'+stage+'-'+breakno).removeAttr('disabled')
-                    $('.stage_chk_active'+stage).attr('disabled','disabled')
+                    // $('.stage_chk_active'+stage).attr('disabled','disabled')
                     $('#stage_end_time'+stage).attr('disabled','disabled');
-                     $('#stage_break_start'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
+
                   }else{
                     setTimeout(function(){
                       $('.stage_chk_active'+stage).val($('#stage_start_time'+stage).val())
@@ -596,7 +560,8 @@ var moment = require('moment');
                         maxTime: '20:00',
                         timeFormat: 'H:i'
                     });
-                     $('#stage_break_start'+stage).timepicker('option', 'minTime', newTime); 
+
+                     $('#stage_break_start'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
                         maxTime: '20:00',
@@ -639,10 +604,12 @@ var moment = require('moment');
             })
 
             var that = this1
-                $('.ls-datepicker').datepicker().on('changeDate',function(){
-                    var stage = this.id
+                 $('.ls-datepicker').datepicker().on('changeDate',function(){
+                // $('#frmPitchAvailable').on("change",'.ls-datepicker',function(){
+                   var stage = this.id
                    stage = stage.replace("stage_start_date", "");
                    if (stage.search('stage_end_date') != -1 || stage.search('stage_continue_date') != -1 ) {
+                   
                     return false
                    }
                    if($.inArray( parseInt(stage), that.removeStage ) !== -1  ){
@@ -671,12 +638,11 @@ var moment = require('moment');
             $("#editPitch").on('hidden.bs.modal', function () {
                 this5.$root.$emit('pitchrefresh');
                 this5.$store.dispatch('SetPitchId',0);
+                this5.$root.$emit('getPitchSizeWiseSummary');
             });
             $(document).ready(function(){
               // let vm1 = this;
-              // console.log(vm1.breakEnable);
               $("body").on('click','.stage_break_chk',function(){
-                // console.log(this.checked);
               let stageId = this.id
               let stage = stageId.replace('stage_break_chk_','')
               let curTime = '08:00';
@@ -685,11 +651,11 @@ var moment = require('moment');
                 if($('#stage_start_time'+stage).val()!=''){
                   $('#stage_break_start'+stage)
                   $('.stage_chk_active'+stage).removeAttr('disabled','disabled')
-                   $('#stage_end_time'+stage).val('');
+                  $('#stage_end_time'+stage).val('');
 
                   curTime =  $('#stage_start_time'+stage).val();
                 }else{
-                    $('.stage_chk_active'+stage).attr('disabled','disabled')
+                  $('.stage_chk_active'+stage).attr('disabled','disabled')
                   $('#stage_end_time'+stage).attr('disabled','disabled');
                 }
                   $('.chk_disable_'+stage).removeClass('stageInvisible')
@@ -701,8 +667,8 @@ var moment = require('moment');
 
                   let updatedTime =curTime.split(':');
                   let hrs = parseInt(updatedTime[0])
-                      let min = updatedTime[1].split(' ')[0]  == '30' ? '30' : '00'
-                     let newTime = hrs+':'+min+':00'
+                  let min = updatedTime[1].split(' ')[0]  == '30' ? '30' : '00'
+                  let newTime = hrs+':'+min+':00'
 
                 setTimeout(function(){
                     $('.stage_chk_active'+stage).timepicker({
@@ -753,7 +719,6 @@ var moment = require('moment');
             },
             setStageCapacity(stage,breakno) {
               let vm =this;
-              // console.log(stage,breakno);
               if( $('#stage_start_time'+stage).val() == '' || $('#stage_end_time'+stage).val() == '' || $('#stage_break_start'+stage+'-'+breakno).val() == '' || $('#stage_continue_time'+stage+'-'+breakno).val() == ''  ) {
                     $('#stage_capacity_span'+stage).text('0.00 hrs');
                     $('#stage_capacity'+stage).val('0.00');
@@ -1002,8 +967,39 @@ var moment = require('moment');
                     this.removeStage = removeStageArr
                      var that = this
                      that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,that.disableDate,that.availableDate,stage);
-
+                     $('.ls-datepicker').datepicker('setStartDate', that.tournamentStartDate);
                 }
+              setTimeout(function(){
+               $('.ls-datepicker').datepicker().on('changeDate',function(){
+                              // $('#frmPitchAvailable').on("change",'.ls-datepicker',function(){
+                   var stage = this.id
+                   stage = stage.replace("stage_start_date", "");
+                   if (stage.search('stage_end_date') != -1 || stage.search('stage_continue_date') != -1 ) {
+                   
+                    return false
+                   }
+                   if($.inArray( parseInt(stage), that.removeStage ) !== -1  ){
+                        return false
+                    }else{
+                    var index =  that.disableDate.indexOf($('#stage_end_date'+stage).val());
+                    if (index > -1) {
+                        // let stage = disableDate[index];
+                        that.disableDate.splice(index, 1);
+                        that.availableDate.push($('#stage_end_date'+stage).val())
+                        that.availableDate.splice(that.availableDate.indexOf($('#'+this.id).val()),1)
+                        // that.disableDate = disableDate
+
+
+                        // disableDate
+                    }
+                    that.disableDate.push( $('#'+this.id).val());
+                    $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                    $('.datestage'+stage).val($('#'+this.id).val())
+                    }
+
+                });
+              },1000)
+
 
             },
 

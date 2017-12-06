@@ -80,8 +80,11 @@ class TournamentRepository
         }*/
     }
     public function getTemplate($tournamentTemplateId) {
-
-        return TournamentTemplates::find($tournamentTemplateId)->json_data;
+        $tournamentTemplateData = [];
+        $tournamentTemplate = TournamentTemplates::find($tournamentTemplateId);
+        $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
+        $tournamentTemplateData['image'] = $tournamentTemplate->image;
+        return $tournamentTemplateData;
     }
     public function getAllTemplates($data=array())
     {

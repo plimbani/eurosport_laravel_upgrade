@@ -523,8 +523,8 @@ export default {
                   maxTime: '20:00',
                   'timeFormat': 'H:i'
               });
-              console.log(newTime);
-              $('#stage_end_time'+stage).timepicker('option', 'minTime', '10:00'); 
+              // console.log(newTime);
+              $('#stage_break_start'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
 
               $('.stage_chk_active'+stage).val('')
               // $('.stage_continue_time').val('')
@@ -558,9 +558,6 @@ export default {
             vm.setStageCapacity(stage,breakno);
       })
 
-      // $(".ls-datepicker").on("change", function(e) {
-      //         console.log('msg')
-      // });
       var that = this
       $('.ls-datepicker').datepicker().on('changeDate',function(){
           var stage = this.id
@@ -904,6 +901,34 @@ export default {
                that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,
                 that.disableDate,that.availableDate,stage);
           }
+          setTimeout(function(){
+            $('.ls-datepicker').datepicker().on('changeDate',function(){
+          var stage = this.id
+
+             stage = stage.replace("stage_start_date", "");
+             if (stage.search('stage_end_date') != -1 || stage.search('stage_continue_date') != -1 ) {
+              return false
+             }
+             if($.inArray( parseInt(stage), that.removeStage ) !== -1  ){
+                  return false
+              }else{
+
+              var index =  that.disableDate.indexOf($('#stage_end_date'+stage).val());
+              if (index > -1) {
+                  // let stage = disableDate[index];
+                  that.disableDate.splice(index, 1);
+                  that.availableDate.push($('#stage_end_date'+stage).val())
+                  that.availableDate.splice(that.availableDate.indexOf($('#'+this.id).val()),1)
+                  // that.disableDate = disableDate
+                  // disableDate
+              }
+              that.disableDate.push( $('#'+this.id).val());
+              $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+              $('.datestage'+stage).val($('#'+this.id).val())
+              }
+
+          });
+          },1000)
       },
   }
 }
