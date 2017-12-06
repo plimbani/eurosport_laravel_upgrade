@@ -523,6 +523,8 @@ export default {
                   maxTime: '20:00',
                   'timeFormat': 'H:i'
               });
+              $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime); 
+
               $('.stage_chk_active'+stage).val('')
               // $('.stage_continue_time').val('')
                $('#stage_end_time'+stage).val('')
