@@ -25,7 +25,7 @@
       </label>
     </div> -->
     <div class="form-group" v-show="filterBy != ''">
-      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:200px">
+      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()">
         <option value="">All</option>
         <option :value="option.id"
         v-for="option in options"
@@ -35,12 +35,12 @@
       </select>
     </div>
     <div class="form-group" v-show="filterBy == 'age_category'">
-      <select class="form-control ls-select2" v-model="selectedGroup" @change="setDependentFilterValue()" style="width:200px">
+      <select class="form-control ls-select2" v-model="selectedGroup" @change="setDependentFilterValue()">
         <option value="">Select group</option>
         <option :value="group.id"
         v-for="group in groups"
         v-bind:value="group.id">
-          {{ group.actual_name }}
+          {{ filteredGroupName(group.actual_name) }}
         </option>
       </select>
     </div>
@@ -76,16 +76,6 @@ export default {
   },
   props:['section'],
   mounted() {
-    // By Default Called with Team
-    // if(this.section != 'scheduleResult' ){
-    //   this.getDropDownData('age_category')
-    //   $('#age_category').prop("checked",true)
-    // }
-    // if (this.section == 'scheduleResult' ){
-    //   this.getDropDownData('competation_group')
-    //   this.setFilterValue()
-    //   $('#competation_group').prop("checked",true)
-    // }
     this.clearFilter()
   },
   methods: {
@@ -95,8 +85,6 @@ export default {
       this.filterKey = this.filterBy
       this.filterValue = this.dropDown
       this.getMatchesByFilter()
-      //$('#age_category').trigger('click')
-      //this.getDropDownData('age_category')
     },
     setFilterValue() {
       this.filterValue = this.dropDown
@@ -153,7 +141,11 @@ export default {
       let tournamentFilter = {'filterKey': this.filterKey,'filterValue':this.filterValue,'filterDependentKey': this.filterDependentKey,'filterDependentValue': this.filterDependentValue}
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
       this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue,this.filterDependentKey,this.filterDependentValue);
-    }
+    },
+    filteredGroupName(actualGroupName) {
+      let splittedName = actualGroupName.split('-');
+      return splittedName[2] + '-' + splittedName[3];
+    },
   }
 }
 </script>
