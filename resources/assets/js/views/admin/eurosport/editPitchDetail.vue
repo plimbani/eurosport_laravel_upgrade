@@ -412,7 +412,7 @@ var moment = require('moment');
                         $('#stage_start_time'+pitchAvailable.stage_no).val(pitchAvailable.stage_start_time)
                         $('#stage_end_time'+pitchAvailable.stage_no).val(pitchAvailable.stage_end_time)
                         if(pitchAvailable.break_enable == 1){
-                        
+
                         $('#stage_break_chk_'+i).attr('checked','checked')
                         $('.chk_disable_'+i).removeClass('stageInvisible')
                         //Pitch break code start
@@ -421,7 +421,7 @@ var moment = require('moment');
                         let bCnt = 1;
 
                           _.forEach(pitchAvailable.pitchbreaks, function(pitchBreak,bCnt)  {
-                            
+
                             let breakCnt = parseInt(bCnt)+1;
                             setTimeout(function(){
                               $('#stage_break_start'+pitchAvailable.stage_no+'-'+breakCnt).val(pitchBreak.break_start);
@@ -484,7 +484,7 @@ var moment = require('moment');
             setTimeout(function(){
                 $('.ls-timepicker').timepicker({
                     minTime: '08:00',
-                    maxTime: '20:00',
+                    maxTime: '23:00',
                     timeFormat: 'H:i'
                 });
              },500)
@@ -557,17 +557,17 @@ var moment = require('moment');
 
                     $('#stage_break_start'+stage+'-'+breakno).timepicker({
                         minTime:  newTime,
-                        maxTime: '20:00',
+                        maxTime: '23:00',
                         timeFormat: 'H:i'
                     });
 
-                     $('#stage_break_start'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
+                     $('#stage_break_start'+stage+'-'+breakno).timepicker('option', 'minTime', newTime);
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '20:00',
+                        maxTime: '23:00',
                         timeFormat: 'H:i'
                     });
-                     $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime); 
+                     $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime);
 
                     $('#stage_break_start'+stage+'-'+breakno).val('')
 
@@ -579,10 +579,10 @@ var moment = require('moment');
 
                    $('#stage_continue_time'+stage+'-'+breakno).timepicker({
                         minTime: newTime,
-                        maxTime: '20:00',
+                        maxTime: '23:00',
                         timeFormat: 'H:i'
                     });
-                     $('#stage_continue_time'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
+                     $('#stage_continue_time'+stage+'-'+breakno).timepicker('option', 'minTime', newTime);
 
                     $('#stage_continue_time'+stage+'-'+breakno).val('')
 
@@ -593,14 +593,14 @@ var moment = require('moment');
 
                     $('#stage_end_time'+stage).timepicker({
                         minTime:  newTime,
-                        maxTime: '20:00',
+                        maxTime: '23:00',
                         'timeFormat': 'H:i'
                     });
-                     
+
                     $('#stage_end_time'+stage).val('')
                 }
                 this1.setStageCapacity(stage,breakno);
- 
+
             })
 
             var that = this1
@@ -609,7 +609,7 @@ var moment = require('moment');
                    var stage = this.id
                    stage = stage.replace("stage_start_date", "");
                    if (stage.search('stage_end_date') != -1 || stage.search('stage_continue_date') != -1 ) {
-                   
+
                     return false
                    }
                    if($.inArray( parseInt(stage), that.removeStage ) !== -1  ){
@@ -673,10 +673,10 @@ var moment = require('moment');
                 setTimeout(function(){
                     $('.stage_chk_active'+stage).timepicker({
                       minTime: newTime,
-                      maxTime: '20:00',
+                      maxTime: '23:00',
                       timeFormat: 'H:i'
                     });
-                     $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime); 
+                     $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime);
                      $('.datestage'+stage).val($('#stage_start_date'+stage).val())
                   },500)
 
@@ -788,11 +788,11 @@ var moment = require('moment');
                 setTimeout(function(){
                     $('#stage_break_start'+day+'-'+curBreakNo+', #stage_continue_time'+day+'-'+curBreakNo).timepicker({
                       minTime: newTime,
-                      maxTime: '20:00',
+                      maxTime: '23:00',
                       timeFormat: 'H:i'
                   });
                     $('.datestage'+day).val($('#stage_start_date'+day).val())
-                     $('#stage_end_time'+day).timepicker('option', 'minTime', newTime); 
+                     $('#stage_end_time'+day).timepicker('option', 'minTime', newTime);
                   },1000)
                 } else {
                   toastr['error']('Please add last break time ', 'Error')
@@ -933,7 +933,7 @@ var moment = require('moment');
 
                         $('#stage_start_time'+stage).timepicker({
                             minTime: '08:00',
-                            maxTime: '20:00',
+                            maxTime: '23:00',
                             timeFormat: 'H:i'
                         })
                         $('#stage_break_start'+stage+',#stage_continue_time'+stage+',#stage_end_time'+stage).attr('disabled','disabled');
@@ -975,7 +975,7 @@ var moment = require('moment');
                    var stage = this.id
                    stage = stage.replace("stage_start_date", "");
                    if (stage.search('stage_end_date') != -1 || stage.search('stage_continue_date') != -1 ) {
-                   
+
                     return false
                    }
                    if($.inArray( parseInt(stage), that.removeStage ) !== -1  ){

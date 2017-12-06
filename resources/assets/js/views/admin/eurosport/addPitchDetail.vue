@@ -405,7 +405,7 @@ export default {
           obj['date'+i] = $('.datestage'+i).val();
           $('#stage_start_time'+i).timepicker({
               minTime: '08:00',
-              maxTime: '20:00',
+              maxTime: '23:00',
               'timeFormat': 'H:i'
           })
            stageBreak = [{'day':i,'break':'0'}];
@@ -509,22 +509,22 @@ export default {
 
               $('.stage_chk_active'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '20:00',
+                  maxTime: '23:00',
                   'timeFormat': 'H:i'
               });
               // $('.stage_continue_time').timepicker({
               //     minTime:  newTime,
-              //     maxTime: '20:00',
+              //     maxTime: '23:00',
               //     'timeFormat': 'H:i'
               // });
 
               $('#stage_end_time'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '20:00',
+                  maxTime: '23:00',
                   'timeFormat': 'H:i'
               });
               // console.log(newTime);
-              $('#stage_break_start'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
+              $('#stage_break_start'+stage+'-'+breakno).timepicker('option', 'minTime', newTime);
 
               $('.stage_chk_active'+stage).val('')
               // $('.stage_continue_time').val('')
@@ -533,11 +533,11 @@ export default {
           if(curId.indexOf('stage_break_start') >= 0){
               //   $('#stage_continue_time'+stage+'-'+breakno).timepicker({
               //     minTime: newTime,
-              //     maxTime: '20:00',
+              //     maxTime: '23:00',
               //     'timeFormat': 'H:i'
               // });
-              // $('.stage_chk_active'+stage).timepicker('option', 'minTime', newTime); 
-              $('#stage_continue_time'+stage+'-'+breakno).timepicker('option', 'minTime', newTime); 
+              // $('.stage_chk_active'+stage).timepicker('option', 'minTime', newTime);
+              $('#stage_continue_time'+stage+'-'+breakno).timepicker('option', 'minTime', newTime);
 
               $('#stage_continue_time'+stage+'-'+breakno).val('')
               $('#stage_end_time'+stage).val('');
@@ -546,10 +546,10 @@ export default {
           if(curId.indexOf('stage_continue_time') >= 0 ){
               $('#stage_end_time'+stage).timepicker({
                   minTime:  newTime,
-                  maxTime: '20:00',
+                  maxTime: '23:00',
                   'timeFormat': 'H:i'
               });
-              $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime); 
+              $('#stage_end_time'+stage).timepicker('option', 'minTime', newTime);
               $('#stage_end_time'+stage).val('');
               vm.removeBreak(stage,parseInt(breakno));
               // vm.stage_break[stage] = breakno;
@@ -620,7 +620,7 @@ export default {
             $('.stage_chk_active'+stage).attr('disabled','disabled')
             $('#stage_end_time'+stage).attr('disabled','disabled');
           }
-            
+
             $('.chk_disable_'+stage).removeClass('stageInvisible');
             that.breakEnable[stage] = true;
             let brk = that.breakEnable;
@@ -637,7 +637,7 @@ export default {
           setTimeout(function(){
               $('.stage_chk_active'+stage).timepicker({
                 minTime: newTime,
-                maxTime: '20:00',
+                maxTime: '23:00',
                 timeFormat: 'H:i'
               });
               $('.datestage'+stage).val($('#stage_start_date'+stage).val())
@@ -690,7 +690,7 @@ export default {
         setTimeout(function(){
             $('#stage_break_start'+day+'-'+curBreakNo+', #stage_continue_time'+day+'-'+curBreakNo).timepicker({
               minTime: newTime,
-              maxTime: '20:00',
+              maxTime: '23:00',
               timeFormat: 'H:i'
           });
             $('.datestage'+day).val($('#stage_start_date'+day).val())
@@ -719,9 +719,9 @@ export default {
                 $('#stage_end_time'+day).removeAttr('disabled','disabled');
                 this.setStageCapacity(day,parseInt(brkNo))
 
-          }  
+          }
         }
-        
+
 
       },
       savePitchDetails () {
@@ -863,7 +863,7 @@ export default {
 
                   $('#stage_start_time'+stage).timepicker({
                       minTime:  '08:00',
-                      maxTime: '20:00',
+                      maxTime: '23:00',
                       'timeFormat': 'H:i'
                   })
                   // $('.ls-timepicker').not('.stage_start_time').attr('disabled','disabled');
