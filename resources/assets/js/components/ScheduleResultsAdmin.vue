@@ -16,7 +16,7 @@
 										{{category.category_age}}
 									</option>
 								</select>
-								<button class="btn btn-primary ml-1" @click='exportReport()'>{{$lang.summary_button_download}}</button>
+								<button class="btn btn-primary ml-1">Download</button>
 							</div>	
 						</div>
 						<div class="tab-content summary-report-content">
