@@ -104,7 +104,7 @@
                               <div class="card-block">
                                 <div class="row align-items-center mb-3">
                                   <div class="col-md-3">
-                                      Day {{day}}
+                                      Day {{day}} start
                                   </div>
                                   <div class="col-md-3">
                                     <div class="input-group">
@@ -191,7 +191,7 @@
                                   <div  v-for="n in stage_break[day]">
                                   <div class="row align-items-center mb-3" >
                                     <div class="col-md-3">
-                                      Break{{n}} start
+                                      Break {{n}} start
                                     </div>
                                     <div class="col-md-3">
                                       <div class="input-group">
@@ -227,7 +227,7 @@
                                   </div>
                                   <div class="row align-items-center mb-3" >
                                     <div class="col-md-3">
-                                      Break{{n}}  end
+                                      Break {{n}}  end
                                     </div>
                                     <div class="col-md-3">
                                       <div class="input-group">
@@ -298,7 +298,7 @@
                                 </div>
                               </div>
                               <div class="card-footer text-right">
-                                  <a href="#" class="btn btn-danger"  @click="stageRemove(day)">{{$lang.pitch_detail_delete}}</a>
+                                  <a href="#" class="btn btn-danger"  @click="stageRemove(day)">{{$lang.pitch_detail_delete_stage}}</a>
                               </div>
                             </div>
                           </div>

@@ -47,19 +47,17 @@ const actions = {
                   
                 let stageStr = "Day " + i +" : "+pitchAvailable1.stage_start_time+'-';
             
-              _.forEach(pitchAvailable1.pitch_breaks, function(pitchBreaks) {
+                _.forEach(pitchAvailable1.pitch_breaks, function(pitchBreaks) {
+                
+                  stageStr = stageStr +pitchBreaks.break_start+', '+pitchBreaks.break_end+'-';
+                
+                }); 
+                stageStr = stageStr + pitchAvailable1.stage_end_time;
+                
+                stageTime[pitchAvailable.id+"_"+i]  = stageStr;
 
-              
-                stageStr = stageStr +pitchBreaks.break_start+','+pitchBreaks.break_end+'-';
-              
-              }); 
-              stageStr = stageStr + pitchAvailable1.stage_end_time;
-              
-              stageTime[pitchAvailable.id+"_"+i]  = stageStr;
-
-              i++;
-              } 
-           
+                i++;
+              }
 
               response.data.pitches[index].pitch_av_text = stageTime; 
                

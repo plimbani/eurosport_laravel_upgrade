@@ -256,6 +256,7 @@ module.exports= {
   pitch_details_note: "Please complete information on both tabs before saving",
   pitch_detail_tabs: "Please complete information on both tabs before saving",
   pitch_detail_delete: "Delete",
+  pitch_detail_delete_stage: "Delete stage",
   pitch_availability: "Availability",
   pitch_number: "Number",
   pitch_type: "Type",
@@ -567,5 +568,5 @@ module.exports= {
   pitch_planner_group_colours_title: "Group Colours",
 
   pitch_detail_break_add: "Add break",
-  pitch_detail_break_remove: "Remove break",
+  pitch_detail_break_remove: "Delete break",
 }
