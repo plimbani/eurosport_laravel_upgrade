@@ -250,6 +250,7 @@ module.exports = {
   pitch_details_note: "FPlease complete information on both tabs before saving",
   pitch_detail_tabs: "FPlease complete information on both tabs before saving",
   pitch_detail_delete: "FDelete",
+  pitch_detail_delete_stage: "Delete stage",
   pitch_availability: "FAvailability",
   pitch_number: "FNumber",
   pitch_type: "FType",

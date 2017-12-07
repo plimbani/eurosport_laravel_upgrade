@@ -500,38 +500,12 @@ import _ from 'lodash'
                             sMatches.push(mData)
                             }
                         });
-                        let minTimePitchAvail = []
-                        let maxTimePitchAvail = []
+
                         let sPitch = []
-                        let stageFlag;
+
                         _.forEach(this.stage.pitches, (pitch) => {
                             _.forEach(pitch.pitch_availability, (availability) => {
-                                stageFlag = false;
-                                _.forEach(availability.pitch_breaks, (pitchBreak) => {
-                                if(availability.stage_start_time != '08:00:00' ){
-                                    minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'))
-                                }
-                                if(availability.stage_start_time != '23:00:00' ){
-                                    maxTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'))
-                                }
-                                let mData = {
-                                    'id': counter,
-                                    'resourceId': pitch.id,
-                                    'start':moment(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
-                                    'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
-                                    'refereeId': -1,
-                                    'refereeText': 'R',
-                                    'title':'Pitch is not available',
-                                    'color': 'grey',
-                                    'textColor': '#FFFFFF',
-                                    'borderColor': 'grey',
-                                    'matchId':-1,
-                                    'matchAgeGroupId':'',
-                                    'fixtureStripColor': '',
-                                    'displayFlag': ''
-                                }
-
-                                if(availability.stage_start_time != '08:00' && stageFlag == false){
+                                if(availability.stage_start_time != '08:00'){
                                     let mData1 = {
                                         'id': 'start_'+counter,
                                         'resourceId': pitch.id,
@@ -549,8 +523,9 @@ import _ from 'lodash'
                                         'displayFlag':''
                                     }
                                     sMatches.push(mData1)
+                                    counter = counter+1;
                                 }
-                                if(availability.stage_end_time != '23:00' && stageFlag == false){
+                                if(availability.stage_end_time != '23:00'){
                                     let mData2 = {
                                         'id': 'end_'+counter,   
                                         'resourceId': pitch.id,
@@ -567,15 +542,34 @@ import _ from 'lodash'
                                         'fixtureStripColor': '',
                                         'displayFlag':''
                                     }
-                                sMatches.push(mData2)
+                                    sMatches.push(mData2)
+                                    counter = counter+1;
                                 }
+                                _.forEach(availability.pitch_breaks, (pitchBreak) => {
+                                    if(pitchBreak.break_start != pitchBreak.break_end) {
+                                        let mData = {
+                                            'id': counter,
+                                            'resourceId': pitch.id,
+                                            'start':moment(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
+                                            'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
+                                            'refereeId': -1,
+                                            'refereeText': 'R',
+                                            'title':'Pitch is not available',
+                                            'color': 'grey',
+                                            'textColor': '#FFFFFF',
+                                            'borderColor': 'grey',
+                                            'matchId':-1,
+                                            'matchAgeGroupId':'',
+                                            'fixtureStripColor': '',
+                                            'displayFlag': ''
+                                        }
 
-                                sMatches.push(mData)
-                                counter = counter+1;
-                                stageFlag = true;
+                                        sMatches.push(mData)
+                                        counter = counter+1;
+                                    }
                                 });
                             });
-                           }); 
+                        });
                         this.scheduledMatches =sMatches
 
                         this.stageWithoutPitch()

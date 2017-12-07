@@ -73,16 +73,16 @@
             </div>
             <div id="availability" role="tabpanel" class="tab-pane">
               <div class="competition_list row">
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                       <span>{{$lang.pitch_modal_availability_stage}}</span>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                       <span>{{$lang.pitch_modal_availability_date}}</span>
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                       <span>{{$lang.pitch_modal_availability_time}}</span>
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                       <span>{{$lang.pitch_modal_availability_capacity}}</span>
                   </div>
               </div>
@@ -95,7 +95,7 @@
                         <div class="card-block">
                           <div class="row align-items-center mb-3">
                             <div class="col-md-3">
-                                Day {{day}}
+                                Day {{day}} start
                             </div>
                               <div class="col-md-3">
                                 <div class="input-group">
@@ -283,7 +283,7 @@
                              </div>
 
                         <div class="card-footer text-right">
-                            <a href="#" class="btn btn-danger"  @click="stageRemove(day)">{{$lang.pitch_modal_edit_pitch_button}}</a>
+                            <a href="#" class="btn btn-danger"  @click="stageRemove(day)">{{$lang.pitch_detail_delete_stage}}</a>
                         </div>
                       </div>
                     </div>
