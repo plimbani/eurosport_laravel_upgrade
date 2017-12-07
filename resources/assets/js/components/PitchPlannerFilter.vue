@@ -1,32 +1,21 @@
 <template>
-  <form  class="form-inline d-flex justify-content-end">
+  <form  class="form-inline d-flex justify-content-end pitch-filter-form">
     <div class="form-group">
-      <label for="nameInput" class="control-label">
+      <label for="nameInput">
         <strong>{{$lang.teams_filter}}</strong>
       </label>
     </div>
     <div class="form-group">
-      <select class="form-control ls-select2" v-model="filterBy" @change="getDropDownData()">
+      <select class="form-control ls-select2 m-w-130" v-model="filterBy" @change="getDropDownData()">
         <option value="">All</option>
         <option value="age_category">{{$lang.tournament_filter_age_category}}</option>
         <option value="location">{{$lang.teams_location}}</option>
       </select>
     </div>
-    <!-- <div class="form-group">
-      <label class="radio-inline control-label">
-          <input type="radio" id="age_category" name="filter" value="age_category"
-           @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
-      </label>
-    </div>
-    <div class="form-group">
-      <label class="radio-inline control-label">
-        <input type="radio" id="location" name="filter" value="location"
-        @click="getDropDownData('location')" class="mr-2">{{$lang.teams_location}}
-      </label>
-    </div> -->
     <div class="form-group" v-show="filterBy != ''">
-      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()">
-        <option value="">All</option>
+      <select class="form-control ls-select2 m-w-130" v-model="dropDown" @change="setFilterValue()">
+        <option value="" v-if="filterBy == 'age_category'">Select category</option>
+        <option value="" v-if="filterBy == 'location'">Select location</option>
         <option :value="option.id"
         v-for="option in options"
         v-bind:value="option">
@@ -35,8 +24,8 @@
       </select>
     </div>
     <div class="form-group" v-show="filterBy == 'age_category'">
-      <select class="form-control ls-select2" v-model="selectedGroup" @change="setDependentFilterValue()">
-        <option value="">Select group</option>
+      <select class="form-control ls-select2 m-w-130" v-model="selectedGroup" @change="setDependentFilterValue()">
+        <option value="" v-if="filterBy == 'age_category' && dropDown != ''">Select group</option>
         <option :value="group.id"
         v-for="group in groups"
         v-bind:value="group.id">
@@ -45,9 +34,7 @@
       </select>
     </div>
     <div class="form-group">
-      <label class="control-label">
-        <a href="javascript:void(0)" @click="clearFilter()">{{$lang.teams_clear}}</a>
-      </label>
+      <a href="javascript:void(0)" class="btn btn-secondary btn-md"  @click="clearFilter()">{{$lang.teams_clear}}</a>
     </div>
   </form>
 </template>

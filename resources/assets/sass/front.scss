@@ -667,3 +667,18 @@ label.error {
 .form-control[disabled="disabled"] {
     opacity: 0.6;
 }
+
+.margin-right-0 {
+    margin-right: 0px;
+}
+
+.pitch-filter-form.form-inline {
+    .form-group {
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+    .m-w-130 {
+        min-width: 130px;
+    }
+}
