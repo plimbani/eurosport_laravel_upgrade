@@ -38,6 +38,7 @@ public class AppConstants {
     public static final String ARG_AGE_GROUP_ID = "age_id";
     public static final String ARG_TEAM_DETAIL = "team_detail";
     public static final String ARG_AGE_CATEGORY = "age_category";
+    public static final String ARG_AGE_CATEGORY_ID = "age_category_id";
     public static final String ARG_GROUP_DETAIL = "group_detail";
     public static final String ARG_FULL_LEAGUE_TABLE_DETAIL = "full_league_table_detail";
     public static final String ARG_MATCH_INFO = "match_info";
@@ -55,5 +56,10 @@ public class AppConstants {
     public static final String GROUP_COMPETATION_TYPE_ROUND_ROBIN = "Round Robin";
     public static final String KEY_IS_SOUND = "is_sound";
     public static final String KEY_IS_VIBRATION = "is_vibration";
-    public static final String KEY_IS_NOTIFICATION= "is_notification";
+    public static final String KEY_IS_NOTIFICATION = "is_notification";
+    public static final String TEAM_NAME_PLACE_HOLDER = "@^^@";
+    public static final String COMPETATION_NAME_GROUP = "Group";
+    public static final String COMPETATION_NAME_POS = "Pos";
+    public static final String KEY_HOME = "@HOME";
+    public static final String KEY_AWAY = "@AWAY";
 }

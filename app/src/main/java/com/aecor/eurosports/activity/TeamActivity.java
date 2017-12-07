@@ -41,6 +41,8 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -225,18 +227,17 @@ public class TeamActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
-        }else{
+        } else {
             checkConnection();
         }
     }
-
 
 
     private void addGroupLeagueRow(LeagueModel mLeagueModel) {
 
         View teamLeagueView = getLayoutInflater().inflate(R.layout.row_team_leaguetable, null);
         LinearLayout ll_groupRow = (LinearLayout) teamLeagueView.findViewById(R.id.ll_groupRow);
-        if (mLeagueModel.getId().equalsIgnoreCase(mTeamDetailModel.getId())) {
+        if (!Utility.isNullOrEmpty(mLeagueModel.getId()) && !Utility.isNullOrEmpty(mTeamDetailModel.getId()) && mLeagueModel.getId().equalsIgnoreCase(mTeamDetailModel.getId())) {
             ll_groupRow.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_green));
         } else {
             ll_groupRow.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
@@ -347,11 +348,23 @@ public class TeamActivity extends BaseAppCompactActivity {
         }
         team_venue.setText(mPitchDetail);
 
-        if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
-            team_match_id.setText(mFixtureModel.getMatch_number());
+        if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayMatchNumber())) {
+            String mMatchId = mFixtureModel.getDisplayMatchNumber();
+            mMatchId = mMatchId.replace(AppConstants.KEY_HOME, mFixtureModel.getDisplayHomeTeamPlaceholderName());
+            mMatchId = mMatchId.replace(AppConstants.KEY_AWAY, mFixtureModel.getDisplayAwayTeamPlaceholderName());
+            team_match_id.setText(mMatchId);
         } else {
             team_match_id.setText("");
         }
+
+
+//        if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
+//            String mMatchId = getString(R.string.match_id) + " " + mFixtureModel.getMatch_number();
+//            team_match_id.setText(mMatchId);
+//        } else {
+//            team_match_id.setText("");
+//        }
+//
         if (!Utility.isNullOrEmpty(mFixtureModel.getGroup_name())) {
             team_age_category.setText(mFixtureModel.getGroup_name());
         } else {
@@ -372,16 +385,43 @@ public class TeamActivity extends BaseAppCompactActivity {
         } else {
             team2_score.setText("");
         }
-        if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
-            team1_name.setText(mFixtureModel.getHomeTeam());
+        if (mFixtureModel.getHome_id().equalsIgnoreCase("0") && !Utility.isNullOrEmpty(mFixtureModel.getHomeTeamName()) && mFixtureModel.getHomeTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
+            if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
+                team1_name.setText(mFixtureModel.getHomePlaceholder());
+            } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
+                team1_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getHomePlaceholder());
+            } else {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
+                    team1_name.setText(mFixtureModel.getHomeTeam());
+                } else {
+                    team1_name.setText("");
+                }
+            }
         } else {
-            team1_name.setText("");
+            if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
+                team1_name.setText(mFixtureModel.getHomeTeam());
+            } else {
+                team1_name.setText("");
+            }
         }
-
-        if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeam())) {
-            team2_name.setText(mFixtureModel.getAwayTeam());
+        if (mFixtureModel.getAway_id().equalsIgnoreCase("0") && !Utility.isNullOrEmpty(mFixtureModel.getAwayTeamName()) && mFixtureModel.getAwayTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
+            if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
+                team2_name.setText(mFixtureModel.getAwayPlaceholder());
+            } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
+                team2_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getAwayPlaceholder());
+            } else {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeam())) {
+                    team2_name.setText(mFixtureModel.getAwayTeam());
+                } else {
+                    team2_name.setText("");
+                }
+            }
         } else {
-            team2_name.setText("");
+            if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeam())) {
+                team2_name.setText(mFixtureModel.getAwayTeam());
+            } else {
+                team2_name.setText("");
+            }
         }
 
 
@@ -390,7 +430,6 @@ public class TeamActivity extends BaseAppCompactActivity {
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-
         } else if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && Integer.parseInt(mFixtureModel.getHomeScore()) > Integer.parseInt(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
@@ -461,7 +500,19 @@ public class TeamActivity extends BaseAppCompactActivity {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 TeamFixturesModel mTeamFixtureData[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamFixturesModel[].class);
                                 ll_match_header.setVisibility(View.VISIBLE);
+
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
+                                    Collections.sort(Arrays.asList(mTeamFixtureData), new Comparator<TeamFixturesModel>() {
+                                        public int compare(TeamFixturesModel o1, TeamFixturesModel o2) {
+                                            if (o1.getMatch_datetime() == null) {
+                                                return (o2.getMatch_datetime() == null) ? 0 : -1;
+                                            }
+                                            if (o2.getMatch_datetime() == null) {
+                                                return 1;
+                                            }
+                                            return o1.getMatch_datetime().compareTo(o2.getMatch_datetime());
+                                        }
+                                    });
                                     AppLogger.LogE(TAG, "mTeamFixtureData" + mTeamFixtureData.length);
                                     for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
                                         addMatchesRow(aMTeamFixtureData);
@@ -494,5 +545,12 @@ public class TeamActivity extends BaseAppCompactActivity {
         } else {
             checkConnection();
         }
+    }
+
+    @OnClick(R.id.tv_view_all_rounds)
+    protected void onViewAllRoundsClicked() {
+        Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
+        mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, mTeamDetailModel.getAge_group_id());
+        mContext.startActivity(mAgeGroupIntent);
     }
 }
