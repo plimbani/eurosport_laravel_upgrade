@@ -11,7 +11,7 @@
 							</div>
 							<div class="col-md-4 d-flex justify-content-end" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
 								<select class="form-control ls-select2"  v-on:change="getAgeCategory">
-									<option value="">All dates</option>
+									<option value="">Select age category</option>
 									<option v-for="category in competationList">
 										{{category.category_age}}
 									</option>
@@ -94,7 +94,7 @@ export default {
 	    lastUpdatedDate(updatedDate) {
 	      this.lastUpdatedDateValue = moment(updatedDate.date).format("Do MMM YYYY HH:mm")
 	    },
-	    
+
 		getAgeCategory() {
 			this.TournamentId = this.$store.state.Tournament.tournamentId
 			
