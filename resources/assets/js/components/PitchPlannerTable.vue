@@ -21,7 +21,7 @@
                           :id="stage.stageNumber"
                           v-bind:data-target="'#demo'+stage.stageNumber">
                            <i :id="'opt_icon_'+stage.stageNumber"  class="fa fa-minus"></i>
-                           Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
+                           Day {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
                           <div :id="'demo'+stage.stageNumber"
                           class="stages collapse in show" aria-expanded="true">
                             <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>

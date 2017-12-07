@@ -23,7 +23,7 @@ import _ from 'lodash'
                 'matchFixture': {},
                 'pitchBreak':{},
                 'minDatePitch': '08:00:00',
-                'maxDatePitch': '20:05:00',
+                'maxDatePitch': '23:05:00',
                 'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
                 'remBlock_id': 0,
@@ -88,7 +88,6 @@ import _ from 'lodash'
                 // },500)
 
             setTimeout(function(){
-
                 if($(".pitch_planner_section").length > 0) {
                     setGameAndRefereeTabHeight();
                 }
@@ -99,19 +98,22 @@ import _ from 'lodash'
                 return this.$store.getters.scheduledMatches
             },
             pitchBreakAdd() {
-                let sPitch = []
+                
+                let sPitch = [];
                 _.forEach(this.stage.pitches, (pitch) => {
                     _.forEach(pitch.pitch_availability, (availability) => {
-                    sPitch.push({
+                        _.forEach(availability.pitch_breaks, (pitchBreak) => {
+                        sPitch.push({
                             'id': '',
-                            'resourceId': availability.id,
-                            'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
-                            'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
+                            'resourceId': pitch.id,
+                            'start':moment.utc(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
+                            'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                             'refereeId': -1,
                             'refereeText': '',
-                            'title':'Pitch is not available',
+                            'title':'Pitch',
                             'matchId':''
-                        })
+                            })
+                        });  
                     });
                 });
                 this.pitchBreak = sPitch
@@ -142,7 +144,7 @@ import _ from 'lodash'
                             name:'timeView',
                             buttonText: 'Time view',
                             minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
-                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'20:00:00',
+                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'23:00:00',
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15',
                             slotLabelFormat:"HH:mm",
@@ -156,7 +158,7 @@ import _ from 'lodash'
                             name:'agendaView',
                             buttonText: 'Agenda view',
                             minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
-                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'20:00:00',
+                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'23:00:00',
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15',
                             slotLabelFormat:"HH:mm",
@@ -289,7 +291,7 @@ import _ from 'lodash'
                             };
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
-                                    if(response.data.data != -1){
+                                    if(response.data.data != -1 && response.data.data != -2){
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
                                             let matchScheduleChk =new Promise((resolve, reject) => {
                                                 resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue));
@@ -499,34 +501,11 @@ import _ from 'lodash'
                             sMatches.push(mData)
                             }
                         });
-                        let minTimePitchAvail = []
-                        let maxTimePitchAvail = []
+
                         let sPitch = []
+
                         _.forEach(this.stage.pitches, (pitch) => {
                             _.forEach(pitch.pitch_availability, (availability) => {
-                                if(availability.stage_start_time != '08:00:00' ){
-                                    minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'))
-                                }
-                                if(availability.stage_start_time != '20:00:00' ){
-                                    maxTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'))
-                                }
-                                let mData = {
-                                    'id': counter,
-                                    'resourceId': pitch.id,
-                                    'start':moment(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
-                                    'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
-                                    'refereeId': -1,
-                                    'refereeText': 'R',
-                                    'title':'Pitch is not available',
-                                    'color': 'grey',
-                                    'textColor': '#FFFFFF',
-                                    'borderColor': 'grey',
-                                    'matchId':-1,
-                                    'matchAgeGroupId':'',
-                                    'fixtureStripColor': '',
-                                    'displayFlag': ''
-                                }
-
                                 if(availability.stage_start_time != '08:00'){
                                     let mData1 = {
                                         'id': 'start_'+counter,
@@ -545,13 +524,14 @@ import _ from 'lodash'
                                         'displayFlag':''
                                     }
                                     sMatches.push(mData1)
+                                    counter = counter+1;
                                 }
-                                if(availability.stage_end_time != '20:00'){
+                                if(availability.stage_end_time != '23:00'){
                                     let mData2 = {
-                                        'id': 'end_'+counter,
+                                        'id': 'end_'+counter,   
                                         'resourceId': pitch.id,
                                         'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'),
-                                        'end': moment.utc(availability.stage_start_date+' '+'20:00:00','DD/MM/YYYY HH:mm:ss'),
+                                        'end': moment.utc(availability.stage_start_date+' '+'23:00:00','DD/MM/YYYY HH:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
@@ -563,13 +543,34 @@ import _ from 'lodash'
                                         'fixtureStripColor': '',
                                         'displayFlag':''
                                     }
-                                sMatches.push(mData2)
-                                }
-
-                                sMatches.push(mData)
+                                    sMatches.push(mData2)
                                     counter = counter+1;
+                                }
+                                _.forEach(availability.pitch_breaks, (pitchBreak) => {
+                                    if(pitchBreak.break_start != pitchBreak.break_end) {
+                                        let mData = {
+                                            'id': counter,
+                                            'resourceId': pitch.id,
+                                            'start':moment(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
+                                            'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
+                                            'refereeId': -1,
+                                            'refereeText': 'R',
+                                            'title':'Pitch is not available',
+                                            'color': 'grey',
+                                            'textColor': '#FFFFFF',
+                                            'borderColor': 'grey',
+                                            'matchId':-1,
+                                            'matchAgeGroupId':'',
+                                            'fixtureStripColor': '',
+                                            'displayFlag': ''
+                                        }
+
+                                        sMatches.push(mData)
+                                        counter = counter+1;
+                                    }
                                 });
                             });
+                        });
                         this.scheduledMatches =sMatches
 
                         this.stageWithoutPitch()
@@ -592,7 +593,7 @@ import _ from 'lodash'
 
               if(this.stage.pitches.length == 0) {
                 let start_date = this.stage.tournamentStartDate + '08:00:00'
-                let end_date = this.stage.tournamentStartDate + '20:00:00'
+                let end_date = this.stage.tournamentStartDate + '23:00:00'
 
                 let mData21 = {
                     'id': '111212',

@@ -166,7 +166,7 @@ class MatchService implements MatchContract
             if($scheduledResult != -1 && $scheduledResult != -2){
               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully'];
             } else if($scheduledResult == -1){
-              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully'];
+              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.'];
             } else if($scheduledResult == -2){
                return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'This pitch is the wrong pitch size for this fixture.'];
             }

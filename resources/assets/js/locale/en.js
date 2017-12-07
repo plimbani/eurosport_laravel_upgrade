@@ -256,6 +256,7 @@ module.exports= {
   pitch_details_note: "Please complete information on both tabs before saving",
   pitch_detail_tabs: "Please complete information on both tabs before saving",
   pitch_detail_delete: "Delete",
+  pitch_detail_delete_stage: "Delete stage",
   pitch_availability: "Availability",
   pitch_number: "Number",
   pitch_type: "Type",
@@ -282,7 +283,7 @@ module.exports= {
   pitch_totals: "Pitch totals",
   totals: "Totals",
 
-  pitch_availability_stage: "Stage",
+  pitch_availability_stage: "Day",
   pitch_availability_date: "Date",
   pitch_availability_time: "Time",
   pitch_availability_capacity: "Capacity",
@@ -314,12 +315,12 @@ module.exports= {
   pitch_modal_details_name: "Pitch name*",
   pitch_modal_availability: "Pitch availability",
   pitch_modal_action: "Actions",
-  pitch_modal_availability_stage: "Stage",
+  pitch_modal_availability_stage: "Day",
   pitch_modal_availability_date: "Date",
   pitch_modal_availability_time: "Time",
   pitch_modal_availability_capacity: "Capacity",
-  pitch_modal_availability_button_addstage: "Add stage",
-  pitch_modal_availability_button_add: "Add stage",
+  pitch_modal_availability_button_addstage: "Add day",
+  pitch_modal_availability_button_add: "Add day",
 
   pitch_modal_edit_pitch_button: "Delete",
   pitch_modal_edit_pitch_cancel_button: "Cancel",
@@ -565,4 +566,7 @@ module.exports= {
   // Group colours
   pitch_planner_group_colours: "Group colours",
   pitch_planner_group_colours_title: "Group Colours",
+
+  pitch_detail_break_add: "Add break",
+  pitch_detail_break_remove: "Delete break",
 }
