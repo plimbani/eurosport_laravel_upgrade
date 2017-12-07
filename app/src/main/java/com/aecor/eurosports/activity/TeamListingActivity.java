@@ -193,6 +193,13 @@ public class TeamListingActivity extends BaseAppCompactActivity {
             @Override
             public int compare(TeamDetailModel lhs, TeamDetailModel rhs) {
                 //here getTitle() method return app name...
+
+                if (lhs.getName() == null) {
+                    return (rhs.getName() == null) ? 0 : -1;
+                }
+                if (rhs.getName() == null) {
+                    return 1;
+                }
                 return lhs.getName().compareTo(rhs.getName());
             }
         });

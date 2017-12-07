@@ -3,8 +3,6 @@ package com.aecor.eurosports.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -27,14 +25,10 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -206,19 +200,18 @@ public class FavouritesActivity extends BaseAppCompactActivity {
 //        }
 
         favouriteList.addFooterView(new View(mContext));
-        Collections.sort(list, new Comparator<TournamentModel>() {
-            DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
 
+        Collections.sort(list, new Comparator<TournamentModel>() {
             public int compare(TournamentModel o1, TournamentModel o2) {
-                try {
-                    return f.parse(o2.getStart_date()).compareTo(f.parse(o1.getStart_date()));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    throw new IllegalArgumentException(e);
+                if (o1.getStart_date() == null) {
+                    return (o2.getStart_date() == null) ? 0 : -1;
                 }
+                if (o2.getStart_date() == null) {
+                    return 1;
+                }
+                return o1.getStart_date().compareTo(o2.getStart_date());
             }
         });
-
         FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, list, favList);
         favouriteList.setAdapter(adapter);
 

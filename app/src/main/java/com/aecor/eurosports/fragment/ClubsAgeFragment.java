@@ -175,6 +175,12 @@ public class ClubsAgeFragment extends Fragment {
             @Override
             public int compare(AgeCategoriesModel lhs, AgeCategoriesModel rhs) {
                 //here getTitle() method return app name...
+                if (lhs.getGroup_name() == null) {
+                    return (rhs.getGroup_name() == null) ? 0 : -1;
+                }
+                if (rhs.getGroup_name() == null) {
+                    return 1;
+                }
                 return lhs.getGroup_name().compareTo(rhs.getGroup_name());
             }
         });

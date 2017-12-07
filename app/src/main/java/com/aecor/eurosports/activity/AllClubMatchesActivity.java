@@ -29,9 +29,7 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -112,15 +110,14 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
 
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
                                     Collections.sort(Arrays.asList(mTeamFixtureData), new Comparator<TeamFixturesModel>() {
-                                        DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
                                         public int compare(TeamFixturesModel o1, TeamFixturesModel o2) {
-                                            try {
-                                                return f.parse(o1.getMatch_datetime()).compareTo(f.parse(o2.getMatch_datetime()));
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                                throw new IllegalArgumentException(e);
+                                            if (o1.getMatch_datetime() == null) {
+                                                return (o2.getMatch_datetime() == null) ? 0 : -1;
                                             }
+                                            if (o2.getMatch_datetime() == null) {
+                                                return 1;
+                                            }
+                                            return o1.getMatch_datetime().compareTo(o2.getMatch_datetime());
                                         }
                                     });
                                     for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
@@ -190,11 +187,21 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
             mPitchDetail = mPitchDetail + " - " + mFixtureModel.getPitch_number();
         }
         team_venue.setText(mPitchDetail);
-        if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
-            team_match_id.setText(mFixtureModel.getMatch_number());
+        if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayMatchNumber())) {
+            String mMatchId = mFixtureModel.getDisplayMatchNumber();
+            mMatchId = mMatchId.replace(AppConstants.KEY_HOME, mFixtureModel.getDisplayHomeTeamPlaceholderName());
+            mMatchId = mMatchId.replace(AppConstants.KEY_AWAY, mFixtureModel.getDisplayAwayTeamPlaceholderName());
+            team_match_id.setText(mMatchId);
         } else {
             team_match_id.setText("");
         }
+
+//        if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
+//             team_match_id.setText(mFixtureModel.getMatch_number());
+//        } else {
+//            team_match_id.setText("");
+//        }
+
         if (!Utility.isNullOrEmpty(mFixtureModel.getGroup_name())) {
             team_age_category.setText(mFixtureModel.getGroup_name());
         } else {

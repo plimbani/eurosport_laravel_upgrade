@@ -55,17 +55,17 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
     protected RecyclerView rv_groupList;
     @BindView(R.id.tv_no_item)
     protected TextView tv_no_item;
-    private AgeCategoriesModel mSelectedAgeCategoryModel;
-    private AppPreference mPreference;
+     private AppPreference mPreference;
     private GroupAdapter adapter;
     @BindView(R.id.ll_main_layout)
     protected LinearLayout ll_main_layout;
+    private String mAgeGroupId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.acticity_age_group);
         super.onCreate(savedInstanceState);
-        mSelectedAgeCategoryModel = getIntent().getParcelableExtra(AppConstants.ARG_AGE_CATEGORY);
+        mAgeGroupId = getIntent().getStringExtra(AppConstants.ARG_AGE_CATEGORY_ID);
         mContext = this;
         initView();
     }
@@ -115,7 +115,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
                     .getRequestQueue();
             try {
                 requestJson.put("tournamentId", mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
-                requestJson.put("competationFormatId", mSelectedAgeCategoryModel.getId());
+                requestJson.put("competationFormatId", mAgeGroupId);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -157,7 +157,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
                 }
             });
             mQueue.add(jsonRequest);
-        }else{
+        } else {
             checkConnection();
         }
     }

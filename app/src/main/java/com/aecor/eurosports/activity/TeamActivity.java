@@ -20,7 +20,6 @@ import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.LeagueModel;
 import com.aecor.eurosports.model.TeamDetailModel;
 import com.aecor.eurosports.model.TeamFixturesModel;
-import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
@@ -39,9 +38,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -351,11 +348,23 @@ public class TeamActivity extends BaseAppCompactActivity {
         }
         team_venue.setText(mPitchDetail);
 
-        if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
-            team_match_id.setText(mFixtureModel.getMatch_number());
+        if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayMatchNumber())) {
+            String mMatchId = mFixtureModel.getDisplayMatchNumber();
+            mMatchId = mMatchId.replace(AppConstants.KEY_HOME, mFixtureModel.getDisplayHomeTeamPlaceholderName());
+            mMatchId = mMatchId.replace(AppConstants.KEY_AWAY, mFixtureModel.getDisplayAwayTeamPlaceholderName());
+            team_match_id.setText(mMatchId);
         } else {
             team_match_id.setText("");
         }
+
+
+//        if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
+//            String mMatchId = getString(R.string.match_id) + " " + mFixtureModel.getMatch_number();
+//            team_match_id.setText(mMatchId);
+//        } else {
+//            team_match_id.setText("");
+//        }
+//
         if (!Utility.isNullOrEmpty(mFixtureModel.getGroup_name())) {
             team_age_category.setText(mFixtureModel.getGroup_name());
         } else {
@@ -421,7 +430,6 @@ public class TeamActivity extends BaseAppCompactActivity {
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-
         } else if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && Integer.parseInt(mFixtureModel.getHomeScore()) > Integer.parseInt(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
@@ -495,15 +503,14 @@ public class TeamActivity extends BaseAppCompactActivity {
 
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
                                     Collections.sort(Arrays.asList(mTeamFixtureData), new Comparator<TeamFixturesModel>() {
-                                        DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
                                         public int compare(TeamFixturesModel o1, TeamFixturesModel o2) {
-                                            try {
-                                                return f.parse(o1.getMatch_datetime()).compareTo(f.parse(o2.getMatch_datetime()));
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                                throw new IllegalArgumentException(e);
+                                            if (o1.getMatch_datetime() == null) {
+                                                return (o2.getMatch_datetime() == null) ? 0 : -1;
                                             }
+                                            if (o2.getMatch_datetime() == null) {
+                                                return 1;
+                                            }
+                                            return o1.getMatch_datetime().compareTo(o2.getMatch_datetime());
                                         }
                                     });
                                     AppLogger.LogE(TAG, "mTeamFixtureData" + mTeamFixtureData.length);
@@ -538,5 +545,12 @@ public class TeamActivity extends BaseAppCompactActivity {
         } else {
             checkConnection();
         }
+    }
+
+    @OnClick(R.id.tv_view_all_rounds)
+    protected void onViewAllRoundsClicked() {
+        Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
+        mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, mTeamDetailModel.getAge_group_id());
+        mContext.startActivity(mAgeGroupIntent);
     }
 }

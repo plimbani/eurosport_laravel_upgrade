@@ -216,6 +216,12 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
             tv_match_id.setText("");
         }
 
+//        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_number())) {
+//            String mMatchId = getString(R.string.match_id) + " " + mTeamFixturesModel.getMatch_number();
+//            tv_match_id.setText(mMatchId);
+//        } else {
+//            tv_match_id.setText("");
+//        }
         String mVenueDetail = "";
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getVenue_name())) {
             mVenueDetail = mTeamFixturesModel.getVenue_name();

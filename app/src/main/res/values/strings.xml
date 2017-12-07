@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Euro-Sportring</string>
     <string name="create_account">Create account</string>
+    <string name="view_all_rounds">View all rounds</string>
     <string name="sign_in">Sign in</string>
     <string name="update">Update</string>
     <string name="favorites">Favourites</string>

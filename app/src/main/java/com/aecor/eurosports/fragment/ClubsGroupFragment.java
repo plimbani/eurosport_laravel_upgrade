@@ -175,6 +175,12 @@ public class ClubsGroupFragment extends Fragment {
             @Override
             public int compare(ClubGroupModel lhs, ClubGroupModel rhs) {
                 //here getTitle() method return app name...
+                if (lhs.getName() == null) {
+                    return (rhs.getName() == null) ? 0 : -1;
+                }
+                if (rhs.getName() == null) {
+                    return 1;
+                }
                 return lhs.getName().compareTo(rhs.getName());
             }
         });
