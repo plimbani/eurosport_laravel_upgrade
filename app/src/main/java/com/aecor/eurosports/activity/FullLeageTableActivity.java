@@ -118,7 +118,7 @@ public class FullLeageTableActivity extends AppCompatActivity implements Connect
     private void addGroupLeagueRow(LeagueModel mLeagueModel) {
         View teamLeagueView = getLayoutInflater().inflate(R.layout.row_full_team_leaguetable, null);
         LinearLayout ll_row_background = (LinearLayout) teamLeagueView.findViewById(R.id.ll_row_background);
-        if (!Utility.isNullOrEmpty(mTeamId)) {
+        if (!Utility.isNullOrEmpty(mTeamId) && !Utility.isNullOrEmpty(mLeagueModel.getId())) {
             if (mLeagueModel.getId().equalsIgnoreCase(mTeamId)) {
                 ll_row_background.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_green));
             } else {

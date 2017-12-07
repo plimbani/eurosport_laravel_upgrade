@@ -38,30 +38,11 @@ public class VenueDetailActivity extends BaseAppCompactActivity {
     @OnClick(R.id.ll_view_on_map)
     protected void onViewOnMapClicked() {
 
-        String[] mLocation = mTeamFixturesModel.getVenueCoordinates().split(",");
-        String label = mTeamFixturesModel.getVenue_name();
         Intent intent = new Intent(mContext, VenueMapActivity.class);
         intent.putExtra("latlong",mTeamFixturesModel.getVenueCoordinates());
         intent.putExtra("label",mTeamFixturesModel.getVenue_name());
         startActivity(intent);
 
-        /*double latitude = Double.parseDouble(mLocation[0]);
-        double longitude = Double.parseDouble(mLocation[1]);
-        String uriBegin = "geo:" + latitude + "," + longitude;
-        String query = latitude + "," + longitude + "(" + label + ")";
-        String encodedQuery = Uri.encode(query);
-        String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
-        Uri uri = Uri.parse(uriString);
-        if (Utility.isPackageInstalled(mContext, "com.google.android.gms.maps")) {
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-        } else {
-            String mapUrl = "http://maps.google.com/maps?q=" + query;
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            CustomTabsIntent customTabsIntent = builder.build();
-            builder.setToolbarColor(getResources().getColor(R.color.colorPrimaryDark));
-            customTabsIntent.launchUrl(mContext, Uri.parse(mapUrl));
-        }*/
     }
 
     @Override

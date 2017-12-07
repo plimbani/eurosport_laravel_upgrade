@@ -128,4 +128,7 @@
         </ScrollView>
 
     </LinearLayout>
+
+    <include layout="@layout/toolbar_header" />
+
 </LinearLayout>

@@ -67,9 +67,8 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
             public void onClick(View v) {
                 if (mContext instanceof AgeCategoriesActivity) {
                     Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
-                    mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY, ageModel);
+                    mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, ageModel.getId());
                     mContext.startActivity(mAgeGroupIntent);
-
                 } else {
                     Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
                     mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, ageModel.getId() + "");
