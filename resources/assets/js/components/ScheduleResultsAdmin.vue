@@ -13,7 +13,7 @@
 								<select class="form-control ls-select2"  v-on:change="getAgeCategory">
 									<option value="">Select age category</option>
 									<option v-for="category in competationList">
-										{{category.category_age}}
+										{{category.group_name}} ({{category.category_age}})
 									</option>
 								</select>
 								<button class="btn btn-primary ml-1">Download</button>
