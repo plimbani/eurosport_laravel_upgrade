@@ -4,21 +4,20 @@
 	    	<div class="col-sm-12">
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
-						<div class="row d-flex flex-row align-items-center">
-							<div class="col-sm-6">
-								<p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}
-						            : {{lastUpdatedDateValue}}
-						            </small></p>
-			 				</div>
-
-							<div class="col-sm-3">
+						<div class="row align-items-center">
+							<div class="col-md-8">
+								<p class="mb-0"><small class="text-muted">{{$lang.summary_schedule_last_update}}
+							        : {{lastUpdatedDateValue}}</small> </p>
+							</div>
+							<div class="col-md-4 d-flex justify-content-end" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
 								<select class="form-control ls-select2"  v-on:change="getAgeCategory">
-									<option value="all">All dates</option>
+									<option value="">All dates</option>
 									<option v-for="category in competationList">
 										{{category.category_age}}
 									</option>
 								</select>
-							</div>
+								<button class="btn btn-primary ml-1" @click='exportReport()'>{{$lang.summary_button_download}}</button>
+							</div>	
 						</div>
 						<div class="tab-content summary-report-content">
 							<div class="row">
@@ -92,9 +91,10 @@ export default {
 
   	},
 	methods: {
-    lastUpdatedDate(updatedDate) {
-      this.lastUpdatedDateValue = moment(updatedDate.date).format("Do MMM YYYY HH:mm")
-    },
+	    lastUpdatedDate(updatedDate) {
+	      this.lastUpdatedDateValue = moment(updatedDate.date).format("Do MMM YYYY HH:mm")
+	    },
+	    
 		getAgeCategory() {
 			this.TournamentId = this.$store.state.Tournament.tournamentId
 			
@@ -110,10 +110,12 @@ export default {
 			)
 
 		},
+
 		setMatchData1(data) {
 			this.currentView = 'matchListing'
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 		},
+
 		setCurrentView(currentView) {
 		  if(currentView != this.currentView)
 		  {
@@ -126,12 +128,12 @@ export default {
 
 				this.currentView = 'matchListing'
 				this.$store.dispatch('setCurrentView',this.currentView)
-        this.$store.dispatch('setCurrentScheduleView','matchList')
+	   			 this.$store.dispatch('setCurrentScheduleView','matchList')
 			}
 
 			//this.$store.dispatch('setCurrentScheduleView','matchList')
 			this.currentView = currentView
-      this.$store.dispatch('setCurrentView',this.currentView)
+	  		this.$store.dispatch('setCurrentView',this.currentView)
 			/*else  {
 
 			  this.$store.dispatch('setCurrentScheduleView','')
