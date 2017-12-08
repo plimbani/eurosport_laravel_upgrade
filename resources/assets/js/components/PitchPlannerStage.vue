@@ -331,12 +331,9 @@ import _ from 'lodash'
                                 $('#matchScheduleModal').modal('show')
                                 $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                     vm.setPitchModal = 0
-                                    // setTimeout(function(){
                                     vm.matchFixture = {}
                                     vm.$store.dispatch('setCompetationWithGames');
-                                    vm.getScheduledMatch('age_category','')
-                                    // },500)
-
+                                    vm.getScheduledMatch()
                                 });
                              },100);
                         }
