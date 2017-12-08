@@ -62,6 +62,8 @@ public class TeamActivity extends BaseAppCompactActivity {
     protected TextView tv_group_table_title;
     @BindView(R.id.tv_view_full_league_table)
     protected TextView tv_view_full_league_table;
+    @BindView(R.id.tv_view_all_rounds)
+    protected TextView tv_view_all_rounds;
     @BindView(R.id.tv_view_all_club_matches)
     protected TextView tv_view_all_club_matches;
     @BindView(R.id.tl_group_rows)
@@ -76,7 +78,8 @@ public class TeamActivity extends BaseAppCompactActivity {
     private Context mContext;
     private AppPreference mPreference;
     private LeagueModel mLeagueModelData[];
-
+    @BindView(R.id.view_seperator)
+    protected View view_seperator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +205,8 @@ public class TeamActivity extends BaseAppCompactActivity {
                                         addGroupLeagueRow(aMLeagueModelData);
                                     }
                                     tv_view_full_league_table.setVisibility(View.VISIBLE);
+                                    view_seperator.setVisibility(View.VISIBLE);
+                                    tv_view_all_rounds.setVisibility(View.VISIBLE);
                                 } else {
                                     addNoItemGroupLeagueView();
                                 }
@@ -309,6 +314,9 @@ public class TeamActivity extends BaseAppCompactActivity {
         TextView tv_noMatchesView = (TextView) noMatchesView.findViewById(R.id.tv_no_item);
         tv_noMatchesView.setText(getString(R.string.no_league_data_available));
         tv_view_full_league_table.setVisibility(View.GONE);
+        view_seperator.setVisibility(View.GONE);
+        tv_view_all_rounds.setVisibility(View.GONE);
+
         tl_group_rows.addView(noMatchesView);
     }
 
