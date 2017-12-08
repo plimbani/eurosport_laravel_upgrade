@@ -8,8 +8,8 @@
         </div>
         
         <div v-if="refereeStatus"  v-for="referee in referees">
-          <div  @click="editReferee(referee.id)">
-            <draggable-referee :referee="referee" ></draggable-referee>
+          <div>
+            <draggable-referee :referee="referee"></draggable-referee>
           </div>
         </div>
       </div>

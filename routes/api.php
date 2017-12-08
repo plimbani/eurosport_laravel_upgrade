@@ -87,6 +87,7 @@ $api->version('v1', function ($api) {
     $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
 
     $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
+    $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
 
     $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding');
 
