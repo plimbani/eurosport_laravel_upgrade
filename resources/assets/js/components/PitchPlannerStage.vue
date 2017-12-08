@@ -701,8 +701,9 @@ import _ from 'lodash'
         H   = $(window).height(),
         r   = $el[0].getBoundingClientRect(), t=r.top, b=r.bottom;
         var considerHeaderHeight = 0;
-        if(($(window).scrollTop() + $("header").height()) > $el.offset().top) {
-            considerHeaderHeight = $("header").height();
+        var headerHeight = $("header").length > 0 ? $("header").height() : 0;
+        if(($(window).scrollTop() + headerHeight) > $el.offset().top) {
+            considerHeaderHeight = headerHeight;
         }
         var leftViewHeight = Math.max(0, t>0? Math.min(elH, H-t) : (b<H?b:H)) - $("#gameReferee .nav.nav-tabs").height() - parseInt($("#gameReferee .tab-content").css('margin-top').replace('px', '')) - considerHeaderHeight - 10;
         $("#game-list").css('height', leftViewHeight + 'px');

@@ -40,6 +40,9 @@ import FrontSchedule from './views/front/FrontScheduleResults.vue'
 // EuroSport Layout
 import LayoutTournament from './views/layouts/LayoutTournament.vue'
 
+// Full EuroSport Layout
+import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
+
 //EuroSport Pages
 import Welcome from './views/admin/eurosport/Welcome.vue'
 import TournamentSummaryDetails from './views/admin/eurosport/Tournament.vue'
@@ -157,17 +160,22 @@ const routes = [
         ]
     },
     {
+        path: '/admin', component: FullLayoutTournament,
+        meta: { requiresAuth: true },   
+        children: [
+            {
+                path: 'enlarge_pitch_planner',
+                component: PitchPlanner,
+                name: 'enlarge_pitch_planner'
+
+            }
+        ]
+    },
+    {
         path: '/users',
         component: LayoutUserManagement,
         meta: { requiresAuth: true },
         name: 'users_list'
-        // children: [
-        //     {
-        //         path: '/',
-        //         component: UserList,
-        //         name: 'users_list'
-        //     }
-        // ]
     },
 
    
