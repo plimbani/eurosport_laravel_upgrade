@@ -10,8 +10,8 @@ const state = {
   pitchData: {},
   pitchId:0,
   stageView:'gamesTab',
-  stages:0
-
+  stages:0,
+  isPitchPlannerInEnlargeMode: 0,
  }
 // getters
 const getters = {
@@ -112,7 +112,12 @@ const actions = {
   SetStages ({commit},stages) {
     commit(types.SET_STAGES, stages)
   },
-
+  SetPitchPlannerInEnlargeMode ({commit}) {
+    commit(types.SET_PITCH_PLANNER_IN_ENLARGE_MODE)
+  },
+  ResetPitchPlannerFromEnlargeMode ({commit}) {
+    commit(types.RESET_PITCH_PLANNER_FROM_ENLARGE_MODE)
+  },
 }
 
 // mutations
@@ -146,7 +151,12 @@ const mutations = {
     state.pitchCapacity = pitchTime
 
   },
-
+  [types.SET_PITCH_PLANNER_IN_ENLARGE_MODE] (state) {
+    state.isPitchPlannerInEnlargeMode = 1
+  },
+  [types.RESET_PITCH_PLANNER_FROM_ENLARGE_MODE] (state) {
+    state.isPitchPlannerInEnlargeMode = 0
+  },
 }
 
 export default {

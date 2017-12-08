@@ -1,5 +1,5 @@
 <template class="template-container">
-    <div class="modal fade p-0" id="enlarge_pitch_planner_modal" tabindex="-1" role="dialog" aria-labelledby="enlarge_pitch_planner_modal" aria-hidden="true">
+    <div class="modal fade p-0" id="enlarge_pitch_planner_modal" tabindex="-1" role="dialog" aria-labelledby="enlarge_pitch_planner_modal" aria-hidden="true" data-keyboard="false">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pitch planner</h5>
@@ -18,12 +18,8 @@
 
     export default {
         mounted() {
-            let vm = this;
             $('#enlarge_pitch_planner_modal').modal('show')
-            // $("#enlarge_pitch_planner_modal").one('hidden.bs.modal', function (event) {
-            //     event.stopPropagation();
-            //     vm.$router.push({name: 'pitch_planner'})
-            // });
+            this.$store.dispatch('SetPitchPlannerInEnlargeMode')
         },
         data() {
             return {
@@ -32,9 +28,11 @@
         },
         components : {
         },
-        method: {
+        methods: {
             showPitchPlanner() {
-                vm.$router.push({name: 'pitch_planner'});
+                this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
+                $('#enlarge_pitch_planner_modal').modal('hide');
+                this.$router.push({name: 'pitch_planner'});
             }
         },
     }

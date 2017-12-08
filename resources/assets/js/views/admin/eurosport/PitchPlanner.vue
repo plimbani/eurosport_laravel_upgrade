@@ -1,10 +1,10 @@
 <template>
 	<div class="tab-content">
-		<div class="card">
-			<div class="card-block pb-0 ">
+		<div class="card" :class="{ 'border-0' : isPitchPlannerInEnlargeMode }">
+			<div class="card-block pb-0" :class="{ 'p-0' : isPitchPlannerInEnlargeMode }">
           <div class="row align-items-center justify-content-start">
             <div class="col-3 align-self-center">
-              <h6 class="m-0"><strong>{{$lang.pitch_planner_label}}</strong></h6>
+              <h6 class="m-0" v-if="isPitchPlannerInEnlargeMode == 0"><strong>{{$lang.pitch_planner_label}}</strong></h6>
             </div>
             <div class="col-9 align-self-center">
               <pitchPlannerFilter :section="section"></pitchPlannerFilter>
@@ -68,6 +68,9 @@ var moment = require('moment');
         }else{
           return false
         }
+      },
+      isPitchPlannerInEnlargeMode() {
+        return this.$store.state.Pitch.isPitchPlannerInEnlargeMode
       }
     },
     methods: {
