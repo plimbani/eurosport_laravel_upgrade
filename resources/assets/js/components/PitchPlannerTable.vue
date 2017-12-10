@@ -4,7 +4,7 @@
             <div class="col-md-12 mb-3">
                 <button class="btn btn-secondary btn-md js-pitch-planner-bt horizontal"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</button>
                 <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
-                <button class="btn btn-primary btn-md js-pitch-planner-bt vertical" @click="enlargePitchPlanner()">Enlarge</button>
+                <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                 <button class="btn btn-primary btn-md vertical" v-if="isGroupFilterSet" @click="openGroupCompetitionColourModal()">{{$lang.pitch_planner_group_colours}}</button>
             </div>
         </div>
@@ -113,33 +113,10 @@
               }else{
                 return [];
               }
+            },
+            isPitchPlannerInEnlargeMode() {
+                return this.$store.state.Pitch.isPitchPlannerInEnlargeMode
             }
-            
-            // tournamentStages() {
-            //     return this.$store.getters.getTournamentStages
-            // },
-            // tournamentStages() {
-            //     let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
-            //     let stages = [];
-
-            //     for (var i = 1; i <= this.tournamentDays; i++) {
-            //         // fetch pitches available for this day
-            //         let currentDateString  = tournamentStartDate.format('DD/MM/YYYY');
-            //         let availablePitchesForStage = _.filter(this.pitches, (pitch) => {
-            //             return _.find(pitch.pitch_availability, { 'stage_start_date': currentDateString});
-            //         });
-
-            //         stages.push({
-            //             stageNumber: i,
-            //             tournamentStartDate: currentDateString,
-            //             pitches: availablePitchesForStage
-            //         });
-
-            //         tournamentStartDate = tournamentStartDate.add(i, 'days');
-            //     }
-
-            //     return stages;
-            // }
         },
         created: function() {
             this.$root.$on('setPitchReset', this.resetPitch);
@@ -198,19 +175,16 @@
                 // });
                 // Check the initial Poistion of the Sticky Header
                 let tabWith = $('#gameReferee').width()+10;
-                let setGameHeight = $('.tab-content').height()-100;
                 var siteHeaderTop = $('.site-header').length > 0 ? $('.site-header').offset().top : 0;
                 var siteHeaderHeight = $('.site-header').length > 0 ? $('.site-header').height() : 0;
 
                 var stickyHeaderTop = (($('#gameReferee').offset().top ) - siteHeaderTop);
                 $( window ).scroll(function() {
-                      if( $(window).scrollTop() > (stickyHeaderTop - siteHeaderHeight)) {
+                    if( $(window).scrollTop() > (stickyHeaderTop - siteHeaderHeight)) {
                         $('#gameReferee').css({position: 'fixed', top: '0px', width: tabWith, 'margin-top':siteHeaderHeight});
                     } else {
                         $('#gameReferee').css({position: 'static', top: '0px',width:tabWith, 'margin-top':0});
                     }
-                    
-                  // $( "span" ).css( "display", "inline" ).fadeOut( "slow" );
                 });
             })
             $(".stages").on('shown.bs.collapse', function(){

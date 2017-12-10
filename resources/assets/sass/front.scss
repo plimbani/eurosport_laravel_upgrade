@@ -682,3 +682,26 @@ label.error {
         min-width: 130px;
     }
 }
+
+.enlarge-div {
+    background: #FFF;
+    height: 100%;
+
+    .card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+.enlarge-page-title {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #eceeef;
+}
