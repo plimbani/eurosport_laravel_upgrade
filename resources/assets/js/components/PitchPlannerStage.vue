@@ -550,7 +550,7 @@ import _ from 'lodash'
                                         let mData = {
                                             'id': counter,
                                             'resourceId': pitch.id,
-                                            'start':moment(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
+                                            'start':moment.utc(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
                                             'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                                             'refereeId': -1,
                                             'refereeText': 'R',
