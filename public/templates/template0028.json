@@ -400,7 +400,8 @@
                                     "match_number": "CAT.PM3.G1.4A-4B",
                                     "display_match_number": "CAT.3.1.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#4A",
-                                    "display_away_team_placeholder_name": "#4B"
+                                    "display_away_team_placeholder_name": "#4B",
+                                    "position": "1-2"
                                 }
                             ]
                         }

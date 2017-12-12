@@ -406,28 +406,32 @@
                                     "match_number": "CAT.PM4.G1.(PM3_G1_WR)-(PM3_G2_WR)",
                                     "display_match_number": "CAT.4.1.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "3.1",
-                                    "display_away_team_placeholder_name": "3.2"
+                                    "display_away_team_placeholder_name": "3.2",
+                                    "position": "1-2"
                                 },
                                 {
                                     "in_between": "CAT.PM3.G1LR-CAT.PM3.G2LR",
                                     "match_number": "CAT.PM4.G2.(PM3_G1_LR)-(PM3_G2_LR)",
                                     "display_match_number": "CAT.4.2.lrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "3.1",
-                                    "display_away_team_placeholder_name": "3.2"
+                                    "display_away_team_placeholder_name": "3.2",
+                                    "position": "3-4"
                                 },
                                 {
                                     "in_between": "CAT.PM3.G3WR-CAT.PM3.G4WR",
                                     "match_number": "CAT.PM4.G3.(PM3_G3_WR)-(PM3_G4_WR)",
                                     "display_match_number": "CAT.4.3.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "3.3",
-                                    "display_away_team_placeholder_name": "3.4"
+                                    "display_away_team_placeholder_name": "3.4",
+                                    "position": "5-6"
                                 },
                                 {
                                     "in_between": "CAT.PM3.G3LR-CAT.PM3.G4LR",
                                     "match_number": "CAT.PM4.G4.(PM3_G3_LR)-(PM3_G4_LR)",
                                     "display_match_number": "CAT.4.4.lrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "3.3",
-                                    "display_away_team_placeholder_name": "3.4"
+                                    "display_away_team_placeholder_name": "3.4",
+                                    "position": "7-8"
                                 }
                             ]
                         }

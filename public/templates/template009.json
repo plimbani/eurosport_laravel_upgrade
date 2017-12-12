@@ -257,7 +257,8 @@
                                     "display_match_number": "CAT.2.1.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#1A",
                                     "display_away_team_placeholder_name": "#1B",
-                                    "is_final_match": 1
+                                    "is_final_match": 1,
+                                    "position": "1-2"
                                 }
                             ]
                         }

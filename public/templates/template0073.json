@@ -252,7 +252,7 @@
                                     "display_away_team_placeholder_name": "A5"
                                 },
                                 {
-                                    "in_between": "1-2",    
+                                    "in_between": "1-2",
                                     "match_number": "CAT.RR1.02.A1-A2",
                                     "display_match_number": "CAT.1.2.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "A1",

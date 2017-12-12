@@ -246,21 +246,24 @@
                                     "match_number": "CAT.PM2.G1.1A-2A",
                                     "display_match_number": "CAT.2.1.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#1A",
-                                    "display_away_team_placeholder_name": "#2A"
+                                    "display_away_team_placeholder_name": "#2A",
+                                    "position": "1-2"
                                 },
                                 {
                                     "in_between": "3A - 4A",
                                     "match_number": "CAT.PM2.G2.3A-4A",
                                     "display_match_number": "CAT.2.2.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#3A",
-                                    "display_away_team_placeholder_name": "#4A"
+                                    "display_away_team_placeholder_name": "#4A",
+                                    "position": "3-4"
                                 },
                                 {
                                     "in_between": "5A - 6A",
                                     "match_number": "CAT.PM2.G3.5A-6A",
                                     "display_match_number": "CAT.2.3.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#5A",
-                                    "display_away_team_placeholder_name": "#6A"
+                                    "display_away_team_placeholder_name": "#6A",
+                                    "position": "5-6"
                                 }
                             ]
                         }

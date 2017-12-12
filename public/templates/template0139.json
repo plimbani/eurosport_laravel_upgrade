@@ -9,7 +9,7 @@
     "competation_format": "",
     "tournament_min_match": 4,
     "remark": "",
-    "avg_game_team": 4.0,
+    "avg_game_team": 4,
     "tournament_competition_ranking": {
         "format_name": [
             {
@@ -116,14 +116,16 @@
                                     "match_number": "CAT.PM2.G1.1A-2A",
                                     "display_match_number": "CAT.2.1.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#1A",
-                                    "display_away_team_placeholder_name": "#2A"
+                                    "display_away_team_placeholder_name": "#2A",
+                                    "position": "1-2"
                                 },
                                 {
                                     "in_between": "3A-4A",
                                     "match_number": "CAT.PM2.G2.3A-4A",
                                     "display_match_number": "CAT.2.2.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#3A",
-                                    "display_away_team_placeholder_name": "#4A"
+                                    "display_away_team_placeholder_name": "#4A",
+                                    "position": "3-4"
                                 }
                             ]
                         }
