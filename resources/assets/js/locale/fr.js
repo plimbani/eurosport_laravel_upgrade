@@ -544,6 +544,7 @@ module.exports = {
   summary_schedule_matches_score: "FScore",
   summary_schedule_matches_location: "FLocation",
   summary_table_heading_status: "Status",
+  summary_schedule_matches_placing: "Placing",
 
 
   manual_ranking_team_required: "FThis field is required",

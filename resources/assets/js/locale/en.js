@@ -553,7 +553,7 @@ module.exports= {
   summary_schedule_matches_score: "Score",
   summary_schedule_matches_location: "Location",
   summary_table_heading_status: "Status",
-
+  summary_schedule_matches_placing: "Placing",
 
   manual_ranking_team_required: "This field is required",
   manual_ranking_cancel: "Cancel",
