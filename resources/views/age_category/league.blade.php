@@ -1,0 +1,173 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<style type="text/css">
+  html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+  .headfoot th{
+    background-color: #eee;
+    border-bottom: solid 1px #ccc;
+    border-top: solid 1px #ccc;
+  }
+  .headfoot th:first-child{
+    border-left: solid 1px #ccc;
+  }
+  .headfoot th:last-child{
+    border-right: solid 1px #ccc;
+  }
+  .foot th{
+    padding: 8px 4px;
+  }
+
+  .tblpage{
+    width: 18cm;
+    min-height: 22.7cm;
+    margin: 0cm auto;
+  }
+</style>
+<center>
+  <img  src="{{ asset('assets/img/logo-desk.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+</center>
+@foreach($data['leagueTable'] as $league)
+  <h4>{{ $league['name'] }} standings</h4>
+  <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Played</th>
+        <th>Won</th>
+        <th>Draws</th>
+        <th>Lost</th>
+        <th>For</th>
+        <th>Against</th>
+        <th>Difference</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($league['standings'] as $match)
+        <tr>
+          <td align="center"><img src="{{ $match->teamFlag }}" height="15" width="15"> {{ $match->name }}</td>
+          <td align="center">{{ $match->played }}</td>
+          <td align="center">{{ $match->won }}</td>
+          <td align="center">{{ $match->draws }}</td>
+          <td align="center">{{ $match->lost }}</td>
+          <td align="center">{{ $match->goal_for }}</td>
+          <td align="center">{{ $match->goal_against }}</td>
+          <td align="center">{{ $match->GoalDifference }}</td>
+          <td align="center">{{ $match->points }}</td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+  <br>
+@endforeach
+@foreach($data['resultGridTable'] as $competitionId => $resultGrid)
+  <h4>{{ $resultGrid['name'] }} results grid</h4>
+  <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
+    <thead>
+      <tr>
+        <th></th>
+        @foreach($resultGrid['results'] as $team)
+          <th><img src="{{ asset($team['TeamFlag']) }}" height="15" width="15"> {{ $team['TeamName'] }}</th>
+        @endforeach
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($resultGrid['results'] as $team)
+        <tr>
+          <td align="center"><img src="{{ asset($team['TeamFlag']) }}" height="15" width="15"> {{ $team['TeamName'] }}</td>
+          @foreach($team['matches'] as $match)
+            <td align="center" @if($match == 'Y') bgcolor="#fafafa" @endif>
+              @if($match != 'Y' && $match != 'X' && $match['score'] == null)
+                {{ isset($match['date']) ? $match['date'] : '' }}
+              @else
+                {{ isset($match['score']) ? $match['score'] : '' }}
+              @endif
+            </td>
+          @endforeach
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+  <h4>{{ $resultGrid['name'] }} standings</h4>
+  <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Played</th>
+        <th>Won</th>
+        <th>Draws</th>
+        <th>Lost</th>
+        <th>For</th>
+        <th>Against</th>
+        <th>Difference</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($data['leagueTable'][$competitionId]['standings'] as $match)
+        <tr>
+          <td align="center"><img src="{{ $match->teamFlag }}" height="15" width="15"> {{ $match->name }}</td>
+          <td align="center">{{ $match->played }}</td>
+          <td align="center">{{ $match->won }}</td>
+          <td align="center">{{ $match->draws }}</td>
+          <td align="center">{{ $match->lost }}</td>
+          <td align="center">{{ $match->goal_for }}</td>
+          <td align="center">{{ $match->goal_against }}</td>
+          <td align="center">{{ $match->GoalDifference }}</td>
+          <td align="center">{{ $match->points }}</td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+  <h4>{{ $resultGrid['name'] }} matches</h4>
+  <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
+    <thead>
+      <th>Date and time</th>
+      <th>Categories</th>
+      <th>Team</th>
+      <th>Team</th>
+      <th>Score</th>
+      <th>Location</th>
+    </thead>
+    <tbody>
+      {{-- {{ dd($data['resultMatchesTable'][$competitionId]['results']) }} --}}
+      @foreach($data['resultMatchesTable'][$competitionId]['results'] as $match)
+        <tr>
+          {{-- {{ dd($match) }} --}}
+          <td align="center">{{ $match->match_datetime }}</td>
+          <td align="center">{{ $match->competation_name }}</td>
+          <td align="right">
+            @if($match->Home_id == '0' && $match->homeTeamName == '@^^@')
+              @if(strpos($match->competition_actual_name, "Group") != -1)
+                {{ $match->homePlaceholder }}
+              @else
+                Pos-{{ $match->homePlaceholder }}
+              @endif
+            @else
+              {{ $match->HomeTeam }}
+            @endif
+            <img src="{{ $match->HomeFlagLogo }}" height="15" width="15">
+          </td>
+          <td align="left">
+            <img src="{{ $match->AwayFlagLogo }}" height="15" width="15">
+            @if($match->Away_id == '0' && $match->awayTeamName == '@^^@')
+              @if(strpos($match->competition_actual_name, "Group") != -1)
+                {{ $match->awayPlaceholder }}
+              @else
+                Pos-{{ $match->awayPlaceholder }}
+              @endif
+            @else
+              {{ $match->AwayTeam }}
+            @endif
+          </td>
+          <td align="center">{{ $match->homeScore }}</td>
+          <td align="center">{{ $match->AwayScore }}</td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+@endforeach

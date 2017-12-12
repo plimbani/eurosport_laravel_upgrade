@@ -62,7 +62,7 @@ class MatchController extends BaseController
     public function createMatch(Request $request)
     {
         return $this->matchObj->createMatch($request);
-    } 
+    }
 
     /**
      * Edit  Match result.
@@ -114,11 +114,16 @@ class MatchController extends BaseController
     {
         return $this->matchObj->generateMatchPrint($request->all());
     }
+
+    public function generateCategoryReport(Request $request, $ageGroupId) {
+        return $this->matchObj->generateCategoryReport($ageGroupId);
+    }
+
     public function removeAssignedReferee(Request $request)
     {
         return $this->matchObj->removeAssignedReferee($request);
     }
-    public function assignReferee(Request $request) 
+    public function assignReferee(Request $request)
     {
         return $this->matchObj->assignReferee($request);
     }
@@ -214,7 +219,7 @@ class MatchController extends BaseController
                     'pitchId' => $pitch->id,
                     'tournamentId' => $tournamentId,
                 ];
-                
+
                 $matchRepoObj->setMatchSchedule($matchData, true);
 
                 $awayTeamScore = rand(1,20);
@@ -334,7 +339,7 @@ class MatchController extends BaseController
                 $match['match_number'] = str_replace($category, 'CAT.', $fixture->match_number);
 
                 $updatedMatchDetail = $this->matchObj->processMatch($data, $match);
-                    
+
                 $fixture->display_match_number = $updatedMatchDetail['display_match_number'];
                 $fixture->display_home_team_placeholder_name = $updatedMatchDetail['display_home_team_placeholder_name'];
                 $fixture->display_away_team_placeholder_name = $updatedMatchDetail['display_away_team_placeholder_name'];
@@ -643,7 +648,7 @@ class MatchController extends BaseController
                         $bracketStarted = true;
                     }
                 }
-                
+
                 if(strpos($awayTeamPlaceHolder, '(') === false) {
                     if((strpos($awayTeamPlaceHolder, '_WR') !== false || strpos($awayTeamPlaceHolder, '_LR') !== false)) {
 
@@ -687,7 +692,7 @@ class MatchController extends BaseController
                             $splittedMatchNumber[3] .= ')-@AWAY';
                         } else {
                             $splittedMatchNumber[3] .= '-@AWAY';
-                        }                                        
+                        }
                     }
                 } else {
                     $isWinnerOrLooser = null;
