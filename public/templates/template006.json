@@ -1,298 +1,370 @@
 {
-  "total_matches": 16,
-  "tournament_id": "006",
-  "template_font_color": "rgb(148,208,80)",
-  "tournament_teams": 7,
-   "tournament_name": "T.7.4",
-  "competition_round": "PM 1-4/RR 5-7",
-  "competition_group_round": "1x3, 1x4",
-  "competation_format": "RR1, RR2, PM/F",
-  "tournament_min_match": 4,
-  "avg_game_team":4.6,
-  "tournament_competition_ranking": {
-    "format_name": [{
-      "round": "Round 1",
-      "groups":[{
-            "Ranking": "Ranking A",
-            "group_name": "Group-A",
-            "team_count": 3,
-            "teams": [{
-                "position": "1",
-                "team": "1A"
-              },
-              {
-                "position": "2",
-                "team": "2A"
-              },
-              {
-                "position": "3",
-                "team": "3A"
-              }
-            ]
-          },
-          {
-            "Ranking": "Ranking B",
-            "group_name": "Group-B",
-            "team_count": 4,
-            "teams": [{
-                "position": "1",
-                "team": "1B"
-              },
-              {
-                "position": "2",
-                "team": "2B"
-              },
-              {
-                "position": "3",
-                "team": "3B"
-              },
-              {
-                "position": "4",
-                "team": "4B"
-              }
-            ]
-          }
+    "total_matches": 16,
+    "tournament_id": "006",
+    "template_font_color": "rgb(148,208,80)",
+    "tournament_teams": 7,
+    "tournament_name": "T.7.4",
+    "competition_round": "PM 1-4/RR 5-7",
+    "competition_group_round": "1x3, 1x4",
+    "competation_format": "RR1, RR2, PM/F",
+    "tournament_min_match": 4,
+    "avg_game_team": 4.6,
+    "tournament_competition_ranking": {
+        "format_name": [
+            {
+                "round": "Round 1",
+                "groups": [
+                    {
+                        "Ranking": "Ranking A",
+                        "group_name": "Group-A",
+                        "team_count": 3,
+                        "teams": [
+                            {
+                                "position": "1",
+                                "team": "1A"
+                            },
+                            {
+                                "position": "2",
+                                "team": "2A"
+                            },
+                            {
+                                "position": "3",
+                                "team": "3A"
+                            }
+                        ]
+                    },
+                    {
+                        "Ranking": "Ranking B",
+                        "group_name": "Group-B",
+                        "team_count": 4,
+                        "teams": [
+                            {
+                                "position": "1",
+                                "team": "1B"
+                            },
+                            {
+                                "position": "2",
+                                "team": "2B"
+                            },
+                            {
+                                "position": "3",
+                                "team": "3B"
+                            },
+                            {
+                                "position": "4",
+                                "team": "4B"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "round": "Round 2",
+                "groups": [
+                    {
+                        "Ranking": "Ranking C",
+                        "group_name": "Group-C",
+                        "team_count": 3,
+                        "teams": [
+                            {
+                                "position": "1",
+                                "team": "1C"
+                            },
+                            {
+                                "position": "2",
+                                "team": "2C"
+                            },
+                            {
+                                "position": "3",
+                                "team": "3C"
+                            }
+                        ]
+                    }
+                ]
+            }
         ]
     },
-    {
-      "round": "Round 2",
-      "groups":[{
-            "Ranking": "Ranking C",
-            "group_name": "Group-C",
-            "team_count": 3,
-            "teams": [{
-                "position": "1",
-                "team": "1C"
-              },
-              {
-                "position": "2",
-                "team": "2C"
-              },
-              {
-                "position": "3",
-                "team": "3C"
-              }
-            ]
-          }
+    "tournament_competition_graphic_view": {
+        "format_name": [
+            {
+                "name": "Round 1",
+                "groups": [
+                    {
+                        "group_name": "Group A",
+                        "match": [
+                            {
+                                "match_number": "1A > PM G1",
+                                "color": "rgb(255, 255, 0)"
+                            },
+                            {
+                                "match_number": "2A > PM G2",
+                                "color": "rgb(178, 161, 199)"
+                            },
+                            {
+                                "match_number": "3A > RR 5-7",
+                                "color": "rgb(191, 191, 191)"
+                            }
+                        ]
+                    },
+                    {
+                        "group_name": "Group B",
+                        "match": [
+                            {
+                                "match_number": "1B > PM G2",
+                                "color": "rgb(178, 161, 199)"
+                            },
+                            {
+                                "match_number": "2B > PM G1",
+                                "color": "rgb(255, 255, 0)"
+                            },
+                            {
+                                "match_number": "3B > RR 5-7",
+                                "color": "rgb(191, 191, 191)"
+                            },
+                            {
+                                "match_number": "4B > RR 5-7",
+                                "color": "rgb(191, 191, 191)"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Round 2",
+                "groups": [
+                    {
+                        "group_name": "RR5-7/Group C",
+                        "match": [
+                            {
+                                "match_number": "1C > 5th",
+                                "color": "rgb(191, 191, 191)"
+                            },
+                            {
+                                "match_number": "2C > 6th",
+                                "color": "rgb(191, 191, 191)"
+                            },
+                            {
+                                "match_number": "3C > 7th",
+                                "color": "rgb(191, 191, 191)"
+                            }
+                        ]
+                    },
+                    {
+                        "group_name": "Placing Matches",
+                        "match": [
+                            {
+                                "match_number": "1A-2B",
+                                "color": "rgb(255, 255, 0)"
+                            },
+                            {
+                                "match_number": "2A-1B",
+                                "color": "rgb(178, 161, 199)"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Round 3",
+                "groups": [
+                    {
+                        "group_name": "Placing Matches",
+                        "match": [
+                            {
+                                "match_number": "RR2.PM.WR > PM-1-2",
+                                "color": "rgb(0, 176, 240)"
+                            },
+                            {
+                                "match_number": "RR2.PM.LR > PM-3-4",
+                                "color": "rgb(0, 176, 240)"
+                            }
+                        ]
+                    }
+                ]
+            }
         ]
-    }]
-  },
-  "tournament_competition_graphic_view": {
-      "format_name": [{
-          "name": "Round 1",
-          "groups": [{
-              "group_name": "Group A",
-              "match": [{
-                  "match_number": "1A > PM G1",
-                  "color": "rgb(255, 255, 0)"
-                },
-                {
-                  "match_number": "2A > PM G2",
-                  "color": "rgb(178, 161, 199)"
-                },
-                {
-                  "match_number": "3A > RR 5-7",
-                  "color": "rgb(191, 191, 191)"
-                }
-              ]
-            },
-            {
-              "group_name": "Group B",
-              "match": [{
-                  "match_number": "1B > PM G2",
-                  "color": "rgb(178, 161, 199)"
-                },
-                {
-                  "match_number": "2B > PM G1",
-                  "color": "rgb(255, 255, 0)"
-                },
-                {
-                  "match_number": "3B > RR 5-7",
-                  "color": "rgb(191, 191, 191)"
-                },
-               {
-                  "match_number": "4B > RR 5-7",
-                  "color": "rgb(191, 191, 191)"
-               }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Round 2",
-          "groups": [{
-              "group_name": "RR5-7/Group C",
-              "match": [
-                {
-                  "match_number": "1C > 5th",
-                  "color": "rgb(191, 191, 191)"
-                },
-               {
-                  "match_number": "2C > 6th",
-                  "color": "rgb(191, 191, 191)"
-                },
-                {
-                  "match_number": "3C > 7th",
-                  "color": "rgb(191, 191, 191)"
-                }
-
-              ]
-            },
-           {
-              "group_name": "Placing Matches",
-              "match": [
-                {
-                  "match_number": "1A-2B",
-                  "color": "rgb(255, 255, 0)"
-                },
-               {
-                  "match_number": "2A-1B",
-                  "color": "rgb(178, 161, 199)"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Round 3",
-          "groups": [{
-              "group_name": "Placing Matches",
-              "match": [
-                {
-                  "match_number": "RR2.PM.WR > PM-1-2",
-                  "color": "rgb(0, 176, 240)"
-                },
-               {
-                  "match_number": "RR2.PM.LR > PM-3-4",
-                  "color": "rgb(0, 176, 240)"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-  },
-  "tournament_competation_format": {
-    "format_name": [{
-      "name": "Round 1",
-      "match_type": [{
-        "name": "RR-1*3",
-        "total_match": 3,
-        "group_count":3,
-        "groups": {
-          "group_name": "Group-A",
-          "match": [
-          {
-            "in_between": "1-2",
-            "match_number": "CAT.RR1.01.A1-A2"
-          }, {
-            "in_between": "1-3",
-            "match_number": "CAT.RR1.02.A1-A3"
-          }, {
-            "in_between": "2-3",
-            "match_number": "CAT.RR1.03.A2-A3"
-          }
-        ]
-        }
-      },
-      {
-          "name": "RR-1*4",
-          "total_match": 6,
-          "group_count": 4,
-          "groups": {
-            "group_name": "Group-B",
-            "match": [{
-              "in_between": "1-2",
-              "match_number": "CAT.RR1.01.B1-B2"
-            }, {
-              "in_between": "3-4",
-              "match_number": "CAT.RR1.01.B3-B4"
-            }, {
-              "in_between": "1-3",
-              "match_number": "CAT.RR1.02.B1-B3"
-            },
-            {
-              "in_between": "2-4",
-              "match_number": "CAT.RR1.02.B2-B4"
-            }, {
-              "in_between": "1-4",
-              "match_number": "CAT.RR1.03.B1-B4"
-            }, {
-              "in_between": "2-3",
-              "match_number": "CAT.RR1.03.B2-B3"
-            }
-
-            ]
-          }
-        }
-    ]
-    }, {
-      "name": "Round 2",
-      "match_type": [{
-        "name": "RR-1*3",
-        "total_match": 3,
-        "group_count": 3,
-        "groups": {
-          "group_name": "Group-C",
-          "match": [
-            {
-            "in_between": "3A - 3B",
-            "match_number": "CAT.RR2.01.3A-3B"
-            },
-           {
-            "in_between": "3A - 4B",
-            "match_number": "CAT.RR2.02.3A-4B"
-            },
-            {
-            "in_between": "3B - 4B",
-            "match_number": "CAT.RR2.03.3B-4B"
-            }
-          ]
-        }
-      },
-      {
-        "name": "PM-1*4",
-        "total_match": 2,
-        "group_count": 4,
-        "groups": {
-          "group_name": "Group-PM1",
-          "match": [
-            {
-            "in_between": "1A-2B",
-            "match_number": "CAT.PM2.G1.1A-2B"
-            },
-            {
-            "in_between": "2A-1B",
-            "match_number": "CAT.PM2.G2.2A-1B"
-            }
-          ]
-        }
-      }
-    ]
     },
-    {
-      "name": "Round 3",
-      "match_type": [
-      {
-        "name": "PM-1*4",
-        "total_match": 2,
-        "group_count": 4,
-        "groups": {
-          "group_name": "Group-PM2",
-          "match": [
+    "tournament_competation_format": {
+        "format_name": [
             {
-            "in_between": "CAT.PM2.G1.WR-CAT.PM2.G2.WR",
-            "match_number": "CAT.PM3.G1.1A_2B_WR-2A_1B_WR"
+                "name": "Round 1",
+                "match_type": [
+                    {
+                        "name": "RR-1*3",
+                        "total_match": 3,
+                        "group_count": 3,
+                        "groups": {
+                            "group_name": "Group-A",
+                            "match": [
+                                {
+                                    "in_between": "1-2",
+                                    "match_number": "CAT.RR1.01.A1-A2",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "A1",
+                                    "display_away_team_placeholder_name": "A2"
+                                },
+                                {
+                                    "in_between": "1-3",
+                                    "match_number": "CAT.RR1.02.A1-A3",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "A1",
+                                    "display_away_team_placeholder_name": "A3"
+                                },
+                                {
+                                    "in_between": "2-3",
+                                    "match_number": "CAT.RR1.03.A2-A3",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "A2",
+                                    "display_away_team_placeholder_name": "A3"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "RR-1*4",
+                        "total_match": 6,
+                        "group_count": 4,
+                        "groups": {
+                            "group_name": "Group-B",
+                            "match": [
+                                {
+                                    "in_between": "1-2",
+                                    "match_number": "CAT.RR1.01.B1-B2",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B1",
+                                    "display_away_team_placeholder_name": "B2"
+                                },
+                                {
+                                    "in_between": "3-4",
+                                    "match_number": "CAT.RR1.01.B3-B4",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B3",
+                                    "display_away_team_placeholder_name": "B4"
+                                },
+                                {
+                                    "in_between": "1-3",
+                                    "match_number": "CAT.RR1.02.B1-B3",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B1",
+                                    "display_away_team_placeholder_name": "B3"
+                                },
+                                {
+                                    "in_between": "2-4",
+                                    "match_number": "CAT.RR1.02.B2-B4",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B2",
+                                    "display_away_team_placeholder_name": "B4"
+                                },
+                                {
+                                    "in_between": "1-4",
+                                    "match_number": "CAT.RR1.03.B1-B4",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B1",
+                                    "display_away_team_placeholder_name": "B4"
+                                },
+                                {
+                                    "in_between": "2-3",
+                                    "match_number": "CAT.RR1.03.B2-B3",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B2",
+                                    "display_away_team_placeholder_name": "B3"
+                                }
+                            ]
+                        }
+                    }
+                ]
             },
             {
-            "in_between": "CAT.PM2.G1.WR-CAT.PM2.G2.WR",
-            "match_number": "CAT.PM3.G2.1A_2B_LR-2A_1B_LR"
+                "name": "Round 2",
+                "match_type": [
+                    {
+                        "name": "RR-1*3",
+                        "total_match": 3,
+                        "group_count": 3,
+                        "groups": {
+                            "group_name": "Group-C",
+                            "match": [
+                                {
+                                    "in_between": "3A - 3B",
+                                    "match_number": "CAT.RR2.01.3A-3B",
+                                    "display_match_number": "CAT.2.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#3A",
+                                    "display_away_team_placeholder_name": "#3B"
+                                },
+                                {
+                                    "in_between": "3A - 4B",
+                                    "match_number": "CAT.RR2.02.3A-4B",
+                                    "display_match_number": "CAT.2.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#3A",
+                                    "display_away_team_placeholder_name": "#4B"
+                                },
+                                {
+                                    "in_between": "3B - 4B",
+                                    "match_number": "CAT.RR2.03.3B-4B",
+                                    "display_match_number": "CAT.2.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#3B",
+                                    "display_away_team_placeholder_name": "#4B"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "PM-1*4",
+                        "total_match": 2,
+                        "group_count": 4,
+                        "groups": {
+                            "group_name": "Group-PM1",
+                            "match": [
+                                {
+                                    "in_between": "1A-2B",
+                                    "match_number": "CAT.PM2.G1.1A-2B",
+                                    "display_match_number": "CAT.2.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#1A",
+                                    "display_away_team_placeholder_name": "#2B"
+                                },
+                                {
+                                    "in_between": "2A-1B",
+                                    "match_number": "CAT.PM2.G2.2A-1B",
+                                    "display_match_number": "CAT.2.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#2A",
+                                    "display_away_team_placeholder_name": "#1B"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "Round 3",
+                "match_type": [
+                    {
+                        "name": "PM-1*4",
+                        "total_match": 2,
+                        "group_count": 4,
+                        "groups": {
+                            "group_name": "Group-PM2",
+                            "match": [
+                                {
+                                    "in_between": "CAT.PM2.G1.WR-CAT.PM2.G2.WR",
+                                    "match_number": "CAT.PM3.G1.1A_2B_WR-2A_1B_WR",
+                                    "display_match_number": "CAT.3.1.wrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.1",
+                                    "display_away_team_placeholder_name": "2.2",
+                                    "position": "1-2"
+                                },
+                                {
+                                    "in_between": "CAT.PM2.G1.LR-CAT.PM2.G2.LR",
+                                    "match_number": "CAT.PM3.G2.1A_2B_LR-2A_1B_LR",
+                                    "display_match_number": "CAT.3.2.lrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.1",
+                                    "display_away_team_placeholder_name": "2.2",
+                                    "position": "3-4"
+                                }
+                            ]
+                        }
+                    }
+                ]
             }
-          ]
-        }
-      }
-    ]
+        ]
     }
-  ]
-  }
 }
