@@ -3,6 +3,8 @@
 namespace Laraspace\Api\Services;
 
 use DB;
+use File;
+use Storage;
 use Laraspace\Api\Contracts\MatchContract;
 use Validator;
 use Laraspace\Model\Role;
@@ -2039,5 +2041,45 @@ class MatchService implements MatchContract
         $updatedMatchDetail['display_away_team_placeholder_name'] = $displayAwayTeamPlaceHolderName;
 
         return $updatedMatchDetail;
+    }
+
+    public function insertPositionsForPlacingMatches()
+    {
+        $files = File::allFiles('templates');
+        foreach ($files as $file)
+        {
+            $allTemplateMatchNumber = [];
+            $filePath = (string)$file;
+            $updatedFilePath = str_replace('templates/', 'updatedtemplates/', $filePath);
+            $json = json_decode(file_get_contents($filePath), true);
+            $updatedJson = $json;
+
+            $allRounds = $json['tournament_competation_format']['format_name'];
+            $allUpdatedRounds = $allRounds;
+            $lastRound = $allRounds[count($allRounds) - 1];
+            $lastMatchType = $lastRound['match_type'][count($lastRound['match_type']) - 1];
+
+            $matchTypeName = $lastMatchType['name'];
+            if(isset($lastMatchType['actual_name'])) {
+              $matchTypeName = $lastMatchType['actual_name'];
+            }
+            $isPlacingMatch = strpos($matchTypeName, 'PM');
+
+            if ($isPlacingMatch !== false) {
+              echo $file. '<br/>';
+              $matches = $lastMatchType['groups']['match'];
+              $position = 1;
+              foreach($matches as $matchKey=>$match) {
+                $updatedMatchDetail = $match;
+                $updatedMatchDetail['position'] = ($position++).'-'.($position++);
+                $allUpdatedRounds[count($allRounds) - 1]['match_type'][count($lastRound['match_type']) - 1]['groups']['match'][$matchKey] = $updatedMatchDetail;
+              }
+            }
+
+            $updatedJson['tournament_competation_format']['format_name'] = $allUpdatedRounds;
+
+            Storage::put($updatedFilePath, json_encode($updatedJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+        echo "All templates processed.";exit;
     }
 }
