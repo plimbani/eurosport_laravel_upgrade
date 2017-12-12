@@ -452,16 +452,14 @@
                                     "match_number": "CAT.PM2.G1.4A-4C",
                                     "display_match_number": "CAT.2.1.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#4A",
-                                    "display_away_team_placeholder_name": "#4C",
-                                    "position": "1-2"
+                                    "display_away_team_placeholder_name": "#4C"
                                 },
                                 {
                                     "in_between": "4B-5C",
                                     "match_number": "CAT.PM2.G2.4B-5C",
                                     "display_match_number": "CAT.2.2.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#4B",
-                                    "display_away_team_placeholder_name": "#5C",
-                                    "position": "3-4"
+                                    "display_away_team_placeholder_name": "#5C"
                                 },
                                 {
                                     "in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",
@@ -469,7 +467,7 @@
                                     "display_match_number": "CAT.2.3.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "2.1",
                                     "display_away_team_placeholder_name": "2.2",
-                                    "position": "5-6"
+                                    "position": "10-11"
                                 },
                                 {
                                     "in_between": "CAT.PM2.G1LR-CAT.PM2.G2LR",
@@ -477,7 +475,7 @@
                                     "display_match_number": "CAT.2.4.lrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "2.1",
                                     "display_away_team_placeholder_name": "2.2",
-                                    "position": "7-8"
+                                    "position": "12-13"
                                 }
                             ]
                         }
