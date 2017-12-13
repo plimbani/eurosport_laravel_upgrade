@@ -151,7 +151,7 @@ class MatchController extends BaseController
     public function generateRefereeReportCard(Request $request, $refereeId){
 
         $referee = TempFixture::with('pitch','referee')->where('referee_id', $refereeId)
-                    ->orderBy('match_datetime','asc')->get();
+                                ->orderBy('match_datetime','asc')->get();
         
 
         $resultData = $referee->toArray();

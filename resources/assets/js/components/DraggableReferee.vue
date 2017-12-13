@@ -47,14 +47,14 @@ export default {
             });
         },
 
-        generateRefreeReport(){
+        generateRefreeReport() {
             let refereeId = this.referee.id
             var win = window.open("/api/match/reportCard/" + refereeId, '_blank');
             win.focus();
         },
-        editReferee() {
+        editReferee() { 
             this.$root.$emit('editReferee', this.referee.id)
-        },
+        }
     }    
 };
     

@@ -51,22 +51,21 @@
             this.$root.$on('getAllReferee', this.getAllreferees);
 
     },
-    mounted(){
-           
-            this.$store.dispatch('getAllReferee',this.tournamentId);
-             // this.getAllreferees()
-            $("#addReferee").on('hidden.bs.modal', function () {
-                $('#frmAddReferee')[0].reset()
-            });
+    mounted() {
+      this.$store.dispatch('getAllReferee',this.tournamentId);
+       // this.getAllreferees()
+      $("#addReferee").on('hidden.bs.modal', function () {
+          $('#frmAddReferee')[0].reset()
+      });
 
-            //this.displayTournamentCompetationList()
-            $("#referee-list").mCustomScrollbar({
-               'autoHideScrollbar':true
-            });
-        },
+      //this.displayTournamentCompetationList()
+      $("#referee-list").mCustomScrollbar({
+         'autoHideScrollbar':true
+      });
+    },
     methods: {
+
       getAllreferees() {
-       
         this.referees = this.$store.state.Tournament.referees
       },
             // getAllReferee() {
@@ -88,17 +87,15 @@
             //       }
             //     )
             // },
-            addReferee(){
+      addReferee(){
 
-                $('#addReferee').modal('show')
-            },
-            editReferee (rId){
-              this.$root.$emit('editReferee', rId)
-            }
+          $('#addReferee').modal('show')
+      },
+     
             // editPitch(pitchId) {
             //     this.pitchId = pitchId
             //     this.$store.dispatch('PitchData',pitchId)
             // },
-        }
+    }
   }
 </script>
