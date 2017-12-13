@@ -711,8 +711,7 @@
                                     "match_number": "CAT.PM3.G11.6C-6D",
                                     "display_match_number": "CAT.3.11.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#6C",
-                                    "display_away_team_placeholder_name": "#6D",
-                                    "position": "21-22"
+                                    "display_away_team_placeholder_name": "#6D"
                                 }
                             ]
                         }
