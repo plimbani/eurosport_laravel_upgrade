@@ -10,14 +10,14 @@
 							        : {{lastUpdatedDateValue}}</small> </p>
 							</div>
 							<div class="col-md-4 d-flex justify-content-end" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
-								<select class="form-control ls-select2"  v-on:change="getAgeCategory">
+								<select class="form-control ls-select2" v-model="ageCategory">
 									<option value="">Select age category</option>
-									<option v-for="category in competationList">
+									<option v-for="category in competationList" :value="category.id">
 										{{category.group_name}} ({{category.category_age}})
 									</option>
 								</select>
-								<button class="btn btn-primary ml-1">Download</button>
-							</div>	
+								<button class="btn btn-primary ml-1" @click="exportCategoryReport()">Download</button>
+							</div>
 						</div>
 						<div class="tab-content summary-report-content">
 							<div class="row">
@@ -68,9 +68,11 @@ import DrawDetails from './DrawDetails.vue'
 export default {
 	data() {
 		return {
-			 TournamentId: '',competationList : {},
-			// here we dispatch method for set currentView
-			currentView: '',lastUpdatedDateValue: ''
+			TournamentId: '',
+			competationList : {},
+			ageCategory: '',
+			currentView: '',
+			lastUpdatedDateValue: ''
 		}
 	},
 	mounted(){
@@ -97,13 +99,13 @@ export default {
 
 		getAgeCategory() {
 			this.TournamentId = this.$store.state.Tournament.tournamentId
-			
+
 			let TournamentData = {'tournament_id': this.TournamentId}
 
 			Tournament.getCompetationFormat(TournamentData).then(
 			  	(response) => {
 			 		this.competationList = response.data.data
-			  		},
+		  		},
 			    (error) => {
 
 			  	}
@@ -141,6 +143,14 @@ export default {
 			}*/
 		  }
 			// Here we again
+		},
+		exportCategoryReport() {
+			let AgeCategory	= this.ageCategory
+			if(AgeCategory!=''){
+    			window.location.href = "/api/match/report/generate/"+AgeCategory;
+			} else {
+    			toastr['error']('Please select age category.', 'Error');
+			}
 		}
 	}
 }

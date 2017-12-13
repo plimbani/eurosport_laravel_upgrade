@@ -26,6 +26,10 @@
     min-height: 22.7cm;
     margin: 0cm auto;
   }
+  div.breakNow {
+    page-break-inside:avoid;
+    page-break-after:always;
+  }
 </style>
 <center>
   <img  src="{{ asset('assets/img/logo-desk.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
@@ -80,7 +84,7 @@
         <tr>
           <td align="center"><img src="{{ asset($team['TeamFlag']) }}" height="15" width="15"> {{ $team['TeamName'] }}</td>
           @foreach($team['matches'] as $match)
-            <td align="center" @if($match == 'Y') bgcolor="#fafafa" @endif>
+            <td align="center" @if($match == 'Y') bgcolor="#ededed" @endif>
               @if($match != 'Y' && $match != 'X' && $match['score'] == null)
                 {{ isset($match['date']) ? $match['date'] : '' }}
               @else
@@ -134,11 +138,57 @@
       <th>Location</th>
     </thead>
     <tbody>
-      {{-- {{ dd($data['resultMatchesTable'][$competitionId]['results']) }} --}}
       @foreach($data['resultMatchesTable'][$competitionId]['results'] as $match)
         <tr>
-          {{-- {{ dd($match) }} --}}
-          <td align="center">{{ $match->match_datetime }}</td>
+          <td align="center">{{ Carbon\Carbon::parse($match->match_datetime)->format('jS M Y H:i') }}</td>
+          <td align="center">{{ $match->competation_name }}</td>
+          <td align="right">
+            @if($match->Home_id == '0' && $match->homeTeamName == '@^^@')
+              @if(strpos($match->competition_actual_name, "Group") != -1)
+                {{ $match->homePlaceholder }}
+              @else
+                Pos-{{ $match->homePlaceholder }}
+              @endif
+            @else
+              {{ $match->HomeTeam }}
+            @endif
+            <img src="{{ $match->HomeFlagLogo }}" height="15" width="15">
+          </td>
+          <td align="left">
+            <img src="{{ $match->AwayFlagLogo }}" height="15" width="15">
+            @if($match->Away_id == '0' && $match->awayTeamName == '@^^@')
+              @if(strpos($match->competition_actual_name, "Group") != -1)
+                {{ $match->awayPlaceholder }}
+              @else
+                Pos-{{ $match->awayPlaceholder }}
+              @endif
+            @else
+              {{ $match->AwayTeam }}
+            @endif
+          </td>
+          <td align="center">{{ $match->homeScore }}</td>
+          <td align="center">{{ $match->AwayScore }}</td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+  <div class="breakNow"></div>
+@endforeach
+@foreach($data['resultMatchesTableAfterFR'] as $matches)
+  <h4>{{ $matches['name'] }} matches</h4>
+  <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
+    <thead>
+      <th>Date and time</th>
+      <th>Categories</th>
+      <th>Team</th>
+      <th>Team</th>
+      <th>Score</th>
+      <th>Location</th>
+    </thead>
+    <tbody>
+      @foreach($matches['results'] as $match)
+        <tr>
+          <td align="center">{{ Carbon\Carbon::parse($match->match_datetime)->format('jS M Y H:i') }}</td>
           <td align="center">{{ $match->competation_name }}</td>
           <td align="right">
             @if($match->Home_id == '0' && $match->homeTeamName == '@^^@')

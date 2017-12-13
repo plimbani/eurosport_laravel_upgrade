@@ -235,13 +235,16 @@ class MatchService implements MatchContract
       $pdfData = [];
       $leagueTable = [];
       $resultGridTable = [];
+      $resultMatchesTable = [];
+      $resultMatchesTableAfterFR = [];
 
       foreach ($competitions as $competition) {
         if ($competition->actual_competition_type == "Round Robin") {
           $tournamentData = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id]];
           $result = $this->refreshStanding($tournamentData, 'yes');
           $leagueTable[$competition->id] = ['name' => $competition['name'] , 'standings' => $result['data']];
-
+        }
+        if ($competition->competation_round_no == "Round 1") {
           $tournamentDataResultGrid = ['tournamentData' => ['competationId' => $competition->id, 'tournamentId' => $competition->tournament_id]];
           $resultGrid = $this->getDrawTable(collect($tournamentDataResultGrid));
           $resultGridTable[$competition->id] = ['name' => $competition['name'], 'results' => $resultGrid['data']];
@@ -250,10 +253,16 @@ class MatchService implements MatchContract
           $resultMatches =$this->getFixtures(collect($tournamentDataMatches));
           $resultMatchesTable[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatches['data']];
         }
+        if ($competition->competation_round_no !== "Round 1") {
+          $tournamentDataMatchesAfterFR = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'is_scheduled' => 1]];
+          $resultMatchesAfterFR =$this->getFixtures(collect($tournamentDataMatchesAfterFR));
+          $resultMatchesTableAfterFR[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatchesAfterFR['data']];
+        }
       }
       $pdfData['leagueTable'] = $leagueTable;
       $pdfData['resultGridTable'] = $resultGridTable;
       $pdfData['resultMatchesTable'] = $resultMatchesTable;
+      $pdfData['resultMatchesTableAfterFR'] = $resultMatchesTableAfterFR;
       $pdf = PDF::loadView('age_category.league',['data' => $pdfData])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
@@ -264,7 +273,7 @@ class MatchService implements MatchContract
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
-        return $pdf->inline('League.pdf');
+        return $pdf->download('Summary report.pdf');
     }
 
     public function getMatchDetail($matchData) {
