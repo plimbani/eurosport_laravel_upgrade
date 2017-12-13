@@ -42,8 +42,9 @@ export default {
 		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails,TeamList
 	},
 	created: function() {
-    this.$root.$on('changeDrawListComp', this.setMatchData);
-  },
+	    this.$root.$on('changeDrawListComp', this.setMatchData);
+	    this.$root.$on('getAllDraws', this.getAllDraws);
+	},
 	methods: {
 		setMatchData(id, Name='',CompetationType='') {
 			let comp = this.$store.state.currentScheduleView

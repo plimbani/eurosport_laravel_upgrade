@@ -58,7 +58,6 @@ import _ from 'lodash'
         },
         created: function() {
             // this.$root.$on('getTeamsByTournamentFilter', this.setPitchPlannerFilter);
-            // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
             // this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
              this.$root.$on('reloadAllEvents', this.reloadAllEvents);
 
@@ -75,14 +74,13 @@ import _ from 'lodash'
                     setGameAndRefereeTabHeight();
                 }
             });
-            // this.getScheduledMatch()
         },
         methods: {
             initComponent(){
                 let vm = this
                 $("body .js-loader").removeClass('d-none');
                 // setTimeout(function(){
-                    vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
+                    vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
                     if($(".pitch_planner_section").length > 0) {
                         setGameAndRefereeTabHeight();
                     }
@@ -197,7 +195,7 @@ import _ from 'lodash'
                                     if(response.data.status_code == 200 && response.data.data.status == true){
                                          toastr.success('Referee has been assigned successfully', 'Assigned Referee ', {timeOut: 5000});
                                         vm.$store.dispatch('getAllReferee',vm.tournamentId);
-                                        vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
+                                        vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
                                         vm.reloadAllEvents()
 
                                     }else{
@@ -246,13 +244,13 @@ import _ from 'lodash'
                                         if(response.data.data != -1 && response.data.data != -2){
                                             vm.$store.dispatch('setMatches');
                                              toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
-                                             vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
+                                             vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
                                              vm.reloadAllEvents()
                                         } else {
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
                                             vm.$store.dispatch('setMatches');
                                             vm.matchFixture = {}
-                                            vm.getScheduledMatch('age_category','')
+                                            vm.getScheduledMatch()
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
                                         }
                                     }
@@ -296,7 +294,7 @@ import _ from 'lodash'
                                     if(response.data.data != -1 && response.data.data != -2){
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
                                             let matchScheduleChk =new Promise((resolve, reject) => {
-                                                resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue));
+                                                resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue));
                                             });
 
                                             matchScheduleChk.then((successMessage) => {
@@ -333,12 +331,9 @@ import _ from 'lodash'
                                 $('#matchScheduleModal').modal('show')
                                 $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                     vm.setPitchModal = 0
-                                    // setTimeout(function(){
                                     vm.matchFixture = {}
                                     vm.$store.dispatch('setCompetationWithGames');
-                                    vm.getScheduledMatch('age_category','')
-                                    // },500)
-
+                                    vm.getScheduledMatch()
                                 });
                              },100);
                         }
@@ -377,12 +372,12 @@ import _ from 'lodash'
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                 },1000)
             },
-            getScheduledMatch(filterKey='',filterValue='') {
+            getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
                 let tournamentData= [];
                 let fixtureDate = moment(this.stageDate).format('YYYY-MM-DD');
                 if(filterKey != '' && filterValue != '') {
-                    tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id,'is_scheduled':true,'fixture_date':fixtureDate}
+                    tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id,'filterDependentKey':filterDependentKey,'filterDependentValue':filterDependentValue,'is_scheduled':true,'fixture_date':fixtureDate}
                 } else {
                     tournamentData ={'tournamentId':this.tournamentId,'is_scheduled':true,'fixture_date':fixtureDate}
                 }
@@ -445,7 +440,10 @@ import _ from 'lodash'
                                     if( filterValue != '' && filterValue.id != match.tid){
                                         scheduleBlock = true
                                     }
-                                }else if(filterKey == 'location'){
+                                    if(filterDependentKey != '' && filterDependentValue != ''  && filterDependentValue != match.competitionId) {
+                                        scheduleBlock = true
+                                    }
+                                } else if(filterKey == 'location'){
                                     if( filterValue != '' && filterValue.id != match.venueId){
                                         scheduleBlock = true
                                     }
@@ -700,8 +698,9 @@ import _ from 'lodash'
         H   = $(window).height(),
         r   = $el[0].getBoundingClientRect(), t=r.top, b=r.bottom;
         var considerHeaderHeight = 0;
-        if(($(window).scrollTop() + $("header").height()) > $el.offset().top) {
-            considerHeaderHeight = $("header").height();
+        var headerHeight = $("header").length > 0 ? $("header").height() : 0;
+        if(($(window).scrollTop() + headerHeight) > $el.offset().top) {
+            considerHeaderHeight = headerHeight;
         }
         var leftViewHeight = Math.max(0, t>0? Math.min(elH, H-t) : (b<H?b:H)) - $("#gameReferee .nav.nav-tabs").height() - parseInt($("#gameReferee .tab-content").css('margin-top').replace('px', '')) - considerHeaderHeight - 10;
         $("#game-list").css('height', leftViewHeight + 'px');

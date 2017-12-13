@@ -370,24 +370,26 @@ class MatchRepository
           if(isset($tournamentData['filterKey']) && $tournamentData['filterKey'] !='') {
             switch($tournamentData['filterKey']) {
               case 'location':
-               $reportQuery =  $reportQuery->where('temp_fixtures.venue_id','=',$tournamentData['filterValue']);
-               break;
-              case 'age_category':
-               $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);
-               break;
-                case 'team':
-                 $team = $tournamentData['filterValue'];
-                 $reportQuery = $reportQuery->where(function ($query) use($team)
-                      {
-                        $query->where('temp_fixtures.home_team',$team)
-                              ->orWhere('temp_fixtures.away_team',$team);
-                      }
-                    );
-              // $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);
-               break;
-               case 'competation_group':
-                  $reportQuery =  $reportQuery->where('temp_fixtures.competition_id','=',$tournamentData['filterValue']);
+                $reportQuery =  $reportQuery->where('temp_fixtures.venue_id','=',$tournamentData['filterValue']);
                 break;
+              case 'age_category':
+                $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);
+                if(isset($tournamentData['filterDependentKey']) && $tournamentData['filterDependentKey'] !='' && isset($tournamentData['filterDependentValue']) && $tournamentData['filterDependentValue'] !='') {
+                  $reportQuery =  $reportQuery->where('temp_fixtures.competition_id','=',$tournamentData['filterDependentValue']);
+                }
+                break;
+              case 'team':
+                $team = $tournamentData['filterValue'];
+                $reportQuery = $reportQuery->where(function ($query) use($team)
+                    {
+                      $query->where('temp_fixtures.home_team',$team)
+                            ->orWhere('temp_fixtures.away_team',$team);
+                    }
+                  );
+                break;
+              case 'competation_group':
+                $reportQuery =  $reportQuery->where('temp_fixtures.competition_id','=',$tournamentData['filterValue']);
+              break;
             }
           }
         }
