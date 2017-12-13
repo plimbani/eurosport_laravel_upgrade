@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\setHomeAndAwayTeamPlaceholder::class,
         Commands\setNewMatchNumber::class,
         Commands\generateAdditionalBreaks::class,
+        Commands\generateTournamentSlugForExistingData::class,
     ];
 
     /**

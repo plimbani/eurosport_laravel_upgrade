@@ -20,6 +20,7 @@ use JWTAuth;
 
 class TournamentRepository
 {
+  public $slug;
     public function __construct()
     {
       $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
@@ -28,6 +29,11 @@ class TournamentRepository
     {
        $status = $tournamentData['status'];
        return Tournament::where('status',$status)->get();
+    }
+    public function getTournamentsBySlug($tournamentData)
+    {
+      $slug = $tournamentData;
+      return Tournament::where('slug',$slug)->first();
     }
     public function getAll($status='', $user=null)
     {
@@ -107,17 +113,42 @@ class TournamentRepository
         return TournamentTemplates::where(['total_teams'=>$data['tournamentData']['total_teams'],'minimum_matches' => $data['tournamentData']['minimum_matches']])->orderBy('name')->get();
       } else {
         // here we modified the data
-        return; 
+        return;
         // return TournamentTemplates::get();
       }
 
     }
+
+    /**
+     * Generate slug
+     *
+     */
+    public function generateSlug($title, $extra)
+    {
+      $this->getUniqueSlug($title, $extra);
+      return $this->slug;
+    }
+    /**
+     * Get unique slug name
+     *
+     */
+    public function getUniqueSlug($title, $extra)
+    {
+      $slug = str_slug($title.'-'.$extra);
+      if(Tournament::where('slug',$slug)->exists())
+      {
+          $this->generateSlug($slug, $extra+1);
+          return;
+      }
+      $this->slug=$slug;
+    }
+
     public function create($data)
     {
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
-        $newdata['maximum_teams'] = $data['maximum_teams']; 
+        $newdata['maximum_teams'] = $data['maximum_teams'];
         $newdata['start_date'] = $data['start_date'] ? $data['start_date'] : '';
         $newdata['end_date'] = $data['end_date'] ? $data['end_date'] : '';
         $newdata['website'] = $data['website'] ? $data['website'] : '';
@@ -147,6 +178,7 @@ class TournamentRepository
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
+         $newdata['slug'] = $this->generateSlug($data['name'].Carbon::createFromFormat('d/m/Y', $newdata['start_date'])->year,'');
          $newdata['status'] = 'Unpublished';
          $newdata['user_id'] = $data['user_id'];
          $tournamentId = Tournament::create($newdata)->id;
@@ -217,7 +249,7 @@ class TournamentRepository
           'twitter' => $data['twitter'],
           'website' => $data['website'],
           'maximum_teams' => $data['maximum_teams'],
-        ); 
+        );
 
         return $tournamentData;
     }
