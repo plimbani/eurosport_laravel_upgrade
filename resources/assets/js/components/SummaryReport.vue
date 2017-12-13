@@ -191,7 +191,7 @@
                         <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
                         <h2>Reports</h2>
                     </div>
-				<table class="table table-hover table-bordered" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%" style="font-size: 98%">
+				<table class="table table-hover table-bordered" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%" style="font-size: 85%">
 					<thead>
 	                    <tr>
 	                        <th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}<i class="fa fa-fw fa-sort"></i></th>
