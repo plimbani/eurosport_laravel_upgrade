@@ -7,7 +7,7 @@
             <div class="d-flex align-items-center">
 
               <button type="button" class="btn btn-primary mr-4" @click="generateMatchPrint()">{{$lang.pitch_modal_print}}</button>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal()">
+              <button type="button" class="close" @click="closeModal()">
                 <span aria-hidden="true">×</span>
               </button>
             </div>

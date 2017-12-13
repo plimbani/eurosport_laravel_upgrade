@@ -100,13 +100,12 @@ export default {
       this.filterValue = this.dropDown
        // alert(this.filterValue)
        // console.log(this.filterValue);
-      let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
+      let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
       if(this.activePath == 'teams_groups'){
         this.$root.$emit('getTeamsByTournamentFilter',this.filterKey,this.filterValue);
       }else if(this.activePath == 'pitch_planner'){
         this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
-        //this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue);
       } else {
         this.$root.$emit('getMatchByTournamentFilter',this.filterKey,this.filterValue);
       }
@@ -142,7 +141,7 @@ export default {
             this.setFilterValue()
           }
           if(tourament_key == 'location') {
-            let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue }
+            let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': '' }
             this.$store.dispatch('setTournamentFilter', tournamentFilter);
           }
         },
