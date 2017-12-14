@@ -480,9 +480,9 @@ module.exports= {
   summary_button_clear: "Clear",
   summary_button_generate: "Generate",
 
-  summary_age_category_select: "Select",
-  summary_club_select: "Select",
-  summary_team_select: "Select",
+  summary_age_category_select: "All",
+  summary_club_select: "All",
+  summary_team_select: "All",
   summary_from_select: "Select",
   summary_to_select: "Select",
   summary_location_select: "Select",
@@ -498,6 +498,7 @@ module.exports= {
   summary_reports_pitch: "Pitch",
   summary_reports_referee: "Referee",
   summary_reports_game: "Game",
+  summary_reports_match_code: "Match Code",
 
   summary_schedule: "Schedule and results",
   summary_schedule_last_update: "Last updated",

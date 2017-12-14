@@ -136,6 +136,9 @@ $api->version('v1', function ($api) {
 
     // Get Tournament Details By Status
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
+
+    $api->get('tournaments/getTournamentBySlug/{slug}', 'Laraspace\Api\Controllers\TournamentController@getTournamentBySlug');
+
     $api->post('tournament/updateStatus', 'Laraspace\Api\Controllers\TournamentController@updateStatus');
 
     // Get All Templates
@@ -201,7 +204,7 @@ $api->version('v1', function ($api) {
 
     $api->post('teams/getTeamsList','Laraspace\Api\Controllers\TeamController@getTeamsList');
     $api->post('teams/getTeamsListByCompetition','Laraspace\Api\Controllers\TeamController@getAllFromCompetitionId');
-    
+
     $api->post('users/postSetting','Laraspace\Api\Controllers\UserController@postSetting');
     $api->post('users/getSetting','Laraspace\Api\Controllers\UserController@getSetting');
     $api->post('users/updateProfileImage','Laraspace\Api\Controllers\UserController@setUserImage');
@@ -220,7 +223,7 @@ $api->version('v1', function ($api) {
     $api->get('generateDisplayMatchNumber','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumber')->name('generate.display.match.number');
 
     $api->get('generateDisplayMatchNumberForDb','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumberForDB')->name('generate.display.match.number.for.db');
-    
+
 });
 
 

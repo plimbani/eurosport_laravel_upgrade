@@ -27,7 +27,7 @@
                 <th align="center">Location</th>
                 <th align="center">Pitch</th>
                 <th align="center">Referee</th>
-                <!--<th align="center">Game</th>-->
+                <th align="center">Match Code</th>
                 <th align="center">Team</th>
                 <th align="center">Team</th>
             </tr>
@@ -44,7 +44,7 @@
     		@else
     		<td align="center"></td>
     		@endif
-    		<!--<td align="center">{{ $report->full_game }}</td>-->
+    		<td>{{ str_replace('@HOME',$report->displayHomeTeamPlaceholder,str_replace('@AWAY',$report->displayAwayTeamPlaceholder,$report->displayMatchNumber)) }}</td>
             <td align="right">
                 <span class="text-center">
                     @if($report->homeTeam == '0' && $report->homeTeamName == '@^^@')

@@ -40,6 +40,9 @@ import FrontSchedule from './views/front/FrontScheduleResults.vue'
 // EuroSport Layout
 import LayoutTournament from './views/layouts/LayoutTournament.vue'
 
+// Full EuroSport Layout
+import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
+
 //EuroSport Pages
 import Welcome from './views/admin/eurosport/Welcome.vue'
 import TournamentSummaryDetails from './views/admin/eurosport/Tournament.vue'
@@ -64,8 +67,8 @@ import UserList from './views/admin/users/List.vue'
 Vue.use(VueRouter)
 
 const routes = [
-   
-    
+
+
     /*
      |--------------------------------------------------------------------------
      | EuroSport Route File
@@ -86,11 +89,11 @@ const routes = [
                 name: 'home'
             },
             {
-                path: '/schedule_results',
+                path: '/schedule_results/:tournamentslug',
                 component: FrontSchedule,
                 name: 'front_schedule'
             },
-               
+
         ]
     },
 
@@ -102,36 +105,36 @@ const routes = [
                 path: '/',
                 component: Welcome,
                 name: 'welcome'
-            },                     
+            },
         ]
     },*/
 
     // Admin Backend Routes For Tournaments
     {
         path: '/admin', component: LayoutHorizontal,
-        meta: { requiresAuth: true }, 
+        meta: { requiresAuth: true },
         children: [
             {
                 path: '/',
                 component: Welcome,
-                name: 'welcome'       
+                name: 'welcome'
             }
         ]
-    },    
+    },
     {
         path: '/admin', component: LayoutTournament,
-        meta: { requiresAuth: true },   
+        meta: { requiresAuth: true },
         children: [
             {
                 path: 'tournaments_summary_details',
                 component: TournamentSummaryDetails,
                 name: 'tournaments_summary_details'
-            }, 
+            },
             {
                 path: 'teams_groups',
                 component: TournamentTeamGroup,
                 name: 'teams_groups'
-            }, 
+            },
             {
                 path: 'tournament_add',
                 component: TournamentAdd,
@@ -141,7 +144,7 @@ const routes = [
                 path: 'competation_format',
                 component: CompetationFormat,
                 name: 'competation_format'
-            }, 
+            },
             {
                 path: 'pitch_capacity',
                 component: PitchCapacity,
@@ -152,8 +155,20 @@ const routes = [
                 component: PitchPlanner,
                 name: 'pitch_planner'
 
-            } 
-             
+            }
+
+        ]
+    },
+    {
+        path: '/admin', component: FullLayoutTournament,
+        meta: { requiresAuth: true },   
+        children: [
+            {
+                path: 'enlarge_pitch_planner',
+                component: PitchPlanner,
+                name: 'enlarge_pitch_planner'
+
+            }
         ]
     },
     {
@@ -161,16 +176,9 @@ const routes = [
         component: LayoutUserManagement,
         meta: { requiresAuth: true },
         name: 'users_list'
-        // children: [
-        //     {
-        //         path: '/',
-        //         component: UserList,
-        //         name: 'users_list'
-        //     }
-        // ]
     },
 
-   
+
      /*
      |--------------------------------------------------------------------------
      | Auth & Registration Routes
@@ -191,7 +199,7 @@ const routes = [
                 name: 'register'
             },
         ]
-    }, 
+    },
 
     // DEFAULT ROUTE
     {   path: '*', component : NotFoundPage }

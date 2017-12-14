@@ -604,13 +604,13 @@ input[type=number] {
     overflow-x: scroll;
 }
 
-.fc-view-container .fc-view>table {
+/*.fc-view-container .fc-view>table {
     width: 760px;
 }
 
 .fc-view-container .fc-view.fc-timelineDay-view>table {
     width: 760px !important;
-}
+}*/
 
 .fc-view-container .fc-view.fc-timelineDay-view {
     overflow-x: hidden;
@@ -666,4 +666,46 @@ label.error {
 
 .form-control[disabled="disabled"] {
     opacity: 0.6;
+}
+
+.margin-right-0 {
+    margin-right: 0px;
+}
+
+.pitch-filter-form.form-inline {
+    .form-group {
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+    .m-w-130 {
+        min-width: 130px;
+    }
+}
+
+.enlarge-div {
+    background: #FFF;
+    height: 100%;
+
+    .card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+.enlarge-page-title {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #eceeef;
+}
+
+img {
+    pointer-events: none;
 }
