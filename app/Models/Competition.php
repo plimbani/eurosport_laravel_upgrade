@@ -18,6 +18,6 @@ class Competition extends Model
 
     public function TournamentCompetationTemplates()
     {
-    	return $this->belongsTo('Laraspace\Models\TournamentCompetationTemplates');
+    	return $this->belongsTo('Laraspace\Models\TournamentCompetationTemplates','tournament_competation_template_id');
     }
 }

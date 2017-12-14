@@ -56,33 +56,31 @@ class insertPositionsForPlacingMatches extends Command
                 
                 $allRounds = $json['tournament_competation_format']['format_name'];
                 
-            $allUpdatedRounds = $allRounds;
-            $lastRound = $allRounds[count($allRounds) - 1];
-            $lastMatchType = $lastRound['match_type'][count($lastRound['match_type']) - 1];
+                $allUpdatedRounds = $allRounds;
+                $lastRound = $allRounds[count($allRounds) - 1];
+                $lastMatchType = $lastRound['match_type'][count($lastRound['match_type']) - 1];
 
-            $matchTypeName = $lastMatchType['name'];
-            if(isset($lastMatchType['actual_name'])) {
-              $matchTypeName = $lastMatchType['actual_name'];
+                $matchTypeName = $lastMatchType['name'];
+                if(isset($lastMatchType['actual_name'])) {
+                  $matchTypeName = $lastMatchType['actual_name'];
+                }
+                $isPlacingMatch = strpos($matchTypeName, 'PM');
+                // if ($isPlacingMatch !== false) {
+                //     dd($file);
+                // // }
+                // dd($allUpdatedRounds[count($allRounds) - 1]['match_type'][count($lastRound['match_type']) - 1]['groups']['match'][$matchKey]);
+                if ($isPlacingMatch !== false) {
+                  // echo $file. '<br/>';
+                  $matches = $lastMatchType['groups']['match'];
+                  $position = 1;
+                  foreach($matches as $matchKey=>$match) {
+                    $updatedMatchDetail = $match;
+                    TempFixture::where('id', $fixture['id'])->update(['position'=> $match['position']]);
+                    
+                  }
+                }
+            // dd('test');
             }
-            $isPlacingMatch = strpos($matchTypeName, 'PM');
-            // if ($isPlacingMatch !== false) {
-            //     dd($file);
-            // // }
-            // dd($allUpdatedRounds[count($allRounds) - 1]['match_type'][count($lastRound['match_type']) - 1]['groups']['match'][$matchKey]);
-            if ($isPlacingMatch !== false) {
-              // echo $file. '<br/>';
-              $matches = $lastMatchType['groups']['match'];
-              $position = 1;
-              foreach($matches as $matchKey=>$match) {
-                $updatedMatchDetail = $match;
-
-                TempFixture::where('id', $fixture['id'])->update(['position'=> $match['position']]);
-                
-              }
-            }
-            dd('test');
-            // $updatedJson['tournament_competation_format']['format_name'] = $allUpdatedRounds;
-             }
 
             // foreach($tempFixtures as $fixture) {
             //     $category = $fixture->categoryAge->group_name . '-' . $fixture->categoryAge->category_age . '-';
