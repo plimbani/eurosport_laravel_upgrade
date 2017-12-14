@@ -245,9 +245,16 @@ class MatchService implements MatchContract
           $leagueTable[$competition->id] = ['name' => $competition['name'] , 'standings' => $result['data']];
         }
         if ($competition->competation_round_no == "Round 1") {
-          $tournamentDataResultGrid = ['tournamentData' => ['competationId' => $competition->id, 'tournamentId' => $competition->tournament_id]];
-          $resultGrid = $this->getDrawTable(collect($tournamentDataResultGrid));
-          $resultGridTable[$competition->id] = ['name' => $competition['name'], 'results' => $resultGrid['data']];
+          if ($competition->actual_competition_type == "Round Robin") {
+            $tournamentDataResultGrid = ['tournamentData' => ['competationId' => $competition->id, 'tournamentId' => $competition->tournament_id]];
+            $resultGrid = $this->getDrawTable(collect($tournamentDataResultGrid));
+            if($resultGrid['status_code'] != '200') {
+              $resultGrid['data'] = [];
+            }
+            $resultGridTable[$competition->id] = ['name' => $competition['name'], 'results' => $resultGrid['data']];
+          } else {
+            $resultGridTable[$competition->id] = ['name' => $competition['name'], 'results' => []];
+          }
 
           $tournamentDataMatches = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'is_scheduled' => 1]];
           $resultMatches =$this->getFixtures(collect($tournamentDataMatches));
@@ -263,6 +270,7 @@ class MatchService implements MatchContract
       $pdfData['resultGridTable'] = $resultGridTable;
       $pdfData['resultMatchesTable'] = $resultMatchesTable;
       $pdfData['resultMatchesTableAfterFR'] = $resultMatchesTableAfterFR;
+
       $pdf = PDF::loadView('age_category.league',['data' => $pdfData])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
@@ -273,7 +281,7 @@ class MatchService implements MatchContract
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
-        return $pdf->download('Summary report.pdf');
+        return $pdf->inline('Summary report.pdf');
     }
 
     public function getMatchDetail($matchData) {
