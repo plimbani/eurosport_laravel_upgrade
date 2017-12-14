@@ -225,7 +225,7 @@ class MatchService implements MatchContract
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
-        return $pdf->inline('Pitch.pdf');
+        return $pdf->download('Pitch.pdf');
     }
 
     public function generateCategoryReport($ageGroupId)
