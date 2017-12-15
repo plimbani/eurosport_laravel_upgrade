@@ -23,7 +23,16 @@
             <div id="pitch" role="tabpanel" class="tab-pane active">
               <form method="post" name="frmPitchDetail" id="frmPitchDetail">
                 <div class="form-group row">
-                    <label class="col-sm-5 form-control-label">{{$lang.pitch_modal_details_number}}</label>
+                    <label class="col-sm-5 form-control-label">{{$lang.pitch_modal_details_location}}*</label>
+                    <div class="col-sm-6">
+                    <select name="location" id="location" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('location') }"  v-model = "pitchData.pitchdetail.venue_id" >
+                        <option :value="venue.id"  v-model = "pitchData.pitchdetail.venue_id"   v-for="(venue,key) in venues">{{venue.name}}</option>
+                    </select>
+                     <span class="help is-danger" v-show="errors.has('location')">{{$lang.pitch_modal_details_location_required}}</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.pitch_modal_details_name}}</label>
                     <div class="col-sm-6">
                         <input type="text" v-model = "pitchData.pitchdetail.pitch_number"  :class="{'is-danger': errors.has('pitch_number1') }" v-validate="'required'"   name="pitch_number1"  value="" class="form-control" placeholder="e.g. '1' or '1a'">
                           <i v-show="errors.has('pitch_number1')" class="fa fa-warning"></i>
@@ -40,15 +49,6 @@
                             <option value="Other">Other</option>
                         </select>
                         <span class="help is-danger" v-show="errors.has('pitch_type')">{{$lang.pitch_modal_details_type_required}}</span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-5 form-control-label">{{$lang.pitch_modal_details_location}}</label>
-                    <div class="col-sm-6">
-                    <select name="location" id="location" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('location') }"  v-model = "pitchData.pitchdetail.venue_id" >
-                        <option :value="venue.id"  v-model = "pitchData.pitchdetail.venue_id"   v-for="(venue,key) in venues">{{venue.name}}</option>
-                    </select>
-                     <span class="help is-danger" v-show="errors.has('location')">{{$lang.pitch_modal_details_location_required}}</span>
                     </div>
                 </div>
                 <div class="  row">
