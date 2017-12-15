@@ -50,11 +50,6 @@ class AgeGroupController extends BaseController
     {
         return $this->ageGroupObj->create($request);
     }
-
-    public function ageCategoryData(Request $request)
-    {
-       $address = URL::to('/assets').'/test123.xls';
-    }
     /**
      * Edit  Age Group.
      *
