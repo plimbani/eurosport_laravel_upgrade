@@ -33,12 +33,16 @@
   thead {
     display: table-row-group;
   }
+  p {
+    font-size: 13px;
+  }
 </style>
 <center>
   <img  src="{{ asset('assets/img/logo-desk.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
 </center>
+<center><h3>League table summary</h3></center>
 @foreach($data['leagueTable'] as $league)
-  <h4>{{ $league['name'] }} standings</h4>
+  <h5>{{ $league['name'] }} standings</h5>
   @if(count($league['standings']) > 0)
     <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
       <thead>
@@ -57,7 +61,7 @@
       <tbody>
         @foreach($league['standings'] as $match)
           <tr>
-            <td align="center"><img src="{{ $match->teamFlag }}" height="15" width="15"> {{ $match->name }}</td>
+            <td align="center" style="padding: 5px 0;"><img src="{{ $match->teamFlag }}" height="15" width="15"> {{ $match->name }}</td>
             <td align="center">{{ $match->played }}</td>
             <td align="center">{{ $match->won }}</td>
             <td align="center">{{ $match->draws }}</td>
@@ -70,47 +74,49 @@
         @endforeach
       </tbody>
     </table>
-  @endif
-  @if(count($league['standings']) == 0)
-    <span>No information available</span>
+  @else
+    <p>No information available</p>
   @endif
   <br>
 @endforeach
+<div class="breakNow"></div>
+<center><h3>First round group summary</h3></center>
 @foreach($data['resultGridTable'] as $competitionId => $resultGrid)
-  <h4>{{ $resultGrid['name'] }} results grid</h4>
-  @if(count($resultGrid['results']) > 0)
-    <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
-      <thead>
-        <tr>
-          <th></th>
-          @foreach($resultGrid['results'] as $team)
-            <th><img src="{{ asset($team['TeamFlag']) }}" height="15" width="15"> {{ $team['TeamName'] }}</th>
-          @endforeach
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($resultGrid['results'] as $team)
+  @if($resultGrid['actual_competition_type'] == 'Round Robin')
+    <h5>{{ $resultGrid['name'] }} results grid</h5>
+    @if(count($resultGrid['results']) > 0)
+      <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
+        <thead>
           <tr>
-            <td align="center"><img src="{{ asset($team['TeamFlag']) }}" height="15" width="15"> {{ $team['TeamName'] }}</td>
-            @foreach($team['matches'] as $match)
-              <td align="center" @if($match == 'Y') bgcolor="#ededed" @endif>
-                @if($match != 'Y' && $match != 'X' && $match['score'] == null)
-                  {{ isset($match['date']) ? $match['date'] : '' }}
-                @else
-                  {{ isset($match['score']) ? $match['score'] : '' }}
-                @endif
-              </td>
+            <th></th>
+            @foreach($resultGrid['results'] as $team)
+              <th style="padding: 5px 0;"><img src="{{ asset($team['TeamFlag']) }}" height="15" width="15"> {{ $team['TeamName'] }}</th>
             @endforeach
           </tr>
-        @endforeach
-      </tbody>
-    </table>
-  @endif
-  @if(count($resultGrid['results']) == 0)
-    <span>No information available</span>
+        </thead>
+        <tbody>
+          @foreach($resultGrid['results'] as $team)
+            <tr>
+              <td align="center" style="padding: 5px 0;"><img src="{{ asset($team['TeamFlag']) }}" height="15" width="15"> {{ $team['TeamName'] }}</td>
+              @foreach($team['matches'] as $match)
+                <td align="center" @if($match == 'Y') bgcolor="#ededed" @endif>
+                  @if($match != 'Y' && $match != 'X' && $match['score'] == null)
+                    {{ isset($match['date']) ? $match['date'] : '' }}
+                  @else
+                    {{ isset($match['score']) ? $match['score'] : '' }}
+                  @endif
+                </td>
+              @endforeach
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    @else
+      <p>No information available</p>
+    @endif
   @endif
   @if(isset($data['leagueTable'][$competitionId]))
-    <h4>{{ $resultGrid['name'] }} standings</h4>
+    <h5>{{ $resultGrid['name'] }} standings</h5>
     @if(count($data['leagueTable'][$competitionId]['standings']) > 0)
       <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
         <thead>
@@ -129,7 +135,7 @@
         <tbody>
           @foreach($data['leagueTable'][$competitionId]['standings'] as $match)
             <tr>
-              <td align="center"><img src="{{ $match->teamFlag }}" height="15" width="15"> {{ $match->name }}</td>
+              <td align="center" style="padding: 5px 0;"><img src="{{ $match->teamFlag }}" height="15" width="15"> {{ $match->name }}</td>
               <td align="center">{{ $match->played }}</td>
               <td align="center">{{ $match->won }}</td>
               <td align="center">{{ $match->draws }}</td>
@@ -142,12 +148,11 @@
           @endforeach
         </tbody>
       </table>
-    @endif
-    @if(count($data['leagueTable'][$competitionId]['standings']) == 0)
-      <span>No information available</span>
+    @else
+      <p>No information available</p>
     @endif
   @endif
-  <h4>{{ $resultGrid['name'] }} matches</h4>
+  <h5>{{ $resultGrid['name'] }} matches</h5>
   @if(count($data['resultMatchesTable'][$competitionId]['results']) > 0)
     <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
       <thead>
@@ -163,7 +168,7 @@
           <tr>
             <td align="center">{{ Carbon\Carbon::parse($match->match_datetime)->format('jS M Y H:i') }}</td>
             <td align="center">{{ $match->competation_name }}</td>
-            <td align="right">
+            <td align="right" style="padding: 5px 10px;">
               @if($match->Home_id == '0' && $match->homeTeamName == '@^^@')
                 @if(strpos($match->competition_actual_name, "Group") != -1)
                   {{ $match->homePlaceholder }}
@@ -177,7 +182,7 @@
                 <img src="{{ $match->HomeFlagLogo }}" height="15" width="15">
               @endif
             </td>
-            <td align="left">
+            <td align="left" style="padding: 5px 10px;">
               @if($match->Away_id != '0')
                 <img src="{{ $match->AwayFlagLogo }}" height="15" width="15">
               @endif
@@ -191,20 +196,20 @@
                 {{ $match->AwayTeam }}
               @endif
             </td>
-            <td align="center">{{ $match->homeScore }}</td>
-            <td align="center">{{ $match->AwayScore }}</td>
+            <td align="center">{{ $match->homeScore . ' - ' . $match->AwayScore }}</td>
+            <td align="center">{{ $match->venue_name . ' - ' . $match->pitch_number }}</td>
           </tr>
         @endforeach
       </tbody>
     </table>
-  @endif
-  @if(count($data['resultMatchesTable'][$competitionId]['results']) == 0)
-    <span>No information available</span>
+  @else
+    <p>No information available</p>
   @endif
   <div class="breakNow"></div>
 @endforeach
-@foreach($data['resultMatchesTableAfterFR'] as $matches)
-  <h4>{{ $matches['name'] }} matches</h4>
+<center><h3>Tournament progression</h3></center>
+@foreach($data['resultMatchesTableAfterFirstRound'] as $matches)
+  <h5>{{ $matches['name'] }} matches</h5>
   @if(count($matches['results']) > 0)
     <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
       <thead>
@@ -220,7 +225,7 @@
           <tr>
             <td align="center">{{ Carbon\Carbon::parse($match->match_datetime)->format('jS M Y H:i') }}</td>
             <td align="center">{{ $match->competation_name }}</td>
-            <td align="right">
+            <td align="right" style="padding: 5px 10px;">
               @if($match->Home_id == '0' && $match->homeTeamName == '@^^@')
                 @if(strpos($match->competition_actual_name, "Group") != -1)
                   {{ $match->homePlaceholder }}
@@ -234,7 +239,7 @@
                 <img src="{{ $match->HomeFlagLogo }}" height="15" width="15">
               @endif
             </td>
-            <td align="left">
+            <td align="left" style="padding: 5px 10px;">
               @if($match->Away_id != '0')
                 <img src="{{ $match->AwayFlagLogo }}" height="15" width="15">
               @endif
@@ -248,14 +253,13 @@
                 {{ $match->AwayTeam }}
               @endif
             </td>
-            <td align="center">{{ $match->homeScore }}</td>
-            <td align="center">{{ $match->AwayScore }}</td>
+            <td align="center">{{ $match->homeScore . ' - ' . $match->AwayScore }}</td>
+            <td align="center">{{ $match->venue_name . ' - ' . $match->pitch_number }}</td>
           </tr>
         @endforeach
       </tbody>
     </table>
-  @endif
-  @if(count($matches['results']) == 0)
-    <span>No information available</span>
+  @else
+    <p>No information available</p>
   @endif
 @endforeach

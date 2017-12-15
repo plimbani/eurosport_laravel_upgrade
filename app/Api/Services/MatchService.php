@@ -251,9 +251,9 @@ class MatchService implements MatchContract
             if($resultGrid['status_code'] != '200') {
               $resultGrid['data'] = [];
             }
-            $resultGridTable[$competition->id] = ['name' => $competition['name'], 'results' => $resultGrid['data']];
+            $resultGridTable[$competition->id] = ['name' => $competition['name'], 'results' => $resultGrid['data'], 'actual_competition_type' => $competition['actual_competition_type']];
           } else {
-            $resultGridTable[$competition->id] = ['name' => $competition['name'], 'results' => []];
+            $resultGridTable[$competition->id] = ['name' => $competition['name'], 'results' => [], 'actual_competition_type' => $competition['actual_competition_type']];
           }
 
           $tournamentDataMatches = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'is_scheduled' => 1]];
@@ -261,17 +261,17 @@ class MatchService implements MatchContract
           $resultMatchesTable[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatches['data']];
         }
         if ($competition->competation_round_no !== "Round 1") {
-          $tournamentDataMatchesAfterFR = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'is_scheduled' => 1]];
-          $resultMatchesAfterFR =$this->getFixtures(collect($tournamentDataMatchesAfterFR));
-          $resultMatchesTableAfterFR[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatchesAfterFR['data']];
+          $tournamentDataMatchesAfterFirstRound = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'is_scheduled' => 1]];
+          $resultMatchesAfterFirstRound =$this->getFixtures(collect($tournamentDataMatchesAfterFirstRound));
+          $resultMatchesTableAfterFirstRound[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatchesAfterFirstRound['data']];
         }
       }
       $pdfData['leagueTable'] = $leagueTable;
       $pdfData['resultGridTable'] = $resultGridTable;
       $pdfData['resultMatchesTable'] = $resultMatchesTable;
-      $pdfData['resultMatchesTableAfterFR'] = $resultMatchesTableAfterFR;
+      $pdfData['resultMatchesTableAfterFirstRound'] = $resultMatchesTableAfterFirstRound;
 
-      $pdf = PDF::loadView('age_category.league',['data' => $pdfData])
+      $pdf = PDF::loadView('age_category.summary_report',['data' => $pdfData])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)

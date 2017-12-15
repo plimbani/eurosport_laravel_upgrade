@@ -145,9 +145,9 @@ export default {
 			// Here we again
 		},
 		exportCategoryReport() {
-			let AgeCategory	= this.ageCategory
-			if(AgeCategory!=''){
-    			window.location.href = "/api/match/report/generate/"+AgeCategory;
+			let ageCategory	= this.ageCategory
+			if(ageCategory!=''){
+    			window.location.href = "/api/match/report/generate/"+ageCategory;
 			} else {
     			toastr['error']('Please select age category.', 'Error');
 			}
