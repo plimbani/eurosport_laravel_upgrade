@@ -191,7 +191,7 @@
                         <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
                         <h2>Reports</h2>
                     </div>
-				<table class="table table-hover table-bordered table-responsive report-table" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
+				<table class="table table-hover table-bordered table-responsive report-table" v-bind:class="{ 'display_table' : reports.length == 0 }" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
 					<thead>
 	                    <tr>
 	                        <th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}<i class="fa fa-fw fa-sort"></i></th>
@@ -199,13 +199,14 @@
 	                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}<i class="fa fa-fw fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}<i class="fa fa-fw fa-sort"></i></th>
-                           <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
-                          <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
+	                        <th class="text-ceter" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
+                          <th class="text-cennter" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}<i class="fa fa-fw fa-sort"></i></th>
+                           <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
                     </tr>
 	                </thead>
 	                <tbody>
 	                	<tr v-for="report in reports">
+
 	                		<td>{{report.match_datetime | formatDate }}</td>
 	                		<td>{{report.group_name}}</td>
 	                		<td>{{report.venue_name}}</td>
@@ -252,7 +253,7 @@ export default {
         clubs: {},
         club:'',
         team:'',
-       	reports: {},
+       	reports: [],
         currentView:'summaryTab',
         reportQuery:'',
         isValidate:false,
@@ -530,7 +531,7 @@ export default {
 	    },
 	    clearForm() {
          $('#frmReport')[0].reset()
-          this.reports = {}
+          this.reports = []
           this.club = ''
           this.teams = {}
           this.team = ''
