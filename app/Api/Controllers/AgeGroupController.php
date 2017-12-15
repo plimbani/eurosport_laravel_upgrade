@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\AgeGroupContract;
-
+use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\Pitches;
 /**
  * Age Group Resource Description.
  *
@@ -50,6 +51,10 @@ class AgeGroupController extends BaseController
         return $this->ageGroupObj->create($request);
     }
 
+    public function ageCategoryData(Request $request)
+    {
+       $address = URL::to('/assets').'/test123.xls';
+    }
     /**
      * Edit  Age Group.
      *

@@ -199,9 +199,9 @@
 	                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}<i class="fa fa-fw fa-sort"></i></th>
-	                        <th class="text-ceter" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
-                          <th class="text-cennter" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}<i class="fa fa-fw fa-sort"></i></th>
-                           <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}<i class="fa fa-fw fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
+                            <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
                     	</tr>
 	                </thead>
 	                <tbody>
