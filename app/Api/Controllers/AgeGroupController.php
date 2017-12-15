@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\AgeGroupContract;
-use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\Pitches;
 /**
  * Age Group Resource Description.
  *
