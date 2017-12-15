@@ -6,8 +6,8 @@
                     {{referee.last_name}}, {{referee.first_name}}
                 </div>
                 <div>
-                    <a href="#" @click="generateRefreeReport()" class="text-primary"><i class="fa fa-print"></i></a>
-                    <a href="#" @click="editReferee()" class="text-primary mr-2"><i class="jv-icon jv-edit"></i></a>     
+                    <a href="#" @click="generateRefereeReport()" title="Referee report card" class="text-primary"><i class="fa fa-print"></i></a>
+                    <a href="#" @click="editReferee()" title="Edit referee" class="text-primary mr-2"><i class="jv-icon jv-edit"></i></a>     
                 </div>
             </div>  
         </div> 
@@ -47,7 +47,7 @@ export default {
             });
         },
 
-        generateRefreeReport() {
+        generateRefereeReport() {
             let refereeId = this.referee.id
             var win = window.open("/api/match/reportCard/" + refereeId, '_blank');
             win.focus();
