@@ -498,7 +498,7 @@ module.exports= {
   summary_reports_pitch: "Pitch",
   summary_reports_referee: "Referee",
   summary_reports_game: "Game",
-  summary_reports_match_code: "Match Code",
+  summary_reports_match_code: "Match codes",
 
   summary_schedule: "Schedule and results",
   summary_schedule_last_update: "Last updated",

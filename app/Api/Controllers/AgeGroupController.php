@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\AgeGroupContract;
-
 /**
  * Age Group Resource Description.
  *
@@ -49,7 +48,6 @@ class AgeGroupController extends BaseController
     {
         return $this->ageGroupObj->create($request);
     }
-
     /**
      * Edit  Age Group.
      *

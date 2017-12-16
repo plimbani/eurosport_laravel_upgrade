@@ -705,3 +705,15 @@ label.error {
     padding: 15px;
     border-bottom: 1px solid #eceeef;
 }
+
+img {
+    pointer-events: none;
+}
+
+.report-table th, .report-table td {
+    white-space: nowrap;
+}
+
+.display_table {
+        display: table;
+}

@@ -117,7 +117,7 @@ $api->version('v1', function ($api) {
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');
     $api->post('pitch/edit/{id}', 'Laraspace\Api\Controllers\PitchController@edit');
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch');
-
+    
     //Age Group Stuff
 
     $api->get('age_groups', 'Laraspace\Api\Controllers\AgeGroupController@getAgeGroups');
@@ -127,7 +127,6 @@ $api->version('v1', function ($api) {
     $api->post('age_group/createCompetationFomat','Laraspace\Api\Controllers\AgeGroupController@createCompetationFomat');
     $api->post('age_group/getCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat');
     $api->post('age_group/deleteCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@deleteCompetationFormat');
-
 
     $api->get('venues/getAll/{tournamentId}', 'Laraspace\Api\Controllers\VenueController@getVenues');
 
