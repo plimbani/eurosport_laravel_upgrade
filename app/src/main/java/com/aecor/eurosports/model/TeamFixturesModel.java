@@ -12,7 +12,7 @@ public class TeamFixturesModel implements Parcelable {
     private String fid;
     private String match_number;
     private String displayMatchNumber;
-     private String round;
+    private String round;
     private String competation_name;
     private String competition_actual_name;
     private String team_size;
@@ -64,6 +64,7 @@ public class TeamFixturesModel implements Parcelable {
     private String awayTeamName;
     private String displayHomeTeamPlaceholderName;
     private String displayAwayTeamPlaceholderName;
+    private String position;
 
     protected TeamFixturesModel(Parcel in) {
         displayHomeTeamPlaceholderName = in.readString();
@@ -98,6 +99,7 @@ public class TeamFixturesModel implements Parcelable {
         AwayTeam = in.readString();
         Home_id = in.readString();
         Away_id = in.readString();
+        position = in.readString();
         HomeFlagLogo = in.readString();
         AwayFlagLogo = in.readString();
         HomeCountryFlag = in.readString();
@@ -180,6 +182,7 @@ public class TeamFixturesModel implements Parcelable {
         dest.writeString(awayPlaceholder);
         dest.writeString(homeTeamName);
         dest.writeString(awayTeamName);
+        dest.writeString(position);
     }
 
     @Override
@@ -637,5 +640,13 @@ public class TeamFixturesModel implements Parcelable {
 
     public void setAwayTeamName(String awayTeamName) {
         this.awayTeamName = awayTeamName;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 }

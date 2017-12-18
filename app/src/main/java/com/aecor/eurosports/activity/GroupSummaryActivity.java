@@ -466,6 +466,9 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             public void onClick(View v) {
                 Intent mMatchInfoIntent = new Intent(mContext, MatchInformationActivity.class);
                 mMatchInfoIntent.putExtra(AppConstants.ARG_MATCH_INFO, mFixtureModel);
+                mMatchInfoIntent.putExtra(AppConstants.ARG_COMPETATION_TYPE, mGroupModel.getCompetation_type());
+                mMatchInfoIntent.putExtra(AppConstants.ARG_POSITION, mFixtureModel.getPosition());
+                mMatchInfoIntent.putExtra(AppConstants.ARG_COMPETATION_TYPE, mGroupModel.getCompetation_type());
                 startActivity(mMatchInfoIntent);
             }
         });
