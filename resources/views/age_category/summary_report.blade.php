@@ -218,6 +218,7 @@
         <th>Team</th>
         <th>Team</th>
         <th>Score</th>
+        @if($matches['competation_type'] == 'Elimination')<th>Placing</th>@endif
         <th>Location</th>
       </thead>
       <tbody>
@@ -254,6 +255,11 @@
               @endif
             </td>
             <td align="center">{{ $match->homeScore . ' - ' . $match->AwayScore }}</td>
+            @if($matches['competation_type'] == 'Elimination')
+              <td align="center">
+                {{ $match->position != null ? $match->position : 'N/A' }}
+              </td>
+            @endif
             <td align="center">{{ $match->venue_name . ' - ' . $match->pitch_number }}</td>
           </tr>
         @endforeach
