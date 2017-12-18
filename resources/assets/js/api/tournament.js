@@ -20,7 +20,7 @@ export default {
   getAllTeamsFromCompetitionId(tournamentData){
     return api.post('teams/getTeamsListByCompetition', {'tournamentData': tournamentData})
   },
-  
+
   saveCompetationFormat(compeationFormatData) {
   	return api.post('age_group/createCompetationFomat', {'compeationFormatData': compeationFormatData})
   },
@@ -98,7 +98,9 @@ export default {
   getTournamentByStatus(tournamentData) {
     return api.post('tournaments/getTournamentByStatus',{'tournamentData': tournamentData})
   },
-
+  getTournamentBySlug(tournamentData) {
+    return api.get('tournaments/getTournamentBySlug/'+tournamentData.slug)
+  },
   getRefereeDetail(refereeId) {
     return api.post('referee/refereeDetail',{'refereeId': refereeId})
   },

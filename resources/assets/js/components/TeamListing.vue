@@ -35,6 +35,7 @@ export default {
   created: function() {
        this.$root.$on('changeComp', this.setMatchData);
        this.$root.$on('changeDrawListComp', this.setMatchData);
+       this.$root.$on('getAllTournamentTeams', this.getAllTournamentTeams);
     },
   computed: {
     currentScheduleView() {

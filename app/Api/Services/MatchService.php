@@ -3,6 +3,8 @@
 namespace Laraspace\Api\Services;
 
 use DB;
+use File;
+use Storage;
 use Laraspace\Api\Contracts\MatchContract;
 use Validator;
 use Laraspace\Model\Role;
@@ -499,7 +501,7 @@ class MatchService implements MatchContract
       $away_team_score = $singleFixture->awayteam_score;
 
       // FOr Winner Conditions
-      if($home_team_score != null && $away_team_score != null) {
+      if($home_team_score !== null && $away_team_score !== null) {
         if($home_team_score >=  $away_team_score) {
           $winnerTeam = $singleFixture->home_team_name;
           $winnerId = $singleFixture->home_team;
@@ -511,7 +513,7 @@ class MatchService implements MatchContract
       }
 
       // FOr Looser Conditions
-      if($home_team_score != null && $away_team_score != null) {
+      if($home_team_score !== null && $away_team_score !== null) {
         if($home_team_score <  $away_team_score) {
           $looserTeam = $singleFixture->home_team_name;
           $looserId = $singleFixture->home_team;
@@ -522,7 +524,7 @@ class MatchService implements MatchContract
         }
       }
 
-      if($home_team_score != null && $away_team_score != null) {
+      if($home_team_score !== null && $away_team_score !== null) {
         // Now fire a query which gives two record Winner and Looser
         $results = DB::table('temp_fixtures')->where('age_group_id','=',$age_category_id)->where('tournament_id','=',$tournament_id)
         ->where(function($query) use ($val) {
@@ -688,7 +690,7 @@ class MatchService implements MatchContract
           $hometeamName = null;
           $homeTeamId = 0;
 
-          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
             if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
             {
               $hometeamName = $singleFixture->home_team_name;
@@ -699,7 +701,7 @@ class MatchService implements MatchContract
             }
           }
 
-          if($hometeamName == null && $homeTeamId == 0) {
+          if($hometeamName === null && $homeTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
             $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId];
             $fixture->update($updateArray);
@@ -712,7 +714,7 @@ class MatchService implements MatchContract
           $awayteamName = null;
           $awayTeamId = 0;
 
-          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
             if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
             {
               $awayteamName = $singleFixture->home_team_name;
@@ -723,7 +725,7 @@ class MatchService implements MatchContract
             }
           }
 
-          if($awayteamName == null && $awayTeamId == 0) {
+          if($awayteamName === null && $awayTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
             $updateArray = [ 'away_team_name'=> $fixture->away_team_placeholder_name,'away_team'=>$awayTeamId];
             $fixture->update($updateArray);
@@ -739,7 +741,7 @@ class MatchService implements MatchContract
           $hometeamName = null;
           $homeTeamId = 0;
 
-          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
             if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
             {
               $hometeamName = $singleFixture->home_team_name;
@@ -751,7 +753,7 @@ class MatchService implements MatchContract
             }
           }
 
-          if($hometeamName == null && $homeTeamId == 0) {
+          if($hometeamName === null && $homeTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
             $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId];
             $fixture->update($updateArray);
@@ -764,7 +766,7 @@ class MatchService implements MatchContract
           $awayteamName = null;
           $awayTeamId = 0;
 
-          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
             if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
             {
                  $awayteamName = $singleFixture->home_team_name;
@@ -775,7 +777,7 @@ class MatchService implements MatchContract
             }
           }
 
-          if($awayteamName == null && $awayTeamId == 0) {
+          if($awayteamName === null && $awayTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
             $updateArray = [ 'away_team_name'=> $fixture->away_team_placeholder_name,'away_team'=>$awayTeamId];
             $fixture->update($updateArray);
@@ -2095,5 +2097,45 @@ class MatchService implements MatchContract
         $updatedMatchDetail['display_away_team_placeholder_name'] = $displayAwayTeamPlaceHolderName;
 
         return $updatedMatchDetail;
+    }
+
+    public function insertPositionsForPlacingMatches()
+    {
+        $files = File::allFiles('templates');
+        foreach ($files as $file)
+        {
+            $allTemplateMatchNumber = [];
+            $filePath = (string)$file;
+            $updatedFilePath = str_replace('templates/', 'updatedtemplates/', $filePath);
+            $json = json_decode(file_get_contents($filePath), true);
+            $updatedJson = $json;
+
+            $allRounds = $json['tournament_competation_format']['format_name'];
+            $allUpdatedRounds = $allRounds;
+            $lastRound = $allRounds[count($allRounds) - 1];
+            $lastMatchType = $lastRound['match_type'][count($lastRound['match_type']) - 1];
+
+            $matchTypeName = $lastMatchType['name'];
+            if(isset($lastMatchType['actual_name'])) {
+              $matchTypeName = $lastMatchType['actual_name'];
+            }
+            $isPlacingMatch = strpos($matchTypeName, 'PM');
+
+            if ($isPlacingMatch !== false) {
+              echo $file. '<br/>';
+              $matches = $lastMatchType['groups']['match'];
+              $position = 1;
+              foreach($matches as $matchKey=>$match) {
+                $updatedMatchDetail = $match;
+                $updatedMatchDetail['position'] = ($position++).'-'.($position++);
+                $allUpdatedRounds[count($allRounds) - 1]['match_type'][count($lastRound['match_type']) - 1]['groups']['match'][$matchKey] = $updatedMatchDetail;
+              }
+            }
+
+            $updatedJson['tournament_competation_format']['format_name'] = $allUpdatedRounds;
+
+            Storage::put($updatedFilePath, json_encode($updatedJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+        echo "All templates processed.";exit;
     }
 }

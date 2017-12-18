@@ -734,6 +734,11 @@ class MatchController extends BaseController
         return $updatedMatchDetail;
     }
 
+    public function insertPositionsForPlacingMatches(Request $request)
+    {
+        return $this->matchObj->insertPositionsForPlacingMatches($request);
+    }
+
     public function saveStandingsManually(Request $request)
     {
         return $this->matchObj->saveStandingsManually($request);

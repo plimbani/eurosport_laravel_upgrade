@@ -44,7 +44,7 @@
                     }
                 ]
             },
-             {
+            {
                 "round": "Round 2",
                 "groups": [
                     {
@@ -125,7 +125,7 @@
                                     "display_away_team_placeholder_name": "A4"
                                 },
                                 {
-                                    "in_between": "3-5",    
+                                    "in_between": "3-5",
                                     "match_number": "CAT.RR1.04.A3-A5",
                                     "display_match_number": "CAT.1.4.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "A3",
@@ -208,8 +208,9 @@
                                     "match_number": "CAT.PM2.01.1A-2A",
                                     "display_match_number": "CAT.2.1.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#1A",
-                                    "display_away_team_placeholder_name": "#2A"
-                                }      
+                                    "display_away_team_placeholder_name": "#2A",
+                                    "position": "1-2"
+                                }
                             ]
                         }
                     }

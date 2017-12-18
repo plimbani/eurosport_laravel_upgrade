@@ -206,7 +206,8 @@ class AgeGroupService implements AgeGroupContract
                       'display_match_number' => (isset($matches->display_match_number) ? $matches->display_match_number : null),
                       'display_home_team_placeholder_name' => (isset($matches->display_home_team_placeholder_name) ? $matches->display_home_team_placeholder_name : null),
                       'display_away_team_placeholder_name' => (isset($matches->display_away_team_placeholder_name) ? $matches->display_away_team_placeholder_name : null),
-                      'is_final_match' => (isset($matches->is_final_match) ? $matches->is_final_match : 0)
+                      'is_final_match' => (isset($matches->is_final_match) ? $matches->is_final_match : 0),
+                      'position' => (isset($matches->position) ? $matches->position : null)
                     ];
                 }
 
@@ -219,7 +220,8 @@ class AgeGroupService implements AgeGroupContract
                         'display_match_number' => (isset($matches->display_match_number) ? $matches->display_match_number : null),
                         'display_home_team_placeholder_name' => (isset($matches->display_home_team_placeholder_name) ? $matches->display_home_team_placeholder_name : null),
                         'display_away_team_placeholder_name' => (isset($matches->display_away_team_placeholder_name) ? $matches->display_away_team_placeholder_name : null),
-                        'is_final_match' => (isset($matches->is_final_match) ? $matches->is_final_match : 0)
+                        'is_final_match' => (isset($matches->is_final_match) ? $matches->is_final_match : 0),
+                        'position' => (isset($matches->position) ? $matches->position : null)
                       ];
                     }
                   }

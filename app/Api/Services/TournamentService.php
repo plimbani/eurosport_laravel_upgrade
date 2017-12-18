@@ -99,6 +99,18 @@ class TournamentService implements TournamentContract
         return ['status_code' => '505', 'message' => self::ERROR_MSG];
     }
 
+    public function getTournamentBySlug($data)
+    {
+      $tournamentData = $data;
+      $data = $this->tournamentRepoObj->getTournamentsBySlug($tournamentData);
+
+      if ($data) {
+          return ['status_code' => '200', 'data' => $data];
+      }
+
+      return ['status_code' => '505', 'message' => self::ERROR_MSG];
+    }
+
     /*
      * Get All Templates
      *
@@ -417,6 +429,10 @@ class TournamentService implements TournamentContract
             'temp_fixtures.away_team as awayTeam',
             'temp_fixtures.home_team_name as homeTeamName',
             'temp_fixtures.away_team_name as awayTeamName',
+            'temp_fixtures.display_match_number as displayMatchNumber',
+            'temp_fixtures.position as position',
+            'temp_fixtures.display_home_team_placeholder_name as displayHomeTeamPlaceholder',
+            'temp_fixtures.display_away_team_placeholder_name as displayAwayTeamPlaceholder',
             'temp_fixtures.home_team_placeholder_name as homePlaceholder',
             'temp_fixtures.away_team_placeholder_name as awayPlaceholder',
              DB::raw('CONCAT("'.$this->getAWSUrl.'", HomeFlag.logo) AS HomeFlagLogo'),
@@ -489,11 +505,17 @@ class TournamentService implements TournamentContract
               case 'referee':
                     $fieldName = 'refereeFullName';
                     break;
+              case 'displayMatchNumber':
+                    $fieldName = 'displayMatchNumber';
+                    break;      
               case 'HomeTeam':
                     $fieldName = 'HomeTeam';
                     break;
               case 'AwayTeam':
                     $fieldName = 'AwayTeam';
+                    break;
+              case 'position':
+                    $fieldName = 'position';
                     break;
           }
           $reportQuery = $reportQuery->orderBy($fieldName, $data['sort_order']);
@@ -530,15 +552,22 @@ class TournamentService implements TournamentContract
 
               if($reportRec->referee_last_name != '' && $reportRec->referee_first_name != '') {
                 $refName =   $reportRec->referee_last_name . ', ' . $reportRec->referee_first_name;
-              }
+              } 
+
+              $displayMatchNumber = str_replace('@HOME',$reportRec->displayHomeTeamPlaceholder,str_replace('@AWAY',$reportRec->displayAwayTeamPlaceholder,$reportRec->displayMatchNumber));
+
+              $position = $reportRec->position !== null ? $reportRec->position : 'N/A';
+
               $ddata = [
                 $reportRec->match_datetime,
                 $reportRec->group_name,
                 $reportRec->venue_name,
                 $reportRec->pitch_number,
                 $refName,
+                $displayMatchNumber,
                 $homeTeam,
                 $awayTeam,
+                $position,
               ];
               array_push($dataArray, $ddata);
             }
@@ -549,7 +578,7 @@ class TournamentService implements TournamentContract
             ];
 
             $lableArray = [
-              'Date and time','Age category' ,'Location', 'Pitch','Referee', 'Team','Team'
+              'Date and time','Age category' ,'Location', 'Pitch','Referee','Match Code','Team','Team','Placing'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
@@ -590,6 +619,10 @@ class TournamentService implements TournamentContract
               'temp_fixtures.away_team as awayTeam',
               'temp_fixtures.home_team_name as homeTeamName',
               'temp_fixtures.away_team_name as awayTeamName',
+              'temp_fixtures.display_match_number as displayMatchNumber',
+              'temp_fixtures.position as position',
+              'temp_fixtures.display_home_team_placeholder_name as displayHomeTeamPlaceholder',
+              'temp_fixtures.display_away_team_placeholder_name as displayAwayTeamPlaceholder',
               'temp_fixtures.home_team_placeholder_name as homePlaceholder',
               'temp_fixtures.away_team_placeholder_name as awayPlaceholder',
               'HomeFlag.country_flag as HomeCountryFlag',
@@ -682,6 +715,9 @@ class TournamentService implements TournamentContract
                   case 'referee':
                         $fieldName = 'refereeFullName';
                         break;
+                  case 'displayMatchNumber':
+                        $fieldName = 'displayMatchNumber';
+                        break;       
                   case 'full_game':
                         $fieldName = 'full_game';
                         break;
@@ -690,6 +726,9 @@ class TournamentService implements TournamentContract
                         break;
                   case 'AwayTeam':
                         $fieldName = 'AwayTeam';
+                        break;
+                  case 'position':
+                        $fieldName = 'position';
                         break;
               }
 
@@ -701,7 +740,7 @@ class TournamentService implements TournamentContract
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
         // echo $reportQuery->toSql();exit;
         $reportData = $reportQuery->get();
-        // dd($reportData->all());
+
         $date = new \DateTime(date('H:i d M Y'));
         // $footer = View::make('summary.footer');
         // $date->setTimezone();.
