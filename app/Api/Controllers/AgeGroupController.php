@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\AgeGroupContract;
-
+use Illuminate\Support\Facades\Storage;
+use DB;
 /**
  * Age Group Resource Description.
  *
@@ -50,10 +51,17 @@ class AgeGroupController extends BaseController
         return $this->ageGroupObj->create($request);
     }
 
-    public function ageCategoryData(Request $request)
+    public function insertPitchSize(Request $request)
     {
-       
-        
+        if (($handle = fopen ( public_path () . '/assets/Agecategories.csv', 'r' )) !== FALSE) {
+          while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE )  {
+            DB::table('tournament_competation_template')
+                    ->where('id',$data[1])
+                    ->update([
+                        'pitch_size' => $data[3]
+                    ]);
+            }
+        }  
     }
     /**
      * Edit  Age Group.
