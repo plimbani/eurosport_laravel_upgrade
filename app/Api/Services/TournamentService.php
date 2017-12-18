@@ -556,7 +556,7 @@ class TournamentService implements TournamentContract
 
               $displayMatchNumber = str_replace('@HOME',$reportRec->displayHomeTeamPlaceholder,str_replace('@AWAY',$reportRec->displayAwayTeamPlaceholder,$reportRec->displayMatchNumber));
 
-              $position = $reportRec->position != null ? $reportRec->position : 'N/A';
+              $position = $reportRec->position !== null ? $reportRec->position : 'N/A';
 
               $ddata = [
                 $reportRec->match_datetime,

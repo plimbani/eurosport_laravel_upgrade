@@ -256,7 +256,7 @@ module.exports= {
   pitch_details_note: "Please complete information on both tabs before saving",
   pitch_detail_tabs: "Please complete information on both tabs before saving",
   pitch_detail_delete: "Delete",
-  pitch_detail_delete_stage: "Delete stage",
+  pitch_detail_delete_stage: "Delete day",
   pitch_availability: "Availability",
   pitch_number: "Number",
   pitch_type: "Type",
