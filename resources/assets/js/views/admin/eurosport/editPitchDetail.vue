@@ -101,7 +101,7 @@
                                         <i class="fa fa-calendar"></i>
                                     </span>
                                     <input type="hidden" :name="'totalBreaksForStage'+day" :id="'totalBreaksForStage'+day" v-model="stage_break[day]">
-                                    <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control ls-datepicker datestage'+day] " >
+                                    <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control datestage'+day] " readonly="readonly">
                                 </div>
                               </div>
                               <div class="col-md-3">
@@ -258,7 +258,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </span>
-                                    <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control  ls-datepicker datestage'+ day]">
+                                    <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" readonly="" :class="['form-control datestage'+ day]">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -379,14 +379,14 @@ var moment = require('moment');
 
             $('[data-toggle="tooltip"]').tooltip();
 
-            $('.ls-datepicker').datepicker('setStartDate', this1.tournamentStartDate);
+            // $('.ls-datepicker').datepicker('setStartDate', this1.tournamentStartDate);
 
-            $('.ls-datepicker').datepicker('setEndDate', this1.tournamentEndDate);
+            // $('.ls-datepicker').datepicker('setEndDate', this1.tournamentEndDate);
             for(let i=1;i<=this1.tournamentDays;i++){
                 capacity['day'+i]= '0.00'
 
-                $('.datestage'+i).datepicker('setDate', moment(startDate, 'MM/DD/YYYY').format('DD/MM/YYYY'))
-
+                // $('.datestage'+i).datepicker('setDate', moment(startDate, 'MM/DD/YYYY').format('DD/MM/YYYY'))
+                $('.datestage'+i).val(moment(startDate, 'MM/DD/YYYY').format('DD/MM/YYYY'));
                  this1.availableDate.push($('.datestage'+i).val())
                  this1.removeStage.push(i);
                   _.find(this1.pitchData.pitchAvailable, function (pitchAvailable) {
@@ -438,7 +438,8 @@ var moment = require('moment');
                         this1.disableDate.push(pitchAvailable.stage_start_date);
                         // var index =  this1.availableDate.indexOf(pitchAvailable.stage_start_date);
                         // this1.availableDate.splice(index, 1);
-                        $('.datestage'+i).datepicker('setDate', pitchAvailable.stage_start_date)
+                        // $('.datestage'+i).datepicker('setDate', pitchAvailable.stage_start_date)
+                        $('.datestage'+i).val(pitchAvailable.stage_start_date);
                         $('#stage_capacity'+i).val(pitchAvailable.stage_capacity)
                         $('#stage_capacity_min'+i).val(pitchAvailable.stage_capacity)
                         // $('#stage_capacity_span'+i).text(pitchAvailable.stage_capacity+ ' hrs')
@@ -471,7 +472,7 @@ var moment = require('moment');
 
             }
 
-              $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
+              // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
               // this.stage_capacity.push(capacity)
 
             this1.availableDate = _.difference(this1.availableDate, this1.disableDate);
@@ -625,7 +626,7 @@ var moment = require('moment');
                         // disableDate
                     }
                     that.disableDate.push( $('#'+this.id).val());
-                    $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                    // $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
                     $('.datestage'+stage).val($('#'+this.id).val())
                     }
 
@@ -875,8 +876,8 @@ var moment = require('moment');
 
                     this.disableDate.splice(index, 1);
                     this.availableDate.push($('#stage_start_date'+day).val())
-                    $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
-                    $('.datestage'+day).datepicker('clearDates')
+                    // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
+                    // $('.datestage'+day).datepicker('clearDates')
                 }
                 // this.stageShowday = false
 
@@ -919,13 +920,13 @@ var moment = require('moment');
                         availableDate.splice(index, 1);
                         that.availableDate = availableDate
                          setTimeout(function() {
-                        $('.datestage'+stage).datepicker();
-                        $('.datestage'+stage).datepicker('setStartDate', tStartDate)
-                        $('.datestage'+stage).datepicker('setEndDate', tEndDate)
-                        $('.datestage'+stage).datepicker('setEndDate', tEndDate)
-                        $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
-                         $('.datestage'+stage).datepicker('setDate', availDate)
-                        $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                        // $('.datestage'+stage).datepicker();
+                        // $('.datestage'+stage).datepicker('setStartDate', tStartDate)
+                        // $('.datestage'+stage).datepicker('setEndDate', tEndDate)
+                        // $('.datestage'+stage).datepicker('setEndDate', tEndDate)
+                        // $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
+                         $('.datestage'+stage).val(availDate)
+                        // $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
 
 
 
@@ -965,6 +966,7 @@ var moment = require('moment');
                     this.removeStage = removeStageArr
                      var that = this
                      that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,that.disableDate,that.availableDate,stage);
+                     
                      $('.ls-datepicker').datepicker('setStartDate', that.tournamentStartDate);
                 }
               setTimeout(function(){
@@ -991,7 +993,7 @@ var moment = require('moment');
                         // disableDate
                     }
                     that.disableDate.push( $('#'+this.id).val());
-                    $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
+                    // $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
                     $('.datestage'+stage).val($('#'+this.id).val())
                     }
 
