@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\AgeGroupContract;
-use Illuminate\Support\Facades\Storage;
-use DB;
 /**
  * Age Group Resource Description.
  *
