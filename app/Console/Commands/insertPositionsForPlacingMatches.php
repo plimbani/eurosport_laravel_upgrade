@@ -41,7 +41,7 @@ class insertPositionsForPlacingMatches extends Command
      */
     public function handle()
     {
-        $tempFixtures = TempFixture::with('competition.TournamentCompetationTemplates.TournamentTemplate', 'categoryAge')->where('age_group_id','78')->get();
+        $tempFixtures = TempFixture::with('competition.TournamentCompetationTemplates.TournamentTemplate', 'categoryAge')->get();
       
         $allTemplateMatchNumber = [];
         foreach($tempFixtures as $fixture) {
