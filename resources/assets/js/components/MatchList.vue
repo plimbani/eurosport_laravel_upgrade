@@ -8,6 +8,7 @@
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
 			<th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
 			<th class="text-center" style="min-width:100px">{{$lang.summary_schedule_matches_score}}</th>
+      <th class="text-center" v-if="showPlacingForMatch()">{{$lang.summary_schedule_matches_placing}}</th>
 			<th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
       <th class="text-center"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
 		</thead>
@@ -16,7 +17,6 @@
 			<tr v-for="(match,index1) in getMatchList()">
 				<td class="text-center">{{match.match_datetime | formatDate}}</td>
 				<td class="text-center">
-
 					<a class="pull-left text-left text-primary" href=""
 					v-if="getCurrentScheduleView != 'drawDetails'"
 					@click.prevent="changeDrawDetails(match)"><u>{{match.competation_name | formatGroup}}</u>
@@ -46,15 +46,22 @@
       		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
       		  @change="updateScore(match,index1)"><span v-else>{{match.AwayScore}}</span>
       	</td>
+
+        <td class="text-center" v-if="showPlacingForMatch()">
+          {{ match.position != null ? match.position : 'N/A' }}
+        </td>
 				<td v-if="isHideLocation !=  false">
 					<a class="pull-left text-left">
 					{{match.venue_name}} - {{match.pitch_number}}
 					</a>
 				</td>
-        	<td class="text-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"><span class="align-middle">
-              <a class="text-primary" href="#"
-              @click="openPitchModal(match,index1)"><i class="jv-icon jv-edit"></i></a>
-            </span></td>
+        <td class="text-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">
+          <span class="align-middle">
+            <a class="text-primary" href="#"
+              @click="openPitchModal(match,index1)"><i class="jv-icon jv-edit"></i>
+            </a>
+          </span>
+        </td>
 			</tr>
 		</tbody>
 	</table>
@@ -327,9 +334,17 @@ export default {
       } else {
         return this.matchData;
       }
-
     },
+    showPlacingForMatch() {
+      if(this.getCurrentScheduleView == 'drawDetails') {
+        if(this.DrawName.competation_type == 'Elimination') {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      return true;
+    }
 	},
-
 }
 </script>

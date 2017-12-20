@@ -187,21 +187,22 @@
 		</div>	
 		<div class="row mt-4" id="summary_report_table">
 			<div class="col-md-12">
-					<div id="report_logo" style="display:none;">
-                        <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
-                        <h2>Reports</h2>
-                    </div>
+				<div id="report_logo" style="display:none;">
+                    <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
+                    <h2>Reports</h2>
+                </div>
 				<table class="table table-hover table-bordered table-responsive report-table" v-bind:class="{ 'display_table' : reports.length == 0 }" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
 					<thead>
 	                    <tr>
-	                        <th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}<i class="fa fa-fw fa-sort"></i></th>
+							<th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('group_name')">{{$lang.summary_reports_age_catrgory}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}<i class="fa fa-fw fa-sort"></i></th>
 	                        <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}<i class="fa fa-fw fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
+                            <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
                             <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
+                            <th class="text-center" @click="sortReport('position')">{{$lang.summary_schedule_matches_placing}}<i class="fa fa-fw fa-sort"></i></th>
                     	</tr>
 	                </thead>
 	                <tbody>
@@ -213,18 +214,18 @@
 	                		<td v-if="report.referee_last_name && report.referee_first_name">{{report.referee_last_name}}, {{report.referee_first_name}}</td>
   		             		<td v-else></td>
 	                		<td>{{displayMatch(report.displayMatchNumber,report.displayHomeTeamPlaceholder,report.displayAwayTeamPlaceholder)}}</td>
-                      		<td align="right">
-		                       <span class="text-center" v-if="(report.homeTeam == '0' && report.homeTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.homePlaceholder) }}</span>
-		                       <span class="text-center" v-else>{{ report.HomeTeam }}</span>
-		                       <span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
-                      		</td>
-                     		 <td align="left">
-		                        <span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
-		                        <!-- <span class="text-center">{{report.AwayTeam}}</span> -->
-		                        <span class="text-center" v-if="(report.awayTeam == '0' && report.awayTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.awayPlaceholder) }}</span>
-		                        <span class="text-center" v-else>{{ report.AwayTeam }}</span>
-                      		</td>
-                      <!--<td></td>-->
+							<td align="right">
+								<span class="text-center" v-if="(report.homeTeam == '0' && report.homeTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.homePlaceholder) }}</span>
+								<span class="text-center" v-else>{{ report.HomeTeam }}</span>
+								<span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
+							</td>
+							<td align="left">
+								<span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
+								<span class="text-center" v-if="(report.awayTeam == '0' && report.awayTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.awayPlaceholder) }}</span>
+								<span class="text-center" v-else>{{ report.AwayTeam }}</span>
+							</td>
+							<td v-if="report.position != null">{{report.position}}</td>
+							<td v-else>N/A</td>
 	                	</tr>
 	                </tbody>
 				</table>

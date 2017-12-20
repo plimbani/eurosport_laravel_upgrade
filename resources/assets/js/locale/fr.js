@@ -250,7 +250,7 @@ module.exports = {
   pitch_details_note: "FPlease complete information on both tabs before saving",
   pitch_detail_tabs: "FPlease complete information on both tabs before saving",
   pitch_detail_delete: "FDelete",
-  pitch_detail_delete_stage: "Delete stage",
+  pitch_detail_delete_stage: "Delete day",
   pitch_availability: "FAvailability",
   pitch_number: "FNumber",
   pitch_type: "FType",
@@ -544,6 +544,7 @@ module.exports = {
   summary_schedule_matches_score: "FScore",
   summary_schedule_matches_location: "FLocation",
   summary_table_heading_status: "Status",
+  summary_schedule_matches_placing: "Placing",
 
 
   manual_ranking_team_required: "FThis field is required",

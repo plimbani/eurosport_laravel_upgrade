@@ -342,6 +342,7 @@ class AgeGroupRepository
           $teampfixtureTable->insert(
             [
               'match_number'=>$fixture_n,
+              'position'=>$fixtureMatchDetailArray[$key]['position'],
               'display_match_number'=>$displayMatchNumber,
               'tournament_id'=>$tournamentId,
               'competition_id'=>$competationId,
