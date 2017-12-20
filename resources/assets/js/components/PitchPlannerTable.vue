@@ -9,8 +9,8 @@
             </div>
         </div>
 
-        <div class="row justify-content-between">
-            <div class=" pitch_planner_section pitch" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-9' : 'col-md-10']">
+        <div class="row">
+            <div class="pitch_planner_section pitch" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-9' : 'col-md-10']">
                 <div class="pitch-planner-wrapper">
                     <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
                         <div class="card">
