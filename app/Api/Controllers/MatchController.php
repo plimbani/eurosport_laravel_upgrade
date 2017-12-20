@@ -168,7 +168,7 @@ class MatchController extends BaseController
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
-        return $pdf->inline('RefereeReport.pdf');
+        return $pdf->inline('Referee report card.pdf');
 
     }
 
