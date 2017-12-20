@@ -49,7 +49,7 @@
                   <span class="input-group-addon">
                       <i class="jv-icon jv-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  disabled="disabled" id="tournament_end_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="(tournament.tournamentId != 0 || userRole == 'Tournament administrator')"  disabled="disabled" id="tournament_end_date">
                   <input type="text" class="form-control ls-datepicker" v-else id="tournament_end_date">
               </div>
             </div>
@@ -326,7 +326,8 @@ tournament_venue_organiser: "",
 image:'',
 customCount:0,
 tournamentId: 0,
-imagePath :''
+imagePath :'',
+tournamentDateDiff: 0
 }
 },
 components: {
@@ -425,10 +426,16 @@ $('#tournament_end_date').datepicker('setDate', tEndDate)
 } else {
 $('#tournament_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
 }
-$('#tournament_start_date').datepicker().on('changeDate',function(){
-$('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
-$('#tournament_end_date').datepicker('clearDates')
-});
+  let vm = this
+  let startDate = moment($('#tournament_start_date').val(), 'DD/MM/YYYY')
+  let endDate = moment($('#tournament_end_date').val(), 'DD/MM/YYYY')
+  this.tournamentDateDiff = endDate.diff(startDate, 'days')
+  $('#tournament_start_date').datepicker().on('changeDate',function(){
+    let newEndDate = moment($('#tournament_start_date').val(), "DD/MM/YYYY").add(vm.tournamentDateDiff, 'days')
+    $('#tournament_end_date').datepicker('setDate', newEndDate.format("DD/MM/YYYY"))
+    // $('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
+    // $('#tournament_end_date').datepicker('clearDates')
+  });
 //this.handleValidation()
 $('.panel-title').on('click',function(){
   if($('#opt_icon').hasClass('fa-plus') == true){
