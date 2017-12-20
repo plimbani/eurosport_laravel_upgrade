@@ -48,9 +48,10 @@ interface MatchContract
     public function removeBlock($matchData);
     public function updateScore($matchData);
     public function generateMatchPrint($matchData);
+    public function generateCategoryReport($matchData);
     public function refreshStanding($matchData);
     public function checkTeamIntervalforMatches($matchData);
-    
-   
-    
+
+
+
 }

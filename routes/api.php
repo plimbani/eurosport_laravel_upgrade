@@ -98,6 +98,9 @@ $api->version('v1', function ($api) {
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
     // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
     $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
+
+    $api->get('match/report/generate/{ageGroupId}', 'Laraspace\Api\Controllers\MatchController@generateCategoryReport');
+
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
@@ -118,7 +121,7 @@ $api->version('v1', function ($api) {
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');
     $api->post('pitch/edit/{id}', 'Laraspace\Api\Controllers\PitchController@edit');
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch');
-    
+
     //Age Group Stuff
 
     $api->get('age_groups', 'Laraspace\Api\Controllers\AgeGroupController@getAgeGroups');
