@@ -70,7 +70,10 @@ class insertPositionsForPlacingMatches extends Command
                 foreach($matches as $matchKey=>$match) {
                     $matchNumber = str_replace( 'CAT.','', $match['match_number']);     
                     if($fixtureMatchNumber == $matchNumber){
-                        TempFixture::where('id', $fixture['id'])->update(['position'=> $match['position']]);
+                        if(isset($match['position'])){
+                            TempFixture::where('id', $fixture['id'])->update(['position'=> $match['position']]);
+                        }
+                        // dd($fixtureMatchNumber,$matchNumber,$fixture->id,$match['position']);
                     }
 
                 }
