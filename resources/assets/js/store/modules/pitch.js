@@ -42,11 +42,11 @@ const actions = {
           let stageTime = {}
 
             _.forEach(pitchAvailable.pitch_availability, function(pitchAvailable1) {
-            
+           
               if(pitchAvailable1.break_enable == '0' || pitchAvailable1.break_enable == '1'  ) {
                   
-                let stageStr = "Day " + i +" : "+pitchAvailable1.stage_start_time+'-';
-            
+                let stageStr = "Day " + pitchAvailable1.stage_no +" : "+pitchAvailable1.stage_start_time+'-';
+           
                 _.forEach(pitchAvailable1.pitch_breaks, function(pitchBreaks) {
                 
                   stageStr = stageStr +pitchBreaks.break_start+', '+pitchBreaks.break_end+'-';
