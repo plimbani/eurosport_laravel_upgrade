@@ -399,7 +399,6 @@ export default {
           capacity['day'+i]= '0.00'
           let j= i-1;
           startDate = new Date(moment(this.tournamentStartDate, 'DD/MM/YYYY').add(j, 'days').format('MM/DD/YYYY'));
-          // $('.datestage'+i).datepicker('setDate', moment(startDate, 'MM/DD/YYYY').format('DD/MM/YYYY'))
           $('.datestage'+i).val(moment(startDate, 'MM/DD/YYYY').format('DD/MM/YYYY'));
           this.disableDate.push( $('.datestage'+i).val());
           // startDate.setDate()
@@ -586,11 +585,6 @@ export default {
           }
 
       });
-
-       // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
-       // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
-
-
        setTimeout(function(){
           $('.ls-timepicker').not('.stage_start_time').attr('disabled','disabled');
        },1000)
@@ -851,16 +845,7 @@ export default {
                   availableDate.splice(index, 1);
                   that.availableDate = availableDate
                    setTimeout(function() {
-                  // // $('.datestage'+stage).datepicker();
-                  // $('.datestage'+stage).datepicker('setStartDate', tStartDate)
-                  // $('.datestage'+stage).datepicker('setEndDate', tEndDate)
-                  // $('.datestage'+stage).datepicker('setEndDate', tEndDate)
-                  // $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
                   $('.datestage'+stage).val(availDate)
-                  //  // console.log(that.disableDate)
-                  // $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
-                  //
-                  // $('.ls-timepicker').timepicker({ 'setTime': 300})
 
                   $('#stage_start_time'+stage).timepicker({
                       minTime:  '08:00',

@@ -378,14 +378,8 @@ var moment = require('moment');
             setTimeout( function() {
 
             $('[data-toggle="tooltip"]').tooltip();
-
-            // $('.ls-datepicker').datepicker('setStartDate', this1.tournamentStartDate);
-
-            // $('.ls-datepicker').datepicker('setEndDate', this1.tournamentEndDate);
             for(let i=1;i<=this1.tournamentDays;i++){
                 capacity['day'+i]= '0.00'
-
-                // $('.datestage'+i).datepicker('setDate', moment(startDate, 'MM/DD/YYYY').format('DD/MM/YYYY'))
                 $('.datestage'+i).val(moment(startDate, 'MM/DD/YYYY').format('DD/MM/YYYY'));
                  this1.availableDate.push($('.datestage'+i).val())
                  this1.removeStage.push(i);
@@ -438,7 +432,6 @@ var moment = require('moment');
                         this1.disableDate.push(pitchAvailable.stage_start_date);
                         // var index =  this1.availableDate.indexOf(pitchAvailable.stage_start_date);
                         // this1.availableDate.splice(index, 1);
-                        // $('.datestage'+i).datepicker('setDate', pitchAvailable.stage_start_date)
                         $('.datestage'+i).val(pitchAvailable.stage_start_date);
                         $('#stage_capacity'+i).val(pitchAvailable.stage_capacity)
                         $('#stage_capacity_min'+i).val(pitchAvailable.stage_capacity)
@@ -472,7 +465,6 @@ var moment = require('moment');
 
             }
 
-              // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
               // this.stage_capacity.push(capacity)
 
             this1.availableDate = _.difference(this1.availableDate, this1.disableDate);
@@ -626,7 +618,6 @@ var moment = require('moment');
                         // disableDate
                     }
                     that.disableDate.push( $('#'+this.id).val());
-                    // $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
                     $('.datestage'+stage).val($('#'+this.id).val())
                     }
 
@@ -703,8 +694,6 @@ var moment = require('moment');
 
             // });
 
-             // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
-             // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
 
              // this.getAllPitches()
         },
@@ -876,8 +865,6 @@ var moment = require('moment');
 
                     this.disableDate.splice(index, 1);
                     this.availableDate.push($('#stage_start_date'+day).val())
-                    // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
-                    // $('.datestage'+day).datepicker('clearDates')
                 }
                 // this.stageShowday = false
 
@@ -920,15 +907,7 @@ var moment = require('moment');
                         availableDate.splice(index, 1);
                         that.availableDate = availableDate
                          setTimeout(function() {
-                        // $('.datestage'+stage).datepicker();
-                        // $('.datestage'+stage).datepicker('setStartDate', tStartDate)
-                        // $('.datestage'+stage).datepicker('setEndDate', tEndDate)
-                        // $('.datestage'+stage).datepicker('setEndDate', tEndDate)
-                        // $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
                          $('.datestage'+stage).val(availDate)
-                        // $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
-
-
 
                         $('#stage_start_time'+stage).timepicker({
                             minTime: '08:00',
@@ -993,7 +972,6 @@ var moment = require('moment');
                         // disableDate
                     }
                     that.disableDate.push( $('#'+this.id).val());
-                    // $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
                     $('.datestage'+stage).val($('#'+this.id).val())
                     }
 
