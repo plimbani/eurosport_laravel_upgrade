@@ -814,7 +814,7 @@ class MatchRepository
       $ageCategoryPitchSize = $teamData['pitch_size'];
       $setFlag = 0;
 
-      if($pitchSize!=$ageCategoryPitchSize) {
+      if( $allowSchedulingForcefully == false && $pitchSize!=$ageCategoryPitchSize ) {
         return -2;
       }
 
