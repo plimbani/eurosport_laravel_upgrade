@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         Commands\setNewMatchNumber::class,
         Commands\generateAdditionalBreaks::class,
         Commands\generateTournamentSlugForExistingData::class,
+        Commands\insertPitchSize::class,
     ];
 
     /**
