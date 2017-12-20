@@ -443,7 +443,7 @@ class MatchService implements MatchContract
       $away_team_score = $singleFixture->awayteam_score;
 
       // FOr Winner Conditions
-      if($home_team_score != null && $away_team_score != null) {
+      if($home_team_score !== null && $away_team_score !== null) {
         if($home_team_score >=  $away_team_score) {
           $winnerTeam = $singleFixture->home_team_name;
           $winnerId = $singleFixture->home_team;
@@ -455,7 +455,7 @@ class MatchService implements MatchContract
       }
 
       // FOr Looser Conditions
-      if($home_team_score != null && $away_team_score != null) {
+      if($home_team_score !== null && $away_team_score !== null) {
         if($home_team_score <  $away_team_score) {
           $looserTeam = $singleFixture->home_team_name;
           $looserId = $singleFixture->home_team;
@@ -466,7 +466,7 @@ class MatchService implements MatchContract
         }
       }
 
-      if($home_team_score != null && $away_team_score != null) {   
+      if($home_team_score !== null && $away_team_score !== null) {   
         // Now fire a query which gives two record Winner and Looser
         $results = DB::table('temp_fixtures')->where('age_group_id','=',$age_category_id)->where('tournament_id','=',$tournament_id)
         ->where(function($query) use ($val) {
@@ -632,7 +632,7 @@ class MatchService implements MatchContract
           $hometeamName = null;
           $homeTeamId = 0;
 
-          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
             if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
             {
               $hometeamName = $singleFixture->home_team_name;
@@ -643,7 +643,7 @@ class MatchService implements MatchContract
             }
           }
 
-          if($hometeamName == null && $homeTeamId == 0) {
+          if($hometeamName === null && $homeTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
             $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId];
             $fixture->update($updateArray);
@@ -656,7 +656,7 @@ class MatchService implements MatchContract
           $awayteamName = null;
           $awayTeamId = 0;
 
-          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
             if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
             {
               $awayteamName = $singleFixture->home_team_name;
@@ -667,7 +667,7 @@ class MatchService implements MatchContract
             }
           }
 
-          if($awayteamName == null && $awayTeamId == 0) {
+          if($awayteamName === null && $awayTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
             $updateArray = [ 'away_team_name'=> $fixture->away_team_placeholder_name,'away_team'=>$awayTeamId];
             $fixture->update($updateArray);
@@ -683,7 +683,7 @@ class MatchService implements MatchContract
           $hometeamName = null;
           $homeTeamId = 0;
 
-          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
             if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
             {
               $hometeamName = $singleFixture->home_team_name;
@@ -695,7 +695,7 @@ class MatchService implements MatchContract
             }
           }
 
-          if($hometeamName == null && $homeTeamId == 0) {
+          if($hometeamName === null && $homeTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
             $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId];
             $fixture->update($updateArray);
@@ -708,7 +708,7 @@ class MatchService implements MatchContract
           $awayteamName = null;
           $awayTeamId = 0;
 
-          if($singleFixture->hometeam_score != null && $singleFixture->awayteam_score != null) {
+          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
             if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
             {
                  $awayteamName = $singleFixture->home_team_name;
@@ -719,7 +719,7 @@ class MatchService implements MatchContract
             }
           }
           
-          if($awayteamName == null && $awayTeamId == 0) {
+          if($awayteamName === null && $awayTeamId == 0) {
             $fixture = TempFixture::where('id',$match->id)->first();
             $updateArray = [ 'away_team_name'=> $fixture->away_team_placeholder_name,'away_team'=>$awayTeamId];
             $fixture->update($updateArray);
