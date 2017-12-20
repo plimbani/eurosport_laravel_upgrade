@@ -49,7 +49,7 @@
                   <span class="input-group-addon">
                       <i class="jv-icon jv-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  disabled="disabled" id="tournament_end_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="((tournamentId != 0 ) || userRole == 'Tournament administrator')"  disabled="disabled" id="tournament_end_date">
                   <input type="text" class="form-control ls-datepicker" v-else id="tournament_end_date">
               </div>
             </div>
@@ -299,7 +299,7 @@
   </div>
 </div>
 </template>
-<script type="text/babel">
+<script >
 var moment = require('moment');
 import location from '../../../components/Location.vue'
 import Tournament from '../../../api/tournament.js'
@@ -326,7 +326,8 @@ tournament_venue_organiser: "",
 image:'',
 customCount:0,
 tournamentId: 0,
-imagePath :''
+imagePath :'',
+tournamentDateDiff: 0
 }
 },
 components: {
@@ -416,19 +417,31 @@ $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
 }
 // $('#tournament_start_date').val()
 if(start_date != ''){
-$('#tournament_start_date').datepicker('setDate', start_date)
+  $('#tournament_start_date').datepicker('setDate', start_date)
 }
 let tEndDate = ''
 if(this.$store.state.Tournament.tournamentEndDate!= undefined){
 tEndDate = new Date(moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
-$('#tournament_end_date').datepicker('setDate', tEndDate)
+  $('#tournament_end_date').datepicker('setDate', tEndDate)
 } else {
 $('#tournament_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
 }
-$('#tournament_start_date').datepicker().on('changeDate',function(){
-$('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
-$('#tournament_end_date').datepicker('clearDates')
-});
+  let vm = this
+    let startDate = moment($('#tournament_start_date').val(), 'DD/MM/YYYY')
+    let endDate = moment($('#tournament_end_date').val(), 'DD/MM/YYYY')
+    this.tournamentDateDiff = endDate.diff(startDate, 'days') 
+    $('#tournament_end_date').datepicker('setStartDate', moment($('#tournament_start_date').val(), 'DD/MM/YYYY').format("DD/MM/YYYY"))
+  $('#tournament_start_date').datepicker().on('changeDate',function(){
+
+    let newEndDate = moment($('#tournament_start_date').val(), "DD/MM/YYYY").add(vm.tournamentDateDiff, 'days');
+    if(vm.tournamentId != 0) {
+      $('#tournament_end_date').datepicker('setStartDate', newEndDate.format("DD/MM/YYYY"))
+      $('#tournament_end_date').datepicker('setDate', newEndDate.format("DD/MM/YYYY"));
+    } else {
+        $('#tournament_end_date').datepicker('setStartDate', moment($('#tournament_start_date').val(), 'DD/MM/YYYY').format("DD/MM/YYYY"))
+    }
+    // $('#tournament_end_date').datepicker('clearDates')
+  });
 //this.handleValidation()
 $('.panel-title').on('click',function(){
   if($('#opt_icon').hasClass('fa-plus') == true){

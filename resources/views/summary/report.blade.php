@@ -30,6 +30,7 @@
                 <th align="center">Match Code</th>
                 <th align="center">Team</th>
                 <th align="center">Team</th>
+                <th align="center">Placing</th>
             </tr>
 
     <tbody>
@@ -72,6 +73,13 @@
                         {{ $report->AwayTeam }}
                     @endif
                 </span>
+            </td>
+            <td align="center">
+                @if($report->position != null)
+                    {{$report->position}}
+                @else
+                    N/A
+                @endif
             </td>
     	</tr>
     @endforeach

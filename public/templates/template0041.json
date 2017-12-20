@@ -466,14 +466,16 @@
                                     "match_number": "CAT.PM2.G3.4A_4C_WR-4B_5C_WR",
                                     "display_match_number": "CAT.2.3.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "2.1",
-                                    "display_away_team_placeholder_name": "2.2"
+                                    "display_away_team_placeholder_name": "2.2",
+                                    "position": "10-11"
                                 },
                                 {
                                     "in_between": "CAT.PM2.G1LR-CAT.PM2.G2LR",
                                     "match_number": "CAT.PM2.G4.4A_4C_LR-4B_5C_LR",
                                     "display_match_number": "CAT.2.4.lrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "2.1",
-                                    "display_away_team_placeholder_name": "2.2"
+                                    "display_away_team_placeholder_name": "2.2",
+                                    "position": "12-13"
                                 }
                             ]
                         }

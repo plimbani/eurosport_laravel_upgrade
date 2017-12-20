@@ -48,6 +48,7 @@ class AgeGroupController extends BaseController
     {
         return $this->ageGroupObj->create($request);
     }
+
     /**
      * Edit  Age Group.
      *

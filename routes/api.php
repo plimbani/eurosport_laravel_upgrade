@@ -87,6 +87,7 @@ $api->version('v1', function ($api) {
     $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
 
     $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
+    $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
 
     $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding');
 
@@ -97,6 +98,9 @@ $api->version('v1', function ($api) {
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
     // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
     $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
+
+    $api->get('match/report/generate/{ageGroupId}', 'Laraspace\Api\Controllers\MatchController@generateCategoryReport');
+
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
@@ -117,7 +121,7 @@ $api->version('v1', function ($api) {
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');
     $api->post('pitch/edit/{id}', 'Laraspace\Api\Controllers\PitchController@edit');
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch');
-    
+
     //Age Group Stuff
 
     $api->get('age_groups', 'Laraspace\Api\Controllers\AgeGroupController@getAgeGroups');
@@ -223,6 +227,7 @@ $api->version('v1', function ($api) {
 
     $api->get('generateDisplayMatchNumberForDb','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumberForDB')->name('generate.display.match.number.for.db');
 
+    $api->get('match/insertPositionsForPlacingMatches','Laraspace\Api\Controllers\MatchController@insertPositionsForPlacingMatches')->name('insert.positions.for.placing.matches');
 });
 
 

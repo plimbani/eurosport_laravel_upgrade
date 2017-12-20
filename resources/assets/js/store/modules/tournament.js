@@ -9,7 +9,7 @@ const state = {
   maximumTeams: '',
   tournamentStartDate:"",
   tournamentEndDate:"",
-  tournamentId: '',
+  tournamentId: 0,
   currentTemplate: '',
   currentTotalTime: '',
   tournamentDays: '',
