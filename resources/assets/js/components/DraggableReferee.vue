@@ -1,13 +1,15 @@
 <template>
     <div class="raferee_details ">
         <div class="raferee_list">
-            <div class="">
-                <!-- <img src="/assets/img/user_icon.png" width="40"> -->
-                <p class="help-block">
+            <div class="d-flex align-items-center justify-content-between my-2">
+                <div>
                     {{referee.last_name}}, {{referee.first_name}}
-                    <a href="#" class="text-primary right"><i class="jv-icon jv-edit"></i></a>
-                </p>      
-            </div>   
+                </div>
+                <div>
+                    <a href="#" @click="generateRefereeReport()" title="Referee report card" class="text-primary"><i class="fa fa-print"></i></a>
+                    <a href="#" @click="editReferee()" title="Edit referee" class="text-primary mr-2"><i class="jv-icon jv-edit"></i></a>     
+                </div>
+            </div>  
         </div> 
     </div>
 </template>
@@ -43,7 +45,16 @@ export default {
                 revertDuration: 0,  //  original position after the drag
                 containment: ".fc-time-grid-event",
             });
-        }    
+        },
+
+        generateRefereeReport() {
+            let refereeId = this.referee.id
+            var win = window.open("/api/match/reportCard/" + refereeId, '_blank');
+            win.focus();
+        },
+        editReferee() { 
+            this.$root.$emit('editReferee', this.referee.id)
+        }
     }    
 };
     

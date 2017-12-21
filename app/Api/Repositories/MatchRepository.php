@@ -305,6 +305,7 @@ class MatchRepository
               'display_home_team_placeholder_name as displayHomeTeamPlaceholderName',
               'temp_fixtures.away_team_placeholder_name as awayPlaceholder',
               'display_away_team_placeholder_name as displayAwayTeamPlaceholderName',
+              'temp_fixtures.position as position',
               'tournament_competation_template.game_duration_RR',
               'tournament_competation_template.halves_FM',
               'tournament_competation_template.game_duration_FM',
@@ -813,7 +814,7 @@ class MatchRepository
       $ageCategoryPitchSize = $teamData['pitch_size'];
       $setFlag = 0;
 
-      if($pitchSize!=$ageCategoryPitchSize) {
+      if( $allowSchedulingForcefully == false && $pitchSize!=$ageCategoryPitchSize ) {
         return -2;
       }
 

@@ -945,91 +945,104 @@
                                     "match_number": "CAT.PM4.G1.1G-1J",
                                     "display_match_number": "CAT.4.1.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#1G",
-                                    "display_away_team_placeholder_name": "#1J"
+                                    "display_away_team_placeholder_name": "#1J",
+                                    "position": "1-2"
                                 },
                                 {
                                     "in_between": "2G-2J",
                                     "match_number": "CAT.PM4.G2.2G-2J",
                                     "display_match_number": "CAT.4.2.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#2G",
-                                    "display_away_team_placeholder_name": "#2J"
+                                    "display_away_team_placeholder_name": "#2J",
+                                    "position": "3-4"
                                 },
                                 {
                                     "in_between": "3G-3J",
                                     "match_number": "CAT.PM4.G3.3G-3J",
                                     "display_match_number": "CAT.4.3.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#3G",
-                                    "display_away_team_placeholder_name": "#3J"
+                                    "display_away_team_placeholder_name": "#3J",
+                                    "position": "5-6"
                                 },
                                 {
                                     "in_between": "1H-1K",
                                     "match_number": "CAT.PM4.G4.1H-1K",
                                     "display_match_number": "CAT.4.4.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#1H",
-                                    "display_away_team_placeholder_name": "#1K"
+                                    "display_away_team_placeholder_name": "#1K",
+                                    "position": "7-8"
                                 },
                                 {
                                     "in_between": "2H-2K",
                                     "match_number": "CAT.PM4.G5.2H-2K",
                                     "display_match_number": "CAT.4.5.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#2H",
-                                    "display_away_team_placeholder_name": "#2K"
+                                    "display_away_team_placeholder_name": "#2K",
+                                    "position": "9-10"
                                 },
                                 {
                                     "in_between": "3H-3K",
                                     "match_number": "CAT.PM4.G6.3H-3K",
                                     "display_match_number": "CAT.4.6.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#3H",
-                                    "display_away_team_placeholder_name": "#3K"
+                                    "display_away_team_placeholder_name": "#3K",
+                                    "position": "11-12"
                                 },
                                 {
                                     "in_between": "1I-1L",
                                     "match_number": "CAT.PM4.G7.1I-1L",
                                     "display_match_number": "CAT.4.7.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#1I",
-                                    "display_away_team_placeholder_name": "#1L"
+                                    "display_away_team_placeholder_name": "#1L",
+                                    "position": "13-14"
                                 },
                                 {
                                     "in_between": "2I-2L",
                                     "match_number": "CAT.PM4.G8.2I-2L",
                                     "display_match_number": "CAT.4.8.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#2I",
-                                    "display_away_team_placeholder_name": "#2L"
+                                    "display_away_team_placeholder_name": "#2L",
+                                    "position": "15-16"
                                 },
                                 {
                                     "in_between": "3I-3L",
                                     "match_number": "CAT.PM4.G9.3I-3L",
                                     "display_match_number": "CAT.4.9.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#3I",
-                                    "display_away_team_placeholder_name": "#3L"
+                                    "display_away_team_placeholder_name": "#3L",
+                                    "position": "17-18"
                                 },
                                 {
                                     "in_between": "CAT.PM3.G1WR-CAT.PM3.G3WR",
                                     "match_number": "CAT.PM4.G10.(PM3_G1_WR)-(PM3_G3_WR)",
                                     "display_match_number": "CAT.4.10.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "3.1",
-                                    "display_away_team_placeholder_name": "3.3"
+                                    "display_away_team_placeholder_name": "3.3",
+                                    "position": "19-20"
                                 },
                                 {
                                     "in_between": "CAT.PM3.G1LR-CAT.PM3.G3LR",
                                     "match_number": "CAT.PM4.G11.(PM3_G1_LR)-(PM3_G3_LR)",
                                     "display_match_number": "CAT.4.11.lrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "3.1",
-                                    "display_away_team_placeholder_name": "3.3"
+                                    "display_away_team_placeholder_name": "3.3",
+                                    "position": "21-22"
                                 },
                                 {
                                     "in_between": "CAT.PM3.G2WR-CAT.PM3.G4WR",
                                     "match_number": "CAT.PM4.G12.(PM3_G2_WR)-(PM3_G4_WR)",
                                     "display_match_number": "CAT.4.12.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "3.2",
-                                    "display_away_team_placeholder_name": "3.4"
+                                    "display_away_team_placeholder_name": "3.4",
+                                    "position": "23-24"
                                 },
                                 {
                                     "in_between": "CAT.PM3.G2LR-CAT.PM3.G4LR",
                                     "match_number": "CAT.PM4.G13.(PM3_G2_LR)-(PM3_G4_LR)",
                                     "display_match_number": "CAT.4.13.lrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "3.2",
-                                    "display_away_team_placeholder_name": "3.4"
+                                    "display_away_team_placeholder_name": "3.4",
+                                    "position": "25-26"
                                 }
                             ]
                         }

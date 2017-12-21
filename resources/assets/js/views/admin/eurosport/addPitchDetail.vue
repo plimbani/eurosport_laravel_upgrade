@@ -112,7 +112,7 @@
                                             <i class="jv-icon jv-calendar"></i>
                                         </span>
                                         <input type="hidden" :name="'totalBreaksForStage'+day" :id="'totalBreaksForStage'+day" v-model="stage_break[day]">
-                                        <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control ls-datepicker datestage'+day] " >
+                                        <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control datestage'+day] " readonly="readonly">
                                              <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
                                              <span class="help is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
                                         <!-- <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name"> -->
@@ -277,7 +277,7 @@
                                         <span class="input-group-addon">
                                             <i class="jv-icon jv-calendar"></i>
                                         </span>
-                                        <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
+                                        <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" readonly="" :class="['form-control datestage'+ day]">
                                     </div>
                                   </div>
                                   <div class="col-md-3">
@@ -399,7 +399,7 @@ export default {
           capacity['day'+i]= '0.00'
           let j= i-1;
           startDate = new Date(moment(this.tournamentStartDate, 'DD/MM/YYYY').add(j, 'days').format('MM/DD/YYYY'));
-          $('.datestage'+i).datepicker('setDate', moment(startDate, 'MM/DD/YYYY').format('DD/MM/YYYY'))
+          $('.datestage'+i).val(moment(startDate, 'MM/DD/YYYY').format('DD/MM/YYYY'));
           this.disableDate.push( $('.datestage'+i).val());
           // startDate.setDate()
           obj['date'+i] = $('.datestage'+i).val();
@@ -585,11 +585,6 @@ export default {
           }
 
       });
-
-       // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
-       // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
-
-
        setTimeout(function(){
           $('.ls-timepicker').not('.stage_start_time').attr('disabled','disabled');
        },1000)
@@ -852,16 +847,7 @@ export default {
                   availableDate.splice(index, 1);
                   that.availableDate = availableDate
                    setTimeout(function() {
-                  $('.datestage'+stage).datepicker();
-                  $('.datestage'+stage).datepicker('setStartDate', tStartDate)
-                  $('.datestage'+stage).datepicker('setEndDate', tEndDate)
-                  $('.datestage'+stage).datepicker('setEndDate', tEndDate)
-                  $('.datestage'+stage).datepicker('setDatesDisabled', disableDate);
-                  $('.datestage'+stage).datepicker('setDate', availDate)
-                   // console.log(that.disableDate)
-                  $('.ls-datepicker').datepicker('setDatesDisabled', that.disableDate);
-                  //
-                  // $('.ls-timepicker').timepicker({ 'setTime': 300})
+                  $('.datestage'+stage).val(availDate)
 
                   $('#stage_start_time'+stage).timepicker({
                       minTime:  '08:00',

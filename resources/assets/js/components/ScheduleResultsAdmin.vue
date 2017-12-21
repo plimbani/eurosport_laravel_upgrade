@@ -4,9 +4,21 @@
 	    	<div class="col-sm-12">
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
-					    <p><small class="card-subtitle mb-2 text-muted">{{$lang.summary_schedule_last_update}}
-			            : {{lastUpdatedDateValue}}
-			            </small></p>
+						<div class="row align-items-center">
+							<div class="col-md-8">
+								<p class="mb-0"><small class="text-muted">{{$lang.summary_schedule_last_update}}
+							        : {{lastUpdatedDateValue}}</small> </p>
+							</div>
+							<div class="col-md-4 d-flex justify-content-end" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
+								<select class="form-control ls-select2" v-model="ageCategory">
+									<option value="">Select age category</option>
+									<option v-for="category in competationList" :value="category.id">
+										{{category.group_name}} ({{category.category_age}})
+									</option>
+								</select>
+								<button class="btn btn-primary ml-1" @click="exportCategoryReport()">Download</button>
+							</div>
+						</div>
 						<div class="tab-content summary-report-content">
 							<div class="row">
 								<div class="col-md-12">
@@ -47,6 +59,7 @@
 </template>
 <script type="text/babel">
 
+import Tournament from '../api/tournament.js'
 import DrawsListing from './DrawsListing.vue'
 import MatchListing from './MatchListing.vue'
 import TeamListing from './TeamListing.vue'
@@ -55,13 +68,16 @@ import DrawDetails from './DrawDetails.vue'
 export default {
 	data() {
 		return {
-			// here we dispatch method for set currentView
-			currentView: '',lastUpdatedDateValue: ''
+			TournamentId: '',
+			competationList : {},
+			ageCategory: '',
+			currentView: '',
+			lastUpdatedDateValue: ''
 		}
 	},
 	mounted(){
 		// here we set drawsListing as currentView
-		this.currentView = 'drawsListing'
+	this.currentView = 'drawsListing'
     this.$store.dispatch('setCurrentView',this.currentView)
     this.$store.dispatch('isAdmin',true)
     // Also Call Api For Getting the last Updated Record
@@ -73,16 +89,35 @@ export default {
        this.$root.$on('changeComp1', this.setMatchData1);
        this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
        this.$root.$on('setCurrentView',this.setCurrentView);
+       this.getAgeCategory();
 
   	},
 	methods: {
-    lastUpdatedDate(updatedDate) {
-      this.lastUpdatedDateValue = moment(updatedDate.date).format("Do MMM YYYY HH:mm")
-    },
+	    lastUpdatedDate(updatedDate) {
+	      this.lastUpdatedDateValue = moment(updatedDate.date).format("Do MMM YYYY HH:mm")
+	    },
+
+		getAgeCategory() {
+			this.TournamentId = this.$store.state.Tournament.tournamentId
+
+			let TournamentData = {'tournament_id': this.TournamentId}
+
+			Tournament.getCompetationFormat(TournamentData).then(
+			  	(response) => {
+			 		this.competationList = response.data.data
+		  		},
+			    (error) => {
+
+			  	}
+			)
+
+		},
+
 		setMatchData1(data) {
 			this.currentView = 'matchListing'
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
 		},
+
 		setCurrentView(currentView) {
 		  if(currentView != this.currentView)
 		  {
@@ -95,12 +130,12 @@ export default {
 
 				this.currentView = 'matchListing'
 				this.$store.dispatch('setCurrentView',this.currentView)
-        this.$store.dispatch('setCurrentScheduleView','matchList')
+	   			 this.$store.dispatch('setCurrentScheduleView','matchList')
 			}
 
 			//this.$store.dispatch('setCurrentScheduleView','matchList')
 			this.currentView = currentView
-      this.$store.dispatch('setCurrentView',this.currentView)
+	  		this.$store.dispatch('setCurrentView',this.currentView)
 			/*else  {
 
 			  this.$store.dispatch('setCurrentScheduleView','')
@@ -108,6 +143,14 @@ export default {
 			}*/
 		  }
 			// Here we again
+		},
+		exportCategoryReport() {
+			let ageCategory	= this.ageCategory
+			if(ageCategory!=''){
+    			window.location.href = "/api/match/report/generate/"+ageCategory;
+			} else {
+    			toastr['error']('Please select age category.', 'Error');
+			}
 		}
 	}
 }

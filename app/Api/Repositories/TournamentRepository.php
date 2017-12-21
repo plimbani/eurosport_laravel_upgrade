@@ -94,7 +94,6 @@ class TournamentRepository
     }
     public function getAllTemplates($data=array())
     {
-      // dd( TournamentTemplates::all());
       if(is_array($data) && count($data['tournamentData'])>0){
         // TODO: need to Add
         return TournamentTemplates::get();
@@ -106,8 +105,6 @@ class TournamentRepository
     }
      public function getAllTemplatesFromMatches($data=array())
     {
-
-      // dd( $data);
       if(is_array($data) && count($data['tournamentData'])>0 && $data['tournamentData']['minimum_matches']!='' && $data['tournamentData']['total_teams']!=''){
         // TODO: need to Add
         return TournamentTemplates::where(['total_teams'=>$data['tournamentData']['total_teams'],'minimum_matches' => $data['tournamentData']['minimum_matches']])->orderBy('name')->get();
@@ -167,14 +164,63 @@ class TournamentRepository
         if(isset($data['tournamentId']) && $data['tournamentId'] != 0){
            // Update Touranment Table Data
           $tournamentId = $data['tournamentId'];
-          //$newdata['status'] = $data['status'];
-          // unset($newdata['start_date']);
-          // unset($newdata['end_date']);
-          //
           $newdata['start_date'] = Carbon::createFromFormat('d/m/Y', $newdata['start_date']);
           $newdata['end_date'] = Carbon::createFromFormat('d/m/Y', $newdata['end_date']);
           // here we check for image Logo is exist
           // means nothing need to updated it
+
+          //update dates in pitch available
+          $tournamentDetail = Tournament::where('id', $tournamentId)->first();
+          $oldSdate = Carbon::createFromFormat('d/m/Y', $tournamentDetail->start_date);
+          $dateDiff = $oldSdate->diffInDays($newdata['start_date']);
+          if($dateDiff > 0) {
+            $pitchCnt = Pitch::where('tournament_id',$tournamentId)->get()->count();
+            $pitchAvailableAll = PitchAvailable::where('tournament_id',$tournamentId)->get();
+            if($pitchCnt > 0 ) {
+              foreach($pitchAvailableAll as $pitchAvail) {
+                if ($oldSdate->lt($newdata['start_date'])) {
+                  $newStageStartdate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_start_date'])->addDays($dateDiff);
+                  $newStageContinuedate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_continue_date'])->addDays($dateDiff);
+                  $newStageEnddate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_end_date'])->addDays($dateDiff);
+                }
+                 if ($oldSdate->gt($newdata['start_date'])) {
+                  $newStageStartdate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_start_date'])->subDays($dateDiff);
+                  $newStageContinuedate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_continue_date'])->subDays($dateDiff);
+                  $newStageEnddate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_end_date'])->subDays($dateDiff);
+                }
+                PitchAvailable::where('id',$pitchAvail['id'])->update([
+                    'stage_start_date' => $newStageStartdate,
+                    'stage_continue_date' => $newStageContinuedate,
+                    'stage_end_date' => $newStageEnddate,
+                  ]);
+                
+              }
+            }
+          
+            //update dates in all matches
+            $matchesAll = TempFixture::where('tournament_id',$tournamentId)->get();
+            if($matchesAll->count() > 0) {
+              foreach($matchesAll as $match) {
+                if( $match['match_datetime'] != null && $match['match_endtime'] != null ) {
+                  if ($oldSdate->lt($newdata['start_date'])) {
+                    $newMatchStartdate = Carbon::parse($match['match_datetime'])->addDays($dateDiff);
+                    $newMatchEnddate = Carbon::parse($match['match_endtime'])->addDays($dateDiff);
+                  }
+                  if ($oldSdate->gt($newdata['start_date'])) {
+                    $newMatchStartdate = Carbon::parse( $match['match_datetime'])->subDays($dateDiff);
+                    $newMatchEnddate = Carbon::parse( $match['match_endtime'])->subDays($dateDiff);
+                  }
+                  TempFixture::where('id',$match['id'])->update([
+                      'match_datetime' => $newMatchStartdate,
+                      'match_endtime' => $newMatchEnddate,
+                  ]);
+                }
+              }
+            } 
+          }
+         
+
+
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
@@ -183,9 +229,7 @@ class TournamentRepository
          $newdata['user_id'] = $data['user_id'];
          $tournamentId = Tournament::create($newdata)->id;
         }
-        //$tournamentId = Tournament::create($newdata)->id;
         // Also Update the image Logo
-        //Tournament::where('id',$tournamentId)->update('logo'=>'tournament_'.$tournamentId);
         unset($newdata);
         // Now here we save the eurosport contact details
         $tournamentContactData =  array();
@@ -223,7 +267,6 @@ class TournamentRepository
             $locationData['country'] =$location['tournament_venue_country'] ?? '';
             $locationData['organiser'] =$location['tournament_venue_organiser'] ?? '';
             $locationData['tournament_id']=$tournamentId;
-            // $locationData['organiser'] =$data['tournament_venue_organiser'];
             if(isset($locationData['id']) && $locationData['id'] != 0){
            // Update Touranment Table Data
              if(isset($data['del_location']) && $data['del_location'] != 0)
@@ -239,7 +282,10 @@ class TournamentRepository
         $tournamentData = array();
         $tournamentDays = $this->getTournamentDays($data['start_date'],$data['end_date']);
 
-        $tournamentData = array('id'=> $tournamentId, 'name'=> $data['name'],'tournamentStartDate' => $data['start_date'],
+        $tournamentData = array(
+          'id'=> $tournamentId,
+          'name'=> $data['name'],
+          'tournamentStartDate' => $data['start_date'],
           'tournamentEndDate' => $data['end_date'],
 
           'tournamentStatus'=> 'Unpublished',

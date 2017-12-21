@@ -13,6 +13,7 @@ use Laraspace\Models\TournamentCompetationTemplates;
 use File;
 use Storage;
 use DB;
+use PDF;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\MatchContract;
@@ -62,7 +63,7 @@ class MatchController extends BaseController
     public function createMatch(Request $request)
     {
         return $this->matchObj->createMatch($request);
-    } 
+    }
 
     /**
      * Edit  Match result.
@@ -114,11 +115,16 @@ class MatchController extends BaseController
     {
         return $this->matchObj->generateMatchPrint($request->all());
     }
+
+    public function generateCategoryReport(Request $request, $ageGroupId) {
+        return $this->matchObj->generateCategoryReport($ageGroupId);
+    }
+
     public function removeAssignedReferee(Request $request)
     {
         return $this->matchObj->removeAssignedReferee($request);
     }
-    public function assignReferee(Request $request) 
+    public function assignReferee(Request $request)
     {
         return $this->matchObj->assignReferee($request);
     }
@@ -145,6 +151,30 @@ class MatchController extends BaseController
     public function refreshStanding(Request $request)
     {
         return $this->matchObj->refreshStanding($request->all());
+    }
+
+    public function generateRefereeReportCard(Request $request, $refereeId){
+
+        $referee = TempFixture::with('pitch','referee')->where('referee_id', $refereeId)
+                                ->orderBy('match_datetime','asc')->get();
+        
+
+        $resultData = $referee->toArray();
+
+        $date = new \DateTime(date('H:i d M Y'));
+
+         $pdf = PDF::loadView('pitchplanner.referee_report_card',['resultData' => $resultData])
+            ->setPaper('a4')
+            ->setOption('header-spacing', '5')
+            ->setOption('header-font-size', 7)
+            ->setOption('header-font-name', 'Open Sans')
+            ->setOrientation('portrait')
+            ->setOption('footer-right', 'Page [page] of [toPage]')
+            ->setOption('header-right', $date->format('H:i d M Y'))
+            ->setOption('margin-top', 20)
+            ->setOption('margin-bottom', 20);
+        return $pdf->inline('Referee report card.pdf');
+
     }
 
     public function automateMatchScheduleAndResult(Request $request, $tournamentId = null, $ageGroupId = null)
@@ -214,7 +244,7 @@ class MatchController extends BaseController
                     'pitchId' => $pitch->id,
                     'tournamentId' => $tournamentId,
                 ];
-                
+
                 $matchRepoObj->setMatchSchedule($matchData, true);
 
                 $awayTeamScore = rand(1,20);
@@ -334,7 +364,7 @@ class MatchController extends BaseController
                 $match['match_number'] = str_replace($category, 'CAT.', $fixture->match_number);
 
                 $updatedMatchDetail = $this->matchObj->processMatch($data, $match);
-                    
+
                 $fixture->display_match_number = $updatedMatchDetail['display_match_number'];
                 $fixture->display_home_team_placeholder_name = $updatedMatchDetail['display_home_team_placeholder_name'];
                 $fixture->display_away_team_placeholder_name = $updatedMatchDetail['display_away_team_placeholder_name'];
@@ -643,7 +673,7 @@ class MatchController extends BaseController
                         $bracketStarted = true;
                     }
                 }
-                
+
                 if(strpos($awayTeamPlaceHolder, '(') === false) {
                     if((strpos($awayTeamPlaceHolder, '_WR') !== false || strpos($awayTeamPlaceHolder, '_LR') !== false)) {
 
@@ -687,7 +717,7 @@ class MatchController extends BaseController
                             $splittedMatchNumber[3] .= ')-@AWAY';
                         } else {
                             $splittedMatchNumber[3] .= '-@AWAY';
-                        }                                        
+                        }
                     }
                 } else {
                     $isWinnerOrLooser = null;
@@ -727,6 +757,11 @@ class MatchController extends BaseController
         $updatedMatchDetail['display_away_team_placeholder_name'] = $displayAwayTeamPlaceHolderName;
 
         return $updatedMatchDetail;
+    }
+
+    public function insertPositionsForPlacingMatches(Request $request)
+    {
+        return $this->matchObj->insertPositionsForPlacingMatches($request);
     }
 
     public function saveStandingsManually(Request $request)

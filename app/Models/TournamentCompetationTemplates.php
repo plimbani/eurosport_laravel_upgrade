@@ -14,5 +14,9 @@ class TournamentCompetationTemplates extends Model
     {
     	 return $this->hasMany('Laraspace\Models\Competition',
     	 	'tournament_competation_template_id','id');
+    }
+    public function TournamentTemplate()
+    {
+    	 return $this->belongsTo('Laraspace\Models\TournamentTemplates');
     }    
 }

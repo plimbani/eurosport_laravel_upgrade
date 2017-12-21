@@ -902,14 +902,16 @@
                                     "display_match_number": "CAT.3.1.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#1G",
                                     "display_away_team_placeholder_name": "#1K",
-                                    "is_final_match": 1
+                                    "is_final_match": 1,
+                                    "position": "1-2"
                                 },
                                 {
                                     "in_between": "2G-2K",
                                     "match_number": "CAT.PM3.G2.2G-2K",
                                     "display_match_number": "CAT.3.2.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "#2G",
-                                    "display_away_team_placeholder_name": "#2K"
+                                    "display_away_team_placeholder_name": "#2K",
+                                    "position": "3-4"
                                 }
                             ]
                         }

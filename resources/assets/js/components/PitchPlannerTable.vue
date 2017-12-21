@@ -10,7 +10,7 @@
         </div>
 
         <div class="row">
-            <div class="pitch_planner_section pitch" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-9' : 'col-md-10']">
+            <div class="pitch_planner_section pitch col-md-9">
                 <div class="pitch-planner-wrapper">
                     <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
                         <div class="card">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="" id="outerGame" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']">
+            <div class="col-md-3" id="outerGame">
                 <div class="grey_bg" id="gameReferee">
                     <div class="tabs tabs-primary">
                         <ul class="nav nav-tabs" role="tablist">
@@ -130,7 +130,6 @@
             // this.$root.$on('getTeamsByTournamentFilter', this.resetPitch);
 
             this.$root.$on('editReferee', this.editReferee);
-
         },
         data() {
             return {
@@ -152,7 +151,7 @@
         props: {
         },
         mounted() {
-                $('.pitch_planner_section').mCustomScrollbar({
+            $('.pitch_planner_section').mCustomScrollbar({
                 'autoHideScrollbar':true
             });
                 let vm = this
@@ -174,6 +173,7 @@
                 //     }
                 // });
                 // Check the initial Poistion of the Sticky Header
+
                 var siteHeaderTop = $('.site-header').length > 0 ? $('.site-header').offset().top : 0;
                 var siteHeaderHeight = $('.site-header').length > 0 ? $('.site-header').height() : 0;
                 var stickyHeaderTop = (($('#gameReferee').offset().top ) - siteHeaderTop);
@@ -188,7 +188,6 @@
                 });
             })
             $(".stages").on('shown.bs.collapse', function(){
-
                 alert('The collapsible content is about to be shown.');
             });
 
