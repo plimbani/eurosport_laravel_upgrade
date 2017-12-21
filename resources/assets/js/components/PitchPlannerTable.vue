@@ -174,16 +174,16 @@
                 //     }
                 // });
                 // Check the initial Poistion of the Sticky Header
-                let tabWith = $('#gameReferee').width()+10;
                 var siteHeaderTop = $('.site-header').length > 0 ? $('.site-header').offset().top : 0;
                 var siteHeaderHeight = $('.site-header').length > 0 ? $('.site-header').height() : 0;
-
                 var stickyHeaderTop = (($('#gameReferee').offset().top ) - siteHeaderTop);
                 $( window ).scroll(function() {
+                    let tabWith = $('#gameReferee').width()+10;
+                    
                     if( $(window).scrollTop() > (stickyHeaderTop - siteHeaderHeight)) {
-                        $('#gameReferee').css({position: 'fixed', top: '0px', width: tabWith, 'margin-top':siteHeaderHeight});
+                        $('#gameReferee').css({position: 'fixed', top: '0', width: tabWith, 'margin-top':siteHeaderHeight});
                     } else {
-                        $('#gameReferee').css({position: 'static', top: '0px',width:tabWith, 'margin-top':0});
+                        $('#gameReferee').css({position: 'static', top: '0', width:tabWith, 'margin-top':0});
                     }
                 });
             })
