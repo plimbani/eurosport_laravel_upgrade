@@ -297,7 +297,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal"  @click="displayPitch(0)">{{$lang.pitch_modal_edit_pitch_cancel_button}} </button>
-            <button type="button" class="btn btn-primary" @click="savePitchDetails()" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.pitch_modal_availability_button_save}}</button>
+            <button type="button" class="btn button btn-primary" @click="savePitchDetails()" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.pitch_modal_availability_button_save}}</button>
         </div>
       </div>
     </div>
@@ -949,7 +949,6 @@ var moment = require('moment');
                     this.removeStage = removeStageArr
                      var that = this
                      that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,that.disableDate,that.availableDate,stage);
-                     
                      $('.ls-datepicker').datepicker('setStartDate', that.tournamentStartDate);
                 }
               setTimeout(function(){

@@ -316,7 +316,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal" @click="displayPitch(0)">{{$lang.pitch_modal_availability_button_close}}</button>
-          <button type="button" class="btn btn-primary" @click="savePitchDetails()" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.pitch_modal_availability_button_save}}</button>
+          <button type="button" class="btn button btn-primary" @click="savePitchDetails()" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.pitch_modal_availability_button_save}}</button>
         </div>
       </div>
     </div>
