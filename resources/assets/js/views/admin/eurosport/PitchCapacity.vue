@@ -464,7 +464,7 @@ import Tournament from '../../../api/tournament.js'
 
                             pitchSizeDetail.availableTime = ( ((availableTime - (availableTime % 60)) / 60) + ' hrs ' + (availableTime % 60) + ' mins');
                             pitchSizeDetail.timeRequired = ( ((timeRequired - (timeRequired % 60)) / 60) + ' hrs ' + (timeRequired % 60) + ' mins');
-                            pitchSizeDetail.balance = (balance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );                            
+                            pitchSizeDetail.balance = (balance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
                             pitchSizeDetail.balanceSign = balance < 0 ? '-' : '+';
 
                             vm.pitchSizeWiseSummaryArray[pitchSize] = pitchSizeDetail;
@@ -519,7 +519,7 @@ import Tournament from '../../../api/tournament.js'
                 let totalTimeRequiredPitchSizeWise = this.pitchSizeWiseSummaryData.totalTimeRequiredPitchSizeWise;
                 let timeInMinutes = 0;
                 if(totalTimeRequiredPitchSizeWise.hasOwnProperty(pitchSize)) {
-                    timeInMinutes = parseInt(totalTimeRequiredPitchSizeWise[pitchSize]);                
+                    timeInMinutes = parseInt(totalTimeRequiredPitchSizeWise[pitchSize]);
                 }
                 return timeInMinutes;
             },
@@ -539,6 +539,7 @@ import Tournament from '../../../api/tournament.js'
                 return (totalAvailableTime - totalTimeRequired);
             },
             displayTournamentCompetationList () {
+              $("body .js-loader").removeClass('d-none');
                 this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
                 // Only called if valid tournament id is Present
                 if (!isNaN(this.TournamentId)) {
@@ -546,6 +547,7 @@ import Tournament from '../../../api/tournament.js'
                     let TournamentData = {'tournament_id': this.TournamentId}
                     Tournament.getCompetationFormat(TournamentData).then(
                     (response) => {
+                      $("body .js-loader").addClass('d-none');
                         let time_sum= 0;
                         response.data.data.reduce(function (a,b) {
                             time_sum += b['total_time']

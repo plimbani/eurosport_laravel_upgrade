@@ -10,7 +10,7 @@
         </div>
 
         <div class="row">
-            <div class="pitch_planner_section pitch col-md-9">
+            <div class="pitch_planner_section pitch" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-9' : 'col-md-10']">
                 <div class="pitch-planner-wrapper">
                     <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
                         <div class="card">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3" id="outerGame">
+            <div class="" id="outerGame" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']">
                 <div class="grey_bg" id="gameReferee">
                     <div class="tabs tabs-primary">
                         <ul class="nav nav-tabs" role="tablist">
@@ -130,7 +130,6 @@
             // this.$root.$on('getTeamsByTournamentFilter', this.resetPitch);
 
             this.$root.$on('editReferee', this.editReferee);
-            // this.stickyHeaderPosition();
         },
         data() {
             return {
@@ -174,7 +173,19 @@
                 //     }
                 // });
                 // Check the initial Poistion of the Sticky Header
-                vm.stickyHeaderPosition();
+
+                var siteHeaderTop = $('.site-header').length > 0 ? $('.site-header').offset().top : 0;
+                var siteHeaderHeight = $('.site-header').length > 0 ? $('.site-header').height() : 0;
+                var stickyHeaderTop = (($('#gameReferee').offset().top ) - siteHeaderTop);
+                $( window ).scroll(function() {
+                    let tabWith = $('#gameReferee').width()+10;
+                    
+                    if( $(window).scrollTop() > (stickyHeaderTop - siteHeaderHeight)) {
+                        $('#gameReferee').css({position: 'fixed', top: '0', width: tabWith, 'margin-top':siteHeaderHeight});
+                    } else {
+                        $('#gameReferee').css({position: 'static', top: '0', width:tabWith, 'margin-top':0});
+                    }
+                });
             })
             $(".stages").on('shown.bs.collapse', function(){
                 alert('The collapsible content is about to be shown.');
@@ -411,20 +422,6 @@
           },
           enlargePitchPlanner() {
             this.$router.push({name: 'enlarge_pitch_planner'})
-          },
-          stickyHeaderPosition() {
-            let tabWidth = $('#gameReferee').width()+10;
-            var siteHeaderTop = $('.site-header').length > 0 ? $('.site-header').offset().top : 0;
-            var siteHeaderHeight = $('.site-header').length > 0 ? $('.site-header').height() : 0;
-
-            var stickyHeaderTop = (($('#gameReferee').offset().top ) - siteHeaderTop);
-            $( window ).scroll(function() {
-                if( $(window).scrollTop() > (stickyHeaderTop - siteHeaderHeight)) {
-                    $('#gameReferee').css({position: 'fixed', top: '0px', width: tabWidth, 'margin-top':siteHeaderHeight});
-                } else {
-                    $('#gameReferee').css({position: 'static', top: '0px',width:tabWidth, 'margin-top':0});
-                }
-            });
           },
         }
     }

@@ -297,7 +297,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal"  @click="displayPitch(0)">{{$lang.pitch_modal_edit_pitch_cancel_button}} </button>
-            <button type="button" class="btn btn-primary" @click="savePitchDetails()">{{$lang.pitch_modal_availability_button_save}}</button>
+            <button type="button" class="btn button btn-primary" @click="savePitchDetails()" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.pitch_modal_availability_button_save}}</button>
         </div>
       </div>
     </div>
@@ -320,7 +320,8 @@ var moment = require('moment');
                 'stage_capacity' : [],
                 'availableDate': [],
                 'stage_break': [],
-                'breakEnable': []
+                'breakEnable': [],
+                isSaveInProcess: false,
                 }
         },
         computed: {
@@ -827,12 +828,15 @@ var moment = require('moment');
                     // $("#frmPitchAvailable").serialize()
                     let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time
 
+                    this.isSaveInProcess = true;
                     return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
                         toastr['success']('Pitch detail has been updated successfully.', 'Success');
-                        this.displayPitch()
+                        this.displayPitch();
+                        this.isSaveInProcess = false;
                         //setTimeout(Plugin.reloadPage, 1000);
                         $('#editPitch').modal('hide')
                     }).catch(error => {
+                        this.isSaveInProcess = false;
                         if (error.response.status == 401) {
                             // toastr['error']('Invalid Credentials', 'Error');
                         } else {
@@ -945,7 +949,6 @@ var moment = require('moment');
                     this.removeStage = removeStageArr
                      var that = this
                      that.setDatepicker(that.tournamentStartDate,that.tournamentEndDate,that.disableDate,that.availableDate,stage);
-                     
                      $('.ls-datepicker').datepicker('setStartDate', that.tournamentStartDate);
                 }
               setTimeout(function(){
