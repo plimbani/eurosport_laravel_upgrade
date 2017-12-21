@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3" id="outerGame" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']">
+            <div class="" id="outerGame" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']">
                 <div class="grey_bg" id="gameReferee">
                     <div class="tabs tabs-primary">
                         <ul class="nav nav-tabs" role="tablist">
