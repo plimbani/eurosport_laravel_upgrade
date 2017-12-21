@@ -832,10 +832,11 @@ var moment = require('moment');
                     return axios.post('/api/pitch/edit/'+this.pitchId,pitchData).then(response =>  {
                         toastr['success']('Pitch detail has been updated successfully.', 'Success');
                         this.displayPitch();
-
+                        this.isSaveInProcess = false;
                         //setTimeout(Plugin.reloadPage, 1000);
                         $('#editPitch').modal('hide')
                     }).catch(error => {
+                        this.isSaveInProcess = false;
                         if (error.response.status == 401) {
                             // toastr['error']('Invalid Credentials', 'Error');
                         } else {
@@ -847,7 +848,6 @@ var moment = require('moment');
                 }).catch(() => {
                     toastr['error']('Please fill all required fields', 'Error')
                  });
-                 this.isSaveInProcess = false;
                 // let pitchData = {
                 //     'pitchId' : this.pitchId,
                 //     'number': '123',
