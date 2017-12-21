@@ -316,7 +316,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal" @click="displayPitch(0)">{{$lang.pitch_modal_availability_button_close}}</button>
-          <button type="button" class="btn btn-primary" @click="savePitchDetails()">{{$lang.pitch_modal_availability_button_save}}</button>
+          <button type="button" class="btn button btn-primary" @click="savePitchDetails()" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.pitch_modal_availability_button_save}}</button>
         </div>
       </div>
     </div>
@@ -340,8 +340,8 @@ export default {
           'stage_capacity' : [],
           'availableDate': [],
           'stage_break': [],
-          'breakEnable': []
-
+          'breakEnable': [],
+          isSaveInProcess: false
           }
   },
   computed: {
@@ -731,10 +731,12 @@ export default {
 
               let pitchData = $("#frmPitchDetail").serialize() +'&' + $("#frmPitchAvailable").serialize() + '&tournamentId='+this.tournamentId+'&stage='+this.tournamentDays+'&pitchCapacity='+time
                       // this.$store.dispatch('AddPitch',pitchData)
+                      this.isSaveInProcess = true;
                       return axios.post('/api/pitch/create',pitchData).then(response =>  {
                           this.pitchId = response.data.pitchId
                           toastr['success']('Pitch detail has been added successfully.', 'Success');
-                          this.displayPitch()
+                          this.displayPitch();
+                          this.isSaveInProcess = false;
                           $('#addPitchModal').modal('hide')
                           $("#frmPitchDetail")[0].reset();
 
