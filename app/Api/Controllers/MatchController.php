@@ -10,6 +10,7 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\Tournament;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\Referee;
 use File;
 use Storage;
 use DB;
@@ -150,15 +151,20 @@ class MatchController extends BaseController
 
     public function generateRefereeReportCard(Request $request, $refereeId){
 
+        $refereeData = Referee::where('id',$refereeId)->first();
+        
         $referee = TempFixture::with('pitch','referee')->where('referee_id', $refereeId)
                                 ->orderBy('match_datetime','asc')->get();
         
-
         $resultData = $referee->toArray();
 
         $date = new \DateTime(date('H:i d M Y'));
 
-         $pdf = PDF::loadView('pitchplanner.referee_report_card',['resultData' => $resultData])
+        $refereeName = $refreeData['last_name']." , ".$refreeData['first_name'];     
+     
+        $refereeReport =  "Referee report card - " .$refereeName;
+
+        $pdf = PDF::loadView('pitchplanner.referee_report_card',['resultData' => $resultData])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
@@ -168,7 +174,7 @@ class MatchController extends BaseController
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
-        return $pdf->inline('Referee report card.pdf');
+        return $pdf->inline($refereeReport);
 
     }
 
