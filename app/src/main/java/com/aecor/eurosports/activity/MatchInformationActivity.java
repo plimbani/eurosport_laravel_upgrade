@@ -58,7 +58,6 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     @BindView(R.id.tv_placing)
     protected TextView tv_placing;
     private TeamFixturesModel mTeamFixturesModel;
-    private String mCompetationType;
     private String position;
     private Context mContext;
     private AppPreference mPreference;
@@ -69,9 +68,7 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
         super.onCreate(savedInstanceState);
         mTeamFixturesModel = getIntent().getParcelableExtra(AppConstants.ARG_MATCH_INFO);
-        mCompetationType = getIntent().getStringExtra(AppConstants.ARG_COMPETATION_TYPE);
-        position = getIntent().getStringExtra(AppConstants.ARG_POSITION);
-        mTeamFixturesModel.setPosition(position);
+
         mContext = this;
         initView();
     }
@@ -267,7 +264,7 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
             tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         }
 
-        if (!Utility.isNullOrEmpty(mCompetationType) && mCompetationType.equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+        if (mTeamFixturesModel != null && !Utility.isNullOrEmpty(mTeamFixturesModel.getActual_round()) && mTeamFixturesModel.getActual_round().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
             String placingString = getString(R.string.placing);
             if (!Utility.isNullOrEmpty(mTeamFixturesModel.getPosition())) {
                 placingString = placingString + " " + mTeamFixturesModel.getPosition();

@@ -7,12 +7,13 @@ import android.os.Parcelable;
  * Created by system-local on 30-06-2017.
  */
 
-public class TeamFixturesModel implements Parcelable {
+public class TeamFixturesModel implements Parcelable{
 
     private String fid;
     private String match_number;
     private String displayMatchNumber;
     private String round;
+    private String actual_round;
     private String competation_name;
     private String competition_actual_name;
     private String team_size;
@@ -67,12 +68,11 @@ public class TeamFixturesModel implements Parcelable {
     private String position;
 
     protected TeamFixturesModel(Parcel in) {
-        displayHomeTeamPlaceholderName = in.readString();
-        displayAwayTeamPlaceholderName = in.readString();
         fid = in.readString();
         match_number = in.readString();
         displayMatchNumber = in.readString();
         round = in.readString();
+        actual_round = in.readString();
         competation_name = in.readString();
         competition_actual_name = in.readString();
         team_size = in.readString();
@@ -99,7 +99,6 @@ public class TeamFixturesModel implements Parcelable {
         AwayTeam = in.readString();
         Home_id = in.readString();
         Away_id = in.readString();
-        position = in.readString();
         HomeFlagLogo = in.readString();
         AwayFlagLogo = in.readString();
         HomeCountryFlag = in.readString();
@@ -123,16 +122,35 @@ public class TeamFixturesModel implements Parcelable {
         awayPlaceholder = in.readString();
         homeTeamName = in.readString();
         awayTeamName = in.readString();
+        displayHomeTeamPlaceholderName = in.readString();
+        displayAwayTeamPlaceholderName = in.readString();
+        position = in.readString();
+    }
+
+    public static final Creator<TeamFixturesModel> CREATOR = new Creator<TeamFixturesModel>() {
+        @Override
+        public TeamFixturesModel createFromParcel(Parcel in) {
+            return new TeamFixturesModel(in);
+        }
+
+        @Override
+        public TeamFixturesModel[] newArray(int size) {
+            return new TeamFixturesModel[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(displayHomeTeamPlaceholderName);
-        dest.writeString(displayAwayTeamPlaceholderName);
         dest.writeString(fid);
         dest.writeString(match_number);
         dest.writeString(displayMatchNumber);
         dest.writeString(round);
+        dest.writeString(actual_round);
         dest.writeString(competation_name);
         dest.writeString(competition_actual_name);
         dest.writeString(team_size);
@@ -182,48 +200,9 @@ public class TeamFixturesModel implements Parcelable {
         dest.writeString(awayPlaceholder);
         dest.writeString(homeTeamName);
         dest.writeString(awayTeamName);
+        dest.writeString(displayHomeTeamPlaceholderName);
+        dest.writeString(displayAwayTeamPlaceholderName);
         dest.writeString(position);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<TeamFixturesModel> CREATOR = new Creator<TeamFixturesModel>() {
-        @Override
-        public TeamFixturesModel createFromParcel(Parcel in) {
-            return new TeamFixturesModel(in);
-        }
-
-        @Override
-        public TeamFixturesModel[] newArray(int size) {
-            return new TeamFixturesModel[size];
-        }
-    };
-
-    public String getDisplayMatchNumber() {
-        return displayMatchNumber;
-    }
-
-    public void setDisplayMatchNumber(String displayMatchNumber) {
-        this.displayMatchNumber = displayMatchNumber;
-    }
-
-    public String getDisplayHomeTeamPlaceholderName() {
-        return displayHomeTeamPlaceholderName;
-    }
-
-    public void setDisplayHomeTeamPlaceholderName(String displayHomeTeamPlaceholderName) {
-        this.displayHomeTeamPlaceholderName = displayHomeTeamPlaceholderName;
-    }
-
-    public String getDisplayAwayTeamPlaceholderName() {
-        return displayAwayTeamPlaceholderName;
-    }
-
-    public void setDisplayAwayTeamPlaceholderName(String displayAwayTeamPlaceholderName) {
-        this.displayAwayTeamPlaceholderName = displayAwayTeamPlaceholderName;
     }
 
     public String getFid() {
@@ -242,12 +221,28 @@ public class TeamFixturesModel implements Parcelable {
         this.match_number = match_number;
     }
 
+    public String getDisplayMatchNumber() {
+        return displayMatchNumber;
+    }
+
+    public void setDisplayMatchNumber(String displayMatchNumber) {
+        this.displayMatchNumber = displayMatchNumber;
+    }
+
     public String getRound() {
         return round;
     }
 
     public void setRound(String round) {
         this.round = round;
+    }
+
+    public String getActual_round() {
+        return actual_round;
+    }
+
+    public void setActual_round(String actual_round) {
+        this.actual_round = actual_round;
     }
 
     public String getCompetation_name() {
@@ -640,6 +635,22 @@ public class TeamFixturesModel implements Parcelable {
 
     public void setAwayTeamName(String awayTeamName) {
         this.awayTeamName = awayTeamName;
+    }
+
+    public String getDisplayHomeTeamPlaceholderName() {
+        return displayHomeTeamPlaceholderName;
+    }
+
+    public void setDisplayHomeTeamPlaceholderName(String displayHomeTeamPlaceholderName) {
+        this.displayHomeTeamPlaceholderName = displayHomeTeamPlaceholderName;
+    }
+
+    public String getDisplayAwayTeamPlaceholderName() {
+        return displayAwayTeamPlaceholderName;
+    }
+
+    public void setDisplayAwayTeamPlaceholderName(String displayAwayTeamPlaceholderName) {
+        this.displayAwayTeamPlaceholderName = displayAwayTeamPlaceholderName;
     }
 
     public String getPosition() {
