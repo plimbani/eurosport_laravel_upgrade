@@ -160,7 +160,7 @@ class MatchController extends BaseController
 
         $date = new \DateTime(date('H:i d M Y'));
 
-        $refereeName = $refreeData['last_name']." , ".$refreeData['first_name'];     
+        $refereeName = $refereeData['last_name']." , ".$refereeData['first_name'];     
      
         $refereeReport =  "Referee report card - " .$refereeName;
 
