@@ -337,7 +337,7 @@ export default {
     },
     showPlacingForMatch() {
       if(this.getCurrentScheduleView == 'drawDetails') {
-        if(this.DrawName.competation_type == 'Elimination') {
+        if(this.DrawName.actual_competition_type == 'Elimination') {
           return true;
         } else {
           return false;

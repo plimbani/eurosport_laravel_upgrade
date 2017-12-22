@@ -42,31 +42,30 @@
           </tr>
           <tr>
             <td width="230px">&nbsp;Match</td>
-            <td>&nbsp;Team 1 (
+            <td>&nbsp;Team 1 
                 @if($data['home_team'] == 0 && $data['home_team_name'] == '@^^@')
                     @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                        {{ $data['display_home_team_placeholder_name'] }}
+                        ({{ $data['display_home_team_placeholder_name'] }})
                     @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
-                        {{ 'Pos-' . $data['display_home_team_placeholder_name'] }}
+                        ({{ 'Pos-' . $data['display_home_team_placeholder_name'] }})
                     @endif
                 @elseif($data['home_team'] != 0)
-                    {{ $data['home_team_name'] }}
+                    ({{ $data['home_team_name'] }})
                 @else
-                    {{ $data['display_home_team_placeholder_name'] }}
+                    ({{ $data['display_home_team_placeholder_name'] }})
                 @endif
-                ) and Team 2 (
+                 and Team 2
                 @if($data['away_team'] == 0 && $data['away_team_name'] == '@^^@')
                     @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                        {{ $data['display_away_team_placeholder_name'] }}
+                        ({{ $data['display_away_team_placeholder_name'] }})
                     @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
-                        {{ 'Pos-' . $data['display_away_team_placeholder_name'] }}
+                        ({{ 'Pos-' . $data['display_away_team_placeholder_name'] }})
                     @endif
                 @elseif($data['away_team'] !=0)
-                    {{ $data['away_team_name'] }}
+                    ({{ $data['away_team_name'] }})
                 @else
-                    {{ $data['display_away_team_placeholder_name']}}
+                    ({{ $data['display_away_team_placeholder_name']}})
                 @endif
-                )
             </td>
           </tr>
           <tr>
@@ -80,39 +79,39 @@
           <tr>
             <td width="230px">&nbsp;Referee</td>
               @if($data['referee']['last_name'] && $data['referee']['first_name'])
-                <td>&nbsp;{{ $data['referee']['last_name']}},{{ $data['referee']['first_name']}}</td>
+                <td>&nbsp;{{ $data['referee']['last_name']}}, {{ $data['referee']['first_name']}}</td>
               @else
             <td width="230px"></td>
               @endif
           </tr>
           <tr>
             <td width="230px">&nbsp;Result</td>
-            <td>&nbsp;Team 1 (
+            <td>&nbsp;Team 1
               @if($data['home_team'] == 0 && $data['home_team_name'] == '@^^@')
                   @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                      {{ $data['display_home_team_placeholder_name'] }}
+                      ({{ $data['display_home_team_placeholder_name'] }})
                   @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
-                      {{ 'Pos-' . $data['display_home_team_placeholder_name'] }}
+                      ({{ 'Pos-' . $data['display_home_team_placeholder_name'] }})
                   @endif
               @elseif($data['home_team'] != 0)
-                  {{ $data['home_team_name'] }}
+                  ({{ $data['home_team_name'] }})
               @else
-                  {{ $data['display_home_team_placeholder_name']}}
+                  ({{ $data['display_home_team_placeholder_name']}})
               @endif
-              ) - {{$data['hometeam_score']}}<br>
-              &nbsp;Team 2 (
+               - {{$data['hometeam_score']}}<br>
+              &nbsp;Team 2
               @if($data['away_team'] == 0 && $data['away_team_name'] == '@^^@')
                   @if(strpos($data['competition']['actual_name'], 'Group') !== false)
-                      {{ $data['display_away_team_placeholder_name'] }}
+                      ({{ $data['display_away_team_placeholder_name'] }})
                   @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
-                      {{ 'Pos-' . $data['display_away_team_placeholder_name'] }}
+                      ({{ 'Pos-' . $data['display_away_team_placeholder_name'] }})
                   @endif
               @elseif($data['away_team'] !=0)
-                  {{ $data['away_team_name'] }}
+                  ({{ $data['away_team_name'] }})
               @else
-                  {{ $data['display_away_team_placeholder_name']}}
+                  ({{ $data['display_away_team_placeholder_name']}})
               @endif
-              ) - {{$data['awayteam_score']}}
+               - {{$data['awayteam_score']}}
             </td>
           </tr>
           <tr>
