@@ -234,33 +234,37 @@
           <tr>
             <td align="center">{{ Carbon\Carbon::parse($match->match_datetime)->format('jS M Y H:i') }}</td>
             <td align="center">{{ $match->competation_name }}</td>
-            <td align="right" style="padding: 5px 10px;">
-              @if($match->Home_id == '0' && $match->homeTeamName == '@^^@')
-                @if(strpos($match->competition_actual_name, "Group") != -1)
-                  {{ $match->homePlaceholder }}
+            <td align="right" style="vertical-align: middle; padding: 5px 10px 3px 0">
+              <span>
+                @if($match->Home_id == '0' && $match->homeTeamName == '@^^@')
+                  @if(strpos($match->competition_actual_name, "Group") != -1)
+                    {{ $match->homePlaceholder }}
+                  @else
+                    Pos-{{ $match->homePlaceholder }}
+                  @endif
                 @else
-                  Pos-{{ $match->homePlaceholder }}
+                  {{ $match->HomeTeam }}
                 @endif
-              @else
-                {{ $match->HomeTeam }}
-              @endif
+              </span>
               @if($match->Home_id != '0')
-                <img src="{{ $match->HomeFlagLogo }}" height="15" width="15">
+                <img src="{{ $match->HomeFlagLogo }}" height="10" style="display: inline;">
               @endif
             </td>
-            <td align="left" style="padding: 5px 10px;">
+            <td align="left" style="vertical-align: middle; padding: 5px 0 3px 10px">
               @if($match->Away_id != '0')
-                <img src="{{ $match->AwayFlagLogo }}" height="15" width="15">
+                <img src="{{ $match->AwayFlagLogo }}" height="10" style="display: inline;">
               @endif
-              @if($match->Away_id == '0' && $match->awayTeamName == '@^^@')
-                @if(strpos($match->competition_actual_name, "Group") != -1)
-                  {{ $match->awayPlaceholder }}
+              <span>
+                @if($match->Away_id == '0' && $match->awayTeamName == '@^^@')
+                  @if(strpos($match->competition_actual_name, "Group") != -1)
+                    {{ $match->awayPlaceholder }}
+                  @else
+                    Pos-{{ $match->awayPlaceholder }}
+                  @endif
                 @else
-                  Pos-{{ $match->awayPlaceholder }}
+                  {{ $match->AwayTeam }}
                 @endif
-              @else
-                {{ $match->AwayTeam }}
-              @endif
+              </span>
             </td>
             <td align="center">{{ $match->homeScore . ' - ' . $match->AwayScore }}</td>
             @if($matches['actual_competition_type'] == 'Elimination')
