@@ -224,8 +224,7 @@
 								<span class="text-center" v-if="(report.awayTeam == '0' && report.awayTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.awayPlaceholder) }}</span>
 								<span class="text-center" v-else>{{ report.AwayTeam }}</span>
 							</td>
-							<td v-if="report.position != null">{{report.position}}</td>
-							<td v-else>N/A</td>
+							<td align="center">{{ (report.position != null) ? report.position : 'N/A' }}</td>
 	                	</tr>
 	                </tbody>
 				</table>
