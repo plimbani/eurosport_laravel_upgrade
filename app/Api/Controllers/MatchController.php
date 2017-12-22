@@ -160,9 +160,9 @@ class MatchController extends BaseController
 
         $date = new \DateTime(date('H:i d M Y'));
 
-        $refereeName = $refereeData['last_name']." , ".$refereeData['first_name'];     
+        $refereeName = $refereeData['last_name'].", ".$refereeData['first_name'];     
      
-        $refereeReport =  "Referee report card - " .$refereeName;
+        $refereeReportPdf =  "Referee report card - " .$refereeName;
 
         $pdf = PDF::loadView('pitchplanner.referee_report_card',['resultData' => $resultData])
             ->setPaper('a4')
@@ -174,7 +174,7 @@ class MatchController extends BaseController
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
-        return $pdf->inline($refereeReport);
+        return $pdf->inline($refereeReportPdf);
 
     }
 
