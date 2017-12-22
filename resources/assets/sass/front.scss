@@ -717,3 +717,7 @@ img {
 .display_table {
         display: table;
 }
+
+.report-table.display_block th{
+    min-width: 100px;
+}
