@@ -14,8 +14,8 @@
             <div class="text-center mt-3"
             v-if="match.isScheduled!=1"
             v-for="match in competition.matchList"
-            :data-text="match.matchName">
-                <draggable-match-event :match="match" :fixtureBackgroundColor="competition.category_age_color"></draggable-match-event>
+            :data-text="match.displayMatchName">
+                <draggable-match-event :match="match" :fixtureBackgroundColor="competition.category_age_color" :fixtureTextColor="competition.category_age_font_color"></draggable-match-event>
             </div>
           </div>
         </div>

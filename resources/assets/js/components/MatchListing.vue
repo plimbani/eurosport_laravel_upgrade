@@ -80,6 +80,7 @@ export default {
        this.$root.$on('changeComp', this.setMatchData);
        this.$root.$on('getMatchByTournamentFilter', this.setFilter);
        this.$root.$on('changeDrawListComp', this.setMatchData);
+       this.$root.$on('getAllMatches', this.getAllMatches);
   	},
 	computed: {
 		currentScheduleView() {
@@ -124,6 +125,7 @@ export default {
 	    },
 
 		onChangeMatchDate(){
+
 			let matchDate = this.matchDate
 			this.currentDate = this.matchDate
 
@@ -143,7 +145,7 @@ export default {
 
 	      }
 	},
-	
+
 	getDateRange(startDate, stopDate, dateFormat)
 	{
         var dateArray = [];
@@ -248,7 +250,7 @@ export default {
 					    setTimeout(function(){
 					      vm.matchData = _.orderBy(vm.matchData, ['match_datetime'], ['asc'])
 					       // console.log(newArray)
-					       // vm.matchData = 
+					       // vm.matchData =
 					    },100)
 						// here we add extra Field Fot Not Displat Location
 					}
@@ -259,10 +261,10 @@ export default {
 			)
 		},
 		getAllMatches(date='',filterKey='',filterValue='') {
-
+			$("body .js-loader").removeClass('d-none');
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = ''
-		    
+
 		    if(date != '') {
 		          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
 		    } else {
@@ -279,6 +281,7 @@ export default {
 			let vm =this
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
+					$("body .js-loader").addClass('d-none');
 					if(response.data.status_code == 200) {
 						this.matchData = response.data.data
 						setTimeout(function(){

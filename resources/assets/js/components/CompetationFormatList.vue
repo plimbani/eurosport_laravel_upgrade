@@ -12,7 +12,7 @@
                   <th class="text-center">{{$lang.competation_total_matches}}</th>
                   <th class="text-center" width="90px">{{$lang.competation_total_time}}</th>
                   <th class="text-center">{{$lang.competation_match_schedule}}</th>
-                  <th class="text-center">{{$lang.competation_manage}}</th>
+                  <th class="text-center" width="79px">{{$lang.competation_manage}}</th>
               </tr>
           </thead>
           <tbody>
@@ -45,7 +45,26 @@
           </tbody>
           <AddAgeCateogryModel v-if="categoryStatus"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-          <competationModal :templateData="templateData" :totalTime="totalTime"></competationModal>
+          <competationModal :templateData="templateData" :totalTime="totalTime" :templateImage="templateImage"></competationModal>
+          <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
+            <div class="modal-dialog modal-full" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Template {{templateData.tournament_name}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="d-flex align-items-center justify-content-centers">
+                    <div class="d-block mx-auto">
+                      <img v-bind:src="'/'+templateImage">
+                    </div>
+                  </div>
+                </div>  
+              </div>
+            </div>
+          </div>
         </table>
       </div>
     </div>
@@ -70,6 +89,7 @@ export default {
       deleteConfirmMsg: 'Are you sure you would like to delete this age category?',deleteAction: '',
       templateData:[],
       totalTime: '',
+      templateImage: '',
       categoryStatus: false
     }
   },
@@ -120,7 +140,8 @@ export default {
          Tournament.getTemplate(TemplateData).then(
           (response) => {
           if(response.data.status_code==200){
-            this.templateData = JSON.parse(response.data.data)
+            this.templateData = JSON.parse(response.data.data.json_data)
+            this.templateImage = response.data.data.image
             this.totalTime = tTime
              $("#competationmodal").modal("show");
           }
