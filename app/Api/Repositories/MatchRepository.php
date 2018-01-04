@@ -429,7 +429,8 @@ class MatchRepository
           $reportQuery->orderBy('match_standing.manual_order','asc')
                       ->orderBy('match_standing.points','desc')
                       ->orderBy('GoalDifference','desc')
-                      ->orderBy('match_standing.goal_for','desc');
+                      ->orderBy('match_standing.goal_for','desc')
+                      ->orderBy('match_standing.team_id','asc');
 
           $tempFixtures = DB::table('temp_fixtures')
                           ->leftjoin('competitions', 'temp_fixtures.competition_id', '=', 'competitions.id')
@@ -515,7 +516,7 @@ class MatchRepository
 
           $holdingTeamStandings = collect($allStandingDataArray);
           $competitionStandings = $reportQuery->get();
-
+          // dd($competitionStandings);
           $mergedStandings = $competitionStandings->merge($holdingTeamStandings);
 
           // end
