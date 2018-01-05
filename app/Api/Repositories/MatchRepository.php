@@ -437,7 +437,7 @@ class MatchRepository
                           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId'])
                           ->where('temp_fixtures.competition_id', $tournamentData['competitionId'])
                           ->where('competitions.actual_competition_type', 'Round Robin')
-                          ->where('competitions.competation_round_no', 'Round 1')
+                          // ->where('competitions.competation_round_no', 'Round 1')
                           ->select(
                             'temp_fixtures.id as fixtureId',
                             DB::raw('CONCAT(temp_fixtures.home_team_placeholder_name, "-", temp_fixtures.away_team_placeholder_name) AS teamsPlaceHolderName'),
@@ -457,10 +457,10 @@ class MatchRepository
           $otherTeams = [];
 
           foreach($tempFixtures as $fixture) {
-            if($fixture->homeTeam == 0 && $fixture->homeTeamName == '@^^@') {
+            if($fixture->homeTeam == 0 ) {
               $home_team_placeholder_name_array[] = $fixture->homeTeamPlaceholderName;
             }
-            if($fixture->awayTeam == 0 && $fixture->awayTeamName == '@^^@') {
+            if($fixture->awayTeam == 0 ) {
               $away_team_placeholder_name_array[] = $fixture->awayTeamPlaceholderName;
             }
             if($fixture->homeTeam == 0 || $fixture->awayTeam == 0) {
@@ -528,7 +528,7 @@ class MatchRepository
        $totalMatches = DB::table('temp_fixtures')
                 ->where('temp_fixtures.tournament_id',$tournamentData['tournamentId'])
                 ->where('temp_fixtures.competition_id',$tournamentData['competationId'])
-                ->where('temp_fixtures.is_scheduled','=',1)
+                // ->where('temp_fixtures.is_scheduled','=',1)
                 ->select(
                 DB::raw('CONCAT(temp_fixtures.hometeam_score, "-", temp_fixtures.awayteam_score) AS scoresFix'),
                 DB::raw('CONCAT(temp_fixtures.home_team, "-", temp_fixtures.away_team) AS teamsFix'),
@@ -552,13 +552,13 @@ class MatchRepository
           $homeTeam = null;
           $awayTeam = null;
 
-          if($data->homeTeam == 0 && $data->homeTeamName == '@^^@') {
+          if($data->homeTeam == 0 ) {
             $homeTeam = $data->homeTeamPlaceholderName;
           } else {
             $homeTeam = $data->homeTeam;
           }
 
-          if($data->awayTeam == 0 && $data->awayTeamName == '@^^@') {
+          if($data->awayTeam == 0 ) {
             $awayTeam = $data->awayTeamPlaceholderName;
           } else {
             $awayTeam = $data->awayTeam;
@@ -588,10 +588,10 @@ class MatchRepository
         $all_competition_placeholders = [];
 
         foreach ($comp as $key => $value) {
-          if($value->home_team == 0 && $value->homeTeamName == '@^^@') {
+          if($value->home_team == 0 ) {
             $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $value->homeTeamPlaceholderName;
           }
-          if($value->away_team == 0 && $value->awayTeamName == '@^^@') {
+          if($value->away_team == 0 ) {
             $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $value->awayTeamPlaceholderName;
           }
 
@@ -905,6 +905,10 @@ class MatchRepository
         'referee_id' => NULL,
         'hometeam_score' => NULL,
         'awayteam_score' => NULL,
+        'match_datetime' => NULL,
+        'match_endtime' => NULL,
+        'venue_id' => 0,
+
       ];
      $updateResult =  DB::table('temp_fixtures')
             ->where('id', $matchId)

@@ -26,7 +26,7 @@
 				<td align="right">
 					<!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
 						<!-- <span class="text-center">{{match.HomeTeam}}</span> -->
-            <span class="text-center" v-if="(match.Home_id == '0' && match.homeTeamName == '@^^@')">{{ getHoldingName(match.competition_actual_name, match.homePlaceholder) }}</span>
+            <span class="text-center" v-if="(match.Home_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.homePlaceholder) }}</span>
             <span class="text-center" v-else>{{ match.HomeTeam }}</span>
 						<!--<img :src="match.HomeFlagLogo" width="20">-->
               		 <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
@@ -37,14 +37,14 @@
 						<!--<img :src="match.AwayFlagLogo" width="20">-->
              		<span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
 					<!-- <span class="text-center">{{ match.AwayTeam}}</span> -->
-          <span class="text-center" v-if="(match.Away_id == '0' && match.awayTeamName == '@^^@')">{{ getHoldingName(match.competition_actual_name, match.awayPlaceholder) }}</span>
+          <span class="text-center" v-if="(match.Away_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.awayPlaceholder) }}</span>
           <span class="text-center" v-else>{{ match.AwayTeam }}</span>
 					<!-- </a>	 -->
 				</td>
 				<td class="text-center js-match-list">
-      		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
+      		  <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match,index1)" :readonly="match.is_scheduled == '0' "><span v-else>{{match.homeScore}}</span> -
       		  <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
-      		  @change="updateScore(match,index1)"><span v-else>{{match.AwayScore}}</span>
+      		  @change="updateScore(match,index1)" :readonly="match.is_scheduled == '0'"><span v-else>{{match.AwayScore}}</span>
       	</td>
 
         <td class="text-center" v-if="showPlacingForMatch()">
@@ -92,7 +92,7 @@
 	</div>
 </div>
 </template>
-<script type="text/babel">
+<script>
 import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
@@ -121,7 +121,11 @@ export default {
 
   filters: {
     formatDate: function(date) {
-     return moment(date).format("Do MMM YYYY HH:mm");
+      if(date != null ) {
+        return moment(date).format("Do MMM YYYY HH:mm");
+      } else {
+        return  '-';
+      }
     },
     formatGroup:function (value,round) {
 

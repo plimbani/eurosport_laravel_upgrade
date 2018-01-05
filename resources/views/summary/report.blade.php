@@ -14,9 +14,9 @@
 </style>
 
 @if($tournamentData->tournamentLogo)
-<center>
-<img src="{{ $tournamentData->tournamentLogo }}" height="100">
-</center>
+    <center>
+        <img src="{{ $tournamentData->tournamentLogo }}" height="100">
+    </center>
 @endif
 
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
@@ -36,7 +36,12 @@
     <tbody>
     @foreach($data as $report)
     	<tr>
-    		<td align="center">{{ Carbon\Carbon::parse($report->match_datetime)->format('H:i D d M Y') }}</td>
+            @if($report->match_datetime != null)
+    		    <td align="center">{{ Carbon\Carbon::parse($report->match_datetime)->format('H:i D d M Y') }}</td>
+            @else
+                <td align="center"></td>
+            @endif
+
     		<td align="center">{{ $report->group_name }}</td>
     		<td align="center">{{ $report->venue_name}}</td>
     		<td align="center">{{ $report->pitch_number}}</td>
@@ -48,7 +53,7 @@
     		<td>{{ str_replace('@HOME',$report->displayHomeTeamPlaceholder,str_replace('@AWAY',$report->displayAwayTeamPlaceholder,$report->displayMatchNumber)) }}</td>
             <td align="right">
                 <span class="text-center">
-                    @if($report->homeTeam == '0' && $report->homeTeamName == '@^^@')
+                    @if($report->homeTeam == '0')
                         @if(strpos($report->competition_actual_name, 'Group') !== false)
                             {{ $report->homePlaceholder }}
                         @elseif(strpos($report->competition_actual_name, 'Pos') !== false)
@@ -63,7 +68,7 @@
             <td align="left">
             &nbsp;<img src="{{ $report->AwayFlagLogo }}" width="20">
                 <span class="text-center">
-                    @if($report->awayTeam == '0' && $report->awayTeamName == '@^^@')
+                    @if($report->awayTeam == '0' )
                         @if(strpos($report->competition_actual_name, 'Group') !== false)
                             {{ $report->awayPlaceholder }}
                         @elseif(strpos($report->competition_actual_name, 'Pos') !== false)

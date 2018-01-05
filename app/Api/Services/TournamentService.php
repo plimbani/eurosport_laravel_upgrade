@@ -440,8 +440,8 @@ class TournamentService implements TournamentContract
             'referee.first_name as referee_first_name',
             DB::raw('CONCAT(referee.last_name,",",referee.first_name) as refereeFullName'),
             DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
-          ->where('temp_fixtures.tournament_id',$data['tournament_id'])
-          ->where('temp_fixtures.is_scheduled',1);
+          ->where('temp_fixtures.tournament_id',$data['tournament_id']);
+          // ->where('temp_fixtures.is_scheduled',1);
 
             // echo "<pre>";print_r($reportQuery->get());echo "</pre>";exit;
 
@@ -530,7 +530,7 @@ class TournamentService implements TournamentContract
               $homeTeam = null;
               $awayTeam = null;
 
-              if($reportRec->homeTeam == '0' && $reportRec->homeTeamName == '@^^@') {
+              if($reportRec->homeTeam == '0' ) {
                 if(strpos($reportRec->competition_actual_name, 'Group') !== false) {
                   $homeTeam = $reportRec->homePlaceholder;
                 } else if(strpos($reportRec->competition_actual_name, 'Pos') !== false) {
@@ -540,7 +540,7 @@ class TournamentService implements TournamentContract
                 $homeTeam = $reportRec->HomeTeam;
               }
 
-              if($reportRec->awayTeam == '0' && $reportRec->awayTeamName == '@^^@') {
+              if($reportRec->awayTeam == '0') {
                 if(strpos($reportRec->competition_actual_name, 'Group') !== false) {
                   $awayTeam = $reportRec->awayPlaceholder;
                 } else if(strpos($reportRec->competition_actual_name, 'Pos') !== false) {
@@ -632,8 +632,8 @@ class TournamentService implements TournamentContract
                DB::raw('CONCAT("'.$this->getAWSUrl.'", tournaments.logo) AS tournamentLogo'),
               DB::raw('CONCAT(referee.last_name,",",referee.first_name) as refereeFullName'),
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'))
-            ->where('temp_fixtures.tournament_id',$data['tournament_id'])
-            ->where('temp_fixtures.is_scheduled',1);
+            ->where('temp_fixtures.tournament_id',$data['tournament_id']);
+            // ->where('temp_fixtures.is_scheduled',1);
 
 
             if(isset($data['sel_ageCategory'])  && $data['sel_ageCategory']!= ''){

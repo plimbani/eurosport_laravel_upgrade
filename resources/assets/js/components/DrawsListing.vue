@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script type="text/babel">
+<script>
 
 import Tournament from '../api/tournament.js'
 import MatchListing from './MatchListing.vue'
@@ -91,7 +91,7 @@ export default {
 			$("body .js-loader").removeClass('d-none');
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'competitionId':drawId,'is_scheduled':1}
+			'competitionId':drawId}
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
