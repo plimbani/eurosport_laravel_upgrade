@@ -74,7 +74,7 @@
     <string name="no_internet">No Internet Connection</string>
     <string name="internet_message">No internet connection is detected.</string>
     <string name="na">N/A</string>
-     <string name="team_matches">Team Matches</string>
+    <string name="team_matches">Team Matches</string>
     <string name="password_do_not_match">The passwords entered do not match</string>
     <string name="set_favourite">Favourite</string>
     <string name="set_defaault">Default</string>
@@ -96,6 +96,7 @@
     <string name="contact_number">Contact number:</string>
     <string name="no_tournament_selected_as_default">No default tournament selected.</string>
     <string name="the_internet_connection_appears_to_be_offline" translatable="false">The internet connection appears to be offline.</string>
+    <string name="update_message">An app update is available. Please update the version you are using.</string>
 
     <!--Volley-->
 

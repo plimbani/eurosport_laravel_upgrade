@@ -90,6 +90,46 @@ public class ViewDialog {
 
     }
 
+    public static void showTwoButtonDialog(@NonNull Activity activity, String title, String msg, String positiveButtonText, String negativeButtonText, @NonNull final UpdateDialogInterface dialogCallback) {
+        final Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.double_button_dialog);
+
+        TextView tv_title = (TextView) dialog.findViewById(R.id.tv_title);
+        tv_title.setText(title);
+        TextView tv_message = (TextView) dialog.findViewById(R.id.tv_message);
+        tv_message.setText(msg);
+
+        TextView tv_positive_button = (TextView) dialog.findViewById(R.id.tv_positive_button);
+        tv_positive_button.setText(positiveButtonText);
+        TextView tv_negativeButton = (TextView) dialog.findViewById(R.id.tv_negativeButton);
+        tv_negativeButton.setText(negativeButtonText);
+
+        tv_positive_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                dialogCallback.onPositiveButtonClicked();
+            }
+        });
+        tv_negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                dialogCallback.onNegativeButtonClicked();
+            }
+        });
+
+        int width = (int) (activity.getResources().getDisplayMetrics().widthPixels * 0.90);
+
+        dialog.getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        dialog.show();
+
+    }
+
     public static void showContactDialog(@NonNull Activity activity, String title, String msg, String positiveButtonText, String negativeButtonText, @NonNull final CustomDialogInterface dialogCallback) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -126,6 +166,13 @@ public class ViewDialog {
 
     public interface CustomDialogInterface {
         void onPositiveButtonClicked();
+
+    }
+
+    public interface UpdateDialogInterface {
+        void onPositiveButtonClicked();
+
+        void onNegativeButtonClicked();
 
     }
 
