@@ -29,7 +29,7 @@
   </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
   <table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
-  	<thead>
+    <thead>
       <tr>
           <th></th>
          <th v-for="(match,index) in match1Data" class="text-center">
@@ -39,18 +39,18 @@
       </tr>
     </thead>
     <tbody>
-    	<tr v-for="(match,index) in match1Data">
+      <tr v-for="(match,index) in match1Data">
 
-      		<td>
+          <td>
 
-      			<!-- <a href="" class="pull-left text-left text-primary"> -->
+            <!-- <a href="" class="pull-left text-left text-primary"> -->
              <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
-      			  <!-- <img :src="match.TeamCountryFlag" width="20"> &nbsp; -->
-      			    <span>{{match.TeamName}}</span>
+              <!-- <img :src="match.TeamCountryFlag" width="20"> &nbsp; -->
+                <span>{{match.TeamName}}</span>
 
-      			  <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->
+              <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->
 
-      		</td>
+          </td>
 
 
           <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
@@ -93,7 +93,7 @@ import ManualRanking from './manualRankingModal.vue'
 import _ from 'lodash'
 
 export default {
-	props: ['matchData','otherData'],
+  props: ['matchData','otherData'],
     data() {
         return {
             teamData: [],
@@ -164,7 +164,11 @@ export default {
  },
   filters: {
     formatDate: function(date) {
-     return moment(date).format("Do MMM YYYY HH:mm");
+      if (date!= null) {
+        return moment(date).format("Do MMM YYYY HH:mm");
+      } else {
+        return "";
+      }
     },
     getStatus: function(teamName) {
       // Now here we change it accoring to
@@ -216,9 +220,9 @@ export default {
           //return this.$store.state.Users.userDetails.id
         },
     },
-	components: {
+  components: {
         MatchList,LocationList,MatchListing,TeamStanding,ManualRanking
-	},
+  },
     methods: {
         refreshManualStanding() {
           let vm =this;
@@ -371,6 +375,7 @@ export default {
           }
           if(setCurrentTabView == 'matchListing')
           {
+            console.log(setCurrentView);
             this.$store.dispatch('setCurrentScheduleView','matchList')
             this.$root.$emit('changeComp')
           }

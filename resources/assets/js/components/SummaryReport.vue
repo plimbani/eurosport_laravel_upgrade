@@ -215,13 +215,13 @@
   		             		<td v-else></td>
 	                		<td>{{displayMatch(report.displayMatchNumber,report.displayHomeTeamPlaceholder,report.displayAwayTeamPlaceholder)}}</td>
 							<td align="right">
-								<span class="text-center" v-if="(report.homeTeam == '0' && report.homeTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.homePlaceholder) }}</span>
+								<span class="text-center" v-if="(report.homeTeam == '0' )">{{ getHoldingName(report.competition_actual_name, report.displayHomeTeamPlaceholder) }}</span>
 								<span class="text-center" v-else>{{ report.HomeTeam }}</span>
 								<span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
 							</td>
 							<td align="left">
 								<span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
-								<span class="text-center" v-if="(report.awayTeam == '0' && report.awayTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.awayPlaceholder) }}</span>
+								<span class="text-center" v-if="(report.awayTeam == '0')">{{ getHoldingName(report.competition_actual_name, report.displayAwayTeamPlaceholder) }}</span>
 								<span class="text-center" v-else>{{ report.AwayTeam }}</span>
 							</td>
 							<td align="center">{{ (report.position != null) ? report.position : 'N/A' }}</td>
@@ -237,7 +237,7 @@
 </template>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script> -->
-<script type="text/babel">
+<script >
 	import Tournament from '../api/tournament.js'
 	import Pitch from '../api/pitch.js'
 
@@ -269,7 +269,11 @@ export default {
     },
     filters: {
     	formatDate: function(date) {
-     	return moment(date).format("Do MMM YYYY HH:mm");
+    		if(date != null) {
+     			return moment(date).format("Do MMM YYYY HH:mm");
+    		} else {
+    			return '-';
+    		}
    	   },
     },
     mounted() {
@@ -556,7 +560,29 @@ export default {
 		      this.reportQuery = ReportData
 		      Tournament.getAllReportsData(ReportData).then(
 		      (response) => {
+		    //   	this.reports = _.remove(response.data.data, function(res) {
+						//   if(res.competation_round_no == 'Round 1' && (res.HomeTeam == 0 || res.awayTeam == 0))  {
+						//   	return false;
+						//   } else {
+						//   	return true;
+						//   }
+						// });
 		      	this.reports = response.data.data
+
+		      	this.reports.map(function(value, key) {
+			              if(value.actual_round == 'Elimination') {
+		      		// console.log(value,value.displayHomeTeamPlaceholder);
+
+			              	if(value.displayHomeTeamPlaceholder.indexOf("#") == -1){
+			              		console.log(value);
+			              		let dispNumber = value.displayMatchNumber.split(".");
+			              		value.displayHomeTeamPlaceholder = dispNumber[3]+'.'+value.displayHomeTeamPlaceholder
+			              		value.displayAwayTeamPlaceholder = dispNumber[3]+'.'+value.displayAwayTeamPlaceholder
+			              	}
+			                
+			                return value;
+			              }
+			            })
 		       },
 
 		      (error) => {

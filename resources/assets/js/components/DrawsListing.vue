@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script type="text/babel">
+<script>
 
 import Tournament from '../api/tournament.js'
 import MatchListing from './MatchListing.vue'
@@ -91,7 +91,7 @@ export default {
 			$("body .js-loader").removeClass('d-none');
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'competitionId':drawId,'is_scheduled':1}
+			'competitionId':drawId}
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
@@ -100,7 +100,28 @@ export default {
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
-						this.matchData = response.data.data
+						this.matchData = _.remove(response.data.data, function(res) {
+						  if(res.competation_round_no == 'Round 1' && (res.Home_id == 0 || res.Away_id == 0)) {
+						  	return true;
+						  } else {
+						  	return false;
+						  }
+						});
+						this.matchData = response.data.data;
+						this.matchData.map(function(value, key) {
+
+			              if(value.actual_round == 'Elimination') {
+			              	if(value.displayHomeTeamPlaceholderName.indexOf("#") == -1){
+			              		let dispNumber = value.displayMatchNumber.split(".");
+			              		value.displayHomeTeamPlaceholderName = dispNumber[3]+'.'+value.displayHomeTeamPlaceholderName
+			              		value.displayAwayTeamPlaceholderName = dispNumber[3]+'.'+value.displayAwayTeamPlaceholderName
+			              	}
+			                value.name = _.replace(value.name, '-Group', '');
+
+			                return value;
+			              }
+			            })
+
 						$("body .js-loader").addClass('d-none');
 					}
 				},
