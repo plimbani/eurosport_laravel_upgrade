@@ -14,7 +14,8 @@ class VersionController extends BaseController
 	 */
 	public function apkVersion(){
         return response()->json([
-            'apk_version' => env('APK_VERSION')
+            'android_app_version' => env('ANDROID_APP_VERSION'),
+            'ios_app_version' => env('IOS_APP_VERSION'),
         ]);        
     }
 }
