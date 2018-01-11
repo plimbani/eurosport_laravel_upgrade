@@ -18,7 +18,7 @@ class AgeGroupRepository
     }
 
     public function create($data)
-    {
+    {   
         return AgeGroup::create($data);
     }
 
@@ -46,7 +46,9 @@ class AgeGroupRepository
        $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
        $competations['tournament_id'] = $competation_data['tournament_id'];
        $comp_group = $groups['group_name'];
+       $actual_comp_group = $groups['actual_group_name'];
        $competations['name'] = $age_group.'-'.$comp_group;
+       $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
        $competations['team_size'] = $groups['team_count'];
        // here last group we consider as Final or Elimination Match
        // Means Last one
@@ -58,8 +60,19 @@ class AgeGroupRepository
        } else {
         $competaon_type = 'Round Robin';
        }
+
+       $actualName = explode('-', $groups['actual_name']);
+       
+       if($actualName[0] == 'PM') {
+         $actualCompetitionType = 'Elimination';
+       } else {
+         $actualCompetitionType = 'Round Robin';
+       }  
+
        //$competaon_type = $competaon_type.'-'.$groups['comp_roundd'];
+
        $competations['competation_type'] = $competaon_type;
+       $competations['actual_competition_type'] = $actualCompetitionType;
        $competations['competation_round_no'] = $groups['comp_roundd'];
        $competationIds[$i]['id'] = Competition::create($competations)->id;
        $competationIds[$i]['name'] = $comp_group;
@@ -80,18 +93,24 @@ class AgeGroupRepository
       // $ageGroupId = AgeGroup::create($ageGroupData)->id;
 
       // here we save the tournament_competation_template
+     
       $tournamentCompeationTemplate = array();
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
       $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
       $tournamentCompeationTemplate['category_age'] = $data['category_age'];
+      $tournamentCompeationTemplate['pitch_size'] = $data['pitch_size'];
       $tournamentCompeationTemplate['category_age_color'] = $data['category_age_color'];
+      $tournamentCompeationTemplate['category_age_font_color'] = $data['category_age_font_color'];
       $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
       $tournamentCompeationTemplate['total_time'] =$data['total_time'];
 
-      $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR'];
-      $tournamentCompeationTemplate['game_duration_FM']= $data['game_duration_FM'];
+      $tournamentCompeationTemplate['game_duration_RR'] = $data['game_duration_RR']/$data['halves_RR'];
+      $tournamentCompeationTemplate['halves_RR'] = $data['halves_RR'];
+      $tournamentCompeationTemplate['game_duration_FM']= $data['game_duration_FM']/$data['halves_FM'];
+      $tournamentCompeationTemplate['halves_FM'] = $data['halves_FM'];
+
       $tournamentCompeationTemplate['halftime_break_RR']= $data['halftime_break_RR'];
       $tournamentCompeationTemplate['halftime_break_FM']= $data['halftime_break_FM'];
       $tournamentCompeationTemplate['match_interval_RR']= $data['match_interval_RR'];
@@ -281,9 +300,9 @@ class AgeGroupRepository
     public function FindTemplate($id) {
      return  DB::table('tournament_template')->where('id',$id)->first();
     }
-    public function addFixturesIntoTemp($fixtureArray,$competationArr)
+
+    public function addFixturesIntoTemp($fixtureArray,$competationArr,$fixtureMatchDetailArray, $categoryAge)
     {
-      // echo "<pre>"; print_r($fixtureArray); echo "</pre>";
       foreach($fixtureArray as $key=>$fixture) {
         // echo '1'."<br>";
 
@@ -299,6 +318,7 @@ class AgeGroupRepository
               $round = $group['competation_type'];
             }
           }
+
           // Team Assignement
           $fixtu=explode('.',$fixture);
           $teams = explode('-',$fixtu[count($fixtu)-1]);
@@ -312,15 +332,34 @@ class AgeGroupRepository
 
           // echo "<pre>"; print_r(1); echo "</pre>";
           $fixture_n = str_replace('CAT.', $ageGroup.'-',$fixture);
+          $displayMatchNumber = null;
+
+          if($fixtureMatchDetailArray[$key]['display_match_number'] != null) {
+            $displayMatchNumber = str_replace('CAT.', $categoryAge.'.', $fixtureMatchDetailArray[$key]['display_match_number']);
+          }      
+
           $teampfixtureTable=DB::table('temp_fixtures');
           $teampfixtureTable->insert(
-            ['match_number'=>$fixture_n,
-            'tournament_id'=>$tournamentId,'competition_id'=>$competationId,
-            'home_team_name'=>$homeTeam,'match_result_id'=> 0,
-            'created_at'=> new \DateTime(),
-            'round'=>$round,
-            'age_group_id'=>$ageGroupId,
-            'away_team_name'=>$away_team,'venue_id'=>0,'pitch_id'=>0]
+            [
+              'match_number'=>$fixture_n,
+              'position'=>$fixtureMatchDetailArray[$key]['position'],
+              'display_match_number'=>$displayMatchNumber,
+              'tournament_id'=>$tournamentId,
+              'competition_id'=>$competationId,
+              'home_team_name'=>$homeTeam,
+              'home_team_placeholder_name'=>$homeTeam,
+              'display_home_team_placeholder_name'=>$fixtureMatchDetailArray[$key]['display_home_team_placeholder_name'],
+              'match_result_id'=> 0,
+              'created_at'=> new \DateTime(),
+              'round'=>$round,
+              'is_final_round_match'=>$fixtureMatchDetailArray[$key]['is_final_match'],
+              'age_group_id'=>$ageGroupId,
+              'away_team_name'=>$away_team,
+              'away_team_placeholder_name'=>$away_team,
+              'display_away_team_placeholder_name'=>$fixtureMatchDetailArray[$key]['display_away_team_placeholder_name'],
+              'venue_id'=>0,
+              'pitch_id'=>0
+            ]
           );
       }
 

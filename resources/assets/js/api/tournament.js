@@ -20,7 +20,7 @@ export default {
   getAllTeamsFromCompetitionId(tournamentData){
     return api.post('teams/getTeamsListByCompetition', {'tournamentData': tournamentData})
   },
-  
+
   saveCompetationFormat(compeationFormatData) {
   	return api.post('age_group/createCompetationFomat', {'compeationFormatData': compeationFormatData})
   },
@@ -98,7 +98,9 @@ export default {
   getTournamentByStatus(tournamentData) {
     return api.post('tournaments/getTournamentByStatus',{'tournamentData': tournamentData})
   },
-
+  getTournamentBySlug(tournamentData) {
+    return api.get('tournaments/getTournamentBySlug/'+tournamentData.slug)
+  },
   getRefereeDetail(refereeId) {
     return api.post('referee/refereeDetail',{'refereeId': refereeId})
   },
@@ -165,5 +167,17 @@ export default {
  },
  addTournamentDetail(tournamentDetailData) {
   return axios.post('/api/tournament/details/add', {'tournamentDetailData': tournamentDetailData})
+ },
+ getCategoryCompetitions(data) {
+  return api.post('tournament/getCategoryCompetitions', data)
+ },
+ saveCategoryCompetitionColor(data) {
+  return api.post('tournament/saveCategoryCompetitionColor', {competitionsColorData:  data})
+ },
+ getAllCompetitionTeamsFromFixture(tournamentData){
+  return api.post('teams/getAllCompetitionTeamsFromFixture', {'tournamentData': tournamentData})
+ },
+checkTeamIntervalforMatches(matchData){
+  return api.post('match/checkTeamIntervalforMatches', matchData)
  }
 }

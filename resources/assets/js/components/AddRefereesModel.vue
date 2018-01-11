@@ -4,7 +4,7 @@
     <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">{{$lang.add_referees_model}}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" @click="closeAddRefereesModal()">
                 <span aria-hidden="true">×</span>
             </button>
         </div>
@@ -216,7 +216,10 @@ export default {
       },
       onTouch () {
         this.isTouched = true
-      }
+      },
+      closeAddRefereesModal() {
+        $("#refreesModal").modal('hide');
+      },
     }
 
 }

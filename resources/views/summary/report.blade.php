@@ -27,9 +27,10 @@
                 <th align="center">Location</th>
                 <th align="center">Pitch</th>
                 <th align="center">Referee</th>
-                <!--<th align="center">Game</th>-->
+                <th align="center">Match Code</th>
                 <th align="center">Team</th>
                 <th align="center">Team</th>
+                <th align="center">Placing</th>
             </tr>
 
     <tbody>
@@ -44,14 +45,41 @@
     		@else
     		<td align="center"></td>
     		@endif
-    		<!--<td align="center">{{ $report->full_game }}</td>-->
+    		<td>{{ str_replace('@HOME',$report->displayHomeTeamPlaceholder,str_replace('@AWAY',$report->displayAwayTeamPlaceholder,$report->displayMatchNumber)) }}</td>
             <td align="right">
-               <span class="text-center">{{ $report->HomeTeam }}</span>
+                <span class="text-center">
+                    @if($report->homeTeam == '0' && $report->homeTeamName == '@^^@')
+                        @if(strpos($report->competition_actual_name, 'Group') !== false)
+                            {{ $report->homePlaceholder }}
+                        @elseif(strpos($report->competition_actual_name, 'Pos') !== false)
+                            {{ 'Pos-' . $report->homePlaceholder }}
+                        @endif
+                    @else
+                        {{ $report->HomeTeam }}
+                    @endif
+                </span>
                <img src="{{ $report->HomeFlagLogo }}" width="20">&nbsp;
             </td>
             <td align="left">
             &nbsp;<img src="{{ $report->AwayFlagLogo }}" width="20">
-            <span class="text-center">{{ $report->AwayTeam }}</span>
+                <span class="text-center">
+                    @if($report->awayTeam == '0' && $report->awayTeamName == '@^^@')
+                        @if(strpos($report->competition_actual_name, 'Group') !== false)
+                            {{ $report->awayPlaceholder }}
+                        @elseif(strpos($report->competition_actual_name, 'Pos') !== false)
+                            {{ 'Pos-' . $report->awayPlaceholder }}
+                        @endif
+                    @else
+                        {{ $report->AwayTeam }}
+                    @endif
+                </span>
+            </td>
+            <td align="center">
+                @if($report->position != null)
+                    {{$report->position}}
+                @else
+                    N/A
+                @endif
             </td>
     	</tr>
     @endforeach

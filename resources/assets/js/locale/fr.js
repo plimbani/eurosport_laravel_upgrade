@@ -116,7 +116,7 @@ module.exports = {
   tournament_tournament_logo: "FTournament logo",
   tournament_tournament_choose_button: "FChoose file",
   tournament_tournament_remove_button: "FRemove image",
-  tournament_eurosporting: "FEuro-Sportring contact",
+  tournament_eurosporting: "FContact",
   tournament_first_name: "FFirst name",
   tournament_validation_first_name: "FFirst name required",
   tournament_last_name: "FLast name",
@@ -191,8 +191,10 @@ module.exports = {
   competation_modal_duration_final_minutes: "Fminutes",
   competation_modal_game_duration_final: "FGame duration final*",
   competation_modal_half_time_break: "FHalf-time break RR/EM/PM*",
+  competation_modal_half_time_break_required: "FHalf-time break is required.",
   competation_modal_half_time_break_minutes: "Fminutes",
   competation_modal_half_time_break_final: "FHalf-time break final*",
+  competation_modal_half_time_break_final_required: "FHalf-time break final is required.",
   competation_modal_half_time_break_final_minutes: "Fminutes",
 
   competation_modal_match_interval: "FMatch interval RR/EM/PM*",
@@ -248,6 +250,7 @@ module.exports = {
   pitch_details_note: "FPlease complete information on both tabs before saving",
   pitch_detail_tabs: "FPlease complete information on both tabs before saving",
   pitch_detail_delete: "FDelete",
+  pitch_detail_delete_stage: "Delete day",
   pitch_availability: "FAvailability",
   pitch_number: "FNumber",
   pitch_type: "FType",
@@ -268,9 +271,13 @@ module.exports = {
   pitch_size_handball: "FHandball",
   pitch_totaL_time: "FTotal time required",
   pitch_total_capacity: "FTotal pitch capacity",
+  pitch_available_time: "FTotal available time",
   pitch_balance: "FBalance",
+  pitch_summary: "FPitch summary",
+  pitch_totals: "FPitch totals",
+  totals: "FTotals",
 
-  pitch_availability_stage: "FStage",
+  pitch_availability_stage: "FDay",
   pitch_availability_date: "FDate",
   pitch_availability_time: "FTime",
   pitch_availability_capacity: "FCapacity",
@@ -280,7 +287,7 @@ module.exports = {
   pitch_modal_details_type: "FType",
   pitch_modal_details_number: "FNumber*",
   pitch_modal_details_type_required: "FPitch type is required.",
-  pitch_modal_details_size_required: "FPitch size is required.",
+  pitch_modal_details_size_required: "FPitch size is required",
   pitch_modal_pitch_type: "FSelect pitch type",
   pitch_modal_details_grass: "FGrass",
   pitch_modal_details_artificial:"Artificial",
@@ -301,12 +308,12 @@ module.exports = {
   pitch_modal_details_name: "FPitch name*",
   pitch_modal_availability: "FPitch availability",
   pitch_modal_action: "FActions",
-  pitch_modal_availability_stage: "FStage",
+  pitch_modal_availability_stage: "FDay",
   pitch_modal_availability_date: "FDate",
   pitch_modal_availability_time: "FTime",
   pitch_modal_availability_capacity: "FCapacity",
-  pitch_modal_availability_button_addstage: "FAdd stage",
-  pitch_modal_availability_button_add: "FAdd stage",
+  pitch_modal_availability_button_addstage: "FAdd day",
+  pitch_modal_availability_button_add: "FAdd day",
 
   pitch_modal_edit_pitch_button: "FDelete",
   pitch_modal_edit_pitch_cancel_button: "FCancel",
@@ -351,6 +358,7 @@ module.exports = {
   teams_name_select: "FSelect category",
   teams_age_category: "FCategory age",
   teams_age_category_group: "FGroup",
+  teams_age_category_allocate: "FAllocate",
   // teams_select_age_category: "FSelect category name",
   teams_select: "FSelect",
   teams_select_age_category: "FSelect an age category",
@@ -536,6 +544,7 @@ module.exports = {
   summary_schedule_matches_score: "FScore",
   summary_schedule_matches_location: "FLocation",
   summary_table_heading_status: "Status",
+  summary_schedule_matches_placing: "Placing",
 
 
   manual_ranking_team_required: "FThis field is required",
@@ -546,4 +555,8 @@ module.exports = {
   
   // Tournament permission
   user_management_tournament_permission_title: "FTournament Permissions",
+
+  // Group colours
+  pitch_planner_group_colours: "FGroup colours",
+  pitch_planner_group_colours_title: "FGroup Colours",
  } 
