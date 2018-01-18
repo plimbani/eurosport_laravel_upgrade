@@ -83,9 +83,10 @@ class TeamController extends BaseController
         \Excel::load($file->getRealPath(), function($reader) {
             // dd($reader->getTotalRowsOfFile() - 1);
             $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
-
+            // dd($this->data['totalSize']);
             // $reader->limit($this->data['teamSize']);
             $reader->each(function($sheet) {
+                // dd($sheet);
             // Loop through all rows
                 // $sheet->each(function($row) {
                     // dd($sheet);

@@ -14,7 +14,8 @@
           </div>
           <div class="modal-body" id="pitch_model_body">
             <div class="form-group row mb-0">
-              <label class="col-sm-3">{{$lang.pitch_modal_match_number}}</label><p class="col-sm-9"> {{matchFixture.title}}</p>
+              <label class="col-sm-3">{{$lang.pitch_modal_match_number}}</label><p class="col-sm-9"> 
+              {{ matchDetail.display_match_number }}</p>  
               <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }}) and Team 2 ({{  getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }}) </p>
               <label class="col-sm-3">{{$lang.pitch_modal_date}}</label><p class="col-sm-9">{{matchDetail.matchTime}}</p>
               <label class="col-sm-3">{{$lang.pitch_modal_pitch_details}}</label><p class="col-sm-9"
@@ -117,6 +118,18 @@
                   <textarea class="form-control" name="comments" id="comments">{{matchDetail.comments}}</textarea>
                 </div>
               </div>
+              <div class="form-group row">
+                <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_team1_comments_label}}</label>
+                <div class="col-sm-9">
+                  <textarea class="form-control" name="home_comment" id="home_comment" readonly="">{{matchDetail.hometeam_comment}}</textarea>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_team2_comments_label}}</label>
+                <div class="col-sm-9">
+                  <textarea class="form-control" name="comments" id="comments" readonly>{{matchDetail.awayteam_comment}}</textarea>
+                </div>
+              </div>
             </form>
           </div>
           <div class="modal-footer justify-content-between">
@@ -134,7 +147,7 @@
     </div>
   </div>
 </template>
-<script type="text/babel">
+<script>
 import Tournament from '../api/tournament.js'
 
 var moment = require('moment');
@@ -176,8 +189,7 @@ var moment = require('moment');
     },
     matchFixtureDetail(){
       Tournament.getMatchFixtureDetail(this.matchId).then(
-        (response) => {
-
+          (response) => {
             this.matchDetail = response.data.data
             this.matchDetail.id = this.matchId
           if(this.matchDetail.referee == null) {
@@ -375,7 +387,7 @@ var moment = require('moment');
         return 'Pos-' + placeholder;
       }
     },
-    getTeamName(teamId, teamName, teamPlaceHolder, competitionActualName){
+    getTeamName(teamId, teamName, teamPlaceHolder, competitionActualName){ 
       if(teamId != 0){
           return teamName;
       } else if(teamId == 0 && teamName == '@^^@') {
