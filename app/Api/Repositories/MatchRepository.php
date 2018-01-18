@@ -849,7 +849,7 @@ class MatchRepository
                            ->orWhereIn('away_team',$teams) ;
                   } else{
                     $query1->whereIn('home_team_placeholder_name',$teams)
-                            ->orWhereIn('away_team_placeholder_name',$teams) ;
+                           ->orWhereIn('away_team_placeholder_name',$teams) ;
                   }
 
                 })
@@ -1009,7 +1009,13 @@ class MatchRepository
 
     public function getMatchDetail($matchId)
     {
-        return TempFixture::with('referee','pitch','competition', 'winnerTeam', 'categoryAge')->find($matchId);
+      return TempFixture::leftjoin('teams as home_team', function ($join) {
+              $join->on('home_team.id', '=', 'temp_fixtures.home_team');
+          })
+          ->leftjoin('teams as away_team', function ($join) {
+              $join->on('away_team.id', '=', 'temp_fixtures.away_team');
+          })
+          ->with('referee','pitch','competition', 'winnerTeam', 'categoryAge')->select('temp_fixtures.*','home_team.comments as hometeam_comment','away_team.comments as awayteam_comment')->find($matchId);
     }
 
     public function getLastUpdateValue($tournamentId)
