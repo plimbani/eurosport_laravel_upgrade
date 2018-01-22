@@ -179,8 +179,8 @@ public class SplashActivity extends BaseActivity {
                     try {
                         AppLogger.LogE(TAG, "***** App Version response *****" + response.toString());
                         String serverVersion = "1";
-                        if (response.has("apk_version")) {
-                            serverVersion = response.getString("apk_version");
+                        if (response.has("android_app_version")) {
+                            serverVersion = response.getString("android_app_version");
                         }
                         AppLogger.LogD("TAG", "server apk version " + serverVersion);
                         PackageManager manager = getPackageManager();

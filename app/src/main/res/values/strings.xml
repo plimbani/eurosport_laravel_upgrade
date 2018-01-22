@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Euro-Sportring</string>
     <string name="create_account">Create account</string>
-    <string name="view_all_rounds">View all rounds</string>
+    <string name="view_all_rounds">Match schedule</string>
     <string name="sign_in">Sign in</string>
     <string name="update">Update</string>
     <string name="favorites">Favourites</string>
@@ -41,7 +41,7 @@
     <string name="vibration_notification">Vibration</string>
     <string name="notification">Notifications</string>
     <string name="view_club_match">View all club matches</string>
-    <string name="view_league_table">View full league table</string>
+    <string name="view_league_table">Group details</string>
     <string name="league_table">league table</string>
     <string name="no_data_available">No data available</string>
     <string name="venue">Venue</string>
