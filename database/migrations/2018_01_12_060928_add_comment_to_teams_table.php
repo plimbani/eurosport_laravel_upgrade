@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddImageToTournamentTemplateTable extends Migration
+class AddCommentToTeamsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddImageToTournamentTemplateTable extends Migration
      */
     public function up()
     {
-        Schema::table('tournament_template', function($table) {
-           $table->string('image')->nullable()->after('json_data');
+        Schema::table('teams', function($table) {
+            $table->string('comments')->after('country_id')->nullable();
+            
         });
     }
 
@@ -25,8 +26,8 @@ class AddImageToTournamentTemplateTable extends Migration
      */
     public function down()
     {
-        Schema::table('tournament_template', function($table) {
-            $table->dropColumn('image');
+       Schema::table('teams', function($table) {
+            $table->dropColumn('comments');
         });
     }
 }

@@ -243,6 +243,8 @@ module.exports= {
   pitch_modal_status_label: "Status*",
   pitch_modal_winner_label: "Winner*",
   pitch_modal_comments_label: "Comments",
+  pitch_modal_team1_comments_label: "Team1 Comment",
+  pitch_modal_team2_comments_label: "Team2 Comment",
   pitch_modal_unschedule: "Unschedule",
   pitch_modal_cancel: "Cancel",
   pitch_modal_save: "Save",

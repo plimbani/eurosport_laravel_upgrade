@@ -28,7 +28,7 @@ class TeamRepository
                  ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag as countryFlag',
                     // 'competitions.name as competationName','competitions.id as competationId',
                     'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as categoryAge')
-                 ->get();
+                ->get();
 
     }
     public function getAllFromFilter($data)
@@ -136,7 +136,7 @@ class TeamRepository
         $teamName =  isset($data['team']) ? $data['team'] : '';
         $place =  isset($data['place']) ? $data['place'] : '';
         $club_id =  isset($data['club_id']) ? $data['club_id'] : '';
-
+        // dd($data);
         \Log::info($data);
         return Team::create([
             'name' => $teamName,
@@ -145,7 +145,9 @@ class TeamRepository
             'country_id' => $data['country_id'],
             'tournament_id' => $data->tournamentData['tournamentId'],
             'age_group_id' => $data['age_group_id'],
-            'club_id'=>$data['club_id']
+            'club_id'=>$data['club_id'],
+            'comments'=>$data['teamcomment'],
+
             ]);
     }
 

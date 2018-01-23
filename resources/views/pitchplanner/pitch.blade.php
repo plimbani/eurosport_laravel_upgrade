@@ -130,5 +130,13 @@
           <td align="left">&nbsp;Comments</td>
           <td>&nbsp;{{ $data['comments']}}</td>
         </tr>
+        <tr>
+          <td align="left">&nbsp;Hometeam Comment</td>
+          <td>&nbsp;{{ $data['hometeam_comment']}}</td>
+        </tr>
+        <tr>
+          <td align="left">&nbsp;Awayteam comment</td>
+          <td>&nbsp;{{ $data['awayteam_comment']}}</td>
+        </tr>
     </thead>
 </table>
