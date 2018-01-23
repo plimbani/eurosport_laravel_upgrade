@@ -572,15 +572,29 @@ export default {
 		      	this.reports.map(function(value, key) {
 			              if(value.actual_round == 'Elimination') {
 		      		// console.log(value,value.displayHomeTeamPlaceholder);
-
+		      				let dispTxt = '';
 			              	if(value.displayHomeTeamPlaceholder.indexOf("#") == -1){
-			              		console.log(value);
-			              		let dispNumber = value.displayMatchNumber.split(".");
-			              		value.displayHomeTeamPlaceholder = dispNumber[3]+'.'+value.displayHomeTeamPlaceholder
-			              		value.displayAwayTeamPlaceholder = dispNumber[3]+'.'+value.displayAwayTeamPlaceholder
+			              		
+			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
+			              			dispTxt = 'wrs' ;
+			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
+			              			dispTxt = 'lrs' ;
+
+			              		}value.displayHomeTeamPlaceholder = dispTxt+'.'+value.displayHomeTeamPlaceholder
 			              	}
-			                
-			                return value;
+			              	
+			                if(value.displayAwayTeamPlaceholder.indexOf("#") == -1){
+			              		
+			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
+			              			dispTxt = 'wrs' ;
+			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
+			              			dispTxt = 'lrs' ;
+
+			              		}
+
+			              		value.displayAwayTeamPlaceholder = dispTxt+'.'+value.displayAwayTeamPlaceholder
+			              	}
+			              	return value;
 			              }
 			            })
 		       },

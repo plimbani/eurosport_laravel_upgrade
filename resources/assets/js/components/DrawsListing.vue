@@ -69,7 +69,7 @@ export default {
   				(response)=> {
   					if(response.data.status_code == 200) {
   						vm.matchData = response.data.data
-						vm.matchData.map(function(value, key) {
+  						vm.matchData.map(function(value, key) {
 							if(value.actual_competition_type == 'Elimination') {
 								value.name = _.replace(value.name, '-Group', '');
 
@@ -100,22 +100,34 @@ export default {
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
-						this.matchData = _.remove(response.data.data, function(res) {
-						  if(res.competation_round_no == 'Round 1' && (res.Home_id == 0 || res.Away_id == 0)) {
-						  	return true;
-						  } else {
-						  	return false;
-						  }
-						});
 						this.matchData = response.data.data;
 						this.matchData.map(function(value, key) {
 
 			              if(value.actual_round == 'Elimination') {
+			              	let dispTxt = '';
 			              	if(value.displayHomeTeamPlaceholderName.indexOf("#") == -1){
-			              		let dispNumber = value.displayMatchNumber.split(".");
-			              		value.displayHomeTeamPlaceholderName = dispNumber[3]+'.'+value.displayHomeTeamPlaceholderName
-			              		value.displayAwayTeamPlaceholderName = dispNumber[3]+'.'+value.displayAwayTeamPlaceholderName
+			              		
+			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
+			              			dispTxt = 'wrs' ;
+			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
+			              			dispTxt = 'lrs' ;
+
+			              		}value.displayHomeTeamPlaceholderName = dispTxt+'.'+value.displayHomeTeamPlaceholderName
 			              	}
+			              	
+			                if(value.displayAwayTeamPlaceholderName.indexOf("#") == -1){
+			              		
+			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
+			              			dispTxt = 'wrs' ;
+			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
+			              			dispTxt = 'lrs' ;
+
+			              		}
+
+			              		value.displayAwayTeamPlaceholderName = dispTxt+'.'+value.displayAwayTeamPlaceholderName
+			              	}
+
+
 			                value.name = _.replace(value.name, '-Group', '');
 
 			                return value;

@@ -34,7 +34,7 @@
           <th></th>
          <th v-for="(match,index) in match1Data" class="text-center">
          <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
-         <span>{{match.TeamName}}</span></th>
+         <span class="font-weight-normal">{{match.TeamName}}</span></th>
          <!-- <img :src="match.TeamFlag" width="20"> &nbsp;<span>{{match.TeamName}}</span></th> -->
       </tr>
     </thead>
