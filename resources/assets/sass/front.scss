@@ -721,3 +721,7 @@ img {
 .report-table.display_block th{
     min-width: 100px;
 }
+
+textarea.form-control[disabled="disabled"] {
+    background: #fff;
+}
