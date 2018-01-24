@@ -1,25 +1,69 @@
 <template>
-<div class="">
-<table class="table table-hover table-bordered" v-if="matchData.length > 0">
-	<thead>
-        <tr>
-            <th class="text-center">{{$lang.summary_schedule_draws_categories}}</th>
-            <th class="text-center">{{$lang.summary_schedule_type}}</th>
-            <th class="text-center">{{$lang.summary_schedule_team}}</th>
-        </tr>
-    </thead>
-    <tbody>
-    	<tr v-for="drawData in matchData">
-    		<td>
-    			<a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.name }}</u> </a>
-    		</td>
-    		<td>{{ drawData.competation_type }}</td>
-    		<td>{{ drawData.team_size }}</td>
-    	</tr>
-    </tbody>
-</table>
-<span v-else>No information available</span>
-</div>
+  <div class="">
+    <!-- categories -->
+    <div class="" v-if="currentView == 'ageCategoryList'">
+      <!-- <table class="table table-hover table-bordered" v-if="matchData.length > 0">
+      	<thead>
+              <tr>
+                  <th class="text-center">{{$lang.summary_schedule_draws_categories}}</th>
+                  <th class="text-center">{{$lang.summary_schedule_type}}</th>
+                  <th class="text-center">{{$lang.summary_schedule_team}}</th>
+              </tr>
+          </thead>
+          <tbody>
+          	<tr v-for="drawData in matchData">
+          		<td>
+          			<a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.name }}</u> </a>
+          		</td>
+          		<td>{{ drawData.competation_type }}</td>
+          		<td>{{ drawData.team_size }}</td>
+          	</tr>
+          </tbody>
+      </table> -->
+      <table class="table table-hover table-bordered" v-if="competationList.length > 0">
+        <thead>
+          <tr>
+            <th class="text-center">{{$lang.summary_schedule_draws_categories}}</th>            
+            <th class="text-center">{{$lang.summary_schedule_team}}</th>          
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="competation in competationList">
+            <td>
+              <a class="text-primary" href="" @click.prevent="showGroups(competation.id)"><u>{{ competation.group_name }} ({{ competation.category_age }})</u></a>
+            </td>
+            <td>{{ competation.total_teams }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <span v-else>No information available</span>
+    </div>
+    <!-- after click -->
+    <div class="" v-if="currentView == 'drawList'">
+      <a @click="changeTable()" data-toggle="tab" href="javascript:void(0)"
+      role="tab" aria-expanded="true"
+      class="btn btn-primary mb-2">
+      <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to category list</a>
+      <table class="table table-hover table-bordered" v-if="groupsData.length > 0">
+        <thead>
+              <tr>
+                  <th class="text-center">{{$lang.summary_schedule_draws_categories}}</th>
+                  <th class="text-center">{{$lang.summary_schedule_type}}</th>
+                  <th class="text-center">{{$lang.summary_schedule_team}}</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr v-for="drawData in groupsData">
+              <td>
+                <a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.name }}</u> </a>
+              </td>
+              <td>{{ drawData.competation_type }}</td>
+              <td>{{ drawData.team_size }}</td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 <script type="text/babel">
 
@@ -29,17 +73,39 @@ import TeamList from './TeamList.vue'
 import DrawDetails from './DrawDetails.vue'
 
 export default {
-	props:['matchData'],
+  data() {
+    return {
+      competationList:[],
+      showTable: 'category',
+      groupsData:[]
+    }
+  },
+  mounted() {
+    this.getCategoryCompetitions();
+    if(this.currentAgeCategoryId != 0){
+      this.showGroups(this.currentAgeCategoryId);
+    }
+
+  },
+	// props:['matchData'],
 	components: {
 		TeamDetails, DrawDetails
 	},
+  computed: {
+    currentView() {
+      return this.$store.state.currentScheduleViewAgeCategory
+    },
+    currentAgeCategoryId() {
+      return this.$store.state.currentAgeCategoryId
+    }
+  },
 	methods: {
-		changeTeam(Id, Name) {
+		/*changeTeam(Id, Name) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
 			this.$root.$emit('changeDrawListComp',Id,Name);
 			//this.$emit('changeComp', Id);
-		},
+		},*/
 		changeGroup(data) {
 			// here we dispatch Method
 			this.$store.dispatch('setCurrentScheduleView','drawDetails')
@@ -49,20 +115,49 @@ export default {
 			this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
 			//this.$emit('changeComp',Id);
 		},
+    getCategoryCompetitions() {
+      let tournamentId = this.$store.state.Tournament.tournamentId
+      let TournamentData = {'tournament_id':tournamentId}
+      Tournament.getCompetationFormat(TournamentData).then(
+        (response)=> {
+          this.competationList = response.data.data
+        },
+        (error) => {
+          alert('Error in getting category competitions')
+        }
+      )
+    },
+    showGroups(ageGroupId) {
+      this.$store.dispatch('setCurrentScheduleViewAgeCategory','drawList')
+      this.$store.dispatch('setcurrentAgeCategoryId',ageGroupId)
 
+
+      let tournamentData = {'ageGroupId': ageGroupId}
+      Tournament.getCategoryCompetitions(tournamentData).then(
+        (response) => {
+          this.groupsData = response.data.competitions
+          this.showTable = "groups"
+        },
+        (error) => {
+        }
+      )
+    },
+    changeTable() {
+      this.$store.dispatch('setCurrentScheduleViewAgeCategory','ageCategoryList')
+      this.showTable = "category"
+    }
 	},
 	filters: {
     formatGroup:function (value,round) {
-        if(round == 'Round Robin') {
-           return value
-        }
-        if(!isNaN(value.slice(-1))) {
-           return value.substring(0,value.length-1)
-        } else {
-           return value
-        }
+      if(round == 'Round Robin') {
+         return value
       }
-
+      if(!isNaN(value.slice(-1))) {
+         return value.substring(0,value.length-1)
+      } else {
+         return value
+      }
+    }
   },
 }
 </script>

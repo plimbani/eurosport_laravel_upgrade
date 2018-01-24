@@ -36,6 +36,7 @@ export default {
 	mounted() {
 		// here we call function to get all the Draws Listing
 		this.$store.dispatch('setCurrentScheduleView','drawList')
+		this.$store.dispatch('setCurrentScheduleViewAgeCategory','ageCategoryList')
 		this.getAllDraws()
 	},
 	components: {
