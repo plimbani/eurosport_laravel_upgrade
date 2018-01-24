@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <!-- categories -->
-    <div class="" v-if="showTable == 'category'">
+    <div class="" v-if="currentView == 'ageCategoryList'">
       <!-- <table class="table table-hover table-bordered" v-if="matchData.length > 0">
       	<thead>
               <tr>
@@ -39,7 +39,7 @@
       <span v-else>No information available</span>
     </div>
     <!-- after click -->
-    <div class="" v-if="showTable == 'groups'">
+    <div class="" v-if="currentView == 'drawList'">
       <a @click="changeTable()" data-toggle="tab" href="javascript:void(0)"
       role="tab" aria-expanded="true"
       class="btn btn-primary mb-2">
@@ -82,11 +82,23 @@ export default {
   },
   mounted() {
     this.getCategoryCompetitions();
+    if(this.currentAgeCategoryId != 0){
+      this.showGroups(this.currentAgeCategoryId);
+    }
+
   },
 	// props:['matchData'],
 	components: {
 		TeamDetails, DrawDetails
 	},
+  computed: {
+    currentView() {
+      return this.$store.state.currentScheduleViewAgeCategory
+    },
+    currentAgeCategoryId() {
+      return this.$store.state.currentAgeCategoryId
+    }
+  },
 	methods: {
 		/*changeTeam(Id, Name) {
 			// here we dispatch Method
@@ -116,6 +128,10 @@ export default {
       )
     },
     showGroups(ageGroupId) {
+      this.$store.dispatch('setCurrentScheduleViewAgeCategory','drawList')
+      this.$store.dispatch('setcurrentAgeCategoryId',ageGroupId)
+
+
       let tournamentData = {'ageGroupId': ageGroupId}
       Tournament.getCategoryCompetitions(tournamentData).then(
         (response) => {
@@ -127,6 +143,7 @@ export default {
       )
     },
     changeTable() {
+      this.$store.dispatch('setCurrentScheduleViewAgeCategory','ageCategoryList')
       this.showTable = "category"
     }
 	},

@@ -205,7 +205,7 @@ export default {
         setCurrentMsg() {
           let msg = ''
           if(this.$store.state.setCurrentView == 'drawsListing') {
-            msg = 'category list'
+            msg = 'competition list'
           }
           if(this.$store.state.setCurrentView == 'teamListing') {
             msg = 'team list'
@@ -360,15 +360,18 @@ export default {
           }
         },
         setCurrentTabView(setCurrentTabView) {
+          //
           if(setCurrentTabView == 'drawsListing')
           {
             this.$store.dispatch('setCurrentScheduleView','drawList')
+            this.$store.dispatch('setCurrentScheduleViewAgeCategory','drawList')
+
             let Id = this.DrawName.id
-          let Name = this.DrawName.name
-          let Comp = this.DrawName.competation_type
+            let Name = this.DrawName.name
+            let Comp = this.DrawName.competation_type
             this.$root.$emit('changeDrawListComp',Id, Name,Comp);
           }
-           if(setCurrentTabView == 'teamListing')
+          if(setCurrentTabView == 'teamListing')
           {
             this.$store.dispatch('setCurrentScheduleView','teamList')
             this.$root.$emit('changeComp')
