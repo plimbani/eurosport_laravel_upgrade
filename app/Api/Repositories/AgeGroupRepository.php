@@ -96,6 +96,7 @@ class AgeGroupRepository
      
       $tournamentCompeationTemplate = array();
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
+      $tournamentCompeationTemplate['comments'] = $data['comments'] != '' ? $data['comments'] : null;
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
       $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];

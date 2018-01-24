@@ -2,24 +2,6 @@
   <div class="">
     <!-- categories -->
     <div class="" v-if="currentView == 'ageCategoryList'">
-      <!-- <table class="table table-hover table-bordered" v-if="matchData.length > 0">
-      	<thead>
-              <tr>
-                  <th class="text-center">{{$lang.summary_schedule_draws_categories}}</th>
-                  <th class="text-center">{{$lang.summary_schedule_type}}</th>
-                  <th class="text-center">{{$lang.summary_schedule_team}}</th>
-              </tr>
-          </thead>
-          <tbody>
-          	<tr v-for="drawData in matchData">
-          		<td>
-          			<a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.name }}</u> </a>
-          		</td>
-          		<td>{{ drawData.competation_type }}</td>
-          		<td>{{ drawData.team_size }}</td>
-          	</tr>
-          </tbody>
-      </table> -->
       <table class="table table-hover table-bordered" v-if="competationList.length > 0">
         <thead>
           <tr>
@@ -31,6 +13,7 @@
           <tr v-for="competation in competationList">
             <td>
               <a class="text-primary" href="" @click.prevent="showGroups(competation.id)"><u>{{ competation.group_name }} ({{ competation.category_age }})</u></a>
+              <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(competation)"><i class="fa fa-info-circle" v-if="competation.comments != null"></i></a>
             </td>
             <td>{{ competation.total_teams }}</td>
           </tr>
@@ -63,6 +46,25 @@
           </tbody>
       </table>
     </div>
+    <div class="modal" id="commentmodal" tabindex="-1" role="dialog" aria-labelledby="commentmodalLabel" style="display: none;" aria-hidden="true" data-animation="false">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="competationmodalLabel">{{$lang.competation_modal_comments}}</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">×</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                {{ ageCatgeoryComments }}
+              </div>
+            </div>    
+          </div>
+         </div>
+      </div>
+    </div>
   </div>
 </template>
 <script type="text/babel">
@@ -77,7 +79,8 @@ export default {
     return {
       competationList:[],
       showTable: 'category',
-      groupsData:[]
+      groupsData:[],
+      ageCatgeoryComments: ''
     }
   },
   mounted() {
@@ -145,7 +148,10 @@ export default {
     changeTable() {
       this.$store.dispatch('setCurrentScheduleViewAgeCategory','ageCategoryList')
       this.showTable = "category"
-    }
+    },
+    showComment(competition) {
+      this.ageCatgeoryComments = competition.comments;
+    },
 	},
 	filters: {
     formatGroup:function (value,round) {
