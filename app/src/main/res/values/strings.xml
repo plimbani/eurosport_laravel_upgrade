@@ -93,6 +93,7 @@
     <string name="placing_matches_summary">PLACING MATCHES SUMMARY</string>
     <string name="euro_sportring_contact">Euro-Sportring Contact</string>
     <string name="name">Name:</string>
+    <string name="comments">Comments</string>
     <string name="contact_number">Contact number:</string>
     <string name="no_tournament_selected_as_default">No default tournament selected.</string>
     <string name="the_internet_connection_appears_to_be_offline" translatable="false">The internet connection appears to be offline.</string>

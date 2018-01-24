@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.aecor.eurosports.activity.AgeCategoriesActivity;
 import com.aecor.eurosports.activity.AgeGroupActivity;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.AgeCategoriesModel;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.Utility;
 
@@ -76,6 +78,24 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
                 }
             }
         });
+
+        if (!Utility.isNullOrEmpty(ageModel.getComments())) {
+            holder.iv_info.setVisibility(View.VISIBLE);
+        } else {
+            holder.iv_info.setVisibility(View.GONE);
+        }
+
+        holder.iv_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.comments), ageModel.getComments(), mContext.getString(R.string.close), new ViewDialog.CustomDialogInterface() {
+                    @Override
+                    public void onPositiveButtonClicked() {
+
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -96,6 +116,8 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
         protected TextView individual_list_item;
         @BindView(R.id.ll_list_parent)
         protected LinearLayout ll_list_parent;
+        @BindView(R.id.iv_info)
+        protected ImageView iv_info;
 
         public ViewHolder(View rowView) {
             super(rowView);
