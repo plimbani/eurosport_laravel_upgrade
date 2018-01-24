@@ -103,7 +103,7 @@ export default {
 						this.matchData = response.data.data;
 						this.matchData.map(function(value, key) {
 
-			              if(value.actual_round == 'Elimination') {
+			              // if(value.actual_round == 'Elimination') {
 			              	let dispTxt = '';
 			              	if(value.displayHomeTeamPlaceholderName.indexOf("#") == -1){
 			              		
@@ -131,7 +131,7 @@ export default {
 			                value.name = _.replace(value.name, '-Group', '');
 
 			                return value;
-			              }
+			              // }
 			            })
 
 						$("body .js-loader").addClass('d-none');

@@ -375,7 +375,6 @@ export default {
           }
           if(setCurrentTabView == 'matchListing')
           {
-            console.log(setCurrentView);
             this.$store.dispatch('setCurrentScheduleView','matchList')
             this.$root.$emit('changeComp')
           }

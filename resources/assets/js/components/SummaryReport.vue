@@ -215,13 +215,13 @@
   		             		<td v-else></td>
 	                		<td>{{displayMatch(report.displayMatchNumber,report.displayHomeTeamPlaceholder,report.displayAwayTeamPlaceholder)}}</td>
 							<td align="right">
-								<span class="text-center" v-if="(report.homeTeam == '0' )">{{ getHoldingName(report.competition_actual_name, report.displayHomeTeamPlaceholder) }}</span>
+								<span class="text-center" v-if="(report.homeTeam == '0' )">{{ getHoldingName(report.competition_actual_name, report.displayHomeTeamPlaceholder,report.displayMatchNumber) }}</span>
 								<span class="text-center" v-else>{{ report.HomeTeam }}</span>
 								<span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
 							</td>
 							<td align="left">
 								<span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
-								<span class="text-center" v-if="(report.awayTeam == '0')">{{ getHoldingName(report.competition_actual_name, report.displayAwayTeamPlaceholder) }}</span>
+								<span class="text-center" v-if="(report.awayTeam == '0')">{{ getHoldingName(report.competition_actual_name, report.displayAwayTeamPlaceholder,report.displayMatchNumber) }}</span>
 								<span class="text-center" v-else>{{ report.AwayTeam }}</span>
 							</td>
 							<td align="center">{{ (report.position != null) ? report.position : 'N/A' }}</td>
@@ -653,8 +653,20 @@ export default {
 			toastr['error']('Records not available', 'Error');
 		}
 	},
-	getHoldingName(competitionActualName, placeholder) {
+	getHoldingName(competitionActualName, placeholder,displayMatchNumber) {
       if(competitionActualName.indexOf('Group') !== -1){
+      	let dispTxt = '';
+          // if(placeholder.indexOf("#") == -1){
+            
+          //   if(displayMatchNumber.indexOf("wrs") > -1){
+          //     dispTxt = 'wrs.' ;
+          //   } else if(displayMatchNumber.indexOf("lrs") > -1) {
+          //     dispTxt = 'lrs.' ;
+
+          //   }
+          //   placeholder = dispTxt+placeholder
+          // }
+                  
         return placeholder;
       } else if(competitionActualName.indexOf('Pos') !== -1){
         return 'Pos-' + placeholder;

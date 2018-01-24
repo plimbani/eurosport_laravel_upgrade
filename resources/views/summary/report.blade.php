@@ -54,7 +54,6 @@
             <td align="right">
                 <span class="text-center">
                     @if($report->homeTeam == '0')
-                        @if($report->actual_round == 'Elimination') 
                             @if((strpos($report->displayMatchNumber, 'wrs') != false) || (strpos($report->displayMatchNumber, 'lrs') != false)) 
                         <?php
                             if(strpos($report->displayHomeTeamPlaceholder, '#')  !== false ){
@@ -75,10 +74,7 @@
                                 <?php $homeTeamDisplay = $report->displayHomeTeamPlaceholder ?>
 
                             @endif 
-                        @else
-                                <?php $homeTeamDisplay = $report->displayHomeTeamPlaceholder ?>
                         
-                        @endif
                        <?php if(strpos($report->competition_actual_name, 'Pos') !== false)
 -                             $homeTeamDisplay = 'Pos-' . $report->displayHomeTeamPlaceholder; ?>
 
@@ -95,7 +91,7 @@
             &nbsp;<img src="{{ $report->AwayFlagLogo }}" width="20">
                 <span class="text-center">
                     @if($report->awayTeam == '0')
-                        @if($report->actual_round == 'Elimination') 
+                       
                             @if((strpos($report->displayMatchNumber, 'wrs') != false) || (strpos($report->displayMatchNumber, 'lrs') != false)) 
                        <?php
                             if(strpos($report->displayAwayTeamPlaceholder, '#')  !== false ){
@@ -112,10 +108,7 @@
                             $awayTeamDisplay =  $awayTeam;
 
                         ?>
-                            @else
-                                <?php $awayTeamDisplay = $report->displayAwayTeamPlaceholder ?>
-
-                            @endif 
+                           
                         @else
                                 <?php $awayTeamDisplay = $report->displayAwayTeamPlaceholder ?>
                         

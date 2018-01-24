@@ -537,7 +537,7 @@ class TournamentService implements TournamentContract
                   $homeTeam = 'Pos-' . $reportRec->displayHomeTeamPlaceholder;
                 }
 
-                if($reportRec->actual_round == 'Elimination') {
+                // if($reportRec->actual_round == 'Elimination') {
                  
                   if((strpos($reportRec->displayMatchNumber, 'wrs') != false) || (strpos($reportRec->displayMatchNumber, 'lrs') != false)) {
                     $matchPrec = '';
@@ -553,7 +553,7 @@ class TournamentService implements TournamentContract
                       $homeTeam = $matchPrec.$reportRec->displayHomeTeamPlaceholder;
                     }
                   } 
-                }
+                // }
               } else {
                 $homeTeam = $reportRec->HomeTeam;
               }
@@ -565,11 +565,11 @@ class TournamentService implements TournamentContract
                 } else if(strpos($reportRec->competition_actual_name, 'Pos') !== false) {
                   $awayTeam = 'Pos-' . $reportRec->displayAwayTeamPlaceholder;
                 }
-                if($reportRec->actual_round == 'Elimination') {
+                // if($reportRec->actual_round == 'Elimination') {
                    $matchPrec ='';
                   
                   if(strpos($reportRec->displayAwayTeamPlaceholder, '#')  !== false ){
-                      $homeTeam = $reportRec->displayAwayTeamPlaceholder;
+                      $awayTeam = $reportRec->displayAwayTeamPlaceholder;
                     } else {
                       if(strpos($reportRec->displayMatchNumber, 'wrs') != false ){
                         $matchPrec = 'wrs.'; 
@@ -578,7 +578,7 @@ class TournamentService implements TournamentContract
                       }
                       $awayTeam = $matchPrec.$reportRec->displayAwayTeamPlaceholder;
                     }
-                }
+                // }
               } else {
                 $awayTeam = $reportRec->AwayTeam;
               }
