@@ -40,15 +40,21 @@
     </div>
 
     <div class="form-group">
-      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:200px">
-        <!--<option value="" v-if="filterKey != 'age_category'">Select</option>-->
-        <option value="">All</option>
-        <option :value="option.id"
-        v-for="option in options"
-        v-bind:value="option">
-          {{option.name}}
-        </option>
+      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterForAgeAndGroup()" style="width:200px" v-if="filterKey == 'competation_group'">
+        <option value="" v-if="filterKey != 'age_category'">Select</option>
+        
+        <option :value="option.id"  
+        v-for="option in options"  v-bind:value="option" v-bind:class="option.class" > {{ option.name }}</option>
+
+<!--           <option  :value="group.id" v-for="group in option.competition"  v-text="holdingName(group)"  v-bind:value="group" ></option> -->
+        <!-- </optgroup> -->
+        
       </select>
+      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:200px" v-else>
+        <option value="" v-if="filterKey != 'age_category'">Select</option>
+        <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
+      </select>
+
     </div>
     <div class="form-group">
       <label class="control-label">
@@ -95,8 +101,17 @@ export default {
       $('#age_category').trigger('click')
       this.getDropDownData('age_category')
     },
+    holdingName(group) {
+      // return group.name;
+      let grpName =group.name.split("-");
+      grpName = grpName.splice(2,grpName.length);
+      grpName =grpName.join('-');
+      
+      return grpName;
+                        // value.displayHomeTeamPlaceholder = dispNumber[3]+'.'+value.
+    },
     setFilterValue() {
-
+      // return false;
       this.filterValue = this.dropDown
        // alert(this.filterValue)
        // console.log(this.filterValue);
@@ -110,13 +125,20 @@ export default {
         this.$root.$emit('getMatchByTournamentFilter',this.filterKey,this.filterValue);
       }
     },
+    setFilterForAgeAndGroup() {
+     let matchFilterKey = 'competation_group';
+      if(this.dropDown.class == 'age'){
+        matchFilterKey = 'competation_group_age';
+      }
+      this.$root.$emit('getMatchByTournamentFilter',matchFilterKey,this.dropDown);
+    },
     getDropDownData(tourament_key) {
        this.dropDown = ''
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key
       this.filterKey = tourament_key
       let tournamentData = {'tournamentId':tournamentId,
-      'keyData':tourament_key,'type':this.section}
+      'keyData':tourament_key,'type':this.section,'cat':'age'}
       Tournament.getDropDownData(tournamentData).then(
         (response) => {
           // here we fill the options
@@ -135,7 +157,21 @@ export default {
               break
           }
 
-          this.options =response.data.data
+          this.options = response.data.data
+          let newOption = [];
+          _.map(response.data.data, function(opt){
+            
+            newOption.push({'id':opt.id,'name': opt.name,'class':'age','data':opt.id});
+            _.map(opt.competition, function(comp){
+               let grpName =comp.name.split("-");
+                    grpName = grpName.splice(2,grpName.length);
+                    grpName =grpName.join('-');
+      
+              newOption.push({'id':comp.id,'name': grpName, 'class':'group','data':comp});
+            });
+
+          });
+           this.options =  newOption;
           if(tourament_key == 'age_category'){
             this.dropDown = ""
             this.setFilterValue()
