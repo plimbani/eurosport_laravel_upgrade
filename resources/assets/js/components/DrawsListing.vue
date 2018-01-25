@@ -36,13 +36,14 @@ export default {
 	mounted() {
 		// here we call function to get all the Draws Listing
 		this.$store.dispatch('setCurrentScheduleView','drawList')
-		this.$store.dispatch('setCurrentScheduleViewAgeCategory','ageCategoryList')
-		this.getAllDraws()
+		this.getAllDraws();
 	},
 	components: {
 		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails,TeamList
 	},
 	created: function() {
+		this.$store.dispatch('setCurrentScheduleViewAgeCategory', 'ageCategoryList')
+		this.$store.dispatch('setcurrentAgeCategoryId', 0)
 	    this.$root.$on('changeDrawListComp', this.setMatchData);
 	    this.$root.$on('getAllDraws', this.getAllDraws);
 	},
