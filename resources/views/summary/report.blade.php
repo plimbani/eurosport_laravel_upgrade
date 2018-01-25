@@ -54,21 +54,27 @@
             <td align="right">
                 <span class="text-center">
                     @if($report->homeTeam == '0')
-                        @if($report->actual_round == 'Elimination') 
                             @if((strpos($report->displayMatchNumber, 'wrs') != false) || (strpos($report->displayMatchNumber, 'lrs') != false)) 
                         <?php
-                            $matchNum = explode('.',$report->displayMatchNumber);
-                            $homeTeamDisplay =  $matchNum[3].'.'.$report->displayHomeTeamPlaceholder;
+                            if(strpos($report->displayHomeTeamPlaceholder, '#')  !== false ){
+                              $homeTeam = $report->displayHomeTeamPlaceholder;
+                            } else {
+                              if(strpos($report->displayMatchNumber, 'wrs') != false ){
+                                $matchPrec = 'wrs.'; 
+                              } if(strpos($report->displayMatchNumber, 'lrs') != false){
+                                $matchPrec = 'lrs.'; 
+                              }
+                              $homeTeam = $matchPrec.$report->displayHomeTeamPlaceholder;
+                            }
+                           
+                            $homeTeamDisplay =  $homeTeam;
 
                         ?>
                             @else
                                 <?php $homeTeamDisplay = $report->displayHomeTeamPlaceholder ?>
 
                             @endif 
-                        @else
-                                <?php $homeTeamDisplay = $report->displayHomeTeamPlaceholder ?>
                         
-                        @endif
                        <?php if(strpos($report->competition_actual_name, 'Pos') !== false)
 -                             $homeTeamDisplay = 'Pos-' . $report->displayHomeTeamPlaceholder; ?>
 
@@ -85,17 +91,24 @@
             &nbsp;<img src="{{ $report->AwayFlagLogo }}" width="20">
                 <span class="text-center">
                     @if($report->awayTeam == '0')
-                        @if($report->actual_round == 'Elimination') 
+                       
                             @if((strpos($report->displayMatchNumber, 'wrs') != false) || (strpos($report->displayMatchNumber, 'lrs') != false)) 
-                        <?php
-                            $matchNum = explode('.',$report->displayMatchNumber);
-                            $awayTeamDisplay =  $matchNum[3].'.'.$report->displayAwayTeamPlaceholder;
+                       <?php
+                            if(strpos($report->displayAwayTeamPlaceholder, '#')  !== false ){
+                              $awayTeam = $report->displayAwayTeamPlaceholder;
+                            } else {
+                              if(strpos($report->displayMatchNumber, 'wrs') != false ){
+                                $matchPrec = 'wrs.'; 
+                              } if(strpos($report->displayMatchNumber, 'lrs') != false){
+                                $matchPrec = 'lrs.'; 
+                              }
+                              $awayTeam = $matchPrec.$report->displayAwayTeamPlaceholder;
+                            }
+                           
+                            $awayTeamDisplay =  $awayTeam;
 
                         ?>
-                            @else
-                                <?php $awayTeamDisplay = $report->displayAwayTeamPlaceholder ?>
-
-                            @endif 
+                           
                         @else
                                 <?php $awayTeamDisplay = $report->displayAwayTeamPlaceholder ?>
                         

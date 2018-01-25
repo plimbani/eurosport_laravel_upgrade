@@ -250,7 +250,6 @@ class MatchRepository
     }
 
     public function getTempFixtures($tournamentData) {
-
       $reportQuery = DB::table('temp_fixtures')
           // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
           ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
@@ -390,6 +389,9 @@ class MatchRepository
               case 'competation_group':
                 $reportQuery =  $reportQuery->where('temp_fixtures.competition_id','=',$tournamentData['filterValue']);
               break;
+              case 'competation_group_age':
+                $reportQuery =  $reportQuery->where('temp_fixtures.age_group_id','=',$tournamentData['filterValue']);
+              break;
             }
           }
         }
@@ -415,13 +417,13 @@ class MatchRepository
 
           if(isset($tournamentData['competationId']) && $tournamentData['competationId'] !== '')
           {
-						$reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competationId']);
+            $reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competationId']);
           }
           if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
           {
             $reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competitionId']);
           }
-          if(isset($tournamentData['tournamentId']) &&	$tournamentData['tournamentId'] !== '')
+          if(isset($tournamentData['tournamentId']) &&  $tournamentData['tournamentId'] !== '')
           {
           $reportQuery = $reportQuery->where('match_standing.tournament_id', $tournamentData['tournamentId']);
           }
@@ -593,15 +595,15 @@ class MatchRepository
 
         foreach ($comp as $key => $value) {
           if($value->home_team == 0 ) {
-            if($value->comp_round_no != 'Round 1' ){
+            // if($value->comp_round_no != 'Round 1' ){
               $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $value->homeTeamPlaceholderName;  
-            }
+            // }
             
           }
           if($value->away_team == 0  ) {
-             if($value->comp_round_no != 'Round 1' ){ 
+             // if($value->comp_round_no != 'Round 1' ){ 
               $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $value->awayTeamPlaceholderName;
-             }
+             // }
             
           }
 
