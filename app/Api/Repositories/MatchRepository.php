@@ -438,18 +438,19 @@ class MatchRepository
                           ->leftjoin('competitions', 'temp_fixtures.competition_id', '=', 'competitions.id')
                           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId'])
                           ->where('temp_fixtures.competition_id', $tournamentData['competitionId'])
-                          ->where('competitions.actual_competition_type', 'Round Robin')
-                          // ->where('competitions.competation_round_no', 'Round 1')
-                          ->select(
+                          ->where('competitions.actual_competition_type', 'Round Robin') 
+                         ->select(
                             'temp_fixtures.id as fixtureId',
                             DB::raw('CONCAT(temp_fixtures.home_team_placeholder_name, "-", temp_fixtures.away_team_placeholder_name) AS teamsPlaceHolderName'),
                             'temp_fixtures.display_home_team_placeholder_name as homeTeamPlaceholderName',
                             'temp_fixtures.display_away_team_placeholder_name as awayTeamPlaceholderName',
+                            'temp_fixtures.display_match_number',
                             'temp_fixtures.home_team as homeTeam',
                             'temp_fixtures.away_team as awayTeam',
                             'temp_fixtures.home_team_name as homeTeamName',
                             'temp_fixtures.away_team_name as awayTeamName',
                             'temp_fixtures.age_group_id as ageGroupId')
+
                           ->get();
 
           // below code for standing data of dis-selected teams
@@ -460,10 +461,28 @@ class MatchRepository
 
           foreach($tempFixtures as $fixture) {
             if($fixture->homeTeam == 0 ) {
-              $home_team_placeholder_name_array[] = $fixture->homeTeamPlaceholderName;
+              $preset = '';
+              if(strpos($fixture->homeTeamPlaceholderName,"." ) != false) {
+                if(strpos($fixture->display_match_number,"wrs" ) != false) {
+                  $preset = 'wrs.';
+                }
+                if(strpos($fixture->display_match_number,"lrs" ) != false) {
+                  $preset = 'lrs.';
+                }
+              }
+              $home_team_placeholder_name_array[] = $preset.$fixture->homeTeamPlaceholderName;
             }
             if($fixture->awayTeam == 0 ) {
-              $away_team_placeholder_name_array[] = $fixture->awayTeamPlaceholderName;
+              $preset = '';
+              if(strpos($fixture->awayTeamPlaceholderName,"." ) != false) {
+                if(strpos($fixture->display_match_number,"wrs" ) != false) {
+                  $preset = 'wrs.';
+                }
+                if(strpos($fixture->display_match_number,"lrs" ) != false) {
+                  $preset = 'lrs.';
+                }
+              }
+              $away_team_placeholder_name_array[] = $preset.$fixture->awayTeamPlaceholderName;
             }
             if($fixture->homeTeam == 0 || $fixture->awayTeam == 0) {
               if($fixture->homeTeam != 0) {
@@ -539,6 +558,7 @@ class MatchRepository
                 'temp_fixtures.match_datetime as matchDateTime',
                 'temp_fixtures.home_team as homeTeam',
                 'temp_fixtures.away_team as awayTeam',
+                'temp_fixtures.display_match_number',
                 'temp_fixtures.home_team_name as homeTeamName',
                 'temp_fixtures.away_team_name as awayTeamName',
                 'temp_fixtures.display_home_team_placeholder_name as homeTeamPlaceholderName',
@@ -556,13 +576,32 @@ class MatchRepository
           $awayTeam = null;
 
           if($data->homeTeam == 0 ) {
-            $homeTeam = $data->homeTeamPlaceholderName;
+            $preset = '';
+              if(strpos($data->homeTeamPlaceholderName,"." ) != false) {
+                if(strpos($data->display_match_number,"wrs" ) != false) {
+                  $preset = 'wrs.';
+                }
+                if(strpos($data->display_match_number,"lrs" ) != false) {
+                  $preset = 'lrs.';
+                }
+              }
+              
+            $homeTeam = $preset.$data->homeTeamPlaceholderName;
           } else {
             $homeTeam = $data->homeTeam;
           }
 
           if($data->awayTeam == 0 ) {
-            $awayTeam = $data->awayTeamPlaceholderName;
+             $preset = '';
+              if(strpos($data->awayTeamPlaceholderName,"." ) != false) {
+                if(strpos($data->display_match_number,"wrs" ) != false) {
+                  $preset = 'wrs.';
+                }
+                if(strpos($data->display_match_number,"lrs" ) != false) {
+                  $preset = 'lrs.';
+                }
+              }
+            $awayTeam = $preset.$data->awayTeamPlaceholderName;
           } else {
             $awayTeam = $data->awayTeam;
           }
@@ -582,7 +621,7 @@ class MatchRepository
                     
                     ->where('temp_fixtures.tournament_id','=',$tournamentData['tournamentId'])
                     ->where('temp_fixtures.competition_id','=',$tournamentData['competationId'])
-                    ->select('temp_fixtures.home_team','temp_fixtures.away_team', 'temp_fixtures.home_team_name as homeTeamName', 'temp_fixtures.away_team_name as awayTeamName', 'temp_fixtures.display_home_team_placeholder_name as homeTeamPlaceholderName', 'temp_fixtures.display_away_team_placeholder_name as awayTeamPlaceholderName','competitions.competation_round_no as comp_round_no')->orderBy('homeTeamPlaceholderName')->orderBy('awayTeamPlaceholderName')->get();
+                    ->select('temp_fixtures.home_team','temp_fixtures.away_team', 'temp_fixtures.home_team_name as homeTeamName','temp_fixtures.display_match_number', 'temp_fixtures.away_team_name as awayTeamName', 'temp_fixtures.display_home_team_placeholder_name as homeTeamPlaceholderName', 'temp_fixtures.display_away_team_placeholder_name as awayTeamPlaceholderName','competitions.competation_round_no as comp_round_no')->orderBy('homeTeamPlaceholderName')->orderBy('awayTeamPlaceholderName')->get();
 
         $competition = Competition::find($tournamentData['competationId']);
         $splittedCompetitionActualName = explode('-', $competition->actual_name);
@@ -596,13 +635,30 @@ class MatchRepository
         foreach ($comp as $key => $value) {
           if($value->home_team == 0 ) {
             // if($value->comp_round_no != 'Round 1' ){
-              $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $value->homeTeamPlaceholderName;  
+            if(strpos($value->homeTeamPlaceholderName,"." ) != false) {
+                if(strpos($value->display_match_number,"wrs" ) != false) {
+                  $preset = 'wrs.';
+                }
+                if(strpos($value->display_match_number,"lrs" ) != false) {
+                  $preset = 'lrs.';
+                }
+              }
+              $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $preset.$value->homeTeamPlaceholderName;  
             // }
             
           }
           if($value->away_team == 0  ) {
              // if($value->comp_round_no != 'Round 1' ){ 
-              $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $value->awayTeamPlaceholderName;
+             $preset = '';
+              if(strpos($value->awayTeamPlaceholderName,"." ) != false) {
+                if(strpos($value->display_match_number,"wrs" ) != false) {
+                  $preset = 'wrs.';
+                }
+                if(strpos($value->display_match_number,"lrs" ) != false) {
+                  $preset = 'lrs.';
+                }
+              }
+              $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $preset.$value->awayTeamPlaceholderName;
              // }
             
           }
