@@ -176,6 +176,7 @@ module.exports= {
   competation_modal_team_interval: "Team interval*",
   competation_modal_team_interval_minutes: "minutes",
   competation_modal_team_interval_required: "Team interval is required.",
+  competation_modal_comments: "Comments",
 
   competation_modal_age_category: "Match Schedule – Template",
   competation_label_name_category: "Category name*",
@@ -243,8 +244,8 @@ module.exports= {
   pitch_modal_status_label: "Status*",
   pitch_modal_winner_label: "Winner*",
   pitch_modal_comments_label: "Comments",
-  pitch_modal_team1_comments_label: "Team1 Comment",
-  pitch_modal_team2_comments_label: "Team2 Comment",
+  pitch_modal_team1_comments_label: "Team 1 comment",
+  pitch_modal_team2_comments_label: "Team 2 comment",
   pitch_modal_unschedule: "Unschedule",
   pitch_modal_cancel: "Cancel",
   pitch_modal_save: "Save",

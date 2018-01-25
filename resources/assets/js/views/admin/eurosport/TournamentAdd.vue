@@ -209,6 +209,7 @@
                 v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_country'+index) }">
                   <option value="">{{$lang.tournament_country_please_select}}</option>
                   <option value="Andorra">Andorra</option>
+                  <option value="Austria">Austria</option>
                   <option value="Belgium">Belgium</option>
                   <option value="Belarus">Belarus</option>
                   <option value="Bulgaria">Bulgaria</option>

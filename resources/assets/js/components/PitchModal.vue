@@ -121,13 +121,13 @@
               <div class="form-group row">
                 <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_team1_comments_label}}</label>
                 <div class="col-sm-9">
-                  <textarea class="form-control" name="home_comment" id="home_comment" readonly="">{{matchDetail.hometeam_comment}}</textarea>
+                  <textarea class="form-control" name="home_comment" id="home_comment" disabled="disabled">{{matchDetail.hometeam_comment}}</textarea>
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_team2_comments_label}}</label>
                 <div class="col-sm-9">
-                  <textarea class="form-control" name="comments" id="comments" readonly>{{matchDetail.awayteam_comment}}</textarea>
+                  <textarea class="form-control" name="comments" id="comments" disabled="disabled">{{matchDetail.awayteam_comment}}</textarea>
                 </div>
               </div>
             </form>

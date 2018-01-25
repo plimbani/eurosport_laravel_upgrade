@@ -131,11 +131,11 @@
           <td>&nbsp;{{ $data['comments']}}</td>
         </tr>
         <tr>
-          <td align="left">&nbsp;Hometeam Comment</td>
+          <td align="left">&nbsp;Team 1 comment</td>
           <td>&nbsp;{{ $data['hometeam_comment']}}</td>
         </tr>
         <tr>
-          <td align="left">&nbsp;Awayteam comment</td>
+          <td align="left">&nbsp;Team 2 comment</td>
           <td>&nbsp;{{ $data['awayteam_comment']}}</td>
         </tr>
     </thead>
