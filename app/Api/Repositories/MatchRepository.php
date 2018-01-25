@@ -250,7 +250,6 @@ class MatchRepository
     }
 
     public function getTempFixtures($tournamentData) {
-
       $reportQuery = DB::table('temp_fixtures')
           // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
           ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
@@ -389,6 +388,9 @@ class MatchRepository
                 break;
               case 'competation_group':
                 $reportQuery =  $reportQuery->where('temp_fixtures.competition_id','=',$tournamentData['filterValue']);
+              break;
+              case 'competation_group_age':
+                $reportQuery =  $reportQuery->where('temp_fixtures.age_group_id','=',$tournamentData['filterValue']);
               break;
             }
           }
