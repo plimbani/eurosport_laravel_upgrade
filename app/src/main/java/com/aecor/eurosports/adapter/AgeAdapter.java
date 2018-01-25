@@ -5,11 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -64,38 +64,54 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
         }
         holder.individual_list_item.setText(listTextTitle);
 
-        holder.ll_list_parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mContext instanceof AgeCategoriesActivity) {
-                    Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
-                    mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, ageModel.getId() + "");
-                    mContext.startActivity(mAgeGroupIntent);
-                } else {
-                    Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
-                    mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, ageModel.getId() + "");
-                    mContext.startActivity(mTeamListIntent);
-                }
-            }
-        });
+//        holder.ll_list_parent.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         if (!Utility.isNullOrEmpty(ageModel.getComments())) {
-            holder.iv_info.setVisibility(View.VISIBLE);
+            holder.individual_list_item.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.icon_info, 0);
+            holder.individual_list_item.setCompoundDrawablePadding(5);
+            holder.individual_list_item.setClickable(true);
+            holder.individual_list_item.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    final int DRAWABLE_RIGHT = 2;
+                    TextView mTextView = (TextView) v.findViewById(R.id.individual_list_item);
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        if (event.getRawX() >= (mTextView.getRight() - mTextView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                            // your action here
+                            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.comments), ageModel.getComments(), mContext.getString(R.string.close), new ViewDialog.CustomDialogInterface() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+
+                                }
+                            });
+                            return true;
+                        }else{
+                            if (mContext instanceof AgeCategoriesActivity) {
+                                Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
+                                mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, ageModel.getId() + "");
+                                mContext.startActivity(mAgeGroupIntent);
+                            } else {
+                                Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
+                                mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, ageModel.getId() + "");
+                                mContext.startActivity(mTeamListIntent);
+                            }
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
         } else {
-            holder.iv_info.setVisibility(View.GONE);
+            holder.individual_list_item.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
         }
 
-        holder.iv_info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.comments), ageModel.getComments(), mContext.getString(R.string.close), new ViewDialog.CustomDialogInterface() {
-                    @Override
-                    public void onPositiveButtonClicked() {
 
-                    }
-                });
-            }
-        });
     }
 
     @Override
@@ -116,13 +132,25 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
         protected TextView individual_list_item;
         @BindView(R.id.ll_list_parent)
         protected LinearLayout ll_list_parent;
-        @BindView(R.id.iv_info)
-        protected ImageView iv_info;
+
 
         public ViewHolder(View rowView) {
             super(rowView);
             ButterKnife.bind(this, rowView);
-
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mContext instanceof AgeCategoriesActivity) {
+                        Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
+                        mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, mAgeCategoriesList.get(getAdapterPosition()).getId() + "");
+                        mContext.startActivity(mAgeGroupIntent);
+                    } else {
+                        Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
+                        mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, mAgeCategoriesList.get(getAdapterPosition()).getId() + "");
+                        mContext.startActivity(mTeamListIntent);
+                    }
+                }
+            });
         }
     }
 
