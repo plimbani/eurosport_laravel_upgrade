@@ -417,13 +417,13 @@ class MatchRepository
 
           if(isset($tournamentData['competationId']) && $tournamentData['competationId'] !== '')
           {
-						$reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competationId']);
+            $reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competationId']);
           }
           if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
           {
             $reportQuery = $reportQuery->where('match_standing.competition_id',$tournamentData['competitionId']);
           }
-          if(isset($tournamentData['tournamentId']) &&	$tournamentData['tournamentId'] !== '')
+          if(isset($tournamentData['tournamentId']) &&  $tournamentData['tournamentId'] !== '')
           {
           $reportQuery = $reportQuery->where('match_standing.tournament_id', $tournamentData['tournamentId']);
           }
@@ -595,15 +595,15 @@ class MatchRepository
 
         foreach ($comp as $key => $value) {
           if($value->home_team == 0 ) {
-            if($value->comp_round_no != 'Round 1' ){
+            // if($value->comp_round_no != 'Round 1' ){
               $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $value->homeTeamPlaceholderName;  
-            }
+            // }
             
           }
           if($value->away_team == 0  ) {
-             if($value->comp_round_no != 'Round 1' ){ 
+             // if($value->comp_round_no != 'Round 1' ){ 
               $team_placeholder_name_arr_all[] = $inititalOfHolidingName . $value->awayTeamPlaceholderName;
-             }
+             // }
             
           }
 

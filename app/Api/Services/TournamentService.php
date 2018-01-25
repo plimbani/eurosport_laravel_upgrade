@@ -531,19 +531,29 @@ class TournamentService implements TournamentContract
               $awayTeam = null;
             
               if($reportRec->homeTeam == '0' ) {
-                
                 if(strpos($reportRec->competition_actual_name, 'Group') !== false) {
                   $homeTeam = $reportRec->displayHomeTeamPlaceholder;
                 } else if(strpos($reportRec->competition_actual_name, 'Pos') !== false) {
                   $homeTeam = 'Pos-' . $reportRec->displayHomeTeamPlaceholder;
                 }
-                if($reportRec->actual_round == 'Elimination') {
-                  // dd(strpos($reportRec->displayHomeTeamPlaceholder, '#awq'));
+
+                // if($reportRec->actual_round == 'Elimination') {
+                 
                   if((strpos($reportRec->displayMatchNumber, 'wrs') != false) || (strpos($reportRec->displayMatchNumber, 'lrs') != false)) {
-                    $matchNum = explode('.',$reportRec->displayMatchNumber);
-                     $homeTeam = $matchNum[3].'.'.$reportRec->displayHomeTeamPlaceholder;
+                    $matchPrec = '';
+                  
+                    if(strpos($reportRec->displayHomeTeamPlaceholder, '#')  !== false ){
+                      $homeTeam = $reportRec->displayHomeTeamPlaceholder;
+                    } else {
+                      if(strpos($reportRec->displayMatchNumber, 'wrs') != false ){
+                        $matchPrec = 'wrs.'; 
+                      } if(strpos($reportRec->displayMatchNumber, 'lrs') != false){
+                        $matchPrec = 'lrs.'; 
+                      }
+                      $homeTeam = $matchPrec.$reportRec->displayHomeTeamPlaceholder;
+                    }
                   } 
-                }
+                // }
               } else {
                 $homeTeam = $reportRec->HomeTeam;
               }
@@ -555,13 +565,20 @@ class TournamentService implements TournamentContract
                 } else if(strpos($reportRec->competition_actual_name, 'Pos') !== false) {
                   $awayTeam = 'Pos-' . $reportRec->displayAwayTeamPlaceholder;
                 }
-                if($reportRec->actual_round == 'Elimination') {
-                  // dd(strpos($reportRec->displayHomeTeamPlaceholder, '#awq'));
-                  if((strpos($reportRec->displayMatchNumber, 'wrs') != false) || (strpos($reportRec->displayMatchNumber, 'lrs') != false)) {
-                    $matchNum = explode('.',$reportRec->displayMatchNumber);
-                     $awayTeam = $matchNum[3].'.'.$reportRec->displayAwayTeamPlaceholder;
-                  } 
-                }
+                // if($reportRec->actual_round == 'Elimination') {
+                   $matchPrec ='';
+                  
+                  if(strpos($reportRec->displayAwayTeamPlaceholder, '#')  !== false ){
+                      $awayTeam = $reportRec->displayAwayTeamPlaceholder;
+                    } else {
+                      if(strpos($reportRec->displayMatchNumber, 'wrs') != false ){
+                        $matchPrec = 'wrs.'; 
+                      } if(strpos($reportRec->displayMatchNumber, 'lrs') != false){
+                        $matchPrec = 'lrs.'; 
+                      }
+                      $awayTeam = $matchPrec.$reportRec->displayAwayTeamPlaceholder;
+                    }
+                // }
               } else {
                 $awayTeam = $reportRec->AwayTeam;
               }
@@ -756,7 +773,6 @@ class TournamentService implements TournamentContract
             // $reportQuery = $reportQuery->select('fixtures.id as fid','fixtures.match_datetime','tournament_competation_template.group_name as group_name','venues.name as venue_name','pitches.pitch_number','referee.first_name as referee_name',DB::raw('CONCAT(fixtures.home_team, " vs ", fixtures.away_team) AS full_game'));
         // echo $reportQuery->toSql();exit;
         $reportData = $reportQuery->get();
-
         $date = new \DateTime(date('H:i d M Y'));
         // $footer = View::make('summary.footer');
         // $date->setTimezone();.
