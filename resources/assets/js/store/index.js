@@ -42,8 +42,8 @@ const mutations = {
   [types.SET_CURRENT_SCHEDULE_VIEW] (state, currentScheduleView) {
     state.currentScheduleView = currentScheduleView
   },
-  [types.SET_CURRENT_SCHEDULE_VIEW_AGE_CATEGORY] (state, currentScheduleViewAgeCategory) {
-    state.currentScheduleViewAgeCategory = currentScheduleViewAgeCategory
+  [types.SET_CURRENT_SCHEDULE_VIEW_AGE_CATEGORY] (state, setCurrentView) {
+    state.currentScheduleViewAgeCategory = setCurrentView
   },
   [types.SET_CURRENT_AGE_CATEGORY_ID] (state, currentAgeCategoryId) {
     state.currentAgeCategoryId = currentAgeCategoryId

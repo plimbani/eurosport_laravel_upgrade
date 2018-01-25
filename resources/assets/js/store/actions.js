@@ -11,8 +11,8 @@ export const setCurrentView = ({ commit }, setCurrentView) => {
   commit(types.SET_CURRENT_VIEW, setCurrentView)
 }
 
-export const setCurrentScheduleViewAgeCategory = ({ commit }, setCurrentScheduleViewAgeCategory) => {
-  commit(types.SET_CURRENT_SCHEDULE_VIEW_AGE_CATEGORY, setCurrentScheduleViewAgeCategory)
+export const setCurrentScheduleViewAgeCategory = ({ commit }, setCurrentView) => {
+  commit(types.SET_CURRENT_SCHEDULE_VIEW_AGE_CATEGORY, setCurrentView)
 }
 
 export const setcurrentAgeCategoryId = ({ commit }, setcurrentAgeCategoryId) => {
