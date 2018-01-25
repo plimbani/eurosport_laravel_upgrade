@@ -570,32 +570,32 @@ export default {
 		      	this.reports = response.data.data
 
 		      	this.reports.map(function(value, key) {
-			              if(value.actual_round == 'Elimination') {
+			              // if(value.actual_round == 'Elimination') {
 		      		// console.log(value,value.displayHomeTeamPlaceholder);
 		      				let dispTxt = '';
 			              	if(value.displayHomeTeamPlaceholder.indexOf("#") == -1){
 			              		
 			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
-			              			dispTxt = 'wrs' ;
+			              			dispTxt = 'wrs.' ;
 			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
-			              			dispTxt = 'lrs' ;
+			              			dispTxt = 'lrs.' ;
 
-			              		}value.displayHomeTeamPlaceholder = dispTxt+'.'+value.displayHomeTeamPlaceholder
+			              		}value.displayHomeTeamPlaceholder = dispTxt+value.displayHomeTeamPlaceholder
 			              	}
 			              	
 			                if(value.displayAwayTeamPlaceholder.indexOf("#") == -1){
 			              		
 			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
-			              			dispTxt = 'wrs' ;
+			              			dispTxt = 'wrs.' ;
 			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
-			              			dispTxt = 'lrs' ;
+			              			dispTxt = 'lrs.' ;
 
 			              		}
 
-			              		value.displayAwayTeamPlaceholder = dispTxt+'.'+value.displayAwayTeamPlaceholder
+			              		value.displayAwayTeamPlaceholder = dispTxt+value.displayAwayTeamPlaceholder
 			              	}
 			              	return value;
-			              }
+			              // }
 			            })
 		       },
 
