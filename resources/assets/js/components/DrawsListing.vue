@@ -110,23 +110,23 @@ export default {
 			              	if(value.displayHomeTeamPlaceholderName.indexOf("#") == -1){
 			              		
 			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
-			              			dispTxt = 'wrs' ;
+			              			dispTxt = 'wrs.' ;
 			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
-			              			dispTxt = 'lrs' ;
+			              			dispTxt = 'lrs.' ;
 
-			              		}value.displayHomeTeamPlaceholderName = dispTxt+'.'+value.displayHomeTeamPlaceholderName
+			              		}value.displayHomeTeamPlaceholderName = dispTxt+value.displayHomeTeamPlaceholderName
 			              	}
 			              	
 			                if(value.displayAwayTeamPlaceholderName.indexOf("#") == -1){
 			              		
 			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
-			              			dispTxt = 'wrs' ;
+			              			dispTxt = 'wrs.' ;
 			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
-			              			dispTxt = 'lrs' ;
+			              			dispTxt = 'lrs.' ;
 
 			              		}
 
-			              		value.displayAwayTeamPlaceholderName = dispTxt+'.'+value.displayAwayTeamPlaceholderName
+			              		value.displayAwayTeamPlaceholderName = dispTxt+value.displayAwayTeamPlaceholderName
 			              	}
 
 
