@@ -272,7 +272,7 @@ export default {
 		    }
 
 			if(filterKey != '' && filterValue != '') {
-          		tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
+          		tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
 	        }
 
 		//	let TournamentId = this.$store.state.Tournament.tournamentId
