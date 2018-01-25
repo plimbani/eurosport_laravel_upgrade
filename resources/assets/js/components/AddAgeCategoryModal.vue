@@ -471,7 +471,7 @@ export default {
   },
   computed: {
     'messageLength': function () {
-        return this.competation_format.comments.length;
+        return this.competation_format.comments !== null ? this.competation_format.comments.length : 0;
     },
   },
   methods: {
