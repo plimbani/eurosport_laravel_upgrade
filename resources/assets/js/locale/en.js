@@ -15,6 +15,8 @@ module.exports= {
   welcome_add_button_new_edition: 'Create full tournament',
   welcome_add_tournament_permission: 'Tournament Permissions',
   welcome_add_button_tournament_details: 'Add tournament details only',
+  welcome_manage_websites: "Manage Websites",
+  welcome_create_website: 'Create website',
 
   siteheader_name: "Chris",
   siteheader_settings: "Settings",
@@ -108,6 +110,7 @@ module.exports= {
   user_management_re_activate: "Are you sure you would like to re-activate this user?",
 
   tournament_manage_edition: "Select an existing tournament",
+  tournament_select_website: "Select an existing website",
   tournament_information: "Tournament information",
   tournament_name: "Tournament name",
   tournament_start_date: "Tournament start date",
