@@ -39,22 +39,27 @@
       </label>
     </div>
 
-    <div class="form-group">
-      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterForAgeAndGroup()" style="width:200px" v-if="filterKey == 'competation_group'">
+<!--     <div class="form-group">
+      <div v-if="filterKey == 'competation_group'>
+      <select :class="'form-control ls-select2 '+filterKey" v-model="dropDown" @change="setFilterForAgeAndGroup()" style="width:200px" >
         <option value="" v-if="filterKey != 'age_category'">Select</option>
         
         <option :value="option.id"  
-        v-for="option in options"  v-bind:value="option" v-bind:class="option.class" > {{ option.name }}</option>
-
-<!--           <option  :value="group.id" v-for="group in option.competition"  v-text="holdingName(group)"  v-bind:value="group" ></option> -->
-        <!-- </optgroup> -->
-        
+        v-for="option in options"  v-bind:value="option" v-bind:class="option.class" >  {{ option.name }}</option>
       </select>
-      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:200px" v-else>
+    </div> -->
+    <!-- <div v-else> -->
+      <select :class="'form-control  ls-select2 '+filterKey" v-model="dropDown" @change="setFilterForAgeAndGroup()" style="width:200px" v-if="filterKey == 'competation_group'">
+        <option value="" v-if="filterKey != 'age_category'">Select</option>
+        
+        <option :value="option.id"  
+        v-for="option in options"   v-bind:id="option.id" v-bind:value="option" v-bind:data-class="option.class" :class="option.class" >  {{ option.name }}</option>
+      </select>
+      <select  class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:200px" v-else>
         <option value="" v-if="filterKey != 'age_category'">Select</option>
         <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
       </select>
-
+    <!-- </div> -->
     </div>
     <div class="form-group">
       <label class="control-label">
@@ -63,7 +68,7 @@
     </div>
   </form>
 </template>
-<script type="text/babel">
+<script>
 import Tournament from '../api/tournament.js'
 export default {
   data() {
@@ -99,7 +104,13 @@ export default {
       this.dropDown = ''
       this.setFilterValue()
       $('#age_category').trigger('click')
-      this.getDropDownData('age_category')
+      if (this.section == 'scheduleResult' ){
+        this.getDropDownData('competation_group');
+      } else {
+        $('#competation_group').prop("checked",true);
+        this.getDropDownData('age_category');
+      }
+      
     },
     holdingName(group) {
       // return group.name;
@@ -133,6 +144,7 @@ export default {
       this.$root.$emit('getMatchByTournamentFilter',matchFilterKey,this.dropDown);
     },
     getDropDownData(tourament_key) {
+      $('.competation_group').select2('destroy');
        this.dropDown = ''
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key
@@ -159,19 +171,25 @@ export default {
 
           this.options = response.data.data
           let newOption = [];
-          _.map(response.data.data, function(opt){
-            
-            newOption.push({'id':opt.id,'name': opt.name,'class':'age','data':opt.id});
-            _.map(opt.competition, function(comp){
-               let grpName =comp.name.split("-");
-                    grpName = grpName.splice(2,grpName.length);
-                    grpName =grpName.join('-');
-      
-              newOption.push({'id':comp.id,'name': grpName, 'class':'group','data':comp});
-            });
+          if(tourament_key == 'competation_group'){
+            _.map(response.data.data, function(opt){
+              
+              newOption.push({'id':opt.id,'name': opt.name,'class':'age','data':opt.id});
+              _.map(opt.competition, function(comp){
+                 let grpName =comp.name.split("-");
+                      grpName = grpName.splice(2,grpName.length);
+                      grpName =grpName.join('-');
+        
+                newOption.push({'id':comp.id,'name': grpName, 'class':'group','data':comp});
+              });
 
-          });
-           this.options =  newOption;
+            });
+            $('.competation_group').select2({
+                minimumResultsForSearch: Infinity,
+            });
+            this.options =  newOption;
+          }
+          
           if(tourament_key == 'age_category'){
             this.dropDown = ""
             this.setFilterValue()
