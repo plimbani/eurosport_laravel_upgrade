@@ -123,6 +123,25 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
 
+            <View
+                android:id="@+id/view_seperator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/button_disable"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_view_all_rounds"
+                style="@style/text_black_sub_title"
+                android:layout_marginLeft="8dp"
+                android:drawableRight="@drawable/green_right_arrow"
+                android:gravity="left"
+                android:padding="15dp"
+                android:text="@string/view_all_rounds"
+                android:textColor="@color/green"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/ll_match_header"
                 android:layout_width="match_parent"
@@ -164,21 +183,7 @@
                     android:textStyle="bold"
                     android:visibility="gone" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:background="@color/button_disable" />
 
-                <TextView
-                    android:id="@+id/tv_view_all_rounds"
-                    style="@style/text_black_sub_title"
-                    android:layout_marginLeft="8dp"
-                    android:drawableRight="@drawable/green_right_arrow"
-                    android:gravity="left"
-                    android:padding="15dp"
-                    android:text="@string/view_all_rounds"
-                    android:textColor="@color/green"
-                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

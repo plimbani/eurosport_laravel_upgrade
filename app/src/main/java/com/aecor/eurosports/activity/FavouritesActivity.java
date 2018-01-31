@@ -209,7 +209,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                 if (o2.getStart_date() == null) {
                     return 1;
                 }
-                return o1.getStart_date().compareTo(o2.getStart_date());
+                return o2.getStart_date().compareTo(o1.getStart_date());
             }
         });
         FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, list, favList);

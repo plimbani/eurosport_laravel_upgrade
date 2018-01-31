@@ -161,7 +161,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         ll_match_header.setVisibility(View.GONE);
         String groupTableTitle = mGroupModel.getName() + " " + getString(R.string.league_table);
         tv_group_table_title.setText(groupTableTitle);
-        if (mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+        if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
             showBackButton(getString(R.string.placing_matches_summary));
         } else {
             showBackButton(getString(R.string.group_summary));
@@ -466,6 +466,9 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             public void onClick(View v) {
                 Intent mMatchInfoIntent = new Intent(mContext, MatchInformationActivity.class);
                 mMatchInfoIntent.putExtra(AppConstants.ARG_MATCH_INFO, mFixtureModel);
+                if (!Utility.isNullOrEmpty(mFixtureModel.getPosition())) {
+                    mMatchInfoIntent.putExtra(AppConstants.ARG_POSITION, mFixtureModel.getPosition());
+                }
                 startActivity(mMatchInfoIntent);
             }
         });

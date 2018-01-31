@@ -17,7 +17,6 @@ import com.aecor.eurosports.adapter.GroupAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
-import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
@@ -55,7 +54,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
     protected RecyclerView rv_groupList;
     @BindView(R.id.tv_no_item)
     protected TextView tv_no_item;
-     private AppPreference mPreference;
+    private AppPreference mPreference;
     private GroupAdapter adapter;
     @BindView(R.id.ll_main_layout)
     protected LinearLayout ll_main_layout;
@@ -65,7 +64,12 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.acticity_age_group);
         super.onCreate(savedInstanceState);
-        mAgeGroupId = getIntent().getStringExtra(AppConstants.ARG_AGE_CATEGORY_ID);
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+        } else {
+            mAgeGroupId = (String) extras.get(AppConstants.ARG_AGE_CATEGORY_ID);
+        }
+//        mAgeGroupId = getIntent().getExtras().getString(AppConstants.ARG_AGE_CATEGORY_ID);
         mContext = this;
         initView();
     }
