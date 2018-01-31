@@ -39,21 +39,11 @@
       </label>
     </div>
 
-<!--     <div class="form-group">
-      <div v-if="filterKey == 'competation_group'>
-      <select :class="'form-control ls-select2 '+filterKey" v-model="dropDown" @change="setFilterForAgeAndGroup()" style="width:200px" >
+      <select :class="'form-control  ls-select2 '+filterKey"  style="width:200px" v-if="filterKey == 'competation_group'">
         <option value="" v-if="filterKey != 'age_category'">Select</option>
         
-        <option :value="option.id"  
-        v-for="option in options"  v-bind:value="option" v-bind:class="option.class" >  {{ option.name }}</option>
-      </select>
-    </div> -->
-    <!-- <div v-else> -->
-      <select :class="'form-control  ls-select2 '+filterKey" v-model="dropDown" @change="setFilterForAgeAndGroup()" style="width:200px" v-if="filterKey == 'competation_group'">
-        <option value="" v-if="filterKey != 'age_category'">Select</option>
-        
-        <option :value="option.id"  
-        v-for="option in options"   v-bind:id="option.id" v-bind:value="option" v-bind:data-class="option.class" :class="option.class" >  {{ option.name }}</option>
+        <option   
+        v-for="option in options" v-bind:data-val="setOption(option)"  v-bind:id="option.id" v-bind:value="setOption(option)" :class="option.class" >  {{ option.name }}</option>
       </select>
       <select  class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:200px" v-else>
         <option value="" v-if="filterKey != 'age_category'">Select</option>
@@ -100,9 +90,13 @@ export default {
     }
   },
   methods: {
+    setOption(opt) {
+      return JSON.stringify(opt);
+    },
     clearFilter(){
       this.dropDown = ''
       this.setFilterValue()
+      $('.competation_group').select2().val(null).trigger("change");
       $('#age_category').trigger('click')
       if (this.section == 'scheduleResult' ){
         this.getDropDownData('competation_group');
@@ -123,9 +117,8 @@ export default {
     },
     setFilterValue() {
       // return false;
+
       this.filterValue = this.dropDown
-       // alert(this.filterValue)
-       // console.log(this.filterValue);
       let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
       if(this.activePath == 'teams_groups'){
@@ -137,15 +130,22 @@ export default {
       }
     },
     setFilterForAgeAndGroup() {
-     let matchFilterKey = 'competation_group';
+      var matchFilterKey = 'competation_group';
+      this.filterValue = this.dropDown;
+      
+      // return false
+      var filterCompGroup = {'id' :this.filterValue};
+      var tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
+      this.$store.dispatch('setTournamentFilter', tournamentFilter);
       if(this.dropDown.class == 'age'){
         matchFilterKey = 'competation_group_age';
       }
-      this.$root.$emit('getMatchByTournamentFilter',matchFilterKey,this.dropDown);
+     
+      this.$root.$emit('getMatchByTournamentFilter',matchFilterKey,this.filterValue);
     },
     getDropDownData(tourament_key) {
       $('.competation_group').select2('destroy');
-       this.dropDown = ''
+      this.dropDown = ''
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key
       this.filterKey = tourament_key
@@ -168,24 +168,33 @@ export default {
               this.selectMsg = 'Select'
               break
           }
-
           this.options = response.data.data
           let newOption = [];
           if(tourament_key == 'competation_group'){
+            $('.competation_group').select2().val(null).trigger("change");
+      
             _.map(response.data.data, function(opt){
-              
-              newOption.push({'id':opt.id,'name': opt.name,'class':'age','data':opt.id});
+              newOption.push({"id":opt.id,"name": opt.name,"class":"age","data":opt.id});
               _.map(opt.competition, function(comp){
                  let grpName =comp.name.split("-");
                       grpName = grpName.splice(2,grpName.length);
                       grpName =grpName.join('-');
         
-                newOption.push({'id':comp.id,'name': grpName, 'class':'group','data':comp});
+                newOption.push({"id":comp.id, "name": grpName, "class":"group", "data":comp});
               });
 
             });
             $('.competation_group').select2({
                 minimumResultsForSearch: Infinity,
+            });
+            var vm =this;
+            $('.competation_group').on("select2:select", function (e) {
+              var selVal = $(this).val();
+              if(selVal != '') {
+                vm.dropDown = JSON.parse(selVal);
+                vm.setFilterForAgeAndGroup();
+              }
+              
             });
             this.options =  newOption;
           }
