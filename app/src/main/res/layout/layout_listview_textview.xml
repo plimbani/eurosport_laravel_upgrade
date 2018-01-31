@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ellipsize="end"
-            android:gravity="left|center"
+            android:gravity="center|left"
             android:maxLines="2"
             android:padding="10dp"
             android:textColor="@color/gray_text"
