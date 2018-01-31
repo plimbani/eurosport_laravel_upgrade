@@ -42,6 +42,8 @@ public class AppConstants {
     public static final String ARG_GROUP_DETAIL = "group_detail";
     public static final String ARG_FULL_LEAGUE_TABLE_DETAIL = "full_league_table_detail";
     public static final String ARG_MATCH_INFO = "match_info";
+    public static final String ARG_COMPETATION_TYPE = "competation_type";
+    public static final String ARG_POSITION = "arg_position";
     public static final String ARG_GROUP_NAME = "group_name";
     public static final String ARG_TEAM_ID = "team_id";
     public static final String ARG_NEW_MESSAGE = "arg_new_message";

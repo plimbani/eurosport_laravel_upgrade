@@ -158,6 +158,13 @@
                     <TextView
                         android:id="@+id/tv_match_id"
                         style="@style/text_black_small"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:textColor="@color/gray_text" />
+
+                    <TextView
+                        android:id="@+id/tv_placing"
+                        style="@style/text_black_small"
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
                         android:textColor="@color/gray_text" />

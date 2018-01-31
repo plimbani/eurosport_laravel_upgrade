@@ -55,7 +55,10 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     protected TextView tv_referee_name;
     @BindView(R.id.tv_winner_status)
     protected TextView tv_winner_status;
+    @BindView(R.id.tv_placing)
+    protected TextView tv_placing;
     private TeamFixturesModel mTeamFixturesModel;
+    private String position;
     private Context mContext;
     private AppPreference mPreference;
 
@@ -65,6 +68,7 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
         super.onCreate(savedInstanceState);
         mTeamFixturesModel = getIntent().getParcelableExtra(AppConstants.ARG_MATCH_INFO);
+
         mContext = this;
         initView();
     }
@@ -258,6 +262,19 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
             tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             tv_team_score_2.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.black));
+        }
+
+        if (mTeamFixturesModel != null && !Utility.isNullOrEmpty(mTeamFixturesModel.getActual_round()) && mTeamFixturesModel.getActual_round().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+            String placingString = getString(R.string.placing);
+            if (!Utility.isNullOrEmpty(mTeamFixturesModel.getPosition())) {
+                placingString = placingString + " " + mTeamFixturesModel.getPosition();
+            } else {
+                placingString = placingString + " " + getString(R.string.na);
+            }
+            tv_placing.setText(placingString);
+            tv_placing.setVisibility(View.VISIBLE);
+        } else {
+            tv_placing.setVisibility(View.GONE);
         }
     }
 

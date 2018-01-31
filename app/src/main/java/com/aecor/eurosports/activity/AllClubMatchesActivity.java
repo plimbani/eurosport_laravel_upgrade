@@ -286,6 +286,9 @@ public class AllClubMatchesActivity extends BaseAppCompactActivity {
             public void onClick(View v) {
                 Intent mMatchInfoIntent = new Intent(mContext, MatchInformationActivity.class);
                 mMatchInfoIntent.putExtra(AppConstants.ARG_MATCH_INFO, mFixtureModel);
+                if (!Utility.isNullOrEmpty(mFixtureModel.getPosition())) {
+                    mMatchInfoIntent.putExtra(AppConstants.ARG_POSITION, mFixtureModel.getPosition());
+                }
                 startActivity(mMatchInfoIntent);
             }
         });
