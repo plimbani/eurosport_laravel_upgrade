@@ -6,6 +6,7 @@ use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\Competition;
+use Laraspace\Models\Position;
 use DB;
 class AgeGroupRepository
 {
@@ -365,5 +366,23 @@ class AgeGroupRepository
       }
 
       return true;
+    }
+
+    public function getPlacingsData($data) {
+      $positions = Position::with('team')->where('age_category_id', $data['ageCategoryId'])->get();
+      
+      $positionData = [];
+      // echo "<pre>";print_r($positions[0]->team);echo "</pre>";exit;
+      foreach ($positions as $key => $position) {
+        $positionData[$key]['pos'] = $position->position;
+        if(isset($position->team)) {
+          $positionData[$key]['team_name'] = $position->team['name'];
+        } else {
+          $positionData[$key]['team_name'] = '';
+
+        }
+      }
+
+      return $positionData;
     }
 }

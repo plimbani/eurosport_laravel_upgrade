@@ -94,4 +94,8 @@ class AgeGroupController extends BaseController
        return $this->ageGroupObj->deleteCompetationFormat($request);
     }
 
+    public function getPlacingsData(Request $request) {
+        return $this->ageGroupObj->getPlacingsData($request->all());
+    }
+
 }

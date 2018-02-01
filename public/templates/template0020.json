@@ -10,6 +10,7 @@
     "tournament_min_match": 7,
     "avg_game_team": 7.3,
     "final_round": "F",
+    "position_type": "final_and_group_ranking",
     "tournament_competition_ranking": {
         "format_name": [
             {
@@ -531,5 +532,54 @@
                 ]
             }
         ]
-    }
+    },
+    "tournament_positions" : [
+        {
+            "position": 1,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G1.1C-2C",
+            "result_type": "winner"
+        },
+        {
+            "position": 2,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G1.1C-2C",
+            "result_type": "looser"
+        },
+        {
+            "position": 3,
+            "dependent_type": "ranking",
+            "ranking": "3C"
+        },
+        {
+            "position": 4,
+            "dependent_type": "ranking",
+            "ranking": "4C"
+        },
+        {
+            "position": 5,
+            "dependent_type": "ranking",
+            "ranking": "1D"
+        },
+        {
+            "position": 6,
+            "dependent_type": "ranking",
+            "ranking": "2D"
+        },
+        {
+            "position": 7,
+            "dependent_type": "ranking",
+            "ranking": "3D"
+        },
+        {
+            "position": 8,
+            "dependent_type": "ranking",
+            "ranking": "4D"
+        }, 
+        {
+            "position": 9,
+            "dependent_type": "ranking",
+            "ranking": "5D"
+        }
+    ]
 }
