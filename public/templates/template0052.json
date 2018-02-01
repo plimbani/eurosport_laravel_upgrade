@@ -9,6 +9,7 @@
     "competation_format": "RR",
     "tournament_min_match": 5,
     "avg_game_team": 5.6,
+    "position_type": "group_ranking",
     "tournament_competition_ranking": {
         "format_name": [
             {
@@ -581,5 +582,82 @@
                 ]
             }
         ]
-    }
+    },
+    "tournament_positions" : [
+        {
+            "position": 1,
+            "dependent_type": "ranking",
+            "ranking": "1E"
+        },
+        {
+            "position": 2,
+            "dependent_type": "ranking",
+            "ranking": "2E"
+        },
+        {
+            "position": 3,
+            "dependent_type": "ranking",
+            "ranking": "3E"
+        },
+        {
+            "position": 4,
+            "dependent_type": "ranking",
+            "ranking": "4E"
+        },
+        {
+            "position": 5,
+            "dependent_type": "ranking",
+            "ranking": "1F"
+        },
+        {
+            "position": 6,
+            "dependent_type": "ranking",
+            "ranking": "2F"
+        },
+        {
+            "position": 7,
+            "dependent_type": "ranking",
+            "ranking": "3F"
+        },
+        {
+            "position": 8,
+            "dependent_type": "ranking",
+            "ranking": "4F"
+        },
+        {
+            "position": 9,
+            "dependent_type": "ranking",
+            "ranking": "1G"
+        },
+        {
+            "position": 10,
+            "dependent_type": "ranking",
+            "ranking": "2G"
+        },
+        {
+            "position": 11,
+            "dependent_type": "ranking",
+            "ranking": "3G"
+        },
+        {
+            "position": 12,
+            "dependent_type": "ranking",
+            "ranking": "4G"
+        },
+        {
+            "position": 13,
+            "dependent_type": "ranking",
+            "ranking": "1H"
+        },
+        {
+            "position": 14,
+            "dependent_type": "ranking",
+            "ranking": "2H"
+        },
+        {
+            "position": 15,
+            "dependent_type": "ranking",
+            "ranking": "3H"
+        }
+    ]
 }
