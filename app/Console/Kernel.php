@@ -14,6 +14,11 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\setHomeAndAwayTeamPlaceholder::class,
+        Commands\setNewMatchNumber::class,
+        Commands\generateAdditionalBreaks::class,
+        Commands\generateTournamentSlugForExistingData::class,
+        Commands\insertPitchSize::class,
+        Commands\insertPositionsForPlacingMatches::class,
     ];
 
     /**

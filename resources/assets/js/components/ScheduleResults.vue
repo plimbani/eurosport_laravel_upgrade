@@ -56,6 +56,7 @@ import DrawsListing from './DrawsListing.vue'
 import MatchListing from './MatchListing.vue'
 import TeamListing from './TeamListing.vue'
 import DrawDetails from './DrawDetails.vue'
+import Tournament from '../api/tournament.js'
 
 export default {
 	props: ['currentScheduleView'],
@@ -66,11 +67,32 @@ export default {
 		}
 	},
 	mounted(){
+		let vm = this;
+		let TournamentData = {'slug':this.$route.params.tournamentslug}
+	    Tournament.getTournamentBySlug(TournamentData).then(
+	      (response) => {
+		    let tournamentSel  = {
+		        name: response.data.data['name'],
+		        id: response.data.data['id'],
+		        tournamentSlug: response.data.data['slug'],
+		        tournamentLogo: response.data.data['logo'],
+		        tournamentStatus:response.data.data['status'],
+		        tournamentStartDate:response.data.data['start_date'],
+		        tournamentEndDate:response.data.data['end_date']
+		    }
+		    vm.$store.dispatch('SetTournamentName', tournamentSel)
+		    vm.$root.$emit('getAllDraws')
+		    vm.$root.$emit('getAllMatches')
+		    vm.$root.$emit('getAllTournamentTeams')
+	      },
+	      (error) => {
+	      }
+	    )
 		// here we set drawsListing as currentView
 		this.currentView = 'drawsListing';
-    this.$store.dispatch('setCurrentView',this.currentView)
-    // here we set the value of users to null
-    this.$store.dispatch('isAdmin',false);
+	    this.$store.dispatch('setCurrentView',this.currentView)
+	    // here we set the value of users to null
+	    this.$store.dispatch('isAdmin',false);
 	},
 	components: {
 		DrawsListing, MatchListing, TeamListing,DrawDetails

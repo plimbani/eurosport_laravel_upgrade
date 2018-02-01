@@ -23,7 +23,7 @@ import _ from 'lodash'
                 'matchFixture': {},
                 'pitchBreak':{},
                 'minDatePitch': '08:00:00',
-                'maxDatePitch': '20:05:00',
+                'maxDatePitch': '23:05:00',
                 'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
                 'remBlock_id': 0,
@@ -58,8 +58,9 @@ import _ from 'lodash'
         },
         created: function() {
             // this.$root.$on('getTeamsByTournamentFilter', this.setPitchPlannerFilter);
-            // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
             // this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
+             this.$root.$on('reloadAllEvents', this.reloadAllEvents);
+
 
         },
         mounted() {
@@ -73,22 +74,20 @@ import _ from 'lodash'
                     setGameAndRefereeTabHeight();
                 }
             });
-            // this.getScheduledMatch()
         },
         methods: {
             initComponent(){
                 let vm = this
                 $("body .js-loader").removeClass('d-none');
                 // setTimeout(function(){
-                    vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
+                    vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
                     if($(".pitch_planner_section").length > 0) {
                         setGameAndRefereeTabHeight();
                     }
                     // vm.getUnavailablePitch()
                 // },500)
-            
+
             setTimeout(function(){
-                
                 if($(".pitch_planner_section").length > 0) {
                     setGameAndRefereeTabHeight();
                 }
@@ -99,19 +98,22 @@ import _ from 'lodash'
                 return this.$store.getters.scheduledMatches
             },
             pitchBreakAdd() {
-                let sPitch = []
+                
+                let sPitch = [];
                 _.forEach(this.stage.pitches, (pitch) => {
                     _.forEach(pitch.pitch_availability, (availability) => {
-                    sPitch.push({
+                        _.forEach(availability.pitch_breaks, (pitchBreak) => {
+                        sPitch.push({
                             'id': '',
-                            'resourceId': availability.id,
-                            'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
-                            'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
+                            'resourceId': pitch.id,
+                            'start':moment.utc(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
+                            'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                             'refereeId': -1,
                             'refereeText': '',
-                            'title':'Pitch is not available',
+                            'title':'Pitch',
                             'matchId':''
-                        })
+                            })
+                        });  
                     });
                 });
                 this.pitchBreak = sPitch
@@ -125,6 +127,7 @@ import _ from 'lodash'
                     eventDurationEditable: false,
                     eventOverlap:vm.currentView == 'refereeTab',
                     droppable: true,
+                    defaultTimedEventDuration: '00:00',
                     width:'100px',
                     defaultView: vm.defaultView,
                     defaultDate: vm.stageDate,
@@ -141,7 +144,7 @@ import _ from 'lodash'
                             name:'timeView',
                             buttonText: 'Time view',
                             minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
-                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'20:00:00',
+                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'23:00:00',
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15',
                             slotLabelFormat:"HH:mm",
@@ -155,7 +158,7 @@ import _ from 'lodash'
                             name:'agendaView',
                             buttonText: 'Agenda view',
                             minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
-                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'20:00:00',
+                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'23:00:00',
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15',
                             slotLabelFormat:"HH:mm",
@@ -192,8 +195,8 @@ import _ from 'lodash'
                                     if(response.data.status_code == 200 && response.data.data.status == true){
                                          toastr.success('Referee has been assigned successfully', 'Assigned Referee ', {timeOut: 5000});
                                         vm.$store.dispatch('getAllReferee',vm.tournamentId);
-                                        vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
-                                       vm.reloadAllEvents()
+                                        vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
+                                        vm.reloadAllEvents()
 
                                     }else{
                                         let errorMsg = updatedMatch.data;
@@ -238,14 +241,16 @@ import _ from 'lodash'
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
-                                        if(response.data.data != -1){
+                                        if(response.data.data != -1 && response.data.data != -2){
                                             vm.$store.dispatch('setMatches');
                                              toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
-                                        }else{
+                                             vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
+                                             vm.reloadAllEvents()
+                                        } else {
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
                                             vm.$store.dispatch('setMatches');
                                             vm.matchFixture = {}
-                                            vm.getScheduledMatch('age_category','')
+                                            vm.getScheduledMatch()
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
                                         }
                                     }
@@ -261,7 +266,7 @@ import _ from 'lodash'
                          // Code for horizontal scroll bar
                          let totalPitches = vm.stage.pitches.length;
                          if(totalPitches > 8) {
-                            $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * 95) + 'px');
+                            $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * ($('.pitch_planner_section').width()/8)) + 'px');
                          }
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
@@ -274,7 +279,7 @@ import _ from 'lodash'
                         let ed = $(this)
                         if(event.refereeId == -1 || event.refereeId == -2){
                             revertFunc();
-                            
+
                         }else{
                             let matchId = event.id ? event.id : event.matchId
                             let matchData = {
@@ -286,14 +291,21 @@ import _ from 'lodash'
                             };
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
-                                    if(response.data.data != -1){
+                                    if(response.data.data != -1 && response.data.data != -2){
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
-                                            
+                                            let matchScheduleChk =new Promise((resolve, reject) => {
+                                                resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue));
+                                            });
+
+                                            matchScheduleChk.then((successMessage) => {
+                                              vm.reloadAllEvents();
+                                            });
+                                            // vm.reloadAllEvents()
                                         }else{
                                             revertFunc();
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
                                         }
-                                    
+
                                 },
                                 (error) => {
                                 }
@@ -319,12 +331,9 @@ import _ from 'lodash'
                                 $('#matchScheduleModal').modal('show')
                                 $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                     vm.setPitchModal = 0
-                                    // setTimeout(function(){
                                     vm.matchFixture = {}
                                     vm.$store.dispatch('setCompetationWithGames');
-                                    vm.getScheduledMatch('age_category','')
-                                    // },500)
-                                    
+                                    vm.getScheduledMatch()
                                 });
                              },100);
                         }
@@ -339,7 +348,7 @@ import _ from 'lodash'
             handleEventClick(calEvent, jsEvent, view) {
                 // console.log(calEvent);
             },
-            
+
             deleteConfirmedBlock() {
 
                 Tournament.removeUnavailableBlock(this.remBlock_id).then(
@@ -355,19 +364,20 @@ import _ from 'lodash'
 
             },
             reloadAllEvents(){
-                let vm = this
-                 $('.fc.fc-unthemed').fullCalendar( 'removeEvents' )
-
+                let vm = this;
+                let ev = this.$el;
+                $(ev).fullCalendar( 'removeEvents' )
+                 // console.log(this.$el);
                 setTimeout(function(){
-                    $('div.fc-unthemed').fullCalendar('addEventSource', vm.scheduledMatches);
+                    $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                 },1000)
             },
-            getScheduledMatch(filterKey='',filterValue='') {
+            getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
                 let tournamentData= [];
                 let fixtureDate = moment(this.stageDate).format('YYYY-MM-DD');
                 if(filterKey != '' && filterValue != '') {
-                    tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id,'is_scheduled':true,'fixture_date':fixtureDate}
+                    tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id,'filterDependentKey':filterDependentKey,'filterDependentValue':filterDependentValue,'is_scheduled':true,'fixture_date':fixtureDate}
                 } else {
                     tournamentData ={'tournamentId':this.tournamentId,'is_scheduled':true,'fixture_date':fixtureDate}
                 }
@@ -384,6 +394,11 @@ import _ from 'lodash'
                             let refereeId = ''
                             let matchTitle = ''
 
+                            let displayMatchNumber = match.displayMatchNumber
+                            let displayHomeTeamPlaceholder = match.displayHomeTeamPlaceholderName
+                            let displayAwayTeamPlaceholder = match.displayAwayTeamPlaceholderName
+                            let displayMatchName = displayMatchNumber;
+
                             let mtchNumber = match.match_number
                             let mtchNumber1 = mtchNumber.split(".")
                             let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]
@@ -395,30 +410,58 @@ import _ from 'lodash'
                             let Placeawayteam =  teams[1]
 
                             if(match.Home_id != 0){
-                            Placehometeam = match.HomeTeam
+                                Placehometeam = displayHomeTeamPlaceholder = match.HomeTeam
+                            } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
+                                if(match.competition_actual_name.indexOf('Group') !== -1) {
+                                    Placehometeam = displayHomeTeamPlaceholder = match.homePlaceholder
+                                } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                                    Placehometeam = displayHomeTeamPlaceholder = 'Pos-' + match.homePlaceholder
+                                }
                             }
+
                             if(match.Away_id != 0){
-                            Placeawayteam = match.AwayTeam
+                                Placeawayteam = displayAwayTeamPlaceholder = match.AwayTeam
+                            } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
+                                if(match.competition_actual_name.indexOf('Group') !== -1) {
+                                    Placeawayteam = displayAwayTeamPlaceholder = match.awayPlaceholder
+                                } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                                    Placeawayteam = displayAwayTeamPlaceholder = 'Pos-' + match.awayPlaceholder
+                                }
                             }
+
                             let mtc = ''
                             mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
                             match.match_number = mtc
+
+                            displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
+                            
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
                                     if( filterValue != '' && filterValue.id != match.tid){
                                         scheduleBlock = true
                                     }
-                                }else if(filterKey == 'location'){
+                                    if(filterDependentKey != '' && filterDependentValue != ''  && filterDependentValue != match.competitionId) {
+                                        scheduleBlock = true
+                                    }
+                                } else if(filterKey == 'location'){
                                     if( filterValue != '' && filterValue.id != match.venueId){
                                         scheduleBlock = true
                                     }
                                 }
                               let colorVal = match.category_age_color;
-                              let borderColorVal = match.category_age_color;
+                              var isBright = (parseInt(vm.getBrightness(match.category_age_color)) > 160);
+                              let borderColorVal;
+                              if(isBright) {
+                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, -40);
+                              } else {
+                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, 40);
+                              }
+                              let textColorVal = match.category_age_font_color;
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
 
                               if(scheduleBlock){
                                 colorVal = 'grey'
+                                textColorVal = '#FFFFFF'
                                 borderColorVal = 'grey'
                                 fixtureStripColor = 'grey'
                               }
@@ -431,10 +474,10 @@ import _ from 'lodash'
                               }
                               if(scheduleBlock){
                                 refereeId = -1
-                                matchTitle = 'Match scheduled - '+match.match_number
+                                matchTitle = 'Match scheduled - '+displayMatchName
                               }else{
                                 refereeId = match.referee_id?match.referee_id:0
-                                 matchTitle = match.match_number
+                                 matchTitle = displayMatchName
                               }
                                 let mData =  {
                                     'id': match.fid,
@@ -445,40 +488,21 @@ import _ from 'lodash'
                                     'refereeText': refereeName,
                                     'title':matchTitle,
                                     'color': colorVal,
+                                    'textColor': textColorVal,
                                     'borderColor': borderColorVal,
                                     'matchId':match.fid,
                                     'matchAgeGroupId':match.age_group_id,
-                                    'fixtureStripColor': fixtureStripColor
+                                    'fixtureStripColor': fixtureStripColor,
+                                    'displayFlag': match.min_interval_flag == 1 ?'block':''
                                 }
                             sMatches.push(mData)
                             }
                         });
-                        let minTimePitchAvail = []
-                        let maxTimePitchAvail = []
+
                         let sPitch = []
+
                         _.forEach(this.stage.pitches, (pitch) => {
                             _.forEach(pitch.pitch_availability, (availability) => {
-                                if(availability.stage_start_time != '08:00:00' ){
-                                    minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'))
-                                }
-                                if(availability.stage_start_time != '20:00:00' ){
-                                    maxTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'))
-                                }
-                                let mData = {
-                                    'id': counter,
-                                    'resourceId': pitch.id,
-                                    'start':moment(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
-                                    'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
-                                    'refereeId': -1,
-                                    'refereeText': 'R',
-                                    'title':'Pitch is not available',
-                                    'color': 'grey',
-                                    'borderColor': 'grey',
-                                    'matchId':-1,
-                                    'matchAgeGroupId':'',
-                                    'fixtureStripColor': ''
-                                }
-
                                 if(availability.stage_start_time != '08:00'){
                                     let mData1 = {
                                         'id': 'start_'+counter,
@@ -489,37 +513,63 @@ import _ from 'lodash'
                                         'refereeText': 'R',
                                         'title': 'Pitch is not available',
                                         'color': 'grey',
+                                        'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
                                         'matchId':-1,
                                         'matchAgeGroupId':'',
-                                        'fixtureStripColor': ''
+                                        'fixtureStripColor': '',
+                                        'displayFlag':''
                                     }
                                     sMatches.push(mData1)
+                                    counter = counter+1;
                                 }
-                                if(availability.stage_end_time != '20:00'){
+                                if(availability.stage_end_time != '23:00'){
                                     let mData2 = {
-                                        'id': 'end_'+counter,
+                                        'id': 'end_'+counter,   
                                         'resourceId': pitch.id,
                                         'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'),
-                                        'end': moment.utc(availability.stage_start_date+' '+'20:00:00','DD/MM/YYYY HH:mm:ss'),
+                                        'end': moment.utc(availability.stage_start_date+' '+'23:00:00','DD/MM/YYYY HH:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
                                         'title':'Pitch is not available',
                                         'color': 'grey',
+                                        'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
                                         'matchId': -1,
                                         'matchAgeGroupId':'',
-                                        'fixtureStripColor': ''
+                                        'fixtureStripColor': '',
+                                        'displayFlag':''
                                     }
-                                sMatches.push(mData2)
-                                }
-
-                                sMatches.push(mData)
+                                    sMatches.push(mData2)
                                     counter = counter+1;
+                                }
+                                _.forEach(availability.pitch_breaks, (pitchBreak) => {
+                                    if(pitchBreak.break_start != pitchBreak.break_end) {
+                                        let mData = {
+                                            'id': counter,
+                                            'resourceId': pitch.id,
+                                            'start':moment.utc(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
+                                            'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
+                                            'refereeId': -1,
+                                            'refereeText': 'R',
+                                            'title':'Pitch is not available',
+                                            'color': 'grey',
+                                            'textColor': '#FFFFFF',
+                                            'borderColor': 'grey',
+                                            'matchId':-1,
+                                            'matchAgeGroupId':'',
+                                            'fixtureStripColor': '',
+                                            'displayFlag': ''
+                                        }
+
+                                        sMatches.push(mData)
+                                        counter = counter+1;
+                                    }
                                 });
                             });
+                        });
                         this.scheduledMatches =sMatches
-                        
+
                         this.stageWithoutPitch()
                         this.getUnavailablePitch()
 
@@ -528,8 +578,11 @@ import _ from 'lodash'
                                 $(this).closest('.fc-event').addClass('bg-grey');
                             }
                         })
+
                     }
+
                 )
+              return "Finish";
             },
             stageWithoutPitch() {
 
@@ -537,7 +590,7 @@ import _ from 'lodash'
 
               if(this.stage.pitches.length == 0) {
                 let start_date = this.stage.tournamentStartDate + '08:00:00'
-                let end_date = this.stage.tournamentStartDate + '20:00:00'
+                let end_date = this.stage.tournamentStartDate + '23:00:00'
 
                 let mData21 = {
                     'id': '111212',
@@ -548,8 +601,11 @@ import _ from 'lodash'
                     'refereeText': '',
                     'title': 'Pitch is not available',
                     'color': 'grey',
+                    'textColor': '#FFFFFF',
                     'matchId': '111212',
-                    'matchAgeGroupId':''
+                    'matchAgeGroupId':'',
+                    'displayFlag':''
+
               }
                this.scheduledMatches.push(mData21)
                // Also Add for Resources as well
@@ -573,8 +629,10 @@ import _ from 'lodash'
                             'refereeText': '',
                             'title': 'Unavailable',
                             'color': 'grey',
+                            'textColor': '#FFFFFF',
                             'matchId': 'block_'+block.id,
-                            'matchAgeGroupId':''
+                            'matchAgeGroupId':'',
+                            'displayFlag':''
                         }
                         this.scheduledMatches.push(mData2)
                         this.unavailableBlock.push(mData2)
@@ -585,6 +643,49 @@ import _ from 'lodash'
                         vm1.initScheduler();
                     }
                 )
+            },
+            LightenDarkenColor(colorCode, amount) {
+                var usePound = false;
+
+                if (colorCode[0] == "#") {
+                    colorCode = colorCode.slice(1);
+                    usePound = true;
+                }
+
+                var num = parseInt(colorCode, 16);
+
+                var r = (num >> 16) + amount;
+
+                if (r > 255) {
+                    r = 255;
+                } else if (r < 0) {
+                    r = 0;
+                }
+
+                var b = ((num >> 8) & 0x00FF) + amount;
+
+                if (b > 255) {
+                    b = 255;
+                } else if (b < 0) {
+                    b = 0;
+                }
+
+                var g = (num & 0x0000FF) + amount;
+
+                if (g > 255) {
+                    g = 255;
+                } else if (g < 0) {
+                    g = 0;
+                }
+
+                return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
+            },
+            getBrightness(hexCode) {
+              hexCode = hexCode.replace('#', '');
+              var c_r = parseInt(hexCode.substr(0, 2),16);
+              var c_g = parseInt(hexCode.substr(2, 2),16);
+              var c_b = parseInt(hexCode.substr(4, 2),16);
+              return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
             }
         }
     };
@@ -597,9 +698,10 @@ import _ from 'lodash'
         H   = $(window).height(),
         r   = $el[0].getBoundingClientRect(), t=r.top, b=r.bottom;
         var considerHeaderHeight = 0;
-        if(($(window).scrollTop() + $("header").height()) > $el.offset().top) {
-            considerHeaderHeight = $("header").height();
-        }              
+        var headerHeight = $("header").length > 0 ? $("header").height() : 0;
+        if(($(window).scrollTop() + headerHeight) > $el.offset().top) {
+            considerHeaderHeight = headerHeight;
+        }
         var leftViewHeight = Math.max(0, t>0? Math.min(elH, H-t) : (b<H?b:H)) - $("#gameReferee .nav.nav-tabs").height() - parseInt($("#gameReferee .tab-content").css('margin-top').replace('px', '')) - considerHeaderHeight - 10;
         $("#game-list").css('height', leftViewHeight + 'px');
         $("#referee-list").css('height', leftViewHeight + 'px');
