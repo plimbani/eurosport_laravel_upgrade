@@ -26,7 +26,7 @@
         <td align="right">
           <!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
             <!-- <span class="text-center">{{match.HomeTeam}}</span> -->
-            <span class="text-center" v-if="(match.Home_id == '0' )">{{match.displayHomeTeamPlaceholderName}}</span>
+            <span class="text-center" v-if="(match.Home_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
             <span class="text-center" v-else>{{ match.HomeTeam }}</span>
             <!--<img :src="match.HomeFlagLogo" width="20">-->
                    <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
@@ -35,9 +35,9 @@
         <td align="left">
           <!-- <a   href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)"> -->
             <!--<img :src="match.AwayFlagLogo" width="20">-->
-          <span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
+                <span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
           <!-- <span class="text-center">{{ match.AwayTeam}}</span> -->
-          <span class="text-center" v-if="(match.Away_id == '0' )">{{ match.displayAwayTeamPlaceholderName }}</span>
+          <span class="text-center" v-if="(match.Away_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayAwayTeamPlaceholderName) }}</span>
           <span class="text-center" v-else>{{ match.AwayTeam }}</span>
           <!-- </a>  -->
         </td>
@@ -321,6 +321,14 @@ export default {
 
               $("body .js-loader").addClass('d-none');
         })
+    },
+    getHoldingName(competitionActualName, placeholder) {
+      if(competitionActualName.indexOf('Group') !== -1){
+        return placeholder;
+      } else if(competitionActualName.indexOf('Pos') !== -1){
+        return 'Pos-' + placeholder;
+      }
+
     },
     getMatchList() {
       if(this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') {
