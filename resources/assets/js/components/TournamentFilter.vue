@@ -79,15 +79,9 @@ export default {
   props:['section'],
   mounted() {
     // By Default Called with Team
-    if(this.section != 'scheduleResult' ){
-      this.getDropDownData('age_category')
-      $('#age_category').prop("checked",true)
-    }
-    if (this.section == 'scheduleResult' ){
       this.getDropDownData('competation_group')
       this.setFilterValue()
       $('#competation_group').prop("checked",true)
-    }
   },
   methods: {
     setOption(opt) {
@@ -113,7 +107,6 @@ export default {
       grpName =grpName.join('-');
       
       return grpName;
-                        // value.displayHomeTeamPlaceholder = dispNumber[3]+'.'+value.
     },
     setFilterValue() {
       // return false;
