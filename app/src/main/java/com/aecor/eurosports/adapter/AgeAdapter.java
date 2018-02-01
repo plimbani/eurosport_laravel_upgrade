@@ -71,9 +71,9 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
 //            }
 //        });
 
-        if (!Utility.isNullOrEmpty(ageModel.getComments())) {
+        if (!Utility.isNullOrEmpty(ageModel.getComments()) && mContext instanceof AgeCategoriesActivity) {
             holder.individual_list_item.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.icon_info, 0);
-            holder.individual_list_item.setCompoundDrawablePadding(5);
+            holder.individual_list_item.setCompoundDrawablePadding(7);
             holder.individual_list_item.setClickable(true);
             holder.individual_list_item.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -108,7 +108,6 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
             });
         } else {
             holder.individual_list_item.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-
         }
 
 
