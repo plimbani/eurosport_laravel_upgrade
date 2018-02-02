@@ -32,7 +32,7 @@ class AuthController extends Controller
 
     }
 
-    public function check()
+    public function check(Request $request)
     {
         \Log::info('Check Method is called');
         \Log::info(\Request::header('Authorization'));
@@ -48,11 +48,14 @@ class AuthController extends Controller
         \Log::info('After Getting token');
         if($token) {
           $userData = JWTAuth::toUser($token);
-                // here we put check for Mobile Users
+          // here we put check for Mobile Users
 
           \Log::info('UserData');
           $isMobileUsers = \Request::header('IsMobileUser');
-           // dd($userData->is_mobile_user,$isMobileUsers);
+          $userTournament = $userData->tournaments()->pluck('id')->toArray();
+          if ($userData->isRole('tournament.administrator') && $request->has('tournamentId') && !in_array($request->tournamentId,$userTournament)) {
+            return response(['authenticated' => true, "hasAccess" => false, "message"=>"You don't have an access to this tournament." ]);
+          }
 
           if( $userData->is_verified == 0 ) {
             return response(['authenticated' => false, 'message'=>'Account is not verified.']);
@@ -66,8 +69,6 @@ class AuthController extends Controller
             return response(['authenticated' => false,'message'=>'Account de-activated please contact your administrator.']);
           }
           \Log::info('Success');
-          //if($userData->is_mobile_user == 1) {
-
             $path = getenv('S3_URL').'/assets/img/users/';
             $userDataQuery = \Laraspace\Models\User::where('users.id',$userData->id)
                               ->leftJoin('users_favourite','users_favourite.user_id','=','users.id')
@@ -96,17 +97,7 @@ class AuthController extends Controller
 
              $tournament_id = array();
              return response(['authenticated' => true,'userData'=> $userDetails]);
-           //  $userDetails['tournament_id'] = $userData->UserFavourites->tournament_id;
             }
-
-            //echo '<pre>';
-            //print_r($userData->personDetail->id);exit;
-            //$userInfo = \Laraspace\Models\Person::where('id',$userData->person_id)->get();
-            //$userData['first_name'] = $userInfo[0]['first_name'];
-            //print_r($userInfo[0]);exit;
-            //return response(['authenticated' => true,'userData'=>$userData]);
-          //}
-          //return response(['authenticated' => true]);
         }
         \Log::info('NOT GETTING TOKEN');
     }

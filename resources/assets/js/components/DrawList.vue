@@ -15,7 +15,7 @@
               <a class="text-primary" href="" @click.prevent="showGroups(competation.id)"><u>{{ competation.group_name }} ({{ competation.category_age }})</u></a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(competation)"><i class="fa fa-info-circle" v-if="competation.comments != null"></i></a>
             </td>
-            <td>{{ competation.total_teams }}</td>
+            <td class="text-center">{{ competation.total_teams }}</td>
           </tr>
         </tbody>
       </table>
@@ -41,7 +41,7 @@
                 <a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.name }}</u> </a>
               </td>
               <td>{{ drawData.competation_type }}</td>
-              <td>{{ drawData.team_size }}</td>
+              <td class="text-center">{{ drawData.team_size }}</td>
             </tr>
           </tbody>
       </table>
