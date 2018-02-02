@@ -244,17 +244,7 @@
                 @if($match->Home_id == '0')
                             @if((strpos($match->displayMatchNumber, 'wrs') != false) || (strpos($match->displayMatchNumber, 'lrs') != false)) 
                         <?php
-                            if(strpos($match->displayHomeTeamPlaceholderName, '#')  !== false ){
-                              $homeTeam = $match->displayHomeTeamPlaceholderName;
-                            } else {
-                              if(strpos($match->displayMatchNumber, 'wrs') != false ){
-                                $matchPrec = 'wrs.'; 
-                              } if(strpos($match->displayMatchNumber, 'lrs') != false){
-                                $matchPrec = 'lrs.'; 
-                              }
-                              $homeTeam = $matchPrec.$match->displayHomeTeamPlaceholderName;
-                            }
-                            $homeTeamDisplay =  $homeTeam;
+                            $homeTeamDisplay = $match->displayHomeTeamPlaceholderName;
                         ?>
                             @else
                                 <?php $homeTeamDisplay = $match->displayHomeTeamPlaceholderName ?>
@@ -280,17 +270,7 @@
                 @if($match->Home_id == '0')
                             @if((strpos($match->displayMatchNumber, 'wrs') != false) || (strpos($match->displayMatchNumber, 'lrs') != false)) 
                         <?php
-                            if(strpos($match->displayAwayTeamPlaceholderName, '#')  !== false ){
-                              $awayTeam = $match->displayAwayTeamPlaceholderName;
-                            } else {
-                              if(strpos($match->displayMatchNumber, 'wrs') != false ){
-                                $matchPrec = 'wrs.'; 
-                              } if(strpos($match->displayMatchNumber, 'lrs') != false){
-                                $matchPrec = 'lrs.'; 
-                              }
-                              $awayTeam = $matchPrec.$match->displayAwayTeamPlaceholderName;
-                            }
-                            $awayTeamDisplay =  $awayTeam;
+                            $awayTeamDisplay = $match->displayAwayTeamPlaceholderName;
                         ?>
                             @else
                                 <?php $awayTeamDisplay = $match->displayAwayTeamPlaceholderName ?>
