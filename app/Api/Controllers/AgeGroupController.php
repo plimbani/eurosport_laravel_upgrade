@@ -3,7 +3,7 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
-
+use Laraspace\Models\Position;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\AgeGroupContract;
 /**
@@ -75,6 +75,10 @@ class AgeGroupController extends BaseController
         return $this->ageGroupObj->delete($request);
     }
 
+    public function ageCategoryData(Request $request)
+    {
+        return $this->ageGroupObj->ageCategoryData($request);
+    }
     /**
      * Add  Age Group.
      *
@@ -92,6 +96,10 @@ class AgeGroupController extends BaseController
     }
     public function deleteCompetationFormat(Request $request) {
        return $this->ageGroupObj->deleteCompetationFormat($request);
+    }
+
+    public function getPlacingsData(Request $request) {
+        return $this->ageGroupObj->getPlacingsData($request->all());
     }
 
 }

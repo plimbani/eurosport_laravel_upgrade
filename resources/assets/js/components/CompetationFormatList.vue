@@ -46,7 +46,7 @@
           <AddAgeCateogryModel v-if="categoryStatus"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
           <competationModal :templateData="templateData" :totalTime="totalTime" :templateImage="templateImage"></competationModal>
-          <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
+          <!-- <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
             <div class="modal-dialog modal-full" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -64,7 +64,7 @@
                 </div>  
               </div>
             </div>
-          </div>
+          </div> -->
         </table>
       </div>
     </div>

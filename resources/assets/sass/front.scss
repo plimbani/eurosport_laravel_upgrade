@@ -721,3 +721,13 @@ img {
 .report-table.display_block th{
     min-width: 100px;
 }
+
+textarea.form-control[disabled="disabled"] {
+    background: #fff;
+}
+
+option.age {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+}

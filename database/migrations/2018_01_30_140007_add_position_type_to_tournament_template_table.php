@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddImageToTournamentTemplateTable extends Migration
+class AddPositionTypeToTournamentTemplateTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddImageToTournamentTemplateTable extends Migration
     public function up()
     {
         Schema::table('tournament_template', function($table) {
-           $table->string('image')->nullable()->after('json_data');
+           $table->enum('position_type', ['final', 'final_and_group_ranking', 'group_ranking'])->after('minimum_matches');
         });
     }
 
@@ -26,7 +26,7 @@ class AddImageToTournamentTemplateTable extends Migration
     public function down()
     {
         Schema::table('tournament_template', function($table) {
-            $table->dropColumn('image');
+            $table->dropColumn('position_type');
         });
     }
 }

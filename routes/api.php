@@ -123,7 +123,7 @@ $api->version('v1', function ($api) {
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch');
 
     //Age Group Stuff
-
+    $api->get('age_groups/ageCategoryData', 'Laraspace\Api\Controllers\AgeGroupController@ageCategoryData');
     $api->get('age_groups', 'Laraspace\Api\Controllers\AgeGroupController@getAgeGroups');
     $api->post('age_group/create', 'Laraspace\Api\Controllers\AgeGroupController@create');
     $api->post('age_group/edit/{id}', 'Laraspace\Api\Controllers\AgeGroupController@edit');
@@ -131,6 +131,9 @@ $api->version('v1', function ($api) {
     $api->post('age_group/createCompetationFomat','Laraspace\Api\Controllers\AgeGroupController@createCompetationFomat');
     $api->post('age_group/getCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat');
     $api->post('age_group/deleteCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@deleteCompetationFormat');
+
+    // placings data route
+    $api->post('age_group/getPlacingsData','Laraspace\Api\Controllers\AgeGroupController@getPlacingsData');
 
     $api->get('venues/getAll/{tournamentId}', 'Laraspace\Api\Controllers\VenueController@getVenues');
 

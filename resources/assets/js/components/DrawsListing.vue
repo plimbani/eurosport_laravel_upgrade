@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script type="text/babel">
+<script>
 
 import Tournament from '../api/tournament.js'
 import MatchListing from './MatchListing.vue'
@@ -36,12 +36,14 @@ export default {
 	mounted() {
 		// here we call function to get all the Draws Listing
 		this.$store.dispatch('setCurrentScheduleView','drawList')
-		this.getAllDraws()
+		this.getAllDraws();
 	},
 	components: {
 		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails,TeamList
 	},
 	created: function() {
+		this.$store.dispatch('setCurrentScheduleViewAgeCategory', 'ageCategoryList')
+		this.$store.dispatch('setcurrentAgeCategoryId', 0)
 	    this.$root.$on('changeDrawListComp', this.setMatchData);
 	    this.$root.$on('getAllDraws', this.getAllDraws);
 	},
@@ -69,7 +71,7 @@ export default {
   				(response)=> {
   					if(response.data.status_code == 200) {
   						vm.matchData = response.data.data
-						vm.matchData.map(function(value, key) {
+  						vm.matchData.map(function(value, key) {
 							if(value.actual_competition_type == 'Elimination') {
 								value.name = _.replace(value.name, '-Group', '');
 
@@ -91,7 +93,7 @@ export default {
 			$("body .js-loader").removeClass('d-none');
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'competitionId':drawId,'is_scheduled':1}
+			'competitionId':drawId}
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
@@ -100,7 +102,40 @@ export default {
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
-						this.matchData = response.data.data
+						this.matchData = response.data.data;
+						this.matchData.map(function(value, key) {
+
+			              // if(value.actual_round == 'Elimination') {
+			              	let dispTxt = '';
+			              	if(value.displayHomeTeamPlaceholderName.indexOf("#") == -1){
+			              		
+			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
+			              			dispTxt = 'wrs.' ;
+			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
+			              			dispTxt = 'lrs.' ;
+
+			              		}value.displayHomeTeamPlaceholderName = dispTxt+value.displayHomeTeamPlaceholderName
+			              	}
+			              	
+			                if(value.displayAwayTeamPlaceholderName.indexOf("#") == -1){
+			              		
+			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
+			              			dispTxt = 'wrs.' ;
+			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
+			              			dispTxt = 'lrs.' ;
+
+			              		}
+
+			              		value.displayAwayTeamPlaceholderName = dispTxt+value.displayAwayTeamPlaceholderName
+			              	}
+
+
+			                value.name = _.replace(value.name, '-Group', '');
+
+			                return value;
+			              // }
+			            })
+
 						$("body .js-loader").addClass('d-none');
 					}
 				},

@@ -461,6 +461,7 @@ class TournamentRepository
     }
     public function tournamentFilter($tournamentData)
     {
+      // dd($tournamentData);
       $tournamentId = $tournamentData['tournamentData']['tournamentId'];
       $key = $tournamentData['tournamentData']['keyData'];
       $resultData = array();
@@ -490,9 +491,12 @@ class TournamentRepository
                         //echo $resultData;
             break;
           case 'competation_group':
-                 $resultData = Competition::where('tournament_id',$tournamentId)
-                                ->select('id','name')
-                                ->get();
+                 // $resultData = Competition::where('tournament_id',$tournamentId)
+                 //                ->select('id','name')
+                 //                ->get();
+                  $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id',$tournamentId)
+                            ->select('id',\DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"),'tournament_template_id')
+                             ->get();
         }
       }else{
 
