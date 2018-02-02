@@ -9,6 +9,7 @@ use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Team;
 use Laraspace\Models\Position;
 use Laraspace\Models\TempFixture;
+use Laraspace\Models\TournamentTemplates;
 
 class AgeGroupService implements AgeGroupContract
 {
@@ -374,6 +375,7 @@ class AgeGroupService implements AgeGroupContract
      */
     public function insertPositions($ageCategoryId, $template)
     {
+      echo "<pre>";print_r($template);echo "</pre>";exit;
       Position::where('age_category_id', $ageCategoryId)->delete();
       $json_data = json_decode($template['json_data'], true);
       $tournamentPositions = isset($json_data['tournament_positions']) ? $json_data['tournament_positions'] : [];
@@ -391,6 +393,18 @@ class AgeGroupService implements AgeGroupContract
       }
     }
 
+    public function ageCategoryData()
+    {
+       $tournamentTemplates = TournamentTemplates::get()->keyBy(['id' => '116']);
+        
+       $tournamentCompetationTemplates = TournamentCompetationTemplates::all();
+
+        foreach ($tournamentCompetationTemplates as $tournamentCompetationTemplate) {
+           
+           $this->insertPositions($tournamentCompetationTemplate->id,$tournamentCompetationTemplate->tournament_template_id);
+          
+        }
+    }
 
     public function getPlacingsData($data) {
       $data = $this->ageGroupObj->getPlacingsData($data);

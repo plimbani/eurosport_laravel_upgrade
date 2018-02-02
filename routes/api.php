@@ -123,7 +123,7 @@ $api->version('v1', function ($api) {
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch');
 
     //Age Group Stuff
-
+    $api->get('age_groups/ageCategoryData', 'Laraspace\Api\Controllers\AgeGroupController@ageCategoryData');
     $api->get('age_groups', 'Laraspace\Api\Controllers\AgeGroupController@getAgeGroups');
     $api->post('age_group/create', 'Laraspace\Api\Controllers\AgeGroupController@create');
     $api->post('age_group/edit/{id}', 'Laraspace\Api\Controllers\AgeGroupController@edit');
