@@ -73,7 +73,6 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
 
         if (!Utility.isNullOrEmpty(ageModel.getComments()) && mContext instanceof AgeCategoriesActivity) {
             holder.individual_list_item.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.icon_info, 0);
-            holder.individual_list_item.setCompoundDrawablePadding(7);
             holder.individual_list_item.setClickable(true);
             holder.individual_list_item.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -90,7 +89,7 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
                                 }
                             });
                             return true;
-                        }else{
+                        } else {
                             if (mContext instanceof AgeCategoriesActivity) {
                                 Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
                                 mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, ageModel.getId() + "");
