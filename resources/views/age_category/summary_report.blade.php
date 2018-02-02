@@ -237,19 +237,36 @@
       <tbody>
         @foreach($matches['results'] as $match)
           <tr>
-            <td align="center">{{ Carbon\Carbon::parse($match->match_datetime)->format('jS M Y H:i') }}</td>
+            <td align="center">{{ $match->match_datetime ? Carbon\Carbon::parse($match->match_datetime)->format('jS M Y H:i') : '-' }}</td>
             <td align="center">{{ $match->competation_name }}</td>
             <td align="right" style="vertical-align: middle; padding: 5px 10px 3px 0">
               <span>
-                @if($match->Home_id == '0' && $match->homeTeamName == '@^^@')
-                  @if(strpos($match->competition_actual_name, "Group") != -1)
-                    {{ $match->homePlaceholder }}
-                  @else
-                    Pos-{{ $match->homePlaceholder }}
-                  @endif
-                @else
-                  {{ $match->HomeTeam }}
-                @endif
+                @if($match->Home_id == '0')
+                            @if((strpos($match->displayMatchNumber, 'wrs') != false) || (strpos($match->displayMatchNumber, 'lrs') != false)) 
+                        <?php
+                            if(strpos($match->displayHomeTeamPlaceholderName, '#')  !== false ){
+                              $homeTeam = $match->displayHomeTeamPlaceholderName;
+                            } else {
+                              if(strpos($match->displayMatchNumber, 'wrs') != false ){
+                                $matchPrec = 'wrs.'; 
+                              } if(strpos($match->displayMatchNumber, 'lrs') != false){
+                                $matchPrec = 'lrs.'; 
+                              }
+                              $homeTeam = $matchPrec.$match->displayHomeTeamPlaceholderName;
+                            }
+                            $homeTeamDisplay =  $homeTeam;
+                        ?>
+                            @else
+                                <?php $homeTeamDisplay = $match->displayHomeTeamPlaceholderName ?>
+                            @endif 
+                        <?php if(strpos($match->competition_actual_name, 'Pos') !== false)
+                            $homeTeamDisplay = 'Pos-' . $match->displayHomeTeamPlaceholderName; ?>
+                      
+                    @else
+                     <?php  $homeTeamDisplay =$match->HomeTeam; ?>
+                        
+                    @endif
+                    <?php echo $homeTeamDisplay; ?>
               </span>
               @if($match->Home_id != '0')
                 <img src="{{ $match->HomeFlagLogo }}" height="10" style="display: inline;">
@@ -260,15 +277,30 @@
                 <img src="{{ $match->AwayFlagLogo }}" height="10" style="display: inline;">
               @endif
               <span>
-                @if($match->Away_id == '0' && $match->awayTeamName == '@^^@')
-                  @if(strpos($match->competition_actual_name, "Group") != -1)
-                    {{ $match->awayPlaceholder }}
-                  @else
-                    Pos-{{ $match->awayPlaceholder }}
-                  @endif
-                @else
-                  {{ $match->AwayTeam }}
-                @endif
+                @if($match->Home_id == '0')
+                            @if((strpos($match->displayMatchNumber, 'wrs') != false) || (strpos($match->displayMatchNumber, 'lrs') != false)) 
+                        <?php
+                            if(strpos($match->displayAwayTeamPlaceholderName, '#')  !== false ){
+                              $awayTeam = $match->displayAwayTeamPlaceholderName;
+                            } else {
+                              if(strpos($match->displayMatchNumber, 'wrs') != false ){
+                                $matchPrec = 'wrs.'; 
+                              } if(strpos($match->displayMatchNumber, 'lrs') != false){
+                                $matchPrec = 'lrs.'; 
+                              }
+                              $awayTeam = $matchPrec.$match->displayAwayTeamPlaceholderName;
+                            }
+                            $awayTeamDisplay =  $awayTeam;
+                        ?>
+                            @else
+                                <?php $awayTeamDisplay = $match->displayAwayTeamPlaceholderName ?>
+                            @endif 
+                        <?php if(strpos($match->competition_actual_name, 'Pos') !== false)
+                            $awayTeamDisplay = 'Pos-' . $match->displayAwayTeamPlaceholderName; ?>
+                    @else
+                     <?php  $awayTeamDisplay =$match->AwayTeam; ?>                        
+                    @endif
+                    <?php echo $awayTeamDisplay; ?>
               </span>
             </td>
             <td align="center">{{ $match->homeScore . ' - ' . $match->AwayScore }}</td>
