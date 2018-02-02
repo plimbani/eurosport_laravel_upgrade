@@ -177,6 +177,7 @@ module.exports= {
   competation_modal_team_interval_minutes: "minutes",
   competation_modal_team_interval_required: "Team interval is required.",
   competation_modal_comments: "Comments",
+  competation_modal_placings: "Final Placings",
 
   competation_modal_age_category: "Match Schedule – Template",
   competation_label_name_category: "Category name*",
@@ -511,6 +512,11 @@ module.exports= {
   summary_schedule_match_overview: "Match overview",
   summary_schedule_teams: "Teams",
   summary_schedule_categories: "Categories",
+  summary_schedule_final_placings: "Final placings",
+  summary_schedule_view_placings: "View placings",
+  summary_schedule_draws_categories_name: "Category name",
+  summary_schedule_draws_age_category: "Age category",
+  summary_schedule_draws_age_placings: "Placings",
 
   summary_schedule_button_print: "Print",
   summary_schedule_draw: "Draw",

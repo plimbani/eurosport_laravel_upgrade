@@ -7,7 +7,9 @@ use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Api\Repositories\AgeGroupRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Team;
+use Laraspace\Models\Position;
 use Laraspace\Models\TempFixture;
+use Laraspace\Models\TournamentTemplates;
 
 class AgeGroupService implements AgeGroupContract
 {
@@ -124,6 +126,9 @@ class AgeGroupService implements AgeGroupContract
                 $id = $data['competation_format_id'];
                 $this->addCompetationGroups($id,$data);
 
+                // Add positions to template
+                $this->insertPositions($data['competation_format_id'], $data['tournamentTemplate']);
+
             } else {
              
               if($data['team_interval'] != $mininterval) {
@@ -140,7 +145,10 @@ class AgeGroupService implements AgeGroupContract
             }
 
         } else {
-             $this->addCompetationGroups($id,$data);
+            $this->addCompetationGroups($id,$data);
+
+            // Add positions to template
+            $this->insertPositions($id, $data['tournamentTemplate']);
         }
 
 
@@ -356,5 +364,52 @@ class AgeGroupService implements AgeGroupContract
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
+    }
+
+    /**
+     * Insert positions.
+     *
+     * @param array $data
+     *
+     * @return [type]
+     */
+    public function insertPositions($ageCategoryId, $template)
+    {
+      echo "<pre>";print_r($template);echo "</pre>";exit;
+      Position::where('age_category_id', $ageCategoryId)->delete();
+      $json_data = json_decode($template['json_data'], true);
+      $tournamentPositions = isset($json_data['tournament_positions']) ? $json_data['tournament_positions'] : [];
+
+      foreach($tournamentPositions as $tournamentPosition) {
+        $position = new Position();
+        $position->age_category_id = $ageCategoryId;
+        $position->position = $tournamentPosition['position'];
+        $position->dependent_type = $tournamentPosition['dependent_type'];
+        $position->match_number = isset($tournamentPosition['match_number']) ? $tournamentPosition['match_number'] : null;
+        $position->result_type = isset($tournamentPosition['result_type']) ? $tournamentPosition['result_type'] : null;
+        $position->ranking = isset($tournamentPosition['ranking']) ? $tournamentPosition['ranking'] : null;
+        $position->team_id = null;
+        $position->save();
+      }
+    }
+
+    public function ageCategoryData()
+    {
+       $tournamentTemplates = TournamentTemplates::get()->keyBy(['id' => '116']);
+        echo "<pre>";print_r($tournamentTemplates);echo "</pre>";exit;
+       $tournamentCompetationTemplates = TournamentCompetationTemplates::all();
+
+        foreach ($tournamentCompetationTemplates as $tournamentCompetationTemplate) {
+           
+           $this->insertPositions($tournamentCompetationTemplate->id,$tournamentCompetationTemplate->tournament_template_id);
+          
+        }
+    }
+
+    public function getPlacingsData($data) {
+      $data = $this->ageGroupObj->getPlacingsData($data);
+      if ($data) {
+        return ['data' => $data, 'status_code' => '200', 'message' => 'Data Successfully Deleted'];
+      }
     }
 }
