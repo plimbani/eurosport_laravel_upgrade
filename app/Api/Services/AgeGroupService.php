@@ -396,7 +396,7 @@ class AgeGroupService implements AgeGroupContract
     public function ageCategoryData()
     {
        $tournamentTemplates = TournamentTemplates::get()->keyBy(['id' => '116']);
-        
+        echo "<pre>";print_r($tournamentTemplates);echo "</pre>";exit;
        $tournamentCompetationTemplates = TournamentCompetationTemplates::all();
 
         foreach ($tournamentCompetationTemplates as $tournamentCompetationTemplate) {
