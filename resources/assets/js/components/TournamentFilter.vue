@@ -38,7 +38,8 @@
           <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="mr-2">{{$lang.teams_country}}
       </label>
     </div>
-
+    
+    <div class="form-group">
       <select :class="'form-control  ls-select2 '+filterKey"  style="width:200px" v-if="filterKey == 'competation_group'">
         <option value="" v-if="filterKey != 'age_category'">Select</option>
         
@@ -49,8 +50,8 @@
         <option value="" v-if="filterKey != 'age_category'">Select</option>
         <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
       </select>
-    <!-- </div> -->
     </div>
+    
     <div class="form-group">
       <label class="control-label">
         <a href="javascript:void(0)" @click="clearFilter()">{{$lang.teams_clear}}</a>
