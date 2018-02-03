@@ -1,5 +1,5 @@
 <template>
-  <form  class="form-inline pull-right">
+  <form  class="form-inline pull-right summary-matches-filter">
     <div class="form-group">
       <label for="nameInput" class="control-label">
         <strong>{{$lang.teams_filter}}</strong>
@@ -19,22 +19,22 @@
       </label>
     </div>
 
-    <div class="form-group">
-      <label class="radio-inline control-label" v-if="section=='pitchPlanner' || section=='scheduleResult'">
+    <div class="form-group" v-if="section=='pitchPlanner' || section=='scheduleResult'">
+      <label class="radio-inline control-label">
         <input type="radio" id="location" name="filter" value="location"
         @click="getDropDownData('location')" class="mr-2">{{$lang.teams_location}}
       </label>
     </div>
 
-    <div class="form-group">
-      <label class="radio-inline control-label" v-if="section == 'scheduleResult' || section =='teams'">
+    <div class="form-group" v-if="section == 'scheduleResult' || section =='teams'">
+      <label class="radio-inline control-label">
         <input type="radio" id="team" name="filter" value="team"
         @click="getDropDownData('team')" class="mr-2">{{$lang.teams_team}}
       </label>
     </div>
 
-    <div class="form-group">
-      <label class="radio-inline control-label" v-if="section=='teams'">
+    <div class="form-group" v-if="section=='teams'">
+      <label class="radio-inline control-label">
           <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="mr-2">{{$lang.teams_country}}
       </label>
     </div>
@@ -42,7 +42,6 @@
     <div class="form-group">
       <select :class="'form-control  ls-select2 '+filterKey"  style="width:200px" v-if="filterKey == 'competation_group'">
         <option value="" v-if="filterKey != 'age_category'">Select</option>
-        
         <option   
         v-for="option in options" v-bind:data-val="setOption(option)"  v-bind:id="option.id" v-bind:value="setOption(option)" :class="option.class" >  {{ option.name }}</option>
       </select>
@@ -52,9 +51,9 @@
       </select>
     </div>
     
-    <div class="form-group">
-      <label class="control-label">
-        <a href="javascript:void(0)" @click="clearFilter()">{{$lang.teams_clear}}</a>
+    <div class="form-group margin-right-0">
+      <label class="control-label margin-right-0">
+        <a href="javascript:void(0)" class="btn btn-secondary btn-md" @click="clearFilter()">{{$lang.teams_clear}}</a>
       </label>
     </div>
   </form>
@@ -184,11 +183,8 @@ export default {
             var vm =this;
             $('.competation_group').on("select2:select", function (e) {
               var selVal = $(this).val();
-              if(selVal != '') {
-                vm.dropDown = JSON.parse(selVal);
-                vm.setFilterForAgeAndGroup();
-              }
-              
+              vm.dropDown = selVal != '' ? JSON.parse(selVal) : '';
+              vm.setFilterForAgeAndGroup();
             });
             this.options =  newOption;
           }
