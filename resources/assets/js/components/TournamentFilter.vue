@@ -80,7 +80,6 @@ export default {
   mounted() {
     // By Default Called with Team
       this.getDropDownData('competation_group')
-      this.setFilterValue()
       $('#competation_group').prop("checked",true)
   },
   methods: {
@@ -191,12 +190,9 @@ export default {
           
           if(tourament_key == 'age_category'){
             this.dropDown = ""
-            this.setFilterValue()
           }
-          if(tourament_key == 'location') {
-            let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': '' }
-            this.$store.dispatch('setTournamentFilter', tournamentFilter);
-          }
+
+          this.setFilterValue();
         },
         (error) => {
         }
