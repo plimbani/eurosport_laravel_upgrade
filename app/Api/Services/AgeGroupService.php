@@ -17,6 +17,7 @@ class AgeGroupService implements AgeGroupContract
     {
         $this->ageGroupObj = $ageRepoObj;
         $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+        $this->matchServiceObj = new \Laraspace\Api\Services\MatchService();
     }
 
      /*
@@ -185,6 +186,7 @@ class AgeGroupService implements AgeGroupContract
         for($i=0;$i<$totalRound;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
+            $roundIndex = 0;
             foreach($rounds as $key=>$round) {
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
@@ -203,6 +205,13 @@ class AgeGroupService implements AgeGroupContract
                 } else {
                   $group_name[$val]['actual_name'] = $round->name;
                 }
+
+                // $group_name[$val]['is_final'] = 0;
+                // if($i == $totalRound-1 && (count($rounds) - 1 == $roundIndex)) {
+                //   if($json_data->position_type == 'final' || $json_data->position_type == 'final_and_group_ranking') {
+                //     $group_name[$val]['is_final'] = 1;
+                //   }
+                // }
 
                 $group_name[$val]['comp_roundd']=$json_data->tournament_competation_format->format_name[$i]->name;
                 // Now here For Loop for create Fixture array
@@ -234,6 +243,8 @@ class AgeGroupService implements AgeGroupContract
                     }
                   }
                 }
+
+              $roundIndex++;
             }
         }
         $competation_array = array();
@@ -375,7 +386,6 @@ class AgeGroupService implements AgeGroupContract
      */
     public function insertPositions($ageCategoryId, $template)
     {
-      echo "<pre>";print_r($template);echo "</pre>";exit;
       Position::where('age_category_id', $ageCategoryId)->delete();
       $json_data = json_decode($template['json_data'], true);
       $tournamentPositions = isset($json_data['tournament_positions']) ? $json_data['tournament_positions'] : [];
@@ -393,23 +403,25 @@ class AgeGroupService implements AgeGroupContract
       }
     }
 
-    public function ageCategoryData()
-    {
-       $tournamentTemplates = TournamentTemplates::get()->keyBy(['id' => '116']);
-        echo "<pre>";print_r($tournamentTemplates);echo "</pre>";exit;
-       $tournamentCompetationTemplates = TournamentCompetationTemplates::all();
-
-        foreach ($tournamentCompetationTemplates as $tournamentCompetationTemplate) {
-           
-           $this->insertPositions($tournamentCompetationTemplate->id,$tournamentCompetationTemplate->tournament_template_id);
-          
-        }
-    }
-
     public function getPlacingsData($data) {
       $data = $this->ageGroupObj->getPlacingsData($data);
       if ($data) {
         return ['data' => $data, 'status_code' => '200', 'message' => 'Data Successfully Deleted'];
+      }
+    }
+
+    public function ageCategoryData()
+    {
+      $tournamentTemplates = TournamentTemplates::get()->keyBy('id')->toArray();
+      $tournamentCompetationTemplates = TournamentCompetationTemplates::all();
+      foreach ($tournamentCompetationTemplates as $tournamentCompetationTemplate) {
+        $this->insertPositions($tournamentCompetationTemplate->id, $tournamentTemplates[$tournamentCompetationTemplate->tournament_template_id]);
+
+        $matchPositions = Position::where('age_category_id', $tournamentCompetationTemplate->id)->where('dependent_type', 'match')->get();
+        $this->matchServiceObj->updatePlacingMatchPositions($tournamentCompetationTemplate, $matchPositions);
+        
+        $rankingPositions = Position::where('age_category_id', $tournamentCompetationTemplate->id)->where('dependent_type', 'ranking')->get();
+        $this->matchServiceObj->updateGroupRankingPositions($tournamentCompetationTemplate, $rankingPositions);
       }
     }
 }

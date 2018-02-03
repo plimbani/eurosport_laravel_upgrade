@@ -2176,17 +2176,13 @@ class MatchService implements MatchContract
      */
     public function updateCategoryPositions($competitionId, $ageCategoryId)
     {
-      \Log::info('$ageCategoryId');
-      \Log::info($ageCategoryId);
       $ageCategory = TournamentCompetationTemplates::find($ageCategoryId);
       $tournamentTemplate = $ageCategory->TournamentTemplate;
       $positions = Position::where('age_category_id', $ageCategoryId);
       if($tournamentTemplate->position_type == 'final' || $tournamentTemplate->position_type == 'final_and_group_ranking') {
         $competition = Competition::find($competitionId);
-        if($competition->is_final == 1) {
-          $matchPositions = $positions->where('dependent_type', 'match')->get();
-          $this->updatePlacingMatchPositions($ageCategory, $matchPositions);
-        }
+        $matchPositions = $positions->where('dependent_type', 'match')->get();
+        $this->updatePlacingMatchPositions($ageCategory, $matchPositions);
       }
       if($tournamentTemplate->position_type == 'final_and_group_ranking' || $tournamentTemplate->position_type == 'group_ranking') {
         $rankingPositions = $positions->where('dependent_type', 'ranking')->get();
@@ -2202,10 +2198,10 @@ class MatchService implements MatchContract
     public function updatePlacingMatchPositions($ageCategory, $positions)
     {
       $prefixMatchName = $ageCategory->group_name . '-' . $ageCategory->category_age . '-';
-      for($i=0; $i < count($positions); $i=$i+1) {
-        $matchNumber = str_replace('CAT.', $prefixMatchName, $position->match_number);
+      for($i=0; $i < count($positions); $i=$i+2) {
+        $matchNumber = str_replace('CAT.', $prefixMatchName, $positions[$i]->match_number);
         $fixture = DB::table('temp_fixtures')->where('match_number', $matchNumber)->get()->first();
-        if($fixture->hometeam_score != null && $fixture->awayteam_score != null) {
+        if($fixture->hometeam_score !== null && $fixture->awayteam_score !== null) {
           $winner = null;
           $looser = null;
           if($fixture->hometeam_score >= $fixture->awayteam_score) {
@@ -2239,25 +2235,33 @@ class MatchService implements MatchContract
       $positionCalculatingGroups = $this->getPositionCalculatingGroups($ageCategory, $positions);
       $competitionIds = $positionCalculatingGroups['competitionIds'];
       $groups = $positionCalculatingGroups['groups'];
+      if(count($competitionIds) != count($groups)) {
+        return false;
+      }
       $tournamentData['tournamentId'] = $ageCategory->tournament_id;
       $standingResData = [];
+      $competitionEndFlag = 0;
 
       for($i=0; $i < count($competitionIds); $i++) {
         $competitionId = $competitionIds[$i];
+        $standingResData[$groups[$i]] = [];
         if($this->checkForCompetitionEnd($competitionId)) {
+          $competitionEndFlag = 1;
           $tournamentData['competitionId'] = $competitionId;
           $standingResData[$groups[$i]] = $this->matchRepoObj->getStanding($tournamentData)->toArray();
         }
       }
 
-      foreach($positions as $position) {
-        $ranking = $position->ranking;
-        $group = substr($ranking, -1);
-        $rankingNumber = intval(substr($ranking, 0, strlen($ranking) - 1));
-        $standing = (array) $standingResData[$group][$rankingNumber - 1];
-        if($standing['id'] != null) {
-          $position->team_id = $standing['id'];
-          $position->save();
+      if($competitionEndFlag == 1) {
+        foreach($positions as $position) {
+          $ranking = $position->ranking;
+          $group = substr($ranking, -1);
+          $rankingNumber = intval(substr($ranking, 0, strlen($ranking) - 1));
+          $standing = isset($standingResData[$group][$rankingNumber - 1]) ? ((array) $standingResData[$group][$rankingNumber - 1]) : [];
+          if(isset($standing['id']) && $standing['id']!=null) {
+            $position->team_id = $standing['id'];
+            $position->save();
+          }
         }
       }
     }

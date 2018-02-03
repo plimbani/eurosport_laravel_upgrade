@@ -51,6 +51,7 @@ class AgeGroupRepository
        $competations['name'] = $age_group.'-'.$comp_group;
        $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
        $competations['team_size'] = $groups['team_count'];
+       // $competations['is_final'] = $groups['is_final'];
        // here last group we consider as Final or Elimination Match
        // Means Last one
        // TODO : Change the code
@@ -68,19 +69,17 @@ class AgeGroupRepository
          $actualCompetitionType = 'Elimination';
        } else {
          $actualCompetitionType = 'Round Robin';
-       }  
+       }
 
-       //$competaon_type = $competaon_type.'-'.$groups['comp_roundd'];
-
-       $competations['competation_type'] = $competaon_type;
-       $competations['actual_competition_type'] = $actualCompetitionType;
-       $competations['competation_round_no'] = $groups['comp_roundd'];
-       $competationIds[$i]['id'] = Competition::create($competations)->id;
-       $competationIds[$i]['name'] = $comp_group;
-       $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];
-       $competationIds[$i]['ageGroup'] = $age_group;
-       $competationIds[$i]['ageGroupId'] = $competation_data['tournament_competation_template_id'];
-       $competationIds[$i]['competation_type'] = $competaon_type;
+        $competations['competation_type'] = $competaon_type;
+        $competations['actual_competition_type'] = $actualCompetitionType;
+        $competations['competation_round_no'] = $groups['comp_roundd'];
+        $competationIds[$i]['id'] = Competition::create($competations)->id;
+        $competationIds[$i]['name'] = $comp_group;
+        $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];
+        $competationIds[$i]['ageGroup'] = $age_group;
+        $competationIds[$i]['ageGroupId'] = $competation_data['tournament_competation_template_id'];
+        $competationIds[$i]['competation_type'] = $competaon_type;
 
        $i++;
       }
