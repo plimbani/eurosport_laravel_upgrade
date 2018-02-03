@@ -4,6 +4,7 @@ namespace Laraspace\Console\Commands;
 
 use Carbon\Carbon;
 use Laraspace\Models\User;
+use Laraspace\Models\Role;
 use Illuminate\Console\Command;
 use Laraspace\Models\Tournament;
 
@@ -41,6 +42,7 @@ class automaticallyPermissionRemoval extends Command
      */
     public function handle()
     {
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $yesterdayDate = Carbon::yesterday()->toDateString();
         $allTournaments = Tournament::whereDate('end_date','<=',$yesterdayDate)->pluck('id')->toArray();
         $users = User::whereHas('roles', function($query)
@@ -48,8 +50,19 @@ class automaticallyPermissionRemoval extends Command
                     $query->where('slug', 'tournament.administrator');
                 })->get();
         foreach ($users as $user) {
-            $userTournamnets = $user->tournaments()->detach($allTournaments);
+            $userTournaments = $user->tournaments();
+            $userTournamentIds = $userTournaments->pluck('id');
+            $intersectTournaments = $userTournamentIds->intersect($allTournaments)->values();
+            if(count($intersectTournaments) > 0) {
+                if($userTournaments->count() == 1) {
+                    $user->is_desktop_user = 0;
+                    $user->save();
+                    $user->detachAllRoles();
+                    $user->attachRole($mobileUserRoleId);
+                }
+                $userTournaments->detach($intersectTournaments);
+            }
         }
-        $this->info('Script executed.');        
+        $this->info('Script executed.');
     }
 }
