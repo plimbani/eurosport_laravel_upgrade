@@ -1,5 +1,5 @@
 <template>
-  <form  class="form-inline pull-right">
+  <form  class="form-inline pull-right summary-matches-filter">
     <div class="form-group">
       <label for="nameInput" class="control-label">
         <strong>{{$lang.teams_filter}}</strong>
@@ -19,51 +19,46 @@
       </label>
     </div>
 
-    <div class="form-group">
-      <label class="radio-inline control-label" v-if="section=='pitchPlanner' || section=='scheduleResult'">
+    <div class="form-group" v-if="section=='pitchPlanner' || section=='scheduleResult'">
+      <label class="radio-inline control-label">
         <input type="radio" id="location" name="filter" value="location"
         @click="getDropDownData('location')" class="mr-2">{{$lang.teams_location}}
       </label>
     </div>
 
-    <div class="form-group">
-      <label class="radio-inline control-label" v-if="section == 'scheduleResult' || section =='teams'">
+    <div class="form-group" v-if="section == 'scheduleResult' || section =='teams'">
+      <label class="radio-inline control-label">
         <input type="radio" id="team" name="filter" value="team"
         @click="getDropDownData('team')" class="mr-2">{{$lang.teams_team}}
       </label>
     </div>
 
-    <div class="form-group">
-      <label class="radio-inline control-label" v-if="section=='teams'">
+    <div class="form-group" v-if="section=='teams'">
+      <label class="radio-inline control-label">
           <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="mr-2">{{$lang.teams_country}}
       </label>
     </div>
-
+    
     <div class="form-group">
-      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterForAgeAndGroup()" style="width:200px" v-if="filterKey == 'competation_group'">
+      <select :class="'form-control  ls-select2 '+filterKey"  style="width:200px" v-if="filterKey == 'competation_group'">
         <option value="" v-if="filterKey != 'age_category'">Select</option>
-        
-        <option :value="option.id"  
-        v-for="option in options"  v-bind:value="option" v-bind:class="option.class" > {{ option.name }}</option>
-
-<!--           <option  :value="group.id" v-for="group in option.competition"  v-text="holdingName(group)"  v-bind:value="group" ></option> -->
-        <!-- </optgroup> -->
-        
+        <option   
+        v-for="option in options" v-bind:data-val="setOption(option)"  v-bind:id="option.id" v-bind:value="setOption(option)" :class="option.class" >  {{ option.name }}</option>
       </select>
-      <select class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:200px" v-else>
+      <select  class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" style="width:200px" v-else>
         <option value="" v-if="filterKey != 'age_category'">Select</option>
         <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
       </select>
-
     </div>
-    <div class="form-group">
-      <label class="control-label">
-        <a href="javascript:void(0)" @click="clearFilter()">{{$lang.teams_clear}}</a>
+    
+    <div class="form-group margin-right-0">
+      <label class="control-label margin-right-0">
+        <a href="javascript:void(0)" class="btn btn-secondary btn-md" @click="clearFilter()">{{$lang.teams_clear}}</a>
       </label>
     </div>
   </form>
 </template>
-<script type="text/babel">
+<script>
 import Tournament from '../api/tournament.js'
 export default {
   data() {
@@ -84,22 +79,25 @@ export default {
   props:['section'],
   mounted() {
     // By Default Called with Team
-    if(this.section != 'scheduleResult' ){
-      this.getDropDownData('age_category')
-      $('#age_category').prop("checked",true)
-    }
-    if (this.section == 'scheduleResult' ){
       this.getDropDownData('competation_group')
-      this.setFilterValue()
       $('#competation_group').prop("checked",true)
-    }
   },
   methods: {
+    setOption(opt) {
+      return JSON.stringify(opt);
+    },
     clearFilter(){
       this.dropDown = ''
       this.setFilterValue()
+      $('.competation_group').select2().val(null).trigger("change");
       $('#age_category').trigger('click')
-      this.getDropDownData('age_category')
+      if (this.section == 'scheduleResult' ){
+        this.getDropDownData('competation_group');
+      } else {
+        $('#competation_group').prop("checked",true);
+        this.getDropDownData('age_category');
+      }
+      
     },
     holdingName(group) {
       // return group.name;
@@ -108,13 +106,11 @@ export default {
       grpName =grpName.join('-');
       
       return grpName;
-                        // value.displayHomeTeamPlaceholder = dispNumber[3]+'.'+value.
     },
     setFilterValue() {
       // return false;
+
       this.filterValue = this.dropDown
-       // alert(this.filterValue)
-       // console.log(this.filterValue);
       let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
       if(this.activePath == 'teams_groups'){
@@ -126,14 +122,22 @@ export default {
       }
     },
     setFilterForAgeAndGroup() {
-     let matchFilterKey = 'competation_group';
+      var matchFilterKey = 'competation_group';
+      this.filterValue = this.dropDown;
+      
+      // return false
+      var filterCompGroup = {'id' :this.filterValue};
+      var tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
+      this.$store.dispatch('setTournamentFilter', tournamentFilter);
       if(this.dropDown.class == 'age'){
         matchFilterKey = 'competation_group_age';
       }
-      this.$root.$emit('getMatchByTournamentFilter',matchFilterKey,this.dropDown);
+     
+      this.$root.$emit('getMatchByTournamentFilter',matchFilterKey,this.filterValue);
     },
     getDropDownData(tourament_key) {
-       this.dropDown = ''
+      $('.competation_group').select2('destroy');
+      this.dropDown = ''
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key
       this.filterKey = tourament_key
@@ -156,30 +160,39 @@ export default {
               this.selectMsg = 'Select'
               break
           }
-
           this.options = response.data.data
           let newOption = [];
-          _.map(response.data.data, function(opt){
-            
-            newOption.push({'id':opt.id,'name': opt.name,'class':'age','data':opt.id});
-            _.map(opt.competition, function(comp){
-               let grpName =comp.name.split("-");
-                    grpName = grpName.splice(2,grpName.length);
-                    grpName =grpName.join('-');
+          if(tourament_key == 'competation_group'){
+            $('.competation_group').select2().val(null).trigger("change");
       
-              newOption.push({'id':comp.id,'name': grpName, 'class':'group','data':comp});
-            });
+            _.map(response.data.data, function(opt){
+              newOption.push({"id":opt.id,"name": opt.name,"class":"age","data":opt.id});
+              _.map(opt.competition, function(comp){
+                 let grpName =comp.name.split("-");
+                      grpName = grpName.splice(2,grpName.length);
+                      grpName =grpName.join('-');
+        
+                newOption.push({"id":comp.id, "name": grpName, "class":"group", "data":comp});
+              });
 
-          });
-           this.options =  newOption;
+            });
+            $('.competation_group').select2({
+                minimumResultsForSearch: Infinity,
+            });
+            var vm =this;
+            $('.competation_group').on("select2:select", function (e) {
+              var selVal = $(this).val();
+              vm.dropDown = selVal != '' ? JSON.parse(selVal) : '';
+              vm.setFilterForAgeAndGroup();
+            });
+            this.options =  newOption;
+          }
+          
           if(tourament_key == 'age_category'){
             this.dropDown = ""
-            this.setFilterValue()
           }
-          if(tourament_key == 'location') {
-            let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': '' }
-            this.$store.dispatch('setTournamentFilter', tournamentFilter);
-          }
+
+          this.setFilterValue();
         },
         (error) => {
         }

@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login','AuthController@authenticate');
     Route::get('logout','AuthController@logout');
-    Route::get('check','AuthController@check');
+    Route::post('check','AuthController@check');
 
 
 });
