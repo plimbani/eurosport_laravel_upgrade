@@ -2,10 +2,34 @@
 
 namespace Laraspace\Api\Repositories;
 
-use Laraspace\Models\Website;
 use DB;
+use Laraspace\Models\Website;
 
-class VenueRepository
+class WebsiteRepository
 {
+	/**
+   * Create a new controller instance.
+   */
+	public function __construct()
+  {
+    
+  }
 
+  /*
+   * Get user accessible websites
+   *
+   * @param User $user
+   *
+   * @return response
+   */
+  public function getUserAccessibleWebsites($user)
+  {
+  	$websites = Website::All();
+
+  	if($user) {
+      $websites = $user->websites();
+    }
+
+    return $websites;
+  }
 }

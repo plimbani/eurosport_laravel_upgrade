@@ -230,6 +230,9 @@ $api->version('v1', function ($api) {
     $api->get('match/insertPositionsForPlacingMatches','Laraspace\Api\Controllers\MatchController@insertPositionsForPlacingMatches')->name('insert.positions.for.placing.matches');
 
     $api->post('appversion', 'Laraspace\Api\Controllers\VersionController@apkVersion');
+
+    // Websites
+    $api->get('getUserAccessibleWebsites', 'Laraspace\Api\Controllers\WebsiteController@getUserAccessibleWebsites');
 });
 
 
