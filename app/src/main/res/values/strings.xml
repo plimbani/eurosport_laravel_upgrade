@@ -7,6 +7,9 @@
     <string name="favorites">Favourites</string>
     <string name="tournament">Tournament</string>
     <string name="teams">Teams</string>
+    <string name="final_placings">Final placings</string>
+    <string name="final_placings_title">FINAL PLACINGS</string>
+    <string name="placing_text_holder">Placing</string>
     <string name="team">Team</string>
     <string name="match_info">Match Info</string>
     <string name="age_categories">Age categories</string>

@@ -59,6 +59,8 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
     private AgeAdapter adapter;
     @BindView(R.id.ll_main_layout)
     protected LinearLayout ll_main_layout;
+    private String mTitle;
+    private boolean isShowFinalPlacing = false;
 
     @Override
     protected void initView() {
@@ -73,8 +75,16 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
         setListener();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle(getString(R.string.age_categories).toUpperCase());
+        if (getSupportActionBar() != null) {
+            if (!Utility.isNullOrEmpty(mTitle)) {
+                showBackButton(mTitle);
+                isShowFinalPlacing = true;
+            } else {
+                BaseAppCompactActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_AGE_CATEGORIES;
+                getSupportActionBar().setTitle(getString(R.string.age_categories).toUpperCase());
+                isShowFinalPlacing = false;
+            }
+        }
         toolbar.setTitleTextColor(Color.WHITE);
         ll_no_item_view.setVisibility(View.GONE);
         tv_no_item.setVisibility(View.GONE);
@@ -95,10 +105,14 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        BaseAppCompactActivity.selectedTabName = AppConstants.SCREEN_CONSTANT_AGE_CATEGORIES;
         setContentView(R.layout.activity_age_categories);
         super.onCreate(savedInstanceState);
         mContext = this;
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+        } else {
+            mTitle = (String) extras.get(AppConstants.KEY_SCREEN_TITLE);
+        }
         initView();
     }
 
@@ -162,7 +176,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
     private void setAgeAdapter(AgeCategoriesModel mTournamentList[]) {
         List<AgeCategoriesModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
-        adapter = new AgeAdapter((Activity) mContext, list);
+        adapter = new AgeAdapter((Activity) mContext, list,isShowFinalPlacing);
         rv_ageList.setAdapter(adapter);
         rv_ageList.setVisibility(View.VISIBLE);
 
