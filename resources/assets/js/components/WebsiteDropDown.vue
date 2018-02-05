@@ -4,8 +4,8 @@
 		<option value="">{{$lang.tournament_select_website}}</option>
 	    <option value="">--------------</option>
 		<option v-for="option in options"
-		v-bind:value="option" v-if="option.status != null">
-		 {{option.name}} ({{option.status}})
+		v-bind:value="option">
+		 {{option.tournament_name}}
 		</option>
 	</select>
 </template>
@@ -15,42 +15,32 @@
 		data() {
 	     return {
 	        website: '',
-	        selected: null,
-	        value: '',
 	        options: []
 	     }
     },
 		mounted() {
 	  	Website.getUserAccessibleWebsites().then(
-	    (response) => {
-	      this.options = response.data.data
-	    },
-	    (error) => {
-	    }
-	  	)
+		    (response) => {
+		      this.options = response.data.data;
+		    },
+		    (error) => {
+		    }
+	  	);
 		},
 		methods: {
 			onChange() {
-			  let name = this.tournament.name
-			  let id = this.tournament.id
-			  let tournamentDays = Plugin.setTournamentDays(this.tournament.start_date, this.tournament.end_date)
-			  let tournamentSel  = {
-			  	name:name,
-			  	id:id,
-			  	maximum_teams:this.tournament.maximum_teams,
-			  	tournamentDays: tournamentDays,
-			  	tournamentLogo: this.tournament.tournamentLogo,
-			  	tournamentStatus:this.tournament.status,
-			  	tournamentStartDate:this.tournament.start_date,
-				  tournamentEndDate:this.tournament.end_date,
-			    facebook:this.tournament.facebook,
-			    website:this.tournament.website,
-			    twitter:this.tournament.twitter
-			  }
-	  	  this.$store.dispatch('SetTournamentName', tournamentSel)
-	  	  let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Tournament details'}
-	  	  this.$store.dispatch('setActiveTab', currentNavigationData)
-	  	  this.$router.push({name:'tournament_add'})
+			  let name = this.website.tournament_name;
+			  let id = this.website.id;
+			  let websiteSel  = {
+			  	id: id,
+			  	tournament_name: this.website.tournament_name,
+			  	tournament_dates: this.website.tournament_dates,
+			  	tournament_location: this.website.tournament_location,
+			  };
+	  	  this.$store.dispatch('SetWebsite', websiteSel);
+	  	  let currentNavigationData = {activeTab:'wwbsite_add', currentPage: 'Website information'};
+	  	  this.$store.dispatch('setActiveTab', currentNavigationData);
+	  	  this.$router.push({name:'website_add'});
 			},
 		}
 	}
