@@ -62,7 +62,7 @@
           </div>
           <div class="card-block text-center">
             <div class="form-group" v-if="(userDetails.role_name != 'Tournament administrator')">
-              <button v-if="(userDetails.role_name != 'Tournament administrator')" type="button" class="btn btn-primary col-sm-10">{{$lang.welcome_create_website}}</button>
+              <button v-if="(userDetails.role_name != 'Tournament administrator')" type="button" class="btn btn-primary col-sm-10" @click="addNewWebsite()">{{$lang.welcome_create_website}}</button>
             </div>
             <div class="form-group">
               <websiteDropDown></websiteDropDown>
@@ -142,6 +142,16 @@ computed: {
       this.$store.dispatch('SetTournamentName', tournamentAdd)
 
       this.$router.push({ name: 'users_list' })
+    },
+    addNewWebsite() {
+      let websiteAdd  = {
+        name:'Your Website', 'currentPage':'WebsiteAdd'
+      }
+      let currentNavigationData = {activeTab:'website_add', currentPage:
+      'Create Website'}
+      this.$store.dispatch('SetWebsiteName', websiteAdd)
+      this.$store.dispatch('setActiveTab', currentNavigationData)
+      this.$router.push({name: 'website_add'})
     }
   }
 }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import store from './store'
 import VueRouter from 'vue-router'
+
 import AuthService from './services/auth'
 
 /*
@@ -40,6 +40,9 @@ import FrontSchedule from './views/front/FrontScheduleResults.vue'
 // EuroSport Layout
 import LayoutTournament from './views/layouts/LayoutTournament.vue'
 
+// Website Layout
+import LayoutWebsite from './views/layouts/LayoutWebsite.vue'
+
 // Full EuroSport Layout
 import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
 
@@ -54,6 +57,8 @@ import CompetationFormat from './views/admin/eurosport/CompetationFormat.vue'
 import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
 
 import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
+
+import WebsiteAdd from './views/admin/eurosport/WebsiteAdd.vue'
 
 //import Referee from './views/admin/eurosport/Referee.vue'
 
@@ -160,6 +165,17 @@ const routes = [
         ]
     },
     {
+        path: '/admin', component: LayoutWebsite,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: 'website_add',
+                component: WebsiteAdd,
+                name: 'website_add'
+            }
+        ]
+    },
+    {
         path: '/admin', component: FullLayoutTournament,
         meta: { requiresAuth: true },   
         children: [
@@ -212,23 +228,19 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    let routesName = ['tournament_add', 'competation_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
-    let data = {};
-    if (routesName.includes(to.name)) {
-        data.tournamentId = store.state.Tournament.tournamentId;
-    }
+
     // If the next route is requires user to be Logged IN
     if (to.matched.some(m => m.meta.requiresAuth)){
-        return AuthService.check(data).then((response) => {   
-            if(!response.authenticated){
+
+        return AuthService.check().then(authenticated => {
+            if(!authenticated){
                 return next({ path : '/login'})
             }
-            if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
-                return next({ path : '/admin'})
-            }
+
             return next()
         })
     }
+
     return next()
 });
 
