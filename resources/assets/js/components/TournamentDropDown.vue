@@ -2,7 +2,6 @@
 	<select class="form-control ls-select2 col-sm-10 offset-sm-1" v-on:change="onChange"
 	v-model="tournament">
 		<option value="">{{$lang.tournament_manage_edition}}</option>
-	    <option value="">--------------</option>
 		<option v-for="option in options"
 		v-bind:value="option" v-if="option.status != null">
 		 {{option.name}} ({{option.status}})

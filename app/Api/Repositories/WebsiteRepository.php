@@ -33,7 +33,7 @@ class WebsiteRepository
   	$websites = Website::All();
 
   	if($user) {
-      $websites = $user->websites();
+      $websites = $user->websites;
     }
 
     return $websites;
