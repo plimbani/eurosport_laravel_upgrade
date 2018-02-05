@@ -153,6 +153,13 @@
             "dependent_type": "match",
             "match_number": "CAT.PM2.G2.3A-4A",
             "result_type": "winner"
+        },
+        {
+            "position": 4,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G2.3A-4A",
+            "result_type": "looser"
         }
+
     ]
 }
