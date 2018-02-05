@@ -58,16 +58,15 @@ import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
 
 import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
 
-import WebsiteAdd from './views/admin/eurosport/WebsiteAdd.vue'
-
-//import Referee from './views/admin/eurosport/Referee.vue'
-
-
 // UserManagement Layout
 import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
 
 //User Pages
 import UserList from './views/admin/users/List.vue'
+
+// Website pages
+import WebsiteAdd from './views/admin/eurosport/WebsiteAdd.vue';
+import WebsiteHomepage from './views/admin/eurosport/WebsiteHomepage.vue';
 
 Vue.use(VueRouter)
 
@@ -165,17 +164,6 @@ const routes = [
         ]
     },
     {
-        path: '/admin', component: LayoutWebsite,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: 'website_add',
-                component: WebsiteAdd,
-                name: 'website_add'
-            }
-        ]
-    },
-    {
         path: '/admin', component: FullLayoutTournament,
         meta: { requiresAuth: true },   
         children: [
@@ -192,6 +180,24 @@ const routes = [
         component: LayoutUserManagement,
         meta: { requiresAuth: true },
         name: 'users_list'
+    },
+
+    // Web site routes
+    {
+        path: '/admin', component: LayoutWebsite,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: 'website_add',
+                component: WebsiteAdd,
+                name: 'website_add'
+            },
+            {
+                path: 'website_homepage',
+                component: WebsiteHomepage,
+                name: 'website_homepage'
+            }
+        ]
     },
 
 
