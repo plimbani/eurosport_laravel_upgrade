@@ -7,6 +7,7 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Competition;
 use Laraspace\Models\Club;
+use Laraspace\Models\Country;
 use Laraspace\Models\TeamManualRanking;
 use DB;
 
@@ -454,5 +455,32 @@ class TeamRepository
           ->where('tournament_id','=',$tournamentId)
           ->whereIn('competition_id',$competationIdArray)->delete();
       }
+    }
+
+    public function editTeamDetails($teamId)
+    {
+      return Team::where('id', $teamId)->first();
+    }
+
+    public function getAllCountries()
+    {
+      return $contries = Country::all();
+    }
+
+    public function getAllClubs()
+    {
+      return $clubs = Club::all();
+    }
+
+    public function updateTeamDetails($request, $teamId)
+    {
+      $team = Team::findOrFail($teamId);
+      $team->esr_reference = $request['team_id'];
+      $team->name = $request['team_name'];
+      $team->place = $request['team_place'];
+      $team->country_id = $request['team_country'];
+      $team->club_id = $request['team_club'];
+      $team->comments = $request['comment'];
+      $team->save();
     }
 }

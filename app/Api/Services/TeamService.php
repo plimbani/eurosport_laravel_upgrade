@@ -325,4 +325,24 @@ class TeamService implements TeamContract
         return ['status_code' => '505', 'message' => 'Error in Data']; 
     }
 
+    public function editTeamDetails($teamId)
+    {
+        return $this->teamRepoObj->editTeamDetails($teamId);
+    }
+
+    public function getAllCountries()
+    {
+        return $this->teamRepoObj->getAllCountries();
+    }
+
+    public function getAllClubs()
+    {
+        return $this->teamRepoObj->getAllClubs();      
+    }
+
+    public function updateTeamDetails($request, $teamId)
+    {
+      return $this->teamRepoObj->updateTeamDetails($request, $teamId);
+    }
+
 }

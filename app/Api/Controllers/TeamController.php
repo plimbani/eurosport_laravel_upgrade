@@ -150,4 +150,24 @@ class TeamController extends BaseController
     {
       return $this->teamObj->getAllCompetitionTeamsFromFixture($request->all());
     }
+
+    public function editTeamDetails($teamId) 
+    {
+        return $this->teamObj->editTeamDetails($teamId);
+    }
+
+    public function getAllCountries()
+    {
+        return $this->teamObj->getAllCountries();
+    }
+
+    public function getAllClubs()
+    {
+        return $this->teamObj->getAllClubs();
+    }
+
+    public function updateTeamDetails(Request $request, $teamId)
+    {
+        return $this->teamObj->updateTeamDetails($request, $teamId);
+    }
 }

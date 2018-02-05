@@ -179,5 +179,17 @@ export default {
  },
 checkTeamIntervalforMatches(matchData){
   return api.post('match/checkTeamIntervalforMatches', matchData)
- }
+ },
+  getEditTeamDetails(id) {
+    return api.post('editTeamDetails/'+id)
+  },
+  getAllCountries() {
+    return api.get('getAllCountries')
+  },
+  getAllClubs() {
+    return api.get('getAllClubs')
+  },
+  updateTeamDetails(teamId, formData) {
+    return api.post('updateTeamDetails/'+teamId, formData)
+  }
 }

@@ -24,6 +24,10 @@ interface TeamContract
     public function delete($request);
     public function getAllFromCompetitionId($request);
     public function changeTeamName($request);
-    
+
+    public function editTeamDetails($teamId);
+    public function getAllCountries();
+    public function getAllClubs();
+    public function updateTeamDetails($request, $teamId);
     
 }
