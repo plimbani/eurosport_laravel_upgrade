@@ -162,6 +162,9 @@ module.exports= {
   tournament_label: "Tournament details",
   teams_groups_label: "Teams and groups",
 
+
+  website_label: "Website",
+
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",
   competation_button_back: "Back",
