@@ -7,8 +7,9 @@ import * as types from './mutation-types'
 
 import Tournament from './modules/tournament'
 import Users from './modules/users'
-
 import Pitch from './modules/pitch'
+import Website from './modules/website'
+
 import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
@@ -64,7 +65,8 @@ export default new Vuex.Store({
   modules: {
     Tournament,
     Pitch,
-    Users
+    Users,
+    Website,
   },
   strict: debug
 })
