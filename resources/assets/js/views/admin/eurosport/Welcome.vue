@@ -95,6 +95,9 @@ computed: {
     let tournamentAdd  = {name:'', 'currentPage':'Home'}
     this.$store.dispatch('SetTournamentName', tournamentAdd)
 
+    let websiteAdd  = {name:'', 'currentPage':'Home'}
+    this.$store.dispatch('SetWebsite', websiteAdd)
+
     // Here we set Default Value For Tournament
 
     /*let userDetails = this.$store.state.Users.userDetails
@@ -149,7 +152,7 @@ computed: {
       }
       let currentNavigationData = {activeTab:'website_add', currentPage:
       'Create Website'}
-      this.$store.dispatch('SetWebsiteName', websiteAdd)
+      this.$store.dispatch('SetWebsite', websiteAdd)
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name: 'website_add'})
     }
