@@ -164,6 +164,11 @@ module.exports= {
 
 
   website_label: "Website",
+  website_information: "Website information",
+  tournament_dates: "Tournament dates",
+  tournament_location_field: "Tournament location",
+  domain_name: "Domain name",
+  google_analytics_id: "Google Analytics ID",
 
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",

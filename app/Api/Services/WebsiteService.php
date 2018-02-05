@@ -54,4 +54,13 @@ class WebsiteService implements WebsiteContract
 
     return ['status_code' => '500', 'message' => self::ERROR_MSG];
   }
+
+  /*
+   * Save website data
+   *
+   * @return response
+   */
+  public function saveWebsiteData($data) {
+    $data = $this->websiteRepo->saveWebsiteData($data['websiteData']);
+  }
 }
