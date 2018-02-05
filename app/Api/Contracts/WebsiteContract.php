@@ -10,4 +10,11 @@ interface WebsiteContract
      * @return response
      */
     public function getUserAccessibleWebsites();
+
+	/*
+     * Save website data
+     *
+     * @return response
+     */
+    public function saveWebsiteData($request);
 }
