@@ -13,15 +13,15 @@
                 <div class="tabs tabs-primary">
                     <ul role="tablist" class="nav nav-tabs">
                         <li class="nav-item active">
-                            <a data-toggle="tab" role="tab" href="#tournament-list" class="text-center nav-link px-3" id="tournamentTab">Tournament</a>
+                            <a data-toggle="tab" role="tab" href="#tournament-list" class="text-center nav-link px-3" id="tournamentTab">Tournament permissions</a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" role="tab" href="#website-list" class="text-center nav-link px-3">Website</a>
+                            <a data-toggle="tab" role="tab" href="#website-list" class="text-center nav-link px-3">Website permissions</a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane" id="tournament-list" role="tab-pane">
-                            <tournament-listing :allTournaments="allTournaments" @setSelectedTournaments="setSelectedTournaments"></tournament-listing>
+                          <tournament-listing :allTournaments="allTournaments" @setSelectedTournaments="setSelectedTournaments"></tournament-listing>
                         </div>
                         <div class="tab-pane" id="website-list" role="tabpanel">
                             <website-listing :allWebsites="allWebsites" @setSelectedWebsites="setSelectedWebsites"></website-listing>

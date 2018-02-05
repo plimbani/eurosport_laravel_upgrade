@@ -6,10 +6,11 @@
           	<div class="tabs tabs-primary">
           		<ul class="nav nav-tabs" role="tablist">
           			<li class="nav-item">
-          				<a :class="[activePath == 'website_add' ? 'active' : '', 'nav-link']" data-toggle="tab"  href="#website_add_add" role="tab" @click="GetSelectComponent('website_add')">{{$lang.website_label}}</a>
+          				<a :class="[activePath == 'website_add' ? 'active' : '', 'nav-link']" data-toggle="tab"  href="#website_add" role="tab" @click="GetSelectComponent('website_add')">{{$lang.website_label}}</a>
           			</li>
           			<li class="nav-item">
-          			</li>        			
+                  <a :class="[activePath == 'website_homepage' ? 'active' : '', 'nav-link']" data-toggle="tab"  href="#website_homepage" role="tab" @click="GetSelectComponent('website_homepage')">{{$lang.website_homepage}}</a>
+                </li>
           		</ul>
           		<router-view></router-view>
           	</div>
@@ -34,18 +35,18 @@ export default {
     },
   },
   methods: {
-	GetSelectComponent(componentName) {
-		this.$router.push({name: componentName});
-      	if(componentName != 'website_add') {
-     		setTimeout( function(){
-        		if ($(document).height() > $(window).height()) {
-                    $('.site-footer').removeClass('sticky');
-                } else {
-                   $('.site-footer').addClass('sticky');
-                }
-      		},2000 )
-      	}		
-	}
+  	GetSelectComponent(componentName) {
+  		this.$router.push({name: componentName});
+    	if(componentName != 'website_add' || componentName != 'website_homepage') {
+        setTimeout( function(){
+      		if ($(document).height() > $(window).height()) {
+            $('.site-footer').removeClass('sticky');
+          } else {
+            $('.site-footer').addClass('sticky');
+          }
+    		},2000 )
+    	}
+  	}
   },
 }
 </script>
