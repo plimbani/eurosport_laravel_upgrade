@@ -169,6 +169,7 @@ module.exports= {
   tournament_location_field: "Tournament location",
   domain_name: "Domain name",
   google_analytics_id: "Google Analytics ID",
+  linked_tournament: "Linked tournament",
   website_homepage: "Homepage",
   website_homepage_options: "Homepage options",
   introduction_text: "Introduction text",

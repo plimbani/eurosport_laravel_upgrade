@@ -89,5 +89,7 @@ class WebsiteService implements WebsiteContract
    */
   public function saveWebsiteData($data) {
     $data = $this->websiteRepo->saveWebsiteData($data['websiteData']);
+    
+    return ['data' => $data, 'status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
   }
 }

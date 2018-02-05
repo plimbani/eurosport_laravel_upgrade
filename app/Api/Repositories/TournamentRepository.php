@@ -677,4 +677,10 @@ class TournamentRepository
         $competition = Competition::where('id', $key)->update(['color_code' => $data]);
       }
     }
+
+    public function getAllPublishedTournaments($data)
+    {
+      $publishedTournaments = Tournament::where('status', 'Published')->get();
+      return $publishedTournaments;
+    }
 }
