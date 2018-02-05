@@ -2,7 +2,6 @@
 	<select class="form-control ls-select2 col-sm-10 offset-sm-1" v-on:change="onChange"
 	v-model="website">
 		<option value="">{{$lang.tournament_select_website}}</option>
-	    <option value="">--------------</option>
 		<option v-for="option in options"
 		v-bind:value="option">
 		 {{option.tournament_name}}
@@ -38,9 +37,9 @@
 			  	tournament_location: this.website.tournament_location,
 			  };
 	  	  this.$store.dispatch('SetWebsite', websiteSel);
-	  	  let currentNavigationData = {activeTab:'website_add', currentPage: 'Website information'};
+	  	  let currentNavigationData = { activeTab:'website_add', currentPage: 'Website information' };
 	  	  this.$store.dispatch('setActiveTab', currentNavigationData);
-	  	  this.$router.push({name:'website_add'});
+	  	  this.$router.push({ name:'website_add' });
 			},
 		}
 	}

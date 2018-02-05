@@ -169,6 +169,9 @@ module.exports= {
   tournament_location_field: "Tournament location",
   domain_name: "Domain name",
   google_analytics_id: "Google Analytics ID",
+  website_homepage: "Homepage",
+  website_homepage_options: "Homepage options",
+  introduction_text: "Introduction text",
 
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",
@@ -536,6 +539,7 @@ module.exports= {
   summary_table_heading_message: "Message",
   summary_table_heading_sender: "Sender",
   summary_table_heading_tournament: "Tournament",
+  summary_table_heading_website: "Website",
   summary_table_heading_details: "Details",
   summary_message_button: "New message",
   summary_message_popup_new_message: "New Message",
@@ -577,6 +581,8 @@ module.exports= {
 
   // Tournament permission
   user_management_tournament_permission_title: "Tournament Permissions",
+
+  user_management_permission_title: "Permissions",
 
   // Group colours
   pitch_planner_group_colours: "Group colours",
