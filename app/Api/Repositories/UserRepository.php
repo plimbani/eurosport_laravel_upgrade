@@ -240,8 +240,22 @@ class UserRepository {
       return true;
     } 
 
+    public function changePermissions($data) {
+      $user = User::find($data['user']['id']);
+      $user->tournaments()->sync([]);
+      $user->tournaments()->attach($data['tournaments']);
+      $user->websites()->sync([]);
+      $user->websites()->attach($data['websites']);
+      return true;
+    } 
+
     public function getUserTournaments($id) {
       $user = User::find($id);
       return $user->tournaments()->pluck('id');
+    }
+
+    public function getUserWebsites($id) {
+      $user = User::find($id);
+      return $user->websites()->pluck('id');
     }
 }
