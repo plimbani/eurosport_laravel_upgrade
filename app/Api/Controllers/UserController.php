@@ -242,8 +242,16 @@ class UserController extends BaseController
       return $this->userObj->changeTournamentPermission($request->all());  
     }
 
+    public function changePermissions(Request $request) {
+      return $this->userObj->changePermissions($request->all());  
+    }
+
     public function getUserTournaments(Request $request, $id) {
       return $this->userObj->getUserTournaments($id);
+    }
+
+    public function getUserWebsites(Request $request, $id) {
+      return $this->userObj->getUserWebsites($id);
     }
 
 }
