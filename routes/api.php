@@ -233,6 +233,7 @@ $api->version('v1', function ($api) {
 
     // Websites
     $api->get('getUserAccessibleWebsites', 'Laraspace\Api\Controllers\WebsiteController@getUserAccessibleWebsites');
+    $api->post('saveWebsiteData', 'Laraspace\Api\Controllers\WebsiteController@saveWebsiteData');
 });
 
 
