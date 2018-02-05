@@ -24,6 +24,7 @@ const actions = {
 // mutations
 const mutations = {
 	[types.CURRENT_WEBSITE] (state, currentWebsite) {
+		console.log('currentWebsite', currentWebsite);
 		state.id = currentWebsite.id;
 	  state.tournament_name = currentWebsite.tournament_name;
 	  state.tournament_dates = currentWebsite.tournament_dates;
@@ -37,4 +38,4 @@ export default {
   getters,
   actions,
   mutations,
-}
+};
