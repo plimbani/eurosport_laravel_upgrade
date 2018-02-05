@@ -1,6 +1,6 @@
 <template>
 	<select class="form-control ls-select2 col-sm-10 offset-sm-1" v-on:change="onChange"
-	v-model="tournament">
+	v-model="website">
 		<option value="">{{$lang.tournament_select_website}}</option>
 	    <option value="">--------------</option>
 		<option v-for="option in options"
@@ -10,18 +10,18 @@
 	</select>
 </template>
 <script>
-	import Tournament from '../api/tournament.js'
+	import Website from '../api/website.js'
 	export default {
 		data() {
 	     return {
-	        tournament: '',
+	        website: '',
 	        selected: null,
 	        value: '',
 	        options: []
 	     }
     },
 		mounted() {
-	  	Tournament.getAllTournaments().then(
+	  	Website.getUserAccessibleWebsites().then(
 	    (response) => {
 	      this.options = response.data.data
 	    },
