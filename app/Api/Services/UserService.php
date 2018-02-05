@@ -527,7 +527,7 @@ class UserService implements UserContract
     public function changePermissions($data) {
       $data = $this->userRepoObj->changePermissions($data);
       if($data) {
-        return ['status_code'=>'200','message'=>'Tournament permissions has been updated successfully.'];
+        return ['status_code'=>'200','message'=>'Permissions has been updated successfully.'];
       } else {
         return ['status_code'=>'200','message'=>'Problem on updating'];
       }     
