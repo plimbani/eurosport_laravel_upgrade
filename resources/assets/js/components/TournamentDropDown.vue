@@ -1,5 +1,5 @@
 <template>
-	<select class="form-control ls-select2 col-sm-8 offset-sm-2" v-on:change="onChange"
+	<select class="form-control ls-select2 col-sm-10 offset-sm-1" v-on:change="onChange"
 	v-model="tournament">
 		<option value="">{{$lang.tournament_manage_edition}}</option>
 	    <option value="">--------------</option>
@@ -22,7 +22,6 @@
     },
 
 	mounted() {
-    	// this.$store.dispatch('SetTournamentName','test')
       	Tournament.getAllTournaments().then(
 	      (response) => {
 	        this.options = response.data.data
