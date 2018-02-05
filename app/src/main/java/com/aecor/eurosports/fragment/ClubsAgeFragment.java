@@ -184,7 +184,7 @@ public class ClubsAgeFragment extends Fragment {
                 return lhs.getGroup_name().compareTo(rhs.getGroup_name());
             }
         });
-        adapter = new AgeAdapter((Activity) mContext, list);
+        adapter = new AgeAdapter((Activity) mContext, list,false);
         age_list.setAdapter(adapter);
         rl_search.setVisibility(View.VISIBLE);
         age_list.setVisibility(View.VISIBLE);

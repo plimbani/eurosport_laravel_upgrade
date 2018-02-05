@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.AgeCategoriesActivity;
 import com.aecor.eurosports.activity.AgeGroupActivity;
+import com.aecor.eurosports.activity.FinalPlacingMatchesActivity;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.ui.ViewDialog;
@@ -37,11 +38,13 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
     private List<AgeCategoriesModel> mAgeCategoriesList;
     private List<AgeCategoriesModel> mOriginalList;
     private AgeFilter ageFilter;
+    private boolean isShowFinalPlacing;
 
-    public AgeAdapter(Activity context, List<AgeCategoriesModel> list) {
+    public AgeAdapter(Activity context, List<AgeCategoriesModel> list, boolean isShowFinalPlacing) {
         mContext = context;
         this.mAgeCategoriesList = list;
         this.mOriginalList = list;
+        this.isShowFinalPlacing = isShowFinalPlacing;
     }
 
 
@@ -85,20 +88,11 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
                             ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.comments), ageModel.getComments(), mContext.getString(R.string.close), new ViewDialog.CustomDialogInterface() {
                                 @Override
                                 public void onPositiveButtonClicked() {
-
                                 }
                             });
                             return true;
                         } else {
-                            if (mContext instanceof AgeCategoriesActivity) {
-                                Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
-                                mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, ageModel.getId() + "");
-                                mContext.startActivity(mAgeGroupIntent);
-                            } else {
-                                Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
-                                mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, ageModel.getId() + "");
-                                mContext.startActivity(mTeamListIntent);
-                            }
+                            openNextActivity(ageModel.getId() + "");
                             return true;
                         }
                     }
@@ -110,6 +104,25 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
         }
 
 
+    }
+
+    private void openNextActivity(String mAgeModelId) {
+
+        if (isShowFinalPlacing) {
+            Intent mFinalPlacingMatchesIntent = new Intent(mContext, FinalPlacingMatchesActivity.class);
+            mFinalPlacingMatchesIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, mAgeModelId + "");
+            mContext.startActivity(mFinalPlacingMatchesIntent);
+        } else {
+            if (mContext instanceof AgeCategoriesActivity) {
+                Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
+                mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, mAgeModelId + "");
+                mContext.startActivity(mAgeGroupIntent);
+            } else {
+                Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
+                mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, mAgeModelId + "");
+                mContext.startActivity(mTeamListIntent);
+            }
+        }
     }
 
     @Override
@@ -138,15 +151,7 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mContext instanceof AgeCategoriesActivity) {
-                        Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
-                        mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, mAgeCategoriesList.get(getAdapterPosition()).getId() + "");
-                        mContext.startActivity(mAgeGroupIntent);
-                    } else {
-                        Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
-                        mTeamListIntent.putExtra(AppConstants.ARG_AGE_GROUP_ID, mAgeCategoriesList.get(getAdapterPosition()).getId() + "");
-                        mContext.startActivity(mTeamListIntent);
-                    }
+                    openNextActivity(mAgeCategoriesList.get(getAdapterPosition()).getId() + "");
                 }
             });
         }
