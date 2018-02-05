@@ -69,7 +69,6 @@ $api->version('v1', function ($api) {
     $api->post('teams/changeTeamName',
         'Laraspace\Api\Controllers\TeamController@changeTeamName');
 
-
     //Referee api
     $api->post('referees', 'Laraspace\Api\Controllers\RefereeController@getReferees');
     $api->post('referee/create', 'Laraspace\Api\Controllers\RefereeController@createReferee');
@@ -136,6 +135,8 @@ $api->version('v1', function ($api) {
 
     //Tournament Api CRUD Routes
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
+
+    $api->get('getAllPublishedTournaments','Laraspace\Api\Controllers\TournamentController@getAllPublishedTournaments');
 
     // Get Tournament Details By Status
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');

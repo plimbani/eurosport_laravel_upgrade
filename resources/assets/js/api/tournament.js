@@ -179,5 +179,8 @@ export default {
  },
 checkTeamIntervalforMatches(matchData){
   return api.post('match/checkTeamIntervalforMatches', matchData)
+ },
+ getAllPublishedTournaments() {
+  return api.get('/getAllPublishedTournaments')
  }
 }

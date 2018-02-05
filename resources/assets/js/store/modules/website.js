@@ -20,7 +20,6 @@ const actions = {
   		commit(types.CURRENT_WEBSITE, currentWebsite);
   	},
   	SaveWebsiteDetails ({commit}, websiteData) {
-  		console.log('websiteData', websiteData);
   		Website.saveWebsite(websiteData).then(
   			(response) => {
 				if(response.data.status_code == 200) {

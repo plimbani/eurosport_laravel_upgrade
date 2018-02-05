@@ -35,9 +35,15 @@ class WebsiteRepository
 
   public function saveWebsiteData($data) 
   {
-    // echo "<pre>";print_r($data);echo "</pre>";exit;
-    // $website = new Website();
-    // $website->tournament_name = $data['tournament_name'];
-    // $website->tournament_date = 
+    $website = new Website();
+    $website->tournament_name = $data['tournament_name'];
+    $website->tournament_dates = $data['tournament_date'];
+    $website->tournament_location = $data['tournament_location'];
+    $website->domain_name = $data['domain_name'];
+    $website->linked_tournament = $data['linked_tournament'];
+    $website->google_analytics_id = $data['google_analytics_id'];
+    $website->save();
+
+    return $website;
   }
 }
