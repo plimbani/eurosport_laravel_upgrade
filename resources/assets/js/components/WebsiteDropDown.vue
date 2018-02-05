@@ -38,7 +38,7 @@
 			  	tournament_location: this.website.tournament_location,
 			  };
 	  	  this.$store.dispatch('SetWebsite', websiteSel);
-	  	  let currentNavigationData = {activeTab:'wwbsite_add', currentPage: 'Website information'};
+	  	  let currentNavigationData = {activeTab:'website_add', currentPage: 'Website information'};
 	  	  this.$store.dispatch('setActiveTab', currentNavigationData);
 	  	  this.$router.push({name:'website_add'});
 			},

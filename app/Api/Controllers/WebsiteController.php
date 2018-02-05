@@ -57,4 +57,18 @@ class WebsiteController extends BaseController
   {
   	return $this->websiteContract->getUserAccessibleWebsites();
   }
+
+  /**
+   * Save website data
+   *
+   * Get a JSON representation of all the user websites.
+   *
+   * @Get("/getUserAccessibleWebsites")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function saveWebsiteData(Request $request)
+  {
+    return $this->websiteContract->saveWebsiteData($request->all());
+  }
 }

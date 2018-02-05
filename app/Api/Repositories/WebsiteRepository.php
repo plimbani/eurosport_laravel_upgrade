@@ -38,4 +38,12 @@ class WebsiteRepository
 
     return $websites;
   }
+
+  public function saveWebsiteData($data) 
+  {
+    // echo "<pre>";print_r($data);echo "</pre>";exit;
+    // $website = new Website();
+    // $website->tournament_name = $data['tournament_name'];
+    // $website->tournament_date = 
+  }
 }
