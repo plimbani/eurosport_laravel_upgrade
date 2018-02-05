@@ -154,9 +154,12 @@ const routes = [
                 path: 'pitch_planner',
                 component: PitchPlanner,
                 name: 'pitch_planner'
-
+            },
+            {
+                path: 'website_add',
+                component: WebsiteAdd,
+                name: 'website_add'
             }
-
         ]
     },
     {

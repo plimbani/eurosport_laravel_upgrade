@@ -3,7 +3,8 @@
         <site-header></site-header>
           <div class="main-content container" id="dashboardPage">
             <breadCrum></breadCrum>
-            <tournamentTabbed></tournamentTabbed>                 
+            <tournamentTabbed></tournamentTabbed>
+            <websiteTabbed></websiteTabbed>
           </div>             
         <!--<router-view></router-view>-->
         <!-- <div class="horizontal_line"></div> -->
@@ -20,6 +21,7 @@
     import Layout from '../../helpers/layout'
     import BreadCrum from '../../components/BreadCrum.vue'
     import TournamentTabbed from './partials/TournamentTabbed.vue'
+    import WebsiteTabbed from './partials/WebsiteTabbed.vue'
     
     export default {
         data() {
@@ -28,7 +30,7 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, TournamentTabbed
+            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, TournamentTabbed, WebsiteTabbed
         }
     }
 </script>
