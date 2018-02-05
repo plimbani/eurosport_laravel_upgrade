@@ -30,6 +30,20 @@ class WebsiteController extends BaseController
   	$this->websiteContract = $websiteContract;
   }
 
+    /**
+     * Show all website Details.
+     *
+     * Get a JSON representation of all the Age Groups.
+     *
+     * @Get("/website")
+     * @Versions({"v1"})
+     * @Response(200, body={"id": 10, "club_id": "foo"})
+     */
+    public function index()
+    {
+        return $this->websiteContract->index();
+    }
+
   /**
    * Get all user websites
    *

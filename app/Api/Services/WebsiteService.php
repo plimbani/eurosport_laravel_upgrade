@@ -29,6 +29,33 @@ class WebsiteService implements WebsiteContract
       $this->websiteRepo = $websiteRepo;
   }
 
+   /*
+   * Get All Websites
+   *
+   * @param  array $api_key,$state,$type
+   * @return response
+   */
+  public function index()
+  {
+    $token=JWTAuth::getToken();
+    $user = null;
+    if($token)
+    {
+      $authUser = JWTAuth::parseToken()->toUser();
+      $userObj = User::find($authUser->id);
+      if($authUser && $userObj->hasRole('website.administrator')) {
+        $user = $userObj;
+      }
+    }
+    $data = $this->websiteRepo->getAll('', $user);
+
+    if ($data) {
+        return ['status_code' => '200', 'data' => $data];
+    }
+
+    return ['status_code' => '505', 'message' => self::ERROR_MSG];
+  }
+
   /*
    * Get user accessible websites
    *

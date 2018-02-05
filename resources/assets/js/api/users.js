@@ -43,7 +43,13 @@ export default {
   changeTournamentPermission(permissionData) {
     return api.post('user/changeTournamentPermission', permissionData)
   },
+  changePermissions(permissionData) {
+    return api.post('user/changePermissions', permissionData)
+  },
   getUserTournaments(userId) {
     return api.get('user/getUserTournaments/' + userId)
+  },
+  getUserWebsites(userId) {
+    return api.get('user/getUserWebsites/' + userId)
   },
 }

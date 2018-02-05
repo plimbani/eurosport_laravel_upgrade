@@ -15,6 +15,12 @@ class WebsiteRepository
     
   }
 
+  public function getAll($status='', $user=null)
+  {
+    $websites = Website::All();
+    return $websites;
+  }
+
   /*
    * Get user accessible websites
    *

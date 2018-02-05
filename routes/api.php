@@ -136,6 +136,7 @@ $api->version('v1', function ($api) {
 
     //Tournament Api CRUD Routes
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
+    $api->get('websites', 'Laraspace\Api\Controllers\WebsiteController@index');
 
     // Get Tournament Details By Status
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
@@ -215,7 +216,9 @@ $api->version('v1', function ($api) {
     $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
 
     $api->post('user/changeTournamentPermission','Laraspace\Api\Controllers\UserController@changeTournamentPermission');
+    $api->post('user/changePermissions','Laraspace\Api\Controllers\UserController@changePermissions');
     $api->get('user/getUserTournaments/{id}','Laraspace\Api\Controllers\UserController@getUserTournaments');
+    $api->get('user/getUserWebsites/{id}','Laraspace\Api\Controllers\UserController@getUserWebsites');
 
     $api->post('tournament/getCategoryCompetitions', 'Laraspace\Api\Controllers\TournamentController@getCategoryCompetitions');
 
