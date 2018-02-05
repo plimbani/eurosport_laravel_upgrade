@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\generateTournamentSlugForExistingData::class,
         Commands\insertPitchSize::class,
         Commands\insertPositionsForPlacingMatches::class,
+        Commands\generatePositionsForExistingData::class,
     ];
 
     /**

@@ -803,7 +803,7 @@ class MatchService implements MatchContract
       $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
 
       foreach ($groupFixture as $key => $value) {
-        $this->calculateCupLeagueTable($value->id);
+        $this->calculateCupLeagueTable($value->id, 'no');
       }
 
       $standingResData = $this->matchRepoObj->getStanding($data);
@@ -812,7 +812,7 @@ class MatchService implements MatchContract
       }
     }
 
-    public function calculateCupLeagueTable($id) {
+    public function calculateCupLeagueTable($id, $generatePositions = 'yes') {
         $ageCategoryId = 0;
         $competitionId = 0;
         $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
@@ -854,7 +854,9 @@ class MatchService implements MatchContract
               $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams,'Elimination');
           }
 
-          $this->updateCategoryPositions($competitionId, $ageCategoryId);
+          if($generatePositions == 'yes') {
+            $this->updateCategoryPositions($competitionId, $ageCategoryId);
+          }
 
           return $competitionId;
           // end #247
@@ -900,7 +902,9 @@ class MatchService implements MatchContract
             // dd($result,$fix1['CupFixture']['tournamentId'],$cup_competition_id,$findTeams);
             $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams, 'Round Robin');
 
-        $this->updateCategoryPositions($competitionId, $ageCategoryId);
+        if($generatePositions == 'yes') {
+          $this->updateCategoryPositions($competitionId, $ageCategoryId);
+        }
 
         return $cup_competition_id;
       }
@@ -2238,7 +2242,7 @@ class MatchService implements MatchContract
       if(count($competitionIds) != count($groups)) {
         return false;
       }
-      $tournamentData['tournamentId'] = $ageCategory->tournament_id;
+      $data['tournamentId'] = $ageCategory->tournament_id;
       $standingResData = [];
       $competitionEndFlag = 0;
 
@@ -2247,8 +2251,9 @@ class MatchService implements MatchContract
         $standingResData[$groups[$i]] = [];
         if($this->checkForCompetitionEnd($competitionId)) {
           $competitionEndFlag = 1;
-          $tournamentData['competitionId'] = $competitionId;
-          $standingResData[$groups[$i]] = $this->matchRepoObj->getStanding($tournamentData)->toArray();
+          $data['competitionId'] = $competitionId;
+          $tournamentData['tournamentData'] = $data;
+          $standingResData[$groups[$i]] = $this->getStanding(collect($tournamentData), 'yes')['data']->toArray();
         }
       }
 
