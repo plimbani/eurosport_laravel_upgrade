@@ -158,7 +158,8 @@
            @confirmed="activeConfirmed()"
            @closeModal="closeConfirm()">
          </active-modal>
-         <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal>
+         <!-- <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal> -->
+         <permission-modal :user="currentUserInTournamentPermission"></permission-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -167,6 +168,7 @@
     import UserModal  from  '../../../components/UserModal.vue'
     import ActiveModal  from  '../../../components/ActiveModal.vue'
     import TournamentPermissionModal from '../../../components/TournamentPermissionModal.vue'
+    import PermissionModal from '../../../components/PermissionModal.vue'
     import User from '../../../api/users.js'
     import Tournament from '../../../api/tournament.js'
     import VuePaginate from 'vue-paginate'
@@ -178,7 +180,8 @@
             ResendModal,
             UserModal,
             ActiveModal,
-            TournamentPermissionModal
+            TournamentPermissionModal,
+            PermissionModal
         },
         data() {
             return {
@@ -393,10 +396,11 @@
              },
             editTournamentPermission(user) {
               this.currentUserInTournamentPermission = user;
-              console.log('user', user);
+              // console.log('user', user);
               this.$root.$emit('getUserTournaments', user);
-              $('#tournament_permission_modal').modal('show')
-
+              this.$root.$emit('getUserWebsites', user);
+              $('#permission_modal').modal('show');
+              $('#permission_modal ul.nav-tabs a').first().trigger('click');
             }
         }
     }
