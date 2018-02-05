@@ -30,7 +30,7 @@ class WebsiteService implements WebsiteContract
   }
 
   /*
-   * Get all websites
+   * Get user accessible websites
    *
    * @return response
    */
