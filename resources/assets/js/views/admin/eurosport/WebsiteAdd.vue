@@ -95,11 +95,11 @@ export default {
 			activeTab:'website_add', 
 			currentPage:'Create Website'
 		};
-		let websiteAdd  = {
-			name:'Your Website',
-			currentPage:'WebsiteAdd'
-		};
-		this.$store.dispatch('SetWebsite', websiteAdd);
+		// let websiteAdd  = {
+		// 	name:'Your Website',
+		// 	currentPage:'WebsiteAdd'
+		// };
+		// this.$store.dispatch('SetWebsite', websiteAdd);
 		this.$store.dispatch('setActiveTab', currentNavigationData);
 	},
 	computed: {
