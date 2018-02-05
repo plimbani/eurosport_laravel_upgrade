@@ -445,6 +445,13 @@ public class HomeActivity extends BaseAppCompactActivity {
         });
     }
 
+    @OnClick(R.id.btn_final_placings)
+    protected void onFinalPlacingsClicked(){
+        Intent mAgeCategories = new Intent(mContext, AgeCategoriesActivity.class);
+        mAgeCategories.putExtra(AppConstants.KEY_SCREEN_TITLE,getString(R.string.final_placings_title));
+        startActivity(mAgeCategories);
+    }
+
 
 }
 

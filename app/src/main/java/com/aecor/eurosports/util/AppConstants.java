@@ -64,4 +64,5 @@ public class AppConstants {
     public static final String COMPETATION_NAME_POS = "Pos";
     public static final String KEY_HOME = "@HOME";
     public static final String KEY_AWAY = "@AWAY";
+    public static final String KEY_SCREEN_TITLE = "screen_title";
 }

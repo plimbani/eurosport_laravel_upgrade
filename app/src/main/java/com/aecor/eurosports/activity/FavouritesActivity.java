@@ -25,6 +25,9 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -202,6 +205,8 @@ public class FavouritesActivity extends BaseAppCompactActivity {
         favouriteList.addFooterView(new View(mContext));
 
         Collections.sort(list, new Comparator<TournamentModel>() {
+            DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+
             public int compare(TournamentModel o1, TournamentModel o2) {
                 if (o1.getStart_date() == null) {
                     return (o2.getStart_date() == null) ? 0 : -1;
@@ -209,7 +214,12 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                 if (o2.getStart_date() == null) {
                     return 1;
                 }
-                return o2.getStart_date().compareTo(o1.getStart_date());
+
+                try {
+                    return f.parse(o2.getStart_date()).compareTo(f.parse(o1.getStart_date()));
+                } catch (ParseException e) {
+                    throw new IllegalArgumentException(e);
+                }
             }
         });
         FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, list, favList);

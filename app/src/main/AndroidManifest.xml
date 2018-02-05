@@ -125,6 +125,7 @@
         <activity
             android:name=".activity.VenueMapActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.FinalPlacingMatchesActivity" />
 
         <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>

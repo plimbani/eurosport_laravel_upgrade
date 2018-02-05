@@ -238,14 +238,31 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_teams"
-                style="@style/text_black_title"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/btn_yellow"
-                android:text="@string/teams" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_teams"
+                    style="@style/text_black_title"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_yellow"
+                    android:text="@string/teams" />
+
+                <Button
+                    android:id="@+id/btn_final_placings"
+                    style="@style/text_black_title"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_yellow"
+                    android:text="@string/final_placings" />
+
+            </LinearLayout>
 
             <Spinner
                 android:id="@+id/sp_tournament"

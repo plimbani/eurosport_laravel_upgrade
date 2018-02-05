@@ -133,7 +133,7 @@ public class SignInActivity extends BaseActivity {
             final JSONObject requestJson1 = new JSONObject();
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
-                    .GET, url,
+                    .POST, url,
                     requestJson1, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {

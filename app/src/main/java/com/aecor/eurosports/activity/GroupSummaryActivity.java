@@ -198,7 +198,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 JSONObject mTournamentData = new JSONObject();
                 mTournamentData.put("tournamentId", mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
                 mTournamentData.put("competitionId", mGroupModel.getId());
-                mTournamentData.put("is_scheduled", "1");
+//                mTournamentData.put("is_scheduled", "1");
                 requestJson.put("tournamentData", mTournamentData);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -374,13 +374,6 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         }
 
 
-//        if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_number())) {
-//            team_match_id.setText(mFixtureModel.getMatch_number());
-//        } else {
-//            team_match_id.setText("");
-//        }
-
-
         if (!Utility.isNullOrEmpty(mFixtureModel.getGroup_name())) {
             team_age_category.setText(mFixtureModel.getGroup_name());
         } else {
@@ -402,18 +395,29 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         } else {
             team2_score.setText("");
         }
-        if (mFixtureModel.getHome_id().equalsIgnoreCase("0") && !Utility.isNullOrEmpty(mFixtureModel.getHomeTeamName()) && mFixtureModel.getHomeTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
-            if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
-                team1_name.setText(mFixtureModel.getHomePlaceholder());
-            } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
-                team1_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getHomePlaceholder());
-            } else {
-                if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
-                    team1_name.setText(mFixtureModel.getHomeTeam());
+
+
+        if (mFixtureModel.getHome_id().equalsIgnoreCase("0")) {
+            if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeamName()) && mFixtureModel.getHomeTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
+                    team1_name.setText(mFixtureModel.getHomePlaceholder());
+                } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
+                    team1_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getHomePlaceholder());
                 } else {
+                    if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
+                        team1_name.setText(mFixtureModel.getHomeTeam());
+                    } else {
+                        team1_name.setText("");
+                    }
+                }
+            } else {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayHomeTeamPlaceholderName())) {
+                    team1_name.setText(mFixtureModel.getDisplayHomeTeamPlaceholderName());
+                }else{
                     team1_name.setText("");
                 }
             }
+
         } else {
             if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
                 team1_name.setText(mFixtureModel.getHomeTeam());
@@ -421,15 +425,23 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 team1_name.setText("");
             }
         }
-        if (mFixtureModel.getAway_id().equalsIgnoreCase("0") && !Utility.isNullOrEmpty(mFixtureModel.getAwayTeamName()) && mFixtureModel.getAwayTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
-            if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
-                team2_name.setText(mFixtureModel.getAwayPlaceholder());
-            } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
-                team2_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getAwayPlaceholder());
-            } else {
-                if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeam())) {
-                    team2_name.setText(mFixtureModel.getAwayTeam());
+        if (mFixtureModel.getAway_id().equalsIgnoreCase("0")) {
+            if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeamName()) && mFixtureModel.getAwayTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
+                    team2_name.setText(mFixtureModel.getAwayPlaceholder());
+                } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
+                    team2_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getAwayPlaceholder());
                 } else {
+                    if (!Utility.isNullOrEmpty(mFixtureModel.getAwayTeam())) {
+                        team2_name.setText(mFixtureModel.getAwayTeam());
+                    } else {
+                        team2_name.setText("");
+                    }
+                }
+            } else {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayAwayTeamPlaceholderName())) {
+                    team2_name.setText(mFixtureModel.getDisplayAwayTeamPlaceholderName());
+                }else{
                     team2_name.setText("");
                 }
             }
