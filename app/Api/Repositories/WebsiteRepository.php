@@ -5,7 +5,7 @@ namespace Laraspace\Api\Repositories;
 use Laraspace\Models\Website;
 use DB;
 
-class VenueRepository
+class WebsiteRepository
 {
 
 }

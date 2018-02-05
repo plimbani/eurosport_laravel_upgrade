@@ -15,7 +15,27 @@ use Laraspace\Api\Contracts\WebsiteContract;
  */
 class WebsiteController extends BaseController
 {
-    public function __construct()
-    {
-    }
+	/**
+   * @var WebsiteContract
+   */
+  protected $websiteContract;
+
+  public function __construct(WebsiteContract $websiteContract)
+  {
+  	$this->websiteContract = $websiteContract;
+  }
+
+  /**
+   * Get all user websites
+   *
+   * Get a JSON representation of all the user websites.
+   *
+   * @Get("/getUserAccessibleWebsites")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getUserAccessibleWebsites()
+  {
+  	return $this->websiteContract->getUserAccessibleWebsites();
+  }
 }
