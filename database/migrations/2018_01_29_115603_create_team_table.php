@@ -13,7 +13,7 @@ class CreateTeamTable extends Migration
      */
     public function up()
     {
-        Schema::create('team', function (Blueprint $table) {
+        Schema::create('website_team', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('website_id')->unsigned()->nullable();

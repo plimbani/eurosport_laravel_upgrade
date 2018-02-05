@@ -18,7 +18,7 @@ class CreateMapsTable extends Migration
             $table->integer('website_id')->unsigned()->nullable();
             $table->foreign('website_id')->references('id')->on('websites')->onDelete('cascade')->onUpdate('cascade');
             $table->string('latitude');
-            $table->string('longitude ');
+            $table->string('longitude');
             $table->string('information');
             $table->integer('created_by')->unsigned()->nullable();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
