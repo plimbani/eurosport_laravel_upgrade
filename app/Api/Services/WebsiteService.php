@@ -2,30 +2,56 @@
 
 namespace Laraspace\Api\Services;
 
+use JWTAuth;
+use Laraspace\Models\User;
 use Laraspace\Api\Contracts\WebsiteContract;
+use Laraspace\Api\Repositories\WebsiteRepository;
 
 class WebsiteService implements WebsiteContract
 {
-	public function __construct()
+	/**
+   *  Success message
+   */
+  const SUCCESS_MSG = 'Data Sucessfully inserted';
+
+  /**
+   *  Error message
+   */
+  const ERROR_MSG = 'Error in Data';
+
+  /**
+   * Create a new controller instance.
+   *
+   * @param WebsiteRepository $websiteRepo
+   */
+  public function __construct(WebsiteRepository $websiteRepo)
   {
-		// $this->venueRepoObj = new \Laraspace\Api\Repositories\VenueRepository();
+      $this->websiteRepo = $websiteRepo;
   }
 
   /*
    * Get all websites
    *
-   * @param  array $api_key,$state,$type
    * @return response
    */
   public function getUserAccessibleWebsites()
   {
-    // Here we send Status Code and Messages
-    // $data = $this->venueRepoObj->getAllVenues($tournamentId);
+  	$token = JWTAuth::getToken();
+    $user = null;
+    if($token)
+    {
+      $authUser = JWTAuth::parseToken()->toUser();
+      $userObj = User::find($authUser->id);
+      if($authUser && $userObj->hasRole('tournament.administrator')) {
+        $user = $userObj;
+      }
+    }
+    $data = $this->websiteRepo->getUserAccessibleWebsites($user);
 
-    // if ($data) {
-    //   return ['status_code' => '200', 'data' => $data];
-    // }
+    if ($data) {
+      return ['status_code' => '200', 'data' => $data];
+    }
 
-    // return ['status_code' => '505', 'message' => self::ERROR_MSG];
+    return ['status_code' => '500', 'message' => self::ERROR_MSG];
   }
 }

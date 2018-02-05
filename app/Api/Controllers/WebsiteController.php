@@ -20,6 +20,11 @@ class WebsiteController extends BaseController
    */
   protected $websiteContract;
 
+  /**
+   * Create a new controller instance.
+   *
+   * @param WebsiteContract $websiteContract
+   */
   public function __construct(WebsiteContract $websiteContract)
   {
   	$this->websiteContract = $websiteContract;

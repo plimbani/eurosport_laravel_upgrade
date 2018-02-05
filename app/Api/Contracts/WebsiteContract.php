@@ -5,7 +5,7 @@ namespace Laraspace\Api\Contracts;
 interface WebsiteContract
 {
 	/*
-     * Get all websites
+     * Get user accessible websites
      *
      * @return response
      */
