@@ -54,6 +54,11 @@ class TournamentController extends BaseController
         return $this->tournamentObj->getTournamentByStatus($request);
     }
 
+    public function getTournamentBySlug(Request $request, $slug)
+    {
+        return $this->tournamentObj->getTournamentBySlug($slug);
+    }
+
     /**
      * Show all Tournament Templates.
      *
@@ -173,7 +178,7 @@ class TournamentController extends BaseController
     }
     public function saveCategoryCompetitionColor(Request $request)
     {
-        return $this->tournamentObj->saveCategoryCompetitionColor($request->all());   
+        return $this->tournamentObj->saveCategoryCompetitionColor($request->all());
     }
 
 }

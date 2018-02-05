@@ -20,7 +20,7 @@ export default {
   getAllTeamsFromCompetitionId(tournamentData){
     return api.post('teams/getTeamsListByCompetition', {'tournamentData': tournamentData})
   },
-  
+
   saveCompetationFormat(compeationFormatData) {
   	return api.post('age_group/createCompetationFomat', {'compeationFormatData': compeationFormatData})
   },
@@ -98,7 +98,9 @@ export default {
   getTournamentByStatus(tournamentData) {
     return api.post('tournaments/getTournamentByStatus',{'tournamentData': tournamentData})
   },
-
+  getTournamentBySlug(tournamentData) {
+    return api.get('tournaments/getTournamentBySlug/'+tournamentData.slug)
+  },
   getRefereeDetail(refereeId) {
     return api.post('referee/refereeDetail',{'refereeId': refereeId})
   },
@@ -174,5 +176,20 @@ export default {
  },
  getAllCompetitionTeamsFromFixture(tournamentData){
   return api.post('teams/getAllCompetitionTeamsFromFixture', {'tournamentData': tournamentData})
- }
+ },
+checkTeamIntervalforMatches(matchData){
+  return api.post('match/checkTeamIntervalforMatches', matchData)
+ },
+  getEditTeamDetails(id) {
+    return api.post('editTeamDetails/'+id)
+  },
+  getAllCountries() {
+    return api.get('getAllCountries')
+  },
+  getAllClubs() {
+    return api.get('getAllClubs')
+  },
+  updateTeamDetails(teamId, formData) {
+    return api.post('updateTeamDetails/'+teamId, formData)
+  }
 }

@@ -61,6 +61,12 @@ $api->version('v1', function ($api) {
     $api->post('team/getClubsTeams','Laraspace\Api\Controllers\TeamController@getClubTeams');
     $api->post('team/getTeamsGroup', 'Laraspace\Api\Controllers\TeamController@getAllTeamsGroup');
 
+    $api->post('editTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@editTeamDetails');
+    $api->get('getAllCountries', 'Laraspace\Api\Controllers\TeamController@getAllCountries');
+    $api->get('getAllClubs', 'Laraspace\Api\Controllers\TeamController@getAllClubs');
+
+    $api->post('updateTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@updateTeamDetails');
+
     // Method for get All TournamentTeams
     $api->post('teams/teamsTournament',
         'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
@@ -87,6 +93,7 @@ $api->version('v1', function ($api) {
     $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
 
     $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
+    $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
 
     $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding');
 
@@ -97,6 +104,9 @@ $api->version('v1', function ($api) {
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
     // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
     $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
+
+    $api->get('match/report/generate/{ageGroupId}', 'Laraspace\Api\Controllers\MatchController@generateCategoryReport');
+
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
@@ -106,11 +116,13 @@ $api->version('v1', function ($api) {
     $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore');
     $api->post('match/refreshStanding', 'Laraspace\Api\Controllers\MatchController@refreshStanding');
     $api->post('match/saveStandingsManually', 'Laraspace\Api\Controllers\MatchController@saveStandingsManually');
+    $api->post('match/checkTeamIntervalforMatches', 'Laraspace\Api\Controllers\MatchController@checkTeamIntervalforMatches');
 
 
 
     //pitch api
     $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');
+    $api->get('getPitchSizeWiseSummary/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitchSizeWiseSummary');
     $api->get('pitch/show/{pitchId}', 'Laraspace\Api\Controllers\PitchController@show');
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');
     $api->post('pitch/edit/{id}', 'Laraspace\Api\Controllers\PitchController@edit');
@@ -126,7 +138,6 @@ $api->version('v1', function ($api) {
     $api->post('age_group/getCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat');
     $api->post('age_group/deleteCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@deleteCompetationFormat');
 
-
     $api->get('venues/getAll/{tournamentId}', 'Laraspace\Api\Controllers\VenueController@getVenues');
 
     //Tournament Api CRUD Routes
@@ -134,6 +145,9 @@ $api->version('v1', function ($api) {
 
     // Get Tournament Details By Status
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
+
+    $api->get('tournaments/getTournamentBySlug/{slug}', 'Laraspace\Api\Controllers\TournamentController@getTournamentBySlug');
+
     $api->post('tournament/updateStatus', 'Laraspace\Api\Controllers\TournamentController@updateStatus');
 
     // Get All Templates
@@ -199,7 +213,7 @@ $api->version('v1', function ($api) {
 
     $api->post('teams/getTeamsList','Laraspace\Api\Controllers\TeamController@getTeamsList');
     $api->post('teams/getTeamsListByCompetition','Laraspace\Api\Controllers\TeamController@getAllFromCompetitionId');
-    
+
     $api->post('users/postSetting','Laraspace\Api\Controllers\UserController@postSetting');
     $api->post('users/getSetting','Laraspace\Api\Controllers\UserController@getSetting');
     $api->post('users/updateProfileImage','Laraspace\Api\Controllers\UserController@setUserImage');
@@ -214,7 +228,14 @@ $api->version('v1', function ($api) {
     $api->post('tournament/saveCategoryCompetitionColor', 'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
 
     $api->post('teams/getAllCompetitionTeamsFromFixture','Laraspace\Api\Controllers\TeamController@getAllCompetitionTeamsFromFixture');
-    
+
+    $api->get('generateDisplayMatchNumber','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumber')->name('generate.display.match.number');
+
+    $api->get('generateDisplayMatchNumberForDb','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumberForDB')->name('generate.display.match.number.for.db');
+
+    $api->get('match/insertPositionsForPlacingMatches','Laraspace\Api\Controllers\MatchController@insertPositionsForPlacingMatches')->name('insert.positions.for.placing.matches');
+
+    $api->post('appversion', 'Laraspace\Api\Controllers\VersionController@apkVersion');
 });
 
 

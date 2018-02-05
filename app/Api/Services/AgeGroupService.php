@@ -6,12 +6,15 @@ use Laraspace\Models\Tournament;
 use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Api\Repositories\AgeGroupRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\Team;
+use Laraspace\Models\TempFixture;
 
 class AgeGroupService implements AgeGroupContract
 {
     public function __construct(AgeGroupRepository $ageRepoObj)
     {
         $this->ageGroupObj = $ageRepoObj;
+        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
     }
 
      /*
@@ -67,11 +70,17 @@ class AgeGroupService implements AgeGroupContract
         // TODO: Here we set the value for Other Data
         // Impliclityly Add 2 For Multiplication
         if($data['game_duration_RR'] == 'other') {
-          $data['game_duration_RR'] = 2 * $data['game_duration_RR_other'];
+          $data['game_duration_RR'] = $data['halves_RR'] * $data['game_duration_RR_other'];
+        } else {
+          $data['game_duration_RR'] = $data['halves_RR'] * $data['game_duration_RR'];
         }
+
         if($data['game_duration_FM'] == 'other') {
-          $data['game_duration_FM'] = 2 * $data['game_duration_FM_other'];
+          $data['game_duration_FM'] = $data['halves_FM'] * $data['game_duration_FM_other'];
+        } else {
+          $data['game_duration_FM'] = $data['halves_FM'] * $data['game_duration_FM'];
         }
+
         if($data['match_interval_RR'] == 'other') {
           $data['match_interval_RR'] = $data['match_interval_RR_other'];
         }
@@ -91,6 +100,11 @@ class AgeGroupService implements AgeGroupContract
         $data['total_match'] = $totalmatch;
         $data['disp_format_name'] = $dispFormatname;
 
+        if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
+
+            $mininterval = TournamentCompetationTemplates::where('id', '=', $data['competation_format_id'])->first()->team_interval;
+           
+        }
 
         $id = $this->ageGroupObj->createCompeationFormat($data);
 
@@ -109,6 +123,20 @@ class AgeGroupService implements AgeGroupContract
 
                 $id = $data['competation_format_id'];
                 $this->addCompetationGroups($id,$data);
+
+            } else {
+             
+              if($data['team_interval'] != $mininterval) {
+               
+              $teamsList = Team::where('age_group_id',$data['competation_format_id'])->pluck('id')->toArray();
+ 
+                $tournamentId = $data['tournament_id'];
+                $ageGroupId  = $data['competation_format_id'];
+
+                $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
+                $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
+                
+              }
             }
 
         } else {
@@ -136,6 +164,7 @@ class AgeGroupService implements AgeGroupContract
         $competationData['tournament_competation_template_id'] = $tournament_competation_template_id;
         $competationData['tournament_id'] = $data['tournament_id'];
         $competationData['age_group_name'] = $data['ageCategory_name'].'-'.$data['category_age'];
+        $categoryAge = $data['category_age'];
         $json_data = json_decode($data['tournamentTemplate']['json_data']);
 
 
@@ -143,14 +172,23 @@ class AgeGroupService implements AgeGroupContract
         $totalRound = count($json_data->tournament_competation_format->format_name);
         $group_name=array();
         $fixture_array = array();
+        $fixture_match_detail_array = array();
+
         for($i=0;$i<$totalRound;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
-            foreach($rounds as $key=>$round) {              
+            foreach($rounds as $key=>$round) {
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
+
+                if(isset($round->groups->actual_group_name)) {
+                  $group_name[$val]['actual_group_name']=$round->groups->actual_group_name;
+                } else {
+                  $group_name[$val]['actual_group_name']=$round->groups->group_name;
+                }
+                
                 $group_name[$val]['team_count']=$round->group_count;
-                $group_name[$val]['match_type']=$round->name;     
+                $group_name[$val]['match_type']=$round->name;
 
                 if(isset($round->actual_name)) {
                   $group_name[$val]['actual_name'] = $round->actual_name;
@@ -163,6 +201,30 @@ class AgeGroupService implements AgeGroupContract
                 foreach($round->groups->match as $key1=>$matches) {
                     $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key1;
                     $fixture_array[$newVal] = $matches->match_number;
+
+                    $fixture_match_detail_array[$newVal] = [
+                      'display_match_number' => (isset($matches->display_match_number) ? $matches->display_match_number : null),
+                      'display_home_team_placeholder_name' => (isset($matches->display_home_team_placeholder_name) ? $matches->display_home_team_placeholder_name : null),
+                      'display_away_team_placeholder_name' => (isset($matches->display_away_team_placeholder_name) ? $matches->display_away_team_placeholder_name : null),
+                      'is_final_match' => (isset($matches->is_final_match) ? $matches->is_final_match : 0),
+                      'position' => (isset($matches->position) ? $matches->position : null)
+                    ];
+                }
+
+                if(isset($round->dependent_groups)) {
+                  foreach($round->dependent_groups as $key=>$group) {
+                    foreach($group->groups->match as $key1=>$matches) {
+                      $newVal = $val.'|'.$group_name[$val]['group_name'].'|'.$key.$key1;
+                      $fixture_array[$newVal] = $matches->match_number;
+                      $fixture_match_detail_array[$newVal] = [
+                        'display_match_number' => (isset($matches->display_match_number) ? $matches->display_match_number : null),
+                        'display_home_team_placeholder_name' => (isset($matches->display_home_team_placeholder_name) ? $matches->display_home_team_placeholder_name : null),
+                        'display_away_team_placeholder_name' => (isset($matches->display_away_team_placeholder_name) ? $matches->display_away_team_placeholder_name : null),
+                        'is_final_match' => (isset($matches->is_final_match) ? $matches->is_final_match : 0),
+                        'position' => (isset($matches->position) ? $matches->position : null)
+                      ];
+                    }
+                  }
                 }
             }
         }
@@ -170,7 +232,7 @@ class AgeGroupService implements AgeGroupContract
         $competation_array=$this->ageGroupObj->addCompetations($competationData,$group_name);
         // Now here we insert Fixtures
 
-        $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array);
+        $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array,$fixture_match_detail_array, $categoryAge);
         //exit;
 
     }
@@ -183,7 +245,7 @@ class AgeGroupService implements AgeGroupContract
 
         // $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
         $disp_format_name = $json_data->tournament_teams .' teams: '.
-        $json_data->competition_group_round.' - '.$json_data->competition_round;
+        $json_data->competition_group_round.($json_data->competition_round != '' ? ' - '.$json_data->competition_round : '');
 
         $total_matches = $json_data->total_matches;
 
@@ -194,45 +256,30 @@ class AgeGroupService implements AgeGroupContract
         // we use -1 loop for only consider round robin matches
         // TODO: We change logic to Only Consider final Matches
 
-        if($json_data->competition_round == 'F') {
+        if(isset($json_data->final_round) && ($json_data->final_round == 'F' || $json_data->final_round == 'F/SMF')) {
           // Its Final Round
-          $roundFinal = 1;
+          $isFinalMatch = 1;
         } else {
-          $roundFinal = 0;
+          $isFinalMatch = 0;
         }
 
-        for($i=0;$i<$totalRound-$roundFinal;$i++){
-            // Now here we calculate followng fields
-            $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
-            // Now here we have to for loop for match_type
+        $total_round_match = $isFinalMatch ? $total_matches - 1 : $total_matches;
+        // Calculate Game Duration for RR
+        $total_rr_time+= $data['game_duration_RR'] * $total_round_match;
+        // Calculate  half Time Break for RR
+        $total_rr_time+= $data['halftime_break_RR'] * $total_round_match;
+        // Calculate Match Interval
+        $total_rr_time+= $data['match_interval_RR'] * $total_round_match;
 
-            foreach($rounds as $round) {
-               $total_round_match = $round->total_match;
-               // Calculate Game Duration for RR
-               $total_rr_time+= $data['game_duration_RR'] * $total_round_match;
-               // Calculate  half Time Break for RR
-               $total_rr_time+= $data['halftime_break_RR'] * $total_round_match;
-              // Calculate Match Interval
-               $total_rr_time+= $data['match_interval_RR'] * $total_round_match;
-           }
-
+        if($isFinalMatch) {
+          // Calculate Game Duration for RR
+          $total_final_time+= $data['game_duration_FM'];
+          // Calculate  half Time Break for RR
+          $total_final_time+= $data['halftime_break_FM'];
+          // Calculate Match Interval
+          $total_final_time+= $data['match_interval_FM'];
         }
 
-        // Now we calculate final match time
-        if($json_data->competition_round == 'F')
-        {
-          $final_round = array_pop($json_data->tournament_competation_format->format_name);
-
-          // we know that we have only one Final Round Over here
-          $total_final_match = $final_round->match_type[0]->total_match;
-
-          $total_final_time  = $data['game_duration_FM']  * $total_final_match;
-          $total_final_time += $data['halftime_break_FM'] * $total_final_match;
-          $total_final_time += $data['match_interval_FM'] * $total_final_match;
-
-        } else {
-          $total_final_time  = 0;
-        }
         // Now we sum up round robin and final match
         $total_time = $total_rr_time + $total_final_time;
 
