@@ -27,10 +27,8 @@
           this.$root.$on('getSelectedWebsites', this.getSelectedWebsites);
         },
         beforeMount() {
-          // console.log("This is before mounted")
         },
         mounted() {
-          // console.log("This is mounted")
         },
         methods: {
 					getUserWebsites(user) {

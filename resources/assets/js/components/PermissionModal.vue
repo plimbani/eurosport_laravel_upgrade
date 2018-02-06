@@ -66,13 +66,10 @@
         },
         props:['user'],
         created() {
-          // console.log("This is created")
         },
         beforeMount() {
-          // console.log("This is before mounted")
         },
         mounted() {
-          // console.log("This is mounted")
           Tournament.getAllTournaments().then(
             (response) => {
               this.allTournaments = response.data.data

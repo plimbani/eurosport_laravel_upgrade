@@ -27,10 +27,8 @@
           this.$root.$on('getSelectedTournaments', this.getSelectedTournaments);
         },
         beforeMount() {
-          // console.log("This is before mounted")
         },
         mounted() {
-          // console.log("This is mounted")
         },
         methods: {
 					getUserTournaments(user) {

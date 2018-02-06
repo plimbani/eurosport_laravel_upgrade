@@ -9,6 +9,11 @@ use Laraspace\Api\Repositories\WebsiteRepository;
 
 class WebsiteService implements WebsiteContract
 {
+  /**
+   * @var WebsiteRepository
+   */
+  protected $websiteRepo;
+  
 	/**
    *  Success message
    */
@@ -32,7 +37,6 @@ class WebsiteService implements WebsiteContract
    /*
    * Get All Websites
    *
-   * @param  array $api_key,$state,$type
    * @return response
    */
   public function index()
