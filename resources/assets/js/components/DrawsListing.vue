@@ -105,36 +105,8 @@ export default {
 					if(response.data.status_code == 200) {
 						this.matchData = response.data.data;
 						this.matchData.map(function(value, key) {
-
-			              // if(value.actual_round == 'Elimination') {
-			              	let dispTxt = '';
-			              	if(value.displayHomeTeamPlaceholderName.indexOf("#") == -1){
-			              		
-			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
-			              			dispTxt = 'wrs.' ;
-			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
-			              			dispTxt = 'lrs.' ;
-
-			              		}value.displayHomeTeamPlaceholderName = dispTxt+value.displayHomeTeamPlaceholderName
-			              	}
-			              	
-			                if(value.displayAwayTeamPlaceholderName.indexOf("#") == -1){
-			              		
-			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
-			              			dispTxt = 'wrs.' ;
-			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
-			              			dispTxt = 'lrs.' ;
-
-			              		}
-
-			              		value.displayAwayTeamPlaceholderName = dispTxt+value.displayAwayTeamPlaceholderName
-			              	}
-
-
 			                value.name = _.replace(value.name, '-Group', '');
-
 			                return value;
-			              // }
 			            })
 
 						$("body .js-loader").addClass('d-none');

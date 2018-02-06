@@ -112,9 +112,7 @@ class MatchService implements MatchContract
 
         // $fixtureResData = $this->matchRepoObj->getFixtures($data['tournamentData']);
         $fixtureResData = $this->matchRepoObj->getTempFixtures($data['tournamentData']);
-        if ($fixtureResData) {
-            return ['status_code' => '200', 'data' => $fixtureResData,'message' => 'Match Fixture data'];
-        }
+        return ['status_code' => '200', 'data' => $fixtureResData,'message' => 'Match Fixture data'];
     }
     /**
      * Get Standing  Details For Tournament.
@@ -265,9 +263,10 @@ class MatchService implements MatchContract
           $resultMatchesTable[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatches['data']];
         }
         if ($competition->competation_round_no !== "Round 1") {
-          $tournamentDataMatchesAfterFirstRound = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'is_scheduled' => 1]];
+          $tournamentDataMatchesAfterFirstRound = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id]];
           $resultMatchesAfterFirstRound =$this->getFixtures(collect($tournamentDataMatchesAfterFirstRound));
-          $resultMatchesTableAfterFirstRound[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatchesAfterFirstRound['data'], 'actual_competition_type' => $competition['actual_competition_type']];        }
+          $resultMatchesTableAfterFirstRound[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatchesAfterFirstRound['data'], 'actual_competition_type' => $competition['actual_competition_type']];
+        }
       }
       $pdfData['leagueTable'] = $leagueTable;
       $pdfData['resultGridTable'] = $resultGridTable;
