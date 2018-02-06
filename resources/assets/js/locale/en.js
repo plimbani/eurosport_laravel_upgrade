@@ -173,6 +173,7 @@ module.exports= {
   website_homepage: "Homepage",
   website_homepage_options: "Homepage options",
   introduction_text: "Introduction text",
+  website_statistics: "Statistics",
 
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",
