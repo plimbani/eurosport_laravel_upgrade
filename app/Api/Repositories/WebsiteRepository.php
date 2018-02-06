@@ -15,7 +15,12 @@ class WebsiteRepository
     
   }
 
-  public function getAll($status='', $user=null)
+  /*
+   * Get all websites
+   *
+   * @return websites array
+   */
+  public function getAll()
   {
     $websites = Website::All();
     return $websites;
