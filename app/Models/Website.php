@@ -8,5 +8,10 @@ class Website extends Model
 {
     use SoftDeletes;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'websites';
 }
