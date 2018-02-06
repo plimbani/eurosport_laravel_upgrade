@@ -15,37 +15,37 @@
 
 	import User from '../api/users.js'
 
-    export default {
-        data() {
-          return {
-            tournaments: [],
-          }
-        },
-        props:['user', 'allTournaments'],
-        created() {
-          this.$root.$on('getUserTournaments', this.getUserTournaments);
-          this.$root.$on('getSelectedTournaments', this.getSelectedTournaments);
-        },
-        beforeMount() {
-        },
-        mounted() {
-        },
-        methods: {
-					getUserTournaments(user) {
-						if(user) {
-							this.tournaments = [];
-							User.getUserTournaments(user.id).then(
-							  (response)=> {
-							    this.tournaments = response.data
-							  },
-							  (error)=>{
-							  }
-							)
-						}
-          },
-          getSelectedTournaments(){
-          	this.$emit('setSelectedTournaments', this.tournaments);
-          }
-        }
+  export default {
+    data() {
+      return {
+        tournaments: [],
+      }
+    },
+    props:['user', 'allTournaments'],
+    created() {
+      this.$root.$on('getUserTournaments', this.getUserTournaments);
+      this.$root.$on('getSelectedTournaments', this.getSelectedTournaments);
+    },
+    beforeMount() {
+    },
+    mounted() {
+    },
+    methods: {
+			getUserTournaments(user) {
+				if(user) {
+					this.tournaments = [];
+					User.getUserTournaments(user.id).then(
+					  (response)=> {
+					    this.tournaments = response.data
+					  },
+					  (error)=>{
+					  }
+					)
+				}
+      },
+      getSelectedTournaments(){
+      	this.$emit('setSelectedTournaments', this.tournaments);
+      }
     }
+  }
 </script>

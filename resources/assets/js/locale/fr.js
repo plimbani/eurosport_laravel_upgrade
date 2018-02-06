@@ -556,6 +556,10 @@ module.exports = {
   // Tournament permission
   user_management_tournament_permission_title: "FTournament Permissions",
 
+  user_management_permission_title: "FPermissions",
+  user_management_permission_tournament_tab: "FTournament permissions",
+  user_management_permission_website_tab: "FWebsite permissions",
+
   // Group colours
   pitch_planner_group_colours: "FGroup colours",
   pitch_planner_group_colours_title: "FGroup Colours",
