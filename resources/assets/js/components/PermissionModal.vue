@@ -13,10 +13,10 @@
                 <div class="tabs tabs-primary">
                     <ul role="tablist" class="nav nav-tabs">
                         <li class="nav-item active">
-                            <a data-toggle="tab" role="tab" href="#tournament-list" class="text-center nav-link px-3" id="tournamentTab">Tournament permissions</a>
+                            <a data-toggle="tab" role="tab" href="#tournament-list" class="text-center nav-link px-3" id="tournamentTab">{{$lang.user_management_permission_tournament_tab}}</a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" role="tab" href="#website-list" class="text-center nav-link px-3">Website permissions</a>
+                            <a data-toggle="tab" role="tab" href="#website-list" class="text-center nav-link px-3">{{$lang.user_management_permission_website_tab}}</a>
                         </li>
                     </ul>
                     <div class="tab-content">

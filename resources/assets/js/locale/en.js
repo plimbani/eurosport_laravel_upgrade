@@ -585,6 +585,8 @@ module.exports= {
   user_management_tournament_permission_title: "Tournament Permissions",
 
   user_management_permission_title: "Permissions",
+  user_management_permission_tournament_tab: "Tournament permissions",
+  user_management_permission_website_tab: "Website permissions",
 
   // Group colours
   pitch_planner_group_colours: "Group colours",
