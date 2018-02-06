@@ -64,7 +64,7 @@
 		<div class="row">
 	    <div class="col-md-12">
 	      <div class="pull-left">
-	        <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
+	        <!-- <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button> -->
 	      </div>
 	      <div class="pull-right">
 	        <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
@@ -105,8 +105,8 @@ export default {
 			this.$validator.validateAll().then(
 			(response) => {
 				this.$store.dispatch('SaveWebsiteDetails', this.website)
-					toastr['success']('Website details added successfully', 'Success');
-				// setTimeout(this.redirectCompetation, 5000);
+				toastr['success']('Website details added successfully', 'Success');
+				setTimeout(this.redirectCompetation, 1000);
 			},
 			(error) => {
 
@@ -120,6 +120,11 @@ export default {
         (error) => {
         }
       )
+		},
+		redirectCompetation() {
+			let currentNavigationData = {activeTab:'website_homepage', currentPage: 'Homepage options'}
+			this.$store.dispatch('setActiveTab', currentNavigationData)
+			this.$router.push({name:'website_homepage'})
 		}
 	},
 }

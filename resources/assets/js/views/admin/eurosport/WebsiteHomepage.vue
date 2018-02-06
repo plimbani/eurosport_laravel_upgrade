@@ -43,7 +43,7 @@
 		<div class="row">
 		    <div class="col-md-12">
 		      <div class="pull-left">
-		          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
+		          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
 		      </div>
 		      <div class="pull-right">
 		          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
@@ -107,19 +107,27 @@ export default {
 	},
 	methods: {
 		next() {
-			this.$validator.validateAll().then(
-			(response) => {
-				this.website.tournament_date = document.getElementById('tournament_date').value
-				this.$store.dispatch('SaveWebsiteDetails', this.website)
-					toastr['success']('Website details added successfully', 'Success');
-				// setTimeout(this.redirectCompetation, 5000);
-			},
-			(error) => {
+			// this.$validator.validateAll().then(
+			// (response) => {
+			// 	this.website.tournament_date = document.getElementById('tournament_date').value
+			// 	this.$store.dispatch('SaveWebsiteDetails', this.website)
+			// 	toastr['success']('Website details added successfully', 'Success');
+				setTimeout(this.redirectCompetation, 1000);
+			// },
+			// (error) => {
 
-			})
+			// })
 		},
 		addPeople() {
 
+		},
+		redirectCompetation() {
+			let currentNavigationData = {activeTab:'website_teams', currentPage: 'Teams'}
+			this.$store.dispatch('setActiveTab', currentNavigationData)
+			this.$router.push({name:'website_teams'})
+		},
+		backward() {
+			this.$router.push({name:'website_add'})
 		}
 	},
 }
