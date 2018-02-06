@@ -173,7 +173,6 @@ module.exports= {
   website_homepage: "Homepage",
   website_homepage_options: "Homepage options",
   introduction_text: "Introduction text",
-  website_statistics: "Statistics",
   website_teams: "Teams",
   website_venue: "Venue",
   website_tournament: "Tournament",
@@ -604,4 +603,21 @@ module.exports= {
 
   pitch_detail_break_add: "Add break",
   pitch_detail_break_remove: "Delete break",
+
+  // Website Homepage
+  homepage_add_a_statistic: "Add a statistic",
+  homepage_edit_statistic: "Edit statistic",
+  homepage_statistics: "Statistics",
+  homepage_statistic: "Statistic",
+  homepage_add_statistic: "Add statistic",
+  cancel_button: "Cancel",
+  save_button: "Save",
+  homepage_organiser_logos: "Organiser logos",
+  homepage_add_an_organiser_logo: "Add an organiser logo",
+  homepage_add_organiser: "Add logo",
+  homepage_organiser_logo: "Logo",
+  homepage_organiser_name: "Organiser name",
+  homepage_edit_organiser_logo: "Edit organiser logo",
+  homepage_hero_image: "Hero image",
+  homepage_welcome_image: "Welcome image",
 }

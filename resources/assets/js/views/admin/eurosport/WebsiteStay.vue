@@ -50,7 +50,7 @@ export default {
 			// (response) => {
 			// 	this.$store.dispatch('SaveWebsiteDetails', this.website)
 			// 	toastr['success']('Website details added successfully', 'Success');
-				setTimeout(this.redirectCompetation, 1000);
+				this.redirectToForward();
 			// },
 			// (error) => {
 
@@ -65,9 +65,7 @@ export default {
         }
       )
 		},
-		redirectCompetation() {
-			let currentNavigationData = {activeTab:'website_visitors', currentPage: 'Visitors'}
-			this.$store.dispatch('setActiveTab', currentNavigationData)
+		redirectToForward() {
 			this.$router.push({name:'website_visitors'})
 		},
 		backward() {

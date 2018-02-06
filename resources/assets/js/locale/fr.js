@@ -166,7 +166,6 @@ module.exports = {
   website_homepage: "FHomepage",
   website_homepage_options: "FHomepage options",
   introduction_text: "FIntroduction text",
-  website_statistics: "FStatistics",
   website_teams: "FTeams",
   website_venue: "FVenue",
   website_tournament: "FTournament",
