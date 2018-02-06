@@ -29,4 +29,33 @@ class HomeController extends BaseController
   {
   	$this->homeContract = $homeContract;
   }
+
+  /**
+   * Get all statistics
+   *
+   * Get a JSON representation of all the statistics.
+   *
+   * @Get("/getStatistics")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getStatistics(Request $request, $websiteId)
+  {
+    return $this->homeContract->getStatistics($websiteId);
+  }
+
+  /**
+   * Get all organisers
+   *
+   * Get a JSON representation of all the organisers
+   *
+   * @Get("/getOrganisers")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getOrganisers(Request $request, $websiteId)
+  {
+    return $this->homeContract->getOrganisers($websiteId);
+  }
+  
 }

@@ -16,12 +16,22 @@
 	        </div>
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
-	        		<h6><strong>{{$lang.website_statistics}}</strong></h6>
+	        		<h6><strong>{{$lang.homepage_statistics}}</strong></h6>
 	        	</div>
 	        </div>
 	        <div class="form-group row">
 	        	<div class="col-sm-6">
 	        		<statistic-list></statistic-list>
+	        	</div>
+	        </div>
+	        <div class="form-group row">
+	        	<div class="col-sm-12">
+	        		<h6><strong>{{$lang.homepage_organiser_logos}}</strong></h6>
+	        	</div>
+	        </div>
+	        <div class="form-group row">
+	        	<div class="col-sm-6">
+	        		<organiser-logo-list></organiser-logo-list>
 	        	</div>
 	        </div>
 					<div class="">
@@ -48,7 +58,7 @@
 		<div class="row">
 	    <div class="col-md-12">
 	      <div class="pull-left">
-	          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
+	          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
 	      </div>
 	      <div class="pull-right">
 	          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
@@ -60,11 +70,13 @@
 <script>
 import InsertTextEditor from '../../../components/InsertTextEditor/InsertTextEditor.vue';
 import StatisticList from '../../../components/StatisticList.vue';
+import OrganiserLogoList from '../../../components/OrganiserLogoList.vue';
 
 export default {
 	components: {
 		InsertTextEditor,
 		StatisticList,
+		OrganiserLogoList,
 	},
 	data() {
 		return {
@@ -73,7 +85,6 @@ export default {
 				hero_image: '',
 				welcomeo_image: '',
 			},
-			organiserLogos: [],
 			// myArray: [
 			// {
 			// 	id: 1,
@@ -121,13 +132,22 @@ export default {
 			// (response) => {
 			// 	this.website.tournament_date = document.getElementById('tournament_date').value
 			// 	this.$store.dispatch('SaveWebsiteDetails', this.website)
-			// 		toastr['success']('Website details added successfully', 'Success');
-			// 	// setTimeout(this.redirectCompetation, 5000);
+			// 	toastr['success']('Website details added successfully', 'Success');
+			this.redirectToForward();
 			// },
 			// (error) => {
 
 			// })
 		},
+		addPeople() {
+
+		},
+		redirectToForward() {
+			this.$router.push({name:'website_teams'})
+		},
+		backward() {
+			this.$router.push({name:'website_add'})
+		}
 	},
 }
 </script>

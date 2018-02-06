@@ -173,7 +173,16 @@ module.exports= {
   website_homepage: "Homepage",
   website_homepage_options: "Homepage options",
   introduction_text: "Introduction text",
-  website_statistics: "Statistics",
+  website_teams: "Teams",
+  website_venue: "Venue",
+  website_tournament: "Tournament",
+  website_program: "Program",
+  website_stay: "Stay",
+  website_visitors: "Visitors",
+  website_media: "Media",
+  website_contact: "Contact",
+  website_back_button: "Back",
+  website_save_button: "Save",
 
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",
@@ -585,6 +594,8 @@ module.exports= {
   user_management_tournament_permission_title: "Tournament Permissions",
 
   user_management_permission_title: "Permissions",
+  user_management_permission_tournament_tab: "Tournament permissions",
+  user_management_permission_website_tab: "Website permissions",
 
   // Group colours
   pitch_planner_group_colours: "Group colours",
@@ -596,8 +607,15 @@ module.exports= {
   // Website Homepage
   homepage_add_a_statistic: "Add a statistic",
   homepage_edit_statistic: "Edit statistic",
+  homepage_statistics: "Statistics",
   homepage_statistic: "Statistic",
   homepage_add_statistic: "Add statistic",
   cancel_button: "Cancel",
   save_button: "Save",
+  homepage_organiser_logos: "Organiser logos",
+  homepage_add_an_organiser_logo: "Add an organiser logo",
+  homepage_add_organiser: "Add logo",
+  homepage_organiser_logo: "Logo",
+  homepage_organiser_name: "Organiser name",
+  homepage_edit_organiser_logo: "Edit organiser logo",
 }

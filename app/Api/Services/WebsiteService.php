@@ -41,18 +41,7 @@ class WebsiteService implements WebsiteContract
    */
   public function index()
   {
-    $token=JWTAuth::getToken();
-    $user = null;
-    if($token)
-    {
-      $authUser = JWTAuth::parseToken()->toUser();
-      $userObj = User::find($authUser->id);
-      if($authUser && $userObj->hasRole('website.administrator')) {
-        $user = $userObj;
-      }
-    }
-    $data = $this->websiteRepo->getAll('', $user);
-
+    $data = $this->websiteRepo->getAll();
     if ($data) {
         return ['status_code' => '200', 'data' => $data];
     }
