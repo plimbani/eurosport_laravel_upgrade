@@ -592,4 +592,12 @@ module.exports= {
 
   pitch_detail_break_add: "Add break",
   pitch_detail_break_remove: "Delete break",
+
+  // Website Homepage
+  homepage_add_a_statistic: "Add a statistic",
+  homepage_edit_statistic: "Edit statistic",
+  homepage_statistic: "Statistic",
+  homepage_add_statistic: "Add statistic",
+  cancel_button: "Cancel",
+  save_button: "Save",
 }

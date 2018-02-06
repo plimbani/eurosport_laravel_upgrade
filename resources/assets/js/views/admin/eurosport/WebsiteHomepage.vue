@@ -5,7 +5,7 @@
 				<h6><strong>{{$lang.website_homepage_options}}</strong></h6>
 				<form name="website_homepage" enctype="multipart/form-data">
 	        <div class="form-group row">
-	        	<div class="col-sm-8">
+	        	<div class="col-sm-6">
 	        		<div class="row">
 		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.introduction_text}}</label>
 		          	<div class="col-sm-12">
@@ -17,6 +17,11 @@
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.website_statistics}}</strong></h6>
+	        	</div>
+	        </div>
+	        <div class="form-group row">
+	        	<div class="col-sm-6">
+	        		<statistic-list></statistic-list>
 	        	</div>
 	        </div>
 					<div class="">
@@ -41,30 +46,34 @@
 			</div>
 		</div>
 		<div class="row">
-		    <div class="col-md-12">
-		      <div class="pull-left">
-		          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
-		      </div>
-		      <div class="pull-right">
-		          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
-		      </div>
-		    </div>
-	  	</div>
+	    <div class="col-md-12">
+	      <div class="pull-left">
+	          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
+	      </div>
+	      <div class="pull-right">
+	          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+	      </div>
+	    </div>
   	</div>
+  </div>
 </template>
 <script>
 import InsertTextEditor from '../../../components/InsertTextEditor/InsertTextEditor.vue';
-import draggable from 'vuedraggable';
+import StatisticList from '../../../components/StatisticList.vue';
+
 export default {
 	components: {
 		InsertTextEditor,
-		draggable,
+		StatisticList,
 	},
 	data() {
 		return {
 			homepage: {
 				introduction_text: '',
+				hero_image: '',
+				welcomeo_image: '',
 			},
+			organiserLogos: [],
 			// myArray: [
 			// {
 			// 	id: 1,
@@ -96,6 +105,7 @@ export default {
 		}
 	},
 	mounted() {
+		// Set current as active
 		let currentNavigationData = {
 			activeTab:'website_homepage', 
 			currentPage:'Homepage options'
@@ -107,20 +117,17 @@ export default {
 	},
 	methods: {
 		next() {
-			this.$validator.validateAll().then(
-			(response) => {
-				this.website.tournament_date = document.getElementById('tournament_date').value
-				this.$store.dispatch('SaveWebsiteDetails', this.website)
-					toastr['success']('Website details added successfully', 'Success');
-				// setTimeout(this.redirectCompetation, 5000);
-			},
-			(error) => {
+			// this.$validator.validateAll().then(
+			// (response) => {
+			// 	this.website.tournament_date = document.getElementById('tournament_date').value
+			// 	this.$store.dispatch('SaveWebsiteDetails', this.website)
+			// 		toastr['success']('Website details added successfully', 'Success');
+			// 	// setTimeout(this.redirectCompetation, 5000);
+			// },
+			// (error) => {
 
-			})
+			// })
 		},
-		addPeople() {
-
-		}
 	},
 }
 </script>
