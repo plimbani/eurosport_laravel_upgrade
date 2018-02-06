@@ -9,7 +9,7 @@ interface WebsiteContract
      *
      * @return websites array
      */
-    public function getAll();
+    public function index();
 	
     /*
      * Get user accessible websites
