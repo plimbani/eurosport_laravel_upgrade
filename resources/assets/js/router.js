@@ -67,6 +67,14 @@ import UserList from './views/admin/users/List.vue'
 // Website pages
 import WebsiteAdd from './views/admin/eurosport/WebsiteAdd.vue';
 import WebsiteHomepage from './views/admin/eurosport/WebsiteHomepage.vue';
+import WebsiteTeams from './views/admin/eurosport/WebsiteTeams.vue';
+import WebsiteVenue from './views/admin/eurosport/WebsiteVenue.vue';
+import WebsiteTournament from './views/admin/eurosport/WebsiteTournament.vue';
+import WebsiteProgram from './views/admin/eurosport/WebsiteProgram.vue';
+import WebsiteStay from './views/admin/eurosport/WebsiteStay.vue';
+import WebsiteVisitors from './views/admin/eurosport/WebsiteVisitors.vue';
+import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
+import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
 
 Vue.use(VueRouter)
 
@@ -196,6 +204,46 @@ const routes = [
                 path: 'website_homepage',
                 component: WebsiteHomepage,
                 name: 'website_homepage'
+            },
+            {
+                path: 'website_teams',
+                component: WebsiteTeams,
+                name: 'website_teams'
+            },
+            {
+                path: 'website_venue',
+                component: WebsiteVenue,
+                name: 'website_venue'
+            },
+            {
+                path: 'website_tournament',
+                component: WebsiteTournament,
+                name: 'website_tournament'
+            },
+            {
+                path: 'website_program',
+                component: WebsiteProgram,
+                name: 'website_program'
+            },
+            {
+                path: 'website_stay',
+                component: WebsiteStay,
+                name: 'website_stay'
+            },
+            {
+                path: 'website_visitors',
+                component: WebsiteVisitors,
+                name: 'website_visitors'
+            },
+            {
+                path: 'website_media',
+                component: WebsiteMedia,
+                name: 'website_media'
+            },
+            {
+                path: 'website_contact',
+                component: WebsiteContact,
+                name: 'website_contact'
             }
         ]
     },
