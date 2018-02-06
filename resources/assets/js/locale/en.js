@@ -618,4 +618,6 @@ module.exports= {
   homepage_organiser_logo: "Logo",
   homepage_organiser_name: "Organiser name",
   homepage_edit_organiser_logo: "Edit organiser logo",
+  homepage_hero_image: "Hero image",
+  homepage_welcome_image: "Welcome image",
 }

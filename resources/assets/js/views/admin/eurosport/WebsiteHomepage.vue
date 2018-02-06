@@ -13,6 +13,28 @@
 		          	</div>
 	          	</div>
 	          </div>
+	          <div class="col-sm-5">
+	          	<div class="row">
+	          		<label class="col-sm-4 no-padding form-control-label">{{$lang.homepage_hero_image}}</label>
+		          	<div class="col-sm-8">
+		          		<!-- <img :src="getOrganiserLogo" width="100px" height="100px"/>
+		              <button type="button" class="btn btn-default" @click="selectLogo()">{{$lang.tournament_tournament_choose_button}}</button>
+		              <input type="file" id="organiser_logo" style="display:none;" @change="onLogoChange">
+		              <input type="hidden" v-model="formValues.logo" name="logo" v-validate="'required'" />
+		              <span class="help is-danger" v-show="errors.has('logo')">{{ errors.first('logo') }}</span> -->
+		          	</div>
+	          	</div>
+	          	<div class="row">
+	          		<label class="col-sm-4 no-padding form-control-label">{{$lang.homepage_welcome_image}}</label>
+		          	<div class="col-sm-8">
+		          		<!-- <img :src="getOrganiserLogo" width="100px" height="100px"/>
+		              <button type="button" class="btn btn-default" @click="selectLogo()">{{$lang.tournament_tournament_choose_button}}</button>
+		              <input type="file" id="organiser_logo" style="display:none;" @change="onLogoChange">
+		              <input type="hidden" v-model="formValues.logo" name="logo" v-validate="'required'" />
+		              <span class="help is-danger" v-show="errors.has('logo')">{{ errors.first('logo') }}</span> -->
+		          	</div>
+	          	</div>
+	          </div>
 	        </div>
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
@@ -34,7 +56,7 @@
 	        		<organiser-logo-list></organiser-logo-list>
 	        	</div>
 	        </div>
-					<div class="">
+	        <div class="">
 						<!-- <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
 						   <div v-for="element in myArray" :key="element.id">{{element.name}}</div>
 						</draggable> -->
