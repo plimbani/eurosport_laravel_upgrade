@@ -276,6 +276,7 @@ class MatchRepository
           ->groupBy('temp_fixtures.id')
           ->select('temp_fixtures.id as fid','temp_fixtures.match_number as match_number' , 'temp_fixtures.display_match_number as displayMatchNumber', 'competitions.competation_type as round', 'competitions.actual_competition_type as actual_round', 'competitions.name as competation_name','competitions.actual_name as competition_actual_name','competitions.competation_round_no','competitions.color_code as competation_color_code', 'competitions.team_size as team_size','temp_fixtures.match_datetime','temp_fixtures.match_endtime','temp_fixtures.match_status','temp_fixtures.age_group_id','temp_fixtures.match_winner',
             'match_winner.name as MatchWinner',
+            'temp_fixtures.display_home_team_placeholder_name',
               'venues.id as venueId', 'competitions.id as competitionId',
               'venues.venue_coordinates as venueCoordinates',
               'pitches.type as pitchType','venues.address1 as venueaddress',
@@ -395,7 +396,43 @@ class MatchRepository
             }
           }
         }
-      return $reportQuery->get();
+      $resultData = $reportQuery->get();
+      $updatedArray =[];
+
+      foreach($resultData as $key=>$res) {
+          $updatedArray[$key] = $res;
+          // echo "<pre>"; print_r($res); echo "</pre>"; exit;
+          if($res->Home_id == 0 ) {
+            $preset = '';
+              if(strpos($res->displayHomeTeamPlaceholderName,"." ) != false) {
+                if(strpos($res->displayMatchNumber,"wrs" ) != false) {
+                  $preset = 'wrs.';
+                }
+                if(strpos($res->displayMatchNumber,"lrs" ) != false) {
+                  $preset = 'lrs.';
+                }
+              }
+              
+            $updatedArray[$key]->displayHomeTeamPlaceholderName= $preset.$res->displayHomeTeamPlaceholderName;
+
+          }
+          if($res->Away_id == 0 ) {
+            $preset = '';
+
+              if(strpos($res->displayAwayTeamPlaceholderName,"." ) != false) {
+                if(strpos($res->displayMatchNumber,"wrs" ) != false) {
+                  $preset = 'wrs.';
+                }
+                if(strpos($res->displayMatchNumber,"lrs" ) != false) {
+                  $preset = 'lrs.';
+                }
+              }
+              
+            $updatedArray[$key]->displayAwayTeamPlaceholderName= $preset.$res->displayAwayTeamPlaceholderName;
+
+          } 
+        }
+        return $updatedArray;
     }
     private function getTeamsForClub($club_id, $tournamentId)
     {
