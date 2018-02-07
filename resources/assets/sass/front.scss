@@ -731,3 +731,12 @@ option.age {
     font-weight: 700;
     color: black;
 }
+
+.select2-container {
+    width: 100% !important;
+    &--default {
+        .select2-dropdown {
+             z-index:1051;
+        }
+    }
+}

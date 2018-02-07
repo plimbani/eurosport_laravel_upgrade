@@ -1,5 +1,5 @@
 <template>
-	<div class="modal" id="team_form_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+	<div class="modal" id="team_form_modal" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<form name="frmTeam" id="frmTeam" method="POST">
@@ -43,7 +43,8 @@
 		                <div class="form-group row">
 		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_club}}</label>
 		                    <div class="col-sm-6">
-		                       	<select class="form-control ls-select2" v-model="formValues.team_club">
+		                       	<select class="form-control js-club-select" 
+		                       		v-model="formValues.team_club">
 								  <option value="">{{$lang.clubs_list}}</option>
 								  <option v-for="club in clubs"
 								   v-bind:value="club.id"> {{club.name}}</option>
@@ -76,6 +77,7 @@
 </template>
 <script type="text/javascript">
 import Tournament from '../../api/tournament.js'
+import Select2 from '../../components/select2/index.vue'
 import { ErrorBag } from 'vee-validate';
 export default {
 	data() {
@@ -113,11 +115,21 @@ export default {
             }
 		}
 	},
-	props:['teamId', 'countries', 'clubs'],
+	
+	components: { Select2 },
+
+	props:['teamId', 'countries', 'clubs', 'tag'],
 	mounted() {
+		var vm = this;
+
+      	$(".js-club-select").select2({  tags: true }).on('select2:select', function (e) {
+      		vm.formValues.team_club = $(this).val();
+      	});
+
         if(this.teamId!=''){
             this.editTeam(this.teamId)
         }
+        
         this.$validator.updateDictionary(this.errorMessages);
 	},
 	created: function() {
@@ -125,9 +137,10 @@ export default {
 	},
 	methods: {
 		validateBeforeSubmit() {
-            // this.$validator.validateAll().then(() => {
+			// console.log('hi');
+            this.$validator.validateAll().then(() => {
             	let that = this
-            	Tournament.updateTeamDetails(that.teamId,that.formValues).then(
+         		Tournament.updateTeamDetails(that.teamId,that.formValues).then(
             		(response)=>{
             			toastr.success('Team has been updated successfully.', 'Update Team', {timeOut: 5000});
                         $("#team_form_modal").modal("hide");
@@ -136,9 +149,10 @@ export default {
 
             		}
             	)
-            // }).catch((errors) => {
-            // });
+            }).catch((errors) => {
+            });
         },
+
         editTeam(id) {
         	Tournament.getEditTeamDetails(id).then(
         		(response) => {        			

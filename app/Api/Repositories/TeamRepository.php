@@ -472,15 +472,57 @@ class TeamRepository
       return $clubs = Club::all();
     }
 
+    public function addNewClub($data) 
+    { 
+        // echo "<pre>";print_r($data);echo "</pre>";exit;
+        // $club_array = array('user_id'=>'1','name'=>$data['team_club']);
+        // return $clubData = Club::create($club_array);
+        // $data['club_id'] = $clubData->id;
+        // return; 
+    }
+
     public function updateTeamDetails($request, $teamId)
-    {
+    {  
+      $res =   $request->all();
       $team = Team::findOrFail($teamId);
+
+
+       //for newly added club
+      if(is_string($res['team_club'])) {
+        // echo "<pre>";print_r('1');echo "</pre>";
+        $club = new Club();
+        $club->user_id = 1;
+        $club->name = $res['team_club'];  
+        $club->save();
+      }
+
+      // for already existing club 
+      if(is_numeric($res['team_club'])) {
+        // echo "<pre>";print_r('2');echo "</pre>";exit;
+        $team->club_id = $res['team_club'];
+      }
+     
       $team->esr_reference = $request['team_id'];
       $team->name = $request['team_name'];
       $team->place = $request['team_place'];
       $team->country_id = $request['team_country'];
-      $team->club_id = $request['team_club'];
+      $team->club_id = $team->club_id;
       $team->comments = $request['comment'];
-      $team->save();
+      $team->save();    
+
+      // $team = Team::findOrFail($teamId);
+      // // echo "<pre>";print_r($team);echo "</pre>";exit;
+      // // $data = [];
+      // // $data = $team->club_id;
+
+      // // $club_id = $this->addNewClub($request); 
+      // // echo "<pre>";print_r($request->all());echo "</pre>";exit;
+      // $team->esr_reference = $request['team_id'];
+      // $team->name = $request['team_name'];
+      // $team->place = $request['team_place'];
+      // $team->country_id = $request['team_country'];
+      // $team->club_id = $request['team_club'];
+      // $team->comments = $request['comment'];
+      // $team->save();
     }
 }
