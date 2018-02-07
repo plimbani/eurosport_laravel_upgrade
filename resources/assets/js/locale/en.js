@@ -135,6 +135,8 @@ module.exports= {
   tournament_location: "Location",
   tournament_venue: "Venue",
   tournamemt_validation_venue: "Venue required",
+  tournament_logo: "Tournament logo",
+  social_sharing_graphic: "Social sharing graphic",
   // tournament_validation_venue: "Venue name required",
   tournament_validation_venue_address: "Address required",
   tournament_validation_venue_city: "Town/City required",
