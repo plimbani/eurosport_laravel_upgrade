@@ -9,6 +9,11 @@ use Laraspace\Api\Repositories\WebsiteRepository;
 
 class WebsiteService implements WebsiteContract
 {
+  /**
+   * @var WebsiteRepository
+   */
+  protected $websiteRepo;
+  
 	/**
    *  Success message
    */
@@ -32,23 +37,11 @@ class WebsiteService implements WebsiteContract
    /*
    * Get All Websites
    *
-   * @param  array $api_key,$state,$type
    * @return response
    */
   public function index()
   {
-    $token=JWTAuth::getToken();
-    $user = null;
-    if($token)
-    {
-      $authUser = JWTAuth::parseToken()->toUser();
-      $userObj = User::find($authUser->id);
-      if($authUser && $userObj->hasRole('website.administrator')) {
-        $user = $userObj;
-      }
-    }
-    $data = $this->websiteRepo->getAll('', $user);
-
+    $data = $this->websiteRepo->getAll();
     if ($data) {
         return ['status_code' => '200', 'data' => $data];
     }

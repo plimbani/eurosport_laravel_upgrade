@@ -135,7 +135,6 @@ $api->version('v1', function ($api) {
 
     //Tournament Api CRUD Routes
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
-    $api->get('websites', 'Laraspace\Api\Controllers\WebsiteController@index');
 
     $api->get('getAllPublishedTournaments','Laraspace\Api\Controllers\TournamentController@getAllPublishedTournaments');
 
@@ -235,9 +234,15 @@ $api->version('v1', function ($api) {
 
     $api->post('appversion', 'Laraspace\Api\Controllers\VersionController@apkVersion');
 
-    // Websites
+    // Websites APIs
+    $api->get('websites', 'Laraspace\Api\Controllers\WebsiteController@index');
     $api->get('getUserAccessibleWebsites', 'Laraspace\Api\Controllers\WebsiteController@getUserAccessibleWebsites');
     $api->post('saveWebsiteData', 'Laraspace\Api\Controllers\WebsiteController@saveWebsiteData');
+
+    //Website homepage
+    $api->get('getStatistics/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getStatistics');
+    $api->get('getOrganisers/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getOrganisers');
+
 });
 
 

@@ -4,7 +4,7 @@ namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
 
-// Need to Define Only Contracts
+// Need to define only contracts
 use Laraspace\Api\Contracts\WebsiteContract;
 
 /**
@@ -31,13 +31,13 @@ class WebsiteController extends BaseController
   }
 
     /**
-     * Show all website Details.
+     * Show all website details.
      *
      * Get a JSON representation of all the Age Groups.
      *
      * @Get("/website")
      * @Versions({"v1"})
-     * @Response(200, body={"id": 10, "club_id": "foo"})
+     * @Response(200, body={})
      */
     public function index()
     {

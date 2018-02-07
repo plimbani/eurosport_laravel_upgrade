@@ -15,39 +15,37 @@
 
 	import User from '../api/users.js'
 
-    export default {
-        data() {
-          return {
-            websites: [],
-          }
-        },
-        props:['user', 'allWebsites'],
-        created() {
-          this.$root.$on('getUserWebsites', this.getUserWebsites);
-          this.$root.$on('getSelectedWebsites', this.getSelectedWebsites);
-        },
-        beforeMount() {
-          // console.log("This is before mounted")
-        },
-        mounted() {
-          // console.log("This is mounted")
-        },
-        methods: {
-					getUserWebsites(user) {
-						if(user) {
-							this.websites = [];
-							User.getUserWebsites(user.id).then(
-							  (response)=> {
-							    this.websites = response.data
-							  },
-							  (error)=>{
-							  }
-							)
-						}
-          },
-          getSelectedWebsites(){
-          	this.$emit('setSelectedWebsites', this.websites);
-          }
-        }
+  export default {
+    data() {
+      return {
+        websites: [],
+      }
+    },
+    props:['user', 'allWebsites'],
+    created() {
+      this.$root.$on('getUserWebsites', this.getUserWebsites);
+      this.$root.$on('getSelectedWebsites', this.getSelectedWebsites);
+    },
+    beforeMount() {
+    },
+    mounted() {
+    },
+    methods: {
+			getUserWebsites(user) {
+				if(user) {
+					this.websites = [];
+					User.getUserWebsites(user.id).then(
+					  (response)=> {
+					    this.websites = response.data
+					  },
+					  (error)=>{
+					  }
+					)
+				}
+      },
+      getSelectedWebsites(){
+      	this.$emit('setSelectedWebsites', this.websites);
+      }
     }
+  }
 </script>

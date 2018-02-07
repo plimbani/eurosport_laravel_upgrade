@@ -156,6 +156,25 @@ module.exports = {
   tournament_label: "FTournament details",
   teams_groups_label: "FTeams and groups",
 
+  website_label: "FWebsite",
+  website_information: "FWebsite information",
+  tournament_dates: "FTournament dates",
+  tournament_location_field: "FTournament location",
+  domain_name: "FDomain name",
+  google_analytics_id: "FGoogle Analytics ID",
+  linked_tournament: "FLinked tournament",
+  website_homepage: "FHomepage",
+  website_homepage_options: "FHomepage options",
+  introduction_text: "FIntroduction text",
+  website_teams: "FTeams",
+  website_venue: "FVenue",
+  website_tournament: "FTournament",
+  website_program: "FProgram",
+  website_stay: "FStay",
+  website_visitors: "FVisitors",
+  website_media: "FMedia",
+  website_contact: "FContact",
+
   competation_age_categories: "FAge categories", 
   competation_add_age_category: "FAdd age category",
   competation_button_back: "FBack",
@@ -555,6 +574,10 @@ module.exports = {
   
   // Tournament permission
   user_management_tournament_permission_title: "FTournament Permissions",
+
+  user_management_permission_title: "FPermissions",
+  user_management_permission_tournament_tab: "FTournament permissions",
+  user_management_permission_website_tab: "FWebsite permissions",
 
   // Group colours
   pitch_planner_group_colours: "FGroup colours",

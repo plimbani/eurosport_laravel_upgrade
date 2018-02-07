@@ -5,79 +5,170 @@
 				<h6><strong>{{$lang.website_homepage_options}}</strong></h6>
 				<form name="website_homepage" enctype="multipart/form-data">
 	        <div class="form-group row">
-	          <label class="col-sm-2 form-control-label">{{$lang.introduction_text}}</label>
-	          <div class="col-sm-6">
-	            <!-- <input type="text" class="form-control" placeholder="Enter the name of your tournament" 
-	            v-model="website.tournament_name" name="tournament_name"  v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
-          		<i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
-          		<span class="help is-danger" v-show="errors.has('tournament_name')">Tournament name required</span> -->
+	        	<div class="col-sm-6">
+	        		<div class="row">
+		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.introduction_text}}</label>
+		          	<div class="col-sm-12">
+		          		<insert-text-editor :id="'introduction_text'" :value="homepage.introduction_text"></insert-text-editor>
+		          	</div>
+	          	</div>
+	          </div>
+	          <div class="col-sm-5">
+	          	<div class="row">
+	          		<label class="col-sm-4 no-padding form-control-label">{{$lang.homepage_hero_image}}</label>
+		          	<div class="col-sm-8">
+		          		<!-- <img :src="getOrganiserLogo" width="100px" height="100px"/>
+		              <button type="button" class="btn btn-default" @click="selectLogo()">{{$lang.tournament_tournament_choose_button}}</button>
+		              <input type="file" id="organiser_logo" style="display:none;" @change="onLogoChange">
+		              <input type="hidden" v-model="formValues.logo" name="logo" v-validate="'required'" />
+		              <span class="help is-danger" v-show="errors.has('logo')">{{ errors.first('logo') }}</span> -->
+		          	</div>
+	          	</div>
+	          	<div class="row">
+	          		<label class="col-sm-4 no-padding form-control-label">{{$lang.homepage_welcome_image}}</label>
+		          	<div class="col-sm-8">
+		          		<!-- <img :src="getOrganiserLogo" width="100px" height="100px"/>
+		              <button type="button" class="btn btn-default" @click="selectLogo()">{{$lang.tournament_tournament_choose_button}}</button>
+		              <input type="file" id="organiser_logo" style="display:none;" @change="onLogoChange">
+		              <input type="hidden" v-model="formValues.logo" name="logo" v-validate="'required'" />
+		              <span class="help is-danger" v-show="errors.has('logo')">{{ errors.first('logo') }}</span> -->
+		          	</div>
+	          	</div>
 	          </div>
 	        </div>
-					<div class="form-group row">
-						<label class="col-sm-2 form-control-label">{{$lang.tournament_dates}}*</label>
-      			<div class="col-sm-4">
-    					<div class="form-group">
-        				<div class="input-group">
-                  	<span class="input-group-addon">
-                      <i class="jv-icon jv-calendar"></i>
-                  	</span>
-            				<input type="text" class="form-control ls-datepicker" id="tournament_date">                  				
-        				</div>
-        			</div>
-      			</div>
+	        <div class="form-group row">
+	        	<div class="col-sm-12">
+	        		<h6><strong>{{$lang.homepage_statistics}}</strong></h6>
+	        	</div>
+	        </div>
+	        <div class="form-group row">
+	        	<div class="col-sm-6">
+	        		<statistic-list></statistic-list>
+	        	</div>
+	        </div>
+	        <div class="form-group row">
+	        	<div class="col-sm-12">
+	        		<h6><strong>{{$lang.homepage_organiser_logos}}</strong></h6>
+	        	</div>
+	        </div>
+	        <div class="form-group row">
+	        	<div class="col-sm-6">
+	        		<organiser-logo-list></organiser-logo-list>
+	        	</div>
+	        </div>
+	        <div class="">
+						<!-- <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
+						   <div v-for="element in myArray" :key="element.id">{{element.name}}</div>
+						</draggable> -->
+						<!-- <draggable v-model="myArray" :options="{draggable:'.item', handle: '.my-handle'}">
+						    <div v-for="element in myArray" :key="element.id" class="item">
+						        <draggable v-model="element.array" :options="{draggable:'.item', handle: '.my-handle1'}">
+										    <div v-for="inneritem in element.array" :key="inneritem.id" class="item">
+										        {{inneritem.name}}
+										        <span class="my-handle1">inner</span>
+										    </div>
+										    <button slot="footer" @click="addPeople">Add</button>
+										</draggable>
+						        <span class="my-handle">outer</span>
+						    </div>
+						    <button slot="footer" @click="addPeople">Add</button>
+						</draggable> -->
 					</div>
 				</form>
 			</div>
 		</div>
 		<div class="row">
-		    <div class="col-md-12">
-		      <div class="pull-left">
-		          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
-		      </div>
-		      <div class="pull-right">
-		          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
-		      </div>
-		    </div>
-	  	</div>
+	    <div class="col-md-12">
+	      <div class="pull-left">
+	          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
+	      </div>
+	      <div class="pull-right">
+	          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+	      </div>
+	    </div>
   	</div>
+  </div>
 </template>
 <script>
-var moment = require('moment');
+import InsertTextEditor from '../../../components/InsertTextEditor/InsertTextEditor.vue';
+import StatisticList from '../../../components/StatisticList.vue';
+import OrganiserLogoList from '../../../components/OrganiserLogoList.vue';
+
 export default {
+	components: {
+		InsertTextEditor,
+		StatisticList,
+		OrganiserLogoList,
+	},
 	data() {
 		return {
-			website: {
-				tournament_name: '',
-				tournament_date: '',
-				tournament_location: '',
-				domain_name: '',
-				google_analytics_id: '',
-			}
+			homepage: {
+				introduction_text: '',
+				hero_image: '',
+				welcomeo_image: '',
+			},
+			// myArray: [
+			// {
+			// 	id: 1,
+			// 	array: [
+			// 	{
+			// 		id: 1,
+			// 		name: 'atest'
+			// 	},
+			// 	{
+			// 		id: 2,
+			// 		name: 'btest'
+			// 	}
+			// 	]
+			// },
+			// {
+			// 	id: 2,
+			// 	array: [
+			// 	{
+			// 		id: 1,
+			// 		name: 'ctest'
+			// 	},
+			// 	{
+			// 		id: 2,
+			// 		name: 'dtest'
+			// 	}
+			// 	]
+			// }
+			// ],
 		}
 	},
 	mounted() {
+		// Set current as active
 		let currentNavigationData = {
-			activeTab:'website_add', 
-			currentPage:'Create Website'
+			activeTab:'website_homepage', 
+			currentPage:'Homepage options'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
-		$('#tournament_date').datepicker();
 	},
 	computed: {
 
 	},
 	methods: {
 		next() {
-			this.$validator.validateAll().then(
-			(response) => {
-				this.website.tournament_date = document.getElementById('tournament_date').value
-				this.$store.dispatch('SaveWebsiteDetails', this.website)
-					toastr['success']('Website details added successfully', 'Success');
-				// setTimeout(this.redirectCompetation, 5000);
-			},
-			(error) => {
+			// this.$validator.validateAll().then(
+			// (response) => {
+			// 	this.website.tournament_date = document.getElementById('tournament_date').value
+			// 	this.$store.dispatch('SaveWebsiteDetails', this.website)
+			// 	toastr['success']('Website details added successfully', 'Success');
+			this.redirectToForward();
+			// },
+			// (error) => {
 
-			})
+			// })
+		},
+		addPeople() {
+
+		},
+		redirectToForward() {
+			this.$router.push({name:'website_teams'})
+		},
+		backward() {
+			this.$router.push({name:'website_add'})
 		}
 	},
 }

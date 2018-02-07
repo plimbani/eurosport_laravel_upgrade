@@ -742,3 +742,7 @@ li.select2-results__option {
         }
     }   
 }
+.is-disabled {
+    pointer-events: none;
+    opacity: .5;
+}

@@ -4,7 +4,14 @@ namespace Laraspace\Api\Contracts;
 
 interface WebsiteContract
 {
-	/*
+    /*
+     * Get all websites
+     *
+     * @return websites array
+     */
+    public function index();
+	
+    /*
      * Get user accessible websites
      *
      * @return response
