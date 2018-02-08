@@ -173,7 +173,7 @@ export default {
 			(response) => {				
 				this.website.tournament_logo = this.tournament_logo_image;
 				this.website.social_sharing_graphic = this.social_sharing_graphic_image;
-				if(this.$store.state.Website.id != 'Null') {
+				if(this.$store.state.Website.id != null) {
 					this.website.websiteId = this.$store.state.Website.id;					
 				}
 				this.$store.dispatch('SaveWebsiteDetails', this.website)
@@ -216,7 +216,7 @@ export default {
 
 	    if (!files.length)
 	     return;
-	   
+
 	    var reader = new FileReader();
 	    reader.onload = (r) => {
 	     vm.social_sharing_graphic_image = r.target.result;

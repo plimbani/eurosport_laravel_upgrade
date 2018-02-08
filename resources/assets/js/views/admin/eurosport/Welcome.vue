@@ -95,7 +95,7 @@ computed: {
     let tournamentAdd  = {name:'', 'currentPage':'Home'}
     this.$store.dispatch('SetTournamentName', tournamentAdd)
 
-    let websiteAdd  = {id:'Null', tournament_dates:'Null', tournament_location:'Null',tournament_name: 'Null', 'currentPage':'Home'}
+    let websiteAdd  = {id:null, tournament_dates:null, tournament_location:null,tournament_name: null, 'currentPage':'Home'}
     this.$store.dispatch('SetWebsite', websiteAdd)
 
     // Here we set Default Value For Tournament
