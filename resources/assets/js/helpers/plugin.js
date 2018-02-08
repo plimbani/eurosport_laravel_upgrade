@@ -38,7 +38,6 @@ export default {
       }
     },
     ValidateImageDimension(image, requiredWidth, requiredHeight) {
-      console.log('image', image.height);
       var height = image.height;
       var width = image.width;
       if (height != requiredHeight && width != requiredWidth) {        
