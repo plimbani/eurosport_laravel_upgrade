@@ -50,7 +50,8 @@ const mutations = {
 		state.domain_name = websiteData.domain_name;
 		state.linked_tournament = websiteData.linked_tournament;
 		state.google_analytics_id = websiteData.google_analytics_id;
-		state.tournament_logo = websiteData.tournament_logo
+		state.tournament_logo = websiteData.tournament_logo;
+		state.social_sharing_graphic = websiteData.social_sharing_graphic;
 	}
 };
 
