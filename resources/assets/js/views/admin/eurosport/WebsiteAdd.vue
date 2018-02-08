@@ -65,33 +65,33 @@
 			      	<div class="form-group row">
 			      		<label class="col-sm-4 form-control-label">{{$lang.tournament_logo}}</label>
 			      		<div class="pull-right">
-                    <div v-if="!image">
+                    <div v-if="!tournament_logo_image">
                       <img src="http://placehold.it/250x250?text=noimage" width="100px" height="100px"/>
                       <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
-                      <input type="file" id="selectFile" style="display:none;" @change="onImageChange">
+                      <input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange">
                     </div>
                     <div v-else>
-                        <img :src="image"
+                        <img :src="tournament_logo_image"
                          width="100px" height="100px"/>
                         <button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
                     </div>
 			      		</div>
 			      	</div>
-<!-- 							<div class="form-group row">
+							<div class="form-group row">
 			      		<label class="col-sm-4 form-control-label">{{$lang.social_sharing_graphic}}</label>
 			      		<div class="pull-right">
-                    <div v-if="!image">
+                    <div v-if="!social_sharing_graphic_image">
                       <img src="http://placehold.it/250x250?text=noimage" width="100px" height="100px"/>
-                      <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
-                      <input type="file" id="selectFile" style="display:none;" @change="onImageChange">
+                      <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect_social_sharing">{{$lang.tournament_tournament_choose_button}}</button>
+                      <input type="file" id="select_file_social_sharing" style="display:none;" @change="onSocialSharingGraphicImageChange">
                     </div>
                     <div v-else>
-                        <img :src="imagePath + image"
+                        <img :src="social_sharing_graphic_image"
                          width="100px" height="100px"/>
-                        <button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
+                        <button class="btn btn-default" @click="removeSocialSharingImage">{{$lang.tournament_tournament_remove_button}}</button>
                     </div>
 			      		</div>
-			      	</div> -->			      	
+			      	</div>			      	
 			      </div>
 		      </div>
 				</form>
@@ -127,8 +127,8 @@ export default {
 				social_sharing_graphic: '',
 				publishedTournaments: {},
 			},
-			image: '',
-			image_path: '',
+			tournament_logo_image: '',			
+			social_sharing_graphic_image: '',
 		}
 	},
 	mounted() {
@@ -139,24 +139,31 @@ export default {
 		$('#btnSelect').on('click',function(){
 		  $('#selectFile').trigger('click')
 		});
+		$('#btnSelect_social_sharing').on('click',function(){
+		  $('#select_file_social_sharing').trigger('click')
+		});
 		this.$store.dispatch('setActiveTab', currentNavigationData);	
 		this.getAllPublishedTournaments();
-		this.websiteId = this.$store.state.Website.id;		
-		Website.websiteSummaryData(this.websiteId).then(
-			(response) => {
-				this.image = this.$store.state.Website.tournament_logo
-				this.website.tournament_name = response.data.data.tournament_name
-				this.website.tournament_location = response.data.data.tournament_location
-				this.website.tournament_date = response.data.data.tournament_dates
-				this.website.domain_name = response.data.data.domain_name
-				this.website.linked_tournament = response.data.data.linked_tournament
-				this.website.google_analytics_id = response.data.data.google_analytics_id
-			},
-			(error) => {
-			  // if no Response Set Zero
-			  //
-			}
-		);
+		this.websiteId = this.$store.state.Website.id;
+		if(this.websiteId) {
+			Website.websiteSummaryData(this.websiteId).then(
+				(response) => {
+					console.log('response', response);
+					this.tournament_logo_image = response.data.data.tournament_logo
+					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic
+					this.website.tournament_name = response.data.data.tournament_name
+					this.website.tournament_location = response.data.data.tournament_location
+					this.website.tournament_date = response.data.data.tournament_dates
+					this.website.domain_name = response.data.data.domain_name
+					this.website.linked_tournament = response.data.data.linked_tournament
+					this.website.google_analytics_id = response.data.data.google_analytics_id
+				},
+				(error) => {
+				  // if no Response Set Zero
+				  //
+				}
+			);
+		}
 	},
 	computed: {
 	},
@@ -164,8 +171,11 @@ export default {
 		next() {
 			this.$validator.validateAll().then(
 			(response) => {				
-				this.website.tournament_logo = this.image;
-				this.website.websiteId = this.$store.state.Website.id;
+				this.website.tournament_logo = this.tournament_logo_image;
+				this.website.social_sharing_graphic = this.social_sharing_graphic_image;
+				if(this.$store.state.Website.id != null) {
+					this.website.websiteId = this.$store.state.Website.id;					
+				}
 				this.$store.dispatch('SaveWebsiteDetails', this.website)
 				toastr['success']('Website details added successfully', 'Success');
 				setTimeout(this.redirectToForward, 200);
@@ -186,29 +196,42 @@ export default {
 		redirectToForward() {
 			this.$router.push({name:'website_homepage'})
 		},
-		onImageChange(e) {
-			var files = e.target.files || e.dataTransfer.files;
-			if (!files.length)
-				return;
-			if(Plugin.ValidateImageSize(files) == true) {
-			  this.createImage(files[0]);
-			}
-		},
-		createImage(file) {
-			this.imagePath='';
-			var image = new Image();
-			var reader = new FileReader();
-			var vm = this;
-			reader.onload = (e) => {
-				vm.image = e.target.result;
-			};
-			reader.readAsDataURL(file);
-		},
+		onTournamentLogoChange(e) {
+	    var vm = this;
+	    var files = e.target.files || e.dataTransfer.files;
+
+	    if (!files.length)
+	     return;
+
+	    var reader = new FileReader();
+	    reader.onload = (r) => {
+	     vm.tournament_logo_image = r.target.result;
+	    };
+
+	    reader.readAsDataURL(files[0]);
+	  },
+		onSocialSharingGraphicImageChange(e) {
+	    var vm = this;
+	    var files = e.target.files || e.dataTransfer.files;
+
+	    if (!files.length)
+	     return;
+
+	    var reader = new FileReader();
+	    reader.onload = (r) => {
+	     vm.social_sharing_graphic_image = r.target.result;
+	    };
+
+	    reader.readAsDataURL(files[0]);
+	  },
 		removeImage: function (e) {
-			this.image = '';
-			this.imagePath='';
+			this.tournament_logo_image = '';
 			e.preventDefault();
 		},
+		removeSocialSharingImage: function (e) {
+			this.social_sharing_graphic_image = '';
+			e.preventDefault();
+		}
 	}
 }
 </script>

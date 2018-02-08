@@ -12,7 +12,8 @@ class WebsiteRepository
    */
 	public function __construct()
   {
-    
+    $this->tournamentLogo =  getenv('S3_URL').'/assets/img/website_tournament_logo/';
+    $this->socialSharingGraphicImage = getenv('S3_URL').'/assets/img/social_sharing_graphic/';
   }
 
   /*
@@ -48,42 +49,34 @@ class WebsiteRepository
   {
     if(isset($data['websiteId']) && $data['websiteId'] != 0){
       $websiteId = $data['websiteId'];
-      $websiteData = Website::where('id', $websiteId)->first();
-      $websiteData->tournament_name = $data['tournament_name'];
-      $websiteData->tournament_dates = $data['tournament_date'];
-      $websiteData->tournament_location = $data['tournament_location'];
-      $websiteData->domain_name = $data['domain_name'];
-      $websiteData->linked_tournament = $data['linked_tournament'];
-      $websiteData->google_analytics_id = $data['google_analytics_id'];
-      $websiteData->tournament_logo = ($data['tournament_logo'] != '') ? getenv('S3_URL').'/assets/img/tournament_logo/'.$data['tournament_logo'] : NULL;
-      $websiteData->save();
-      return $websiteData;
+      $website = Website::where('id', $websiteId)->first();
     } else {
       $website = new Website();
-      $website->tournament_name = $data['tournament_name'];
-      $website->tournament_dates = $data['tournament_date'];
-      $website->tournament_location = $data['tournament_location'];
-      $website->domain_name = $data['domain_name'];
-      $website->linked_tournament = $data['linked_tournament'];
-      $website->google_analytics_id = $data['google_analytics_id'];
-      $website->tournament_logo = ($data['tournament_logo'] != '') ? getenv('S3_URL').'/assets/img/tournament_logo/'.$data['tournament_logo'] : NULL;
-      $website->save();
+    }
+    $website->tournament_name = $data['tournament_name'];
+    $website->tournament_dates = $data['tournament_date'];
+    $website->tournament_location = $data['tournament_location'];
+    $website->domain_name = $data['domain_name'];
+    $website->linked_tournament = $data['linked_tournament'];
+    $website->google_analytics_id = $data['google_analytics_id'];
+    $website->tournament_logo = ($data['tournament_logo'] != '') ? $data['tournament_logo'] : NULL;
+    $website->social_sharing_graphic = ($data['social_sharing_graphic'] != '') ? $data['social_sharing_graphic'] : NULL;
+    $website->save();
 
-      return $website;
-    }    
+    return $website;
   }
 
   public function websiteSummary($websiteId) {
-    $summaryData = array();
+    $websiteData = Website::find($websiteId);
 
-    $websiteData = Website::where('id', $websiteId)->first();
-    $summaryData['tournament_name'] = $websiteData->tournament_name;
-    $summaryData['tournament_dates'] = $websiteData->tournament_dates;
-    $summaryData['tournament_location'] = $websiteData->tournament_location;
-    $summaryData['domain_name'] = $websiteData->domain_name;
-    $summaryData['linked_tournament'] = $websiteData->linked_tournament;
-    $summaryData['google_analytics_id'] = $websiteData->google_analytics_id;
+    if($websiteData->tournament_logo != Null) {
+      $websiteData->tournament_logo = $this->tournamentLogo . $websiteData->tournament_logo;
+    }
 
+    if($websiteData->social_sharing_graphic != Null) {
+      $websiteData->social_sharing_graphic = $this->socialSharingGraphicImage . $websiteData->social_sharing_graphic;
+    }    
+    
     return $websiteData;
   }
 }
