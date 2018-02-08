@@ -10,15 +10,15 @@
 		                </button>
 		            </div>
 		            <div class="modal-body">
-		            	<div class="form-group row" :class="{'has-error': errors.has('team_id') }">
+		            	<div class="form-group row" :class="{'has-error': errors.has('teamID') }">
 		                  <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_id}}</label>
 		                  <div class="col-sm-6">
 		                      <input v-model="formValues.team_id" v-validate="'required'"
-		                      :class="{'is-danger': errors.has('team_id') }"
-		                      name="team_id" type="text"
+		                      :class="{'is-danger': errors.has('teamID') }"
+		                      name="teamID" type="text"
 		                      class="form-control">
-		                      <i v-show="errors.has('team_id')" class="fa fa-warning"></i>
-		                      <span class="help is-danger" v-show="errors.has('team_id')">{{ errors.first('team_id') }}
+		                      <i v-show="errors.has('teamID')" class="fa fa-warning"></i>
+		                      <span class="help is-danger" v-show="errors.has('teamID')">{{ errors.first('teamID') }}
 		                      </span>
 		                  </div>
 		                </div>
@@ -35,9 +35,9 @@
 		                <div class="form-group row">
 		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_name}}</label>
 		                    <div class="col-sm-6">
-		                        <input v-model="formValues.team_name" v-validate="'required'" :class="{'is-danger': errors.has('team_name') }" name="team_name" type="text" class="form-control">
-		                        <i v-show="errors.has('team_name')" class="fa fa-warning"></i>
-		                        <span class="help is-danger" v-show="errors.has('team_name')">{{ errors.first('team_name') }}</span>
+		                        <input v-model="formValues.team_name" v-validate="'required'" :class="{'is-danger': errors.has('team') }" name="team" type="text" class="form-control">
+		                        <i v-show="errors.has('team')" class="fa fa-warning"></i>
+		                        <span class="help is-danger" v-show="errors.has('team')">{{ errors.first('team') }}</span>
 		                    </div>
 		                </div>
 		                <div class="form-group row">
@@ -54,9 +54,9 @@
 		                <div class="form-group row">
 		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_place}}</label>
 		                    <div class="col-sm-6">
-		                        <input v-model="formValues.team_place" v-validate="'required'" :class="{'is-danger': errors.has('team_place') }" name="team_place" type="text" class="form-control">
-		                        <i v-show="errors.has('team_place')" class="fa fa-warning"></i>
-		                        <span class="help is-danger" v-show="errors.has('team_place')">{{ errors.first('team_place') }}</span>
+		                        <input v-model="formValues.team_place" v-validate="'required'" :class="{'is-danger': errors.has('place') }" name="place" type="text" class="form-control">
+		                        <i v-show="errors.has('place')" class="fa fa-warning"></i>
+		                        <span class="help is-danger" v-show="errors.has('place')">{{ errors.first('place') }}</span>
 		                    </div>
 		                </div>
 		                <div class="form-group row">
@@ -94,10 +94,10 @@ export default {
             errorMessages: {
               en: {
                 custom: {
-                  team_id: {
+                  teamID: {
                     required: 'This field is required.'
                   },
-                  team_name: {
+                  team: {
                     required: 'This field is required.',
                   }
                 }

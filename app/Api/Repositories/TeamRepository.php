@@ -486,6 +486,11 @@ class TeamRepository
       $res =   $request->all();
       $team = Team::findOrFail($teamId);
 
+      // for already existing club 
+      if(is_numeric($res['team_club'])) {
+        // echo "<pre>";print_r('2');echo "</pre>";exit;
+        $team->club_id = $res['team_club'];
+      }
 
        //for newly added club
       if(is_string($res['team_club'])) {
@@ -494,12 +499,6 @@ class TeamRepository
         $club->user_id = 1;
         $club->name = $res['team_club'];  
         $club->save();
-      }
-
-      // for already existing club 
-      if(is_numeric($res['team_club'])) {
-        // echo "<pre>";print_r('2');echo "</pre>";exit;
-        $team->club_id = $res['team_club'];
       }
      
       $team->esr_reference = $request['team_id'];
