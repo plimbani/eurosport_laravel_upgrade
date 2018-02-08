@@ -37,11 +37,13 @@ export default {
         }
       }
     },
-    ValidateImageDimension(fdata) {
-      // Function used for Check image Dimensions
-      let width = fdata.width
-      let height = fdata.height
-      alert('Wiodt'+width+'Height'+height)
+    ValidateImageDimension(image, requiredWidth, requiredHeight) {
+      var height = image.height;
+      var width = image.width;
+      if (height != requiredHeight && width != requiredWidth) {        
+        return false;
+      }      
+      return true;
     },
     Select2(){
         $(".ls-select2").select2();

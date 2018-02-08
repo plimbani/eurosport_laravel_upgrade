@@ -44,8 +44,8 @@
 			        	<label class="col-sm-4 form-control-label">{{$lang.linked_tournament}}</label>
 			        	<div class="col-sm-8">
 			        		<div class="form-group">
-			        			<select class="form-control" name="linked_tournament" v-model="website.linked_tournament">
-		                    <option value="">Select</option>
+			        			<select class="form-control ls-select2" name="linked_tournament" v-model="website.linked_tournament">
+		                    <option value="">Please select</option>
 		                    <option v-for="tournament in this.website.publishedTournaments" v-bind:value="tournament.id">
 		                        {{ tournament.name }}
 		                    </option>
@@ -207,15 +207,14 @@ export default {
 		if(this.websiteId) {
 			Website.websiteSummaryData(this.websiteId).then(
 				(response) => {
-					console.log('response', response);
-					this.tournament_logo_image = response.data.data.tournament_logo
-					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic
-					this.website.tournament_name = response.data.data.tournament_name
-					this.website.tournament_location = response.data.data.tournament_location
-					this.website.tournament_date = response.data.data.tournament_dates
-					this.website.domain_name = response.data.data.domain_name
-					this.website.linked_tournament = response.data.data.linked_tournament
-					this.website.google_analytics_id = response.data.data.google_analytics_id
+					this.tournament_logo_image = response.data.data.tournament_logo;
+					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic;
+					this.website.tournament_name = response.data.data.tournament_name;
+					this.website.tournament_location = response.data.data.tournament_location;
+					this.website.tournament_date = response.data.data.tournament_dates;
+					this.website.domain_name = response.data.data.domain_name;
+					this.website.linked_tournament = response.data.data.linked_tournament != null ? response.data.data.linked_tournament : '';
+					this.website.google_analytics_id = response.data.data.google_analytics_id;
 				},
 				(error) => {
 				  // if no Response Set Zero
@@ -235,9 +234,15 @@ export default {
 				if(this.$store.state.Website.id != null) {
 					this.website.websiteId = this.$store.state.Website.id;					
 				}
+
 				this.$store.dispatch('SaveWebsiteDetails', this.website)
-				toastr['success']('Website details added successfully', 'Success');
-				setTimeout(this.redirectToForward, 200);
+				.then((response) => {
+					toastr['success']('Website details added successfully', 'Success');
+					this.redirectToForward();
+				})
+				.catch((response) => {
+					toastr['error']('Error while saving data', 'Error');
+				});
 			},
 			(error) => {
 
@@ -276,12 +281,22 @@ export default {
 	    if (!files.length)
 	     return;
 
-	    var reader = new FileReader();
-	    reader.onload = (r) => {
-	     vm.social_sharing_graphic_image = r.target.result;
-	    };
+		    var reader = new FileReader();
+		    reader.onload = (r) => {
+	        var image = new Image();
+	        image.src = r.target.result;
+	               
+	        //Validate the File Height and Width.
+	        image.onload = function () {
+	        	if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {
+		           toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
+	          } else {
+	          	vm.social_sharing_graphic_image = r.target.result;
+	          }
+	        };		     
+		    };
 
-	    reader.readAsDataURL(files[0]);
+		    reader.readAsDataURL(files[0]);	  	
 	  },
 		removeImage: function (e) {
 			this.tournament_logo_image = '';
