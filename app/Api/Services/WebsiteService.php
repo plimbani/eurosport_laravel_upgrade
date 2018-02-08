@@ -6,6 +6,7 @@ use JWTAuth;
 use Laraspace\Models\User;
 use Laraspace\Api\Contracts\WebsiteContract;
 use Laraspace\Api\Repositories\WebsiteRepository;
+use Laraspace\Custom\Helper\Image;
 
 class WebsiteService implements WebsiteContract
 {
@@ -89,7 +90,11 @@ class WebsiteService implements WebsiteContract
     return ['data' => $data, 'status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
   }
 
-  // we can call same below function from Tournament service
+  /*
+   * Save tournament logo
+   *
+   * @return response
+   */
   private function saveTournamentLogo($data)
   {
     if($data['websiteData']['tournament_logo'] != '') {
@@ -102,13 +107,18 @@ class WebsiteService implements WebsiteContract
       $imagePath = '/assets/img/website_tournament_logo/';
       $imageString = $data['websiteData']['tournament_logo'];
 
-      return $this->uploadImage($imagePath, $imageString);
+      return Image::uploadImage($imagePath, $imageString);
 
     } else {
       return '';
     }
   }
 
+  /*
+   * Save social sharing graphic image
+   *
+   * @return response
+   */
   private function saveSocialSharingGraphicImage($data)
   {
     if($data['websiteData']['social_sharing_graphic'] != '') {
@@ -121,12 +131,17 @@ class WebsiteService implements WebsiteContract
       $imagePath = '/assets/img/social_sharing_graphic/';
       $imageString = $data['websiteData']['social_sharing_graphic'];
 
-      return $this->uploadImage($imagePath, $imageString);
+      return Image::uploadImage($imagePath, $imageString);
     } else {
       return '';
     }
   }
 
+  /*
+   * Get website details
+   *
+   * @return response
+   */
   public function websiteSummary($data)
   {
     $data = $data->all();
@@ -134,23 +149,5 @@ class WebsiteService implements WebsiteContract
     if ($websiteData) {
         return ['status_code' => '200', 'data'=>$websiteData];
     }
-  }
-
-  public function uploadImage($imagePath, $imageString)
-  {
-    $s3 = \Storage::disk('s3');
-    $img = explode(',', $imageString);
-    if(count($img)>1) {
-      $imgData = base64_decode($img[1]);
-    }else{
-      return '';
-    }
-
-    $timeStamp = md5(microtime(true) . rand(10,99));
-
-    $path = $imagePath.$timeStamp.'.png';
-    $s3->put($path, $imgData);
-
-    return $timeStamp.'.png';
   }
 }
