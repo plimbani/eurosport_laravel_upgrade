@@ -222,12 +222,22 @@ export default {
 	    if (!files.length)
 	     return;
 
-	    var reader = new FileReader();
-	    reader.onload = (r) => {
-	     vm.social_sharing_graphic_image = r.target.result;
-	    };
+		    var reader = new FileReader();
+		    reader.onload = (r) => {
+	        var image = new Image();
+	        image.src = r.target.result;
+	               
+	        //Validate the File Height and Width.
+	        image.onload = function () {
+	        	if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {
+		           toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
+	          } else {
+	          	vm.social_sharing_graphic_image = r.target.result;
+	          }
+	        };		     
+		    };
 
-	    reader.readAsDataURL(files[0]);
+		    reader.readAsDataURL(files[0]);	  	
 	  },
 		removeImage: function (e) {
 			this.tournament_logo_image = '';
