@@ -66,7 +66,8 @@
     import Auth from '../../../services/auth'
     import User from '../../../views/admin/Userprofile.vue'
     import Ls from '../../../services/ls'
-    import UserApi from '../../../api/users.js'
+    import UserApi from '../../../api/users.js';
+    import Website from '../../../api/website.js';
 
     export default {
     components: {
@@ -100,7 +101,8 @@
         let email = Ls.get('email');
         // Here we call Function to get User Details
         let userData = {'email':email}
-        this.getUserDetails(userData)
+        this.getUserDetails(userData);
+        this.getImagePath();
 
 
          },
@@ -131,32 +133,15 @@
                   (error)=> {
                   }
                 );
-
-              /*  axios.post("/api/user/getDetails",{'userData':emailData}).then((response) => {
-                      this.userData = response.data.data;
-                      //console.log('InuserDetails')
-                      //console.log(this.userData[0])
-                      Ls.set('userData',JSON.stringify(this.userData[0]))
-                      this.id = this.userData[0].id
-                      let Id = this.id
-                      let this1 = this
-                      setInterval(function(){this1.clock() },1000)
-                        let that = this
-                        if(Id!=''){
-                            that.editUser(Id)
-                            //setTimeout(function(){
-                              //  that.editUser(Id)
-                            //},1000)
-                        }
-
-                        let UserData  = JSON.parse(Ls.get('userData'))
-                       //console.log(UserData)
-                       this.$store.dispatch('getUserDetails', UserData);
-
-                    });
-                    */
-
-
+            },
+            getImagePath() {
+                Website.getImagePath().then(
+                  (response)=> {
+                    this.$store.dispatch('setImagePath', response.data);
+                  },
+                  (error)=> {
+                  }
+                );
             },
             initialState() {
                 return {

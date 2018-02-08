@@ -1,22 +1,33 @@
 <template>
 	<div>
-		<draggable v-model="statistics" :options="{draggable:'.statistic-item', handle: '.statistic-handle'}">
-	  	<div class="col-sm-12 statistic-item" v-for="(statistic, index) in statistics" :key="statistic.id">
-        {{ statistic.content }}
-        <a class="text-primary" href="javascript:void(0)"
-        	@click="deleteStatistic(index)">
-        	<i class="jv-icon jv-dustbin"></i>
-        </a>
-        <a class="text-primary" href="javascript:void(0)"
-        	@click="editStatistic(statistic, index)">
-        	<i class="jv-icon jv-edit"></i>
-        </a>
-        <a class="text-primary statistic-handle draggable-handle" href="javascript:void(0)">
-        	<i class="fa fa-bars"></i>
-        </a>
-	    </div>
-	    <button slot="footer" type="button" class="btn btn-primary" @click="addStatistic()">{{ $lang.homepage_add_statistic }}</button>
-		</draggable>
+		<div class="draggable--section">
+			<draggable v-model="statistics" :options="{draggable:'.statistic-item', handle: '.statistic-handle'}">
+		  	<div class="statistic-item draggable--section-card" v-for="(statistic, index) in statistics" :key="statistic.id">
+		  		<div class="draggable--section-card-header">
+		  			<div class="draggable--section-card-header-panel">
+		  				<div>
+			  				{{ statistic.content }}
+			  			</div>
+			  			<div class="draggable--section-card-header-icons">
+					        <a class="text-primary" href="javascript:void(0)"
+					        	@click="deleteStatistic(index)">
+					        	<i class="jv-icon jv-dustbin"></i>
+					        </a>
+					        <a class="text-primary" href="javascript:void(0)"
+					        	@click="editStatistic(statistic, index)">
+					        	<i class="jv-icon jv-edit"></i>
+					        </a>
+					        <a class="text-primary statistic-handle draggable-handle" href="javascript:void(0)">
+					        	<i class="fa fa-bars"></i>
+					        </a>
+					    </div>
+		  			</div>
+		  			<!-- Add child tags like draggable--section-child-1 -->
+		  		</div>
+		    </div>
+			</draggable>
+		</div>
+		<button type="button" class="btn btn-primary" @click="addStatistic()">{{ $lang.homepage_add_statistic }}</button>
 		<statistic-modal :currentStatisticOperation="currentStatisticOperation" @storeStatistic="storeStatistic" @updateStatistic="updateStatistic"></statistic-modal>
 	</div>
 </template>
@@ -46,10 +57,11 @@
 		},
 		mounted() {
 			// Get all statistics
-			this.getStatistics();
+			this.getAllStatistics();
+			this.$root.$on('getStatistics', this.getStatistics);
 		},
 		methods: {
-			getStatistics() {
+			getAllStatistics() {
 				Website.getStatistics(this.getWebsite).then(
 	        (response) => {
 	          this.statistics = response.data.data;
@@ -94,6 +106,9 @@
 				this.$root.$emit('setStatisticData', formData);
 				$('#statistic_modal').modal('show');
 			},
+			getStatistics() {
+        this.$emit('setStatistics', this.statistics);
+      },
 		},
 	}
 </script>

@@ -29,4 +29,12 @@ export default {
   saveHomePageData(pageData) {
     return api.post('/saveHomePageData', pageData);
   },
+  // Get website all colours
+  getWebsiteCustomisation() {
+    return axios.get('/api/websites/colours');
+  },
+  // Get image path
+  getImagePath() {
+    return axios.get('/api/getImagePath');
+  },
 }

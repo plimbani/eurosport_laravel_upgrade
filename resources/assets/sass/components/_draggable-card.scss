@@ -1,0 +1,57 @@
+.draggable {
+	&--section {
+		&-card {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			background-color: $ls-color-gray--light;
+			border: $card-border-width solid $card-border-color;
+			@include border-radius($card-border-radius);
+			@extend .mb-2;
+			// &:not(:last-child) {
+			// 	@extend .mb-2;
+			// }
+			&.sortable-chosen {
+				border: $card-border-width solid $brand-primary;
+				-webkit-box-shadow: 0px 0px 11px 1px rgba($brand-primary,0.3);
+				-moz-box-shadow: 0px 0px 11px 1px rgba($brand-primary,0.3);
+				box-shadow: 0px 0px 11px 1px rgba($brand-primary,0.3);
+			}
+			&-header {
+				padding: $card-spacer-y $card-spacer-x;
+			  	margin-bottom: 0; // Removes the default margin-bottom of <hN>
+			  	// background-color: $card-cap-bg;
+			  	display: flex;
+			  	flex-direction: column;
+			  	&-panel {
+			  		display: flex;
+			  		align-items: center;
+				  	justify-content: space-between;
+				  	flex-wrap: wrap;
+				  	min-height: 30px;
+				  	.thumb {
+				  		max-height: 30px;
+				  		max-width: 100%;
+				  		margin-right: $card-spacer-x;
+				  	}
+				  	.draggable-handle {
+				  		cursor: all-scroll;
+				  	}
+			  	}
+			  	.draggable--section {
+			  		margin-top: $card-spacer-y;
+			  	}
+			}
+		}
+		&-child-1 {
+			.draggable--section-card {
+				background-color: $white;
+			}
+		}
+		&-child-2 {
+			.draggable--section-card {
+				background-color: $ls-color-gray--light;
+			}
+		}
+	}
+}

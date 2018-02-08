@@ -15,6 +15,9 @@
         default : ''
       },
     },
+    created() {
+      this.$root.$on('getEditorValue', this.getEditorValue);
+    },
     data() {
       return {
         content: this.value,
@@ -30,6 +33,11 @@
       tinymce,
     },
     mounted () {
+    },
+    methods: {
+      getEditorValue() {
+        this.$emit('setEditorValue', this.content);
+      },
     },
   };
 </script>

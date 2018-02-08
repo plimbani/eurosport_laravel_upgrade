@@ -4,12 +4,12 @@
 			<div class="card-block">
 				<h6><strong>{{$lang.website_homepage_options}}</strong></h6>
 				<form name="website_homepage" enctype="multipart/form-data">
-	        <div class="form-group row">
+	        <div class="form-group justify-content-between row">
 	        	<div class="col-sm-6">
 	        		<div class="row">
 		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.introduction_text}}</label>
 		          	<div class="col-sm-12">
-		          		<insert-text-editor :id="'introduction_text'" :value="homepage.introduction_text"></insert-text-editor>
+		          		<insert-text-editor :id="'introduction_text'" :value="homepage.introduction_text" @setEditorValue="setIntroductionText"></insert-text-editor>
 		          	</div>
 	          	</div>
 	          </div>
@@ -17,21 +17,21 @@
 	          	<div class="row">
 	          		<label class="col-sm-4 no-padding form-control-label">{{$lang.homepage_hero_image}}</label>
 		          	<div class="col-sm-8">
-		          		<!-- <img :src="getOrganiserLogo" width="100px" height="100px"/>
-		              <button type="button" class="btn btn-default" @click="selectLogo()">{{$lang.tournament_tournament_choose_button}}</button>
-		              <input type="file" id="organiser_logo" style="display:none;" @change="onLogoChange">
-		              <input type="hidden" v-model="formValues.logo" name="logo" v-validate="'required'" />
-		              <span class="help is-danger" v-show="errors.has('logo')">{{ errors.first('logo') }}</span> -->
+		          		<img :src="getHeroImage" width="100px" height="100px"/>
+		          		<button v-if="homepage.hero_image != ''" class="btn btn-default" @click="removeImage('hero_image')">{{$lang.tournament_tournament_remove_button}}</button>
+		              <button v-else type="button" class="btn btn-default" @click="selectHeroImage()">{{$lang.tournament_tournament_choose_button}}</button>
+		              <input type="file" id="hero_image" style="display:none;" @change="onImageChange($event, 'hero_image')">
+		              <input type="hidden" v-model="homepage.hero_image" name="hero_image" />
 		          	</div>
 	          	</div>
 	          	<div class="row">
 	          		<label class="col-sm-4 no-padding form-control-label">{{$lang.homepage_welcome_image}}</label>
 		          	<div class="col-sm-8">
-		          		<!-- <img :src="getOrganiserLogo" width="100px" height="100px"/>
-		              <button type="button" class="btn btn-default" @click="selectLogo()">{{$lang.tournament_tournament_choose_button}}</button>
-		              <input type="file" id="organiser_logo" style="display:none;" @change="onLogoChange">
-		              <input type="hidden" v-model="formValues.logo" name="logo" v-validate="'required'" />
-		              <span class="help is-danger" v-show="errors.has('logo')">{{ errors.first('logo') }}</span> -->
+		          		<img :src="getWelcomeImage" width="100px" height="100px"/>
+		          		<button v-if="homepage.welcome_image != ''" class="btn btn-default" @click="removeImage('welcome_image')">{{$lang.tournament_tournament_remove_button}}</button>
+		              <button v-else type="button" class="btn btn-default" @click="selectWelcomeImage()">{{$lang.tournament_tournament_choose_button}}</button>
+		              <input type="file" id="welcome_image" style="display:none;" @change="onImageChange($event, 'welcome_image')">
+		              <input type="hidden" v-model="homepage.welcome_image" name="welcome_image" />
 		          	</div>
 	          	</div>
 	          </div>
@@ -43,7 +43,7 @@
 	        </div>
 	        <div class="form-group row">
 	        	<div class="col-sm-6">
-	        		<statistic-list></statistic-list>
+	        		<statistic-list @setStatistics="setStatistics"></statistic-list>
 	        	</div>
 	        </div>
 	        <div class="form-group row">
@@ -53,7 +53,7 @@
 	        </div>
 	        <div class="form-group row">
 	        	<div class="col-sm-6">
-	        		<organiser-logo-list></organiser-logo-list>
+	        		<organiser-logo-list @setOrganiserLogos="setOrganiserLogos"></organiser-logo-list>
 	        	</div>
 	        </div>
 	        <div class="">
@@ -93,6 +93,7 @@
 import InsertTextEditor from '../../../components/InsertTextEditor/InsertTextEditor.vue';
 import StatisticList from '../../../components/StatisticList.vue';
 import OrganiserLogoList from '../../../components/OrganiserLogoList.vue';
+import Website from '../../../../js/api/website.js';
 
 export default {
 	components: {
@@ -103,9 +104,12 @@ export default {
 	data() {
 		return {
 			homepage: {
+				websiteId: null,
 				introduction_text: '',
 				hero_image: '',
-				welcomeo_image: '',
+				welcome_image: '',
+				statistics: [],
+				organiserLogos: [],
 			},
 			// myArray: [
 			// {
@@ -146,30 +150,71 @@ export default {
 		this.$store.dispatch('setActiveTab', currentNavigationData);
 	},
 	computed: {
-
+		getHeroImage() {
+  		return this.homepage.hero_image == '' ? 'http://placehold.it/250x250' : this.homepage.hero_image;
+  	},
+  	getWelcomeImage() {
+  		return this.homepage.welcome_image == '' ? 'http://placehold.it/250x250' : this.homepage.welcome_image;
+  	},
 	},
 	methods: {
 		next() {
-			// this.$validator.validateAll().then(
-			// (response) => {
-			// 	this.website.tournament_date = document.getElementById('tournament_date').value
-			// 	this.$store.dispatch('SaveWebsiteDetails', this.website)
-			// 	toastr['success']('Website details added successfully', 'Success');
-			this.redirectToForward();
-			// },
-			// (error) => {
+			this.$root.$emit('getEditorValue');
+      this.$root.$emit('getStatistics');
+      this.$root.$emit('getOrganiserLogos');
 
-			// })
+      this.homepage.websiteId = this.getWebsiteId();
+
+			Website.saveHomePageData(this.homepage).then(
+        (response)=> {
+          toastr.success('Page has been updated successfully.', 'Homepage');
+        },
+        (error)=>{
+        }
+      );
 		},
-		addPeople() {
-
+		setIntroductionText(content) {
+			this.homepage.introduction_text = content;
+		},
+		setStatistics(statistics) {
+			this.homepage.statistics = statistics;
+		},
+		setOrganiserLogos(organiserLogos) {
+			this.homepage.organiserLogos = organiserLogos;
+		},
+		getWebsiteId() {
+			return this.$store.state.Website.id;
 		},
 		redirectToForward() {
 			this.$router.push({name:'website_teams'})
 		},
 		backward() {
 			this.$router.push({name:'website_add'})
-		}
+		},
+		selectHeroImage() {
+			$('#hero_image').trigger('click');
+		},
+		selectWelcomeImage() {
+			$('#welcome_image').trigger('click');
+		},
+		onImageChange(e, key) {
+			var vm = this;
+			var files = e.target.files || e.dataTransfer.files;
+
+			if (!files.length)
+				return;
+
+			var reader = new FileReader();
+			reader.onload = (r) => {
+				vm.homepage[key] = r.target.result;
+			};
+
+			reader.readAsDataURL(files[0]);
+		},
+		removeImage(key) {
+			this.homepage[key] = '';
+			e.preventDefault();
+		},
 	},
 }
 </script>
