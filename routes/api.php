@@ -28,8 +28,32 @@ Route::get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@
 
 $api = app('Dingo\Api\Routing\Router');
 
-
 $api->version('v1', function ($api) {
+
+    $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
+    $api->get('tournaments/getTournamentBySlug/{slug}', 'Laraspace\Api\Controllers\TournamentController@getTournamentBySlug');
+    $api->post('age_group/getCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat');
+    $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
+
+    $api->post('tournament/getCategoryCompetitions', 'Laraspace\Api\Controllers\TournamentController@getCategoryCompetitions');
+    $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
+    $api->post('match/getDrawTable','Laraspace\Api\Controllers\MatchController@getDrawTable');
+    $api->post('teams/getAllCompetitionTeamsFromFixture','Laraspace\Api\Controllers\TeamController@getAllCompetitionTeamsFromFixture');
+    $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding');
+    $api->post('match/refreshStanding', 'Laraspace\Api\Controllers\MatchController@refreshStanding');
+    $api->post('tournament/getDropDownData','Laraspace\Api\Controllers\TournamentController@tournamentFilter');
+    $api->post('teams/teamsTournament',
+        'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
+    $api->post('password/email', '\Laraspace\Http\Controllers\Auth\ForgotPasswordController@resetlink');
+
+    $api->post('password/reset', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
+    // $api->get('mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
+    $api->get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
+    $api->post('password/updateUserPassword', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@updateUserPassword')->name('password.request');
+
+
+} );
+$api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
      // for localization
     $locale = \Request::header('locale');
@@ -40,12 +64,6 @@ $api->version('v1', function ($api) {
 
 
     // TODO: Move Method from web to api for Mobile App
-    $api->post('password/email', '\Laraspace\Http\Controllers\Auth\ForgotPasswordController@resetlink');
-
-    $api->post('password/reset', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
-    // $api->get('mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
-    $api->get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
-    $api->post('password/updateUserPassword', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@updateUserPassword')->name('password.request');
 
     $api->get('users/test', 'Laraspace\Api\Controllers\EnvController@test2');
     // Team Stuff
@@ -62,36 +80,19 @@ $api->version('v1', function ($api) {
     $api->post('team/getTeamsGroup', 'Laraspace\Api\Controllers\TeamController@getAllTeamsGroup');
 
     // Method for get All TournamentTeams
-    $api->post('teams/teamsTournament',
-        'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
 
     // Manually change team name
     $api->post('teams/changeTeamName',
         'Laraspace\Api\Controllers\TeamController@changeTeamName');
-
-
-    //Referee api
-    $api->post('referees', 'Laraspace\Api\Controllers\RefereeController@getReferees');
-    $api->post('referee/create', 'Laraspace\Api\Controllers\RefereeController@createReferee');
-    $api->post('referee/update', 'Laraspace\Api\Controllers\RefereeController@updateReferee');
-
-    $api->post('referee/edit/{id}', 'Laraspace\Api\Controllers\RefereeController@edit');
-    $api->post('referee/refereeDetail', 'Laraspace\Api\Controllers\RefereeController@refereeDetail');
-    $api->post('referee/delete/{deleteid}', 'Laraspace\Api\Controllers\RefereeController@deleteReferee');
 
     //MatchResult api
     $api->get('matches', 'Laraspace\Api\Controllers\MatchController@getMatches');
     $api->post('match/create', 'Laraspace\Api\Controllers\MatchController@createMatch');
     $api->post('match/edit/{id}', 'Laraspace\Api\Controllers\MatchController@edit');
     $api->post('match/delete/{deleteid}', 'Laraspace\Api\Controllers\MatchController@deleteMatch');
-    $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
 
-    $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
     $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
 
-    $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding');
-
-    $api->post('match/getDrawTable','Laraspace\Api\Controllers\MatchController@getDrawTable');
     $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
     $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
@@ -108,10 +109,17 @@ $api->version('v1', function ($api) {
     $api->post('match/getUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@getUnavailableBlock');
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
     $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore');
-    $api->post('match/refreshStanding', 'Laraspace\Api\Controllers\MatchController@refreshStanding');
     $api->post('match/saveStandingsManually', 'Laraspace\Api\Controllers\MatchController@saveStandingsManually');
     $api->post('match/checkTeamIntervalforMatches', 'Laraspace\Api\Controllers\MatchController@checkTeamIntervalforMatches');
 
+    //Referee api
+    $api->post('referees', 'Laraspace\Api\Controllers\RefereeController@getReferees');
+    $api->post('referee/create', 'Laraspace\Api\Controllers\RefereeController@createReferee');
+    $api->post('referee/update', 'Laraspace\Api\Controllers\RefereeController@updateReferee');
+
+    $api->post('referee/edit/{id}', 'Laraspace\Api\Controllers\RefereeController@edit');
+    $api->post('referee/refereeDetail', 'Laraspace\Api\Controllers\RefereeController@refereeDetail');
+    $api->post('referee/delete/{deleteid}', 'Laraspace\Api\Controllers\RefereeController@deleteReferee');
 
 
     //pitch api
@@ -129,7 +137,6 @@ $api->version('v1', function ($api) {
     $api->post('age_group/edit/{id}', 'Laraspace\Api\Controllers\AgeGroupController@edit');
     $api->post('age_group/delete/{deleteid}', 'Laraspace\Api\Controllers\AgeGroupController@delete');
     $api->post('age_group/createCompetationFomat','Laraspace\Api\Controllers\AgeGroupController@createCompetationFomat');
-    $api->post('age_group/getCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat');
     $api->post('age_group/deleteCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@deleteCompetationFormat');
 
     $api->get('venues/getAll/{tournamentId}', 'Laraspace\Api\Controllers\VenueController@getVenues');
@@ -138,9 +145,6 @@ $api->version('v1', function ($api) {
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
     // Get Tournament Details By Status
-    $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
-
-    $api->get('tournaments/getTournamentBySlug/{slug}', 'Laraspace\Api\Controllers\TournamentController@getTournamentBySlug');
 
     $api->post('tournament/updateStatus', 'Laraspace\Api\Controllers\TournamentController@updateStatus');
 
@@ -153,7 +157,6 @@ $api->version('v1', function ($api) {
     $api->post('tournament/edit/{id}', 'Laraspace\Api\Controllers\TournamentController@edit');
     $api->post('tournament/delete/{id}', 'Laraspace\Api\Controllers\TournamentController@delete');
     $api->post('tournaments/tournamentSummary','Laraspace\Api\Controllers\TournamentController@tournamentSummary');
-    $api->post('tournament/getDropDownData','Laraspace\Api\Controllers\TournamentController@tournamentFilter');
     $api->post('tournament/allCategory',
         'Laraspace\Api\Controllers\TournamentController@getAllCategory');
 
@@ -217,11 +220,9 @@ $api->version('v1', function ($api) {
     $api->post('user/changeTournamentPermission','Laraspace\Api\Controllers\UserController@changeTournamentPermission');
     $api->get('user/getUserTournaments/{id}','Laraspace\Api\Controllers\UserController@getUserTournaments');
 
-    $api->post('tournament/getCategoryCompetitions', 'Laraspace\Api\Controllers\TournamentController@getCategoryCompetitions');
 
     $api->post('tournament/saveCategoryCompetitionColor', 'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
 
-    $api->post('teams/getAllCompetitionTeamsFromFixture','Laraspace\Api\Controllers\TeamController@getAllCompetitionTeamsFromFixture');
 
     $api->get('generateDisplayMatchNumber','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumber')->name('generate.display.match.number');
 
