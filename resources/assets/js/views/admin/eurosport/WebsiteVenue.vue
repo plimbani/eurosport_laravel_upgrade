@@ -8,10 +8,10 @@
 		<div class="row">
 	    <div class="col-md-12">
 	      <div class="pull-left">
-	        <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
+	        <button class="btn btn-primary" @click="redirectToBackward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
 	      </div>
 	      <div class="pull-right">
-	        <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+	        <button class="btn btn-primary" @click="redirectToForward()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
 	      </div>
 	    </div>
 	  </div>
@@ -21,19 +21,6 @@
 var moment = require('moment');
 import Tournament from '../../../api/tournament.js';
 export default {
-	data() {
-		return {
-			website: {
-				tournament_name: '',
-				tournament_date: '',
-				tournament_location: '',
-				domain_name: '',
-				linked_tournament: '',
-				google_analytics_id: '',
-				publishedTournaments: {},
-			}
-		}
-	},
 	mounted() {
 		let currentNavigationData = {
 			activeTab:'website_venue', 
@@ -45,17 +32,6 @@ export default {
 	computed: {
 	},
 	methods: {
-		next() {
-			// this.$validator.validateAll().then(
-			// (response) => {
-			// 	this.$store.dispatch('SaveWebsiteDetails', this.website)
-			// 	toastr['success']('Website details added successfully', 'Success');
-				this.redirectToForward();
-			// },
-			// (error) => {
-
-			// })
-		},
 		getAllPublishedTournaments() {
 			Tournament.getAllPublishedTournaments().then(
         (response) => {
@@ -68,7 +44,7 @@ export default {
 		redirectToForward() {
 			this.$router.push({name:'website_tournament'})
 		},
-		backward() {
+		redirectToBackward() {
 			this.$router.push({name:'website_teams'})
 		}
 	},
