@@ -20,17 +20,21 @@ const actions = {
   	commit(types.CURRENT_WEBSITE, currentWebsite);
   },
 	SaveWebsiteDetails ({commit}, websiteData) {
-		Website.saveWebsite(websiteData).then(
-			(response) => {
-			if(response.data.status_code == 200) {
-	      		commit(types.WEBSITE_DATA, response.data.data)
-			} else {
-			  alert('Error Occured')
-			}
-			},
-  		(error) => {
-  		}
-  	)
+		return new Promise((resolve, reject) => {
+			Website.saveWebsite(websiteData).then(
+				(response) => {
+					if(response.data.status_code == 200) {
+			      commit(types.WEBSITE_DATA, response.data.data)
+					} else {
+					  alert('Error Occured')
+					}
+					resolve(response.data.data);
+				},
+	  		(error) => {
+	  			reject(response);
+	  		}
+	  	)
+  	});
 	},
 };
 
