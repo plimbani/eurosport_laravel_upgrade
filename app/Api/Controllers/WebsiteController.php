@@ -71,4 +71,9 @@ class WebsiteController extends BaseController
   {
     return $this->websiteContract->saveWebsiteData($request->all());
   }
+
+  public function websiteSummary(Request $request)
+  {
+    return $this->websiteContract->websiteSummary($request);
+  }
 }
