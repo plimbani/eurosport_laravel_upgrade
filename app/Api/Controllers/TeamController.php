@@ -36,8 +36,7 @@ class TeamController extends BaseController
      */
     public function getTeams(Request $request)
     {
-        // dd($request->all());
-        return $this->teamObj->getTeams($request);
+       return  $result = $this->teamObj->getTeams($request);
     }
 
     public function getClubs(Request $request)
@@ -84,9 +83,10 @@ class TeamController extends BaseController
         \Excel::load($file->getRealPath(), function($reader) {
             // dd($reader->getTotalRowsOfFile() - 1);
             $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
-
+            // dd($this->data['totalSize']);
             // $reader->limit($this->data['teamSize']);
             $reader->each(function($sheet) {
+                // dd($sheet);
             // Loop through all rows
                 // $sheet->each(function($row) {
                     // dd($sheet);
@@ -96,15 +96,11 @@ class TeamController extends BaseController
                 // });
             });
         }, 'ISO-8859-1');
-        // if($this->data['totalSize'] > $this->data['teamSize'] ){
-        //     return ['bigFileSize' =>  true];
-        // }else{
             return ['bigFileSize' =>  false];
-        // }
+     
     }
-    public function assignTeam(Request $request) {
-        // dd($request->all());
-         $this->teamObj->assignTeams($request->all());
+    public function assignTeam(Request $request) {        
+        return $this->teamObj->assignTeams($request->all());
     }
     public function getAllTeamsGroup(Request $request) {
         $this->teamObj->getAllTeamsGroup($request->all());

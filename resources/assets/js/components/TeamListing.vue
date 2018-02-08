@@ -35,6 +35,7 @@ export default {
   created: function() {
        this.$root.$on('changeComp', this.setMatchData);
        this.$root.$on('changeDrawListComp', this.setMatchData);
+       this.$root.$on('getAllTournamentTeams', this.getAllTournamentTeams);
     },
   computed: {
     currentScheduleView() {
@@ -123,11 +124,13 @@ export default {
       //this.$store.dispatch('setCurrentScheduleView','teamDetails')
     },
     getAllTournamentTeams() {
+      $("body .js-loader").removeClass('d-none');
       let TournamentId = this.$store.state.Tournament.tournamentId
       let tournamentData={'tournamentId':TournamentId}
 
       Tournament.getTournamentTeams(tournamentData).then(
         (response)=> {
+          $("body .js-loader").addClass('d-none');
           if(response.data.status_code == 200) {
             this.matchData = response.data.data
           }

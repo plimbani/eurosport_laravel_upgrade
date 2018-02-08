@@ -46,7 +46,11 @@ export default {
     Select2(){
         $(".ls-select2").select2();
     },
-
+    Select2withoutSearch(){
+        $(".ls-select2").select2({
+            minimumResultsForSearch: Infinity
+        });
+    },
     BootstrapSelect(){
         $(".ls-bootstrap-select").selectpicker({
             iconBase: 'fa',

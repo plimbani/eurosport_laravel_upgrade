@@ -12,7 +12,7 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->truncate();
+        DB::table('roles')->delete();
         DB::table('roles')->insert([
           ['name' => 'Super administrator', 'slug' => 'Super.administrator', 'description' => 'The magician', 'level' => '1', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           ['name' => 'Tournament administrator', 'slug' => 'tournament.administrator', 'description' => 'The GOD', 'level' => '1', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
