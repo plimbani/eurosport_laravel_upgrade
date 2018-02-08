@@ -60,7 +60,7 @@
                   display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
                 </div>
                 <div class="col-sm-3 align-self-center">
-                  <input type="number" min="0" name="home_team_score"
+                  <input type="number" min="0" name="home_team_score" v-on:keyup="checkScores()"
                   v-model="matchDetail.hometeam_score"
                   :value="matchDetail.hometeam_score" id="home_team_score" class="form-control">
                 </div>
@@ -72,7 +72,7 @@
                   display_away_team_placeholder_name, matchDetail.competition.actual_name) }})
                 </div>
                 <div class="col-sm-3 align-self-center">
-                  <input type="number" min="0" name="away_team_score"
+                  <input type="number" min="0" name="away_team_score" v-on:keyup="checkScores()"
                   v-model="matchDetail.awayteam_score"
                   :value="matchDetail.awayteam_score" id="away_team_score" class="form-control">
                 </div>
@@ -395,6 +395,15 @@ var moment = require('moment');
       }
       return teamPlaceHolder;
     },
+    checkScores() {
+      let home_score = $('#home_team_score').val()
+      let away_score = $('#away_team_score').val()
+      if (home_score == away_score) {
+        this.match_result = true
+      } else {
+        this.match_result = false
+      }
+    }
   } 
 }
 </script>

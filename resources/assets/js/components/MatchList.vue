@@ -67,6 +67,8 @@
       </tr>
     </tbody>
   </table>
+  <div class="col-md-12"><div class="d-flex align-items-center justify-content-end"><button type="button" name="save" class="btn btn-primary mr-1" @click="updateScoreRecord()">Save</button></div></div>
+  
     <paginate v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
     </paginate>
     <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" class="row d-flex flex-row align-items-center">
