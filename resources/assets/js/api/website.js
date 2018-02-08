@@ -21,9 +21,12 @@ export default {
   getOrganisers(websiteId) {
     return axios.get('/api/getOrganisers/' + websiteId);
   },
-
   // Get all website details
   websiteSummaryData(websiteId) {
     return api.post('websites/websiteSummary',{'websiteId':websiteId})
-  }
+  },
+  // Get website all colours
+  getWebsiteCustomisation() {
+    return axios.get('/api/websites/colours');
+  },
 }

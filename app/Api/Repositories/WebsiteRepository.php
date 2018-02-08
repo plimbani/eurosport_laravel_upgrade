@@ -79,4 +79,8 @@ class WebsiteRepository
     
     return $websiteData;
   }
+
+  public function getWebsiteCustomisation() {
+    return config('wot.website_customisation');
+  }
 }

@@ -31,4 +31,11 @@ interface WebsiteContract
      * @return response
      */
     public function websiteSummary($request);
+
+    /*
+     * Get website all colours
+     *
+     * @return response
+     */
+    public function getWebsiteCustomisation();
 }

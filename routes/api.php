@@ -239,6 +239,7 @@ $api->version('v1', function ($api) {
     $api->get('getUserAccessibleWebsites', 'Laraspace\Api\Controllers\WebsiteController@getUserAccessibleWebsites');
     $api->post('saveWebsiteData', 'Laraspace\Api\Controllers\WebsiteController@saveWebsiteData');
     $api->post('websites/websiteSummary', 'Laraspace\Api\Controllers\WebsiteController@websiteSummary');
+    $api->get('websites/colours', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteCustomisation');
 
     //Website homepage
     $api->get('getStatistics/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getStatistics');

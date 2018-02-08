@@ -60,6 +60,54 @@
 				            v-model="website.google_analytics_id" name="google_analytics_id">
 			          </div>
 			        </div>
+			        <br>
+			        <h6><strong>{{$lang.website_customisation}}</strong></h6>
+			        <div class="form-group row">
+			          <div class="col-md-12">
+									<div class="row">
+									  <label class="col-sm-12 form-control-label">{{$lang.website_primary_color}}</label>
+									</div>
+									<div class="form-group row">
+										<div class="col-md-12">
+											<div v-for="primaryColor in customisation.primary_colors" class="websitePrimaryColor" :style="{'background-color': primaryColor}" @click="setWebsitePrimaryColor(primaryColor)" :class="{ website_color_active : websitePrimaryColor == primaryColor }">
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+									  <label class="col-sm-12 form-control-label">{{$lang.website_secondary_color}}</label>
+									</div>
+									<div class="form-group row">
+										<div class="col-md-12">
+											<div v-for="secondaryColor in customisation.secondary_colors" class="websiteSecondaryColor" :style="{'background-color': secondaryColor}" @click="setWebsiteSecondaryColor(secondaryColor)" :class="{ website_color_active : websiteSecondaryColor == secondaryColor }">
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+									  <div class="col-md-6">
+									  	<label class="col-sm-12 form-control-label">{{$lang.website_heading_fonr}}</label>
+											<div class="col-md-12" v-for="headingFont in customisation.heading_font">
+									      <label class="radio-inline control-label">
+									          <input type="radio" name="headingFont" :value="headingFont" class="mr-2" @click="setWebsiteHeadingFont(headingFont)">{{headingFont}}
+									      </label><br>
+											</div>
+									  </div>
+									  <div class="col-md-6">
+									  	<label class="col-sm-12 form-control-label">{{$lang.website_body_fonr}}</label>
+									  	<div class="col-md-12" v-for="bodyFont in customisation.body_font">
+												<label class="radio-inline control-label">
+												    <input type="radio" name="bodyFont" :value="bodyFont" class="mr-2" @click="setWebsiteBodyFont(bodyFont)">{{bodyFont}}
+												</label><br>
+											</div>
+									  </div>
+									</div>
+
+			          </div>
+			          <div class="col-md-6">
+			          	
+			          </div>
+			        </div>
 			      </div>
 			      <div class="col-md-6">
 			      	<div class="form-group row">
@@ -127,6 +175,16 @@ export default {
 				social_sharing_graphic: '',
 				publishedTournaments: {},
 			},
+			customisation: {
+				primary_colors: [],
+				secondary_colors: [],
+				heading_font: [],
+				body_font: [],
+			},
+			websitePrimaryColor: '',
+			websiteSecondaryColor: '',
+			websiteHeadingFont: '',
+			websiteBodyFont: '',
 			tournament_logo_image: '',			
 			social_sharing_graphic_image: '',
 		}
@@ -144,6 +202,7 @@ export default {
 		});
 		this.$store.dispatch('setActiveTab', currentNavigationData);	
 		this.getAllPublishedTournaments();
+		this.getWebsiteCustomisation();
 		this.websiteId = this.$store.state.Website.id;
 		if(this.websiteId) {
 			Website.websiteSummaryData(this.websiteId).then(
@@ -231,7 +290,33 @@ export default {
 		removeSocialSharingImage: function (e) {
 			this.social_sharing_graphic_image = '';
 			e.preventDefault();
+		},
+		getWebsiteCustomisation() {
+			Website.getWebsiteCustomisation().then(
+        (response) => {
+        	console.log(response.data.data)
+          this.customisation.primary_colors = response.data.data.primary_colors;
+          this.customisation.secondary_colors = response.data.data.secondary_colors;
+          this.customisation.heading_font = response.data.data.heading_font;
+          this.customisation.body_font = response.data.data.body_font;
+        },
+        (error) => {
+        }
+      )
+		},
+		setWebsitePrimaryColor(primaryColour) {
+			this.websitePrimaryColor = primaryColour;
+		},
+		setWebsiteSecondaryColor(secondaryColour) {
+			this.websiteSecondaryColor = secondaryColour;
+		},
+		setWebsiteHeadingFont(headingFont) {
+			this.websiteHeadingFont = headingFont;
+		},
+		setWebsiteBodyFont(bodyFont) {
+			this.websiteBodyFont = bodyFont;
 		}
+
 	}
 }
 </script>

@@ -153,4 +153,12 @@ class WebsiteService implements WebsiteContract
 
     return $timeStamp.'.png';
   }
+
+  public function getWebsiteCustomisation()
+  {
+    $allColours = $this->websiteRepo->getWebsiteCustomisation();
+    if ($allColours) {
+        return ['status_code' => '200', 'data'=>$allColours];
+    }
+  }
 }
