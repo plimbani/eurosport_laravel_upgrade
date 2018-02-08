@@ -43,7 +43,14 @@ const mutations = {
 		state.tournament_location = currentWebsite.tournament_location;
 	},
 	[types.WEBSITE_DATA] (state, websiteData) {
-
+		state.id = websiteData.id;
+		state.tournament_name = websiteData.tournament_name;
+		state.tournament_dates = websiteData.tournament_dates;
+		state.tournament_location = websiteData.tournament_location;
+		state.domain_name = websiteData.domain_name;
+		state.linked_tournament = websiteData.linked_tournament;
+		state.google_analytics_id = websiteData.google_analytics_id;
+		state.tournament_logo = websiteData.tournament_logo
 	}
 };
 

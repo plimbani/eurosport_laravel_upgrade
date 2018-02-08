@@ -31,7 +31,8 @@ class WebsiteService implements WebsiteContract
    */
   public function __construct(WebsiteRepository $websiteRepo)
   {
-      $this->websiteRepo = $websiteRepo;
+    $this->getAWSUrl = getenv('S3_URL');
+    $this->websiteRepo = $websiteRepo;
   }
 
    /*
@@ -81,8 +82,55 @@ class WebsiteService implements WebsiteContract
    * @return response
    */
   public function saveWebsiteData($data) {
+    $id = ($data['websiteData']['websiteId'] !=0 || $data['websiteData']['websiteId'] !=0) ? $data['websiteData']['websiteId']:'';
+    $data['websiteData']['tournament_logo']=$this->saveTournamentLogo($data, $id);
     $data = $this->websiteRepo->saveWebsiteData($data['websiteData']);
     
     return ['data' => $data, 'status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
+  }
+
+  // we can call same below function from Tournament service
+  private function saveTournamentLogo($data, $id)
+  {
+    if($data['websiteData']['tournament_logo'] != '') {
+      if(strpos($data['websiteData']['tournament_logo'],$this->getAWSUrl) !==  false) {
+        $path = $this->getAWSUrl.'/assets/img/tournament_logo/';
+        $imageLogo = str_replace($path,"",$data['websiteData']['tournament_logo']);
+        return $imageLogo;
+      }
+
+      $s3 = \Storage::disk('s3');
+      $imagePath = '/assets/img/tournament_logo/';
+      $image_string = $data['websiteData']['tournament_logo'];
+      $img = explode(',', $image_string);
+      if(count($img)>1) {
+          $imgData = base64_decode($img[1]);
+      }else{
+          return '';
+      }
+
+      if($id == '') {
+        $now = new \DateTime();
+        $timeStamp = $now->getTimestamp();
+      } else {
+        $timeStamp = $id;
+      }
+
+      $path = $imagePath.$timeStamp.'.png';
+      $s3->put($path, $imgData);
+
+      return $timeStamp.'.png';
+    } else {
+      return '';
+    }
+  }
+
+  public function websiteSummary($data)
+  {
+    $data = $data->all();
+    $websiteData = $this->websiteRepo->websiteSummary($data['websiteId']);
+    if ($websiteData) {
+        return ['status_code' => '200', 'data'=>$websiteData];
+    }
   }
 }

@@ -24,4 +24,11 @@ interface WebsiteContract
      * @return response
      */
     public function saveWebsiteData($request);
+
+    /*
+     * Get website details
+     *
+     * @return response
+     */
+    public function websiteSummary($request);
 }
