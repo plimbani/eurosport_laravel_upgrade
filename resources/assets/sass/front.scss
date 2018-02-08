@@ -747,13 +747,13 @@ li.select2-results__option {
     opacity: .5;
 }
 
-.websitePrimaryColor, .websiteSecondaryColor {
+.websiteColourBox {
     width: 50px; 
     height: 50px; 
     float: left;
     cursor: pointer;
 }
 
-.website_color_active {
+.website-color-active {
     border: 3px solid #000;
 }
