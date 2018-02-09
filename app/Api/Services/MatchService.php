@@ -2181,14 +2181,13 @@ class MatchService implements MatchContract
     {
       $ageCategory = TournamentCompetationTemplates::find($ageCategoryId);
       $tournamentTemplate = $ageCategory->TournamentTemplate;
-      $positions = Position::where('age_category_id', $ageCategoryId);
       if($tournamentTemplate->position_type == 'final' || $tournamentTemplate->position_type == 'final_and_group_ranking') {
         $competition = Competition::find($competitionId);
-        $matchPositions = $positions->where('dependent_type', 'match')->get();
+        $matchPositions = Position::where('age_category_id', $ageCategoryId)->where('dependent_type', 'match')->get();
         $this->updatePlacingMatchPositions($ageCategory, $matchPositions);
       }
       if($tournamentTemplate->position_type == 'final_and_group_ranking' || $tournamentTemplate->position_type == 'group_ranking') {
-        $rankingPositions = $positions->where('dependent_type', 'ranking')->get();
+        $rankingPositions = Position::where('age_category_id', $ageCategoryId)->where('dependent_type', 'ranking')->get();
         $this->updateGroupRankingPositions($ageCategory, $rankingPositions);
       }
     }
