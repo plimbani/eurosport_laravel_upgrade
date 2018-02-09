@@ -802,7 +802,7 @@ class MatchService implements MatchContract
       $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
 
       foreach ($groupFixture as $key => $value) {
-        $this->calculateCupLeagueTable($value->id, 'no');
+        $this->calculateCupLeagueTable($value->id, 0);
       }
 
       $standingResData = $this->matchRepoObj->getStanding($data);
@@ -811,7 +811,7 @@ class MatchService implements MatchContract
       }
     }
 
-    public function calculateCupLeagueTable($id, $generatePositions = 'yes') {
+    public function calculateCupLeagueTable($id, $generatePositions = 1) {
         $ageCategoryId = 0;
         $competitionId = 0;
         $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
@@ -853,7 +853,7 @@ class MatchService implements MatchContract
               $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams,'Elimination');
           }
 
-          if($generatePositions == 'yes') {
+          if($generatePositions == 1) {
             $this->updateCategoryPositions($competitionId, $ageCategoryId);
           }
 
@@ -901,7 +901,7 @@ class MatchService implements MatchContract
             // dd($result,$fix1['CupFixture']['tournamentId'],$cup_competition_id,$findTeams);
             $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams, 'Round Robin');
 
-        if($generatePositions == 'yes') {
+        if($generatePositions == 1) {
           $this->updateCategoryPositions($competitionId, $ageCategoryId);
         }
 

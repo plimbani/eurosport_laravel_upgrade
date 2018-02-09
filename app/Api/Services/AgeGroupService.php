@@ -206,13 +206,6 @@ class AgeGroupService implements AgeGroupContract
                   $group_name[$val]['actual_name'] = $round->name;
                 }
 
-                // $group_name[$val]['is_final'] = 0;
-                // if($i == $totalRound-1 && (count($rounds) - 1 == $roundIndex)) {
-                //   if($json_data->position_type == 'final' || $json_data->position_type == 'final_and_group_ranking') {
-                //     $group_name[$val]['is_final'] = 1;
-                //   }
-                // }
-
                 $group_name[$val]['comp_roundd']=$json_data->tournament_competation_format->format_name[$i]->name;
                 // Now here For Loop for create Fixture array
                 foreach($round->groups->match as $key1=>$matches) {

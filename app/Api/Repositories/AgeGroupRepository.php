@@ -51,7 +51,6 @@ class AgeGroupRepository
        $competations['name'] = $age_group.'-'.$comp_group;
        $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
        $competations['team_size'] = $groups['team_count'];
-       // $competations['is_final'] = $groups['is_final'];
        // here last group we consider as Final or Elimination Match
        // Means Last one
        // TODO : Change the code
