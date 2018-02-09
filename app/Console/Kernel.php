@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         Commands\insertPitchSize::class,
         Commands\insertPositionsForPlacingMatches::class,
         Commands\automaticallyPermissionRemoval::class,
+        Commands\generatePositionsForExistingData::class,
     ];
 
     /**

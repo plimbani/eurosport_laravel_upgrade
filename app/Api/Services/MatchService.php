@@ -13,6 +13,8 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\Competition;
 use Laraspace\Models\TeamManualRanking;
 use Laraspace\Models\Team;
+use Laraspace\Models\Position;
+use Laraspace\Models\TournamentCompetationTemplates;
 
 class MatchService implements MatchContract
 {
@@ -270,6 +272,8 @@ class MatchService implements MatchContract
       $pdfData['resultGridTable'] = $resultGridTable;
       $pdfData['resultMatchesTable'] = $resultMatchesTable;
       $pdfData['resultMatchesTableAfterFirstRound'] = $resultMatchesTableAfterFirstRound;
+
+      // dd($pdfData);
 
       $pdf = PDF::loadView('age_category.summary_report',['data' => $pdfData])
             ->setPaper('a4')
@@ -798,7 +802,7 @@ class MatchService implements MatchContract
       $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
 
       foreach ($groupFixture as $key => $value) {
-        $this->calculateCupLeagueTable($value->id);
+        $this->calculateCupLeagueTable($value->id, 0);
       }
 
       $standingResData = $this->matchRepoObj->getStanding($data);
@@ -807,18 +811,20 @@ class MatchService implements MatchContract
       }
     }
 
-    public function calculateCupLeagueTable($id) {
+    public function calculateCupLeagueTable($id, $generatePositions = 1) {
+        $ageCategoryId = 0;
+        $competitionId = 0;
         $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
         $fix1=array();
         // dd($singleFixture );
         foreach($singleFixture as $singleFxture)
         {
-          $fix1['CupFixture']['cupcompetition'] = $singleFxture->competition_id;
+          $competitionId = $fix1['CupFixture']['cupcompetition'] = $singleFxture->competition_id;
           $fix1['CupFixture']['hometeam'] = $singleFxture->home_team;
           $fix1['CupFixture']['awayteam'] = $singleFxture->away_team;
           $fix1['CupFixture']['tournamentId'] = $singleFxture->tournament_id;
           $fix1['CupFixture']['match_round'] = $singleFxture->round;
-          $fix1['CupFixture']['age_group_id'] = $singleFxture->age_group_id;
+          $ageCategoryId = $fix1['CupFixture']['age_group_id'] = $singleFxture->age_group_id;
         }
         if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
         {
@@ -845,6 +851,10 @@ class MatchService implements MatchContract
           $competition = Competition::where('id', $singleFxture->competition_id)->first();
           if($competition->competation_type == 'Elimination' && $competition->actual_competition_type == 'Round Robin') {
               $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams,'Elimination');
+          }
+
+          if($generatePositions == 1) {
+            $this->updateCategoryPositions($competitionId, $ageCategoryId);
           }
 
           return $competitionId;
@@ -890,6 +900,10 @@ class MatchService implements MatchContract
 
             // dd($result,$fix1['CupFixture']['tournamentId'],$cup_competition_id,$findTeams);
             $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams, 'Round Robin');
+
+        if($generatePositions == 1) {
+          $this->updateCategoryPositions($competitionId, $ageCategoryId);
+        }
 
         return $cup_competition_id;
       }
@@ -2135,5 +2149,148 @@ class MatchService implements MatchContract
             Storage::put($updatedFilePath, json_encode($updatedJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         }
         echo "All templates processed.";exit;
+    }
+
+    /**
+     * Check for competition end.
+     *
+     * @param int $competitionId
+     *
+     * @return boolean
+     */
+    private function checkForCompetitionEnd($competitionId) {
+      $matches = DB::table('temp_fixtures')
+      ->where('competition_id', $competitionId)
+      ->whereRaw(Db::raw('(hometeam_score IS NULL OR awayteam_score IS NULL)'));
+
+      if($matches->exists()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    /**
+     * Update competition positions
+     *
+     * @param int $competitionId
+     *
+     * @param int $ageCategoryId
+     */
+    public function updateCategoryPositions($competitionId, $ageCategoryId)
+    {
+      $ageCategory = TournamentCompetationTemplates::find($ageCategoryId);
+      $tournamentTemplate = $ageCategory->TournamentTemplate;
+      $positions = Position::where('age_category_id', $ageCategoryId);
+      if($tournamentTemplate->position_type == 'final' || $tournamentTemplate->position_type == 'final_and_group_ranking') {
+        $competition = Competition::find($competitionId);
+        $matchPositions = $positions->where('dependent_type', 'match')->get();
+        $this->updatePlacingMatchPositions($ageCategory, $matchPositions);
+      }
+      if($tournamentTemplate->position_type == 'final_and_group_ranking' || $tournamentTemplate->position_type == 'group_ranking') {
+        $rankingPositions = $positions->where('dependent_type', 'ranking')->get();
+        $this->updateGroupRankingPositions($ageCategory, $rankingPositions);
+      }
+    }
+
+    /**
+     * Update placing match positions
+     *
+     * @param object $ageCategory
+     */
+    public function updatePlacingMatchPositions($ageCategory, $positions)
+    {
+      $prefixMatchName = $ageCategory->group_name . '-' . $ageCategory->category_age . '-';
+      for($i=0; $i < count($positions); $i=$i+2) {
+        $matchNumber = str_replace('CAT.', $prefixMatchName, $positions[$i]->match_number);
+        $fixture = DB::table('temp_fixtures')->where('match_number', $matchNumber)->get()->first();
+        if($fixture->hometeam_score !== null && $fixture->awayteam_score !== null) {
+          $winner = null;
+          $looser = null;
+          if($fixture->hometeam_score >= $fixture->awayteam_score) {
+            $winner = $fixture->home_team != 0 ? $fixture->home_team : null;
+            $looser = $fixture->away_team != 0 ? $fixture->away_team : null;
+          } else {
+            $winner = $fixture->away_team != 0 ? $fixture->away_team : null;
+            $looser = $fixture->home_team != 0 ? $fixture->home_team : null;
+          }
+
+          // Update winner team
+          $positions[$i]->team_id = $winner;
+          $positions[$i]->save();
+
+          // Update looser team
+          if(isset($positions[$i + 1])) {
+            $positions[$i + 1]->team_id = $looser;
+            $positions[$i + 1]->save();
+          }
+        }
+      }
+    }
+
+    /**
+     * Update group ranking positions
+     *
+     * @param object $ageCategory
+     */
+    public function updateGroupRankingPositions($ageCategory, $positions)
+    {
+      $positionCalculatingGroups = $this->getPositionCalculatingGroups($ageCategory, $positions);
+      $competitionIds = $positionCalculatingGroups['competitionIds'];
+      $groups = $positionCalculatingGroups['groups'];
+      if(count($competitionIds) != count($groups)) {
+        return false;
+      }
+      $data['tournamentId'] = $ageCategory->tournament_id;
+      $standingResData = [];
+      $competitionEndFlag = 0;
+
+      for($i=0; $i < count($competitionIds); $i++) {
+        $competitionId = $competitionIds[$i];
+        $standingResData[$groups[$i]] = [];
+        if($this->checkForCompetitionEnd($competitionId)) {
+          $competitionEndFlag = 1;
+          $data['competitionId'] = $competitionId;
+          $tournamentData['tournamentData'] = $data;
+          $standingResData[$groups[$i]] = $this->getStanding(collect($tournamentData), 'yes')['data']->toArray();
+        }
+      }
+
+      if($competitionEndFlag == 1) {
+        foreach($positions as $position) {
+          $ranking = $position->ranking;
+          $group = substr($ranking, -1);
+          $rankingNumber = intval(substr($ranking, 0, strlen($ranking) - 1));
+          $standing = isset($standingResData[$group][$rankingNumber - 1]) ? ((array) $standingResData[$group][$rankingNumber - 1]) : [];
+          if(isset($standing['id']) && $standing['id']!=null) {
+            $position->team_id = $standing['id'];
+            $position->save();
+          }
+        }
+      }
+    }
+
+    /**
+     * Update group ranking positions
+     *
+     * @param object $ageCategory
+     */
+    public function getPositionCalculatingGroups($ageCategory, $positions)
+    {
+      $ageCategoryPrefix = $ageCategory->group_name . '-' . $ageCategory->category_age . '-';
+      $groupNames = [];
+      $groups = [];
+
+      foreach($positions as $position) {
+        $group = substr($position->ranking, -1);
+        if(!in_array($group, $groups)) {
+          $groups[] = $group;
+          $groupName = $ageCategoryPrefix . 'Group-' . $group;
+          $groupNames[] = $groupName;
+        }
+      }
+
+      $competitionIds = Competition::where('tournament_competation_template_id', $ageCategory->id)->whereIn('name', $groupNames)->pluck('id')->toArray();
+      return array('groups' => $groups, 'competitionIds' => $competitionIds);
     }
 }

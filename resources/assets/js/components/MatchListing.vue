@@ -38,7 +38,8 @@ import DrawsListing from './DrawsListing.vue'
 import LocationList from'./LocationList.vue'
 import DrawList from './DrawList.vue'
 // import MatchFilter from './MatchFilter.vue'
- import TournamentFilter from './TournamentFilter.vue'
+import TournamentFilter from './TournamentFilter.vue'
+import FinalPlacings from './FinalPlacings.vue'
 
 var moment = require('moment')
 
@@ -89,7 +90,7 @@ export default {
 	},
 	components: {
 		MatchList,TeamDetails,LocationList,DrawsListing,
-		DrawDetails,TeamList,DrawList,TournamentFilter
+		DrawDetails,TeamList,DrawList,TournamentFilter,FinalPlacings
 	},
 	methods: {
 		setFilter(filterKey,filterValue) {
