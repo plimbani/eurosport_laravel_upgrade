@@ -32,14 +32,14 @@ $api->version('v1', function ($api) {
 
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
     $api->get('tournaments/getTournamentBySlug/{slug}', 'Laraspace\Api\Controllers\TournamentController@getTournamentBySlug');
-    $api->post('age_group/getCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat');
-    $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
+   
+   
 
     $api->post('tournament/getCategoryCompetitions', 'Laraspace\Api\Controllers\TournamentController@getCategoryCompetitions'); 
     $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures'); 
     $api->post('match/getDrawTable','Laraspace\Api\Controllers\MatchController@getDrawTable');
     $api->post('teams/getAllCompetitionTeamsFromFixture','Laraspace\Api\Controllers\TeamController@getAllCompetitionTeamsFromFixture'); 
-    $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding'); 
+    
     $api->post('match/refreshStanding', 'Laraspace\Api\Controllers\MatchController@refreshStanding'); 
     $api->post('tournament/getDropDownData','Laraspace\Api\Controllers\TournamentController@tournamentFilter');
     $api->post('teams/teamsTournament',
@@ -67,7 +67,11 @@ $api->version('v1', function ($api) {
 
     $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');  
   
+    $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index'); 
 
+    $api->post('appversion', 'Laraspace\Api\Controllers\VersionController@apkVersion'); 
+
+    $api->post('match/saveStandingsManually', ' Laraspace\Api\Controllers\MatchController@saveStandingsManually');
 
 } );
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
@@ -124,8 +128,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/getUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@getUnavailableBlock'); 
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
     $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore'); 
-    $api->post('match/saveStandingsManually', ' Laraspace\Api\Controllers\MatchController@saveStandingsManually'); 
+    
     $api->post('match/checkTeamIntervalforMatches', 'Laraspace\Api\Controllers\MatchController@checkTeamIntervalforMatches');
+    $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding');  
 
     //Referee api
     $api->post('referees', 'Laraspace\Api\Controllers\RefereeController@getReferees'); 
@@ -157,13 +162,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->get('venues/getAll/{tournamentId}', 'Laraspace\Api\Controllers\VenueController@getVenues'); 
 
+     $api->post('age_group/getCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat'); 
     //Tournament Api CRUD Routes
-    $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index'); 
+   
 
     // Get Tournament Details By Status
 
     $api->post('tournament/updateStatus', 'Laraspace\Api\Controllers\TournamentController@updateStatus');
-   
+    $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws'); 
 
     // Get All Templates
     $api->post('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates'); 
@@ -247,8 +253,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->get('generateDisplayMatchNumberForDb','Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumberForDB')->name('generate.display.match.number.for.db');
 
     $api->get('match/insertPositionsForPlacingMatches','Laraspace\Api\Controllers\MatchController@insertPositionsForPlacingMatches')->name('insert.positions.for.placing.matches');
-
-    $api->post('appversion', 'Laraspace\Api\Controllers\VersionController@apkVersion');
 });
 
 
