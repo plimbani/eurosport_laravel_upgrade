@@ -12,18 +12,18 @@ public class ApiConstants {
     //    www.esrtmp.com -> live
     //    qa.esrtmp.com -> qa
 //    public static final String BASE_URL = "https://www.esrtmp.com/api/"; // ESR Live
-//    public static final String BASE_URL = "https://qa.esrtmp.com/api/"; // ESR QA
-    public static final String BASE_URL = "http://mukesh-eurosport.dev.aecortech.com/api/";
-
+    public static final String BASE_URL = "https://qa.esrtmp.com/api/"; // ESR QA
+//    public static final String BASE_URL = "http://rishab-eurosport.dev.aecortech.com/api/";
     public static final String GET_TOURNAMENTS = BASE_URL + "tournaments";
     public static final String APP_VERSION = BASE_URL + "appversion";
     public static final String SIGN_IN = BASE_URL + "auth/login";
     public static final String REGISTER = BASE_URL + "user/create";
+    public static final String FORGOT_PASSWORD = BASE_URL + "password/email";
+    public static final String CHECK_USER = BASE_URL + "auth/check";
+
     public static final String GET_SETTINGS_ATTRIBUTE = BASE_URL + "users/getSetting";
     public static final String UPDATE_USER_SETTINGS = BASE_URL + "users/postSetting";
-    public static final String FORGOT_PASSWORD = BASE_URL + "password/email";
     public static final String UPDATE_PROFILE = BASE_URL + "user/update/";
-    public static final String CHECK_USER = BASE_URL + "auth/check";
     public static final String SET_TOURNAMENT_AS_FAVOURITE = BASE_URL + "users/setFavourite";
     public static final String REMOVE_TOURNAMENT_FROM_FAVOURITE = BASE_URL + "users/removeFavourite";
     public static final String GET_USER_FAVOURITE_LIST = BASE_URL + "users/getLoginUserFavouriteTournament";
