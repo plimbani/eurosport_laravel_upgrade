@@ -151,9 +151,27 @@ class WebsiteService implements WebsiteContract
     }
   }
 
-  public function getWebsiteCustomisation()
+  public function uploadImage($imagePath, $imageString)
   {
-    $allColours = $this->websiteRepo->getWebsiteCustomisation();
+    $s3 = \Storage::disk('s3');
+    $img = explode(',', $imageString);
+    if(count($img)>1) {
+      $imgData = base64_decode($img[1]);
+    }else{
+      return '';
+    }
+
+    $timeStamp = md5(microtime(true) . rand(10,99));
+
+    $path = $imagePath.$timeStamp.'.png';
+    $s3->put($path, $imgData);
+
+    return $timeStamp.'.png';
+  }
+
+  public function getWebsiteCustomisationOptions()
+  {
+    $allColours = $this->websiteRepo->getWebsiteCustomisationOptions();
     if ($allColours) {
         return ['status_code' => '200', 'data'=>$allColours];
     }

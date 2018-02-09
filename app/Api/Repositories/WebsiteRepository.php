@@ -96,7 +96,7 @@ class WebsiteRepository
     return $websiteData;
   }
 
-  public function getWebsiteCustomisation() {
-    return config('wot.website_customisation');
+  public function getWebsiteCustomisationOptions() {
+    return config('wot.website_customisation_options');
   }
 }
