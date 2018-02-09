@@ -78,7 +78,7 @@ class WebsiteController extends BaseController
     return $this->websiteContract->websiteSummary($request);
   }
 
-  public function getWebsiteCustomisation(Request $request) {
-    return $this->websiteContract->getWebsiteCustomisation();
+  public function getWebsiteCustomisationOptions(Request $request) {
+    return $this->websiteContract->getWebsiteCustomisationOptions();
   }
 }

@@ -37,5 +37,5 @@ interface WebsiteContract
      *
      * @return response
      */
-    public function getWebsiteCustomisation();
+    public function getWebsiteCustomisationOptions();
 }

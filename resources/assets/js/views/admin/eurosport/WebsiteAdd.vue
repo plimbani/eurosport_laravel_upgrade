@@ -202,14 +202,11 @@ export default {
 		});
 		this.$store.dispatch('setActiveTab', currentNavigationData);	
 		this.getAllPublishedTournaments();
-		this.getWebsiteCustomisation();
+		this.getWebsiteCustomisationOptions();
 		this.websiteId = this.$store.state.Website.id;
 		if(this.websiteId) {
 			Website.websiteSummaryData(this.websiteId).then(
 				(response) => {
-					console.log('-------------------');
-					console.log(response.data.data);
-					console.log('-------------------');
 					this.tournament_logo_image = response.data.data.tournament_logo;
 					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic;
 					this.website.tournament_name = response.data.data.tournament_name;
@@ -313,8 +310,8 @@ export default {
 			this.social_sharing_graphic_image = '';
 			e.preventDefault();
 		},
-		getWebsiteCustomisation() {
-			Website.getWebsiteCustomisation().then(
+		getWebsiteCustomisationOptions() {
+			Website.getWebsiteCustomisationOptions().then(
         (response) => {
         	console.log(response.data.data)
           this.customisation.primary_colors = response.data.data.primary_colors;

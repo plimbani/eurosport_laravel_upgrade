@@ -26,7 +26,7 @@ export default {
     return api.post('websites/websiteSummary',{'websiteId':websiteId})
   },
   // Get website all colours
-  getWebsiteCustomisation() {
-    return axios.get('/api/websites/colours');
+  getWebsiteCustomisationOptions() {
+    return axios.get('/api/websites/customisation/options');
   },
 }
