@@ -215,7 +215,7 @@ export default {
 					this.website.domain_name = response.data.data.domain_name;
 					this.website.linked_tournament = response.data.data.linked_tournament != null ? response.data.data.linked_tournament : '';
 					this.website.google_analytics_id = response.data.data.google_analytics_id;
-					this.website.primary_color = response.data.data.primary_colour;
+					this.website.primary_color = response.data.data.primary_color;
 					this.website.secondary_color = response.data.data.secondary_color;
 					this.website.heading_font = response.data.data.heading_font;
 					this.website.body_font = response.data.data.body_font;

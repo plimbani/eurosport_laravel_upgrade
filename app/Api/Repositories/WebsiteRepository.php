@@ -67,7 +67,7 @@ class WebsiteRepository
     $website->google_analytics_id = $data['google_analytics_id'];
     $website->tournament_logo = ($data['tournament_logo'] != '') ? $data['tournament_logo'] : NULL;
     $website->social_sharing_graphic = ($data['social_sharing_graphic'] != '') ? $data['social_sharing_graphic'] : NULL;
-    $website->primary_colour = $data['primary_color'];
+    $website->primary_color = $data['primary_color'];
     $website->secondary_color = $data['secondary_color'];
     $website->heading_font = $data['heading_font'];
     $website->body_font = $data['body_font'];
