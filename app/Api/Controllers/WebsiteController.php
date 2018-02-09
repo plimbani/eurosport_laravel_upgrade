@@ -81,4 +81,13 @@ class WebsiteController extends BaseController
   public function getWebsiteCustomisationOptions(Request $request) {
     return $this->websiteContract->getWebsiteCustomisationOptions();
   }
+
+  /*
+   * Get image path
+   *
+   * @return response
+   */
+  public function getImagePath(Request $request) {
+    return $this->websiteContract->getImagePath();
+  }
 }

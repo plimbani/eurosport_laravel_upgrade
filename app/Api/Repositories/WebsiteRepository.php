@@ -85,11 +85,11 @@ class WebsiteRepository
   public function websiteSummary($websiteId) {
     $websiteData = Website::find($websiteId);
 
-    if($websiteData->tournament_logo != Null) {
+    if($websiteData->tournament_logo != null) {
       $websiteData->tournament_logo = $this->tournamentLogo . $websiteData->tournament_logo;
     }
 
-    if($websiteData->social_sharing_graphic != Null) {
+    if($websiteData->social_sharing_graphic != null) {
       $websiteData->social_sharing_graphic = $this->socialSharingGraphicImage . $websiteData->social_sharing_graphic;
     }    
     

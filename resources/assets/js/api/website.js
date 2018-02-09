@@ -25,8 +25,16 @@ export default {
   websiteSummaryData(websiteId) {
     return api.post('websites/websiteSummary',{'websiteId':websiteId})
   },
+  // Save home page data
+  saveHomePageData(pageData) {
+    return api.post('/saveHomePageData', pageData);
+  },
   // Get website all colours
   getWebsiteCustomisationOptions() {
     return axios.get('/api/websites/customisation/options');
+  },
+  // Get image path
+  getImagePath() {
+    return axios.get('/api/getImagePath');
   },
 }

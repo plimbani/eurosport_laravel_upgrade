@@ -37,5 +37,13 @@ interface WebsiteContract
      *
      * @return response
      */
+
     public function getWebsiteCustomisationOptions();
+
+    /*
+     * Get image path
+     *
+     * @return response
+     */
+    public function getImagePath();
 }

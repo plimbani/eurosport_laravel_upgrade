@@ -211,7 +211,7 @@ return [
         Laraspace\Api\Providers\RoleServiceProvider::class,
         Laraspace\Api\Providers\VenueServiceProvider::class,
         Laraspace\Api\Providers\WebsiteServiceProvider::class,
-
+        Laraspace\Api\Providers\HomeServiceProvider::class,
 
 
     ],

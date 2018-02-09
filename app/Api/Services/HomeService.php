@@ -91,4 +91,11 @@ class HomeService implements HomeContract
     
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
+
+  public function savePageData($data)
+  {
+    $data = $this->homeRepo->savePageData($data);
+
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+  }
 }

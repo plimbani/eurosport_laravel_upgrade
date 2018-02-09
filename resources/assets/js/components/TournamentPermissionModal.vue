@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">{{$lang.user_management_tournament_permission_title}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                  <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">

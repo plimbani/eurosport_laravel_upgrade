@@ -176,4 +176,24 @@ class WebsiteService implements WebsiteContract
         return ['status_code' => '200', 'data'=>$allColours];
     }
   }
+
+  /*
+   * Get image path
+   *
+   * @return response
+   */
+  public function getImagePath()
+  {
+    $awsUrl = $this->getAWSUrl;
+
+    $imagePath = [
+      'website_tournament_logo' => $awsUrl . '/assets/img/website_tournament_logo/',
+      'social_sharing_graphic' => $awsUrl . '/assets/img/social_sharing_graphic/',
+      'hero_image' => $awsUrl . '/assets/img/hero_image/',
+      'welcome_image' => $awsUrl . '/assets/img/welcome_image/',
+      'organiser_logo' => $awsUrl . '/assets/img/organiser/',
+    ];
+
+    return $imagePath;
+  }
 }

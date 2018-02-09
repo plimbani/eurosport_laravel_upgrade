@@ -244,6 +244,10 @@ $api->version('v1', function ($api) {
     //Website homepage
     $api->get('getStatistics/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getStatistics');
     $api->get('getOrganisers/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getOrganisers');
+    $api->post('saveHomePageData', 'Laraspace\Api\Controllers\HomeController@savePageData');
+
+    // Image path
+    $api->get('getImagePath', 'Laraspace\Api\Controllers\WebsiteController@getImagePath');
 
 });
 

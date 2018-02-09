@@ -24,7 +24,7 @@ class CreateWebsitesTable extends Migration
             $table->string('google_analytics_id')->nullable();
             $table->string('tournament_logo')->nullable();
             $table->string('social_sharing_graphic')->nullable();
-            $table->string('primary_colour')->nullable();
+            $table->string('primary_color')->nullable();
             $table->string('secondary_color')->nullable();
             $table->string('heading_font')->nullable();
             $table->string('body_font')->nullable();
