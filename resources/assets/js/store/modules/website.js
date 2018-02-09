@@ -56,6 +56,10 @@ const mutations = {
 		state.google_analytics_id = websiteData.google_analytics_id;
 		state.tournament_logo = websiteData.tournament_logo;
 		state.social_sharing_graphic = websiteData.social_sharing_graphic;
+		state.heading_font = websiteData.heading_font;
+		state.body_font = websiteData.body_font;
+		state.primary_color = websiteData.primary_color;
+		state.secondary_color = websiteData.secondary_color;
 	}
 };
 

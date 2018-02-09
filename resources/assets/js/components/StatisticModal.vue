@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <div class="form-group row" :class="{'has-error': errors.has('statistic') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.homepage_statistic }}</label>
+            <label class="col-sm-5 form-control-label">{{ $lang.homepage_statistic }}*</label>
             <div class="col-sm-6">
                 <input v-model="formValues.statistic" v-validate="'required'"
                 :class="{'is-danger': errors.has('statistic') }"

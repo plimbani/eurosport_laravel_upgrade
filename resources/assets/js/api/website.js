@@ -21,9 +21,20 @@ export default {
   getOrganisers(websiteId) {
     return axios.get('/api/getOrganisers/' + websiteId);
   },
-
   // Get all website details
   websiteSummaryData(websiteId) {
     return api.post('websites/websiteSummary',{'websiteId':websiteId})
-  }
+  },
+  // Save home page data
+  saveHomePageData(pageData) {
+    return api.post('/saveHomePageData', pageData);
+  },
+  // Get website all colours
+  getWebsiteCustomisation() {
+    return axios.get('/api/websites/colours');
+  },
+  // Get image path
+  getImagePath() {
+    return axios.get('/api/getImagePath');
+  },
 }

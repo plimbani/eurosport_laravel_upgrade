@@ -1,23 +1,34 @@
 <template>
 	<div>
-		<draggable v-model="organiserLogos" :options="{draggable:'.organiser-logo-item', handle: '.organiser-logo-handle'}">
-	  	<div class="col-sm-12 organiser-logo-item" v-for="(organiserLogo, index) in organiserLogos" :key="organiserLogo.id">
-        {{ organiserLogo.name }}
-        <a class="text-primary" href="javascript:void(0)"
-        	@click="deleteOrganiserLogo(index)">
-        	<i class="jv-icon jv-dustbin"></i>
-        </a>
-        <a class="text-primary" href="javascript:void(0)"
-        	@click="editOrganiserLogo(organiserLogo, index)">
-        	<i class="jv-icon jv-edit"></i>
-        </a>
-        <a class="text-primary organiser-logo-handle draggable-handle" href="javascript:void(0)">
-        	<i class="fa fa-bars"></i>
-        </a>
-	    </div>
-	    <button slot="footer" type="button" class="btn btn-primary" @click="addOrganiserLogo()">{{ $lang.homepage_add_organiser }}</button>
-		</draggable>
-		<organiser-logo-modal :currentOrganiserLogoOperation="currentOrganiserLogoOperation" @storeOrganiserLogo="storeOrganiserLogo" @updateOrganiserLogo="updateOrganiserLogo"></organiser-logo-modal>
+		<div class="draggable--section">
+			<draggable v-model="organiserLogos" :options="{draggable:'.organiser-logo-item', handle: '.organiser-logo-handle'}">
+		  	<div class="draggable--section-card organiser-logo-item" v-for="(organiserLogo, index) in organiserLogos" :key="organiserLogo.id">
+		  		<div class="draggable--section-card-header">
+			  		<div class="draggable--section-card-header-panel">
+			        <div>
+			  				<img class="thumb" :src="organiserLogo.logo">{{ organiserLogo.name }}
+			  			</div>
+			        <div class="draggable--section-card-header-icons">
+				        <a class="text-primary" href="javascript:void(0)"
+				        	@click="deleteOrganiserLogo(index)">
+				        	<i class="jv-icon jv-dustbin"></i>
+				        </a>
+				        <a class="text-primary" href="javascript:void(0)"
+				        	@click="editOrganiserLogo(organiserLogo, index)">
+				        	<i class="jv-icon jv-edit"></i>
+				        </a>
+				        <a class="text-primary organiser-logo-handle draggable-handle" href="javascript:void(0)">
+				        	<i class="fa fa-bars"></i>
+				        </a>
+				      </div>
+			      </div>
+		      	<!-- Add child tags like draggable--section-child-1 -->
+		      </div>
+		    </div>
+			</draggable>
+			<button type="button" class="btn btn-primary" @click="addOrganiserLogo()">{{ $lang.homepage_add_organiser }}</button>
+			<organiser-logo-modal :currentOrganiserLogoOperation="currentOrganiserLogoOperation" @storeOrganiserLogo="storeOrganiserLogo" @updateOrganiserLogo="updateOrganiserLogo"></organiser-logo-modal>
+		</div>
 	</div>
 </template>
 
@@ -43,16 +54,25 @@
 			getWebsite() {
 				return this.$store.state.Website.id;
 			},
+			getOrganiserLogoImagePath() {
+				return this.$store.state.Image.organiserLogoPath;
+			},
 		},
 		mounted() {
 			// Get all organisers
 			this.getOrganisers();
+			this.$root.$on('getOrganiserLogos', this.getOrganiserLogos);
 		},
 		methods: {
 			getOrganisers() {
+				var vm = this;
 				Website.getOrganisers(this.getWebsite).then(
 	        (response) => {
-	          this.organiserLogos = response.data.data;
+	          vm.organiserLogos = response.data.data;
+	          vm.organiserLogos = _.map(response.data.data, function(organiser) {
+						  organiser.logo = vm.getOrganiserLogoImagePath + organiser.logo;
+						  return organiser;
+						});
 	        },
 	        (error) => {
 	        }
@@ -97,6 +117,9 @@
 				this.$root.$emit('setOrganiserLogoData', formData);
 				$('#organiser_logo_modal').modal('show');
 			},
+			getOrganiserLogos() {
+        this.$emit('setOrganiserLogos', this.organiserLogos);
+      },
 		},
 	}
 </script>

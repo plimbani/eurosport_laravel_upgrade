@@ -167,6 +167,7 @@ module.exports= {
 
   website_label: "Website",
   website_information: "Website information",
+  website_customisation: "Website customisation",
   tournament_dates: "Tournament dates",
   tournament_location_field: "Tournament location",
   domain_name: "Domain name",
@@ -175,6 +176,10 @@ module.exports= {
   website_homepage: "Homepage",
   website_homepage_options: "Homepage options",
   introduction_text: "Introduction text",
+  website_primary_color: "Primary colour",
+  website_secondary_color: "Secondary colour",
+  website_heading_fonr: "Heading font",
+  website_body_fonr: "Body font",
   website_teams: "Teams",
   website_venue: "Venue",
   website_tournament: "Tournament",
