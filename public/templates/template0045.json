@@ -11,7 +11,7 @@
     "tournament_min_match": 5,
     "avg_game_team": 5.3,
     "final_round": "F",
-    "position_type": "group_ranking",
+    "position_type": "final_and_group_ranking",
     "tournament_competition_ranking": {
         "format_name": [
             {
@@ -594,6 +594,18 @@
             "position": 12,
             "dependent_type": "ranking",
             "ranking": "4G"
-        }
+        },
+        {
+            "position": 13,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G1.4C-4D",
+            "result_type": "winner"
+        },
+        {
+            "position": 14,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G1.4C-4D",
+            "result_type": "looser"
+        },
     ]
 }
