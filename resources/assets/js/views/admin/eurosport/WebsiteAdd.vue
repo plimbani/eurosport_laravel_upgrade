@@ -200,7 +200,7 @@ export default {
 		});
 		this.$store.dispatch('setActiveTab', currentNavigationData);	
 		this.getAllPublishedTournaments();
-		this.getWebsiteCustomisation();
+		this.getWebsiteCustomisationOptions();
 		this.websiteId = this.$store.state.Website.id;
 		if(this.websiteId) {
 			Website.websiteSummaryData(this.websiteId).then(
@@ -308,8 +308,8 @@ export default {
 			this.social_sharing_graphic_image = '';
 			e.preventDefault();
 		},
-		getWebsiteCustomisation() {
-			Website.getWebsiteCustomisation().then(
+		getWebsiteCustomisationOptions() {
+			Website.getWebsiteCustomisationOptions().then(
         (response) => {
           this.customisation.primary_colors = response.data.data.primary_colors;
           this.customisation.secondary_colors = response.data.data.secondary_colors;

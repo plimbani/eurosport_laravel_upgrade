@@ -30,8 +30,8 @@ export default {
     return api.post('/saveHomePageData', pageData);
   },
   // Get website all colours
-  getWebsiteCustomisation() {
-    return axios.get('/api/websites/colours');
+  getWebsiteCustomisationOptions() {
+    return axios.get('/api/websites/customisation/options');
   },
   // Get image path
   getImagePath() {
