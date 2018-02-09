@@ -83,6 +83,8 @@ $api->version('v1', function ($api) {
     $api->post('match/getStanding/{refreshStanding?}',
         'Laraspace\Api\Controllers\MatchController@getStanding'); 
 
+    $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users'); 
+
 } );
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
@@ -207,7 +209,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('users/getUsersByRegisterType', 
         'Laraspace\Api\Controllers\UserController@getUsersByRegisterType'); 
-    $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users'); 
+   
     $api->get('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('edit.users'); 
     $api->post('user/getDetails', 'Laraspace\Api\Controllers\UserController@getUserDetails'); 
 
