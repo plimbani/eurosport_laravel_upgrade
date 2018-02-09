@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Ls from '../services/ls'
 // import NProgress from 'nprogress'
 // var NProgress = require("nprogress")
 // var PulseLoader = require('vue-spinner/src/PulseLoader.vue');
@@ -8,15 +9,24 @@ var instance = axios.create({
   baseURL: 'http://mukesh-eurosport.dev.aecortech.com/api/',
   timeout: 50000
 })
-/*
+
+
 instance.interceptors.request.use(function (config) {
-   	NProgress.start();
+    // Do something before request is sent
+    const AUTH_TOKEN = Ls.get('auth.token');
 
-  	return config
+    if(AUTH_TOKEN){
+        config.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`
+    }
+
+    return config;
 }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+});
 
-  return Promise.reject(error)
-})
+/*
+
 // Add a response interceptor
 instance.interceptors.response.use(function (response) {
 
