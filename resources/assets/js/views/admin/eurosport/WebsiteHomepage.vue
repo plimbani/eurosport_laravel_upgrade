@@ -14,7 +14,7 @@
 	          	</div>
 	          </div>
 	          <div class="col-sm-5">
-	          	<div class="row">
+	          	<div class="form-group row">
 	          		<label class="col-sm-4 no-padding form-control-label">{{$lang.homepage_hero_image}}</label>
 		          	<div class="col-sm-8">
 		          		<img :src="getHeroImage" width="100px" height="100px"/>
@@ -24,7 +24,7 @@
 		              <input type="hidden" v-model="homepage.hero_image" name="hero_image" />
 		          	</div>
 	          	</div>
-	          	<div class="row">
+	          	<div class="form-group row">
 	          		<label class="col-sm-4 no-padding form-control-label">{{$lang.homepage_welcome_image}}</label>
 		          	<div class="col-sm-8">
 		          		<img :src="getWelcomeImage" width="100px" height="100px"/>

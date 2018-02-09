@@ -4,7 +4,7 @@
 			<div class="card-block">
 				<h6><strong>{{$lang.website_information}}</strong></h6>
 				<form name="websiteName" enctype="multipart/form-data">
-					<div class="row">
+					<div class="row justify-content-between">
 						<div class="col-md-6">
 			        <div class="form-group row" :class="{'has-error': errors.has('website.tournament_name') }">
 			          <label class="col-sm-4 form-control-label">{{$lang.tournament_name}}*</label>
@@ -60,56 +60,8 @@
 				            v-model="website.google_analytics_id" name="google_analytics_id">
 			          </div>
 			        </div>
-			        <br>
-			        <h6><strong>{{$lang.website_customisation}}</strong></h6>
-			        <div class="form-group row">
-			          <div class="col-md-12">
-									<div class="row">
-									  <label class="col-sm-12 form-control-label">{{$lang.website_primary_color}}</label>
-									</div>
-									<div class="form-group row">
-										<div class="col-md-12">
-											<div v-for="primaryColor in customisation.primary_colors" class="websiteColourBox" :style="{'background-color': primaryColor}" @click="setWebsitePrimaryColor(primaryColor)" :class="{ 'website-color-active' : website.primary_color == primaryColor }">
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-									  <label class="col-sm-12 form-control-label">{{$lang.website_secondary_color}}</label>
-									</div>
-									<div class="form-group row">
-										<div class="col-md-12">
-											<div v-for="secondaryColor in customisation.secondary_colors" class="websiteColourBox" :style="{'background-color': secondaryColor}" @click="setWebsiteSecondaryColor(secondaryColor)" :class="{ 'website-color-active' : website.secondary_color == secondaryColor }">
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-									  <div class="col-md-6">
-									  	<label class="col-sm-12 form-control-label">{{$lang.website_heading_fonr}}</label>
-											<div class="col-md-12" v-for="headingFont in customisation.heading_font">
-									      <label class="radio-inline control-label">
-									          <input type="radio" name="headingFont" :value="headingFont" class="mr-2" v-model="website.heading_font">{{headingFont}}
-									      </label><br>
-											</div>
-									  </div>
-									  <div class="col-md-6">
-									  	<label class="col-sm-12 form-control-label">{{$lang.website_body_fonr}}</label>
-									  	<div class="col-md-12" v-for="bodyFont in customisation.body_font">
-												<label class="radio-inline control-label">
-												    <input type="radio" name="bodyFont" :value="bodyFont" class="mr-2" v-model="website.body_font">{{bodyFont}}
-												</label><br>
-											</div>
-									  </div>
-									</div>
-
-			          </div>
-			          <div class="col-md-6">
-			          	
-			          </div>
-			        </div>
 			      </div>
-			      <div class="col-md-6">
+			      <div class="col-md-5">
 			      	<div class="form-group row">
 			      		<label class="col-sm-4 form-control-label">{{$lang.tournament_logo}}</label>
 			      		<div class="pull-right">
@@ -141,6 +93,52 @@
 			      		</div>
 			      	</div>			      	
 			      </div>
+		      </div>
+		      <div class="row justify-content-between">
+		      	<div class="col-md-12">
+		      		<h6><strong>{{$lang.website_customisation}}</strong></h6>
+		      	</div>
+		        <div class="col-md-6">
+							<div class="row">
+							  <label class="col-sm-12 form-control-label">{{$lang.website_primary_color}}</label>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-12">
+									<div v-for="primaryColor in customisation.primary_colors" class="websiteColourBox" :style="{'background-color': primaryColor}" @click="setWebsitePrimaryColor(primaryColor)" :class="{ 'website-color-active' : website.primary_color == primaryColor }">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+							  <label class="col-sm-12 form-control-label">{{$lang.website_secondary_color}}</label>
+							</div>
+							<div class="form-group row">
+								<div class="col-md-12">
+									<div v-for="secondaryColor in customisation.secondary_colors" class="websiteColourBox" :style="{'background-color': secondaryColor}" @click="setWebsiteSecondaryColor(secondaryColor)" :class="{ 'website-color-active' : website.secondary_color == secondaryColor }">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+							  <div class="col-md-6">
+							  	<label class="col-sm-12 form-control-label">{{$lang.website_heading_fonr}}</label>
+									<div class="col-md-12" v-for="headingFont in customisation.heading_font">
+							      <label class="radio-inline control-label">
+							          <input type="radio" name="headingFont" :value="headingFont" class="mr-2" v-model="website.heading_font">{{headingFont}}
+							      </label><br>
+									</div>
+							  </div>
+							  <div class="col-md-6">
+							  	<label class="col-sm-12 form-control-label">{{$lang.website_body_fonr}}</label>
+							  	<div class="col-md-12" v-for="bodyFont in customisation.body_font">
+										<label class="radio-inline control-label">
+										    <input type="radio" name="bodyFont" :value="bodyFont" class="mr-2" v-model="website.body_font">{{bodyFont}}
+										</label><br>
+									</div>
+							  </div>
+							</div>
+	          </div>
+	          <div class="col-md-6">
+	          	
+	          </div>
 		      </div>
 				</form>
 			</div>
@@ -207,9 +205,6 @@ export default {
 		if(this.websiteId) {
 			Website.websiteSummaryData(this.websiteId).then(
 				(response) => {
-					console.log('-------------------');
-					console.log(response.data.data);
-					console.log('-------------------');
 					this.tournament_logo_image = response.data.data.tournament_logo;
 					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic;
 					this.website.tournament_name = response.data.data.tournament_name;
@@ -316,7 +311,6 @@ export default {
 		getWebsiteCustomisation() {
 			Website.getWebsiteCustomisation().then(
         (response) => {
-        	console.log(response.data.data)
           this.customisation.primary_colors = response.data.data.primary_colors;
           this.customisation.secondary_colors = response.data.data.secondary_colors;
           this.customisation.heading_font = response.data.data.heading_font;
