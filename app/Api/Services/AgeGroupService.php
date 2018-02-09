@@ -7,7 +7,9 @@ use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Api\Repositories\AgeGroupRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Team;
+use Laraspace\Models\Position;
 use Laraspace\Models\TempFixture;
+use Laraspace\Models\TournamentTemplates;
 
 class AgeGroupService implements AgeGroupContract
 {
@@ -15,6 +17,7 @@ class AgeGroupService implements AgeGroupContract
     {
         $this->ageGroupObj = $ageRepoObj;
         $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+        $this->matchServiceObj = new \Laraspace\Api\Services\MatchService();
     }
 
      /*
@@ -124,6 +127,9 @@ class AgeGroupService implements AgeGroupContract
                 $id = $data['competation_format_id'];
                 $this->addCompetationGroups($id,$data);
 
+                // Add positions to template
+                $this->insertPositions($data['competation_format_id'], $data['tournamentTemplate']);
+
             } else {
              
               if($data['team_interval'] != $mininterval) {
@@ -140,7 +146,10 @@ class AgeGroupService implements AgeGroupContract
             }
 
         } else {
-             $this->addCompetationGroups($id,$data);
+            $this->addCompetationGroups($id,$data);
+
+            // Add positions to template
+            $this->insertPositions($id, $data['tournamentTemplate']);
         }
 
 
@@ -177,6 +186,7 @@ class AgeGroupService implements AgeGroupContract
         for($i=0;$i<$totalRound;$i++){
             // Now here we calculate followng fields
             $rounds = $json_data->tournament_competation_format->format_name[$i]->match_type;
+            $roundIndex = 0;
             foreach($rounds as $key=>$round) {
                 $val = $key.'-'.$i;
                 $group_name[$val]['group_name']=$round->groups->group_name;
@@ -226,6 +236,8 @@ class AgeGroupService implements AgeGroupContract
                     }
                   }
                 }
+
+              $roundIndex++;
             }
         }
         $competation_array = array();
@@ -356,5 +368,53 @@ class AgeGroupService implements AgeGroupContract
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
+    }
+
+    /**
+     * Insert positions.
+     *
+     * @param array $data
+     *
+     * @return [type]
+     */
+    public function insertPositions($ageCategoryId, $template)
+    {
+      Position::where('age_category_id', $ageCategoryId)->delete();
+      $json_data = json_decode($template['json_data'], true);
+      $tournamentPositions = isset($json_data['tournament_positions']) ? $json_data['tournament_positions'] : [];
+
+      foreach($tournamentPositions as $tournamentPosition) {
+        $position = new Position();
+        $position->age_category_id = $ageCategoryId;
+        $position->position = $tournamentPosition['position'];
+        $position->dependent_type = $tournamentPosition['dependent_type'];
+        $position->match_number = isset($tournamentPosition['match_number']) ? $tournamentPosition['match_number'] : null;
+        $position->result_type = isset($tournamentPosition['result_type']) ? $tournamentPosition['result_type'] : null;
+        $position->ranking = isset($tournamentPosition['ranking']) ? $tournamentPosition['ranking'] : null;
+        $position->team_id = null;
+        $position->save();
+      }
+    }
+
+    public function getPlacingsData($data) {
+      $data = $this->ageGroupObj->getPlacingsData($data);
+      if ($data) {
+        return ['data' => $data, 'status_code' => '200', 'message' => 'Data Successfully Deleted'];
+      }
+    }
+
+    public function ageCategoryData()
+    {
+      $tournamentTemplates = TournamentTemplates::get()->keyBy('id')->toArray();
+      $tournamentCompetationTemplates = TournamentCompetationTemplates::all();
+      foreach ($tournamentCompetationTemplates as $tournamentCompetationTemplate) {
+        $this->insertPositions($tournamentCompetationTemplate->id, $tournamentTemplates[$tournamentCompetationTemplate->tournament_template_id]);
+
+        $matchPositions = Position::where('age_category_id', $tournamentCompetationTemplate->id)->where('dependent_type', 'match')->get();
+        $this->matchServiceObj->updatePlacingMatchPositions($tournamentCompetationTemplate, $matchPositions);
+        
+        $rankingPositions = Position::where('age_category_id', $tournamentCompetationTemplate->id)->where('dependent_type', 'ranking')->get();
+        $this->matchServiceObj->updateGroupRankingPositions($tournamentCompetationTemplate, $rankingPositions);
+      }
     }
 }

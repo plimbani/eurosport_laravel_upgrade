@@ -9,6 +9,7 @@
     "competation_format": "RR, PM/F",
     "tournament_min_match": 3,
     "avg_game_team": 3.4,
+    "position_type": "group_ranking",
     "tournament_competition_ranking": {
         "format_name": [
             {
@@ -450,5 +451,22 @@
                 ]
             }
         ]
-    }
+    },
+    "tournament_positions" : [
+        {
+            "position": 1,
+            "dependent_type": "ranking",
+            "ranking": "1C"
+        },
+        {
+            "position": 2,
+            "dependent_type": "ranking",
+            "ranking": "2C"
+        },
+        {
+            "position": 3,
+            "dependent_type": "ranking",
+            "ranking": "3C"
+        }
+    ]
 }
