@@ -73,6 +73,13 @@ $api->version('v1', function ($api) {
 
     $api->post('match/saveStandingsManually', ' Laraspace\Api\Controllers\MatchController@saveStandingsManually');
 
+    $api->post('age_group/getCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat');
+
+    $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws'); 
+
+
+    $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding'); 
+
 } );
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
@@ -130,7 +137,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore'); 
     
     $api->post('match/checkTeamIntervalforMatches', 'Laraspace\Api\Controllers\MatchController@checkTeamIntervalforMatches');
-    $api->post('match/getStanding/{refreshStanding?}','Laraspace\Api\Controllers\MatchController@getStanding');  
+    
+
 
     //Referee api
     $api->post('referees', 'Laraspace\Api\Controllers\RefereeController@getReferees'); 
@@ -162,14 +170,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->get('venues/getAll/{tournamentId}', 'Laraspace\Api\Controllers\VenueController@getVenues'); 
 
-     $api->post('age_group/getCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat'); 
+    
     //Tournament Api CRUD Routes
    
 
     // Get Tournament Details By Status
 
     $api->post('tournament/updateStatus', 'Laraspace\Api\Controllers\TournamentController@updateStatus');
-    $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws'); 
+    
 
     // Get All Templates
     $api->post('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates'); 
