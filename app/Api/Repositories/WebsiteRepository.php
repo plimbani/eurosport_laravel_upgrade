@@ -45,6 +45,11 @@ class WebsiteRepository
     return $websites;
   }
 
+  /*
+   * Save website data
+   *
+   * @return response
+   */
   public function saveWebsiteData($data) 
   {
     if(isset($data['websiteId']) && $data['websiteId'] != 0){
@@ -72,6 +77,11 @@ class WebsiteRepository
     return $website;
   }
 
+  /*
+   * Get website details
+   *
+   * @return response
+   */
   public function websiteSummary($websiteId) {
     $websiteData = Website::find($websiteId);
 
