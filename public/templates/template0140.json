@@ -10,6 +10,7 @@
     "tournament_min_match": 5,
     "remark": "",
     "avg_game_team": 5,
+    "position_type": "final",
     "tournament_competition_ranking": {
         "format_name": [
             {
@@ -162,5 +163,31 @@
                 ]
             }
         ]
-    }
+    },
+    "tournament_positions" : [
+        {
+            "position": 1,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G1.1A_4A_WR-2A_3A_WR",
+            "result_type": "winner"
+        },
+        {
+            "position": 2,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G1.1A_4A_WR-2A_3A_WR",
+            "result_type": "looser"
+        },
+        {
+            "position": 3,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G2.1A_4A_LR-2A_3A_LR",
+            "result_type": "winner"
+        },
+        {
+            "position": 4,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G2.1A_4A_LR-2A_3A_LR",
+            "result_type": "looser"
+        }
+    ]
 }
