@@ -94,6 +94,7 @@
 			      	</div>			      	
 			      </div>
 		      </div>
+
 		      <div class="row justify-content-between">
 		      	<div class="col-md-12">
 		      		<h6><strong>{{$lang.website_customisation}}</strong></h6>
@@ -137,9 +138,22 @@
 							</div>
 	          </div>
 	          <div class="col-md-6">
-	          	
+	          	<!-- Preview section -->
 	          </div>
 		      </div>
+
+		      <div class="row justify-content-between mt-2">
+		      	<div class="col-md-6">
+		      		<h6><strong>{{$lang.website_sponsors}}</strong></h6>
+		      	</div>
+		      </div>
+
+	        <div class="form-group row">
+	        	<div class="col-sm-6">
+	        		<website-sponsors-list @setSponsors="setSponsors"></website-sponsors-list>
+	        	</div>
+	        </div>
+
 				</form>
 			</div>
 		</div>
@@ -159,7 +173,11 @@
 var moment = require('moment');
 import Tournament from '../../../api/tournament.js';
 import Website from '../../../api/website.js'
+import WebsiteSponsorsList from '../../../components/WebsiteSponsorsList.vue';
 export default {
+	components: {
+		WebsiteSponsorsList,
+	},
 	data() {
 		return {
 			website: {
@@ -176,6 +194,7 @@ export default {
 				secondary_color: '',
 				heading_font: '',
 				body_font: '',
+				sponsors: [],
 			},
 			customisation: {
 				primary_colors: [],
@@ -236,7 +255,7 @@ export default {
 				if(this.$store.state.Website.id != null) {
 					this.website.websiteId = this.$store.state.Website.id;					
 				}
-
+				this.$root.$emit('getSponsors');
 				this.$store.dispatch('SaveWebsiteDetails', this.website)
 				.then((response) => {
 					toastr['success']('Website details added successfully', 'Success');
@@ -326,7 +345,9 @@ export default {
 		setWebsiteSecondaryColor(secondaryColour) {
 			this.website.secondary_color = secondaryColour;
 		},
-
+		setSponsors(sponsors) {
+			this.website.sponsors = sponsors;
+		},
 	}
 }
 </script>

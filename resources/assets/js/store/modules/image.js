@@ -2,11 +2,12 @@ import * as types from '../mutation-types';
 
 // state
 const state = {
-	'websiteTournamentLogoPath': '',
+  'websiteTournamentLogoPath': '',
   'socialSharingGraphicPath': '',
   'heroImagePath': '',
   'welcomeImagePath': '',
   'organiserLogoPath': '',
+  'sponsorLogoPath': '',
 };
 
 // getters
@@ -26,6 +27,7 @@ const mutations = {
 		state.heroImagePath = imagePath.hero_image;
 		state.welcomeImagePath = imagePath.welcome_image;
 		state.organiserLogoPath = imagePath.organiser_logo;
+		state.sponsorLogoPath = imagePath.sponsor_logo;
 	},
 };
 

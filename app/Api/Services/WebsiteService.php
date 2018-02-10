@@ -192,8 +192,21 @@ class WebsiteService implements WebsiteContract
       'hero_image' => $awsUrl . '/assets/img/hero_image/',
       'welcome_image' => $awsUrl . '/assets/img/welcome_image/',
       'organiser_logo' => $awsUrl . '/assets/img/organiser/',
+      'sponsor_logo' => $awsUrl . '/assets/img/sponsor/',
     ];
 
     return $imagePath;
+  }
+
+  /*
+   * Get sponsors
+   *
+   * @return response
+   */
+  public function getSponsors($websiteId)
+  {
+    $data = $this->websiteRepo->getAllSponsors($websiteId);
+    
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
 }
