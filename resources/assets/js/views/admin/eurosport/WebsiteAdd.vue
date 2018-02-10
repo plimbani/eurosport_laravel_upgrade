@@ -36,8 +36,8 @@
 			        <div class="form-group row">
 			          <label class="col-sm-4 form-control-label">{{$lang.domain_name}}</label>
 			          <div class="col-sm-8">
-				            <input type="text" class="form-control" placeholder="Enter the domain name" 
-				            v-model="website.domain_name" name="domain_name">		            		
+				            <input type="text" class="form-control" placeholder="Enter the domain name" v-validate="'url'" :class="{'is-danger': errors.has('domain_name') }" v-model="website.domain_name" name="domain_name">
+				            <span class="help is-danger" v-show="errors.has('domain_name')">The domain name is not a valid URL.</span>
 			          </div>
 			        </div>
 			        <div class="form-group row">
@@ -333,7 +333,7 @@ export default {
 	        //Validate the File Height and Width.
 	        image.onload = function () {
 	        	if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {
-		           toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
+		          toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
 	          } else {
 	          	vm.social_sharing_graphic_image = r.target.result;
 	          }

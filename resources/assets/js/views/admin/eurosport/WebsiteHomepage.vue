@@ -36,22 +36,20 @@
 	          	</div>
 	          </div>
 	        </div>
+
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.homepage_statistics}}</strong></h6>
 	        	</div>
-	        </div>
-	        <div class="form-group row">
 	        	<div class="col-sm-6">
 	        		<statistic-list @setStatistics="setStatistics"></statistic-list>
 	        	</div>
 	        </div>
+
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.homepage_organiser_logos}}</strong></h6>
 	        	</div>
-	        </div>
-	        <div class="form-group row">
 	        	<div class="col-sm-6">
 	        		<organiser-logo-list @setOrganiserLogos="setOrganiserLogos"></organiser-logo-list>
 	        	</div>
