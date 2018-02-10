@@ -205,8 +205,10 @@ class HomeRepository
     $pageDetail['name'] = $this->pageName;
     $pageDetail['content'] = $data['introduction_text'];
     $meta = array();
-    $meta['hero_image'] = $data['hero_image'];
-    $meta['welcome_image'] = $data['welcome_image'];
+    // Upload hero image
+    $meta['hero_image'] = $this->uploadHeroImage($data['hero_image']);
+    // Upload welcome image
+    $meta['welcome_image'] = $this->uploadWelcomeImage($data['welcome_image']);
     $pageDetail['meta'] = $meta;
 
     $this->pageService->updatePageDetails($pageDetail, $data['websiteId']);
@@ -305,5 +307,47 @@ class HomeRepository
   public function getPageData($websiteId)
   {
     return $this->pageService->getPageDetails($this->pageName, $websiteId);
+  }
+
+  /*
+   * Upload hero image
+   *
+   * @return response
+   */
+  public function uploadHeroImage($logo)
+  {
+    if($logo != '') {
+      if(strpos($logo, $this->getAWSUrl) !==  false) {
+        $path = $this->getAWSUrl . '/assets/img/hero_image/';
+        $imageLogo = str_replace($path, "", $logo);
+        return $imageLogo;
+      }
+
+      $imagePath = '/assets/img/hero_image/';
+      $imageString = $logo;
+
+      return Image::uploadImage($imagePath, $imageString);
+    }
+  }
+
+  /*
+   * Upload welcome image
+   *
+   * @return response
+   */
+  public function uploadWelcomeImage($logo)
+  {
+    if($logo != '') {
+      if(strpos($logo, $this->getAWSUrl) !==  false) {
+        $path = $this->getAWSUrl . '/assets/img/welcome_image/';
+        $imageLogo = str_replace($path, "", $logo);
+        return $imageLogo;
+      }
+
+      $imagePath = '/assets/img/welcome_image/';
+      $imageString = $logo;
+
+      return Image::uploadImage($imagePath, $imageString);
+    }
   }
 }

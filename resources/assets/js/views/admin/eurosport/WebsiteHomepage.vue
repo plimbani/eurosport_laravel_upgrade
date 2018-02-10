@@ -18,7 +18,7 @@
 	          		<label class="col-sm-4 no-padding form-control-label">{{$lang.homepage_hero_image}}</label>
 		          	<div class="col-sm-8">
 		          		<img :src="getHeroImage" width="100px" height="100px"/>
-		          		<button v-if="homepage.hero_image != ''" class="btn btn-default" @click="removeImage('hero_image')">{{$lang.tournament_tournament_remove_button}}</button>
+		          		<button v-if="homepage.hero_image != ''" class="btn btn-default" @click="removeImage($event, 'hero_image')">{{$lang.tournament_tournament_remove_button}}</button>
 		              <button v-else type="button" class="btn btn-default" @click="selectHeroImage()">{{$lang.tournament_tournament_choose_button}}</button>
 		              <input type="file" id="hero_image" style="display:none;" @change="onImageChange($event, 'hero_image')">
 		              <input type="hidden" v-model="homepage.hero_image" name="hero_image" />
@@ -28,7 +28,7 @@
 	          		<label class="col-sm-4 no-padding form-control-label">{{$lang.homepage_welcome_image}}</label>
 		          	<div class="col-sm-8">
 		          		<img :src="getWelcomeImage" width="100px" height="100px"/>
-		          		<button v-if="homepage.welcome_image != ''" class="btn btn-default" @click="removeImage('welcome_image')">{{$lang.tournament_tournament_remove_button}}</button>
+		          		<button v-if="homepage.welcome_image != ''" class="btn btn-default" @click="removeImage($event, 'welcome_image')">{{$lang.tournament_tournament_remove_button}}</button>
 		              <button v-else type="button" class="btn btn-default" @click="selectWelcomeImage()">{{$lang.tournament_tournament_choose_button}}</button>
 		              <input type="file" id="welcome_image" style="display:none;" @change="onImageChange($event, 'welcome_image')">
 		              <input type="hidden" v-model="homepage.welcome_image" name="welcome_image" />
@@ -157,6 +157,12 @@ export default {
   	getWelcomeImage() {
   		return this.homepage.welcome_image == '' ? 'http://placehold.it/250x250' : this.homepage.welcome_image;
   	},
+  	getHeroImagePath() {
+			return this.$store.state.Image.heroImagePath;
+		},
+		getWelcomeImagePath() {
+			return this.$store.state.Image.welcomeImagePath;
+		},
 	},
 	methods: {
 		next() {
@@ -213,7 +219,7 @@ export default {
 
 			reader.readAsDataURL(files[0]);
 		},
-		removeImage(key) {
+		removeImage(e, key) {
 			this.homepage[key] = '';
 			e.preventDefault();
 		},
@@ -222,9 +228,9 @@ export default {
 
 			Website.getHomePageData(websiteId).then(
         (response)=> {
-          this.homepage.introduction_text = response.data.data.content;
-          this.homepage.hero_image = typeof response.data.data.meta.hero_image != 'undefined' && response.data.data.meta.hero_image != null ? response.data.data.meta.hero_image : '';
-          this.homepage.welcome_image = typeof response.data.data.meta.welcome_image != 'undefined' && response.data.data.meta.welcome_image != null ? response.data.data.meta.welcome_image : '';
+        	this.homepage.introduction_text = response.data.data.content;
+          this.homepage.hero_image = typeof response.data.data.meta.hero_image != 'undefined' && response.data.data.meta.hero_image != null ? this.getHeroImagePath + response.data.data.meta.hero_image : '';
+          this.homepage.welcome_image = typeof response.data.data.meta.welcome_image != 'undefined' && response.data.data.meta.welcome_image != null ? this.getWelcomeImagePath + response.data.data.meta.welcome_image : '';
         },
         (error)=>{
         }
