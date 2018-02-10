@@ -16,7 +16,7 @@ class PageService
   {
     $page = null;
     if(isset($pageDetail['id'])) {
-      $page = Page::find('id', $pageDetail['id']);
+      $page = Page::find($pageDetail['id']);
     } else {
       $page = Page::where('name', $pageDetail['name'])->where('website_id', $websiteId)->first();
     }
