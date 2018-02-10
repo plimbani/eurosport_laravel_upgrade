@@ -6,6 +6,7 @@ use DB;
 use Laraspace\Models\Statistic;
 use Laraspace\Models\Organiser;
 use Laraspace\Custom\Helper\Image;
+use Laraspace\Api\Services\PageService;
 
 class HomeRepository
 {
@@ -15,11 +16,23 @@ class HomeRepository
   protected $getAWSUrl;
 
   /**
+   * @var Page service
+   */
+  protected $pageService;
+
+  /**
+   * @var Page name
+   */
+  protected $pageName;
+
+  /**
    * Create a new controller instance.
    */
-  public function __construct()
+  public function __construct(PageService $pageService)
   {
     $this->getAWSUrl = getenv('S3_URL');
+    $this->pageService = $pageService;
+    $this->pageName = 'home';
   }
 
   /*
@@ -188,7 +201,15 @@ class HomeRepository
    */
   public function savePageData($data)
   {
+    $pageDetail = array();
+    $pageDetail['name'] = $this->pageName;
+    $pageDetail['content'] = $data['introduction_text'];
+    $meta = array();
+    $meta['hero_image'] = $data['hero_image'];
+    $meta['welcome_image'] = $data['welcome_image'];
+    $pageDetail['meta'] = $meta;
 
+    $this->pageService->updatePageDetails($pageDetail, $data['websiteId']);
     $this->saveStatistics($data);
     $this->saveOrganisers($data);
   }
@@ -274,5 +295,15 @@ class HomeRepository
 
       return Image::uploadImage($imagePath, $imageString);
     }
+  }
+
+  /*
+   * Get page data
+   *
+   * @return response
+   */
+  public function getPageData($websiteId)
+  {
+    return $this->pageService->getPageDetails($this->pageName, $websiteId);
   }
 }

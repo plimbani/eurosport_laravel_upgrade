@@ -151,24 +151,6 @@ class WebsiteService implements WebsiteContract
     }
   }
 
-  public function uploadImage($imagePath, $imageString)
-  {
-    $s3 = \Storage::disk('s3');
-    $img = explode(',', $imageString);
-    if(count($img)>1) {
-      $imgData = base64_decode($img[1]);
-    }else{
-      return '';
-    }
-
-    $timeStamp = md5(microtime(true) . rand(10,99));
-
-    $path = $imagePath.$timeStamp.'.png';
-    $s3->put($path, $imgData);
-
-    return $timeStamp.'.png';
-  }
-
   public function getWebsiteCustomisationOptions()
   {
     $allColours = $this->websiteRepo->getWebsiteCustomisationOptions();
@@ -198,6 +180,18 @@ class WebsiteService implements WebsiteContract
     return $imagePath;
   }
 
+  /*
+   * Get image path
+   *
+   * @return response
+   */
+  public function getWebsiteDefaultPages()
+  {
+    $pageData = $this->websiteRepo->getWebsiteDefaultPages();
+    if ($pageData) {
+      return ['status_code' => '200', 'data' => $pageData];
+    }
+  }
   /*
    * Get sponsors
    *

@@ -41,4 +41,12 @@ export default {
   getImagePath() {
     return axios.get('/api/getImagePath');
   },
+  // Get website default pages
+  getWebsiteDefaultPages() {
+    return axios.get('/api/websites/getWebsiteDefaultPages');
+  },
+  // Get home page data
+  getHomePageData(websiteId) {
+    return axios.get('/api/getHomePageData/' + websiteId);
+  },
 }

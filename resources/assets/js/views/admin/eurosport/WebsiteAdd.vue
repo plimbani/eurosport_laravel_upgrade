@@ -44,9 +44,9 @@
 			        	<label class="col-sm-4 form-control-label">{{$lang.linked_tournament}}</label>
 			        	<div class="col-sm-8">
 			        		<div class="form-group">
-			        			<select class="form-control ls-select2" name="linked_tournament" v-model="website.linked_tournament">
+			        			<select v-if="website.publishedTournaments != null" class="form-control ls-select2" name="linked_tournament" v-model="website.linked_tournament">
 		                    <option value="">Please select</option>
-		                    <option v-for="tournament in this.website.publishedTournaments" v-bind:value="tournament.id">
+		                    <option v-for="tournament in website.publishedTournaments" v-bind:value="tournament.id">
 		                        {{ tournament.name }}
 		                    </option>
 			        			</select>
@@ -141,19 +141,46 @@
 	          	<!-- Preview section -->
 	          </div>
 		      </div>
-
-		      <div class="row justify-content-between mt-2">
-		      	<div class="col-md-6">
-		      		<h6><strong>{{$lang.website_sponsors}}</strong></h6>
+					<div class="row justify-content-between mt-4">
+		      	<div class="col-md-12">
+		      		<h6 class="mb-2"><strong>{{$lang.website_sponsors}}</strong></h6>
 		      	</div>
-		      </div>
-
-	        <div class="form-group row">
-	        	<div class="col-sm-6">
+		      	<div class="col-sm-6">
 	        		<sponsors-list @setSponsors="setSponsors"></sponsors-list>
 	        	</div>
-	        </div>
-
+		      </div>
+		      <div class="row justify-content-between mt-4">
+		      	<div class="col-md-12">
+		      		<h6 class="mb-2"><strong>{{$lang.website_page_permission}}</strong></h6>
+		      	</div>
+		      	<div class="col-md-12">
+							<div class="form-group row">
+								<div class="col-md-8">
+									<ul>
+							      <li class="row">
+							      	<span class="col-sm-4">Page</span>
+							      	<span class="col-sm-4">Enable</span>
+							      	<span class="col-sm-4">Publish</span>
+							      </li>
+							    </ul>
+								  <ul>
+					    			<li class="row" v-for="page in website.pages" v-if="page.is_permission_changeable != 0">
+					    				<span class="col-sm-4">{{ page.title }}</span>
+					    				<span class="col-sm-4"><input type="checkbox" v-model="page.is_enabled" :true-value="1" :false-value="0"></span>
+					    				<span class="col-sm-4"><input type="checkbox" v-model="page.is_published" :true-value="1" :false-value="0"></span>
+					    				<ul class="col-sm-12" v-if="page.children && page.children.length > 0">
+							      		<li class="row" v-for="childPage in page.children">
+							    				<span class="col-sm-4">{{ childPage.title }}</span>
+							    				<span class="col-sm-4"><input type="checkbox" v-model="childPage.is_enabled" :true-value="1" :false-value="0"></span>
+							    				<span class="col-sm-4"><input type="checkbox" v-model="childPage.is_published" :true-value="1" :false-value="0"></span>
+							    			</li>
+							      	</ul>
+					    			</li>
+							    </ul>
+								</div>
+							</div>
+						</div>
+		      </div>
 				</form>
 			</div>
 		</div>
@@ -172,8 +199,9 @@
 <script>
 var moment = require('moment');
 import Tournament from '../../../api/tournament.js';
-import Website from '../../../api/website.js'
+import Website from '../../../api/website.js';
 import SponsorsList from '../../../components/SponsorsList.vue';
+
 export default {
 	components: {
 		SponsorsList,
@@ -181,6 +209,7 @@ export default {
 	data() {
 		return {
 			website: {
+				websiteId: null,
 				tournament_name: '',
 				tournament_date: '',
 				tournament_location: '',
@@ -189,11 +218,12 @@ export default {
 				google_analytics_id: '',
 				tournament_logo:'',
 				social_sharing_graphic: '',
-				publishedTournaments: {},
+				publishedTournaments: null,
 				primary_color: '',
 				secondary_color: '',
 				heading_font: '',
 				body_font: '',
+				pages: [],
 				sponsors: [],
 			},
 			customisation: {
@@ -220,22 +250,13 @@ export default {
 		this.$store.dispatch('setActiveTab', currentNavigationData);	
 		this.getAllPublishedTournaments();
 		this.getWebsiteCustomisationOptions();
-		this.websiteId = this.$store.state.Website.id;
-		if(this.websiteId) {
-			Website.websiteSummaryData(this.websiteId).then(
+		this.website.websiteId = this.$store.state.Website.id;
+		if(this.website.websiteId) {
+			this.getWebsiteSummary();
+		} else {
+			Website.getWebsiteDefaultPages(this.website.websiteId).then(
 				(response) => {
-					this.tournament_logo_image = response.data.data.tournament_logo;
-					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic;
-					this.website.tournament_name = response.data.data.tournament_name;
-					this.website.tournament_location = response.data.data.tournament_location;
-					this.website.tournament_date = response.data.data.tournament_dates;
-					this.website.domain_name = response.data.data.domain_name;
-					this.website.linked_tournament = response.data.data.linked_tournament != null ? response.data.data.linked_tournament : '';
-					this.website.google_analytics_id = response.data.data.google_analytics_id;
-					this.website.primary_color = response.data.data.primary_color;
-					this.website.secondary_color = response.data.data.secondary_color;
-					this.website.heading_font = response.data.data.heading_font;
-					this.website.body_font = response.data.data.body_font;
+					this.website.pages = response.data.data;
 				},
 				(error) => {
 				  // if no Response Set Zero
@@ -274,7 +295,7 @@ export default {
 		getAllPublishedTournaments() {
 			Tournament.getAllPublishedTournaments().then(
         (response) => {
-          this.website.publishedTournaments = response.data.data
+          this.website.publishedTournaments = response.data.data;
         },
         (error) => {
         }
@@ -346,6 +367,29 @@ export default {
 		},
 		setWebsiteSecondaryColor(secondaryColour) {
 			this.website.secondary_color = secondaryColour;
+		},
+		getWebsiteSummary() {
+			Website.websiteSummaryData(this.website.websiteId).then(
+				(response) => {
+					this.tournament_logo_image = response.data.data.tournament_logo;
+					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic;
+					this.website.tournament_name = response.data.data.tournament_name;
+					this.website.tournament_location = response.data.data.tournament_location;
+					this.website.tournament_date = response.data.data.tournament_dates;
+					this.website.domain_name = response.data.data.domain_name;
+					this.website.linked_tournament = response.data.data.linked_tournament != null ? response.data.data.linked_tournament : '';
+					this.website.google_analytics_id = response.data.data.google_analytics_id;
+					this.website.primary_color = response.data.data.primary_color;
+					this.website.secondary_color = response.data.data.secondary_color;
+					this.website.heading_font = response.data.data.heading_font;
+					this.website.body_font = response.data.data.body_font;
+					this.website.pages = response.data.data.pageTreeArray;
+				},
+				(error) => {
+				  // if no Response Set Zero
+				  //
+				}
+			);
 		},
 		setSponsors(sponsors) {
 			this.website.sponsors = sponsors;

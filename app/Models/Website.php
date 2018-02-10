@@ -14,4 +14,12 @@ class Website extends Model
      * @var string
      */
     protected $table = 'websites';
+
+    /**
+     * Get all of the pages for the website.
+     */
+    public function pages()
+    {
+        return $this->hasMany('Laraspace\Models\Page');
+    }
 }
