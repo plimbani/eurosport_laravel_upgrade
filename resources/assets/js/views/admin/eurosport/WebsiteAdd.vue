@@ -36,8 +36,8 @@
 			        <div class="form-group row">
 			          <label class="col-sm-4 form-control-label">{{$lang.domain_name}}</label>
 			          <div class="col-sm-8">
-				            <input type="text" class="form-control" placeholder="Enter the domain name" 
-				            v-model="website.domain_name" name="domain_name">		            		
+				            <input type="text" class="form-control" placeholder="Enter the domain name" v-validate="'url'" :class="{'is-danger': errors.has('domain_name') }" v-model="website.domain_name" name="domain_name">
+				            <span class="help is-danger" v-show="errors.has('domain_name')">The domain name is not a valid URL.</span>
 			          </div>
 			        </div>
 			        <div class="form-group row">
@@ -309,6 +309,11 @@ export default {
 	    if (!files.length)
 	     return;
 
+	    if(Plugin.ValidateImageType(files[0]) == false) {
+        toastr['error']('Tournament logo is not a valid image', 'Error');
+        return;
+      }
+
 	    var reader = new FileReader();
 	    reader.onload = (r) => {
 	     vm.tournament_logo_image = r.target.result;
@@ -321,24 +326,29 @@ export default {
 	    var files = e.target.files || e.dataTransfer.files;
 
 	    if (!files.length)
-	     return;
+	      return;
 
-		    var reader = new FileReader();
-		    reader.onload = (r) => {
-	        var image = new Image();
-	        image.src = r.target.result;
-	               
-	        //Validate the File Height and Width.
-	        image.onload = function () {
-	        	if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {
-		           toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
-	          } else {
-	          	vm.social_sharing_graphic_image = r.target.result;
-	          }
-	        };		     
-		    };
+	    if(Plugin.ValidateImageType(files[0]) == false) {
+        toastr['error']('Social sharing graphic is not a valid image', 'Error');
+        return;
+      }
 
-		    reader.readAsDataURL(files[0]);	  	
+	    var reader = new FileReader();
+	    reader.onload = (r) => {
+        var image = new Image();
+        image.src = r.target.result;
+               
+        //Validate the File Height and Width.
+        image.onload = function () {
+        	if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {
+	          toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
+          } else {
+          	vm.social_sharing_graphic_image = r.target.result;
+          }
+        };		     
+	    };
+
+	    reader.readAsDataURL(files[0]);
 	  },
 		removeImage: function (e) {
 			this.tournament_logo_image = '';

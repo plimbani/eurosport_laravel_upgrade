@@ -36,22 +36,20 @@
 	          	</div>
 	          </div>
 	        </div>
+
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.homepage_statistics}}</strong></h6>
 	        	</div>
-	        </div>
-	        <div class="form-group row">
 	        	<div class="col-sm-6">
 	        		<statistic-list @setStatistics="setStatistics"></statistic-list>
 	        	</div>
 	        </div>
+
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.homepage_organiser_logos}}</strong></h6>
 	        	</div>
-	        </div>
-	        <div class="form-group row">
 	        	<div class="col-sm-6">
 	        		<organiser-logo-list @setOrganiserLogos="setOrganiserLogos"></organiser-logo-list>
 	        	</div>
@@ -212,6 +210,12 @@ export default {
 
 			if (!files.length)
 				return;
+
+	    if(Plugin.ValidateImageType(files[0]) == false) {
+	    	var tmpKey = key.charAt(0).toUpperCase() + key.slice(1).toLowerCase().replace( /[-_]+/g, ' ');
+        toastr['error'](tmpKey + ' is not a valid image', 'Error');
+        return;
+      }
 
 			var reader = new FileReader();
 			reader.onload = (r) => {
