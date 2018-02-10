@@ -92,6 +92,11 @@
 				if (!files.length)
 					return;
 
+		    if(Plugin.ValidateImageType(files[0]) == false) {
+	        toastr['error']('Organiser logo is not a valid image', 'Error');
+	        return;
+	      }
+
 				var reader = new FileReader();
 				reader.onload = (r) => {
 					vm.formValues.logo = r.target.result;

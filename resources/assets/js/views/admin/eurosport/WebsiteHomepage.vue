@@ -165,6 +165,12 @@ export default {
 			if (!files.length)
 				return;
 
+	    if(Plugin.ValidateImageType(files[0]) == false) {
+	    	var tmpKey = key.charAt(0).toUpperCase() + key.slice(1).toLowerCase().replace( /[-_]+/g, ' ');
+        toastr['error'](tmpKey + ' is not a valid image', 'Error');
+        return;
+      }
+
 			var reader = new FileReader();
 			reader.onload = (r) => {
 				vm.homepage[key] = r.target.result;
