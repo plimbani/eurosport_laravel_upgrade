@@ -53,4 +53,11 @@ interface WebsiteContract
      * @return response
      */
     public function getWebsiteDefaultPages();
+
+    /*
+     * Get sponsors
+     *
+     * @return response
+     */
+    public function getSponsors($websiteId);
 }

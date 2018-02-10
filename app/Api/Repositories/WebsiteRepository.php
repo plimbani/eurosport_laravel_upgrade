@@ -4,7 +4,9 @@ namespace Laraspace\Api\Repositories;
 
 use DB;
 use Laraspace\Models\Page;
+use Laraspace\Models\Sponsor;
 use Laraspace\Models\Website;
+use Laraspace\Custom\Helper\Image;
 use Laraspace\Api\Services\PageService;
 
 class WebsiteRepository
@@ -24,12 +26,18 @@ class WebsiteRepository
    * @var Page service
    */
   protected $pageService;
+  
+  /**
+   * @var AWS URL
+   */
+  protected $getAWSUrl;
 
 	/**
    * Create a new controller instance.
    */
 	public function __construct(PageService $pageService)
   {
+    $this->getAWSUrl = getenv('S3_URL');
     $this->tournamentLogo =  getenv('S3_URL').'/assets/img/website_tournament_logo/';
     $this->socialSharingGraphicImage = getenv('S3_URL').'/assets/img/social_sharing_graphic/';
     $this->pageService = $pageService;
@@ -71,6 +79,24 @@ class WebsiteRepository
    */
   public function saveWebsiteData($data) 
   {
+    $website = $this->saveWebsite($data);
+
+    if(!isset($data['websiteId']) || empty($data['websiteId']))
+    {
+      $data['websiteId'] = $website->id;
+    }
+    
+    $this->saveSponsors($data);
+    return $website;
+  }
+
+  /*
+   * Save website
+   *
+   * @return response
+   */
+  public function saveWebsite($data) 
+  {
     if(isset($data['websiteId']) && $data['websiteId'] != null){
       $websiteId = $data['websiteId'];
       $website = Website::find($websiteId);
@@ -99,6 +125,39 @@ class WebsiteRepository
     $this->saveWebsitePageDetail($data);
 
     return $website;
+  }
+
+  /*
+   * Save sponsors
+   *
+   * @return response
+   */
+  public function saveSponsors($data) 
+  {
+    $websiteId = $data['websiteId'];
+    $sponsors = $data['sponsors'];
+
+    $existingSponsorsId = $this->getAllSponsorIds($websiteId);
+
+    $sponsorIds = [];
+    for($i=0; $i<count($sponsors); $i++) {
+      $sponsorData = $sponsors[$i];
+      $sponsorData['order'] = $i + 1;
+
+      // Upload image
+      $sponsorData['logo'] = $this->uploadSponsorLogo($sponsorData['logo']);
+
+      if($sponsorData['id'] == '') {
+        $sponsor = $this->insertSponsor($websiteId, $sponsorData);
+      } else {
+        $sponsor = $this->updateSponsor($sponsorData);
+      }
+      $sponsorIds[] = $sponsor->id;
+    }
+
+    $deleteSponsorsId = array_diff($existingSponsorsId, $sponsorIds);
+
+    $this->deleteSponsors($deleteSponsorsId);
   }
 
   /*
@@ -174,5 +233,95 @@ class WebsiteRepository
         $this->processPageTree($pageDetail['children'], $websiteId, $isExistingWebsite, $pageObj->id);
       }
     }
+  }
+
+  /*
+   * Get all sponsors
+   *
+   * @return response
+   */
+  public function getAllSponsors($websiteId)
+  {
+    $sponsors = Sponsor::where('website_id', $websiteId)->orderBy('order')->get();
+
+    return $sponsors;
+  }
+
+  /*
+   * Get all sponsors ids
+   *
+   * @return response
+   */
+  public function getAllSponsorIds($websiteId)
+  {
+    $sponsorIds = Sponsor::where('website_id', $websiteId)->pluck('id')->toArray();
+    return $sponsorIds;
+  }
+
+  /*
+   * Upload sponsor logo
+   *
+   * @return response
+   */
+  public function uploadSponsorLogo($logo)
+  {
+    if($logo != '') {
+      if(strpos($logo, $this->getAWSUrl) !==  false) {
+        $path = $this->getAWSUrl . '/assets/img/sponsor/';
+        $imageLogo = str_replace($path, "", $logo);
+        return $imageLogo;
+      }
+
+      $imagePath = '/assets/img/sponsor/';
+      $imageString = $logo;
+
+      return Image::uploadImage($imagePath, $imageString);
+    }
+  }
+
+  /*
+   * Insert sponsor
+   *
+   * @return response
+   */
+  public function insertSponsor($websiteId, $data)
+  {
+    $sponsor = new Sponsor();
+    $sponsor->website_id = $websiteId;
+    $sponsor->name = $data['name'];
+    $sponsor->order = $data['order'];
+    $sponsor->logo = $data['logo'];
+    $sponsor->website = $data['website'];
+    $sponsor->save();
+
+    return $sponsor;
+  }
+
+  /*
+   * Update sponsor
+   *
+   * @return response
+   */
+  public function updateSponsor($data)
+  {
+    $sponsor = Sponsor::find($data['id']);
+    $sponsor->name = $data['name'];
+    $sponsor->order = $data['order'];
+    $sponsor->logo = $data['logo'];
+    $sponsor->website = $data['website'];
+    $sponsor->save();
+
+    return $sponsor;
+  }
+
+  /*
+   * Delete multiple organisers
+   *
+   * @return response
+   */
+  public function deleteSponsors($sponsorIds = [])
+  {
+    Sponsor::whereIn('id', $sponsorIds)->delete();
+    return true;
   }
 }

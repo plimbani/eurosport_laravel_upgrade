@@ -34,6 +34,11 @@
     },
     mounted () {
     },
+    watch: {
+      value: function(value) {
+        this.content = value;
+      }
+    },
     methods: {
       getEditorValue() {
         this.$emit('setEditorValue', this.content);

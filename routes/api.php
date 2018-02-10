@@ -245,6 +245,7 @@ $api->version('v1', function ($api) {
     //Website homepage
     $api->get('getStatistics/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getStatistics');
     $api->get('getOrganisers/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getOrganisers');
+    $api->get('getSponsors/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getSponsors');
     $api->post('saveHomePageData', 'Laraspace\Api\Controllers\HomeController@savePageData');
     $api->get('getHomePageData/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getPageData');
 

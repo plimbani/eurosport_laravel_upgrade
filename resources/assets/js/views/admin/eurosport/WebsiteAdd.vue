@@ -94,6 +94,7 @@
 			      	</div>			      	
 			      </div>
 		      </div>
+
 		      <div class="row justify-content-between">
 		      	<div class="col-md-12">
 		      		<h6><strong>{{$lang.website_customisation}}</strong></h6>
@@ -137,12 +138,20 @@
 							</div>
 	          </div>
 	          <div class="col-md-6">
-	          	
+	          	<!-- Preview section -->
 	          </div>
 		      </div>
-		      <div class="row justify-content-between">
+					<div class="row justify-content-between mt-4">
 		      	<div class="col-md-12">
-		      		<h6><strong>{{$lang.website_page_permission}}</strong></h6>
+		      		<h6 class="mb-2"><strong>{{$lang.website_sponsors}}</strong></h6>
+		      	</div>
+		      	<div class="col-sm-6">
+	        		<sponsors-list @setSponsors="setSponsors"></sponsors-list>
+	        	</div>
+		      </div>
+		      <div class="row justify-content-between mt-4">
+		      	<div class="col-md-12">
+		      		<h6 class="mb-2"><strong>{{$lang.website_page_permission}}</strong></h6>
 		      	</div>
 		      	<div class="col-md-12">
 							<div class="form-group row">
@@ -191,8 +200,12 @@
 var moment = require('moment');
 import Tournament from '../../../api/tournament.js';
 import Website from '../../../api/website.js';
+import SponsorsList from '../../../components/SponsorsList.vue';
 
 export default {
+	components: {
+		SponsorsList,
+	},
 	data() {
 		return {
 			website: {
@@ -211,6 +224,7 @@ export default {
 				heading_font: '',
 				body_font: '',
 				pages: [],
+				sponsors: [],
 			},
 			customisation: {
 				primary_colors: [],
@@ -221,8 +235,6 @@ export default {
 			tournament_logo_image: '',			
 			social_sharing_graphic_image: '',
 		}
-	},
-	components: {
 	},
 	mounted() {
 		let currentNavigationData = {
@@ -264,9 +276,11 @@ export default {
 				if(this.$store.state.Website.id != null) {
 					this.website.websiteId = this.$store.state.Website.id;					
 				}
-
+				this.$root.$emit('getSponsors');
+				$("body .js-loader").removeClass('d-none');
 				this.$store.dispatch('SaveWebsiteDetails', this.website)
 				.then((response) => {
+					$("body .js-loader").addClass('d-none');
 					toastr['success']('Website details added successfully', 'Success');
 					this.redirectToForward();
 				})
@@ -376,6 +390,9 @@ export default {
 				  //
 				}
 			);
+		},
+		setSponsors(sponsors) {
+			this.website.sponsors = sponsors;
 		},
 	}
 }

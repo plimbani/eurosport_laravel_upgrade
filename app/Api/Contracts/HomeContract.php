@@ -17,4 +17,11 @@ interface HomeContract
      * @return response
      */
     public function getOrganisers($websiteId);
+
+    /*
+     * Get home page data
+     *
+     * @return response
+     */
+    public function getPageData($websiteId);
 }
