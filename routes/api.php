@@ -136,8 +136,6 @@ $api->version('v1', function ($api) {
     //Tournament Api CRUD Routes
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
-    $api->get('getAllPublishedTournaments','Laraspace\Api\Controllers\TournamentController@getAllPublishedTournaments');
-
     // Get Tournament Details By Status
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
 
@@ -216,9 +214,7 @@ $api->version('v1', function ($api) {
     $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
 
     $api->post('user/changeTournamentPermission','Laraspace\Api\Controllers\UserController@changeTournamentPermission');
-    $api->post('user/changePermissions','Laraspace\Api\Controllers\UserController@changePermissions');
     $api->get('user/getUserTournaments/{id}','Laraspace\Api\Controllers\UserController@getUserTournaments');
-    $api->get('user/getUserWebsites/{id}','Laraspace\Api\Controllers\UserController@getUserWebsites');
 
     $api->post('tournament/getCategoryCompetitions', 'Laraspace\Api\Controllers\TournamentController@getCategoryCompetitions');
 
@@ -233,6 +229,13 @@ $api->version('v1', function ($api) {
     $api->get('match/insertPositionsForPlacingMatches','Laraspace\Api\Controllers\MatchController@insertPositionsForPlacingMatches')->name('insert.positions.for.placing.matches');
 
     $api->post('appversion', 'Laraspace\Api\Controllers\VersionController@apkVersion');
+
+    // Published tournaments
+    $api->get('getAllPublishedTournaments','Laraspace\Api\Controllers\TournamentController@getAllPublishedTournaments');
+
+    // Website & Tournament permissions
+    $api->post('user/changePermissions','Laraspace\Api\Controllers\UserController@changePermissions');
+    $api->get('user/getUserWebsites/{id}','Laraspace\Api\Controllers\UserController@getUserWebsites');
 
     // Websites APIs
     $api->get('websites', 'Laraspace\Api\Controllers\WebsiteController@index');
@@ -253,5 +256,3 @@ $api->version('v1', function ($api) {
     $api->get('getImagePath', 'Laraspace\Api\Controllers\WebsiteController@getImagePath');
 
 });
-
-
