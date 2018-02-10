@@ -12,10 +12,7 @@
           <div class="form-group row" :class="{'has-error': errors.has('statistic') }">
             <label class="col-sm-5 form-control-label">{{ $lang.homepage_statistic }}*</label>
             <div class="col-sm-6">
-                <input v-model="formValues.statistic" v-validate="'required'"
-                :class="{'is-danger': errors.has('statistic') }"
-                name="statistic" type="text"
-                class="form-control" placeholder="Enter statistic">
+                <input v-model="formValues.statistic" v-validate="{'required':true, 'max': 25}" :class="{'is-danger': errors.has('statistic') }" name="statistic" type="text" class="form-control" :placeholder="$lang.homepage_statistic_model_placeholder" maxlength="25">
                 <i v-show="errors.has('statistic')" class="fa fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('statistic')">{{ errors.first('statistic') }}
                 </span>
