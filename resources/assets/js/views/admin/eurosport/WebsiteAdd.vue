@@ -5,7 +5,7 @@
 				<h6><strong>{{$lang.website_information}}</strong></h6>
 				<form name="websiteName" enctype="multipart/form-data">
 					<div class="row justify-content-between">
-						<div class="col-md-6">
+						<div class="col-md-6" v-if="this.isAdmin">
 			        <div class="form-group row" :class="{'has-error': errors.has('website.tournament_name') }">
 			          <label class="col-sm-4 form-control-label">{{$lang.tournament_name}}*</label>
 			          <div class="col-sm-8">
@@ -53,7 +53,7 @@
 			        		</div>
 			        	</div>
 			        </div>
-			        <div class="form-group row">
+			        <div class="form-group row mb-0">
 			          <label class="col-sm-4 form-control-label">{{$lang.google_analytics_id}}</label>
 			          <div class="col-sm-8">
 				            <input type="text" class="form-control" placeholder="Enter the google analytics id" 
@@ -62,7 +62,7 @@
 			        </div>
 			      </div>
 			      <div class="col-md-5">
-			      	<div class="form-group row">
+			      	<div class="form-group row" v-if="this.isAdmin">
 			      		<label class="col-sm-4 form-control-label">{{$lang.tournament_logo}}</label>
 			      		<div class="pull-right">
                     <div v-if="!tournament_logo_image">
@@ -94,7 +94,7 @@
 			      	</div>			      	
 			      </div>
 		      </div>
-
+		      <hr class="my-4">
 		      <div class="row justify-content-between">
 		      	<div class="col-md-12">
 		      		<h6><strong>{{$lang.website_customisation}}</strong></h6>
@@ -120,19 +120,29 @@
 							</div>
 							<div class="row">
 							  <div class="col-md-6">
-							  	<label class="col-sm-12 form-control-label">{{$lang.website_heading_fonr}}</label>
-									<div class="col-md-12" v-for="headingFont in customisation.heading_font">
-							      <label class="radio-inline control-label">
-							          <input type="radio" name="headingFont" :value="headingFont" class="mr-2" v-model="website.heading_font">{{headingFont}}
-							      </label><br>
+							  	<div class="row">
+								  	<label class="col-sm-12 form-control-label">{{$lang.website_heading_fonr}}</label>
+										<div class="col-md-12" v-for="headingFont in customisation.heading_font">
+											<div class="radio mb-2">
+				                <div class="r-input">
+				                	<input type="radio" name="headingFont" v-bind:id="headingFont" class="euro-radio" v-model="website.heading_font" :value="headingFont" />
+			                    <label v-bind:for="headingFont">{{ headingFont }}</label>
+				                </div>
+				              </div>
+										</div>
 									</div>
 							  </div>
 							  <div class="col-md-6">
-							  	<label class="col-sm-12 form-control-label">{{$lang.website_body_fonr}}</label>
-							  	<div class="col-md-12" v-for="bodyFont in customisation.body_font">
-										<label class="radio-inline control-label">
-										    <input type="radio" name="bodyFont" :value="bodyFont" class="mr-2" v-model="website.body_font">{{bodyFont}}
-										</label><br>
+							  	<div class="row">
+								  	<label class="col-sm-12 form-control-label">{{$lang.website_body_fonr}}</label>
+								  	<div class="col-md-12" v-for="bodyFont in customisation.body_font">
+								  		<div class="radio mb-2">
+				                <div class="r-input">
+				                	<input type="radio" name="bodyFont" v-bind:id="bodyFont" class="euro-radio" v-model="website.body_font" :value="bodyFont" />
+			                    <label v-bind:for="bodyFont">{{ bodyFont }}</label>
+				                </div>
+				              </div>
+										</div>
 									</div>
 							  </div>
 							</div>
@@ -141,36 +151,66 @@
 	          	<!-- Preview section -->
 	          </div>
 		      </div>
-					<div class="row justify-content-between mt-4">
+		      <hr class="my-4">
+					<div class="row justify-content-between">
 		      	<div class="col-md-12">
-		      		<h6 class="mb-2"><strong>{{$lang.website_sponsors}}</strong></h6>
+		      		<h6><strong>{{$lang.website_sponsors}}</strong></h6>
 		      	</div>
 		      	<div class="col-sm-6">
 	        		<sponsors-list @setSponsors="setSponsors"></sponsors-list>
 	        	</div>
 		      </div>
-		      <div class="row justify-content-between mt-4">
+		      <hr class="my-4" v-if="this.isAdmin">
+		      <div class="row justify-content-between" v-if="this.isAdmin">
 		      	<div class="col-md-12">
-		      		<h6 class="mb-2"><strong>{{$lang.website_page_permission}}</strong></h6>
+		      		<h6><strong>{{$lang.website_page_permission}}</strong></h6>
 		      	</div>
 		      	<div class="col-md-12">
 							<div class="form-group row">
-								<div class="col-md-8">
-								  <ul>
-								  	<li class="row">
-							      	<span class="col-sm-4"><strong>Page</strong></span>
-							      	<span class="col-sm-4"><strong>Enable</strong></span>
-							      	<span class="col-sm-4"><strong>Publish</strong></span>
+								<div class="col-md-6">
+								  <ul class="pl-0">
+								  	<li class="row mb-2">
+							      	<div class="col-sm-8"><strong>Page</strong></div>
+							      	<div class="col-sm-2"><strong>Enable</strong></div>
+							      	<div class="col-sm-2"><strong>Publish</strong></div>
 							      </li>
-					    			<li class="row" v-for="page in website.pages" v-if="page.is_permission_changeable != 0">
-					    				<span class="col-sm-4">{{ page.title }}</span>
-					    				<span class="col-sm-4"><input type="checkbox" v-model="page.is_enabled" :true-value="1" :false-value="0"></span>
-					    				<span class="col-sm-4"><input type="checkbox" v-model="page.is_published" :true-value="1" :false-value="0"></span>
+					    			<li class="row mb-2" v-for="page in website.pages" v-if="page.is_permission_changeable != 0">
+					    				<div class="col-sm-8">{{ page.title }}</div>
+					    				<div class="col-sm-2">
+					    					<div class="checkbox">
+				                	<div class="c-input">
+					    							<input type="checkbox" v-bind:id="`enable-${page.name}`" class="euro-checkbox" v-model="page.is_enabled" :true-value="1" :false-value="0" />
+			                      <label v-bind:for="`enable-${page.name}`"></label>
+					    						</div>
+					    					</div>
+					    				</div>
+					    				<div class="col-sm-2">
+					    					<div class="checkbox">
+				                	<div class="c-input">
+					    							<input type="checkbox" v-bind:id="`publish-${page.name}`" class="euro-checkbox" v-model="page.is_published" :true-value="1" :false-value="0" />
+					                  <label v-bind:for="`publish-${page.name}`"></label>
+					    						</div>
+					    					</div>
+					    				</div>
 					    				<ul class="col-sm-12" v-if="page.children && page.children.length > 0">
-							      		<li class="row" v-for="childPage in page.children">
-							    				<span class="col-sm-4">{{ childPage.title }}</span>
-							    				<span class="col-sm-4"><input type="checkbox" v-model="childPage.is_enabled" :true-value="1" :false-value="0"></span>
-							    				<span class="col-sm-4"><input type="checkbox" v-model="childPage.is_published" :true-value="1" :false-value="0"></span>
+							      		<li class="row mt-2" v-for="childPage in page.children">
+							    				<div class="col-sm-8">&nbsp;&nbsp;- {{ childPage.title }}</div>
+							    				<div class="col-sm-2">
+							    					<div class="checkbox">
+				                      <div class="c-input">
+			                          <input type="checkbox" v-bind:id="`enable-${childPage.name}`" class="euro-checkbox" v-model="childPage.is_enabled" :true-value="1" :false-value="0" />
+			                          <label v-bind:for="`enable-${childPage.name}`"></label>
+				                      </div>
+				                    </div>
+							    				</div>
+							    				<div class="col-sm-2">
+							    					<div class="checkbox">
+				                      <div class="c-input">
+									    					<input type="checkbox" v-bind:id="`publish-${childPage.name}`" class="euro-checkbox" v-model="childPage.is_published" :true-value="1" :false-value="0" />
+					                      <label v-bind:for="`publish-${childPage.name}`"></label>
+					                    </div>
+					                  </div>
+							    				</div>
 							    			</li>
 							      	</ul>
 					    			</li>
@@ -264,6 +304,12 @@ export default {
 		}
 	},
 	computed: {
+		userDetails: function() {
+      return this.$store.state.Users.userDetails
+    },
+    isAdmin: function() {
+    	return this.userDetails.role_slug != 'tournament.administrator';
+    },
 	},
 	methods: {
 		next() {
