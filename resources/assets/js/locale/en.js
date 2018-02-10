@@ -624,6 +624,7 @@ module.exports= {
   homepage_statistics: "Statistics",
   homepage_statistic: "Statistic",
   homepage_add_statistic: "Add statistic",
+  homepage_statistic_model_placeholder: "30 years of experience",
   cancel_button: "Cancel",
   save_button: "Save",
   homepage_organiser_logos: "Organiser logos",

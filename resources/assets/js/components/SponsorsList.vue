@@ -30,7 +30,7 @@
 		    </div>
 			</draggable>
 			<button type="button" class="btn btn-primary" @click="addSponsor()">{{ $lang.website_add_sponsor }}</button>
-			<website-sponsor-modal :currentSponsorOperation="currentSponsorOperation" @storeSponsor="storeSponsor" @updateSponsor="updateSponsor"></website-sponsor-modal>
+			<sponsor-modal :currentSponsorOperation="currentSponsorOperation" @storeSponsor="storeSponsor" @updateSponsor="updateSponsor"></sponsor-modal>
 		</div>
 	</div>
 </template>
@@ -38,7 +38,7 @@
 <script type="text/babel">
 	import Website from '../api/website.js';
 	import draggable from 'vuedraggable';
-	import WebsiteSponsorModal  from  './WebsiteSponsorModal.vue';
+	import SponsorModal  from  './SponsorModal.vue';
 	import _ from 'lodash';
 
 	export default {
@@ -51,7 +51,7 @@
 		},
 		components: {
 			draggable,
-			WebsiteSponsorModal,
+			SponsorModal,
 		},
 		computed: {
 			getWebsite() {

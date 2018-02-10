@@ -62,7 +62,7 @@ class WebsiteRepository
   {
     $website = $this->saveWebsite($data);
 
-    if(!isset($data['websiteId']) || empty($data['websiteId']) || trim($data['websiteId']) == '' || $data['websiteId'] <= 0)
+    if(!isset($data['websiteId']) || empty($data['websiteId']))
     {
       $data['websiteId'] = $website->id;
     }

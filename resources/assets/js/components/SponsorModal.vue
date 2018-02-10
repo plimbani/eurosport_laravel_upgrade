@@ -32,12 +32,12 @@
             </div>
           </div>
           <div class="form-group row" :class="{'has-error': errors.has('name') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.website_sponsor_name }}*</label>
+            <label class="col-sm-5 form-control-label">{{ $lang.website_sponsor_website }}*</label>
             <div class="col-sm-6">
-                <input v-model="formValues.website" v-validate="'required'"
+                <input v-model="formValues.website" v-validate="{'required':true, 'url':true}"
                 :class="{'is-danger': errors.has('website') }"
                 name="website" type="text"
-                class="form-control" placeholder="Sponsor's website">
+                class="form-control" :placeholder="$lang.website_sponsor_website">
                 <i v-show="errors.has('website')" class="fa fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('website')">{{ errors.first('website') }}
                 </span>
@@ -94,6 +94,7 @@
 				this.formValues.name = sponsorData.name;
 				this.formValues.logo = sponsorData.logo;
 				this.formValues.website = sponsorData.website;
+				this.$validator.clean();
 			},
 			selectLogo() {
 				$('#sponsor_logo').trigger('click');
