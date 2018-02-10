@@ -46,4 +46,11 @@ interface WebsiteContract
      * @return response
      */
     public function getImagePath();
+
+    /*
+     * Get sponsors
+     *
+     * @return response
+     */
+    public function getSponsors($websiteId);
 }

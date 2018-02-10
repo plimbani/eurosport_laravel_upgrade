@@ -90,4 +90,18 @@ class WebsiteController extends BaseController
   public function getImagePath(Request $request) {
     return $this->websiteContract->getImagePath();
   }
+
+  /**
+   * Get all sponsors
+   *
+   * Get a JSON representation of all the sponsors
+   *
+   * @Get("/getSponsors")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getSponsors(Request $request, $websiteId)
+  {
+    return $this->websiteContract->getSponsors($websiteId);
+  }
 }
