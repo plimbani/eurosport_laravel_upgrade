@@ -46,4 +46,11 @@ interface WebsiteContract
      * @return response
      */
     public function getImagePath();
+
+    /*
+     * Get website default pages
+     *
+     * @return response
+     */
+    public function getWebsiteDefaultPages();
 }

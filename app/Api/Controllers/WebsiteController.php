@@ -78,6 +78,11 @@ class WebsiteController extends BaseController
     return $this->websiteContract->websiteSummary($request);
   }
 
+  /*
+   * Get customisation option
+   *
+   * @return response
+   */
   public function getWebsiteCustomisationOptions(Request $request) {
     return $this->websiteContract->getWebsiteCustomisationOptions();
   }
@@ -89,5 +94,14 @@ class WebsiteController extends BaseController
    */
   public function getImagePath(Request $request) {
     return $this->websiteContract->getImagePath();
+  }
+
+  /*
+   * Get website default pages
+   *
+   * @return response
+   */
+  public function getWebsiteDefaultPages(Request $request) {
+    return $this->websiteContract->getWebsiteDefaultPages();
   }
 }

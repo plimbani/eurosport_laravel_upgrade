@@ -144,10 +144,11 @@ export default {
 	mounted() {
 		// Set current as active
 		let currentNavigationData = {
-			activeTab:'website_homepage', 
+			activeTab:'website_homepage',
 			currentPage:'Homepage options'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
+		this.getPageContent();
 	},
 	computed: {
 		getHeroImage() {
@@ -214,6 +215,19 @@ export default {
 		removeImage(key) {
 			this.homepage[key] = '';
 			e.preventDefault();
+		},
+		getPageContent() {
+			var websiteId = this.getWebsiteId();
+
+			Website.getHomePageData(websiteId).then(
+        (response)=> {
+          this.homepage.introduction_text = response.data.data.content;
+          this.homepage.hero_image = typeof response.data.data.meta.hero_image != 'undefined' && response.data.data.meta.hero_image != null ? response.data.data.meta.hero_image : '';
+          this.homepage.welcome_image = typeof response.data.data.meta.welcome_image != 'undefined' && response.data.data.meta.welcome_image != null ? response.data.data.meta.welcome_image : '';
+        },
+        (error)=>{
+        }
+      );
 		},
 	},
 }

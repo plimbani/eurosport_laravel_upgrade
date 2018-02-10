@@ -627,4 +627,5 @@ module.exports= {
   homepage_edit_organiser_logo: "Edit organiser logo",
   homepage_hero_image: "Hero image",
   homepage_welcome_image: "Welcome image",
+  website_page_permission: "Page permissions",
 }
