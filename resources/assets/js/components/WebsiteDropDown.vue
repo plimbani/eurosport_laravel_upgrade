@@ -35,6 +35,7 @@
 			  	tournament_name: this.website.tournament_name,
 			  	tournament_dates: this.website.tournament_dates,
 			  	tournament_location: this.website.tournament_location,
+			  	pages: this.website.pages,
 			  };
 	  	  this.$store.dispatch('SetWebsite', websiteSel);
 	  	  let currentNavigationData = { activeTab:'website_add', currentPage: 'Website information' };

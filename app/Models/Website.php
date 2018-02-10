@@ -1,6 +1,7 @@
 <?php
 namespace Laraspace\Models;
 
+use Laraspace\Models\Page;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

@@ -10,27 +10,27 @@
 			          <label class="col-sm-4 form-control-label">{{$lang.tournament_name}}*</label>
 			          <div class="col-sm-8">
 				            <input type="text" class="form-control" placeholder="Enter the name of your tournament" 
-				            v-model="website.tournament_name" name="tournament_name"  v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
+				            v-model="website.tournament_name" name="tournament_name" data-vv-as="tournament name" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
 		            		<i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
-		            		<span class="help is-danger" v-show="errors.has('tournament_name')">Tournament name required</span>
+		            		<span class="help is-danger" v-show="errors.has('tournament_name')">{{ errors.first('tournament_name') }}</span>
 			          </div>
 			        </div>
 							<div class="form-group row">
 								<label class="col-sm-4 form-control-label">{{$lang.tournament_dates}}*</label>
 			          <div class="col-sm-8">
 				            <input type="text" class="form-control" placeholder="Enter the tournament date" 
-				            v-model="website.tournament_date" name="tournament_date"  v-validate="'required'" :class="{'is-danger': errors.has('tournament_date') }">
+				            v-model="website.tournament_date" name="tournament_date" data-vv-as="tournament dates" v-validate="'required'" :class="{'is-danger': errors.has('tournament_date') }">
 		            		<i v-show="errors.has('tournament_date')" class="fa fa-warning"></i>
-		            		<span class="help is-danger" v-show="errors.has('tournament_date')">Tournament dates required</span>
+		            		<span class="help is-danger" v-show="errors.has('tournament_date')">{{ errors.first('tournament_date') }}</span>
 			          </div>
 							</div>			        
 			        <div class="form-group row" :class="{'has-error': errors.has('website.tournament_location') }">
 			          <label class="col-sm-4 form-control-label">{{$lang.tournament_location_field}}*</label>
 			          <div class="col-sm-8">
 				            <input type="text" class="form-control" placeholder="Enter the location" 
-				            v-model="website.tournament_location" name="tournament_location"  v-validate="'required'" :class="{'is-danger': errors.has('tournament_location') }">
+				            v-model="website.tournament_location" name="tournament_location" data-vv-as="tournament location" v-validate="'required'" :class="{'is-danger': errors.has('tournament_location') }">
 		            		<i v-show="errors.has('tournament_location')" class="fa fa-warning"></i>
-		            		<span class="help is-danger" v-show="errors.has('tournament_location')">Tournament location required</span>
+		            		<span class="help is-danger" v-show="errors.has('tournament_location')">{{ errors.first('tournament_location') }}</span>
 			          </div>
 			        </div>
 			        <div class="form-group row">
@@ -105,16 +105,16 @@
 							</div>
 							<div class="form-group row">
 								<div class="col-md-12">
-									<div v-for="primaryColor in customisation.primary_colors" class="websiteColourBox" :style="{'background-color': primaryColor}" @click="setWebsitePrimaryColor(primaryColor)" :class="{ 'website-color-active' : website.primary_color == primaryColor }">
+									<div v-for="primaryColor in customisation.primary_colors" class="websiteColourBox pull-left mr-2" :style="{'background-color': primaryColor}" @click="setWebsitePrimaryColor(primaryColor)" :class="{ 'website-color-active' : website.primary_color == primaryColor }">
 									</div>
 								</div>
 							</div>
-							<div class="row">
-							  <label class="col-sm-12 form-control-label">{{$lang.website_secondary_color}}</label>
-							</div>
 							<div class="form-group row">
 								<div class="col-md-12">
-									<div v-for="secondaryColor in customisation.secondary_colors" class="websiteColourBox" :style="{'background-color': secondaryColor}" @click="setWebsiteSecondaryColor(secondaryColor)" :class="{ 'website-color-active' : website.secondary_color == secondaryColor }">
+									<label class="form-control-label">{{$lang.website_secondary_color}}</label>
+								</div>
+								<div class="col-md-12">
+									<div v-for="secondaryColor in customisation.secondary_colors" class="websiteColourBox pull-left mr-2" :style="{'background-color': secondaryColor}" @click="setWebsiteSecondaryColor(secondaryColor)" :class="{ 'website-color-active' : website.secondary_color == secondaryColor }">
 									</div>
 								</div>
 							</div>
@@ -169,45 +169,45 @@
 							<div class="form-group row">
 								<div class="col-md-6">
 								  <ul class="pl-0">
-								  	<li class="row mb-2">
+								  	<li class="row mb-2 align-items-center">
 							      	<div class="col-sm-8"><strong>Page</strong></div>
 							      	<div class="col-sm-2"><strong>Enable</strong></div>
 							      	<div class="col-sm-2"><strong>Publish</strong></div>
 							      </li>
-					    			<li class="row mb-2" v-for="page in website.pages" v-if="page.is_permission_changeable != 0">
+					    			<li class="row mb-2 align-items-center" v-for="page in website.pages" v-if="page.is_permission_changeable != 0">
 					    				<div class="col-sm-8">{{ page.title }}</div>
 					    				<div class="col-sm-2">
-					    					<div class="checkbox">
+					    					<div class="checkbox d-flex align-items-center">
 				                	<div class="c-input">
 					    							<input type="checkbox" v-bind:id="`enable-${page.name}`" class="euro-checkbox" v-model="page.is_enabled" :true-value="1" :false-value="0" />
-			                      <label v-bind:for="`enable-${page.name}`"></label>
+			                      <label class="mb-0" v-bind:for="`enable-${page.name}`"></label>
 					    						</div>
 					    					</div>
 					    				</div>
 					    				<div class="col-sm-2">
-					    					<div class="checkbox">
+					    					<div class="checkbox d-flex align-items-center">
 				                	<div class="c-input">
 					    							<input type="checkbox" v-bind:id="`publish-${page.name}`" class="euro-checkbox" v-model="page.is_published" :true-value="1" :false-value="0" />
-					                  <label v-bind:for="`publish-${page.name}`"></label>
+					                  <label class="mb-0" v-bind:for="`publish-${page.name}`"></label>
 					    						</div>
 					    					</div>
 					    				</div>
 					    				<ul class="col-sm-12" v-if="page.children && page.children.length > 0">
 							      		<li class="row mt-2" v-for="childPage in page.children">
-							    				<div class="col-sm-8">&nbsp;&nbsp;- {{ childPage.title }}</div>
+							    				<div class="col-sm-8"><span class="ml-2">- {{ childPage.title }}</span></div>
 							    				<div class="col-sm-2">
-							    					<div class="checkbox">
+							    					<div class="checkbox d-flex align-items-center" :class="[isParentEnabled(page, childPage) ? 'is-disabled' : '']">
 				                      <div class="c-input">
 			                          <input type="checkbox" v-bind:id="`enable-${childPage.name}`" class="euro-checkbox" v-model="childPage.is_enabled" :true-value="1" :false-value="0" />
-			                          <label v-bind:for="`enable-${childPage.name}`"></label>
+			                          <label class="mb-0" v-bind:for="`enable-${childPage.name}`"></label>
 				                      </div>
 				                    </div>
 							    				</div>
 							    				<div class="col-sm-2">
-							    					<div class="checkbox">
+							    					<div class="checkbox d-flex align-items-center" :class="[isParentPublished(page, childPage) ? 'is-disabled' : '']">
 				                      <div class="c-input">
 									    					<input type="checkbox" v-bind:id="`publish-${childPage.name}`" class="euro-checkbox" v-model="childPage.is_published" :true-value="1" :false-value="0" />
-					                      <label v-bind:for="`publish-${childPage.name}`"></label>
+					                      <label class="mb-0" v-bind:for="`publish-${childPage.name}`"></label>
 					                    </div>
 					                  </div>
 							    				</div>
@@ -447,6 +447,20 @@ export default {
 		},
 		setSponsors(sponsors) {
 			this.website.sponsors = sponsors;
+		},
+		isParentEnabled(page, childPage) {
+			if(page.is_enabled == 1) {
+				return false;
+			}
+			childPage.is_enabled = 0;
+			return true;
+		},
+		isParentPublished(page, childPage) {
+			if(page.is_published == 1) {
+				return false;
+			}
+			childPage.is_published = 0;
+			return true;
 		},
 	}
 }

@@ -63,10 +63,10 @@ class WebsiteRepository
    */
   public function getUserAccessibleWebsites($user)
   {
-  	$websites = Website::All();
+  	$websites = Website::with('pages')->get();
 
   	if($user) {
-      $websites = $user->websites;
+      $websites = $user->load(['websites', 'websites.pages'])->websites;
     }
 
     return $websites;

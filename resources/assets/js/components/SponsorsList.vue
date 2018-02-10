@@ -2,32 +2,33 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-model="sponsors" :options="{draggable:'.organiser-logo-item', handle: '.organiser-logo-handle'}">
-		  	<div class="draggable--section-card organiser-logo-item" v-for="(sponsor, index) in sponsors" :key="sponsor.id">
-		  		<div class="draggable--section-card-header">
-			  		<div class="draggable--section-card-header-panel">
-			  			<div>
-				        <div class="float-left"><img class="thumb sponsor-thumb" :src="sponsor.logo"></div>
-				        <div class="float-left">
-				        	{{ sponsor.name }} <br> {{ sponsor.website }}
+			  	<div class="draggable--section-card organiser-logo-item" v-for="(sponsor, index) in sponsors" :key="sponsor.id">
+			  		<div class="draggable--section-card-header">
+				  		<div class="draggable--section-card-header-panel">
+				  			<div class="d-flex align-items-center">
+				  				<img class="thumb sponsor-thumb" :src="sponsor.logo">
+					        	<div class="draggable--section-card-header-panel-text-area">
+					        		<div>{{ sponsor.name }}</div>
+					        		<div>{{ sponsor.website }}</div>
+					  			</div>
 				  			</div>
-			  			</div>
-			        <div class="draggable--section-card-header-icons">
-				        <a class="text-primary" href="javascript:void(0)"
-				        	@click="deleteSponsor(index)">
-				        	<i class="jv-icon jv-dustbin"></i>
-				        </a>
-				        <a class="text-primary" href="javascript:void(0)"
-				        	@click="editSponsor(sponsor, index)">
-				        	<i class="jv-icon jv-edit"></i>
-				        </a>
-				        <a class="text-primary organiser-logo-handle draggable-handle" href="javascript:void(0)">
-				        	<i class="fa fa-bars"></i>
-				        </a>
+				        	<div class="draggable--section-card-header-panel-icons">
+						        <a class="text-primary" href="javascript:void(0)"
+						        	@click="deleteSponsor(index)">
+						        	<i class="jv-icon jv-dustbin"></i>
+						        </a>
+						        <a class="text-primary" href="javascript:void(0)"
+						        	@click="editSponsor(sponsor, index)">
+						        	<i class="jv-icon jv-edit"></i>
+						        </a>
+						        <a class="text-primary organiser-logo-handle draggable-handle" href="javascript:void(0)">
+						        	<i class="fa fa-bars"></i>
+						        </a>
+					      </div>
+				      	</div>
+				      	<!-- Add child tags like draggable--section-child-1 -->
 				      </div>
-			      </div>
-		      	<!-- Add child tags like draggable--section-child-1 -->
-		      </div>
-		    </div>
+			    </div>
 			</draggable>
 			<button type="button" class="btn btn-primary" @click="addSponsor()">{{ $lang.website_add_sponsor }}</button>
 			<sponsor-modal :currentSponsorOperation="currentSponsorOperation" @storeSponsor="storeSponsor" @updateSponsor="updateSponsor"></sponsor-modal>
