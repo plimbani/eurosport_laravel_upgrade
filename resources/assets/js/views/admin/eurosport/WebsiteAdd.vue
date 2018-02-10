@@ -150,7 +150,7 @@
 
 	        <div class="form-group row">
 	        	<div class="col-sm-6">
-	        		<website-sponsors-list @setSponsors="setSponsors"></website-sponsors-list>
+	        		<sponsors-list @setSponsors="setSponsors"></sponsors-list>
 	        	</div>
 	        </div>
 
@@ -173,10 +173,10 @@
 var moment = require('moment');
 import Tournament from '../../../api/tournament.js';
 import Website from '../../../api/website.js'
-import WebsiteSponsorsList from '../../../components/WebsiteSponsorsList.vue';
+import SponsorsList from '../../../components/SponsorsList.vue';
 export default {
 	components: {
-		WebsiteSponsorsList,
+		SponsorsList,
 	},
 	data() {
 		return {
@@ -256,8 +256,10 @@ export default {
 					this.website.websiteId = this.$store.state.Website.id;					
 				}
 				this.$root.$emit('getSponsors');
+				$("body .js-loader").removeClass('d-none');
 				this.$store.dispatch('SaveWebsiteDetails', this.website)
 				.then((response) => {
+					$("body .js-loader").addClass('d-none');
 					toastr['success']('Website details added successfully', 'Success');
 					this.redirectToForward();
 				})

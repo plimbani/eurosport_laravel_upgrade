@@ -164,9 +164,10 @@ export default {
       this.$root.$emit('getOrganiserLogos');
 
       this.homepage.websiteId = this.getWebsiteId();
-
+      $("body .js-loader").removeClass('d-none');
 			Website.saveHomePageData(this.homepage).then(
         (response)=> {
+        	$("body .js-loader").addClass('d-none');
           toastr.success('Page has been updated successfully.', 'Homepage');
         },
         (error)=>{
