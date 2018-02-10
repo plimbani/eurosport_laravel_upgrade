@@ -156,14 +156,12 @@
 		      	<div class="col-md-12">
 							<div class="form-group row">
 								<div class="col-md-8">
-									<ul>
-							      <li class="row">
-							      	<span class="col-sm-4">Page</span>
-							      	<span class="col-sm-4">Enable</span>
-							      	<span class="col-sm-4">Publish</span>
-							      </li>
-							    </ul>
 								  <ul>
+								  	<li class="row">
+							      	<span class="col-sm-4"><strong>Page</strong></span>
+							      	<span class="col-sm-4"><strong>Enable</strong></span>
+							      	<span class="col-sm-4"><strong>Publish</strong></span>
+							      </li>
 					    			<li class="row" v-for="page in website.pages" v-if="page.is_permission_changeable != 0">
 					    				<span class="col-sm-4">{{ page.title }}</span>
 					    				<span class="col-sm-4"><input type="checkbox" v-model="page.is_enabled" :true-value="1" :false-value="0"></span>

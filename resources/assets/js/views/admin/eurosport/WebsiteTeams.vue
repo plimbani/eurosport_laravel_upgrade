@@ -26,26 +26,16 @@ export default {
 			activeTab:'website_teams', 
 			currentPage:'Teams'
 		};
-		this.$store.dispatch('setActiveTab', currentNavigationData);	
-		this.getAllPublishedTournaments();
+		this.$store.dispatch('setActiveTab', currentNavigationData);
 	},
 	computed: {
 	},
 	methods: {
-		getAllPublishedTournaments() {
-			Tournament.getAllPublishedTournaments().then(
-        (response) => {
-          this.website.publishedTournaments = response.data.data
-        },
-        (error) => {
-        }
-      )
-		},
 		redirectToForward() {
-			this.$router.push({name:'website_venue'})
+			this.$router.push({name:'website_venue'});
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_homepage'})
+			this.$router.push({name:'website_homepage'});
 		}
 	},
 }
