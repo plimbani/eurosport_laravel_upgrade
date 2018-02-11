@@ -764,3 +764,7 @@ li.select2-results__option {
 .sponsor-thumb {
     max-height: 35px !important;
 }
+
+.mce-menubar .mce-menubtn.mce-active {
+    z-index: 65534 !important;
+}
