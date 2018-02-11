@@ -68,7 +68,7 @@
 			setStatisticData(statisticData) {
 				this.formValues.id = statisticData.id;
 				this.formValues.statistic = statisticData.statistic;
-				this.$validator.clean();
+				this.errors.clear();
 			},
 		},
 	};
