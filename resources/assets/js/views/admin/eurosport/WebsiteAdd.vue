@@ -63,32 +63,46 @@
 						</div>
 						<div class="col-md-5">
 							<div class="form-group row" v-if="this.isAdmin">
-								<label class="col-sm-4 form-control-label">{{$lang.tournament_logo}}</label>
-								<div class="pull-right">
-										<div v-if="!tournament_logo_image">
-											<img src="http://placehold.it/250x250?text=noimage" width="100px" height="100px"/>
-											<button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
-											<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange">
+								<label class="col-sm-12 form-control-label">{{$lang.tournament_logo}}</label>
+								<div class="col-sm-12">
+										<div class="row align-items-center" v-if="!tournament_logo_image">
+											<div class="col-sm-3">
+												<img src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
+											</div>
+											<div class="col-sm-9">
+												<button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
+												<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange">
+											</div>
 										</div>
-										<div v-else>
-												<img :src="tournament_logo_image"
-												 width="100px" height="100px"/>
+										<div class="row align-items-center" v-else>
+											<div class="col-sm-3">
+												<img :src="tournament_logo_image" class="img-fluid" />
+											</div>
+											<div class="col-sm-9">
 												<button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
+											</div>
 										</div>
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-sm-4 form-control-label">{{$lang.social_sharing_graphic}}</label>
-								<div class="pull-right">
-										<div v-if="!social_sharing_graphic_image">
-											<img src="http://placehold.it/250x250?text=noimage" width="100px" height="100px"/>
-											<button type="button" class="btn btn-default" name="btnSelect" id="btnSelect_social_sharing">{{$lang.tournament_tournament_choose_button}}</button>
-											<input type="file" id="select_file_social_sharing" style="display:none;" @change="onSocialSharingGraphicImageChange">
+								<label class="col-sm-12 form-control-label">{{$lang.social_sharing_graphic}}</label>
+								<div class="col-sm-12">
+										<div class="row align-items-center" v-if="!social_sharing_graphic_image">
+											<div class="col-sm-3">
+												<img src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
+											</div>
+											<div class="col-sm-9">
+												<button type="button" class="btn btn-default" name="btnSelect" id="btnSelect_social_sharing">{{$lang.tournament_tournament_choose_button}}</button>
+												<input type="file" id="select_file_social_sharing" style="display:none;" @change="onSocialSharingGraphicImageChange">
+											</div>
 										</div>
-										<div v-else>
-												<img :src="social_sharing_graphic_image"
-												 width="100px" height="100px"/>
+										<div class="row align-items-center" v-else>
+											<div class="col-sm-3">
+												<img :src="social_sharing_graphic_image" class="img-fluid" />
+											</div>
+											<div class="col-sm-9">
 												<button class="btn btn-default" @click="removeSocialSharingImage">{{$lang.tournament_tournament_remove_button}}</button>
+											</div>
 										</div>
 								</div>
 							</div>
