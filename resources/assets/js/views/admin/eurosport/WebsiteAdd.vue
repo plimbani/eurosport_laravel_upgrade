@@ -406,7 +406,7 @@ export default {
 		},
 		getWebsiteCustomisationOptions() {
 			Website.getWebsiteCustomisationOptions().then(
-        (response) => {
+				(response) => {
           this.customisation.primary_colors = response.data.data.primary_colors;
           this.customisation.secondary_colors = response.data.data.secondary_colors;
           this.customisation.heading_font = response.data.data.heading_font;
