@@ -61,7 +61,7 @@
 	  },
 	  computed: {
 	  	getOrganiserLogo() {
-	  		return this.formValues.logo == '' ? 'http://placehold.it/250x250' : this.formValues.logo;
+	  		return this.formValues.logo == '' ? 'http://placehold.it/250x250?text=noimage' : this.formValues.logo;
 	  	},
 	  },
 		methods: {

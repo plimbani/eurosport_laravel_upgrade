@@ -36,7 +36,7 @@
 	          	</div>
 	          </div>
 	        </div>
-
+	        <hr class="my-4">
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.homepage_statistics}}</strong></h6>
@@ -45,7 +45,7 @@
 	        		<statistic-list @setStatistics="setStatistics"></statistic-list>
 	        	</div>
 	        </div>
-
+	        <hr class="my-4">
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.homepage_organiser_logos}}</strong></h6>
@@ -54,24 +54,6 @@
 	        		<organiser-logo-list @setOrganiserLogos="setOrganiserLogos"></organiser-logo-list>
 	        	</div>
 	        </div>
-	        <div class="">
-						<!-- <draggable v-model="myArray" :options="{group:'people'}" @start="drag=true" @end="drag=false">
-						   <div v-for="element in myArray" :key="element.id">{{element.name}}</div>
-						</draggable> -->
-						<!-- <draggable v-model="myArray" :options="{draggable:'.item', handle: '.my-handle'}">
-						    <div v-for="element in myArray" :key="element.id" class="item">
-						        <draggable v-model="element.array" :options="{draggable:'.item', handle: '.my-handle1'}">
-										    <div v-for="inneritem in element.array" :key="inneritem.id" class="item">
-										        {{inneritem.name}}
-										        <span class="my-handle1">inner</span>
-										    </div>
-										    <button slot="footer" @click="addPeople">Add</button>
-										</draggable>
-						        <span class="my-handle">outer</span>
-						    </div>
-						    <button slot="footer" @click="addPeople">Add</button>
-						</draggable> -->
-					</div>
 				</form>
 			</div>
 		</div>
@@ -109,34 +91,6 @@ export default {
 				statistics: [],
 				organiserLogos: [],
 			},
-			// myArray: [
-			// {
-			// 	id: 1,
-			// 	array: [
-			// 	{
-			// 		id: 1,
-			// 		name: 'atest'
-			// 	},
-			// 	{
-			// 		id: 2,
-			// 		name: 'btest'
-			// 	}
-			// 	]
-			// },
-			// {
-			// 	id: 2,
-			// 	array: [
-			// 	{
-			// 		id: 1,
-			// 		name: 'ctest'
-			// 	},
-			// 	{
-			// 		id: 2,
-			// 		name: 'dtest'
-			// 	}
-			// 	]
-			// }
-			// ],
 		}
 	},
 	mounted() {
@@ -150,10 +104,10 @@ export default {
 	},
 	computed: {
 		getHeroImage() {
-  		return this.homepage.hero_image == '' ? 'http://placehold.it/250x250' : this.homepage.hero_image;
+  		return this.homepage.hero_image == '' ? 'http://placehold.it/250x250?text=noimage' : this.homepage.hero_image;
   	},
   	getWelcomeImage() {
-  		return this.homepage.welcome_image == '' ? 'http://placehold.it/250x250' : this.homepage.welcome_image;
+  		return this.homepage.welcome_image == '' ? 'http://placehold.it/250x250?text=noimage' : this.homepage.welcome_image;
   	},
   	getHeroImagePath() {
 			return this.$store.state.Image.heroImagePath;

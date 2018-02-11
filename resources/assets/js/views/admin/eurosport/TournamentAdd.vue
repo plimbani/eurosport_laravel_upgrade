@@ -84,7 +84,7 @@
                       <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
                       <div class="pull-right">
                         <div v-if="!image">
-                        <img  src="http://placehold.it/250x250"
+                        <img  src="http://placehold.it/250x250?text=noimage"
                              width="100px" height="100px"/>
                             <!--<button type="button" name="btnSelect" id="btnSelect">-->
                             <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>

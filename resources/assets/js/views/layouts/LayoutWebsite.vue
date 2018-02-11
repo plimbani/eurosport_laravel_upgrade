@@ -16,7 +16,7 @@
     import SiteHeaderBottom from './partials/SiteHeaderBottom.vue'
 
     import Layout from '../../helpers/layout'
-    import BreadCrum from '../../components/BreadCrum.vue'
+    import BreadCrum from '../../components/WebsiteBreadCrumb.vue'
     import WebsiteTabbed from './partials/WebsiteTabbed.vue'
 
     export default {

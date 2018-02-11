@@ -37,6 +37,10 @@
 				  	.draggable-handle {
 				  		cursor: all-scroll;
 				  	}
+				  	&-text-area {
+				  		display: flex;
+			  			flex-direction: column;
+				  	}
 			  	}
 			  	.draggable--section {
 			  		margin-top: $card-spacer-y;

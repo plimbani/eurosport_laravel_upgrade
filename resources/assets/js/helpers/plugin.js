@@ -46,8 +46,11 @@ export default {
       return true;
     },
     ValidateImageType(file) {
-      var extension = file.type.split('/')[1].toLowerCase();
-      return (/(jpg|jpeg|png|gif)$/.test(extension));
+      if(file.type != '') {
+        var extension = file.type.split('/')[1].toLowerCase();
+        return (/(jpg|jpeg|png|gif)$/.test(extension));
+      }
+      return false;
     },
     Select2(){
         $(".ls-select2").select2();
