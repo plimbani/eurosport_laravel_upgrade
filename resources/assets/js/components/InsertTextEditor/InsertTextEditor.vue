@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import tinymce from 'vue-tinymce-editor';
+  import tinymce from './TinymceVue.vue';
   export default {
     props : {
       id: {
@@ -26,6 +26,7 @@
         other_options: {
           branding: false,
           height: 300,
+          content_css : "/assets/css/tiny-mce-light-gray.css",
         },
       };
     },
