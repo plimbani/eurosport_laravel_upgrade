@@ -80,7 +80,7 @@
 				this.formValues.id = organiserLogoData.id;
 				this.formValues.name = organiserLogoData.name;
 				this.formValues.logo = organiserLogoData.logo;
-				this.$validator.clean();
+				this.errors.clear();
 			},
 			selectLogo() {
 				$('#organiser_logo').trigger('click');

@@ -94,7 +94,7 @@
 				this.formValues.name = sponsorData.name;
 				this.formValues.logo = sponsorData.logo;
 				this.formValues.website = sponsorData.website;
-				this.$validator.clean();
+				this.errors.clear();
 			},
 			selectLogo() {
 				$('#sponsor_logo').trigger('click');
