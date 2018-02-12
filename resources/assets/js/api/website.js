@@ -49,4 +49,12 @@ export default {
   getHomePageData(websiteId) {
     return axios.get('/api/getHomePageData/' + websiteId);
   },
+  // Save visitor page data
+  saveVisitorPageData(pageData) {
+    return api.post('/saveVisitorPageData', pageData);
+  },
+  // Get visitor page data
+  getVisitorPageData(websiteId) {
+    return axios.get('/api/getVisitorPageData/' + websiteId);
+  },
 }
