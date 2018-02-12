@@ -123,9 +123,9 @@ export default {
 			var websiteId = this.getWebsiteId();
 			Website.getStayPageData(websiteId).then(
 				(response)=> {
-					this.staypage.stay_introduction_content = response.data.data.stay.content;
-					this.staypage.meals_page_content = response.data.data.meals.content;
-					this.staypage.accommodation_page_content = response.data.data.accommodation.content;
+					this.staypage.stay_introduction_content = response.data.data.stay.content !== null ? response.data.data.stay.content : '';
+					this.staypage.meals_page_content = response.data.data.meals.content !== null ? response.data.data.meals.content : '';
+					this.staypage.accommodation_page_content = response.data.data.accommodation.content !== null ? response.data.data.accommodation.content : '';
 				},
 				(error) => {					
 				}
