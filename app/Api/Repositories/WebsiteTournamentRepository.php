@@ -32,13 +32,13 @@ class WebsiteTournamentRepository
    */	
 	public function saveWebsiteTournamentPageData($data)
 	{
-		// update stay page detail
+		// update website tournament page age categories
     $wtPageDetail = array();
     $wtPageDetail['name'] = $this->age_categories;
     $wtPageDetail['content'] = $data['age_categories'];
     $this->pageService->updatePageDetails($wtPageDetail, $data['websiteId']);
 
-    // update meals page detail
+    // update website tournament page rules
     $mealsPageDetail = array();
     $mealsPageDetail['name'] = $this->rules;
     $mealsPageDetail['content'] = $data['rules'];

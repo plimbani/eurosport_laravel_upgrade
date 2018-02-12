@@ -33,7 +33,7 @@ export default {
   saveHomePageData(pageData) {
     return api.post('/saveHomePageData', pageData);
   },
-  // Save home page data
+  // Save WebsiteTournament data
   saveWebsiteTournamentPageData(pageData) {
     return api.post('/saveWebsiteTournamentPageData', pageData);
   },
@@ -69,7 +69,7 @@ export default {
   getStayPageData(websiteId) {
     return axios.get('/api/getStayPageData/' + websiteId);
   },
-  // Get staypage data
+  // Get WebsiteTournament data
   getWebsiteTournamentPageData(websiteId) {
     return axios.get('/api/getWebsiteTournamentPageData/' + websiteId);
   },
