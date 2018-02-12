@@ -15,7 +15,7 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('slug');
+            $table->string('url');
             $table->integer('website_id')->unsigned()->index();
             $table->foreign('website_id')->references('id')->on('websites')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('parent_id')->unsigned()->index()->nullable();
