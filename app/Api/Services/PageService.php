@@ -67,26 +67,6 @@ class PageService
   }
 
   /*
-   * Update page details
-   *
-   * @return response
-   */
-  public function updateStayPageDetails($pageDetail, $websiteId)
-  {
-    $page = null;
-    if(isset($pageDetail['id'])) {
-      $page = Page::find($pageDetail['id']);
-    } else {
-      $page = Page::where('name', $pageDetail['name'])->where('website_id', $websiteId)->first();
-    }
-
-    isset($pageDetail['content']) ? $page->content = $pageDetail['content'] : '';
-    $page->save();
-
-    return $page;
-  }
-
-  /*
    * Get staypage details
    *
    * @return response
