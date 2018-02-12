@@ -118,7 +118,7 @@ return [
   		'children' => [
   			[
   				'slug' => 'tourist-information',
-	  			'name' => 'tourist information',
+	  			'name' => 'tourist_information',
 	  			'title' => 'Tourist information',
           'is_enabled' => 0,
           'is_published' => 0,
