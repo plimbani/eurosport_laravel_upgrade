@@ -646,4 +646,10 @@ module.exports= {
   homepage_hero_image: "Hero image",
   homepage_welcome_image: "Welcome image",
   website_page_permission: "Page permissions",
+  visitors: "Visitors",
+  visitor_arrival_and_checkin_information: "Arrival and check-in information",
+  visitor_public_transport: "Public transport",
+  visitor_tips: "Tips",
+  tourist_information: "Tourist information",
+  page_content: 'Page content',
 }

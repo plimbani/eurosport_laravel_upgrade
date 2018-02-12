@@ -315,4 +315,8 @@ $api->version('v1', function ($api) {
 
     // Image path
     $api->get('getImagePath', 'Laraspace\Api\Controllers\WebsiteController@getImagePath');
+
+    // Website visitor
+    $api->post('saveVisitorPageData', 'Laraspace\Api\Controllers\VisitorController@savePageData');
+    $api->get('getVisitorPageData/{websiteId}', 'Laraspace\Api\Controllers\VisitorController@getPageData');
 });
