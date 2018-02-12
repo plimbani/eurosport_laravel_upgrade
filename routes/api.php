@@ -309,6 +309,10 @@ $api->version('v1', function ($api) {
     $api->post('saveHomePageData', 'Laraspace\Api\Controllers\HomeController@savePageData');
     $api->get('getHomePageData/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getPageData');
 
+    //Website staypage
+    $api->post('saveStayPageData', 'Laraspace\Api\Controllers\StayController@saveStayPageData');
+    $api->get('getStayPageData/{websiteId}', 'Laraspace\Api\Controllers\StayController@getStayPageData');
+
     // Image path
     $api->get('getImagePath', 'Laraspace\Api\Controllers\WebsiteController@getImagePath');
 

@@ -49,6 +49,7 @@ export default {
   getHomePageData(websiteId) {
     return axios.get('/api/getHomePageData/' + websiteId);
   },
+<<<<<<< HEAD
   // Save visitor page data
   saveVisitorPageData(pageData) {
     return api.post('/saveVisitorPageData', pageData);
@@ -56,5 +57,13 @@ export default {
   // Get visitor page data
   getVisitorPageData(websiteId) {
     return axios.get('/api/getVisitorPageData/' + websiteId);
+  },
+  // Save staypage data
+  saveStayPageData(pageData) {
+    return api.post('/saveStayPageData', pageData);
+  },
+  // Get staypage data
+  getStayPageData(websiteId) {
+    return axios.get('/api/getStayPageData/' + websiteId);
   },
 }
