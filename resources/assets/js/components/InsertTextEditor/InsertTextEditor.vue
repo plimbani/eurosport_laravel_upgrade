@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import tinymce from 'vue-tinymce-editor';
+  import tinymce from './TinymceVue.vue';
   export default {
     props : {
       id: {
@@ -15,6 +15,9 @@
         default : ''
       },
     },
+    created() {
+      this.$root.$on('getEditorValue', this.getEditorValue);
+    },
     data() {
       return {
         content: this.value,
@@ -23,6 +26,7 @@
         other_options: {
           branding: false,
           height: 300,
+          content_css : "/assets/css/tiny-mce-light-gray.css",
         },
       };
     },
@@ -30,6 +34,16 @@
       tinymce,
     },
     mounted () {
+    },
+    watch: {
+      value: function(value) {
+        this.content = value;
+      }
+    },
+    methods: {
+      getEditorValue() {
+        this.$emit('setEditorValue', this.content);
+      },
     },
   };
 </script>

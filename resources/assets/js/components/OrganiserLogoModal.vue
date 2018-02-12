@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <div class="form-group row" :class="{'has-error': errors.has('logo') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.homepage_organiser_logo }}</label>
+            <label class="col-sm-5 form-control-label">{{ $lang.homepage_organiser_logo }}*</label>
             <div class="col-sm-6">
               <img :src="getOrganiserLogo" width="100px" height="100px"/>
               <button type="button" class="btn btn-default" @click="selectLogo()">{{$lang.tournament_tournament_choose_button}}</button>
@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="form-group row" :class="{'has-error': errors.has('name') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.homepage_organiser_name }}</label>
+            <label class="col-sm-5 form-control-label">{{ $lang.homepage_organiser_name }}*</label>
             <div class="col-sm-6">
                 <input v-model="formValues.name" v-validate="'required'"
                 :class="{'is-danger': errors.has('name') }"
@@ -61,7 +61,7 @@
 	  },
 	  computed: {
 	  	getOrganiserLogo() {
-	  		return this.formValues.logo == '' ? 'http://placehold.it/250x250' : this.formValues.logo;
+	  		return this.formValues.logo == '' ? 'http://placehold.it/250x250?text=noimage' : this.formValues.logo;
 	  	},
 	  },
 		methods: {
@@ -80,6 +80,7 @@
 				this.formValues.id = organiserLogoData.id;
 				this.formValues.name = organiserLogoData.name;
 				this.formValues.logo = organiserLogoData.logo;
+				this.errors.clear();
 			},
 			selectLogo() {
 				$('#organiser_logo').trigger('click');
@@ -90,6 +91,11 @@
 
 				if (!files.length)
 					return;
+
+		    if(Plugin.ValidateImageType(files[0]) == false) {
+	        toastr['error']('Organiser logo is not a valid image', 'Error');
+	        return;
+	      }
 
 				var reader = new FileReader();
 				reader.onload = (r) => {

@@ -7,6 +7,7 @@ const state = {
   tournament_name: null,
   tournament_dates: null,
   tournament_location: null,
+  pages: null,
 };
 
 // getters
@@ -45,6 +46,7 @@ const mutations = {
 	  state.tournament_name = currentWebsite.tournament_name;
 	  state.tournament_dates = currentWebsite.tournament_dates;
 		state.tournament_location = currentWebsite.tournament_location;
+		state.pages = currentWebsite.pages;
 	},
 	[types.WEBSITE_DATA] (state, websiteData) {
 		state.id = websiteData.id;
@@ -56,6 +58,10 @@ const mutations = {
 		state.google_analytics_id = websiteData.google_analytics_id;
 		state.tournament_logo = websiteData.tournament_logo;
 		state.social_sharing_graphic = websiteData.social_sharing_graphic;
+		state.heading_font = websiteData.heading_font;
+		state.body_font = websiteData.body_font;
+		state.primary_color = websiteData.primary_color;
+		state.secondary_color = websiteData.secondary_color;
 	}
 };
 

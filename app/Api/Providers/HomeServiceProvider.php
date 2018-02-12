@@ -4,6 +4,7 @@ namespace Laraspace\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Laraspace\Api\Services\HomeService;
+use Laraspace\Api\Services\PageService;
 use Laraspace\Api\Repositories\HomeRepository;
 
 class HomeServiceProvider extends ServiceProvider
@@ -25,7 +26,7 @@ class HomeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('Laraspace\Api\Contracts\HomeContract', function ($app) {
-            return new HomeService(new HomeRepository());
+            return new HomeService(new HomeRepository(new PageService()));
         });
     }
 

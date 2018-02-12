@@ -9,6 +9,7 @@
     "competation_format": "RR/PM",
     "tournament_min_match": 4,
     "avg_game_team": 4,
+    "position_type": "final",
     "tournament_competition_ranking": {
         "format_name": [
             {
@@ -295,5 +296,55 @@
                 ]
             }
         ]
-    }
+    },
+    "tournament_positions" : [
+        {
+            "position": 1,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G1.1A-1B",
+            "result_type": "winner"
+        },
+        {
+            "position": 2,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G1.1A-1B",
+            "result_type": "looser"
+        },
+        {
+            "position": 3,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G2.2A-2B",
+            "result_type": "winner"
+        },
+        {
+            "position": 4,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G2.2A-2B",
+            "result_type": "looser"
+        },
+        {
+            "position": 5,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G3.3A-3B",
+            "result_type": "winner"
+        },
+        {
+            "position": 6,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G3.3A-3B",
+            "result_type": "looser"
+        },
+        {
+            "position": 7,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G4.4A-4B",
+            "result_type": "winner"
+        },
+        {
+            "position": 8,
+            "dependent_type": "match",
+            "match_number": "CAT.PM2.G4.4A-4B",
+            "result_type": "looser"
+        }
+    ]
 }

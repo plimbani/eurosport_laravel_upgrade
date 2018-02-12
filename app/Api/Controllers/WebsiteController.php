@@ -77,4 +77,45 @@ class WebsiteController extends BaseController
   {
     return $this->websiteContract->websiteSummary($request);
   }
+
+  /*
+   * Get customisation option
+   *
+   * @return response
+   */
+  public function getWebsiteCustomisationOptions(Request $request) {
+    return $this->websiteContract->getWebsiteCustomisationOptions();
+  }
+
+  /*
+   * Get image path
+   *
+   * @return response
+   */
+  public function getImagePath(Request $request) {
+    return $this->websiteContract->getImagePath();
+  }
+
+  /*
+   * Get website default pages
+   *
+   * @return response
+   */
+  public function getWebsiteDefaultPages(Request $request) {
+    return $this->websiteContract->getWebsiteDefaultPages();
+  }
+
+  /**
+   * Get all sponsors
+   *
+   * Get a JSON representation of all the sponsors
+   *
+   * @Get("/getSponsors")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getSponsors(Request $request, $websiteId)
+  {
+    return $this->websiteContract->getSponsors($websiteId);
+  }
 }

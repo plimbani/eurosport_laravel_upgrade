@@ -10,15 +10,13 @@
         </div>
         <div class="modal-body">
           <div class="form-group row" :class="{'has-error': errors.has('statistic') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.homepage_statistic }}</label>
+            <label class="col-sm-5 form-control-label">{{ $lang.homepage_statistic }}*</label>
             <div class="col-sm-6">
-                <input v-model="formValues.statistic" v-validate="'required'"
-                :class="{'is-danger': errors.has('statistic') }"
-                name="statistic" type="text"
-                class="form-control" placeholder="Enter statistic">
+                <input v-model="formValues.statistic" v-validate="{'required':true, 'max': 25}" :class="{'is-danger': errors.has('statistic') }" name="statistic" type="text" class="form-control" :placeholder="$lang.homepage_statistic_model_placeholder" maxlength="25">
                 <i v-show="errors.has('statistic')" class="fa fa-warning"></i>
-                <span class="help is-danger" v-show="errors.has('statistic')">{{ errors.first('statistic') }}
+                <span class="help is-danger" v-show="errors.has('statistic')">{{ errors.first('statistic') }}<br>
                 </span>
+                <p class='help-block text-muted' v-bind:class="{'text-danger': hasError }">{{remainingCount}}/{{maxCount}} remaining characters</p>
             </div>
           </div>
         </div>
@@ -39,6 +37,8 @@
 		props: ['currentStatisticOperation'],
 		data() {
 			return {
+		    maxCount: 25,
+		    hasError: false,
 				formValues: {
 					id: '',
 					statistic: '',
@@ -48,6 +48,11 @@
 		created() {
       this.$root.$on('setStatisticData', this.setStatisticData);
     },
+    computed: {
+    	remainingCount() {
+	    	return this.maxCount - this.formValues.statistic.length;
+	    }
+	  },
 		methods: {
 			validateForm() {
 				this.$validator.validateAll().then(() => {
@@ -63,6 +68,7 @@
 			setStatisticData(statisticData) {
 				this.formValues.id = statisticData.id;
 				this.formValues.statistic = statisticData.statistic;
+				this.errors.clear();
 			},
 		},
 	};

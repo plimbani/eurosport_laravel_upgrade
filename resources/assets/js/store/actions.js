@@ -25,3 +25,7 @@ export const isAdmin = ({ commit }, isAdmin) => {
 /*export const setTournament = ({ commit }, tournament) => {
   commit(types.CURRENT_TOURNAMENT, selectedAction)
 }*/
+
+export const setImagePath = ({ commit }, imagePaths) => {
+  commit(types.SET_IMAGE_PATH, imagePaths)
+}

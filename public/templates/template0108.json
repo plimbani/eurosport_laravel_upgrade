@@ -10,6 +10,7 @@
     "tournament_min_match": 3,
     "avg_game_team": 3.5,
     "final_round": "F",
+    "position_type": "final",
     "tournament_competition_ranking": {
         "format_name": [
             {
@@ -611,5 +612,19 @@
                 ]
             }
         ]
-    }
+    },
+    "tournament_positions" : [
+        {
+            "position": 1,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G1.1G-1H",
+            "result_type": "winner"
+        },
+        {
+            "position": 2,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G1.1G-1H",
+            "result_type": "looser"
+        }
+    ]
 }

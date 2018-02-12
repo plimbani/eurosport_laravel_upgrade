@@ -31,4 +31,33 @@ interface WebsiteContract
      * @return response
      */
     public function websiteSummary($request);
+
+    /*
+     * Get website all colours
+     *
+     * @return response
+     */
+
+    public function getWebsiteCustomisationOptions();
+
+    /*
+     * Get image path
+     *
+     * @return response
+     */
+    public function getImagePath();
+
+    /*
+     * Get website default pages
+     *
+     * @return response
+     */
+    public function getWebsiteDefaultPages();
+
+    /*
+     * Get sponsors
+     *
+     * @return response
+     */
+    public function getSponsors($websiteId);
 }

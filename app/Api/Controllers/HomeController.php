@@ -57,5 +57,29 @@ class HomeController extends BaseController
   {
     return $this->homeContract->getOrganisers($websiteId);
   }
+
+  /**
+   * Save page data
+   *
+   * @Get("/savePageData")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function savePageData(Request $request)
+  {
+    return $this->homeContract->savePageData($request);
+  }
+
+  /**
+   * Get home page data
+   *
+   * @Get("/getHomePageData")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getPageData(Request $request, $websiteId)
+  {
+    return $this->homeContract->getPageData($websiteId);
+  }
   
 }

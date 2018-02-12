@@ -8,31 +8,31 @@
           			<li class="nav-item">
           				<a :class="[activePath == 'website_add' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#website_add" role="tab" @click="GetSelectComponent('website_add')">{{$lang.website_label}}</a>
           			</li>
-          			<li class="nav-item disabled">
-                  <a data-toggle="tab" :class="[activePath == 'website_homepage' ? 'active' : '', 'nav-link']" href="#website_homepage" role="tab" @click="GetSelectComponent('website_homepage')">{{$lang.website_homepage}}</a>
+          			<li class="nav-item" v-if="isPageEnabled('home')">
+                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_homepage' ? 'active' : '', 'nav-link']" href="#website_homepage" role="tab" @click="GetSelectComponent('website_homepage')">{{$lang.website_homepage}}</a>
                 </li>
-                <li class="nav-item disabled">
+                <li class="nav-item" v-if="isPageEnabled('teams')">
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_teams' ? 'active' : '', 'nav-link']" href="#website_teams" role="tab" @click="GetSelectComponent('website_teams')">{{$lang.website_teams}}</a>
                 </li>
-                <li class="nav-item disabled">
+                <li class="nav-item" v-if="isPageEnabled('venue')">
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_venue' ? 'active' : '', 'nav-link']" href="#website_venue" role="tab" @click="GetSelectComponent('website_venue')">{{$lang.website_venue}}</a>
                 </li>
-                <li class="nav-item disabled">
+                <li class="nav-item" v-if="isPageEnabled('tournament')">
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_tournament' ? 'active' : '', 'nav-link']" href="#website_tournament" role="tab" @click="GetSelectComponent('website_tournament')">{{$lang.website_tournament}}</a>
                 </li>
-                <li class="nav-item disabled">
+                <li class="nav-item" v-if="isPageEnabled('program')">
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_program' ? 'active' : '', 'nav-link']" href="#website_program" role="tab" @click="GetSelectComponent('website_program')">{{$lang.website_program}}</a>
                 </li>
-                <li class="nav-item disabled">
+                <li class="nav-item" v-if="isPageEnabled('stay')">
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_stay' ? 'active' : '', 'nav-link']" href="#website_stay" role="tab" @click="GetSelectComponent('website_stay')">{{$lang.website_stay}}</a>
                 </li>
-                <li class="nav-item disabled">
+                <li class="nav-item" v-if="isPageEnabled('visitors')">
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_visitors' ? 'active' : '', 'nav-link']" href="#website_visitors" role="tab" @click="GetSelectComponent('website_visitors')">{{$lang.website_visitors}}</a>
                 </li>
-                <li class="nav-item disabled">
+                <li class="nav-item" v-if="isPageEnabled('media')">
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_media' ? 'active' : '', 'nav-link']" href="#website_media" role="tab" @click="GetSelectComponent('website_media')">{{$lang.website_media}}</a>
                 </li>
-                <li class="nav-item disabled">
+                <li class="nav-item" v-if="isPageEnabled('media')">
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_contact' ? 'active' : '', 'nav-link']" href="#website_contact" role="tab" @click="GetSelectComponent('website_contact')">{{$lang.website_contact}}</a>
                 </li>
           		</ul>
@@ -60,6 +60,12 @@ export default {
    	activePath() {
       return this.$store.state.activePath
     },
+    userDetails: function() {
+      return this.$store.state.Users.userDetails
+    },
+    isTournamentAdministrator: function() {
+      return this.userDetails.role_slug == 'tournament.administrator';
+    },
   },
   methods: {
   	GetSelectComponent(componentName) {
@@ -73,7 +79,17 @@ export default {
           }
     		},2000 )
     	}
-  	}
+  	},
+    isPageEnabled(pageName) {
+      if(this.isTournamentAdministrator) {
+        var websitePages = this.$store.state.Website.pages;
+        var page = _.find(websitePages, {'name': pageName, 'is_enabled': 1});
+        if(!page) {
+          return false;
+        }
+      }
+      return true;
+    },
   },
 }
 </script>
