@@ -49,7 +49,6 @@ export default {
   getHomePageData(websiteId) {
     return axios.get('/api/getHomePageData/' + websiteId);
   },
-<<<<<<< HEAD
   // Save visitor page data
   saveVisitorPageData(pageData) {
     return api.post('/saveVisitorPageData', pageData);
