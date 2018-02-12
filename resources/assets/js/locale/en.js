@@ -652,4 +652,6 @@ module.exports= {
   visitor_tips: "Tips",
   tourist_information: "Tourist information",
   page_content: 'Page content',
+
+  tournament_rules: "Rules",
 }
