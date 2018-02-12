@@ -197,6 +197,10 @@ module.exports= {
   website_sponsor_logo: "Logo",
   website_sponsor_name: "Sponsor name",
   website_sponsor_website: "Sponsor's website",
+  website_stay_introduction_content: "Introduction content",
+  website_meals: "Meals",
+  website_accommodation: "Accommodation",
+  page_content: "Page content",
 
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",

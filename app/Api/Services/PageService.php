@@ -39,7 +39,7 @@ class PageService
   public function insertPageDetails($pageDetail, $websiteId)
   {
     $page = new Page();
-    $page->slug = $pageDetail['slug'];
+    $page->url = $pageDetail['slug'];
     $page->website_id = $websiteId;
     $page->parent_id = $pageDetail['parent_id'];
     $page->name = $pageDetail['name'];
@@ -64,5 +64,37 @@ class PageService
     $page = Page::where('name', $pageName)->where('website_id', $websiteId)->first();
 
     return $page;
+  }
+
+  /*
+   * Update page details
+   *
+   * @return response
+   */
+  public function updateStayPageDetails($pageDetail, $websiteId)
+  {
+    $page = null;
+    if(isset($pageDetail['id'])) {
+      $page = Page::find($pageDetail['id']);
+    } else {
+      $page = Page::where('name', $pageDetail['name'])->where('website_id', $websiteId)->first();
+    }
+
+    isset($pageDetail['content']) ? $page->content = $pageDetail['content'] : '';
+    $page->save();
+
+    return $page;
+  }
+
+  /*
+   * Get staypage details
+   *
+   * @return response
+   */
+  public function getMultiplePagesData($pageDetails, $websiteId)
+  {
+    $pages = Page::whereIn('name', $pageDetails)->where('website_id', $websiteId)->get()->keyBy('name')->toArray();
+
+    return $pages;
   }
 }
