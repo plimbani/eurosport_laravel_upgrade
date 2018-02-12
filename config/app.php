@@ -212,9 +212,8 @@ return [
         Laraspace\Api\Providers\VenueServiceProvider::class,
         Laraspace\Api\Providers\WebsiteServiceProvider::class,
         Laraspace\Api\Providers\HomeServiceProvider::class,
+        Laraspace\Api\Providers\StayServiceProvider::class,
         Laraspace\Api\Providers\VisitorServiceProvider::class,
-
-
     ],
 
     /*
