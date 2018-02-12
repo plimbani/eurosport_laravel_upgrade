@@ -51,19 +51,19 @@ class StayRepository
     $stayPageDetail = array();
     $stayPageDetail['name'] = $this->stayPageName;
     $stayPageDetail['content'] = $data['stay_introduction_content'];
-    $this->pageService->updateStayPageDetails($stayPageDetail, $data['websiteId']);
+    $this->pageService->updatePageDetails($stayPageDetail, $data['websiteId']);
 
     // update meals page detail
     $mealsPageDetail = array();
     $mealsPageDetail['name'] = $this->mealsPageName;
     $mealsPageDetail['content'] = $data['meals_page_content'];
-    $this->pageService->updateStayPageDetails($mealsPageDetail, $data['websiteId']);
+    $this->pageService->updatePageDetails($mealsPageDetail, $data['websiteId']);
 
     // update accommodation page detail
     $accommodationPageDetail = array();
     $accommodationPageDetail['name'] = $this->accommodationPageName;
     $accommodationPageDetail['content'] = $data['accommodation_page_content'];
-    $this->pageService->updateStayPageDetails($accommodationPageDetail, $data['websiteId']);
+    $this->pageService->updatePageDetails($accommodationPageDetail, $data['websiteId']);
 	}
 
   /*
@@ -76,5 +76,16 @@ class StayRepository
     $pages = [$this->stayPageName, $this->mealsPageName, $this->accommodationPageName];
    
     return $this->pageService->getMultiplePagesData($pages, $websiteId);
+  }
+
+  /*
+   * Save additional page data
+   *
+   * @return response
+   */
+  public function addAdditionalPage($data)
+  {
+    echo "<pre>";print_r($data);echo "</pre>";exit;
+    $page = new Page();
   }
 }

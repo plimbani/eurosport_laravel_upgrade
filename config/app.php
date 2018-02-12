@@ -214,6 +214,7 @@ return [
         Laraspace\Api\Providers\HomeServiceProvider::class,
         Laraspace\Api\Providers\StayServiceProvider::class,
         Laraspace\Api\Providers\VisitorServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteTournamentServiceProvider::class,
     ],
 
     /*

@@ -663,4 +663,5 @@ module.exports= {
   team_name: "Team Name",
   country: "Country",
   country_recognisation: "Country must entered as the recognised two letter abbreviation e.g. FR, DE, NL",
+  tournament_rules: "Rules",
 }

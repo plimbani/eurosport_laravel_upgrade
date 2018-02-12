@@ -307,6 +307,10 @@ $api->version('v1', function ($api) {
     $api->get('getOrganisers/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getOrganisers');
     $api->get('getSponsors/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getSponsors');
     $api->post('saveHomePageData', 'Laraspace\Api\Controllers\HomeController@savePageData');
+    
+    $api->post('saveWebsiteTournamentPageData', 'Laraspace\Api\Controllers\WebsiteTournamentController@saveWebsiteTournamentPageData');
+    $api->get('getWebsiteTournamentPageData/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTournamentController@getWebsiteTournamentPageData');
+
     $api->get('getHomePageData/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getPageData');
 
     //Website staypage
