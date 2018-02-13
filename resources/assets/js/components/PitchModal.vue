@@ -80,10 +80,10 @@
               <div class="form-group row">
                 <div class="col-sm-3">{{$lang.pitch_modal_result_override}}</div>
                 <div class="col-sm-9 align-self-center">
-                  <input type="checkbox" v-model="match_result" value="match_result">
+                  <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="1" :value="matchDetail.is_result_override">
                 </div>
               </div>
-              <div class="form-group row" v-if="match_result ==  true">
+              <div class="form-group row" v-if="matchDetail.is_result_override == 1">
                 <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_status_label}}</label>
                 <div class="col-sm-9">
                   <select v-model="matchDetail.match_status"
@@ -97,7 +97,7 @@
                   <span class="help is-danger" v-show="errors.has('match_status')">This field is required</span>
                 </div>
               </div>
-              <div class="form-group row" v-if="match_result ==  true">
+              <div class="form-group row" v-if="matchDetail.is_result_override == 1">
 
                 <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_winner_label}}</label>
                 <div class="col-sm-9">
@@ -252,14 +252,16 @@ var moment = require('moment');
           return false;
         }
 
-        if(this.match_result == true) {
+        if(this.matchDetail.is_result_override == 1) {
 
           this.$validator.validateAll().then(() => {
 
             let  matchStatus = $('#match_status').val()
             let  matchWinner = $('#match_winner').val()
 
-            let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
+            let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),
+              'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val(),
+              'is_result_override':$('#is_result_override').val()}
 
             Tournament.saveMatchResult(data).then(
               (response) => {
@@ -286,12 +288,14 @@ var moment = require('moment');
       this.checkScores();
       //  this.$validator.validateAll().then(() => {
 
-      if(this.match_result == false) {
+      if(this.matchDetail.is_result_override == 1) {
 
       let  matchStatus = ''
       let matchWinner = ''
 
-      let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
+      let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),
+        'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val(),
+       'is_result_override':$('#is_result_override').val()}
 
         Tournament.saveMatchResult(data).then(
           (response) => {
