@@ -3,7 +3,7 @@
 		<transition>
 			<img v-show="isLoad" :src="image_url" class="img-fluid" @load="loaded">
 		</transition>
-		<img v-show="!isLoad" src="http://www.gintell.com/webpages/lib/images/loading.gif">
+		<img v-show="!isLoad" src="/images/loader2.gif">
 	</div>
 </template>
 

@@ -98,7 +98,7 @@
 										</div>
 										<div class="row align-items-center" v-else>
 											<div class="col-sm-3">
-												<img :src="social_sharing_graphic_image" class="img-fluid" />
+												<transition-image :image_url="social_sharing_graphic_image" :image_class="'img-fluid'"></transition-image>
 											</div>
 											<div class="col-sm-9">
 												<button class="btn btn-default" @click="removeSocialSharingImage">{{$lang.tournament_tournament_remove_button}}</button>
