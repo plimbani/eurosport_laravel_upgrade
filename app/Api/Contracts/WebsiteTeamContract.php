@@ -17,4 +17,11 @@ interface WebsiteTeamContract
      * @return response
      */
     public function savePageData($request);
+
+    /*
+     * Get page data
+     *
+     * @return response
+     */
+    public function getPageData($request);
 }

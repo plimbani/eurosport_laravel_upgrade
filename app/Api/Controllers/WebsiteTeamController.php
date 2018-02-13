@@ -53,5 +53,17 @@ class WebsiteTeamController extends BaseController
   {
     return $this->websiteTeamContract->savePageData($request);
   }
+
+  /**
+   * Get page data
+   *
+   * @Get("/getPageData")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getPageData(Request $request, $websiteId)
+  {
+    return $this->websiteTeamContract->getPageData($request);
+  }
   
 }

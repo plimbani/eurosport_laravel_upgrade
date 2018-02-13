@@ -6,7 +6,7 @@
 		  		<div class="draggable--section-card-header">
 		  			<div class="draggable--section-card-header-panel">
 		  				<div>
-			  				{{ ageCategoryTeam.name }} ({{ ageCategoryTeam.country_id }})
+			  				{{ ageCategoryTeam.name }} ({{ ageCategoryTeam.country.country_code }})
 			  			</div>
 			  			<div class="draggable--section-card-header-icons">
 					        <a class="text-primary" href="javascript:void(0)"
@@ -28,7 +28,7 @@
 			</draggable>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addAgeCategoryTeam()">{{ $lang.add_team }}</button>
-		<age-category-team-modal :currentAgeCategoryTeamOperation="currentAgeCategoryTeamOperation" @storeAgeCategoryTeam="storeAgeCategoryTeam" @updateAgeCategoryTeam="updateAgeCategoryTeam" :modalIndex="parentIndex"></age-category-team-modal>
+		<age-category-team-modal :currentAgeCategoryTeamOperation="currentAgeCategoryTeamOperation" @storeAgeCategoryTeam="storeAgeCategoryTeam" @updateAgeCategoryTeam="updateAgeCategoryTeam" :modalIndex="parentIndex" :countries="countries"></age-category-team-modal>
 	</div>
 </template>
 
@@ -39,7 +39,7 @@
 	import _ from 'lodash';
 
 	export default {
-		props: ['childClassNames', 'teams', 'parentIndex'],
+		props: ['childClassNames', 'teams', 'parentIndex', 'countries'],
 		data() {
 			return {
 				ageCategoryTeams: [],
@@ -81,7 +81,7 @@
 				var formData = {
 					id: ageCategoryTeam.id,
 					name: ageCategoryTeam.name,
-					country: ageCategoryTeam.country_id
+					country: ageCategoryTeam.country
 				};
 				this.currentAgeCategoryTeamIndex = index;
 				this.currentAgeCategoryTeamOperation = 'edit';
@@ -105,7 +105,6 @@
 				$('#age_category_team_modal_' + this.parentIndex).modal('show');
 			},
 			onDragEnd() {
-				console.log('onDragEnd');
 				this.getAgeCategoryTeams();
 			},
 			getAgeCategoryTeams() {

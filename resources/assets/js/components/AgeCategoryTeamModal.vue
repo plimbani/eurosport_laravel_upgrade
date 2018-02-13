@@ -12,10 +12,22 @@
           <div class="form-group row" :class="{'has-error': errors.has('name') }">
             <label class="col-sm-5 form-control-label">{{ $lang.team_name }}*</label>
             <div class="col-sm-6">
-                <input v-model="formValues.name" v-validate="{'required':true, 'max': 25}" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control">
+                <input v-model="formValues.name" v-validate="{'required':true}" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control">
                 <i v-show="errors.has('name')" class="fa fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}<br>
                 </span>
+            </div>
+          </div>
+          <div class="form-group row" :class="{'has-error': errors.has('country') }">
+            <label class="col-sm-5 form-control-label">{{ $lang.country }}*</label>
+            <div class="col-sm-6">
+              <select class="form-control ls-select2" v-validate="{'required':true}" name="country" v-model="formValues.country">
+								<option value="">Please select</option>
+								<option v-for="country in countries" v-bind:value="country">
+										{{ country.name }}
+								</option>
+							</select>
+							<span class="help is-danger" v-show="errors.has('country')">{{ errors.first('country') }}</span>
             </div>
           </div>
         </div>
@@ -33,7 +45,7 @@
 	import { ErrorBag } from 'vee-validate';
 
 	export default {
-		props: ['currentAgeCategoryTeamOperation', 'modalIndex'],
+		props: ['currentAgeCategoryTeamOperation', 'modalIndex', 'countries'],
 		data() {
 			return {
 				formValues: {

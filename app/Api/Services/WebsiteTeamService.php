@@ -45,39 +45,15 @@ class WebsiteTeamService implements WebsiteTeamContract
   }
 
   /*
-   * Store age category
+   * Get page data
    *
    * @return response
    */
-  public function storeAgeCategory($websiteId, $data)
+  public function getPageData($data)
   {
-    $result = $this->websiteTeamRepo->insertAgeCategory($websiteId, $data);
-    
-    return ['data' => $result, 'status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
-  }
+    $data = $this->websiteTeamRepo->getPageData($data);
 
-  /*
-   * Update age category
-   *
-   * @return response
-   */
-  public function updateAgeCategory($data)
-  {
-    $result = $this->websiteTeamRepo->updateAgeCategory($data);
-    
-    return ['data' => $result, 'status_code' => '200', 'message' => 'Data Sucessfully Updated'];
-  }
-
-  /*
-   * Delete age category
-   *
-   * @return response
-   */
-  public function deleteAgeCategory($websiteId)
-  {
-    $result = $this->websiteTeamRepo->deleteAgeCategory($websiteId);
-    
-    return ['data' => $result, 'status_code' => '200', 'message' => 'Data Sucessfully Deleted'];
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
 
   /*

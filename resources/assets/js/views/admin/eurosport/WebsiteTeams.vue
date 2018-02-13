@@ -6,9 +6,33 @@
 				<form name="website_teams" enctype="multipart/form-data">
 					<div class="form-group justify-content-between row">
 		        	<div class="col-sm-6">
-		        		<age-category-list @setAgeCategories="setAgeCategories"></age-category-list>
+		        		<age-category-list @setAgeCategories="setAgeCategories" :countries="team.countries"></age-category-list>
 		        	</div>
 					</div>
+					<hr class="my-4">
+					<div class="form-group row">
+	        	<div class="col-sm-12">
+	        		<h6><strong>{{$lang.upload_teams}}</strong></h6>
+	        	</div>
+	        	<div class="col-sm-8">
+	        		<div class="mb-2 row">
+	        			<div class="col-sm-3">{{$lang.upload_teams}}</div>
+	        			<div class="col-sm-4">
+                  <button type="button" class="btn btn-default w-100 btn-color-black--light" @click="browseFiles()">Choose file (excel files only)</button>
+                </div>
+                <div class="col-sm-4">
+                  <button type="button" @click="importTeamFile()"  class="btn btn-primary ml-4">Upload</button>
+                  <input type="file" name="team_upload" @change="setFileName(this, $event)"  id="team_upload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt" />
+                </div>
+	        		</div>
+	        		<div class="mb-2"><strong>{{$lang.please_note}}</strong> {{$lang.upload_team_note}}</div>
+	        		<div>{{$lang.team_sheet_format}}</div>
+	        		<div>- {{$lang.age_category}}</div>
+	        		<div>- {{$lang.excel_team_name}}</div>
+	        		<div>- {{$lang.country}}</div>
+	        		<div class="mt-2">{{$lang.country_recognisation}}</div>
+	        	</div>
+	        </div>
 				</form>
 			</div>
 		</div>
@@ -39,6 +63,7 @@ export default {
 			team: {
 				websiteId: null,
 				ageCategories: [],
+				countries: [],
 			},
 		}
 	},
@@ -48,6 +73,7 @@ export default {
 			currentPage:'Teams'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
+		this.getPageContent();
 	},
 	computed: {
 		getWebsite() {
@@ -75,6 +101,65 @@ export default {
 		setAgeCategories(ageCategories) {
 			this.team.ageCategories = ageCategories;
 		},
+		getWebsiteId() {
+			return this.$store.state.Website.id;
+		},
+		getPageContent() {
+			var websiteId = this.getWebsiteId();
+
+			Website.getTeamPageData(websiteId).then(
+        (response)=> {
+        	this.team.countries = response.data.data.countries;
+        },
+        (error)=>{
+        }
+      );
+		},
+		importTeamFile() {
+      if($('#team_upload').val()!=''){
+        if(this.canUploadTeamFile == false) {
+          toastr['error']('Please upload an excel file.', 'Error');
+          return;
+        }
+        let files  = new FormData($("#frmCsvImport")[0]);
+        // files.append('ageCategory', this.age_category.id);
+        files.append('tournamentId', this.tournament_id);
+        files.append('teamSize', this.teamSize);
+        // let uploadFile = document.getElementById('frmCsvImport');
+        this.filterStatus = false
+         axios.post('/api/team/create',files).then(response =>  {
+        if(response.data.bigFileSize == true){
+          toastr['error']('Total Team size is more than available. Only top '+this.teamSize+' teams have been added.', 'Error');
+        }else{
+          toastr['success']('teams are uploaded successfully', 'Success');
+        }
+        this.filterStatus = true
+        this.getTeams()
+        }).catch(error => {
+
+        });
+      } else {
+         toastr['error']('Please upload an excel file.', 'Error');
+      }
+		},
+		browseFiles() {
+			$("#team_upload").trigger('click');
+		},
+		setFileName(file, event) {
+      this.canUploadTeamFile = true;
+      var extensionsplit = event.target.files[0].name.split(".");
+      var extension = extensionsplit[extensionsplit.length - 1];
+      if(extension != 'xls' && extension != 'xlsx') {
+        this.canUploadTeamFile = false;
+      }
+      var filename = $('#fileUpload').val();
+      var lastIndex = filename.lastIndexOf('\\');
+
+      if (lastIndex >= 0) {
+        filename = filename.substring(lastIndex + 1);
+      }
+      $('#filename').text(filename);
+    },
 	},
 }
 </script>

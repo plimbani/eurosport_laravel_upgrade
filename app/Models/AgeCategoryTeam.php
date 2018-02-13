@@ -12,4 +12,12 @@ class AgeCategoryTeam extends Model
      * @var string
      */
     protected $table = 'age_category_teams';
+
+    /**
+     * Get country of the team.
+     */
+    public function country()
+    {
+        return $this->belongsTo('Laraspace\Models\Country');
+    }
 }

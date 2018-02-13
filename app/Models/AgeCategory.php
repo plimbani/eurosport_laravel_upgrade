@@ -20,12 +20,4 @@ class AgeCategory extends Model
     {
         return $this->hasMany('Laraspace\Models\AgeCategoryTeam');
     }
-
-    /**
-     * Get all of the teams of the age category by order.
-     */
-    public function allTeams()
-    {
-        return $this->teams()->orderBy('order')->get();
-    }
 }

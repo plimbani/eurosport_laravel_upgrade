@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Repositories;
 
 use DB;
+use Laraspace\Models\Country;
 use Laraspace\Models\AgeCategory;
 use Laraspace\Models\AgeCategoryTeam;
 use Laraspace\Api\Services\PageService;
@@ -32,7 +33,7 @@ class WebsiteTeamRepository
   {
     $ageCategories = AgeCategory::with(['teams' => function($query){
             $query->orderBy('order');
-          }])->where('website_id', $websiteId)->orderBy('order')->get();
+          }, 'teams.country'])->where('website_id', $websiteId)->orderBy('order')->get();
     return $ageCategories;
   }
 
@@ -139,7 +140,7 @@ class WebsiteTeamRepository
     $ageCategoryTeam->age_category_id = $ageCategoryId;
     $ageCategoryTeam->name = $data['name'];
     $ageCategoryTeam->order = $data['order'];
-    $ageCategoryTeam->country_id = 0;
+    $ageCategoryTeam->country_id = $data['country']['id'];
     $ageCategoryTeam->save();
 
     return $ageCategoryTeam;
@@ -155,7 +156,7 @@ class WebsiteTeamRepository
     $ageCategoryTeam = AgeCategoryTeam::find($data['id']);
     $ageCategoryTeam->name = $data['name'];
     $ageCategoryTeam->order = $data['order'];
-    $ageCategoryTeam->country_id = 0;
+    $ageCategoryTeam->country_id = $data['country']['id'];
     $ageCategoryTeam->save();
 
     return $ageCategoryTeam;
@@ -194,6 +195,18 @@ class WebsiteTeamRepository
   public function savePageData($data)
   {
     $this->saveAgeCategories($data);
+  }
+
+  /*
+   * Get page data
+   *
+   * @return response
+   */
+  public function getPageData($data)
+  {
+    $countries = Country::all();
+
+    return ['countries' => $countries];
   }
 
   /*
