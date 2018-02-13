@@ -2,7 +2,14 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.website_venue}}</strong></h6>
+				<h6><strong>{{$lang.website_locations}}</strong></h6>
+				<form name="website_venue" enctype="multipart/form-data">
+					<div class="form-group row">
+	        	<div class="col-sm-6">
+	        		<locations-list></locations-list>
+	        	</div>
+	        </div>
+				</form>					
 			</div>
 		</div>
 		<div class="row">
@@ -20,7 +27,12 @@
 <script>
 var moment = require('moment');
 import Tournament from '../../../api/tournament.js';
+import LocationsList from '../../../components/LocationsList.vue';
+
 export default {
+	components: {
+		LocationsList
+	},
 	mounted() {
 		let currentNavigationData = {
 			activeTab:'website_venue', 
