@@ -1088,6 +1088,12 @@ class MatchRepository
       }
     public function saveResult($data)
     {
+      
+      if($data['is_result_override'] == 0) {
+        $data['matchStatus'] == 'Null';
+        $data['matchWinner'] == 'Null';
+      }
+    
       $updateData = [
         'referee_id' => $data['refereeId'],
         'hometeam_score' => $data['homeTeamScore'],
@@ -1096,6 +1102,7 @@ class MatchRepository
         'match_winner' => $data['matchWinner'],
         'comments' => $data['comments'],
         'is_result_override' => $data['is_result_override'],
+
       ];
 
       $data = TempFixture::where('id',$data['matchId'])

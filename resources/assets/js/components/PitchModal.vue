@@ -84,7 +84,7 @@
                 </div>
               </div>
               <div class="form-group row" v-if="matchDetail.is_result_override == 1">
-                <label class="col-sm-3 form-control-label">{{$lang.pistch_modal_status_label}}</label>
+                <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_status_label}}</label>
                 <div class="col-sm-9">
                   <select v-model="matchDetail.match_status"
                    v-validate="'required'" :class="{'is-danger': errors.has('match_status') }"
