@@ -201,6 +201,12 @@ module.exports= {
   website_meals: "Meals",
   website_accommodation: "Accommodation",
   page_content: "Page content",
+  additional_page: "Additional page",
+  page_title: "Page title",
+  add_additional_page_btn: "Add",
+  update_additional_page_btn: "Save",
+  cancel_additional_page_btn: "Cancel",
+  no_additional_page_title: "No additional pages found.",
 
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",

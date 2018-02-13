@@ -7,6 +7,17 @@ use Laraspace\Models\Page;
 
 class PageService
 {
+
+  /**
+   * @var URL
+  */
+  protected $url;
+
+  /**
+   * @var Name
+  */
+  protected $name;
+
 	/*
    * Update page details
    *
@@ -20,7 +31,6 @@ class PageService
     } else {
       $page = Page::where('name', $pageDetail['name'])->where('website_id', $websiteId)->first();
     }
-    
     isset($pageDetail['content']) ? $page->content = $pageDetail['content'] : '';
     isset($pageDetail['meta']) ? $page->meta = $pageDetail['meta'] : '';
     isset($pageDetail['is_additional_page']) ? $page->is_additional_page = $pageDetail['is_additional_page'] : '';
@@ -74,6 +84,69 @@ class PageService
   public function getMultiplePagesData($pageDetails, $websiteId)
   {
     $pages = Page::whereIn('name', $pageDetails)->where('website_id', $websiteId)->get()->keyBy('name')->toArray();
+
+    return $pages;
+  }
+
+  /**
+   * Generate URL
+   *
+   */ 
+  public function generateUrl($title, $extra, $websiteId)
+  {
+    $this->getUniqueUrl($title, $extra, $websiteId);
+    return $this->url;
+  }
+
+  /**
+   * Get unique URL
+   *
+   */ 
+  public function getUniqueUrl($title, $extra, $websiteId)
+  {
+    $url = str_slug($title.'-'.$extra);
+    if(Page::where('url',$url)->where('website_id', $websiteId)->exists()) 
+    {
+      $suffix = $extra == '' ? 1 : $extra + 1;
+      $this->generateUrl($url, $suffix, $websiteId);
+      return;
+    }
+    $this->url = $url;
+  }
+
+  /**
+   * Generate name
+   *
+   */ 
+  public function generateName($title, $extra, $websiteId)
+  {
+    $this->getUniqueName($title, $extra, $websiteId);
+    return $this->name;
+  }
+
+  /**
+   * Get unique name
+   *
+   */ 
+  public function getUniqueName($title, $extra, $websiteId)
+  {
+    $name = str_slug($title.'_'.$extra);
+    if(Page::where('name',$name)->where('website_id', $websiteId)->exists()) 
+    {
+        $suffix = $extra == '' ? 1 : $extra + 1;
+        $this->generateName($name, $suffix, $websiteId);
+        return;
+    }
+    $this->name = $name;
+  }
+
+  /**
+   * Get pages by parent id
+   *
+   */
+  public function getAdditionalPagesByParentId($parentId, $websiteId)
+  {
+    $pages = Page::where('parent_id', $parentId)->where('is_additional_page', 1)->get();
 
     return $pages;
   }

@@ -65,4 +65,8 @@ export default {
   getStayPageData(websiteId) {
     return axios.get('/api/getStayPageData/' + websiteId);
   },
+  // save additional pages
+  saveAdditionalPage(pageData) {
+    return api.post('/saveAdditionalPageData', pageData);
+  },
 }

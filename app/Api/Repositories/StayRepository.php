@@ -51,19 +51,22 @@ class StayRepository
     $stayPageDetail = array();
     $stayPageDetail['name'] = $this->stayPageName;
     $stayPageDetail['content'] = $data['stay_introduction_content'];
-    $this->pageService->updatePageDetails($stayPageDetail, $data['websiteId']);
+    $this->pageService->updatePageDetails($stayPageDetail, $data['website_id']);
 
     // update meals page detail
     $mealsPageDetail = array();
     $mealsPageDetail['name'] = $this->mealsPageName;
     $mealsPageDetail['content'] = $data['meals_page_content'];
-    $this->pageService->updatePageDetails($mealsPageDetail, $data['websiteId']);
+    $this->pageService->updatePageDetails($mealsPageDetail, $data['website_id']);
 
     // update accommodation page detail
     $accommodationPageDetail = array();
     $accommodationPageDetail['name'] = $this->accommodationPageName;
     $accommodationPageDetail['content'] = $data['accommodation_page_content'];
-    $this->pageService->updatePageDetails($accommodationPageDetail, $data['websiteId']);
+    $this->pageService->updatePageDetails($accommodationPageDetail, $data['website_id']);
+
+    // save additional pages
+    $this->saveAdditionalPages($data);
 	}
 
   /*
@@ -74,8 +77,10 @@ class StayRepository
   public function getStayPageData($websiteId)
   {
     $pages = [$this->stayPageName, $this->mealsPageName, $this->accommodationPageName];
-   
-    return $this->pageService->getMultiplePagesData($pages, $websiteId);
+    $pagesData = $this->pageService->getMultiplePagesData($pages, $websiteId);
+    $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData['stay']['id'], $websiteId);      
+
+    return array_merge($pagesData,['additionalPages' => $additionalPages]);
   }
 
   /*
@@ -83,9 +88,59 @@ class StayRepository
    *
    * @return response
    */
-  public function addAdditionalPage($data)
+  public function saveAdditionalPages($data)
   {
-    echo "<pre>";print_r($data);echo "</pre>";exit;
-    $page = new Page();
+    $websiteId = $data['website_id'];
+    $additionalPages = $data['additional_pages'];
+
+    $existingPageIds = $this->getAllAdditionalPageIds($data['parent_id']);
+
+    $additionalPageIds = [];
+    foreach ($additionalPages as $key => $page) {
+
+      $pageData = $page;
+      $pageData['order'] = $key + 1;
+
+      if($pageData['id'] == '') {
+        $url = $this->pageService->generateUrl($pageData['title'], '', $data['website_id']);
+        $name = $this->pageService->generateName($pageData['title'], '', $data['website_id']);
+        $pageData['slug'] = $url;
+        $pageData['name'] = $name;
+        $pageData['parent_id'] = $data['parent_id'];
+        $pageData['is_additional_page'] = 1;
+
+        $pageObject = $this->pageService->insertPageDetails($pageData, $websiteId);
+      } else {
+        $pageObject = $this->pageService->updatePageDetails($pageData, $websiteId);
+      }
+
+      $additionalPageIds[] = $pageObject->id;
+    }
+
+    $deletePageId = array_diff($existingPageIds, $additionalPageIds);
+
+    $this->deletePages($deletePageId);
   }
+
+  /*
+   * Get all page ids
+   *
+   * @return response
+   */
+  public function getAllAdditionalPageIds($parentId)
+  {
+    $pageIds = Page::where('parent_id', $parentId)->where('is_additional_page', 1)->pluck('id')->toArray();
+    return $pageIds;
+  }
+
+  /*
+   * Delete pages
+   *
+   * @return response
+   */
+  public function deletePages($pageIds = [])
+  {
+    Page::whereIn('id', $pageIds)->delete();
+    return true;
+  }    
 }

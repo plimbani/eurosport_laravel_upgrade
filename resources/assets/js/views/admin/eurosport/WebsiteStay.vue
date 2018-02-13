@@ -4,43 +4,41 @@
 			<div class="card">
 				<div class="card-block">
 					<h6><strong>{{$lang.website_stay}}</strong></h6>				
-						<div class="form-group justify-content-between row">
-		        	<div class="col-sm-6">
-		        		<div class="row">
-			          	<label class="col-sm-12 no-padding form-control-label">{{$lang.website_stay_introduction_content}}</label>
-			          	<div class="col-sm-12">
-			          		<insert-text-editor :id="'stay_introduction_content'" :value="staypage.stay_introduction_content" @setEditorValue="setStayIntroductionContent"></insert-text-editor>
-			          	</div>
+					<div class="form-group justify-content-between row">
+	        	<div class="col-sm-6">
+	        		<div class="row">
+		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.website_stay_introduction_content}}</label>
+		          	<div class="col-sm-12">
+		          		<insert-text-editor :id="'stay_introduction_content'" :value="staypage.stay_introduction_content" @setEditorValue="setStayIntroductionContent"></insert-text-editor>
 		          	</div>
-		          </div>
-						</div>				
-				</div>
-				<div class="card-block">
+	          	</div>
+	          </div>
+					</div>
 					<h6><strong>{{$lang.website_meals}}</strong></h6>
-						<div class="form-group justify-content-between row">
-		        	<div class="col-sm-6">
-		        		<div class="row">
-			          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
-			          	<div class="col-sm-12">
-			          		<insert-text-editor :id="'meals_page_content'" :value="staypage.meals_page_content" @setEditorValue="setMealsPageContent"></insert-text-editor>
-			          	</div>
+					<div class="form-group justify-content-between row">
+	        	<div class="col-sm-6">
+	        		<div class="row">
+		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
+		          	<div class="col-sm-12">
+		          		<insert-text-editor :id="'meals_page_content'" :value="staypage.meals_page_content" @setEditorValue="setMealsPageContent"></insert-text-editor>
 		          	</div>
-		          </div>
-						</div>
-				</div>
-				<div class="card-block">
+	          	</div>
+	          </div>
+					</div>
 					<h6><strong>{{$lang.website_accommodation}}</strong></h6>
-						<div class="form-group justify-content-between row">
-		        	<div class="col-sm-6">
-		        		<div class="row">
-			          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
-			          	<div class="col-sm-12">
-			          		<insert-text-editor :id="'accommodation_page_content'" :value="staypage.accommodation_page_content" @setEditorValue="setAccommodationPageContent"></insert-text-editor>
-			          	</div>
+					<div class="form-group justify-content-between row">
+	        	<div class="col-sm-6">
+	        		<div class="row">
+		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
+		          	<div class="col-sm-12">
+		          		<insert-text-editor :id="'accommodation_page_content'" :value="staypage.accommodation_page_content" @setEditorValue="setAccommodationPageContent"></insert-text-editor>
 		          	</div>
-		          </div>
-						</div>
-				</div>				
+	          	</div>
+	          </div>
+					</div>
+					<h6><strong>{{$lang.additional_page}}</strong></h6>
+					<additional-pages @setAdditionalPages="setAdditionalPages" :additional_pages="staypage.additional_pages"></additional-pages>
+				</div>
 			</div>
 		</form>
 		<div class="row">
@@ -61,18 +59,21 @@ var moment = require('moment');
 import Website from '../../../api/website.js';
 import Tournament from '../../../api/tournament.js';
 import InsertTextEditor from '../../../components/InsertTextEditor/InsertTextEditor.vue';
+import AdditionalPages  from  '../../../components/AdditionalPages.vue';
 
 export default {
 	components: {
-		InsertTextEditor
+		InsertTextEditor, AdditionalPages
 	},
 	data() {
 		return {
 			staypage: {
-				websiteId: null,
+				website_id: null,
 				stay_introduction_content: '',
 				meals_page_content: '',
 				accommodation_page_content: '',
+				additional_pages: [],
+				parent_id: '',
 			},
 		}
 	},
@@ -107,10 +108,11 @@ export default {
 		},
 		next() {
 			this.$root.$emit('getEditorValue');
-			this.staypage.websiteId = this.getWebsiteId();
+			this.staypage.website_id = this.getWebsiteId();
+			this.$root.$emit('getAdditionalPages');
 			$("body .js-loader").removeClass('d-none');
 			Website.saveStayPageData(this.staypage).then(
-				(response)=> {
+				(response)=> {					
 					$("body .js-loader").addClass('d-none');
 					toastr.success('Staypage has been updated successfully.', 'Success');
 					this.redirectToForward();
@@ -123,13 +125,19 @@ export default {
 			var websiteId = this.getWebsiteId();
 			Website.getStayPageData(websiteId).then(
 				(response)=> {
+					console.log('response', response);
 					this.staypage.stay_introduction_content = response.data.data.stay.content !== null ? response.data.data.stay.content : '';
 					this.staypage.meals_page_content = response.data.data.meals.content !== null ? response.data.data.meals.content : '';
 					this.staypage.accommodation_page_content = response.data.data.accommodation.content !== null ? response.data.data.accommodation.content : '';
+					this.staypage.parent_id = response.data.data.stay.id !== null ? response.data.data.stay.id : '';
+					this.staypage.additional_pages = response.data.data.additionalPages;
 				},
 				(error) => {					
 				}
 			);
+		},
+		setAdditionalPages(pages) {
+			this.staypage.additional_pages = pages;
 		},
 	},
 }
