@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<div class="draggable--section">
-			<draggable v-model="ageCategoryTeams" :options="{draggable:'.age-category-team-item', handle: '.age-category-team-handle'}">
-		  	<div class="age-category-team-item draggable--section-card" :class="childClassNames" v-for="(ageCategoryTeam, index) in teams" :key="ageCategoryTeam.id">
+		<div class="draggable--section" :class="childClassNames">
+			<draggable v-model="ageCategoryTeams" :options="{draggable:'.age-category-team-item', handle: '.age-category-team-handle'}" @end="onDragEnd()">
+		  	<div class="age-category-team-item draggable--section-card" v-for="(ageCategoryTeam, index) in ageCategoryTeams" :key="ageCategoryTeam.id">
 		  		<div class="draggable--section-card-header">
 		  			<div class="draggable--section-card-header-panel">
 		  				<div>
@@ -103,6 +103,10 @@
 				var vm = this;
 				this.$root.$emit('setAgeCategoryTeamData', formData);
 				$('#age_category_team_modal_' + this.parentIndex).modal('show');
+			},
+			onDragEnd() {
+				console.log('onDragEnd');
+				this.getAgeCategoryTeams();
 			},
 			getAgeCategoryTeams() {
         this.$emit('setAgeCategoryTeams', _.cloneDeep(this.ageCategoryTeams), this.parentIndex);

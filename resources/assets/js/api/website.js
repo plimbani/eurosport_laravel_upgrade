@@ -73,4 +73,19 @@ export default {
   getWebsiteTournamentPageData(websiteId) {
     return axios.get('/api/getWebsiteTournamentPageData/' + websiteId);
   },
+  // Get all website age categories
+  getAgeCategories(websiteId) {
+    return axios.get('/api/getAgeCategories/' + websiteId);
+  },
+  // Get all website team page data
+  getTeamPageData(websiteId) {
+    return axios.get('/api/getTeamPageData/' + websiteId);
+  },
+  // Save teampage data
+  saveTeamPageData(pageData) {
+    return api.post('/saveTeamPageData', pageData);
+  },
+  getAgeCategories(websiteId) {
+    return axios.get('/api/getAgeCategories/' + websiteId);
+  }
 }

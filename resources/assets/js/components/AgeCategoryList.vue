@@ -23,7 +23,7 @@
 						    </div>
 			  			</div>
 			  			<!-- Add child tags like draggable--section-child-1 -->
-						<age-category-team-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" :teams="ageCategory.teams" @setAgeCategoryTeams="setAgeCategoryTeams"></age-category-team-list>
+							<age-category-team-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" :teams="ageCategory.teams" @setAgeCategoryTeams="setAgeCategoryTeams"></age-category-team-list>
 			  		</div>
 			    </div>
 			</draggable>
