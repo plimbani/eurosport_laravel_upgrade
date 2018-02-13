@@ -1085,7 +1085,7 @@ class MatchRepository
         }
       }
 
-    }
+      }
     public function saveResult($data)
     {
       $updateData = [
@@ -1095,7 +1095,9 @@ class MatchRepository
         'match_status' => $data['matchStatus'],
         'match_winner' => $data['matchWinner'],
         'comments' => $data['comments'],
+        'is_result_override' => $data['is_result_override'],
       ];
+
       $data = TempFixture::where('id',$data['matchId'])
                   ->update($updateData);
       // TODO : call function to add result
