@@ -19,7 +19,8 @@
 		          	<div class="col-sm-12">
 		          		<div class="row align-items-center">
 		          			<div class="col-sm-3">
-			          			<img :src="getHeroImage" class="img-fluid" />
+			          			<transition-image v-if="homepage.hero_image != ''" :image_url="homepage.hero_image" :image_class="'img-fluid'"></transition-image>
+			          			<img v-if="homepage.hero_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 			          		</div>
 			          		<div class="col-sm-9">
 			          			<button v-if="homepage.hero_image != ''" class="btn btn-default" @click="removeImage($event, 'hero_image')">{{$lang.tournament_tournament_remove_button}}</button>
@@ -35,7 +36,8 @@
 		          	<div class="col-sm-12">
 		          		<div class="row align-items-center">
 		          			<div class="col-sm-3">
-			          			<img :src="getWelcomeImage" class="img-fluid" />
+											<transition-image v-if="homepage.welcome_image != ''" :image_url="homepage.welcome_image" :image_class="'img-fluid'"></transition-image>
+			          			<img v-if="homepage.welcome_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 			          		</div>
 			          		<div class="col-sm-9">
 				          		<button v-if="homepage.welcome_image != ''" class="btn btn-default" @click="removeImage($event, 'welcome_image')">{{$lang.tournament_tournament_remove_button}}</button>
@@ -86,12 +88,14 @@ import InsertTextEditor from '../../../components/InsertTextEditor/InsertTextEdi
 import StatisticList from '../../../components/StatisticList.vue';
 import OrganiserLogoList from '../../../components/OrganiserLogoList.vue';
 import Website from '../../../../js/api/website.js';
+import TransitionImage from '../../../components/TransitionImage.vue';
 
 export default {
 	components: {
 		InsertTextEditor,
 		StatisticList,
 		OrganiserLogoList,
+		TransitionImage,
 	},
 	data() {
 		return {

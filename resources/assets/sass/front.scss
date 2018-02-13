@@ -768,3 +768,24 @@ li.select2-results__option {
 .mce-menubar .mce-menubtn.mce-active {
     z-index: 65534 !important;
 }
+
+.img-box{
+  position: relative;
+  img {
+      transition: all .3s ease;
+      height: auto;
+      max-width: 100%;
+      margin: 0;
+      background-color: #eee;
+      overflow: hidden;
+  }
+  img.v-enter, img.v-leave {
+      height: 0;
+      padding: 0 10px;
+      opacity: 0;
+  }
+}
+.loading {
+  height: auto;
+  max-width: 100%;
+}
