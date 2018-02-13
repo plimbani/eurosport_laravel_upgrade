@@ -5,14 +5,9 @@
 				<h6><strong>{{$lang.age_categories}}</strong></h6>
 				<form name="website_teams" enctype="multipart/form-data">
 					<div class="form-group justify-content-between row">
-						<div class="form-group row">
-		        	<div class="col-sm-12">
-		        		<h6><strong>{{$lang.age_categories}}</strong></h6>
-		        	</div>
 		        	<div class="col-sm-6">
-		        		<age-category-list @setAgeCategory="setAgeCategory"></age-category-list>
+		        		<age-category-list @setAgeCategories="setAgeCategories"></age-category-list>
 		        	</div>
-		        </div>
 					</div>
 				</form>
 			</div>
@@ -48,7 +43,7 @@ export default {
 	},
 	mounted() {
 		let currentNavigationData = {
-			activeTab:'website_teams', 
+			activeTab:'website_teams',
 			currentPage:'Teams'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
@@ -62,8 +57,8 @@ export default {
 		redirectToBackward() {
 			this.$router.push({name:'website_homepage'});
 		},
-		setStatistics(statistics) {
-			this.homepage.statistics = statistics;
+		setAgeCategories(ageCategories) {
+			this.team.ageCategories = ageCategories;
 		},
 	},
 }

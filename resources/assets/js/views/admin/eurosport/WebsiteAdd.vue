@@ -9,7 +9,7 @@
 							<div class="form-group row" :class="{'has-error': errors.has('website.tournament_name') }">
 								<label class="col-sm-4 form-control-label">{{$lang.tournament_name}}*</label>
 								<div class="col-sm-8">
-										<input type="text" class="form-control" placeholder="Enter the name of your tournament" 
+										<input type="text" class="form-control" placeholder="Enter the name of your tournament"
 										v-model="website.tournament_name" name="tournament_name" data-vv-as="tournament name" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
 										<i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
 										<span class="help is-danger" v-show="errors.has('tournament_name')">{{ errors.first('tournament_name') }}</span>
@@ -18,16 +18,16 @@
 							<div class="form-group row">
 								<label class="col-sm-4 form-control-label">{{$lang.tournament_dates}}*</label>
 								<div class="col-sm-8">
-										<input type="text" class="form-control" placeholder="Enter the tournament date" 
+										<input type="text" class="form-control" placeholder="Enter the tournament date"
 										v-model="website.tournament_date" name="tournament_date" data-vv-as="tournament dates" v-validate="'required'" :class="{'is-danger': errors.has('tournament_date') }">
 										<i v-show="errors.has('tournament_date')" class="fa fa-warning"></i>
 										<span class="help is-danger" v-show="errors.has('tournament_date')">{{ errors.first('tournament_date') }}</span>
 								</div>
-							</div>							
+							</div>
 							<div class="form-group row" :class="{'has-error': errors.has('website.tournament_location') }">
 								<label class="col-sm-4 form-control-label">{{$lang.tournament_location_field}}*</label>
 								<div class="col-sm-8">
-										<input type="text" class="form-control" placeholder="Enter the location" 
+										<input type="text" class="form-control" placeholder="Enter the location"
 										v-model="website.tournament_location" name="tournament_location" data-vv-as="tournament location" v-validate="'required'" :class="{'is-danger': errors.has('tournament_location') }">
 										<i v-show="errors.has('tournament_location')" class="fa fa-warning"></i>
 										<span class="help is-danger" v-show="errors.has('tournament_location')">{{ errors.first('tournament_location') }}</span>
@@ -56,7 +56,7 @@
 							<div class="form-group row mb-0">
 								<label class="col-sm-4 form-control-label">{{$lang.google_analytics_id}}</label>
 								<div class="col-sm-8">
-										<input type="text" class="form-control" placeholder="Enter the google analytics id" 
+										<input type="text" class="form-control" placeholder="Enter the google analytics id"
 										v-model="website.google_analytics_id" name="google_analytics_id">
 								</div>
 							</div>
@@ -286,7 +286,7 @@ export default {
 	},
 	mounted() {
 		let currentNavigationData = {
-			activeTab:'website_add', 
+			activeTab:'website_add',
 		};
 		$('#btnSelect').on('click',function(){
 			$('#selectFile').trigger('click')
@@ -325,23 +325,25 @@ export default {
 	methods: {
 		next() {
 			this.$validator.validateAll().then(
-			(response) => {				
-				this.website.tournament_logo = this.tournament_logo_image;
-				this.website.social_sharing_graphic = this.social_sharing_graphic_image;
-				if(this.$store.state.Website.id != null) {
-					this.website.websiteId = this.$store.state.Website.id;					
-				}
-				this.$root.$emit('getSponsors');
-				$("body .js-loader").removeClass('d-none');
-				this.$store.dispatch('SaveWebsiteDetails', this.website)
-				.then((response) => {
-					$("body .js-loader").addClass('d-none');
-					toastr['success']('Website details added successfully', 'Success');
-					this.redirectToForward();
-				})
-				.catch((response) => {
-					toastr['error']('Error while saving data', 'Error');
-				});
+			(response) => {
+        if(response) {
+  				this.website.tournament_logo = this.tournament_logo_image;
+  				this.website.social_sharing_graphic = this.social_sharing_graphic_image;
+  				if(this.$store.state.Website.id != null) {
+  					this.website.websiteId = this.$store.state.Website.id;
+  				}
+  				this.$root.$emit('getSponsors');
+  				$("body .js-loader").removeClass('d-none');
+  				this.$store.dispatch('SaveWebsiteDetails', this.website)
+  				.then((response) => {
+  					$("body .js-loader").addClass('d-none');
+  					toastr['success']('Website details added successfully', 'Success');
+  					this.redirectToForward();
+  				})
+  				.catch((response) => {
+  					toastr['error']('Error while saving data', 'Error');
+  				});
+        }
 			},
 			(error) => {
 
@@ -394,7 +396,7 @@ export default {
 			reader.onload = (r) => {
 				var image = new Image();
 				image.src = r.target.result;
-							 
+
 				//Validate the File Height and Width.
 				image.onload = function () {
 					if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {

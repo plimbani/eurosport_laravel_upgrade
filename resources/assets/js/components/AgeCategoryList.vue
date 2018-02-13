@@ -2,29 +2,30 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-model="ageCategories" :options="{draggable:'.age-category-item', handle: '.age-category-handle'}">
-		  	<div class="age-category-item draggable--section-card" v-for="(ageCategory, index) in ageCategories" :key="ageCategory.id">
-		  		<div class="draggable--section-card-header">
-		  			<div class="draggable--section-card-header-panel">
-		  				<div>
-			  				{{ ageCategory.content }}
+			  	<div class="age-category-item draggable--section-card" v-for="(ageCategory, index) in ageCategories" :key="ageCategory.id">
+			  		<div class="draggable--section-card-header">
+			  			<div class="draggable--section-card-header-panel">
+			  				<div>
+				  				{{ ageCategory.category }}
+				  			</div>
+				  			<div class="draggable--section-card-header-icons">
+						        <a class="text-primary" href="javascript:void(0)"
+						        	@click="deleteAgeCategory(index)">
+						        	<i class="jv-icon jv-dustbin"></i>
+						        </a>
+						        <a class="text-primary" href="javascript:void(0)"
+						        	@click="editAgeCategory(ageCategory, index)">
+						        	<i class="jv-icon jv-edit"></i>
+						        </a>
+						        <a class="text-primary age-category-handle draggable-handle" href="javascript:void(0)">
+						        	<i class="fa fa-bars"></i>
+						        </a>
+						    </div>
 			  			</div>
-			  			<div class="draggable--section-card-header-icons">
-					        <a class="text-primary" href="javascript:void(0)"
-					        	@click="deleteAgeCategory(index)">
-					        	<i class="jv-icon jv-dustbin"></i>
-					        </a>
-					        <a class="text-primary" href="javascript:void(0)"
-					        	@click="editAgeCategory(ageCategory, index)">
-					        	<i class="jv-icon jv-edit"></i>
-					        </a>
-					        <a class="text-primary age-category-handle draggable-handle" href="javascript:void(0)">
-					        	<i class="fa fa-bars"></i>
-					        </a>
-					    </div>
-		  			</div>
-		  			<!-- Add child tags like draggable--section-child-1 -->
-		  		</div>
-		    </div>
+			  			<!-- Add child tags like draggable--section-child-1 -->
+						<age-category-team-list @setAgeCategoryTeams="setAgeCategoryTeams" :classNames="'draggable--section-child-1'"></age-category-team-list>
+			  		</div>
+			    </div>
 			</draggable>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addAgeCategory()">{{ $lang.add_category }}</button>
@@ -36,6 +37,7 @@
 	import Website from '../api/website.js';
 	import draggable from 'vuedraggable';
 	import AgeCategoryModal  from  './AgeCategoryModal.vue';
+	import AgeCategoryTeamList  from  './AgeCategoryTeamList.vue';
 	import _ from 'lodash';
 
 	export default {
@@ -49,6 +51,7 @@
 		components: {
 			draggable,
 			AgeCategoryModal,
+			AgeCategoryTeamList,
 		},
 		computed: {
 			getWebsite() {
@@ -74,26 +77,27 @@
 				var formData = {
 					id: '',
 					category: '',
+					teams: [],
 				};
 				this.currentAgeCategoryIndex = this.ageCategories.length;
 				this.currentAgeCategoryOperation = 'add';
 				this.initializeModel(formData);
 			},
 			storeAgeCategory(ageCategoryData) {
-				this.ageCategories.push({ id: '', content: ageCategoryData.category });
+				this.ageCategories.push({ id: '', category: ageCategoryData.category });
 				$('#age_category_modal').modal('hide');
 			},
 			editAgeCategory(ageCategory, index) {
 				var formData = {
 					id: ageCategory.id,
-					category: ageCategory.content,
+					category: ageCategory.category,
 				};
 				this.currentAgeCategoryIndex = index;
 				this.currentAgeCategoryOperation = 'edit';
 				this.initializeModel(formData);
 			},
 			updateAgeCategory(ageCategoryData) {
-				this.ageCategories[this.currentAgeCategoryIndex].content = ageCategoryData.category;
+				this.ageCategories[this.currentAgeCategoryIndex].category = ageCategoryData.category;
 				$('#age_category_modal').modal('hide');
 			},
 			deleteAgeCategory(deleteIndex) {
