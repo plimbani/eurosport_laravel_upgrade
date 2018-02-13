@@ -297,6 +297,7 @@ class MatchRepository
               'temp_fixtures.pitch_id as pitchId',
               'temp_fixtures.is_scheduled',
               'temp_fixtures.is_final_round_match',
+              'temp_fixtures.is_result_override as isResultOverride',              
               'home_team.name as HomeTeam','away_team.name as AwayTeam',
               'tournament_competation_template.halves_RR',
               'temp_fixtures.home_team_name as homeTeamName',
