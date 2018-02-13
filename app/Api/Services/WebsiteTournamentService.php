@@ -21,7 +21,6 @@ class WebsiteTournamentService implements WebsiteTournamentContract
    */
   public function __construct(WebsiteTournamentRepository $websiteTournamentRepo)
   {
-    $this->getAWSUrl = getenv('S3_URL');
     $this->websiteTournamentRepo = $websiteTournamentRepo;
   }
 
