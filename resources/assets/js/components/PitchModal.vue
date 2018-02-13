@@ -80,11 +80,11 @@
               <div class="form-group row">
                 <div class="col-sm-3">{{$lang.pitch_modal_result_override}}</div>
                 <div class="col-sm-9 align-self-center">
-                  <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="1" :value="matchDetail.is_result_override">
+                  <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="1" :false-value="0" :value="matchDetail.is_result_override">
                 </div>
               </div>
               <div class="form-group row" v-if="matchDetail.is_result_override == 1">
-                <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_status_label}}</label>
+                <label class="col-sm-3 form-control-label">{{$lang.pistch_modal_status_label}}</label>
                 <div class="col-sm-9">
                   <select v-model="matchDetail.match_status"
                    v-validate="'required'" :class="{'is-danger': errors.has('match_status') }"
@@ -246,7 +246,6 @@ var moment = require('moment');
       }
     },
     saveFixtureDetail(){
-
         if(($('#home_team_score').val() != '' || $('#away_team_score').val() != '') && (this.matchDetail.home_team == 0 || this.matchDetail.away_team == 0)) {
           toastr.error('Both home and away teams should be there for score update.');
           return false;
@@ -265,6 +264,7 @@ var moment = require('moment');
 
             Tournament.saveMatchResult(data).then(
               (response) => {
+
                 this.matchFixtureDetail()
                 // this.$root.$emit('setPitchReset')
                 $('#matchScheduleModal').modal('hide')
@@ -288,7 +288,7 @@ var moment = require('moment');
       this.checkScores();
       //  this.$validator.validateAll().then(() => {
 
-      if(this.matchDetail.is_result_override == 1) {
+      if(this.matchDetail.is_result_override == 0) {
 
       let  matchStatus = ''
       let matchWinner = ''
