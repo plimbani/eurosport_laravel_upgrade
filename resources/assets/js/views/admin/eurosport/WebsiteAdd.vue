@@ -76,7 +76,7 @@
 										</div>
 										<div class="row align-items-center" v-else>
 											<div class="col-sm-3">
-												<img :src="tournament_logo_image" class="img-fluid" />
+												<transition-image :image_url="tournament_logo_image" :image_class="'img-fluid'"></transition-image>
 											</div>
 											<div class="col-sm-9">
 												<button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
@@ -249,10 +249,12 @@ var moment = require('moment');
 import Tournament from '../../../api/tournament.js';
 import Website from '../../../api/website.js';
 import SponsorsList from '../../../components/SponsorsList.vue';
+import TransitionImage from '../../../components/TransitionImage.vue';
 
 export default {
 	components: {
 		SponsorsList,
+		TransitionImage,
 	},
 	data() {
 		return {

@@ -13,13 +13,20 @@ class WebsiteTournamentRepository
    * @var Page service
    */
   protected $pageService;
+  /*
+  * @var Tournament page title
+  */
+  protected $age_categories;
+  /*
+  * @var Rules page title
+  */
+  protected $rules;
 
   /**
    * Create a new controller instance.
    */
   public function __construct(PageService $pageService)
   {
-    $this->getAWSUrl = getenv('S3_URL');
     $this->pageService = $pageService;
     $this->age_categories = 'Tournament';
     $this->rules = 'Rules';
