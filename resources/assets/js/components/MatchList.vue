@@ -59,7 +59,7 @@
           <span class="align-middle">
             <a  v-if="match.is_scheduled == '0'">-</i>
             </a>
-            <a class="text-primary" href="javascript:void(0);" v-else
+            <a class="text-primary js-edit-match" href="javascript:void(0);"  v-bind:data-id="match.fid" v-else
               @click="openPitchModal(match,index1)"><i class="jv-icon jv-edit"></i>
             </a>
           </span>
@@ -67,6 +67,8 @@
       </tr>
     </tbody>
   </table>
+  <div class="col-md-12"><div class="d-flex align-items-center justify-content-end"><button type="button" name="save" class="btn btn-primary mr-1" @click="saveMatchScore()">Save</button></div></div>
+  
     <paginate v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
     </paginate>
     <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" class="row d-flex flex-row align-items-center">
@@ -346,6 +348,19 @@ export default {
         }
       }
       return true;
+    },
+    saveMatchScore() {
+      $.each(this.matchData, function (index,value){
+        if(value.actual_round == 'Elimination'); {
+          if(value.homeScore == value.AwayScore) {
+            
+            $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon');
+            console.log('rest',$('#matchSchedule').find('.jv-edit[data-id='+value.fid+']').addClass('match-list-editIcon')); 
+             // toastr.error('Please complete the results override information for the fixtures highlighted.','Action Required');
+          }
+        }  
+      });
+    
     }
   },
 }

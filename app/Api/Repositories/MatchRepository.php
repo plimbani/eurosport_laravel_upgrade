@@ -397,7 +397,7 @@ class MatchRepository
           }
         }
       $resultData = $reportQuery->get();
-           $updatedArray =[];
+      $updatedArray =[];
 
       foreach($resultData as $key=>$res) {
           $updatedArray[$key] = $res;
