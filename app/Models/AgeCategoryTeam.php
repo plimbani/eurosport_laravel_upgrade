@@ -11,5 +11,5 @@ class AgeCategoryTeam extends Model
      *
      * @var string
      */
-    protected $table = 'age_category_team';
+    protected $table = 'age_category_teams';
 }

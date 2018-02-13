@@ -6,7 +6,7 @@
 			  		<div class="draggable--section-card-header">
 			  			<div class="draggable--section-card-header-panel">
 			  				<div>
-				  				{{ ageCategory.category }}
+				  				{{ ageCategory.name }}
 				  			</div>
 				  			<div class="draggable--section-card-header-icons">
 						        <a class="text-primary" href="javascript:void(0)"
@@ -23,7 +23,7 @@
 						    </div>
 			  			</div>
 			  			<!-- Add child tags like draggable--section-child-1 -->
-						<age-category-team-list @setAgeCategoryTeams="setAgeCategoryTeams" :classNames="'draggable--section-child-1'"></age-category-team-list>
+						<age-category-team-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" :teams="ageCategory.teams" @setAgeCategoryTeams="setAgeCategoryTeams"></age-category-team-list>
 			  		</div>
 			    </div>
 			</draggable>
@@ -76,7 +76,7 @@
 			addAgeCategory() {
 				var formData = {
 					id: '',
-					category: '',
+					name: '',
 					teams: [],
 				};
 				this.currentAgeCategoryIndex = this.ageCategories.length;
@@ -84,20 +84,22 @@
 				this.initializeModel(formData);
 			},
 			storeAgeCategory(ageCategoryData) {
-				this.ageCategories.push({ id: '', category: ageCategoryData.category });
+				this.ageCategories.push({ id: '', name: ageCategoryData.name, teams: [] });
 				$('#age_category_modal').modal('hide');
 			},
 			editAgeCategory(ageCategory, index) {
 				var formData = {
 					id: ageCategory.id,
-					category: ageCategory.category,
+					name: ageCategory.name,
+					teams: ageCategory.teams,
 				};
 				this.currentAgeCategoryIndex = index;
 				this.currentAgeCategoryOperation = 'edit';
 				this.initializeModel(formData);
 			},
 			updateAgeCategory(ageCategoryData) {
-				this.ageCategories[this.currentAgeCategoryIndex].category = ageCategoryData.category;
+				this.ageCategories[this.currentAgeCategoryIndex].name = ageCategoryData.name;
+				this.ageCategories[this.currentAgeCategoryIndex].teams = ageCategoryData.teams;
 				$('#age_category_modal').modal('hide');
 			},
 			deleteAgeCategory(deleteIndex) {
@@ -111,8 +113,11 @@
 				$('#age_category_modal').modal('show');
 			},
 			getAgeCategories() {
-        this.$emit('setAgeCategories', this.ageCategories);
-      },
+				this.$emit('setAgeCategories', this.ageCategories);
+			},
+			setAgeCategoryTeams(ageCategoryTeams, index) {
+				this.ageCategories[index].teams = ageCategoryTeams;
+			},
 		},
 	}
 </script>

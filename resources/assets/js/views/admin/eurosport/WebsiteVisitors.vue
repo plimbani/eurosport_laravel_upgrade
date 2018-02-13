@@ -5,7 +5,7 @@
 				<h6><strong>{{$lang.visitors}}</strong></h6>
 				<form name="website_homepage" enctype="multipart/form-data">
 	        <div class="form-group justify-content-between row">
-	        	<div class="col-sm-8">
+	        	<div class="col-sm-12">
 	        		<div class="row">
 		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.visitor_arrival_and_checkin_information}}</label>
 		          	<div class="col-sm-12">
@@ -15,7 +15,7 @@
 	          </div>
 	        </div>
 	        <div class="form-group justify-content-between row">
-	        	<div class="col-sm-8">
+	        	<div class="col-sm-12">
 	        		<div class="row">
 		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.visitor_public_transport}}</label>
 		          	<div class="col-sm-12">
@@ -25,7 +25,7 @@
 	          </div>
 	        </div>
 	        <div class="form-group justify-content-between row">
-	        	<div class="col-sm-8">
+	        	<div class="col-sm-12">
 	        		<div class="row">
 		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.visitor_tips}}</label>
 		          	<div class="col-sm-12">
@@ -41,7 +41,7 @@
 	        	</div>
 	        	<div class="col-sm-12">
 	        		<div class="form-group justify-content-between row">
-			        	<div class="col-sm-8">
+			        	<div class="col-sm-12">
 			        		<div class="row">
 				          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
 				          	<div class="col-sm-12">

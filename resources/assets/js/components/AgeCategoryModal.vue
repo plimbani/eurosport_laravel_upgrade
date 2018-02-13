@@ -9,12 +9,12 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-group row" :class="{'has-error': errors.has('category') }">
+          <div class="form-group row" :class="{'has-error': errors.has('name') }">
             <label class="col-sm-5 form-control-label">{{ $lang.category }}*</label>
             <div class="col-sm-6">
-                <input v-model="formValues.category" v-validate="{'required':true, 'max': 25}" :class="{'is-danger': errors.has('category') }" name="category" type="text" class="form-control" :placeholder="$lang.category">
-                <i v-show="errors.has('category')" class="fa fa-warning"></i>
-                <span class="help is-danger" v-show="errors.has('category')">{{ errors.first('category') }}<br>
+                <input v-model="formValues.name" v-validate="{'required':true, 'max': 25}" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" :placeholder="$lang.category">
+                <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}<br>
                 </span>
             </div>
           </div>
@@ -38,7 +38,8 @@
 			return {
 				formValues: {
 					id: '',
-					category: '',
+					name: '',
+					teams: [],
 				},
 			};
 		},
@@ -64,7 +65,8 @@
 			},
 			setAgeCategoryData(ageCategoryData) {
 				this.formValues.id = ageCategoryData.id;
-				this.formValues.category = ageCategoryData.category;
+				this.formValues.name = ageCategoryData.name;
+				this.formValues.teams = ageCategoryData.teams;
 				this.errors.clear();
 			},
 		},

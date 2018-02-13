@@ -26,6 +26,7 @@
 </template>
 <script>
 var moment = require('moment');
+import Website from '../../../api/website.js';
 import Tournament from '../../../api/tournament.js';
 import AgeCategoryList from '../../../components/AgeCategoryList.vue';
 
@@ -49,10 +50,24 @@ export default {
 		this.$store.dispatch('setActiveTab', currentNavigationData);
 	},
 	computed: {
+		getWebsite() {
+			return this.$store.state.Website.id;
+		},
 	},
 	methods: {
 		redirectToForward() {
-			this.$router.push({name:'website_venue'});
+			this.team.websiteId = this.getWebsite;
+			this.$root.$emit('getAgeCategories');
+      $("body .js-loader").removeClass('d-none');
+      Website.saveTeamPageData(this.team).then(
+        (response)=> {
+        	$("body .js-loader").addClass('d-none');
+          toastr.success('Team has been updated successfully.', 'Success');
+          this.$router.push({name:'website_venue'});
+        },
+        (error)=>{
+        }
+      );
 		},
 		redirectToBackward() {
 			this.$router.push({name:'website_homepage'});

@@ -1,5 +1,5 @@
 <template>
-	<div class="modal" id="age_category_team_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	<div class="modal" :id="`age_category_team_modal_${modalIndex}`" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 		<div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -33,7 +33,7 @@
 	import { ErrorBag } from 'vee-validate';
 
 	export default {
-		props: ['currentAgeCategoryTeamOperation'],
+		props: ['currentAgeCategoryTeamOperation', 'modalIndex'],
 		data() {
 			return {
 				formValues: {
