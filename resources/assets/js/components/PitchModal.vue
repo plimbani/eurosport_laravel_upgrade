@@ -283,7 +283,7 @@ var moment = require('moment');
             )
           })
         }
-
+      this.checkScores();
       //  this.$validator.validateAll().then(() => {
 
       if(this.match_result == false) {
