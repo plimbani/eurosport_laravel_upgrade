@@ -79,11 +79,13 @@
 	  },
 		methods: {
 			validateForm() {
-				this.$validator.validateAll().then(() => {
-					if(this.currentSponsorOperation == 'add') {
-						this.$emit('storeSponsor', this.formValues);
-					} else {
-						this.$emit('updateSponsor', this.formValues);
+				this.$validator.validateAll().then((response) => {
+					if(response) {
+						if(this.currentSponsorOperation == 'add') {
+							this.$emit('storeSponsor', this.formValues);
+						} else {
+							this.$emit('updateSponsor', this.formValues);
+						}
 					}
 				}).catch(() => {
 					// fail stuff

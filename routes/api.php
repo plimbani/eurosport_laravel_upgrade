@@ -323,4 +323,8 @@ $api->version('v1', function ($api) {
     // Website visitor
     $api->post('saveVisitorPageData', 'Laraspace\Api\Controllers\VisitorController@savePageData');
     $api->get('getVisitorPageData/{websiteId}', 'Laraspace\Api\Controllers\VisitorController@getPageData');
+
+    // Website team
+    $api->get('getAgeCategories/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTeamController@getAgeCategories');
+    $api->post('saveTeamPageData', 'Laraspace\Api\Controllers\WebsiteTeamController@savePageData');
 });
