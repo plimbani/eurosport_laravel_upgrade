@@ -84,7 +84,7 @@
                 </div>
               </div>
               <div class="form-group row" v-if="matchDetail.is_result_override == 1">
-                <label class="col-sm-3 form-control-label">{{$lang.pistch_modal_status_label}}</label>
+                <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_status_label}}</label>
                 <div class="col-sm-9">
                   <select v-model="matchDetail.match_status"
                    v-validate="'required'" :class="{'is-danger': errors.has('match_status') }"
@@ -245,16 +245,12 @@ var moment = require('moment');
       }
     },
     saveFixtureDetail(){
-        this.checkScores();
         if(($('#home_team_score').val() != '' || $('#away_team_score').val() != '') && (this.matchDetail.home_team == 0 || this.matchDetail.away_team == 0)) {
           toastr.error('Both home and away teams should be there for score update.');
           return false;
-        }
-
+        }        
         if(this.matchDetail.is_result_override == 1) {
-
           this.$validator.validateAll().then(() => {
-
             let  matchStatus = $('#match_status').val()
             let  matchWinner = $('#match_winner').val()
 
@@ -285,6 +281,7 @@ var moment = require('moment');
             )
           })
         }
+        this.checkScores();
       //  this.$validator.validateAll().then(() => {
 
       if(this.matchDetail.is_result_override == 0) {

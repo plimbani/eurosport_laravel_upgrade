@@ -134,6 +134,9 @@ export default {
   saveMatchResult(matchData) {
     return api.post('match/saveResult',{'matchData': matchData})
   },
+  saveAllMatchResults(matchData) {
+    return api.post('match/saveAllResults',{'matchData': matchData})
+  },
   setUnavailableBlock(matchData) {
     return api.post('match/saveUnavailableBlock',{'matchData': matchData})
   },

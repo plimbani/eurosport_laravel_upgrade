@@ -332,6 +332,17 @@ class MatchService implements MatchContract
             return ['status_code' => '300'];
         }
     }
+
+    public function saveAllResults($matchData)
+    {
+      $matchResult = $this->matchRepoObj->saveAllResults($matchData->all()['matchData']);
+      if ($matchResult) {
+        return ['status_code' => '200', 'data' => $matchResult];
+      } else {
+          return ['status_code' => '300'];
+      }
+    }
+
     public function unscheduleMatch($matchData) {
         $scheduledResult = $this->matchRepoObj->matchUnschedule($matchData->all()['matchData']);
 

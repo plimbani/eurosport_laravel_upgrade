@@ -42,9 +42,9 @@
           <!-- </a>  -->
         </td>
         <td class="text-center js-match-list">
-            <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match,index1)" :readonly="match.is_scheduled == '0' "><span v-else>{{match.homeScore}}</span> -
+            <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="match.is_scheduled == '0' "><span v-else>{{match.homeScore}}</span> -
             <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
-            @change="updateScore(match,index1)" :readonly="match.is_scheduled == '0'"><span v-else>{{match.AwayScore}}</span>
+            :readonly="match.is_scheduled == '0'"><span v-else>{{match.AwayScore}}</span>
         </td>
 
         <td class="text-center" v-if="showPlacingForMatch()">
@@ -206,7 +206,7 @@ export default {
         vm.$root.$emit('setStandingData',competationId)
       }
     },
-    openPitchModal(match,index) {
+    openPitchModal(match,index) {      
       let vm = this;
       this.currentMatch =  match
       this.index =  index
@@ -350,17 +350,28 @@ export default {
       return true;
     },
     saveMatchScore() {
+      let isSameScore = false;
+      let matchDataArray = [];
       $.each(this.matchData, function (index,value){
-        if(value.actual_round == 'Elimination'); {
-          if(value.homeScore == value.AwayScore) {
-            
-            $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon');
-            console.log('rest',$('#matchSchedule').find('.jv-edit[data-id='+value.fid+']').addClass('match-list-editIcon')); 
-             // toastr.error('Please complete the results override information for the fixtures highlighted.','Action Required');
-          }
-        }  
+        var matchData = {};
+        matchData.matchId = value.fid;
+        matchData.homeScore = $('input[name="home_score['+value.fid+']"]').val();
+        matchData.awayScore = $('input[name="away_score['+value.fid+']"]').val();
+        matchDataArray[index] = matchData;
+        if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0) {
+          isSameScore = true;            
+          $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
+        }
       });
-    
+      if (isSameScore == true) {
+        toastr.error('Please complete the results override information for the fixtures highlighted.','Action Required');
+      } else {
+        Tournament.saveAllMatchResults(matchDataArray).then(
+          (response) => {
+
+          }
+        )
+      }
     }
   },
 }
