@@ -36,6 +36,7 @@
 	          	</div>
 	          </div>
 					</div>
+					<hr class="my-4">
 					<h6><strong>{{$lang.additional_page}}</strong></h6>
 					<additional-pages @setAdditionalPages="setAdditionalPages" :additional_pages="staypage.additional_pages"></additional-pages>
 				</div>

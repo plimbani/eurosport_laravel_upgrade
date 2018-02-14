@@ -317,6 +317,11 @@ $api->version('v1', function ($api) {
     $api->post('saveStayPageData', 'Laraspace\Api\Controllers\StayController@saveStayPageData');
     $api->get('getStayPageData/{websiteId}', 'Laraspace\Api\Controllers\StayController@getStayPageData');
 
+    // Website programpage
+    $api->get('getItineraries/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getItineraries');
+    $api->post('saveProgramPageData', 'Laraspace\Api\Controllers\ProgramController@saveProgramPageData');
+    $api->get('getProgramPageData/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getProgramPageData');
+
     // Image path
     $api->get('getImagePath', 'Laraspace\Api\Controllers\WebsiteController@getImagePath');
 

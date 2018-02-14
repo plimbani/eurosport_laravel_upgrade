@@ -2,8 +2,8 @@
 	<div class="form-group justify-content-between row">
 		<div class="col-sm-6">
 			<div class="draggable--section">
-				<draggable v-model="pages" :options="{draggable:'.additional-page-logo-item', handle: '.additional-page-logo-handle'}">
-					<div class="draggable--section-card additional-page-logo-item" v-for="(page, index) in pages" :key="page.id">
+				<draggable v-model="pages" :options="{draggable:'.additional-page-item', handle: '.additional-page-handle'}">
+					<div class="draggable--section-card additional-page-item" v-for="(page, index) in pages" :key="page.id">
 						<div class="draggable--section-card-header">
 							<div class="draggable--section-card-header-panel">
 				  			<div class="d-flex align-items-center">
@@ -20,16 +20,16 @@
 						        	@click="editPage(page, index)">
 						        	<i class="jv-icon jv-edit"></i>
 						        </a>
-						        <a class="text-primary additional-page-logo-handle draggable-handle" href="javascript:void(0)">
+						        <a class="text-primary additional-page-handle draggable-handle" href="javascript:void(0)">
 						        	<i class="fa fa-bars"></i>
 						        </a>				  				
 				  			</div>
 							</div>
 						</div>
 					</div>
-				</draggable>
-				<p v-show="pages.length === 0">{{ $lang.no_additional_page_title }}</p>
+				</draggable>				
 			</div>
+			<p class="help-block text-muted" v-show="pages.length === 0">{{ $lang.no_additional_page_title }}</p>
 		</div>
 		<div class="col-sm-6">
 			<div class="row">
