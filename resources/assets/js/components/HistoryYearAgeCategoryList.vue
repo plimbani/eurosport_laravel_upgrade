@@ -60,7 +60,6 @@
 		},
 		methods: {
 			addHistoryYearAgeCategory() {
-				alert(222);
 				var formData = {
 					id: '',
 					name: '',
@@ -93,7 +92,6 @@
 			},
 			initializeAgeCategoryModel(formData) {
 				var vm = this;
-				console.log('this.parentIndex', this.parentIndex);
 				this.$root.$emit('setHistoryYearAgeCategoryData', formData);
 				$('#history_year_age_category_modal_' + this.parentIndex).modal('show');
 			},

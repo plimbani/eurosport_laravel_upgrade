@@ -79,7 +79,7 @@
 				this.initializeAgeCategoryTeamModel(formData);
 			},
 			updateHistoryYearAgeCategoryTeam(historyYearAgeCategoryTeamData) {
-				this.historyYearsAgeCategoryTeamList[this.currentHistoryYearIndex].name = historyYearAgeCategoryTeamData.name;
+				this.historyYearsAgeCategoryTeamList[this.currentHistoryYearAgeCategoryTeamIndex].name = historyYearAgeCategoryTeamData.name;
 				$('#history_year_age_category_team_modal_' + this.categoryIndex).modal('hide');
 			},
 			deleteHistoryYearAgeCategoryTeam(deleteIndex) {
