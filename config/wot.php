@@ -1,6 +1,7 @@
 <?php
 
 return [
+  
 	'website_customisation_options' => [
 		'primary_colors' => [
 			'#800000', '#FF0000', '#FFA500', '#FFFF00', '#808000', '#008000', '#0000FF', '#00FFFF'
