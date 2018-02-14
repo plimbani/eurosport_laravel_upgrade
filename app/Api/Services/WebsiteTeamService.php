@@ -78,36 +78,70 @@ class WebsiteTeamService implements WebsiteTeamContract
   {
     $websiteId = $request->get('websiteId');
     $file = $request->file('team_upload');
-    $teamArray = [];
-    $ageCategoryOrder = 1;
-    $ageCategoryTeamOrder = 1;
+    $ageCategories = [];
+    $processedAgeCategories = [];
+    $countries = $this->websiteTeamRepo->getCountriesKeyByCode();
 
-    Excel::load($file->getRealPath(), function($reader) use(&$teamArray) {
+    Excel::load($file->getRealPath(), function($reader) use(&$ageCategories, $countries, &$processedAgeCategories) {
       // Select
       $reader->select(array('age_category', 'team_name', 'country'))->get();
 
       // Loop through all sheets
-      $reader->each(function($sheet) use(&$teamArray) {
-        // $records = $sheet->toArray();
-        // $teamArray = array_merge($teamArray, $records);
+      $reader->each(function($sheet) use(&$ageCategories, $countries, &$processedAgeCategories) {
         // Loop through all rows
-        $sheet->each(function($row) use(&$teamArray) {
+        $sheet->each(function($row) use(&$ageCategories, $countries, &$processedAgeCategories) {
           if($row->has('age_category') && $row->has('team_name') && $row->has('country')) {
-            $teamRow = [
-              'team_name' => $row->team_name,
-              'country' => $row->country,
-            ];
-            $teamArray[$row->age_category] = $teamRow;
+            $country = isset($countries[$row->country]) ? $countries[$row->country] : null;
+            if($country !== null) {
+              if(!in_array($row->age_category, $processedAgeCategories)) {
+                $processedAgeCategories[] = $row->age_category;
+                $ageCategories[count($processedAgeCategories) - 1] = [
+                  'id' => '',
+                  'name' => $row->age_category,
+                  'teams' => [],
+                ];
+              }
+              $ageCategoryKey = array_search($row->age_category, $processedAgeCategories);
+              $teamRow = [
+                'id' => '',
+                'name' => $row->team_name,
+                'country' => $country,
+              ];
+              $ageCategories[$ageCategoryKey]['teams'][] = $teamRow;
+            }
           }
         });
       });
     }, 'ISO-8859-1');
 
-    // Delete all teams by website id
-    $this->websiteTeamRepo->deleteAgeCategoryTeamsByWebsiteId($websiteId);
+    $data = ['ageCategories' => $ageCategories];
 
-    // Delete age categories by website id
-    $this->websiteTeamRepo->deleteAgeCategoriesByWebsiteId($websiteId);
+    // // Delete all teams by website id
+    // $this->websiteTeamRepo->deleteAgeCategoryTeamsByWebsiteId($websiteId);
+
+    // // Delete age categories by website id
+    // $this->websiteTeamRepo->deleteAgeCategoriesByWebsiteId($websiteId);
+
+    // // update age category and teams
+    // $this->updateAgeCategoryAndTeams($ageCategories, $websiteId);
+
+    // // Get all age categories
+    // $allAgeCategories = $this->websiteTeamRepo->getAllAgeCategories($websiteId);
+
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+  }
+
+  /*
+   * Update age category and team data
+   *
+   * @return response
+   */
+  public function updateAgeCategoryAndTeams($teamArray, $websiteId)
+  {
+    $ageCategoryOrder = 1;
+    $ageCategoryTeamOrder = 1;
+
+    $countries = $this->websiteTeamRepo->getCountriesKeyByCode();
 
     foreach($teamArray as $ageCategory => $teamData) {
       $ageCategoryData = [
@@ -118,12 +152,20 @@ class WebsiteTeamService implements WebsiteTeamContract
       $ageCategory = $this->websiteTeamRepo->insertAgeCategory($websiteId, $ageCategoryData);
 
       foreach($teamData as $teamRow) {
-
-
-        // $this->websiteTeamRepo->insertAgeCategoryTeam($ageCategory->id, $websiteId, $data);
+        $countryId = isset($countries[$teamRow['country']]) ? $countries[$teamRow['country']]['id'] : 0;
+        if($countryId == 0) {
+          return;
+        }
+        $team = [
+          'name' => $teamRow['team_name'],
+          'country_id' => $countryId,
+          'order' => $ageCategoryTeamOrder,
+        ];
+        $this->websiteTeamRepo->insertAgeCategoryTeam($ageCategory->id, $websiteId, $team);
+        $ageCategoryTeamOrder++;
       }
-    }
 
-    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+      $ageCategoryOrder++;
+    }
   }
 }

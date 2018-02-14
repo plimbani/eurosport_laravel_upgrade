@@ -6,7 +6,7 @@
 		  		<div class="draggable--section-card-header">
 		  			<div class="draggable--section-card-header-panel">
 		  				<div>
-			  				{{ ageCategoryTeam.name }} ({{ ageCategoryTeam.country.country_code }})
+			  				{{ ageCategoryTeam.name }} ({{ ageCategoryTeam.country.country_code }}) <img class="" :src="ageCategoryTeam.country.logo" />
 			  			</div>
 			  			<div class="draggable--section-card-header-icons">
 					        <a class="text-primary" href="javascript:void(0)"
@@ -28,18 +28,16 @@
 			</draggable>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addAgeCategoryTeam()">{{ $lang.add_team }}</button>
-		<age-category-team-modal :currentAgeCategoryTeamOperation="currentAgeCategoryTeamOperation" @storeAgeCategoryTeam="storeAgeCategoryTeam" @updateAgeCategoryTeam="updateAgeCategoryTeam" :modalIndex="parentIndex" :countries="countries"></age-category-team-modal>
 	</div>
 </template>
 
 <script type="text/babel">
 	import Website from '../api/website.js';
 	import draggable from 'vuedraggable';
-	import AgeCategoryTeamModal  from  './AgeCategoryTeamModal.vue';
 	import _ from 'lodash';
 
 	export default {
-		props: ['childClassNames', 'teams', 'parentIndex', 'countries'],
+		props: ['childClassNames', 'teams', 'parentIndex'],
 		data() {
 			return {
 				ageCategoryTeams: [],
@@ -49,11 +47,16 @@
 		},
 		components: {
 			draggable,
-			AgeCategoryTeamModal,
+			// AgeCategoryTeamModal,
 		},
 		computed: {
 			getWebsite() {
 				return this.$store.state.Website.id;
+			},
+		},
+		watch: {
+			teams: function(value) {
+				this.ageCategoryTeams = _.cloneDeep(value);
 			},
 		},
 		mounted() {
@@ -68,14 +71,14 @@
 					name: '',
 					country: '',
 				};
-				this.currentAgeCategoryTeamIndex = this.ageCategoryTeams.length;
+				this.currentAgeCategoryTeamIndex = this.teams.length;
 				this.currentAgeCategoryTeamOperation = 'add';
-				this.initializeModel(formData);
-			},
-			storeAgeCategoryTeam(ageCategoryTeamData) {
-				this.ageCategoryTeams.push({ id: '', name: ageCategoryTeamData.name, country: ageCategoryTeamData.country });
-				this.getAgeCategoryTeams();
-				$('#age_category_team_modal_' + this.parentIndex).modal('hide');
+				var additionalParams = {
+					currentAgeCategoryTeamOperation: this.currentAgeCategoryTeamOperation,
+					currentAgeCategoryTeamIndex: this.currentAgeCategoryTeamIndex,
+					parentIndex: this.parentIndex,
+				};
+				this.$emit('initializeTeamModal', formData, additionalParams);
 			},
 			editAgeCategoryTeam(ageCategoryTeam, index) {
 				var formData = {
@@ -85,24 +88,15 @@
 				};
 				this.currentAgeCategoryTeamIndex = index;
 				this.currentAgeCategoryTeamOperation = 'edit';
-				this.initializeModel(formData);
-			},
-			updateAgeCategoryTeam(ageCategoryTeamData) {
-				this.ageCategoryTeams[this.currentAgeCategoryTeamIndex].name = ageCategoryTeamData.name;
-				this.ageCategoryTeams[this.currentAgeCategoryTeamIndex].country = ageCategoryTeamData.country;
-				this.getAgeCategoryTeams();
-				$('#age_category_team_modal_' + this.parentIndex).modal('hide');
+				var additionalParams = {
+					currentAgeCategoryTeamOperation: this.currentAgeCategoryTeamOperation,
+					currentAgeCategoryTeamIndex: this.currentAgeCategoryTeamIndex,
+					parentIndex: this.parentIndex,
+				};
+				this.$emit('initializeTeamModal', formData, additionalParams);
 			},
 			deleteAgeCategoryTeam(deleteIndex) {
-				this.ageCategoryTeams = _.remove(this.ageCategoryTeams, function(team, index) {
-				  return index != deleteIndex;
-				});
-				this.getAgeCategoryTeams();
-			},
-			initializeModel(formData) {
-				var vm = this;
-				this.$root.$emit('setAgeCategoryTeamData', formData);
-				$('#age_category_team_modal_' + this.parentIndex).modal('show');
+				this.$emit('deleteAgeCategoryTeam', deleteIndex, this.parentIndex);
 			},
 			onDragEnd() {
 				this.getAgeCategoryTeams();

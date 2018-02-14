@@ -287,4 +287,15 @@ class WebsiteTeamRepository
 
     $this->deleteAgeCategoryTeams($deleteAgeCategoryTeamsId);
   }
+
+  /*
+   * Get countries by key code
+   *
+   * @return response
+   */
+  public function getCountriesKeyByCode()
+  {
+    $countries = Country::all()->keyBy('country_code')->toArray();
+    return $countries;
+  }
 }
