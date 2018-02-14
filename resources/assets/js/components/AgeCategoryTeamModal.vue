@@ -57,6 +57,7 @@
 		},
 		created() {
       this.$root.$on('setAgeCategoryTeamData', this.setAgeCategoryTeamData);
+      this.$root.$on('clearAgeCategoryTeamError', this.clearAgeCategoryTeamError);
     },
     computed: {
 	  },
@@ -78,7 +79,9 @@
 				this.formValues.id = ageCategoryTeamData.id;
 				this.formValues.name = ageCategoryTeamData.name;
 				this.formValues.country = ageCategoryTeamData.country;
-				this.errors.clear();
+			},
+			clearAgeCategoryTeamError() {
+				
 			},
 		},
 	};

@@ -66,6 +66,7 @@
 		},
 		methods: {
 			addAgeCategoryTeam() {
+				this.errors.clear();
 				var formData = {
 					id: '',
 					name: '',
@@ -81,6 +82,7 @@
 				this.$emit('initializeTeamModal', formData, additionalParams);
 			},
 			editAgeCategoryTeam(ageCategoryTeam, index) {
+				this.errors.clear();
 				var formData = {
 					id: ageCategoryTeam.id,
 					name: ageCategoryTeam.name,
