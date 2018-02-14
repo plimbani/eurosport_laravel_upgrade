@@ -38,7 +38,8 @@
       return {
         formValues: {
           id: '',
-          year: ''
+          year: '',
+          ageCategoryList: [],
         },
       };
     },
@@ -65,6 +66,7 @@
       setHistoryYearData(historyYearData) {
         this.formValues.id = historyYearData.id;
         this.formValues.year = historyYearData.year;
+        this.formValues.ageCategoryList = historyYearData.ageCategoryList;
         this.errors.clear();
       },
     },

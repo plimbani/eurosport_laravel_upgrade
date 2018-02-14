@@ -62,19 +62,21 @@
 				var formData = {
 					id: '',
 					year: '',
+					ageCategoryList: [],
 				};
 				this.currentHistoryYearIndex = this.historyYears.length;
 				this.currentHistoryYearOperation = 'add';
 				this.initializeModel(formData);
 			},
 			storeHistoryYear(historyYearData) {
-				this.historyYears.push({ id: '', year: historyYearData.year });
+				this.historyYears.push({ id: '', year: historyYearData.year, ageCategoryList: [] });
 				$('#history_year_modal').modal('hide');
 			},
 			editHistoryYear(historyYear, index) {
 				var formData = {
 					id: historyYear.id,
 					year: historyYear.year,
+					ageCategoryList: historyYear.ageCategoryList,
 				};
 				this.currentHistoryYearIndex = index;
 				this.currentHistoryYearOperation = 'edit';
@@ -82,6 +84,7 @@
 			},
 			updateHistoryYear(historyYearData) {
 				this.historyYears[this.currentHistoryYearIndex].year = historyYearData.year;
+				this.historyYears[this.currentHistoryYearIndex].ageCategoryList = historyYearData.ageCategoryList;
 				$('#history_year_modal').modal('hide');
 			},
 			deleteHistoryYear(deleteIndex) {

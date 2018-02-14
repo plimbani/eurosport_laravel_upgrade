@@ -38,7 +38,8 @@
       return {
         formValues: {
           id: '',
-          name: ''
+          name: '',
+          teamList: [],
         },
       };
     },
@@ -62,9 +63,10 @@
           // fail stuff
         });
       },
-      setHistoryYearAgeCategoryData(historyYearData) {
-        this.formValues.id = historyYearData.id;
-        this.formValues.name = historyYearData.name;
+      setHistoryYearAgeCategoryData(historyYearAgeCategoryData) {
+        this.formValues.id = historyYearAgeCategoryData.id;
+        this.formValues.name = historyYearAgeCategoryData.name;
+        this.formValues.teamList = historyYearAgeCategoryData.teamList;
         this.errors.clear();
       },
     },

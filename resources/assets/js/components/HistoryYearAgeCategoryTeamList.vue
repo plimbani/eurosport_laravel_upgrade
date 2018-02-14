@@ -67,6 +67,7 @@
 			},
 			storeHistoryYearAgeCategoryTeam(historyYearAgeCategoryTeamData) {
 				this.historyYearsAgeCategoryTeamList.push({ id: '', name: historyYearAgeCategoryTeamData.name });
+				this.getHistoryAgeCategoryTeamList();
 				$('#history_year_age_category_team_modal_' + this.categoryIndex).modal('hide');
 			},
 			editHistoryYearAgeCategoryTeam(historyYearAgeCategory, index) {
@@ -80,18 +81,26 @@
 			},
 			updateHistoryYearAgeCategoryTeam(historyYearAgeCategoryTeamData) {
 				this.historyYearsAgeCategoryTeamList[this.currentHistoryYearAgeCategoryTeamIndex].name = historyYearAgeCategoryTeamData.name;
+				this.getHistoryAgeCategoryTeamList();
 				$('#history_year_age_category_team_modal_' + this.categoryIndex).modal('hide');
 			},
 			deleteHistoryYearAgeCategoryTeam(deleteIndex) {
 				this.historyYearsAgeCategoryTeamList = _.remove(this.historyYearsAgeCategoryTeamList, function(stat, index) {
 				  return index != deleteIndex;
 				});
+				this.getHistoryAgeCategoryTeamList();
 			},
 			initializeAgeCategoryTeamModel(formData) {
 				var vm = this;
 				this.$root.$emit('setHistoryYearAgeCategoryTeamData', formData);
 				$('#history_year_age_category_team_modal_' + this.categoryIndex).modal('show');
 			},
+			onDragEnd() {
+				this.getHistoryAgeCategoryTeamList();
+			},
+			getHistoryAgeCategoryTeamList() {
+        this.$emit('setHistoryAgeCategoryTeamList', _.cloneDeep(this.historyYearsAgeCategoryTeamList), this.categoryIndex);
+      },
 		}
 	}
 </script>

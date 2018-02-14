@@ -63,19 +63,22 @@
 				var formData = {
 					id: '',
 					name: '',
+					teamList: [],
 				};
 				this.currentHistoryYearAgeCategoryIndex = this.historyYearsAgeCategoryList.length;
 				this.currentHistoryYearAgeCategoryOperation = 'add';
 				this.initializeAgeCategoryModel(formData);
 			},
 			storeHistoryYearAgeCategory(historyYearAgeCategoryData) {
-				this.historyYearsAgeCategoryList.push({ id: '', name: historyYearAgeCategoryData.name });
+				this.historyYearsAgeCategoryList.push({ id: '', name: historyYearAgeCategoryData.name, teamList: [] });
+				this.getAgeCategoryList();
 				$('#history_year_age_category_modal_' + this.parentIndex).modal('hide');
 			},
 			editHistoryYearAgeCategory(historyYearAgeCategory, index) {
 				var formData = {
 					id: historyYearAgeCategory.id,
 					name: historyYearAgeCategory.name,
+					teamList: historyYearAgeCategory.teamList,
 				};
 				this.currentHistoryYearAgeCategoryIndex = index;
 				this.currentHistoryYearAgeCategoryOperation = 'edit';
@@ -83,12 +86,15 @@
 			},
 			updateHistoryYearAgeCategory(historyYearAgeCategoryData) {
 				this.historyYearsAgeCategoryList[this.currentHistoryYearAgeCategoryIndex].name = historyYearAgeCategoryData.name;
+				this.historyYearsAgeCategoryList[this.currentHistoryYearAgeCategoryIndex].teamList = historyYearAgeCategoryData.teamList;
+				this.getAgeCategoryList();
 				$('#history_year_age_category_modal_' + this.parentIndex).modal('hide');
 			},
 			deleteHistoryYearAgeCategory(deleteIndex) {
 				this.historyYearsAgeCategoryList = _.remove(this.historyYearsAgeCategoryList, function(stat, index) {
 				  return index != deleteIndex;
 				});
+				this.getAgeCategoryList();
 			},
 			initializeAgeCategoryModel(formData) {
 				var vm = this;
@@ -96,8 +102,16 @@
 				$('#history_year_age_category_modal_' + this.parentIndex).modal('show');
 			},
 			setHistoryAgeCategoryTeamList(teamList, index) {
-				this.historyYearsAgeCategoryList[index].teamList = teamList;
+				this.historyYearsAgeCategoryList[index].teamList = teamList
+				this.$emit('setHistoryAgeCategoryList', _.cloneDeep(this.historyYearsAgeCategoryList), this.parentIndex);
+				// this.historyYearsAgeCategoryList[this.parentIndex].ageCategoryList[index] = teamList;
 			},
+			onDragEnd() {
+				this.getAgeCategoryList();
+			},
+			getAgeCategoryList() {
+        this.$emit('setHistoryAgeCategoryList', _.cloneDeep(this.historyYearsAgeCategoryList), this.parentIndex);
+      },
 		}
 	}
 </script>
