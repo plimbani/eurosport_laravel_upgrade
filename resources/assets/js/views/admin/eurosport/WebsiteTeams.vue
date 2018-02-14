@@ -3,37 +3,38 @@
 		<div class="card">
 			<div class="card-block">
 				<h6><strong>{{$lang.age_categories}}</strong></h6>
-				<form name="website_teams" enctype="multipart/form-data">
-					<div class="form-group justify-content-between row">
-		        	<div class="col-sm-6">
-		        		<age-category-list @setAgeCategories="setAgeCategories" :countries="team.countries"></age-category-list>
-		        	</div>
-					</div>
-					<hr class="my-4">
-					<div class="form-group row">
-	        	<div class="col-sm-12">
-	        		<h6><strong>{{$lang.upload_teams}}</strong></h6>
+				<div class="form-group justify-content-between row">
+	        	<div class="col-sm-6">
+	        		<age-category-list @setAgeCategories="setAgeCategories" :countries="team.countries"></age-category-list>
 	        	</div>
-	        	<div class="col-sm-8">
-	        		<div class="mb-2 row">
-	        			<div class="col-sm-3">{{$lang.upload_teams}}</div>
-	        			<div class="col-sm-4">
+				</div>
+				<hr class="my-4">
+				<div class="form-group row">
+        	<div class="col-sm-12">
+        		<h6><strong>{{$lang.upload_teams}}</strong></h6>
+        	</div>
+        	<div class="col-sm-8">
+            <form method="post" name="frm_team_import" id="frm_team_import" enctype="multipart/form-data">
+          		<div class="mb-2 row">
+          			<div class="col-sm-3">{{$lang.upload_teams}}</div>
+          			<div class="col-sm-4">
                   <button type="button" class="btn btn-default w-100 btn-color-black--light" @click="browseFiles()">Choose file (excel files only)</button>
                 </div>
                 <div class="col-sm-4">
+                  <span>{{ this.currentImportFileName }}</span>
                   <button type="button" @click="importTeamFile()"  class="btn btn-primary ml-4">Upload</button>
                   <input type="file" name="team_upload" @change="setFileName(this, $event)"  id="team_upload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt" />
                 </div>
-	        		</div>
-	        		<div class="mb-2"><strong>{{$lang.please_note}}</strong> {{$lang.upload_team_note}}</div>
-	        		<div>{{$lang.team_sheet_format}}</div>
-	        		<div>- {{$lang.age_category}}</div>
-	        		<div>- {{$lang.excel_team_name}}</div>
-	        		<div>- {{$lang.country}}</div>
-	        		<div class="mt-2">{{$lang.country_recognisation}}</div>
-	        	</div>
-	        </div>
-				</form>
+          		</div>
+          		<div class="mb-2"><strong>{{$lang.please_note}}</strong> {{$lang.upload_team_note}}</div>
+          		<div>{{$lang.team_sheet_format}}</div>
+          		<div>- {{$lang.age_category}}</div>
+          		<div>- {{$lang.excel_team_name}}</div>
+          		<div>- {{$lang.country}}</div>
+          		<div class="mt-2">{{$lang.country_recognisation}}</div>
+            </form>
+        	</div>
+        </div>
 			</div>
 		</div>
 		<div class="row">
@@ -65,6 +66,8 @@ export default {
 				ageCategories: [],
 				countries: [],
 			},
+      canUploadTeamFile: false,
+      currentImportFileName: '',
 		}
 	},
 	mounted() {
@@ -121,23 +124,15 @@ export default {
           toastr['error']('Please upload an excel file.', 'Error');
           return;
         }
-        let files  = new FormData($("#frmCsvImport")[0]);
-        // files.append('ageCategory', this.age_category.id);
-        files.append('tournamentId', this.tournament_id);
-        files.append('teamSize', this.teamSize);
-        // let uploadFile = document.getElementById('frmCsvImport');
-        this.filterStatus = false
-         axios.post('/api/team/create',files).then(response =>  {
-        if(response.data.bigFileSize == true){
-          toastr['error']('Total Team size is more than available. Only top '+this.teamSize+' teams have been added.', 'Error');
-        }else{
-          toastr['success']('teams are uploaded successfully', 'Success');
-        }
-        this.filterStatus = true
-        this.getTeams()
-        }).catch(error => {
+        let formData  = new FormData($("#frm_team_import")[0]);
+        formData.append('websiteId', this.getWebsiteId);
+        Website.importAgeCategoryAndTeamData(formData).then(
+          (response)=> {
 
-        });
+          },
+          (error)=>{
+          }
+        );
       } else {
          toastr['error']('Please upload an excel file.', 'Error');
       }
@@ -152,14 +147,13 @@ export default {
       if(extension != 'xls' && extension != 'xlsx') {
         this.canUploadTeamFile = false;
       }
-      var filename = $('#fileUpload').val();
+      var filename = $('#team_upload').val();
       var lastIndex = filename.lastIndexOf('\\');
 
       if (lastIndex >= 0) {
         filename = filename.substring(lastIndex + 1);
       }
-      $('#filename').text(filename);
-    },
+      this.currentImportFileName = filename;    },
 	},
 }
 </script>

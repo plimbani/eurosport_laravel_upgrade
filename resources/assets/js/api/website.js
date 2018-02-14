@@ -87,5 +87,9 @@ export default {
   },
   getAgeCategories(websiteId) {
     return axios.get('/api/getAgeCategories/' + websiteId);
-  }
+  },
+  // Import age category and team data
+  importAgeCategoryAndTeamData(formData) {
+    return api.post('/importAgeCategoryAndTeamData', formData);
+  },
 }

@@ -66,4 +66,16 @@ class WebsiteTeamController extends BaseController
     return $this->websiteTeamContract->getPageData($request);
   }
   
+  /**
+   * Import age category and team data
+   *
+   * @Get("/importAgeCategoryAndTeamData")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+
+  public function importAgeCategoryAndTeamData(Request $request)
+  {
+    return $this->websiteTeamContract->importAgeCategoryAndTeamData($request);
+  }
 }
