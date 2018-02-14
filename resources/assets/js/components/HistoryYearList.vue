@@ -1,0 +1,102 @@
+<template>
+	<div>
+		<div class="draggable--section">
+			<draggable v-model="historyYears" :options="{draggable:'.history-year-item', handle: '.history-year-handle'}">
+				<div class="history-year-item draggable--section-card" v-for="(historyYear, index) in historyYears" :key="historyYear.id">
+					<div class="draggable--section-card-header">
+						<div class="draggable--section-card-header-panel">
+							<div>
+				  				{{ historyYear.year }}
+				  			</div>
+				  			<div class="draggable--section-card-header-icons">
+						        <a class="text-primary" href="javascript:void(0)"
+						        	@click="deleteHistoryYear(index)">
+						        	<i class="jv-icon jv-dustbin"></i>
+						        </a>
+						        <a class="text-primary" href="javascript:void(0)"
+						        	@click="editHistoryYear(historyYear, index)">
+						        	<i class="jv-icon jv-edit"></i>
+						        </a>
+						        <a class="text-primary history-year-handle draggable-handle" href="javascript:void(0)">
+						        	<i class="fa fa-bars"></i>
+						        </a>
+						    </div>
+						</div>
+						<history-year-age-category-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" :ageCategoryList="historyYear.ageCategoryList" @setHistoryAgeCategoryList="setHistoryAgeCategoryList"></history-year-age-category-list>
+					</div>
+				</div>
+			</draggable>
+		</div>
+		<button type="button" class="btn btn-primary" @click="addHistoryYear()">{{ $lang.add_year }}</button>
+		<history-year-modal :currentHistoryYearOperation="currentHistoryYearOperation" @storeHistoryYear="storeHistoryYear" @updateHistoryYear="updateHistoryYear"></history-year-modal>
+	</div>
+</template>
+
+<script type="text/babel">
+	import Website from '../api/website.js';
+	import HistoryYearModal from './HistoryYearModal.vue';
+	import HistoryYearAgeCategoryList from './HistoryYearAgeCategoryList.vue';
+	import draggable from 'vuedraggable';
+	import _ from 'lodash';
+
+	export default {
+		data() {
+			return {
+				historyYears: [],
+				currentHistoryYearIndex: -1,
+				currentHistoryYearOperation: 'add',
+			};
+		},
+		components: {
+			draggable,
+			HistoryYearModal,
+			HistoryYearAgeCategoryList,
+		},
+		computed: {
+			getWebsite() {
+				return this.$store.state.Website.id;
+			},
+		},
+		methods: {
+			addHistoryYear() {
+				var formData = {
+					id: '',
+					year: '',
+				};
+				this.currentHistoryYearIndex = this.historyYears.length;
+				this.currentHistoryYearOperation = 'add';
+				this.initializeModel(formData);
+			},
+			storeHistoryYear(historyYearData) {
+				this.historyYears.push({ id: '', year: historyYearData.year });
+				$('#history_year_modal').modal('hide');
+			},
+			editHistoryYear(historyYear, index) {
+				var formData = {
+					id: historyYear.id,
+					year: historyYear.year,
+				};
+				this.currentHistoryYearIndex = index;
+				this.currentHistoryYearOperation = 'edit';
+				this.initializeModel(formData);
+			},
+			updateHistoryYear(historyYearData) {
+				this.historyYears[this.currentHistoryYearIndex].year = historyYearData.year;
+				$('#history_year_modal').modal('hide');
+			},
+			deleteHistoryYear(deleteIndex) {
+				this.historyYears = _.remove(this.historyYears, function(stat, index) {
+				  return index != deleteIndex;
+				});
+			},
+			initializeModel(formData) {
+				var vm = this;
+				this.$root.$emit('setHistoryYearData', formData);
+				$('#history_year_modal').modal('show');
+			},
+			setHistoryAgeCategoryList(ageCategoryList, index) {
+				this.historyYears[index].ageCategoryList = ageCategoryList;
+			},
+		}
+	}
+</script>

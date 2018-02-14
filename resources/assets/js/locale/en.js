@@ -670,4 +670,12 @@ module.exports= {
   country: "Country",
   country_recognisation: "Country must entered as the recognised two letter abbreviation e.g. FR, DE, NL",
   tournament_rules: "Rules",
+  tournament_history: "History",
+  add_year: "Add year",
+  add_history_year: "Add history year",
+  edit_history_year: "Edit history year",
+  year: "Year",
+  add_age_category: "Add age category",
+  edit_age_category: "Edit age category", 
+  age_category_label: "Age category"
 }

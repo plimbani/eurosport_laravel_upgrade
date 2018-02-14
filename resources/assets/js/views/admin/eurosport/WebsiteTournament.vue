@@ -24,6 +24,13 @@
 	          	</div>
 	          </div>
 	        </div>
+	        <hr class="my-4">
+	        <h6><strong>{{$lang.tournament_history}}</strong></h6>
+	        <div class="row">
+	          <div class="col-sm-8">
+        			<history-year-list></history-year-list>
+        		</div>
+        	</div>
 	      </form>
 
 			</div>
@@ -44,9 +51,12 @@
 var moment = require('moment');
 import InsertTextEditor from '../../../components/InsertTextEditor/InsertTextEditor.vue';
 import Website from '../../../api/website.js';
+import HistoryYearList from '../../../components/HistoryYearList.vue';
+
 export default {
 	components: {
 		InsertTextEditor,
+		HistoryYearList,
 	},
 	data() {
 		return {
