@@ -1122,7 +1122,7 @@ class MatchRepository
         $updatedData = TempFixture::where('id',$match['matchId'])
                   ->update($updateData);
       }
-      return  ['status' => true, 'data' => 'Scores updated successfully.'];
+      return ['status' => true, 'data' => 'Scores updated successfully.'];
     }
 
     public function getMatchDetail($matchId)

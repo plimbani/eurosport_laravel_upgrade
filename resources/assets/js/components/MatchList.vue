@@ -42,9 +42,9 @@
           <!-- </a>  -->
         </td>
         <td class="text-center js-match-list">
-            <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="match.is_scheduled == '0' "><span v-else>{{match.homeScore}}</span> -
+            <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="match.is_scheduled == '0' " @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
             <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
-            :readonly="match.is_scheduled == '0'"><span v-else>{{match.AwayScore}}</span>
+            :readonly="match.is_scheduled == '0'" @change="updateScore(match,index1)"><span v-else>{{match.AwayScore}}</span>
         </td>
 
         <td class="text-center" v-if="showPlacingForMatch()">
@@ -67,7 +67,7 @@
       </tr>
     </tbody>
   </table>
-  <div class="col-md-12"><div class="d-flex align-items-center justify-content-end"><button type="button" name="save" class="btn btn-primary mr-1" @click="saveMatchScore()">Save</button></div></div>
+  <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()">Save</button>
   
     <paginate v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
     </paginate>
@@ -294,11 +294,11 @@ export default {
         $('input[name="away_score['+matchId+']"]').val('');
         return false;
       }
-
-      $("body .js-loader").removeClass('d-none');
-      this.index =  index
-      let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
-      let vm = this;
+      if (this.$store.state.scoreAutoUpdate == true) {
+        $("body .js-loader").removeClass('d-none');
+        this.index =  index
+        let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
+        let vm = this;
         Tournament.updateScore(matchData).then(
             (response) => {
               let competationId =response.data.data.competationId
@@ -323,6 +323,7 @@ export default {
 
               $("body .js-loader").addClass('d-none');
         })
+      }
     },
     getHoldingName(competitionActualName, placeholder) {
       if(competitionActualName.indexOf('Group') !== -1){
@@ -353,22 +354,24 @@ export default {
       let isSameScore = false;
       let matchDataArray = [];
       $.each(this.matchData, function (index,value){
-        var matchData = {};
-        matchData.matchId = value.fid;
-        matchData.homeScore = $('input[name="home_score['+value.fid+']"]').val();
-        matchData.awayScore = $('input[name="away_score['+value.fid+']"]').val();
-        matchDataArray[index] = matchData;
-        if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0) {
-          isSameScore = true;            
+        if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '') {
+          var matchData = {};
+          matchData.matchId = value.fid;
+          matchData.homeScore = $('input[name="home_score['+value.fid+']"]').val();
+          matchData.awayScore = $('input[name="away_score['+value.fid+']"]').val();
+          matchDataArray[index] = matchData;
+          isSameScore = true;
           $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
         }
       });
       if (isSameScore == true) {
         toastr.error('Please complete the results override information for the fixtures highlighted.','Action Required');
       } else {
+        $("body .js-loader").removeClass('d-none');
         Tournament.saveAllMatchResults(matchDataArray).then(
           (response) => {
-
+            $("body .js-loader").addClass('d-none');
+            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 5000});
           }
         )
       }

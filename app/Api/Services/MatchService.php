@@ -333,8 +333,7 @@ class MatchService implements MatchContract
         }
     }
 
-    public function saveAllResults($matchData)
-    {
+    public function saveAllResults($matchData) {
       $matchResult = $this->matchRepoObj->saveAllResults($matchData->all()['matchData']);
       if ($matchResult) {
         return ['status_code' => '200', 'data' => $matchResult];
