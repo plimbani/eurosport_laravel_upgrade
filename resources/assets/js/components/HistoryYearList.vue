@@ -22,13 +22,21 @@
 						        </a>
 						    </div>
 						</div>
-						<history-year-age-category-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" :ageCategoryList="historyYear.ageCategoryList" @setHistoryAgeCategoryList="setHistoryAgeCategoryList"></history-year-age-category-list>
+						<history-year-age-category-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" :historyAgeCategoryList="historyYear.ageCategoryList" @setHistoryAgeCategoryList="setHistoryAgeCategoryList" @deleteHistoryYearAgeCategory="deleteHistoryYearAgeCategory" @initializeHistoryAgeCategoryModal="initializeHistoryAgeCategoryModal"></history-year-age-category-list>
 					</div>
 				</div>
 			</draggable>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addHistoryYear()">{{ $lang.add_year }}</button>
 		<history-year-modal :currentHistoryYearOperation="currentHistoryYearOperation" @storeHistoryYear="storeHistoryYear" @updateHistoryYear="updateHistoryYear"></history-year-modal>
+
+		<history-year-age-category-modal 
+			:currentHistoryYearAgeCategoryOperation="historyAgeCategoryModalData.currentHistoryYearAgeCategoryOperation" 
+			@storeHistoryYearAgeCategory="storeHistoryYearAgeCategory" 
+			@updateHistoryYearAgeCategory="updateHistoryYearAgeCategory" 
+			:modalIndex="historyAgeCategoryModalData.parentIndex" >
+		</history-year-age-category-modal>
+
 	</div>
 </template>
 
@@ -36,6 +44,7 @@
 	import Website from '../api/website.js';
 	import HistoryYearModal from './HistoryYearModal.vue';
 	import HistoryYearAgeCategoryList from './HistoryYearAgeCategoryList.vue';
+	import HistoryYearAgeCategoryModal from './HistoryYearAgeCategoryModal.vue';
 	import draggable from 'vuedraggable';
 	import _ from 'lodash';
 
@@ -45,12 +54,18 @@
 				historyYears: [],
 				currentHistoryYearIndex: -1,
 				currentHistoryYearOperation: 'add',
+				historyAgeCategoryModalData: {
+					currentHistoryYearAgeCategoryIndex: -1,
+					currentHistoryYearAgeCategoryOperation: 'add',
+					parentIndex: -1,
+				} 
 			};
 		},
 		components: {
 			draggable,
 			HistoryYearModal,
 			HistoryYearAgeCategoryList,
+			HistoryYearAgeCategoryModal,
 		},
 		computed: {
 			getWebsite() {
@@ -100,6 +115,45 @@
 			setHistoryAgeCategoryList(ageCategoryList, index) {
 				this.historyYears[index].ageCategoryList = ageCategoryList;
 			},
+
+
+			// --------------
+
+			initializeHistoryAgeCategoryModal(formData, additionalParams) {
+				this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryOperation = additionalParams.currentHistoryYearAgeCategoryOperation;
+				this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryIndex = additionalParams.currentHistoryYearAgeCategoryIndex;
+				this.historyAgeCategoryModalData.parentIndex = additionalParams.parentIndex;
+				this.$root.$emit('setHistoryYearAgeCategoryData', formData);
+				$('#history_year_age_category_modal').modal('show');
+			},
+
+			storeHistoryYearAgeCategory(historyYearAgeCategoryData) {
+				console.log(historyYearAgeCategoryData);
+				var ageCategoryIndex = this.historyAgeCategoryModalData.parentIndex;
+				var currentAgeCategoryIndex = this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryIndex;
+
+				console.log(ageCategoryIndex + " == " + currentAgeCategoryIndex);
+
+				this.historyYears[ageCategoryIndex]['ageCategoryList'].push({ id: '', name: historyYearAgeCategoryData.name, teams: [] });
+				$('#history_year_age_category_modal').modal('hide');
+
+			},
+
+			updateHistoryYearAgeCategory(historyYearAgeCategoryData) {
+				var ageCategoryIndex = this.historyAgeCategoryModalData.parentIndex;
+				var currentHistoryYearAgeCategoryIndex = this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryIndex;
+				this.historyYears[ageCategoryIndex]['ageCategoryList'][currentHistoryYearAgeCategoryIndex].name = historyYearAgeCategoryData.name;
+				this.historyYears[ageCategoryIndex]['ageCategoryList'][currentHistoryYearAgeCategoryIndex].teams = historyYearAgeCategoryData.teams;
+				$('#history_year_age_category_modal').modal('hide');
+
+			},
+
+			deleteHistoryYearAgeCategory(deleteIndex, historyAgeCategoryIndex) {
+				this.historyYears[historyAgeCategoryIndex]['ageCategoryList'] = _.remove(this.historyYears[historyAgeCategoryIndex]['ageCategoryList'], function(team, index) {
+					return index != deleteIndex;
+				});
+			},
+
 		}
 	}
 </script>
