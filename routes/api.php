@@ -326,5 +326,7 @@ $api->version('v1', function ($api) {
 
     // Website team
     $api->get('getAgeCategories/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTeamController@getAgeCategories');
+    $api->get('getTeamPageData/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTeamController@getPageData');
     $api->post('saveTeamPageData', 'Laraspace\Api\Controllers\WebsiteTeamController@savePageData');
+    $api->post('importAgeCategoryAndTeamData', 'Laraspace\Api\Controllers\WebsiteTeamController@importAgeCategoryAndTeamData');
 });
