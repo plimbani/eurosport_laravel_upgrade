@@ -37,6 +37,7 @@ class StayRepository
     $this->getAWSUrl = getenv('S3_URL');
     $this->pageService = $pageService;
     $this->stayPageName = 'stay';
+    $this->stayPageUrl = 'stay';
     $this->mealsPageName = 'meals';
     $this->accommodationPageName = 'accommodation';
   }
@@ -102,8 +103,8 @@ class StayRepository
       $pageData['order'] = $key + 1;
 
       if($pageData['id'] == '') {
-        $url = $this->pageService->generateUrl($pageData['title'], '', $data['website_id']);
-        $name = $this->pageService->generateName($pageData['title'], '', $data['website_id']);
+        $url = $this->pageService->generateUrl($pageData['title'], $data['website_id'], $this->stayPageUrl);
+        $name = $this->pageService->generateName($pageData['title'], $data['website_id']);
         $pageData['slug'] = $url;
         $pageData['name'] = $name;
         $pageData['parent_id'] = $data['parent_id'];
@@ -119,7 +120,7 @@ class StayRepository
 
     $deletePageId = array_diff($existingPageIds, $additionalPageIds);
 
-    $this->deletePages($deletePageId);
+    $this->pageService->deletePages($deletePageId);
   }
 
   /*
@@ -132,15 +133,4 @@ class StayRepository
     $pageIds = Page::where('parent_id', $parentId)->where('is_additional_page', 1)->pluck('id')->toArray();
     return $pageIds;
   }
-
-  /*
-   * Delete pages
-   *
-   * @return response
-   */
-  public function deletePages($pageIds = [])
-  {
-    Page::whereIn('id', $pageIds)->delete();
-    return true;
-  }    
 }

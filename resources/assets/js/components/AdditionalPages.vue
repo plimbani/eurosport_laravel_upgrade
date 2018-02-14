@@ -2,8 +2,8 @@
 	<div class="form-group justify-content-between row">
 		<div class="col-sm-6">
 			<div class="draggable--section">
-				<draggable v-model="additional_pages" :options="{draggable:'.organiser-logo-item', handle: '.organiser-logo-handle'}">
-					<div class="draggable--section-card organiser-logo-item" v-for="(page, index) in additional_pages" :key="page.id">
+				<draggable v-model="pages" :options="{draggable:'.additional-page-logo-item', handle: '.additional-page-logo-handle'}">
+					<div class="draggable--section-card additional-page-logo-item" v-for="(page, index) in pages" :key="page.id">
 						<div class="draggable--section-card-header">
 							<div class="draggable--section-card-header-panel">
 				  			<div class="d-flex align-items-center">
@@ -20,7 +20,7 @@
 						        	@click="editPage(page, index)">
 						        	<i class="jv-icon jv-edit"></i>
 						        </a>
-						        <a class="text-primary organiser-logo-handle draggable-handle" href="javascript:void(0)">
+						        <a class="text-primary additional-page-logo-handle draggable-handle" href="javascript:void(0)">
 						        	<i class="fa fa-bars"></i>
 						        </a>				  				
 				  			</div>
@@ -28,7 +28,7 @@
 						</div>
 					</div>
 				</draggable>
-				<p v-show="additional_pages==''">{{ $lang.no_additional_page_title }}</p>
+				<p v-show="pages.length === 0">{{ $lang.no_additional_page_title }}</p>
 			</div>
 		</div>
 		<div class="col-sm-6">
@@ -75,7 +75,7 @@
 					content: '',
 				},
 				currentPageIndex: -1,
-				// additional_pages: [],
+				pages: [],
 				currentPageOperation: 'add',
 				parent_id: null,
 			};
@@ -83,7 +83,9 @@
 		computed: {
 		},
 		mounted() {
+			this.pages = this.additional_pages;
 			this.$root.$on('getAdditionalPages', this.getAdditionalPages);
+			this.$root.$on('setPages', this.setPages);
 		},
 		methods: {
 			setAdditionalPageContent(content) {
@@ -97,7 +99,8 @@
 				this.$root.$emit('getEditorValue');
 				this.$validator.validateAll().then(
 				(response) => {
-					this.additional_pages.push({'id': this.additional_page.id, 'title': this.additional_page.title, 'content': this.additional_page.content});					
+					this.pages.push({'id': this.additional_page.id, 'title': this.additional_page.title, 'content': this.additional_page.content});
+					this.getAdditionalPages();
 					this.resetAdditionalPageDetail();
 				},
 				(error) => {
@@ -120,15 +123,17 @@
 			},
 			updatePage() {
 				this.$root.$emit('getEditorValue');
-				this.additional_pages[this.currentPageIndex].title = this.additional_page.title;
-				this.additional_pages[this.currentPageIndex].content = this.additional_page.content;
+				this.pages[this.currentPageIndex].title = this.additional_page.title;
+				this.pages[this.currentPageIndex].content = this.additional_page.content;
 				this.currentPageOperation = 'add';
+				this.getAdditionalPages();
 				this.resetAdditionalPageDetail();
 			},
 			deletePage(deleteIndex) {
-				this.additional_pages = _.remove(this.additional_pages, function(stat, index) {
+				this.pages = _.remove(this.pages, function(stat, index) {
 					return index != deleteIndex;
 				});
+				this.getAdditionalPages();
 			},
 			cancelPage() {
 				this.currentPageOperation = 'add';
@@ -136,7 +141,10 @@
 				this.errors.clear();
 			},
 			getAdditionalPages() {
-        this.$emit('setAdditionalPages', this.additional_pages);
+        this.$emit('setAdditionalPages', this.pages);
+      },
+      setPages(pages) {
+      	this.pages = pages;
       },
 		}
 	}

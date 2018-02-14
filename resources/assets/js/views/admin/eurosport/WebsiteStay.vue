@@ -125,12 +125,12 @@ export default {
 			var websiteId = this.getWebsiteId();
 			Website.getStayPageData(websiteId).then(
 				(response)=> {
-					console.log('response', response);
 					this.staypage.stay_introduction_content = response.data.data.stay.content !== null ? response.data.data.stay.content : '';
 					this.staypage.meals_page_content = response.data.data.meals.content !== null ? response.data.data.meals.content : '';
 					this.staypage.accommodation_page_content = response.data.data.accommodation.content !== null ? response.data.data.accommodation.content : '';
 					this.staypage.parent_id = response.data.data.stay.id !== null ? response.data.data.stay.id : '';
 					this.staypage.additional_pages = response.data.data.additionalPages;
+					this.$root.$emit('setPages', this.staypage.additional_pages);
 				},
 				(error) => {					
 				}
