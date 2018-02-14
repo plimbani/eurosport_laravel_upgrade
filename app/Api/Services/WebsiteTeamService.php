@@ -81,16 +81,17 @@ class WebsiteTeamService implements WebsiteTeamContract
     $ageCategories = [];
     $processedAgeCategories = [];
     $countries = $this->websiteTeamRepo->getCountriesKeyByCode();
+    $isErrorInSheet = false;
 
-    Excel::load($file->getRealPath(), function($reader) use(&$ageCategories, $countries, &$processedAgeCategories) {
+    Excel::load($file->getRealPath(), function($reader) use(&$ageCategories, $countries, &$processedAgeCategories, &$isErrorInSheet) {
       // Select
       $reader->select(array('age_category', 'team_name', 'country'))->get();
 
       // Loop through all sheets
-      $reader->each(function($sheet) use(&$ageCategories, $countries, &$processedAgeCategories) {
+      $reader->each(function($sheet) use(&$ageCategories, $countries, &$processedAgeCategories, &$isErrorInSheet) {
         // Loop through all rows
-        $sheet->each(function($row) use(&$ageCategories, $countries, &$processedAgeCategories) {
-          if($row->has('age_category') && $row->has('team_name') && $row->has('country')) {
+        $sheet->each(function($row) use(&$ageCategories, $countries, &$processedAgeCategories, &$isErrorInSheet) {
+          if(isset($row->age_category) && isset($row->team_name) && isset($row->country)) {
             $country = isset($countries[$row->country]) ? $countries[$row->country] : null;
             if($country !== null) {
               if(!in_array($row->age_category, $processedAgeCategories)) {
@@ -109,63 +110,19 @@ class WebsiteTeamService implements WebsiteTeamContract
               ];
               $ageCategories[$ageCategoryKey]['teams'][] = $teamRow;
             }
+          } else {
+            $isErrorInSheet = true;
           }
         });
       });
     }, 'ISO-8859-1');
 
+    if($isErrorInSheet) {
+      return ['data' => null, 'status_code' => '500', 'message' => 'Something went wrong!'];
+    }
+
     $data = ['ageCategories' => $ageCategories];
 
-    // // Delete all teams by website id
-    // $this->websiteTeamRepo->deleteAgeCategoryTeamsByWebsiteId($websiteId);
-
-    // // Delete age categories by website id
-    // $this->websiteTeamRepo->deleteAgeCategoriesByWebsiteId($websiteId);
-
-    // // update age category and teams
-    // $this->updateAgeCategoryAndTeams($ageCategories, $websiteId);
-
-    // // Get all age categories
-    // $allAgeCategories = $this->websiteTeamRepo->getAllAgeCategories($websiteId);
-
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
-  }
-
-  /*
-   * Update age category and team data
-   *
-   * @return response
-   */
-  public function updateAgeCategoryAndTeams($teamArray, $websiteId)
-  {
-    $ageCategoryOrder = 1;
-    $ageCategoryTeamOrder = 1;
-
-    $countries = $this->websiteTeamRepo->getCountriesKeyByCode();
-
-    foreach($teamArray as $ageCategory => $teamData) {
-      $ageCategoryData = [
-        'name' => $ageCategory,
-        'order' => $ageCategoryOrder,
-      ];
-
-      $ageCategory = $this->websiteTeamRepo->insertAgeCategory($websiteId, $ageCategoryData);
-
-      foreach($teamData as $teamRow) {
-        $countryId = isset($countries[$teamRow['country']]) ? $countries[$teamRow['country']]['id'] : 0;
-        if($countryId == 0) {
-          return;
-        }
-        $team = [
-          'name' => $teamRow['team_name'],
-          'country_id' => $countryId,
-          'order' => $ageCategoryTeamOrder,
-        ];
-        $this->websiteTeamRepo->insertAgeCategoryTeam($ageCategory->id, $websiteId, $team);
-        $ageCategoryTeamOrder++;
-      }
-
-      $ageCategoryOrder++;
-    }
   }
 }
