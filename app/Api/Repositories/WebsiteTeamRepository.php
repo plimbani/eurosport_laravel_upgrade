@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Repositories;
 
 use DB;
+use Laraspace\Models\Country;
 use Laraspace\Models\AgeCategory;
 use Laraspace\Models\AgeCategoryTeam;
 use Laraspace\Api\Services\PageService;
@@ -32,7 +33,7 @@ class WebsiteTeamRepository
   {
     $ageCategories = AgeCategory::with(['teams' => function($query){
             $query->orderBy('order');
-          }])->where('website_id', $websiteId)->orderBy('order')->get();
+          }, 'teams.country'])->where('website_id', $websiteId)->orderBy('order')->get();
     return $ageCategories;
   }
 
@@ -104,6 +105,17 @@ class WebsiteTeamRepository
   }
 
   /*
+   * Delete multiple age categories by website id
+   *
+   * @return response
+   */
+  public function deleteAgeCategoriesByWebsiteId($websiteId)
+  {
+    AgeCategory::where('website_id', $websiteId)->delete();
+    return true;
+  }
+
+  /*
    * Get all age category teams
    *
    * @return response
@@ -139,7 +151,7 @@ class WebsiteTeamRepository
     $ageCategoryTeam->age_category_id = $ageCategoryId;
     $ageCategoryTeam->name = $data['name'];
     $ageCategoryTeam->order = $data['order'];
-    $ageCategoryTeam->country_id = 0;
+    $ageCategoryTeam->country_id = $data['country']['id'];
     $ageCategoryTeam->save();
 
     return $ageCategoryTeam;
@@ -155,7 +167,7 @@ class WebsiteTeamRepository
     $ageCategoryTeam = AgeCategoryTeam::find($data['id']);
     $ageCategoryTeam->name = $data['name'];
     $ageCategoryTeam->order = $data['order'];
-    $ageCategoryTeam->country_id = 0;
+    $ageCategoryTeam->country_id = $data['country']['id'];
     $ageCategoryTeam->save();
 
     return $ageCategoryTeam;
@@ -187,6 +199,17 @@ class WebsiteTeamRepository
   }
 
   /*
+   * Delete multiple age category teams by website id
+   *
+   * @return response
+   */
+  public function deleteAgeCategoryTeamsByWebsiteId($websiteId)
+  {
+    AgeCategoryTeam::where('website_id', $websiteId)->delete();
+    return true;
+  }
+
+  /*
    * Save page data
    *
    * @return response
@@ -194,6 +217,18 @@ class WebsiteTeamRepository
   public function savePageData($data)
   {
     $this->saveAgeCategories($data);
+  }
+
+  /*
+   * Get page data
+   *
+   * @return response
+   */
+  public function getPageData($data)
+  {
+    $countries = Country::all();
+
+    return ['countries' => $countries];
   }
 
   /*
