@@ -105,6 +105,17 @@ class WebsiteTeamRepository
   }
 
   /*
+   * Delete multiple age categories by website id
+   *
+   * @return response
+   */
+  public function deleteAgeCategoriesByWebsiteId($websiteId)
+  {
+    AgeCategory::where('website_id', $websiteId)->delete();
+    return true;
+  }
+
+  /*
    * Get all age category teams
    *
    * @return response
@@ -184,6 +195,17 @@ class WebsiteTeamRepository
   public function deleteAgeCategoryTeams($ageCategoryTeamIds = [])
   {
     AgeCategoryTeam::whereIn('id', $ageCategoryTeamIds)->delete();
+    return true;
+  }
+
+  /*
+   * Delete multiple age category teams by website id
+   *
+   * @return response
+   */
+  public function deleteAgeCategoryTeamsByWebsiteId($websiteId)
+  {
+    AgeCategoryTeam::where('website_id', $websiteId)->delete();
     return true;
   }
 

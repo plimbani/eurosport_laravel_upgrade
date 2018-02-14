@@ -78,19 +78,52 @@ class WebsiteTeamService implements WebsiteTeamContract
   {
     $websiteId = $request->get('websiteId');
     $file = $request->file('team_upload');
+    $teamArray = [];
+    $ageCategoryOrder = 1;
+    $ageCategoryTeamOrder = 1;
 
-    Excel::load($file->getRealPath(), function($reader) {
-        // $totalSize  = $reader->getTotalRowsOfFile() - 1;
+    Excel::load($file->getRealPath(), function($reader) use(&$teamArray) {
+      // Select
+      $reader->select(array('age_category', 'team_name', 'country'))->get();
 
-        // Loop through all sheets
-        $reader->each(function($sheet) {
-            // Loop through all rows
-            $sheet->each(function($row) {
-              print_r($row->age_category);
-            });
+      // Loop through all sheets
+      $reader->each(function($sheet) use(&$teamArray) {
+        // $records = $sheet->toArray();
+        // $teamArray = array_merge($teamArray, $records);
+        // Loop through all rows
+        $sheet->each(function($row) use(&$teamArray) {
+          if($row->has('age_category') && $row->has('team_name') && $row->has('country')) {
+            $teamRow = [
+              'team_name' => $row->team_name,
+              'country' => $row->country,
+            ];
+            $teamArray[$row->age_category] = $teamRow;
+          }
         });
+      });
     }, 'ISO-8859-1');
-exit;
+
+    // Delete all teams by website id
+    $this->websiteTeamRepo->deleteAgeCategoryTeamsByWebsiteId($websiteId);
+
+    // Delete age categories by website id
+    $this->websiteTeamRepo->deleteAgeCategoriesByWebsiteId($websiteId);
+
+    foreach($teamArray as $ageCategory => $teamData) {
+      $ageCategoryData = [
+        'name' => $ageCategory,
+        'order' => $ageCategoryOrder,
+      ];
+
+      $ageCategory = $this->websiteTeamRepo->insertAgeCategory($websiteId, $ageCategoryData);
+
+      foreach($teamData as $teamRow) {
+
+
+        // $this->websiteTeamRepo->insertAgeCategoryTeam($ageCategory->id, $websiteId, $data);
+      }
+    }
+
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
 }
