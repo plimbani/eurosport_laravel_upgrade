@@ -23,7 +23,7 @@
 						    </div>
 			  			</div>
 			  			<!-- Add child tags like draggable--section-child-1 -->
-							<age-category-team-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" :teams="ageCategory.teams" @setAgeCategoryTeams="setAgeCategoryTeams" @deleteAgeCategoryTeam="deleteAgeCategoryTeam" :countries="countries" @initializeModal="initializeTeamModal"></age-category-team-list>
+							<age-category-team-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" :teams="ageCategory.teams" @setAgeCategoryTeams="setAgeCategoryTeams" @deleteAgeCategoryTeam="deleteAgeCategoryTeam" @initializeTeamModal="initializeTeamModal"></age-category-team-list>
 			  		</div>
 			    </div>
 			</draggable>
@@ -154,7 +154,7 @@
 			},
 			deleteAgeCategoryTeam(deleteIndex, ageCategoryIndex) {
 				this.ageCategories[ageCategoryIndex]['teams'] = _.remove(this.ageCategories[ageCategoryIndex]['teams'], function(team, index) {
-				  return index != deleteIndex;
+					return index != deleteIndex;
 				});
 			},
 		},

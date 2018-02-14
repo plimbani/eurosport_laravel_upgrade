@@ -6,8 +6,7 @@
 		  		<div class="draggable--section-card-header">
 		  			<div class="draggable--section-card-header-panel">
 		  				<div>
-			  				{{ ageCategoryTeam.name }} ({{ ageCategoryTeam.country.country_code }})
-			  				<img :src="ageCategoryTeam.country.logo" />
+			  				{{ ageCategoryTeam.name }} ({{ ageCategoryTeam.country.country_code }}) <img class="" :src="ageCategoryTeam.country.logo" />
 			  			</div>
 			  			<div class="draggable--section-card-header-icons">
 					        <a class="text-primary" href="javascript:void(0)"
@@ -38,7 +37,7 @@
 	import _ from 'lodash';
 
 	export default {
-		props: ['childClassNames', 'teams', 'parentIndex', 'countries'],
+		props: ['childClassNames', 'teams', 'parentIndex'],
 		data() {
 			return {
 				ageCategoryTeams: [],
@@ -79,7 +78,7 @@
 					currentAgeCategoryTeamIndex: this.currentAgeCategoryTeamIndex,
 					parentIndex: this.parentIndex,
 				};
-				this.$emit('initializeModal', formData, additionalParams);
+				this.$emit('initializeTeamModal', formData, additionalParams);
 			},
 			editAgeCategoryTeam(ageCategoryTeam, index) {
 				var formData = {
@@ -94,7 +93,7 @@
 					currentAgeCategoryTeamIndex: this.currentAgeCategoryTeamIndex,
 					parentIndex: this.parentIndex,
 				};
-				this.$emit('initializeModal', formData, additionalParams);
+				this.$emit('initializeTeamModal', formData, additionalParams);
 			},
 			deleteAgeCategoryTeam(deleteIndex) {
 				this.$emit('deleteAgeCategoryTeam', deleteIndex, this.parentIndex);
