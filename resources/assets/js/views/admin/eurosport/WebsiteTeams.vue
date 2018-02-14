@@ -125,10 +125,11 @@ export default {
           return;
         }
         let formData  = new FormData($("#frm_team_import")[0]);
-        formData.append('websiteId', this.getWebsiteId);
+        formData.append('websiteId', this.getWebsiteId());
         Website.importAgeCategoryAndTeamData(formData).then(
           (response)=> {
-
+          	this.$root.$emit('importAgeCategories', response.data.data.ageCategories);
+          	toastr['success']('Teams have been imported successfully.', 'Success');
           },
           (error)=>{
           }
@@ -142,18 +143,21 @@ export default {
 		},
 		setFileName(file, event) {
       this.canUploadTeamFile = true;
-      var extensionsplit = event.target.files[0].name.split(".");
-      var extension = extensionsplit[extensionsplit.length - 1];
-      if(extension != 'xls' && extension != 'xlsx') {
-        this.canUploadTeamFile = false;
-      }
-      var filename = $('#team_upload').val();
-      var lastIndex = filename.lastIndexOf('\\');
+      if(event.target.files.length > 0) {
+      	var extensionsplit = event.target.files[0].name.split(".");
+	      var extension = extensionsplit[extensionsplit.length - 1];
+	      if(extension != 'xls' && extension != 'xlsx') {
+	        this.canUploadTeamFile = false;
+	      }
+	      var filename = $('#team_upload').val();
+	      var lastIndex = filename.lastIndexOf('\\');
 
-      if (lastIndex >= 0) {
-        filename = filename.substring(lastIndex + 1);
+	      if (lastIndex >= 0) {
+	        filename = filename.substring(lastIndex + 1);
+	      }
+	      this.currentImportFileName = filename;
       }
-      this.currentImportFileName = filename;    },
+    },
 	},
 }
 </script>
