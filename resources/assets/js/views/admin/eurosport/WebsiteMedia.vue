@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.website_media}}</strong></h6>
+				<h6><strong>{{$lang.photo_gallery}}</strong></h6>
 			</div>
 		</div>
 		<div class="row">
@@ -23,7 +23,7 @@ import Tournament from '../../../api/tournament.js';
 export default {
 	mounted() {
 		let currentNavigationData = {
-			activeTab:'website_media', 
+			activeTab:'website_media',
 			currentPage:'Media'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
