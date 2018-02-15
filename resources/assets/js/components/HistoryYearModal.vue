@@ -3,7 +3,7 @@
 		<div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{{ currentHistoryYearOperation == 'add' ? $lang.add_history_year : $lang.edit_history_year }}</h5>
+          <h5 class="modal-title">{{ currentYearOperation == 'add' ? $lang.add_history_year : $lang.edit_history_year }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
           </button>
@@ -33,13 +33,13 @@
   import { ErrorBag } from 'vee-validate';
 
   export default {
-    props: ['currentHistoryYearOperation'],
+    props: ['currentYearOperation'],
     data() {
       return {
         formValues: {
           id: '',
           year: '',
-          ageCategoryList: [],
+          categoryList: [],
         },
       };
     },
@@ -53,7 +53,7 @@
       validateForm() {
         this.$validator.validateAll().then((response) => {
           if(response) {
-            if(this.currentHistoryYearOperation == 'add') {
+            if(this.currentYearOperation == 'add') {
               this.$emit('storeHistoryYear', this.formValues);
             } else {
               this.$emit('updateHistoryYear', this.formValues);
@@ -66,7 +66,7 @@
       setHistoryYearData(historyYearData) {
         this.formValues.id = historyYearData.id;
         this.formValues.year = historyYearData.year;
-        this.formValues.ageCategoryList = historyYearData.ageCategoryList;
+        this.formValues.categoryList = historyYearData.categoryList;
         this.errors.clear();
       },
     },

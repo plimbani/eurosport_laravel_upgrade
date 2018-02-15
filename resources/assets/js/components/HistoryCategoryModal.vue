@@ -1,9 +1,9 @@
 <template>
-	<div class="modal" id="history_year_age_category_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	<div class="modal" id="history_category_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 		<div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{{ currentHistoryYearAgeCategoryOperation == 'add' ? $lang.add_age_category : $lang.edit_age_category }}</h5>
+          <h5 class="modal-title">{{ categoryOperation == 'add' ? $lang.add_age_category : $lang.edit_age_category }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
           </button>
@@ -33,18 +33,18 @@
   import { ErrorBag } from 'vee-validate';
 
   export default {
-    props: ['currentHistoryYearAgeCategoryOperation', 'modalIndex'],
+    props: ['categoryOperation', 'yearIndex'],
     data() {
       return {
         formValues: {
           id: '',
           name: '',
-          teamList: [],
+          teams: [],
         },
       };
     },
     created() {
-      this.$root.$on('setHistoryYearAgeCategoryData', this.setHistoryYearAgeCategoryData);
+      this.$root.$on('setCategoryData', this.setCategoryData);
     },
     computed: {
 
@@ -53,20 +53,20 @@
       validateForm() {
         this.$validator.validateAll().then((response) => {
           if(response) {
-            if(this.currentHistoryYearAgeCategoryOperation == 'add') {
-              this.$emit('storeHistoryYearAgeCategory', this.formValues);
+            if(this.categoryOperation == 'add') {
+              this.$emit('storeCategory', this.formValues);
             } else {
-              this.$emit('updateHistoryYearAgeCategory', this.formValues);
+              this.$emit('updateCategory', this.formValues);
             }
           }
         }).catch(() => {
           // fail stuff
         });
       },
-      setHistoryYearAgeCategoryData(historyYearAgeCategoryData) {
-        this.formValues.id = historyYearAgeCategoryData.id;
-        this.formValues.name = historyYearAgeCategoryData.name;
-        this.formValues.teamList = historyYearAgeCategoryData.teamList;
+      setCategoryData(categoryData) {
+        this.formValues.id = categoryData.id;
+        this.formValues.name = categoryData.name;
+        this.formValues.teams = categoryData.teams;
         this.errors.clear();
       },
     },

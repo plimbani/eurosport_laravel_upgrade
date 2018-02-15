@@ -22,39 +22,28 @@
 						        </a>
 						    </div>
 						</div>
-						<history-year-age-category-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" 
-						:historyAgeCategoryList="historyYear.ageCategoryList" 
-						@setHistoryAgeCategoryList="setHistoryAgeCategoryList" 
-						@deleteHistoryYearAgeCategory="deleteHistoryYearAgeCategory" 
-						@initializeHistoryAgeCategoryModal="initializeHistoryAgeCategoryModal" 
-						@initializeHistoryAgeCategoryTeamModal="initializeHistoryAgeCategoryTeamModal"></history-year-age-category-list>
+						<history-category-list :yearIndex="index" :childClassNames="'draggable--section-child-1'" :categoryList="historyYear.categoryList" 
+						@setHistoryCategoryList="setHistoryCategoryList" @deleteHistoryCategory="deleteHistoryCategory" @initializeCategoryModal="initializeCategoryModal"></history-category-list>
 					</div>
 				</div>
 			</draggable>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addHistoryYear()">{{ $lang.add_year }}</button>
-		<history-year-modal :currentHistoryYearOperation="currentHistoryYearOperation" @storeHistoryYear="storeHistoryYear" @updateHistoryYear="updateHistoryYear"></history-year-modal>
 
-		<history-year-age-category-modal 
-			:currentHistoryYearAgeCategoryOperation="historyAgeCategoryModalData.currentHistoryYearAgeCategoryOperation" 
-			@storeHistoryYearAgeCategory="storeHistoryYearAgeCategory" 
-			@updateHistoryYearAgeCategory="updateHistoryYearAgeCategory" 
-			:modalIndex="historyAgeCategoryModalData.parentIndex" >
-		</history-year-age-category-modal>
+		<history-year-modal :currentYearOperation="currentYearOperation" @storeHistoryYear="storeHistoryYear" @updateHistoryYear="updateHistoryYear"></history-year-modal>
 
-		<history-year-age-category-team-modal :currentHistoryYearAgeCategoryTeamOperation="historyAgeCategoryTeamModalData.currentHistoryYearAgeCategoryTeamOperation" 
-		@storeHistoryYearAgeCategoryTeam="storeHistoryYearAgeCategoryTeam" 
-		@updateHistoryYearAgeCategoryTeam="updateHistoryYearAgeCategoryTeam" 
-		:modalIndex="historyAgeCategoryTeamModalData.parentIndex" ></history-year-age-category-team-modal>
+		<history-category-modal :categoryOperation="categoryModal.categoryOperation" 
+		@storeCategory="storeCategory" @updateCategory="updateCategory" 
+		:yearIndex="categoryModal.yearIndex"></history-category-modal>
+
 	</div>
 </template>
 
 <script type="text/babel">
 	import Website from '../api/website.js';
 	import HistoryYearModal from './HistoryYearModal.vue';
-	import HistoryYearAgeCategoryList from './HistoryYearAgeCategoryList.vue';
-	import HistoryYearAgeCategoryModal from './HistoryYearAgeCategoryModal.vue';
-	import HistoryYearAgeCategoryTeamModal from './HistoryYearAgeCategoryTeamModal.vue';
+	import HistoryCategoryList from './HistoryCategoryList.vue';
+	import HistoryCategoryModal from './HistoryCategoryModal.vue';
 	import draggable from 'vuedraggable';
 	import _ from 'lodash';
 
@@ -62,60 +51,57 @@
 		data() {
 			return {
 				historyYears: [],
-				currentHistoryYearIndex: -1,
-				currentHistoryYearOperation: 'add',
-				historyAgeCategoryModalData: {
-					currentHistoryYearAgeCategoryIndex: -1,
-					currentHistoryYearAgeCategoryOperation: 'add',
-					parentIndex: -1,
-				},
-				historyAgeCategoryTeamModalData: {
-					currentHistoryYearAgeCategoryTeamIndex: -1,
-					currentHistoryYearAgeCategoryTeamOperation: 'add',
-					parentIndex: -1,
+				currentYearIndex: -1,
+				currentYearOperation: 'add',
+				categoryModal: {
+					categoryIndex: -1,
+					categoryOperation: 'add',
+					yearIndex: -1,
 				}
 			};
 		},
 		components: {
 			draggable,
 			HistoryYearModal,
-			HistoryYearAgeCategoryList,
-			HistoryYearAgeCategoryModal,
-			HistoryYearAgeCategoryTeamModal,
+			HistoryCategoryModal,
+			HistoryCategoryList,
 		},
 		computed: {
 			getWebsite() {
 				return this.$store.state.Website.id;
 			},
 		},
+		mounted() {
+			this.$root.$on('getHistoryYears', this.getHistoryYears);
+		},
 		methods: {
 			addHistoryYear() {
 				var formData = {
 					id: '',
 					year: '',
-					ageCategoryList: [],
+					categoryList: [],
 				};
-				this.currentHistoryYearIndex = this.historyYears.length;
-				this.currentHistoryYearOperation = 'add';
+				this.currentYearIndex = this.historyYears.length;
+				this.currentYearOperation = 'add';
 				this.initializeModel(formData);
 			},
 			storeHistoryYear(historyYearData) {
-				this.historyYears.push({ id: '', year: historyYearData.year, ageCategoryList: [] });
+				this.historyYears.push({ id: '', year: historyYearData.year, categoryList: [] });
 				$('#history_year_modal').modal('hide');
 			},
 			editHistoryYear(historyYear, index) {
 				var formData = {
 					id: historyYear.id,
 					year: historyYear.year,
-					ageCategoryList: historyYear.ageCategoryList,
+					categoryList: historyYear.categoryList,
 				};
-				this.currentHistoryYearIndex = index;
-				this.currentHistoryYearOperation = 'edit';
+				this.currentYearIndex = index;
+				this.currentYearOperation = 'edit';
 				this.initializeModel(formData);
 			},
 			updateHistoryYear(historyYearData) {
-				this.historyYears[this.currentHistoryYearIndex].year = historyYearData.year;
-				this.historyYears[this.currentHistoryYearIndex].ageCategoryList = historyYearData.ageCategoryList;
+				this.historyYears[this.currentYearIndex].year = historyYearData.year;
+				this.historyYears[this.currentYearIndex].categoryList = historyYearData.categoryList;
 				$('#history_year_modal').modal('hide');
 			},
 			deleteHistoryYear(deleteIndex) {
@@ -128,67 +114,47 @@
 				this.$root.$emit('setHistoryYearData', formData);
 				$('#history_year_modal').modal('show');
 			},
-			setHistoryAgeCategoryList(ageCategoryList, index) {
-				this.historyYears[index].ageCategoryList = ageCategoryList;
+			setHistoryCategoryList(categories, index) {
+				this.historyYears[index].categoryList = categories;
 			},
 
-
-			// --------------
-
-			initializeHistoryAgeCategoryModal(formData, additionalParams) {
-				this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryOperation = additionalParams.currentHistoryYearAgeCategoryOperation;
-				this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryIndex = additionalParams.currentHistoryYearAgeCategoryIndex;
-				this.historyAgeCategoryModalData.parentIndex = additionalParams.parentIndex;
-				this.$root.$emit('setHistoryYearAgeCategoryData', formData);
-				$('#history_year_age_category_modal').modal('show');
+			getHistoryYears() {
+				this.$emit('setHistoryData', this.historyYears);
 			},
 
-			storeHistoryYearAgeCategory(historyYearAgeCategoryData) {
-				var ageCategoryIndex = this.historyAgeCategoryModalData.parentIndex;
-				var currentAgeCategoryIndex = this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryIndex;
+			// category list related functions
 
-				this.historyYears[ageCategoryIndex]['ageCategoryList'].push({ id: '', name: historyYearAgeCategoryData.name, teams: [] });
-				$('#history_year_age_category_modal').modal('hide');
-
+			initializeCategoryModal(formData, additionalParams) {
+				this.categoryModal.categoryOperation = additionalParams.categoryOperation;
+				this.categoryModal.categoryIndex = additionalParams.categoryIndex;
+				this.categoryModal.yearIndex = additionalParams.yearIndex;
+				this.$root.$emit('setCategoryData', formData);
+				$('#history_category_modal').modal('show');
 			},
 
-			updateHistoryYearAgeCategory(historyYearAgeCategoryData) {
-				var ageCategoryIndex = this.historyAgeCategoryModalData.parentIndex;
-				var currentHistoryYearAgeCategoryIndex = this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryIndex;
-				this.historyYears[ageCategoryIndex]['ageCategoryList'][currentHistoryYearAgeCategoryIndex].name = historyYearAgeCategoryData.name;
-				this.historyYears[ageCategoryIndex]['ageCategoryList'][currentHistoryYearAgeCategoryIndex].teams = historyYearAgeCategoryData.teams;
-				$('#history_year_age_category_modal').modal('hide');
-
+			storeCategory(categoryData) {
+				var yearIndex = this.categoryModal.yearIndex;
+				var categoryIndex = this.categoryModal.categoryIndex;
+				this.historyYears[yearIndex]['categoryList'].push({ id: '', name: categoryData.name, teams: [] });
+				$('#history_category_modal').modal('hide');
+			},
+			
+			updateCategory(categoryData) {
+				var yearIndex = this.categoryModal.yearIndex;
+				var categoryIndex = this.categoryModal.categoryIndex;
+				this.historyYears[yearIndex]['categoryList'][categoryIndex].name = categoryData.name;
+				$('#history_category_modal').modal('hide');
 			},
 
-			deleteHistoryYearAgeCategory(deleteIndex, historyYearIndex) {
-				this.historyYears[historyYearIndex]['ageCategoryList'] = _.remove(this.historyYears[historyYearIndex]['ageCategoryList'], function(value, index) {
+			setCategoryLists(categoryList, index) {
+				this.historyYears[index].categoryList = categoryList;
+			},
+
+			deleteHistoryCategory(deleteIndex, categoryIndex) {
+				this.historyYears[categoryIndex]['categoryList'] = _.remove(this.historyYears[categoryIndex]['categoryList'], function(ageCategory, index) {
 					return index != deleteIndex;
 				});
 			},
-
-			// ---------------------
-
-			initializeHistoryAgeCategoryTeamModal(formData, additionalParams, categoryIndex) {
-				this.historyAgeCategoryTeamModalData.currentHistoryYearAgeCategoryTeamOperation = additionalParams.currentHistoryYearAgeCategoryTeamOperation;
-				this.historyAgeCategoryTeamModalData.currentHistoryYearAgeCategoryTeamIndex = additionalParams.currentHistoryYearAgeCategoryTeamIndex;
-				this.historyAgeCategoryTeamModalData.parentIndex = additionalParams.parentIndex;
-				this.$root.$emit('setHistoryYearAgeCategoryTeamData', formData);
-				$('#history_year_age_category_team_modal').modal('show');
-			},
-
-			storeHistoryYearAgeCategoryTeam(historyYearAgeCategoryTeamData) {
-				var yearIndex = this.currentHistoryYearIndex;
-				var ageCategoryIndex = this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryIndex;
-
-				this.historyYears[yearIndex]['ageCategoryList'][ageCategoryIndex]['teams'].push({ id: '', name: historyYearAgeCategoryTeamData.name});
-				$('#history_year_age_category_team_modal').modal('hide');
-			},
-
-			updateHistoryYearAgeCategoryTeam() {
-
-			},
-
 		}
 	}
 </script>

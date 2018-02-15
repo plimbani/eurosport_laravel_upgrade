@@ -28,7 +28,7 @@
 	        <h6><strong>{{$lang.tournament_history}}</strong></h6>
 	        <div class="row">
 	          <div class="col-sm-8">
-        			<history-year-list></history-year-list>
+        			<history-year-list @setHistoryData="setHistoryData"></history-year-list>
         		</div>
         	</div>
 	      </form>
@@ -64,6 +64,7 @@ export default {
 				age_categories: '',
 				rules: '',
 				websiteId: null,
+				history: [],
 			},
 		}
 	},
@@ -81,6 +82,7 @@ export default {
 		next() {
 			this.$root.$emit('getEditorValue');
       this.tournament.websiteId = this.getWebsiteId();
+      this.$root.$emit('getHistoryYears');
       $("body .js-loader").removeClass('d-none');
 			Website.saveWebsiteTournamentPageData(this.tournament).then(
         (response)=> {
@@ -114,6 +116,10 @@ export default {
 				(error) => {					
 				}
 			);
+		},
+
+		setHistoryData(historyData) {
+			this.tournament.history = historyData;
 		},
 	},
 }

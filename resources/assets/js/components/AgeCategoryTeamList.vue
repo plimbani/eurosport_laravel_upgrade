@@ -102,7 +102,7 @@
 				this.getAgeCategoryTeams();
 			},
 			getAgeCategoryTeams() {
-        this.$emit('setAgeCategoryTeams', _.cloneDeep(this.ageCategoryTeams), this.parentIndex);
+        this.$emit('setHistoryCategoryList', _.cloneDeep(this.ageCategoryTeams), this.parentIndex);
       },
 		},
 	}
