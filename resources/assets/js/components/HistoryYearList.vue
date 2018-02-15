@@ -178,7 +178,6 @@
 			},
 
 			storeHistoryYearAgeCategoryTeam(historyYearAgeCategoryTeamData) {
-
 				var yearIndex = this.currentHistoryYearIndex;
 				var ageCategoryIndex = this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryIndex;
 

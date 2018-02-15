@@ -23,7 +23,7 @@
 						    </div>
 						</div>
 						<history-year-age-category-team-list :parentIndex="index" 
-						:historyAgeCategoryTeamsList="historyYearsAgeCategoryList.teams" 
+						:teams="historyYearsAgeCategory.teams" 
 						@setHistoryAgeCategoryTeamList="setHistoryAgeCategoryTeamList" 
 						@initializeHistoryAgeCategoryTeamModal="initializeHistoryAgeCategoryTeamModal"></history-year-age-category-team-list>
 					</div>
@@ -65,7 +65,7 @@
 		},
 		mounted() {
 			// Get all age category
-			this.historyYearsAgeCategoryList = this.historyAgeCategoryList;
+			this.historyYearsAgeCategoryList = _.cloneDeep(this.historyAgeCategoryList);
 			this.$root.$on('getHistoryAgeCategories', this.getHistoryAgeCategories);
 		},
 		methods: {

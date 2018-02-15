@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="historyAgeCategoryTeamsList" :options="{draggable:'.history-year-age-category-team-item', handle: '.history-year-age-category-team-handle'}">
-				<div class="history-year-age-category-team-item draggable--section-card" v-for="(historyYearsAgeCategoryTeam, index) in historyAgeCategoryTeamsList" :key="historyYearsAgeCategoryTeam.id">
+			<draggable v-model="historyYearsAgeCategoryTeamList" :options="{draggable:'.history-year-age-category-team-item', handle: '.history-year-age-category-team-handle'}">
+				<div class="history-year-age-category-team-item draggable--section-card" v-for="(historyYearsAgeCategoryTeam, index) in historyYearsAgeCategoryTeamList" :key="historyYearsAgeCategoryTeam.id">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
@@ -36,7 +36,7 @@
 	import _ from 'lodash';
 
 	export default {
-		props: ['historyAgeCategoryTeamsList', 'childClassNames', 'parentIndex'],
+		props: ['teams', 'childClassNames', 'parentIndex'],
 		data() {
 			return {
 				historyYearsAgeCategoryTeamList: [],
@@ -52,14 +52,26 @@
 				return this.$store.state.Website.id;
 			},
 		},
+		watch: {
+			teams: function(value) {
+				this.historyYearsAgeCategoryTeamList = _.cloneDeep(value);
+			},
+		},
+		mounted() {
+			// Get all age category
+			this.historyYearsAgeCategoryTeamList = this.teams;
+			this.$root.$on('getHistoryAgeCategoryTeamList', this.getHistoryAgeCategoryTeamList);
+		},
 		methods: {
 			addHistoryYearAgeCategoryTeam() {
 				var formData = {
 					id: '',
 					name: '',
 				};
-				this.currentHistoryYearAgeCategoryTeamIndex = this.historyYearsAgeCategoryTeamList.length;
-				this.currentHistoryYearAgeCategoryTeamOperation = 'add';
+				
+console.log(this.historyYearsAgeCategoryTeamList);
+this.currentHistoryYearAgeCategoryTeamIndex = this.historyYearsAgeCategoryTeamList.length;
+this.currentHistoryYearAgeCategoryTeamOperation = 'add';
 
 				var additionalParams = {
 					currentHistoryYearAgeCategoryTeamIndex: this.currentHistoryYearAgeCategoryTeamIndex,
@@ -69,11 +81,6 @@
 				this.$emit('initializeHistoryAgeCategoryTeamModal', formData, additionalParams);
 			},
 
-			storeHistoryYearAgeCategoryTeam(historyYearAgeCategoryTeamData) {
-				this.historyYearsAgeCategoryTeamList.push({ id: '', name: historyYearAgeCategoryTeamData.name });
-				this.getHistoryAgeCategoryTeamList();
-				$('#history_year_age_category_team_modal_' + this.parentIndex).modal('hide');
-			},
 			editHistoryYearAgeCategoryTeam(historyYearAgeCategory, index) {
 				var formData = {
 					id: historyYearAgeCategory.id,
@@ -83,22 +90,18 @@
 				this.currentHistoryYearAgeCategoryTeamOperation = 'edit';
 				this.initializeAgeCategoryTeamModel(formData);
 			},
-			updateHistoryYearAgeCategoryTeam(historyYearAgeCategoryTeamData) {
-				this.historyYearsAgeCategoryTeamList[this.currentHistoryYearAgeCategoryTeamIndex].name = historyYearAgeCategoryTeamData.name;
-				this.getHistoryAgeCategoryTeamList();
-				$('#history_year_age_category_team_modal_' + this.parentIndex).modal('hide');
-			},
-			deleteHistoryYearAgeCategoryTeam(deleteIndex) {
-				this.historyYearsAgeCategoryTeamList = _.remove(this.historyYearsAgeCategoryTeamList, function(stat, index) {
-				  return index != deleteIndex;
-				});
-				this.getHistoryAgeCategoryTeamList();
-			},
-			initializeAgeCategoryTeamModel(formData) {
-				var vm = this;
-				this.$root.$emit('setHistoryYearAgeCategoryTeamData', formData);
-				$('#history_year_age_category_team_modal_' + this.parentIndex).modal('show');
-			},
+			// updateHistoryYearAgeCategoryTeam(historyYearAgeCategoryTeamData) {
+			// 	this.historyYearsAgeCategoryTeamList[this.currentHistoryYearAgeCategoryTeamIndex].name = historyYearAgeCategoryTeamData.name;
+			// 	this.getHistoryAgeCategoryTeamList();
+			// 	$('#history_year_age_category_team_modal_' + this.parentIndex).modal('hide');
+			// },
+			// deleteHistoryYearAgeCategoryTeam(deleteIndex) {
+			// 	this.historyYearsAgeCategoryTeamList = _.remove(this.historyYearsAgeCategoryTeamList, function(stat, index) {
+			// 	  return index != deleteIndex;
+			// 	});
+			// 	this.getHistoryAgeCategoryTeamList();
+			// },
+
 			onDragEnd() {
 				this.getHistoryAgeCategoryTeamList();
 			},
