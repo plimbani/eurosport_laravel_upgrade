@@ -54,8 +54,11 @@
 			},
 		},
 		watch: {
-			teams: function(value) {
-				this.ageCategoryTeams = _.cloneDeep(value);
+			teams: {
+				handler(value){
+					this.ageCategoryTeams = _.cloneDeep(value);
+				},
+				deep: true,
 			},
 		},
 		mounted() {
