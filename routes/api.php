@@ -111,6 +111,13 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('team/category/assign', 'Laraspace\Api\Controllers\TeamController@assignCategory');
     $api->post('team/getClubsTeams','Laraspace\Api\Controllers\TeamController@getClubTeams'); 
     $api->post('team/getTeamsGroup', 'Laraspace\Api\Controllers\TeamController@getAllTeamsGroup');
+    $api->post('team/checkTeamExist', 'Laraspace\Api\Controllers\TeamController@checkTeamExist');
+    
+    $api->post('editTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@editTeamDetails');
+    $api->get('getAllCountries', 'Laraspace\Api\Controllers\TeamController@getAllCountries');
+    $api->get('getAllClubs', 'Laraspace\Api\Controllers\TeamController@getAllClubs');
+
+    $api->post('updateTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@updateTeamDetails');
 
     // Method for get All TournamentTeams
 
