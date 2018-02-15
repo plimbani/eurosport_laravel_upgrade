@@ -730,20 +730,13 @@ textarea.form-control[disabled="disabled"] {
     background: #fff;
 }
 
-li.select2-results__option {
-    &[id*="age"] {
-        font-weight: bold;
-    }
-    &[id*="group"] {
-        &:before {
-            content: '-';
-            padding-left: 10px;
-            padding-right: 5px;
-        }
-    }   
-}
-
 .match-list-editicon,
 a.match-list-editicon:hover {
     color:red !important;
+}
+
+option.age {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
 }

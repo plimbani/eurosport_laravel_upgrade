@@ -183,7 +183,23 @@ export default {
 checkTeamIntervalforMatches(matchData){
   return api.post('match/checkTeamIntervalforMatches', matchData)
  },
- getPlacingsData(placingsData) {
-  return api.post('age_group/getPlacingsData', placingsData)
- }
+  getEditTeamDetails(id) {
+    return api.post('editTeamDetails/'+id)
+  },
+  getAllCountries() {
+    return api.get('getAllCountries')
+  },
+  getAllClubs() {
+    return api.get('getAllClubs')
+  },
+  updateTeamDetails(teamId, formData) {
+    return api.post('updateTeamDetails/'+teamId, formData)
+  },
+  checkTeamExist(teamData) {
+    return api.post('team/checkTeamExist', {teamData})
+  },
+  getPlacingsData(placingsData) {
+    return api.post('age_group/getPlacingsData', placingsData)
+  }
+
 }
