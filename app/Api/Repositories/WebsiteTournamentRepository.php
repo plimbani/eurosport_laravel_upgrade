@@ -75,11 +75,11 @@ class WebsiteTournamentRepository
           $teamRow['name'] = $team['name'];
           $teamRow['website_id'] = $website_id;
           $teamRow['history_age_category_id'] = $categoryID;
-          $teamRow['country_id'] = $team['country_id'];
+          $teamRow['country_id'] = 1; //$team['country_id'];
           $teamRow['order'] = $teamsIndex;
           $teamRow['history_year_id'] = $history_year_id;
 
-          $teamID = $this->saveHistoryTeamData($categories);
+          $teamID = $this->saveHistoryTeamData($teamRow);
 
           $teamsIndex ++;
         }

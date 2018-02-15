@@ -23,7 +23,8 @@
 						    </div>
 						</div>
 						<history-category-list :yearIndex="index" :childClassNames="'draggable--section-child-1'" :categoryList="historyYear.categoryList" 
-						@setHistoryCategoryList="setHistoryCategoryList" @deleteHistoryCategory="deleteHistoryCategory" @initializeCategoryModal="initializeCategoryModal"></history-category-list>
+						@setHistoryCategoryList="setHistoryCategoryList" @deleteHistoryCategory="deleteHistoryCategory" @initializeCategoryModal="initializeCategoryModal"
+						@initializeTeamModal="initializeTeamModal" @storeCategoryTeam="storeCategoryTeam"></history-category-list>
 					</div>
 				</div>
 			</draggable>
@@ -36,6 +37,10 @@
 		@storeCategory="storeCategory" @updateCategory="updateCategory" 
 		:yearIndex="categoryModal.yearIndex"></history-category-modal>
 
+		<history-category-team-modal :categoryTeamOperation="categoryTeamModal.categoryTeamOperation" @storeCategoryTeam="storeCategoryTeam" 
+		@updateCategoryTeam="updateCategoryTeam" :yearIndex="categoryTeamModal.yearIndex" 
+		:categoryIndex="categoryTeamModal.categoryIndex"></history-category-team-modal>
+
 	</div>
 </template>
 
@@ -44,6 +49,7 @@
 	import HistoryYearModal from './HistoryYearModal.vue';
 	import HistoryCategoryList from './HistoryCategoryList.vue';
 	import HistoryCategoryModal from './HistoryCategoryModal.vue';
+	import HistoryCategoryTeamModal from './HistoryCategoryTeamModal.vue';
 	import draggable from 'vuedraggable';
 	import _ from 'lodash';
 
@@ -57,6 +63,12 @@
 					categoryIndex: -1,
 					categoryOperation: 'add',
 					yearIndex: -1,
+				},
+				categoryTeamModal: {
+					categoryTeamIndex: -1,
+					categoryTeamOperation: 'add',
+					yearIndex: -1,
+					categoryIndex: -1,
 				}
 			};
 		},
@@ -65,6 +77,7 @@
 			HistoryYearModal,
 			HistoryCategoryModal,
 			HistoryCategoryList,
+			HistoryCategoryTeamModal,
 		},
 		computed: {
 			getWebsite() {
@@ -134,7 +147,6 @@
 
 			storeCategory(categoryData) {
 				var yearIndex = this.categoryModal.yearIndex;
-				var categoryIndex = this.categoryModal.categoryIndex;
 				this.historyYears[yearIndex]['categoryList'].push({ id: '', name: categoryData.name, teams: [] });
 				$('#history_category_modal').modal('hide');
 			},
@@ -155,6 +167,30 @@
 					return index != deleteIndex;
 				});
 			},
+
+			// Category Team related functions
+
+			initializeTeamModal(formData, additionalParams) {
+				this.categoryTeamModal.categoryOperation = additionalParams.categoryOperation;
+				this.categoryTeamModal.categoryIndex = additionalParams.categoryIndex;
+				this.categoryTeamModal.yearIndex = additionalParams.yearIndex;
+				this.categoryTeamModal.categoryIndex = additionalParams.categoryIndex;
+				this.$root.$emit('setCategoryTeamData', formData);
+				$('#category_team_modal').modal('show');
+			},
+
+			storeCategoryTeam(categoryTeamData) {
+				var yearIndex = this.categoryTeamModal.yearIndex;
+				var categoryIndex = this.categoryTeamModal.categoryIndex;
+
+				this.historyYears[yearIndex]['categoryList'][categoryIndex]['teams'].push({ id: '', name: categoryTeamData.name});
+				$('#category_team_modal').modal('hide');
+			},
+
+			updateCategoryTeam() {
+
+			},
+
 		}
 	}
 </script>

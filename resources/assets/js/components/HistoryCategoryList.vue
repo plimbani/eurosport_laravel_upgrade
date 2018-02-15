@@ -22,6 +22,10 @@
 						        </a>
 						    </div>
 						</div>
+						<history-category-team-list :categoryIndex="index" :yearIndex="yearIndex" 
+						:childClassNames="'draggable--section-child-2'" :teams="category.teams" 
+						@setCategoryTeamList="setCategoryTeamList" 
+						@deleteCategoryTeam="deleteCategoryTeam" @initializeTeamModal="initializeTeamModal"></history-category-team-list>
 					</div>
 				</div>
 			</draggable>
@@ -33,6 +37,7 @@
 <script type="text/babel">
 	import Website from '../api/website.js';
 	import draggable from 'vuedraggable';
+	import HistoryCategoryTeamList from './HistoryCategoryTeamList.vue';
 	import _ from 'lodash';
 
 	export default {
@@ -46,6 +51,7 @@
 		},
 		components: {
 			draggable,
+			HistoryCategoryTeamList,
 		},
 		computed: {
 			getWebsite() {
@@ -105,7 +111,25 @@
 
 			getHistoryCategories() {
         this.$emit('setCategoryLists', _.cloneDeep(this.categoriesList), this.yearIndex);
-      }
+      },
+
+      // ---------------------
+
+			initializeTeamModal(formData, additionalParams) {
+				this.$emit('initializeTeamModal', formData, additionalParams);
+			},
+
+      storeCategoryTeam(categoryTeamData) {
+				this.$emit('storeCategoryTeam', categoryTeamData);
+			},
+
+      deleteCategoryTeam() {
+
+      },
+
+      setCategoryTeamList() {
+
+      },
 		}
 	}
 </script>
