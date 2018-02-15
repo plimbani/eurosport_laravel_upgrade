@@ -92,6 +92,7 @@ export default {
             formValues: {
                 id: '',
                 team_id: '',
+                age_group_id: '',
                 team_name: '',
                 team_place: '',
                 team_country: '',
@@ -171,7 +172,8 @@ export default {
         	Tournament.getEditTeamDetails(id).then(
         		(response) => { 
         			this.formValues.id = response.data.team.id
-        			this.formValues.team_id = response.data.team.esr_reference
+        			this.formValues.team_id = response.data.team.esr_reference;
+        			this.formValues.age_group_id = response.data.team.age_group_id
         			this.formValues.team_name = response.data.team.name
         			this.formValues.team_place = response.data.team.place
         			this.formValues.team_country = response.data.team.country_id
@@ -187,11 +189,12 @@ export default {
         validateTeamEsrReference: _.debounce(function (esrReference) {
         	var data ={
     			'esrReference': esrReference,
-    			'teamId': this.formValues.id
+    			'teamId': this.formValues.id,
+    			'age_group_id': this.formValues.age_group_id
     		}
 
     		Tournament.checkTeamExist(data).then((response)=>{
-                var validData =response.data.status;
+    		var validData = response.data.status;
                 if(validData == 'true'){
                 	this.teamEsrReferenceAvailable = true;
                	} else {
