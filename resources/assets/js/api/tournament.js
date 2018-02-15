@@ -194,5 +194,9 @@ checkTeamIntervalforMatches(matchData){
   },
   checkTeamExist(teamData) {
     return api.post('team/checkTeamExist', {teamData})
+  },
+  getPlacingsData(placingsData) {
+    return api.post('age_group/getPlacingsData', placingsData)
   }
+
 }

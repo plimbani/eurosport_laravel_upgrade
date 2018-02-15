@@ -672,6 +672,10 @@ label.error {
     margin-right: 0px;
 }
 
+.summary-matches-filter.form-inline .form-group.margin-right-0, .summary-matches-filter.form-inline label.control-label.margin-right-0 {
+    margin-right: 0px;    
+}
+
 .pitch-filter-form.form-inline {
     .form-group {
         &:last-child {
@@ -739,4 +743,16 @@ option.age {
              z-index:1051;
         }
     }
+}
+li.select2-results__option {
+    &[id*="age"] {
+        font-weight: bold;
+    }
+    &[id*="group"] {
+        &:before {
+            content: '-';
+            padding-left: 10px;
+            padding-right: 5px;
+        }
+    }   
 }
