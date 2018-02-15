@@ -77,7 +77,9 @@ module.exports= {
   team_edit_team_place: "Place*",
   team_edit_comment: "Comment",
   team_edit_country: "Country*",
+  team_edit_country_required: "The country field is required.",
   team_edit_club: "Club*",
+  team_edit_club_required: "The club field is required.",
   team_cancle_btn: "Cancel",
   team_save_btn: "Save",
 

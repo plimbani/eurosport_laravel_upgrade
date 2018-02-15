@@ -39,6 +39,7 @@ class TeamRepository
                   $join->on('teams.country_id', '=', 'countries.id');
               })
           ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+          ->join('clubs', 'clubs.id', '=', 'teams.club_id')
           // ->join('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
           ->where('teams.tournament_id',$data['tournamentId']);
 
@@ -65,7 +66,7 @@ class TeamRepository
           }
           return $teamData->distinct('teams.id')->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag as country_flag',
               // 'competitions.name as competationName','competitions.id as competationId',
-              'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age')
+              'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age','clubs.name as club_name')
           ->get();
     }
 
@@ -458,8 +459,8 @@ class TeamRepository
     }
 
     public function editTeamDetails($teamId)
-    {
-      return Team::where('id', $teamId)->first();
+    { 
+      return Team::with('club')->where('id', $teamId)->first();
     }
 
     public function getAllCountries()
@@ -471,57 +472,40 @@ class TeamRepository
     {
       return $clubs = Club::all();
     }
-
-    public function addNewClub($data) 
-    { 
-        // echo "<pre>";print_r($data);echo "</pre>";exit;
-        // $club_array = array('user_id'=>'1','name'=>$data['team_club']);
-        // return $clubData = Club::create($club_array);
-        // $data['club_id'] = $clubData->id;
-        // return; 
+    
+    public function checkTeamExist($request)
+    {
+      $teamData = $request->all()['teamData'];
+   
+      $team = Team::where('esr_reference',$teamData['esrReference'])->where('id','!=',$teamData['teamId'])->count();
+   
+      return $team;
     }
 
     public function updateTeamDetails($request, $teamId)
     {  
       $res =   $request->all();
       $team = Team::findOrFail($teamId);
+      $clubId = 0;
 
-      // for already existing club 
-      if(is_numeric($res['team_club'])) {
-        // echo "<pre>";print_r('2');echo "</pre>";exit;
-        $team->club_id = $res['team_club'];
-      }
-
-       //for newly added club
-      if(is_string($res['team_club'])) {
-        // echo "<pre>";print_r('1');echo "</pre>";
+      $club = Club::where('name',$res['club_name'])->first();
+      if(!$club) {
         $club = new Club();
         $club->user_id = 1;
-        $club->name = $res['team_club'];  
+        $club->name = $res['club_name'];  
         $club->save();
-      }
+
+        $clubId = $club->id;
+      } else {
+        $clubId = $club->id;
+      } 
      
       $team->esr_reference = $request['team_id'];
       $team->name = $request['team_name'];
       $team->place = $request['team_place'];
       $team->country_id = $request['team_country'];
-      $team->club_id = $team->club_id;
-      $team->comments = $request['comment'];
+      $team->club_id = $clubId;
+      $team->comments = $request['comment'];  
       $team->save();    
-
-      // $team = Team::findOrFail($teamId);
-      // // echo "<pre>";print_r($team);echo "</pre>";exit;
-      // // $data = [];
-      // // $data = $team->club_id;
-
-      // // $club_id = $this->addNewClub($request); 
-      // // echo "<pre>";print_r($request->all());echo "</pre>";exit;
-      // $team->esr_reference = $request['team_id'];
-      // $team->name = $request['team_name'];
-      // $team->place = $request['team_place'];
-      // $team->country_id = $request['team_country'];
-      // $team->club_id = $request['team_club'];
-      // $team->comments = $request['comment'];
-      // $team->save();
     }
 }

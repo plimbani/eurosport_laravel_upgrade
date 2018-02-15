@@ -344,5 +344,15 @@ class TeamService implements TeamContract
     {
       return $this->teamRepoObj->updateTeamDetails($request, $teamId);
     }
+    public function checkTeamExist($request)
+    {
+      $data =  $this->teamRepoObj->checkTeamExist($request);
+      if($data > 0) {
 
+        return ['status' => 'true', 'data' => 'exist'];
+      } else {
+        return ['status' => 'false', 'data' => 'not exist'];
+
+      }
+    }
 }

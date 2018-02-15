@@ -170,4 +170,9 @@ class TeamController extends BaseController
     {
         return $this->teamObj->updateTeamDetails($request, $teamId);
     }
+
+    public function checkTeamExist(Request $request)
+    {
+        return $this->teamObj->checkTeamExist($request);
+    }
 }

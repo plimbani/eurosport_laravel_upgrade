@@ -191,5 +191,8 @@ checkTeamIntervalforMatches(matchData){
   },
   updateTeamDetails(teamId, formData) {
     return api.post('updateTeamDetails/'+teamId, formData)
+  },
+  checkTeamExist(teamData) {
+    return api.post('team/checkTeamExist', {teamData})
   }
 }
