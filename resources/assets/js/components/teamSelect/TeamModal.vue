@@ -27,7 +27,7 @@
 		                <div class="form-group row">
 		                	<label class="col-sm-5 form-control-label">{{$lang.team_edit_country}}</label>
 		                	<div class="col-sm-6">
-								<select name="country" id="country" class="form-control ls-select2" v-model="formValues.team_country" v-validate="'required'" :class="{'is-danger': errors.has('country') }">
+								<select name="country" id="country" class="form-control" v-model="formValues.team_country" v-validate="'required'" :class="{'is-danger': errors.has('country') }">
 								  <option value="">{{$lang.countries_list}}</option>
 								  <option v-for="country in countries"
 								   v-bind:value="country.id"> {{country.name}}</option>
@@ -83,7 +83,6 @@
 var tId ='';
 var age_group_id = '';
 import Tournament from '../../api/tournament.js'
-import Select2 from '../../components/select2/index.vue'
 import { Validator, ErrorBag  } from 'vee-validate';
 
 export default {
