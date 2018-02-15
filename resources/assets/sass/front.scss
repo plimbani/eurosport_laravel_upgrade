@@ -730,6 +730,11 @@ textarea.form-control[disabled="disabled"] {
     background: #fff;
 }
 
+.match-list-editicon,
+a.match-list-editicon:hover {
+    color:red !important;
+}
+
 option.age {
     font-size: 16px;
     font-weight: 700;
