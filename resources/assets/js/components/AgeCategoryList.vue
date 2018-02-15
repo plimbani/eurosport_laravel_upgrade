@@ -132,9 +132,6 @@
 			setAgeCategoryTeams(ageCategoryTeams, index) {
 				this.ageCategories[index].teams = ageCategoryTeams;
 			},
-
-			// ---------------------
-
 			initializeTeamModal(formData, additionalParams) {
 				this.teamModalData.currentAgeCategoryTeamOperation = additionalParams.currentAgeCategoryTeamOperation;
 				this.teamModalData.currentAgeCategoryTeamIndex = additionalParams.currentAgeCategoryTeamIndex;
@@ -142,14 +139,12 @@
 				this.$root.$emit('setAgeCategoryTeamData', formData);
 				$('#age_category_team_modal').modal('show');
 			},
-
 			storeAgeCategoryTeam(ageCategoryTeamData) {
 				var ageCategoryIndex = this.teamModalData.parentIndex;
 				var currentAgeCategoryTeamIndex = this.teamModalData.currentAgeCategoryTeamIndex;
 				this.ageCategories[ageCategoryIndex]['teams'].push({ id: '', name: ageCategoryTeamData.name, country: ageCategoryTeamData.country });
 				$('#age_category_team_modal').modal('hide');
 			},
-			
 			updateAgeCategoryTeam(ageCategoryTeamData) {
 				var ageCategoryIndex = this.teamModalData.parentIndex;
 				var currentAgeCategoryTeamIndex = this.teamModalData.currentAgeCategoryTeamIndex;
@@ -158,7 +153,7 @@
 				$('#age_category_team_modal').modal('hide');
 			},
 			deleteAgeCategoryTeam(deleteIndex, ageCategoryIndex) {
-				this.ageCategories[ageCategoryIndex]['teams'] = _.remove(this.ageCategories[ageCategoryIndex]['teams'], function(ageCategory, index) {
+				this.ageCategories[ageCategoryIndex]['teams'] = _.remove(this.ageCategories[ageCategoryIndex]['teams'], function(team, index) {
 					return index != deleteIndex;
 				});
 			},
