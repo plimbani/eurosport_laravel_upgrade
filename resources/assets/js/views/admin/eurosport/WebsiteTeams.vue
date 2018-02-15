@@ -128,8 +128,14 @@ export default {
         formData.append('websiteId', this.getWebsiteId());
         Website.importAgeCategoryAndTeamData(formData).then(
           (response)=> {
-          	this.$root.$emit('importAgeCategories', response.data.data.ageCategories);
-          	toastr['success']('Teams have been imported successfully.', 'Success');
+          	if(response.data.status_code == 200) {
+          		this.$root.$emit('importAgeCategories', response.data.data.ageCategories);
+          		toastr['success']('Teams have been imported successfully.', 'Success');
+          	} else {
+          		toastr['error'](response.data.message, 'Error');
+          	}
+          	this.currentImportFileName = '';
+          	$('#team_upload').val('');
           },
           (error)=>{
           }
