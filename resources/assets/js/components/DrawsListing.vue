@@ -108,6 +108,8 @@ export default {
 			                return value;
 			            })
 
+						this.$root.$emit('setMatchDataOfMatchList', this.matchData);
+
 						$("body .js-loader").addClass('d-none');
 					}
 				},

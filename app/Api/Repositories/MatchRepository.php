@@ -1114,15 +1114,18 @@ class MatchRepository
 
     public function saveAllResults($data)
     {
-      foreach ($data as $match) {
-        $updateData = [
-          'hometeam_score' => $match['homeScore'],
-          'awayteam_score' => $match['awayScore'],
-        ];
-        $updatedData = TempFixture::where('id',$match['matchId'])
-                  ->update($updateData);
-      }
-      return ['status' => true, 'data' => 'Scores updated successfully.'];
+      $matchData = [];
+      $tempFixtures = TempFixture::where('id',$data['matchId'])->first();
+      $matchData['home_team_id'] = $tempFixtures['home_team'];
+      $matchData['away_team_id'] = $tempFixtures['away_team'];
+      $matchData['age_group_id'] = $tempFixtures['age_group_id'];
+      $updateData = [
+        'hometeam_score' => $data['homeScore'],
+        'awayteam_score' => $data['awayScore'],
+      ];
+      $data = TempFixture::where('id',$data['matchId'])
+                ->update($updateData);
+      return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData];
     }
 
     public function getMatchDetail($matchId)

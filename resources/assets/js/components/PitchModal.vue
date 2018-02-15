@@ -80,7 +80,7 @@
               <div class="form-group row">
                 <div class="col-sm-3">{{$lang.pitch_modal_result_override}}</div>
                 <div class="col-sm-9 align-self-center">
-                  <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override">
+                  <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()">
                 </div>
               </div>
               <div class="form-group row" v-if="matchDetail.is_result_override == 1">
@@ -246,7 +246,6 @@ var moment = require('moment');
     },
     saveFixtureDetail(){
       let vm = this;
-
       if(($('#home_team_score').val() != '' || $('#away_team_score').val() != '') && (this.matchDetail.home_team == 0 || this.matchDetail.away_team == 0)) {
         toastr.error('Both home and away teams should be there for score update.');
         return false;
@@ -367,21 +366,9 @@ var moment = require('moment');
       }
       return teamPlaceHolder;
     },
-    checkScores() {
-      let home_score = $('#home_team_score').val()
-      let away_score = $('#away_team_score').val()
-      if (home_score == away_score && this.matchDetail.round == 'Elimination' && this.matchDetail.is_result_override == 0) {
-        this.matchDetail.is_result_override = 1;
-        // Vue.nextTick(function () {
-        //   this.$validator.validateAll().then(() => {
-        //     console.log('here');
-        //   })
-        // })
-        /*Vue.nextTick()
-        .then(function () {
-          this.$validator.validateAll();
-        })*/
-      }
+    checkOverride() {
+      this.matchDetail.match_status = '';
+      this.matchDetail.match_winner = '';
     }
   } 
 }

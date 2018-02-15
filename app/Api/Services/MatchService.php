@@ -334,7 +334,21 @@ class MatchService implements MatchContract
     }
 
     public function saveAllResults($matchData) {
-      $matchResult = $this->matchRepoObj->saveAllResults($matchData->all()['matchData']);
+      $teamArray = [];
+      $AllMatches = $matchData->all()['matchData']['matchDataArray'];
+      $tournamentId = $matchData->all()['matchData']['tournamentId'];
+      foreach ($AllMatches as $match) {
+        $matchResult = $this->matchRepoObj->saveAllResults($match);
+        $matchData = $matchResult['match_data'];
+        $teamArray[$matchData['age_group_id']][] = $matchData['home_team_id'];
+        $teamArray[$matchData['age_group_id']][] = $matchData['away_team_id'];
+        $competationId = $this->calculateCupLeagueTable($match['matchId']);
+      }
+      foreach ($teamArray as $ageGroupId => $teamsList) {
+        $teamsList = array_unique($teamsList);
+        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>true);
+        $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);        
+      }
       if ($matchResult) {
         return ['status_code' => '200', 'data' => $matchResult];
       } else {

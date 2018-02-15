@@ -743,6 +743,7 @@ li.select2-results__option {
     }   
 }
 
-.match-list-editicon {
+.match-list-editicon,
+a.match-list-editicon:hover {
     color:red !important;
 }
