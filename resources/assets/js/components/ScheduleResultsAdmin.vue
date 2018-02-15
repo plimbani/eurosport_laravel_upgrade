@@ -35,6 +35,9 @@
 											<li @click="setCurrentView('teamListing')" class="nav-item">
 												<a :class="[currentView == 'teamListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)">{{$lang.summary_schedule_teams}}</a>
 											</li>
+											<li @click="setCurrentView('finalPlacings')" class="nav-item">
+												<a :class="[currentView == 'finalPlacings' ? 'active' : '']" class="nav-link" href="javascript:void(0)">{{$lang.summary_schedule_final_placings}}</a>
+											</li>											
 										</ul>
 										<div class="tab-content summary-content">
 										<component :is="currentView" :currentView="currentView"></component>
@@ -66,6 +69,7 @@ import DrawsListing from './DrawsListing.vue'
 import MatchListing from './MatchListing.vue'
 import TeamListing from './TeamListing.vue'
 import DrawDetails from './DrawDetails.vue'
+import FinalPlacings from './FinalPlacings.vue'
 
 export default {
 	data() {
@@ -85,7 +89,7 @@ export default {
     // Also Call Api For Getting the last Updated Record
 	},
 	components: {
-		DrawsListing, MatchListing, TeamListing,DrawDetails
+		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings
 	},
 	created: function() {
        this.$root.$on('changeComp1', this.setMatchData1);

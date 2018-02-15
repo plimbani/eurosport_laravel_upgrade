@@ -14,6 +14,7 @@ import DrawDetails from './DrawDetails.vue'
 import LocationList from './LocationList.vue'
 import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
+import FinalPlacings from './FinalPlacings.vue'
 import _ from 'lodash'
 
 export default {
@@ -39,7 +40,7 @@ export default {
 		this.getAllDraws();
 	},
 	components: {
-		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails,TeamList
+		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails,TeamList,FinalPlacings
 	},
 	created: function() {
 		this.$store.dispatch('setCurrentScheduleViewAgeCategory', 'ageCategoryList')

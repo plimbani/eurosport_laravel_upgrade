@@ -182,5 +182,8 @@ export default {
  },
 checkTeamIntervalforMatches(matchData){
   return api.post('match/checkTeamIntervalforMatches', matchData)
+ },
+ getPlacingsData(placingsData) {
+  return api.post('age_group/getPlacingsData', placingsData)
  }
 }
