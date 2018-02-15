@@ -8,6 +8,8 @@ const state = {
   'welcomeImagePath': '',
   'organiserLogoPath': '',
   'sponsorLogoPath': '',
+  'photoPath': '',
+  'documentPath': '',
 };
 
 // getters
@@ -28,6 +30,8 @@ const mutations = {
 		state.welcomeImagePath = imagePath.welcome_image;
 		state.organiserLogoPath = imagePath.organiser_logo;
 		state.sponsorLogoPath = imagePath.sponsor_logo;
+    state.photoPath = imagePath.photo;
+    state.documentPath = imagePath.document;
 	},
 };
 

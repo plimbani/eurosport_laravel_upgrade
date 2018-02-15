@@ -2,7 +2,25 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.photo_gallery}}</strong></h6>
+				<form name="website_media" enctype="multipart/form-data">
+					<div class="form-group row">
+	        	<div class="col-sm-12">
+	        		<h6><strong>{{$lang.photo_gallery}}</strong></h6>
+	        	</div>
+	        	<div class="col-sm-6">
+	        		<photo-list @setPhotos="setPhotos"></photo-list>
+	        	</div>
+	        </div>
+	        <hr class="my-4">
+	        <div class="form-group row">
+	        	<div class="col-sm-12">
+	        		<h6><strong>{{$lang.files_and_documents}}</strong></h6>
+	        	</div>
+	        	<div class="col-sm-6">
+	        		<document-list @setDocuments="setDocuments"></document-list>
+	        	</div>
+	        </div>
+				</form>
 			</div>
 		</div>
 		<div class="row">
@@ -19,8 +37,24 @@
 </template>
 <script>
 var moment = require('moment');
-import Tournament from '../../../api/tournament.js';
+import Website from '../../../../js/api/website.js';
+import PhotoList from '../../../components/PhotoList.vue';
+import DocumentList from '../../../components/DocumentList.vue';
+
 export default {
+	components: {
+		PhotoList,
+		DocumentList,
+	},
+	data() {
+		return {
+			media: {
+				websiteId: null,
+				photos: [],
+				documents: [],
+			},
+		}
+	},
 	mounted() {
 		let currentNavigationData = {
 			activeTab:'website_media',
@@ -32,11 +66,33 @@ export default {
 	},
 	methods: {
 		redirectToForward() {
-			this.$router.push({name:'website_contact'})
+      this.$root.$emit('getPhotos');
+      this.$root.$emit('getDocuments');
+
+      this.media.websiteId = this.getWebsiteId();
+      $("body .js-loader").removeClass('d-none');
+			Website.saveMediaPageData(this.media).then(
+        (response)=> {
+        	$("body .js-loader").addClass('d-none');
+          toastr.success('Media has been updated successfully.', 'Success');
+          this.$router.push({name:'website_contact'});
+        },
+        (error)=>{
+        }
+      );
 		},
 		redirectToBackward() {
 			this.$router.push({name:'website_visitors'})
-		}
+		},
+		setPhotos(photos) {
+			this.media.photos = photos;
+		},
+		setDocuments(documents) {
+			this.media.documents = documents;
+		},
+		getWebsiteId() {
+			return this.$store.state.Website.id;
+		},
 	},
 }
 </script>

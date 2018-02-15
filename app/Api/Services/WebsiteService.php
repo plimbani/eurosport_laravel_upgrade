@@ -175,6 +175,8 @@ class WebsiteService implements WebsiteContract
       'welcome_image' => $awsUrl . '/assets/img/welcome_image/',
       'organiser_logo' => $awsUrl . '/assets/img/organiser/',
       'sponsor_logo' => $awsUrl . '/assets/img/sponsor/',
+      'photo' => $awsUrl . '/assets/img/photo/',
+      'document' => $awsUrl . '/assets/img/document/',
     ];
 
     return $imagePath;

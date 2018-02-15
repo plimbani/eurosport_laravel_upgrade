@@ -15,23 +15,24 @@
         	</div>
         	<div class="col-sm-8">
             <form method="post" name="frm_team_import" id="frm_team_import" enctype="multipart/form-data">
-          		<div class="mb-2 row">
-          			<div class="col-sm-3">{{$lang.upload_teams}}</div>
-          			<div class="col-sm-4">
-                  <button type="button" class="btn btn-default w-100 btn-color-black--light" @click="browseFiles()">Choose file (excel files only)</button>
+          		<div class="mb-2 row align-items-center">
+          			<div class="col-sm-5">
+          				 <div class="btn-group mr-2" role="group" aria-label="First group">
+                  			<button type="button" class="btn btn-default btn-color-black--light" @click="browseFiles()">Choose file (excel files only)</button>
+	                  		<input type="file" name="team_upload" @change="setFileName(this, $event)"  id="team_upload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt" />
+	                  		<button type="button" @click="importTeamFile()"  class="btn btn-primary">Upload</button>
+                  		</div>
+                  		<span>{{ this.currentImportFileName }}</span>
+                	</div>
                 </div>
-                <div class="col-sm-4">
-                  <span>{{ this.currentImportFileName }}</span>
-                  <button type="button" @click="importTeamFile()"  class="btn btn-primary ml-4">Upload</button>
-                  <input type="file" name="team_upload" @change="setFileName(this, $event)"  id="team_upload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt" />
-                </div>
-          		</div>
-          		<div class="mb-2"><strong>{{$lang.please_note}}</strong> {{$lang.upload_team_note}}</div>
-          		<div>{{$lang.team_sheet_format}}</div>
-          		<div>- {{$lang.age_category}}</div>
-          		<div>- {{$lang.excel_team_name}}</div>
-          		<div>- {{$lang.country}}</div>
-          		<div class="mt-2">{{$lang.country_recognisation}}</div>
+          		<div class="help-block"><strong>{{$lang.please_note}}</strong> {{$lang.upload_team_note}}</div>
+          		<div class="help-block">
+	          		<div>{{$lang.team_sheet_format}}</div>
+	          		<div>- {{$lang.age_category}}</div>
+	          		<div>- {{$lang.excel_team_name}}</div>
+	          		<div>- {{$lang.country}}</div>
+	          		<div class="mt-2">{{$lang.country_recognisation}}</div>
+	          	</div>
             </form>
         	</div>
         </div>
