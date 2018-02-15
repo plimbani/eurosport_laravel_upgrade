@@ -23,6 +23,7 @@ const state = {
   currentAgeCategoryId: 0,
   setCurrentView:'',
   isAdmin:'',
+  scoreAutoUpdate: false
   /*vehicleDetails: [],
   surveyDetail: [],
   multiSelectAll: false,
@@ -53,6 +54,9 @@ const mutations = {
   },
   [types.IS_ADMIN] (state, isAdmin) {
     state.isAdmin = isAdmin
+  },
+  [types.SET_SCORE_AUTO_UPDATE] (state, scoreAutoUpdate) {
+    state.scoreAutoUpdate = scoreAutoUpdate
   },
 }
 export default new Vuex.Store({

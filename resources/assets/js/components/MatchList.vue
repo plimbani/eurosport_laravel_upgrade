@@ -14,7 +14,7 @@
     </thead>
 
     <tbody>
-      <tr v-for="(match,index1) in getMatchList()">
+      <tr v-for="(match,index1) in matchData">
         <td class="text-center">{{match.match_datetime | formatDate}}</td>
         <td class="text-center">
           <a class="pull-left text-left text-primary" href=""
@@ -42,9 +42,9 @@
           <!-- </a>  -->
         </td>
         <td class="text-center js-match-list">
-            <input type="text" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" @change="updateScore(match,index1)" :readonly="match.is_scheduled == '0' "><span v-else>{{match.homeScore}}</span> -
-            <input type="text" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
-            @change="updateScore(match,index1)" :readonly="match.is_scheduled == '0'"><span v-else>{{match.AwayScore}}</span>
+            <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="match.is_scheduled == '0' " @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
+            <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
+            :readonly="match.is_scheduled == '0'" @change="updateScore(match,index1)"><span v-else>{{match.AwayScore}}</span>
         </td>
 
         <td class="text-center" v-if="showPlacingForMatch()">
@@ -59,7 +59,7 @@
           <span class="align-middle">
             <a  v-if="match.is_scheduled == '0'">-</i>
             </a>
-            <a class="text-primary" href="javascript:void(0);" v-else
+            <a class="text-primary js-edit-match" href="javascript:void(0);"  v-bind:data-id="match.fid" v-else
               @click="openPitchModal(match,index1)"><i class="jv-icon jv-edit"></i>
             </a>
           </span>
@@ -67,9 +67,10 @@
       </tr>
     </tbody>
   </table>
+  
     <paginate v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
     </paginate>
-    <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" class="row d-flex flex-row align-items-center">
+    <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" class="row d-flex flex-row align-items-center mb-3">
       <div class="col page-dropdown">
         <select class="form-control ls-select2"  name="no_of_records" v-model="no_of_records">
           <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
@@ -86,6 +87,11 @@
         <paginate-links for="matchlist"
           :show-step-links="true" :limit="2" :async="true" class="mb-0">
         </paginate-links>
+      </div>
+    </div>
+    <div class="row d-flex align-items-center" v-if="isUserDataExist">
+      <div class="col-12">
+        <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()">Save</button>  
       </div>
     </div>
   <!--<span v-else>No information available</span>-->
@@ -114,6 +120,7 @@ export default {
       'section': 'scheduleResult',
       'currentMatch': {},
       'index':'',
+      'matchData': [],
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
       no_of_records: 20,
@@ -130,19 +137,17 @@ export default {
       }
     },
     formatGroup:function (value,round) {
-
-           if(round == 'Round Robin') {
-              return value
-            }
-            if(value){
-              if(!isNaN(value.slice(-1))) {
-                return value.substring(0,value.length-1)
-              } else {
-                return value
-              }
-            }
+      if(round == 'Round Robin') {
+        return value
       }
-
+      if(value) {
+        if(!isNaN(value.slice(-1))) {
+          return value.substring(0,value.length-1)
+        } else {
+          return value
+        }
+      }
+    }
   },
   computed: {
     isHideLocation() {
@@ -152,17 +157,10 @@ export default {
         return this.dispLocation
       }
     },
-
-    matchData() {
-       let vm = this;
-       return  _.sortBy(vm.matchData1,['match_datetime'] );
-     },
-
-
     isUserDataExist() {
       return this.$store.state.isAdmin
       //return this.$store.state.Users.userDetails.id
-      },
+    },
     getCurrentScheduleView() {
       return this.$store.state.currentScheduleView
     }
@@ -172,6 +170,7 @@ export default {
     DeleteModal1,
   },
   mounted() {
+    this.$root.$on('setMatchDataOfMatchList', this.setMatchDataOfMatchList);
     $('.js-match-list').on('keypress', 'input',function(e) {
         var a = [];
         var k = e.which;
@@ -187,6 +186,7 @@ export default {
           e.preventDefault();
         }
     });
+    this.matchData = _.sortBy(_.cloneDeep(this.matchData1),['match_datetime'] );
   },
   created: function() {
     this.$root.$on('reloadMatchList', this.setScore);
@@ -203,8 +203,19 @@ export default {
         vm.$root.$emit('setDrawTable',competationId)
         vm.$root.$emit('setStandingData',competationId)
       }
+
+      $('#matchSchedule').find('.js-edit-match').removeClass('match-list-editicon');
+      $.each(this.matchData, function (index,value){
+        var homeScoreInput = $('input[name="home_score['+value.fid+']"]');
+        var awayScoreInput = $('input[name="away_score['+value.fid+']"]');
+        if(homeScoreInput.length && awayScoreInput.length) {
+          if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '') {
+            $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
+          }
+        }
+      });
     },
-    openPitchModal(match,index) {
+    openPitchModal(match,index) {      
       let vm = this;
       this.currentMatch =  match
       this.index =  index
@@ -292,11 +303,11 @@ export default {
         $('input[name="away_score['+matchId+']"]').val('');
         return false;
       }
-
-      $("body .js-loader").removeClass('d-none');
-      this.index =  index
-      let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
-      let vm = this;
+      if (this.$store.state.scoreAutoUpdate == true) {
+        $("body .js-loader").removeClass('d-none');
+        this.index =  index
+        let matchData = {'matchId': matchId, 'home_score':$('input[name="home_score['+matchId+']"]').val(), 'away_score':$('input[name="away_score['+matchId+']"]').val()}
+        let vm = this;
         Tournament.updateScore(matchData).then(
             (response) => {
               let competationId =response.data.data.competationId
@@ -321,6 +332,7 @@ export default {
 
               $("body .js-loader").addClass('d-none');
         })
+      }
     },
     getHoldingName(competitionActualName, placeholder) {
       if(competitionActualName.indexOf('Group') !== -1){
@@ -346,7 +358,55 @@ export default {
         }
       }
       return true;
-    }
+    },
+    saveMatchScore() {
+      let isSameScore = false;
+      let matchDataArray = [];
+      let matchPostData = {};
+      let tournamentId = this.$store.state.Tournament.tournamentId;
+      matchPostData.tournamentId = tournamentId;
+      $('#matchSchedule').find('.js-edit-match').removeClass('match-list-editicon'); 
+      $.each(this.matchData, function (index,value){
+        var homeScoreInput = $('input[name="home_score['+value.fid+']"]');
+        var awayScoreInput = $('input[name="away_score['+value.fid+']"]');
+        if(homeScoreInput.length && awayScoreInput.length) {
+          var matchData = {};
+          matchData.matchId = value.fid;
+          matchData.homeScore = $('input[name="home_score['+value.fid+']"]').val();
+          matchData.awayScore = $('input[name="away_score['+value.fid+']"]').val();
+          matchDataArray[index] = matchData;
+
+          if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '') {
+            isSameScore = true;
+            $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
+          }
+        }
+      });
+      if (isSameScore == true) {
+        toastr.error('Please complete the results override information for the fixtures highlighted.','Action Required');
+      } else {
+        $("body .js-loader").removeClass('d-none');
+        matchPostData.matchDataArray = matchDataArray;
+        Tournament.saveAllMatchResults(matchPostData).then(
+          (response) => {
+            $("body .js-loader").addClass('d-none');
+            if(this.$store.state.currentScheduleView == 'drawDetails') {
+              let Id = this.DrawName.id
+              let Name = this.DrawName.name
+              let CompetationType = this.DrawName.actual_competition_type
+              this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
+            }
+            if(this.$store.state.currentScheduleView == 'matchList') {
+              this.$root.$emit('changeDrawListComp','','','');
+            }
+            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 5000});
+          }
+        )
+      }
+    },
+    setMatchDataOfMatchList(matchData) {
+      this.matchData = _.sortBy(_.cloneDeep(matchData),['match_datetime'] );
+    },
   },
 }
 </script>

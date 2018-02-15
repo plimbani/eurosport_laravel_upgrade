@@ -133,6 +133,10 @@ class MatchController extends BaseController
     {
         return $this->matchObj->saveResult($request);
     }
+    public function saveAllResults(Request $request)
+    {
+        return $this->matchObj->saveAllResults($request);
+    }
     public function saveUnavailableBlock(Request $request)
     {
         return $this->matchObj->saveUnavailableBlock($request);

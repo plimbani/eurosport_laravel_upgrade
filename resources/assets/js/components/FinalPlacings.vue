@@ -13,8 +13,8 @@
         <tbody>
           <tr v-for="competation in competationList">
             <td>{{ competation.group_name }}</td>
-            <td>{{ competation.category_age }}</td>
-            <td>
+            <td class="text-center">{{ competation.category_age }}</td>
+            <td class="text-center">
               <a @click="getAgeCategoryDetail(competation.id)" class="text-primary" href="#" data-toggle="modal" data-target="#viewPlacingsModal"> 
                 <u>{{ $lang.summary_schedule_view_placings }}</u>
               </a>

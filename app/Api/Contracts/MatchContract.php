@@ -43,6 +43,7 @@ interface MatchContract
     public function removeAssignedReferee($matchData);
     public function assignReferee($matchData);
     public function saveResult($matchData);
+    public function saveAllResults($matchData);
     public function saveUnavailableBlock($matchData);
     public function getUnavailableBlock($matchData);
     public function removeBlock($matchData);

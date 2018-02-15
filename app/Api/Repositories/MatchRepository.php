@@ -297,6 +297,7 @@ class MatchRepository
               'temp_fixtures.pitch_id as pitchId',
               'temp_fixtures.is_scheduled',
               'temp_fixtures.is_final_round_match',
+              'temp_fixtures.is_result_override as isResultOverride',              
               'home_team.name as HomeTeam','away_team.name as AwayTeam',
               'tournament_competation_template.halves_RR',
               'temp_fixtures.home_team_name as homeTeamName',
@@ -1085,9 +1086,15 @@ class MatchRepository
         }
       }
 
-    }
+      }
     public function saveResult($data)
     {
+      
+      if($data['is_result_override'] == 0) {
+        $data['matchStatus'] == 'Null';
+        $data['matchWinner'] == 'Null';
+      }
+    
       $updateData = [
         'referee_id' => $data['refereeId'],
         'hometeam_score' => $data['homeTeamScore'],
@@ -1095,11 +1102,30 @@ class MatchRepository
         'match_status' => $data['matchStatus'],
         'match_winner' => $data['matchWinner'],
         'comments' => $data['comments'],
+        'is_result_override' => $data['is_result_override'],
+
       ];
+
       $data = TempFixture::where('id',$data['matchId'])
                   ->update($updateData);
       // TODO : call function to add result
       return $data;
+    }
+
+    public function saveAllResults($data)
+    {
+      $matchData = [];
+      $tempFixtures = TempFixture::where('id',$data['matchId'])->first();
+      $matchData['home_team_id'] = $tempFixtures['home_team'];
+      $matchData['away_team_id'] = $tempFixtures['away_team'];
+      $matchData['age_group_id'] = $tempFixtures['age_group_id'];
+      $updateData = [
+        'hometeam_score' => $data['homeScore'],
+        'awayteam_score' => $data['awayScore'],
+      ];
+      $data = TempFixture::where('id',$data['matchId'])
+                ->update($updateData);
+      return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData];
     }
 
     public function getMatchDetail($matchId)

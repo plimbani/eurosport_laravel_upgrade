@@ -80,10 +80,10 @@
               <div class="form-group row">
                 <div class="col-sm-3">{{$lang.pitch_modal_result_override}}</div>
                 <div class="col-sm-9 align-self-center">
-                  <input type="checkbox" v-model="match_result" value="match_result">
+                  <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()">
                 </div>
               </div>
-              <div class="form-group row" v-if="match_result ==  true">
+              <div class="form-group row" v-if="matchDetail.is_result_override == 1">
                 <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_status_label}}</label>
                 <div class="col-sm-9">
                   <select v-model="matchDetail.match_status"
@@ -97,7 +97,7 @@
                   <span class="help is-danger" v-show="errors.has('match_status')">This field is required</span>
                 </div>
               </div>
-              <div class="form-group row" v-if="match_result ==  true">
+              <div class="form-group row" v-if="matchDetail.is_result_override == 1">
 
                 <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_winner_label}}</label>
                 <div class="col-sm-9">
@@ -164,7 +164,6 @@ var moment = require('moment');
          'referees': {},
          'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
          'referee_name' : '',
-         'match_result': false,
          'reportQuery': '',
          'refereeRemoved': 'no'
        }
@@ -246,70 +245,42 @@ var moment = require('moment');
       }
     },
     saveFixtureDetail(){
+      let vm = this;
+      if(($('#home_team_score').val() != '' || $('#away_team_score').val() != '') && (this.matchDetail.home_team == 0 || this.matchDetail.away_team == 0)) {
+        toastr.error('Both home and away teams should be there for score update.');
+        return false;
+      }
+      let home_score = $('#home_team_score').val()
+      let away_score = $('#away_team_score').val()
+      if (home_score == away_score && this.matchDetail.round == 'Elimination' && this.matchDetail.is_result_override == 0) {
+        this.matchDetail.is_result_override = 1;
+      }
 
-        if(($('#home_team_score').val() != '' || $('#away_team_score').val() != '') && (this.matchDetail.home_team == 0 || this.matchDetail.away_team == 0)) {
-          toastr.error('Both home and away teams should be there for score update.');
-          return false;
-        }
-
-        if(this.match_result == true) {
-
-          this.$validator.validateAll().then(() => {
-
-            let  matchStatus = $('#match_status').val()
-            let  matchWinner = $('#match_winner').val()
-
-            let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
-
-            Tournament.saveMatchResult(data).then(
-              (response) => {
-                this.matchFixtureDetail()
-                // this.$root.$emit('setPitchReset')
-                $('#matchScheduleModal').modal('hide')
-
-                toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
-
-                if(this.section == 'scheduleResult') {
-                  let home_score = $('#home_team_score').val()
-                  let away_score = $('#away_team_score').val()
-
-                   let competationId = response.data.data.competationId
-                   this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
-                } else {
-                   this.$root.$emit('setPitchPlanTab','gamesTab')
-                }
-
-              }
-            )
-          })
-        }
-
-      //  this.$validator.validateAll().then(() => {
-
-      if(this.match_result == false) {
-
-      let  matchStatus = ''
-      let matchWinner = ''
-
-      let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
-
-        Tournament.saveMatchResult(data).then(
-          (response) => {
-            this.matchFixtureDetail()
-            // this.$root.$emit('setPitchReset')
-            $('#matchScheduleModal').modal('hide')
-            toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
-              if(this.section == 'scheduleResult') {
+      Vue.nextTick(function () {
+        vm.$validator.validateAll().then(() => {
+          let  matchStatus = vm.matchDetail.is_result_override == 1 ? $('#match_status').val() : '';
+          let  matchWinner = vm.matchDetail.is_result_override == 1 ? $('#match_winner').val() : '';
+          let data = {'matchId':vm.matchDetail.id,'refereeId': vm.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),
+            'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val(),
+            'is_result_override':$('#is_result_override').val()}
+          Tournament.saveMatchResult(data).then(
+            (response) => {
+              vm.matchFixtureDetail();
+              $('#matchScheduleModal').modal('hide')
+              toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+              if(vm.section == 'scheduleResult') {
                 let home_score = $('#home_team_score').val()
                 let away_score = $('#away_team_score').val()
                 let competationId = response.data.data.competationId
-                this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
+                vm.$root.$emit('reloadMatchList',home_score,away_score,competationId)
               } else {
-                this.$root.$emit('setPitchPlanTab','gamesTab')
-             }
-          }
-        )
-      }
+                vm.$root.$emit('setPitchPlanTab','gamesTab')
+              }
+            }
+          )
+        }).catch(() => {
+        });
+      });
     },
     assignReferee(refereeId){
       let data = {'refereeId': refereeId,'matchId': this.matchId}
@@ -345,8 +316,8 @@ var moment = require('moment');
       return true;
     },
     generateMatchPrint() {
-       let ReportData = 'matchId='+this.matchId+'&result_override='+this.match_result
-       if(this.match_result == true) {
+       let ReportData = 'matchId='+this.matchId+'&result_override='+(this.matchDetail.is_result_override == 1 ? true : false)
+       if(this.matchDetail.is_result_override == 1) {
         let matchWinner = ''
         if(this.matchDetail.match_winner == this.matchDetail.home_team) {
           matchWinner = this.matchDetail.home_team_name
@@ -357,7 +328,7 @@ var moment = require('moment');
           ReportData = ReportData+'&status='+this.matchDetail.match_status+'&winner='+matchWinner
         }
 
-        if(this.match_result == true){
+        if(this.matchDetail.is_result_override == 1){
             let vm = this
             let val = 0
             this.$validator.validateAll().then(
@@ -395,6 +366,10 @@ var moment = require('moment');
       }
       return teamPlaceHolder;
     },
+    checkOverride() {
+      this.matchDetail.match_status = '';
+      this.matchDetail.match_winner = '';
+    }
   } 
 }
 </script>
