@@ -47,7 +47,6 @@
 		},
 		components: {
 			draggable,
-			// AgeCategoryTeamModal,
 		},
 		computed: {
 			getWebsite() {

@@ -92,4 +92,16 @@ export default {
   importAgeCategoryAndTeamData(formData) {
     return api.post('/importAgeCategoryAndTeamData', formData);
   },
+  // Get all photos
+  getPhotos(websiteId) {
+    return axios.get('/api/getPhotos/' + websiteId);
+  },
+  // Get all documents
+  getDocuments(websiteId) {
+    return axios.get('/api/getDocuments/' + websiteId);
+  },
+  // Save media page
+  saveMediaPageData(pageData) {
+    return api.post('/saveMediaPageData', pageData);
+  },
 }
