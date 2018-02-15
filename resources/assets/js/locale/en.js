@@ -678,4 +678,16 @@ module.exports= {
   add_age_category: "Add age category",
   edit_age_category: "Edit age category", 
   age_category_label: "Age category"
+  photo_gallery: "Photo gallery",
+  add_image: "Add image",
+  add_an_image: "Add an image",
+  image: "Image",
+  caption: "Caption",
+  edit_image: "Edit image",
+  files_and_documents: "Files and documents",
+  add_file: "Add file",
+  add_a_file: "Add a file",
+  edit_file: "Edit file",
+  document_instruction: "You may upload PDF, Excel, Word, JPG, PNG, GIF files of up to 10MB.",
+  copy_link_instruction: 'Use the "Link" button to copy a URL to the file to your clipboard, you may then use the link within your content.',
 }
