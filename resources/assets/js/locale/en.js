@@ -677,7 +677,7 @@ module.exports= {
   year: "Year",
   add_age_category: "Add age category",
   edit_age_category: "Edit age category", 
-  age_category_label: "Age category"
+  age_category_label: "Age category",
   photo_gallery: "Photo gallery",
   add_image: "Add image",
   add_an_image: "Add an image",

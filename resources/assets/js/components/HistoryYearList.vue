@@ -22,7 +22,12 @@
 						        </a>
 						    </div>
 						</div>
-						<history-year-age-category-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" :historyAgeCategoryList="historyYear.ageCategoryList" @setHistoryAgeCategoryList="setHistoryAgeCategoryList" @deleteHistoryYearAgeCategory="deleteHistoryYearAgeCategory" @initializeHistoryAgeCategoryModal="initializeHistoryAgeCategoryModal"></history-year-age-category-list>
+						<history-year-age-category-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" 
+						:historyAgeCategoryList="historyYear.ageCategoryList" 
+						@setHistoryAgeCategoryList="setHistoryAgeCategoryList" 
+						@deleteHistoryYearAgeCategory="deleteHistoryYearAgeCategory" 
+						@initializeHistoryAgeCategoryModal="initializeHistoryAgeCategoryModal" 
+						@initializeHistoryAgeCategoryTeamModal="initializeHistoryAgeCategoryTeamModal"></history-year-age-category-list>
 					</div>
 				</div>
 			</draggable>
@@ -37,6 +42,10 @@
 			:modalIndex="historyAgeCategoryModalData.parentIndex" >
 		</history-year-age-category-modal>
 
+		<history-year-age-category-team-modal :currentHistoryYearAgeCategoryTeamOperation="historyAgeCategoryTeamModalData.currentHistoryYearAgeCategoryTeamOperation" 
+		@storeHistoryYearAgeCategoryTeam="storeHistoryYearAgeCategoryTeam" 
+		@updateHistoryYearAgeCategoryTeam="updateHistoryYearAgeCategoryTeam" 
+		:modalIndex="historyAgeCategoryTeamModalData.parentIndex" ></history-year-age-category-team-modal>
 	</div>
 </template>
 
@@ -45,6 +54,7 @@
 	import HistoryYearModal from './HistoryYearModal.vue';
 	import HistoryYearAgeCategoryList from './HistoryYearAgeCategoryList.vue';
 	import HistoryYearAgeCategoryModal from './HistoryYearAgeCategoryModal.vue';
+	import HistoryYearAgeCategoryTeamModal from './HistoryYearAgeCategoryTeamModal.vue';
 	import draggable from 'vuedraggable';
 	import _ from 'lodash';
 
@@ -58,7 +68,12 @@
 					currentHistoryYearAgeCategoryIndex: -1,
 					currentHistoryYearAgeCategoryOperation: 'add',
 					parentIndex: -1,
-				} 
+				},
+				historyAgeCategoryTeamModalData: {
+					currentHistoryYearAgeCategoryTeamIndex: -1,
+					currentHistoryYearAgeCategoryTeamOperation: 'add',
+					parentIndex: -1,
+				}
 			};
 		},
 		components: {
@@ -66,6 +81,7 @@
 			HistoryYearModal,
 			HistoryYearAgeCategoryList,
 			HistoryYearAgeCategoryModal,
+			HistoryYearAgeCategoryTeamModal,
 		},
 		computed: {
 			getWebsite() {
@@ -103,7 +119,7 @@
 				$('#history_year_modal').modal('hide');
 			},
 			deleteHistoryYear(deleteIndex) {
-				this.historyYears = _.remove(this.historyYears, function(stat, index) {
+				this.historyYears = _.remove(this.historyYears, function(value, index) {
 				  return index != deleteIndex;
 				});
 			},
@@ -128,11 +144,8 @@
 			},
 
 			storeHistoryYearAgeCategory(historyYearAgeCategoryData) {
-				console.log(historyYearAgeCategoryData);
 				var ageCategoryIndex = this.historyAgeCategoryModalData.parentIndex;
 				var currentAgeCategoryIndex = this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryIndex;
-
-				console.log(ageCategoryIndex + " == " + currentAgeCategoryIndex);
 
 				this.historyYears[ageCategoryIndex]['ageCategoryList'].push({ id: '', name: historyYearAgeCategoryData.name, teams: [] });
 				$('#history_year_age_category_modal').modal('hide');
@@ -148,10 +161,33 @@
 
 			},
 
-			deleteHistoryYearAgeCategory(deleteIndex, historyAgeCategoryIndex) {
-				this.historyYears[historyAgeCategoryIndex]['ageCategoryList'] = _.remove(this.historyYears[historyAgeCategoryIndex]['ageCategoryList'], function(team, index) {
+			deleteHistoryYearAgeCategory(deleteIndex, historyYearIndex) {
+				this.historyYears[historyYearIndex]['ageCategoryList'] = _.remove(this.historyYears[historyYearIndex]['ageCategoryList'], function(value, index) {
 					return index != deleteIndex;
 				});
+			},
+
+			// ---------------------
+
+			initializeHistoryAgeCategoryTeamModal(formData, additionalParams, categoryIndex) {
+				this.historyAgeCategoryTeamModalData.currentHistoryYearAgeCategoryTeamOperation = additionalParams.currentHistoryYearAgeCategoryTeamOperation;
+				this.historyAgeCategoryTeamModalData.currentHistoryYearAgeCategoryTeamIndex = additionalParams.currentHistoryYearAgeCategoryTeamIndex;
+				this.historyAgeCategoryTeamModalData.parentIndex = additionalParams.parentIndex;
+				this.$root.$emit('setHistoryYearAgeCategoryTeamData', formData);
+				$('#history_year_age_category_team_modal').modal('show');
+			},
+
+			storeHistoryYearAgeCategoryTeam(historyYearAgeCategoryTeamData) {
+
+				var yearIndex = this.currentHistoryYearIndex;
+				var ageCategoryIndex = this.historyAgeCategoryModalData.currentHistoryYearAgeCategoryIndex;
+
+				this.historyYears[yearIndex]['ageCategoryList'][ageCategoryIndex]['teams'].push({ id: '', name: historyYearAgeCategoryTeamData.name});
+				$('#history_year_age_category_team_modal').modal('hide');
+			},
+
+			updateHistoryYearAgeCategoryTeam() {
+
 			},
 
 		}

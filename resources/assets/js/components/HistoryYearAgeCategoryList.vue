@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="historyAgeCategoryList" :options="{draggable:'.history-year-age-category-item', handle: '.history-year-age-category-handle'}">
-				<div class="history-year-age-category-item draggable--section-card" v-for="(historyYearsAgeCategory, index) in historyAgeCategoryList" :key="historyYearsAgeCategory.id">
+			<draggable v-model="historyYearsAgeCategoryList" :options="{draggable:'.history-year-age-category-item', handle: '.history-year-age-category-handle'}">
+				<div class="history-year-age-category-item draggable--section-card" v-for="(historyYearsAgeCategory, index) in historyYearsAgeCategoryList" :key="historyYearsAgeCategory.id">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
@@ -22,6 +22,10 @@
 						        </a>
 						    </div>
 						</div>
+						<history-year-age-category-team-list :parentIndex="index" 
+						:historyAgeCategoryTeamsList="historyYearsAgeCategoryList.teams" 
+						@setHistoryAgeCategoryTeamList="setHistoryAgeCategoryTeamList" 
+						@initializeHistoryAgeCategoryTeamModal="initializeHistoryAgeCategoryTeamModal"></history-year-age-category-team-list>
 					</div>
 				</div>
 			</draggable>
@@ -32,6 +36,7 @@
 
 <script type="text/babel">
 	import Website from '../api/website.js';
+	import HistoryYearAgeCategoryTeamList from './HistoryYearAgeCategoryTeamList.vue';
 	import draggable from 'vuedraggable';
 	import _ from 'lodash';
 
@@ -46,11 +51,22 @@
 		},
 		components: {
 			draggable,
+			HistoryYearAgeCategoryTeamList,
 		},
 		computed: {
 			getWebsite() {
 				return this.$store.state.Website.id;
 			},
+		},
+		watch: {
+			historyAgeCategoryList: function(value) {
+				this.historyYearsAgeCategoryList = _.cloneDeep(value);
+			},
+		},
+		mounted() {
+			// Get all age category
+			this.historyYearsAgeCategoryList = this.historyAgeCategoryList;
+			this.$root.$on('getHistoryAgeCategories', this.getHistoryAgeCategories);
 		},
 		methods: {
 			addHistoryYearAgeCategory() {
@@ -89,18 +105,23 @@
 				this.$emit('deleteHistoryYearAgeCategory', deleteIndex, this.parentIndex);
 			},
 
-			// setHistoryAgeCategoryTeamList(teams, index) {
-			// 	this.historyYearsAgeCategoryList[index].teams = teams
-			// 	this.$emit('setHistoryAgeCategoryList', _.cloneDeep(this.historyYearsAgeCategoryList), this.parentIndex);
-			// 	// this.historyYearsAgeCategoryList[this.parentIndex].ageCategoryList[index] = teams;
-			// },
+			setHistoryAgeCategoryTeamList(teams, index) {
+				this.historyYearsAgeCategoryList[index].teams = teams
+				this.$emit('setHistoryAgeCategoryList', _.cloneDeep(this.historyYearsAgeCategoryList), this.parentIndex);
+			},
 
 			onDragEnd() {
-				this.getAgeCategoryList();
+				this.getHistoryAgeCategories();
 			},
-			getAgeCategoryList() {
+			getHistoryAgeCategories() {
         this.$emit('setHistoryAgeCategoryList', _.cloneDeep(this.historyYearsAgeCategoryList), this.parentIndex);
       },
+
+			// -----------------
+
+			initializeHistoryAgeCategoryTeamModal(formData, additionalParams) {
+				this.$emit('initializeHistoryAgeCategoryTeamModal', formData, additionalParams);
+			}			
 		}
 	}
 </script>

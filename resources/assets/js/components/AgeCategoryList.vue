@@ -158,7 +158,7 @@
 				$('#age_category_team_modal').modal('hide');
 			},
 			deleteAgeCategoryTeam(deleteIndex, ageCategoryIndex) {
-				this.ageCategories[ageCategoryIndex]['teams'] = _.remove(this.ageCategories[ageCategoryIndex]['teams'], function(team, index) {
+				this.ageCategories[ageCategoryIndex]['teams'] = _.remove(this.ageCategories[ageCategoryIndex]['teams'], function(ageCategory, index) {
 					return index != deleteIndex;
 				});
 			},
