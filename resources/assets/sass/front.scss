@@ -735,24 +735,3 @@ option.age {
     font-weight: 700;
     color: black;
 }
-
-.select2-container {
-    width: 100% !important;
-    &--default {
-        .select2-dropdown {
-             z-index:1051;
-        }
-    }
-}
-li.select2-results__option {
-    &[id*="age"] {
-        font-weight: bold;
-    }
-    &[id*="group"] {
-        &:before {
-            content: '-';
-            padding-left: 10px;
-            padding-right: 5px;
-        }
-    }   
-}
