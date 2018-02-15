@@ -476,8 +476,7 @@ class TeamRepository
     public function checkTeamExist($request)
     {
       $teamData = $request->all()['teamData'];
-   
-      $team = Team::where('esr_reference',$teamData['esrReference'])->where('id','!=',$teamData['teamId'])->count();
+      $team = Team::where('esr_reference',$teamData['esrReference'])->where('age_group_id',$teamData['age_group_id'])->where('id','!=',$teamData['teamId'])->count();
    
       return $team;
     }
