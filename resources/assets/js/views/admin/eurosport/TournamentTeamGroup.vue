@@ -246,6 +246,8 @@
     },
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
+      this.$root.$on('updateTeamList', this.getTeams);
+
       // this.$root.$on('onAssignGroup', this.onAssignGroup);
       // this.$root.$on('beforeChange', this.beforeChange);
     },

@@ -156,6 +156,7 @@ export default {
             		(response)=>{
 	            			toastr.success('Team has been updated successfully.', 'Update Team', {timeOut: 5000});
 	                        $("#team_form_modal").modal("hide");
+                           	this.$root.$emit('updateTeamList');
 	            		},
 	            		(error) => {
 
