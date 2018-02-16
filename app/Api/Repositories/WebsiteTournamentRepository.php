@@ -46,8 +46,12 @@ class WebsiteTournamentRepository
 
     $website_id = $data['websiteId'];
 
-    $yearIndex = $categoryIndex = $teamsIndex = 0;
+    $existingYearsIDs = $this->getAllYearIDs($website_id);
 
+    // $yearIndex = $categoryIndex = $teamsIndex = 0;
+
+    $yearIndex = 0;
+    $currentHistoryYearIDs = [];
     foreach ($historyData as $key => $historyYear) {
       unset($yearRow);
       $yearRow['id'] = $historyYear['id'];
@@ -56,39 +60,23 @@ class WebsiteTournamentRepository
       $yearRow['order'] = $yearIndex;
 
       $history_year_id = $this->saveHistoryYearData($yearRow);
-
-      $categoryIndex = 0;
-      foreach ($historyYear['age_categories'] as $key => $category) {
-        unset($categoryRow);
-        $categoryRow['id'] = $category['id'];
-        $categoryRow['name'] = $category['name'];
-        $categoryRow['website_id'] = $website_id;
-        $categoryRow['order'] = $categoryIndex;
-        $categoryRow['history_year_id'] = $history_year_id;
-
-        $categoryID = $this->saveHistoryCategoryData($categoryRow);
-
-        $teamsIndex = 0;
-        foreach ($category['teams'] as $key => $team) {
-          unset($teamRow);
-          $teamRow['id'] = $team['id'];
-          $teamRow['name'] = $team['name'];
-          $teamRow['website_id'] = $website_id;
-          $teamRow['history_age_category_id'] = $categoryID;
-          $teamRow['country_id'] = $team['country']['id'];
-          $teamRow['order'] = $teamsIndex;
-          $teamRow['history_year_id'] = $history_year_id;
-
-          $teamID = $this->saveHistoryTeamData($teamRow);
-
-          $teamsIndex ++;
-        }
-
-        $categoryIndex ++;
+      $currentYearIDs[] = $history_year_id;
+      
+      if(!empty($historyYear['age_categories'])) {
+        $this->traverseAgeCategory($historyYear['age_categories'], $history_year_id, $website_id);
       }
 
       $yearIndex ++;
     }
+
+    $deleteYearsIDs = array_diff($existingYearsIDs, $currentYearIDs);
+
+    if(!empty($deleteYearsIDs)) {
+      $this->deleteHistoryYears($deleteYearsIDs);
+    }
+
+    echo "<pre>"; print_r($deleteYearsIDs); echo "</pre>"; exit;
+    exit;
 
 		// update website tournament page age categories
     $wtPageDetail = array();
@@ -102,6 +90,98 @@ class WebsiteTournamentRepository
     $mealsPageDetail['content'] = $data['rules'];
     $this->pageService->updatePageDetails($mealsPageDetail, $data['websiteId']);
 	}
+
+  public function traverseAgeCategory($ageCategories, $history_year_id, $website_id) {
+
+    $existingCategoryIDs = $this->getAllCategoryIDs($website_id);
+
+    $categoryIndex = 0;
+    $currentCategoryIDs = [];
+    foreach ($ageCategories as $key => $category) {
+      unset($categoryRow);
+      $categoryRow['id'] = $category['id'];
+      $categoryRow['name'] = $category['name'];
+      $categoryRow['website_id'] = $website_id;
+      $categoryRow['order'] = $categoryIndex;
+      $categoryRow['history_year_id'] = $history_year_id;
+
+      $categoryID = $this->saveHistoryCategoryData($categoryRow);
+      $currentCategoryIDs[] = $categoryID;
+
+      if(!empty($category['teams'])) {
+        $this->traverseCategoryTeams($category['teams'], $categoryID, $website_id);
+      }
+
+      $categoryIndex ++;
+    }
+
+    $deleteCategoryIDs = array_diff($existingCategoryIDs, $currentCategoryIDs);
+
+    if(!empty($deleteCategoryIDs)) 
+      $this->deleteAgeCategories($deleteCategoryIDs);
+
+  }
+
+
+  public function traverseCategoryTeams($teams, $category_id, $website_id) {
+
+    $existingTeamIDs = $this->getAllTeamIDs($website_id);
+
+    $teamsIndex = 0;
+    $currentTeamIDs = [];
+    foreach ($teams as $key => $team) {
+      unset($teamRow);
+      $teamRow['id'] = $team['id'];
+      $teamRow['name'] = $team['name'];
+      $teamRow['website_id'] = $website_id;
+      $teamRow['history_age_category_id'] = $category_id;
+      $teamRow['country_id'] = $team['country']['id'];
+      $teamRow['order'] = $teamsIndex;
+
+      $teamID = $this->saveHistoryTeamData($teamRow);
+      $currentTeamIDs[] = $teamID;
+
+      $teamsIndex ++;
+    }
+
+    $deleteTeamIDs = array_diff($existingTeamIDs, $currentTeamIDs);
+
+    if(!empty($deleteTeamIDs)) 
+      $this->deleteTeams($deleteTeamIDs);
+
+  }
+  /*
+   * Get all year ids
+   *
+   * @return response
+   */
+  public function getAllYearIDs($websiteId)
+  {
+    $yearsIDs = HistoryYears::where('website_id', $websiteId)->pluck('id')->toArray();
+    return $yearsIDs;
+  }
+
+  /*
+   * Get all age category ids
+   *
+   * @return response
+   */
+  public function getAllCategoryIDs($websiteId)
+  {
+    $categoryIDs = HistoryAgeCategories::where('website_id', $websiteId)->pluck('id')->toArray();
+    return $categoryIDs;
+  }
+
+  /*
+   * Get all age category ids
+   *
+   * @return response
+   */
+  public function getAllTeamIDs($websiteId)
+  {
+    $teamIDs = HistoryTeams::where('website_id', $websiteId)->pluck('id')->toArray();
+    return $teamIDs;
+  }
 
   /*
    * Get website tournament data
@@ -144,6 +224,11 @@ class WebsiteTournamentRepository
     return $historyYear->id;
   }
 
+  public function deleteHistoryYears($yearIDs) {
+    $response = HistoryYears::whereIn('id', $yearIDs)->delete();
+    return $response;    
+  }
+
   /*
    * Save history category data
    *
@@ -165,6 +250,11 @@ class WebsiteTournamentRepository
     $historyCategory->save();
     return $historyCategory->id;
 
+  }
+
+  public function deleteAgeCategories($categoryIDs) {
+    $response = HistoryAgeCategories::whereIn('id', $categoryIDs)->delete();
+    return $response;    
   }
 
   /*
@@ -189,6 +279,11 @@ class WebsiteTournamentRepository
     $historyTeam->save();
     return $historyTeam->id;
 
+  }
+
+  public function deleteTeams($teamIDs) {
+    $response = HistoryTeams::whereIn('id', $teamIDs)->delete();
+    return $response;    
   }
 
 }
