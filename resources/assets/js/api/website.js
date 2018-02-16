@@ -69,6 +69,10 @@ export default {
   getStayPageData(websiteId) {
     return axios.get('/api/getStayPageData/' + websiteId);
   },
+  // save additional pages
+  saveAdditionalPage(pageData) {
+    return api.post('/saveAdditionalPageData', pageData);
+  },
   // Get WebsiteTournament data
   getWebsiteTournamentPageData(websiteId) {
     return axios.get('/api/getWebsiteTournamentPageData/' + websiteId);
@@ -92,6 +96,21 @@ export default {
   importAgeCategoryAndTeamData(formData) {
     return api.post('/importAgeCategoryAndTeamData', formData);
   },
+
+  // get all itineraries
+  getItineraries(websiteId) {
+    return axios.get('/api/getItineraries/' + websiteId);
+  },
+  
+  // save program page data
+  saveProgramPageData(pageData) {
+    return api.post('/saveProgramPageData', pageData);
+  },
+
+  // get program page data
+  getProgramPageData(websiteId) {
+    return axios.get('/api/getProgramPageData/' + websiteId);
+  }
   // Get all photos
   getPhotos(websiteId) {
     return axios.get('/api/getPhotos/' + websiteId);
