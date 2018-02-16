@@ -19,7 +19,10 @@ class Document {
 	      return '';
 	    }
 
-	    $path = $documentPath.$documentName;
+	    $pathParts = pathinfo($documentName);
+	    $documentName = $pathParts['filename'] . '-' . microtime(true) . rand(10,99) . '.' . $pathParts['extension'];
+
+	    $path = $documentPath . $documentName;
 	    $s3->put($path, $documentData);
 
 	    return $documentName;
