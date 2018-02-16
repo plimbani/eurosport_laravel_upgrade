@@ -64,10 +64,13 @@
         });
       },
       setCategoryData(categoryData) {
+        var that = this;
         this.formValues.id = categoryData.id;
         this.formValues.name = categoryData.name;
         this.formValues.teams = categoryData.teams;
-        this.errors.clear();
+        Vue.nextTick(function () {
+          that.errors.clear();
+        });
       },
     },
   };

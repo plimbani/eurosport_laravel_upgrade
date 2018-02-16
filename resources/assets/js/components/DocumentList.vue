@@ -6,9 +6,17 @@
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
 			        <div>
-			  				{{ document.name }}
+			  				{{ document.file_name }}
 			  			</div>
 			        <div class="draggable--section-card-header-icons">
+								<v-popover class="d-inline-flex">
+	  							<a class="text-primary" href="javascript:void(0)" @click="initializeDocumentLink(document, index)">
+					        	<i class="fa fa-link"></i>
+					        </a>
+								  <template slot="popover">
+								  	<input class="tooltip-content" :class="`js-popover-content-${index}`" type="text" v-model="documentLink" />
+								  </template>
+								</v-popover>
 				        <a class="text-primary" href="javascript:void(0)"
 				        	@click="deleteDocument(index)">
 				        	<i class="jv-icon jv-dustbin"></i>
@@ -26,7 +34,12 @@
 		      </div>
 		    </div>
 			</draggable>
-			<button type="button" class="btn btn-primary" @click="addDocument()">{{ $lang.add_file }}</button>
+			<button type="button" class="btn btn-primary" @click="addDocument()" v-if="documents.length < 10">{{ $lang.add_file }}</button>
+			<div class="help-block mt-2">{{$lang.document_instruction}}</div>
+  		<div class="help-block mt-2 pt-0">{{$lang.copy_link_instruction}}</div>
+  		<!-- <div id="copylink_popover_content" style="display: none;">
+  			<input type="text" v-model="documentLink" />
+  		</div> -->
 			<document-modal :currentDocumentOperation="currentDocumentOperation" @storeDocument="storeDocument" @updateDocument="updateDocument"></document-modal>
 		</div>
 	</div>
@@ -37,6 +50,7 @@
 	import draggable from 'vuedraggable';
 	import DocumentModal  from  './DocumentModal.vue';
 	import _ from 'lodash';
+	import { VTooltip, VPopover, VClosePopover } from 'v-tooltip'
 
 	export default {
 		data() {
@@ -44,11 +58,14 @@
 				documents: [],
 				currentDocumentIndex: -1,
 				currentDocumentOperation: 'add',
+				documentLink: '',
 			};
 		},
 		components: {
 			draggable,
 			DocumentModal,
+			VPopover,
+			VClosePopover,
 		},
 		computed: {
 			getWebsite() {
@@ -60,41 +77,49 @@
 		},
 		mounted() {
 			// Get all documents
-			this.getDocuments();
+			this.getAllDocuments();
 			this.$root.$on('getDocuments', this.getDocuments);
 		},
 		methods: {
-			getDocuments() {
+			getAllDocuments() {
 				var vm = this;
 				Website.getDocuments(this.getWebsite).then(
 	        (response) => {
 	          vm.documents = response.data.data;
 	          vm.documents = _.map(response.data.data, function(document) {
-						  document.file = vm.getDocumentPath + document.file;
+						  document.file = vm.getDocumentPath + document.file_name;
 						  return document;
 						});
+						// Vue.nextTick(function () {
+						// 	vm.initializePopOver();
+						// });
 	        },
 	        (error) => {
 	        }
 	      );
 			},
 			addDocument() {
+				if(this.documents.length == 10) {
+					return;
+				}
 				var formData = {
 					id: '',
 					file: '',
+					file_name: '',
 				};
 				this.currentDocumentIndex = this.documents.length;
 				this.currentDocumentOperation = 'add';
 				this.initializeModal(formData);
 			},
 			storeDocument(documentData) {
-				this.documents.push({ id: '', file: documentData.file });
+				this.documents.push({ id: '', file: documentData.file, file_name: documentData.file_name });
 				$('#document_modal').modal('hide');
 			},
 			editDocument(document, index) {
 				var formData = {
 					id: document.id,
 					file: document.file,
+					file_name: document.file_name,
 				};
 				this.currentDocumentIndex = index;
 				this.currentDocumentOperation = 'edit';
@@ -102,6 +127,7 @@
 			},
 			updateDocument(documentData) {
 				this.documents[this.currentDocumentIndex].file = documentData.file;
+				this.documents[this.currentDocumentIndex].file_name = documentData.file_name;
 				$('#document_modal').modal('hide');
 			},
 			deleteDocument(deleteIndex) {
@@ -116,6 +142,9 @@
 			},
 			getDocuments() {
         this.$emit('setDocuments', this.documents);
+      },
+      initializeDocumentLink(document, index) {
+      	this.documentLink = this.getDocumentPath + document.file_name;
       },
 		},
 	}

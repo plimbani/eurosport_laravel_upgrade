@@ -5,8 +5,9 @@
 		  	<div class="draggable--section-card photo-item" v-for="(photo, index) in photos" :key="photo.id">
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
-			        <div>
-			  				<img class="thumb" :src="photo.image">{{ photo.caption }}
+			  			<div class="d-flex align-items-center">
+			  				<transition-image :image_url="photo.image" :image_class="'thumb'"></transition-image>
+			  				<div>{{ photo.caption }}</div>
 			  			</div>
 			        <div class="draggable--section-card-header-icons">
 				        <a class="text-primary" href="javascript:void(0)"
@@ -26,7 +27,7 @@
 		      </div>
 		    </div>
 			</draggable>
-			<button type="button" class="btn btn-primary" @click="addPhoto()">{{ $lang.add_image }}</button>
+			<button type="button" class="btn btn-primary" @click="addPhoto()" v-if="photos.length < 10">{{ $lang.add_image }}</button>
 			<photo-modal :currentPhotoOperation="currentPhotoOperation" @storePhoto="storePhoto" @updatePhoto="updatePhoto"></photo-modal>
 		</div>
 	</div>
@@ -37,6 +38,7 @@
 	import draggable from 'vuedraggable';
 	import PhotoModal  from  './PhotoModal.vue';
 	import _ from 'lodash';
+	import TransitionImage from './TransitionImage.vue';
 
 	export default {
 		data() {
@@ -49,6 +51,7 @@
 		components: {
 			draggable,
 			PhotoModal,
+			TransitionImage,
 		},
 		computed: {
 			getWebsite() {
@@ -60,11 +63,11 @@
 		},
 		mounted() {
 			// Get all photos
-			this.getPhotos();
+			this.getAllPhotos();
 			this.$root.$on('getPhotos', this.getPhotos);
 		},
 		methods: {
-			getPhotos() {
+			getAllPhotos() {
 				var vm = this;
 				Website.getPhotos(this.getWebsite).then(
 	        (response) => {
@@ -79,6 +82,9 @@
 	      );
 			},
 			addPhoto() {
+				if(this.photos.length == 10) {
+					return;
+				}
 				var formData = {
 					id: '',
 					caption: '',

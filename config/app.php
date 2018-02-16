@@ -216,6 +216,8 @@ return [
         Laraspace\Api\Providers\VisitorServiceProvider::class,
         Laraspace\Api\Providers\WebsiteTournamentServiceProvider::class,
         Laraspace\Api\Providers\WebsiteTeamServiceProvider::class,
+        Laraspace\Api\Providers\ConfigServiceProvider::class,
+        Laraspace\Api\Providers\MediaServiceProvider::class,
     ],
 
     /*

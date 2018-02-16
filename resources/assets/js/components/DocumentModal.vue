@@ -3,7 +3,7 @@
 		<div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{{ currentDocumentOperation == 'add' ? $lang.add_an_image : $lang.edit_image }}</h5>
+          <h5 class="modal-title">{{ currentDocumentOperation == 'add' ? $lang.add_a_file : $lang.edit_file }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
           </button>
@@ -12,23 +12,15 @@
           <div class="form-group row" :class="{'has-error': errors.has('file') }">
             <label class="col-sm-5 form-control-label">{{ $lang.add_file }}*</label>
             <div class="col-sm-6">
-              <img :src="getFile" width="100px" height="100px"/>
-              <button type="button" class="btn btn-default" @click="selectFile()">{{$lang.tournament_tournament_choose_button}}</button>
-              <input type="file" id="file" style="display:none;" @change="onDocumentChange">
-              <input type="hidden" v-model="formValues.file" name="file" v-validate="'required'" />
-              <span class="help is-danger" v-show="errors.has('file')">{{ errors.first('file') }}</span>
-            </div>
-          </div>
-          <div class="form-group row" :class="{'has-error': errors.has('caption') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.caption }}*</label>
-            <div class="col-sm-6">
-                <input v-model="formValues.caption" v-validate="'required'"
-                :class="{'is-danger': errors.has('caption') }"
-                name="caption" type="text"
-                class="form-control" placeholder="Enter caption">
-                <i v-show="errors.has('caption')" class="fa fa-warning"></i>
-                <span class="help is-danger" v-show="errors.has('caption')">{{ errors.first('caption') }}
-                </span>
+            	<div class="row">
+	              <div class="col-sm-12">
+	              	<button type="button" class="btn btn-default" @click="selectFile()">{{$lang.tournament_tournament_choose_button}}</button>
+	              </div>
+	              <div class="col-sm-12">{{ formValues.file_name }}</div>
+	              <input type="file" id="file" style="display:none;" @change="onDocumentChange">
+	              <input type="hidden" v-model="formValues.file" name="file" v-validate="'required'" />
+	              <span class="help is-danger col-sm-12" v-show="errors.has('file')">{{ errors.first('file') }}</span>
+	            </div>
             </div>
           </div>
         </div>
@@ -52,6 +44,7 @@
 				formValues: {
 					id: '',
 					file: '',
+					file_name: '',
 				},
 			};
 		},
@@ -59,9 +52,6 @@
 	    this.$root.$on('setDocumentData', this.setDocumentData);
 	  },
 	  computed: {
-	  	getFile() {
-	  		return this.formValues.file == '' ? 'http://placehold.it/250x250?text=noimage' : this.formValues.file;
-	  	},
 	  },
 		methods: {
 			validateForm() {
@@ -78,9 +68,14 @@
 				});
 			},
 			setDocumentData(documentData) {
+				var that = this;
+				$('#file').val('');
 				this.formValues.id = documentData.id;
 				this.formValues.file = documentData.file;
-				this.errors.clear();
+				this.formValues.file_name = documentData.file_name;
+				Vue.nextTick(function () {
+					that.errors.clear();
+				});
 			},
 			selectFile() {
 				$('#file').trigger('click');
@@ -92,15 +87,31 @@
 				if (!files.length)
 					return;
 
-		    if(Plugin.ValidateImageType(files[0]) == false) {
+				if(Plugin.ValidateDocumentSize(files[0], 10485760) == false) {
+					toastr['error']('Image reached maximum size limit of 10MB', 'Error');
+					this.formValues.file = '';
+					this.formValues.file_name = '';
+	        return;
+				}
+
+		    if(Plugin.ValidateDocumentType(files[0]) == false) {
 	        toastr['error']('Document is not a valid file type', 'Error');
+	        this.formValues.file = '';
+	        this.formValues.file_name = '';
 	        return;
 	      }
 
 				var reader = new FileReader();
 				reader.onload = (r) => {
-					vm.formValues.image = r.target.result;
+					vm.formValues.file = r.target.result;
 				};
+
+				var filename = $('#file').val();
+	      var lastIndex = filename.lastIndexOf('\\');
+	      if (lastIndex >= 0) {
+	        filename = filename.substring(lastIndex + 1);
+	      }
+	      this.formValues.file_name = filename;
 
 				reader.readAsDataURL(files[0]);
 			},

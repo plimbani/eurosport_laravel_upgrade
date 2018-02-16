@@ -2,7 +2,7 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-model="categoriesList" :options="{draggable:'.history-year-age-category-item', handle: '.history-year-age-category-handle'}">
-				<div class="history-year-age-category-item draggable--section-card" v-for="(category, index) in categoriesList" :key="category.id">
+				<div class="history-year-age-category-item draggable--section-card" v-for="(category, index) in categoriesList" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
@@ -59,8 +59,11 @@
 			},
 		},
 		watch: {
-			categoryList: function(value) {
-				this.categoriesList = _.cloneDeep(value);
+			categoryList: {
+				handler(value){
+					this.categoriesList = _.cloneDeep(value);
+				},
+				deep: true,
 			},
 		},
 		mounted() {
@@ -84,7 +87,6 @@
 				};
 				this.$emit('initializeCategoryModal', formData, additionalParams);
 			},
-
 			editCategory(categoryData, index) {
 				var formData = {
 					id: categoryData.id,
@@ -100,35 +102,27 @@
 				};
 				this.$emit('initializeCategoryModal', formData, additionalParams);
 			},
-
 			deleteCategory(deleteIndex) {
 				this.$emit('deleteHistoryCategory', deleteIndex, this.yearIndex);
 			},
-
 			onDragEnd() {
 				this.getHistoryCategories();
 			},
-
 			getHistoryCategories() {
         this.$emit('setCategoryLists', _.cloneDeep(this.categoriesList), this.yearIndex);
       },
-
-      // ---------------------
-
 			initializeTeamModal(formData, additionalParams) {
 				this.$emit('initializeTeamModal', formData, additionalParams);
 			},
-
-      storeCategoryTeam(categoryTeamData) {
-				this.$emit('storeCategoryTeam', categoryTeamData);
-			},
-
-      deleteCategoryTeam() {
-
+      deleteCategoryTeam(deleteIndex, categoryIndex) {
+      	this.categoriesList[categoryIndex]['teams'] = _.remove(this.categoriesList[categoryIndex]['teams'], function(team, index) {
+					return index != deleteIndex;
+				});
+				this.getHistoryCategories();
       },
-
-      setCategoryTeamList() {
-
+      setCategoryTeamList(categoryTeamList, categoryIndex) {
+      	this.categoriesList[categoryIndex]['teams'] = categoryTeamList;
+      	this.getHistoryCategories();
       },
 		}
 	}

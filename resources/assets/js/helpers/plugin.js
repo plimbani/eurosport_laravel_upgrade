@@ -156,5 +156,20 @@ export default {
         diffDays = diffDays + 1
         return diffDays
 // return Math.floor(( Date.parse(date2) - Date.parse(date1) ) / 86400000);
-    }
+    },
+    ValidateDocumentType(file) {
+      if(file) {
+        var extensionsplit = file.name.split(".");
+        var extension = extensionsplit[extensionsplit.length - 1];
+
+        return (/(pdf|xlsx|xls|doc|docx|jpg|jpeg|png|gif)$/.test(extension));
+      }
+      return false;
+    },
+    ValidateDocumentSize(file, size) {
+      if(file.size > size) {
+        return false;
+      }
+      return true;
+    },
 }

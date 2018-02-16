@@ -47,7 +47,6 @@
 		},
 		components: {
 			draggable,
-			// AgeCategoryTeamModal,
 		},
 		computed: {
 			getWebsite() {
@@ -55,8 +54,11 @@
 			},
 		},
 		watch: {
-			teams: function(value) {
-				this.ageCategoryTeams = _.cloneDeep(value);
+			teams: {
+				handler(value){
+					this.ageCategoryTeams = _.cloneDeep(value);
+				},
+				deep: true,
 			},
 		},
 		mounted() {
@@ -102,7 +104,7 @@
 				this.getAgeCategoryTeams();
 			},
 			getAgeCategoryTeams() {
-        this.$emit('setHistoryCategoryList', _.cloneDeep(this.ageCategoryTeams), this.parentIndex);
+        this.$emit('setAgeCategoryTeams', _.cloneDeep(this.ageCategoryTeams), this.parentIndex);
       },
 		},
 	}

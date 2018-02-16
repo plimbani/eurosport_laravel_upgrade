@@ -79,10 +79,14 @@
 				});
 			},
 			setPhotoData(photoData) {
+				var that = this;
+				$('#image').val('');
 				this.formValues.id = photoData.id;
 				this.formValues.caption = photoData.caption;
 				this.formValues.image = photoData.image;
-				this.errors.clear();
+				Vue.nextTick(function () {
+					that.errors.clear();
+				});
 			},
 			selectImage() {
 				$('#image').trigger('click');

@@ -19,9 +19,9 @@ interface MediaContract
     public function getDocuments($websiteId);
 
     /*
-     * Get media page data
+     * Save media page data
      *
      * @return response
      */
-    public function getPageData($websiteId);
+    public function savePageData($websiteId);
 }

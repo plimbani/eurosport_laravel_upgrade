@@ -69,17 +69,5 @@ class MediaController extends BaseController
   {
     return $this->mediaContract->savePageData($request);
   }
-
-  /**
-   * Get page data
-   *
-   * @Get("/getMediaPageData")
-   * @Versions({"v1"})
-   * @Response(200, body={})
-   */
-  public function getPageData(Request $request, $websiteId)
-  {
-    return $this->mediaContract->getPageData($websiteId);
-  }
   
 }

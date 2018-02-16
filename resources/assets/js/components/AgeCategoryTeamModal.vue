@@ -45,7 +45,7 @@
 	import { ErrorBag } from 'vee-validate';
 
 	export default {
-		props: ['currentAgeCategoryTeamOperation', 'modalIndex', 'countries'],
+		props: ['currentAgeCategoryTeamOperation', 'countries'],
 		data() {
 			return {
 				formValues: {
