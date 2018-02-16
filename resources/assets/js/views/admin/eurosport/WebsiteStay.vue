@@ -113,13 +113,13 @@ export default {
 			this.$root.$emit('getAdditionalPages');
 			$("body .js-loader").removeClass('d-none');
 			Website.saveStayPageData(this.staypage).then(
-				(response)=> {					
+				(response)=> {
 					$("body .js-loader").addClass('d-none');
 					toastr.success('Staypage has been updated successfully.', 'Success');
 					this.redirectToForward();
 				},
         (error)=>{
-        }				
+        }
 			);
 		},
 		getStayPageContent() {
@@ -133,7 +133,7 @@ export default {
 					this.staypage.additional_pages = response.data.data.additionalPages;
 					this.$root.$emit('setPages', this.staypage.additional_pages);
 				},
-				(error) => {					
+				(error) => {
 				}
 			);
 		},

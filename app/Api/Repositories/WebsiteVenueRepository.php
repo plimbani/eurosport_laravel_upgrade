@@ -28,23 +28,9 @@ class WebsiteVenueRepository
    *
    * @return response
    */	
-	public function saveVenuePageData($data)
+	public function savePageData($data)
 	{
-		echo "<pre>";print_r($data);echo "</pre>";exit;
-		/*if(isset($data['websiteId']) && $data['websiteId'] != null){
-      $websiteId = $data['websiteId'];
-      $website = Website::find($websiteId);
-      $data['isExistingWebsite'] = true;
-    } else {
-      $website = new Website();
-      $data['isExistingWebsite'] = false;
-    }*/
+		  
 	}
-
-    public function getAllVenues($tournamentId)
-    {
-        return Venue::orderBy('name','ASC')->where('tournament_id',$tournamentId)->get();
-    }
-
 
 }
