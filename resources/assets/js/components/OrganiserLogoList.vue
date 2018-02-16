@@ -5,8 +5,9 @@
 		  	<div class="draggable--section-card organiser-logo-item" v-for="(organiserLogo, index) in organiserLogos" :key="organiserLogo.id">
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
-			        <div>
-			  				<img class="thumb" :src="organiserLogo.logo">{{ organiserLogo.name }}
+			  			<div class="d-flex align-items-center">
+			  				<transition-image :image_url="organiserLogo.logo" :image_class="'thumb'"></transition-image>
+			  				<div>{{ organiserLogo.name }}</div>
 			  			</div>
 			        <div class="draggable--section-card-header-icons">
 				        <a class="text-primary" href="javascript:void(0)"
@@ -37,6 +38,7 @@
 	import draggable from 'vuedraggable';
 	import OrganiserLogoModal  from  './OrganiserLogoModal.vue';
 	import _ from 'lodash';
+	import TransitionImage from './TransitionImage.vue';
 
 	export default {
 		data() {
@@ -49,6 +51,7 @@
 		components: {
 			draggable,
 			OrganiserLogoModal,
+			TransitionImage,
 		},
 		computed: {
 			getWebsite() {
