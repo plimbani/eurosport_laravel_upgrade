@@ -58,7 +58,7 @@ class WebsiteTournamentRepository
       $history_year_id = $this->saveHistoryYearData($yearRow);
 
       $categoryIndex = 0;
-      foreach ($historyYear['categoryList'] as $key => $category) {
+      foreach ($historyYear['age_categories'] as $key => $category) {
         unset($categoryRow);
         $categoryRow['id'] = $category['id'];
         $categoryRow['name'] = $category['name'];
@@ -75,7 +75,7 @@ class WebsiteTournamentRepository
           $teamRow['name'] = $team['name'];
           $teamRow['website_id'] = $website_id;
           $teamRow['history_age_category_id'] = $categoryID;
-          $teamRow['country_id'] = 1; //$team['country_id'];
+          $teamRow['country_id'] = $team['country']['id'];
           $teamRow['order'] = $teamsIndex;
           $teamRow['history_year_id'] = $history_year_id;
 
@@ -112,7 +112,13 @@ class WebsiteTournamentRepository
   {
     $pages = [$this->age_categories, $this->rules];
     $response = $this->pageService->getMultiplePagesData($pages, $websiteId);
-    $history = HistoryYears::where('website_id', $websiteId)->get();
+
+    $history = HistoryYears::with(['age_categories' => function($query){
+      $query->with(['teams' => function($query) {
+        $query->orderBy('order');
+      }, 'teams.country'])->orderBy('order');
+    }])->where('website_id', $websiteId)->get();
+
     $response['history'] = $history;
     return $response;
   }

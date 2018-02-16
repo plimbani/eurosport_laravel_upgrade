@@ -28,7 +28,7 @@
 	        <h6><strong>{{$lang.tournament_history}}</strong></h6>
 	        <div class="row">
 	          <div class="col-sm-8">
-        			<history-year-list @setHistoryData="setHistoryData"></history-year-list>
+        			<history-year-list @setHistoryData="setHistoryData" :countries="tournament.countries"></history-year-list>
         		</div>
         	</div>
 	      </form>
@@ -65,6 +65,7 @@ export default {
 				rules: '',
 				websiteId: null,
 				history: [],
+				countries: [],
 			},
 		}
 	},
@@ -74,11 +75,23 @@ export default {
 			currentPage:'Tournament'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
+		this.getCountries();
 		this.getWebsiteTournamentPageData();
 	},
 	computed: {
 	},
 	methods: {
+		getCountries() {
+			var websiteId = this.getWebsiteId();
+
+			Website.getTeamPageData(websiteId).then(
+        (response)=> {
+        	this.tournament.countries = response.data.data.countries;
+        },
+        (error)=>{
+        }
+      );
+		},
 		next() {
 			this.$root.$emit('getEditorValue');
       this.tournament.websiteId = this.getWebsiteId();
@@ -112,6 +125,7 @@ export default {
 				(response)=> {
 					this.tournament.age_categories = response.data.data.tournament.content !== null ? response.data.data.tournament.content : '';
 					this.tournament.rules = response.data.data.rules.content !== null ? response.data.data.rules.content : '';
+					this.$root.$emit('importHistoryYears', response.data.data.history);
 				},
 				(error) => {					
 				}
