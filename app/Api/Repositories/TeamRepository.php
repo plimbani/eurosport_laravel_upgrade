@@ -484,8 +484,16 @@ class TeamRepository
     public function updateTeamDetails($request, $teamId)
     {  
       $res =   $request->all();
+     
       $team = Team::findOrFail($teamId);
       $clubId = 0;
+
+      $teamHome = TempFixture::where('home_team',$teamId)->where('age_group_id',$res['age_group_id'])
+      ->update(['home_team_name' => $res['team_name']]);
+
+      $teamAway = TempFixture::where('away_team',$teamId)->where('age_group_id',$res['age_group_id'])
+      ->update(['away_team_name' => $res['team_name']]);
+    
 
       $club = Club::where('name',$res['club_name'])->first();
       if(!$club) {
