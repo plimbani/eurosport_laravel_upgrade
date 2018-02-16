@@ -82,20 +82,32 @@
 				var files = e.target.files || e.dataTransfer.files;
 
 				if (!files.length)
-					return;
+					return false;
 
+				// Validate file name
+				// var fileName = files[0].name;
+				// var documentWithMatchFileName = _.find(this.documents, function(o) { return o.file_name == fileName; });
+				// if(typeof documentWithMatchFileName !== 'undefined') {
+				// 	toastr['error']('Document with such file name already exists', 'Error');
+				// 	this.formValues.file = '';
+				// 	this.formValues.file_name = '';
+				// 	return false;
+				// }
+
+				// Validate document size
 				if(Plugin.ValidateDocumentSize(files[0], 10485760) == false) {
-					toastr['error']('Image reached maximum size limit of 10MB', 'Error');
+					toastr['error']('Document reached maximum size limit of 10MB', 'Error');
 					this.formValues.file = '';
 					this.formValues.file_name = '';
-	        return;
+	        return false;
 				}
 
+				// Validate document type
 		    if(Plugin.ValidateDocumentType(files[0]) == false) {
 	        toastr['error']('Document is not a valid file type', 'Error');
 	        this.formValues.file = '';
 	        this.formValues.file_name = '';
-	        return;
+	        return false;
 	      }
 
 				var reader = new FileReader();

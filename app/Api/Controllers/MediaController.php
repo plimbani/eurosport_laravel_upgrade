@@ -69,5 +69,4 @@ class MediaController extends BaseController
   {
     return $this->mediaContract->savePageData($request);
   }
-  
 }

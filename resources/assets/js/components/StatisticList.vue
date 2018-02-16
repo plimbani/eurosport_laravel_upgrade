@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="statistics" :options="{draggable:'.statistic-item', handle: '.statistic-handle'}">
+			<draggable v-if="statistics.length" v-model="statistics" :options="{draggable:'.statistic-item', handle: '.statistic-handle'}">
 		  	<div class="statistic-item draggable--section-card" v-for="(statistic, index) in statistics" :key="statistic.id">
 		  		<div class="draggable--section-card-header">
 		  			<div class="draggable--section-card-header-panel">
@@ -26,6 +26,7 @@
 		  		</div>
 		    </div>
 			</draggable>
+			<p v-else class="help-block text-muted">{{ $lang.no_statistics_found }}</p>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addStatistic()">{{ $lang.homepage_add_statistic }}</button>
 		<statistic-modal :currentStatisticOperation="currentStatisticOperation" @storeStatistic="storeStatistic" @updateStatistic="updateStatistic"></statistic-modal>

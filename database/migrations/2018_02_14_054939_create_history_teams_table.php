@@ -19,7 +19,7 @@ class CreateHistoryTeamsTable extends Migration
             $table->integer('website_id')->unsigned()->index();
             $table->foreign('website_id')->references('id')->on('websites')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('history_age_category_id')->unsigned()->index();
-            $table->foreign('history_age_category_id')->references('id')->on('history_age_categories');
+            $table->foreign('history_age_category_id')->references('id')->on('history_age_categories')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('country_id');
             $table->integer('order');
             $table->integer('created_by')->unsigned()->nullable();

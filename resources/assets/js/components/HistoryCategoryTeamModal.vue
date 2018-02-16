@@ -18,6 +18,18 @@
                 </span>
             </div>
           </div>
+          <div class="form-group row" :class="{'has-error': errors.has('country') }">
+            <label class="col-sm-5 form-control-label">{{ $lang.country }}*</label>
+            <div class="col-sm-6">
+              <select class="form-control ls-select2" v-validate="{'required':true}" name="country" v-model="formValues.country">
+                <option value="">Please select</option>
+                <option v-for="country in countries" v-bind:value="country">
+                    {{ country.name }}
+                </option>
+              </select>
+              <span class="help is-danger" v-show="errors.has('country')">{{ errors.first('country') }}</span>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">{{ $lang.cancel_button }}</button>
@@ -33,12 +45,13 @@
   import { ErrorBag } from 'vee-validate';
 
   export default {
-    props: ['categoryTeamOperation', 'yearIndex', 'categoryIndex'],
+    props: ['categoryTeamOperation', 'yearIndex', 'categoryIndex', 'countries'],
     data() {
       return {
         formValues: {
           id: '',
-          name: ''
+          name: '',
+          country: '',
         },
       };
     },
@@ -66,7 +79,8 @@
         var that = this;
         this.formValues.id = categoryTeamData.id;
         this.formValues.name = categoryTeamData.name;
-        this.clearErrorMsgs();
+        this.formValues.country = categoryTeamData.country;
+        this.clearErrorMsgs();        
       },
     },
   };
