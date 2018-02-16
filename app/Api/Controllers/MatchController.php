@@ -270,6 +270,7 @@ class MatchController extends BaseController
                     'matchId' => $fixture->id,
                     'matchStatus' => NULL,
                     'matchWinner' => NULL,
+                    'is_result_override' => 0,
                     'refereeId' => NULL,
                 ];
 

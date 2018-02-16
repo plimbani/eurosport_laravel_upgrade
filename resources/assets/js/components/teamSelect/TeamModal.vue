@@ -4,7 +4,7 @@
 			<div class="modal-content">
 				<form name="frmTeam" id="frmTeam" method="POST">
 		            <div class="modal-header">
-		                <h5 class="modal-title">Edit team</h5>
+		                <h5 class="modal-title">Edit Team</h5>
 		                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		                    <span aria-hidden="true">×</span>
 		                </button>

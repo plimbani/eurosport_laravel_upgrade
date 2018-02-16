@@ -1091,8 +1091,8 @@ class MatchRepository
     {
       
       if($data['is_result_override'] == 0) {
-        $data['matchStatus'] == 'Null';
-        $data['matchWinner'] == 'Null';
+        $data['matchStatus'] == null;
+        $data['matchWinner'] == null;
       }
     
       $updateData = [
