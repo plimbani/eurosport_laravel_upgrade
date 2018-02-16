@@ -30,7 +30,7 @@
 				      </div>
 			    </div>
 			</draggable>
-			<p v-else class="help-block text-muted">No content found</p>
+			<p v-else class="help-block text-muted">{{ $lang.no_sponsors_found }}</p>
 			<button type="button" class="btn btn-primary" @click="addSponsor()">{{ $lang.website_add_sponsor }}</button>
 			<sponsor-modal :currentSponsorOperation="currentSponsorOperation" @storeSponsor="storeSponsor" @updateSponsor="updateSponsor"></sponsor-modal>
 		</div>

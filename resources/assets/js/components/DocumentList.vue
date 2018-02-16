@@ -31,7 +31,7 @@
 		      </div>
 		    </div>
 			</draggable>
-			<p v-else class="help-block text-muted">No content found</p>
+			<p v-else class="help-block text-muted">{{ $lang.no_document_found }}</p>
 			<button type="button" class="btn btn-primary" @click="addDocument()" v-if="documents.length < 10">{{ $lang.add_file }}</button>
 			<div class="help-block mt-2">{{$lang.document_instruction}}</div>
   		<div class="help-block mt-2 pt-0">{{$lang.copy_link_instruction}}</div>

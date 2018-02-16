@@ -25,7 +25,7 @@
 					</div>
 				</div>
 			</draggable>
-			<p v-else class="help-block text-muted">No content found</p>
+			<p v-else class="help-block text-muted">{{ $lang.no_itinerary_found }}</p>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addItinerary()">{{ $lang.homepage_add_itinerary }}</button>
 		<itinerary-modal :currentItineraryOperation="currentItineraryOperation" @storeItinerary="storeItinerary" @updateItinerary="updateItinerary"></itinerary-modal>

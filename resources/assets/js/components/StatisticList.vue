@@ -26,7 +26,7 @@
 		  		</div>
 		    </div>
 			</draggable>
-			<p v-else class="help-block text-muted">No content found</p>
+			<p v-else class="help-block text-muted">{{ $lang.no_statistics_found }}</p>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addStatistic()">{{ $lang.homepage_add_statistic }}</button>
 		<statistic-modal :currentStatisticOperation="currentStatisticOperation" @storeStatistic="storeStatistic" @updateStatistic="updateStatistic"></statistic-modal>

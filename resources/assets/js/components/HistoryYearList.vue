@@ -28,7 +28,7 @@
 					</div>
 				</div>
 			</draggable>
-			<p v-else class="help-block text-muted">No content found</p>
+			<p v-else class="help-block text-muted">{{ $lang.no_history_found }}</p>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addHistoryYear()">{{ $lang.add_year }}</button>
 

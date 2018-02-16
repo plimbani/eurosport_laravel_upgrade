@@ -27,7 +27,7 @@
 			  		</div>
 			    </div>
 			</draggable>
-			<p v-else class="help-block text-muted">No content found</p>
+			<p v-else class="help-block text-muted">{{ $lang.no_age_categories_found }}</p>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addAgeCategory()">{{ $lang.add_category }}</button>
 		<age-category-modal :currentAgeCategoryOperation="currentAgeCategoryOperation" @storeAgeCategory="storeAgeCategory" @updateAgeCategory="updateAgeCategory"></age-category-modal>

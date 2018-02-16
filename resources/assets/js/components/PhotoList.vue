@@ -27,7 +27,7 @@
 		      </div>
 		    </div>
 			</draggable>
-			<p v-else class="help-block text-muted">No content found</p>
+			<p v-else class="help-block text-muted">{{ $lang.no_photo_gallery_found }}</p>
 			<button type="button" class="btn btn-primary" @click="addPhoto()" v-if="photos.length < 10">{{ $lang.add_image }}</button>
 			<photo-modal :currentPhotoOperation="currentPhotoOperation" @storePhoto="storePhoto" @updatePhoto="updatePhoto"></photo-modal>
 		</div>

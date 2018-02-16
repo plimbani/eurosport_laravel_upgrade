@@ -27,7 +27,7 @@
 		      </div>
 		    </div>
 			</draggable>
-			<p v-else class="help-block text-muted">No content found</p>
+			<p v-else class="help-block text-muted">{{ $lang.no_organiser_found }}</p>
 			<button type="button" class="btn btn-primary" @click="addOrganiserLogo()">{{ $lang.homepage_add_organiser }}</button>
 			<organiser-logo-modal :currentOrganiserLogoOperation="currentOrganiserLogoOperation" @storeOrganiserLogo="storeOrganiserLogo" @updateOrganiserLogo="updateOrganiserLogo"></organiser-logo-modal>
 		</div>
