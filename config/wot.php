@@ -17,7 +17,7 @@ return [
 	],
   'website_default_pages' => [
     [
-      'slug' => 'home',
+      'url' => 'home',
       'name' => 'home',
       'title' => 'Home',
       'content' => null,
@@ -26,7 +26,7 @@ return [
       'is_permission_changeable' => 0,
     ],
   	[
-  		'slug' => 'teams',
+  		'url' => 'teams',
   		'name' => 'teams',
   		'title' => 'Teams',
       'content' => null,
@@ -35,7 +35,7 @@ return [
       'is_permission_changeable' => 1,
   	],
   	[
-  		'slug' => 'matches',
+  		'url' => 'matches',
   		'name' => 'matches',
   		'title' => 'Matches',
       'content' => null,
@@ -44,7 +44,7 @@ return [
       'is_permission_changeable' => 1,
   	],
   	[
-  		'slug' => 'venue',
+  		'url' => 'venue',
   		'name' => 'venue',
   		'title' => 'Venue',
       'content' => null,
@@ -53,7 +53,7 @@ return [
       'is_permission_changeable' => 1,
   	],
   	[
-  		'slug' => 'tournament',
+  		'url' => 'tournament',
   		'name' => 'tournament',
   		'title' => 'Tournament',
       'content' => null,
@@ -62,7 +62,7 @@ return [
       'is_permission_changeable' => 1,
   		'children' => [
   			[
-  				'slug' => 'rules',
+  				'url' => 'rules',
 	  			'name' => 'rules',
 	  			'title' => 'Rules',
           'content' => null,
@@ -71,7 +71,7 @@ return [
           'is_permission_changeable' => 1,
 	  		],
   			[
-  				'slug' => 'history',
+  				'url' => 'history',
 	  			'name' => 'history',
 	  			'title' => 'History',
           'content' => null,
@@ -82,7 +82,7 @@ return [
   		]
   	],
   	[
-  		'slug' => 'program',
+  		'url' => 'program',
   		'name' => 'program',
   		'title' => 'Program',
       'content' => null,
@@ -91,7 +91,7 @@ return [
       'is_permission_changeable' => 1,
   	],
   	[
-  		'slug' => 'stay',
+  		'url' => 'stay',
   		'name' => 'stay',
   		'title' => 'Stay',
       'content' => null,
@@ -100,7 +100,7 @@ return [
       'is_permission_changeable' => 1,
   		'children' => [
   			[
-  				'slug' => 'meals',
+  				'url' => 'meals',
 	  			'name' => 'meals',
 	  			'title' => 'Meals',
           'content' => null,
@@ -109,7 +109,7 @@ return [
           'is_permission_changeable' => 1,
 	  		],
   			[
-  				'slug' => 'accommodation',
+  				'url' => 'accommodation',
 	  			'name' => 'accommodation',
 	  			'title' => 'Accommodation',
           'content' => null,
@@ -120,7 +120,7 @@ return [
   		]
   	],
   	[
-  		'slug' => 'visitors',
+  		'url' => 'visitors',
   		'name' => 'visitors',
   		'title' => 'Visitors',
       'content' => null,
@@ -129,7 +129,7 @@ return [
       'is_permission_changeable' => 1,
   		'children' => [
   			[
-  				'slug' => 'tourist-information',
+  				'url' => 'tourist-information',
 	  			'name' => 'tourist_information',
 	  			'title' => 'Tourist information',
           'content' => null,
@@ -140,7 +140,7 @@ return [
   		]
   	],
     [
-      'slug' => 'media',
+      'url' => 'media',
       'name' => 'media',
       'title' => 'Media',
       'content' => null,

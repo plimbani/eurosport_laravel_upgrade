@@ -32,12 +32,14 @@ class PageService
     } else {
       $page = Page::where('name', $pageDetail['name'])->where('website_id', $websiteId)->first();
     }
+    isset($pageDetail['order']) ? $page->order = $pageDetail['order'] : '';
     isset($pageDetail['title']) ? $page->title = $pageDetail['title'] : '';
     isset($pageDetail['content']) ? $page->content = $pageDetail['content'] : '';
     isset($pageDetail['meta']) ? $page->meta = $pageDetail['meta'] : '';
     isset($pageDetail['is_additional_page']) ? $page->is_additional_page = $pageDetail['is_additional_page'] : '';
     isset($pageDetail['is_enabled']) ? $page->is_enabled = $pageDetail['is_enabled'] : '';
     isset($pageDetail['is_published']) ? $page->is_published = $pageDetail['is_published'] : '';
+
     $page->save();
 
     return $page;
@@ -51,11 +53,12 @@ class PageService
   public function insertPageDetails($pageDetail, $websiteId)
   {
     $page = new Page();
-    $page->url = $pageDetail['slug'];
+    $page->url = $pageDetail['url'];
     $page->website_id = $websiteId;
     $page->parent_id = $pageDetail['parent_id'];
     $page->name = $pageDetail['name'];
     $page->title = $pageDetail['title'];
+    $page->order = isset($pageDetail['order']) ? $pageDetail['order'] : 0;
     isset($pageDetail['content']) ? $page->content = $pageDetail['content'] : '';
     isset($pageDetail['meta']) ? $page->meta = $pageDetail['meta'] : '';
     isset($pageDetail['is_additional_page']) ? $page->is_additional_page = $pageDetail['is_additional_page'] : '';

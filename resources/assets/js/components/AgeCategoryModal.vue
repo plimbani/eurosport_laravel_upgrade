@@ -64,13 +64,10 @@
 				});
 			},
 			setAgeCategoryData(ageCategoryData) {
-				var that = this;
 				this.formValues.id = ageCategoryData.id;
 				this.formValues.name = ageCategoryData.name;
 				this.formValues.teams = ageCategoryData.teams;
-				Vue.nextTick(function () {
-					that.errors.clear();
-				});
+				this.clearErrorMsgs();
 			},
 		},
 	};

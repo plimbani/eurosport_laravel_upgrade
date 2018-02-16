@@ -97,21 +97,21 @@ class StayRepository
     $existingPageIds = $this->getAllAdditionalPageIds($data['parent_id']);
 
     $additionalPageIds = [];
-    foreach ($additionalPages as $key => $page) {
 
+    foreach ($additionalPages as $key => $page) {
       $pageData = $page;
       $pageData['order'] = $key + 1;
 
       if($pageData['id'] == '') {
         $url = $this->pageService->generateUrl($pageData['title'], $data['website_id'], $this->stayPageUrl);
         $name = $this->pageService->generateName($pageData['title'], $data['website_id']);
-        $pageData['slug'] = $url;
+        $pageData['url'] = $url;
         $pageData['name'] = $name;
         $pageData['parent_id'] = $data['parent_id'];
         $pageData['is_additional_page'] = 1;
 
         $pageObject = $this->pageService->insertPageDetails($pageData, $websiteId);
-      } else {
+      } else {    
         $pageObject = $this->pageService->updatePageDetails($pageData, $websiteId);
       }
 

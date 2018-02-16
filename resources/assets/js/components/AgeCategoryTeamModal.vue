@@ -76,13 +76,10 @@
 				});
 			},
 			setAgeCategoryTeamData(ageCategoryTeamData) {
-				var that = this;
 				this.formValues.id = ageCategoryTeamData.id;
 				this.formValues.name = ageCategoryTeamData.name;
 				this.formValues.country = ageCategoryTeamData.country;
-				Vue.nextTick(function () {
-					that.errors.clear();
-				});
+				this.clearErrorMsgs();
 			},
 		},
 	};
