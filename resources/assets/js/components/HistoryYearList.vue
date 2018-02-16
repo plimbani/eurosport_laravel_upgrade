@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="historyYears" :options="{draggable:'.history-year-item', handle: '.history-year-handle'}" @end="onDragEnd()">
+			<draggable v-if="historyYears.length" v-model="historyYears" :options="{draggable:'.history-year-item', handle: '.history-year-handle'}" @end="onDragEnd()">
 				<div class="history-year-item draggable--section-card" v-for="(historyYear, index) in historyYears" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
@@ -28,6 +28,7 @@
 					</div>
 				</div>
 			</draggable>
+			<p v-else class="help-block text-muted">{{ $lang.no_history_found }}</p>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addHistoryYear()">{{ $lang.add_year }}</button>
 

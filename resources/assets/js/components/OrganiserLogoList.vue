@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="organiserLogos" :options="{draggable:'.organiser-logo-item', handle: '.organiser-logo-handle'}">
+			<draggable v-if="organiserLogos.length" v-model="organiserLogos" :options="{draggable:'.organiser-logo-item', handle: '.organiser-logo-handle'}">
 		  	<div class="draggable--section-card organiser-logo-item" v-for="(organiserLogo, index) in organiserLogos" :key="organiserLogo.id">
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
@@ -27,6 +27,7 @@
 		      </div>
 		    </div>
 			</draggable>
+			<p v-else class="help-block text-muted">{{ $lang.no_organiser_found }}</p>
 			<button type="button" class="btn btn-primary" @click="addOrganiserLogo()">{{ $lang.homepage_add_organiser }}</button>
 			<organiser-logo-modal :currentOrganiserLogoOperation="currentOrganiserLogoOperation" @storeOrganiserLogo="storeOrganiserLogo" @updateOrganiserLogo="updateOrganiserLogo"></organiser-logo-modal>
 		</div>
