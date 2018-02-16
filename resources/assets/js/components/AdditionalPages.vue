@@ -33,8 +33,8 @@
 		</div>
 		<div class="col-sm-6">
 			<div class="row">
-		  	<label class="col-sm-4 no-padding form-control-label">{{$lang.page_title}}*</label>
-		  	<div class="col-sm-8">
+		  	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_title}}*</label>
+		  	<div class="col-sm-12">
 		  		<input type="text" class="form-control" v-model="additional_page.title" name="additional_page_title" data-vv-as="page title" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
 					<i v-show="errors.has('additional_page_title')" class="fa fa-warning"></i>
 					<span class="help is-danger" v-show="errors.has('additional_page_title')">{{ errors.first('additional_page_title') }}</span>
@@ -111,7 +111,7 @@
 				this.additional_page.id = '';
 				this.additional_page.title = '';
 				this.additional_page.content = '';
-				this.errors.clear();
+				this.clearErrorMsgs();
 			},
 			editPage(page, index) {
 				this.currentPageOperation = 'edit';
@@ -119,7 +119,7 @@
 				this.additional_page.id = page.id;
 				this.additional_page.title = page.title;
 				this.additional_page.content = page.content;				
-				this.errors.clear();
+				this.clearErrorMsgs();
 			},
 			updatePage() {
 				this.$root.$emit('getEditorValue');
@@ -130,6 +130,10 @@
 				this.resetAdditionalPageDetail();
 			},
 			deletePage(deleteIndex) {
+				if(deleteIndex == this.currentPageIndex && this.currentPageOperation == 'edit') {
+					this.currentPageOperation = 'add';
+					this.resetAdditionalPageDetail();
+				}
 				this.pages = _.remove(this.pages, function(stat, index) {
 					return index != deleteIndex;
 				});
@@ -138,7 +142,7 @@
 			cancelPage() {
 				this.currentPageOperation = 'add';
 				this.resetAdditionalPageDetail();
-				this.errors.clear();
+				this.clearErrorMsgs();
 			},
 			getAdditionalPages() {
         this.$emit('setAdditionalPages', this.pages);
@@ -146,6 +150,7 @@
       setPages(pages) {
       	this.pages = pages;
       },
+
 		}
 	}
 </script>

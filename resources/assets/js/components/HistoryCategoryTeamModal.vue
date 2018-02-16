@@ -66,9 +66,7 @@
         var that = this;
         this.formValues.id = categoryTeamData.id;
         this.formValues.name = categoryTeamData.name;
-        Vue.nextTick(function () {
-          that.errors.clear();
-        });
+        this.clearErrorMsgs();
       },
     },
   };

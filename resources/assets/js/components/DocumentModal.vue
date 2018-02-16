@@ -68,14 +68,11 @@
 				});
 			},
 			setDocumentData(documentData) {
-				var that = this;
 				$('#file').val('');
 				this.formValues.id = documentData.id;
 				this.formValues.file = documentData.file;
 				this.formValues.file_name = documentData.file_name;
-				Vue.nextTick(function () {
-					that.errors.clear();
-				});
+				this.clearErrorMsgs();
 			},
 			selectFile() {
 				$('#file').trigger('click');

@@ -82,7 +82,7 @@
 				this.formValues.id = organiserLogoData.id;
 				this.formValues.name = organiserLogoData.name;
 				this.formValues.logo = organiserLogoData.logo;
-				this.errors.clear();
+				this.clearErrorMsgs();
 			},
 			selectLogo() {
 				$('#organiser_logo').trigger('click');

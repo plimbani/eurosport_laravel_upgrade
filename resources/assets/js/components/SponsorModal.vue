@@ -96,7 +96,7 @@
 				this.formValues.name = sponsorData.name;
 				this.formValues.logo = sponsorData.logo;
 				this.formValues.website = sponsorData.website;
-				this.errors.clear();
+				this.clearErrorMsgs();
 			},
 			selectLogo() {
 				$('#sponsor_logo').trigger('click');
