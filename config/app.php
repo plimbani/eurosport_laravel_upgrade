@@ -219,6 +219,7 @@ return [
         Laraspace\Api\Providers\ProgramServiceProvider::class,
         Laraspace\Api\Providers\ConfigServiceProvider::class,
         Laraspace\Api\Providers\MediaServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteVenueServiceProvider::class,
     ],
 
     /*
