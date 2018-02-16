@@ -112,7 +112,13 @@ class WebsiteTournamentRepository
   {
     $pages = [$this->age_categories, $this->rules];
     $response = $this->pageService->getMultiplePagesData($pages, $websiteId);
-    $history = HistoryYears::where('website_id', $websiteId)->get();
+
+    $history = HistoryYears::with(['age_categories' => function($query){
+      $query->with(['teams' => function($query) {
+        $query->orderBy('order');
+      }, 'teams.country'])->orderBy('order');
+    }])->where('website_id', $websiteId)->get();
+
     $response['history'] = $history;
     return $response;
   }
