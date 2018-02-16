@@ -2,7 +2,7 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-model="categoryTeamList" :options="{draggable:'.history-year-age-category-team-item', handle: '.history-year-age-category-team-handle'}">
-				<div class="history-year-age-category-team-item draggable--section-card" v-for="(categoryTeam, index) in categoryTeamList" :key="categoryTeam.id">
+				<div class="history-year-age-category-team-item draggable--section-card" v-for="(categoryTeam, index) in categoryTeamList" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
@@ -10,11 +10,11 @@
 				  			</div>
 				  			<div class="draggable--section-card-header-icons">
 						        <a class="text-primary" href="javascript:void(0)"
-						        	@click="deleteHistoryYearAgeCategoryTeam(index)">
+						        	@click="deleteCategoryTeam(index)">
 						        	<i class="jv-icon jv-dustbin"></i>
 						        </a>
 						        <a class="text-primary" href="javascript:void(0)"
-						        	@click="editHistoryYearAgeCategoryTeam(categoryTeam, index)">
+						        	@click="editCategoryTeam(categoryTeam, index)">
 						        	<i class="jv-icon jv-edit"></i>
 						        </a>
 						        <a class="text-primary history-year-age-category-team-handle draggable-handle" href="javascript:void(0)">
@@ -53,8 +53,11 @@
 			},
 		},
 		watch: {
-			teams: function(value) {
-				this.categoryTeamList = _.cloneDeep(value);
+			teams: {
+				handler(value){
+					this.categoryTeamList = _.cloneDeep(value);
+				},
+				deep: true,
 			},
 		},
 		mounted() {
@@ -80,13 +83,12 @@
 				};
 				this.$emit('initializeTeamModal', formData, additionalParams);
 			},
-
-			editHistoryYearAgeCategoryTeam(historyYearAgeCategory, index) {
+			editCategoryTeam(categoryTeam, index) {
 				var formData = {
-					id: historyYearAgeCategory.id,
-					name: historyYearAgeCategory.name,
+					id: categoryTeam.id,
+					name: categoryTeam.name,
 				};
-				this.categoryTeamIndex = this.categoryTeamList.length;
+				this.categoryTeamIndex = index;
 				this.categoryTeamOperation = 'edit';
 
 				var additionalParams = {
@@ -97,24 +99,15 @@
 				};
 				this.$emit('initializeTeamModal', formData, additionalParams);
 			},
-			// updateHistoryYearAgeCategoryTeam(historyYearAgeCategoryTeamData) {
-			// 	this.categoryTeamList[this.categoryTeamIndex].name = historyYearAgeCategoryTeamData.name;
-			// 	this.getCategoryTeamList();
-			// 	$('#history_year_age_category_team_modal_' + this.parentIndex).modal('hide');
-			// },
-			// deleteHistoryYearAgeCategoryTeam(deleteIndex) {
-			// 	this.categoryTeamList = _.remove(this.categoryTeamList, function(stat, index) {
-			// 	  return index != deleteIndex;
-			// 	});
-			// 	this.getCategoryTeamList();
-			// },
-
 			onDragEnd() {
 				this.getCategoryTeamList();
 			},
 			getCategoryTeamList() {
-        this.$emit('setHistoryAgeCategoryTeamList', _.cloneDeep(this.categoryTeamList), this.parentIndex);
+        this.$emit('setCategoryTeamList', _.cloneDeep(this.categoryTeamList), this.categoryIndex);
       },
+      deleteCategoryTeam(deleteIndex) {
+				this.$emit('deleteCategoryTeam', deleteIndex, this.categoryIndex);
+			},
 		}
 	}
 </script>

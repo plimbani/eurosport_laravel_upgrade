@@ -64,10 +64,13 @@
         });
       },
       setHistoryYearData(historyYearData) {
+        var that = this;
         this.formValues.id = historyYearData.id;
         this.formValues.year = historyYearData.year;
         this.formValues.categoryList = historyYearData.categoryList;
-        this.errors.clear();
+        Vue.nextTick(function () {
+          that.errors.clear();
+        });
       },
     },
   };

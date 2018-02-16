@@ -2,7 +2,7 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-model="ageCategories" :options="{draggable:'.age-category-item', handle: '.age-category-handle'}">
-			  	<div class="age-category-item draggable--section-card" v-for="(ageCategory, index) in ageCategories" :key="ageCategory.id">
+			  	<div class="age-category-item draggable--section-card" v-for="(ageCategory, index) in ageCategories" :key="index">
 			  		<div class="draggable--section-card-header">
 			  			<div class="draggable--section-card-header-panel">
 			  				<div>

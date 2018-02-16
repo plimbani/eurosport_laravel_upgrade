@@ -2,7 +2,7 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-model="historyYears" :options="{draggable:'.history-year-item', handle: '.history-year-handle'}">
-				<div class="history-year-item draggable--section-card" v-for="(historyYear, index) in historyYears" :key="historyYear.id">
+				<div class="history-year-item draggable--section-card" v-for="(historyYear, index) in historyYears" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
@@ -24,7 +24,7 @@
 						</div>
 						<history-category-list :yearIndex="index" :childClassNames="'draggable--section-child-1'" :categoryList="historyYear.categoryList" 
 						@setHistoryCategoryList="setHistoryCategoryList" @deleteHistoryCategory="deleteHistoryCategory" @initializeCategoryModal="initializeCategoryModal"
-						@initializeTeamModal="initializeTeamModal" @storeCategoryTeam="storeCategoryTeam"></history-category-list>
+						@initializeTeamModal="initializeTeamModal"></history-category-list>
 					</div>
 				</div>
 			</draggable>
@@ -130,13 +130,10 @@
 			setHistoryCategoryList(categories, index) {
 				this.historyYears[index].categoryList = categories;
 			},
-
 			getHistoryYears() {
 				this.$emit('setHistoryData', this.historyYears);
 			},
-
 			// category list related functions
-
 			initializeCategoryModal(formData, additionalParams) {
 				this.categoryModal.categoryOperation = additionalParams.categoryOperation;
 				this.categoryModal.categoryIndex = additionalParams.categoryIndex;
@@ -144,41 +141,34 @@
 				this.$root.$emit('setCategoryData', formData);
 				$('#history_category_modal').modal('show');
 			},
-
 			storeCategory(categoryData) {
 				var yearIndex = this.categoryModal.yearIndex;
 				this.historyYears[yearIndex]['categoryList'].push({ id: '', name: categoryData.name, teams: [] });
 				$('#history_category_modal').modal('hide');
 			},
-			
 			updateCategory(categoryData) {
 				var yearIndex = this.categoryModal.yearIndex;
 				var categoryIndex = this.categoryModal.categoryIndex;
 				this.historyYears[yearIndex]['categoryList'][categoryIndex].name = categoryData.name;
 				$('#history_category_modal').modal('hide');
 			},
-
 			setCategoryLists(categoryList, index) {
 				this.historyYears[index].categoryList = categoryList;
 			},
-
-			deleteHistoryCategory(deleteIndex, categoryIndex) {
-				this.historyYears[categoryIndex]['categoryList'] = _.remove(this.historyYears[categoryIndex]['categoryList'], function(ageCategory, index) {
+			deleteHistoryCategory(deleteIndex, yearIndex) {
+				this.historyYears[yearIndex]['categoryList'] = _.remove(this.historyYears[yearIndex]['categoryList'], function(ageCategory, index) {
 					return index != deleteIndex;
 				});
 			},
-
 			// Category Team related functions
-
 			initializeTeamModal(formData, additionalParams) {
-				this.categoryTeamModal.categoryOperation = additionalParams.categoryOperation;
+				this.categoryTeamModal.categoryTeamOperation = additionalParams.categoryTeamOperation;
 				this.categoryTeamModal.categoryIndex = additionalParams.categoryIndex;
 				this.categoryTeamModal.yearIndex = additionalParams.yearIndex;
-				this.categoryTeamModal.categoryIndex = additionalParams.categoryIndex;
+				this.categoryTeamModal.categoryTeamIndex = additionalParams.categoryTeamIndex;
 				this.$root.$emit('setCategoryTeamData', formData);
 				$('#category_team_modal').modal('show');
 			},
-
 			storeCategoryTeam(categoryTeamData) {
 				var yearIndex = this.categoryTeamModal.yearIndex;
 				var categoryIndex = this.categoryTeamModal.categoryIndex;
@@ -186,11 +176,14 @@
 				this.historyYears[yearIndex]['categoryList'][categoryIndex]['teams'].push({ id: '', name: categoryTeamData.name});
 				$('#category_team_modal').modal('hide');
 			},
+			updateCategoryTeam(categoryTeamData) {
+				var yearIndex = this.categoryTeamModal.yearIndex;
+				var categoryIndex = this.categoryTeamModal.categoryIndex;
+				var categoryTeamIndex = this.categoryTeamModal.categoryTeamIndex;
 
-			updateCategoryTeam() {
-
+				this.historyYears[yearIndex]['categoryList'][categoryIndex]['teams'][categoryTeamIndex]['name'] = categoryTeamData.name;
+				$('#category_team_modal').modal('hide');
 			},
-
 		}
 	}
 </script>
