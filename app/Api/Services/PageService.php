@@ -58,7 +58,7 @@ class PageService
     $page->parent_id = $pageDetail['parent_id'];
     $page->name = $pageDetail['name'];
     $page->title = $pageDetail['title'];
-    $page->order = $pageDetail['order'];
+    $page->order = isset($pageDetail['order']) ? $pageDetail['order'] : 0;
     isset($pageDetail['content']) ? $page->content = $pageDetail['content'] : '';
     isset($pageDetail['meta']) ? $page->meta = $pageDetail['meta'] : '';
     isset($pageDetail['is_additional_page']) ? $page->is_additional_page = $pageDetail['is_additional_page'] : '';

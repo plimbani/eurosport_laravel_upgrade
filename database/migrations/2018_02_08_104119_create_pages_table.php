@@ -23,7 +23,7 @@ class CreatePagesTable extends Migration
             $table->string('name');
             $table->string('title');
             $table->text('content')->nullable()->default(null);
-            $table->integer('order');
+            $table->integer('order')->default(0);
             $table->text('meta')->nullable()->default(null);
             $table->boolean('is_additional_page')->default(false);
             $table->boolean('is_enabled')->default(false);
