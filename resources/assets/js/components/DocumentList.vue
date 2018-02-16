@@ -34,6 +34,7 @@
 			<button type="button" class="btn btn-primary" @click="addDocument()" v-if="documents.length < 10">{{ $lang.add_file }}</button>
 			<div class="help-block mt-2">{{$lang.document_instruction}}</div>
   		<div class="help-block mt-2 pt-0">{{$lang.copy_link_instruction}}</div>
+  		<button v-clipboard:copy="documentLink">Copy</button>
 			<document-modal :currentDocumentOperation="currentDocumentOperation" @storeDocument="storeDocument" @updateDocument="updateDocument"></document-modal>
 		</div>
 	</div>
@@ -44,7 +45,8 @@
 	import draggable from 'vuedraggable';
 	import DocumentModal  from  './DocumentModal.vue';
 	import _ from 'lodash';
-	import { VTooltip, VPopover, VClosePopover } from 'v-tooltip'
+	import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
+	import clipboard from 'vue-clipboard';
 
 	export default {
 		data() {
@@ -60,6 +62,7 @@
 			DocumentModal,
 			VPopover,
 			VClosePopover,
+			clipboard,
 		},
 		computed: {
 			getWebsite() {
