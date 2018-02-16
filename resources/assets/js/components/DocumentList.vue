@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="documents" :options="{draggable:'.document-item', handle: '.document-handle'}">
+			<draggable v-if="documents.length" v-model="documents" :options="{draggable:'.document-item', handle: '.document-handle'}">
 		  	<div class="draggable--section-card document-item" v-for="(document, index) in documents" :key="document.id">
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
@@ -9,7 +9,7 @@
 			  				{{ document.file_name }}
 			  			</div>
 			        <div class="draggable--section-card-header-icons">
-								<v-popover class="d-inline-flex">
+								<v-popover class="d-inline-flex copy-link" v-show="checkForUploadedDocument(document)">
 	  							<a class="text-primary" href="javascript:void(0)" @click="initializeDocumentLink(document, index)">
 					        	<i class="fa fa-link"></i>
 					        </a>
@@ -25,21 +25,16 @@
 				        	@click="editDocument(document, index)">
 				        	<i class="jv-icon jv-edit"></i>
 				        </a>
-				        <a class="text-primary document-handle draggable-handle" href="javascript:void(0)">
-				        	<i class="fa fa-bars"></i>
-				        </a>
 				      </div>
 			      </div>
 		      	<!-- Add child tags like draggable--section-child-1 -->
 		      </div>
 		    </div>
 			</draggable>
+			<p v-else class="help-block text-muted">{{ $lang.no_document_found }}</p>
 			<button type="button" class="btn btn-primary" @click="addDocument()" v-if="documents.length < 10">{{ $lang.add_file }}</button>
 			<div class="help-block mt-2">{{$lang.document_instruction}}</div>
   		<div class="help-block mt-2 pt-0">{{$lang.copy_link_instruction}}</div>
-  		<!-- <div id="copylink_popover_content" style="display: none;">
-  			<input type="text" v-model="documentLink" />
-  		</div> -->
 			<document-modal :currentDocumentOperation="currentDocumentOperation" @storeDocument="storeDocument" @updateDocument="updateDocument"></document-modal>
 		</div>
 	</div>
@@ -87,12 +82,9 @@
 	        (response) => {
 	          vm.documents = response.data.data;
 	          vm.documents = _.map(response.data.data, function(document) {
-						  document.file = vm.getDocumentPath + document.file_name;
+						  document.file = vm.getDocumentPath + vm.getWebsite + '/' + document.file_name;
 						  return document;
 						});
-						// Vue.nextTick(function () {
-						// 	vm.initializePopOver();
-						// });
 	        },
 	        (error) => {
 	        }
@@ -144,7 +136,17 @@
         this.$emit('setDocuments', this.documents);
       },
       initializeDocumentLink(document, index) {
-      	this.documentLink = this.getDocumentPath + document.file_name;
+      	this.documentLink = this.getDocumentPath + this.getWebsite + '/' + document.file_name;
+      	setTimeout(function(){
+      		$('.js-popover-content-' + index).focus();
+      		$('.js-popover-content-' + index).select();
+      	}, 500);
+      },
+      checkForUploadedDocument(document) {
+      	if(document.file.indexOf(this.getDocumentPath + this.getWebsite) !== -1) {
+      		return true;
+      	}
+      	return false;
       },
 		},
 	}

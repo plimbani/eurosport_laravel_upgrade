@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="photos" :options="{draggable:'.photo-item', handle: '.photo-handle'}">
+			<draggable v-if="photos.length" v-model="photos" :options="{draggable:'.photo-item', handle: '.photo-handle'}">
 		  	<div class="draggable--section-card photo-item" v-for="(photo, index) in photos" :key="photo.id">
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
@@ -27,6 +27,7 @@
 		      </div>
 		    </div>
 			</draggable>
+			<p v-else class="help-block text-muted">{{ $lang.no_photo_gallery_found }}</p>
 			<button type="button" class="btn btn-primary" @click="addPhoto()" v-if="photos.length < 10">{{ $lang.add_image }}</button>
 			<photo-modal :currentPhotoOperation="currentPhotoOperation" @storePhoto="storePhoto" @updatePhoto="updatePhoto"></photo-modal>
 		</div>
