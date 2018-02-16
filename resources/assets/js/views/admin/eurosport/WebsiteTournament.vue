@@ -125,6 +125,7 @@ export default {
 				(response)=> {
 					this.tournament.age_categories = response.data.data.tournament.content !== null ? response.data.data.tournament.content : '';
 					this.tournament.rules = response.data.data.rules.content !== null ? response.data.data.rules.content : '';
+					this.$root.$emit('importHistoryYears', response.data.data.history);
 				},
 				(error) => {					
 				}

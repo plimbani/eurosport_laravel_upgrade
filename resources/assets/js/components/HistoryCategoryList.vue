@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="categoriesList" :options="{draggable:'.history-year-age-category-item', handle: '.history-year-age-category-handle'}">
-				<div class="history-year-age-category-item draggable--section-card" v-for="(category, index) in categoriesList" :key="index">
+			<draggable v-model="age_categories" :options="{draggable:'.history-year-age-category-item', handle: '.history-year-age-category-handle'}">
+				<div class="history-year-age-category-item draggable--section-card" v-for="(category, index) in age_categories" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
@@ -41,10 +41,10 @@
 	import _ from 'lodash';
 
 	export default {
-		props: ['categoryList','childClassNames', 'yearIndex'],
+		props: ['ageCategories','childClassNames', 'yearIndex'],
 		data() {
 			return {
-				categoriesList: [],
+				age_categories: [],
 				categoryIndex: -1,
 				categoryOperation: 'add',
 			};
@@ -59,16 +59,16 @@
 			},
 		},
 		watch: {
-			categoryList: {
+			ageCategories: {
 				handler(value){
-					this.categoriesList = _.cloneDeep(value);
+					this.age_categories = _.cloneDeep(value);
 				},
 				deep: true,
 			},
 		},
 		mounted() {
 			// Get all age category
-			this.categoriesList = _.cloneDeep(this.categoryList);
+			this.age_categories = _.cloneDeep(this.ageCategories);
 			this.$root.$on('getHistoryCategories', this.getHistoryCategories);
 		},
 		methods: {
@@ -78,7 +78,7 @@
 					name: '',
 					teams: [],
 				};
-				this.categoryIndex = this.categoriesList.length;
+				this.categoryIndex = this.age_categories.length;
 				this.categoryOperation = 'add';
 				var additionalParams = {
 					categoryOperation: this.categoryOperation,
@@ -109,19 +109,19 @@
 				this.getHistoryCategories();
 			},
 			getHistoryCategories() {
-        this.$emit('setCategoryLists', _.cloneDeep(this.categoriesList), this.yearIndex);
+        this.$emit('setCategoryLists', _.cloneDeep(this.age_categories), this.yearIndex);
       },
 			initializeTeamModal(formData, additionalParams) {
 				this.$emit('initializeTeamModal', formData, additionalParams);
 			},
       deleteCategoryTeam(deleteIndex, categoryIndex) {
-      	this.categoriesList[categoryIndex]['teams'] = _.remove(this.categoriesList[categoryIndex]['teams'], function(team, index) {
+      	this.age_categories[categoryIndex]['teams'] = _.remove(this.age_categories[categoryIndex]['teams'], function(team, index) {
 					return index != deleteIndex;
 				});
 				this.getHistoryCategories();
       },
       setCategoryTeamList(categoryTeamList, categoryIndex) {
-      	this.categoriesList[categoryIndex]['teams'] = categoryTeamList;
+      	this.age_categories[categoryIndex]['teams'] = categoryTeamList;
       	this.getHistoryCategories();
       },
 		}
