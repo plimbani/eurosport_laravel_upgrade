@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<div class="draggable--section">
-			<draggable v-model="categoryTeamList" :options="{draggable:'.history-year-age-category-team-item', handle: '.history-year-age-category-team-handle'}">
+		<div class="draggable--section" :class="childClassNames">
+			<draggable v-model="categoryTeamList" :options="{draggable:'.history-year-age-category-team-item', handle: '.history-year-age-category-team-handle'}" @end="onDragEnd()">
 				<div class="history-year-age-category-team-item draggable--section-card" v-for="(categoryTeam, index) in categoryTeamList" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
-				  				{{ categoryTeam.name }}
+				  				{{ categoryTeam.name }} ({{ categoryTeam.country.country_code }}) <img class="" :src="categoryTeam.country.logo" class="flag" />
 				  			</div>
 				  			<div class="draggable--section-card-header-icons">
 						        <a class="text-primary" href="javascript:void(0)"
@@ -70,6 +70,7 @@
 				var formData = {
 					id: '',
 					name: '',
+					country: '',
 				};
 				
 				this.categoryTeamIndex = this.categoryTeamList.length;
@@ -87,6 +88,7 @@
 				var formData = {
 					id: categoryTeam.id,
 					name: categoryTeam.name,
+					country: categoryTeam.country,
 				};
 				this.categoryTeamIndex = index;
 				this.categoryTeamOperation = 'edit';

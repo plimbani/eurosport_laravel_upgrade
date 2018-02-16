@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="historyYears" :options="{draggable:'.history-year-item', handle: '.history-year-handle'}">
+			<draggable v-if="historyYears.length" v-model="historyYears" :options="{draggable:'.history-year-item', handle: '.history-year-handle'}" @end="onDragEnd()">
 				<div class="history-year-item draggable--section-card" v-for="(historyYear, index) in historyYears" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
@@ -22,12 +22,13 @@
 						        </a>
 						    </div>
 						</div>
-						<history-category-list :yearIndex="index" :childClassNames="'draggable--section-child-1'" :categoryList="historyYear.categoryList" 
+						<history-category-list :yearIndex="index" :childClassNames="'draggable--section-child-1'" :ageCategories="historyYear.age_categories" 
 						@setHistoryCategoryList="setHistoryCategoryList" @deleteHistoryCategory="deleteHistoryCategory" @initializeCategoryModal="initializeCategoryModal"
 						@initializeTeamModal="initializeTeamModal"></history-category-list>
 					</div>
 				</div>
 			</draggable>
+			<p v-else class="help-block text-muted">{{ $lang.no_history_found }}</p>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addHistoryYear()">{{ $lang.add_year }}</button>
 
@@ -39,7 +40,7 @@
 
 		<history-category-team-modal :categoryTeamOperation="categoryTeamModal.categoryTeamOperation" @storeCategoryTeam="storeCategoryTeam" 
 		@updateCategoryTeam="updateCategoryTeam" :yearIndex="categoryTeamModal.yearIndex" 
-		:categoryIndex="categoryTeamModal.categoryIndex"></history-category-team-modal>
+		:categoryIndex="categoryTeamModal.categoryIndex" :countries="countries"></history-category-team-modal>
 
 	</div>
 </template>
@@ -54,6 +55,7 @@
 	import _ from 'lodash';
 
 	export default {
+		props: ['countries'],
 		data() {
 			return {
 				historyYears: [],
@@ -86,27 +88,28 @@
 		},
 		mounted() {
 			this.$root.$on('getHistoryYears', this.getHistoryYears);
+			this.$root.$on('importHistoryYears', this.importHistoryYears);
 		},
 		methods: {
 			addHistoryYear() {
 				var formData = {
 					id: '',
 					year: '',
-					categoryList: [],
+					age_categories: [],
 				};
 				this.currentYearIndex = this.historyYears.length;
 				this.currentYearOperation = 'add';
 				this.initializeModel(formData);
 			},
 			storeHistoryYear(historyYearData) {
-				this.historyYears.push({ id: '', year: historyYearData.year, categoryList: [] });
+				this.historyYears.push({ id: '', year: historyYearData.year, age_categories: [] });
 				$('#history_year_modal').modal('hide');
 			},
 			editHistoryYear(historyYear, index) {
 				var formData = {
 					id: historyYear.id,
 					year: historyYear.year,
-					categoryList: historyYear.categoryList,
+					age_categories: historyYear.age_categories,
 				};
 				this.currentYearIndex = index;
 				this.currentYearOperation = 'edit';
@@ -114,7 +117,7 @@
 			},
 			updateHistoryYear(historyYearData) {
 				this.historyYears[this.currentYearIndex].year = historyYearData.year;
-				this.historyYears[this.currentYearIndex].categoryList = historyYearData.categoryList;
+				this.historyYears[this.currentYearIndex].age_categories = historyYearData.age_categories;
 				$('#history_year_modal').modal('hide');
 			},
 			deleteHistoryYear(deleteIndex) {
@@ -128,11 +131,18 @@
 				$('#history_year_modal').modal('show');
 			},
 			setHistoryCategoryList(categories, index) {
-				this.historyYears[index].categoryList = categories;
+				this.historyYears[index].age_categories = categories;
+			},
+			onDragEnd() {
+				this.getHistoryYears();
 			},
 			getHistoryYears() {
 				this.$emit('setHistoryData', this.historyYears);
 			},
+			importHistoryYears(historyYears) {
+				this.historyYears = historyYears;
+			},
+
 			// category list related functions
 			initializeCategoryModal(formData, additionalParams) {
 				this.categoryModal.categoryOperation = additionalParams.categoryOperation;
@@ -143,20 +153,20 @@
 			},
 			storeCategory(categoryData) {
 				var yearIndex = this.categoryModal.yearIndex;
-				this.historyYears[yearIndex]['categoryList'].push({ id: '', name: categoryData.name, teams: [] });
+				this.historyYears[yearIndex]['age_categories'].push({ id: '', name: categoryData.name, teams: [] });
 				$('#history_category_modal').modal('hide');
 			},
 			updateCategory(categoryData) {
 				var yearIndex = this.categoryModal.yearIndex;
 				var categoryIndex = this.categoryModal.categoryIndex;
-				this.historyYears[yearIndex]['categoryList'][categoryIndex].name = categoryData.name;
+				this.historyYears[yearIndex]['age_categories'][categoryIndex].name = categoryData.name;
 				$('#history_category_modal').modal('hide');
 			},
-			setCategoryLists(categoryList, index) {
-				this.historyYears[index].categoryList = categoryList;
+			setCategoryLists(age_categories, index) {
+				this.historyYears[index].age_categories = age_categories;
 			},
 			deleteHistoryCategory(deleteIndex, yearIndex) {
-				this.historyYears[yearIndex]['categoryList'] = _.remove(this.historyYears[yearIndex]['categoryList'], function(ageCategory, index) {
+				this.historyYears[yearIndex]['age_categories'] = _.remove(this.historyYears[yearIndex]['age_categories'], function(ageCategory, index) {
 					return index != deleteIndex;
 				});
 			},
@@ -173,7 +183,7 @@
 				var yearIndex = this.categoryTeamModal.yearIndex;
 				var categoryIndex = this.categoryTeamModal.categoryIndex;
 
-				this.historyYears[yearIndex]['categoryList'][categoryIndex]['teams'].push({ id: '', name: categoryTeamData.name});
+				this.historyYears[yearIndex]['age_categories'][categoryIndex]['teams'].push({ id: '', name: categoryTeamData.name, country: categoryTeamData.country});
 				$('#category_team_modal').modal('hide');
 			},
 			updateCategoryTeam(categoryTeamData) {
@@ -181,7 +191,8 @@
 				var categoryIndex = this.categoryTeamModal.categoryIndex;
 				var categoryTeamIndex = this.categoryTeamModal.categoryTeamIndex;
 
-				this.historyYears[yearIndex]['categoryList'][categoryIndex]['teams'][categoryTeamIndex]['name'] = categoryTeamData.name;
+				this.historyYears[yearIndex]['age_categories'][categoryIndex]['teams'][categoryTeamIndex]['name'] = categoryTeamData.name;
+				this.historyYears[yearIndex]['age_categories'][categoryIndex]['teams'][categoryTeamIndex]['country'] = categoryTeamData.country;
 				$('#category_team_modal').modal('hide');
 			},
 		}

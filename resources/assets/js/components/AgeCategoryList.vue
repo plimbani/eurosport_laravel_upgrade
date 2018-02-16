@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="ageCategories" :options="{draggable:'.age-category-item', handle: '.age-category-handle'}">
+			<draggable v-if="ageCategories.length" v-model="ageCategories" :options="{draggable:'.age-category-item', handle: '.age-category-handle'}">
 			  	<div class="age-category-item draggable--section-card" v-for="(ageCategory, index) in ageCategories" :key="index">
 			  		<div class="draggable--section-card-header">
 			  			<div class="draggable--section-card-header-panel">
@@ -27,6 +27,7 @@
 			  		</div>
 			    </div>
 			</draggable>
+			<p v-else class="help-block text-muted">{{ $lang.no_age_categories_found }}</p>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addAgeCategory()">{{ $lang.add_category }}</button>
 		<age-category-modal :currentAgeCategoryOperation="currentAgeCategoryOperation" @storeAgeCategory="storeAgeCategory" @updateAgeCategory="updateAgeCategory"></age-category-modal>
