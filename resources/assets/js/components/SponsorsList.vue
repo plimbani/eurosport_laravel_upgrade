@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="sponsors" :options="{draggable:'.sponsor-logo-item', handle: '.sponsor-logo-handle'}">
+			<draggable v-if="sponsors.length" v-model="sponsors" :options="{draggable:'.sponsor-logo-item', handle: '.sponsor-logo-handle'}">
 			  	<div class="draggable--section-card sponsor-logo-item" v-for="(sponsor, index) in sponsors" :key="sponsor.id">
 			  		<div class="draggable--section-card-header">
 				  		<div class="draggable--section-card-header-panel">
@@ -30,6 +30,7 @@
 				      </div>
 			    </div>
 			</draggable>
+			<p v-else class="help-block text-muted">No content found</p>
 			<button type="button" class="btn btn-primary" @click="addSponsor()">{{ $lang.website_add_sponsor }}</button>
 			<sponsor-modal :currentSponsorOperation="currentSponsorOperation" @storeSponsor="storeSponsor" @updateSponsor="updateSponsor"></sponsor-modal>
 		</div>

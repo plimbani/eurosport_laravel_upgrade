@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="documents" :options="{draggable:'.document-item', handle: '.document-handle'}">
+			<draggable v-if="documents.length" v-model="documents" :options="{draggable:'.document-item', handle: '.document-handle'}">
 		  	<div class="draggable--section-card document-item" v-for="(document, index) in documents" :key="document.id">
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
@@ -31,6 +31,7 @@
 		      </div>
 		    </div>
 			</draggable>
+			<p v-else class="help-block text-muted">No content found</p>
 			<button type="button" class="btn btn-primary" @click="addDocument()" v-if="documents.length < 10">{{ $lang.add_file }}</button>
 			<div class="help-block mt-2">{{$lang.document_instruction}}</div>
   		<div class="help-block mt-2 pt-0">{{$lang.copy_link_instruction}}</div>

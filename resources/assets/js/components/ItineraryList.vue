@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="itineraries" :options="{draggable:'.itinerary-item', handle: '.itinerary-handle'}">
+			<draggable v-if="itineraries.length" v-model="itineraries" :options="{draggable:'.itinerary-item', handle: '.itinerary-handle'}">
 				<div class="itinerary-item draggable--section-card" v-for="(itinerary, index) in itineraries" :key="itinerary.id">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
@@ -25,6 +25,7 @@
 					</div>
 				</div>
 			</draggable>
+			<p v-else class="help-block text-muted">No content found</p>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addItinerary()">{{ $lang.homepage_add_itinerary }}</button>
 		<itinerary-modal :currentItineraryOperation="currentItineraryOperation" @storeItinerary="storeItinerary" @updateItinerary="updateItinerary"></itinerary-modal>
