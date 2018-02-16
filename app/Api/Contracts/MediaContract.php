@@ -23,5 +23,5 @@ interface MediaContract
      *
      * @return response
      */
-    public function savePageData($websiteId);
+    public function savePageData($request);
 }
