@@ -705,12 +705,12 @@ module.exports= {
   document_instruction: "You may upload PDF, Excel, Word, JPG, PNG, GIF files of up to 10MB.",
   copy_link_instruction: 'Use the "Link" button to copy a URL to the file to your clipboard, you may then use the link within your content.',
 
-  no_sponsors_found: "No sponsors found",
-  no_statistics_found: "No statistics found",
+  no_sponsors_found: "No sponsor found",
+  no_statistics_found: "No statistic found",
   no_organiser_found: "No organiser found",
-  no_age_categories_found: "No age categories found",
+  no_age_categories_found: "No age category found",
   no_history_found: "No history found",
   no_itinerary_found: "No itinerary found",
-  no_photo_gallery_found: "No photo gallery found",
-  no_document_found: "No documents found",
+  no_photo_gallery_found: "No photo found",
+  no_document_found: "No document found",
 }
