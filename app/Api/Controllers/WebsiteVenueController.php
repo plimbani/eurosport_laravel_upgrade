@@ -5,7 +5,7 @@ namespace Laraspace\Api\Controllers;
 use Illuminate\Http\Request;
 
 // Need to Define Only Contracts
-use Laraspace\Api\Contracts\VenueContract;
+use Laraspace\Api\Contracts\WebsiteVenueContract;
 
 /**
  * Tournament Resource Description.
@@ -14,15 +14,30 @@ use Laraspace\Api\Contracts\VenueContract;
  *
  * @Author Knayak@aecordigital.com
  */
-class VenueController extends BaseController
+class WebsiteVenueController extends BaseController
 {
-    /**
-     * @param object $tournamentObj
-     */
-    public function __construct(VenueContract $venueObj)
-    {
-        $this->venueObj = $venueObj;
-    }
+  /**
+   * @var stayContract
+   */
+  protected $websiteVenueContract;
+
+  /**
+   * @param object $tournamentObj
+   */
+  public function __construct(WebsiteVenueContract $websiteVenueContract)
+  {
+      $this->websiteVenueContract = $websiteVenueContract;
+  }
+
+  /*
+   * Save venue page data
+   *
+   * @return response
+   */ 
+  public function saveVenuePageData(Request $request)
+  {
+    return $this->websiteVenueContract->saveVenuePageData($request->all());
+  }
 
     /**
      * Show all Tournament Details.
