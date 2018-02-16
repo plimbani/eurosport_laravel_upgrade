@@ -110,7 +110,7 @@ export default {
   // get program page data
   getProgramPageData(websiteId) {
     return axios.get('/api/getProgramPageData/' + websiteId);
-  }
+  },
   // Get all photos
   getPhotos(websiteId) {
     return axios.get('/api/getPhotos/' + websiteId);
