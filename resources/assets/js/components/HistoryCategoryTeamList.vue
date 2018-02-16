@@ -1,12 +1,12 @@
 <template>
 	<div>
 		<div class="draggable--section" :class="childClassNames">
-			<draggable v-model="categoryTeamList" :options="{draggable:'.history-year-age-category-team-item', handle: '.history-year-age-category-team-handle'}">
+			<draggable v-model="categoryTeamList" :options="{draggable:'.history-year-age-category-team-item', handle: '.history-year-age-category-team-handle'}" @end="onDragEnd()">
 				<div class="history-year-age-category-team-item draggable--section-card" v-for="(categoryTeam, index) in categoryTeamList" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
-				  				{{ categoryTeam.name }} ({{ categoryTeam.country.country_code }}) <img class="" :src="categoryTeam.country.logo" />
+				  				{{ categoryTeam.name }} ({{ categoryTeam.country.country_code }}) <img class="" :src="categoryTeam.country.logo" class="flag" />
 				  			</div>
 				  			<div class="draggable--section-card-header-icons">
 						        <a class="text-primary" href="javascript:void(0)"

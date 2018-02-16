@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section" :class="childClassNames">
-			<draggable v-model="age_categories" :options="{draggable:'.history-year-age-category-item', handle: '.history-year-age-category-handle'}"  @end="onDragEnd()">
+			<draggable v-model="age_categories" :options="{draggable:'.history-year-age-category-item', handle: '.history-year-age-category-handle'}" @end="onDragEnd()">
 				<div class="history-year-age-category-item draggable--section-card" v-for="(category, index) in age_categories" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
