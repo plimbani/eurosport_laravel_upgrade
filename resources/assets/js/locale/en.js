@@ -627,9 +627,13 @@ module.exports= {
 
   // Website Homepage
   homepage_add_a_statistic: "Add a statistic",
+  homepage_add_a_location: "Add a location",
   homepage_edit_statistic: "Edit statistic",
+  homepage_edit_location: "Edit location",
   homepage_statistics: "Statistics",
   homepage_statistic: "Statistic",
+  homepage_venue: "Venue name",
+  homepage_venue_address: "Venue address",
   homepage_add_statistic: "Add statistic",
   homepage_add_location: "Add location",
   homepage_statistic_model_placeholder: "30 years of experience",

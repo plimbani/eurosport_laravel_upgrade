@@ -57,9 +57,9 @@
 			validateForm() {
 				this.$validator.validateAll().then(() => {
 					if(this.currentStatisticOperation == 'add') {
-						this.$emit('storeStatistic', this.formValues);
+						this.$emit('storeLocation', this.formValues);
 					} else {
-						this.$emit('updateStatistic', this.formValues);
+						this.$emit('updateLocation', this.formValues);
 					}
 				}).catch(() => {
 					// fail stuff

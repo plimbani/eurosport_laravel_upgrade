@@ -33,6 +33,10 @@ export default {
   saveHomePageData(pageData) {
     return api.post('/saveHomePageData', pageData);
   },
+  // Save location data
+  saveLocationData(pageData) {
+    return api.post('/saveLocationData', pageData);
+  },
   // Get website all colours
   getWebsiteCustomisationOptions() {
     return axios.get('/api/websites/customisation/options');
