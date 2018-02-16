@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="sponsors" :options="{draggable:'.organiser-logo-item', handle: '.organiser-logo-handle'}">
-			  	<div class="draggable--section-card organiser-logo-item" v-for="(sponsor, index) in sponsors" :key="sponsor.id">
+			<draggable v-model="sponsors" :options="{draggable:'.sponsor-logo-item', handle: '.sponsor-logo-handle'}">
+			  	<div class="draggable--section-card sponsor-logo-item" v-for="(sponsor, index) in sponsors" :key="sponsor.id">
 			  		<div class="draggable--section-card-header">
 				  		<div class="draggable--section-card-header-panel">
 				  			<div class="d-flex align-items-center">
@@ -21,7 +21,7 @@
 						        	@click="editSponsor(sponsor, index)">
 						        	<i class="jv-icon jv-edit"></i>
 						        </a>
-						        <a class="text-primary organiser-logo-handle draggable-handle" href="javascript:void(0)">
+						        <a class="text-primary sponsor-logo-handle draggable-handle" href="javascript:void(0)">
 						        	<i class="fa fa-bars"></i>
 						        </a>
 					      </div>
@@ -63,7 +63,7 @@
 			},
 		},
 		mounted() {
-			// Get all organisers
+			// Get all sponsors
 			this.getSponsorsList();
 			this.$root.$on('getSponsors', this.getSponsors);
 		},
