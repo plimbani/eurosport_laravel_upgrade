@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<div class="draggable--section">
-			<draggable v-model="age_categories" :options="{draggable:'.history-year-age-category-item', handle: '.history-year-age-category-handle'}">
+		<div class="draggable--section" :class="childClassNames">
+			<draggable v-model="age_categories" :options="{draggable:'.history-year-age-category-item', handle: '.history-year-age-category-handle'}"  @end="onDragEnd()">
 				<div class="history-year-age-category-item draggable--section-card" v-for="(category, index) in age_categories" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
@@ -109,7 +109,7 @@
 				this.getHistoryCategories();
 			},
 			getHistoryCategories() {
-        this.$emit('setCategoryLists', _.cloneDeep(this.age_categories), this.yearIndex);
+        this.$emit('setHistoryCategoryList', _.cloneDeep(this.age_categories), this.yearIndex);
       },
 			initializeTeamModal(formData, additionalParams) {
 				this.$emit('initializeTeamModal', formData, additionalParams);

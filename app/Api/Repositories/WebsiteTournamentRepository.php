@@ -59,7 +59,7 @@ class WebsiteTournamentRepository
       $history_year_id = $this->saveHistoryYearData($yearRow);
 
       $categoryIndex = 0;
-      foreach ($historyYear['categoryList'] as $key => $category) {
+      foreach ($historyYear['age_categories'] as $key => $category) {
         unset($categoryRow);
         $categoryRow['id'] = $category['id'];
         $categoryRow['name'] = $category['name'];

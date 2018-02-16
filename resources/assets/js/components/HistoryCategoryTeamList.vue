@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="draggable--section">
+		<div class="draggable--section" :class="childClassNames">
 			<draggable v-model="categoryTeamList" :options="{draggable:'.history-year-age-category-team-item', handle: '.history-year-age-category-team-handle'}">
 				<div class="history-year-age-category-team-item draggable--section-card" v-for="(categoryTeam, index) in categoryTeamList" :key="index">
 					<div class="draggable--section-card-header">
