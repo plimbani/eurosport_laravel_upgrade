@@ -43,12 +43,8 @@ class WebsiteTournamentRepository
 	public function saveWebsiteTournamentPageData($data)
 	{
     $historyData = $data['history'];
-
     $website_id = $data['websiteId'];
-
     $existingYearsIDs = $this->getAllYearIDs($website_id);
-
-    // $yearIndex = $categoryIndex = $teamsIndex = 0;
 
     $yearIndex = 0;
     $currentHistoryYearIDs = [];
@@ -75,9 +71,6 @@ class WebsiteTournamentRepository
       $this->deleteHistoryYears($deleteYearsIDs);
     }
 
-    echo "<pre>"; print_r($deleteYearsIDs); echo "</pre>"; exit;
-    exit;
-
 		// update website tournament page age categories
     $wtPageDetail = array();
     $wtPageDetail['name'] = $this->age_categories;
@@ -91,6 +84,10 @@ class WebsiteTournamentRepository
     $this->pageService->updatePageDetails($mealsPageDetail, $data['websiteId']);
 	}
 
+  /*
+  * function to traverse into age category array
+  * to save/update the data
+  */
   public function traverseAgeCategory($ageCategories, $history_year_id, $website_id) {
 
     $existingCategoryIDs = $this->getAllCategoryIDs($website_id);
@@ -123,6 +120,10 @@ class WebsiteTournamentRepository
   }
 
 
+  /*
+  * function to traverse into teams array
+  * to save/update the data
+  */
   public function traverseCategoryTeams($teams, $category_id, $website_id) {
 
     $existingTeamIDs = $this->getAllTeamIDs($website_id);
@@ -224,6 +225,11 @@ class WebsiteTournamentRepository
     return $historyYear->id;
   }
 
+  /*
+  * Delete history year
+  * return response
+  */
+
   public function deleteHistoryYears($yearIDs) {
     $response = HistoryYears::whereIn('id', $yearIDs)->delete();
     return $response;    
@@ -252,6 +258,10 @@ class WebsiteTournamentRepository
 
   }
 
+  /*
+  * Delete age category
+  * return response
+  */
   public function deleteAgeCategories($categoryIDs) {
     $response = HistoryAgeCategories::whereIn('id', $categoryIDs)->delete();
     return $response;    
@@ -281,6 +291,10 @@ class WebsiteTournamentRepository
 
   }
 
+  /*
+  * Delete team
+  * return response
+  */
   public function deleteTeams($teamIDs) {
     $response = HistoryTeams::whereIn('id', $teamIDs)->delete();
     return $response;    
