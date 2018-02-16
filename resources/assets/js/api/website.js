@@ -110,5 +110,17 @@ export default {
   // get program page data
   getProgramPageData(websiteId) {
     return axios.get('/api/getProgramPageData/' + websiteId);
+  }
+  // Get all photos
+  getPhotos(websiteId) {
+    return axios.get('/api/getPhotos/' + websiteId);
+  },
+  // Get all documents
+  getDocuments(websiteId) {
+    return axios.get('/api/getDocuments/' + websiteId);
+  },
+  // Save media page
+  saveMediaPageData(pageData) {
+    return api.post('/saveMediaPageData', pageData);
   },
 }

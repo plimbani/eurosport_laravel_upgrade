@@ -24,6 +24,13 @@
 	          	</div>
 	          </div>
 	        </div>
+	        <hr class="my-4">
+	        <h6><strong>{{$lang.tournament_history}}</strong></h6>
+	        <div class="row">
+	          <div class="col-sm-8">
+        			<history-year-list @setHistoryData="setHistoryData"></history-year-list>
+        		</div>
+        	</div>
 	      </form>
 
 			</div>
@@ -44,9 +51,12 @@
 var moment = require('moment');
 import InsertTextEditor from '../../../components/InsertTextEditor/InsertTextEditor.vue';
 import Website from '../../../api/website.js';
+import HistoryYearList from '../../../components/HistoryYearList.vue';
+
 export default {
 	components: {
 		InsertTextEditor,
+		HistoryYearList,
 	},
 	data() {
 		return {
@@ -54,6 +64,7 @@ export default {
 				age_categories: '',
 				rules: '',
 				websiteId: null,
+				history: [],
 			},
 		}
 	},
@@ -71,6 +82,7 @@ export default {
 		next() {
 			this.$root.$emit('getEditorValue');
       this.tournament.websiteId = this.getWebsiteId();
+      this.$root.$emit('getHistoryYears');
       $("body .js-loader").removeClass('d-none');
 			Website.saveWebsiteTournamentPageData(this.tournament).then(
         (response)=> {
@@ -104,6 +116,10 @@ export default {
 				(error) => {					
 				}
 			);
+		},
+
+		setHistoryData(historyData) {
+			this.tournament.history = historyData;
 		},
 	},
 }

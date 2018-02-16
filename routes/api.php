@@ -334,4 +334,9 @@ $api->version('v1', function ($api) {
     $api->get('getTeamPageData/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTeamController@getPageData');
     $api->post('saveTeamPageData', 'Laraspace\Api\Controllers\WebsiteTeamController@savePageData');
     $api->post('importAgeCategoryAndTeamData', 'Laraspace\Api\Controllers\WebsiteTeamController@importAgeCategoryAndTeamData');
+
+    // Website media
+    $api->get('getPhotos/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getPhotos');
+    $api->get('getDocuments/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getDocuments');
+    $api->post('saveMediaPageData', 'Laraspace\Api\Controllers\MediaController@savePageData');
 });

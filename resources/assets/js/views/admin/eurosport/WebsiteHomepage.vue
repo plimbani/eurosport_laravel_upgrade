@@ -77,7 +77,7 @@
 	          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
 	      </div>
 	      <div class="pull-right">
-	          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+	          <button class="btn btn-primary" @click="redirectToForward()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
 	      </div>
 	    </div>
   	</div>
@@ -133,7 +133,7 @@ export default {
 		},
 	},
 	methods: {
-		next() {
+		redirectToForward() {
 			this.$root.$emit('getEditorValue');
       this.$root.$emit('getStatistics');
       this.$root.$emit('getOrganiserLogos');
@@ -161,9 +161,6 @@ export default {
 		},
 		getWebsiteId() {
 			return this.$store.state.Website.id;
-		},
-		redirectToForward() {
-			this.$router.push({name:'website_teams'})
 		},
 		backward() {
 			this.$router.push({name:'website_add'})

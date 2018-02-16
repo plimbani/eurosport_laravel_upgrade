@@ -15,7 +15,7 @@ use Laraspace\Api\Contracts\WebsiteTeamContract;
  */
 class WebsiteTeamController extends BaseController
 {
-    /**
+  /**
    * @var WebsiteTeamContract
    */
   protected $websiteTeamContract;
@@ -42,7 +42,7 @@ class WebsiteTeamController extends BaseController
     return $this->websiteTeamContract->getAgeCategories($websiteId);
   }
 
-  /**
+  /*
    * Save page data
    *
    * @Get("/savePageData")
