@@ -39,7 +39,7 @@
 
 		<history-category-team-modal :categoryTeamOperation="categoryTeamModal.categoryTeamOperation" @storeCategoryTeam="storeCategoryTeam" 
 		@updateCategoryTeam="updateCategoryTeam" :yearIndex="categoryTeamModal.yearIndex" 
-		:categoryIndex="categoryTeamModal.categoryIndex"></history-category-team-modal>
+		:categoryIndex="categoryTeamModal.categoryIndex" :countries="countries"></history-category-team-modal>
 
 	</div>
 </template>
@@ -54,6 +54,7 @@
 	import _ from 'lodash';
 
 	export default {
+		props: ['countries'],
 		data() {
 			return {
 				historyYears: [],
@@ -173,7 +174,7 @@
 				var yearIndex = this.categoryTeamModal.yearIndex;
 				var categoryIndex = this.categoryTeamModal.categoryIndex;
 
-				this.historyYears[yearIndex]['categoryList'][categoryIndex]['teams'].push({ id: '', name: categoryTeamData.name});
+				this.historyYears[yearIndex]['categoryList'][categoryIndex]['teams'].push({ id: '', name: categoryTeamData.name, country: categoryTeamData.country});
 				$('#category_team_modal').modal('hide');
 			},
 			updateCategoryTeam(categoryTeamData) {
@@ -182,6 +183,7 @@
 				var categoryTeamIndex = this.categoryTeamModal.categoryTeamIndex;
 
 				this.historyYears[yearIndex]['categoryList'][categoryIndex]['teams'][categoryTeamIndex]['name'] = categoryTeamData.name;
+				this.historyYears[yearIndex]['categoryList'][categoryIndex]['teams'][categoryTeamIndex]['country'] = categoryTeamData.country;
 				$('#category_team_modal').modal('hide');
 			},
 		}

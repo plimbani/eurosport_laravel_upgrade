@@ -42,6 +42,7 @@ class WebsiteTournamentRepository
    */	
 	public function saveWebsiteTournamentPageData($data)
 	{
+    // echo "<pre>"; print_r($data['history']); echo "</pre>"; exit;
     $historyData = $data['history'];
 
     $website_id = $data['websiteId'];
@@ -75,7 +76,7 @@ class WebsiteTournamentRepository
           $teamRow['name'] = $team['name'];
           $teamRow['website_id'] = $website_id;
           $teamRow['history_age_category_id'] = $categoryID;
-          $teamRow['country_id'] = 1; //$team['country_id'];
+          $teamRow['country_id'] = $team['country']['id'];
           $teamRow['order'] = $teamsIndex;
           $teamRow['history_year_id'] = $history_year_id;
 

@@ -6,7 +6,7 @@
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
-				  				{{ categoryTeam.name }}
+				  				{{ categoryTeam.name }} ({{ categoryTeam.country.country_code }}) <img class="" :src="categoryTeam.country.logo" />
 				  			</div>
 				  			<div class="draggable--section-card-header-icons">
 						        <a class="text-primary" href="javascript:void(0)"
@@ -70,6 +70,7 @@
 				var formData = {
 					id: '',
 					name: '',
+					country: '',
 				};
 				
 				this.categoryTeamIndex = this.categoryTeamList.length;
@@ -87,6 +88,7 @@
 				var formData = {
 					id: categoryTeam.id,
 					name: categoryTeam.name,
+					country: categoryTeam.country,
 				};
 				this.categoryTeamIndex = index;
 				this.categoryTeamOperation = 'edit';
