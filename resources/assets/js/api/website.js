@@ -120,4 +120,8 @@ export default {
   saveMediaPageData(pageData) {
     return api.post('/saveMediaPageData', pageData);
   },
+  // Save location data
+  saveLocationData(pageData) {
+    return api.post('/saveLocationData', pageData);
+  },
 }

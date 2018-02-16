@@ -2,7 +2,14 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.website_venue}}</strong></h6>
+				<h6><strong>{{$lang.website_locations}}</strong></h6>
+				<form name="website_venue" enctype="multipart/form-data">
+					<div class="form-group row">
+	        	<div class="col-sm-6">
+	        		<locations-list @setLocations="setLocations"></locations-list>
+	        	</div>
+	        </div>
+				</form>					
 			</div>
 		</div>
 		<div class="row">
@@ -11,7 +18,7 @@
 	        <button class="btn btn-primary" @click="redirectToBackward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
 	      </div>
 	      <div class="pull-right">
-	        <button class="btn btn-primary" @click="redirectToForward()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+	        <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
 	      </div>
 	    </div>
 	  </div>
@@ -20,7 +27,21 @@
 <script>
 var moment = require('moment');
 import Tournament from '../../../api/tournament.js';
+import Website from '../../../../js/api/website.js';
+import LocationsList from '../../../components/LocationsList.vue';
+
 export default {
+	components: {
+		LocationsList
+	},
+	data() {
+		return {
+			venuepage: {
+				websiteId: null,
+				locations: [],
+			},
+		}
+	},
 	mounted() {
 		let currentNavigationData = {
 			activeTab:'website_venue', 
@@ -31,6 +52,28 @@ export default {
 	computed: {
 	},
 	methods: {
+		next() {
+			console.log('here');
+      // this.$root.$emit('getLocations');
+      this.venuepage.websiteId = this.getWebsiteId();
+      $("body .js-loader").removeClass('d-none');
+			Website.saveLocationData(this.venuepage).then(
+        (response)=> {
+        	$("body .js-loader").addClass('d-none');
+          toastr.success('Homepage has been updated successfully.', 'Success');
+          this.$router.push({name:'website_teams'});
+        },
+        (error)=>{
+        }
+      );
+		},
+		setLocations(locations) {
+			console.log(locations,'locations');
+			this.programpage.locations = locations;
+		},
+		getWebsiteId() {
+			return this.$store.state.Website.id;
+		},
 		redirectToForward() {
 			this.$router.push({name:'website_tournament'})
 		},

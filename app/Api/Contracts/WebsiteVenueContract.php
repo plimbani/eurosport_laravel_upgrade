@@ -2,8 +2,15 @@
 
 namespace Laraspace\Api\Contracts;
 
-interface VenueContract
+interface WebsiteVenueContract
 {
+  /*
+   * Save venue page data
+   *
+   * @return response
+   */
+  public function saveVenuePageData($request);
+
     /*
      * Get All Venues
      *
