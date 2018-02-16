@@ -43,6 +43,7 @@ class WebsiteTournamentRepository
 	public function saveWebsiteTournamentPageData($data)
 	{
     $historyData = $data['history'];
+
     $website_id = $data['websiteId'];
     $existingYearsIDs = $this->getAllYearIDs($website_id);
 
@@ -60,12 +61,20 @@ class WebsiteTournamentRepository
       
       if(!empty($historyYear['age_categories'])) {
         $this->traverseAgeCategory($historyYear['age_categories'], $history_year_id, $website_id);
+      } else {
+        $existingCategoryIDs = $this->getAllCategoryIDs($website_id);
+        if(!empty($existingCategoryIDs)) 
+          $this->deleteAgeCategories($existingCategoryIDs);
       }
 
       $yearIndex ++;
     }
 
-    $deleteYearsIDs = array_diff($existingYearsIDs, $currentYearIDs);
+    if(!empty($currentYearIDs)) {
+      $deleteYearsIDs = array_diff($existingYearsIDs, $currentYearIDs);
+    } else {
+      $deleteYearsIDs = $existingYearsIDs;
+    }
 
     if(!empty($deleteYearsIDs)) {
       $this->deleteHistoryYears($deleteYearsIDs);
@@ -107,12 +116,20 @@ class WebsiteTournamentRepository
 
       if(!empty($category['teams'])) {
         $this->traverseCategoryTeams($category['teams'], $categoryID, $website_id);
+      } else {
+        $existingTeamIDs = $this->getAllTeamIDs($website_id);
+        if(!empty($existingTeamIDs)) 
+          $this->deleteTeams($existingTeamIDs);
       }
 
       $categoryIndex ++;
     }
 
-    $deleteCategoryIDs = array_diff($existingCategoryIDs, $currentCategoryIDs);
+    if(!empty($currentCategoryIDs)) {
+      $deleteCategoryIDs = array_diff($existingCategoryIDs, $currentCategoryIDs);
+    } else {
+      $deleteCategoryIDs = $existingCategoryIDs;
+    }
 
     if(!empty($deleteCategoryIDs)) 
       $this->deleteAgeCategories($deleteCategoryIDs);
@@ -127,7 +144,6 @@ class WebsiteTournamentRepository
   public function traverseCategoryTeams($teams, $category_id, $website_id) {
 
     $existingTeamIDs = $this->getAllTeamIDs($website_id);
-
     $teamsIndex = 0;
     $currentTeamIDs = [];
     foreach ($teams as $key => $team) {
@@ -145,7 +161,11 @@ class WebsiteTournamentRepository
       $teamsIndex ++;
     }
 
-    $deleteTeamIDs = array_diff($existingTeamIDs, $currentTeamIDs);
+    if(!empty($currentTeamIDs)) {
+      $deleteTeamIDs = array_diff($existingTeamIDs, $currentTeamIDs);
+    } else {
+      $deleteTeamIDs = $existingTeamIDs;
+    }
 
     if(!empty($deleteTeamIDs)) 
       $this->deleteTeams($deleteTeamIDs);
@@ -198,7 +218,7 @@ class WebsiteTournamentRepository
       $query->with(['teams' => function($query) {
         $query->orderBy('order');
       }, 'teams.country'])->orderBy('order');
-    }])->where('website_id', $websiteId)->get();
+    }])->where('website_id', $websiteId)->orderBy('order')->get();
 
     $response['history'] = $history;
     return $response;

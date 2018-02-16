@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="draggable--section">
-			<draggable v-model="historyYears" :options="{draggable:'.history-year-item', handle: '.history-year-handle'}">
+			<draggable v-model="historyYears" :options="{draggable:'.history-year-item', handle: '.history-year-handle'}" @end="onDragEnd()">
 				<div class="history-year-item draggable--section-card" v-for="(historyYear, index) in historyYears" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
@@ -131,6 +131,9 @@
 			},
 			setHistoryCategoryList(categories, index) {
 				this.historyYears[index].age_categories = categories;
+			},
+			onDragEnd() {
+				this.getHistoryYears();
 			},
 			getHistoryYears() {
 				this.$emit('setHistoryData', this.historyYears);
