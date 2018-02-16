@@ -55,11 +55,13 @@
 	  },
 		methods: {
 			validateForm() {
-				this.$validator.validateAll().then(() => {
-					if(this.currentStatisticOperation == 'add') {
-						this.$emit('storeLocation', this.formValues);
-					} else {
-						this.$emit('updateLocation', this.formValues);
+				this.$validator.validateAll().then((response) => {
+					if(response) {
+						if(this.currentStatisticOperation == 'add') {
+							this.$emit('storeStatistic', this.formValues);
+						} else {
+							this.$emit('updateStatistic', this.formValues);
+						}
 					}
 				}).catch(() => {
 					// fail stuff

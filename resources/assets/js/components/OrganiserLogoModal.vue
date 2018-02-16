@@ -66,11 +66,13 @@
 	  },
 		methods: {
 			validateForm() {
-				this.$validator.validateAll().then(() => {
-					if(this.currentOrganiserLogoOperation == 'add') {
-						this.$emit('storeOrganiserLogo', this.formValues);
-					} else {
-						this.$emit('updateOrganiserLogo', this.formValues);
+				this.$validator.validateAll().then((response) => {
+					if(response) {
+						if(this.currentOrganiserLogoOperation == 'add') {
+							this.$emit('storeOrganiserLogo', this.formValues);
+						} else {
+							this.$emit('updateOrganiserLogo', this.formValues);
+						}
 					}
 				}).catch(() => {
 					// fail stuff

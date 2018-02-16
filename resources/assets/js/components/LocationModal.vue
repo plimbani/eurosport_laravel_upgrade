@@ -3,20 +3,28 @@
 		<div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{{ currentStatisticOperation == 'add' ? $lang.homepage_add_a_statistic : $lang.homepage_edit_statistic }}</h5>
+          <h5 class="modal-title">{{ currentLocationOperation == 'add' ? $lang.homepage_add_a_location : $lang.homepage_edit_location }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-group row" :class="{'has-error': errors.has('statistic') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.homepage_statistic }}*</label>
+          <div class="form-group row">
+            <label class="col-sm-5 form-control-label">{{ $lang.homepage_venue }}*</label>
             <div class="col-sm-6">
-                <input v-model="formValues.statistic" v-validate="{'required':true, 'max': 25}" :class="{'is-danger': errors.has('statistic') }" name="statistic" type="text" class="form-control" :placeholder="$lang.homepage_statistic_model_placeholder" maxlength="25">
-                <i v-show="errors.has('statistic')" class="fa fa-warning"></i>
-                <span class="help is-danger" v-show="errors.has('statistic')">{{ errors.first('statistic') }}<br>
+                <input v-model="formValues.venue_name" name="venue_name" type="text" class="form-control" v-validate="{'required':true}" :class="{'is-danger': errors.has('venue_name') }">
+                <i v-show="errors.has('venue_name')" class="fa fa-warning"></i>
+                <span class="help is-danger" v-show="errors.has('venue_name')">{{ errors.first('venue_name') }}<br>
                 </span>
-                <p class='help-block text-muted' v-bind:class="{'text-danger': hasError }">{{remainingCount}}/{{maxCount}} remaining characters</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-5 form-control-label">{{ $lang.homepage_venue_address }}*</label>
+            <div class="col-sm-6">
+                <textarea v-model="formValues.venue_address" name="venue_address" class="form-control" v-validate="{'required':true}" :class="{'is-danger': errors.has('venue_address') }"></textarea>
+                <i v-show="errors.has('venue_address')" class="fa fa-warning"></i>
+                <span class="help is-danger" v-show="errors.has('venue_address')">{{ errors.first('venue_address') }}<br>
+                </span>
             </div>
           </div>
         </div>
@@ -34,40 +42,39 @@
 	import { ErrorBag } from 'vee-validate';
 
 	export default {
-		props: ['currentStatisticOperation'],
+		props: ['currentLocationOperation'],
 		data() {
 			return {
-		    maxCount: 25,
 		    hasError: false,
 				formValues: {
 					id: '',
-					statistic: '',
+					venue_name: '',
+					venue_address: '',
 				},
 			};
 		},
 		created() {
-      this.$root.$on('setStatisticData', this.setStatisticData);
+      this.$root.$on('setLocationData', this.setLocationData);
     },
     computed: {
-    	remainingCount() {
-	    	return this.maxCount - this.formValues.statistic.length;
-	    }
 	  },
 		methods: {
 			validateForm() {
 				this.$validator.validateAll().then(() => {
-					if(this.currentStatisticOperation == 'add') {
-						this.$emit('storeStatistic', this.formValues);
+					if(this.currentLocationOperation == 'add') {
+						this.$emit('storeLocation', this.formValues);
 					} else {
-						this.$emit('updateStatistic', this.formValues);
+						// this.$emit('updateLocation', this.formValues);
 					}
 				}).catch(() => {
 					// fail stuff
 				});
 			},
-			setStatisticData(statisticData) {
-				this.formValues.id = statisticData.id;
-				this.formValues.statistic = statisticData.statistic;
+			setLocationData(locationData) {
+				// console.log(locationData,'locationData');
+				this.formValues.id = locationData.id;
+				this.formValues.venue_name = locationData.venue_name;
+				this.formValues.venue_address = locationData.venue_address;
 				this.errors.clear();
 			},
 		},

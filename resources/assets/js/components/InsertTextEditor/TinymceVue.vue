@@ -92,10 +92,12 @@
         },
         mounted(){
             this.content = this.value;
-            this.init();  
+            this.init();
         },
         beforeDestroy () {
-            this.editor.destroy();
+            if(this.editor != null) {
+                this.editor.destroy();
+            }
         },
         watch: {
             value : function (newValue){
@@ -105,7 +107,7 @@
                     else
                         this.content = newValue;
                 }
-            }
+            },
         },
         methods: {
             init(){
@@ -126,9 +128,11 @@
                             }
                         });
                         editor.on('init', (e) => {
-                            editor.setContent(this.content);
-                            this.$emit('input', this.content);
+                            // editor.setContent(this.content);
+                            // this.$emit('input', this.content);
                         });
+                        editor.setContent(this.content);
+                        this.$emit('input', this.content);
                     }
                 };
                 tinymce.init(this.concatAssciativeArrays(options, this.other_options));

@@ -212,8 +212,13 @@ return [
         Laraspace\Api\Providers\VenueServiceProvider::class,
         Laraspace\Api\Providers\WebsiteServiceProvider::class,
         Laraspace\Api\Providers\HomeServiceProvider::class,
-
-
+        Laraspace\Api\Providers\StayServiceProvider::class,
+        Laraspace\Api\Providers\VisitorServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteTournamentServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteTeamServiceProvider::class,
+        Laraspace\Api\Providers\ProgramServiceProvider::class,
+        Laraspace\Api\Providers\ConfigServiceProvider::class,
+        Laraspace\Api\Providers\MediaServiceProvider::class,
     ],
 
     /*

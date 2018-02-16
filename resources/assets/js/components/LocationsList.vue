@@ -10,11 +10,11 @@
 			  			</div>
 			  			<div class="draggable--section-card-header-icons">
 					        <a class="text-primary" href="javascript:void(0)"
-					        	@click="deleteStatistic(index)">
+					        	@click="deleteLocation(index)">
 					        	<i class="jv-icon jv-dustbin"></i>
 					        </a>
 					        <a class="text-primary" href="javascript:void(0)"
-					        	@click="editStatistic(location, index)">
+					        	@click="editLocation(location, index)">
 					        	<i class="jv-icon jv-edit"></i>
 					        </a>
 					        <a class="text-primary location-handle draggable-handle" href="javascript:void(0)">
@@ -28,7 +28,7 @@
 			</draggable>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addLocation()">{{ $lang.homepage_add_location }}</button>
-		<location-modal :currentStatisticOperation="currentStatisticOperation" @storeStatistic="storeStatistic" @updateStatistic="updateStatistic"></location-modal>
+		<location-modal :currentLocationOperation="currentLocationOperation" @storeLocation="storeLocation"></location-modal>
 	</div>
 </template>
 
@@ -43,7 +43,7 @@
 			return {
 				locations: [],
 				currentStatisticIndex: -1,
-				currentStatisticOperation: 'add',
+				currentLocationOperation: 'add',
 			};
 		},
 		components: {
@@ -57,11 +57,11 @@
 		},
 		mounted() {
 			// Get all statistics
-			this.getAllStatistics();
+			// this.getAllStatistics();
 			this.$root.$on('getStatistics', this.getStatistics);
 		},
 		methods: {
-			getAllStatistics() {
+			getAllLocations() {
 				Website.getStatistics(this.getWebsite).then(
 	        (response) => {
 	          this.locations = response.data.data;
@@ -73,17 +73,18 @@
 			addLocation() {
 				var formData = {
 					id: '',
-					location: '',
+					venue_name: '',
+					venue_address: '',
 				};
 				this.currentLocationIndex = this.locations.length;
 				this.currentLocationOperation = 'add';
 				this.initializeModel(formData);
 			},
-			storeStatistic(statisticData) {
-				this.locations.push({ id: '', content: statisticData.location });
+			storeLocation(locationData) {
+				this.locations.push({ id: '', venue_name: locationData.venue_name, venue_address: locationData.venue_address });
 				$('#location_modal').modal('hide');
 			},
-			editStatistic(location, index) {
+			/*editLocation(location, index) {
 				var formData = {
 					id: location.id,
 					location: location.content,
@@ -91,24 +92,25 @@
 				this.currentStatisticIndex = index;
 				this.currentStatisticOperation = 'edit';
 				this.initializeModel(formData);
-			},
-			updateStatistic(statisticData) {
+			},*/
+			/*updateLocation(locationData) {
 				this.locations[this.currentStatisticIndex].content = statisticData.location;
 				$('#location_modal').modal('hide');
-			},
-			deleteStatistic(deleteIndex) {
+			},*/
+			/*deleteLocation(deleteIndex) {
 				this.locations = _.remove(this.locations, function(stat, index) {
 				  return index != deleteIndex;
 				});
-			},
+			},*/
 			initializeModel(formData) {
+				// console.log(formData,'formData');
 				var vm = this;
-				this.$root.$emit('setStatisticData', formData);
+				this.$root.$emit('setLocationData', formData);
 				$('#location_modal').modal('show');
 			},
-			getStatistics() {
+			/*getLocations() {
         this.$emit('setStatistics', this.locations);
-      },
+      },*/
 		},
 	}
 </script>

@@ -3,9 +3,11 @@
 namespace Laraspace\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\VenueService;
+use Laraspace\Api\Services\VisitorService;
+use Laraspace\Api\Services\PageService;
+use Laraspace\Api\Repositories\VisitorRepository;
 
-class VenueServiceProvider extends ServiceProvider
+class VisitorServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -23,8 +25,8 @@ class VenueServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\VenueContract', function ($app) {
-            return new VenueService();
+        $this->app->bind('Laraspace\Api\Contracts\VisitorContract', function ($app) {
+            return new VisitorService(new VisitorRepository(new PageService()));
         });
     }
 
@@ -35,6 +37,6 @@ class VenueServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\VenueContract'];
+        return ['Laraspace\Api\Contracts\VisitorContract'];
     }
 }

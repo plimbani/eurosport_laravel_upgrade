@@ -27,12 +27,17 @@
 			  		display: flex;
 			  		align-items: center;
 				  	justify-content: space-between;
-				  	flex-wrap: wrap;
+				  	flex-wrap: nowrap;
 				  	min-height: 30px;
 				  	.thumb {
 				  		max-height: 30px;
 				  		max-width: 100%;
 				  		margin-right: $card-spacer-x;
+				  	}
+				  	.flag {
+				  		max-height: 30px;
+				  		max-width: 100%;
+				  		margin-left: $card-spacer-x;
 				  	}
 				  	.draggable-handle {
 				  		cursor: all-scroll;
@@ -41,6 +46,20 @@
 				  		display: flex;
 			  			flex-direction: column;
 				  	}
+			  	}
+			  	&-icons {
+			  		min-width: 80px;
+				    display: flex;
+				    justify-content: flex-end;
+				    align-items: center;
+				    > a {
+				    	&:not(:last-child) {
+				    		margin-right: 10px;
+				    	}
+				    }
+				    .copy-link {
+				    	margin-right: 10px;
+				    }
 			  	}
 			  	.draggable--section {
 			  		margin-top: $card-spacer-y;

@@ -2,24 +2,39 @@
 
 namespace Laraspace\Api\Services;
 
-use Laraspace\Api\Contracts\VenueContract;
+use Laraspace\Api\Contracts\WebsiteVenueContract;
+use Laraspace\Api\Repositories\WebsiteVenueRepository;
 
-class VenueService implements VenueContract
+class WebsiteVenueService implements WebsiteVenueContract
 {
-    /**
-     *  Messages To Display.
-     */
-    const SUCCESS_MSG = 'Data Sucessfully inserted';
-    const ERROR_MSG = 'Error in Data';
+  /**
+   * @var VenueRepository
+   */
+  protected $venueRepo;
 
-    public function __construct()
-    {
-        $this->venueRepoObj = new \Laraspace\Api\Repositories\VenueRepository();
-        // $this->venueRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
-        
-    }
+  /**
+   * Create a new controller instance.
+   *
+   * @param StayRepository $stayRepo
+   */
+  public function __construct(WebsiteVenueRepository $venueRepo)
+  {
+    $this->venueRepo = $venueRepo;
+  }
 
-     /*
+  /*
+   * Save venue page data
+   *
+   * @return response
+   */
+  public function saveVenuePageData($data) 
+  {
+    $data = $this->venueRepo->saveVenuePageData($data);
+      
+    return ['data' => $data, 'status_code' => '200', 'message' => 'Data Sucessfully Inserted'];   
+  }
+
+   /*
      * Get All Tournaments
      *
      * @param  array $api_key,$state,$type

@@ -4,9 +4,21 @@ namespace Laraspace\Api\Services;
 
 use JWTAuth;
 use Laraspace\Models\Page;
+use Illuminate\Support\Str;
 
 class PageService
 {
+
+  /**
+   * @var URL
+  */
+  protected $url;
+
+  /**
+   * @var Name
+  */
+  protected $name;
+
 	/*
    * Update page details
    *
@@ -20,7 +32,7 @@ class PageService
     } else {
       $page = Page::where('name', $pageDetail['name'])->where('website_id', $websiteId)->first();
     }
-    
+    isset($pageDetail['title']) ? $page->title = $pageDetail['title'] : '';
     isset($pageDetail['content']) ? $page->content = $pageDetail['content'] : '';
     isset($pageDetail['meta']) ? $page->meta = $pageDetail['meta'] : '';
     isset($pageDetail['is_additional_page']) ? $page->is_additional_page = $pageDetail['is_additional_page'] : '';
@@ -39,7 +51,7 @@ class PageService
   public function insertPageDetails($pageDetail, $websiteId)
   {
     $page = new Page();
-    $page->slug = $pageDetail['slug'];
+    $page->url = $pageDetail['slug'];
     $page->website_id = $websiteId;
     $page->parent_id = $pageDetail['parent_id'];
     $page->name = $pageDetail['name'];
@@ -65,4 +77,62 @@ class PageService
 
     return $page;
   }
+
+  /*
+   * Get staypage details
+   *
+   * @return response
+   */
+  public function getMultiplePagesData($pageDetails, $websiteId)
+  {
+    $pages = Page::whereIn('name', $pageDetails)->where('website_id', $websiteId)->get()->keyBy('name')->toArray();
+
+    return $pages;
+  }
+
+  /*
+   * Generate Url
+   * @return response
+   */
+  public function generateUrl($title, $websiteId, $stayPageUrl)
+  {
+    $slug = Str::slug($title);
+    $slugCount = count(Page::where('website_id', $websiteId)->whereRaw("url REGEXP '^{$stayPageUrl}/{$slug}(-[0-9]*)?$'")->get());
+
+    return ($slugCount > 0) ? "{$stayPageUrl}/{$slug}-{$slugCount}" : "{$stayPageUrl}/{$slug}";
+  }
+
+  /*
+   * Generate Name
+   * @return response
+   */
+  public function generateName($title, $websiteId)
+  {
+    $slug = Str::slug($title, '_');
+    $slugCount = count(Page::where('website_id', $websiteId)->whereRaw("name REGEXP '^{$slug}(_[0-9]*)?$'")->get() );
+
+    return ($slugCount > 0) ? "{$slug}_{$slugCount}" : $slug;
+  }
+
+  /**
+   * Get pages by parent id
+   *
+   */
+  public function getAdditionalPagesByParentId($parentId, $websiteId)
+  {
+    $pages = Page::where('parent_id', $parentId)->where('is_additional_page', 1)->get();
+
+    return $pages;
+  }
+
+  /*
+   * Delete pages
+   *
+   * @return response
+   */
+  public function deletePages($pageIds = [])
+  {
+    Page::whereIn('id', $pageIds)->delete();
+    return true;
+  }  
 }

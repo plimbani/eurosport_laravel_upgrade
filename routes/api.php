@@ -307,8 +307,39 @@ $api->version('v1', function ($api) {
     $api->get('getOrganisers/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getOrganisers');
     $api->get('getSponsors/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getSponsors');
     $api->post('saveHomePageData', 'Laraspace\Api\Controllers\HomeController@savePageData');
+    
+    $api->post('saveWebsiteTournamentPageData', 'Laraspace\Api\Controllers\WebsiteTournamentController@saveWebsiteTournamentPageData');
+    $api->get('getWebsiteTournamentPageData/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTournamentController@getWebsiteTournamentPageData');
+
     $api->get('getHomePageData/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getPageData');
+
+    //Website staypage
+    $api->post('saveStayPageData', 'Laraspace\Api\Controllers\StayController@saveStayPageData');
+    $api->get('getStayPageData/{websiteId}', 'Laraspace\Api\Controllers\StayController@getStayPageData');
+
+    // Website programpage
+    $api->get('getItineraries/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getItineraries');
+    $api->post('saveProgramPageData', 'Laraspace\Api\Controllers\ProgramController@saveProgramPageData');
+    $api->get('getProgramPageData/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getProgramPageData');
 
     // Image path
     $api->get('getImagePath', 'Laraspace\Api\Controllers\WebsiteController@getImagePath');
+
+    // Website visitor
+    $api->post('saveVisitorPageData', 'Laraspace\Api\Controllers\VisitorController@savePageData');
+    $api->get('getVisitorPageData/{websiteId}', 'Laraspace\Api\Controllers\VisitorController@getPageData');
+
+    // Website team
+    $api->get('getAgeCategories/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTeamController@getAgeCategories');
+    $api->get('getTeamPageData/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTeamController@getPageData');
+    $api->post('saveTeamPageData', 'Laraspace\Api\Controllers\WebsiteTeamController@savePageData');
+    $api->post('importAgeCategoryAndTeamData', 'Laraspace\Api\Controllers\WebsiteTeamController@importAgeCategoryAndTeamData');
+
+    // Website media
+    $api->get('getPhotos/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getPhotos');
+    $api->get('getDocuments/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getDocuments');
+    $api->post('saveMediaPageData', 'Laraspace\Api\Controllers\MediaController@savePageData');
+
+    //Website location
+    $api->post('saveLocationData', 'Laraspace\Api\Controllers\WebsiteVenueController@saveVenuePageData');    
 });
