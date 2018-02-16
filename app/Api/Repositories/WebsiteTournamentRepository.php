@@ -42,7 +42,6 @@ class WebsiteTournamentRepository
    */	
 	public function saveWebsiteTournamentPageData($data)
 	{
-    // echo "<pre>"; print_r($data['history']); echo "</pre>"; exit;
     $historyData = $data['history'];
 
     $website_id = $data['websiteId'];
