@@ -243,6 +243,7 @@ module.exports= {
   competation_modal_remark: "Remark:",
 
   pitch_modal_match_details: "Match Details",
+  pitch_modal_match_card: "Match Card",
   pitch_modal_print: "Print",
   pitch_modal_match_number: "Match number",
   pitch_modal_date: "Date",

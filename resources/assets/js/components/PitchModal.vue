@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{$lang.pitch_modal_match_details}}</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{$lang.pitch_modal_match_card}}</h5>
             <div class="d-flex align-items-center">
 
               <button type="button" class="btn btn-primary mr-4" @click="generateMatchPrint()">{{$lang.pitch_modal_print}}</button>
