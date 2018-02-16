@@ -168,7 +168,7 @@ class ProgramRepository
       if($pageData['id'] == '') {
         $url = $this->pageService->generateUrl($pageData['title'], $websiteId, $this->programPageName);
         $name = $this->pageService->generateName($pageData['title'], $websiteId);
-        $pageData['slug'] = $url;
+        $pageData['url'] = $url;
         $pageData['name'] = $name;
         $pageData['parent_id'] = $data['parent_id'];
         $pageData['is_additional_page'] = 1;

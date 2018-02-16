@@ -87,7 +87,7 @@
         this.formValues.day = itineraryData.day;
         this.formValues.time = itineraryData.time;
         this.formValues.item = itineraryData.item;
-        this.errors.clear();        
+        this.clearErrorMsgs();
       }
     }
   }

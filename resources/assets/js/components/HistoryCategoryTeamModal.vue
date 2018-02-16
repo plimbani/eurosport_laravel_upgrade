@@ -80,9 +80,7 @@
         this.formValues.id = categoryTeamData.id;
         this.formValues.name = categoryTeamData.name;
         this.formValues.country = categoryTeamData.country;
-        Vue.nextTick(function () {
-          that.errors.clear();
-        });
+        this.clearErrorMsgs();        
       },
     },
   };
