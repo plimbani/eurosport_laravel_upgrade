@@ -15,7 +15,7 @@ class CreateHistoryYearsTable extends Migration
     {
         Schema::create('history_years', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('year');
+            $table->integer('year');
             $table->integer('website_id')->unsigned()->index();
             $table->foreign('website_id')->references('id')->on('websites')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('order');
