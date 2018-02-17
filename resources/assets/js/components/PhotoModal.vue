@@ -12,7 +12,7 @@
           <div class="form-group row" :class="{'has-error': errors.has('image') }">
             <label class="col-sm-5 form-control-label">{{ $lang.image }}*</label>
             <div class="col-sm-6">
-              <img :src="getImage" width="100px" height="100px"/>
+              <img :src="getImage" class="thumb-size" />
               <button type="button" class="btn btn-default" @click="selectImage()">{{$lang.tournament_tournament_choose_button}}</button>
               <input type="file" id="image" style="display:none;" @change="onPhotoChange">
               <input type="hidden" v-model="formValues.image" name="image" v-validate="'required'" />

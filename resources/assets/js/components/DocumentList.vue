@@ -9,15 +9,17 @@
 			  				{{ document.file_name }}
 			  			</div>
 			        <div class="draggable--section-card-header-icons">
-								<v-popover class="d-inline-flex copy-link" v-show="checkForUploadedDocument(document)">
-	  							<a class="text-primary" href="javascript:void(0)" @click="initializeDocumentLink(document, index)">
-					        	<i class="fa fa-link"></i>
-					        </a>
-								  <template slot="popover">
-								  	<input class="tooltip-content" :class="`js-popover-content-${index}`" type="text" v-model="documentLink" />
-								  	<span><i class="fa fa-check"></i> Link copied to clipboard</span>
-								  </template>
-								</v-popover>
+			        	<span v-show="checkForUploadedDocument(document)">
+									<v-popover class="d-inline-flex copy-link">
+		  							<a class="text-primary" href="javascript:void(0)" @click="initializeDocumentLink(document, index)">
+						        	<i class="fa fa-link"></i>
+						        </a>
+									  <template slot="popover">
+									  	<input class="tooltip-content" :class="`js-popover-content-${index}`" type="text" v-model="documentLink" />
+									  	<span><i class="fa fa-check"></i> Link copied to clipboard</span>
+									  </template>
+									</v-popover>
+								</span>
 				        <a class="text-primary" href="javascript:void(0)"
 				        	@click="deleteDocument(index)">
 				        	<i class="jv-icon jv-dustbin"></i>

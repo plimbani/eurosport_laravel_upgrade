@@ -5,7 +5,7 @@
 				<div class="card-block">
 					<h6><strong>{{$lang.website_stay}}</strong></h6>				
 					<div class="form-group justify-content-between row">
-	        	<div class="col-sm-6">
+	        	<div class="col-sm-12">
 	        		<div class="row">
 		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.website_stay_introduction_content}}</label>
 		          	<div class="col-sm-12">
@@ -14,9 +14,10 @@
 	          	</div>
 	          </div>
 					</div>
+					<hr class="my-4">
 					<h6><strong>{{$lang.website_meals}}</strong></h6>
 					<div class="form-group justify-content-between row">
-	        	<div class="col-sm-6">
+	        	<div class="col-sm-12">
 	        		<div class="row">
 		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
 		          	<div class="col-sm-12">
@@ -25,9 +26,10 @@
 	          	</div>
 	          </div>
 					</div>
+					<hr class="my-4">
 					<h6><strong>{{$lang.website_accommodation}}</strong></h6>
 					<div class="form-group justify-content-between row">
-	        	<div class="col-sm-6">
+	        	<div class="col-sm-12">
 	        		<div class="row">
 		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
 		          	<div class="col-sm-12">
