@@ -297,6 +297,7 @@ router.beforeEach((to, from, next) => {
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
                 return next({ path : '/admin'});
             }
+            store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
     }

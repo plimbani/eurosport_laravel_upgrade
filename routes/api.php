@@ -112,6 +112,13 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('team/category/assign', 'Laraspace\Api\Controllers\TeamController@assignCategory');
     $api->post('team/getClubsTeams','Laraspace\Api\Controllers\TeamController@getClubTeams'); 
     $api->post('team/getTeamsGroup', 'Laraspace\Api\Controllers\TeamController@getAllTeamsGroup');
+    $api->post('team/checkTeamExist', 'Laraspace\Api\Controllers\TeamController@checkTeamExist');
+    
+    $api->post('editTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@editTeamDetails');
+    $api->get('getAllCountries', 'Laraspace\Api\Controllers\TeamController@getAllCountries');
+    $api->get('getAllClubs', 'Laraspace\Api\Controllers\TeamController@getAllClubs');
+
+    $api->post('updateTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@updateTeamDetails');
 
     // Method for get All TournamentTeams
 
@@ -130,13 +137,11 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch'); 
     $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail'); 
-    // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
-    
-
-   
+    // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');      
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee'); 
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee'); 
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult'); 
+    $api->post('match/saveAllResults', 'Laraspace\Api\Controllers\MatchController@saveAllResults');
     $api->post('match/saveUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@saveUnavailableBlock');
     $api->post('match/getUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@getUnavailableBlock'); 
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
