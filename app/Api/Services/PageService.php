@@ -123,7 +123,7 @@ class PageService
    */
   public function getAdditionalPagesByParentId($parentId, $websiteId)
   {
-    $pages = Page::where('parent_id', $parentId)->where('is_additional_page', 1)->get();
+    $pages = Page::where('parent_id', $parentId)->where('is_additional_page', 1)->orderBy('order')->get();
 
     return $pages;
   }
