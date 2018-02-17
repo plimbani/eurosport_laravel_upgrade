@@ -33,7 +33,7 @@
 		</div>
 		<div class="col-sm-6">
 			<div class="row">
-		  	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_title}}*</label>
+		  	<label class="col-sm-12 pt-0 form-control-label">{{$lang.page_title}}*</label>
 		  	<div class="col-sm-12">
 		  		<input type="text" class="form-control" v-model="additional_page.title" name="additional_page_title" data-vv-as="page title" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
 					<i v-show="errors.has('additional_page_title')" class="fa fa-warning"></i>
