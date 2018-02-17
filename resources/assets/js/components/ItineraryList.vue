@@ -2,7 +2,7 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-if="itineraries.length" v-model="itineraries" :options="{draggable:'.itinerary-item', handle: '.itinerary-handle'}">
-				<div class="itinerary-item draggable--section-card" v-for="(itinerary, index) in itineraries" :key="itinerary.id">
+				<div class="itinerary-item draggable--section-card" v-for="(itinerary, index) in itineraries" :key="index">
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>

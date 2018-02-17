@@ -2,7 +2,7 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-if="sponsors.length" v-model="sponsors" :options="{draggable:'.sponsor-logo-item', handle: '.sponsor-logo-handle'}">
-			  	<div class="draggable--section-card sponsor-logo-item" v-for="(sponsor, index) in sponsors" :key="sponsor.id">
+			  	<div class="draggable--section-card sponsor-logo-item" v-for="(sponsor, index) in sponsors" :key="index">
 			  		<div class="draggable--section-card-header">
 				  		<div class="draggable--section-card-header-panel">
 				  			<div class="d-flex align-items-center">

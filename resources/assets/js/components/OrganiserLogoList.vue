@@ -2,7 +2,7 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-if="organiserLogos.length" v-model="organiserLogos" :options="{draggable:'.organiser-logo-item', handle: '.organiser-logo-handle'}">
-		  	<div class="draggable--section-card organiser-logo-item" v-for="(organiserLogo, index) in organiserLogos" :key="organiserLogo.id">
+		  	<div class="draggable--section-card organiser-logo-item" v-for="(organiserLogo, index) in organiserLogos" :key="index">
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
 			  			<div class="d-flex align-items-center">
