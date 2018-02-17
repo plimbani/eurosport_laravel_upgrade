@@ -22,12 +22,12 @@
 						        </a>
 						        <a class="text-primary additional-page-handle draggable-handle" href="javascript:void(0)">
 						        	<i class="fa fa-bars"></i>
-						        </a>				  				
+						        </a>
 				  			</div>
 							</div>
 						</div>
 					</div>
-				</draggable>				
+				</draggable>
 			</div>
 			<p class="help-block text-muted" v-show="pages.length === 0">{{ $lang.no_additional_page_title }}</p>
 		</div>
@@ -43,7 +43,7 @@
 			<div class="row">
 		  	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}*</label>
 		  	<div class="col-sm-12">
-		  		<insert-text-editor :id="'additional_page_content'" :value="additional_page.content" @setEditorValue="setAdditionalPageContent"></insert-text-editor>
+		  		<insert-text-editor :pageContentValidation="pageContentValidation" :validationFieldName="'page content'" :id="'additional_page_content'" :value="additional_page.content" @setEditorValue="setAdditionalPageContent"></insert-text-editor>
 		  	</div>
 		  	<div class="col-sm-12 mt-4" v-if="currentPageOperation == 'add'">
 		  		<button type="button" class="btn btn-primary" @click="saveAdditionalPage()">{{$lang.add_additional_page_btn}}</button>
@@ -78,6 +78,9 @@
 				pages: [],
 				currentPageOperation: 'add',
 				parent_id: null,
+				pageContentValidation: {
+					required: true
+				}
 			};
 		},
 		computed: {
@@ -149,8 +152,8 @@
       },
       setPages(pages) {
       	this.pages = pages;
+      	this.clearErrorMsgs();
       },
-
 		}
 	}
 </script>

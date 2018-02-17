@@ -96,17 +96,14 @@ export default {
   importAgeCategoryAndTeamData(formData) {
     return api.post('/importAgeCategoryAndTeamData', formData);
   },
-
   // get all itineraries
   getItineraries(websiteId) {
     return axios.get('/api/getItineraries/' + websiteId);
   },
-  
   // save program page data
   saveProgramPageData(pageData) {
     return api.post('/saveProgramPageData', pageData);
   },
-
   // get program page data
   getProgramPageData(websiteId) {
     return axios.get('/api/getProgramPageData/' + websiteId);
@@ -122,5 +119,13 @@ export default {
   // Save media page
   saveMediaPageData(pageData) {
     return api.post('/saveMediaPageData', pageData);
+  },
+  // Save venue data
+  saveVenuePageData(pageData) {
+    return api.post('/saveVenuePageData', pageData);
+  },
+  // Get all venue locations
+  getLocations(websiteId) {
+    return axios.get('/api/getLocations/' + websiteId);
   },
 }

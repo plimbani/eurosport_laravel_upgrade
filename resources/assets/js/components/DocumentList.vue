@@ -15,6 +15,7 @@
 					        </a>
 								  <template slot="popover">
 								  	<input class="tooltip-content" :class="`js-popover-content-${index}`" type="text" v-model="documentLink" />
+								  	<span><i class="fa fa-check"></i> Link copied to clipboard</span>
 								  </template>
 								</v-popover>
 				        <a class="text-primary" href="javascript:void(0)"
@@ -35,6 +36,7 @@
 			<button type="button" class="btn btn-primary" @click="addDocument()" v-if="documents.length < 10">{{ $lang.add_file }}</button>
 			<div class="help-block mt-2">{{$lang.document_instruction}}</div>
   		<div class="help-block mt-2 pt-0">{{$lang.copy_link_instruction}}</div>
+  		<button type="button" class="js-copy-clipboard-document-link" v-clipboard:copy="documentLink" v-show="false"></button>
 			<document-modal :currentDocumentOperation="currentDocumentOperation" @storeDocument="storeDocument" @updateDocument="updateDocument"></document-modal>
 		</div>
 	</div>
@@ -45,7 +47,7 @@
 	import draggable from 'vuedraggable';
 	import DocumentModal  from  './DocumentModal.vue';
 	import _ from 'lodash';
-	import { VTooltip, VPopover, VClosePopover } from 'v-tooltip'
+	import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
 
 	export default {
 		data() {
@@ -137,10 +139,11 @@
       },
       initializeDocumentLink(document, index) {
       	this.documentLink = this.getDocumentPath + this.getWebsite + '/' + document.file_name;
-      	setTimeout(function(){
+      	this.$nextTick().then(() => {
       		$('.js-popover-content-' + index).focus();
       		$('.js-popover-content-' + index).select();
-      	}, 500);
+      		$('.js-copy-clipboard-document-link').trigger('click');
+      	});
       },
       checkForUploadedDocument(document) {
       	if(document.file.indexOf(this.getDocumentPath + this.getWebsite) !== -1) {
