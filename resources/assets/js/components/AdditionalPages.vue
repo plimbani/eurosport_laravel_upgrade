@@ -121,7 +121,7 @@
 				this.currentPageIndex = index;
 				this.additional_page.id = page.id;
 				this.additional_page.title = page.title;
-				this.additional_page.content = page.content;				
+				this.additional_page.content = page.content;
 				this.clearErrorMsgs();
 			},
 			updatePage() {
