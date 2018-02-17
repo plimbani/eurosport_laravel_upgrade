@@ -91,6 +91,7 @@
 
                       <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
                       <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
+                      <th class="text-center">{{$lang.teams_age_category_action}}</th>
                   </tr>
               </thead>
                 <tbody v-if="teams.length!=0">
@@ -121,12 +122,18 @@
                         <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName"></teamSelect>
                       </td>
                       <td width="130px" v-else>{{ getModifiedDisplayGroupName(team.group_name) }}</td>
+                      <td class="text-center">
+                        <a class="text-primary" href="javascript:void(0)"
+                         @click="editTeam(team.id)">
+                          <i class="jv-icon jv-edit"></i>
+                        </a>
+                      </td>
                     </tr>
 
                 </tbody>
                 <tbody v-else>
                   <tr>
-                    <td colspan="7"> No teams available</td>
+                    <td colspan="8"> No teams available</td>
                     </tr>
                 </tbody>
             </table>
@@ -136,6 +143,7 @@
   			</div>
   		</div>
   	</div>
+     <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs"></team-modal>
   </div>
 </template>
 
@@ -144,6 +152,7 @@
    import _ from 'lodash'
    import TournamentFilter from '../../../components/TournamentFilter.vue'
    import teamSelect from '../../../components/teamSelect/teamSelect.vue'
+   import TeamModal  from  '../../../components/teamSelect/TeamModal.vue'
 
    import Vue from 'vue'
 
@@ -153,6 +162,7 @@
 	export default {
     data() {
     return {
+        'teamId': '',
         'teamSize': 5,
         'teams': [],
         // 'teamsIdList': '',
@@ -173,6 +183,8 @@
         'seleTeam':'De-select',
         'canUploadTeamFile': true,
         'teamsInEdit': {},
+        'countries': [],
+        'clubs': [],
         // 'tournamentFilter':{
         //   'filterKey':'team',
         //   'filterValue': ''
@@ -183,7 +195,8 @@
 
     components: {
       TournamentFilter,
-      teamSelect
+      teamSelect,
+      TeamModal
     },
     computed: {
        tournamentFilter: function() {
@@ -228,10 +241,13 @@
         })
 
       this.getTeams()
-
+      this.fetchAllCountries();
+      this.fetchAllClubs();
     },
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
+      this.$root.$on('updateTeamList', this.getTeams);
+
       // this.$root.$on('onAssignGroup', this.onAssignGroup);
       // this.$root.$on('beforeChange', this.beforeChange);
     },
@@ -608,6 +624,36 @@
         }
         return groupName;
       },
+      editTeam(id) {
+        this.teamId = id
+        let vm = this
+        setTimeout(function(){
+            $('#team_form_modal').modal('show');
+            $("#team_form_modal").on('hidden.bs.modal', function () {
+
+            });
+        },1000)
+        vm.$root.$emit('editTeamData',  id)
+      },
+      fetchAllCountries() {
+        Tournament.getAllCountries().then(
+          (response) => {
+            this.countries = response.data.countries
+          },
+            (error)=> {
+            }
+          );
+      },
+      fetchAllClubs() {
+        Tournament.getAllClubs().then(
+          (response) => {
+            this.clubs = response.data.clubs
+          },
+          (error) => {
+
+          }
+        )
+      }
     }
   }
 </script>

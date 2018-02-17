@@ -133,6 +133,10 @@ class MatchController extends BaseController
     {
         return $this->matchObj->saveResult($request);
     }
+    public function saveAllResults(Request $request)
+    {
+        return $this->matchObj->saveAllResults($request);
+    }
     public function saveUnavailableBlock(Request $request)
     {
         return $this->matchObj->saveUnavailableBlock($request);
@@ -266,6 +270,7 @@ class MatchController extends BaseController
                     'matchId' => $fixture->id,
                     'matchStatus' => NULL,
                     'matchWinner' => NULL,
+                    'is_result_override' => 0,
                     'refereeId' => NULL,
                 ];
 

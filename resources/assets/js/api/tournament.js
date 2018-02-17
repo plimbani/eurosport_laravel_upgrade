@@ -134,6 +134,9 @@ export default {
   saveMatchResult(matchData) {
     return api.post('match/saveResult',{'matchData': matchData})
   },
+  saveAllMatchResults(matchData) {
+    return api.post('match/saveAllResults',{'matchData': matchData})
+  },
   setUnavailableBlock(matchData) {
     return api.post('match/saveUnavailableBlock',{'matchData': matchData})
   },
@@ -182,6 +185,21 @@ export default {
   },
   getAllPublishedTournaments() {
     return api.get('/getAllPublishedTournaments')
+  },
+  getEditTeamDetails(id) {
+    return api.post('editTeamDetails/'+id)
+  },
+  getAllCountries() {
+    return api.get('getAllCountries');
+  },
+  getAllClubs() {
+    return api.get('getAllClubs');
+  },
+  updateTeamDetails(teamId, formData) {
+    return api.post('updateTeamDetails/'+teamId, formData);
+  },
+  checkTeamExist(teamData) {
+    return api.post('team/checkTeamExist', {teamData})
   },
   getPlacingsData(placingsData) {
     return api.post('age_group/getPlacingsData', placingsData)

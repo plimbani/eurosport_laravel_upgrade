@@ -22,6 +22,10 @@ export const setcurrentAgeCategoryId = ({ commit }, setcurrentAgeCategoryId) => 
 export const isAdmin = ({ commit }, isAdmin) => {
   commit(types.IS_ADMIN, isAdmin)
 }
+
+export const setScoreAutoUpdate = ({ commit }, scoreAutoUpdate) => {
+  commit(types.SET_SCORE_AUTO_UPDATE, scoreAutoUpdate)
+}
 /*export const setTournament = ({ commit }, tournament) => {
   commit(types.CURRENT_TOURNAMENT, selectedAction)
 }*/
