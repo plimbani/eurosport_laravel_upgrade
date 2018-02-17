@@ -2,7 +2,7 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-if="photos.length" v-model="photos" :options="{draggable:'.photo-item', handle: '.photo-handle'}">
-		  	<div class="draggable--section-card photo-item" v-for="(photo, index) in photos" :key="photo.id">
+		  	<div class="draggable--section-card photo-item" v-for="(photo, index) in photos" :key="index">
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
 			  			<div class="d-flex align-items-center">

@@ -2,7 +2,7 @@
 	<div>
 		<div class="draggable--section">
 			<draggable v-if="statistics.length" v-model="statistics" :options="{draggable:'.statistic-item', handle: '.statistic-handle'}">
-		  	<div class="statistic-item draggable--section-card" v-for="(statistic, index) in statistics" :key="statistic.id">
+		  	<div class="statistic-item draggable--section-card" v-for="(statistic, index) in statistics" :key="index">
 		  		<div class="draggable--section-card-header">
 		  			<div class="draggable--section-card-header-panel">
 		  				<div>
