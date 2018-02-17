@@ -143,7 +143,7 @@ export default {
 			Website.saveHomePageData(this.homepage).then(
         (response)=> {
         	$("body .js-loader").addClass('d-none');
-          toastr.success('Homepage has been updated successfully.', 'Success');
+          toastr.success('Home page has been updated successfully.', 'Success');
           this.$router.push({name:'website_teams'});
         },
         (error)=>{

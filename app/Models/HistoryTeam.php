@@ -4,7 +4,7 @@ namespace Laraspace\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HistoryTeams extends Model
+class HistoryTeam extends Model
 {
 	/**
      * The table associated with the model.

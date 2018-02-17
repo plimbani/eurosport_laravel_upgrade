@@ -29,9 +29,9 @@ class WebsiteTournamentService implements WebsiteTournamentContract
    *
    * @return response
    */
-  public function saveWebsiteTournamentPageData($data) 
+  public function savePageData($data) 
   {
-    $data = $this->websiteTournamentRepo->saveWebsiteTournamentPageData($data);
+    $data = $this->websiteTournamentRepo->savePageData($data);
       
     return ['data' => $data, 'status_code' => '200', 'message' => 'Data Sucessfully Inserted'];  	
   }
@@ -41,9 +41,9 @@ class WebsiteTournamentService implements WebsiteTournamentContract
    *
    * @return response
    */
-  public function getWebsiteTournamentPageData($websiteId)
+  public function getPageData($websiteId)
   {
-    $data = $this->websiteTournamentRepo->getWebsiteTournamentPageData($websiteId);
+    $data = $this->websiteTournamentRepo->getPageData($websiteId);
 
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }

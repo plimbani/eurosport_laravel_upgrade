@@ -115,7 +115,7 @@ export default {
 			Website.saveStayPageData(this.staypage).then(
 				(response)=> {
 					$("body .js-loader").addClass('d-none');
-					toastr.success('Staypage has been updated successfully.', 'Success');
+					toastr.success('Stay page has been updated successfully.', 'Success');
 					this.redirectToForward();
 				},
         (error)=>{

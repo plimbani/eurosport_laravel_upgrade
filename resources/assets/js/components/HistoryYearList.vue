@@ -88,7 +88,7 @@
 		},
 		mounted() {
 			this.$root.$on('getHistoryYears', this.getHistoryYears);
-			this.$root.$on('importHistoryYears', this.importHistoryYears);
+			this.$root.$on('setHistoryYears', this.setHistoryYears);
 		},
 		methods: {
 			addHistoryYear() {
@@ -139,10 +139,9 @@
 			getHistoryYears() {
 				this.$emit('setHistoryData', this.historyYears);
 			},
-			importHistoryYears(historyYears) {
+			setHistoryYears(historyYears) {
 				this.historyYears = historyYears;
 			},
-
 			// category list related functions
 			initializeCategoryModal(formData, additionalParams) {
 				this.categoryModal.categoryOperation = additionalParams.categoryOperation;

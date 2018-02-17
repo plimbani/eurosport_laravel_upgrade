@@ -92,7 +92,7 @@ export default {
       Website.saveTeamPageData(this.team).then(
         (response)=> {
         	$("body .js-loader").addClass('d-none');
-          toastr.success('Team has been updated successfully.', 'Success');
+          toastr.success('Team page has been updated successfully.', 'Success');
           this.$router.push({name:'website_venue'});
         },
         (error)=>{

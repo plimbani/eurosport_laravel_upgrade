@@ -111,7 +111,7 @@ export default {
 			Website.saveVisitorPageData(this.visitor).then(
         (response)=> {
         	$("body .js-loader").addClass('d-none');
-          toastr.success('Visitor has been updated successfully.', 'Success');
+          toastr.success('Visitor page has been updated successfully.', 'Success');
           this.$router.push({name:'website_media'});
         },
         (error)=>{
