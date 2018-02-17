@@ -95,7 +95,7 @@ class WebsiteTournamentRepository
    */
   public function insertHistoryYear($websiteId, $data)
   {
-    $historyYear = new HistoryYears();
+    $historyYear = new HistoryYear();
     $historyYear->website_id = $websiteId;
     $historyYear->year = $data['year'];
     $historyYear->order = $data['order'];
@@ -252,7 +252,7 @@ class WebsiteTournamentRepository
    */
   public function insertTeam($ageCategoryId, $websiteId, $data)
   {
-    $team = new HistoryTeams();
+    $team = new HistoryTeam();
     $team->website_id = $websiteId;
     $team->history_age_category_id = $ageCategoryId;
     $team->name = $data['name'];
