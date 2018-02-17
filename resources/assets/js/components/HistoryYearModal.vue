@@ -39,7 +39,7 @@
         formValues: {
           id: '',
           year: '',
-          categoryList: [],
+          age_categories: [],
         },
       };
     },
@@ -66,7 +66,7 @@
       setHistoryYearData(historyYearData) {
         this.formValues.id = historyYearData.id;
         this.formValues.year = historyYearData.year;
-        this.formValues.categoryList = historyYearData.categoryList;
+        this.formValues.age_categories = historyYearData.age_categories;
         this.clearErrorMsgs();
       },
     },
