@@ -29,6 +29,21 @@ class WebsiteVenueController extends BaseController
       $this->websiteVenueContract = $websiteVenueContract;
   }
 
+  /**
+   * Get all locations
+   *
+   * Get a JSON representation of all the locations.
+   *
+   * @Get("/getLocations")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getLocations(Request $request, $websiteId)
+  {
+    return $this->websiteVenueContract->getLocations($websiteId);
+  }
+
+
   /*
    * Save venue page data
    *

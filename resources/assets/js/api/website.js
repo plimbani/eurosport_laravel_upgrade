@@ -121,7 +121,11 @@ export default {
     return api.post('/saveMediaPageData', pageData);
   },
   // Save venue data
-  saveVenueData(pageData) {
-    return api.post('/saveVenueData', pageData);
+  saveVenuePageData(pageData) {
+    return api.post('/saveVenuePageData', pageData);
+  },
+  // Get all venue locations
+  getLocations(websiteId) {
+    return axios.get('/api/getLocations/' + websiteId);
   },
 }

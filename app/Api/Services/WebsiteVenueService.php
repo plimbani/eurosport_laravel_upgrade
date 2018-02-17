@@ -23,6 +23,19 @@ class WebsiteVenueService implements WebsiteVenueContract
   }
 
   /*
+   * Get locations
+   *
+   * @return response
+   */
+  public function getLocations($websiteId)
+  {
+    $data = $this->venueRepo->getAllLocations($websiteId);
+    
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+  }
+
+
+  /*
    * Save venue page data
    *
    * @return response

@@ -645,15 +645,15 @@ module.exports= {
 
   // Website Homepage
   homepage_add_a_statistic: "Add a statistic",
-  homepage_add_a_location: "Add a location",
+  venue_add_a_location: "Add a location",
   homepage_edit_statistic: "Edit statistic",
-  homepage_edit_location: "Edit location",
+  venue_edit_location: "Edit location",
   homepage_statistics: "Statistics",
   homepage_statistic: "Statistic",
-  homepage_venue: "Venue name",
-  homepage_venue_address: "Venue address",
+  venue_name: "Venue name",
+  venue_address: "Venue address",
   homepage_add_statistic: "Add statistic",
-  homepage_add_location: "Add location",
+  venue_add_location: "Add location",
   homepage_statistic_model_placeholder: "30 years of experience",
   cancel_button: "Cancel",
   save_button: "Save",
@@ -719,4 +719,5 @@ module.exports= {
   no_itinerary_found: "No itinerary found.",
   no_photo_gallery_found: "No photo found.",
   no_document_found: "No document found.",
+  no_location_found: "No location found.",
 }

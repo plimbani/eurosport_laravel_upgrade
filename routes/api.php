@@ -340,6 +340,7 @@ $api->version('v1', function ($api) {
     $api->get('getDocuments/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getDocuments');
     $api->post('saveMediaPageData', 'Laraspace\Api\Controllers\MediaController@savePageData');
 
-    //Website venue
+    // Website venue
+    $api->get('getLocations/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getLocations');
     $api->post('saveVenuePageData', 'Laraspace\Api\Controllers\WebsiteVenueController@savePageData');
 });

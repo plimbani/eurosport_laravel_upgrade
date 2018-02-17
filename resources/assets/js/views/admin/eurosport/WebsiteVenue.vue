@@ -6,10 +6,10 @@
 				<form name="website_venue" enctype="multipart/form-data">
 					<div class="form-group row">
 	        	<div class="col-sm-6">
-	        		<locations-list @setLocations="setLocations"></locations-list>
+	        		<website-location-list @setLocations="setLocations"></website-location-list>
 	        	</div>
 	        </div>
-				</form>					
+				</form>
 			</div>
 		</div>
 		<div class="row">
@@ -18,7 +18,7 @@
 	        <button class="btn btn-primary" @click="redirectToBackward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
 	      </div>
 	      <div class="pull-right">
-	        <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+	        <button class="btn btn-primary" @click="redirectToForward()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
 	      </div>
 	    </div>
 	  </div>
@@ -26,17 +26,16 @@
 </template>
 <script>
 var moment = require('moment');
-import Tournament from '../../../api/tournament.js';
 import Website from '../../../../js/api/website.js';
-import LocationsList from '../../../components/LocationsList.vue';
+import WebsiteLocationList from '../../../components/WebsiteLocationList.vue';
 
 export default {
 	components: {
-		LocationsList
+		WebsiteLocationList
 	},
 	data() {
 		return {
-			venuepage: {
+			venue: {
 				websiteId: null,
 				locations: [],
 			},
@@ -44,7 +43,7 @@ export default {
 	},
 	mounted() {
 		let currentNavigationData = {
-			activeTab:'website_venue', 
+			activeTab:'website_venue',
 			currentPage:'Venue'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
@@ -52,30 +51,26 @@ export default {
 	computed: {
 	},
 	methods: {
-		next() {
-			console.log('here');
-      // this.$root.$emit('getLocations');
-      this.venuepage.websiteId = this.getWebsiteId();
+		redirectToForward() {
+      this.$root.$emit('getLocations');
+
+      this.venue.websiteId = this.getWebsiteId();
       $("body .js-loader").removeClass('d-none');
-			Website.saveLocationData(this.venuepage).then(
+      Website.saveVenuePageData(this.venue).then(
         (response)=> {
-        	$("body .js-loader").addClass('d-none');
-          toastr.success('Homepage has been updated successfully.', 'Success');
-          this.$router.push({name:'website_teams'});
+          $("body .js-loader").addClass('d-none');
+          toastr.success('Venue has been updated successfully.', 'Success');
+          this.$router.push({name:'website_tournament'});
         },
         (error)=>{
         }
       );
 		},
 		setLocations(locations) {
-			console.log(locations,'locations');
-			this.programpage.locations = locations;
+    	this.venue.locations = locations;
 		},
 		getWebsiteId() {
 			return this.$store.state.Website.id;
-		},
-		redirectToForward() {
-			this.$router.push({name:'website_tournament'})
 		},
 		redirectToBackward() {
 			this.$router.push({name:'website_teams'})
