@@ -10,8 +10,8 @@
         </div>
         <div class="modal-body">
           <div class="form-group row" :class="{'has-error': errors.has('name') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.venue_name }}*</label>
-            <div class="col-sm-6">
+            <label class="col-sm-4 form-control-label">{{ $lang.venue_name }}*</label>
+            <div class="col-sm-7">
                 <input v-model="formValues.name" v-validate="{'required':true}" :class="{'is-danger': errors.has('name') }" data-vv-as="venue name" name="name" type="text" class="form-control" :placeholder="$lang.venue_name">
                 <i v-show="errors.has('name')" class="fa fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}<br>
@@ -19,9 +19,9 @@
             </div>
           </div>
           <div class="form-group row" :class="{'has-error': errors.has('address') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.venue_address }}*</label>
-            <div class="col-sm-6">
-                <textarea v-model="formValues.address" v-validate="{'required':true}" :class="{'is-danger': errors.has('address') }"  data-vv-as="venue address" name="address" class="form-control" :placeholder="$lang.venue_address"></textarea>
+            <label class="col-sm-4 form-control-label">{{ $lang.venue_address }}*</label>
+            <div class="col-sm-7">
+                <textarea rows="5" v-model="formValues.address" v-validate="{'required':true}" :class="{'is-danger': errors.has('address') }"  data-vv-as="venue address" name="address" class="form-control" :placeholder="$lang.venue_address"></textarea>
                 <span class="help is-danger" v-show="errors.has('address')">{{ errors.first('address') }}<br>
                 </span>
             </div>

@@ -59,7 +59,7 @@ export default {
       Website.saveVenuePageData(this.venue).then(
         (response)=> {
           $("body .js-loader").addClass('d-none');
-          toastr.success('Venue has been updated successfully.', 'Success');
+          toastr.success('Venue page has been updated successfully.', 'Success');
           this.$router.push({name:'website_tournament'});
         },
         (error)=>{

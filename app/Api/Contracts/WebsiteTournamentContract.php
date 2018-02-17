@@ -9,12 +9,12 @@ interface WebsiteTournamentContract
    *
    * @return response
    */
-  public function saveWebsiteTournamentPageData($request);
+  public function savePageData($request);
 
   /*
    * Get website tournament data
    *
    * @return response
    */
-  public function getWebsiteTournamentPageData($websiteId);
+  public function getPageData($websiteId);
 }

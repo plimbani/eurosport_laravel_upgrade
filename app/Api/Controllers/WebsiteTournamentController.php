@@ -34,9 +34,9 @@ class WebsiteTournamentController extends BaseController
    *
    * @return response
    */	
-	public function saveWebsiteTournamentPageData(Request $request)
+	public function savePageData(Request $request)
 	{
-    return $this->websiteTournamentContract->saveWebsiteTournamentPageData($request->all());
+    return $this->websiteTournamentContract->savePageData($request->all());
 	}
 
   /**
@@ -44,9 +44,9 @@ class WebsiteTournamentController extends BaseController
    *
    * @return response
    */
-  public function getWebsiteTournamentPageData(Request $request, $websiteId)
+  public function getPageData(Request $request, $websiteId)
   {
-    return $this->websiteTournamentContract->getWebsiteTournamentPageData($websiteId);
+    return $this->websiteTournamentContract->getPageData($websiteId);
   }
 
 }
