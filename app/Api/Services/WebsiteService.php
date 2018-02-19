@@ -205,4 +205,16 @@ class WebsiteService implements WebsiteContract
     
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
+
+  /*
+   * Get website details
+   *
+   * @return response
+   */
+  public function getWebsiteDetails($websiteId)
+  {
+    $data = $this->websiteRepo->getWebsiteDetails($websiteId);
+
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+  }
 }

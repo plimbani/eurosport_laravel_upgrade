@@ -3,7 +3,7 @@
 		<form name="website_staypage" enctype="multipart/form-data">
 			<div class="card">
 				<div class="card-block">
-					<h6><strong>{{$lang.website_stay}}</strong></h6>				
+					<h6><strong>{{$lang.website_stay}}</strong></h6>
 					<div class="form-group justify-content-between row">
 	        	<div class="col-sm-12">
 	        		<div class="row">
@@ -14,29 +14,33 @@
 	          	</div>
 	          </div>
 					</div>
-					<hr class="my-4">
-					<h6><strong>{{$lang.website_meals}}</strong></h6>
-					<div class="form-group justify-content-between row">
-	        	<div class="col-sm-12">
-	        		<div class="row">
-		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
-		          	<div class="col-sm-12">
-		          		<insert-text-editor :id="'meals_page_content'" :value="staypage.meals_page_content" @setEditorValue="setMealsPageContent"></insert-text-editor>
+					<div v-if="isPageEnabled('meals')">
+						<hr class="my-4">
+						<h6><strong>{{$lang.website_meals}}</strong></h6>
+						<div class="form-group justify-content-between row">
+		        	<div class="col-sm-12">
+		        		<div class="row">
+			          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
+			          	<div class="col-sm-12">
+			          		<insert-text-editor :id="'meals_page_content'" :value="staypage.meals_page_content" @setEditorValue="setMealsPageContent"></insert-text-editor>
+			          	</div>
 		          	</div>
-	          	</div>
-	          </div>
+		          </div>
+						</div>
 					</div>
-					<hr class="my-4">
-					<h6><strong>{{$lang.website_accommodation}}</strong></h6>
-					<div class="form-group justify-content-between row">
-	        	<div class="col-sm-12">
-	        		<div class="row">
-		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
-		          	<div class="col-sm-12">
-		          		<insert-text-editor :id="'accommodation_page_content'" :value="staypage.accommodation_page_content" @setEditorValue="setAccommodationPageContent"></insert-text-editor>
+					<div v-if="isPageEnabled('accommodation')">
+						<hr class="my-4">
+						<h6><strong>{{$lang.website_accommodation}}</strong></h6>
+						<div class="form-group justify-content-between row">
+		        	<div class="col-sm-12">
+		        		<div class="row">
+			          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
+			          	<div class="col-sm-12">
+			          		<insert-text-editor :id="'accommodation_page_content'" :value="staypage.accommodation_page_content" @setEditorValue="setAccommodationPageContent"></insert-text-editor>
+			          	</div>
 		          	</div>
-	          	</div>
-	          </div>
+		          </div>
+						</div>
 					</div>
 					<hr class="my-4">
 					<h6><strong>{{$lang.additional_page}}</strong></h6>

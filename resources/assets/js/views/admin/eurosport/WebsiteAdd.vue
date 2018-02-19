@@ -320,9 +320,6 @@ export default {
 		userDetails: function() {
 			return this.$store.state.Users.userDetails
 		},
-		isAdmin: function() {
-			return this.userDetails.role_slug != 'tournament.administrator';
-		},
 	},
 	methods: {
 		next() {

@@ -3,7 +3,7 @@
 		<div class="col-sm-6">
 			<div class="draggable--section">
 				<draggable v-model="pages" :options="{draggable:'.additional-page-item', handle: '.additional-page-handle'}">
-					<div class="draggable--section-card additional-page-item" v-for="(page, index) in pages" :key="page.id">
+					<div class="draggable--section-card additional-page-item" v-for="(page, index) in pages" :key="index"  v-if="isPageEnabled(page.name)">
 						<div class="draggable--section-card-header">
 							<div class="draggable--section-card-header-panel">
 				  			<div class="d-flex align-items-center">
@@ -12,7 +12,7 @@
 					  			</div>
 				  			</div>
 				  			<div class="draggable--section-card-header-panel-icons">
-										<a class="text-primary" href="javascript:void(0)"
+										<a v-if="isAdmin" class="text-primary" href="javascript:void(0)"
 						        	@click="deletePage(index)">
 						        	<i class="jv-icon jv-dustbin"></i>
 						        </a>
@@ -20,7 +20,7 @@
 						        	@click="editPage(page, index)">
 						        	<i class="jv-icon jv-edit"></i>
 						        </a>
-						        <a class="text-primary additional-page-handle draggable-handle" href="javascript:void(0)">
+						        <a v-if="isAdmin" class="text-primary additional-page-handle draggable-handle" href="javascript:void(0)">
 						        	<i class="fa fa-bars"></i>
 						        </a>
 				  			</div>
@@ -45,12 +45,12 @@
 		  	<div class="col-sm-12">
 		  		<insert-text-editor :pageContentValidation="pageContentValidation" :validationFieldName="'page content'" :id="'additional_page_content'" :value="additional_page.content" @setEditorValue="setAdditionalPageContent"></insert-text-editor>
 		  	</div>
-		  	<div class="col-sm-12 mt-4" v-if="currentPageOperation == 'add'">
+		  	<div class="col-sm-12 mt-4" v-if="currentPageOperation == 'add' && isAdmin">
 		  		<button type="button" class="btn btn-primary" @click="saveAdditionalPage()">{{$lang.add_additional_page_btn}}</button>
 		  	</div>
 		  	<div class="col-sm-6 mt-4" v-if="currentPageOperation == 'edit'">
 		  		<button type="button" class="btn btn-primary" @click="updatePage()">{{$lang.update_additional_page_btn}}</button>
-		  		<button type="button" class="btn btn-primary" @click="cancelPage()">{{$lang.cancel_additional_page_btn}}</button>
+		  		<button v-if="isAdmin" type="button" class="btn btn-primary" @click="cancelPage()">{{$lang.cancel_additional_page_btn}}</button>
 		  	</div>
 	  	</div>
 	  </div>
@@ -102,9 +102,11 @@
 				this.$root.$emit('getEditorValue');
 				this.$validator.validateAll().then(
 				(response) => {
-					this.pages.push({'id': this.additional_page.id, 'title': this.additional_page.title, 'content': this.additional_page.content});
-					this.getAdditionalPages();
-					this.resetAdditionalPageDetail();
+					if(response) {
+						this.pages.push({'id': this.additional_page.id, 'title': this.additional_page.title, 'content': this.additional_page.content});
+						this.getAdditionalPages();
+						this.resetAdditionalPageDetail();
+					}
 				},
 				(error) => {
 
@@ -126,11 +128,18 @@
 			},
 			updatePage() {
 				this.$root.$emit('getEditorValue');
-				this.pages[this.currentPageIndex].title = this.additional_page.title;
-				this.pages[this.currentPageIndex].content = this.additional_page.content;
-				this.currentPageOperation = 'add';
-				this.getAdditionalPages();
-				this.resetAdditionalPageDetail();
+				this.$validator.validateAll().then(
+				(response) => {
+					if(response) {
+						this.pages[this.currentPageIndex].title = this.additional_page.title;
+						this.pages[this.currentPageIndex].content = this.additional_page.content;
+						this.currentPageOperation = 'add';
+						this.getAdditionalPages();
+						this.resetAdditionalPageDetail();
+					}
+				},
+				(error) => {
+				});
 			},
 			deletePage(deleteIndex) {
 				if(deleteIndex == this.currentPageIndex && this.currentPageOperation == 'edit') {

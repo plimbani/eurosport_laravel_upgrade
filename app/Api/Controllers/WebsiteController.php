@@ -118,4 +118,18 @@ class WebsiteController extends BaseController
   {
     return $this->websiteContract->getSponsors($websiteId);
   }
+
+  /**
+   * Get website details
+   *
+   * Get a JSON representation of all the website
+   *
+   * @Get("/getWebsiteDetails")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getWebsiteDetails(Request $request, $websiteId)
+  {
+    return $this->websiteContract->getWebsiteDetails($websiteId);
+  }
 }
