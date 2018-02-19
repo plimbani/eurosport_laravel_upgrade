@@ -70,18 +70,20 @@
 		},
 		methods: {
 			getSponsorsList() {
-				var vm = this;
-				Website.getSponsors(this.getWebsite).then(
-	        (response) => {
-	          vm.sponsors = response.data.data;
-	          vm.sponsors = _.map(response.data.data, function(sponsor) {
-						  sponsor.logo = vm.getSponsorLogoImagePath + sponsor.logo;
-						  return sponsor;
-						});
-	        },
-	        (error) => {
-	        }
-	      );
+				if(this.getWebsite) {
+					var vm = this;
+					Website.getSponsors(this.getWebsite).then(
+		        (response) => {
+		          vm.sponsors = response.data.data;
+		          vm.sponsors = _.map(response.data.data, function(sponsor) {
+							  sponsor.logo = vm.getSponsorLogoImagePath + sponsor.logo;
+							  return sponsor;
+							});
+		        },
+		        (error) => {
+		        }
+		      );
+				}
 			},
 			addSponsor() {
 				var formData = {
