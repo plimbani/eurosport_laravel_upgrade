@@ -291,7 +291,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\MatchController@insertPositionsForPlacingMatches')->name('insert.positions.for.placing.matches');
 });
 
-$api->version('v1', function ($api) {
+// Websites CMS routes
+$api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     // Published tournaments
     $api->get('getAllPublishedTournaments','Laraspace\Api\Controllers\TournamentController@getAllPublishedTournaments');
 
@@ -306,6 +307,7 @@ $api->version('v1', function ($api) {
     $api->post('websites/websiteSummary', 'Laraspace\Api\Controllers\WebsiteController@websiteSummary');
     $api->get('websites/customisation/options', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteCustomisationOptions');
     $api->get('websites/getWebsiteDefaultPages', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDefaultPages');
+    $api->get('getWebsiteDetails/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDetails');
 
     //Website homepage
     $api->get('getStatistics/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getStatistics');
@@ -352,4 +354,8 @@ $api->version('v1', function ($api) {
     // Contact
     $api->get('getContactDetails/{websiteId}', 'Laraspace\Api\Controllers\ContactController@getContactDetails');
     $api->post('saveContactDetails', 'Laraspace\Api\Controllers\ContactController@saveContactDetails');
+});
+
+$api->version('v1', function ($api) {
+    $api->get('getProgramPageDetails/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getProgramPageDetails');
 });

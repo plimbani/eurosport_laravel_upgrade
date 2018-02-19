@@ -60,4 +60,11 @@ interface WebsiteContract
      * @return response
      */
     public function getSponsors($websiteId);
+
+    /*
+     * Get website details
+     *
+     * @return response
+     */
+    public function getWebsiteDetails($websiteId);
 }

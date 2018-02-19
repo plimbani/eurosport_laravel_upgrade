@@ -2,7 +2,6 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-
 				<form name="website_homepage" enctype="multipart/form-data">
 	        <h6><strong>{{$lang.competation_age_categories}}</strong></h6>
 	        <div class="form-group justify-content-between row">
@@ -14,24 +13,28 @@
 	          	</div>
 	          </div>
 	        </div>
-	        <hr class="my-4">
-	        <h6><strong>{{$lang.tournament_rules}}</strong></h6>
-	        <div class="form-group justify-content-between row">
-	        	<div class="col-sm-12">
-	        		<div class="row">
-		          	<div class="col-sm-12">
-		          		<insert-text-editor :id="'rules'" :value="tournament.rules" @setEditorValue="setRulesText"></insert-text-editor>
+	        <div v-if="isPageEnabled('rules')">
+		        <hr class="my-4">
+		        <h6><strong>{{$lang.tournament_rules}}</strong></h6>
+		        <div class="form-group justify-content-between row">
+		        	<div class="col-sm-12">
+		        		<div class="row">
+			          	<div class="col-sm-12">
+			          		<insert-text-editor :id="'rules'" :value="tournament.rules" @setEditorValue="setRulesText"></insert-text-editor>
+			          	</div>
 		          	</div>
-	          	</div>
-	          </div>
+		          </div>
+		        </div>
+		      </div>
+		      <div v-if="isPageEnabled('history')">
+		        <hr class="my-4">
+		        <h6><strong>{{$lang.tournament_history}}</strong></h6>
+		        <div class="row">
+		          <div class="col-sm-8">
+	        			<history-year-list @setHistoryData="setHistoryData" :countries="tournament.countries"></history-year-list>
+	        		</div>
+	        	</div>
 	        </div>
-	        <hr class="my-4">
-	        <h6><strong>{{$lang.tournament_history}}</strong></h6>
-	        <div class="row">
-	          <div class="col-sm-8">
-        			<history-year-list @setHistoryData="setHistoryData" :countries="tournament.countries"></history-year-list>
-        		</div>
-        	</div>
 	      </form>
 
 			</div>

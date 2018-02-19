@@ -341,4 +341,16 @@ class WebsiteRepository
       $contact->save();
     }
   }
+
+  /*
+   * Get website details
+   *
+   * @return response
+   */
+  public function getWebsiteDetails($websiteId)
+  {
+    $websiteDetails = Website::with('pages')->where('id', $websiteId)->first();
+
+    return $websiteDetails;
+  }
 }

@@ -60,12 +60,6 @@ export default {
    	activePath() {
       return this.$store.state.activePath
     },
-    userDetails: function() {
-      return this.$store.state.Users.userDetails
-    },
-    isTournamentAdministrator: function() {
-      return this.userDetails.role_slug == 'tournament.administrator';
-    },
   },
   methods: {
   	GetSelectComponent(componentName) {
@@ -80,16 +74,6 @@ export default {
     		},2000 )
     	}
   	},
-    isPageEnabled(pageName) {
-      if(this.isTournamentAdministrator) {
-        var websitePages = this.$store.state.Website.pages;
-        var page = _.find(websitePages, {'name': pageName, 'is_enabled': 1});
-        if(!page) {
-          return false;
-        }
-      }
-      return true;
-    },
   },
 }
 </script>
