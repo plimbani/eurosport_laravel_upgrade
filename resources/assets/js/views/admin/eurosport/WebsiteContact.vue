@@ -10,7 +10,7 @@
                 <label class="col-sm-2 form-control-label">{{$lang.contact_name}}</label>
                 <div class="col-sm-4">
                   <input type="text" class="form-control" :placeholder="$lang.contact_name"
-                    v-model="contact.name" name="contact_name">
+                    v-model="contact.contact_name" name="contact_name">
                 </div>
               </div>
             </div>
@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       contact: {
-        name: '',
+        contact_name: '',
         phone_number: '',
         email_address: '',
         contact_address: '',
@@ -80,35 +80,51 @@ export default {
 			currentPage:'Contact'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
+
+    // Get contact details
+    this.getContactDetails();
 	},
 	computed: {
+    getWebsiteId() {
+      return this.$store.state.Website.id;
+    },
 	},
 	methods: {
+    getContactDetails() {
+      var vm = this;
+      Website.getContactDetails(this.getWebsiteId).then(
+        (response) => {
+          vm.contact = response.data.data;
+        },
+        (error) => {
+        }
+      );
+    },
 		saveContactDetails() {
       this.$validator.validateAll().then(
       (response) => {
         if(response) {
-          this.contact.website_id = this.getWebsiteId();
+          this.contact.website_id = this.getWebsiteId;
           $("body .js-loader").removeClass('d-none');
-          Website.website_id(this.contact).then(
+          Website.saveContactDetails(this.contact).then(
             (response)=> {
               $("body .js-loader").addClass('d-none');
               toastr['success']('Contact page has been updated successfully', 'Success');
-              this.$router.push({name:'website_add'});
+              // this.$router.push({name:'website_add'});
             },
             (error)=>{
               toastr['error']('Error while saving data', 'Error');
             }
           );
         }
+      },
+      (error) => {
       }
+      );
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_media'})
+			this.$router.push({name:'website_media'});
 		},
-    getWebsiteId() {
-      return this.$store.state.Website.id;
-    },
 	},
 }
 </script>
