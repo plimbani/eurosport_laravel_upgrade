@@ -735,4 +735,9 @@ module.exports= {
   no_photo_gallery_found: "No photo found.",
   no_document_found: "No document found.",
   no_location_found: "No location found.",
+
+  contact_name: "Contact name",
+  contact_phone_number: "Phone number",
+  contact_email_address: "Email address",
+  contact_address: "Address",
 }

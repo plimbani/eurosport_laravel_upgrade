@@ -348,4 +348,8 @@ $api->version('v1', function ($api) {
     // Website venue
     $api->get('getLocations/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getLocations');
     $api->post('saveVenuePageData', 'Laraspace\Api\Controllers\WebsiteVenueController@savePageData');
+
+    // Contact
+    $api->get('getContactDetails/{websiteId}', 'Laraspace\Api\Controllers\ContactController@getContactDetails');
+    $api->post('saveContactDetails', 'Laraspace\Api\Controllers\ContactController@saveContactDetails');
 });

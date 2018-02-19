@@ -4,6 +4,7 @@ namespace Laraspace\Api\Repositories;
 
 use DB;
 use Laraspace\Models\Page;
+use Laraspace\Models\Contact;
 use Laraspace\Models\Sponsor;
 use Laraspace\Models\Website;
 use Laraspace\Custom\Helper\Image;
@@ -123,6 +124,8 @@ class WebsiteRepository
     $data['websiteId'] = $website->id;
 
     $this->saveWebsitePageDetail($data);
+
+    $this->saveContactDetail($data);
 
     return $website;
   }
@@ -323,5 +326,19 @@ class WebsiteRepository
   {
     Sponsor::whereIn('id', $sponsorIds)->delete();
     return true;
+  }
+
+  /*
+   * Save contact details
+   *
+   * @return response
+   */
+  public function saveContactDetail($data)
+  {
+    if($data['isExistingWebsite'] === false) {
+      $contact = new Contact();
+      $contact->website_id = $data['websiteId'];
+      $contact->save();
+    }
   }
 }

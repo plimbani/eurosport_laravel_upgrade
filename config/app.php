@@ -220,6 +220,7 @@ return [
         Laraspace\Api\Providers\ConfigServiceProvider::class,
         Laraspace\Api\Providers\MediaServiceProvider::class,
         Laraspace\Api\Providers\WebsiteVenueServiceProvider::class,
+        Laraspace\Api\Providers\ContactServiceProvider::class,
     ],
 
     /*
