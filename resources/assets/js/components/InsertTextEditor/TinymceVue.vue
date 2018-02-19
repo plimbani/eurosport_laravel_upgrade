@@ -117,6 +117,41 @@
                     toolbar1: this.toolbar1,
                     toolbar2: this.toolbar2,
                     plugins: this.plugins,
+                    file_picker_types: 'image media',
+                    file_picker_callback: function(cb, value, meta) {
+                      var input = document.createElement('input');
+                      input.setAttribute('type', 'file');
+                      input.setAttribute('accept', 'image/*');
+
+                      input.onchange = function() {
+                        var file = this.files[0];
+
+                        var reader = new FileReader();
+                        reader.onload = function () {
+
+                          var id = 'blobid' + (new Date()).getTime();
+                          var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                          var base64 = reader.result.split(',')[1];
+                          var blobInfo = blobCache.create(id, file, base64);
+                          blobCache.add(blobInfo);
+
+                          var formData = new FormData();
+                          formData.append('image', blobInfo.blob());
+                          formData.append('imagePath', 'http://dev-esr.s3.amazonaws.com/assets/img/editor_image/')
+                          $("body .js-loader").removeClass('d-none');
+                          axios.post('/api/uploadImage', formData).then(
+                          (response)=> {
+                            cb(response.data, { title: file.name });
+                            $("body .js-loader").addClass('d-none');
+                          },
+                          (error)=>{
+                          });
+                        };
+                        reader.readAsDataURL(file);
+                      };
+
+                      input.click();
+                    },
                     init_instance_callback : (editor) => {
                         this.editor = editor;
                         editor.on('KeyUp', (e) => {
