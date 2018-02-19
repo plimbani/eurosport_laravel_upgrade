@@ -34,7 +34,7 @@ class ContactRepository
   public function saveContactDetails($data)
   {
     $contact = Contact::where('website_id', $data['website_id'])->first();
-    isset($data['name']) && trim($data['name'])!='' ? $contact->contact_name = $data['name'] : null;
+    isset($data['contact_name']) && trim($data['contact_name'])!='' ? $contact->contact_name = $data['contact_name'] : null;
     isset($data['phone_number']) && trim($data['phone_number'])!='' ? $contact->phone_number = $data['phone_number'] : null;
     isset($data['email_address']) && trim($data['email_address'])!='' ? $contact->email_address = $data['email_address'] : null;
     isset($data['address']) && trim($data['address'])!='' ? $contact->address = $data['address'] : null;
