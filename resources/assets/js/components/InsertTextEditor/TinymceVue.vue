@@ -132,6 +132,11 @@
                       input.onchange = function() {
                         var file = this.files[0];
 
+                        if(Plugin.ValidateImageType(file) == false) {
+                          toastr['error']('Not a valid image', 'Error');
+                          return false;
+                        }
+
                         var reader = new FileReader();
                         reader.onload = function () {
 
@@ -147,7 +152,7 @@
                           $("body .js-loader").removeClass('d-none');
                           axios.post('/api/uploadImage', formData).then(
                           (response)=> {
-                            cb(response.data, { title: file.name });
+                            cb(response.data, { alt: file.name });
                             $("body .js-loader").addClass('d-none');
                           },
                           (error)=>{

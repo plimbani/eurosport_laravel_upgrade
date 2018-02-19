@@ -34,7 +34,7 @@ class Image {
    */
 	static function uploadImageUsingFileObj($image, $imagePath) {
 		$s3 = Storage::disk('s3');
-		$imageFileName = time() . '.' . $image->getClientOriginalExtension();
+		$imageFileName = md5(microtime(true) . rand(10,99)) . '.' . $image->getClientOriginalExtension();
 		$path = $imagePath.$imageFileName;
 		$s3->put($path, file_get_contents($image), 'public');
 		return $path;
