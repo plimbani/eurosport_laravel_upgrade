@@ -91,9 +91,6 @@
             }; 
         },
         computed: {
-          getWebsite() {
-            return this.$store.state.Website.id;
-          },
           getEditorImagePath() {
             return this.$store.state.Image.editorImagePath;
           },
