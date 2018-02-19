@@ -90,6 +90,14 @@
                 isTyping : false
             }; 
         },
+        computed: {
+          getWebsite() {
+            return this.$store.state.Website.id;
+          },
+          getEditorImagePath() {
+            return this.$store.state.Image.editorImagePath;
+          },
+        },
         mounted(){
             this.content = this.value;
             this.init();
@@ -111,6 +119,7 @@
         },
         methods: {
             init(){
+                var vm = this;
                 let options = {
                     selector: '#' + this.id,
                     skin: false,
@@ -137,7 +146,7 @@
 
                           var formData = new FormData();
                           formData.append('image', blobInfo.blob());
-                          formData.append('imagePath', 'http://dev-esr.s3.amazonaws.com/assets/img/editor_image/')
+                          formData.append('imagePath', vm.getEditorImagePath);
                           $("body .js-loader").removeClass('d-none');
                           axios.post('/api/uploadImage', formData).then(
                           (response)=> {
