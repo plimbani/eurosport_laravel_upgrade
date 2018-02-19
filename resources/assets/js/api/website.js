@@ -128,4 +128,8 @@ export default {
   getLocations(websiteId) {
     return axios.get('/api/getLocations/' + websiteId);
   },
+  // Save contact details
+  saveContactDetails(websiteId) {
+    return axios.get('/api/setContactDetails/' + websiteId);
+  },
 }

@@ -3,7 +3,7 @@
 		<div class="card">
 			<div class="card-block">
 				<h6><strong>{{$lang.website_information}}</strong></h6>
-				<form name="websiteName" enctype="multipart/form-data">
+				<form name="frm_website_add_edit" enctype="multipart/form-data">
 					<div class="row justify-content-between">
 						<div class="col-md-6" v-if="this.isAdmin">
 							<div class="form-group row" :class="{'has-error': errors.has('website.tournament_name') }">
