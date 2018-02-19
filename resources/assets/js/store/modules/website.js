@@ -37,6 +37,9 @@ const actions = {
 	  	)
   	});
 	},
+	ResetWebsiteDetail ({commit}) {
+  	commit(types.RESET_WEBSITE_DETAIL);
+  },
 };
 
 // mutations
@@ -62,7 +65,22 @@ const mutations = {
 		state.body_font = websiteData.body_font;
 		state.primary_color = websiteData.primary_color;
 		state.secondary_color = websiteData.secondary_color;
-	}
+	},
+	[types.RESET_WEBSITE_DETAIL] (state) {
+		state.id = null;
+		state.tournament_name = null;
+		state.tournament_dates = null;
+		state.tournament_location = null;
+		state.domain_name = null;
+		state.linked_tournament = null;
+		state.google_analytics_id = null;
+		state.tournament_logo = null;
+		state.social_sharing_graphic = null;
+		state.heading_font = null;
+		state.body_font = null;
+		state.primary_color = null;
+		state.secondary_color = null;
+	},
 };
 
 export default {

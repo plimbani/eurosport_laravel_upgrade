@@ -40,3 +40,4 @@ export const SET_IMAGE_PATH = 'SET_IMAGE_PATH';
 // Website Mutations
 export const CURRENT_WEBSITE = 'CURRENT_WEBSITE';
 export const WEBSITE_DATA = 'WEBSITE_DATA';
+export const RESET_WEBSITE_DETAIL = 'RESET_WEBSITE_DETAIL';
