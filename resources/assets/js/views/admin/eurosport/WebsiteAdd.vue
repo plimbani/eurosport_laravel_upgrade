@@ -323,6 +323,9 @@ export default {
 		isAdmin: function() {
 			return this.userDetails.role_slug != 'tournament.administrator';
 		},
+    getWebsiteTournamentLogoPath() {
+      return this.$store.state.Image.websiteTournamentLogoPath;
+    },
 	},
 	methods: {
 		next() {
@@ -374,6 +377,17 @@ export default {
 				toastr['error']('Tournament logo is not a valid image', 'Error');
 				return;
 			}
+
+      var formData = new FormData();
+      formData.append('image', files[0]);
+      formData.append('imagePath', vm.getWebsiteTournamentLogoPath);
+      axios.post('/api/uploadImage', formData).then(
+	      (response)=> {
+	      	this.tournament_logo_image = response.data;
+	      },
+	      (error)=>{
+	      }
+      );
 
 			var reader = new FileReader();
 			reader.onload = (r) => {

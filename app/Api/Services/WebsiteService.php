@@ -83,7 +83,10 @@ class WebsiteService implements WebsiteContract
    * @return response
    */
   public function saveWebsiteData($data) {
-    $data['websiteData']['tournament_logo'] = $this->saveTournamentLogo($data);
+
+    $tournament_logo = $data['websiteData']['tournament_logo'];
+    $data['websiteData']['tournament_logo'] = basename(parse_url($tournament_logo)['path']);
+    // $data['websiteData']['tournament_logo'] = $this->saveTournamentLogo($data);
     $data['websiteData']['social_sharing_graphic'] = $this->saveSocialSharingGraphicImage($data);
     $data = $this->websiteRepo->saveWebsiteData($data['websiteData']);
     
