@@ -2,14 +2,21 @@
 
 namespace Laraspace\Api\Services;
 
+use Storage;
 use JWTAuth;
 use Laraspace\Models\User;
 use Laraspace\Api\Contracts\WebsiteContract;
 use Laraspace\Api\Repositories\WebsiteRepository;
 use Laraspace\Custom\Helper\Image;
+use Intervention\Image\ImageManager;
+use Laraspace\Jobs\ImageConversion;
 
 class WebsiteService implements WebsiteContract
 {
+  /**
+   * @var ImageManager
+   */
+  protected $images;
   /**
    * @var WebsiteRepository
    */
@@ -27,12 +34,12 @@ class WebsiteService implements WebsiteContract
 
   /**
    * Create a new controller instance.
-   *
    * @param WebsiteRepository $websiteRepo
    */
   public function __construct(WebsiteRepository $websiteRepo)
   {
     $this->getAWSUrl = getenv('S3_URL');
+    $this->images = new ImageManager;
     $this->websiteRepo = $websiteRepo;
   }
 
@@ -217,13 +224,33 @@ class WebsiteService implements WebsiteContract
    */
   public function uploadLogo($request)
   {
-    $this->getAWSUrl = getenv('S3_URL');
-    $image = $request->file('image');
-    $imagePath = $request->all()['imagePath'];
-    $imagePath = str_replace($this->getAWSUrl, '', $imagePath);
-    $imagePath = Image::uploadImageUsingFileObj($image, $imagePath);
-    return $this->getAWSUrl . $imagePath;
+    $filename = $this->saveToLocal($request);
+
+    $s3path = str_replace($this->getAWSUrl, '', $request->all()['imagePath']).'/'.$filename;
+    $localpath  = storage_path() . '/temp_images/'.$filename;
+
+    // moving main image file to S3
+    $disk = Storage::disk('s3');
+    $disk->put($s3path, file_get_contents($request->file('image')), 'public');
+
+    $localpath  = storage_path() . '/temp_images/'.$filename;
+    $destination = storage_path() . '/temp_images/';
+    $logoPath = '/assets/img/website_tournament_logo/';
+
+    ImageConversion::dispatch($filename, $destination, $logoPath);
+
+    return $this->getAWSUrl . $logoPath . $filename;
   }
+
+  public function saveToLocal($request) {
+    $image = $request->image;
+    $filename = md5(microtime(true) . rand(10,99)) . '.' . $image->getClientOriginalExtension();
+    $destination = storage_path() . '/temp_images/';
+    $localpath = $destination.$filename;
+    $image = $this->images->make($image);
+    $image->save($localpath);
+    return $filename;
+  }  
 
   /*
    * Save website social graphic
