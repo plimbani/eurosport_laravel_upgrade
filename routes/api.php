@@ -354,6 +354,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     // Contact
     $api->get('getContactDetails/{websiteId}', 'Laraspace\Api\Controllers\ContactController@getContactDetails');
     $api->post('saveContactDetails', 'Laraspace\Api\Controllers\ContactController@saveContactDetails');
+
+    $api->post('uploadImage', 'Laraspace\Api\Controllers\UploadMediaController@uploadImage');
 });
 
 $api->version('v1', function ($api) {
