@@ -150,4 +150,5 @@ return [
     ],
   ],
   'permissions_not_changeable_pages' => ['home'],
+  'current_domain' => null,
 ];

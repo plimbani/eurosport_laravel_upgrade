@@ -55,6 +55,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application DOMAIN
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'domain' => env('APP_DOMAIN', 'www.localhost.com'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
@@ -184,6 +193,7 @@ return [
         Toin0u\Geotools\GeotoolsServiceProvider::class,
         Geocoder\Laravel\Providers\GeocoderService::class,
         LaravelFCM\FCMServiceProvider::class,
+        HipsterJazzbo\Landlord\LandlordServiceProvider::class,
 
         /*
          *  Custom Service Providers
@@ -275,6 +285,7 @@ return [
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
+        'Landlord'   => HipsterJazzbo\Landlord\Facades\Landlord::class,
     ],
 
 ];
