@@ -221,6 +221,7 @@ return [
         Laraspace\Api\Providers\MediaServiceProvider::class,
         Laraspace\Api\Providers\WebsiteVenueServiceProvider::class,
         Laraspace\Api\Providers\ContactServiceProvider::class,
+        Laraspace\Api\Providers\UploadMediaServiceProvider::class,
     ],
 
     /*
