@@ -272,7 +272,8 @@ var moment = require('moment');
                 let home_score = $('#home_team_score').val()
                 let away_score = $('#away_team_score').val()
                 let competationId = response.data.data.competationId
-                vm.$root.$emit('reloadMatchList',home_score,away_score,competationId)
+                let isResultOverride = response.data.data.isResultOverride
+                vm.$root.$emit('reloadMatchList',home_score,away_score,competationId,isResultOverride)
               } else {
                 vm.$root.$emit('setPitchPlanTab','gamesTab')
               }

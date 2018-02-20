@@ -14,7 +14,7 @@
     </thead>
 
     <tbody>
-      <tr v-for="(match,index1) in matchData">
+      <tr v-for="(match,index1) in getMatchList()">
         <td class="text-center">{{match.match_datetime | formatDate}}</td>
         <td class="text-center">
           <a class="pull-left text-left text-primary" href=""
@@ -60,7 +60,7 @@
             <a  v-if="match.is_scheduled == '0'">-</i>
             </a>
             <a class="text-primary js-edit-match" href="javascript:void(0);"  v-bind:data-id="match.fid" v-else
-              @click="openPitchModal(match,index1)"><i class="jv-icon jv-edit"></i>
+              @click="openPitchModal(match,match.fid)"><i class="jv-icon jv-edit"></i>
             </a>
           </span>
         </td>
@@ -121,6 +121,7 @@ export default {
       'currentMatch': {},
       'index':'',
       'matchData': [],
+      'currentMatchId': 0,
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
       no_of_records: 20,
@@ -192,18 +193,24 @@ export default {
     this.$root.$on('reloadMatchList', this.setScore);
   },
   methods: {
-    setScore(homescore,AwayScore,competationId) {
+    setScore(homescore,AwayScore,competationId,isResultOverride) {
       let vm = this
       let scheduleView = this.$store.state.currentScheduleView
-      let index = this.index
-      index = index.toString()
-      if(index != '' && (homescore != undefined || AwayScore != undefined) ) {
-        vm.matchData[vm.index].AwayScore = AwayScore
-        vm.matchData[vm.index].homeScore = homescore
-        vm.$root.$emit('setDrawTable',competationId)
-        vm.$root.$emit('setStandingData',competationId)
+
+      let index = _.findIndex(this.matchData, function(o) { return o.fid == vm.currentMatchId; });
+
+      if(index === -1) {
+        return false;
       }
 
+      index = index.toString()
+      if(index != '' && (homescore != undefined || AwayScore != undefined) ) {
+        vm.matchData[index].AwayScore = AwayScore
+        vm.matchData[index].homeScore = homescore
+        vm.matchData[index].isResultOverride = isResultOverride
+        /*vm.$root.$emit('setDrawTable',competationId)
+        vm.$root.$emit('setStandingData',competationId)*/
+      }
       $('#matchSchedule').find('.js-edit-match').removeClass('match-list-editicon');
       $.each(this.matchData, function (index,value){
         var homeScoreInput = $('input[name="home_score['+value.fid+']"]');
@@ -215,10 +222,10 @@ export default {
         }
       });
     },
-    openPitchModal(match,index) {      
+    openPitchModal(match,matchId) {      
       let vm = this;
       this.currentMatch =  match
-      this.index =  index
+      this.currentMatchId =  matchId
       this.setPitchModal = 1
       this.matchFixture.id = match.fid
       this.matchFixture.matchAgeGroupId = this.matchData[0].age_group_id
@@ -361,7 +368,7 @@ export default {
     },
     saveMatchScore() {
       let isSameScore = false;
-      let matchDataArray = [];
+      let matchDataArray = {};
       let matchPostData = {};
       let tournamentId = this.$store.state.Tournament.tournamentId;
       matchPostData.tournamentId = tournamentId;
@@ -375,7 +382,6 @@ export default {
           matchData.homeScore = $('input[name="home_score['+value.fid+']"]').val();
           matchData.awayScore = $('input[name="away_score['+value.fid+']"]').val();
           matchDataArray[index] = matchData;
-
           if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '') {
             isSameScore = true;
             $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
@@ -406,6 +412,11 @@ export default {
     },
     setMatchDataOfMatchList(matchData) {
       this.matchData = _.sortBy(_.cloneDeep(matchData),['match_datetime'] );
+      if(this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') {
+        return this.paginated('matchlist');
+      } else {
+        return this.matchData;
+      }
     },
   },
 }
