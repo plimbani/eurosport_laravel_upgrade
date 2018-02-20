@@ -16,5 +16,5 @@ class UploadMediaController extends BaseController
 
 		public function uploadImage(Request $request) {
 		  return $this->upMediaContract->uploadImage($request);
-		}    
+		}
 }

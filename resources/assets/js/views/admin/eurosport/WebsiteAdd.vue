@@ -326,6 +326,9 @@ export default {
     getWebsiteTournamentLogoPath() {
       return this.$store.state.Image.websiteTournamentLogoPath;
     },
+    getSocialSharingGraphicPath() {
+      return this.$store.state.Image.socialSharingGraphicPath;
+    },
 	},
 	methods: {
 		next() {
@@ -378,23 +381,26 @@ export default {
 				return;
 			}
 
+			$('#btnSelect').text('Uploading...').prop('disabled', true);
+
       var formData = new FormData();
       formData.append('image', files[0]);
       formData.append('imagePath', vm.getWebsiteTournamentLogoPath);
-      axios.post('/api/uploadImage', formData).then(
+      axios.post('/api/websites/uploadLogo', formData).then(
 	      (response)=> {
 	      	this.tournament_logo_image = response.data;
+	      	$('#btnSelect').text('Remove image').prop('disabled', false);
 	      },
 	      (error)=>{
 	      }
       );
 
-			var reader = new FileReader();
-			reader.onload = (r) => {
-			 vm.tournament_logo_image = r.target.result;
-			};
+			// var reader = new FileReader();
+			// reader.onload = (r) => {
+			//  vm.tournament_logo_image = r.target.result;
+			// };
 
-			reader.readAsDataURL(files[0]);
+			// reader.readAsDataURL(files[0]);
 		},
 		onSocialSharingGraphicImageChange(e) {
 			var vm = this;
@@ -418,7 +424,22 @@ export default {
 					if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {
 						toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
 					} else {
-						vm.social_sharing_graphic_image = r.target.result;
+						// vm.social_sharing_graphic_image = r.target.result;
+
+						$('#btnSelect_social_sharing').text('Uploading...').prop('disabled', true);
+
+			      var formData = new FormData();
+			      formData.append('image', files[0]);
+			      formData.append('imagePath', vm.getSocialSharingGraphicPath);
+			      axios.post('/api/websites/uploadSocialGraphic', formData).then(
+				      (response)=> {
+				      	vm.social_sharing_graphic_image = response.data;
+				      	$('#btnSelect_social_sharing').text('Remove image').prop('disabled', false);
+				      },
+				      (error)=>{
+				      }
+			      );
+
 					}
 				};
 			};

@@ -118,4 +118,31 @@ class WebsiteController extends BaseController
   {
     return $this->websiteContract->getSponsors($websiteId);
   }
+
+  /*
+   * Upload website tournament logo
+   *
+   * @return response
+   */
+  public function uploadLogo(Request $request) {
+    return $this->websiteContract->uploadLogo($request);
+  }
+
+  /*
+   * Upload website social graphic
+   *
+   * @return response
+   */
+  public function uploadSocialGraphic(Request $request) {
+    return $this->websiteContract->uploadSocialGraphic($request);
+  }
+
+  /*
+   * Upload website sponsor upload image
+   *
+   * @return response
+   */
+  public function uploadSponsorImage(Request $request) {
+    return $this->websiteContract->uploadSponsorImage($request);
+  }
 }

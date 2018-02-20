@@ -209,4 +209,49 @@ class WebsiteService implements WebsiteContract
     
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
+
+  /*
+   * Save website tournament logo
+   *
+   * @return response
+   */
+  public function uploadLogo($request)
+  {
+    $this->getAWSUrl = getenv('S3_URL');
+    $image = $request->file('image');
+    $imagePath = $request->all()['imagePath'];
+    $imagePath = str_replace($this->getAWSUrl, '', $imagePath);
+    $imagePath = Image::uploadImageUsingFileObj($image, $imagePath);
+    return $this->getAWSUrl . $imagePath;
+  }
+
+  /*
+   * Save website social graphic
+   *
+   * @return response
+   */
+  public function uploadSocialGraphic($request)
+  {
+    $this->getAWSUrl = getenv('S3_URL');
+    $image = $request->file('image');
+    $imagePath = $request->all()['imagePath'];
+    $imagePath = str_replace($this->getAWSUrl, '', $imagePath);
+    $imagePath = Image::uploadImageUsingFileObj($image, $imagePath);
+    return $this->getAWSUrl . $imagePath;
+  }
+
+  /*
+   * Save website social image
+   *
+   * @return response
+   */
+  public function uploadSponsorImage($request)
+  {
+    $this->getAWSUrl = getenv('S3_URL');
+    $image = $request->file('image');
+    $imagePath = $request->all()['imagePath'];
+    $imagePath = str_replace($this->getAWSUrl, '', $imagePath);
+    $imagePath = Image::uploadImageUsingFileObj($image, $imagePath);
+    return $this->getAWSUrl . $imagePath;
+  }
 }

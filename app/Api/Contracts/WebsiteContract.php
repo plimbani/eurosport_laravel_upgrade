@@ -60,4 +60,25 @@ interface WebsiteContract
      * @return response
      */
     public function getSponsors($websiteId);
+
+    /*
+     * Upload website tournament logo
+     *
+     * @return response
+     */
+    public function uploadLogo($request);
+
+    /*
+     * Upload website social graphic
+     *
+     * @return response
+     */
+    public function uploadSocialGraphic($request);
+
+    /*
+     * Upload website sponsor image
+     *
+     * @return response
+     */
+    public function uploadSponsorImage($request);
 }
