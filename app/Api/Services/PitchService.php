@@ -6,6 +6,9 @@ use DB;
 use Laraspace\Api\Contracts\PitchContract;
 use Validator;
 use Laraspace\Model\Role;
+use Laraspace\Models\TempFixture;
+use Laraspace\Models\Pitch;
+use PDF;
 
 class PitchService implements PitchContract
 {
@@ -219,5 +222,30 @@ class PitchService implements PitchContract
       $end_timestamp = strtotime($end_date);
       $today_timestamp = strtotime($todays_date);
       return (($today_timestamp >= $start_timestamp) && ($today_timestamp <= $end_timestamp));
+    }
+
+    public function generatePitchMatchReport($pitchId) 
+    {
+        $pitch = TempFixture::with('pitch','referee')->where('pitch_id',$pitchId)
+                                                    ->orderBy('match_datetime','asc')->get();
+        $resultReport = $pitch->toArray();
+
+        $pitchResult = pitch::find($pitchId);
+        $pitchReport = $pitchResult->toArray();
+
+        $date = new \DateTime(date('H:i d M Y'));
+        
+        $pdf = PDF::loadView('pitchcapacity.pitch_report_card',['resultReport' => $resultReport,
+          'pitchReport' => $pitchReport])
+            ->setPaper('a4')
+            ->setOption('header-spacing', '5')
+            ->setOption('header-font-size', 7)
+            ->setOption('header-font-name', 'Open Sans')
+            ->setOrientation('portrait')
+            ->setOption('footer-right', 'Page [page] of [toPage]')
+            ->setOption('header-right', $date->format('H:i d M Y'))
+            ->setOption('margin-top', 20)
+            ->setOption('margin-bottom', 20);
+        return $pdf->download('pitch_report_card.pdf');
     }
 }
