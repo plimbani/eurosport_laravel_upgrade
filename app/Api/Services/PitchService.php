@@ -246,6 +246,6 @@ class PitchService implements PitchContract
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
-        return $pdf->download('pitch_report_card.pdf');
+        return $pdf->download('Pitchmatchschedule.pdf');
     }
 }
