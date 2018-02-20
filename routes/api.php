@@ -357,5 +357,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 });
 
 $api->version('v1', function ($api) {
+    $api->post('verifyWebsite', 'Laraspace\Api\Controllers\WebsiteController@verifyWebsite'); 
     $api->get('getProgramPageDetails/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getProgramPageDetails');
 });
