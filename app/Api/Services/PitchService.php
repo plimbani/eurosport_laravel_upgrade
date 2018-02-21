@@ -228,14 +228,14 @@ class PitchService implements PitchContract
     {
         $pitch = TempFixture::with('pitch','referee')->where('pitch_id',$pitchId)
                                                     ->orderBy('match_datetime','asc')->get();
-        $resultReport = $pitch->toArray();
+        $pitchRecord = $pitch->toArray();
 
         $pitchResult = pitch::find($pitchId);
         $pitchReport = $pitchResult->toArray();
 
         $date = new \DateTime(date('H:i d M Y'));
         
-        $pdf = PDF::loadView('pitchcapacity.pitch_report_card',['resultReport' => $resultReport,
+        $pdf = PDF::loadView('pitchcapacity.pitch_report_card',['pitchRecord' => $pitchRecord,
           'pitchReport' => $pitchReport])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
