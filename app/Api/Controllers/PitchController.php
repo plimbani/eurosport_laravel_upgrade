@@ -88,4 +88,9 @@ class PitchController extends BaseController
     {
         return $this->pitchObj->deletePitch($deleteId);
     }
+    public function generatePitchMatchReport($pitchId)
+    {
+        return $this->pitchObj->generatePitchMatchReport($pitchId);
+    }
+
 }
