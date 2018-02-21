@@ -354,18 +354,13 @@
                 )
             },
             exportTableReport() {
-                let userData = this.reportQuery
-               
+                let userData = this.reportQuery              
                 let userSearch = '';
                 let userSlugType = '';
-                  if(this.userListSearch!=''){
-                      userSearch = 'userData='+this.userListSearch
-                  }
+                userSearch = 'userData='+this.userListSearch;
+                userSlugType = 'userType='+this.userTypeSearch;
 
-                  if(this.userTypeSearch!=''){
-                      userSlugType = 'userType='+this.userTypeSearch
-                  }
-                  window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+userSlugType;
+                  window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
              },
             editTournamentPermission(user) {
               this.currentUserInTournamentPermission = user;
