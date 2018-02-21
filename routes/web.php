@@ -44,5 +44,6 @@ Route::group(['domain' => '{domain}', 'middleware' => ['verify.website'], 'names
 	Route::get('/visitors', 'VisitorController@getVisitorPageDetails')->name('visitor.page.details');
 	Route::get('/tourist-information', 'VisitorController@getTouristPageDetails')->name('tourist.page.details');
 	Route::get('/media', 'MediaController@getMediaPageDetails')->name('media.page.details');
-	Route::get('/contact', 'ContactController@getMediaPageDetails')->name('media.page.details');
+	Route::get('/contact', 'ContactController@getContactPageDetails')->name('contact.page.details');
+	Route::post('/submitEnquiry', 'ContactController@submitEnquiry')->name('submit.enquiry');
 });

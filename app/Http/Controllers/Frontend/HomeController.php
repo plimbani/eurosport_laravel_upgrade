@@ -24,7 +24,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application home page.
+     * Get home page details.
      *
      * @return \Illuminate\Http\Response
      */

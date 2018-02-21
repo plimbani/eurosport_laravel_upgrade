@@ -23,6 +23,7 @@ class VerifyWebsite
     {
         $domain = $request->route('domain');
         $website = Website::where('domain_name', $domain)->first();
+        View::share('websiteDetail', $website);
 
         if(!$website) {
             App::abort(404);
@@ -34,7 +35,15 @@ class VerifyWebsite
         $pages = $website->getPublishedPages()->toArray();
         View::share('menu_items', Page::buildPageTree($pages));
 
-        $accessibleRoutes = $website->getPublishedPages()->pluck('accessible_routes')->toArray();
+        $accessibleRoutesArray = $website->getPublishedPages()->pluck('accessible_routes')->toArray();
+        $accessibleRoutesCollection = collect($accessibleRoutesArray);
+        $flattenedAccessibleRoutes = $accessibleRoutesCollection->flatten();
+        $accessibleRoutes = $flattenedAccessibleRoutes->unique()->toArray();
+        $accessibleRoutes = array_merge($accessibleRoutes, config('wot.default_accessible_routes'));
+        $currentRoute = $request->route()->getName();
+        if(!in_array($currentRoute, $accessibleRoutes)) {
+            App::abort(404);
+        }
 
         // Get all website's organisers
         $organisers = $website->organisers;

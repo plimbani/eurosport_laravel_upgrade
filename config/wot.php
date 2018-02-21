@@ -17,7 +17,7 @@ return [
 	],
   'website_default_pages' => [
     [
-      'url' => '/home',
+      'url' => '/',
       'name' => 'home',
       'page_name' => 'home',
       'title' => 'Home',
@@ -179,4 +179,9 @@ return [
   ],
   'permissions_not_changeable_pages' => ['home'],
   'current_domain' => null,
+  'default_accessible_routes' => [
+    'contact.page.details',
+    'submit.enquiry'
+  ],
+  'google_api_key' => env('GOOGLE_API_KEY', ''),
 ];
