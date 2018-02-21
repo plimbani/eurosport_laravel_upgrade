@@ -3,7 +3,9 @@
 namespace Laraspace\Providers;
 
 use URL;
+use Laraspace\Models\Website;
 use Illuminate\Support\ServiceProvider;
+use Laraspace\Observers\WebsiteObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,7 +29,9 @@ class AppServiceProvider extends ServiceProvider
     {
         if(config('app.app_scheme') == 'secure') {
             URL::forceScheme('https');
-        } 
+        }
+
+        Website::observe(WebsiteObserver::class);
     }
 
     /**
