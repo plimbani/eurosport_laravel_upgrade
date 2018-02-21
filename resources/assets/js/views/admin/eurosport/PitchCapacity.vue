@@ -40,8 +40,10 @@
                                     </td>
                                     <td class="text-center">
                                         <span class="align-middle">
-                                            <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
-
+                                             <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary" style="font-size:1.1em"><i class="fa fa-print"></i></a>
+                                        </span>
+                                        <span class="align-middle">
+                                            <a class="text-primary mx-1" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
                                         </span>
                                         <span class="align-middle">
                                              <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="jv-icon jv-dustbin"></i></a>
@@ -560,6 +562,10 @@ import Tournament from '../../../api/tournament.js'
                 } else {
                   this.TournamentId = 0;
                 }
+            },
+            generatePitchMatchReport(pitchId) {
+               var win = window.open("/api/pitch/reportCard/" + pitchId);
+               win.focus();
             },
         }
     }

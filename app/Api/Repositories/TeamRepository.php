@@ -515,4 +515,10 @@ class TeamRepository
       $team->comments = $request['comment'];  
       $team->save();    
     }
+
+    public function resetAllTeams($ageCategoryId)
+    {
+      $tempFixtureReset = TempFixture::where('age_group_id',$ageCategoryId)->delete();
+      $teamDataReset = Team::where('age_group_id',$ageCategoryId)->delete();
+    }
 }

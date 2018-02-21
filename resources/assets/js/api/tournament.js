@@ -44,6 +44,10 @@ export default {
   getTeams(teamData) {
     return api.post('teams',{'teamData':teamData})
   },
+  getResetTeams(ageCategoryId) {
+     return api.post('resetAllTeams',{'ageCategoryId':ageCategoryId})
+  },
+
   getTeamsGroup (teamData) {
     return api.post('teams/availableGroup',{'teamData':teamData})
   },
