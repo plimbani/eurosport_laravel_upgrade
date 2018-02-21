@@ -307,6 +307,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('websites/websiteSummary', 'Laraspace\Api\Controllers\WebsiteController@websiteSummary');
     $api->get('websites/customisation/options', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteCustomisationOptions');
     $api->get('websites/getWebsiteDefaultPages', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDefaultPages');
+
+    $api->post('websites/uploadTournamentLogo', 'Laraspace\Api\Controllers\WebsiteController@uploadTournamentLogo');
+    $api->post('websites/uploadSocialGraphic', 'Laraspace\Api\Controllers\WebsiteController@uploadSocialGraphic');
+    $api->post('websites/uploadSponsorImage', 'Laraspace\Api\Controllers\WebsiteController@uploadSponsorImage');
+    $api->post('websites/uploadHeroImage', 'Laraspace\Api\Controllers\WebsiteController@uploadHeroImage');
+    $api->post('websites/uploadWelcomeImage', 'Laraspace\Api\Controllers\WebsiteController@uploadWelcomeImage');
+    $api->post('websites/uploadOrganiserLogo', 'Laraspace\Api\Controllers\WebsiteController@uploadOrganiserLogo');
+
     $api->get('getWebsiteDetails/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDetails');
 
     //Website homepage

@@ -24,7 +24,7 @@
 			          		</div>
 			          		<div class="col-sm-9">
 			          			<button v-if="homepage.hero_image != ''" class="btn btn-default" @click="removeImage($event, 'hero_image')">{{$lang.tournament_tournament_remove_button}}</button>
-			              		<button v-else type="button" class="btn btn-default" @click="selectHeroImage()">{{$lang.tournament_tournament_choose_button}}</button>
+			              		<button v-else :disabled="isHeroImageUploading" type="button" class="btn btn-default" @click="selectHeroImage()">{{isHeroImageUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
 			              		<input type="file" id="hero_image" style="display:none;" @change="onImageChange($event, 'hero_image')">
 			              		<input type="hidden" v-model="homepage.hero_image" name="hero_image" />
 			              	</div>
@@ -41,7 +41,7 @@
 			          		</div>
 			          		<div class="col-sm-9">
 				          		<button v-if="homepage.welcome_image != ''" class="btn btn-default" @click="removeImage($event, 'welcome_image')">{{$lang.tournament_tournament_remove_button}}</button>
-				              	<button v-else type="button" class="btn btn-default" @click="selectWelcomeImage()">{{$lang.tournament_tournament_choose_button}}</button>
+				              	<button v-else :disabled="isWelcomeImageUploading" type="button" class="btn btn-default" @click="selectWelcomeImage()">{{isWelcomeImageUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
 				              	<input type="file" id="welcome_image" style="display:none;" @change="onImageChange($event, 'welcome_image')">
 				              	<input type="hidden" v-model="homepage.welcome_image" name="welcome_image" />
 				            </div>
@@ -107,6 +107,8 @@ export default {
 				statistics: [],
 				organiserLogos: [],
 			},
+			isHeroImageUploading: false,
+			isWelcomeImageUploading: false,
 		}
 	},
 	mounted() {
@@ -184,12 +186,30 @@ export default {
         return;
       }
 
-			var reader = new FileReader();
-			reader.onload = (r) => {
-				vm.homepage[key] = r.target.result;
-			};
+      var formData = new FormData();
+      formData.append('image', files[0]);
 
-			reader.readAsDataURL(files[0]);
+      if(key == 'hero_image') {
+				this.isHeroImageUploading = true;
+	      axios.post('/api/websites/uploadHeroImage', formData).then(
+		      (response)=> {
+		      	vm.homepage[key] = response.data;
+		      	this.isHeroImageUploading = false;
+		      },
+		      (error)=>{
+		      }
+	      );
+      } else {
+				this.isWelcomeImageUploading = true;
+	      axios.post('/api/websites/uploadWelcomeImage', formData).then(
+		      (response)=> {
+		      	vm.homepage[key] = response.data;
+		      	this.isWelcomeImageUploading = false;
+		      },
+		      (error)=>{
+		      }
+	      );
+      }
 		},
 		removeImage(e, key) {
 			this.homepage[key] = '';

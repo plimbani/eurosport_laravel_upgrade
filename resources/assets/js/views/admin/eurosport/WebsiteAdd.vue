@@ -70,7 +70,7 @@
 												<img src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
-												<button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
+												<button :disabled="isTournamentLogoUploading" type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{isTournamentLogoUploading ? $lang.uploading :$lang.tournament_tournament_choose_button}}</button>
 												<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange">
 											</div>
 										</div>
@@ -92,7 +92,7 @@
 												<img src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
-												<button type="button" class="btn btn-default" name="btnSelect" id="btnSelect_social_sharing">{{$lang.tournament_tournament_choose_button}}</button>
+												<button :disabled="isSocialSharingImageUploading" type="button" class="btn btn-default" name="btnSelect" id="btnSelect_social_sharing">{{isSocialSharingImageUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
 												<input type="file" id="select_file_social_sharing" style="display:none;" @change="onSocialSharingGraphicImageChange">
 											</div>
 										</div>
@@ -284,6 +284,8 @@ export default {
 			},
 			tournament_logo_image: '',
 			social_sharing_graphic_image: '',
+			isTournamentLogoUploading: false,
+			isSocialSharingImageUploading: false,
 		}
 	},
 	mounted() {
@@ -372,12 +374,18 @@ export default {
 				return;
 			}
 
-			var reader = new FileReader();
-			reader.onload = (r) => {
-			 vm.tournament_logo_image = r.target.result;
-			};
+			this.isTournamentLogoUploading = true;
 
-			reader.readAsDataURL(files[0]);
+      var formData = new FormData();
+      formData.append('image', files[0]);
+      axios.post('/api/websites/uploadTournamentLogo', formData).then(
+	      (response)=> {
+	      	this.tournament_logo_image = response.data;
+	      	this.isTournamentLogoUploading = false;
+	      },
+	      (error)=>{
+	      }
+      );
 		},
 		onSocialSharingGraphicImageChange(e) {
 			var vm = this;
@@ -401,7 +409,18 @@ export default {
 					if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {
 						toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
 					} else {
-						vm.social_sharing_graphic_image = r.target.result;
+						vm.isSocialSharingImageUploading = true;
+			      var formData = new FormData();
+			      formData.append('image', files[0]);
+			      axios.post('/api/websites/uploadSocialGraphic', formData).then(
+				      (response)=> {
+				      	vm.social_sharing_graphic_image = response.data;
+				      	vm.isSocialSharingImageUploading = false;
+				      },
+				      (error)=>{
+				      }
+			      );
+
 					}
 				};
 			};

@@ -740,4 +740,6 @@ module.exports= {
   contact_phone_number: "Phone number",
   contact_email_address: "Email address",
   contact_address: "Address",
+
+  uploading: "Uploading...",
 }
