@@ -216,7 +216,7 @@ export default {
         var homeScoreInput = $('input[name="home_score['+value.fid+']"]');
         var awayScoreInput = $('input[name="away_score['+value.fid+']"]');
         if(homeScoreInput.length && awayScoreInput.length) {
-          if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '') {
+          if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
             $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
           }
         }
@@ -333,6 +333,9 @@ export default {
                 let CompetationType = vm.DrawName.actual_competition_type
 
                 vm.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
+                //
+                /*vm.$root.$emit('setDrawTable',Id);
+                vm.$root.$emit('setStandingData',Id);*/
               } if(vm.$store.state.currentScheduleView == 'matchList') {
                 vm.$root.$emit('changeDrawListComp','','','');
               }
@@ -382,7 +385,7 @@ export default {
           matchData.homeScore = $('input[name="home_score['+value.fid+']"]').val();
           matchData.awayScore = $('input[name="away_score['+value.fid+']"]').val();
           matchDataArray[index] = matchData;
-          if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '') {
+          if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
             isSameScore = true;
             $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
           }
@@ -401,6 +404,9 @@ export default {
               let Name = this.DrawName.name
               let CompetationType = this.DrawName.actual_competition_type
               this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
+              //
+              this.$root.$emit('setDrawTable',Id);
+              this.$root.$emit('setStandingData',Id);
             }
             if(this.$store.state.currentScheduleView == 'matchList') {
               this.$root.$emit('changeDrawListComp','','','');
