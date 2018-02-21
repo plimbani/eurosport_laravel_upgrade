@@ -146,7 +146,7 @@ class MediaRepository
       $photoData['order'] = $i + 1;
 
       // Upload image
-      $photoData['image'] = $this->uploadPhoto($photoData['image']);
+      $photoData['image'] = basename(parse_url($photoData['image'])['path']);
 
       if($photoData['id'] == '') {
         $photo = $this->insertPhoto($websiteId, $photoData);
@@ -159,27 +159,6 @@ class MediaRepository
     $deletePhotosId = array_diff($existingPhotosId, $photoIds);
 
     $this->deletePhotos($deletePhotosId);
-  }
-
-  /*
-   * Upload photo image
-   *
-   * @return response
-   */
-  public function uploadPhoto($image)
-  {
-    if($image != '') {
-      if(strpos($image, $this->getAWSUrl) !==  false) {
-        $path = $this->getAWSUrl . '/assets/img/photo/';
-        $image = str_replace($path, "", $image);
-        return $image;
-      }
-
-      $imagePath = '/assets/img/photo/';
-      $imageString = $image;
-
-      return Image::uploadImage($imagePath, $imageString);
-    }
   }
 
   /*

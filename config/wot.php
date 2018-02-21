@@ -184,4 +184,16 @@ return [
     'submit.enquiry'
   ],
   'google_api_key' => env('GOOGLE_API_KEY', ''),
+  'imagePath' => [
+    'website_tournament_logo' => '/assets/img/website_tournament_logo/',
+    'social_sharing_graphic' => '/assets/img/social_sharing_graphic/',
+    'hero_image' => '/assets/img/hero_image/',
+    'welcome_image' => '/assets/img/welcome_image/',
+    'organiser_logo' => '/assets/img/organiser/',
+    'sponsor_logo' => '/assets/img/sponsor/',
+    'photo' => '/assets/img/photo/',
+    'document' => '/assets/img/document/',
+    'editor_image' => '/assets/img/editor_image/',
+  ],
+  'tempImagePath' => storage_path() . '/temp_images/',
 ];
