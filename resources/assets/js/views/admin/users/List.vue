@@ -191,7 +191,6 @@
                 userId: '',
                 uStatusData:'',
                 reportQuery:'',
-                reportDataQuery:'',
                 enb: false,
                 userRoles: [],
                 publishedTournaments: [],
@@ -356,7 +355,7 @@
             },
             exportTableReport() {
                 let userData = this.reportQuery
-                let userType = this.reportDataQuery
+               
                 let userSearch = '';
                 let userSlugType = '';
                   if(this.userListSearch!=''){
