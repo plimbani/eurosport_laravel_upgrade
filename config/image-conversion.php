@@ -20,5 +20,10 @@ return [
       'thumbnail' => ['width' => 300, 'height' => 300],
       'small_thumbnail' => ['width' => 125, 'height' => 125],
     ],
+    'photo' => [
+      'thumbnail' => ['width' => 300, 'height' => 300],
+      'medium' => ['width' => 500, 'height' => 500],
+      'large' => ['width' => 1200, 'height' => 1200],
+    ],
 	]
 ];
