@@ -316,7 +316,6 @@ class MatchService implements MatchContract
     }
     public function saveResult($matchData) {
         $matchResult = $this->matchRepoObj->saveResult($matchData->all()['matchData']);
-
         $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
 
         $result = TempFixture::where('id',$matchData->all()['matchData']['matchId'])->first()->toArray();
@@ -330,6 +329,7 @@ class MatchService implements MatchContract
 
 
         $data['competationId'] = $competationId;
+        $data['isResultOverride'] = $result['is_result_override'];
         if ($matchResult) {
             return ['status_code' => '200', 'data' => $data];
         } else {

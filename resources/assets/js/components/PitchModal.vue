@@ -252,7 +252,7 @@ var moment = require('moment');
       }
       let home_score = $('#home_team_score').val()
       let away_score = $('#away_team_score').val()
-      if (home_score == away_score && this.matchDetail.round == 'Elimination' && this.matchDetail.is_result_override == 0) {
+      if (home_score == away_score && this.matchDetail.round == 'Elimination' && this.matchDetail.is_result_override == 0 && home_score != '' && away_score != '') {
         this.matchDetail.is_result_override = 1;
       }
 
@@ -272,7 +272,11 @@ var moment = require('moment');
                 let home_score = $('#home_team_score').val()
                 let away_score = $('#away_team_score').val()
                 let competationId = response.data.data.competationId
-                vm.$root.$emit('reloadMatchList',home_score,away_score,competationId)
+                let isResultOverride = response.data.data.isResultOverride
+                vm.$root.$emit('reloadMatchList',home_score,away_score,competationId,isResultOverride)
+                //
+                vm.$root.$emit('setDrawTable',competationId);
+                vm.$root.$emit('setStandingData',competationId);
               } else {
                 vm.$root.$emit('setPitchPlanTab','gamesTab')
               }
