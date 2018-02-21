@@ -9,15 +9,10 @@ use Laraspace\Models\User;
 use Laraspace\Api\Contracts\WebsiteContract;
 use Laraspace\Api\Repositories\WebsiteRepository;
 use Laraspace\Custom\Helper\Image;
-use Intervention\Image\ImageManager;
 use Laraspace\Jobs\ImageConversion;
 
 class WebsiteService implements WebsiteContract
 {
-  /**
-   * @var ImageManager
-   */
-  protected $imageManager;
   /**
    * @var WebsiteRepository
    */
@@ -55,7 +50,6 @@ class WebsiteService implements WebsiteContract
   public function __construct(WebsiteRepository $websiteRepo)
   {
     $this->getAWSUrl = getenv('S3_URL');
-    $this->imageManager = new ImageManager;
     $this->websiteRepo = $websiteRepo;
     $this->tempImagePath = Config::get('wot.tempImagePath');
     $this->imagePath = Config::get('wot.imagePath');

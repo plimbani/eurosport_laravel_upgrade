@@ -97,7 +97,7 @@ class MediaService implements MediaContract
   }
 
   /*
-   * Save welcome image
+   * Save media photo image
    *
    * @return response
    */
