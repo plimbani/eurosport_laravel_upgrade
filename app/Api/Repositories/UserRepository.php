@@ -39,23 +39,22 @@ class UserRepository {
 
     public function getUsersByRegisterType($data)
     {
+        // echo "<pre>";print_r($data);echo "</pre>";exit;
          $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
                 ->join('people', 'people.id', '=', 'users.person_id');
 
-        if(isset($data['userData'])) {
+        if(isset($data['userData']) && $data['userData'] !== '') {
 
             $user = $user->where(function($query) use($data) {
                 $query->where('users.email', 'like', "%" . $data['userData'] . "%")
                         ->orWhere('people.first_name', 'like', "%" . $data['userData'] . "%")
                         ->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
             });
-
         }
         
         if(isset($data['userType']) && $data['userType'] !== '') {
             $user = $user->where('roles.slug', '=', $data['userType']);
-
         }   
 
         $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale');
