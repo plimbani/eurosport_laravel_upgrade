@@ -354,7 +354,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->get('getPhotos/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getPhotos');
     $api->get('getDocuments/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getDocuments');
     $api->post('saveMediaPageData', 'Laraspace\Api\Controllers\MediaController@savePageData');
-
+    $api->post('media/uploadMediaPhoto', 'Laraspace\Api\Controllers\MediaController@uploadMediaPhoto');
     // Website venue
     $api->get('getLocations/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getLocations');
     $api->post('saveVenuePageData', 'Laraspace\Api\Controllers\WebsiteVenueController@savePageData');

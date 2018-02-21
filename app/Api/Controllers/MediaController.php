@@ -69,4 +69,13 @@ class MediaController extends BaseController
   {
     return $this->mediaContract->savePageData($request);
   }
+
+  /*
+   * Upload media photo
+   *
+   * @return response
+   */
+  public function uploadMediaPhoto(Request $request) {
+    return $this->mediaContract->uploadMediaPhoto($request);
+  }
 }

@@ -13,7 +13,7 @@
             <label class="col-sm-5 form-control-label">{{ $lang.image }}*</label>
             <div class="col-sm-6">
               <img :src="getImage" class="thumb-size" />
-              <button type="button" class="btn btn-default" @click="selectImage()">{{$lang.tournament_tournament_choose_button}}</button>
+              <button :disabled="isMediaPhotoUploading" type="button" class="btn btn-default" @click="selectImage()">{{isMediaPhotoUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
               <input type="file" id="image" style="display:none;" @change="onPhotoChange">
               <input type="hidden" v-model="formValues.image" name="image" v-validate="'required'" />
               <span class="help is-danger" v-show="errors.has('image')">{{ errors.first('image') }}</span>
@@ -54,6 +54,7 @@
 					caption: '',
 					image: '',
 				},
+				isMediaPhotoUploading: false,
 			};
 		},
 		created() {
@@ -100,12 +101,17 @@
 	        return;
 	      }
 
-				var reader = new FileReader();
-				reader.onload = (r) => {
-					vm.formValues.image = r.target.result;
-				};
-
-				reader.readAsDataURL(files[0]);
+				vm.isMediaPhotoUploading = true;
+	      var formData = new FormData();
+	      formData.append('image', files[0]);
+	      axios.post('/api/media/uploadMediaPhoto', formData).then(
+		      (response)=> {
+		      	vm.formValues.image = response.data;
+		      	vm.isMediaPhotoUploading = false;
+		      },
+		      (error)=>{
+		      }
+	      );
 			},
 		},
 	};
