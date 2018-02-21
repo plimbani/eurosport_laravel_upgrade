@@ -12,7 +12,8 @@
           <div class="form-group row" :class="{'has-error': errors.has('image') }">
             <label class="col-sm-5 form-control-label">{{ $lang.image }}*</label>
             <div class="col-sm-6">
-              <img :src="getImage" class="thumb-size" />
+              <img v-show="isLoad" :src="getImage" class="thumb-size" @load="loaded"/>
+              <img class="thumb" v-show="!isLoad" src="/images/loader2.gif">
               <button :disabled="isMediaPhotoUploading" type="button" class="btn btn-default" @click="selectImage()">{{isMediaPhotoUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
               <input type="file" id="image" style="display:none;" @change="onPhotoChange">
               <input type="hidden" v-model="formValues.image" name="image" v-validate="'required'" />
@@ -34,7 +35,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">{{ $lang.cancel_button }}</button>
-          <button type="button" class="btn btn-primary" @click="validateForm()">{{ $lang.save_button }}</button>
+          <button :disabled="isMediaPhotoUploading" type="button" class="btn btn-primary" @click="validateForm()">{{ $lang.save_button }}</button>
         </div>
       </div>
     </div>
@@ -55,6 +56,7 @@
 					image: '',
 				},
 				isMediaPhotoUploading: false,
+				isLoad: false,
 			};
 		},
 		created() {
@@ -66,6 +68,9 @@
 	  	},
 	  },
 		methods: {
+	    loaded() {
+	      this.isLoad = true;
+	    },
 			validateForm() {
 				this.$validator.validateAll().then((response) => {
 					if(response) {
@@ -108,6 +113,7 @@
 		      (response)=> {
 		      	vm.formValues.image = response.data;
 		      	vm.isMediaPhotoUploading = false;
+		      	this.isLoad = false;
 		      },
 		      (error)=>{
 		      }
