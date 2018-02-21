@@ -175,4 +175,9 @@ class TeamController extends BaseController
     {
         return $this->teamObj->checkTeamExist($request);
     }
+
+    public function resetAllTeams(Request $request)
+    {
+        return $this->teamObj->resetAllTeams($request);
+    }
 }
