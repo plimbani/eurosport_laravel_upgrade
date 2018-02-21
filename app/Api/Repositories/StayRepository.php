@@ -27,7 +27,12 @@ class StayRepository
   /**
    * @var Accommodation page name
    */
-  protected $accommodationPageName;  
+  protected $accommodationPageName;
+
+  /**
+   * @var Additional page route name
+   */
+  protected $additionalPageRoutesName;
 
   /**
    * Create a new controller instance.
@@ -37,9 +42,10 @@ class StayRepository
     $this->getAWSUrl = getenv('S3_URL');
     $this->pageService = $pageService;
     $this->stayPageName = 'stay';
-    $this->stayPageUrl = 'stay';
+    $this->stayPageUrl = '/stay';
     $this->mealsPageName = 'meals';
     $this->accommodationPageName = 'accommodation';
+    $this->additionalPageRoutesName = ['additional.stay.page.details'];
   }
   /*
    * Save staypage data
@@ -103,9 +109,11 @@ class StayRepository
       $pageData['order'] = $key + 1;
 
       if($pageData['id'] == '') {
-        $url = $this->pageService->generateUrl($pageData['title'], $data['website_id'], $this->stayPageUrl);
+        $pageDetails = $this->pageService->generateUrl($pageData['title'], $data['website_id'], $this->stayPageUrl);
         $name = $this->pageService->generateName($pageData['title'], $data['website_id']);
-        $pageData['url'] = $url;
+        $pageData['url'] = $pageDetails['url'];
+        $pageData['page_name'] = $pageDetails['page_name'];
+        $pageData['accessible_routes'] = $this->additionalPageRoutesName;
         $pageData['name'] = $name;
         $pageData['parent_id'] = $data['parent_id'];
         $pageData['is_additional_page'] = 1;
