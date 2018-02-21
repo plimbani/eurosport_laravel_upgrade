@@ -83,7 +83,10 @@ $api->version('v1', function ($api) {
     $api->post('match/getStanding/{refreshStanding?}',
         'Laraspace\Api\Controllers\MatchController@getStanding'); 
 
-    $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users'); 
+    $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
+
+    $api->get('pitch/reportCard/{pitchId}',
+        'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');  
 
 } );
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
