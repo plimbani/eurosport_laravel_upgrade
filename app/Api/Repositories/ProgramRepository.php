@@ -17,12 +17,24 @@ class ProgramRepository
   protected $programPageName;
 
   /**
+   * @var Program page name
+   */
+  protected $programPageUrl;
+
+  /**
+   * @var Additional page route name
+   */
+  protected $additionalPageRoutesName;
+
+  /**
    * Create a new controller instance.
    */
   public function __construct(PageService $pageService)
   {
     $this->pageService = $pageService;
     $this->programPageName = 'program';
+    $this->programPageUrl = '/program';
+    $this->additionalPageRoutesName = ['additional.program.page.details'];
   }  
 
   /*
@@ -166,9 +178,11 @@ class ProgramRepository
       $pageData['order'] = $key + 1;
 
       if($pageData['id'] == '') {
-        $url = $this->pageService->generateUrl($pageData['title'], $websiteId, $this->programPageName);
+        $pageDetails = $this->pageService->generateUrl($pageData['title'], $websiteId, $this->programPageUrl);
         $name = $this->pageService->generateName($pageData['title'], $websiteId);
-        $pageData['url'] = $url;
+        $pageData['url'] = $pageDetails['url'];
+        $pageData['page_name'] = $pageDetails['page_name'];
+        $pageData['accessible_routes'] = $this->additionalPageRoutesName;
         $pageData['name'] = $name;
         $pageData['parent_id'] = $data['parent_id'];
         $pageData['is_additional_page'] = 1;

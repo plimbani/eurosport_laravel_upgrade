@@ -31,8 +31,10 @@ class VerifyWebsite
         Landlord::addTenant('website', $website);
 
         // Get all published pages
-        $menuItemArray = $website->getPublishedPages()->toArray();
-        View::share('menu_items', Page::buildPageTree($menuItemArray));
+        $pages = $website->getPublishedPages()->toArray();
+        View::share('menu_items', Page::buildPageTree($pages));
+
+        $accessibleRoutes = $website->getPublishedPages()->pluck('accessible_routes')->toArray();
 
         // Get all website's organisers
         $organisers = $website->organisers;
