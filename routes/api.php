@@ -118,7 +118,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->get('getAllClubs', 'Laraspace\Api\Controllers\TeamController@getAllClubs');
 
     $api->post('updateTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@updateTeamDetails');
-
+    $api->post('resetAllTeams', 'Laraspace\Api\Controllers\TeamController@resetAllTeams'); 
     // Method for get All TournamentTeams
 
     // Manually change team name
