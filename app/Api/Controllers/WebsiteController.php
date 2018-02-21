@@ -172,4 +172,18 @@ class WebsiteController extends BaseController
   public function uploadOrganiserLogo(Request $request) {
     return $this->websiteContract->uploadOrganiserLogo($request);
   }
+  
+  /**
+   * Get website details
+   *
+   * Get a JSON representation of all the website
+   *
+   * @Get("/getWebsiteDetails")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getWebsiteDetails(Request $request, $websiteId)
+  {
+    return $this->websiteContract->getWebsiteDetails($websiteId);
+  }
 }

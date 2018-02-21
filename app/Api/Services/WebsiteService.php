@@ -135,6 +135,11 @@ class WebsiteService implements WebsiteContract
     }
   }
 
+  /*
+   * Get Website Customisation Options
+   *
+   * @return response
+   */
   public function getWebsiteCustomisationOptions()
   {
     $allColours = $this->websiteRepo->getWebsiteCustomisationOptions();
@@ -318,5 +323,16 @@ class WebsiteService implements WebsiteContract
     );
 
     return $this->getAWSUrl . $s3path;
+  }
+  /*
+   * Get website details
+   *
+   * @return response
+   */
+  public function getWebsiteDetails($websiteId)
+  {
+    $data = $this->websiteRepo->getWebsiteDetails($websiteId);
+
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
 }

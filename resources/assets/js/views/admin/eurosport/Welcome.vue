@@ -147,12 +147,8 @@ computed: {
       this.$router.push({ name: 'users_list' })
     },
     addNewWebsite() {
-      let websiteAdd  = {
-        name:'Your Website', 'currentPage':'WebsiteAdd'
-      }
       let currentNavigationData = {activeTab:'website_add', currentPage:
       'Create Website'}
-      this.$store.dispatch('SetWebsite', websiteAdd)
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name: 'website_add'})
     }

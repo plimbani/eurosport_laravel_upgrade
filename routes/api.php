@@ -291,7 +291,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\MatchController@insertPositionsForPlacingMatches')->name('insert.positions.for.placing.matches');
 });
 
-$api->version('v1', function ($api) {
+// Websites CMS routes
+$api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     // Published tournaments
     $api->get('getAllPublishedTournaments','Laraspace\Api\Controllers\TournamentController@getAllPublishedTournaments');
 
@@ -306,12 +307,15 @@ $api->version('v1', function ($api) {
     $api->post('websites/websiteSummary', 'Laraspace\Api\Controllers\WebsiteController@websiteSummary');
     $api->get('websites/customisation/options', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteCustomisationOptions');
     $api->get('websites/getWebsiteDefaultPages', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDefaultPages');
+
     $api->post('websites/uploadTournamentLogo', 'Laraspace\Api\Controllers\WebsiteController@uploadTournamentLogo');
     $api->post('websites/uploadSocialGraphic', 'Laraspace\Api\Controllers\WebsiteController@uploadSocialGraphic');
     $api->post('websites/uploadSponsorImage', 'Laraspace\Api\Controllers\WebsiteController@uploadSponsorImage');
     $api->post('websites/uploadHeroImage', 'Laraspace\Api\Controllers\WebsiteController@uploadHeroImage');
     $api->post('websites/uploadWelcomeImage', 'Laraspace\Api\Controllers\WebsiteController@uploadWelcomeImage');
     $api->post('websites/uploadOrganiserLogo', 'Laraspace\Api\Controllers\WebsiteController@uploadOrganiserLogo');
+
+    $api->get('getWebsiteDetails/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDetails');
 
     //Website homepage
     $api->get('getStatistics/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getStatistics');
@@ -360,4 +364,9 @@ $api->version('v1', function ($api) {
     $api->post('saveContactDetails', 'Laraspace\Api\Controllers\ContactController@saveContactDetails');
 
     $api->post('uploadImage', 'Laraspace\Api\Controllers\UploadMediaController@uploadImage');
+});
+
+$api->version('v1', function ($api) {
+    $api->post('verifyWebsite', 'Laraspace\Api\Controllers\WebsiteController@verifyWebsite'); 
+    $api->get('getProgramPageDetails/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getProgramPageDetails');
 });

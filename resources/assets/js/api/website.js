@@ -136,4 +136,8 @@ export default {
   saveContactDetails(contactDetails) {
     return axios.post('/api/saveContactDetails', contactDetails);
   },
+  // Get website details
+  getWebsiteDetails(websiteId) {
+    return axios.get('/api/getWebsiteDetails/' + websiteId);
+  },
 }

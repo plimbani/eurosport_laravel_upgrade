@@ -34,7 +34,7 @@ class PageService
     }
     isset($pageDetail['order']) ? $page->order = $pageDetail['order'] : '';
     isset($pageDetail['title']) ? $page->title = $pageDetail['title'] : '';
-    isset($pageDetail['content']) ? $page->content = $pageDetail['content'] : '';
+    array_key_exists('content', $pageDetail) ? $page->content = trim($pageDetail['content']) : '';
     isset($pageDetail['meta']) ? $page->meta = $pageDetail['meta'] : '';
     isset($pageDetail['is_additional_page']) ? $page->is_additional_page = $pageDetail['is_additional_page'] : '';
     isset($pageDetail['is_enabled']) ? $page->is_enabled = $pageDetail['is_enabled'] : '';

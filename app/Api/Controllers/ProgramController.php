@@ -15,7 +15,7 @@ class ProgramController extends BaseController {
   /**
    * Create a new controller instance.
    *
-   * @param StayContract $stayContract
+   * @param ProgramContract $programContract
    */
   public function __construct(ProgramContract $programContract)
   {
@@ -25,7 +25,7 @@ class ProgramController extends BaseController {
   /**
    * Get all itineraries
    *
-   * @param StayContract $stayContract
+   * @param ProgramContract $programContract
    */
   public function getItineraries(Request $request, $websiteId)
   {
@@ -35,7 +35,7 @@ class ProgramController extends BaseController {
   /**
    * Save program page data
    *
-   * @param StayContract $stayContract
+   * @param ProgramContract $programContract
    */
   public function saveProgramPageData(Request $request)
   {
@@ -45,10 +45,20 @@ class ProgramController extends BaseController {
   /**
    * Get program page data
    *
-   * @param StayContract $stayContract
+   * @param ProgramContract $programContract
    */
   public function getProgramPageData(Request $request, $websiteId)
   {
     return $this->programContract->getProgramPageData($websiteId);
+  }
+
+  /**
+   * Get program page details
+   *
+   * @param ProgramContract $programContract
+   */
+  public function getProgramPageDetails(Request $request, $websiteId)
+  {
+    return ['itinerary' => []];
   }
 }

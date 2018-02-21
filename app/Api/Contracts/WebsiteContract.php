@@ -102,4 +102,12 @@ interface WebsiteContract
      * @return response
      */
     public function uploadOrganiserLogo($request);
+    
+    /*
+     * Get website details
+     *
+     * @return response
+     */
+    public function getWebsiteDetails($websiteId);
+
 }
