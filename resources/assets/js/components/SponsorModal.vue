@@ -13,7 +13,7 @@
             <label class="col-sm-5 form-control-label">{{ $lang.website_sponsor_logo }}*</label>
             <div class="col-sm-6">
               <img :src="getSponsorLogo" class="thumb-size" />
-              <button type="button" class="btn btn-default" id="btn_sponsor_logo" @click="selectLogo()">{{$lang.tournament_tournament_choose_button}}</button>
+              <button :disabled="isSponsorImageUploading ? true : false" type="button" class="btn btn-default" id="btn_sponsor_logo" @click="selectLogo()">{{isSponsorImageUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
               <input type="file" id="sponsor_logo" style="display:none;" @change="onLogoChange">
               <input type="hidden" v-model="formValues.logo" name="logo" v-validate="'required'" />
               <span class="help is-danger" v-show="errors.has('logo')">{{ errors.first('logo') }}</span>
@@ -67,6 +67,7 @@
 					logo: '',
 					website: '',
 				},
+				isSponsorImageUploading: false,
 			};
 		},
 		created() {
@@ -116,15 +117,14 @@
 	        return;
 	      }
 
-				$('#btn_sponsor_logo').text('Uploading...').prop('disabled', true);
-
+				vm.isSponsorImageUploading = true;
 	      var formData = new FormData();
 	      formData.append('image', files[0]);
 	      formData.append('imagePath', vm.getSponsorLogoPath);
 	      axios.post('/api/websites/uploadSponsorImage', formData).then(
 		      (response)=> {
 		      	vm.formValues.logo = response.data;
-		      	$('#btn_sponsor_logo').text('Choose file').prop('disabled', false);
+		      	vm.isSponsorImageUploading = false;
 		      },
 		      (error)=>{
 		      }
