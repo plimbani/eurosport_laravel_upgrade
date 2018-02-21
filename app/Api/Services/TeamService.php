@@ -355,4 +355,9 @@ class TeamService implements TeamContract
 
       }
     }
+    public function resetAllTeams($ageCategoryId)
+    { 
+        $data = $ageCategoryId->toArray()['ageCategoryId'];
+        $data = $this->teamRepoObj->resetAllTeams($data);
+    }
 }

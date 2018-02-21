@@ -71,6 +71,10 @@ fieldset[disabled] a.btn {
   @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
 }
 
+.btn-orange {
+  @include button-variant($btn-primary-color, #FF9800, #FB8C00);
+}
+
 // Remove all backgrounds
 .btn-outline-primary {
   @include button-outline-variant($btn-primary-bg);
