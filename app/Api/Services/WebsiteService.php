@@ -17,7 +17,7 @@ class WebsiteService implements WebsiteContract
   /**
    * @var ImageManager
    */
-  protected $images;
+  protected $imageManager;
   /**
    * @var WebsiteRepository
    */
@@ -26,7 +26,7 @@ class WebsiteService implements WebsiteContract
   /**
    * @var local temperary image destination
    */
-  protected $tempImages;
+  protected $tempImagePath;
 
   /**
    * @var predefined image path
@@ -55,9 +55,9 @@ class WebsiteService implements WebsiteContract
   public function __construct(WebsiteRepository $websiteRepo)
   {
     $this->getAWSUrl = getenv('S3_URL');
-    $this->images = new ImageManager;
+    $this->imageManager = new ImageManager;
     $this->websiteRepo = $websiteRepo;
-    $this->tempImages = Config::get('wot.tempImages');
+    $this->tempImagePath = Config::get('wot.tempImagePath');
     $this->imagePath = Config::get('wot.imagePath');
     $this->conversions = Config::get('image-conversion.conversions');
   }
@@ -112,58 +112,13 @@ class WebsiteService implements WebsiteContract
 
     $tournament_logo = $data['websiteData']['tournament_logo'];
     $data['websiteData']['tournament_logo'] = basename(parse_url($tournament_logo)['path']);
-    // $data['websiteData']['tournament_logo'] = $this->saveTournamentLogo($data);
-    $data['websiteData']['social_sharing_graphic'] = $this->saveSocialSharingGraphicImage($data);
+
+    $social_sharing_graphic = $data['websiteData']['social_sharing_graphic'];
+    $data['websiteData']['social_sharing_graphic'] = basename(parse_url($social_sharing_graphic)['path']);
+
     $data = $this->websiteRepo->saveWebsiteData($data['websiteData']);
-    
+
     return ['data' => $data, 'status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
-  }
-
-  /*
-   * Save tournament logo
-   *
-   * @return response
-   */
-  private function saveTournamentLogo($data)
-  {
-    if($data['websiteData']['tournament_logo'] != '') {
-      if(strpos($data['websiteData']['tournament_logo'],$this->getAWSUrl) !==  false) {
-        $path = $this->getAWSUrl.'/assets/img/website_tournament_logo/';
-        $imageLogo = str_replace($path,"",$data['websiteData']['tournament_logo']);
-        return $imageLogo;
-      }
-
-      $imagePath = '/assets/img/website_tournament_logo/';
-      $imageString = $data['websiteData']['tournament_logo'];
-
-      return Image::uploadImage($imagePath, $imageString);
-
-    } else {
-      return '';
-    }
-  }
-
-  /*
-   * Save social sharing graphic image
-   *
-   * @return response
-   */
-  private function saveSocialSharingGraphicImage($data)
-  {
-    if($data['websiteData']['social_sharing_graphic'] != '') {
-      if(strpos($data['websiteData']['social_sharing_graphic'],$this->getAWSUrl) !==  false) {
-        $path = $this->getAWSUrl.'/assets/img/social_sharing_graphic/';
-        $imageLogo = str_replace($path,"",$data['websiteData']['social_sharing_graphic']);
-        return $imageLogo;
-      }
-
-      $imagePath = '/assets/img/social_sharing_graphic/';
-      $imageString = $data['websiteData']['social_sharing_graphic'];
-
-      return Image::uploadImage($imagePath, $imageString);
-    } else {
-      return '';
-    }
   }
 
   /*
@@ -232,7 +187,7 @@ class WebsiteService implements WebsiteContract
   public function uploadTournamentLogo($request)
   {
     $filename = Image::createTempImage($request->image);
-    $localpath = $this->tempImages.$filename;
+    $localpath = $this->tempImagePath.$filename;
     $s3path = $this->imagePath['website_tournament_logo'].$filename;
 
     // moving main image file to S3
@@ -241,7 +196,7 @@ class WebsiteService implements WebsiteContract
 
     ImageConversion::dispatch(
       $filename, 
-      $this->tempImages, 
+      $this->tempImagePath, 
       $this->imagePath['website_tournament_logo'], 
       $this->conversions['website_tournament_logo']
     );
@@ -250,7 +205,7 @@ class WebsiteService implements WebsiteContract
   }
 
   /*
-   * Save website social graphic
+   * Save social sharing graphic image
    *
    * @return response
    */
@@ -273,7 +228,7 @@ class WebsiteService implements WebsiteContract
   public function uploadSponsorImage($request)
   {
     $filename = Image::createTempImage($request->image);
-    $localpath = $this->tempImages.$filename;
+    $localpath = $this->tempImagePath.$filename;
     $s3path = $this->imagePath['sponsor_logo'].$filename;
 
     // moving main image file to S3
@@ -282,7 +237,7 @@ class WebsiteService implements WebsiteContract
 
     ImageConversion::dispatch(
       $filename, 
-      $this->tempImages, 
+      $this->tempImagePath, 
       $this->imagePath['sponsor_logo'], 
       $this->conversions['sponsor_logo']
     );

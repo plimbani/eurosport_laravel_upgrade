@@ -77,9 +77,6 @@
 	  	getSponsorLogo() {
 	  		return this.formValues.logo == '' ? 'http://placehold.it/250x250?text=noimage' : this.formValues.logo;
 	  	},
-	    getSponsorLogoPath() {
-	    	return this.$store.state.Image.sponsorLogoPath;
-	    },
 	  },
 		methods: {
 			validateForm() {
@@ -120,7 +117,6 @@
 				vm.isSponsorImageUploading = true;
 	      var formData = new FormData();
 	      formData.append('image', files[0]);
-	      formData.append('imagePath', vm.getSponsorLogoPath);
 	      axios.post('/api/websites/uploadSponsorImage', formData).then(
 		      (response)=> {
 		      	vm.formValues.logo = response.data;

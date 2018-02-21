@@ -161,5 +161,5 @@ return [
     'document' => '/assets/img/document/',
     'editor_image' => '/assets/img/editor_image/',
   ],
-  'tempImages' => storage_path().'/temp_images/',
+  'tempImagePath' => storage_path().'/temp_images/',
 ];

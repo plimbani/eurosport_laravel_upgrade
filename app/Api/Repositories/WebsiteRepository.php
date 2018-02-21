@@ -148,7 +148,7 @@ class WebsiteRepository
       $sponsorData['order'] = $i + 1;
 
       // Upload image
-      $sponsorData['logo'] = $this->uploadSponsorLogo($sponsorData['logo']);
+      $sponsorData['logo'] = basename(parse_url($sponsorData['logo'])['path']);
 
       if($sponsorData['id'] == '') {
         $sponsor = $this->insertSponsor($websiteId, $sponsorData);
@@ -259,27 +259,6 @@ class WebsiteRepository
   {
     $sponsorIds = Sponsor::where('website_id', $websiteId)->pluck('id')->toArray();
     return $sponsorIds;
-  }
-
-  /*
-   * Upload sponsor logo
-   *
-   * @return response
-   */
-  public function uploadSponsorLogo($logo)
-  {
-    if($logo != '') {
-      if(strpos($logo, $this->getAWSUrl) !==  false) {
-        $path = $this->getAWSUrl . '/assets/img/sponsor/';
-        $imageLogo = str_replace($path, "", $logo);
-        return $imageLogo;
-      }
-
-      $imagePath = '/assets/img/sponsor/';
-      $imageString = $logo;
-
-      return Image::uploadImage($imagePath, $imageString);
-    }
   }
 
   /*

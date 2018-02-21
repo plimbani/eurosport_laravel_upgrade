@@ -48,9 +48,9 @@ class Image {
    */
 	static function createTempImage($image) {
 		$imageManager = new ImageManager;
-		$tempImages = Config::get('wot.tempImages');
+		$tempImagePath = Config::get('wot.tempImagePath');
     $filename = md5(microtime(true) . rand(10,99)) . '.' . $image->getClientOriginalExtension();
-    $localpath  = $tempImages.$filename;
+    $localpath  = $tempImagePath.$filename;
     $image = $imageManager->make($image);
     $image->save($localpath);
     return $filename;
