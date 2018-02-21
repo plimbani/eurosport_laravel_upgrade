@@ -145,4 +145,31 @@ class WebsiteController extends BaseController
   public function uploadSponsorImage(Request $request) {
     return $this->websiteContract->uploadSponsorImage($request);
   }
+
+  /*
+   * Upload website hero image
+   *
+   * @return response
+   */
+  public function uploadHeroImage(Request $request) {
+    return $this->websiteContract->uploadHeroImage($request);
+  }
+
+  /*
+   * Upload welcome image
+   *
+   * @return response
+   */
+  public function uploadWelcomeImage(Request $request) {
+    return $this->websiteContract->uploadWelcomeImage($request);
+  }
+
+  /*
+   * Upload organiser image
+   *
+   * @return response
+   */
+  public function uploadOrganiserLogo(Request $request) {
+    return $this->websiteContract->uploadOrganiserLogo($request);
+  }
 }

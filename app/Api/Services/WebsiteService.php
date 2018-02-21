@@ -244,4 +244,79 @@ class WebsiteService implements WebsiteContract
 
     return $this->getAWSUrl . $s3path;
   }
+
+  /*
+   * Save hero image
+   *
+   * @return response
+   */
+  public function uploadHeroImage($request)
+  {
+    $filename = Image::createTempImage($request->image);
+    $localpath = $this->tempImagePath.$filename;
+    $s3path = $this->imagePath['hero_image'].$filename;
+
+    // moving main image file to S3
+    $disk = Storage::disk('s3');
+    $disk->put($s3path, file_get_contents($localpath), 'public');
+
+    ImageConversion::dispatch(
+      $filename, 
+      $this->tempImagePath, 
+      $this->imagePath['hero_image'], 
+      $this->conversions['hero_image']
+    );
+
+    return $this->getAWSUrl . $s3path;
+  }
+
+  /*
+   * Save welcome image
+   *
+   * @return response
+   */
+  public function uploadWelcomeImage($request)
+  {
+    $filename = Image::createTempImage($request->image);
+    $localpath = $this->tempImagePath.$filename;
+    $s3path = $this->imagePath['welcome_image'].$filename;
+
+    // moving main image file to S3
+    $disk = Storage::disk('s3');
+    $disk->put($s3path, file_get_contents($localpath), 'public');
+
+    ImageConversion::dispatch(
+      $filename, 
+      $this->tempImagePath, 
+      $this->imagePath['welcome_image'], 
+      $this->conversions['welcome_image']
+    );
+
+    return $this->getAWSUrl . $s3path;
+  }
+
+  /*
+   * Save welcome image
+   *
+   * @return response
+   */
+  public function uploadOrganiserLogo($request)
+  {
+    $filename = Image::createTempImage($request->image);
+    $localpath = $this->tempImagePath.$filename;
+    $s3path = $this->imagePath['organiser_logo'].$filename;
+
+    // moving main image file to S3
+    $disk = Storage::disk('s3');
+    $disk->put($s3path, file_get_contents($localpath), 'public');
+
+    ImageConversion::dispatch(
+      $filename, 
+      $this->tempImagePath, 
+      $this->imagePath['organiser_logo'], 
+      $this->conversions['organiser_logo']
+    );
+
+    return $this->getAWSUrl . $s3path;
+  }
 }

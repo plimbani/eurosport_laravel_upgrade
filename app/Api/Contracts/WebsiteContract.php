@@ -81,4 +81,25 @@ interface WebsiteContract
      * @return response
      */
     public function uploadSponsorImage($request);
+
+    /*
+     * Upload website hero image
+     *
+     * @return response
+     */
+    public function uploadHeroImage($request);
+
+    /*
+     * Upload welcome image
+     *
+     * @return response
+     */
+    public function uploadWelcomeImage($request);
+
+    /*
+     * Upload organiser image
+     *
+     * @return response
+     */
+    public function uploadOrganiserLogo($request);
 }
