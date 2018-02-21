@@ -386,7 +386,7 @@ export default {
       var formData = new FormData();
       formData.append('image', files[0]);
       formData.append('imagePath', vm.getWebsiteTournamentLogoPath);
-      axios.post('/api/websites/uploadLogo', formData).then(
+      axios.post('/api/websites/uploadTournamentLogo', formData).then(
 	      (response)=> {
 	      	this.tournament_logo_image = response.data;
 	      	$('#btnSelect').text('Remove image').prop('disabled', false);

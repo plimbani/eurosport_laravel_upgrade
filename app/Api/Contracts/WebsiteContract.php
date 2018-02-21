@@ -66,7 +66,7 @@ interface WebsiteContract
      *
      * @return response
      */
-    public function uploadLogo($request);
+    public function uploadTournamentLogo($request);
 
     /*
      * Upload website social graphic

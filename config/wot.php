@@ -150,4 +150,16 @@ return [
     ],
   ],
   'permissions_not_changeable_pages' => ['home'],
+  'imagePath' => [
+    'website_tournament_logo' => '/assets/img/website_tournament_logo/',
+    'social_sharing_graphic' => '/assets/img/social_sharing_graphic/',
+    'hero_image' => '/assets/img/hero_image/',
+    'welcome_image' => '/assets/img/welcome_image/',
+    'organiser_logo' => '/assets/img/organiser/',
+    'sponsor_logo' => '/assets/img/sponsor/',
+    'photo' => '/assets/img/photo/',
+    'document' => '/assets/img/document/',
+    'editor_image' => '/assets/img/editor_image/',
+  ],
+  'tempImages' => storage_path().'/temp_images/',
 ];

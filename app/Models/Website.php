@@ -23,9 +23,4 @@ class Website extends Model
     {
         return $this->hasMany('Laraspace\Models\Page');
     }
-
-    public static $logoSizes = [
-        'thumbnail' => ['width' => 250, 'height' => 250],
-        'small_thumbnail' => ['width' => 125, 'height' => 125],
-    ];
 }

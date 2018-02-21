@@ -1,10 +1,11 @@
 <?php
 namespace Laraspace\Custom\Helper;
 
+use Config;
 use Storage;
+use Intervention\Image\ImageManager;
 
 class Image {
-
 	 /*
    * Common function for uploading image
    *
@@ -39,4 +40,19 @@ class Image {
 		$s3->put($path, file_get_contents($image), 'public');
 		return $path;
 	}
+
+	 /*
+   * Common function for uploading IMAGE to local
+   *
+   * @return response
+   */
+	static function createTempImage($image) {
+		$imageManager = new ImageManager;
+		$tempImages = Config::get('wot.tempImages');
+    $filename = md5(microtime(true) . rand(10,99)) . '.' . $image->getClientOriginalExtension();
+    $localpath  = $tempImages.$filename;
+    $image = $imageManager->make($image);
+    $image->save($localpath);
+    return $filename;
+  }
 }

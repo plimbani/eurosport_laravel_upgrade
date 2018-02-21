@@ -124,8 +124,8 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function uploadLogo(Request $request) {
-    return $this->websiteContract->uploadLogo($request);
+  public function uploadTournamentLogo(Request $request) {
+    return $this->websiteContract->uploadTournamentLogo($request);
   }
 
   /*
