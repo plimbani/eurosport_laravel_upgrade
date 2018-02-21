@@ -160,7 +160,8 @@
                 </div>
                 <div class="modal-body text-left">
                     <p>
-                        Are you sure you would like to reset this age category? This will delete ALL team information associated with this age category including team names, fixtures and results.
+                        Are you sure you would like to reset this age category? This will delete 
+                        <b>ALL</b> team information associated with this age category including team names, fixtures and results.
                     </p>
                 </div>
                 <div class="modal-footer">
