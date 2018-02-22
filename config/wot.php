@@ -196,4 +196,16 @@ return [
     'editor_image' => '/assets/img/editor_image/',
   ],
   'tempImagePath' => storage_path() . '/temp_images/',
+  'cms_pages' => [
+    'website' => 'Website',
+    'home' => 'Homepage',
+    'teams' => 'Teams',
+    'venue' => 'Venue',
+    'tournament' => 'Tournament',
+    'program' => 'Program',
+    'stay' => 'Stay',
+    'visitors' => 'Visitors',
+    'media' => 'Media',
+    'contact' => 'Contact',
+  ],
 ];

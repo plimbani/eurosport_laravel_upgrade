@@ -5,11 +5,12 @@ namespace Laraspace\Observers;
 use Laraspace\Models\Page;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Traits\ManageActivityLog;
+use Laraspace\Traits\TrackActivitySection;
 use Laraspace\Traits\ManageActivityNotification;
 
 class PageObserver
 {
-    use ManageActivityLog, AuthUserDetail, ManageActivityNotification;
+    use ManageActivityLog, AuthUserDetail, TrackActivitySection, ManageActivityNotification;
 
     /**
      * Listen to the Page created event.
@@ -19,21 +20,7 @@ class PageObserver
      */
     public function created(Page $page)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
 
-      $pageData = [];
-      $pageData['website_id'] = $page->website_id;
-      $pageData['notification_id'] = $this->getNotificationId($userObj);
-      $pageData['subject_id'] = $page->id;
-      $pageData['subject_type'] = get_class($page);
-      $pageData['causer_id'] = $userObj->id;
-      $pageData['causer_type'] = get_class($userObj);
-      $pageData['description'] = $userObj->name .' '. 'added a new page.';
-      $pageData['page'] = 'Homepage';
-      $pageData['section'] = 'Organisers';
-      $pageData['action'] = 'created';
-
-      $this->saveActivityLog($pageData);
     }
 
     /**
@@ -45,6 +32,7 @@ class PageObserver
     public function updated(Page $page)
     {
       $userObj = $this->getCurrentLoggedInUserDetail();
+      $pageTitleAndSection = $this->getPageTitleAndSection($page);
 
       $pageData = [];
       $pageData['website_id'] = $page->website_id;
@@ -53,9 +41,9 @@ class PageObserver
       $pageData['subject_type'] = get_class($page);
       $pageData['causer_id'] = $userObj->id;
       $pageData['causer_type'] = get_class($userObj);
-      $pageData['description'] = $userObj->name .' '. 'updated a page.';
-      $pageData['page'] = 'Homepage';
-      $pageData['section'] = 'Organisers';
+      $pageData['description'] = $userObj->name .' '. 'updated a ' . $pageTitleAndSection['page_title'] . ' page.';
+      $pageData['page'] = $pageTitleAndSection['page_title'];
+      $pageData['section'] = $pageTitleAndSection['section'];
       $pageData['action'] = 'updated';
 
       $this->saveActivityLog($pageData);
