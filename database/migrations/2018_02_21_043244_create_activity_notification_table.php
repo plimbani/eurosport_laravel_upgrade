@@ -18,7 +18,7 @@ class CreateActivityNotificationTable extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->boolean('is_mail_sent');
-            $table->dateTime('mailed_at');
+            $table->timstamp('mailed_at')->nullable();
             $table->timestamps();
         });
     }

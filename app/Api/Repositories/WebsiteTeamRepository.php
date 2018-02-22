@@ -100,7 +100,9 @@ class WebsiteTeamRepository
    */
   public function deleteAgeCategories($ageCategoryIds = [])
   {
-    AgeCategory::whereIn('id', $ageCategoryIds)->delete();
+    AgeCategory::whereIn('id', $ageCategoryIds)->get()->each(function($ageCategory) {
+      $ageCategory->delete();
+    });
     return true;
   }
 
@@ -194,7 +196,9 @@ class WebsiteTeamRepository
    */
   public function deleteAgeCategoryTeams($ageCategoryTeamIds = [])
   {
-    AgeCategoryTeam::whereIn('id', $ageCategoryTeamIds)->delete();
+    AgeCategoryTeam::whereIn('id', $ageCategoryTeamIds)->get()->each(function($ageCategoriesTeam) {
+      $ageCategoriesTeam->delete();
+    });
     return true;
   }
 

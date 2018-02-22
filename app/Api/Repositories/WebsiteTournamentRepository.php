@@ -139,7 +139,9 @@ class WebsiteTournamentRepository
   * return response
   */
   public function deleteHistoryYears($yearIDs) {
-    HistoryYear::whereIn('id', $yearIDs)->delete();
+    HistoryYear::whereIn('id', $yearIDs)->get()->each(function($year) {
+      $year->delete();
+    });
 
     return true;
   }
@@ -219,7 +221,9 @@ class WebsiteTournamentRepository
   * return response
   */
   public function deleteAgeCategories($categoryIDs) {
-    HistoryAgeCategory::whereIn('id', $categoryIDs)->delete();
+    HistoryAgeCategory::whereIn('id', $categoryIDs)->get()->each(function($category) {
+      $category->delete();
+    });
     return true;
   }
 
@@ -298,7 +302,9 @@ class WebsiteTournamentRepository
   * return response
   */
   public function deleteTeams($teamIDs) {
-    HistoryTeam::whereIn('id', $teamIDs)->delete();
+    HistoryTeam::whereIn('id', $teamIDs)->get()->each(function($team) {
+      $team->delete();
+    });
     return true;
   }
 

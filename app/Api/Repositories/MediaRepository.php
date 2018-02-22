@@ -113,7 +113,9 @@ class MediaRepository
    */
   public function deletePhotos($photoIds = [])
   {
-    Photo::whereIn('id', $photoIds)->delete();
+    Photo::whereIn('id', $photoIds)->get()->each(function($photo) {
+      $photo->delete();
+    });
     return true;
   }
 
@@ -234,7 +236,9 @@ class MediaRepository
    */
   public function deleteDocuments($documentIds = [])
   {
-    Document::whereIn('id', $documentIds)->delete();
+    Document::whereIn('id', $documentIds)->get()->each(function($document) {
+      $document->delete();
+    });
     return true;
   }
 

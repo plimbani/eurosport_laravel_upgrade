@@ -3,16 +3,17 @@
 namespace Laraspace\Observers;
 
 use Laraspace\Models\Website;
-use Laraspace\Traits\TracksHistoryTrait;
+use Laraspace\Traits\AuthUserDetail;
+use Laraspace\Traits\ManageActivityLog;
 
 class WebsiteObserver
 {
-    use TracksHistoryTrait;
+    use ManageActivityLog, AuthUserDetail;
 
     /**
      * Listen to the Website created event.
      *
-     * @param  \Laraspace\Models\Website  $website
+     * @param  \Laraspace\Models\Website $website
      * @return void
      */
     public function created(Website $website)
@@ -23,7 +24,7 @@ class WebsiteObserver
     /**
      * Listen to the Website updated event.
      *
-     * @param  \Laraspace\Models\Website  $website
+     * @param  \Laraspace\Models\Website $website
      * @return void
      */
     public function updated(Website $website)
@@ -34,7 +35,7 @@ class WebsiteObserver
     /**
      * Listen to the Website deleted event.
      *
-     * @param  \Laraspace\Models\Website  $website
+     * @param  \Laraspace\Models\Website $website
      * @return void
      */
     public function deleted(Website $website)
