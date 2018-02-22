@@ -10,7 +10,7 @@
 	        	</div>
 	        </div>
 	        <div class="form-group row">
-	        	<div class="col-sm-6">
+	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.website_map}}</strong></h6>
 	        		<website-location-map></website-location-map>
 	        	</div>
@@ -32,18 +32,9 @@
 </template>
 <script>
 var moment = require('moment');
-import * as VueGoogleMaps from 'vue2-google-maps';
-import Vue from 'vue';
 import Website from '../../../../js/api/website.js';
 import WebsiteLocationList from '../../../components/WebsiteLocationList.vue';
 import WebsiteLocationMap from '../../../components/WebsiteLocationMap.vue';
-
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyCUkAy2II7BJnOURSZWB9_3FyuSgBnq2Lc',
-    libraries: 'places', //// If you need to use place input
-  }
-});
 
 export default {
 	components: {
@@ -55,21 +46,9 @@ export default {
 			venue: {
 				websiteId: null,
 				locations: [],
-			},
-			center: {lat: 10.0, lng: 10.0},
-      markers: [{
-        position: {lat: 10.0, lng: 10.0}
-      }, {
-        position: {lat: 11.0, lng: 11.0}
-      }]
+			}
 		}
 	},
-	/*watch: {
-	  '$route'(to, from) {
-	    // Call resizePreserveCenter() on all maps
-	    Vue.$gmapDefaultResizeBus.$emit('resize')
-	  }
-	},*/
 	mounted() {
 		let currentNavigationData = {
 			activeTab:'website_venue',
@@ -82,7 +61,6 @@ export default {
 	methods: {
 		redirectToForward() {
       this.$root.$emit('getLocations');
-
       this.venue.websiteId = this.getWebsiteId();
       $("body .js-loader").removeClass('d-none');
       Website.saveVenuePageData(this.venue).then(
