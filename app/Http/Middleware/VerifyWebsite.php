@@ -56,7 +56,7 @@ class VerifyWebsite
 
         $days = Config::get('wot.message_notification_days');
         $createdAfter = Carbon::today()->subDay($days);
-        $messages = $website->messages()->whereDate('created_at', '>=', $createdAfter)->orderBy('created_at', 'desc')->limit(3)->get();
+        $messages = $website->messages()->whereDate('created_at', '>=', $createdAfter)->orderBy('created_at', 'desc')->get();
         View::share('messages', $messages);
 
         Config::set('wot.current_domain', $domain);
