@@ -3,20 +3,13 @@
     <div id="gmap_place_input">      
       <gmap-place-input :select-first-on-enter="true" @place_changed="updatePlace($event)"></gmap-place-input>
     </div>
-    <gmap-map :center="center" :zoom="zoom" :map-type-id="mapType" :options="{styles: mapStyles, scrollwheel: scrollwheel}" @rightclick="mapRclicked" @drag="drag++" @click="mapClickedCount++" class="map-panel" @zoom_changed="update('zoom', $event)" @center_changed="update('reportedCenter', $event)"
-      @maptypeid_changed="update('mapType', $event)" @bounds_changed="update('bounds', $event)" style="width: 100%; height: 600px">
-      <gmap-cluster :grid-size="gridSize" v-if="clustering">
-        <gmap-marker v-if="m.enabled" :position="m.position" :opacity="m.opacity" :draggable="m.draggable" @click="m.clicked++" @rightclick="m.rightClicked++" @dragend="m.dragended++" @position_changed="updateChild(m, 'position', $event)" v-for="m in activeMarkers"
-            :key="m.id">
-          <gmap-info-window :opened="m.ifw">{{m.ifw2text}}</gmap-info-window>
-        </gmap-marker>
+    <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" style="width: 100%; height: 600px">
+      <gmap-cluster :grid-size="gridSize">
+        <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true"  @click="toggleInfoWindow(m,index)" :zIndex="zIndex"></gmap-marker>
       </gmap-cluster>
-      <div v-if="!clustering">
-        <gmap-marker v-if="m.enabled" :position="m.position" :opacity="m.opacity" :draggable="m.draggable" @click="m.clicked++" @rightclick="m.rightClicked++" @dragend="m.dragended++" @position_changed="updateChild(m, 'position', $event)" v-for="m in activeMarkers"
-            :key="m.id">
-          <gmap-info-window :opened="m.ifw">{{m.ifw2text}}</gmap-info-window>
-        </gmap-marker>
-      </div>
+      <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
+        {{infoContent}}
+      </gmap-info-window>
     </gmap-map>
     <!-- <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" style="width: 100%; height: 600px">
       <gmap-cluster :grid-size="gridSize">
@@ -67,6 +60,20 @@ Vue.use(VueGoogleMaps, {
 export default {
   data() {
     return {
+      infoContent: '',
+      infoWindowPos: {
+        lat: 0,
+        lng: 0
+      },
+      infoWinOpen: false,
+      currentMidx: null,
+      //optional: offset infowindow so it visually sits nicely on top of our marker
+      infoOptions: {
+        pixelOffset: {
+          width: 0,
+          height: -35
+        }
+      },
       zIndex: 9999,
       lastId: 1,
       center: {
@@ -293,8 +300,10 @@ export default {
         opacity: 1,
         draggable: true,
         enabled: true,
-        ifw: true
+        ifw: true,
+        infoText: 'Marker '+ (this.markers.length + 1),
       });
+      this.toggleInfoWindow(this.markers[this.markers.length - 1], this.lastId);
       return this.markers[this.markers.length - 1];
     },
     updateMapCenter(which, value) { // eslint-disable-line no-unused-vars
@@ -363,8 +372,23 @@ export default {
     openInfoWindow(markerData) {
       console.log('hi');
       console.log('markerData',markerData);
-      // this.ifw = true;
-    }
+      this.ifw = true;
+    }, 
+
+    toggleInfoWindow: function(marker, idx) {
+      this.infoWindowPos = marker.position;
+      this.infoContent = marker.infoText;
+      //check if its the same marker that was selected if yes toggle
+      if (this.currentMidx == idx) {
+        this.infoWinOpen = !this.infoWinOpen;
+      }
+      //if different marker set infowindow to open and reset current marker index
+      else {
+        this.infoWinOpen = true;
+        this.currentMidx = idx;
+      }
+    },
+
   }
 }
 </script>
