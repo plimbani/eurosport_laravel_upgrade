@@ -195,6 +195,7 @@ module.exports= {
   website_teams: "Teams",
   website_venue: "Venue",
   website_locations: "Locations",
+  website_map: "Map",
   website_tournament: "Tournament",
   website_program: "Program",
   website_stay: "Stay",
