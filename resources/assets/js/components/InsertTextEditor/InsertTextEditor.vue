@@ -1,10 +1,14 @@
 <template>
-  <tinymce :id="id" :toolbar1="editorToolbar1" :plugins="plugins" :other_options="other_options" v-model="content"></tinymce>
+  <div>
+    <tinymce :id="id" :data-vv-name="id" :data-vv-as="validationFieldName" :toolbar1="editorToolbar1" :plugins="plugins" :other_options="other_options" v-model="content" v-validate="pageContentValidation" :class="{'is-danger': errors.has('name') }"></tinymce>
+    <span class="help is-danger" v-show="errors.has(id)">{{ errors.first(id) }}</span>
+  </div>
 </template>
 
 <script>
   import tinymce from './TinymceVue.vue';
   export default {
+    inject: ['$validator'],
     props : {
       id: {
         type: String,
@@ -14,6 +18,14 @@
         type: String,
         default : ''
       },
+      pageContentValidation: {
+        type: Object,
+        default: function () { return {} },
+      },
+      validationFieldName: {
+        type: String,
+        default : ''
+      }
     },
     created() {
       this.$root.$on('getEditorValue', this.getEditorValue);

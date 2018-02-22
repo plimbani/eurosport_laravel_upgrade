@@ -33,7 +33,7 @@
 </center>
 
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%">
-    <h4>Match Details</h4>
+    <h4>Match Card</h4>
     <thead>
         <tr>
             <td align="left">&nbsp;Match number</td>

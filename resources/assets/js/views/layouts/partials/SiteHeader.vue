@@ -103,6 +103,7 @@
         let userData = {'email':email}
         this.getUserDetails(userData);
         this.getImagePath();
+        this.getWebsiteDetails();
 
 
          },
@@ -142,6 +143,25 @@
                   (error)=> {
                   }
                 );
+            },
+            getWebsiteDetails() {
+              if(this.getWebsiteId !== null) {
+                Website.getWebsiteDetails(this.getWebsiteId).then(
+                  (response)=> {
+                    var websiteDetail = response.data.data;
+                    let website  = {
+                      id: websiteDetail.id,
+                      tournament_name: websiteDetail.tournament_name,
+                      tournament_dates: websiteDetail.tournament_dates,
+                      tournament_location: websiteDetail.tournament_location,
+                      pages: websiteDetail.pages,
+                    };
+                    this.$store.dispatch('SetWebsite', website);
+                  },
+                  (error)=> {
+                  }
+                );
+              }
             },
             initialState() {
                 return {
@@ -216,6 +236,9 @@
             },
             userId() {
                 return this.$store.state.Users.userDetails.id
+            },
+            getWebsiteId() {
+              return this.$store.state.Website.id;
             },
             // userData() {
             //     return this.$store.state.Users.userDetails

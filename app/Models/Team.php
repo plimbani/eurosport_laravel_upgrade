@@ -24,10 +24,13 @@ class Team extends Model
     {
         return stripslashes($value);
     }
-     public function setName($value)
+    public function setName($value)
     {
         return addslashes($value);
-
+    }
+    public function club()
+    {
+        return $this->belongsTo('Laraspace\Models\Club','club_id');
     }
 
     protected $dates = ['deleted_at'];

@@ -96,7 +96,7 @@ class AuthController extends Controller
              $userDetails['settings'] = $userSettings ? $userSettings->toArray() : null;
 
              $tournament_id = array();
-             return response(['authenticated' => true,'userData'=> $userDetails]);
+             return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);
             }
         }
         \Log::info('NOT GETTING TOKEN');

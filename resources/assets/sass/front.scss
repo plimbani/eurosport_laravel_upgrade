@@ -789,3 +789,19 @@ li.select2-results__option {
   height: auto;
   max-width: 100%;
 }
+
+.match-list-editicon,
+a.match-list-editicon:hover {
+    color:red !important;
+}
+
+option.age {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+}
+
+.thumb-size {
+    width: 100px;
+    height: auto;
+}

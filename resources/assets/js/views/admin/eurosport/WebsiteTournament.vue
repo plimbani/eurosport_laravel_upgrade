@@ -2,7 +2,6 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-
 				<form name="website_homepage" enctype="multipart/form-data">
 	        <h6><strong>{{$lang.competation_age_categories}}</strong></h6>
 	        <div class="form-group justify-content-between row">
@@ -14,23 +13,28 @@
 	          	</div>
 	          </div>
 	        </div>
-	        <h6><strong>{{$lang.tournament_rules}}</strong></h6>
-	        <div class="form-group justify-content-between row">
-	        	<div class="col-sm-12">
-	        		<div class="row">
-		          	<div class="col-sm-12">
-		          		<insert-text-editor :id="'rules'" :value="tournament.rules" @setEditorValue="setRulesText"></insert-text-editor>
+	        <div v-if="isPageEnabled('rules')">
+		        <hr class="my-4">
+		        <h6><strong>{{$lang.tournament_rules}}</strong></h6>
+		        <div class="form-group justify-content-between row">
+		        	<div class="col-sm-12">
+		        		<div class="row">
+			          	<div class="col-sm-12">
+			          		<insert-text-editor :id="'rules'" :value="tournament.rules" @setEditorValue="setRulesText"></insert-text-editor>
+			          	</div>
 		          	</div>
-	          	</div>
-	          </div>
+		          </div>
+		        </div>
+		      </div>
+		      <div v-if="isPageEnabled('history')">
+		        <hr class="my-4">
+		        <h6><strong>{{$lang.tournament_history}}</strong></h6>
+		        <div class="row">
+		          <div class="col-sm-8">
+	        			<history-year-list @setHistoryData="setHistoryData" :countries="tournament.countries"></history-year-list>
+	        		</div>
+	        	</div>
 	        </div>
-	        <hr class="my-4">
-	        <h6><strong>{{$lang.tournament_history}}</strong></h6>
-	        <div class="row">
-	          <div class="col-sm-8">
-        			<history-year-list @setHistoryData="setHistoryData" :countries="tournament.countries"></history-year-list>
-        		</div>
-        	</div>
 	      </form>
 
 			</div>
@@ -75,23 +79,11 @@ export default {
 			currentPage:'Tournament'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
-		this.getCountries();
 		this.getWebsiteTournamentPageData();
 	},
 	computed: {
 	},
 	methods: {
-		getCountries() {
-			var websiteId = this.getWebsiteId();
-
-			Website.getTeamPageData(websiteId).then(
-        (response)=> {
-        	this.tournament.countries = response.data.data.countries;
-        },
-        (error)=>{
-        }
-      );
-		},
 		next() {
 			this.$root.$emit('getEditorValue');
       this.tournament.websiteId = this.getWebsiteId();
@@ -100,7 +92,7 @@ export default {
 			Website.saveWebsiteTournamentPageData(this.tournament).then(
         (response)=> {
         	$("body .js-loader").addClass('d-none');
-          toastr.success('Tournament has been updated successfully.', 'Success');
+          toastr.success('Tournament page has been updated successfully.', 'Success');
           this.$router.push({name:'website_program'});
         },
         (error)=>{
@@ -125,13 +117,13 @@ export default {
 				(response)=> {
 					this.tournament.age_categories = response.data.data.tournament.content !== null ? response.data.data.tournament.content : '';
 					this.tournament.rules = response.data.data.rules.content !== null ? response.data.data.rules.content : '';
-					this.$root.$emit('importHistoryYears', response.data.data.history);
+					this.tournament.countries = response.data.data.countries;
+					this.$root.$emit('setHistoryYears', response.data.data.history);
 				},
-				(error) => {					
+				(error) => {
 				}
 			);
 		},
-
 		setHistoryData(historyData) {
 			this.tournament.history = historyData;
 		},

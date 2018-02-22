@@ -12,7 +12,7 @@
           <div class="form-group row" :class="{'has-error': errors.has('year') }">
             <label class="col-sm-5 form-control-label">{{ $lang.year }}*</label>
             <div class="col-sm-6">
-                <input v-model="formValues.year" v-validate="{'required':true}" :class="{'is-danger': errors.has('year') }" name="year" type="text" class="form-control" :placeholder="$lang.year">
+                <input maxlength="4" v-model="formValues.year" v-validate="{'required':true, 'digits':4}" :class="{'is-danger': errors.has('year') }" name="year" type="text" class="form-control" :placeholder="$lang.year">
                 <i v-show="errors.has('year')" class="fa fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('year')">{{ errors.first('year') }}<br>
                 </span>
@@ -39,7 +39,7 @@
         formValues: {
           id: '',
           year: '',
-          categoryList: [],
+          age_categories: [],
         },
       };
     },
@@ -66,7 +66,7 @@
       setHistoryYearData(historyYearData) {
         this.formValues.id = historyYearData.id;
         this.formValues.year = historyYearData.year;
-        this.formValues.categoryList = historyYearData.categoryList;
+        this.formValues.age_categories = historyYearData.age_categories;
         this.clearErrorMsgs();
       },
     },

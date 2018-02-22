@@ -206,9 +206,9 @@ class HomeRepository
     $pageDetail['content'] = $data['introduction_text'];
     $meta = array();
     // Upload hero image
-    $meta['hero_image'] = $this->uploadHeroImage($data['hero_image']);
+    $meta['hero_image'] = basename(parse_url($data['hero_image'])['path']);
     // Upload welcome image
-    $meta['welcome_image'] = $this->uploadWelcomeImage($data['welcome_image']);
+    $meta['welcome_image'] = basename(parse_url($data['welcome_image'])['path']);;
     $pageDetail['meta'] = $meta;
 
     $this->pageService->updatePageDetails($pageDetail, $data['websiteId']);
@@ -263,7 +263,7 @@ class HomeRepository
       $organiserData['order'] = $i + 1;
 
       // Upload image
-      $organiserData['logo'] = $this->uploadOrganiserLogo($organiserData['logo']);
+      $organiserData['logo'] = basename(parse_url($organiserData['logo'])['path']);
 
       if($organiserData['id'] == '') {
         $organiser = $this->insertOrganiser($websiteId, $organiserData);
@@ -279,27 +279,6 @@ class HomeRepository
   }
 
   /*
-   * Upload oragniser logo
-   *
-   * @return response
-   */
-  public function uploadOrganiserLogo($logo)
-  {
-    if($logo != '') {
-      if(strpos($logo, $this->getAWSUrl) !==  false) {
-        $path = $this->getAWSUrl . '/assets/img/organiser/';
-        $imageLogo = str_replace($path, "", $logo);
-        return $imageLogo;
-      }
-
-      $imagePath = '/assets/img/organiser/';
-      $imageString = $logo;
-
-      return Image::uploadImage($imagePath, $imageString);
-    }
-  }
-
-  /*
    * Get page data
    *
    * @return response
@@ -307,47 +286,5 @@ class HomeRepository
   public function getPageData($websiteId)
   {
     return $this->pageService->getPageDetails($this->pageName, $websiteId);
-  }
-
-  /*
-   * Upload hero image
-   *
-   * @return response
-   */
-  public function uploadHeroImage($logo)
-  {
-    if($logo != '') {
-      if(strpos($logo, $this->getAWSUrl) !==  false) {
-        $path = $this->getAWSUrl . '/assets/img/hero_image/';
-        $imageLogo = str_replace($path, "", $logo);
-        return $imageLogo;
-      }
-
-      $imagePath = '/assets/img/hero_image/';
-      $imageString = $logo;
-
-      return Image::uploadImage($imagePath, $imageString);
-    }
-  }
-
-  /*
-   * Upload welcome image
-   *
-   * @return response
-   */
-  public function uploadWelcomeImage($logo)
-  {
-    if($logo != '') {
-      if(strpos($logo, $this->getAWSUrl) !==  false) {
-        $path = $this->getAWSUrl . '/assets/img/welcome_image/';
-        $imageLogo = str_replace($path, "", $logo);
-        return $imageLogo;
-      }
-
-      $imagePath = '/assets/img/welcome_image/';
-      $imageString = $logo;
-
-      return Image::uploadImage($imagePath, $imageString);
-    }
   }
 }

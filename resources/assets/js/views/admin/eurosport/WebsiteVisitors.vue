@@ -34,24 +34,26 @@
 	          	</div>
 	          </div>
 	        </div>
-	        <hr class="my-4">
-	        <div class="form-group row">
-	        	<div class="col-sm-12">
-	        		<h6><strong>{{$lang.tourist_information}}</strong></h6>
-	        	</div>
-	        	<div class="col-sm-12">
-	        		<div class="form-group justify-content-between row">
-			        	<div class="col-sm-12">
-			        		<div class="row">
-				          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
-				          	<div class="col-sm-12">
-				          		<insert-text-editor :id="'tourist_information'" :value="visitor.tourist_information" @setEditorValue="setTouristInformationText"></insert-text-editor>
+	        <div v-if="isPageEnabled('tourist_information')">
+		        <hr class="my-4">
+		        <div class="form-group row">
+		        	<div class="col-sm-12">
+		        		<h6><strong>{{$lang.tourist_information}}</strong></h6>
+		        	</div>
+		        	<div class="col-sm-12">
+		        		<div class="form-group justify-content-between row">
+				        	<div class="col-sm-12">
+				        		<div class="row">
+					          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
+					          	<div class="col-sm-12">
+					          		<insert-text-editor :id="'tourist_information'" :value="visitor.tourist_information" @setEditorValue="setTouristInformationText"></insert-text-editor>
+					          	</div>
 				          	</div>
-			          	</div>
-			          </div>
-			        </div>
-	        	</div>
-	        </div>
+				          </div>
+				        </div>
+		        	</div>
+		        </div>
+		      </div>
 				</form>
 			</div>
 		</div>
@@ -111,7 +113,7 @@ export default {
 			Website.saveVisitorPageData(this.visitor).then(
         (response)=> {
         	$("body .js-loader").addClass('d-none');
-          toastr.success('Visitor has been updated successfully.', 'Success');
+          toastr.success('Visitor page has been updated successfully.', 'Success');
           this.$router.push({name:'website_media'});
         },
         (error)=>{

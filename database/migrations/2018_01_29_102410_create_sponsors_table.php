@@ -36,6 +36,6 @@ class CreateSponsorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sponsers');
+        Schema::dropIfExists('sponsors');
     }
 }

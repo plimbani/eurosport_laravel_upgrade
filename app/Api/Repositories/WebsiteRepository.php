@@ -4,6 +4,7 @@ namespace Laraspace\Api\Repositories;
 
 use DB;
 use Laraspace\Models\Page;
+use Laraspace\Models\Contact;
 use Laraspace\Models\Sponsor;
 use Laraspace\Models\Website;
 use Laraspace\Custom\Helper\Image;
@@ -124,6 +125,8 @@ class WebsiteRepository
 
     $this->saveWebsitePageDetail($data);
 
+    $this->saveContactDetail($data);
+
     return $website;
   }
 
@@ -145,7 +148,7 @@ class WebsiteRepository
       $sponsorData['order'] = $i + 1;
 
       // Upload image
-      $sponsorData['logo'] = $this->uploadSponsorLogo($sponsorData['logo']);
+      $sponsorData['logo'] = basename(parse_url($sponsorData['logo'])['path']);
 
       if($sponsorData['id'] == '') {
         $sponsor = $this->insertSponsor($websiteId, $sponsorData);
@@ -259,27 +262,6 @@ class WebsiteRepository
   }
 
   /*
-   * Upload sponsor logo
-   *
-   * @return response
-   */
-  public function uploadSponsorLogo($logo)
-  {
-    if($logo != '') {
-      if(strpos($logo, $this->getAWSUrl) !==  false) {
-        $path = $this->getAWSUrl . '/assets/img/sponsor/';
-        $imageLogo = str_replace($path, "", $logo);
-        return $imageLogo;
-      }
-
-      $imagePath = '/assets/img/sponsor/';
-      $imageString = $logo;
-
-      return Image::uploadImage($imagePath, $imageString);
-    }
-  }
-
-  /*
    * Insert sponsor
    *
    * @return response
@@ -323,5 +305,31 @@ class WebsiteRepository
   {
     Sponsor::whereIn('id', $sponsorIds)->delete();
     return true;
+  }
+
+  /*
+   * Save contact details
+   *
+   * @return response
+   */
+  public function saveContactDetail($data)
+  {
+    if($data['isExistingWebsite'] === false) {
+      $contact = new Contact();
+      $contact->website_id = $data['websiteId'];
+      $contact->save();
+    }
+  }
+
+  /*
+   * Get website details
+   *
+   * @return response
+   */
+  public function getWebsiteDetails($websiteId)
+  {
+    $websiteDetails = Website::with('pages')->where('id', $websiteId)->first();
+
+    return $websiteDetails;
   }
 }

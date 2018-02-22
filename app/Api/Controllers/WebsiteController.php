@@ -118,4 +118,72 @@ class WebsiteController extends BaseController
   {
     return $this->websiteContract->getSponsors($websiteId);
   }
+
+  /*
+   * Upload website tournament logo
+   *
+   * @return response
+   */
+  public function uploadTournamentLogo(Request $request) {
+    return $this->websiteContract->uploadTournamentLogo($request);
+  }
+
+  /*
+   * Upload website social graphic
+   *
+   * @return response
+   */
+  public function uploadSocialGraphic(Request $request) {
+    return $this->websiteContract->uploadSocialGraphic($request);
+  }
+
+  /*
+   * Upload website sponsor upload image
+   *
+   * @return response
+   */
+  public function uploadSponsorImage(Request $request) {
+    return $this->websiteContract->uploadSponsorImage($request);
+  }
+
+  /*
+   * Upload website hero image
+   *
+   * @return response
+   */
+  public function uploadHeroImage(Request $request) {
+    return $this->websiteContract->uploadHeroImage($request);
+  }
+
+  /*
+   * Upload welcome image
+   *
+   * @return response
+   */
+  public function uploadWelcomeImage(Request $request) {
+    return $this->websiteContract->uploadWelcomeImage($request);
+  }
+
+  /*
+   * Upload organiser image
+   *
+   * @return response
+   */
+  public function uploadOrganiserLogo(Request $request) {
+    return $this->websiteContract->uploadOrganiserLogo($request);
+  }
+  
+  /**
+   * Get website details
+   *
+   * Get a JSON representation of all the website
+   *
+   * @Get("/getWebsiteDetails")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getWebsiteDetails(Request $request, $websiteId)
+  {
+    return $this->websiteContract->getWebsiteDetails($websiteId);
+  }
 }

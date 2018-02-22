@@ -83,7 +83,10 @@ $api->version('v1', function ($api) {
     $api->post('match/getStanding/{refreshStanding?}',
         'Laraspace\Api\Controllers\MatchController@getStanding'); 
 
-    $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users'); 
+    $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
+
+    $api->get('pitch/reportCard/{pitchId}',
+        'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');  
 
 });
 
@@ -112,7 +115,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('team/category/assign', 'Laraspace\Api\Controllers\TeamController@assignCategory');
     $api->post('team/getClubsTeams','Laraspace\Api\Controllers\TeamController@getClubTeams'); 
     $api->post('team/getTeamsGroup', 'Laraspace\Api\Controllers\TeamController@getAllTeamsGroup');
+    $api->post('team/checkTeamExist', 'Laraspace\Api\Controllers\TeamController@checkTeamExist');
+    
+    $api->post('editTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@editTeamDetails');
+    $api->get('getAllCountries', 'Laraspace\Api\Controllers\TeamController@getAllCountries');
+    $api->get('getAllClubs', 'Laraspace\Api\Controllers\TeamController@getAllClubs');
 
+    $api->post('updateTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@updateTeamDetails');
+    $api->post('resetAllTeams', 'Laraspace\Api\Controllers\TeamController@resetAllTeams'); 
     // Method for get All TournamentTeams
 
     // Manually change team name
@@ -130,13 +140,11 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch'); 
     $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail'); 
-    // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
-    
-
-   
+    // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');      
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee'); 
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee'); 
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult'); 
+    $api->post('match/saveAllResults', 'Laraspace\Api\Controllers\MatchController@saveAllResults');
     $api->post('match/saveUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@saveUnavailableBlock');
     $api->post('match/getUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@getUnavailableBlock'); 
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
@@ -286,7 +294,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\MatchController@insertPositionsForPlacingMatches')->name('insert.positions.for.placing.matches');
 });
 
-$api->version('v1', function ($api) {
+// Websites CMS routes
+$api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     // Published tournaments
     $api->get('getAllPublishedTournaments','Laraspace\Api\Controllers\TournamentController@getAllPublishedTournaments');
 
@@ -302,14 +311,23 @@ $api->version('v1', function ($api) {
     $api->get('websites/customisation/options', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteCustomisationOptions');
     $api->get('websites/getWebsiteDefaultPages', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDefaultPages');
 
+    $api->post('websites/uploadTournamentLogo', 'Laraspace\Api\Controllers\WebsiteController@uploadTournamentLogo');
+    $api->post('websites/uploadSocialGraphic', 'Laraspace\Api\Controllers\WebsiteController@uploadSocialGraphic');
+    $api->post('websites/uploadSponsorImage', 'Laraspace\Api\Controllers\WebsiteController@uploadSponsorImage');
+    $api->post('websites/uploadHeroImage', 'Laraspace\Api\Controllers\WebsiteController@uploadHeroImage');
+    $api->post('websites/uploadWelcomeImage', 'Laraspace\Api\Controllers\WebsiteController@uploadWelcomeImage');
+    $api->post('websites/uploadOrganiserLogo', 'Laraspace\Api\Controllers\WebsiteController@uploadOrganiserLogo');
+
+    $api->get('getWebsiteDetails/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDetails');
+
     //Website homepage
     $api->get('getStatistics/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getStatistics');
     $api->get('getOrganisers/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getOrganisers');
     $api->get('getSponsors/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getSponsors');
     $api->post('saveHomePageData', 'Laraspace\Api\Controllers\HomeController@savePageData');
     
-    $api->post('saveWebsiteTournamentPageData', 'Laraspace\Api\Controllers\WebsiteTournamentController@saveWebsiteTournamentPageData');
-    $api->get('getWebsiteTournamentPageData/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTournamentController@getWebsiteTournamentPageData');
+    $api->post('saveWebsiteTournamentPageData', 'Laraspace\Api\Controllers\WebsiteTournamentController@savePageData');
+    $api->get('getWebsiteTournamentPageData/{websiteId}', 'Laraspace\Api\Controllers\WebsiteTournamentController@getPageData');
 
     $api->get('getHomePageData/{websiteId}', 'Laraspace\Api\Controllers\HomeController@getPageData');
 
@@ -339,4 +357,19 @@ $api->version('v1', function ($api) {
     $api->get('getPhotos/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getPhotos');
     $api->get('getDocuments/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getDocuments');
     $api->post('saveMediaPageData', 'Laraspace\Api\Controllers\MediaController@savePageData');
+    $api->post('media/uploadMediaPhoto', 'Laraspace\Api\Controllers\MediaController@uploadMediaPhoto');
+    // Website venue
+    $api->get('getLocations/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getLocations');
+    $api->post('saveVenuePageData', 'Laraspace\Api\Controllers\WebsiteVenueController@savePageData');
+
+    // Contact
+    $api->get('getContactDetails/{websiteId}', 'Laraspace\Api\Controllers\ContactController@getContactDetails');
+    $api->post('saveContactDetails', 'Laraspace\Api\Controllers\ContactController@saveContactDetails');
+
+    $api->post('uploadImage', 'Laraspace\Api\Controllers\UploadMediaController@uploadImage');
+});
+
+$api->version('v1', function ($api) {
+    $api->post('verifyWebsite', 'Laraspace\Api\Controllers\WebsiteController@verifyWebsite'); 
+    $api->get('getProgramPageDetails/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getProgramPageDetails');
 });

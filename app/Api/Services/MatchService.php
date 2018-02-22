@@ -316,7 +316,6 @@ class MatchService implements MatchContract
     }
     public function saveResult($matchData) {
         $matchResult = $this->matchRepoObj->saveResult($matchData->all()['matchData']);
-
         $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
 
         $result = TempFixture::where('id',$matchData->all()['matchData']['matchId'])->first()->toArray();
@@ -330,12 +329,37 @@ class MatchService implements MatchContract
 
 
         $data['competationId'] = $competationId;
+        $data['isResultOverride'] = $result['is_result_override'];
         if ($matchResult) {
             return ['status_code' => '200', 'data' => $data];
         } else {
             return ['status_code' => '300'];
         }
     }
+
+    public function saveAllResults($matchData) {
+      $teamArray = [];
+      $AllMatches = $matchData->all()['matchData']['matchDataArray'];
+      $tournamentId = $matchData->all()['matchData']['tournamentId'];
+      foreach ($AllMatches as $match) {
+        $matchResult = $this->matchRepoObj->saveAllResults($match);
+        $matchData = $matchResult['match_data'];
+        $teamArray[$matchData['age_group_id']][] = $matchData['home_team_id'];
+        $teamArray[$matchData['age_group_id']][] = $matchData['away_team_id'];
+        $competationId = $this->calculateCupLeagueTable($match['matchId']);
+      }
+      foreach ($teamArray as $ageGroupId => $teamsList) {
+        $teamsList = array_unique($teamsList);
+        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>true);
+        $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);        
+      }
+      if ($matchResult) {
+        return ['status_code' => '200', 'data' => $matchResult];
+      } else {
+          return ['status_code' => '300'];
+      }
+    }
+
     public function unscheduleMatch($matchData) {
         $scheduledResult = $this->matchRepoObj->matchUnschedule($matchData->all()['matchData']);
 

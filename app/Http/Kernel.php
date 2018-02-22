@@ -60,5 +60,6 @@ class Kernel extends HttpKernel
         'level' => \Duro85\Roles\Middleware\VerifyLevel::class,
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
+        'verify.website' => \Laraspace\Http\Middleware\VerifyWebsite::class,
     ];
 }

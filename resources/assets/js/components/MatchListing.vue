@@ -287,6 +287,7 @@ export default {
 						this.matchData = response.data.data
 						setTimeout(function(){
 					      vm.matchData = _.orderBy(vm.matchData, ['match_datetime'], ['asc'])
+					      vm.$root.$emit('setMatchDataOfMatchList', vm.matchData);
 					    },100)
 					}
 				},

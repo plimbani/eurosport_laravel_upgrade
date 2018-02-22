@@ -288,6 +288,12 @@ router.beforeEach((to, from, next) => {
      if (routesName.includes(to.name)) {
          data.tournamentId = store.state.Tournament.tournamentId;
     }
+
+    let websiteRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact'];
+    if (!websiteRoutes.includes(to.name)) {
+        store.dispatch('ResetWebsiteDetail');
+    }
+
     // If the next route is requires user to be Logged IN
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
@@ -297,6 +303,7 @@ router.beforeEach((to, from, next) => {
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
                 return next({ path : '/admin'});
             }
+            store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
     }

@@ -23,4 +23,28 @@ class Website extends Model
     {
         return $this->hasMany('Laraspace\Models\Page');
     }
+
+    /**
+     * Get all of the pages for the website.
+     */
+    public function getPublishedPages()
+    {
+        return $this->pages()->where('is_published', 1)->get();
+    }
+
+    /**
+     * Get all of the organisers for the website.
+     */
+    public function organisers()
+    {
+        return $this->hasMany('Laraspace\Models\Organiser');
+    }
+
+    /**
+     * Get all of the sponsors for the website.
+     */
+    public function sponsors()
+    {
+        return $this->hasMany('Laraspace\Models\Sponsor');
+    }
 }

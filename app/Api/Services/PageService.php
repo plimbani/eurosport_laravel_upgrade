@@ -34,7 +34,7 @@ class PageService
     }
     isset($pageDetail['order']) ? $page->order = $pageDetail['order'] : '';
     isset($pageDetail['title']) ? $page->title = $pageDetail['title'] : '';
-    isset($pageDetail['content']) ? $page->content = $pageDetail['content'] : '';
+    array_key_exists('content', $pageDetail) ? $page->content = trim($pageDetail['content']) : '';
     isset($pageDetail['meta']) ? $page->meta = $pageDetail['meta'] : '';
     isset($pageDetail['is_additional_page']) ? $page->is_additional_page = $pageDetail['is_additional_page'] : '';
     isset($pageDetail['is_enabled']) ? $page->is_enabled = $pageDetail['is_enabled'] : '';
@@ -54,10 +54,12 @@ class PageService
   {
     $page = new Page();
     $page->url = $pageDetail['url'];
+    $page->page_name = $pageDetail['page_name'];
     $page->website_id = $websiteId;
     $page->parent_id = $pageDetail['parent_id'];
     $page->name = $pageDetail['name'];
     $page->title = $pageDetail['title'];
+    $page->accessible_routes = $pageDetail['accessible_routes'];
     $page->order = isset($pageDetail['order']) ? $pageDetail['order'] : 0;
     isset($pageDetail['content']) ? $page->content = $pageDetail['content'] : '';
     isset($pageDetail['meta']) ? $page->meta = $pageDetail['meta'] : '';
@@ -97,12 +99,22 @@ class PageService
    * Generate Url
    * @return response
    */
-  public function generateUrl($title, $websiteId, $stayPageUrl)
+  public function generateUrl($title, $websiteId, $parentPageUrl)
   {
     $slug = Str::slug($title);
-    $slugCount = count(Page::where('website_id', $websiteId)->whereRaw("url REGEXP '^{$stayPageUrl}/{$slug}(-[0-9]*)?$'")->get());
+    $slugCount = count(Page::where('website_id', $websiteId)->whereRaw("url REGEXP '^{$parentPageUrl}/{$slug}(-[0-9]*)?$'")->get());
 
-    return ($slugCount > 0) ? "{$stayPageUrl}/{$slug}-{$slugCount}" : "{$stayPageUrl}/{$slug}";
+    $pageDetails = [];
+
+    if($slugCount > 0) {
+      $pageDetails['url'] = "{$parentPageUrl}/{$slug}-{$slugCount}";
+      $pageDetails['page_name'] = "{$slug}-{$slugCount}";
+    } else {
+      $pageDetails['url'] = "{$parentPageUrl}/{$slug}";
+      $pageDetails['page_name'] = "{$slug}";
+    }
+
+    return $pageDetails;
   }
 
   /*
@@ -123,7 +135,7 @@ class PageService
    */
   public function getAdditionalPagesByParentId($parentId, $websiteId)
   {
-    $pages = Page::where('parent_id', $parentId)->where('is_additional_page', 1)->get();
+    $pages = Page::where('parent_id', $parentId)->where('is_additional_page', 1)->orderBy('order')->get();
 
     return $pages;
   }

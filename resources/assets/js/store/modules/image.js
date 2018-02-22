@@ -10,6 +10,7 @@ const state = {
   'sponsorLogoPath': '',
   'photoPath': '',
   'documentPath': '',
+  'editorImagePath': '',
 };
 
 // getters
@@ -32,6 +33,7 @@ const mutations = {
 		state.sponsorLogoPath = imagePath.sponsor_logo;
     state.photoPath = imagePath.photo;
     state.documentPath = imagePath.document;
+    state.editorImagePath = imagePath.editor_image;
 	},
 };
 

@@ -3,9 +3,9 @@
 		<form name="website_staypage" enctype="multipart/form-data">
 			<div class="card">
 				<div class="card-block">
-					<h6><strong>{{$lang.website_stay}}</strong></h6>				
+					<h6><strong>{{$lang.website_stay}}</strong></h6>
 					<div class="form-group justify-content-between row">
-	        	<div class="col-sm-6">
+	        	<div class="col-sm-12">
 	        		<div class="row">
 		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.website_stay_introduction_content}}</label>
 		          	<div class="col-sm-12">
@@ -14,27 +14,33 @@
 	          	</div>
 	          </div>
 					</div>
-					<h6><strong>{{$lang.website_meals}}</strong></h6>
-					<div class="form-group justify-content-between row">
-	        	<div class="col-sm-6">
-	        		<div class="row">
-		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
-		          	<div class="col-sm-12">
-		          		<insert-text-editor :id="'meals_page_content'" :value="staypage.meals_page_content" @setEditorValue="setMealsPageContent"></insert-text-editor>
+					<div v-if="isPageEnabled('meals')">
+						<hr class="my-4">
+						<h6><strong>{{$lang.website_meals}}</strong></h6>
+						<div class="form-group justify-content-between row">
+		        	<div class="col-sm-12">
+		        		<div class="row">
+			          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
+			          	<div class="col-sm-12">
+			          		<insert-text-editor :id="'meals_page_content'" :value="staypage.meals_page_content" @setEditorValue="setMealsPageContent"></insert-text-editor>
+			          	</div>
 		          	</div>
-	          	</div>
-	          </div>
+		          </div>
+						</div>
 					</div>
-					<h6><strong>{{$lang.website_accommodation}}</strong></h6>
-					<div class="form-group justify-content-between row">
-	        	<div class="col-sm-6">
-	        		<div class="row">
-		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
-		          	<div class="col-sm-12">
-		          		<insert-text-editor :id="'accommodation_page_content'" :value="staypage.accommodation_page_content" @setEditorValue="setAccommodationPageContent"></insert-text-editor>
+					<div v-if="isPageEnabled('accommodation')">
+						<hr class="my-4">
+						<h6><strong>{{$lang.website_accommodation}}</strong></h6>
+						<div class="form-group justify-content-between row">
+		        	<div class="col-sm-12">
+		        		<div class="row">
+			          	<label class="col-sm-12 no-padding form-control-label">{{$lang.page_content}}</label>
+			          	<div class="col-sm-12">
+			          		<insert-text-editor :id="'accommodation_page_content'" :value="staypage.accommodation_page_content" @setEditorValue="setAccommodationPageContent"></insert-text-editor>
+			          	</div>
 		          	</div>
-	          	</div>
-	          </div>
+		          </div>
+						</div>
 					</div>
 					<hr class="my-4">
 					<h6><strong>{{$lang.additional_page}}</strong></h6>
@@ -113,13 +119,13 @@ export default {
 			this.$root.$emit('getAdditionalPages');
 			$("body .js-loader").removeClass('d-none');
 			Website.saveStayPageData(this.staypage).then(
-				(response)=> {					
+				(response)=> {
 					$("body .js-loader").addClass('d-none');
-					toastr.success('Staypage has been updated successfully.', 'Success');
+					toastr.success('Stay page has been updated successfully.', 'Success');
 					this.redirectToForward();
 				},
         (error)=>{
-        }				
+        }
 			);
 		},
 		getStayPageContent() {
@@ -133,7 +139,7 @@ export default {
 					this.staypage.additional_pages = response.data.data.additionalPages;
 					this.$root.$emit('setPages', this.staypage.additional_pages);
 				},
-				(error) => {					
+				(error) => {
 				}
 			);
 		},

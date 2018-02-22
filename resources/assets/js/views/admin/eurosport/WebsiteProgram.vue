@@ -78,7 +78,7 @@ export default {
 			Website.saveProgramPageData(this.programpage).then(
         (response)=> {
         	$("body .js-loader").addClass('d-none');
-          toastr.success('Programpage has been updated successfully.', 'Success');
+          toastr.success('Program page has been updated successfully.', 'Success');
           this.redirectToForward();
         },
         (error)=>{
