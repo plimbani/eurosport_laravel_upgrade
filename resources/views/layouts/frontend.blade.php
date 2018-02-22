@@ -28,12 +28,15 @@
     @include('partials.frontend.favicons')
     <!-- END Icons -->
 
+    <!-- Stylesheets required for application -->
+    @include('partials.frontend.app-css')
+
     {{-- Stylesheets --}}
     {{-- Page specific plugin styles --}}
     @yield('plugin-styles')
 
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/frontend.css') }}">
-    
+
     @yield('page-styles')
     {{-- END Stylesheets --}}
 </head>
@@ -42,6 +45,7 @@
     <div>
         @include('partials.frontend.header')
         <main id="main-container">
+            @include('partials.frontend.messages')
             @include('flash::message')
             @yield('content')
         </main>
@@ -49,6 +53,9 @@
     </div>
 
     @yield('modals')
+
+    <!-- Stylesheets required for application -->
+    @include('partials.frontend.app-js')
 
     <script src="{{ asset('assets/js/frontend.js') }}"></script>
 
