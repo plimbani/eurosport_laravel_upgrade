@@ -16,11 +16,13 @@ class CreatePagesTable extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('url');
+            $table->string('page_name');
             $table->integer('website_id')->unsigned()->index();
             $table->foreign('website_id')->references('id')->on('websites')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('parent_id')->unsigned()->index()->nullable();
             $table->foreign('parent_id')->references('id')->on('pages')->onDelete('cascade');            
             $table->string('name');
+            $table->text('accessible_routes');
             $table->string('title');
             $table->text('content')->nullable()->default(null);
             $table->integer('order')->default(0);

@@ -62,9 +62,52 @@ interface WebsiteContract
     public function getSponsors($websiteId);
 
     /*
+     * Upload website tournament logo
+     *
+     * @return response
+     */
+    public function uploadTournamentLogo($request);
+
+    /*
+     * Upload website social graphic
+     *
+     * @return response
+     */
+    public function uploadSocialGraphic($request);
+
+    /*
+     * Upload website sponsor image
+     *
+     * @return response
+     */
+    public function uploadSponsorImage($request);
+
+    /*
+     * Upload website hero image
+     *
+     * @return response
+     */
+    public function uploadHeroImage($request);
+
+    /*
+     * Upload welcome image
+     *
+     * @return response
+     */
+    public function uploadWelcomeImage($request);
+
+    /*
+     * Upload organiser image
+     *
+     * @return response
+     */
+    public function uploadOrganiserLogo($request);
+    
+    /*
      * Get website details
      *
      * @return response
      */
     public function getWebsiteDetails($websiteId);
+
 }

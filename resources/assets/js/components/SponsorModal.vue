@@ -12,8 +12,9 @@
           <div class="form-group row" :class="{'has-error': errors.has('logo') }">
             <label class="col-sm-5 form-control-label">{{ $lang.website_sponsor_logo }}*</label>
             <div class="col-sm-6">
-              <img :src="getSponsorLogo" class="thumb-size" />
-              <button type="button" class="btn btn-default" @click="selectLogo()">{{$lang.tournament_tournament_choose_button}}</button>
+							<img v-show="isLoad" :src="getSponsorLogo" class="thumb-size" @load="loaded"/>
+              <img class="thumb" v-show="!isLoad" src="/images/loader2.gif">
+              <button :disabled="isSponsorImageUploading" type="button" class="btn btn-default" id="btn_sponsor_logo" @click="selectLogo()">{{isSponsorImageUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
               <input type="file" id="sponsor_logo" style="display:none;" @change="onLogoChange">
               <input type="hidden" v-model="formValues.logo" name="logo" v-validate="'required'" />
               <span class="help is-danger" v-show="errors.has('logo')">{{ errors.first('logo') }}</span>
@@ -46,7 +47,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">{{ $lang.cancel_button }}</button>
-          <button type="button" class="btn btn-primary" @click="validateForm()">{{ $lang.save_button }}</button>
+          <button :disabled="isSponsorImageUploading" type="button" class="btn btn-primary" @click="validateForm()">{{ $lang.save_button }}</button>
         </div>
       </div>
     </div>
@@ -67,6 +68,8 @@
 					logo: '',
 					website: '',
 				},
+				isSponsorImageUploading: false,
+				isLoad: false,
 			};
 		},
 		created() {
@@ -78,6 +81,9 @@
 	  	},
 	  },
 		methods: {
+	    loaded() {
+	      this.isLoad = true;
+	    },
 			validateForm() {
 				this.$validator.validateAll().then((response) => {
 					if(response) {
@@ -113,12 +119,18 @@
 	        return;
 	      }
 
-				var reader = new FileReader();
-				reader.onload = (r) => {
-					vm.formValues.logo = r.target.result;
-				};
-
-				reader.readAsDataURL(files[0]);
+				vm.isSponsorImageUploading = true;
+	      var formData = new FormData();
+	      formData.append('image', files[0]);
+	      axios.post('/api/websites/uploadSponsorImage', formData).then(
+		      (response)=> {
+		      	vm.formValues.logo = response.data;
+		      	vm.isSponsorImageUploading = false;
+		      	this.isLoad = false;
+		      },
+		      (error)=>{
+		      }
+	      );
 			},
 		},
 	};

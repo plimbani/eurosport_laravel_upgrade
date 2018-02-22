@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fe69e2f68bdf687b9dce467318ba7ce",
+    "content-hash": "9efc5607495640d3a0cb9c3b1f1d85b0",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -1205,6 +1205,64 @@
                 "wkhtmltopdf"
             ],
             "time": "2016-02-02T19:38:55+00:00"
+        },
+        {
+            "name": "hipsterjazzbo/landlord",
+            "version": "v2.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/HipsterJazzbo/Landlord.git",
+                "reference": "8c2a15aaee35779abbe5125e31b1ed1c8ef4c5fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/HipsterJazzbo/Landlord/zipball/8c2a15aaee35779abbe5125e31b1ed1c8ef4c5fc",
+                "reference": "8c2a15aaee35779abbe5125e31b1ed1c8ef4c5fc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.2.*|5.3.*|5.4.*|5.5.*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "laravel/framework": "5.2.*|5.3.*|5.4.*|5.5.*",
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "5.5.*|6.0.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "HipsterJazzbo\\Landlord\\LandlordServiceProvider"
+                    ],
+                    "aliases": {
+                        "Landlord": "HipsterJazzbo\\Landlord\\Facades\\Landlord"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HipsterJazzbo\\Landlord\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Caleb Fidecaro",
+                    "email": "calebfidecaro@gmail.com"
+                }
+            ],
+            "description": "A simple, single database multi-tenancy solution for Laravel 5.2+",
+            "keywords": [
+                "multitenancy",
+                "multitenant",
+                "tenancy",
+                "tenant"
+            ],
+            "time": "2017-09-18T08:27:09+00:00"
         },
         {
             "name": "igorw/get-in",
@@ -2725,6 +2783,7 @@
                 "xls",
                 "xlsx"
             ],
+            "abandoned": "phpoffice/phpspreadsheet",
             "time": "2015-05-01T07:00:55+00:00"
         },
         {

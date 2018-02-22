@@ -20,6 +20,7 @@ class Page extends Model
      */
     protected $casts = [
         'meta' => 'array',
+        'accessible_routes' => 'array',
     ];
 
 	/**

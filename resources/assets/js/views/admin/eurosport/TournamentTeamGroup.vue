@@ -39,9 +39,15 @@
                     </select>
                   </div>
                 </div>
+                <div class="col" v-if="this.role_slug == 'Super.administrator'">
+                  <span id="filename"></span>
+                  <button type="button" data-toggle="modal"
+                    data-target="#reset_modal" class="btn btn-orange ml-4">Reset teams</button>
+                </div>
               </div>
             </div>
           </div>
+          
   			</form>
         <div class="block-bg age-category mb-4">
           <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
@@ -137,14 +143,36 @@
                     </tr>
                 </tbody>
             </table>
-            <button type="button"  v-if="tournamentFilter.filterKey == 'age_category'" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+            <button type="button" v-if="tournamentFilter.filterKey == 'age_category'" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
           </form>
   				</div>
   			</div>
   		</div>
   	</div>
      <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs"></team-modal>
+    <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog" 
+    aria-labelledby="resetModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body text-left">
+                    <p>
+                        Are you sure you would like to reset this age category? This will delete 
+                        <b>ALL</b> team information associated with this age category including team names, fixtures and results.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
+                    <button type="submit" class="btn btn-primary" @click="resetAllTeams()">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
+                </div>    
+        </div>
+      </div>
+    </div>
   </div>
+  
 </template>
 
 <script type="text/babel">
@@ -167,6 +195,7 @@
         'teams': [],
         // 'teamsIdList': '',
         'tournament_id': this.$store.state.Tournament.tournamentId,
+        'role_slug': this.$store.state.Users.userDetails.role_slug,
         'age_category': '',
         'age_category_filter': '',
         'selected': null,
@@ -247,7 +276,6 @@
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
       this.$root.$on('updateTeamList', this.getTeams);
-
       // this.$root.$on('onAssignGroup', this.onAssignGroup);
       // this.$root.$on('beforeChange', this.beforeChange);
     },
@@ -651,6 +679,20 @@
           },
           (error) => {
 
+          }
+        )
+      },
+      resetAllTeams() {
+        let ageCategoryId = {'ageCategoryId':this.age_category.id};
+
+        Tournament.getResetTeams(ageCategoryId).then(
+          (response) => {
+            this.$root.$emit('updateTeamList');
+            
+            $("#reset_modal").modal("hide");
+            toastr['success']('All teams are deleted successfully', 'Success');
+          },
+          (error) => {
           }
         )
       }

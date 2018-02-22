@@ -24,4 +24,11 @@ interface MediaContract
      * @return response
      */
     public function savePageData($request);
+
+    /*
+     * Upload media photo
+     *
+     * @return response
+     */
+    public function uploadMediaPhoto($request);
 }

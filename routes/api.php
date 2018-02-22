@@ -83,7 +83,10 @@ $api->version('v1', function ($api) {
     $api->post('match/getStanding/{refreshStanding?}',
         'Laraspace\Api\Controllers\MatchController@getStanding'); 
 
-    $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users'); 
+    $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
+
+    $api->get('pitch/reportCard/{pitchId}',
+        'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');  
 
 });
 
@@ -119,7 +122,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->get('getAllClubs', 'Laraspace\Api\Controllers\TeamController@getAllClubs');
 
     $api->post('updateTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@updateTeamDetails');
-
+    $api->post('resetAllTeams', 'Laraspace\Api\Controllers\TeamController@resetAllTeams'); 
     // Method for get All TournamentTeams
 
     // Manually change team name
@@ -307,6 +310,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('websites/websiteSummary', 'Laraspace\Api\Controllers\WebsiteController@websiteSummary');
     $api->get('websites/customisation/options', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteCustomisationOptions');
     $api->get('websites/getWebsiteDefaultPages', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDefaultPages');
+
+    $api->post('websites/uploadTournamentLogo', 'Laraspace\Api\Controllers\WebsiteController@uploadTournamentLogo');
+    $api->post('websites/uploadSocialGraphic', 'Laraspace\Api\Controllers\WebsiteController@uploadSocialGraphic');
+    $api->post('websites/uploadSponsorImage', 'Laraspace\Api\Controllers\WebsiteController@uploadSponsorImage');
+    $api->post('websites/uploadHeroImage', 'Laraspace\Api\Controllers\WebsiteController@uploadHeroImage');
+    $api->post('websites/uploadWelcomeImage', 'Laraspace\Api\Controllers\WebsiteController@uploadWelcomeImage');
+    $api->post('websites/uploadOrganiserLogo', 'Laraspace\Api\Controllers\WebsiteController@uploadOrganiserLogo');
+
     $api->get('getWebsiteDetails/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@getWebsiteDetails');
 
     //Website homepage
@@ -346,7 +357,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->get('getPhotos/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getPhotos');
     $api->get('getDocuments/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getDocuments');
     $api->post('saveMediaPageData', 'Laraspace\Api\Controllers\MediaController@savePageData');
-
+    $api->post('media/uploadMediaPhoto', 'Laraspace\Api\Controllers\MediaController@uploadMediaPhoto');
     // Website venue
     $api->get('getLocations/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getLocations');
     $api->post('saveVenuePageData', 'Laraspace\Api\Controllers\WebsiteVenueController@savePageData');
