@@ -8,18 +8,13 @@
         <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true"  @click="toggleInfoWindow(m,index)" :zIndex="zIndex"></gmap-marker>
       </gmap-cluster>
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
-        {{infoContent}}
+        <div class="form-group">
+          <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText"></textarea>
+          <button type="button" class="btn btn-primary">Delete</button>
+          <button type="button" class="btn btn-primary" @click="saveMarkers()">Save</button>          
+        </div>
       </gmap-info-window>
     </gmap-map>
-    <!-- <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" style="width: 100%; height: 600px">
-      <gmap-cluster :grid-size="gridSize">
-        <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true" @click="openInfoWindow(m)" :zIndex="zIndex"></gmap-marker>
-      </gmap-cluster>
-      <gmap-info-window :position="reportedCenter" :opened="ifw">
-        To show you the bindings are working I will stay on the center of the screen whatever you do :)
-        <br/> To show you that even my content is bound to vue here is the number of time you clicked on the map
-      </gmap-info-window>
-    </gmap-map> -->
   </div>  
 </template>
 <style>
@@ -106,32 +101,36 @@ export default {
         east: -70.234,
         west: -116.251
       },
-      originalPlPath: [{
-        lat: 37.772,
-        lng: -122.214
-      }, {
-        lat: 21.291,
-        lng: -157.821
-      }, {
-        lat: -18.142,
-        lng: 178.431
-      }, {
-        lat: -27.467,
-        lng: 153.027
-      }],
-      plPath: [{
-        lat: 37.772,
-        lng: -122.214
-      }, {
-        lat: 21.291,
-        lng: -157.821
-      }, {
-        lat: -18.142,
-        lng: 178.431
-      }, {
-        lat: -27.467,
-        lng: 153.027
-      }],
+      originalPlPath: [
+        {
+          lat: 37.772,
+          lng: -122.214
+        }, {
+          lat: 21.291,
+          lng: -157.821
+        }, {
+          lat: -18.142,
+          lng: 178.431
+        }, {
+          lat: -27.467,
+          lng: 153.027
+        }
+      ],
+      plPath: [
+        {
+          lat: 37.772,
+          lng: -122.214
+        }, {
+          lat: 21.291,
+          lng: -157.821
+        }, {
+          lat: -18.142,
+          lng: 178.431
+        }, {
+          lat: -27.467,
+          lng: 153.027
+        }
+      ],
       pleditable: true,
       plvisible: false,
       pgvisible: false,
@@ -203,8 +202,8 @@ export default {
           lng: -77.057037
         }]
       ],
-      scrollwheel: true
-      // zIndex: 9999,
+      scrollwheel: true,
+      currentMarkerIndex: -1
     }
   },
   computed: {
@@ -301,9 +300,9 @@ export default {
         draggable: true,
         enabled: true,
         ifw: true,
-        infoText: 'Marker '+ (this.markers.length + 1),
+        infoText: '',
       });
-      this.toggleInfoWindow(this.markers[this.markers.length - 1], this.lastId);
+      this.toggleInfoWindow(this.markers[this.markers.length - 1], this.markers.length - 1);
       return this.markers[this.markers.length - 1];
     },
     updateMapCenter(which, value) { // eslint-disable-line no-unused-vars
@@ -369,13 +368,8 @@ export default {
         marker.position.lng = place.geometry.location.lng();
       }
     },
-    openInfoWindow(markerData) {
-      console.log('hi');
-      console.log('markerData',markerData);
-      this.ifw = true;
-    }, 
-
     toggleInfoWindow: function(marker, idx) {
+      this.currentMarkerIndex = idx;
       this.infoWindowPos = marker.position;
       this.infoContent = marker.infoText;
       //check if its the same marker that was selected if yes toggle
@@ -388,7 +382,9 @@ export default {
         this.currentMidx = idx;
       }
     },
-
+    saveMarkers() {
+      this.markers[this.currentMarkerIndex].infoText = this.infoContent;
+    }
   }
 }
 </script>
