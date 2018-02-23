@@ -4,6 +4,9 @@ Vue.mixin({
 		userDetails: function() {
       return this.$store.state.Users.userDetails
     },
+    getWebsiteRoutes: function() {
+      return this.$store.state.Website.routes;
+    },
 		isTournamentAdministrator: function() {
       return this.userDetails.role_slug == 'tournament.administrator';
     },
@@ -25,6 +28,18 @@ Vue.mixin({
         if(!page) {
           return false;
         }
+      }
+      return true;
+    },
+    getWebsiteForwardRoute(pageName) {
+      if(this.isTournamentAdministrator) {
+        
+      }
+      return true;
+    },
+    getBackwardRoute(pageName) {
+      if(this.isTournamentAdministrator) {
+        
       }
       return true;
     },
