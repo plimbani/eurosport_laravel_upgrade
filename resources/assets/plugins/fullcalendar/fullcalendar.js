@@ -8372,9 +8372,9 @@ TimeGrid.mixin({
 							''
 							) +
 						((event.homeScore !== null) && (event.awayScore !== null) ? 
-							'<div class="fc-score">(' +
+							'<div class="fc-score">' +
 								htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
-							')</div>' :
+							'</div>' :
 							''
 						) +
 					'</div>' +
