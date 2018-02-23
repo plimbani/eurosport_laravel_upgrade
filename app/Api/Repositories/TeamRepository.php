@@ -533,12 +533,11 @@ class TeamRepository
       
       $competationIds = Competition::where('tournament_competation_template_id',$ageCategoryId)
                                     ->delete();
-     // echo "<pre>";print_r($competationIds);echo "</pre>";exit;
+ 
 
       $MatchStanding = DB::table('match_standing')->where('competition_id',$competationIds)
                                                   ->delete();
-                                                  // echo "<pre>";print_r($MatchStanding);echo "</pre>";exit;
-
+                                               
       $competitions = Competition::where('tournament_competation_template_id',$ageCategoryId)
                                    ->update(['is_manual_override_standing'=> 0 , 'color_code'=>null]);
       
