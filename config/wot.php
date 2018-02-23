@@ -214,5 +214,6 @@ return [
     'media' => 'Media',
     'contact' => 'Contact',
   ],
+  'message_notification_days' => 14,
   'activity_notification_recepients' => ['ssheth@aecordigital.com'],
 ];

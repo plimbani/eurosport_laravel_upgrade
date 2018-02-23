@@ -9,6 +9,12 @@
 	        		<website-location-list @setLocations="setLocations"></website-location-list>
 	        	</div>
 	        </div>
+	        <div class="form-group row">
+	        	<div class="col-sm-12">
+	        		<h6><strong>{{$lang.website_map}}</strong></h6>
+	        		<website-location-map></website-location-map>
+	        	</div>
+	        </div>
 				</form>
 			</div>
 		</div>
@@ -28,17 +34,19 @@
 var moment = require('moment');
 import Website from '../../../../js/api/website.js';
 import WebsiteLocationList from '../../../components/WebsiteLocationList.vue';
+import WebsiteLocationMap from '../../../components/WebsiteLocationMap.vue';
 
 export default {
 	components: {
-		WebsiteLocationList
+		WebsiteLocationList,
+		WebsiteLocationMap,
 	},
 	data() {
 		return {
 			venue: {
 				websiteId: null,
 				locations: [],
-			},
+			}
 		}
 	},
 	mounted() {
@@ -53,7 +61,6 @@ export default {
 	methods: {
 		redirectToForward() {
       this.$root.$emit('getLocations');
-
       this.venue.websiteId = this.getWebsiteId();
       $("body .js-loader").removeClass('d-none');
       Website.saveVenuePageData(this.venue).then(

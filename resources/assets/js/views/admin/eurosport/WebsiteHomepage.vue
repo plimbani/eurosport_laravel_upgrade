@@ -222,8 +222,8 @@ export default {
         (response)=> {
         	this.homepage.introduction_text = response.data.data.content !== null ? response.data.data.content : '';
         	if(response.data.data.meta !== null) {
-        		this.homepage.hero_image = typeof response.data.data.meta.hero_image != 'undefined' && response.data.data.meta.hero_image != null ? this.getHeroImagePath + response.data.data.meta.hero_image : '';
-          	this.homepage.welcome_image = typeof response.data.data.meta.welcome_image != 'undefined' && response.data.data.meta.welcome_image != null ? this.getWelcomeImagePath + response.data.data.meta.welcome_image : '';
+        		this.homepage.hero_image = typeof response.data.data.meta.hero_image != 'undefined' && response.data.data.meta.hero_image != null && response.data.data.meta.hero_image != "" ? this.getHeroImagePath + response.data.data.meta.hero_image : '';
+          	this.homepage.welcome_image = typeof response.data.data.meta.welcome_image != 'undefined' && response.data.data.meta.welcome_image != null && response.data.data.meta.welcome_image != "" ? this.getWelcomeImagePath + response.data.data.meta.welcome_image : '';
         	}
         },
         (error)=>{
