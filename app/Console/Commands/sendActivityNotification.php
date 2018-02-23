@@ -3,8 +3,10 @@
 namespace Laraspace\Console\Commands;
 
 use Laraspace\Models\User;
+use Laraspace\Models\Website;
 use Illuminate\Console\Command;
 use Laraspace\Models\ActivityFeed;
+use Laraspace\Custom\Helper\Common;
 use Laraspace\Models\ActivityNotification;
 
 class sendActivityNotification extends Command
@@ -42,31 +44,56 @@ class sendActivityNotification extends Command
     {
       $users = User::whereHas('roles', function($query)
         {
-            $query->where('slug', 'tournament.administrator');
+          $query->where('slug', 'tournament.administrator');
         })->get();
+
+      $usersActivities = [];
+      $notificationIds = [];
 
       foreach($users as $user) {
         $activityNotification = ActivityNotification::where('user_id', $user->id)->where('is_mail_sent', 0)->first();
 
+        $notificationIds[] = $activityNotification->id;
+
         if($activityNotification) {
-            $activities = ActivityFeed::where('notification_id', $activityNotification->id)->get();
+          $activities = ActivityFeed::where('notification_id', $activityNotification->id)->get();
 
-            $websites = [];
-            foreach ($activities as $key => $activity) {
-              $websiteId = $activity->website_id;
-              if(!array_key_exists($websiteId, $websites)) {
-                $websites[$websiteId] = []; 
-              }
-              if(!in_array($activity->page, $websites[$websiteId]) && !in_array($activity->section, $websites[$websiteId])) {
-                $websites[$websiteId][] = [
-                  'page' => $activity->page,
-                  'section' => $activity->section
-                ];
-              }
+          $websites = [];
+          foreach ($activities as $key => $activity) {
+            $websiteId = $activity->website_id;
+            if(!array_key_exists($websiteId, $websites)) {
+              $websiteDetail = Website::where('id', $websiteId)->first();
+              $websites[$websiteId] = [];
+              $websites[$websiteId]['name'] = $websiteDetail->tournament_name;
+              $websites[$websiteId]['location'] = $websiteDetail->tournament_location;
+              $websites[$websiteId]['activities'] = [];
             }
-        }
 
-        echo "<pre>";print_r($websites);echo "</pre>";exit;        
+            if(!in_array($activity->page, $websites[$websiteId]['activities']) && !in_array($activity->section, $websites[$websiteId]['activities'])) {
+              $websites[$websiteId]['activities'][] = [
+                'page' => $activity->page,
+                'section' => $activity->section
+              ];
+            }
+
+            $usersActivities[$user->id] = [
+              'name' => $user->name,
+              'email' => $user->email,
+              'websites' => $websites
+            ];
+          }
+        }
       }
+
+      $email_details = ['usersActivities' => $usersActivities];
+      $recipient = config('wot.activity_notification_recepients');
+      $subject = 'Users activities';
+      $emailTemplate = 'emails.activity_notification';
+
+      Common::sendMail($email_details, $recipient, $subject, $emailTemplate);
+
+      ActivityNotification::whereIn('id', $notificationIds)->update(['is_mail_sent' => 1]);
+
+      $this->info("Activity notification sent.");
     }
 }
