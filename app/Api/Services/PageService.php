@@ -147,7 +147,9 @@ class PageService
    */
   public function deletePages($pageIds = [])
   {
-    Page::whereIn('id', $pageIds)->delete();
+    Page::whereIn('id', $pageIds)->get()->each(function($page) {
+      $page->delete();
+    });
     return true;
   }  
 }
