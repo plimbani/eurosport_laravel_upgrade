@@ -479,6 +479,7 @@ import _ from 'lodash'
                                 refereeId = match.referee_id?match.referee_id:0
                                  matchTitle = displayMatchName
                               }
+
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
@@ -493,6 +494,8 @@ import _ from 'lodash'
                                     'matchId':match.fid,
                                     'matchAgeGroupId':match.age_group_id,
                                     'fixtureStripColor': fixtureStripColor,
+                                    'homeScore': match.homeScore,
+                                    'awayScore': match.AwayScore,
                                     'displayFlag': match.min_interval_flag == 1 ?'block':''
                                 }
                             sMatches.push(mData)
@@ -518,6 +521,8 @@ import _ from 'lodash'
                                         'matchId':-1,
                                         'matchAgeGroupId':'',
                                         'fixtureStripColor': '',
+                                        'homeScore': null,
+                                        'awayScore': null,
                                         'displayFlag':''
                                     }
                                     sMatches.push(mData1)
@@ -538,6 +543,8 @@ import _ from 'lodash'
                                         'matchId': -1,
                                         'matchAgeGroupId':'',
                                         'fixtureStripColor': '',
+                                        'homeScore': null,
+                                        'awayScore': null,
                                         'displayFlag':''
                                     }
                                     sMatches.push(mData2)
@@ -559,6 +566,8 @@ import _ from 'lodash'
                                             'matchId':-1,
                                             'matchAgeGroupId':'',
                                             'fixtureStripColor': '',
+                                            'homeScore': null,
+                                            'awayScore': null,
                                             'displayFlag': ''
                                         }
 
@@ -604,6 +613,8 @@ import _ from 'lodash'
                     'textColor': '#FFFFFF',
                     'matchId': '111212',
                     'matchAgeGroupId':'',
+                    'homeScore': null,
+                    'awayScore': null,
                     'displayFlag':''
 
               }
@@ -632,6 +643,8 @@ import _ from 'lodash'
                             'textColor': '#FFFFFF',
                             'matchId': 'block_'+block.id,
                             'matchAgeGroupId':'',
+                            'homeScore': null,
+                            'awayScore': null,
                             'displayFlag':''
                         }
                         this.scheduledMatches.push(mData2)
