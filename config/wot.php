@@ -196,4 +196,5 @@ return [
     'editor_image' => '/assets/img/editor_image/',
   ],
   'tempImagePath' => storage_path() . '/temp_images/',
+  'message_notification_days' => 14,
 ];
