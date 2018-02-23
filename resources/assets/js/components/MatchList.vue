@@ -95,7 +95,7 @@
       </div>
     </div>
   <!--<span v-else>No information available</span>-->
-  <pitch-modal :matchFixture="matchFixture" v-if="setPitchModal" :section="section"></pitch-modal>
+  <pitch-modal :matchFixture="matchFixture" v-show="setPitchModal" :section="section"></pitch-modal>
 
   </div>
 </div>
@@ -216,19 +216,24 @@ export default {
         var homeScoreInput = $('input[name="home_score['+value.fid+']"]');
         var awayScoreInput = $('input[name="away_score['+value.fid+']"]');
         if(homeScoreInput.length && awayScoreInput.length) {
-          if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
+          if(value.round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
             $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
           }
         }
       });
     },
-    openPitchModal(match,matchId) {      
+    openPitchModal(match,matchId) {
       let vm = this;
+      let newMatchData = {'homeScore': match.homeScore,'awayScore': match.AwayScore};
+      this.$root.$emit('updateMatchData',newMatchData);
+
       this.currentMatch =  match
       this.currentMatchId =  matchId
       this.setPitchModal = 1
       this.matchFixture.id = match.fid
       this.matchFixture.matchAgeGroupId = this.matchData[0].age_group_id
+
+      this.$root.$emit('getMatchData');
 
       let displayMatchNumber = match.displayMatchNumber
       let displayHomeTeamPlaceholder = match.displayHomeTeamPlaceholderName
@@ -385,10 +390,10 @@ export default {
           matchData.homeScore = $('input[name="home_score['+value.fid+']"]').val();
           matchData.awayScore = $('input[name="away_score['+value.fid+']"]').val();
           matchDataArray[index] = matchData;
-          if(value.actual_round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
+          if(value.round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
             isSameScore = true;
             $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
-          }
+          }          
         }
       });
       if (isSameScore == true) {
