@@ -6,7 +6,9 @@
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
-				  				{{ categoryTeam.name }} ({{ categoryTeam.country.country_code }}) <img class="" :src="categoryTeam.country.logo" class="flag" />
+				  				{{ categoryTeam.name }} ({{ categoryTeam.country.country_code }}) 
+				  				<span :class="'flag-icon flag-icon-'+categoryTeam.country.country_flag"> 	
+			  				</span>
 				  			</div>
 				  			<div class="draggable--section-card-header-icons">
 						        <a class="text-primary" href="javascript:void(0)"
