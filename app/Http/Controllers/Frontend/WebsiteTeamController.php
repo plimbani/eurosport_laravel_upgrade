@@ -30,8 +30,10 @@ class WebsiteTeamController extends Controller
      */
     public function getTeamPageDetails(Request $request)
     {
-        $varsForView = [];
+        $websiteId = Landlord::getTenants()['website']->id;
 
-        return view('frontend.team', $varsForView);
+        $ageCategories = $this->websiteTeamContract->getAgeCategories($websiteId)['data'];
+
+        return view('frontend.team', compact('ageCategories'));
     }
 }
