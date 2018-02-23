@@ -144,8 +144,6 @@
                                        @endforeach
                                       @endforeach
                                     @endforeach
-                                    <p>An account has been created for you to access the Euro-Sportring Tournament Planner. Please click on the button below to verify your email address and set up your password to complete your account registration.</p>
-                                    <p>Once completed you will be able to login to the Tournament Planner platform and the mobile app with the same login details.</p>
                                   </div>
                                 </td>
                               </tr>
