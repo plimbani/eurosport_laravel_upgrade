@@ -40,7 +40,7 @@
                   </div>
                 </div>
                 <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug == 'Super.administrator'">
-                  <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Reset teams</button>
+                  <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
                 </div>
               </div>
             </div>
