@@ -8371,6 +8371,12 @@ TimeGrid.mixin({
 							'</div>' :
 							''
 							) +
+						((event.homeScore !== null) && (event.awayScore !== null) ? 
+							'<div class="fc-score">(' +
+								htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
+							')</div>' :
+							''
+						) +
 					'</div>' +
 					'<div class="fc-bg"/>' +
 					/* TODO: write CSS for this
