@@ -535,7 +535,7 @@ class TeamRepository
       $competationIds = Competition::where('tournament_competation_template_id',$ageCategoryId)
                                     ->pluck('id')->toArray();
      
-      $MatchStanding = DB::table('match_standing')->where('competition_id',$competationIds)
+      $MatchStanding = DB::table('match_standing')->whereIn('competition_id',$competationIds)
                                                   ->delete();
 
       $competitions = Competition::where('tournament_competation_template_id',$ageCategoryId)
