@@ -20,7 +20,24 @@ class PageObserver
      */
     public function created(Page $page)
     {
+      if($page->is_additional_page == 1) {
+        $userObj = $this->getCurrentLoggedInUserDetail();
+        $pageTitleAndSection = $this->getPageTitleAndSection($page);
 
+        $pageData = [];
+        $pageData['website_id'] = $page->website_id;
+        $pageData['notification_id'] = $this->getNotificationId($userObj);
+        $pageData['subject_id'] = $page->id;
+        $pageData['subject_type'] = get_class($page);
+        $pageData['causer_id'] = $userObj->id;
+        $pageData['causer_type'] = get_class($userObj);
+        $pageData['description'] = $userObj->name .' '. 'added a "' . $page->title . '" page.';
+        $pageData['page'] = $pageTitleAndSection['page_title'];
+        $pageData['section'] = $pageTitleAndSection['section'];
+        $pageData['action'] = 'updated';
+
+        $this->saveActivityLog($pageData);
+      }
     }
 
     /**
@@ -41,7 +58,7 @@ class PageObserver
       $pageData['subject_type'] = get_class($page);
       $pageData['causer_id'] = $userObj->id;
       $pageData['causer_type'] = get_class($userObj);
-      $pageData['description'] = $userObj->name .' '. 'updated a ' . $pageTitleAndSection['page_title'] . ' page.';
+      $pageData['description'] = $userObj->name .' '. 'updated a "' . $pageTitleAndSection['page_title'] . '" page.';
       $pageData['page'] = $pageTitleAndSection['page_title'];
       $pageData['section'] = $pageTitleAndSection['section'];
       $pageData['action'] = 'updated';
@@ -57,20 +74,23 @@ class PageObserver
      */
     public function deleted(Page $page)
     {
-      $userObj = $this->getCurrentLoggedInUserDetail();
+      if($page->is_additional_page == 1) {
+        $userObj = $this->getCurrentLoggedInUserDetail();
+        $pageTitleAndSection = $this->getPageTitleAndSection($page);
 
-      $pageData = [];
-      $pageData['website_id'] = $page->website_id;
-      $pageData['notification_id'] = $this->getNotificationId($userObj);
-      $pageData['subject_id'] = $page->id;
-      $pageData['subject_type'] = get_class($page);
-      $pageData['causer_id'] = $userObj->id;
-      $pageData['causer_type'] = get_class($userObj);
-      $pageData['description'] = $userObj->name .' '. 'deleted a page.';
-      $pageData['page'] = 'Homepage';
-      $pageData['section'] = 'Organisers';
-      $pageData['action'] = 'deleted';
+        $pageData = [];
+        $pageData['website_id'] = $page->website_id;
+        $pageData['notification_id'] = $this->getNotificationId($userObj);
+        $pageData['subject_id'] = $page->id;
+        $pageData['subject_type'] = get_class($page);
+        $pageData['causer_id'] = $userObj->id;
+        $pageData['causer_type'] = get_class($userObj);
+        $pageData['description'] = $userObj->name .' '. 'deleted a "' . $page->title . '" page.';
+        $pageData['page'] = $pageTitleAndSection['page_title'];
+        $pageData['section'] = 'Additional page';
+        $pageData['action'] = 'deleted';
 
-      $this->saveActivityLog($pageData);
+        $this->saveActivityLog($pageData);
+      }
     }
 }
