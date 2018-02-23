@@ -214,4 +214,5 @@ return [
     'media' => 'Media',
     'contact' => 'Contact',
   ],
+  'message_notification_days' => 14,
 ];

@@ -47,4 +47,12 @@ class Website extends Model
     {
         return $this->hasMany('Laraspace\Models\Sponsor');
     }
+
+    /**
+     * Get all of the messages for the website.
+     */
+    public function messages()
+    {
+        return $this->hasMany('Laraspace\Models\Message', 'tournament_id', 'linked_tournament');
+    }
 }
