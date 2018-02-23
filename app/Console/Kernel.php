@@ -33,6 +33,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('setup:automaticallypermissionremoval')->dailyAt('00:00');
+        $schedule->command('activity:notification')->everyThirtyMinutes();
     }
 
     /**

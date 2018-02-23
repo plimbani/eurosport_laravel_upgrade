@@ -208,4 +208,5 @@ return [
     'media' => 'Media',
     'contact' => 'Contact',
   ],
+  'activity_notification_recepients' => ['ssheth@aecordigital.com'],
 ];
