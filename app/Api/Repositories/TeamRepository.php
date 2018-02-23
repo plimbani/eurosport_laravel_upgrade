@@ -524,7 +524,8 @@ class TeamRepository
         'away_team' => 0, 'is_result_override' => 0, 'match_winner' => null, 'match_status' => null,
         'hometeam_score' => null, 'awayteam_score' => null, 'is_scheduled' => 0, 'comments' => null,
         'minimum_team_interval_flag' => 0, 'match_datetime' => null, 'match_endtime' => null, 
-        'referee_id' => null, 'venue_id' => 0,'home_team_name' => null, 'away_team_name' => null]);
+        'referee_id' => null, 'venue_id' => 0,'home_team_name' => null, 'away_team_name' => null, 
+        'pitch_id' => 0]);
 
 
       $teamDataReset = Team::where('age_group_id',$ageCategoryId)->delete();  
@@ -532,7 +533,7 @@ class TeamRepository
       $PositionDataReset = Position::where('age_category_id',$ageCategoryId)->update(['team_id' => null]); 
       
       $competationIds = Competition::where('tournament_competation_template_id',$ageCategoryId)
-                                    ->pluck('id')->delete();
+                                    ->pluck('id')->toArray();
      
       $MatchStanding = DB::table('match_standing')->where('competition_id',$competationIds)
                                                   ->delete();
