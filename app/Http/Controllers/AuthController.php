@@ -34,23 +34,16 @@ class AuthController extends Controller
 
     public function check(Request $request)
     {
-        \Log::info('Check Method is called');
-        \Log::info(\Request::header('Authorization'));
-        \Log::info(\Request::header('IsMobileUser'));
         try {
             JWTAuth::parseToken()->authenticate();
         } catch (JWTException $e) {
             return response(['authenticated' => false]);
         }
-        \Log::info('After Authenticate');
         // Here Add Functionality if use is Active then allowed to login
         $token=JWTAuth::getToken();
-        \Log::info('After Getting token');
         if($token) {
           $userData = JWTAuth::toUser($token);
           // here we put check for Mobile Users
-
-          \Log::info('UserData');
           $isMobileUsers = \Request::header('IsMobileUser');
           $userTournament = $userData->tournaments()->pluck('id')->toArray();
           if ($userData->isRole('tournament.administrator') && $request->has('tournamentId') && !in_array($request->tournamentId,$userTournament)) {
@@ -68,7 +61,6 @@ class AuthController extends Controller
           if($userData->is_active == 0) {
             return response(['authenticated' => false,'message'=>'Account de-activated please contact your administrator.']);
           }
-          \Log::info('Success');
             $path = getenv('S3_URL').'/assets/img/users/';
             $userDataQuery = \Laraspace\Models\User::where('users.id',$userData->id)
                               ->leftJoin('users_favourite','users_favourite.user_id','=','users.id')
@@ -99,7 +91,6 @@ class AuthController extends Controller
              return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);
             }
         }
-        \Log::info('NOT GETTING TOKEN');
     }
 
     public function logout()
