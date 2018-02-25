@@ -2226,7 +2226,7 @@ class MatchService implements MatchContract
       $prefixMatchName = $ageCategory->group_name . '-' . $ageCategory->category_age . '-';
       for($i=0; $i < count($positions); $i=$i+2) {
         $matchNumber = str_replace('CAT.', $prefixMatchName, $positions[$i]->match_number);
-        $fixture = DB::table('temp_fixtures')->where('match_number', $matchNumber)->get()->first();
+        $fixture = DB::table('temp_fixtures')->where('match_number', $matchNumber)->where('age_group_id', $ageCategory->id)->get()->first();
         if($fixture->hometeam_score !== null && $fixture->awayteam_score !== null) {
           $winner = null;
           $looser = null;
