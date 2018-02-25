@@ -6,7 +6,6 @@ use DB;
 use Laraspace\Models\Photo;
 use Laraspace\Models\Document;
 use Laraspace\Custom\Helper\Image;
-use Laraspace\Custom\Helper\Document as DocumentHelper;
 use Laraspace\Api\Services\PageService;
 
 class MediaRepository
@@ -259,7 +258,7 @@ class MediaRepository
       $documentData = $documents[$i];
 
       // Upload file
-      $documentData['file_name'] = $this->uploadDocument($documentData['file'], $documentData['file_name'], $websiteId);
+      $documentData['file_name'] = basename(parse_url($documentData['file'])['path']);
 
       if($documentData['id'] == '') {
         $document = $this->insertDocument($websiteId, $documentData);
@@ -272,26 +271,5 @@ class MediaRepository
     $deleteDocumentsId = array_diff($existingDocumentsId, $documentIds);
 
     $this->deleteDocuments($deleteDocumentsId);
-  }
-
-  /*
-   * Upload document
-   *
-   * @return response
-   */
-  public function uploadDocument($file, $documentName, $websiteId)
-  {
-    if($file != '') {
-      if(strpos($file, $this->getAWSUrl) !==  false) {
-        $path = $this->getAWSUrl . '/assets/img/document/' . $websiteId . '/';
-        $file = str_replace($path, "", $file);
-        return $file;
-      }
-
-      $documentPath = '/assets/img/document/' . $websiteId . '/';
-      $documentString = $file;
-
-      return DocumentHelper::uploadDocument($documentPath, $documentName, $documentString);
-    }
   }
 }

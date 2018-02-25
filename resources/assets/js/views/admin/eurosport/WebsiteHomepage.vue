@@ -24,7 +24,7 @@
 			          		</div>
 			          		<div class="col-sm-9">
 			          			<button v-if="homepage.hero_image != ''" class="btn btn-default" @click="removeImage($event, 'hero_image')">{{$lang.tournament_tournament_remove_button}}</button>
-			              		<button v-else :disabled="isHeroImageUploading" type="button" class="btn btn-default" @click="selectHeroImage()">{{isHeroImageUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+			              		<button v-else :disabled="is_hero_image_uploading" type="button" class="btn btn-default" @click="selectHeroImage()">{{is_hero_image_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
 			              		<input type="file" id="hero_image" style="display:none;" @change="onImageChange($event, 'hero_image')">
 			              		<input type="hidden" v-model="homepage.hero_image" name="hero_image" />
 			              	</div>
@@ -41,7 +41,7 @@
 			          		</div>
 			          		<div class="col-sm-9">
 				          		<button v-if="homepage.welcome_image != ''" class="btn btn-default" @click="removeImage($event, 'welcome_image')">{{$lang.tournament_tournament_remove_button}}</button>
-				              	<button v-else :disabled="isWelcomeImageUploading" type="button" class="btn btn-default" @click="selectWelcomeImage()">{{isWelcomeImageUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+				              	<button v-else :disabled="is_welcome_image_uploading" type="button" class="btn btn-default" @click="selectWelcomeImage()">{{is_welcome_image_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
 				              	<input type="file" id="welcome_image" style="display:none;" @change="onImageChange($event, 'welcome_image')">
 				              	<input type="hidden" v-model="homepage.welcome_image" name="welcome_image" />
 				            </div>
@@ -77,7 +77,7 @@
 	          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
 	      </div>
 	      <div class="pull-right">
-	          <button class="btn btn-primary" @click="redirectToForward()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+	          <button :disabled="isImageUploading" class="btn btn-primary" @click="redirectToForward()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
 	      </div>
 	    </div>
   	</div>
@@ -107,8 +107,8 @@ export default {
 				statistics: [],
 				organiserLogos: [],
 			},
-			isHeroImageUploading: false,
-			isWelcomeImageUploading: false,
+			is_hero_image_uploading: false,
+			is_welcome_image_uploading: false,
 		}
 	},
 	mounted() {
@@ -133,6 +133,9 @@ export default {
 		getWelcomeImagePath() {
 			return this.$store.state.Image.welcomeImagePath;
 		},
+    isImageUploading: function() {
+      return (this.is_hero_image_uploading || this.is_welcome_image_uploading);
+    },
 	},
 	methods: {
 		redirectToForward() {
@@ -146,7 +149,10 @@ export default {
         (response)=> {
         	$("body .js-loader").addClass('d-none');
           toastr.success('Home page has been updated successfully.', 'Success');
-          this.$router.push({name:'website_teams'});
+          var route = this.getWebsiteForwardRoute('home');
+          if(route) {
+            this.$router.push({name:route});
+          }
         },
         (error)=>{
         }
@@ -190,21 +196,21 @@ export default {
       formData.append('image', files[0]);
 
       if(key == 'hero_image') {
-				this.isHeroImageUploading = true;
+				this.is_hero_image_uploading = true;
 	      axios.post('/api/websites/uploadHeroImage', formData).then(
 		      (response)=> {
 		      	vm.homepage[key] = response.data;
-		      	this.isHeroImageUploading = false;
+		      	this.is_hero_image_uploading = false;
 		      },
 		      (error)=>{
 		      }
 	      );
       } else {
-				this.isWelcomeImageUploading = true;
+				this.is_welcome_image_uploading = true;
 	      axios.post('/api/websites/uploadWelcomeImage', formData).then(
 		      (response)=> {
 		      	vm.homepage[key] = response.data;
-		      	this.isWelcomeImageUploading = false;
+		      	this.is_welcome_image_uploading = false;
 		      },
 		      (error)=>{
 		      }

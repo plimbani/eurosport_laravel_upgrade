@@ -4,8 +4,8 @@
 			<div class="card-block">
 				<h6><strong>{{$lang.itinerary_title}}</strong></h6>
 				<div class="form-group justify-content-between row">
-					<div class="col-sm-6">					
-	      		<itinerary-list @setItineraries="setItineraries"></itinerary-list>	      		
+					<div class="col-sm-6">
+	      		<itinerary-list @setItineraries="setItineraries"></itinerary-list>
 	      	</div>
 	      </div>
 	      <hr class="my-4">
@@ -38,7 +38,7 @@ export default {
 		InsertTextEditor,
 		ItineraryList,
 		AdditionalPages,
-	},	
+	},
 	data() {
 		return {
 			programpage: {
@@ -48,10 +48,10 @@ export default {
 				parent_id: '',
 			},
 		}
-	},	
+	},
 	mounted() {
 		let currentNavigationData = {
-			activeTab:'website_program', 
+			activeTab:'website_program',
 			currentPage:'Program'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
@@ -61,10 +61,16 @@ export default {
 	},
 	methods: {
 		redirectToForward() {
-			this.$router.push({name:'website_stay'})
+			var route = this.getWebsiteForwardRoute('program');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_tournament'})
+			var route = this.getWebsiteBackwardRoute('program');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		},
 		setItineraries(itineraries) {
 			this.programpage.itineraries = itineraries;
@@ -83,7 +89,7 @@ export default {
         },
         (error)=>{
         }
-      );			
+      );
 		},
 		getWebsiteId() {
 			return this.$store.state.Website.id;

@@ -31,7 +31,7 @@
 			</div>
 			<p class="help-block text-muted" v-show="pages.length === 0">{{ $lang.no_additional_page_title }}</p>
 		</div>
-		<div class="col-sm-6">
+		<div class="col-sm-6" v-show="currentPageOperation == 'edit' || isAdmin">
 			<div class="row">
 		  	<label class="col-sm-12 pt-0 form-control-label">{{$lang.page_title}}*</label>
 		  	<div class="col-sm-12">
@@ -116,6 +116,7 @@
 				this.additional_page.id = '';
 				this.additional_page.title = '';
 				this.additional_page.content = '';
+				this.$root.$emit('blankEditorValue');
 				this.clearErrorMsgs();
 			},
 			editPage(page, index) {

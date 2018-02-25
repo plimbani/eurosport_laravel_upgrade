@@ -86,9 +86,9 @@ export default {
 	},
 	mounted() {
 		let currentNavigationData = {
-			activeTab:'website_stay', 
+			activeTab:'website_stay',
 			currentPage:'Stay'
-		};		
+		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
 		this.getStayPageContent();
 	},
@@ -96,10 +96,16 @@ export default {
 	},
 	methods: {
 		redirectToForward() {
-			this.$router.push({name:'website_visitors'})
+			var route = this.getWebsiteForwardRoute('stay');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_program'})
+			var route = this.getWebsiteBackwardRoute('stay');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		},
 		setStayIntroductionContent(content) {
 			this.staypage.stay_introduction_content = content;
