@@ -5,13 +5,13 @@
     </div>
     <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" style="width: 100%; height: 600px">
       <gmap-cluster :grid-size="gridSize">
-        <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true"  @click="toggleInfoWindow(m,index)" :zIndex="zIndex"></gmap-marker>
+        <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true"  @click="toggleInfoWindow(m,index)" :zIndex="zIndex" @position_changed="updateChild(m, 'position', $event)"></gmap-marker>
       </gmap-cluster>
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
-        <div class="form-group">
-          <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText"></textarea>
-          <button type="button" class="btn btn-primary">Delete</button>
-          <button type="button" class="btn btn-primary" @click="saveMarkers()">Save</button>          
+        <div class="form-group mb-0">
+          <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText" rows="5"></textarea>
+          <button type="button" class="btn btn-sm btn-primary" @click="deleteMarker()">Delete</button>
+          <button type="button" class="btn btn-sm btn-primary" @click="saveMarker()">Save</button>          
         </div>
       </gmap-info-window>
     </gmap-map>
@@ -41,6 +41,7 @@ gmap-map {
 }
 </style>
 <script>
+import Website from '../api/website.js';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';
 import _ from 'lodash';
@@ -207,6 +208,9 @@ export default {
     }
   },
   computed: {
+    getWebsite() {
+      return this.$store.state.Website.id;
+    },
     activeMarkers() {
       if (this.markersEven) {
         return this.markers.filter(
@@ -282,7 +286,25 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getAllMarkers();
+    this.$root.$on('getMarkers', this.getMarkers);
+  },
   methods: {
+    getAllMarkers() {
+      var vm = this;
+      Website.getMarkers(this.getWebsite).then(
+        (response) => {
+          vm.markers = response.data.data;
+          vm.markers = _.map(response.data.data, function(marker) {
+            marker.position = { 'lat' : parseFloat(marker.latitude), 'lng' : parseFloat(marker.longitude)  };
+            return marker;
+          });
+        },
+        (error) => {
+        }
+      );
+    },
     mapRclicked(mouseArgs) {
       const createdMarker = this.addMarker();
       createdMarker.position.lat = mouseArgs.latLng.lat();
@@ -291,7 +313,7 @@ export default {
     addMarker() {
       this.lastId++;
       this.markers.push({
-        id: this.lastId,
+        id: '',
         position: {
           lat: 48.8538302,
           lng: 2.2982161
@@ -299,8 +321,9 @@ export default {
         opacity: 1,
         draggable: true,
         enabled: true,
+        dragended: 0,        
         ifw: true,
-        infoText: '',
+        information: '',
       });
       this.toggleInfoWindow(this.markers[this.markers.length - 1], this.markers.length - 1);
       return this.markers[this.markers.length - 1];
@@ -371,7 +394,7 @@ export default {
     toggleInfoWindow: function(marker, idx) {
       this.currentMarkerIndex = idx;
       this.infoWindowPos = marker.position;
-      this.infoContent = marker.infoText;
+      this.infoContent = marker.information;
       //check if its the same marker that was selected if yes toggle
       if (this.currentMidx == idx) {
         this.infoWinOpen = !this.infoWinOpen;
@@ -382,8 +405,20 @@ export default {
         this.currentMidx = idx;
       }
     },
-    saveMarkers() {
-      this.markers[this.currentMarkerIndex].infoText = this.infoContent;
+    saveMarker() {
+      this.markers[this.currentMarkerIndex].information = this.infoContent;
+      this.toggleInfoWindow(this.markers[this.currentMarkerIndex], this.currentMarkerIndex);      
+    },
+    deleteMarker() {
+      this.toggleInfoWindow(this.markers[this.currentMarkerIndex], this.currentMarkerIndex);      
+      this.markers.splice(this.currentMarkerIndex, 1);
+    },
+    getMarkers() {
+      this.$emit('setMarkers', this.markers);
+    },
+    markerDragend(marker) {
+      console.log('marker',marker);
+      console.log('here');
     }
   }
 }

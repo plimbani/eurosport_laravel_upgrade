@@ -93,14 +93,20 @@ export default {
         (response)=> {
         	$("body .js-loader").addClass('d-none');
           toastr.success('Team page has been updated successfully.', 'Success');
-          this.$router.push({name:'website_venue'});
+          var route = this.getWebsiteForwardRoute('teams');
+          if(route) {
+            this.$router.push({name:route});
+          }
         },
         (error)=>{
         }
       );
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_homepage'});
+			var route = this.getWebsiteBackwardRoute('teams');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		},
 		setAgeCategories(ageCategories) {
 			this.team.ageCategories = ageCategories;

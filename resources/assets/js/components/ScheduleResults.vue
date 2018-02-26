@@ -24,7 +24,7 @@
 								<div class="tabs tabs-primary">
 									<ul class="nav nav-tabs">
 										<li @click="setCurrentView('drawsListing')" class="nav-item">
-											<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_draws}}</a>
+											<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_categories}}</a>
 										</li>
 										<li @click="setCurrentView('matchListing')" class="nav-item">
 											<a :class="[currentView == 'matchListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_matches}}</a>

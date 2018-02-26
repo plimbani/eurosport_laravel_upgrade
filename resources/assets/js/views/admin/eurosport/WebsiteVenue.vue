@@ -12,7 +12,7 @@
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.website_map}}</strong></h6>
-	        		<website-location-map></website-location-map>
+	        		<website-location-map @setMarkers="setMarkers"></website-location-map>
 	        	</div>
 	        </div>
 				</form>
@@ -46,6 +46,7 @@ export default {
 			venue: {
 				websiteId: null,
 				locations: [],
+				markers: []
 			}
 		}
 	},
@@ -61,13 +62,17 @@ export default {
 	methods: {
 		redirectToForward() {
       this.$root.$emit('getLocations');
+      this.$root.$emit('getMarkers');
       this.venue.websiteId = this.getWebsiteId();
       $("body .js-loader").removeClass('d-none');
       Website.saveVenuePageData(this.venue).then(
         (response)=> {
           $("body .js-loader").addClass('d-none');
           toastr.success('Venue page has been updated successfully.', 'Success');
-          this.$router.push({name:'website_tournament'});
+          var route = this.getWebsiteForwardRoute('venue');
+          if(route) {
+            this.$router.push({name:route});
+          }
         },
         (error)=>{
         }
@@ -76,11 +81,18 @@ export default {
 		setLocations(locations) {
     	this.venue.locations = locations;
 		},
+		setMarkers(markers) {
+    	this.venue.markers = markers;
+    	return;
+		},
 		getWebsiteId() {
 			return this.$store.state.Website.id;
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_teams'})
+			var route = this.getWebsiteBackwardRoute('venue');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		}
 	},
 }

@@ -149,6 +149,7 @@
 </template>
 <script>
 import Tournament from '../api/tournament.js'
+import _ from 'lodash';
 
 var moment = require('moment');
 
@@ -162,23 +163,34 @@ var moment = require('moment');
           }
          },
          'referees': {},
-         'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
+         // 'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
+         'matchId': null,
          'referee_name' : '',
          'reportQuery': '',
-         'refereeRemoved': 'no'
+         'refereeRemoved': 'no',
+         'updatedMatchData': null,
        }
     },
+
     props: ['matchFixture','section'],
     mounted() {
-      let tournamentData = {
-        'tournamentId':this.tournamentId,
-        'age_category':this.matchFixture.matchAgeGroupId
+      this.$root.$off('getMatchData');
+      this.$root.$off('updateMatchData');
+
+      this.$root.$on('getMatchData',this.getMatchData);
+      this.$root.$on('updateMatchData',this.updateMatchData);
+      if(this.section == 'pitchPlanner') {
+        this.matchId = this.matchFixture.matchId;
+        let tournamentData = {
+          'tournamentId':this.tournamentId,
+          'age_category':this.matchFixture.matchAgeGroupId
+        }
+         Tournament.getReferees(tournamentData).then(
+          (response) => {
+              this.referees = response.data.referees
+          })
+        this.matchFixtureDetail();
       }
-       Tournament.getReferees(tournamentData).then(
-        (response) => {
-            this.referees = response.data.referees
-        })
-      this.matchFixtureDetail()
   },
   methods: {
     initialState() {
@@ -224,6 +236,19 @@ var moment = require('moment');
           this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '' : this.matchDetail.hometeam_score
           this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '' : this.matchDetail.awayteam_score
           this.matchDetail.referee_id = (this.matchDetail.referee_id == null || this.matchDetail.referee_id == 0 ) ? '' :this.matchDetail.referee_id
+
+          if(this.updatedMatchData !== null) {
+            this.matchDetail.hometeam_score = this.updatedMatchData.homeScore;
+            this.matchDetail.awayteam_score = this.updatedMatchData.awayScore;
+
+            if (this.matchDetail.round == 'Elimination' && this.matchDetail.hometeam_score != '' && this.matchDetail.awayteam_score != '' && this.matchDetail.hometeam_score != null && this.matchDetail.awayteam_score != null && this.matchDetail.hometeam_score == this.matchDetail.awayteam_score && this.matchDetail.is_result_override == 0) {
+              this.matchDetail.is_result_override = 1;
+              let vm = this;
+              Vue.nextTick(function () {
+                vm.$validator.validateAll().then(() => {}).catch(() => {});
+              });
+            }
+          }
       })
     },
     removeReferee(){
@@ -252,7 +277,7 @@ var moment = require('moment');
       }
       let home_score = $('#home_team_score').val()
       let away_score = $('#away_team_score').val()
-      if (home_score == away_score && this.matchDetail.round == 'Elimination' && this.matchDetail.is_result_override == 0 && home_score != '' && away_score != '') {
+      if (home_score == away_score && this.matchDetail.round == 'Elimination' && this.matchDetail.is_result_override == 0 && home_score != '' && away_score != '' && this.matchDetail.hometeam_score != null && this.matchDetail.awayteam_score != null) {
         this.matchDetail.is_result_override = 1;
       }
 
@@ -278,6 +303,7 @@ var moment = require('moment');
                 vm.$root.$emit('setDrawTable',competationId);
                 vm.$root.$emit('setStandingData',competationId);
               } else {
+                vm.$root.$emit('reloadAllEvents')
                 vm.$root.$emit('setPitchPlanTab','gamesTab')
               }
             }
@@ -373,7 +399,22 @@ var moment = require('moment');
     checkOverride() {
       this.matchDetail.match_status = '';
       this.matchDetail.match_winner = '';
-    }
+    },
+    getMatchData() {
+      this.matchId = this.matchFixture.id;
+      let tournamentData = {
+        'tournamentId':this.tournamentId,
+        'age_category':this.matchFixture.matchAgeGroupId
+      }
+       Tournament.getReferees(tournamentData).then(
+        (response) => {
+            this.referees = response.data.referees
+        })
+      this.matchFixtureDetail();
+    },
+    updateMatchData(matchData) {
+      this.updatedMatchData = matchData;
+    },
   } 
 }
 </script>

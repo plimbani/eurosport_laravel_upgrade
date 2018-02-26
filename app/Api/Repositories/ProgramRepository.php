@@ -142,7 +142,9 @@ class ProgramRepository
    */
   public function deleteItineraries($itineraryIds = [])
   {
-    Itinerary::whereIn('id', $itineraryIds)->delete();
+    Itinerary::whereIn('id', $itineraryIds)->get()->each(function($itinerary) {
+      $itinerary->delete();
+    });
     return true;
   }
 

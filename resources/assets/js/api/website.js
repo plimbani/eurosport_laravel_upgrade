@@ -128,6 +128,10 @@ export default {
   getLocations(websiteId) {
     return axios.get('/api/getLocations/' + websiteId);
   },
+  // Get all venue markers
+  getMarkers(websiteId) {
+    return axios.get('/api/getMarkers/' + websiteId);
+  },
   // Get contact details
   getContactDetails(websiteId) {
     return axios.get('/api/getContactDetails/' + websiteId);

@@ -176,13 +176,21 @@ return [
       'is_permission_changeable' => 1,
       'accessible_routes' => ['media.page.details']
     ],
+    [
+      'url' => '/contact',
+      'name' => 'contact',
+      'page_name' => 'contact',
+      'title' => 'Contact',
+      'content' => null,
+      'is_enabled' => 1,
+      'is_published' => 1,
+      'is_permission_changeable' => 0,
+      'accessible_routes' => ['contact.page.details', 'submit.enquiry']
+    ]
   ],
   'permissions_not_changeable_pages' => ['home'],
   'current_domain' => null,
-  'default_accessible_routes' => [
-    'contact.page.details',
-    'submit.enquiry'
-  ],
+  'default_accessible_routes' => [],
   'google_api_key' => env('GOOGLE_API_KEY', ''),
   'imagePath' => [
     'website_tournament_logo' => '/assets/img/website_tournament_logo/',
@@ -196,5 +204,24 @@ return [
     'editor_image' => '/assets/img/editor_image/',
   ],
   'tempImagePath' => storage_path() . '/temp_images/',
+  'notification_page_names' => [
+    'website' => 'Website',
+    'home' => 'Home',
+    'teams' => 'Teams',
+    'matches' => 'Matches',
+    'venue' => 'Venue',
+    'tournament' => 'Tournament',
+    'rules' => 'Tournament',
+    'history' => 'Tournament',
+    'program' => 'Program',
+    'stay' => 'Stay',
+    'meals' => 'Stay',
+    'accommodation' => 'Stay',
+    'visitors' => 'Visitors',
+    'tourist_information' => 'Visitors',
+    'media' => 'Media',
+    'contact' => 'Contact',
+  ],
   'message_notification_days' => 14,
+  'activity_notification_recepients' => ['mtilokani@aecoridgital.com', 'ssheth@aecordigital.com'],
 ];

@@ -14,7 +14,7 @@
             <div class="col-sm-6">
               <img v-show="isLoad" :src="getImage" class="thumb-size" @load="loaded"/>
               <img class="thumb" v-show="!isLoad" src="/images/loader2.gif">
-              <button :disabled="isMediaPhotoUploading" type="button" class="btn btn-default" @click="selectImage()">{{isMediaPhotoUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+              <button :disabled="is_media_photo_uploading" type="button" class="btn btn-default" @click="selectImage()">{{is_media_photo_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
               <input type="file" id="image" style="display:none;" @change="onPhotoChange">
               <input type="hidden" v-model="formValues.image" name="image" v-validate="'required'" />
               <span class="help is-danger" v-show="errors.has('image')">{{ errors.first('image') }}</span>
@@ -35,7 +35,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">{{ $lang.cancel_button }}</button>
-          <button :disabled="isMediaPhotoUploading" type="button" class="btn btn-primary" @click="validateForm()">{{ $lang.save_button }}</button>
+          <button :disabled="is_media_photo_uploading" type="button" class="btn btn-primary" @click="validateForm()">{{ $lang.save_button }}</button>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
 					caption: '',
 					image: '',
 				},
-				isMediaPhotoUploading: false,
+				is_media_photo_uploading: false,
 				isLoad: false,
 			};
 		},
@@ -106,13 +106,13 @@
 	        return;
 	      }
 
-				vm.isMediaPhotoUploading = true;
+				vm.is_media_photo_uploading = true;
 	      var formData = new FormData();
 	      formData.append('image', files[0]);
 	      axios.post('/api/media/uploadMediaPhoto', formData).then(
 		      (response)=> {
 		      	vm.formValues.image = response.data;
-		      	vm.isMediaPhotoUploading = false;
+		      	vm.is_media_photo_uploading = false;
 		      	this.isLoad = false;
 		      },
 		      (error)=>{

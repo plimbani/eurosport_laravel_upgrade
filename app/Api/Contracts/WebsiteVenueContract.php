@@ -12,6 +12,13 @@ interface WebsiteVenueContract
   public function getLocations($websiteId);
 
   /*
+   * Get markers
+   *
+   * @return response
+   */
+  public function getMarkers($websiteId);
+  
+  /*
    * Save venue page data
    *
    * @return response

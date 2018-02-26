@@ -43,6 +43,19 @@ class WebsiteVenueController extends BaseController
     return $this->websiteVenueContract->getLocations($websiteId);
   }
 
+  /**
+   * Get all markers
+   *
+   * Get a JSON representation of all the markers.
+   *
+   * @Get("/getMarkers")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function getMarkers(Request $request, $websiteId)
+  {
+    return $this->websiteVenueContract->getMarkers($websiteId);
+  }
 
   /*
    * Save venue page data

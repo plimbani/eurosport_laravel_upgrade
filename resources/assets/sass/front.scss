@@ -23,7 +23,8 @@
 .fc-time-grid {
     &-event {
         .fc-time,
-        .fc-title {
+        .fc-title,
+        .fc-score {
             font-size: 0.95em;
             line-height: 0.85em;
             padding-top: 0.15em;
@@ -805,7 +806,11 @@ option.age {
     width: 100px;
     height: auto;
 }
-//
+
+.flag-icon {
+    border: $card-border-width solid $card-border-color;
+}  
+
 #gmap_place_input label {
     width: 100%;
 }
@@ -849,5 +854,5 @@ option.age {
 }
 
 div.gmnoprint img {
-    pointer-events: all;
+  pointer-events: all;
 }

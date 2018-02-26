@@ -41,7 +41,7 @@ class Image {
 		return $path;
 	}
 
-	 /*
+	/*
    * Common function for uploading IMAGE to local
    *
    * @return response

@@ -194,6 +194,7 @@ return [
         Geocoder\Laravel\Providers\GeocoderService::class,
         LaravelFCM\FCMServiceProvider::class,
         HipsterJazzbo\Landlord\LandlordServiceProvider::class,
+        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
 
         /*
          *  Custom Service Providers
@@ -207,7 +208,7 @@ return [
         Laraspace\Providers\ApiServiceProvider::class,
         Laraspace\Providers\PitchServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-
+        
         /*
          *  Api Service Providers
          */
@@ -231,6 +232,7 @@ return [
         Laraspace\Api\Providers\MediaServiceProvider::class,
         Laraspace\Api\Providers\WebsiteVenueServiceProvider::class,
         Laraspace\Api\Providers\ContactServiceProvider::class,
+        Laraspace\Api\Providers\UploadMediaServiceProvider::class,
     ],
 
     /*
@@ -286,6 +288,7 @@ return [
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
         'Landlord'   => HipsterJazzbo\Landlord\Facades\Landlord::class,
+        'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
     ],
 
 ];

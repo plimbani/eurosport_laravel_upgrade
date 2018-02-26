@@ -358,8 +358,10 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->get('getDocuments/{websiteId}', 'Laraspace\Api\Controllers\MediaController@getDocuments');
     $api->post('saveMediaPageData', 'Laraspace\Api\Controllers\MediaController@savePageData');
     $api->post('media/uploadMediaPhoto', 'Laraspace\Api\Controllers\MediaController@uploadMediaPhoto');
+    $api->post('media/uploadDocument', 'Laraspace\Api\Controllers\MediaController@uploadDocument');
     // Website venue
     $api->get('getLocations/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getLocations');
+    $api->get('getMarkers/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getMarkers');
     $api->post('saveVenuePageData', 'Laraspace\Api\Controllers\WebsiteVenueController@savePageData');
 
     // Contact

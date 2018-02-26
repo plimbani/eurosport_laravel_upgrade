@@ -120,4 +120,25 @@ class MediaService implements MediaContract
 
     return $this->getAWSUrl . $s3path;
   }
+
+  /*
+   * Save media document
+   *
+   * @return response
+   */
+  public function uploadDocument($request)
+  {
+    $websiteId = $request['websiteId'];
+    $filename = pathinfo($request->file->getClientOriginalName(), PATHINFO_FILENAME);
+    $extension = pathinfo($request->file->getClientOriginalName(), PATHINFO_EXTENSION);
+    $fileNameWithExtension = $filename . '_' . uniqid() . '_' . time() . '_' . date('Ymd') . rand(10,99) . '.' . $extension;
+    $s3path = $this->imagePath['document'] . $websiteId . '/' . $fileNameWithExtension;
+
+    // Moving main image file to S3
+    $disk = Storage::disk('s3');
+    $disk->put($s3path, file_get_contents($request->file), 'public');
+
+    return $this->getAWSUrl . $s3path;
+  }
+
 }
