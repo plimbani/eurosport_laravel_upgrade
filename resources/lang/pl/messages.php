@@ -1,38 +1,39 @@
 <?php
 	return
 	[
-		'teams' => 'Teams',
-		'matches' => 'Matches',
-		'venue' => 'Venue',
-		'tournament' => 'Tournament',
-		'rules' => 'Rules',
-		'history' => 'History',
+		'teams' => 'Drużyny',
+		'matches' => 'Mecze',
+		'venue' => 'Miejsce spotkania',
+		'tournament' => 'Turniej',
+		'rules' => 'Zasady',
+		'history' => 'Historia ',
 		'program' => 'Program',
-		'stay' => 'Stay',
-		'meals' => 'Meals',
-		'accommodation' => 'Accommodation',
-		'visitors' => 'Visitors',
-		'tourist_information' => 'Tourist information',
+		'stay' => 'Pobyt',
+		'meals' => 'Posiłki ',
+		'accommodation' => 'Nocleg',
+		'visitors' => 'Goście',
+		'tourist_information' => 'Informacja turystyczna',
 		'media' => 'Media',
-		'contact' => 'Contact',
-		'proudly_sponsored_by' => 'Proudly sponsored by',
-		'quick_links' => 'Quick Links',
-		'tournament_sponsors' => 'Tournament Sponsors',
-		'arrival_and_check_in' => 'Arrival and check-in',
-		'public_transport' => 'Public transport',
-		'tips_for_visitors' => 'Tips for visitors',
-		'tournament_organiser' => 'Tournament organiser',
-		'contact_euro_sportring' => 'Contact Euro-Sportring',
-		'your_name' => 'Your name',
-		'your_email_address' => 'Your email address',
-		'your telephone number' => 'Your telephone number',
-		'message_subject' => 'Message subject',
-		'your_message' => 'Your message',
-		'send' => 'Send',
-		'contact_confirmation_message' => 'Thanks for getting in touch. Someone will get back to you shortly.'
-		'404_page_title' => 'Error 404 - page not found',
-		'404_page_message' => 'This might be because you have typed the web address incorrectly, or the  
-		                         page you were looking for may have been moved, updated or deleted. Click here 
-		                         to return to the homepage.'
+		'contact' => 'Kontakt',
+		'proudly_sponsored_by' => 'Dumnie sponsorowany przez',
+		'quick_links' => 'Szybkie łącza',
+		'tournament_sponsors' => 'Sponsorzy turnieju',
+		'arrival_and_check_in' => 'Przyjazd i zameldowanie',
+		'public_transport' => 'Transport publiczny',
+		'tips_for_visitors' => 'Wskazówki dla odwiedzających',
+		'tournament_organiser' => 'Organizator turnieju',
+		'contact_euro_sportring' => 'Skontaktuj się z Euro-Sportring',
+		'your_name' => 'Twoje imię',
+		'your_email_address' => 'Twój adres email',
+		'your telephone number' => 'Twój numer telefonu',
+		'message_subject' => 'Temat wiadomości',
+		'your_message' => 'Twoja wiadomość',
+		'send' => 'Przesłać',
+		'contact_confirmation_message' => 'Dziękujemy za skontaktowanie się z nami. Ktoś wkrótce skontaktuje 
+											się z Tobą.',
+		'404_page_title' => 'Błąd 404 - strona nie została odnaleziona',
+		'404_page_message' => 'Przyczyną może być niepoprawne wpisanie adresu internetowego lub strony, której 
+							   szukasz, mogła zostać ona przeniesiona, zaktualizowana lub usunięta. Kliknij
+							   tutaj, aby powrócić na stronę główną.'
 	]
 ?>

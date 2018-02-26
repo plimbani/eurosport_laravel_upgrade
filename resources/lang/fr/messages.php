@@ -29,7 +29,7 @@
 		'message_subject' => 'Sujet du message',
 		'your_message' => 'Votre message',
 		'send' => 'Envoyer',
-		'contact_confirmation_message' => 'Merci pour votre message, nous allons vous répondre sous peu.'
+		'contact_confirmation_message' => 'Merci pour votre message, nous allons vous répondre sous peu.',
 		'404_page_title' => 'Erreur 404 - page non trouvée',  
 		'404_page_message' => "Peut-être avez-vous fait une faute dans l'adresse web, ou la page que vous 
 							  recherchez a été déplacée, mise à jour ou supprimée. Cliquez ici pour retourner à la page d'accueil."
