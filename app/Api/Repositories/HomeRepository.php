@@ -13,7 +13,7 @@ class HomeRepository
   /**
    * @var AWS URL
    */
-  protected $getAWSUrl;
+  protected $AWSUrl;
 
   /**
    * @var Page service
@@ -30,7 +30,7 @@ class HomeRepository
    */
   public function __construct(PageService $pageService)
   {
-    $this->getAWSUrl = getenv('S3_URL');
+    $this->AWSUrl = getenv('S3_URL');
     $this->pageService = $pageService;
     $this->pageName = 'home';
   }
@@ -196,7 +196,7 @@ class HomeRepository
     Organiser::whereIn('id', $organiserIds)->get()->each(function($organiser) {
       $organiser->delete();
     });
-    
+
     return true;
   }
 
