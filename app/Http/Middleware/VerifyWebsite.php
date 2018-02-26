@@ -58,7 +58,6 @@ class VerifyWebsite
         $createdAfter = Carbon::today()->subDay($days);
         $messages = $website->messages()->whereDate('created_at', '>=', $createdAfter)->orderBy('created_at', 'desc')->get();
         View::share('messages', $messages);
-
         Config::set('wot.current_domain', $domain);
 
         return $next($request);
