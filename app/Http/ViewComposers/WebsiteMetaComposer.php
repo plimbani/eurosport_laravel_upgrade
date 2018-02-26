@@ -27,7 +27,6 @@ class WebsiteMetaComposer
    */
   public function compose(View $view)
   {
-  	$domain = $this->request->route('domain');
     $website = Landlord::getTenants()['website'];
     $metaDetails = [];
     $organiserList = '';
