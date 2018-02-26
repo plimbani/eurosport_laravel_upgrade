@@ -7,7 +7,6 @@
     </li>
   @endforeach
 </ul>
-{{ trans('Action') }}
 <ul>
 	@foreach($menu_items as $item)
 		<li>
