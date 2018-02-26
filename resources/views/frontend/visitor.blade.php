@@ -2,20 +2,20 @@
 
 @section('content')
 
-<h1>Visitors</h1>
+<h2>Visitors</h2>
 
 @if($arrivalCheckInInformation)
-<h2>Arrival and check-in </h2>
+<h3>Arrival and check-in </h3>
 {!! $arrivalCheckInInformation !!}
 @endif
 
 @if($publicTransport)
-<h2>Public transport</h2>
+<h3>Public transport</h3>
 {!! $publicTransport !!}
 @endif
 
 @if($tips)
-<h2>Tips for visitors</h2>
+<h3>Tips for visitors</h3>
 {!! $tips !!}
 @endif
 
