@@ -4,18 +4,17 @@
 
 <h1>Visitors</h1>
 
-@if($arrivalCheckInInformation != '')
+@if($arrivalCheckInInformation)
 <h2>Arrival and check-in </h2>
+{!! $arrivalCheckInInformation !!}
 @endif
 
-{!! $arrivalCheckInInformation !!}
-
-@if($publicTransport != '')
+@if($publicTransport)
 <h2>Public transport</h2>
 {!! $publicTransport !!}
 @endif
 
-@if($tips != '')
+@if($tips)
 <h2>Tips for visitors</h2>
 {!! $tips !!}
 @endif
