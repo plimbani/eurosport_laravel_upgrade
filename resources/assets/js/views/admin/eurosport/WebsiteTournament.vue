@@ -75,7 +75,7 @@ export default {
 	},
 	mounted() {
 		let currentNavigationData = {
-			activeTab:'website_tournament', 
+			activeTab:'website_tournament',
 			currentPage:'Tournament'
 		};
 		this.$store.dispatch('setActiveTab', currentNavigationData);
@@ -93,7 +93,10 @@ export default {
         (response)=> {
         	$("body .js-loader").addClass('d-none');
           toastr.success('Tournament page has been updated successfully.', 'Success');
-          this.$router.push({name:'website_program'});
+          var route = this.getWebsiteForwardRoute('tournament');
+          if(route) {
+            this.$router.push({name:route});
+          }
         },
         (error)=>{
         }
@@ -109,7 +112,10 @@ export default {
 			this.tournament.rules = content;
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_venue'})
+			var route = this.getWebsiteBackwardRoute('tournament');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		},
 		getWebsiteTournamentPageData() {
 			var websiteId = this.getWebsiteId();

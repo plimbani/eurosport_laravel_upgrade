@@ -14,9 +14,9 @@
             <div class="col-sm-6">
             	<div class="row">
 	              <div class="col-sm-12">
-	              	<button type="button" class="btn btn-default" @click="selectFile()">{{$lang.tournament_tournament_choose_button}}</button>
+	              	<button :disabled="is_document_uploading" type="button" class="btn btn-default" @click="selectFile()">{{is_document_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
 	              </div>
-	              <div class="col-sm-12">{{ formValues.file_name }}</div>
+	              <div class="col-sm-12" style="overflow-wrap: break-word">{{ formValues.file_name }}</div>
 	              <input type="file" id="file" style="display:none;" @change="onDocumentChange">
 	              <input type="hidden" v-model="formValues.file" name="file" v-validate="'required'" />
 	              <span class="help is-danger col-sm-12" v-show="errors.has('file')">{{ errors.first('file') }}</span>
@@ -26,7 +26,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">{{ $lang.cancel_button }}</button>
-          <button type="button" class="btn btn-primary" @click="validateForm()">{{ $lang.save_button }}</button>
+          <button :disabled="is_document_uploading" type="button" class="btn btn-primary" @click="validateForm()">{{ $lang.save_button }}</button>
         </div>
       </div>
     </div>
@@ -46,12 +46,16 @@
 					file: '',
 					file_name: '',
 				},
+				is_document_uploading: false,
 			};
 		},
 		created() {
 	    this.$root.$on('setDocumentData', this.setDocumentData);
 	  },
 	  computed: {
+	  	getWebsite() {
+				return this.$store.state.Website.id;
+			},
 	  },
 		methods: {
 			validateForm() {
@@ -84,16 +88,6 @@
 				if (!files.length)
 					return false;
 
-				// Validate file name
-				// var fileName = files[0].name;
-				// var documentWithMatchFileName = _.find(this.documents, function(o) { return o.file_name == fileName; });
-				// if(typeof documentWithMatchFileName !== 'undefined') {
-				// 	toastr['error']('Document with such file name already exists', 'Error');
-				// 	this.formValues.file = '';
-				// 	this.formValues.file_name = '';
-				// 	return false;
-				// }
-
 				// Validate document size
 				if(Plugin.ValidateDocumentSize(files[0], 10485760) == false) {
 					toastr['error']('Document reached maximum size limit of 10MB', 'Error');
@@ -110,19 +104,19 @@
 	        return false;
 	      }
 
-				var reader = new FileReader();
-				reader.onload = (r) => {
-					vm.formValues.file = r.target.result;
-				};
-
-				var filename = $('#file').val();
-	      var lastIndex = filename.lastIndexOf('\\');
-	      if (lastIndex >= 0) {
-	        filename = filename.substring(lastIndex + 1);
-	      }
-	      this.formValues.file_name = filename;
-
-				reader.readAsDataURL(files[0]);
+				vm.is_document_uploading = true;
+	      var formData = new FormData();
+	      formData.append('file', files[0]);
+	      formData.append('websiteId', this.getWebsite);
+	      axios.post('/api/media/uploadDocument', formData).then(
+		      (response)=> {
+		      	vm.formValues.file = response.data;
+		      	vm.formValues.file_name = response.data.substring(response.data.lastIndexOf('/')+1, response.data.length);
+		      	vm.is_document_uploading = false;
+		      },
+		      (error)=>{
+		      }
+	      );
 			},
 		},
 	};

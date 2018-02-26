@@ -67,7 +67,10 @@ export default {
         (response)=> {
           $("body .js-loader").addClass('d-none');
           toastr.success('Venue page has been updated successfully.', 'Success');
-          this.$router.push({name:'website_tournament'});
+          var route = this.getWebsiteForwardRoute('venue');
+          if(route) {
+            this.$router.push({name:route});
+          }
         },
         (error)=>{
         }
@@ -80,7 +83,10 @@ export default {
 			return this.$store.state.Website.id;
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_teams'})
+			var route = this.getWebsiteBackwardRoute('venue');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		}
 	},
 }

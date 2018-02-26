@@ -123,7 +123,10 @@ export default {
       );
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_media'});
+			var route = this.getWebsiteBackwardRoute('contact');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		},
 	},
 }

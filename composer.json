@@ -20,18 +20,19 @@
         "laravel/framework": "5.4.*",
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "^2.1",
+        "mcamara/laravel-localization": "^1.3",
         "t1st3/php-json-minify": "^0.6.2",
         "toin0u/geocoder-laravel": "^1.1",
         "toin0u/geotools-laravel": "~1.0",
         "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.1",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*",
-        "barryvdh/laravel-ide-helper": "^2.1"
+        "symfony/dom-crawler": "3.1.*"
     },
     "autoload": {
         "classmap": [

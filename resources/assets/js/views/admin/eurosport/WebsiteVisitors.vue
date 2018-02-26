@@ -102,7 +102,7 @@ export default {
 		this.getPageContent();
 	},
 	computed: {
-		
+
 	},
 	methods: {
 		redirectToForward() {
@@ -114,7 +114,10 @@ export default {
         (response)=> {
         	$("body .js-loader").addClass('d-none');
           toastr.success('Visitor page has been updated successfully.', 'Success');
-          this.$router.push({name:'website_media'});
+          var route = this.getWebsiteForwardRoute('visitors');
+          if(route) {
+            this.$router.push({name:route});
+          }
         },
         (error)=>{
         }
@@ -136,7 +139,10 @@ export default {
 			return this.$store.state.Website.id;
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_stay'})
+			var route = this.getWebsiteBackwardRoute('visitors');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		},
 		getPageContent() {
 			var websiteId = this.getWebsiteId();

@@ -70,7 +70,7 @@
 												<img src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
-												<button :disabled="isTournamentLogoUploading" type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{isTournamentLogoUploading ? $lang.uploading :$lang.tournament_tournament_choose_button}}</button>
+												<button :disabled="is_tournament_logo_uploading" type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{is_tournament_logo_uploading ? $lang.uploading :$lang.tournament_tournament_choose_button}}</button>
 												<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange">
 											</div>
 										</div>
@@ -92,7 +92,7 @@
 												<img src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
-												<button :disabled="isSocialSharingImageUploading" type="button" class="btn btn-default" name="btnSelect" id="btnSelect_social_sharing">{{isSocialSharingImageUploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+												<button :disabled="is_social_sharing_image_uploading" type="button" class="btn btn-default" name="btnSelect" id="btnSelect_social_sharing">{{is_social_sharing_image_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
 												<input type="file" id="select_file_social_sharing" style="display:none;" @change="onSocialSharingGraphicImageChange">
 											</div>
 										</div>
@@ -234,11 +234,8 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<div class="pull-left">
-					<!-- <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button> -->
-				</div>
 				<div class="pull-right">
-					<button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+					<button :disabled="isImageUploading" class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
 				</div>
 			</div>
 		</div>
@@ -284,8 +281,8 @@ export default {
 			},
 			tournament_logo_image: '',
 			social_sharing_graphic_image: '',
-			isTournamentLogoUploading: false,
-			isSocialSharingImageUploading: false,
+			is_tournament_logo_uploading: false,
+			is_social_sharing_image_uploading: false,
 		}
 	},
 	mounted() {
@@ -322,6 +319,9 @@ export default {
 		userDetails: function() {
 			return this.$store.state.Users.userDetails
 		},
+    isImageUploading: function() {
+      return (this.is_tournament_logo_uploading || this.is_social_sharing_image_uploading);
+    },
 	},
 	methods: {
 		next() {
@@ -374,14 +374,14 @@ export default {
 				return;
 			}
 
-			this.isTournamentLogoUploading = true;
+			this.is_tournament_logo_uploading = true;
 
       var formData = new FormData();
       formData.append('image', files[0]);
       axios.post('/api/websites/uploadTournamentLogo', formData).then(
 	      (response)=> {
 	      	this.tournament_logo_image = response.data;
-	      	this.isTournamentLogoUploading = false;
+	      	this.is_tournament_logo_uploading = false;
 	      },
 	      (error)=>{
 	      }
@@ -409,13 +409,13 @@ export default {
 					if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {
 						toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
 					} else {
-						vm.isSocialSharingImageUploading = true;
+						vm.is_social_sharing_image_uploading = true;
 			      var formData = new FormData();
 			      formData.append('image', files[0]);
 			      axios.post('/api/websites/uploadSocialGraphic', formData).then(
 				      (response)=> {
 				      	vm.social_sharing_graphic_image = response.data;
-				      	vm.isSocialSharingImageUploading = false;
+				      	vm.is_social_sharing_image_uploading = false;
 				      },
 				      (error)=>{
 				      }

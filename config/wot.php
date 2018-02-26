@@ -176,13 +176,21 @@ return [
       'is_permission_changeable' => 1,
       'accessible_routes' => ['media.page.details']
     ],
+    [
+      'url' => '/contact',
+      'name' => 'contact',
+      'page_name' => 'contact',
+      'title' => 'Contact',
+      'content' => null,
+      'is_enabled' => 1,
+      'is_published' => 1,
+      'is_permission_changeable' => 0,
+      'accessible_routes' => ['contact.page.details', 'submit.enquiry']
+    ]
   ],
-  'permissions_not_changeable_pages' => ['home'],
+  'permissions_not_changeable_pages' => ['home', 'contact'],
   'current_domain' => null,
-  'default_accessible_routes' => [
-    'contact.page.details',
-    'submit.enquiry'
-  ],
+  'default_accessible_routes' => [],
   'google_api_key' => env('GOOGLE_API_KEY', ''),
   'imagePath' => [
     'website_tournament_logo' => '/assets/img/website_tournament_logo/',
@@ -215,5 +223,5 @@ return [
     'contact' => 'Contact',
   ],
   'message_notification_days' => 14,
-  'activity_notification_recepients' => ['ssheth@aecordigital.com'],
+  'activity_notification_recepients' => ['mtilokani@aecoridgital.com', 'ssheth@aecordigital.com'],
 ];
