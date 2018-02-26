@@ -104,7 +104,10 @@ class WebsiteVenueRepository
    */
   public function deleteLocations($locationIds = [])
   {
-    Location::whereIn('id', $locationIds)->delete();
+    Location::whereIn('id', $locationIds)->get()->each(function($location) {
+      $location->delete();
+    });
+    
     return true;
   }
 

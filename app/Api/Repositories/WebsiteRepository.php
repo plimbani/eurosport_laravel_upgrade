@@ -303,7 +303,10 @@ class WebsiteRepository
    */
   public function deleteSponsors($sponsorIds = [])
   {
-    Sponsor::whereIn('id', $sponsorIds)->delete();
+    Sponsor::whereIn('id', $sponsorIds)->get()->each(function($sponsor) {
+      $sponsor->delete();
+    });
+    
     return true;
   }
 

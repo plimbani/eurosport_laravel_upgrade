@@ -27,7 +27,7 @@ Route::group(['domain' => config('app.domain')], function() {
 	]);
 });
 
-Route::group(['domain' => '{domain}', 'middleware' => ['verify.website'], 'namespace' => 'Frontend'], function() {
+Route::group(['domain' => '{domain}', 'middleware' => ['verify.website', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath'], 'prefix' => LaravelLocalization::setLocale(), 'namespace' => 'Frontend'], function() {
 	Route::get('/', 'HomeController@getHomePageDetails')->name('home.page.details');
 	Route::get('/teams', 'WebsiteTeamController@getTeamPageDetails')->name('team.page.details');
 	Route::get('/matches', 'MatchController@getMatchPageDetails')->name('match.page.details');

@@ -1,4 +1,13 @@
 <ul>
+  @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+    <li>
+      <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+         {{ $properties['native'] }}
+      </a>
+    </li>
+  @endforeach
+</ul>
+<ul>
 	@foreach($menu_items as $item)
 		<li>
 			<a href="{{ $item['url'] }}">{{ $item['title'] }}</a>

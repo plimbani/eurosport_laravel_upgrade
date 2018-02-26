@@ -123,7 +123,7 @@
                     toolbar1: this.toolbar1,
                     toolbar2: this.toolbar2,
                     plugins: this.plugins,
-                    file_picker_types: 'image media',
+                    file_picker_types: 'image',
                     file_picker_callback: function(cb, value, meta) {
                       var input = document.createElement('input');
                       input.setAttribute('type', 'file');

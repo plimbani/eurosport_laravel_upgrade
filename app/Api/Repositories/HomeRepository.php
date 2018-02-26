@@ -109,7 +109,10 @@ class HomeRepository
    */
   public function deleteStatistics($statisticIds = [])
   {
-    Statistic::whereIn('id', $statisticIds)->delete();
+    Statistic::whereIn('id', $statisticIds)->get()->each(function($statistic) {
+      $statistic->delete();
+    });
+
     return true;
   }
 
@@ -190,7 +193,10 @@ class HomeRepository
    */
   public function deleteOrganisers($organiserIds = [])
   {
-    Organiser::whereIn('id', $organiserIds)->delete();
+    Organiser::whereIn('id', $organiserIds)->get()->each(function($organiser) {
+      $organiser->delete();
+    });
+    
     return true;
   }
 

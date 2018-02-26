@@ -25,7 +25,6 @@ class UserRepository {
     }
     public function getUserDetails($data)
     {
-        // dd($data);
        $email = $data['userData']['email'];
         $user = User:: join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')

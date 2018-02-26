@@ -31,4 +31,11 @@ interface MediaContract
      * @return response
      */
     public function uploadMediaPhoto($request);
+
+    /*
+     * Upload document
+     *
+     * @return response
+     */
+    public function uploadDocument($request);
 }

@@ -32,7 +32,7 @@
                 <li class="nav-item" v-if="isPageEnabled('media')">
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_media' ? 'active' : '', 'nav-link']" href="#website_media" role="tab" @click="GetSelectComponent('website_media')">{{$lang.website_media}}</a>
                 </li>
-                <li class="nav-item" v-if="isPageEnabled('media')">
+                <li class="nav-item" v-if="isPageEnabled('contact')">
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_contact' ? 'active' : '', 'nav-link']" href="#website_contact" role="tab" @click="GetSelectComponent('website_contact')">{{$lang.website_contact}}</a>
                 </li>
           		</ul>

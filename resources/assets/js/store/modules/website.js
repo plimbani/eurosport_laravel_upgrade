@@ -8,6 +8,18 @@ const state = {
   tournament_dates: null,
   tournament_location: null,
   pages: null,
+  routes: {
+  	'website': 'website_add',
+  	'home': 'website_homepage',
+  	'teams': 'website_teams',
+  	'venue': 'website_venue',
+  	'tournament': 'website_tournament',
+  	'program': 'website_program',
+  	'stay': 'website_stay',
+  	'visitors': 'website_visitors',
+  	'media': 'website_media',
+  	'contact': 'website_contact',
+  },
 };
 
 // getters

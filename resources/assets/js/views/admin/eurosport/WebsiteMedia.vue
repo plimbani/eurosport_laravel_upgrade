@@ -75,14 +75,20 @@ export default {
         (response)=> {
         	$("body .js-loader").addClass('d-none');
           toastr.success('Media page has been updated successfully.', 'Success');
-          this.$router.push({name:'website_contact'});
+          var route = this.getWebsiteForwardRoute('media');
+          if(route) {
+            this.$router.push({name:route});
+          }
         },
         (error)=>{
         }
       );
 		},
 		redirectToBackward() {
-			this.$router.push({name:'website_visitors'})
+			var route = this.getWebsiteBackwardRoute('media');
+      if(route) {
+        this.$router.push({name:route});
+      }
 		},
 		setPhotos(photos) {
 			this.media.photos = photos;

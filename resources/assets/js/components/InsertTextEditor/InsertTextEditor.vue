@@ -29,6 +29,7 @@
     },
     created() {
       this.$root.$on('getEditorValue', this.getEditorValue);
+      this.$root.$on('blankEditorValue', this.blankEditorValue);
     },
     data() {
       return {
@@ -56,6 +57,9 @@
       getEditorValue() {
         this.$emit('setEditorValue', this.content);
       },
+      blankEditorValue() {
+        this.content = '';
+      }
     },
   };
 </script>
