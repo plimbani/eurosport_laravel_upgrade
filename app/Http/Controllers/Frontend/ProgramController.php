@@ -3,7 +3,9 @@
 namespace Laraspace\Http\Controllers\Frontend;
 
 use Landlord;
+use Laraspace\Models\Page;
 use Illuminate\Http\Request;
+use Laraspace\Api\Services\PageService;
 use Laraspace\Api\Contracts\ProgramContract;
 
 class ProgramController extends Controller
@@ -14,13 +16,20 @@ class ProgramController extends Controller
     protected $programContract;
 
     /**
+     * @var Home page name
+     */
+    protected $programPageName;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ProgramContract $programContract)
+    public function __construct(ProgramContract $programContract, PageService $pageService)
     {
-        $this->programContract = $programContract;
+      $this->pageService = $pageService;
+      $this->programContract = $programContract;
+      $this->programPageName = 'program';
     }
 
     /**
@@ -30,9 +39,14 @@ class ProgramController extends Controller
      */
     public function getProgramPageDetails(Request $request)
     {
-        $varsForView = [];
+      $varsForView = [];
+      $websiteId = Landlord::getTenants()['website']->id;
+      $pageDetail = $this->pageService->getPageDetails($this->programPageName, $websiteId);
 
-        return view('frontend.program', $varsForView);
+      // Page title
+      $varsForView['pageTitle'] = $pageDetail->title;
+
+      return view('frontend.program', $varsForView);
     }
 
     /**
@@ -40,10 +54,20 @@ class ProgramController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAdditionalProgramPageDetails(Request $request)
+    public function getAdditionalProgramPageDetails(Request $request, $domain, $additionalPageName)
     {
-        $varsForView = [];
+      $varsForView = [];
 
-        return view('frontend.program', $varsForView);
+      $websiteId = Landlord::getTenants()['website']->id;
+      $parentPageDetail = $this->pageService->getPageDetails($this->programPageName, $websiteId);
+      $page = Page::where('parent_id', $parentPageDetail->id)
+                    ->where('website_id', $websiteId)
+                    ->where('page_name', $additionalPageName)
+                    ->first();
+
+      // page title
+      $varsForView['pageTitle'] = $parentPageDetail->title . ' - ' . $page->title;
+
+      return view('frontend.program', $varsForView);
     }
 }

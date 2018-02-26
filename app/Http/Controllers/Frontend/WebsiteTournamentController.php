@@ -3,6 +3,7 @@
 namespace Laraspace\Http\Controllers\Frontend;
 
 use Landlord;
+use Laraspace\Models\Page;
 use Illuminate\Http\Request;
 use Laraspace\Api\Contracts\WebsiteTournamentContract;
 use Laraspace\Api\Services\PageService;
@@ -30,16 +31,22 @@ class WebsiteTournamentController extends Controller
     protected $rulesPageName;
 
     /**
+     * @var Rules page name
+     */
+    protected $historyPageName;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct(WebsiteTournamentContract $websiteTournamentContract, PageService $pageService)
     {
-        $this->pageService = $pageService;
-        $this->websiteTournamentContract = $websiteTournamentContract;
-        $this->tournamentPageName = 'tournament';
-        $this->rulesPageName = 'rules';
+      $this->pageService = $pageService;
+      $this->websiteTournamentContract = $websiteTournamentContract;
+      $this->tournamentPageName = 'tournament';
+      $this->rulesPageName = 'rules';
+      $this->historyPageName = 'history';
     }
 
     /**
@@ -49,12 +56,16 @@ class WebsiteTournamentController extends Controller
      */
     public function getTournamentPageDetails(Request $request)
     {
-        $varsForView = [];
-        $websiteId = Landlord::getTenants()['website']->id;
-        $varsForView['tournamentContent'] = $this->pageService->getPageDetails($this->tournamentPageName, 
-            $websiteId);
+      $varsForView = [];
+      $websiteId = Landlord::getTenants()['website']->id;
+      $pageDetail = $this->pageService->getPageDetails($this->tournamentPageName,
+          $websiteId);
+      $varsForView['tournamentContent'] = $pageDetail;
 
-        return view('frontend.tournament', $varsForView);
+      // Page title
+      $varsForView['pageTitle'] = $pageDetail->title;
+
+      return view('frontend.tournament', $varsForView);
     }
 
     /**
@@ -64,12 +75,18 @@ class WebsiteTournamentController extends Controller
      */
     public function getRulesPageDetails(Request $request)
     {
-        $varsForView = [];
-        $websiteId = Landlord::getTenants()['website']->id;
-        $varsForView['rulesContent'] = $this->pageService->getPageDetails($this->rulesPageName, 
-            $websiteId);
+      $varsForView = [];
+      $websiteId = Landlord::getTenants()['website']->id;
+      $pageDetail = $this->pageService->getPageDetails($this->rulesPageName, $websiteId);
+      $pageParentId = $pageDetail->parent_id;
+      $parentPage = Page::find($pageParentId);
 
-        return view('frontend.rules', $varsForView);
+      $varsForView['rulesContent'] = $pageDetail;
+
+      // page title
+      $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
+
+      return view('frontend.rules', $varsForView);
     }
 
     /**
@@ -79,8 +96,15 @@ class WebsiteTournamentController extends Controller
      */
     public function getHistoryPageDetails(Request $request)
     {
-        $varsForView = [];
+      $varsForView = [];
+      $websiteId = Landlord::getTenants()['website']->id;
+      $pageDetail = $this->pageService->getPageDetails($this->historyPageName, $websiteId);
+      $pageParentId = $pageDetail->parent_id;
+      $parentPage = Page::find($pageParentId);
 
-        return view('frontend.history', $varsForView);
+      // page title
+      $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
+
+      return view('frontend.history', $varsForView);
     }
 }

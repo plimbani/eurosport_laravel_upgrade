@@ -3,6 +3,7 @@
 namespace Laraspace\Http\Controllers\Frontend;
 
 use Landlord;
+use Laraspace\Models\Page;
 use Illuminate\Http\Request;
 use Laraspace\Api\Contracts\VisitorContract;
 use Laraspace\Api\Services\PageService;
@@ -52,13 +53,16 @@ class VisitorController extends Controller
         $varsForView = [];
         $websiteId = Landlord::getTenants()['website']->id;
         $visitorsContent = $this->pageService->getPageDetails($this->visitorPageName, $websiteId);
-        
+
+        // Page title
+        $varsForView['pageTitle'] = $visitorsContent->title;
+
         $varsForView['arrivalCheckInInformation'] = isset($visitorsContent->meta['arrival_check_in_information']) ? $visitorsContent->meta['arrival_check_in_information'] : '';
-       
+
         $varsForView['publicTransport'] = isset($visitorsContent->meta['public_transport']) ? $visitorsContent->meta['public_transport'] : '';
-       
+
         $varsForView['tips'] = isset($visitorsContent->meta['tips']) ? $visitorsContent->meta['tips'] : '';
-        
+
         return view('frontend.visitor', $varsForView);
     }
 
@@ -71,8 +75,15 @@ class VisitorController extends Controller
     {
         $varsForView = [];
         $websiteId = Landlord::getTenants()['website']->id;
-        $varsForView['touristContent'] = $this->pageService->getPageDetails($this->touristPageName, 
-            $websiteId);
+        $pageDetail = $this->pageService->getPageDetails($this->touristPageName, $websiteId);
+        $pageParentId = $pageDetail->parent_id;
+        $parentPage = Page::find($pageParentId);
+
+        $varsForView['touristContent'] = $pageDetail;
+
+        // page title
+        $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
+
         return view('frontend.tourist', $varsForView);
     }
 }
