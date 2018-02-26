@@ -46,7 +46,7 @@ Vue.mixin({
       var websiteRouteKeys = Object.keys(websiteRoutes);
       var websiteRouteNames = Object.values(websiteRoutes);
       var currentRouteIndex = _.indexOf(websiteRouteKeys, pageName);
-      var routeIndex = type == 'forward' ? (currentRouteIndex + 1) : (currentRouteIndex);
+      var routeIndex = type == 'forward' ? (currentRouteIndex + 1) : (currentRouteIndex - 1);
       if(routeIndex == 0 || routeIndex >= websiteRoutes.length) {
         return null;
       }
@@ -58,7 +58,7 @@ Vue.mixin({
         if(type == 'forward') {
           availableRoutesKeys = _.slice(websiteRouteKeys, routeIndex);
         } else {
-          availableRoutesKeys = _.reverse(_.slice(websiteRouteKeys, 0, routeIndex));
+          availableRoutesKeys = _.reverse(_.slice(websiteRouteKeys, 0, routeIndex + 1));
         }
         _.forEach(availableRoutesKeys, function(name, index) {
           var page = _.find(websitePages, function(o) { return o.name == name && o.is_enabled == 1 });
