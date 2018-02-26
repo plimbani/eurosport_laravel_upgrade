@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Tourist information</h1>
+<h2>Tourist information</h2>
 
 {!! $touristContent->content !!}
 
