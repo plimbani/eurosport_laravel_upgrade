@@ -188,7 +188,7 @@ return [
       'accessible_routes' => ['contact.page.details', 'submit.enquiry']
     ]
   ],
-  'permissions_not_changeable_pages' => ['home'],
+  'permissions_not_changeable_pages' => ['home', 'contact'],
   'current_domain' => null,
   'default_accessible_routes' => [],
   'google_api_key' => env('GOOGLE_API_KEY', ''),
