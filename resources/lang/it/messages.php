@@ -29,7 +29,7 @@
 		'message_subject' => 'Oggetto',
 		'your_message' => 'Messaggio',
 		'send' => 'Invia',
-		'contact_confirmation_message' => 'Grazie per averci contattato. Un nostro addetto ti risponderà a 									breve.'
+		'contact_confirmation_message' => 'Grazie per averci contattato. Un nostro addetto ti risponderà a 									breve.',
 		'404_page_title' => 'Errore 404 - pagina non trovata',
 		'404_page_message' => 'Forse hai inserito un indirizzo web sbagliato, o la pagina che hai cercato non 
 							  esiste più. Clicca qui per tornare alla homepage.'
