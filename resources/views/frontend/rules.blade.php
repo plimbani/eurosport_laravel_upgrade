@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h2>Rules</h2>
+<h1>Rules</h1>
 
 {!! $rulesContent->content !!}
 
