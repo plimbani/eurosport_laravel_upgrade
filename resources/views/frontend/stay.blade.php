@@ -2,10 +2,6 @@
 
 @section('content')
 
-<h1>{!! __('messages.stay') !!}</h1>
-
-{!! $stayContent->content !!}
-
 <div class="row">
 	<div class="col-sm-4">
 		<a href="{{ url('/meals') }}" class="btn btn-primary w-100">{!! __('messages.meals') !!}</a>
