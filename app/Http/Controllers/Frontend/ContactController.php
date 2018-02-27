@@ -15,7 +15,7 @@ class ContactController extends Controller
     protected $contactContract;
 
     /**
-     * @var Home page name
+     * @var Contact page name
      */
     protected $contactPageName;
 

@@ -15,7 +15,7 @@ class MatchController extends Controller
     protected $matchContract;
 
     /**
-     * @var Home page name
+     * @var Match page name
      */
     protected $matchPageName;
 
