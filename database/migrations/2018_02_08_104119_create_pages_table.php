@@ -20,7 +20,7 @@ class CreatePagesTable extends Migration
             $table->integer('website_id')->unsigned()->index();
             $table->foreign('website_id')->references('id')->on('websites')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('parent_id')->unsigned()->index()->nullable();
-            $table->foreign('parent_id')->references('id')->on('pages')->onDelete('cascade');            
+            $table->foreign('parent_id')->references('id')->on('pages')->onDelete('cascade');
             $table->string('name');
             $table->text('accessible_routes');
             $table->string('title');

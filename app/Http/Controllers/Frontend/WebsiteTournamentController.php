@@ -5,6 +5,7 @@ namespace Laraspace\Http\Controllers\Frontend;
 use Landlord;
 use Illuminate\Http\Request;
 use Laraspace\Api\Contracts\WebsiteTournamentContract;
+use Laraspace\Api\Services\PageService;
 
 class WebsiteTournamentController extends Controller
 {
@@ -14,13 +15,31 @@ class WebsiteTournamentController extends Controller
     protected $websiteTournamentContract;
 
     /**
+     * @var Tournament page name
+     */
+    protected $tournamentPageName;
+
+    /**
+     * @var Page service
+     */
+    protected $pageService;
+
+    /**
+     * @var Rules page name
+     */
+    protected $rulesPageName;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(WebsiteTournamentContract $websiteTournamentContract)
+    public function __construct(WebsiteTournamentContract $websiteTournamentContract, PageService $pageService)
     {
+        $this->pageService = $pageService;
         $this->websiteTournamentContract = $websiteTournamentContract;
+        $this->tournamentPageName = 'tournament';
+        $this->rulesPageName = 'rules';
     }
 
     /**
@@ -31,6 +50,9 @@ class WebsiteTournamentController extends Controller
     public function getTournamentPageDetails(Request $request)
     {
         $varsForView = [];
+        $websiteId = Landlord::getTenants()['website']->id;
+        $varsForView['tournamentContent'] = $this->pageService->getPageDetails($this->tournamentPageName, 
+            $websiteId);
 
         return view('frontend.tournament', $varsForView);
     }
@@ -43,6 +65,9 @@ class WebsiteTournamentController extends Controller
     public function getRulesPageDetails(Request $request)
     {
         $varsForView = [];
+        $websiteId = Landlord::getTenants()['website']->id;
+        $varsForView['rulesContent'] = $this->pageService->getPageDetails($this->rulesPageName, 
+            $websiteId);
 
         return view('frontend.rules', $varsForView);
     }

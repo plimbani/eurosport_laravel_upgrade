@@ -9,9 +9,12 @@
       </gmap-cluster>
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         <div class="form-group mb-0">
-          <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText" rows="5"></textarea>
-          <button type="button" class="btn btn-sm btn-primary" @click="deleteMarker()">Delete</button>
-          <button type="button" class="btn btn-sm btn-primary" @click="saveMarker()">Save</button>          
+          <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText" rows="5" v-validate="{'required':true}"></textarea>
+          <i v-show="errors.has('infoWindowText')" class="fa fa-warning"></i>
+          <span class="help is-danger" v-show="errors.has('infoWindowText')">{{ errors.first('infoWindowText') }}<br>
+          </span>
+          <button type="button" class="btn btn-sm btn-primary mt-2" @click="deleteMarker()">Delete</button>
+          <button type="button" class="btn btn-sm btn-primary mt-2" @click="saveMarker()">Save</button>
         </div>
       </gmap-info-window>
     </gmap-map>
@@ -42,6 +45,7 @@ gmap-map {
 </style>
 <script>
 import Website from '../api/website.js';
+import { ErrorBag } from 'vee-validate';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import Vue from 'vue';
 import _ from 'lodash';
@@ -204,7 +208,7 @@ export default {
         }]
       ],
       scrollwheel: true,
-      currentMarkerIndex: -1
+      currentMarkerIndex: -1,
     }
   },
   computed: {
@@ -406,20 +410,22 @@ export default {
       }
     },
     saveMarker() {
-      this.markers[this.currentMarkerIndex].information = this.infoContent;
-      this.toggleInfoWindow(this.markers[this.currentMarkerIndex], this.currentMarkerIndex);      
+      this.$validator.validateAll().then((response) => {
+        if(response) {
+          this.markers[this.currentMarkerIndex].information = this.infoContent;
+          this.toggleInfoWindow(this.markers[this.currentMarkerIndex], this.currentMarkerIndex)
+        }
+      }).catch(() => {
+        // fail stuff
+      });
     },
     deleteMarker() {
       this.toggleInfoWindow(this.markers[this.currentMarkerIndex], this.currentMarkerIndex);      
       this.markers.splice(this.currentMarkerIndex, 1);
     },
     getMarkers() {
-      this.$emit('setMarkers', this.markers);
+      this.$emit('setMarkers', this.markers);      
     },
-    markerDragend(marker) {
-      console.log('marker',marker);
-      console.log('here');
-    }
   }
 }
 </script>

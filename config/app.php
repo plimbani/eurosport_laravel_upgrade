@@ -208,7 +208,7 @@ return [
         Laraspace\Providers\ApiServiceProvider::class,
         Laraspace\Providers\PitchServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
-        
+
         /*
          *  Api Service Providers
          */
@@ -233,6 +233,7 @@ return [
         Laraspace\Api\Providers\WebsiteVenueServiceProvider::class,
         Laraspace\Api\Providers\ContactServiceProvider::class,
         Laraspace\Api\Providers\UploadMediaServiceProvider::class,
+        Laraspace\Providers\ComposerServiceProvider::class,
     ],
 
     /*
