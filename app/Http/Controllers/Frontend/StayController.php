@@ -54,9 +54,10 @@ class StayController extends Controller
       $varsForView = [];
       $websiteId = Landlord::getTenants()['website']->id;
       $pageDetail = $this->pageService->getPageDetails($this->stayPageName, $websiteId);
-      // Page title
+      
       $varsForView['stayContent'] = $pageDetail;
-
+      
+      // Page title
       $varsForView['pageTitle'] = $pageDetail->title;
       return view('frontend.stay', $varsForView);
     }
