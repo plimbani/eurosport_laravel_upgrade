@@ -31,8 +31,6 @@
 		'send' => 'poslat',
 		'contact_confirmation_message' => 'Děkujeme za Váš kontakt, budeme Vás brzy kontaktovat',
 		'404_page_title' => 'Error 404 - page not found',
-		'404_page_message' => 'Může to být způsobeno tím, že jste zadali webovou adresu nesprávně nebo že 	
-							   stránka, kterou jste hledali, mohla být přesunuta, aktualizována nebo 
-							   odstraněna. Klikněte zde pro návrat na domovskou stránku.'
+		'404_page_message' => 'Může to být způsobeno tím, že jste zadali webovou adresu nesprávně nebo že		stránka, kterou jste hledali, mohla být přesunuta, aktualizována nebo odstraněna. Klikněte zde pro návrat na domovskou stránku.'
 	]
 ?>

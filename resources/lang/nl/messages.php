@@ -29,8 +29,7 @@
 		'message_subject' => 'Onderwerp',
 		'your_message' => 'Bericht',
 		'send' => 'Zend',
-		'contact_confirmation_message' => 'Bedankt voor uw bericht. We nemen zo spoedig mogelijk contact met u 
-											op.',
+		'contact_confirmation_message' => 'Bedankt voor uw bericht. We nemen zo spoedig mogelijk contact met u op.',
 		'404_page_title' => 'Error 404. Pagina niet gevonden',
 		'404_page_message' => 'klik hier om terug te gaan naar de homepage'
 	]
