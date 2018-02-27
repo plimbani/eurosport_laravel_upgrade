@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>{!! __('messages.stay') !!}</h1>
+<h1>{{ $additionalPage->title }}</h1>
 
 {!! $additionalPage->content !!}
 
