@@ -53,9 +53,9 @@ class sendActivityNotification extends Command
       foreach($users as $user) {
         $activityNotification = ActivityNotification::where('user_id', $user->id)->where('is_mail_sent', 0)->first();
 
-        $notificationIds[] = $activityNotification->id;
-
         if($activityNotification) {
+          $notificationIds[] = $activityNotification->id;
+
           $activities = ActivityFeed::where('notification_id', $activityNotification->id)->get();
 
           $websites = [];
@@ -87,12 +87,14 @@ class sendActivityNotification extends Command
 
       $email_details = ['usersActivities' => $usersActivities];
       $recipient = config('wot.activity_notification_recepients');
-      $subject = 'Users activities';
+      $subject = 'World of Tournaments - Tournament administrators activity notification';
       $emailTemplate = 'emails.activity_notification';
 
       Common::sendMail($email_details, $recipient, $subject, $emailTemplate);
 
-      ActivityNotification::whereIn('id', $notificationIds)->update(['is_mail_sent' => 1]);
+      if(count($notificationIds) > 0) {
+        ActivityNotification::whereIn('id', $notificationIds)->update(['is_mail_sent' => 1]);
+      }
 
       $this->info("Activity notification sent.");
     }
