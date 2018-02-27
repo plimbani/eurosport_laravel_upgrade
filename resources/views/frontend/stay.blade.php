@@ -16,7 +16,7 @@
 
 @foreach($additionalPages as $additionalPage)
 	<div class="col-sm-4">
-		<a href="{{ url('/additionalPageName') }}" class="btn btn-primary w-100">{{ $additionalPage->title }}</a>
+		<a href="{{ url($additionalPage->url) }}" class="btn btn-primary w-100">{{ $additionalPage->title }}</a>
 	</div>
 @endforeach	
 </div>
