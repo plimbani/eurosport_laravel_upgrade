@@ -54,11 +54,17 @@ class StayController extends Controller
       $varsForView = [];
       $websiteId = Landlord::getTenants()['website']->id;
       $pageDetail = $this->pageService->getPageDetails($this->stayPageName, $websiteId);
-      
       $varsForView['stayContent'] = $pageDetail;
+     
+      $pageParentId = $pageDetail->id;
+
+      $additionalPageName = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
       
+      $varsForView['additionalPageContent'] = $additionalPageName;
+
       // Page title
       $varsForView['pageTitle'] = $pageDetail->title;
+
       return view('frontend.stay', $varsForView);
     }
 
@@ -74,6 +80,7 @@ class StayController extends Controller
       $pageDetail = $this->pageService->getPageDetails($this->mealsPageName, $websiteId);
 
       $pageParentId = $pageDetail->parent_id;
+      
       $parentPage = Page::find($pageParentId);
       $varsForView['mealsContent'] = $pageDetail;
 
