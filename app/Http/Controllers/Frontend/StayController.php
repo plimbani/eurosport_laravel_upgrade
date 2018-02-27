@@ -58,9 +58,9 @@ class StayController extends Controller
      
       $pageParentId = $pageDetail->id;
 
-      $additionalPageName = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
       
-      $varsForView['additionalPageContent'] = $additionalPageName;
+      $varsForView['additionalPages'] = $additionalPages;
 
       // Page title
       $varsForView['pageTitle'] = $pageDetail->title;
