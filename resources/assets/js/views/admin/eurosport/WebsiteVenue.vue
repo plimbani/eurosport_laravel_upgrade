@@ -13,7 +13,7 @@
 	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.website_map}}</strong></h6>
 	        		<website-location-map @setMarkers="setMarkers"></website-location-map>
-	        		<div class="mt-2" v-show="this.venue.isMarkerText">
+	        		<div class="mt-2" v-show="!this.venue.isMarkerTextValid">
 					      <span class="help is-danger">Please add comment to all the markers.</span>
 					    </div>
 	        	</div>
@@ -50,7 +50,7 @@ export default {
 				websiteId: null,
 				locations: [],
 				markers: [],
-      	isMarkerText: false
+      	isMarkerTextValid: true
 			}
 		}
 	},
@@ -68,19 +68,18 @@ export default {
 			let vm = this;
       vm.$root.$emit('getLocations');
       vm.$root.$emit('getMarkers');
-      vm.venue.isMarkerText == false;
-      $.each(vm.venue.markers, function (index, value){
+      vm.venue.isMarkerTextValid = true;
+      _.forEach(vm.venue.markers, function (value){
         if (value.information == '') {
-          vm.venue.isMarkerText = true;
-          return;
+          vm.venue.isMarkerTextValid = false;
+          return false;
         }
       });
-      if(vm.venue.isMarkerText == false) {
+      if(vm.venue.isMarkerTextValid == true) {
 	      vm.venue.websiteId = vm.getWebsiteId();
 	      $("body .js-loader").removeClass('d-none');
 	      Website.saveVenuePageData(vm.venue).then(
 	        (response)=> {
-	        	// vm.venue.isMarkerText == true;
 	          $("body .js-loader").addClass('d-none');
 	          toastr.success('Venue page has been updated successfully.', 'Success');
 	          var route = vm.getWebsiteForwardRoute('venue');

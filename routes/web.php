@@ -36,11 +36,11 @@ Route::group(['domain' => '{domain}', 'middleware' => ['verify.website', 'locale
 	Route::get('/rules', 'WebsiteTournamentController@getRulesPageDetails')->name('rules.page.details');
 	Route::get('/history', 'WebsiteTournamentController@getHistoryPageDetails')->name('history.page.details');
 	Route::get('/program', 'ProgramController@getProgramPageDetails')->name('program.page.details');
-	Route::get('/program/{additionalPage}', 'ProgramController@getAdditionalProgramPageDetails')->name('additional.program.page.details');
+	Route::get('/program/{additionalPageName}', 'ProgramController@getAdditionalProgramPageDetails')->name('additional.program.page.details');
 	Route::get('/stay', 'StayController@getStayPageDetails')->name('stay.page.details');
 	Route::get('/meals', 'StayController@getMealsPageDetails')->name('meals.page.details');
 	Route::get('/accommodation', 'StayController@getAccommodationPageDetails')->name('accommodation.page.details');
-	Route::get('/stay/{additionalPage}', 'StayController@getAdditionalStayPageDetails')->name('additional.stay.page.details');
+	Route::get('/stay/{additionalPageName}', 'StayController@getAdditionalStayPageDetails')->name('additional.stay.page.details');
 	Route::get('/visitors', 'VisitorController@getVisitorPageDetails')->name('visitor.page.details');
 	Route::get('/tourist-information', 'VisitorController@getTouristPageDetails')->name('tourist.page.details');
 	Route::get('/media', 'MediaController@getMediaPageDetails')->name('media.page.details');

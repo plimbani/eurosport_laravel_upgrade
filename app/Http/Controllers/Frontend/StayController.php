@@ -3,7 +3,9 @@
 namespace Laraspace\Http\Controllers\Frontend;
 
 use Landlord;
+use Laraspace\Models\Page;
 use Illuminate\Http\Request;
+use Laraspace\Api\Services\PageService;
 use Laraspace\Api\Contracts\StayContract;
 
 class StayController extends Controller
@@ -14,13 +16,32 @@ class StayController extends Controller
     protected $stayContract;
 
     /**
+     * @var Stay page name
+     */
+    protected $stayPageName;
+
+    /**
+     * @var Meals page name
+     */
+    protected $mealsPageName;
+
+    /**
+     * @var Accommodation page name
+     */
+    protected $accommodationPageName;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(StayContract $stayContract)
+    public function __construct(StayContract $stayContract, PageService $pageService)
     {
-        $this->stayContract = $stayContract;
+      $this->pageService = $pageService;
+      $this->stayContract = $stayContract;
+      $this->stayPageName = 'stay';
+      $this->mealsPageName = 'meals';
+      $this->accommodationPageName = 'accommodation';
     }
 
     /**
@@ -30,9 +51,14 @@ class StayController extends Controller
      */
     public function getStayPageDetails(Request $request)
     {
-        $varsForView = [];
+      $varsForView = [];
+      $websiteId = Landlord::getTenants()['website']->id;
+      $pageDetail = $this->pageService->getPageDetails($this->stayPageName, $websiteId);
 
-        return view('frontend.stay', $varsForView);
+      // Page title
+      $varsForView['pageTitle'] = $pageDetail->title;
+
+      return view('frontend.stay', $varsForView);
     }
 
     /**
@@ -42,9 +68,16 @@ class StayController extends Controller
      */
     public function getMealsPageDetails(Request $request)
     {
-        $varsForView = [];
+      $varsForView = [];
+      $websiteId = Landlord::getTenants()['website']->id;
+      $pageDetail = $this->pageService->getPageDetails($this->mealsPageName, $websiteId);
+      $pageParentId = $pageDetail->parent_id;
+      $parentPage = Page::find($pageParentId);
 
-        return view('frontend.meals', $varsForView);
+      // page title
+      $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
+
+      return view('frontend.meals', $varsForView);
     }
 
     /**
@@ -54,9 +87,16 @@ class StayController extends Controller
      */
     public function getAccommodationPageDetails(Request $request)
     {
-        $varsForView = [];
+      $varsForView = [];
+      $websiteId = Landlord::getTenants()['website']->id;
+      $pageDetail = $this->pageService->getPageDetails($this->accommodationPageName, $websiteId);
+      $pageParentId = $pageDetail->parent_id;
+      $parentPage = Page::find($pageParentId);
 
-        return view('frontend.accommodation', $varsForView);
+      // page title
+      $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
+
+      return view('frontend.accommodation', $varsForView);
     }
 
     /**
@@ -64,10 +104,19 @@ class StayController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAdditionalStayPageDetails(Request $request)
+    public function getAdditionalStayPageDetails(Request $request, $domain, $additionalPageName)
     {
-        $varsForView = [];
+      $varsForView = [];
+      $websiteId = Landlord::getTenants()['website']->id;
+      $parentPageDetail = $this->pageService->getPageDetails($this->stayPageName, $websiteId);
+      $page = Page::where('parent_id', $parentPageDetail->id)
+                    ->where('website_id', $websiteId)
+                    ->where('page_name', $additionalPageName)
+                    ->first();
 
-        return view('frontend.stay', $varsForView);
+      // page title
+      $varsForView['pageTitle'] = $parentPageDetail->title . ' - ' . $page->title;
+
+      return view('frontend.stay', $varsForView);
     }
 }

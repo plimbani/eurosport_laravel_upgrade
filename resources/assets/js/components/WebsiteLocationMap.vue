@@ -3,13 +3,13 @@
     <div id="gmap_place_input">      
       <gmap-place-input :select-first-on-enter="true" @place_changed="updatePlace($event)"></gmap-place-input>
     </div>
-    <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" style="width: 100%; height: 600px">
+    <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" style="width: 100%; height: 400px">
       <gmap-cluster :grid-size="gridSize">
         <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true"  @click="toggleInfoWindow(m,index)" :zIndex="zIndex" @position_changed="updateChild(m, 'position', $event)"></gmap-marker>
       </gmap-cluster>
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         <div class="form-group mb-0">
-          <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText" rows="5" v-validate="{'required':true}"></textarea>
+          <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText" rows="5" v-validate="{'required':true}" data-vv-as="information" placeholder="Information"></textarea>
           <i v-show="errors.has('infoWindowText')" class="fa fa-warning"></i>
           <span class="help is-danger" v-show="errors.has('infoWindowText')">{{ errors.first('infoWindowText') }}<br>
           </span>
@@ -20,29 +20,6 @@
     </gmap-map>
   </div>  
 </template>
-<style>
-.app-panel {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: row;
-}
-.map-panel {
-  flex: 4 1 80%;
-}
-.settings-panel {
-  overflow-y: scroll;
-  flex: 1 0 500px;
-}
-gmap-map {
-  width: 100%;
-  height: 600px;
-  display: block;
-}
-</style>
 <script>
 import Website from '../api/website.js';
 import { ErrorBag } from 'vee-validate';
@@ -315,6 +292,7 @@ export default {
       createdMarker.position.lng = mouseArgs.latLng.lng();
     },
     addMarker() {
+      this.clearErrorMsgs();      
       this.lastId++;
       this.markers.push({
         id: '',

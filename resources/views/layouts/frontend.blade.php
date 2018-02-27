@@ -23,7 +23,7 @@
     {{-- Page specific plugin styles --}}
     @yield('plugin-styles')
 
-    <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/frontend.css') }}">
+    <link rel="stylesheet" id="css-main" href="{{ mix('assets/css/frontend.css') }}">
 
     @yield('page-styles')
     {{-- END Stylesheets --}}
@@ -45,7 +45,7 @@
     <!-- Stylesheets required for application -->
     @include('partials.frontend.app-js')
 
-    <script src="{{ asset('assets/js/frontend.js') }}"></script>
+    <script src="{{ asset('assets/js/frontend/global.js') }}"></script>
 
     {{-- Plugin JS --}}
     @yield('plugin-scripts')
