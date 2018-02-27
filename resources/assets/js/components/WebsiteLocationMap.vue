@@ -69,121 +69,8 @@ export default {
       markers: [],
       markersEven: false,
       drag: 0,
-      mapClickedCount: 0,
       ifw: false,
-      ifw2: false,
-      ifw2text: 'You can also use the content prop to set your modal',
       mapStyle: 'green',
-      circleBounds: {},
-      displayCircle: false,
-      displayRectangle: false,
-      rectangleBounds: {
-        north: 33.685,
-        south: 50.671,
-        east: -70.234,
-        west: -116.251
-      },
-      originalPlPath: [
-        {
-          lat: 37.772,
-          lng: -122.214
-        }, {
-          lat: 21.291,
-          lng: -157.821
-        }, {
-          lat: -18.142,
-          lng: 178.431
-        }, {
-          lat: -27.467,
-          lng: 153.027
-        }
-      ],
-      plPath: [
-        {
-          lat: 37.772,
-          lng: -122.214
-        }, {
-          lat: 21.291,
-          lng: -157.821
-        }, {
-          lat: -18.142,
-          lng: 178.431
-        }, {
-          lat: -27.467,
-          lng: 153.027
-        }
-      ],
-      pleditable: true,
-      plvisible: false,
-      pgvisible: false,
-      pgPath: [
-        [{
-          lat: 38.872886,
-          lng: -77.054720
-        }, {
-          lat: 38.872602,
-          lng: -77.058046
-        }, {
-          lat: 38.870080,
-          lng: -77.058604
-        }, {
-          lat: 38.868894,
-          lng: -77.055664
-        }, {
-          lat: 38.870598,
-          lng: -77.053346
-        }],
-        [{
-          lat: 38.871684,
-          lng: -77.056780
-        }, {
-          lat: 38.871867,
-          lng: -77.055449
-        }, {
-          lat: 38.870915,
-          lng: -77.054891
-        }, {
-          lat: 38.870113,
-          lng: -77.055836
-        }, {
-          lat: 38.870581,
-          lng: -77.057037
-        }]
-      ],
-      opgPath: [
-        [{
-          lat: 38.872886,
-          lng: -77.054720
-        }, {
-          lat: 38.872602,
-          lng: -77.058046
-        }, {
-          lat: 38.870080,
-          lng: -77.058604
-        }, {
-          lat: 38.868894,
-          lng: -77.055664
-        }, {
-          lat: 38.870598,
-          lng: -77.053346
-        }],
-        [{
-          lat: 38.871684,
-          lng: -77.056780
-        }, {
-          lat: 38.871867,
-          lng: -77.055449
-        }, {
-          lat: 38.870915,
-          lng: -77.054891
-        }, {
-          lat: 38.870113,
-          lng: -77.055836
-        }, {
-          lat: 38.870581,
-          lng: -77.057037
-        }]
-      ],
       scrollwheel: true,
       currentMarkerIndex: -1,
     }
@@ -201,71 +88,6 @@ export default {
         return this.markers;
       }
     },
-    mapStyles() {
-      switch (this.mapStyle) {
-      case 'normal':
-        return [];
-      case 'red':
-        return [{
-          stylers: [{
-            hue: '#890000'
-          }, {
-            visibility: 'simplified'
-          }, {
-            gamma: 0.5
-          }, {
-            weight: 0.5
-          }]
-        }, {
-          elementType: 'labels',
-          stylers: [{
-            visibility: 'off'
-          }]
-        }, {
-          featureType: 'water',
-          stylers: [{
-            color: '#890000'
-          }]
-        }];
-      default:
-        return [{
-          stylers: [{
-            hue: '#899999'
-          }, {
-            visibility: 'on'
-          }, {
-            gamma: 0.5
-          }, {
-            weight: 0.5
-          }]
-        }, {
-          featureType: 'road',
-          stylers: [{
-            visibility: 'off'
-          }]
-        }, {
-          featureType: 'transit.line',
-          stylers: [{
-            color: '#FF0000'
-          }]
-        }, {
-          featureType: 'poi',
-          elementType: 'labels.icon',
-          stylers: [{
-            visibility: 'on'
-          }, {
-            weight: 10
-          }]
-        }, {
-          featureType: 'water',
-          stylers: [{
-            color: '#8900FF'
-          }, {
-            weight: 9999900000
-          }, ]
-        }];
-      }
-    }
   },
   mounted() {
     this.getAllMarkers();
@@ -310,15 +132,6 @@ export default {
       this.toggleInfoWindow(this.markers[this.markers.length - 1], this.markers.length - 1);
       return this.markers[this.markers.length - 1];
     },
-    updateMapCenter(which, value) { // eslint-disable-line no-unused-vars
-      this.center = _.clone(this.reportedCenter);
-    },
-    mapClicked(mouseArgs) {
-      console.log('map clicked', mouseArgs); // eslint-disable-line no-console
-    },
-    resetPlPath() {
-      this.plPath = this.originalPlPath;
-    },
     update(field, event) {
       if (field === 'reportedCenter') {
         // N.B. It is dangerous to update this.center
@@ -346,24 +159,6 @@ export default {
           lat: event.lat(),
           lng: event.lng(),
         };
-      }
-    },
-    updatePolygonPaths(paths) { //eslint-disable-line no-unused-vars
-      // TODO
-    },
-    updatePolylinePath(paths) { //eslint-disable-line no-unused-vars
-      // TODO:
-    },
-    updateCircle(prop, value) {
-      if (prop === 'radius') {
-        this.radius = value;
-      } else if (prop === 'bounds') {
-        this.circleBounds = value;
-      }
-    },
-    updateRectangle(prop, value) {
-      if (prop === 'bounds') {
-        this.rectangleBounds = value;
       }
     },
     updatePlace(place) {
