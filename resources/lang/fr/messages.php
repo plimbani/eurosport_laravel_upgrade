@@ -31,6 +31,6 @@
 		'send' => 'Envoyer',
 		'contact_confirmation_message' => 'Merci pour votre message, nous allons vous répondre sous peu.',
 		'404_page_title' => 'Erreur 404 - page non trouvée',  
-		'404_page_message' => "Peut-être avez-vous fait une faute dans l'adresse web, ou la page que vous recherchez a été déplacée, mise à jour ou supprimée. Cliquez ici pour retourner à la page d'accueil."
+		'404_page_message' => "Peut-être avez-vous fait une faute dans l'adresse web, ou la page que vous recherchez a été déplacée, mise à jour ou supprimée. <a href=':url'>Cliquez ici</a> pour retourner à la page d'accueil."
 	]
 ?>
