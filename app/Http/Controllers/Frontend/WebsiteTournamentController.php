@@ -31,7 +31,7 @@ class WebsiteTournamentController extends Controller
     protected $rulesPageName;
 
     /**
-     * @var Rules page name
+     * @var History page name
      */
     protected $historyPageName;
 

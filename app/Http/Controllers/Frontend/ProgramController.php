@@ -16,7 +16,7 @@ class ProgramController extends Controller
     protected $programContract;
 
     /**
-     * @var Home page name
+     * @var Program page name
      */
     protected $programPageName;
 

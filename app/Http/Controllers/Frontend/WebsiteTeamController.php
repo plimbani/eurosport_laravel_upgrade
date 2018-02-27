@@ -15,7 +15,7 @@ class WebsiteTeamController extends Controller
     protected $websiteTeamContract;
 
     /**
-     * @var Home page name
+     * @var Team page name
      */
     protected $websiteTeamPageName;
 
