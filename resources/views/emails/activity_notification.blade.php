@@ -135,15 +135,28 @@
                               <tr>
                                 <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px;" align="left">
                                   <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;">
-                                    @foreach($email_details['usersActivities'] as $detail)
-                                      <h3>{{ $detail['name'] }}</h3>
-                                      @foreach($detail['websites'] as $website)
-                                       <p>{{ $website['name'] }} ({{ $website['location'] }})</p>
-                                       @foreach($website['activities'] as $activity)
-                                         <p>{{ $activity['page'] }} - {{ $activity['section'] }}</p>
-                                       @endforeach
+                                    @if(count($email_details['usersActivities']) > 0)
+                                      @foreach($email_details['usersActivities'] as $detail)
+                                        <h2>{{ $detail['name'] }}</h2>
+                                        @foreach($detail['websites'] as $website)
+                                          @if(!$loop->first)
+                                            <br/>
+                                          @endif
+                                          <strong>Website:</strong> {{ $website['name'] }} ({{ $website['location'] }})
+                                          <br/>
+                                          <strong>Modified sections:</strong>
+                                          <br/>
+                                          @foreach($website['activities'] as $activity)
+                                            <small>{{ $activity['page'] }} - {{ $activity['section'] }}</small> <br/>
+                                          @endforeach
+                                        @endforeach
+                                        @if(!$loop->last)
+                                          <br/>
+                                        @endif
                                       @endforeach
-                                    @endforeach
+                                    @else
+                                      No activities are carried out by any tournament administrators in last 30 mins.
+                                    @endif
                                   </div>
                                 </td>
                               </tr>

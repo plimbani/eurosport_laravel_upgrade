@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Unauthorized action.</title>
+        <title>Error 404 - Page not found</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
@@ -42,7 +42,7 @@
         <div class="container">
             <div class="content">
                 <h1 class="title">Error 404 - Page not found</div>
-                <div>This might be because you have typed the web address incorrectly, the page you were looking for may have been moved, updated or deleted.</div>
+                <div>{!! __('messages.404_page_message', ['url' => url('/')]) !!}</div>
             </div>
         </div>
     </body>

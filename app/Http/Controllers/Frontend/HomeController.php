@@ -4,6 +4,7 @@ namespace Laraspace\Http\Controllers\Frontend;
 
 use Landlord;
 use Illuminate\Http\Request;
+use Laraspace\Api\Services\PageService;
 use Laraspace\Api\Contracts\HomeContract;
 
 class HomeController extends Controller
@@ -14,13 +15,20 @@ class HomeController extends Controller
     protected $homeContract;
 
     /**
+     * @var Home page name
+     */
+    protected $homePageName;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(HomeContract $homeContract)
+    public function __construct(HomeContract $homeContract, PageService $pageService)
     {
+        $this->pageService = $pageService;
         $this->homeContract = $homeContract;
+        $this->homePageName = 'home';
     }
 
     /**
@@ -32,6 +40,11 @@ class HomeController extends Controller
     {
         $varsForView = [];
         $websiteId = Landlord::getTenants()['website']->id;
+        $pageDetail = $this->pageService->getPageDetails($this->homePageName, $websiteId);
+
+        // Page title
+        $varsForView['pageTitle'] = $pageDetail->title;
+
         $varsForView['statistics'] = $this->homeContract->getStatistics($websiteId)['data'];
         $varsForView['pageDetails'] = $this->homeContract->getPageData($websiteId)['data'];
 

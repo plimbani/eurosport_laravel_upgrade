@@ -4,6 +4,7 @@ namespace Laraspace\Http\Controllers\Frontend;
 
 use Landlord;
 use Illuminate\Http\Request;
+use Laraspace\Api\Services\PageService;
 use Laraspace\Api\Contracts\WebsiteTeamContract;
 
 class WebsiteTeamController extends Controller
@@ -14,13 +15,20 @@ class WebsiteTeamController extends Controller
     protected $websiteTeamContract;
 
     /**
+     * @var Team page name
+     */
+    protected $websiteTeamPageName;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(WebsiteTeamContract $websiteTeamContract)
+    public function __construct(WebsiteTeamContract $websiteTeamContract, PageService $pageService)
     {
+        $this->pageService = $pageService;
         $this->websiteTeamContract = $websiteTeamContract;
+        $this->websiteTeamPageName = 'teams';
     }
 
     /**
@@ -31,9 +39,13 @@ class WebsiteTeamController extends Controller
     public function getTeamPageDetails(Request $request)
     {
         $websiteId = Landlord::getTenants()['website']->id;
+        $pageDetail = $this->pageService->getPageDetails($this->websiteTeamPageName, $websiteId);
 
-        $ageCategories = $this->websiteTeamContract->getAgeCategories($websiteId)['data'];
+        // Page title
+        $varsForView['pageTitle'] = $pageDetail->title;
 
-        return view('frontend.team', compact('ageCategories'));
+        $varsForView['ageCategories'] = $this->websiteTeamContract->getAgeCategories($websiteId)['data'];
+
+        return view('frontend.team', $varsForView);
     }
 }
