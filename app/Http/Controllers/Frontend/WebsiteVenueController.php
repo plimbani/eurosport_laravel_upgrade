@@ -15,7 +15,7 @@ class WebsiteVenueController extends Controller
     protected $venueContract;
 
     /**
-     * @var Home page name
+     * @var Venue page name
      */
     protected $venuePageName;
 

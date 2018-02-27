@@ -15,7 +15,7 @@ class MediaController extends Controller
     protected $mediaContract;
 
     /**
-     * @var Home page name
+     * @var Media page name
      */
     protected $mediaPageName;
 
