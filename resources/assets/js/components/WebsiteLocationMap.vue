@@ -9,7 +9,7 @@
       </gmap-cluster>
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         <div class="form-group mb-0">
-          <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText" rows="5" v-validate="{'required':true}" data-vv-as="information" placeholder="Information"></textarea>
+          <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText" rows="5" v-validate="{'required':true}" data-vv-as="information" placeholder="Marker information"></textarea>
           <i v-show="errors.has('infoWindowText')" class="fa fa-warning"></i>
           <span class="help is-danger" v-show="errors.has('infoWindowText')">{{ errors.first('infoWindowText') }}<br>
           </span>

@@ -41,9 +41,9 @@ export default {
   getWebsiteCustomisationOptions() {
     return axios.get('/api/websites/customisation/options');
   },
-  // Get image path
-  getImagePath() {
-    return axios.get('/api/getImagePath');
+  // Get configuration details
+  getConfigurationDetail() {
+    return axios.get('/api/getConfigurationDetail');
   },
   // Get website default pages
   getWebsiteDefaultPages() {

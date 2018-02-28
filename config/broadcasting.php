@@ -55,4 +55,6 @@ return [
 
     ],
 
+    'channel' => env('BROADCAST_CHANNEL'),
+
 ];

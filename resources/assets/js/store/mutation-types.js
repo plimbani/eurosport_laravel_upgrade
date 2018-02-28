@@ -36,6 +36,7 @@ export const RESET_PITCH_PLANNER_FROM_ENLARGE_MODE = 'RESET_PITCH_PLANNER_FROM_E
 
 // Image path
 export const SET_IMAGE_PATH = 'SET_IMAGE_PATH';
+export const SET_MAP_KEY = 'SET_MAP_KEY';
 
 // Website Mutations
 export const CURRENT_WEBSITE = 'CURRENT_WEBSITE';

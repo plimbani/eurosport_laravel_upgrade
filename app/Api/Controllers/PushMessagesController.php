@@ -11,12 +11,16 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MessageReceiptRequest;*/
 use Laraspace\Models\User;
+use Laraspace\Models\Website;
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 use DB;
 use Laraspace\Models\Message;
+use Laraspace\Events\AppMessageSent;
 use FCM;
+use Config;
+use Carbon\Carbon;
 
 class PushMessagesController extends BaseController
 {
@@ -113,7 +117,7 @@ class PushMessagesController extends BaseController
     }
     // Insert Value in MessagesTable
     private function insertInMessageHistory($data) {
-
+      $message = null;
        if(isset($data['message_id']) && ($data['message_id'] !=''  || $data['message_id'] !=NULL)) {
 
           // here we add one code for Delete
@@ -125,23 +129,23 @@ class PushMessagesController extends BaseController
             return true;
           }
           $data['message_id'] = $data['message_id'];
-          $message = Message::where('id','=', $data['message_id'])->update([
-            'status'=>$data['status'],
-            'content'=>$data['content'],
-          ]);
+          $message = Message::find($data['message_id']);
+          $message->status = $data['status'];
+          $message->content = $data['content'];
+          $message->save();
           $messageId = $data['message_id'];
           // Delete all data for message receipts for that message id
           DB::table('message_recipients')->where('message_id',$data['message_id'])->delete();
         }
         else {
-
-           $message = Message::create([
-            'sent_from'=>$data['sent_from'],
-            'status'=>$data['status'],
-            'content'=>$data['content'],
-            'tournament_id'=>$data['tournament_id'],
-          ]);
-           $messageId = $message->id;
+          $message = new Message();
+          $message->sent_from = $data['sent_from'];
+          $message->status = $data['status'];
+          $message->content = $data['content'];
+          $message->tournament_id = $data['tournament_id'];
+          $message->save();
+          
+          $messageId = $message->id;
         }
 
           // Now store values for multiple receipient
@@ -153,12 +157,11 @@ class PushMessagesController extends BaseController
             // Now Insert in DB
             DB::table('message_recipients')->insert($msg_receiptArray);
           }
-      return true;
+      return $message;
     }
 
     public function sendNotification(Request $request)
     {
-
         \Log::info($request->all());
         $data = $request->all();
         $data = $data['messageData'];
@@ -200,7 +203,6 @@ class PushMessagesController extends BaseController
           $tokenSoundOn = $userDataSoundOn;
           // dd($tokenSoundOn);
           if(!empty($tokenSoundOn)){
-            \Log::info("tokenSoundOn".$tokenSoundOn);
             $downstreamResponse2 = $this->sendToFCM($content,$tokenSoundOn,'default');
           }
           
@@ -231,7 +233,10 @@ class PushMessagesController extends BaseController
                     "status_code" => 200
                 ]);
         }
-        $this->insertInMessageHistory($data);
+        $message = $this->insertInMessageHistory($data);
+
+        // Broadcast message to make message appear for users on tournament websites
+        broadcast(new AppMessageSent($message));
 
         return $this->response->array([
                     'data' => $downstreamResponse1,
@@ -249,5 +254,23 @@ class PushMessagesController extends BaseController
                     "status_code" => 200
                 ]);
 
+    }
+
+    /**
+     * Get tournament messages for websites
+     *
+     * Get a JSON representation of tournament messages.
+     *
+     * @Get("/getWebsiteMessages")
+     * @Versions({"v1"})
+     * @Response(200, body={})
+     */
+    public function getWebsiteMessages(Request $request, $websiteId)
+    {
+      $website = Website::find($websiteId);
+      $days = Config::get('wot.message_notification_days');
+      $createdAfter = Carbon::today()->subDay($days);
+      $messages = $website->messages()->whereDate('created_at', '>=', $createdAfter)->orderBy('created_at', 'desc')->get();
+      return $messages;
     }
 }

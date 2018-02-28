@@ -42,7 +42,7 @@
 
     @yield('modals')
 
-    <!-- Stylesheets required for application -->
+    <!-- Javscript required for application -->
     @include('partials.frontend.app-js')
 
     <script src="{{ asset('assets/js/frontend/global.js') }}"></script>
@@ -52,7 +52,7 @@
 
     {{-- Page specific custom scripts --}}
     @yield('page-scripts')
-
+    
     <script src="https://maps.googleapis.com/maps/api/js?key={{ config('wot.google_api_key') }}"></script>
 </body>
 </html>

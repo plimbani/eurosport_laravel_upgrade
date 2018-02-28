@@ -51,14 +51,4 @@ class ProgramController extends BaseController {
   {
     return $this->programContract->getProgramPageData($websiteId);
   }
-
-  /**
-   * Get program page details
-   *
-   * @param ProgramContract $programContract
-   */
-  public function getProgramPageDetails(Request $request, $websiteId)
-  {
-    return ['itinerary' => []];
-  }
 }
