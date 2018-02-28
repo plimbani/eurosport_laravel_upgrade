@@ -341,7 +341,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->get('getProgramPageData/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getProgramPageData');
 
     // Image path
-    $api->get('getImagePath', 'Laraspace\Api\Controllers\WebsiteController@getImagePath');
+    $api->get('getConfigurationDetail', 'Laraspace\Api\Controllers\WebsiteController@getConfigurationDetail');
 
     // Website visitor
     $api->post('saveVisitorPageData', 'Laraspace\Api\Controllers\VisitorController@savePageData');

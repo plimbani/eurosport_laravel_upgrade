@@ -92,8 +92,8 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function getImagePath(Request $request) {
-    return $this->websiteContract->getImagePath();
+  public function getConfigurationDetail(Request $request) {
+    return $this->websiteContract->getConfigurationDetail();
   }
 
   /*
