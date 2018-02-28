@@ -2,4 +2,8 @@
 
 @section('content')
 
+<h1>Stay</h1>
+
+{!! $stayContent->content !!}
+
 @endsection

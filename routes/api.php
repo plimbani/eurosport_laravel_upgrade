@@ -361,6 +361,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('media/uploadDocument', 'Laraspace\Api\Controllers\MediaController@uploadDocument');
     // Website venue
     $api->get('getLocations/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getLocations');
+    $api->get('getMarkers/{websiteId}', 'Laraspace\Api\Controllers\WebsiteVenueController@getMarkers');
     $api->post('saveVenuePageData', 'Laraspace\Api\Controllers\WebsiteVenueController@savePageData');
 
     // Contact

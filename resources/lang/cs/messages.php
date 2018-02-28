@@ -17,7 +17,7 @@
 		'contact' => 'kontakt',
 		'proudly_sponsored_by' => 'hrdý sponsor',
 		'quick_links' => 'rýchlý odkaz',
-		'tournament_sponsors' => 'sponzoři turnajes',
+		'tournament_sponsors' => 'sponzoři turnaje',
 		'arrival_and_check_in' => 'příjezd a check-in',
 		'public_transport' => 'veřejná doprava',
 		'tips_for_visitors' => 'tipy pro návštěvníky',

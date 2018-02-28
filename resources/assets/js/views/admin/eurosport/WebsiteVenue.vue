@@ -12,7 +12,10 @@
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
 	        		<h6><strong>{{$lang.website_map}}</strong></h6>
-	        		<website-location-map></website-location-map>
+	        		<website-location-map @setMarkers="setMarkers"></website-location-map>
+	        		<div class="mt-2" v-show="!this.venue.isMarkerTextValid">
+					      <span class="help is-danger">Please add information to all the markers.</span>
+					    </div>
 	        	</div>
 	        </div>
 				</form>
@@ -46,6 +49,8 @@ export default {
 			venue: {
 				websiteId: null,
 				locations: [],
+				markers: [],
+      	isMarkerTextValid: true
 			}
 		}
 	},
@@ -60,24 +65,38 @@ export default {
 	},
 	methods: {
 		redirectToForward() {
-      this.$root.$emit('getLocations');
-      this.venue.websiteId = this.getWebsiteId();
-      $("body .js-loader").removeClass('d-none');
-      Website.saveVenuePageData(this.venue).then(
-        (response)=> {
-          $("body .js-loader").addClass('d-none');
-          toastr.success('Venue page has been updated successfully.', 'Success');
-          var route = this.getWebsiteForwardRoute('venue');
-          if(route) {
-            this.$router.push({name:route});
-          }
-        },
-        (error)=>{
+			let vm = this;
+      vm.$root.$emit('getLocations');
+      vm.$root.$emit('getMarkers');
+      vm.venue.isMarkerTextValid = true;
+      _.forEach(vm.venue.markers, function (value){
+        if (value.information == '') {
+          vm.venue.isMarkerTextValid = false;
+          return false;
         }
-      );
+      });
+      if(vm.venue.isMarkerTextValid == true) {
+	      vm.venue.websiteId = vm.getWebsiteId();
+	      $("body .js-loader").removeClass('d-none');
+	      Website.saveVenuePageData(vm.venue).then(
+	        (response)=> {
+	          $("body .js-loader").addClass('d-none');
+	          toastr.success('Venue page has been updated successfully.', 'Success');
+	          var route = vm.getWebsiteForwardRoute('venue');
+	          if(route) {
+	            vm.$router.push({name:route});
+	          }
+	        },
+	        (error)=>{
+	        }
+	      );
+      }
 		},
 		setLocations(locations) {
     	this.venue.locations = locations;
+		},
+		setMarkers(markers) {
+    	this.venue.markers = markers;
 		},
 		getWebsiteId() {
 			return this.$store.state.Website.id;
