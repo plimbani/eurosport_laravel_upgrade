@@ -223,5 +223,5 @@ return [
     'contact' => 'Contact',
   ],
   'message_notification_days' => 14,
-  'activity_notification_recepients' => ['mtilokani@aecoridgital.com', 'ssheth@aecordigital.com'],
+  'activity_notification_recepients' => ['mtilokani@aecordigital.com', 'ssheth@aecordigital.com'],
 ];
