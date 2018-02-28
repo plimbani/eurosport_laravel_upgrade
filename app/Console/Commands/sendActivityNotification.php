@@ -70,7 +70,7 @@ class sendActivityNotification extends Command
               $websites[$websiteId]['activities'] = [];
             }
 
-            if(!in_array($activity->page, $websites[$websiteId]['activities']) && !in_array($activity->section, $websites[$websiteId]['activities'])) {
+            if(array_search($activity->page, array_column($websites[$websiteId]['activities'], 'page')) === false || array_search($activity->section, array_column($websites[$websiteId]['activities'], 'section')) === false) {
               $websites[$websiteId]['activities'][] = [
                 'page' => $activity->page,
                 'section' => $activity->section
