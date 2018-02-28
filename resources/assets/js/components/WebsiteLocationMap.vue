@@ -138,7 +138,7 @@ export default {
         opacity: 1,
         draggable: true,
         enabled: true,
-        dragended: 0,        
+        dragended: 0,
         ifw: true,
         information: '',
       });
@@ -178,6 +178,7 @@ export default {
         var marker = this.addMarker();
         marker.position.lat = place.geometry.location.lat();
         marker.position.lng = place.geometry.location.lng();
+        this.updateInfoWindow(marker, this.markers.length - 1);
       }
     },
     updateInfoWindow: function(marker, index) {
