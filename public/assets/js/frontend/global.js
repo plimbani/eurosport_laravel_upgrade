@@ -1,6 +1,5 @@
-// teams list more less
-
 $(document).ready(function() {
+	// More / Less links
 	$('ul.js-list').each(function(){
 		var teamsLength = $(this).find('li').length;
 		if(teamsLength > 5) {

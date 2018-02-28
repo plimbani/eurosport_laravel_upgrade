@@ -371,7 +371,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('uploadImage', 'Laraspace\Api\Controllers\UploadMediaController@uploadImage');
 });
 
+// Website frontend API calls
 $api->version('v1', function ($api) {
-    $api->post('verifyWebsite', 'Laraspace\Api\Controllers\WebsiteController@verifyWebsite'); 
-    $api->get('getProgramPageDetails/{websiteId}', 'Laraspace\Api\Controllers\ProgramController@getProgramPageDetails');
+    $api->get('getWebsiteMessages/{tournamentId}', 'Laraspace\Api\Controllers\PushMessagesController@getWebsiteMessages');
 });

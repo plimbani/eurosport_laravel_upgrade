@@ -7,6 +7,7 @@ use View;
 use Config;
 use Closure;
 use Landlord;
+use JavaScript;
 use Carbon\Carbon;
 use Laraspace\Models\Page;
 use Laraspace\Models\Website;
@@ -54,10 +55,10 @@ class VerifyWebsite
         $sponsors = $website->sponsors;
         View::share('sponsors', $sponsors);
 
-        $days = Config::get('wot.message_notification_days');
-        $createdAfter = Carbon::today()->subDay($days);
-        $messages = $website->messages()->whereDate('created_at', '>=', $createdAfter)->orderBy('created_at', 'desc')->get();
-        View::share('messages', $messages);
+        JavaScript::put([
+            'websiteId' => $website->id
+        ]);
+
         Config::set('wot.current_domain', $domain);
 
         return $next($request);

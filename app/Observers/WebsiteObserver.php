@@ -41,7 +41,7 @@ class WebsiteObserver
       $websiteData['subject_type'] = get_class($website);
       $websiteData['causer_id'] = $userObj->id;
       $websiteData['causer_type'] = get_class($userObj);
-      $websiteData['description'] = $userObj->name .' '. 'updated a "website" page.';
+      $websiteData['description'] = $userObj->name .' '. 'updated a website page.';
       $websiteData['page'] = 'Website';
       $websiteData['section'] = $section;
       $websiteData['action'] = 'updated';

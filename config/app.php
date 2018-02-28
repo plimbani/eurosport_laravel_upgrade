@@ -180,7 +180,7 @@ return [
          */
         Laraspace\Providers\AppServiceProvider::class,
         Laraspace\Providers\AuthServiceProvider::class,
-//        Laraspace\Providers\BroadcastServiceProvider::class,
+        Laraspace\Providers\BroadcastServiceProvider::class,
         Laraspace\Providers\EventServiceProvider::class,
         Laraspace\Providers\RouteServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
@@ -195,6 +195,7 @@ return [
         LaravelFCM\FCMServiceProvider::class,
         HipsterJazzbo\Landlord\LandlordServiceProvider::class,
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
 
         /*
          *  Custom Service Providers
@@ -253,6 +254,7 @@ return [
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
+        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
         'Config' => Illuminate\Support\Facades\Config::class,
@@ -264,7 +266,10 @@ return [
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'JavaScript' =>  Laracasts\Utilities\JavaScript::class,
+        'Landlord'   => HipsterJazzbo\Landlord\Facades\Landlord::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
+        'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
@@ -288,8 +293,6 @@ return [
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
-        'Landlord'   => HipsterJazzbo\Landlord\Facades\Landlord::class,
-        'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
     ],
 
 ];

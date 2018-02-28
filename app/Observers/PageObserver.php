@@ -31,7 +31,7 @@ class PageObserver
         $pageData['subject_type'] = get_class($page);
         $pageData['causer_id'] = $userObj->id;
         $pageData['causer_type'] = get_class($userObj);
-        $pageData['description'] = $userObj->name .' '. 'added a "' . $page->title . '" page.';
+        $pageData['description'] = $userObj->name .' '. 'added a ' . $page->title . ' page.';
         $pageData['page'] = $pageTitleAndSection['page_title'];
         $pageData['section'] = $pageTitleAndSection['section'];
         $pageData['action'] = 'updated';
@@ -58,7 +58,7 @@ class PageObserver
       $pageData['subject_type'] = get_class($page);
       $pageData['causer_id'] = $userObj->id;
       $pageData['causer_type'] = get_class($userObj);
-      $pageData['description'] = $userObj->name .' '. 'updated a "' . $pageTitleAndSection['page_title'] . '" page.';
+      $pageData['description'] = $userObj->name .' '. 'updated a ' . $pageTitleAndSection['page_title'] . ' page.';
       $pageData['page'] = $pageTitleAndSection['page_title'];
       $pageData['section'] = $pageTitleAndSection['section'];
       $pageData['action'] = 'updated';
@@ -85,7 +85,7 @@ class PageObserver
         $pageData['subject_type'] = get_class($page);
         $pageData['causer_id'] = $userObj->id;
         $pageData['causer_type'] = get_class($userObj);
-        $pageData['description'] = $userObj->name .' '. 'deleted a "' . $page->title . '" page.';
+        $pageData['description'] = $userObj->name .' '. 'deleted a ' . $page->title . ' page.';
         $pageData['page'] = $pageTitleAndSection['page_title'];
         $pageData['section'] = 'Additional page';
         $pageData['action'] = 'deleted';
