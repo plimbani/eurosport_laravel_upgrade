@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Meals</h1>
+<h1>{!! __('messages.meals') !!}</h1>
 
 {!! $mealsContent->content !!}
 
