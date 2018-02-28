@@ -2,6 +2,7 @@
 
 namespace Laraspace\Console\Commands;
 
+use Carbon\Carbon;
 use Laraspace\Models\User;
 use Laraspace\Models\Website;
 use Illuminate\Console\Command;
@@ -93,7 +94,7 @@ class sendActivityNotification extends Command
       Common::sendMail($email_details, $recipient, $subject, $emailTemplate);
 
       if(count($notificationIds) > 0) {
-        ActivityNotification::whereIn('id', $notificationIds)->update(['is_mail_sent' => 1]);
+        ActivityNotification::whereIn('id', $notificationIds)->update(['is_mail_sent' => 1, 'mailed_at' => Carbon::now()]);
       }
 
       $this->info("Activity notification sent.");

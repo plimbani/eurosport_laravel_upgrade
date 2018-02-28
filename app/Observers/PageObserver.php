@@ -48,6 +48,15 @@ class PageObserver
      */
     public function updated(Page $page)
     {
+      $dirtyFields = collect($page->getDirty())->filter(function ($value, $key) {
+        // We don't care if timestamps are dirty, we're not tracking those
+        return !in_array($key, ['created_at', 'updated_at']);
+      });
+
+      if($dirtyFields->count() == 0) {
+        return;
+      }
+
       $userObj = $this->getCurrentLoggedInUserDetail();
       $pageTitleAndSection = $this->getPageTitleAndSection($page);
 
