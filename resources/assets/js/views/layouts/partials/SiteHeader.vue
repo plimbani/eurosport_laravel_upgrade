@@ -102,7 +102,7 @@
         // Here we call Function to get User Details
         let userData = {'email':email}
         this.getUserDetails(userData);
-        this.getImagePath();
+        this.getConfigurationDetail();
         this.getWebsiteDetails();
 
 
@@ -135,10 +135,10 @@
                   }
                 );
             },
-            getImagePath() {
-                Website.getImagePath().then(
+            getConfigurationDetail() {
+                Website.getConfigurationDetail().then(
                   (response)=> {
-                    this.$store.dispatch('setImagePath', response.data);
+                    this.$store.dispatch('setConfigurationDetail', response.data);
                   },
                   (error)=> {
                   }

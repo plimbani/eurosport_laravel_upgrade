@@ -147,11 +147,16 @@ class WebsiteService implements WebsiteContract
    *
    * @return response
    */
-  public function getImagePath()
+  public function getConfigurationDetail()
   {
-    return array_map(function($path){
+    $data = [];
+    $imagePath = array_map(function($path){
       return $this->getAWSUrl.$path;
     }, $this->imagePath);
+    $data['imagePath'] = $imagePath;
+    $googleMapKey = env('GOOGLE_API_KEY');
+    $data['googleMapKey'] = $googleMapKey;
+    return $data;
   }
 
   /*
