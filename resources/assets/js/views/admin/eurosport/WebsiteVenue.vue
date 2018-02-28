@@ -14,7 +14,7 @@
 	        		<h6><strong>{{$lang.website_map}}</strong></h6>
 	        		<website-location-map @setMarkers="setMarkers"></website-location-map>
 	        		<div class="mt-2" v-show="!this.venue.isMarkerTextValid">
-					      <span class="help is-danger">Please add comment to all the markers.</span>
+					      <span class="help is-danger">Please add information to all the markers.</span>
 					    </div>
 	        	</div>
 	        </div>
@@ -97,7 +97,6 @@ export default {
 		},
 		setMarkers(markers) {
     	this.venue.markers = markers;
-    	return;
 		},
 		getWebsiteId() {
 			return this.$store.state.Website.id;

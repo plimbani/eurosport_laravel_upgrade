@@ -3,9 +3,9 @@
     <div id="gmap_place_input">      
       <gmap-place-input :select-first-on-enter="true" @place_changed="updatePlace($event)"></gmap-place-input>
     </div>
-    <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" style="width: 100%; height: 400px">
+    <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" @zoom_changed="update('zoom', $event)" @center_changed="update('reportedCenter', $event)" @maptypeid_changed="update('mapType', $event)" @bounds_changed="update('bounds', $event)" style="width: 100%; height: 400px; display: block;">
       <gmap-cluster :grid-size="gridSize">
-        <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true"  @click="toggleInfoWindow(m,index)" :zIndex="zIndex" @position_changed="updateChild(m, 'position', $event)"></gmap-marker>
+        <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true" @click="updateInfoWindow(m,index)" :zIndex="zIndex" @position_changed="updateChild(m, 'position', $event)"></gmap-marker>
       </gmap-cluster>
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         <div class="form-group mb-0">
@@ -43,7 +43,6 @@ export default {
         lng: 0
       },
       infoWinOpen: false,
-      currentMidx: null,
       //optional: offset infowindow so it visually sits nicely on top of our marker
       infoOptions: {
         pixelOffset: {
@@ -52,7 +51,6 @@ export default {
         }
       },
       zIndex: 9999,
-      lastId: 1,
       center: {
         lat: 51.509865,
         lng: -0.118092
@@ -88,6 +86,21 @@ export default {
         return this.markers;
       }
     },
+    // getCenter() {
+    //   var bounds = new google.maps.LatLngBounds();
+    //   if(this.markers.length > 0) {
+    //     _.forEach(this.markers, function (marker) {
+    //       bounds.extend(_.cloneDeep(marker.position));
+    //     });
+    //     map.fitBounds(bounds);
+    //     map.panToBounds(bounds);
+    //   } else {
+    //     return  {
+    //       lat: 51.509865,
+    //       lng: -0.118092
+    //     };
+    //   }
+    // },
   },
   mounted() {
     this.getAllMarkers();
@@ -112,10 +125,10 @@ export default {
       const createdMarker = this.addMarker();
       createdMarker.position.lat = mouseArgs.latLng.lat();
       createdMarker.position.lng = mouseArgs.latLng.lng();
+      this.updateInfoWindow(createdMarker, this.markers.length - 1);
     },
     addMarker() {
-      this.clearErrorMsgs();      
-      this.lastId++;
+      this.clearErrorMsgs();
       this.markers.push({
         id: '',
         position: {
@@ -129,7 +142,6 @@ export default {
         ifw: true,
         information: '',
       });
-      this.toggleInfoWindow(this.markers[this.markers.length - 1], this.markers.length - 1);
       return this.markers[this.markers.length - 1];
     },
     update(field, event) {
@@ -168,32 +180,31 @@ export default {
         marker.position.lng = place.geometry.location.lng();
       }
     },
-    toggleInfoWindow: function(marker, idx) {
-      this.currentMarkerIndex = idx;
-      this.infoWindowPos = marker.position;
+    updateInfoWindow: function(marker, index) {
+      this.infoWindowPos = _.cloneDeep(marker.position);
       this.infoContent = marker.information;
-      //check if its the same marker that was selected if yes toggle
-      if (this.currentMidx == idx) {
+      this.toggleInfoWindow(index);
+    },
+    toggleInfoWindow: function(index) {
+      if (this.currentMarkerIndex == index) {
         this.infoWinOpen = !this.infoWinOpen;
-      }
-      //if different marker set infowindow to open and reset current marker index
-      else {
+      } else {
         this.infoWinOpen = true;
-        this.currentMidx = idx;
+        this.currentMarkerIndex = index;
       }
     },
     saveMarker() {
       this.$validator.validateAll().then((response) => {
         if(response) {
           this.markers[this.currentMarkerIndex].information = this.infoContent;
-          this.toggleInfoWindow(this.markers[this.currentMarkerIndex], this.currentMarkerIndex)
+          this.toggleInfoWindow(this.currentMarkerIndex)
         }
       }).catch(() => {
         // fail stuff
       });
     },
     deleteMarker() {
-      this.toggleInfoWindow(this.markers[this.currentMarkerIndex], this.currentMarkerIndex);      
+      this.toggleInfoWindow(this.currentMarkerIndex);      
       this.markers.splice(this.currentMarkerIndex, 1);
     },
     getMarkers() {
