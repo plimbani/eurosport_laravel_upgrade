@@ -30,6 +30,7 @@ export const setScoreAutoUpdate = ({ commit }, scoreAutoUpdate) => {
   commit(types.CURRENT_TOURNAMENT, selectedAction)
 }*/
 
-export const setImagePath = ({ commit }, imagePaths) => {
-  commit(types.SET_IMAGE_PATH, imagePaths)
+export const setConfigurationDetail = ({ commit }, configurationDetail) => {
+  commit(types.SET_IMAGE_PATH, configurationDetail['imagePath'])
+  commit(types.SET_MAP_KEY, configurationDetail['googleMapKey'])
 }
