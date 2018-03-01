@@ -40,7 +40,7 @@
 			          			<img v-if="homepage.welcome_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 			          		</div>
 			          		<div class="col-sm-9">
-				          		<button v-if="homepage.welcome_image != ''" class="btn btn-default" @click="removeImage($event, 'welcome_image')">{{$lang.tournament_tournament_remove_button}}</button>
+				          		<button v-if="homepage.welcome_image != '' && is_welcome_image_uploading == false" class="btn btn-default" @click="removeImage($event, 'welcome_image')">{{$lang.tournament_tournament_remove_button}}</button>
 				              	<button v-else :disabled="is_welcome_image_uploading" type="button" class="btn btn-default" @click="selectWelcomeImage()">{{is_welcome_image_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
 				              	<input type="file" id="welcome_image" style="display:none;" @change="onImageChange($event, 'welcome_image')">
 				              	<input type="hidden" v-model="homepage.welcome_image" name="welcome_image" />
@@ -228,6 +228,7 @@ export default {
 		},
 		removeImage(e, key) {
 			this.homepage[key] = '';
+			$('#'+key).val('');
 			e.preventDefault();
 		},
 		getPageContent() {
