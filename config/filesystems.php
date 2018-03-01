@@ -58,6 +58,7 @@ return [
             'driver' => 's3',
             'key' => env('S3_KEY'),
             'secret' => env('S3_SECRET'),
+            'url' => env('S3_URL'),
             'region' => env('S3_REGION'),
             'bucket' => env('S3_UPLOADS_BUCKET'),
             'visibility' => env('S3_VISIBILITY')
