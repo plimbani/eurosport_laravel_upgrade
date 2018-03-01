@@ -88,7 +88,7 @@ class sendActivityNotification extends Command
 
       $email_details = ['usersActivities' => $usersActivities];
       $recipient = config('wot.activity_notification_recepients');
-      $subject = 'World of Tournaments - Tournament administrators activity notification';
+      $subject = 'World of Tournaments - Activity notification - ' . Carbon::now()->format('jS F Y, H:i');
       $emailTemplate = 'emails.activity_notification';
 
       Common::sendMail($email_details, $recipient, $subject, $emailTemplate);
