@@ -55,4 +55,18 @@ class Website extends Model
     {
         return $this->hasMany('Laraspace\Models\Message', 'tournament_id', 'linked_tournament');
     }
+
+    /**
+     * Create tournament logo url.
+     *
+     * @return string
+     */
+    public function tournamentLogo($key = null)
+    {
+        $path = config('filesystems.disks.s3.url') . config('wot.imagePath.website_tournament_logo');
+        if($key) {
+            return  $path . $key . '/' . $this->tournament_logo;
+        }
+        return $path . $this->tournament_logo;
+    }
 }

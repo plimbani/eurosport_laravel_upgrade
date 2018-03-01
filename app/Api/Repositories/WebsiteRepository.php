@@ -174,7 +174,7 @@ class WebsiteRepository
     $websiteData->pageTreeArray = Page::buildPageTree($websiteData->pages->toArray());
 
     if($websiteData->tournament_logo != null) {
-      $websiteData->tournament_logo = $this->tournamentLogo . $websiteData->tournament_logo;
+      $websiteData->tournament_logo = $websiteData->tournamentLogo('thumbnail');
     }
 
     if($websiteData->social_sharing_graphic != null) {
