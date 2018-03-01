@@ -51,7 +51,7 @@ class Image {
 		$tempImagePath = Config::get('wot.tempImagePath');
     $filename = md5(microtime(true) . rand(10,99)) . '.' . $image->getClientOriginalExtension();
     $localpath  = $tempImagePath.$filename;
-    $image = $imageManager->make($image->getRealPath());
+    $image = $imageManager->make($image);
     $image->save($localpath);
     return $filename;
   }
