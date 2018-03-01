@@ -3,7 +3,7 @@
     <div id="gmap_place_input">      
       <gmap-place-input :select-first-on-enter="true" @place_changed="updatePlace($event)"></gmap-place-input>
     </div>
-    <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" @zoom_changed="update('zoom', $event)" @center_changed="update('reportedCenter', $event)" @maptypeid_changed="update('mapType', $event)" @bounds_changed="update('bounds', $event)" style="width: 100%; height: 400px; display: block;">
+    <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" @zoom_changed="update('zoom', $event)" @center_changed="update('reportedCenter', $event)" @maptypeid_changed="update('mapType', $event)" @bounds_changed="update('bounds', $event)" ref="venuemap" style="width: 100%; height: 400px; display: block;">
       <gmap-cluster :grid-size="gridSize">
         <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true" @click="updateInfoWindow(m,index)" :zIndex="zIndex" @position_changed="updateChild(m, 'position', $event)"></gmap-marker>
       </gmap-cluster>
@@ -86,21 +86,6 @@ export default {
         return this.markers;
       }
     },
-    // getCenter() {
-    //   var bounds = new google.maps.LatLngBounds();
-    //   if(this.markers.length > 0) {
-    //     _.forEach(this.markers, function (marker) {
-    //       bounds.extend(_.cloneDeep(marker.position));
-    //     });
-    //     map.fitBounds(bounds);
-    //     map.panToBounds(bounds);
-    //   } else {
-    //     return  {
-    //       lat: 51.509865,
-    //       lng: -0.118092
-    //     };
-    //   }
-    // },
   },
   mounted() {
     this.getAllMarkers();
@@ -111,11 +96,17 @@ export default {
       var vm = this;
       Website.getMarkers(this.getWebsite).then(
         (response) => {
+          var bounds = new google.maps.LatLngBounds();
           vm.markers = response.data.data;
           vm.markers = _.map(response.data.data, function(marker) {
             marker.position = { 'lat' : parseFloat(marker.latitude), 'lng' : parseFloat(marker.longitude)  };
+            bounds.extend(_.cloneDeep(marker.position));
             return marker;
           });
+          if(vm.markers.length > 0) {
+            vm.$refs.venuemap.fitBounds(bounds);
+            vm.$refs.venuemap.panToBounds(bounds);
+          }
         },
         (error) => {
         }
