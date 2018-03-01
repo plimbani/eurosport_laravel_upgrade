@@ -23,7 +23,7 @@
 			          			<img v-if="homepage.hero_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 			          		</div>
 			          		<div class="col-sm-9">
-			          			<button v-if="homepage.hero_image != ''" class="btn btn-default" @click="removeImage($event, 'hero_image')">{{$lang.tournament_tournament_remove_button}}</button>
+			          			<button v-if="homepage.hero_image != '' && is_hero_image_uploading == false" class="btn btn-default" @click="removeImage($event, 'hero_image')">{{$lang.tournament_tournament_remove_button}}</button>
 			              		<button v-else :disabled="is_hero_image_uploading" type="button" class="btn btn-default" @click="selectHeroImage()">{{is_hero_image_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
 			              		<input type="file" id="hero_image" style="display:none;" @change="onImageChange($event, 'hero_image')">
 			              		<input type="hidden" v-model="homepage.hero_image" name="hero_image" />
@@ -182,6 +182,7 @@ export default {
 		onImageChange(e, key) {
 			var vm = this;
 			var files = e.target.files || e.dataTransfer.files;
+			var reader  = new FileReader();
 
 			if (!files.length)
 				return;
@@ -191,6 +192,14 @@ export default {
         toastr['error'](tmpKey + ' is not a valid image', 'Error');
         return;
       }
+
+      // Read image
+			reader.addEventListener("load", function () {
+				vm.homepage[key] = reader.result;
+			}, false);
+			if (files[0]) {
+				reader.readAsDataURL(files[0]);
+			}
 
       var formData = new FormData();
       formData.append('image', files[0]);
