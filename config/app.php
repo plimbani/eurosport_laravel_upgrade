@@ -266,6 +266,7 @@ return [
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'Input' => Illuminate\Support\Facades\Input::class,
         'JavaScript' =>  Laracasts\Utilities\JavaScript::class,
         'Landlord'   => HipsterJazzbo\Landlord\Facades\Landlord::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,

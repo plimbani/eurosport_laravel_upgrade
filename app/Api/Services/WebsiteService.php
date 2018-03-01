@@ -2,6 +2,7 @@
 
 namespace Laraspace\Api\Services;
 
+use Input;
 use Storage;
 use JWTAuth;
 use Config;
@@ -281,7 +282,7 @@ class WebsiteService implements WebsiteContract
    */
   public function uploadWelcomeImage($request)
   {
-    $filename = Image::createTempImage($request->image);
+    $filename = Image::createTempImage(Input::file('image'));
     $localpath = $this->tempImagePath.$filename;
     $s3path = $this->imagePath['welcome_image'].$filename;
 

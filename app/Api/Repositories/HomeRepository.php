@@ -214,7 +214,7 @@ class HomeRepository
     // Upload hero image
     $meta['hero_image'] = basename(parse_url($data['hero_image'])['path']);
     // Upload welcome image
-    $meta['welcome_image'] = basename(parse_url($data['welcome_image'])['path']);;
+    $meta['welcome_image'] = basename(parse_url($data['welcome_image'])['path']);
     $pageDetail['meta'] = $meta;
 
     $this->pageService->updatePageDetails($pageDetail, $data['websiteId']);
