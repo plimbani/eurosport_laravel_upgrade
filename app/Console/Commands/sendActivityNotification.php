@@ -86,14 +86,14 @@ class sendActivityNotification extends Command
         }
       }
 
-      $email_details = ['usersActivities' => $usersActivities];
-      $recipient = config('wot.activity_notification_recepients');
-      $subject = 'World of Tournaments - Activity notification - ' . Carbon::now()->format('jS F Y, H:i');
-      $emailTemplate = 'emails.activity_notification';
-
-      Common::sendMail($email_details, $recipient, $subject, $emailTemplate);
-
       if(count($notificationIds) > 0) {
+        $email_details = ['usersActivities' => $usersActivities];
+        $recipient = config('wot.activity_notification_recepients');
+        $subject = 'World of Tournaments - Activity notification - ' . Carbon::now()->format('jS F Y, H:i');
+        $emailTemplate = 'emails.activity_notification';
+
+        Common::sendMail($email_details, $recipient, $subject, $emailTemplate);
+
         ActivityNotification::whereIn('id', $notificationIds)->update(['is_mail_sent' => 1, 'mailed_at' => Carbon::now()]);
       }
 

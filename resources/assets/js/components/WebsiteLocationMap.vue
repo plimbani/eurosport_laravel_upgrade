@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="gmap_place_input">      
+    <div id="gmap_place_input">
       <gmap-place-input :select-first-on-enter="true" @place_changed="updatePlace($event)"></gmap-place-input>
     </div>
     <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" @zoom_changed="update('zoom', $event)" @center_changed="update('reportedCenter', $event)" @maptypeid_changed="update('mapType', $event)" @bounds_changed="update('bounds', $event)" ref="venuemap" style="width: 100%; height: 400px; display: block;">
