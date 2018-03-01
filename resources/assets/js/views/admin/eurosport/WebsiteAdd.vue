@@ -65,21 +65,15 @@
 							<div class="form-group row" v-if="this.isAdmin">
 								<label class="col-sm-12 form-control-label">{{$lang.tournament_logo}}</label>
 								<div class="col-sm-12">
-										<div class="row align-items-center" v-if="!tournament_logo_image">
+										<div class="row align-items-center">
 											<div class="col-sm-3">
-												<img src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
+												<transition-image v-if="tournament_logo_image != ''" :image_url="tournament_logo_image" :image_class="'img-fluid'"></transition-image>
+												<img v-if="tournament_logo_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
-												<button :disabled="is_tournament_logo_uploading" type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{is_tournament_logo_uploading ? $lang.uploading :$lang.tournament_tournament_choose_button}}</button>
-												<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange">
-											</div>
-										</div>
-										<div class="row align-items-center" v-else>
-											<div class="col-sm-3">
-												<transition-image :image_url="tournament_logo_image" :image_class="'img-fluid'"></transition-image>
-											</div>
-											<div class="col-sm-9">
-												<button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
+												<button v-if="tournament_logo_image != '' && is_tournament_logo_uploading == false" class="btn btn-default" @click="removeImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
+												<button v-else :disabled="is_tournament_logo_uploading" type="button" class="btn btn-default" @click="selectTournamentLogo()">{{is_tournament_logo_uploading ? $lang.uploading :$lang.tournament_tournament_choose_button}}</button>
+												<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange($event)">
 											</div>
 										</div>
 								</div>
@@ -87,21 +81,15 @@
 							<div class="form-group row">
 								<label class="col-sm-12 form-control-label">{{$lang.social_sharing_graphic}}</label>
 								<div class="col-sm-12">
-										<div class="row align-items-center" v-if="!social_sharing_graphic_image">
+										<div class="row align-items-center">
 											<div class="col-sm-3">
-												<img src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
+												<transition-image v-if="social_sharing_graphic_image != ''" :image_url="social_sharing_graphic_image" :image_class="'img-fluid'"></transition-image>
+												<img v-if="social_sharing_graphic_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
-												<button :disabled="is_social_sharing_image_uploading" type="button" class="btn btn-default" name="btnSelect" id="btnSelect_social_sharing">{{is_social_sharing_image_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
-												<input type="file" id="select_file_social_sharing" style="display:none;" @change="onSocialSharingGraphicImageChange">
-											</div>
-										</div>
-										<div class="row align-items-center" v-else>
-											<div class="col-sm-3">
-												<transition-image :image_url="social_sharing_graphic_image" :image_class="'img-fluid'"></transition-image>
-											</div>
-											<div class="col-sm-9">
-												<button class="btn btn-default" @click="removeSocialSharingImage">{{$lang.tournament_tournament_remove_button}}</button>
+												<button v-if="social_sharing_graphic_image != '' && is_social_sharing_image_uploading == false" class="btn btn-default" @click="removeSocialSharingImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
+												<button v-else :disabled="is_social_sharing_image_uploading" type="button" class="btn btn-default" name="btnSelect" @click="selectSocialSharingGraphic()">{{is_social_sharing_image_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+												<input type="file" id="select_file_social_sharing" style="display:none;" @change="onSocialSharingGraphicImageChange($event)">
 											</div>
 										</div>
 								</div>
@@ -289,12 +277,6 @@ export default {
 		let currentNavigationData = {
 			activeTab:'website_add',
 		};
-		$('#btnSelect').on('click',function(){
-			$('#selectFile').trigger('click')
-		});
-		$('#btnSelect_social_sharing').on('click',function(){
-			$('#select_file_social_sharing').trigger('click')
-		});
 		this.getAllPublishedTournaments();
 		this.getWebsiteCustomisationOptions();
 		this.website.websiteId = this.$store.state.Website.id;
@@ -365,6 +347,7 @@ export default {
 		onTournamentLogoChange(e) {
 			var vm = this;
 			var files = e.target.files || e.dataTransfer.files;
+			var reader  = new FileReader();
 
 			if (!files.length)
 			 return;
@@ -374,8 +357,15 @@ export default {
 				return;
 			}
 
-			this.is_tournament_logo_uploading = true;
+			// Read image
+			reader.addEventListener("load", function () {
+				vm.tournament_logo_image = reader.result;
+			}, false);
+			if (files[0]) {
+				reader.readAsDataURL(files[0]);
+			}
 
+			this.is_tournament_logo_uploading = true;
       var formData = new FormData();
       formData.append('image', files[0]);
       axios.post('/api/websites/uploadTournamentLogo', formData).then(
@@ -409,6 +399,7 @@ export default {
 					if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {
 						toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
 					} else {
+						vm.social_sharing_graphic_image = r.target.result;
 						vm.is_social_sharing_image_uploading = true;
 			      var formData = new FormData();
 			      formData.append('image', files[0]);
@@ -429,10 +420,12 @@ export default {
 		},
 		removeImage: function (e) {
 			this.tournament_logo_image = '';
+			$('#selectFile').val('');
 			e.preventDefault();
 		},
 		removeSocialSharingImage: function (e) {
 			this.social_sharing_graphic_image = '';
+			$('#select_file_social_sharing').val('');
 			e.preventDefault();
 		},
 		getWebsiteCustomisationOptions() {
@@ -456,8 +449,8 @@ export default {
 		getWebsiteSummary() {
 			Website.websiteSummaryData(this.website.websiteId).then(
 				(response) => {
-					this.tournament_logo_image = response.data.data.tournament_logo;
-					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic;
+					this.tournament_logo_image = response.data.data.tournament_logo !=null ? response.data.data.tournament_logo : '';
+					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic !=null ? response.data.data.social_sharing_graphic : '';
 					this.website.tournament_name = response.data.data.tournament_name;
 					this.website.tournament_location = response.data.data.tournament_location;
 					this.website.tournament_date = response.data.data.tournament_dates;
@@ -493,6 +486,12 @@ export default {
 			childPage.is_published = 0;
 			return true;
 		},
+		selectTournamentLogo() {
+			$('#selectFile').trigger('click');
+		},
+		selectSocialSharingGraphic() {
+			$('#select_file_social_sharing').trigger('click');
+		}
 	}
 }
 </script>
