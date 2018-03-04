@@ -6,10 +6,12 @@ use DB;
 use Laraspace\Models\Page;
 use Laraspace\Models\Website;
 use Laraspace\Models\Itinerary;
+use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
 
 class ProgramRepository
 {
+  use AuthUserDetail;
 
   /**
    * @var Program page name
@@ -35,13 +37,13 @@ class ProgramRepository
     $this->programPageName = 'program';
     $this->programPageUrl = '/program';
     $this->additionalPageRoutesName = ['additional.program.page.details'];
-  }  
+  }
 
   /*
    * Get all itineraries
    *
    * @return response
-   */	
+   */
 	public function getItineraries($websiteId)
 	{
 		$itineraries = Itinerary::where('website_id', $websiteId)->orderBy('order')->get();
@@ -52,7 +54,7 @@ class ProgramRepository
    * Save program page data
    *
    * @return response
-   */ 
+   */
   public function saveProgramPageData($data)
   {
     $this->saveItineraries($data);
@@ -63,7 +65,7 @@ class ProgramRepository
    * Save itinerary
    *
    * @return response
-   */ 
+   */
   public function saveItineraries($data)
   {
     $websiteId = $data['websiteId'];
@@ -76,10 +78,11 @@ class ProgramRepository
     for($i=0; $i<count($itineraries); $i++) {
       $itineraryData = $itineraries[$i];
       $itineraryData['order'] = $i + 1;
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($itineraryData['id'] == '') {
-        $itinerary = $this->insertItinerary($websiteId, $itineraryData);
+        $itinerary = $this->insertItinerary($websiteId, $currentLoggedInUserId, $itineraryData);
       } else {
-        $itinerary = $this->updateItinerary($itineraryData);
+        $itinerary = $this->updateItinerary($currentLoggedInUserId, $itineraryData);
       }
       $itineraryIds[] = $itinerary->id;
     }
@@ -105,7 +108,7 @@ class ProgramRepository
    *
    * @return response
    */
-  public function insertItinerary($websiteId, $data)
+  public function insertItinerary($websiteId, $currentLoggedInUserId, $data)
   {
     $itinerary = new Itinerary();
     $itinerary->website_id = $websiteId;
@@ -113,6 +116,7 @@ class ProgramRepository
     $itinerary->time = $data['time'];
     $itinerary->item = $data['item'];
     $itinerary->order = $data['order'];
+    $itinerary->created_by = $currentLoggedInUserId;
     $itinerary->save();
 
     return $itinerary;
@@ -123,14 +127,17 @@ class ProgramRepository
    *
    * @return response
    */
-  public function updateItinerary($data)
+  public function updateItinerary($currentLoggedInUserId, $data)
   {
     $itinerary = Itinerary::find($data['id']);
     $itinerary->day = $data['day'];
     $itinerary->time = $data['time'];
     $itinerary->item = $data['item'];
     $itinerary->order = $data['order'];
-    $itinerary->save();
+    if($itinerary->isDirty()) {
+      $itinerary->updated_by = $currentLoggedInUserId;
+      $itinerary->save();
+    }
 
     return $itinerary;
   }
@@ -155,7 +162,7 @@ class ProgramRepository
    */
   public function getProgramPageData($websiteId)
   {
-    $pagesData = $this->pageService->getPageDetails($this->programPageName, $websiteId);  
+    $pagesData = $this->pageService->getPageDetails($this->programPageName, $websiteId);
     $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData->id, $websiteId);
 
     return ['pagesData' => $pagesData, 'additionalPages' => $additionalPages];
@@ -211,5 +218,5 @@ class ProgramRepository
   {
     $pageIds = Page::where('parent_id', $parentId)->where('is_additional_page', 1)->pluck('id')->toArray();
     return $pageIds;
-  }  
+  }
 }

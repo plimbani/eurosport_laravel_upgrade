@@ -3,13 +3,16 @@
 namespace Laraspace\Api\Repositories;
 
 use DB;
-use Laraspace\Models\Location;
 use Laraspace\Models\Map;
+use Laraspace\Models\Location;
+use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
 
 
 class WebsiteVenueRepository
 {
+  use AuthUserDetail;
+
 	/**
    * @var Page service
    */
@@ -56,13 +59,14 @@ class WebsiteVenueRepository
    *
    * @return response
    */
-  public function insertLocation($websiteId, $data)
+  public function insertLocation($websiteId, $currentLoggedInUserId, $data)
   {
     $location = new Location();
     $location->website_id = $websiteId;
     $location->name = $data['name'];
     $location->address = $data['address'];
     $location->order = $data['order'];
+    $location->created_by = $currentLoggedInUserId;
     $location->save();
 
     return $location;
@@ -73,13 +77,16 @@ class WebsiteVenueRepository
    *
    * @return response
    */
-  public function updateLocation($data)
+  public function updateLocation($currentLoggedInUserId, $data)
   {
     $location = Location::find($data['id']);
     $location->name = $data['name'];
     $location->address = $data['address'];
     $location->order = $data['order'];
-    $location->save();
+    if($location->isDirty()) {
+      $location->updated_by = $currentLoggedInUserId;
+      $location->save();
+    }
 
     return $location;
   }
@@ -108,7 +115,7 @@ class WebsiteVenueRepository
     Location::whereIn('id', $locationIds)->get()->each(function($location) {
       $location->delete();
     });
-    
+
     return true;
   }
 
@@ -139,13 +146,14 @@ class WebsiteVenueRepository
    *
    * @return response
    */
-  public function insertMarker($websiteId, $data)
+  public function insertMarker($websiteId, $currentLoggedInUserId, $data)
   {
     $marker = new Map();
     $marker->website_id = $websiteId;
     $marker->latitude = $data['position']['lat'];
     $marker->longitude = $data['position']['lng'];
     $marker->information = $data['information'];
+    $marker->created_by = $currentLoggedInUserId;
     $marker->save();
 
     return $marker;
@@ -156,13 +164,16 @@ class WebsiteVenueRepository
    *
    * @return response
    */
-  public function updateMarker($data)
+  public function updateMarker($currentLoggedInUserId, $data)
   {
     $marker = Map::find($data['id']);
     $marker->latitude = $data['position']['lat'];
     $marker->longitude = $data['position']['lng'];
     $marker->information = $data['information'];
-    $marker->save();
+    if($marker->isDirty()) {
+      $marker->updated_by = $currentLoggedInUserId;
+      $marker->save();
+    }
 
     return $marker;
   }
@@ -177,14 +188,14 @@ class WebsiteVenueRepository
     Map::whereIn('id', $markerIds)->get()->each(function($marker) {
       $marker->delete();
     });
-    
+
     return true;
   }
   /*
    * Save venue page data
    *
    * @return response
-   */	
+   */
 	public function savePageData($data)
 	{
     $this->saveLocations($data);
@@ -207,10 +218,11 @@ class WebsiteVenueRepository
     for($i=0; $i<count($locations); $i++) {
       $locationData = $locations[$i];
       $locationData['order'] = $i + 1;
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($locationData['id'] == '') {
-        $location = $this->insertLocation($websiteId, $locationData);
+        $location = $this->insertLocation($websiteId, $currentLoggedInUserId, $locationData);
       } else {
-        $location = $this->updateLocation($locationData);
+        $location = $this->updateLocation($currentLoggedInUserId, $locationData);
       }
       $locationIds[] = $location->id;
     }
@@ -232,13 +244,14 @@ class WebsiteVenueRepository
 
     $existingMarkersId = $this->getAllMarkerIds($websiteId);
 
-    $markerIds = [];    
+    $markerIds = [];
     for($i=0; $i<count($markers); $i++) {
       $markerData = $markers[$i];
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($markerData['id'] == '') {
-        $marker = $this->insertMarker($websiteId, $markerData);
+        $marker = $this->insertMarker($websiteId, $currentLoggedInUserId, $markerData);
       } else {
-        $marker = $this->updateMarker($markerData);
+        $marker = $this->updateMarker($currentLoggedInUserId, $markerData);
       }
       $markerIds[] = $marker->id;
     }

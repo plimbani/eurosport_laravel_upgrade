@@ -7,12 +7,15 @@ use Laraspace\Models\Page;
 use Laraspace\Models\Website;
 use Laraspace\Models\Country;
 use Laraspace\Models\HistoryYear;
-use Laraspace\Models\HistoryAgeCategory;
 use Laraspace\Models\HistoryTeam;
+use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
+use Laraspace\Models\HistoryAgeCategory;
 
 class WebsiteTournamentRepository
 {
+  use AuthUserDetail;
+
   /**
    * @var Page service
    */
@@ -42,7 +45,7 @@ class WebsiteTournamentRepository
    * Save website tournament data
    *
    * @return response
-   */	
+   */
 	public function savePageData($data)
 	{
 		// update website tournament page age categories
@@ -93,12 +96,13 @@ class WebsiteTournamentRepository
    *
    * @return response
    */
-  public function insertHistoryYear($websiteId, $data)
+  public function insertHistoryYear($websiteId, $currentLoggedInUserId, $data)
   {
     $historyYear = new HistoryYear();
     $historyYear->website_id = $websiteId;
     $historyYear->year = $data['year'];
     $historyYear->order = $data['order'];
+    $historyYear->created_by = $currentLoggedInUserId;
     $historyYear->save();
 
     return $historyYear;
@@ -109,12 +113,15 @@ class WebsiteTournamentRepository
    *
    * @return response
    */
-  public function updateHistoryYear($data)
+  public function updateHistoryYear($currentLoggedInUserId, $data)
   {
     $historyYear = HistoryYear::find($data['id']);
     $historyYear->year = $data['year'];
     $historyYear->order = $data['order'];
-    $historyYear->save();
+    if($historyYear->isDirty()) {
+      $historyYear->updated_by = $currentLoggedInUserId;
+      $historyYear->save();
+    }
 
     return $historyYear;
   }
@@ -175,13 +182,14 @@ class WebsiteTournamentRepository
    *
    * @return response
    */
-  public function insertAgeCategory($yearId, $websiteId, $data)
+  public function insertAgeCategory($yearId, $websiteId, $currentLoggedInUserId, $data)
   {
     $ageCategory = new HistoryAgeCategory();
     $ageCategory->website_id = $websiteId;
     $ageCategory->history_year_id = $yearId;
     $ageCategory->name = $data['name'];
     $ageCategory->order = $data['order'];
+    $ageCategory->created_by = $currentLoggedInUserId;
     $ageCategory->save();
 
     return $ageCategory;
@@ -192,12 +200,15 @@ class WebsiteTournamentRepository
    *
    * @return response
    */
-  public function updateAgeCategory($data)
+  public function updateAgeCategory($currentLoggedInUserId, $data)
   {
     $ageCategory = HistoryAgeCategory::find($data['id']);
     $ageCategory->name = $data['name'];
     $ageCategory->order = $data['order'];
-    $ageCategory->save();
+    if($ageCategory->isDirty()) {
+      $ageCategory->updated_by = $currentLoggedInUserId;
+      $ageCategory->save();
+    }
 
     return $ageCategory;
   }
@@ -254,7 +265,7 @@ class WebsiteTournamentRepository
    *
    * @return response
    */
-  public function insertTeam($ageCategoryId, $websiteId, $data)
+  public function insertTeam($ageCategoryId, $websiteId, $currentLoggedInUserId, $data)
   {
     $team = new HistoryTeam();
     $team->website_id = $websiteId;
@@ -262,6 +273,7 @@ class WebsiteTournamentRepository
     $team->name = $data['name'];
     $team->order = $data['order'];
     $team->country_id = $data['country']['id'];
+    $team->created_by = $currentLoggedInUserId;
     $team->save();
 
     return $team;
@@ -272,13 +284,16 @@ class WebsiteTournamentRepository
    *
    * @return response
    */
-  public function updateTeam($data)
+  public function updateTeam($currentLoggedInUserId, $data)
   {
     $team = HistoryTeam::find($data['id']);
     $team->name = $data['name'];
     $team->order = $data['order'];
     $team->country_id = $data['country']['id'];
-    $team->save();
+    if($team->isDirty()) {
+      $team->updated_by = $currentLoggedInUserId;
+      $team->save();
+    }
 
     return $team;
   }
@@ -354,10 +369,11 @@ class WebsiteTournamentRepository
     for($i=0; $i<count($historyYears); $i++) {
       $historyYearData = $historyYears[$i];
       $historyYearData['order'] = $i + 1;
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($historyYearData['id'] == '') {
-        $historyYear = $this->insertHistoryYear($websiteId, $historyYearData);
+        $historyYear = $this->insertHistoryYear($websiteId, $currentLoggedInUserId, $historyYearData);
       } else {
-        $historyYear = $this->updateHistoryYear($historyYearData);
+        $historyYear = $this->updateHistoryYear($currentLoggedInUserId, $historyYearData);
       }
       $this->saveAgeCategories($historyYearData['age_categories'], $historyYear->id, $websiteId);
       $yearIds[] = $historyYear->id;
@@ -381,10 +397,11 @@ class WebsiteTournamentRepository
     for($i=0; $i<count($ageCategories); $i++) {
       $ageCategoryData = $ageCategories[$i];
       $ageCategoryData['order'] = $i + 1;
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($ageCategoryData['id'] == '') {
-        $ageCategory = $this->insertAgeCategory($yearId, $websiteId, $ageCategoryData);
+        $ageCategory = $this->insertAgeCategory($yearId, $websiteId, $currentLoggedInUserId, $ageCategoryData);
       } else {
-        $ageCategory = $this->updateAgeCategory($ageCategoryData);
+        $ageCategory = $this->updateAgeCategory($currentLoggedInUserId, $ageCategoryData);
       }
       $this->saveAgeCategoryTeams($ageCategoryData['teams'], $ageCategory->id, $websiteId);
       $ageCategoriesIds[] = $ageCategory->id;
@@ -408,11 +425,11 @@ class WebsiteTournamentRepository
     for($i=0; $i<count($teams); $i++) {
       $teamData = $teams[$i];
       $teamData['order'] = $i + 1;
-
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($teamData['id'] == '') {
-        $team = $this->insertTeam($ageCategoryId, $websiteId, $teamData);
+        $team = $this->insertTeam($ageCategoryId, $websiteId, $currentLoggedInUserId, $teamData);
       } else {
-        $team = $this->updateTeam($teamData);
+        $team = $this->updateTeam($currentLoggedInUserId, $teamData);
       }
       $teamIds[] = $team->id;
     }

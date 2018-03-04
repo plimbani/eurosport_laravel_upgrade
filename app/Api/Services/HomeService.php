@@ -40,32 +40,8 @@ class HomeService implements HomeContract
   public function getStatistics($websiteId)
   {
     $data = $this->homeRepo->getAllStatistics($websiteId);
-    
+
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
-  }
-
-  /*
-   * Store statistic
-   *
-   * @return response
-   */
-  public function storeStatistic($websiteId, $data)
-  {
-    $result = $this->homeRepo->insertStatistic($websiteId, $data);
-    
-    return ['data' => $result, 'status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
-  }
-
-  /*
-   * Update statistic
-   *
-   * @return response
-   */
-  public function updateStatistic($data)
-  {
-    $result = $this->homeRepo->updateStatistic($data);
-    
-    return ['data' => $result, 'status_code' => '200', 'message' => 'Data Sucessfully Updated'];
   }
 
   /*
@@ -76,7 +52,7 @@ class HomeService implements HomeContract
   public function deleteStatistic($websiteId)
   {
     $result = $this->homeRepo->deleteStatistic($websiteId);
-    
+
     return ['data' => $result, 'status_code' => '200', 'message' => 'Data Sucessfully Deleted'];
   }
 
@@ -88,7 +64,7 @@ class HomeService implements HomeContract
   public function getOrganisers($websiteId)
   {
     $data = $this->homeRepo->getAllOrganisers($websiteId);
-    
+
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
 
