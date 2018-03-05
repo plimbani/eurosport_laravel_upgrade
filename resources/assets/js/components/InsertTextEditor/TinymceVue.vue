@@ -178,7 +178,14 @@
                             // this.$emit('input', this.content);
                         });
                         editor.setContent(this.content);
-                        this.$emit('input', this.content);
+                        new Promise(function (resolve, reject) {
+                          vm.$emit('input', vm.content);
+                          resolve();
+                        }).then(function(result) {
+                          setTimeout(()=>{
+                            vm.clearErrorMsgs();
+                          }, 800);
+                        });
                     }
                 };
                 tinymce.init(this.concatAssciativeArrays(options, this.other_options));
