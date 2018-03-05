@@ -56,7 +56,7 @@ trait TrackActivitySection
     $isWebsiteCustomised = 0;
     $isWebsiteInformationCustomised = 0;
 
-    $customisationModifiableFields = ['primary_color', 'secondary_color', 'heading_font', 'body_font'];
+    $customisationModifiableFields = ['color', 'font'];
     collect($website->getDirty())->each(function ($value, $key) use($customisationModifiableFields, &$isWebsiteCustomised) {
       if (in_array($key, $customisationModifiableFields)) {
         $isWebsiteCustomised = 1;
