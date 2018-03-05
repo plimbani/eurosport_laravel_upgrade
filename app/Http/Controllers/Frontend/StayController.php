@@ -2,6 +2,7 @@
 
 namespace Laraspace\Http\Controllers\Frontend;
 
+use App;
 use Landlord;
 use Laraspace\Models\Page;
 use Illuminate\Http\Request;
@@ -120,7 +121,11 @@ class StayController extends Controller
                     ->where('page_name', $additionalPageName)
                     ->first();
 
-      $varsForView['additionalPage'] = $page;              
+      if(!$page) {
+        App::abort(404);
+      }
+
+      $varsForView['additionalPage'] = $page;
       // page title
       $varsForView['pageTitle'] = $parentPageDetail->title . ' - ' . $page->title;
 
