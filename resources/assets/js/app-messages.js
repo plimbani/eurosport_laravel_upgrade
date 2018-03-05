@@ -1,7 +1,7 @@
 var Vue = require('vue');
 import VueSocketio from 'vue-socket.io';
 import AppMessages from './api/appmessages.js';
-Vue.use(VueSocketio, 'http://192.168.0.5:3002');
+Vue.use(VueSocketio, 'http://'+ Site.serverAddr +':'+ Site.serverPort);
 
 // components
 var appMessages = require('./components/Frontend/AppMessage.vue');

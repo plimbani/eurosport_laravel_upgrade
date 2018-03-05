@@ -56,7 +56,10 @@ class VerifyWebsite
         View::share('sponsors', $sponsors);
 
         JavaScript::put([
-            'websiteId' => $website->id
+            'websiteId' => $website->id,
+            'serverAddr' => env('BROADCAST_SERVER_ADDRESS'),
+            'serverPort' => env('BROADCAST_SERVER_PORT'),
+            'broadcastChannel' => env('BROADCAST_CHANNEL'),
         ]);
 
         Config::set('wot.current_domain', $domain);
