@@ -62,7 +62,7 @@ export default {
       mapBounds: {},
       clustering: true,
       zoom: 8,
-      gridSize: 50,
+      gridSize: 20,
       mapType: 'terrain',
       markers: [],
       markersEven: false,

@@ -5,9 +5,11 @@ namespace Laraspace\Api\Services;
 use JWTAuth;
 use Laraspace\Models\Page;
 use Illuminate\Support\Str;
+use Laraspace\Traits\AuthUserDetail;
 
 class PageService
 {
+  use AuthUserDetail;
 
   /**
    * @var URL
@@ -40,7 +42,11 @@ class PageService
     isset($pageDetail['is_enabled']) ? $page->is_enabled = $pageDetail['is_enabled'] : '';
     isset($pageDetail['is_published']) ? $page->is_published = $pageDetail['is_published'] : '';
 
-    $page->save();
+    $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
+    if($page->isDirty()) {
+      $page->updated_by = $currentLoggedInUserId;
+      $page->save();
+    }
 
     return $page;
   }
@@ -66,6 +72,8 @@ class PageService
     isset($pageDetail['is_additional_page']) ? $page->is_additional_page = $pageDetail['is_additional_page'] : '';
     isset($pageDetail['is_enabled']) ? $page->is_enabled = $pageDetail['is_enabled'] : '';
     isset($pageDetail['is_published']) ? $page->is_published = $pageDetail['is_published'] : '';
+    $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
+    $page->created_by = $currentLoggedInUserId;
     $page->save();
 
     return $page;
@@ -151,5 +159,5 @@ class PageService
       $page->delete();
     });
     return true;
-  }  
+  }
 }

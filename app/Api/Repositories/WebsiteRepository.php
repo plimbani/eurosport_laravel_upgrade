@@ -8,10 +8,12 @@ use Laraspace\Models\Contact;
 use Laraspace\Models\Sponsor;
 use Laraspace\Models\Website;
 use Laraspace\Custom\Helper\Image;
+use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
 
 class WebsiteRepository
 {
+  use AuthUserDetail;
 
   /**
    * @var Tournament logo
@@ -27,7 +29,7 @@ class WebsiteRepository
    * @var Page service
    */
   protected $pageService;
-  
+
   /**
    * @var AWS URL
    */
@@ -78,7 +80,7 @@ class WebsiteRepository
    *
    * @return response
    */
-  public function saveWebsiteData($data) 
+  public function saveWebsiteData($data)
   {
     $website = $this->saveWebsite($data);
 
@@ -86,7 +88,7 @@ class WebsiteRepository
     {
       $data['websiteId'] = $website->id;
     }
-    
+
     $this->saveSponsors($data);
     return $website;
   }
@@ -96,7 +98,7 @@ class WebsiteRepository
    *
    * @return response
    */
-  public function saveWebsite($data) 
+  public function saveWebsite($data)
   {
     if(isset($data['websiteId']) && $data['websiteId'] != null){
       $websiteId = $data['websiteId'];
@@ -119,13 +121,23 @@ class WebsiteRepository
     $website->secondary_color = $data['secondary_color'];
     $website->heading_font = $data['heading_font'];
     $website->body_font = $data['body_font'];
-    $website->save();
+
+    $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
+    if($data['isExistingWebsite'] == false){
+      $website->created_by = $currentLoggedInUserId;
+      $website->save();
+    } else {
+      if($website->isDirty()) {
+        $website->updated_by = $currentLoggedInUserId;
+        $website->save();
+      }
+    }
 
     $data['websiteId'] = $website->id;
 
     $this->saveWebsitePageDetail($data);
 
-    $this->saveContactDetail($data);
+    $this->saveContactDetail($currentLoggedInUserId, $data);
 
     return $website;
   }
@@ -135,7 +147,7 @@ class WebsiteRepository
    *
    * @return response
    */
-  public function saveSponsors($data) 
+  public function saveSponsors($data)
   {
     $websiteId = $data['websiteId'];
     $sponsors = $data['sponsors'];
@@ -149,11 +161,11 @@ class WebsiteRepository
 
       // Upload image
       $sponsorData['logo'] = basename(parse_url($sponsorData['logo'])['path']);
-
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($sponsorData['id'] == '') {
-        $sponsor = $this->insertSponsor($websiteId, $sponsorData);
+        $sponsor = $this->insertSponsor($websiteId, $currentLoggedInUserId, $sponsorData);
       } else {
-        $sponsor = $this->updateSponsor($sponsorData);
+        $sponsor = $this->updateSponsor($currentLoggedInUserId, $sponsorData);
       }
       $sponsorIds[] = $sponsor->id;
     }
@@ -179,8 +191,8 @@ class WebsiteRepository
 
     if($websiteData->social_sharing_graphic != null) {
       $websiteData->social_sharing_graphic = $this->socialSharingGraphicImage . $websiteData->social_sharing_graphic;
-    }    
-    
+    }
+
     return $websiteData;
   }
 
@@ -213,7 +225,7 @@ class WebsiteRepository
     $pages = $data['pages'];
     $websiteId = $data['websiteId'];
     $isExistingWebsite = $data['isExistingWebsite'];
-    
+
     $this->processPageTree($pages, $websiteId, $isExistingWebsite);
   }
 
@@ -266,7 +278,7 @@ class WebsiteRepository
    *
    * @return response
    */
-  public function insertSponsor($websiteId, $data)
+  public function insertSponsor($websiteId, $currentLoggedInUserId, $data)
   {
     $sponsor = new Sponsor();
     $sponsor->website_id = $websiteId;
@@ -274,6 +286,7 @@ class WebsiteRepository
     $sponsor->order = $data['order'];
     $sponsor->logo = $data['logo'];
     $sponsor->website = $data['website'];
+    $sponsor->created_by = $currentLoggedInUserId;
     $sponsor->save();
 
     return $sponsor;
@@ -284,14 +297,17 @@ class WebsiteRepository
    *
    * @return response
    */
-  public function updateSponsor($data)
+  public function updateSponsor($currentLoggedInUserId, $data)
   {
     $sponsor = Sponsor::find($data['id']);
     $sponsor->name = $data['name'];
     $sponsor->order = $data['order'];
     $sponsor->logo = $data['logo'];
     $sponsor->website = $data['website'];
-    $sponsor->save();
+    if($sponsor->isDirty()) {
+      $sponsor->updated_by = $currentLoggedInUserId;
+      $sponsor->save();
+    }
 
     return $sponsor;
   }
@@ -306,7 +322,7 @@ class WebsiteRepository
     Sponsor::whereIn('id', $sponsorIds)->get()->each(function($sponsor) {
       $sponsor->delete();
     });
-    
+
     return true;
   }
 
@@ -315,11 +331,12 @@ class WebsiteRepository
    *
    * @return response
    */
-  public function saveContactDetail($data)
+  public function saveContactDetail($currentLoggedInUserId, $data)
   {
     if($data['isExistingWebsite'] === false) {
       $contact = new Contact();
       $contact->website_id = $data['websiteId'];
+      $contact->created_by = $currentLoggedInUserId;
       $contact->save();
     }
   }

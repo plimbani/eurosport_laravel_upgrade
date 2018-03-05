@@ -6,10 +6,13 @@ use DB;
 use Laraspace\Models\Statistic;
 use Laraspace\Models\Organiser;
 use Laraspace\Custom\Helper\Image;
+use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
 
 class HomeRepository
 {
+  use AuthUserDetail;
+
   /**
    * @var AWS URL
    */
@@ -62,12 +65,13 @@ class HomeRepository
    *
    * @return response
    */
-  public function insertStatistic($websiteId, $data)
+  public function insertStatistic($websiteId, $currentLoggedInUserId, $data)
   {
     $statistic = new Statistic();
     $statistic->website_id = $websiteId;
     $statistic->content = $data['content'];
     $statistic->order = $data['order'];
+    $statistic->created_by = $currentLoggedInUserId;
     $statistic->save();
 
     return $statistic;
@@ -78,12 +82,15 @@ class HomeRepository
    *
    * @return response
    */
-  public function updateStatistic($data)
+  public function updateStatistic($currentLoggedInUserId, $data)
   {
     $statistic = Statistic::find($data['id']);
     $statistic->content = $data['content'];
     $statistic->order = $data['order'];
-    $statistic->save();
+    if($statistic->isDirty()) {
+      $statistic->updated_by = $currentLoggedInUserId;
+      $statistic->save();
+    }
 
     return $statistic;
   }
@@ -144,13 +151,14 @@ class HomeRepository
    *
    * @return response
    */
-  public function insertOrganiser($websiteId, $data)
+  public function insertOrganiser($websiteId, $currentLoggedInUserId, $data)
   {
     $organiser = new Organiser();
     $organiser->website_id = $websiteId;
     $organiser->name = $data['name'];
     $organiser->order = $data['order'];
     $organiser->logo = $data['logo'];
+    $organiser->created_by = $currentLoggedInUserId;
     $organiser->save();
 
     return $organiser;
@@ -161,13 +169,16 @@ class HomeRepository
    *
    * @return response
    */
-  public function updateOrganiser($data)
+  public function updateOrganiser($currentLoggedInUserId, $data)
   {
     $organiser = Organiser::find($data['id']);
     $organiser->name = $data['name'];
     $organiser->order = $data['order'];
     $organiser->logo = $data['logo'];
-    $organiser->save();
+    if($organiser->isDirty()) {
+      $organiser->updated_by = $currentLoggedInUserId;
+      $organiser->save();
+    }
 
     return $organiser;
   }
@@ -238,10 +249,11 @@ class HomeRepository
     for($i=0; $i<count($statistics); $i++) {
       $statisticData = $statistics[$i];
       $statisticData['order'] = $i + 1;
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($statisticData['id'] == '') {
-        $statistic = $this->insertStatistic($websiteId, $statisticData);
+        $statistic = $this->insertStatistic($websiteId, $currentLoggedInUserId, $statisticData);
       } else {
-        $statistic = $this->updateStatistic($statisticData);
+        $statistic = $this->updateStatistic($currentLoggedInUserId, $statisticData);
       }
       $statisticIds[] = $statistic->id;
     }
@@ -270,11 +282,11 @@ class HomeRepository
 
       // Upload image
       $organiserData['logo'] = basename(parse_url($organiserData['logo'])['path']);
-
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($organiserData['id'] == '') {
-        $organiser = $this->insertOrganiser($websiteId, $organiserData);
+        $organiser = $this->insertOrganiser($websiteId, $currentLoggedInUserId, $organiserData);
       } else {
-        $organiser = $this->updateOrganiser($organiserData);
+        $organiser = $this->updateOrganiser($currentLoggedInUserId, $organiserData);
       }
       $organiserIds[] = $organiser->id;
     }
