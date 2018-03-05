@@ -103,41 +103,21 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group row">
-								<label class="col-sm-12 form-control-label">{{$lang.website_primary_color}}</label>
+								<label class="col-sm-12 form-control-label">{{$lang.website_color}}</label>
 								<div class="col-md-12">
-									<div v-for="primaryColor in customisation.primary_colors" class="websiteColourBox pull-left mr-2" :style="{'background-color': primaryColor}" @click="setWebsitePrimaryColor(primaryColor)" :class="{ 'website-color-active' : website.primary_color == primaryColor }">
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="form-control-label col-md-12">{{$lang.website_secondary_color}}</label>
-								<div class="col-md-12">
-									<div v-for="secondaryColor in customisation.secondary_colors" class="websiteColourBox pull-left mr-2" :style="{'background-color': secondaryColor}" @click="setWebsiteSecondaryColor(secondaryColor)" :class="{ 'website-color-active' : website.secondary_color == secondaryColor }">
+									<div v-for="color in customisation.colors" class="websiteColourBox pull-left mr-2" :style="{'background-color': color}" @click="setWebsiteColor(color)" :class="{ 'website-color-active' : website.color == color }">
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="row">
-										<label class="col-sm-12 form-control-label">{{$lang.website_heading_fonr}}</label>
-										<div class="col-md-12" v-for="headingFont in customisation.heading_font">
+										<label class="col-sm-12 form-control-label">{{$lang.website_font}}</label>
+										<div class="col-md-12" v-for="font in customisation.fonts">
 											<div class="radio mb-2">
 												<div class="r-input">
-													<input type="radio" name="headingFont" v-bind:id="headingFont" class="euro-radio" v-model="website.heading_font" :value="headingFont" />
-													<label v-bind:for="headingFont">{{ headingFont }}</label>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="row">
-										<label class="col-sm-12 form-control-label">{{$lang.website_body_fonr}}</label>
-										<div class="col-md-12" v-for="bodyFont in customisation.body_font">
-											<div class="radio mb-2">
-												<div class="r-input">
-													<input type="radio" name="bodyFont" v-bind:id="bodyFont" class="euro-radio" v-model="website.body_font" :value="bodyFont" />
-													<label v-bind:for="bodyFont">{{ bodyFont }}</label>
+													<input type="radio" name="font" v-bind:id="font" class="euro-radio" v-model="website.font" :value="font" />
+													<label v-bind:for="font">{{ font }}</label>
 												</div>
 											</div>
 										</div>
@@ -254,18 +234,14 @@ export default {
 				tournament_logo:'',
 				social_sharing_graphic: '',
 				publishedTournaments: null,
-				primary_color: '',
-				secondary_color: '',
-				heading_font: '',
-				body_font: '',
+				color: '',
+				font: '',
 				pages: [],
 				sponsors: [],
 			},
 			customisation: {
-				primary_colors: [],
-				secondary_colors: [],
-				heading_font: [],
-				body_font: [],
+				colors: [],
+				fonts: [],
 			},
 			tournament_logo_image: '',
 			social_sharing_graphic_image: '',
@@ -431,20 +407,15 @@ export default {
 		getWebsiteCustomisationOptions() {
 			Website.getWebsiteCustomisationOptions().then(
 				(response) => {
-					this.customisation.primary_colors = response.data.data.primary_colors;
-					this.customisation.secondary_colors = response.data.data.secondary_colors;
-					this.customisation.heading_font = response.data.data.heading_font;
-					this.customisation.body_font = response.data.data.body_font;
+					this.customisation.colors = response.data.data.colors;
+					this.customisation.fonts = response.data.data.fonts;
 				},
 				(error) => {
 				}
 			)
 		},
-		setWebsitePrimaryColor(primaryColour) {
-			this.website.primary_color = primaryColour;
-		},
-		setWebsiteSecondaryColor(secondaryColour) {
-			this.website.secondary_color = secondaryColour;
+		setWebsiteColor(colour) {
+			this.website.color = colour;
 		},
 		getWebsiteSummary() {
 			Website.websiteSummaryData(this.website.websiteId).then(
@@ -457,10 +428,8 @@ export default {
 					this.website.domain_name = response.data.data.domain_name;
 					this.website.linked_tournament = response.data.data.linked_tournament != null ? response.data.data.linked_tournament : '';
 					this.website.google_analytics_id = response.data.data.google_analytics_id;
-					this.website.primary_color = response.data.data.primary_color;
-					this.website.secondary_color = response.data.data.secondary_color;
-					this.website.heading_font = response.data.data.heading_font;
-					this.website.body_font = response.data.data.body_font;
+					this.website.color = response.data.data.color;
+					this.website.font = response.data.data.font;
 					this.website.pages = response.data.data.pageTreeArray;
 				},
 				(error) => {

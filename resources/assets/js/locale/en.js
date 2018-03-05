@@ -192,6 +192,8 @@ module.exports= {
   website_secondary_color: "Secondary colour",
   website_heading_fonr: "Heading font",
   website_body_fonr: "Body font",
+  website_color: "Colour",
+  website_font: "Font",
   website_teams: "Teams",
   website_venue: "Venue",
   website_locations: "Locations",
