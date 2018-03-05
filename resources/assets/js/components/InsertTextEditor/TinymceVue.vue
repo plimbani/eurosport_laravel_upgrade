@@ -184,7 +184,7 @@
                         }).then(function(result) {
                           setTimeout(()=>{
                             vm.clearErrorMsgs();
-                          }, 1500);
+                          }, 2000);
                         });
                     }
                 };
