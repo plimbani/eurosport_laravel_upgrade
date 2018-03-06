@@ -54,4 +54,13 @@ class Common {
                'message' => 'Thank you for your message. We will aim to get back to you within the next 24 hours.'
            ]);
        }
+
+    static function addSchemeToUrl($url, $scheme = 'http://')
+      {
+          if($url == "") {
+              return $url;
+          }
+
+          return parse_url($url, PHP_URL_SCHEME) === null ?  $scheme . $url : $url;
+      }
 }
