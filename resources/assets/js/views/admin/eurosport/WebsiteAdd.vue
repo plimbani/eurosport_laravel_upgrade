@@ -36,7 +36,7 @@
 							<div class="form-group row">
 								<label class="col-sm-4 form-control-label">{{$lang.domain_name}}</label>
 								<div class="col-sm-8">
-										<input type="text" class="form-control" placeholder="Enter the domain name" v-validate="'url'" :class="{'is-danger': errors.has('domain_name') }" v-model="website.domain_name" name="domain_name">
+										<input type="text" class="form-control" placeholder="Enter the domain name" v-validate="domainNameValidationRules" :class="{'is-danger': errors.has('domain_name') }" v-model="website.domain_name" name="domain_name">
 										<span class="help is-danger" v-show="errors.has('domain_name')">The domain name is not a valid URL.</span>
 								</div>
 							</div>
@@ -53,11 +53,26 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group row mb-0">
+							<div class="form-group row">
 								<label class="col-sm-4 form-control-label">{{$lang.google_analytics_id}}</label>
 								<div class="col-sm-8">
 										<input type="text" class="form-control" placeholder="Enter the google analytics id"
 										v-model="website.google_analytics_id" name="google_analytics_id">
+								</div>
+							</div>
+							<div class="form-group row mb-0">
+								<div class="col-sm-8">
+										<div class="checkbox d-flex align-items-center">
+											<div class="c-input">
+												<input type="checkbox" v-bind:id="'is_website_offline'" class="euro-checkbox" v-model="website.is_website_offline" :true-value="1" :false-value="0" @change="resetOfflineRedirectUrl()" />
+												<label class="mb-0" v-bind:for="'is_website_offline'">{{$lang.is_website_offline}}</label>
+											</div>
+										</div>
+								</div>
+								<div class="col-sm-12 mt-2" v-if="website.is_website_offline == 1">
+									<input type="text" class="form-control" v-validate="offlineRedirectUrlValidationRules" :class="{'is-danger': errors.has('offline_redirect_url') }" :placeholder="$lang.offline_redirect_url"
+										v-model="website.offline_redirect_url" name="offline_redirect_url">
+									<span class="help is-danger" v-show="errors.has('offline_redirect_url')">{{ $lang.offline_redirect_url_error_message }}</span>
 								</div>
 							</div>
 						</div>
@@ -210,6 +225,7 @@
 	</div>
 </template>
 <script>
+var offlineRedirectUrl = null;
 var moment = require('moment');
 import Tournament from '../../../api/tournament.js';
 import Website from '../../../api/website.js';
@@ -231,6 +247,8 @@ export default {
 				domain_name: '',
 				linked_tournament: '',
 				google_analytics_id: '',
+				is_website_offline: 0,
+				offline_redirect_url: null,
 				tournament_logo:'',
 				social_sharing_graphic: '',
 				publishedTournaments: null,
@@ -279,6 +297,12 @@ export default {
 		},
     isImageUploading: function() {
       return (this.is_tournament_logo_uploading || this.is_social_sharing_image_uploading);
+    },
+    domainNameValidationRules: function() {
+    	return this.domainAndOfflineRedirectUrlValidation();
+    },
+    offlineRedirectUrlValidationRules: function() {
+    	return this.domainAndOfflineRedirectUrlValidation();
     },
 	},
 	methods: {
@@ -428,6 +452,8 @@ export default {
 					this.website.domain_name = response.data.data.domain_name;
 					this.website.linked_tournament = response.data.data.linked_tournament != null ? response.data.data.linked_tournament : '';
 					this.website.google_analytics_id = response.data.data.google_analytics_id;
+					this.website.is_website_offline = response.data.data.is_website_offline;
+					this.website.offline_redirect_url = offlineRedirectUrl = response.data.data.offline_redirect_url;
 					this.website.color = response.data.data.color;
 					this.website.font = response.data.data.font;
 					this.website.pages = response.data.data.pageTreeArray;
@@ -460,7 +486,17 @@ export default {
 		},
 		selectSocialSharingGraphic() {
 			$('#select_file_social_sharing').trigger('click');
-		}
+		},
+		resetOfflineRedirectUrl() {
+			this.website.offline_redirect_url = offlineRedirectUrl;
+		},
+		domainAndOfflineRedirectUrlValidation() {
+			var rules = { url: true };
+    	if(this.website.is_website_offline == 1) {
+    		rules.required = true;
+    	}
+    	return rules;
+		},
 	}
 }
 </script>

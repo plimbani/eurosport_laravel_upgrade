@@ -4,9 +4,7 @@
       <gmap-place-input :select-first-on-enter="true" @place_changed="updatePlace($event)"></gmap-place-input>
     </div>
     <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" @zoom_changed="update('zoom', $event)" @center_changed="update('reportedCenter', $event)" @maptypeid_changed="update('mapType', $event)" @bounds_changed="update('bounds', $event)" ref="venuemap" style="width: 100%; height: 400px; display: block;">
-      <gmap-cluster :grid-size="gridSize">
-        <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true" @click="updateInfoWindow(m,index)" :zIndex="zIndex" @position_changed="updateChild(m, 'position', $event)"></gmap-marker>
-      </gmap-cluster>
+      <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true" @click="updateInfoWindow(m,index)" :zIndex="zIndex" @position_changed="updateChild(m, 'position', $event)"></gmap-marker>
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         <div class="form-group mb-0">
           <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText" rows="5" v-validate="{'required':true}" data-vv-as="information" placeholder="Marker information"></textarea>
@@ -106,6 +104,11 @@ export default {
           if(vm.markers.length > 0) {
             vm.$refs.venuemap.fitBounds(bounds);
             vm.$refs.venuemap.panToBounds(bounds);
+            // google.maps.event.trigger(vm.$refs.venuemap.$mapObject, 'resize')
+
+            if(vm.markers.length == 1){
+              vm.zoom = 15;
+            }
           }
         },
         (error) => {
