@@ -1,62 +1,36 @@
 <?php
-	return[
-		// age group service messages
-		'age_grp_index' => 'Error in Data',
-		'age_grp_get_competation_format' => 'Competation Data',
-		'age_grp_delete_competation_format' => 'Competation Data delete successfully',
-		'age_grp_create_msg' => 'Data Sucessfully Inserted',
-		'age_grp_edit_msg' => 'Data Successfully Updated',
-		'age_grp_delete_msg' => 'Data Successfully Deleted',
-		'age_create_competation_format' => 'Data Sucessfully Inserted',
-
-		// match service messages
-		'match_create_msg' => 'Data Sucessfully Inserted',
-		'match_edit_msg' => 'Data Successfully Updated',
-		'match_delete_msg' => 'Data Successfully Deleted',
-		'match_get_draws_msg' => 'Draw data',
-		'match_get_fixtures' => 'Match Fixture data',
-		'match_get_standing' => 'Match Standing data',
-		'match_get_draw_table_msg' => 'Match Draw data',
-		'match_schedule_match_msg' => 'Match scheduled successfully',
-		'match_get_all_scheduled_match_msg' => 'Match scheduled successfully',
-		'match_unschedule_match_msg' => 'Match scheduled successfully',
-		'match_save_unavailable_block_msg' => 'Block added successfully',
-		'match_get_unavailable_block_msg' => 'Block added successfully',
-		'match_remove_block_msg' => 'Block added successfully',
-		'match_update_score' => 'Score updated successfully',
-
-		// pitch service messages
-		'pitch_create_msg' => 'Data Sucessfully Inserted',
-		'pitch_edit_msg' => 'Data Successfully Updated',
-		'pitch_get_msg' => 'Data Successfully Updated',
-		'pitch_delete_msg' => 'Pitch Sucessfully Deleted',
-
-		// referee service messages
-		'referee_create_msg' => 'Data Sucessfully Inserted',
-		'referee_edit_msg' => 'Data Successfully Updated',
-		'referee_delete_msg' => 'Referee Sucessfully Deleted',
-
-		// team service messages
-		'get_teams' => 'Error in Data',
-		'get_clubs' => 'Error in Data',
-		'get_all_tournament_teams' => 'Error in Data',
-		'teams_create' => 'Data Sucessfully Inserted',
-		'teams_edit' => 'Data Sucessfully Updated',
-		'assign_teams' => 'Data Successfully Updated',
-		'get_all_teams_group' => 'Data Successfully Updated',
-		'pitch_delete' => 'Data Successfully Deleted',
-
-		// tournament service messags
-		'tournament_filter' => 'No Data Found',
-		'tournament_delete' => 'Data Successfully Deleted',
-		'tournament_get_all_category' => 'All category fetch Successfully',
-
-		// user service messages
-		'user_create' => 'Data Sucessfully Inserted',
-		'user_update' => 'Data Successfully Updated',
-		'user_delete' => 'Data Successfully Deleted',
-
-		// venue service messages
-		'venue_delete' => 'Data Successfully Deleted',
+	return
+	[
+		'teams' => 'Teams',
+		'matches' => 'Matches',
+		'venue' => 'Venue',
+		'tournament' => 'Tournament',
+		'rules' => 'Rules',
+		'history' => 'History',
+		'program' => 'Program',
+		'stay' => 'Stay',
+		'meals' => 'Meals',
+		'accommodation' => 'Accommodation',
+		'visitors' => 'Visitors',
+		'tourist_information' => 'Tourist information',
+		'media' => 'Media',
+		'contact' => 'Contact',
+		'proudly_sponsored_by' => 'Proudly sponsored by',
+		'quick_links' => 'Quick Links',
+		'tournament_sponsors' => 'Tournament Sponsors',
+		'arrival_and_check_in' => 'Arrival and check-in',
+		'public_transport' => 'Public transport',
+		'tips_for_visitors' => 'Tips for visitors',
+		'tournament_organiser' => 'Tournament organiser',
+		'contact_euro_sportring' => 'Contact Euro-Sportring',
+		'your_name' => 'Your name',
+		'your_email_address' => 'Your email address',
+		'your telephone number' => 'Your telephone number',
+		'message_subject' => 'Message subject',
+		'your_message' => 'Your message',
+		'send' => 'Send',
+		'contact_confirmation_message' => 'Thanks for getting in touch. Someone will get back to you shortly.',
+		'404_page_title' => 'Error 404 - page not found',
+		'404_page_message' => 'This might be because you have typed the web address incorrectly, or the page you were looking for may have been moved, updated or deleted. <a href=":url">Click here</a> to return to the homepage.'
 	]
 ?>

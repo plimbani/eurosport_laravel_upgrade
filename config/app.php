@@ -55,6 +55,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application DOMAIN
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'domain' => env('APP_DOMAIN', 'www.localhost.com'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
@@ -171,7 +180,7 @@ return [
          */
         Laraspace\Providers\AppServiceProvider::class,
         Laraspace\Providers\AuthServiceProvider::class,
-//        Laraspace\Providers\BroadcastServiceProvider::class,
+        Laraspace\Providers\BroadcastServiceProvider::class,
         Laraspace\Providers\EventServiceProvider::class,
         Laraspace\Providers\RouteServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
@@ -184,6 +193,9 @@ return [
         Toin0u\Geotools\GeotoolsServiceProvider::class,
         Geocoder\Laravel\Providers\GeocoderService::class,
         LaravelFCM\FCMServiceProvider::class,
+        HipsterJazzbo\Landlord\LandlordServiceProvider::class,
+        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
 
         /*
          *  Custom Service Providers
@@ -210,9 +222,19 @@ return [
         Laraspace\Api\Providers\PitchServiceProvider::class,
         Laraspace\Api\Providers\RoleServiceProvider::class,
         Laraspace\Api\Providers\VenueServiceProvider::class,
-
-
-
+        Laraspace\Api\Providers\WebsiteServiceProvider::class,
+        Laraspace\Api\Providers\HomeServiceProvider::class,
+        Laraspace\Api\Providers\StayServiceProvider::class,
+        Laraspace\Api\Providers\VisitorServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteTournamentServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteTeamServiceProvider::class,
+        Laraspace\Api\Providers\ProgramServiceProvider::class,
+        Laraspace\Api\Providers\ConfigServiceProvider::class,
+        Laraspace\Api\Providers\MediaServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteVenueServiceProvider::class,
+        Laraspace\Api\Providers\ContactServiceProvider::class,
+        Laraspace\Api\Providers\UploadMediaServiceProvider::class,
+        Laraspace\Providers\ComposerServiceProvider::class,
     ],
 
     /*
@@ -232,6 +254,7 @@ return [
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
+        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
         'Config' => Illuminate\Support\Facades\Config::class,
@@ -243,7 +266,10 @@ return [
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'JavaScript' =>  Laracasts\Utilities\JavaScript::class,
+        'Landlord'   => HipsterJazzbo\Landlord\Facades\Landlord::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
+        'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,

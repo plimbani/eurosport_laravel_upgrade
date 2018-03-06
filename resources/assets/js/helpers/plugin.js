@@ -37,11 +37,20 @@ export default {
         }
       }
     },
-    ValidateImageDimension(fdata) {
-      // Function used for Check image Dimensions
-      let width = fdata.width
-      let height = fdata.height
-      alert('Wiodt'+width+'Height'+height)
+    ValidateImageDimension(image, requiredWidth, requiredHeight) {
+      var height = image.height;
+      var width = image.width;
+      if (height != requiredHeight && width != requiredWidth) {        
+        return false;
+      }      
+      return true;
+    },
+    ValidateImageType(file) {
+      if(file.type != '') {
+        var extension = file.type.split('/')[1].toLowerCase();
+        return (/(jpg|jpeg|png|gif)$/.test(extension));
+      }
+      return false;
     },
     Select2(){
         $(".ls-select2").select2();
@@ -147,5 +156,20 @@ export default {
         diffDays = diffDays + 1
         return diffDays
 // return Math.floor(( Date.parse(date2) - Date.parse(date1) ) / 86400000);
-    }
+    },
+    ValidateDocumentType(file) {
+      if(file) {
+        var extensionsplit = file.name.split(".");
+        var extension = extensionsplit[extensionsplit.length - 1];
+
+        return (/(pdf|xlsx|xls|doc|docx|jpg|jpeg|png|gif)$/.test(extension));
+      }
+      return false;
+    },
+    ValidateDocumentSize(file, size) {
+      if(file.size > size) {
+        return false;
+      }
+      return true;
+    },
 }

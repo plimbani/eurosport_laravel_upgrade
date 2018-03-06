@@ -6,7 +6,7 @@ import Ls from '../services/ls'
 // EndPoint API
 
 var instance = axios.create({
-  baseURL: 'http://mukesh-eurosport.dev.aecortech.com/api/',
+  baseURL: 'http://mukesh-wot.dev.aecortech.com/api/',
   timeout: 50000
 })
 

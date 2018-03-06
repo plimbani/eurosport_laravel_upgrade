@@ -1,0 +1,13 @@
+// frontend.scss - Bootstraps all the sass files into one
+
+
+@import 'frontend_variables';
+@import '../plugins/flag-icon-css-master/sass/flag-icon';
+
+.teams-page ul {
+	list-style-type: none;
+}
+.more {
+  color:blue;
+  cursor:pointer;
+}

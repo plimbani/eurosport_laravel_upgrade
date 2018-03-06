@@ -66,7 +66,8 @@
     import Auth from '../../../services/auth'
     import User from '../../../views/admin/Userprofile.vue'
     import Ls from '../../../services/ls'
-    import UserApi from '../../../api/users.js'
+    import UserApi from '../../../api/users.js';
+    import Website from '../../../api/website.js';
 
     export default {
     components: {
@@ -100,7 +101,9 @@
         let email = Ls.get('email');
         // Here we call Function to get User Details
         let userData = {'email':email}
-        this.getUserDetails(userData)
+        this.getUserDetails(userData);
+        this.getConfigurationDetail();
+        this.getWebsiteDetails();
 
 
          },
@@ -131,32 +134,34 @@
                   (error)=> {
                   }
                 );
-
-              /*  axios.post("/api/user/getDetails",{'userData':emailData}).then((response) => {
-                      this.userData = response.data.data;
-                      //console.log('InuserDetails')
-                      //console.log(this.userData[0])
-                      Ls.set('userData',JSON.stringify(this.userData[0]))
-                      this.id = this.userData[0].id
-                      let Id = this.id
-                      let this1 = this
-                      setInterval(function(){this1.clock() },1000)
-                        let that = this
-                        if(Id!=''){
-                            that.editUser(Id)
-                            //setTimeout(function(){
-                              //  that.editUser(Id)
-                            //},1000)
-                        }
-
-                        let UserData  = JSON.parse(Ls.get('userData'))
-                       //console.log(UserData)
-                       this.$store.dispatch('getUserDetails', UserData);
-
-                    });
-                    */
-
-
+            },
+            getConfigurationDetail() {
+                Website.getConfigurationDetail().then(
+                  (response)=> {
+                    this.$store.dispatch('setConfigurationDetail', response.data);
+                  },
+                  (error)=> {
+                  }
+                );
+            },
+            getWebsiteDetails() {
+              if(this.getWebsiteId !== null) {
+                Website.getWebsiteDetails(this.getWebsiteId).then(
+                  (response)=> {
+                    var websiteDetail = response.data.data;
+                    let website  = {
+                      id: websiteDetail.id,
+                      tournament_name: websiteDetail.tournament_name,
+                      tournament_dates: websiteDetail.tournament_dates,
+                      tournament_location: websiteDetail.tournament_location,
+                      pages: websiteDetail.pages,
+                    };
+                    this.$store.dispatch('SetWebsite', website);
+                  },
+                  (error)=> {
+                  }
+                );
+              }
             },
             initialState() {
                 return {
@@ -231,6 +236,9 @@
             },
             userId() {
                 return this.$store.state.Users.userDetails.id
+            },
+            getWebsiteId() {
+              return this.$store.state.Website.id;
             },
             // userData() {
             //     return this.$store.state.Users.userDetails

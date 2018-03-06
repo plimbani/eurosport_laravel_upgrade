@@ -84,8 +84,8 @@
                       <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
                       <div class="pull-right">
                         <div v-if="!image">
-                        <img  src="http://placehold.it/250x250"
-                             width="100px" height="100px"/>
+                        <img  src="http://placehold.it/250x250?text=noimage"
+                             class="thumb-size" />
                             <!--<button type="button" name="btnSelect" id="btnSelect">-->
                             <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
                             <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
@@ -94,7 +94,7 @@
                         </div>
                         <div v-else>
                             <img :src="imagePath + image"
-                             width="100px" height="100px"/>
+                             class="thumb-size" />
                             <button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
                         </div>
                       </div>

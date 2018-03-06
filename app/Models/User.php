@@ -187,4 +187,9 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     {
         return $this->belongsToMany('Laraspace\Models\Tournament', 'tournament_user', 'user_id','tournament_id');
     }
+
+    public function websites()
+    {
+        return $this->belongsToMany('Laraspace\Models\Website', 'website_user', 'user_id','website_id');
+    }
 }
