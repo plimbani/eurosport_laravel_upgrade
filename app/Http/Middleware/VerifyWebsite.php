@@ -33,7 +33,7 @@ class VerifyWebsite
         }
 
         if($website->is_website_offline == 1) {
-          return Redirect::away($website->offline_redirect_url);
+          return Redirect::away($website->offline_redirect_url, 302);
         }
 
         Landlord::addTenant('website', $website);

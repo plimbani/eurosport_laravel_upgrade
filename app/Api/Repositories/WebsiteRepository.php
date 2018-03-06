@@ -8,6 +8,7 @@ use Laraspace\Models\Contact;
 use Laraspace\Models\Sponsor;
 use Laraspace\Models\Website;
 use Laraspace\Custom\Helper\Image;
+use Laraspace\Custom\Helper\Common;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
 
@@ -116,7 +117,7 @@ class WebsiteRepository
     $website->linked_tournament = $data['linked_tournament'];
     $website->google_analytics_id = $data['google_analytics_id'];
     $website->is_website_offline = $data['is_website_offline'];
-    $website->offline_redirect_url = $data['is_website_offline'] == 1 ? $data['offline_redirect_url'] : null;
+    $website->offline_redirect_url = $data['is_website_offline'] == 1 ? Common::addSchemeToUrl($data['offline_redirect_url']) : null;
     $website->tournament_logo = ($data['tournament_logo'] != '') ? $data['tournament_logo'] : NULL;
     $website->social_sharing_graphic = ($data['social_sharing_graphic'] != '') ? $data['social_sharing_graphic'] : NULL;
     $website->color = $data['color'];

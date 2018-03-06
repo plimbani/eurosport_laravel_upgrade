@@ -2,10 +2,55 @@
 
 namespace Laraspace\Http;
 
+use App;
+use Redirect;
+use Laraspace\Models\Website;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Http\Events\RequestHandled;
 
 class Kernel extends HttpKernel
 {
+    /**
+     * Handle an incoming HTTP request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function handle($request)
+    {
+        try {
+            $request->enableHttpMethodParameterOverride();
+
+            $response = $this->sendRequestThroughRouter($request);
+        } catch (Exception $e) {
+            $this->reportException($e);
+
+            $response = $this->renderException($request, $e);
+        } catch (Throwable $e) {
+            $this->reportException($e = new FatalThrowableError($e));
+
+            $response = $this->renderException($request, $e);
+        }
+
+        $this->app['events']->dispatch(
+            new RequestHandled($request, $response)
+        );
+
+        if($request->server('HTTP_HOST') != config('app.domain')) {
+            $website = Website::where('domain_name', $request->server('HTTP_HOST'))->first();
+
+            if(!$website) {
+                App::abort(404);
+            }
+
+            if($website->is_website_offline == 1) {
+              return Redirect::away($website->offline_redirect_url, 302);
+            }
+        }
+
+        return $response;
+    }
+
     /**
      * The application's global HTTP middleware stack.
      *
