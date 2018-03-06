@@ -115,6 +115,8 @@ class WebsiteRepository
     $website->domain_name = $data['domain_name'];
     $website->linked_tournament = $data['linked_tournament'];
     $website->google_analytics_id = $data['google_analytics_id'];
+    $website->is_website_offline = $data['is_website_offline'];
+    $website->offline_redirect_url = $data['is_website_offline'] == 1 ? $data['offline_redirect_url'] : null;
     $website->tournament_logo = ($data['tournament_logo'] != '') ? $data['tournament_logo'] : NULL;
     $website->social_sharing_graphic = ($data['social_sharing_graphic'] != '') ? $data['social_sharing_graphic'] : NULL;
     $website->color = $data['color'];

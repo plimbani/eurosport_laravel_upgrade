@@ -745,4 +745,7 @@ module.exports= {
   contact_address: "Address",
 
   uploading: "Uploading...",
+  is_website_offline: "Is website offline?",
+  offline_redirect_url: "Offline redirect url",
+  offline_redirect_url_error_message: "The offline redirect url is not a valid URL.",
 }

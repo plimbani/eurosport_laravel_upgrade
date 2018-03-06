@@ -7,6 +7,7 @@ use View;
 use Config;
 use Closure;
 use Landlord;
+use Redirect;
 use JavaScript;
 use Carbon\Carbon;
 use Laraspace\Models\Page;
@@ -29,6 +30,10 @@ class VerifyWebsite
 
         if(!$website) {
             App::abort(404);
+        }
+
+        if($website->is_website_offline == 1) {
+          return Redirect::away($website->offline_redirect_url);
         }
 
         Landlord::addTenant('website', $website);

@@ -22,6 +22,8 @@ class CreateWebsitesTable extends Migration
             $table->integer('linked_tournament')->unsigned()->nullable();
             $table->foreign('linked_tournament')->references('id')->on('tournaments')->onDelete('set null')->onUpdate('cascade');
             $table->string('google_analytics_id')->nullable();
+            $table->boolean('is_website_offline')->default(false);
+            $table->string('offline_redirect_url')->nullable();
             $table->string('tournament_logo')->nullable();
             $table->string('social_sharing_graphic')->nullable();
             $table->string('color')->nullable();
