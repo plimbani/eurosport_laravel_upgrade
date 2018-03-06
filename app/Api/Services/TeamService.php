@@ -325,4 +325,39 @@ class TeamService implements TeamContract
         return ['status_code' => '505', 'message' => 'Error in Data']; 
     }
 
+    public function editTeamDetails($teamId)
+    {
+        return $this->teamRepoObj->editTeamDetails($teamId);
+    }
+
+    public function getAllCountries()
+    {
+        return $this->teamRepoObj->getAllCountries();
+    }
+
+    public function getAllClubs()
+    {
+        return $this->teamRepoObj->getAllClubs();      
+    }
+
+    public function updateTeamDetails($request, $teamId)
+    {
+      return $this->teamRepoObj->updateTeamDetails($request, $teamId);
+    }
+    public function checkTeamExist($request)
+    {
+      $data =  $this->teamRepoObj->checkTeamExist($request);
+      if($data > 0) {
+
+        return ['status' => 'true', 'data' => 'exist'];
+      } else {
+        return ['status' => 'false', 'data' => 'not exist'];
+
+      }
+    }
+    public function resetAllTeams($ageCategoryId)
+    { 
+        $data = $ageCategoryId->toArray()['ageCategoryId'];
+        $data = $this->teamRepoObj->resetAllTeams($data);
+    }
 }

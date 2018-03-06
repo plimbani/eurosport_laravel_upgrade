@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login','AuthController@authenticate');
     Route::get('logout','AuthController@logout');
-    Route::get('check','AuthController@check');
+    Route::post('check','AuthController@check');
 
 
 });
@@ -83,6 +83,11 @@ $api->version('v1', function ($api) {
     $api->post('match/getStanding/{refreshStanding?}',
         'Laraspace\Api\Controllers\MatchController@getStanding'); 
 
+    $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
+
+    $api->get('pitch/reportCard/{pitchId}',
+        'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');  
+
 } );
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
@@ -109,7 +114,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('team/category/assign', 'Laraspace\Api\Controllers\TeamController@assignCategory');
     $api->post('team/getClubsTeams','Laraspace\Api\Controllers\TeamController@getClubTeams'); 
     $api->post('team/getTeamsGroup', 'Laraspace\Api\Controllers\TeamController@getAllTeamsGroup');
+    $api->post('team/checkTeamExist', 'Laraspace\Api\Controllers\TeamController@checkTeamExist');
+    
+    $api->post('editTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@editTeamDetails');
+    $api->get('getAllCountries', 'Laraspace\Api\Controllers\TeamController@getAllCountries');
+    $api->get('getAllClubs', 'Laraspace\Api\Controllers\TeamController@getAllClubs');
 
+    $api->post('updateTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@updateTeamDetails');
+    $api->post('resetAllTeams', 'Laraspace\Api\Controllers\TeamController@resetAllTeams'); 
     // Method for get All TournamentTeams
 
     // Manually change team name
@@ -127,13 +139,11 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch'); 
     $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail'); 
-    // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
-    
-
-   
+    // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');      
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee'); 
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee'); 
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult'); 
+    $api->post('match/saveAllResults', 'Laraspace\Api\Controllers\MatchController@saveAllResults');
     $api->post('match/saveUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@saveUnavailableBlock');
     $api->post('match/getUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@getUnavailableBlock'); 
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
@@ -164,7 +174,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch'); 
 
     //Age Group Stuff
-
+    $api->get('age_groups/ageCategoryData', 'Laraspace\Api\Controllers\AgeGroupController@ageCategoryData');
     $api->get('age_groups', 'Laraspace\Api\Controllers\AgeGroupController@getAgeGroups');
     $api->post('age_group/create', 'Laraspace\Api\Controllers\AgeGroupController@create');
     $api->post('age_group/edit/{id}', 'Laraspace\Api\Controllers\AgeGroupController@edit');
@@ -172,7 +182,10 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('age_group/createCompetationFomat','Laraspace\Api\Controllers\AgeGroupController@createCompetationFomat'); 
     $api->post('age_group/deleteCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@deleteCompetationFormat'); 
 
-    $api->get('venues/getAll/{tournamentId}', 'Laraspace\Api\Controllers\VenueController@getVenues'); 
+    // placings data route
+    $api->post('age_group/getPlacingsData','Laraspace\Api\Controllers\AgeGroupController@getPlacingsData');
+
+    $api->get('venues/getAll/{tournamentId}', 'Laraspace\Api\Controllers\VenueController@getVenues');
 
     
     //Tournament Api CRUD Routes
@@ -207,7 +220,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('users/getUsersByRegisterType', 
         'Laraspace\Api\Controllers\UserController@getUsersByRegisterType'); 
-    $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users'); 
+   
     $api->get('user/edit/{id}', 'Laraspace\Api\Controllers\UserController@edit')->name('edit.users'); 
     $api->post('user/getDetails', 'Laraspace\Api\Controllers\UserController@getUserDetails'); 
 

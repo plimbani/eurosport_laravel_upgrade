@@ -44,6 +44,10 @@ export default {
   getTeams(teamData) {
     return api.post('teams',{'teamData':teamData})
   },
+  getResetTeams(ageCategoryId) {
+     return api.post('resetAllTeams',{'ageCategoryId':ageCategoryId})
+  },
+
   getTeamsGroup (teamData) {
     return api.post('teams/availableGroup',{'teamData':teamData})
   },
@@ -134,6 +138,9 @@ export default {
   saveMatchResult(matchData) {
     return api.post('match/saveResult',{'matchData': matchData})
   },
+  saveAllMatchResults(matchData) {
+    return api.post('match/saveAllResults',{'matchData': matchData})
+  },
   setUnavailableBlock(matchData) {
     return api.post('match/saveUnavailableBlock',{'matchData': matchData})
   },
@@ -179,5 +186,24 @@ export default {
  },
 checkTeamIntervalforMatches(matchData){
   return api.post('match/checkTeamIntervalforMatches', matchData)
- }
+ },
+  getEditTeamDetails(id) {
+    return api.post('editTeamDetails/'+id)
+  },
+  getAllCountries() {
+    return api.get('getAllCountries')
+  },
+  getAllClubs() {
+    return api.get('getAllClubs')
+  },
+  updateTeamDetails(teamId, formData) {
+    return api.post('updateTeamDetails/'+teamId, formData)
+  },
+  checkTeamExist(teamData) {
+    return api.post('team/checkTeamExist', {teamData})
+  },
+  getPlacingsData(placingsData) {
+    return api.post('age_group/getPlacingsData', placingsData)
+  }
+
 }

@@ -10,17 +10,17 @@
             <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
             <div class="row">
               <div class="col align-self-center">
-                <div class="row">
+                <div class="row align-items-center">
                   <div class="col-sm-4">
                     <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select list (excel files only)</button>
                   </div>
-                  <div class="col">
-                    <span id="filename"></span>
-                    <button type="button" @click="csvImport()"  class="btn btn-primary ml-4">Upload teams
+                  <div class="col-sm-3">
+                    <button type="button" @click="csvImport()"  class="btn btn-primary w-100">Upload teams
                     </button>
                   </div>
+                  <div class="col"><span id="filename"></span></div>
                 </div>
-                  <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
+                <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
               </div>
             </div>
           </form>
@@ -30,7 +30,7 @@
             <label class="col-sm-2 form-control-label">Filter by age category</label>
             <div class="col-sm-10">
               <div class="row">
-                <div class="col-4">
+                <div class="col-sm-4">
                   <div class="form-group">
                     <select class="form-control" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
                       <option value="">{{$lang.teams_all_age_category}}</option>
@@ -39,9 +39,13 @@
                     </select>
                   </div>
                 </div>
+                <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug == 'Super.administrator'">
+                  <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
+                </div>
               </div>
             </div>
           </div>
+          
   			</form>
         <div class="block-bg age-category mb-4">
           <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
@@ -91,6 +95,7 @@
 
                       <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
                       <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
+                      <th class="text-center">{{$lang.teams_age_category_action}}</th>
                   </tr>
               </thead>
                 <tbody v-if="teams.length!=0">
@@ -121,22 +126,51 @@
                         <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName"></teamSelect>
                       </td>
                       <td width="130px" v-else>{{ getModifiedDisplayGroupName(team.group_name) }}</td>
+                      <td class="text-center">
+                        <a class="text-primary" href="javascript:void(0)"
+                         @click="editTeam(team.id)">
+                          <i class="jv-icon jv-edit"></i>
+                        </a>
+                      </td>
                     </tr>
 
                 </tbody>
                 <tbody v-else>
                   <tr>
-                    <td colspan="7"> No teams available</td>
+                    <td colspan="8"> No teams available</td>
                     </tr>
                 </tbody>
             </table>
-            <button type="button"  v-if="tournamentFilter.filterKey == 'age_category'" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+            <button type="button" v-if="tournamentFilter.filterKey == 'age_category'" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
           </form>
   				</div>
   			</div>
   		</div>
   	</div>
+     <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs"></team-modal>
+    <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog" 
+    aria-labelledby="resetModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body text-left">
+                    <p>
+                        Are you sure you would like to reset this age category? This will delete 
+                        <b>ALL</b> team information associated with this age category including team names, fixtures and results.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
+                    <button type="submit" class="btn btn-primary" @click="resetAllTeams()">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
+                </div>    
+        </div>
+      </div>
+    </div>
   </div>
+  
 </template>
 
 <script type="text/babel">
@@ -144,6 +178,7 @@
    import _ from 'lodash'
    import TournamentFilter from '../../../components/TournamentFilter.vue'
    import teamSelect from '../../../components/teamSelect/teamSelect.vue'
+   import TeamModal  from  '../../../components/teamSelect/TeamModal.vue'
 
    import Vue from 'vue'
 
@@ -153,10 +188,12 @@
 	export default {
     data() {
     return {
+        'teamId': '',
         'teamSize': 5,
         'teams': [],
         // 'teamsIdList': '',
         'tournament_id': this.$store.state.Tournament.tournamentId,
+        'role_slug': this.$store.state.Users.userDetails.role_slug,
         'age_category': '',
         'age_category_filter': '',
         'selected': null,
@@ -173,6 +210,8 @@
         'seleTeam':'De-select',
         'canUploadTeamFile': true,
         'teamsInEdit': {},
+        'countries': [],
+        'clubs': [],
         // 'tournamentFilter':{
         //   'filterKey':'team',
         //   'filterValue': ''
@@ -183,7 +222,8 @@
 
     components: {
       TournamentFilter,
-      teamSelect
+      teamSelect,
+      TeamModal
     },
     computed: {
        tournamentFilter: function() {
@@ -228,10 +268,12 @@
         })
 
       this.getTeams()
-
+      this.fetchAllCountries();
+      this.fetchAllClubs();
     },
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
+      this.$root.$on('updateTeamList', this.getTeams);
       // this.$root.$on('onAssignGroup', this.onAssignGroup);
       // this.$root.$on('beforeChange', this.beforeChange);
     },
@@ -608,6 +650,49 @@
         }
         return groupName;
       },
+      editTeam(id) {
+        this.teamId = id
+        let vm = this
+        setTimeout(function(){
+            $('#team_form_modal').modal('show');
+            $("#team_form_modal").on('hidden.bs.modal', function () {
+
+            });
+        },1000)
+        vm.$root.$emit('editTeamData',  id)
+      },
+      fetchAllCountries() {
+        Tournament.getAllCountries().then(
+          (response) => {
+            this.countries = response.data.countries
+          },
+            (error)=> {
+            }
+          );
+      },
+      fetchAllClubs() {
+        Tournament.getAllClubs().then(
+          (response) => {
+            this.clubs = response.data.clubs
+          },
+          (error) => {
+
+          }
+        )
+      },
+      resetAllTeams() {
+        let ageCategoryId = {'ageCategoryId':this.age_category.id,'tournamentId':this.tournament_id};
+        Tournament.getResetTeams(ageCategoryId).then(
+          (response) => {
+            this.$root.$emit('updateTeamList');
+            
+            $("#reset_modal").modal("hide");
+            toastr['success']('All teams are deleted successfully', 'Success');
+          },
+          (error) => {
+          }
+        )
+      }
     }
   }
 </script>

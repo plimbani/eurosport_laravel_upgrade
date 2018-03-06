@@ -239,13 +239,7 @@
                     <i v-show="errors.has('team_interval')" class="fa fa-warning"></i>
                  
                 </div>
-
-               <!--  <span v-if="competation_format.team_interval == '' " class="col-sm-4">
-                   <input type="number" placeholder="" v-model="competation_format.team_interval"
-                   min="0" class="form-control" @change="updateMatchTime()">
-                </span> -->
                 <span class="col-sm-4">{{$lang.competation_modal_team_interval_minutes}}</span>
-                
               </div>
                <span class="help is-danger" v-show="errors.has('team_interval')">{{$lang.competation_modal_team_interval_required}}</span>
             </div>
@@ -305,10 +299,23 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 form-control-label">
-              <div class="form-text text-muted dispTemplate" style="display:none">
-                Template key: Green = recommended, Red = not recommended, Amber = not preferred
+            <div class="col-sm-12 form-control-label dispTemplate" style="display:none">
+              <div class="form-text text-muted">
+                Template key: Green = preferred, Orange = second option, Red = last resort
               </div>
+            </div>
+          </div>
+          <div class="form-group row align-items-center">
+            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_comments}}</div>
+            <div class="col-sm-8">
+              <div class="row align-items-center">
+                <div class="col-sm-12">
+                  <textarea class="form-control" name="comments" id="comments" v-model="competation_format.comments" maxlength="160"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <span class="help-block text-muted pull-right">{{ 160 - messageLength }} characters remaining<br/>Maximum characters 160</span>
             </div>
           </div>
           </form>
@@ -462,6 +469,11 @@ export default {
      this.$root.$on('setCompetationFormatData', this.setEdit);
      this.$root.$on('createAgeCategory', this.createAgeCategory);
   },
+  computed: {
+    'messageLength': function () {
+        return this.competation_format.comments !== null ? this.competation_format.comments.length : 0;
+    },
+  },
   methods: {
     checkV(id) {
       if(this.competation_format.tournament_template_id == id) {
@@ -493,7 +505,7 @@ export default {
     },
     initialState() {
       return {
-         ageCategory_name:'',category_age:'',pitch_size:'',category_age_color:null,
+         ageCategory_name:'', comments:'', category_age:'',pitch_size:'',category_age_color:null,
          category_age_font_color:null,game_duration_RR:'10',halves_RR:'2',game_duration_FM:'10',halves_FM:'2',
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',

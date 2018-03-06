@@ -59,15 +59,23 @@ class TempFixture extends Model
         return $mtchNum;
       }
     }
+    // public function getDisplayMatchNumberAttribute($value)
+    // {
+    //   if($value) {
+    //     if($this->home_team != 0 && $this->away_team != 0)
+    //     {
+    //       $value = str_replace('@AWAY', $this->away_team_name, str_replace('@HOME', $this->home_team_name, $value));
+    //     } else {
+    //       $value = str_replace('@AWAY', $this->display_away_team_placeholder_name, str_replace('@HOME', $this->display_home_team_placeholder_name, $value));
+    //     }
+    //   }
+    //   return $value;
+    // }
+
     public function getDisplayMatchNumberAttribute($value)
     {
       if($value) {
-        if($this->home_team != 0 && $this->away_team != 0)
-        {
-          $value = str_replace('@AWAY', $this->away_team_name, str_replace('@HOME', $this->home_team_name, $value));
-        } else {
-          $value = str_replace('@AWAY', $this->display_away_team_placeholder_name, str_replace('@HOME', $this->display_home_team_placeholder_name, $value));
-        }
+         $value = str_replace('@AWAY', $this->display_away_team_placeholder_name, str_replace('@HOME', $this->display_home_team_placeholder_name, $value));
       }
       return $value;
     }

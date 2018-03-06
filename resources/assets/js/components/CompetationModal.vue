@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <form name="ageCategoryName">
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-12">
                 <div class="d-flex justify-content-end">
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#template-image-modal">Enlarge</button>
@@ -25,7 +25,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="row">
               <div class="col-md-6">
                 <div class="jumbotron mb-0 px-4 py-4">

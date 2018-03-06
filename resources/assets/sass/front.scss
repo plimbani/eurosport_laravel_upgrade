@@ -23,7 +23,8 @@
 .fc-time-grid {
     &-event {
         .fc-time,
-        .fc-title {
+        .fc-title,
+        .fc-score {
             font-size: 0.95em;
             line-height: 0.85em;
             padding-top: 0.15em;
@@ -672,6 +673,10 @@ label.error {
     margin-right: 0px;
 }
 
+.summary-matches-filter.form-inline .form-group.margin-right-0, .summary-matches-filter.form-inline label.control-label.margin-right-0 {
+    margin-right: 0px;    
+}
+
 .pitch-filter-form.form-inline {
     .form-group {
         &:last-child {
@@ -720,4 +725,19 @@ img {
 
 .report-table.display_block th{
     min-width: 100px;
+}
+
+textarea.form-control[disabled="disabled"] {
+    background: #fff;
+}
+
+.match-list-editicon,
+a.match-list-editicon:hover {
+    color:red !important;
+}
+
+option.age {
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
 }

@@ -7,7 +7,9 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Competition;
 use Laraspace\Models\Club;
+use Laraspace\Models\Country;
 use Laraspace\Models\TeamManualRanking;
+use Laraspace\Models\Position;
 use DB;
 
 class TeamRepository
@@ -28,7 +30,7 @@ class TeamRepository
                  ->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag as countryFlag',
                     // 'competitions.name as competationName','competitions.id as competationId',
                     'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as categoryAge')
-                 ->get();
+                ->get();
 
     }
     public function getAllFromFilter($data)
@@ -38,6 +40,7 @@ class TeamRepository
                   $join->on('teams.country_id', '=', 'countries.id');
               })
           ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+          ->join('clubs', 'clubs.id', '=', 'teams.club_id')
           // ->join('competitions','competitions.tournament_competation_template_id','=','teams.age_group_id')
           ->where('teams.tournament_id',$data['tournamentId']);
 
@@ -64,7 +67,7 @@ class TeamRepository
           }
           return $teamData->distinct('teams.id')->select('teams.*','teams.id as team_id', 'countries.name as country_name','countries.logo as logo','countries.country_flag as country_flag',
               // 'competitions.name as competationName','competitions.id as competationId',
-              'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age')
+              'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age','clubs.name as club_name')
           ->get();
     }
 
@@ -136,7 +139,7 @@ class TeamRepository
         $teamName =  isset($data['team']) ? $data['team'] : '';
         $place =  isset($data['place']) ? $data['place'] : '';
         $club_id =  isset($data['club_id']) ? $data['club_id'] : '';
-
+        // dd($data);
         \Log::info($data);
         return Team::create([
             'name' => $teamName,
@@ -145,7 +148,9 @@ class TeamRepository
             'country_id' => $data['country_id'],
             'tournament_id' => $data->tournamentData['tournamentId'],
             'age_group_id' => $data['age_group_id'],
-            'club_id'=>$data['club_id']
+            'club_id'=>$data['club_id'],
+            'comments'=>$data['teamcomment'],
+
             ]);
     }
 
@@ -452,5 +457,89 @@ class TeamRepository
           ->where('tournament_id','=',$tournamentId)
           ->whereIn('competition_id',$competationIdArray)->delete();
       }
+    }
+
+    public function editTeamDetails($teamId)
+    { 
+      return Team::with('club')->where('id', $teamId)->first();
+    }
+
+    public function getAllCountries()
+    {
+      return $contries = Country::all();
+    }
+
+    public function getAllClubs()
+    {
+      return $clubs = Club::all();
+    }
+    
+    public function checkTeamExist($request)
+    {
+      $teamData = $request->all()['teamData'];
+      $team = Team::where('esr_reference',$teamData['esrReference'])->where('age_group_id',$teamData['age_group_id'])->where('id','!=',$teamData['teamId'])->count();
+   
+      return $team;
+    }
+
+    public function updateTeamDetails($request, $teamId)
+    {  
+      $res =   $request->all();
+     
+      $team = Team::findOrFail($teamId);
+      $clubId = 0;
+
+      $teamHome = TempFixture::where('home_team',$teamId)->where('age_group_id',$res['age_group_id'])
+      ->update(['home_team_name' => $res['team_name']]);
+
+      $teamAway = TempFixture::where('away_team',$teamId)->where('age_group_id',$res['age_group_id'])
+      ->update(['away_team_name' => $res['team_name']]);
+    
+
+      $club = Club::where('name',$res['club_name'])->first();
+      if(!$club) {
+        $club = new Club();
+        $club->user_id = 1;
+        $club->name = $res['club_name'];  
+        $club->save();
+
+        $clubId = $club->id;
+      } else {
+        $clubId = $club->id;
+      } 
+     
+      $team->esr_reference = $request['team_id'];
+      $team->name = $request['team_name'];
+      $team->place = $request['team_place'];
+      $team->country_id = $request['team_country'];
+      $team->club_id = $clubId;
+      $team->comments = $request['comment'];  
+      $team->save();    
+    }
+
+    public function resetAllTeams($ageCategoryId)
+    {
+
+      $tempfixtures = TempFixture::where('age_group_id',$ageCategoryId)->update(['home_team' => 0,
+        'away_team' => 0, 'is_result_override' => 0, 'match_winner' => null, 'match_status' => null,
+        'hometeam_score' => null, 'awayteam_score' => null, 'is_scheduled' => 0, 'comments' => null,
+        'minimum_team_interval_flag' => 0, 'match_datetime' => null, 'match_endtime' => null, 
+        'referee_id' => null, 'venue_id' => 0,'home_team_name' => null, 'away_team_name' => null, 
+        'pitch_id' => 0]);
+
+
+      $teamDataReset = Team::where('age_group_id',$ageCategoryId)->delete();  
+
+      $PositionDataReset = Position::where('age_category_id',$ageCategoryId)->update(['team_id' => null]); 
+      
+      $competationIds = Competition::where('tournament_competation_template_id',$ageCategoryId)
+                                    ->pluck('id')->toArray();
+     
+      $MatchStanding = DB::table('match_standing')->whereIn('competition_id',$competationIds)
+                                                  ->delete();
+
+      $competitions = Competition::where('tournament_competation_template_id',$ageCategoryId)
+                                   ->update(['is_manual_override_standing'=> 0 , 'color_code'=>null]);
+      
     }
 }

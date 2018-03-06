@@ -215,13 +215,13 @@
   		             		<td v-else></td>
 	                		<td>{{displayMatch(report.displayMatchNumber,report.displayHomeTeamPlaceholder,report.displayAwayTeamPlaceholder)}}</td>
 							<td align="right">
-								<span class="text-center" v-if="(report.homeTeam == '0' && report.homeTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.homePlaceholder) }}</span>
+								<span class="text-center" v-if="(report.homeTeam == '0' )">{{ getHoldingName(report.competition_actual_name, report.displayHomeTeamPlaceholder,report.displayMatchNumber) }}</span>
 								<span class="text-center" v-else>{{ report.HomeTeam }}</span>
 								<span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
 							</td>
 							<td align="left">
 								<span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
-								<span class="text-center" v-if="(report.awayTeam == '0' && report.awayTeamName == '@^^@')">{{ getHoldingName(report.competition_actual_name, report.awayPlaceholder) }}</span>
+								<span class="text-center" v-if="(report.awayTeam == '0')">{{ getHoldingName(report.competition_actual_name, report.displayAwayTeamPlaceholder,report.displayMatchNumber) }}</span>
 								<span class="text-center" v-else>{{ report.AwayTeam }}</span>
 							</td>
 							<td align="center">{{ (report.position != null) ? report.position : 'N/A' }}</td>
@@ -237,7 +237,7 @@
 </template>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script> -->
-<script type="text/babel">
+<script >
 	import Tournament from '../api/tournament.js'
 	import Pitch from '../api/pitch.js'
 
@@ -269,7 +269,11 @@ export default {
     },
     filters: {
     	formatDate: function(date) {
-     	return moment(date).format("Do MMM YYYY HH:mm");
+    		if(date != null) {
+     			return moment(date).format("Do MMM YYYY HH:mm");
+    		} else {
+    			return '-';
+    		}
    	   },
     },
     mounted() {
@@ -556,7 +560,43 @@ export default {
 		      this.reportQuery = ReportData
 		      Tournament.getAllReportsData(ReportData).then(
 		      (response) => {
+		    //   	this.reports = _.remove(response.data.data, function(res) {
+						//   if(res.competation_round_no == 'Round 1' && (res.HomeTeam == 0 || res.awayTeam == 0))  {
+						//   	return false;
+						//   } else {
+						//   	return true;
+						//   }
+						// });
 		      	this.reports = response.data.data
+
+		      	this.reports.map(function(value, key) {
+			              // if(value.actual_round == 'Elimination') {
+		      		// console.log(value,value.displayHomeTeamPlaceholder);
+		      				let dispTxt = '';
+			              	if(value.displayHomeTeamPlaceholder.indexOf("#") == -1){
+			              		
+			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
+			              			dispTxt = 'wrs.' ;
+			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
+			              			dispTxt = 'lrs.' ;
+
+			              		}value.displayHomeTeamPlaceholder = dispTxt+value.displayHomeTeamPlaceholder
+			              	}
+			              	
+			                if(value.displayAwayTeamPlaceholder.indexOf("#") == -1){
+			              		
+			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
+			              			dispTxt = 'wrs.' ;
+			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
+			              			dispTxt = 'lrs.' ;
+
+			              		}
+
+			              		value.displayAwayTeamPlaceholder = dispTxt+value.displayAwayTeamPlaceholder
+			              	}
+			              	return value;
+			              // }
+			            })
 		       },
 
 		      (error) => {
@@ -613,8 +653,20 @@ export default {
 			toastr['error']('Records not available', 'Error');
 		}
 	},
-	getHoldingName(competitionActualName, placeholder) {
+	getHoldingName(competitionActualName, placeholder,displayMatchNumber) {
       if(competitionActualName.indexOf('Group') !== -1){
+      	let dispTxt = '';
+          // if(placeholder.indexOf("#") == -1){
+            
+          //   if(displayMatchNumber.indexOf("wrs") > -1){
+          //     dispTxt = 'wrs.' ;
+          //   } else if(displayMatchNumber.indexOf("lrs") > -1) {
+          //     dispTxt = 'lrs.' ;
+
+          //   }
+          //   placeholder = dispTxt+placeholder
+          // }
+                  
         return placeholder;
       } else if(competitionActualName.indexOf('Pos') !== -1){
         return 'Pos-' + placeholder;

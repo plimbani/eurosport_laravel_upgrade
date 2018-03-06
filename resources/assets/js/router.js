@@ -1,6 +1,6 @@
 import Vue from 'vue'
+import store from './store'
 import VueRouter from 'vue-router'
-
 import AuthService from './services/auth'
 
 /*
@@ -212,19 +212,24 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-
+    let routesName = ['tournament_add', 'competation_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
+    let data = {};
+    if (routesName.includes(to.name)) {
+        data.tournamentId = store.state.Tournament.tournamentId;
+    }
     // If the next route is requires user to be Logged IN
     if (to.matched.some(m => m.meta.requiresAuth)){
-
-        return AuthService.check().then(authenticated => {
-            if(!authenticated){
+        return AuthService.check(data).then((response) => {   
+            if(!response.authenticated){
                 return next({ path : '/login'})
             }
-
+            if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
+                return next({ path : '/admin'})
+            }
+            store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
     }
-
     return next()
 });
 

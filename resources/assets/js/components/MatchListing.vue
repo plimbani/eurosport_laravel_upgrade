@@ -27,7 +27,7 @@
     > </component>
   </div>
 </template>
-<script type="text/babel">
+<script>
 
 import Tournament from '../api/tournament.js'
 import TeamDetails from './TeamDetails.vue'
@@ -38,7 +38,8 @@ import DrawsListing from './DrawsListing.vue'
 import LocationList from'./LocationList.vue'
 import DrawList from './DrawList.vue'
 // import MatchFilter from './MatchFilter.vue'
- import TournamentFilter from './TournamentFilter.vue'
+import TournamentFilter from './TournamentFilter.vue'
+import FinalPlacings from './FinalPlacings.vue'
 
 var moment = require('moment')
 
@@ -89,7 +90,7 @@ export default {
 	},
 	components: {
 		MatchList,TeamDetails,LocationList,DrawsListing,
-		DrawDetails,TeamList,DrawList,TournamentFilter
+		DrawDetails,TeamList,DrawList,TournamentFilter,FinalPlacings
 	},
 	methods: {
 		setFilter(filterKey,filterValue) {
@@ -194,7 +195,7 @@ export default {
 		getDrawDetails(drawId, drawName,CompetationType='') {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'competitionId':drawId,'is_scheduled':1}
+			'competitionId':drawId}
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
@@ -218,7 +219,7 @@ export default {
 		getTeamDetails(teamId, teamName) {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'teamId':teamId,'is_scheduled':1}
+			'teamId':teamId}
 			this.otherData.TeamName = teamName
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
@@ -237,7 +238,7 @@ export default {
 
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let PitchId = fixtureData.pitchId
-			let tournamentData = {'tournamentId': TournamentId, 'pitchId':PitchId,'is_scheduled':1}
+			let tournamentData = {'tournamentId': TournamentId, 'pitchId':PitchId}
 			this.otherData.Name = fixtureData.venue_name+'-'+fixtureData.pitch_number
 
 			Tournament.getFixtures(tournamentData).then(
@@ -266,13 +267,13 @@ export default {
 			let tournamentData = ''
 
 		    if(date != '') {
-		          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
+		          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date }
 		    } else {
-		          tournamentData ={'tournamentId':TournamentId,'is_scheduled':1 }
+		          tournamentData ={'tournamentId':TournamentId }
 		    }
 
 			if(filterKey != '' && filterValue != '') {
-          		tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
+          		tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
 	        }
 
 		//	let TournamentId = this.$store.state.Tournament.tournamentId
@@ -286,6 +287,7 @@ export default {
 						this.matchData = response.data.data
 						setTimeout(function(){
 					      vm.matchData = _.orderBy(vm.matchData, ['match_datetime'], ['asc'])
+					      vm.$root.$emit('setMatchDataOfMatchList', vm.matchData);
 					    },100)
 					}
 				},

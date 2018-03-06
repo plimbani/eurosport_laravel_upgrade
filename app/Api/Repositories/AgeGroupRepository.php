@@ -6,6 +6,7 @@ use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\Competition;
+use Laraspace\Models\Position;
 use DB;
 class AgeGroupRepository
 {
@@ -67,19 +68,17 @@ class AgeGroupRepository
          $actualCompetitionType = 'Elimination';
        } else {
          $actualCompetitionType = 'Round Robin';
-       }  
+       }
 
-       //$competaon_type = $competaon_type.'-'.$groups['comp_roundd'];
-
-       $competations['competation_type'] = $competaon_type;
-       $competations['actual_competition_type'] = $actualCompetitionType;
-       $competations['competation_round_no'] = $groups['comp_roundd'];
-       $competationIds[$i]['id'] = Competition::create($competations)->id;
-       $competationIds[$i]['name'] = $comp_group;
-       $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];
-       $competationIds[$i]['ageGroup'] = $age_group;
-       $competationIds[$i]['ageGroupId'] = $competation_data['tournament_competation_template_id'];
-       $competationIds[$i]['competation_type'] = $competaon_type;
+        $competations['competation_type'] = $competaon_type;
+        $competations['actual_competition_type'] = $actualCompetitionType;
+        $competations['competation_round_no'] = $groups['comp_roundd'];
+        $competationIds[$i]['id'] = Competition::create($competations)->id;
+        $competationIds[$i]['name'] = $comp_group;
+        $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];
+        $competationIds[$i]['ageGroup'] = $age_group;
+        $competationIds[$i]['ageGroupId'] = $competation_data['tournament_competation_template_id'];
+        $competationIds[$i]['competation_type'] = $competaon_type;
 
        $i++;
       }
@@ -96,6 +95,7 @@ class AgeGroupRepository
      
       $tournamentCompeationTemplate = array();
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
+      $tournamentCompeationTemplate['comments'] = $data['comments'] != '' ? $data['comments'] : null;
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
       $tournamentCompeationTemplate['tournament_template_id'] = $data['tournamentTemplate']['id'];
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
@@ -364,5 +364,23 @@ class AgeGroupRepository
       }
 
       return true;
+    }
+
+    public function getPlacingsData($data) {
+      $positions = Position::with('team')->where('age_category_id', $data['ageCategoryId'])->get();
+      
+      $positionData = [];
+      // echo "<pre>";print_r($positions[0]->team);echo "</pre>";exit;
+      foreach ($positions as $key => $position) {
+        $positionData[$key]['pos'] = $position->position;
+        if(isset($position->team)) {
+          $positionData[$key]['team_name'] = $position->team['name'];
+        } else {
+          $positionData[$key]['team_name'] = '';
+
+        }
+      }
+
+      return $positionData;
     }
 }

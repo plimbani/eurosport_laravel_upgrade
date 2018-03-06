@@ -19,6 +19,8 @@ class Kernel extends ConsoleKernel
         Commands\generateTournamentSlugForExistingData::class,
         Commands\insertPitchSize::class,
         Commands\insertPositionsForPlacingMatches::class,
+        Commands\automaticallyPermissionRemoval::class,
+        Commands\generatePositionsForExistingData::class,
     ];
 
     /**
@@ -29,8 +31,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('setup:automaticallypermissionremoval')->dailyAt('00:00');
     }
 
     /**

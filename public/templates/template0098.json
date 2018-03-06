@@ -9,6 +9,7 @@
     "competation_format": "RR, PM/F",
     "tournament_min_match": 5,
     "avg_game_team": 5.2,
+    "position_type": "final",
     "final_round": "F/SMF",
     "tournament_competition_ranking": {
         "format_name": [
@@ -753,5 +754,31 @@
                 ]
             }
         ]
-    }
+    },
+    "tournament_positions" : [
+        {
+            "position": 1,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G1.1F-1D_1E_WR",
+            "result_type": "winner"
+        },
+        {
+            "position": 2,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G1.1F-1D_1E_WR",
+            "result_type": "looser"
+        },
+        {
+            "position": 3,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G2.2F-1D_1E_LR",
+            "result_type": "winner"
+        },
+        {
+            "position": 4,
+            "dependent_type": "match",
+            "match_number": "CAT.PM3.G2.2F-1D_1E_LR",
+            "result_type": "looser"
+        }
+    ]
 }

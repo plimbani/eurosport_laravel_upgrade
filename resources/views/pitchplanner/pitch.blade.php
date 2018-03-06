@@ -33,7 +33,7 @@
 </center>
 
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%">
-    <h4>Match Details</h4>
+    <h4>Match Card</h4>
     <thead>
         <tr>
             <td align="left">&nbsp;Match number</td>
@@ -129,6 +129,14 @@
         <tr>
           <td align="left">&nbsp;Comments</td>
           <td>&nbsp;{{ $data['comments']}}</td>
+        </tr>
+        <tr>
+          <td align="left">&nbsp;Team 1 comment</td>
+          <td>&nbsp;{{ $data['hometeam_comment']}}</td>
+        </tr>
+        <tr>
+          <td align="left">&nbsp;Team 2 comment</td>
+          <td>&nbsp;{{ $data['awayteam_comment']}}</td>
         </tr>
     </thead>
 </table>
