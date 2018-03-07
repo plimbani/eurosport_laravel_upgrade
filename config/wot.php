@@ -3,7 +3,7 @@
 return [
 	'website_customisation_options' => [
 		'colors' => [
-			'#D0021B', '#FF9F00', '#417505', '#50E3C2', '#1E469D', '#1E469D'
+			'#D0021B', '#FF9F00', '#417505', '#50E3C2', '#1E469D', '#9013FE'
 		],
 		'fonts' => [
 			'Open Sans', 'Montserrat', 'Roboto', 'Lato', 'PT Sans', 'Helvetica'
