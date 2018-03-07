@@ -217,5 +217,9 @@ return [
     'contact' => 'Contact',
   ],
   'message_notification_days' => 14,
-  'activity_notification_recepients' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
+  'activity_notification_recepients' => [
+    'to' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
+    'cc' => [],
+    'bcc' => ['ssheth@aecordigital.com'],
+  ],
 ];
