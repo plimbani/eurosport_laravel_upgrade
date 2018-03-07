@@ -55,8 +55,11 @@
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
                                                   NSLog(@"%@",responseDictionary);
-                                                  _grouplistArray =[responseDictionary[@"data"] mutableCopy];
-                                                  _searchListArray =[responseDictionary[@"data"] mutableCopy];
+                                                  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+                                                  _grouplistArray=[[responseDictionary[@"data"] sortedArrayUsingDescriptors:@[sort]] mutableCopy];
+                                                  _searchListArray=[[responseDictionary[@"data"] sortedArrayUsingDescriptors:@[sort]] mutableCopy];
+//                                                  _grouplistArray =[responseDictionary[@"data"] mutableCopy];
+//                                                  _searchListArray =[responseDictionary[@"data"] mutableCopy];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       [self.tableView reloadData];
                                                   });
@@ -72,10 +75,33 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //self.title = @"GROUPS";
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    [self.tableView addGestureRecognizer:gestureRecognizer];
     
+}
+- (void) hideKeyboard:(UITapGestureRecognizer *)sender {
+    
+    
+    CGPoint location = [sender locationInView:self.tableView];
+    NSIndexPath *path = [self.tableView indexPathForRowAtPoint:location];
+    
+    if(path)
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        GroupTeamListVC *myVC = (GroupTeamListVC *)[storyboard instantiateViewControllerWithIdentifier:@"GroupTeamListVC"];
+        myVC.groupDir = [_grouplistArray  objectAtIndex:path.row];
+        [self.navigationController pushViewController:myVC animated:YES];
+    }
+    else
+    {
+        // handle tap on empty space below existing rows however you want
+        [_searchBar resignFirstResponder];
+    }
 }
 -(void)viewWillAppear:(BOOL)animated{
     [self getGroupList];
+    self.searchBar.placeholder = NSLocalizedString(@"Search groups", @"");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -105,9 +131,21 @@
 {
     
     AgeCell *cell = (AgeCell*)[tableView dequeueReusableCellWithIdentifier:@"AgeCell"];
-    cell.lbl.text = [[_grouplistArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+    if (![[[_grouplistArray objectAtIndex:indexPath.row] valueForKey:@"actual_competition_type"] isKindOfClass:[NSNull class]]) {
+        if ([[[_grouplistArray objectAtIndex:indexPath.row] valueForKey:@"actual_competition_type"] isEqualToString:@"Elimination"]) {
+            NSString *name = [[_grouplistArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+            name = [name stringByReplacingOccurrencesOfString:@"Group-" withString:@""];
+            cell.lbl.text = name;
+        }else{
+            cell.lbl.text = [[_grouplistArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+        }
+    }else{
+        
+        cell.lbl.text = [[_grouplistArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+    }
+    //cell.lbl.text = [[_grouplistArray objectAtIndex:indexPath.row] valueForKey:@"name"];
     //cell.lblRowData.text=[[[[screen objectForKey:@"options"] objectForKey:@"optionList"] objectAtIndex:indexPath.row] objectForKey:@"text"];
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -159,7 +197,7 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)SearchBar
 {
-    SearchBar.showsCancelButton=YES;
+    SearchBar.showsCancelButton=NO;
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
 {

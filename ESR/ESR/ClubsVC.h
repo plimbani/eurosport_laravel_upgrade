@@ -10,6 +10,8 @@
 #import "MHTabBarController.h"
 
 @interface ClubsVC : UIViewController<MHTabBarControllerDelegate>
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (weak, nonatomic) IBOutlet UIView *mainView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLbl;
 
 @end

@@ -53,8 +53,11 @@
                                                   [SVProgressHUD dismiss];
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-                                                  _clublistArray =[responseDictionary[@"data"] mutableCopy];
-                                                  _searchListArray =[responseDictionary[@"data"] mutableCopy];
+                                                  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"clubName" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+                                                  _clublistArray=[[responseDictionary[@"data"] sortedArrayUsingDescriptors:@[sort]] mutableCopy];
+                                                  _searchListArray=[[responseDictionary[@"data"] sortedArrayUsingDescriptors:@[sort]] mutableCopy];
+//                                                  _clublistArray =[responseDictionary[@"data"] mutableCopy];
+//                                                  _searchListArray =[responseDictionary[@"data"] mutableCopy];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       [self.tableView reloadData];
                                                   });
@@ -67,12 +70,36 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    [self.tableView addGestureRecognizer:gestureRecognizer];
     // Do any additional setup after loading the view.
     //self.title = @"CLUB";
     
 }
+
+- (void) hideKeyboard:(UITapGestureRecognizer *)sender {
+    
+    
+    CGPoint location = [sender locationInView:self.tableView];
+    NSIndexPath *path = [self.tableView indexPathForRowAtPoint:location];
+    
+    if(path)
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ClubTeamListVC *myVC = (ClubTeamListVC *)[storyboard instantiateViewControllerWithIdentifier:@"ClubTeamListVC"];
+        myVC.clubDir = [_clublistArray  objectAtIndex:path.row];
+        [self.navigationController pushViewController:myVC animated:YES];
+    }
+    else
+    {
+        // handle tap on empty space below existing rows however you want
+        [_searchBar resignFirstResponder];
+    }
+}
 -(void)viewWillAppear:(BOOL)animated{
     [self getClubList];
+    self.searchBar.placeholder = NSLocalizedString(@"Search clubs", @"");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -104,7 +131,9 @@
                                if (!error){
                                    UIImage *image = [UIImage imageWithData:data];
                                    cell.image.image = image;                               }
-                           }];    return cell;
+                           }];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -164,7 +193,7 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)SearchBar
 {
-    SearchBar.showsCancelButton=YES;
+    SearchBar.showsCancelButton=NO;
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
 {

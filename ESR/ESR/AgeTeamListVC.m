@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "ClubTeamCell.h"
 #import "TeamDetailVC.h"
+#import "Reachability.h"
 
 @interface AgeTeamListVC ()
 
@@ -55,8 +56,8 @@
                                                   [SVProgressHUD dismiss];
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-                                                  
-                                                  _ageTeamArray =[responseDictionary[@"data"] mutableCopy];
+                                                  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+                                                  _ageTeamArray =[[responseDictionary[@"data"] sortedArrayUsingDescriptors:@[sort]] mutableCopy];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       [self.tableView reloadData];
                                                   });
@@ -72,6 +73,35 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self getAgeTeamList];
+    UITapGestureRecognizer *tapAction = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblClick:)];
+    tapAction.delegate =self;
+    tapAction.numberOfTapsRequired = 1;
+    
+    //Enable the lable UserIntraction
+    _titleLbl.userInteractionEnabled = YES;
+    [_titleLbl addGestureRecognizer:tapAction];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    self.titleLbl.text = NSLocalizedString(@"TEAM", @"");
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+}
+- (void)reachabilityChanged:(NSNotification*)notification
+{
+    Reachability* reachability = notification.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
+}
+- (void)lblClick:(UITapGestureRecognizer *)tapGesture {
+    [self.navigationController popViewControllerAnimated:TRUE];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,18 +131,23 @@
 {
     
     ClubTeamCell *cell = (ClubTeamCell*)[tableView dequeueReusableCellWithIdentifier:@"ClubTeamCell"];
-    cell.lbl.text = [[_ageTeamArray objectAtIndex:indexPath.row] valueForKey:@"name"];
-    NSURL *url = [NSURL URLWithString:[[_ageTeamArray objectAtIndex:indexPath.row] valueForKey:@"countryLogo"]];
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse * response,
-                                               NSData * data,
-                                               NSError * error) {
-                               if (!error){
-                                   UIImage *image = [UIImage imageWithData:data];
-                                   cell.image.image = image;                               }
-                           }];
+    
+    cell.lbl.text = [NSString stringWithFormat:@"%@ (%@)",[[_ageTeamArray objectAtIndex:indexPath.row] valueForKey:@"name"],[[_ageTeamArray objectAtIndex:indexPath.row] valueForKey:@"CategoryAge"]];
+    if (![[[_ageTeamArray objectAtIndex:indexPath.row] valueForKey:@"countryLogo"] isKindOfClass:[NSNull class]]) {
+        NSURL *url = [NSURL URLWithString:[[_ageTeamArray objectAtIndex:indexPath.row] valueForKey:@"countryLogo"]];
+        NSURLRequest* request = [NSURLRequest requestWithURL:url];
+        [NSURLConnection sendAsynchronousRequest:request
+                                           queue:[NSOperationQueue mainQueue]
+                               completionHandler:^(NSURLResponse * response,
+                                                   NSData * data,
+                                                   NSError * error) {
+                                   if (!error){
+                                       UIImage *image = [UIImage imageWithData:data];
+                                       cell.image.image = image;                               }
+                               }];
+    }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

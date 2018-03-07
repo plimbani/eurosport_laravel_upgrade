@@ -1,0 +1,753 @@
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "0Hd-by-dcz"; */
+"0Hd-by-dcz.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "0Vt-iy-Wb4"; */
+"0Vt-iy-Wb4.normalTitle" = "Ok";
+
+/* Class = "UIButton"; normalTitle = ">"; ObjectID = "0cb-rW-HFh"; */
+"0cb-rW-HFh.normalTitle" = ">";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "0oV-Xe-lpO"; */
+"0oV-Xe-lpO.placeholder" = "Wachtwoord";
+
+/* Class = "UILabel"; text = "Croatia"; ObjectID = "0ox-9f-a99"; */
+"0ox-9f-a99.text" = "Croatia";
+
+/* Class = "UITextField"; placeholder = "Email Address"; ObjectID = "1GB-sc-LeH"; */
+"1GB-sc-LeH.placeholder" = "E-mailadres";
+
+/* Class = "UITextField"; placeholder = "Select tournament"; ObjectID = "1NP-5i-7Wl"; */
+"1NP-5i-7Wl.placeholder" = "Toernooi selecten";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "1dm-9N-rit"; */
+"1dm-9N-rit.placeholder" = "Wachtwoord";
+
+/* Class = "UILabel"; text = "Type"; ObjectID = "2B7-mi-M2o"; */
+"2B7-mi-M2o.text" = "Type";
+
+/* Class = "UIButton"; normalTitle = ">"; ObjectID = "2Kz-lw-jZD"; */
+"2Kz-lw-jZD.normalTitle" = ">";
+
+/* Class = "UILabel"; text = "P"; ObjectID = "2uJ-Lf-EFz"; */
+"2uJ-Lf-EFz.text" = "P";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "3NY-Ez-cIZ"; */
+"3NY-Ez-cIZ.placeholder" = "E-mail";
+
+/* Class = "UISearchBar"; placeholder = "Search groups"; ObjectID = "3cG-7h-Hwv"; */
+"3cG-7h-Hwv.placeholder" = "Zoek groepen";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "413-ti-aig"; */
+"413-ti-aig.text" = "Label";
+
+/* Class = "UILabel"; text = "20"; ObjectID = "4Pg-O3-HNf"; */
+"4Pg-O3-HNf.text" = "20";
+
+/* Class = "UILabel"; text = "F"; ObjectID = "4Uo-9x-g8G"; */
+"4Uo-9x-g8G.text" = "F";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "4Ve-go-s7W"; */
+"4Ve-go-s7W.placeholder" = "E-mail";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "4md-pr-z4o"; */
+"4md-pr-z4o.text" = "Label";
+
+/* Class = "UILabel"; text = "Tournament List"; ObjectID = "4nz-fo-HaY"; */
+"4nz-fo-HaY.text" = "Tournament List";
+
+/* Class = "UISearchBar"; placeholder = "Search tournament"; ObjectID = "4ql-p9-X4j"; */
+"4ql-p9-X4j.placeholder" = "Search tournament";
+
+/* Class = "UILabel"; text = "W"; ObjectID = "57l-62-NFk"; */
+"57l-62-NFk.text" = "W";
+
+/* Class = "UILabel"; text = "20"; ObjectID = "5IA-nf-yOA"; */
+"5IA-nf-yOA.text" = "20";
+
+/* Class = "UILabel"; text = "The Internet connection appears to be offline."; ObjectID = "5h5-Vb-pyV"; */
+"5h5-Vb-pyV.text" = "The Internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "5mu-Zu-m5w"; */
+"5mu-Zu-m5w.text" = "Label";
+
+/* Class = "UILabel"; text = "Minutes"; ObjectID = "65h-6p-G3b"; */
+"65h-6p-G3b.text" = "Minuten";
+
+/* Class = "UILabel"; text = "Day"; ObjectID = "6pF-3b-3Sl"; */
+"6pF-3b-3Sl.text" = "Dagen";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "6q1-4T-2hY"; */
+"6q1-4T-2hY.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Club"; ObjectID = "72n-XB-FaY"; */
+"72n-XB-FaY.text" = "Club";
+
+/* Class = "UILabel"; text = "G"; ObjectID = "7HE-ik-ETA"; */
+"7HE-ik-ETA.text" = "G";
+
+/* Class = "UILabel"; text = "AGE CATEGORIES"; ObjectID = "8Kf-q0-8az"; */
+"8Kf-q0-8az.text" = "Leeftijdscategorieën";
+
+/* Class = "UIButton"; normalTitle = "Update"; ObjectID = "8NB-DU-M3y"; */
+"8NB-DU-M3y.normalTitle" = "Update";
+
+/* Class = "UIButton"; normalTitle = ">"; ObjectID = "8PD-HC-ZOa"; */
+"8PD-HC-ZOa.normalTitle" = ">";
+
+/* Class = "UILabel"; text = "PROFILE"; ObjectID = "8S7-OE-nar"; */
+"8S7-OE-nar.text" = "Profiel";
+
+/* Class = "UILabel"; text = "Group 26 league table"; ObjectID = "8WJ-cx-kkl"; */
+"8WJ-cx-kkl.text" = "Group 26 league table";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "8jC-4e-4i4"; */
+"8jC-4e-4i4.text" = "Label";
+
+/* Class = "UILabel"; text = "VENUE MAP"; ObjectID = "93E-cc-ENs"; */
+"93E-cc-ENs.text" = "Kaart locatie";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "9IK-CH-PAA"; */
+"9IK-CH-PAA.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "Tournament"; ObjectID = "9JY-Ue-AVJ"; */
+"9JY-Ue-AVJ.title" = "Toernooi";
+
+/* Class = "UILabel"; text = "Group"; ObjectID = "9hs-hW-M6e"; */
+"9hs-hW-M6e.text" = "Group";
+
+/* Class = "UILabel"; text = "Group 26 league table"; ObjectID = "AF5-9f-Zv2"; */
+"AF5-9f-Zv2.text" = "Group 26 league table";
+
+/* Class = "UIButton"; normalTitle = "Create new account"; ObjectID = "AG5-sy-GBy"; */
+"AG5-sy-GBy.normalTitle" = "Nieuw account aanmaken";
+
+/* Class = "UILabel"; text = "Croatia"; ObjectID = "Abb-Ug-5ZA"; */
+"Abb-Ug-5ZA.text" = "Croatia";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "BIa-d3-pKc"; */
+"BIa-d3-pKc.text" = "Label";
+
+/* Class = "UILabel"; text = "Pitch Name"; ObjectID = "BgA-lb-wT8"; */
+"BgA-lb-wT8.text" = "Pitch Name";
+
+/* Class = "UILabel"; text = "Hours"; ObjectID = "CNe-Fn-cae"; */
+"CNe-Fn-cae.text" = "Uren";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Ce8-zU-hga"; */
+"Ce8-zU-hga.text" = "Label";
+
+/* Class = "UILabel"; text = "+/-"; ObjectID = "Cg5-I0-VHR"; */
+"Cg5-I0-VHR.text" = "+/-";
+
+/* Class = "UILabel"; text = "Address:"; ObjectID = "CnW-gg-c2B"; */
+"CnW-gg-c2B.text" = "Adres:";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "CuK-Iw-2qt"; */
+"CuK-Iw-2qt.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Close"; ObjectID = "CzG-9B-jIy"; */
+"CzG-9B-jIy.normalTitle" = "Sluiten";
+
+/* Class = "UILabel"; text = "TEAM"; ObjectID = "D0Y-Vg-JES"; */
+"D0Y-Vg-JES.text" = "TEAM";
+
+/* Class = "UIButton"; normalTitle = "CATEGORY"; ObjectID = "DHU-OE-JKj"; */
+"DHU-OE-JKj.normalTitle" = "CATEGORIEËN";
+
+/* Class = "UILabel"; text = "Location"; ObjectID = "Dl7-Nd-nGT"; */
+"Dl7-Nd-nGT.text" = "Plaats";
+
+/* Class = "UIButton"; normalTitle = "<"; ObjectID = "Eh7-37-JA2"; */
+"Eh7-37-JA2.normalTitle" = "<";
+
+/* Class = "UIButton"; normalTitle = "<"; ObjectID = "Eho-2m-FfV"; */
+"Eho-2m-FfV.normalTitle" = "<";
+
+/* Class = "UILabel"; text = "+15"; ObjectID = "Em8-DI-sED"; */
+"Em8-DI-sED.text" = "+15";
+
+/* Class = "UILabel"; text = "TEAM"; ObjectID = "FCs-C7-pFn"; */
+"FCs-C7-pFn.text" = "TEAM";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "FJi-jp-oGi"; */
+"FJi-jp-oGi.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UIButton"; normalTitle = "CLUBS"; ObjectID = "FM8-Wz-4Xg"; */
+"FM8-Wz-4Xg.normalTitle" = "CLUBS";
+
+/* Class = "UILabel"; text = "Name:"; ObjectID = "FZE-vF-eS1"; */
+"FZE-vF-eS1.text" = "Name:";
+
+/* Class = "UILabel"; text = "Contact number:"; ObjectID = "FgO-uL-oF9"; */
+"FgO-uL-oF9.text" = "Contact number:";
+
+/* Class = "UILabel"; text = "03 -04 June 2017"; ObjectID = "GIp-c5-GmJ"; */
+"GIp-c5-GmJ.text" = "03 -04 June 2017";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "GLK-NU-9AO"; */
+"GLK-NU-9AO.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Geh-DN-l2G"; */
+"Geh-DN-l2G.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "GgU-U7-aSo"; */
+"GgU-U7-aSo.normalTitle" = "Ok";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Glh-7Q-cVR"; */
+"Glh-7Q-cVR.text" = "Label";
+
+/* Class = "UILabel"; text = "Forgot password?"; ObjectID = "H4D-aG-lUh"; */
+"H4D-aG-lUh.text" = "Wachtwoord kwijt?";
+
+/* Class = "UILabel"; text = "GROUPS"; ObjectID = "HFh-9a-jRP"; */
+"HFh-9a-jRP.text" = "GROEPEN";
+
+/* Class = "UIButton"; normalTitle = "<"; ObjectID = "Ham-aM-naM"; */
+"Ham-aM-naM.normalTitle" = "<";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "HvH-P3-Vg7"; */
+"HvH-P3-Vg7.placeholder" = "Wachtwoord";
+
+/* Class = "UILabel"; text = "Match ID: 5038950"; ObjectID = "IKQ-fu-flh"; */
+"IKQ-fu-flh.text" = "Match ID: 5038950";
+
+/* Class = "UILabel"; text = "+15"; ObjectID = "IPZ-8m-2hp"; */
+"IPZ-8m-2hp.text" = "+15";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "JJT-Ks-jOA"; */
+"JJT-Ks-jOA.text" = "Label";
+
+/* Class = "UILabel"; text = "Group"; ObjectID = "JUG-dd-gFC"; */
+"JUG-dd-gFC.text" = "Group";
+
+/* Class = "UISearchBar"; placeholder = "Search age category"; ObjectID = "K8j-5m-C5X"; */
+"K8j-5m-C5X.placeholder" = "Zoek leeftijdscategorie";
+
+/* Class = "UILabel"; text = "Address"; ObjectID = "KMa-mM-54O"; */
+"KMa-mM-54O.text" = "Address";
+
+/* Class = "UITabBarItem"; title = "Tournament"; ObjectID = "KlN-TC-50D"; */
+"KlN-TC-50D.title" = "Toernooi";
+
+/* Class = "UILabel"; text = "TEAMS"; ObjectID = "Kql-KT-Sst"; */
+"Kql-KT-Sst.text" = "TEAMS";
+
+/* Class = "UITextField"; placeholder = "First name"; ObjectID = "Ks8-8s-2ku"; */
+"Ks8-8s-2ku.placeholder" = "First name";
+
+/* Class = "UILabel"; text = "Notifications & sounds"; ObjectID = "KsU-qt-UYn"; */
+"KsU-qt-UYn.text" = "Meldingen & geluiden";
+
+/* Class = "UILabel"; text = "Vibration"; ObjectID = "Kzb-6c-Cca"; */
+"Kzb-6c-Cca.text" = "Trillen";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "L5M-42-sYV"; */
+"L5M-42-sYV.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "Tournament"; ObjectID = "L9x-bO-wi8"; */
+"L9x-bO-wi8.title" = "Toernooi";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "LKs-Qc-I8o"; */
+"LKs-Qc-I8o.text" = "Label";
+
+/* Class = "UILabel"; text = "TEAM"; ObjectID = "LPn-db-l2f"; */
+"LPn-db-l2f.text" = "TEAM";
+
+/* Class = "UITextField"; placeholder = "First name"; ObjectID = "LYC-lS-kxK"; */
+"LYC-lS-kxK.placeholder" = "First name";
+
+/* Class = "UILabel"; text = "NOTIFICATIONS & SOUNDS"; ObjectID = "La0-fK-egd"; */
+"La0-fK-egd.text" = "Meldingen & geluiden";
+
+/* Class = "UILabel"; text = "D"; ObjectID = "Lkx-Jb-9ix"; */
+"Lkx-Jb-9ix.text" = "D";
+
+/* Class = "UILabel"; text = "Privacy & terms"; ObjectID = "Lxo-xW-bbE"; */
+"Lxo-xW-bbE.text" = "Privacy & voorwaarden";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "MP7-yz-UCQ"; */
+"MP7-yz-UCQ.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "2"; ObjectID = "MgF-FG-4fe"; */
+"MgF-FG-4fe.text" = "2";
+
+/* Class = "UILabel"; text = "The Internet connection appears to be offline."; ObjectID = "NXk-nE-jti"; */
+"NXk-nE-jti.text" = "The Internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "Boys under 11, Group 26"; ObjectID = "OCP-gR-6dU"; */
+"OCP-gR-6dU.text" = "Boys under 11, Group 26";
+
+/* Class = "UILabel"; text = "A"; ObjectID = "OJj-Y1-ZAs"; */
+"OJj-Y1-ZAs.text" = "A";
+
+/* Class = "UILabel"; text = "Team Name"; ObjectID = "OLa-Mb-GhK"; */
+"OLa-Mb-GhK.text" = "Team Name";
+
+/* Class = "UILabel"; text = "3 team one"; ObjectID = "OYr-Uz-AQg"; */
+"OYr-Uz-AQg.text" = "3 team one";
+
+/* Class = "UILabel"; text = "Croatia"; ObjectID = "OrB-ac-7Ev"; */
+"OrB-ac-7Ev.text" = "Croatia";
+
+/* Class = "UILabel"; text = "+/-"; ObjectID = "OxR-Ud-Wsv"; */
+"OxR-Ud-Wsv.text" = "+/-";
+
+/* Class = "UILabel"; text = "Sound"; ObjectID = "Oxg-3g-A1n"; */
+"Oxg-3g-A1n.text" = "Geluid";
+
+/* Class = "UILabel"; text = "3 team one"; ObjectID = "PL0-FU-2tr"; */
+"PL0-FU-2tr.text" = "3 team one";
+
+/* Class = "UIButton"; normalTitle = "Sign in"; ObjectID = "Pbj-YW-da8"; */
+"Pbj-YW-da8.normalTitle" = "Inloggen";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "Q59-Qr-qNb"; */
+"Q59-Qr-qNb.normalTitle" = "Ok";
+
+/* Class = "UILabel"; text = "0 team two"; ObjectID = "QKj-9t-Kbm"; */
+"QKj-9t-Kbm.text" = "0 team two";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "QNE-fO-nKA"; */
+"QNE-fO-nKA.text" = "Label";
+
+/* Class = "UITextField"; placeholder = "Surname"; ObjectID = "Qcn-6D-DmH"; */
+"Qcn-6D-DmH.placeholder" = "Surname";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "Qow-bp-w5b"; */
+"Qow-bp-w5b.normalTitle" = "Ok";
+
+/* Class = "UILabel"; text = "Match ID | Age Category | Round"; ObjectID = "ROG-7E-Isa"; */
+"ROG-7E-Isa.text" = "Match ID | Age Category | Round";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Rc8-T8-MGe"; */
+"Rc8-T8-MGe.text" = "Label";
+
+/* Class = "UILabel"; text = "3"; ObjectID = "Rmw-Jl-Rmb"; */
+"Rmw-Jl-Rmb.text" = "3";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Rq3-pZ-Mwv"; */
+"Rq3-pZ-Mwv.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "S1x-83-ai8"; */
+"S1x-83-ai8.text" = "Label";
+
+/* Class = "UILabel"; text = "200"; ObjectID = "S6W-dc-rEq"; */
+"S6W-dc-rEq.text" = "200";
+
+/* Class = "UILabel"; text = "The Internet connection appears to be offline."; ObjectID = "S87-2H-UjE"; */
+"S87-2H-UjE.text" = "The Internet connection appears to be offline.";
+
+/* Class = "UITextField"; placeholder = "Select tournament"; ObjectID = "SW1-x6-QfN"; */
+"SW1-x6-QfN.placeholder" = "Toernooi selecten";
+
+/* Class = "UILabel"; text = "Group 26 league table"; ObjectID = "Syo-L4-xbs"; */
+"Syo-L4-xbs.text" = "Group 26 league table";
+
+/* Class = "UISearchBar"; placeholder = "Search clubs"; ObjectID = "T0l-ok-P4B"; */
+"T0l-ok-P4B.placeholder" = "Zoek clubs";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "T4E-Z3-dxQ"; */
+"T4E-Z3-dxQ.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "P"; ObjectID = "TC1-a5-kkI"; */
+"TC1-a5-kkI.text" = "P";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "TQ7-rR-rBk"; */
+"TQ7-rR-rBk.text" = "Label";
+
+/* Class = "UILabel"; text = "No data available"; ObjectID = "TpF-o6-nad"; */
+"TpF-o6-nad.text" = "Geen gegevens gevonden";
+
+/* Class = "UILabel"; text = "Match ID | Age Category | Round"; ObjectID = "UOe-eb-hJi"; */
+"UOe-eb-hJi.text" = "Match ID | Age Category | Round";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "UPK-9N-8B4"; */
+"UPK-9N-8B4.normalTitle" = "Ok";
+
+/* Class = "UIButton"; normalTitle = "   Porec - Croatia"; ObjectID = "Ufo-2M-0m2"; */
+"Ufo-2M-0m2.normalTitle" = "   Porec - Croatia";
+
+/* Class = "UIButton"; normalTitle = "GROUPS"; ObjectID = "VNj-Ta-REa"; */
+"VNj-Ta-REa.normalTitle" = "GROUPS";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Vbd-Oi-IvM"; */
+"Vbd-Oi-IvM.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Submit"; ObjectID = "VfH-zA-7V5"; */
+"VfH-zA-7V5.normalTitle" = "Verzenden";
+
+/* Class = "UILabel"; text = "Notification"; ObjectID = "VrO-K7-A6g"; */
+"VrO-K7-A6g.text" = "Melding";
+
+/* Class = "UILabel"; text = "Pitch:"; ObjectID = "Wa5-Ao-PZo"; */
+"Wa5-Ao-PZo.text" = "Veld:";
+
+/* Class = "UILabel"; text = "No data available"; ObjectID = "Wml-aF-j5J"; */
+"Wml-aF-j5J.text" = "Geen gegevens gevonden";
+
+/* Class = "UILabel"; text = "Venue"; ObjectID = "X6c-S6-uJn"; */
+"X6c-S6-uJn.text" = "Locatie";
+
+/* Class = "UITabBarItem"; title = "Tournament"; ObjectID = "XuQ-lV-HzM"; */
+"XuQ-lV-HzM.title" = "Toernooi";
+
+/* Class = "UITabBarItem"; title = "Favourities"; ObjectID = "Y0C-3F-5xg"; */
+"Y0C-3F-5xg.title" = "Favourities";
+
+/* Class = "UILabel"; text = "Log out"; ObjectID = "YJZ-LJ-CF9"; */
+"YJZ-LJ-CF9.text" = "Log uit";
+
+/* Class = "UIButton"; normalTitle = "<"; ObjectID = "YxX-ZO-IU1"; */
+"YxX-ZO-IU1.normalTitle" = "<";
+
+/* Class = "UILabel"; text = "3"; ObjectID = "ZEG-fX-Qab"; */
+"ZEG-fX-Qab.text" = "3";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ZFy-F3-Vie"; */
+"ZFy-F3-Vie.text" = "Label";
+
+/* Class = "UILabel"; text = "20"; ObjectID = "ZH9-D6-8dm"; */
+"ZH9-D6-8dm.text" = "20";
+
+/* Class = "UILabel"; text = "Team Name"; ObjectID = "Zge-Dq-8Mq"; */
+"Zge-Dq-8Mq.text" = "Team Name";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Zpo-3r-o7D"; */
+"Zpo-3r-o7D.text" = "Label";
+
+/* Class = "UILabel"; text = "+/-"; ObjectID = "a03-uc-Xni"; */
+"a03-uc-Xni.text" = "+/-";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "aNo-Yh-ras"; */
+"aNo-Yh-ras.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "aft-Qs-j53"; */
+"aft-Qs-j53.normalTitle" = "Ok";
+
+/* Class = "UILabel"; text = "TEAM"; ObjectID = "ajd-R1-zt1"; */
+"ajd-R1-zt1.text" = "TEAM";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "aus-rd-h4y"; */
+"aus-rd-h4y.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "Clubs"; ObjectID = "b6T-Vf-iI9"; */
+"b6T-Vf-iI9.title" = "Clubs";
+
+/* Class = "UIButton"; normalTitle = "Sign in"; ObjectID = "boN-UT-07h"; */
+"boN-UT-07h.normalTitle" = "Inloggen";
+
+/* Class = "UIButton"; normalTitle = ">"; ObjectID = "brD-6l-gSN"; */
+"brD-6l-gSN.normalTitle" = ">";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "cEU-ho-v6a"; */
+"cEU-ho-v6a.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "cPD-a8-2yk"; */
+"cPD-a8-2yk.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "cn5-OB-lrN"; */
+"cn5-OB-lrN.text" = "Label";
+
+/* Class = "UITextField"; placeholder = "Surname"; ObjectID = "d17-e8-f6S"; */
+"d17-e8-f6S.placeholder" = "Surname";
+
+/* Class = "UILabel"; text = "B11 Group 26"; ObjectID = "d6e-bG-Lle"; */
+"d6e-bG-Lle.text" = "B11 Group 26";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "dQv-o8-xVT"; */
+"dQv-o8-xVT.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "G"; ObjectID = "dvb-5Q-tIq"; */
+"dvb-5Q-tIq.text" = "G";
+
+/* Class = "UILabel"; text = "100"; ObjectID = "dy8-0n-e6E"; */
+"dy8-0n-e6E.text" = "100";
+
+/* Class = "UILabel"; text = "G"; ObjectID = "eFj-EE-bwZ"; */
+"eFj-EE-bwZ.text" = "G";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "eHp-pO-Hwr"; */
+"eHp-pO-Hwr.normalTitle" = "Ok";
+
+/* Class = "UILabel"; text = "Germany"; ObjectID = "eJq-nB-yb9"; */
+"eJq-nB-yb9.text" = "Germany";
+
+/* Class = "UILabel"; text = "Profile"; ObjectID = "en6-WL-1x2"; */
+"en6-WL-1x2.text" = "Profiel";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "ez1-NO-wU3"; */
+"ez1-NO-wU3.normalTitle" = "Ok";
+
+/* Class = "UILabel"; text = "03 -04 June 2017"; ObjectID = "fFO-Yh-iHT"; */
+"fFO-Yh-iHT.text" = "03 -04 June 2017";
+
+/* Class = "UILabel"; text = "Team Name"; ObjectID = "fQ9-Rr-IIz"; */
+"fQ9-Rr-IIz.text" = "Team Name";
+
+/* Class = "UILabel"; text = "W"; ObjectID = "fUL-Uo-EFq"; */
+"fUL-Uo-EFq.text" = "W";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "fVR-vN-GIe"; */
+"fVR-vN-GIe.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = ">"; ObjectID = "foe-B3-B0n"; */
+"foe-B3-B0n.normalTitle" = ">";
+
+/* Class = "UILabel"; text = "HELP"; ObjectID = "frc-ba-6g4"; */
+"frc-ba-6g4.text" = "Help";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "g2h-Pd-Nfx"; */
+"g2h-Pd-Nfx.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UILabel"; text = "MATCH INFO"; ObjectID = "g92-Uf-IAw"; */
+"g92-Uf-IAw.text" = "Wedstrijdinformatie";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "gJo-Dq-hc7"; */
+"gJo-Dq-hc7.placeholder" = "Wachtwoord";
+
+/* Class = "UILabel"; text = "Venue"; ObjectID = "gQN-EC-ZUc"; */
+"gQN-EC-ZUc.text" = "Locatie";
+
+/* Class = "UITextField"; placeholder = "Tournament"; ObjectID = "gRw-iI-4hm"; */
+"gRw-iI-4hm.placeholder" = "Toernooi";
+
+/* Class = "UILabel"; text = "Boys under 11, Group 26"; ObjectID = "ghB-b0-mu7"; */
+"ghB-b0-mu7.text" = "Boys under 11, Group 26";
+
+/* Class = "UILabel"; text = "D"; ObjectID = "gyk-kc-2wN"; */
+"gyk-kc-2wN.text" = "D";
+
+/* Class = "UIButton"; normalTitle = "Ok"; ObjectID = "hGF-6J-LhO"; */
+"hGF-6J-LhO.normalTitle" = "Ok";
+
+/* Class = "UILabel"; text = "100"; ObjectID = "hcc-lo-MRm"; */
+"hcc-lo-MRm.text" = "100";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "ht8-d3-F4E"; */
+"ht8-d3-F4E.placeholder" = "E-mail";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "ieL-Wk-E0g"; */
+"ieL-Wk-E0g.placeholder" = "E-mail";
+
+/* Class = "UITextField"; placeholder = "Language"; ObjectID = "imZ-UV-IsV"; */
+"imZ-UV-IsV.placeholder" = "Language";
+
+/* Class = "UIButton"; normalTitle = "Create account"; ObjectID = "j6I-6P-nIQ"; */
+"j6I-6P-nIQ.normalTitle" = "Account aanmaken";
+
+/* Class = "UITextField"; placeholder = "Surname"; ObjectID = "j7T-l6-kJA"; */
+"j7T-l6-kJA.placeholder" = "Surname";
+
+/* Class = "UITextField"; text = "Change Tournament"; ObjectID = "jEg-gU-VeD"; */
+"jEg-gU-VeD.text" = "Change Tournament";
+
+/* Class = "UILabel"; text = "Enter your email address and we'll send you an email to reset your password."; ObjectID = "jP8-Om-dhj"; */
+"jP8-Om-dhj.text" = "Als je hier je e-mailadres invult, sturen we je een e-mail waarmee je een nieuw wachtwoord kunt aanmaken.";
+
+/* Class = "UILabel"; text = "0 team two"; ObjectID = "jyt-Dw-38F"; */
+"jyt-Dw-38F.text" = "0 team two";
+
+/* Class = "UILabel"; text = "Team Name"; ObjectID = "k9i-rv-dk3"; */
+"k9i-rv-dk3.text" = "Team Name";
+
+/* Class = "UILabel"; text = "Euro-Sportring Contact"; ObjectID = "kol-pO-dlW"; */
+"kol-pO-dlW.text" = "Euro-Sportring Contact";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "lAG-VN-6aJ"; */
+"lAG-VN-6aJ.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Teams"; ObjectID = "lYy-wU-pt1"; */
+"lYy-wU-pt1.normalTitle" = "Teams";
+
+/* Class = "UIButton"; normalTitle = "<"; ObjectID = "lfB-P7-bm1"; */
+"lfB-P7-bm1.normalTitle" = "<";
+
+/* Class = "UILabel"; text = "Jul"; ObjectID = "lga-LW-629"; */
+"lga-LW-629.text" = "Jul";
+
+/* Class = "UITabBarItem"; title = "Age categories"; ObjectID = "lps-Or-uzJ"; */
+"lps-Or-uzJ.title" = "Leeftijdscategorieën";
+
+/* Class = "UILabel"; text = "P"; ObjectID = "lxP-aY-1Wa"; */
+"lxP-aY-1Wa.text" = "P";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "m8L-QB-pvI"; */
+"m8L-QB-pvI.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "mEg-kO-kJH"; */
+"mEg-kO-kJH.text" = "Label";
+
+/* Class = "UILabel"; text = "3"; ObjectID = "mNe-Az-oik"; */
+"mNe-Az-oik.text" = "3";
+
+/* Class = "UIButton"; normalTitle = ">"; ObjectID = "mXN-iU-ziV"; */
+"mXN-iU-ziV.normalTitle" = ">";
+
+/* Class = "UILabel"; text = "The Internet connection appears to be offline."; ObjectID = "mbG-iV-amj"; */
+"mbG-iV-amj.text" = "The Internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "Location:"; ObjectID = "mjR-Xf-jIV"; */
+"mjR-Xf-jIV.text" = "Plaats:";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "mns-xH-OC5"; */
+"mns-xH-OC5.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "mr8-Dg-Eq8"; */
+"mr8-Dg-Eq8.text" = "Label";
+
+/* Class = "UILabel"; text = "PRIVACY & TERMS"; ObjectID = "mxG-Dz-9ka"; */
+"mxG-Dz-9ka.text" = "Privacy & voorwaarden";
+
+/* Class = "UILabel"; text = "18 July  |   15:00"; ObjectID = "nsT-xt-QuV"; */
+"nsT-xt-QuV.text" = "18 July  |   15:00";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "o56-B1-mWL"; */
+"o56-B1-mWL.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "oNL-zU-MMw"; */
+"oNL-zU-MMw.normalTitle" = "Annuleren";
+
+/* Class = "UITextField"; placeholder = "Confirm"; ObjectID = "ojS-9W-G3M"; */
+"ojS-9W-G3M.placeholder" = "Bevestigen";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "oz5-Ar-Ciw"; */
+"oz5-Ar-Ciw.text" = "Label";
+
+/* Class = "UILabel"; text = "Match ID | Age Category | Round"; ObjectID = "p04-ZW-zyi"; */
+"p04-ZW-zyi.text" = "Match ID | Age Category | Round";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "pDb-6z-FJq"; */
+"pDb-6z-FJq.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "pEY-hX-KLF"; */
+"pEY-hX-KLF.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "pbL-Vp-LPm"; */
+"pbL-Vp-LPm.normalTitle" = "Annuleren";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "pfM-ZT-JAk"; */
+"pfM-ZT-JAk.text" = "Label";
+
+/* Class = "UILabel"; text = "TEAM"; ObjectID = "pst-hv-fpt"; */
+"pst-hv-fpt.text" = "TEAM";
+
+/* Class = "UILabel"; text = "The Internet connection appears to be offline."; ObjectID = "qKA-zN-ueu"; */
+"qKA-zN-ueu.text" = "The Internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "qWj-VO-WX7"; */
+"qWj-VO-WX7.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Create new account"; ObjectID = "qcF-fT-QH1"; */
+"qcF-fT-QH1.normalTitle" = "Nieuw account aanmaken";
+
+/* Class = "UIButton"; normalTitle = "<"; ObjectID = "qmh-N6-5zK"; */
+"qmh-N6-5zK.normalTitle" = "<";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "qyi-Pk-DFk"; */
+"qyi-Pk-DFk.text" = "Label";
+
+/* Class = "UILabel"; text = "Help"; ObjectID = "rKY-eh-Wpm"; */
+"rKY-eh-Wpm.text" = "Help";
+
+/* Class = "UILabel"; text = "G"; ObjectID = "rTo-9M-fpU"; */
+"rTo-9M-fpU.text" = "G";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "rna-3j-3G8"; */
+"rna-3j-3G8.text" = "Label";
+
+/* Class = "UILabel"; text = "Tournament List"; ObjectID = "rqN-y5-k9Y"; */
+"rqN-y5-k9Y.text" = "Tournament List";
+
+/* Class = "UILabel"; text = "P"; ObjectID = "so6-Bw-D9B"; */
+"so6-Bw-D9B.text" = "P";
+
+/* Class = "UILabel"; text = "Venue"; ObjectID = "srE-9d-GsZ"; */
+"srE-9d-GsZ.text" = "Locatie";
+
+/* Class = "UILabel"; text = "L"; ObjectID = "tQo-IR-ZDu"; */
+"tQo-IR-ZDu.text" = "L";
+
+/* Class = "UITextField"; placeholder = "Confirm"; ObjectID = "to7-AZ-1px"; */
+"to7-AZ-1px.placeholder" = "Bevestigen";
+
+/* Class = "UILabel"; text = "L"; ObjectID = "tpl-1a-MvQ"; */
+"tpl-1a-MvQ.text" = "L";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "u4w-RV-BM5"; */
+"u4w-RV-BM5.text" = "Label";
+
+/* Class = "UILabel"; text = "VENUE"; ObjectID = "uIT-Hf-Ho0"; */
+"uIT-Hf-Ho0.text" = "Locatie";
+
+/* Class = "UILabel"; text = "The Internet connection appears to be offline."; ObjectID = "uen-Hl-9Ay"; */
+"uen-Hl-9Ay.text" = "The Internet connection appears to be offline.";
+
+/* Class = "UIButton"; normalTitle = "<"; ObjectID = "ujb-al-wMl"; */
+"ujb-al-wMl.normalTitle" = "<";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "v3f-U3-p19"; */
+"v3f-U3-p19.title" = "Instellingen";
+
+/* Class = "UILabel"; text = "View on map"; ObjectID = "vMd-2l-g48"; */
+"vMd-2l-g48.text" = "Bekijk op kaart";
+
+/* Class = "UILabel"; text = "The Internet connection appears to be offline."; ObjectID = "vTR-n2-aZB"; */
+"vTR-n2-aZB.text" = "The Internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "Jul"; ObjectID = "vle-Kz-NV8"; */
+"vle-Kz-NV8.text" = "Jul";
+
+/* Class = "UITextField"; placeholder = "First name"; ObjectID = "vnF-On-rmQ"; */
+"vnF-On-rmQ.placeholder" = "First name";
+
+/* Class = "UILabel"; text = "Group 26 league table"; ObjectID = "vqf-Al-Z6k"; */
+"vqf-Al-Z6k.text" = "Group 26 league table";
+
+/* Class = "UILabel"; text = "Second"; ObjectID = "w1O-yh-uDr"; */
+"w1O-yh-uDr.text" = "Seconden";
+
+/* Class = "UIButton"; normalTitle = "<"; ObjectID = "wOA-kA-iRY"; */
+"wOA-kA-iRY.normalTitle" = "<";
+
+/* Class = "UILabel"; text = "TEAM"; ObjectID = "wRp-AJ-Non"; */
+"wRp-AJ-Non.text" = "TEAM";
+
+/* Class = "UITabBarItem"; title = "Tournament"; ObjectID = "wvL-iU-A43"; */
+"wvL-iU-A43.title" = "Toernooi";
+
+/* Class = "UIButton"; normalTitle = "Log out"; ObjectID = "xba-x3-HSP"; */
+"xba-x3-HSP.normalTitle" = "Log out";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "xfp-c2-8tt"; */
+"xfp-c2-8tt.text" = "0";
+
+/* Class = "UIButton"; normalTitle = ">"; ObjectID = "xis-xm-95S"; */
+"xis-xm-95S.normalTitle" = ">";
+
+/* Class = "UITabBarItem"; title = "Teams"; ObjectID = "xlE-na-Vmi"; */
+"xlE-na-Vmi.title" = "Teams";
+
+/* Class = "UILabel"; text = "Type:"; ObjectID = "xoC-gc-KUH"; */
+"xoC-gc-KUH.text" = "Type:";
+
+/* Class = "UILabel"; text = "Favourite"; ObjectID = "yKZ-lY-PgH"; */
+"yKZ-lY-PgH.text" = "Favoriet";
+
+/* Class = "UITextField"; text = "Change Tournament"; ObjectID = "yVm-ca-hdS"; */
+"yVm-ca-hdS.text" = "Change Tournament";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "z6Z-HC-lre"; */
+"z6Z-HC-lre.text" = "Label";
+
+/* Class = "UILabel"; text = "Jul"; ObjectID = "zQ7-iO-W1U"; */
+"zQ7-iO-W1U.text" = "Jul";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "zRY-cd-8lh"; */
+"zRY-cd-8lh.text" = "Label";
+
+/* Class = "UILabel"; text = "Default"; ObjectID = "zSw-Ii-EbD"; */
+"zSw-Ii-EbD.text" = "Standaard";
+
+/* Class = "UILabel"; text = "+/-"; ObjectID = "zxs-e1-0c0"; */
+"zxs-e1-0c0.text" = "+/-";

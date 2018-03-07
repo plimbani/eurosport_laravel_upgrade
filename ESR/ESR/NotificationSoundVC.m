@@ -11,8 +11,9 @@
 #import "Utils.h"
 #import "SVProgressHUD.h"
 #import "AppDelegate.h"
-
-@interface NotificationSoundVC ()
+#import <UserNotifications/UserNotifications.h>
+#import "Reachability.h"
+@interface NotificationSoundVC ()<UNUserNotificationCenterDelegate>
 
 @end
 
@@ -20,10 +21,44 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=NOTIFICATIONS_ID"]];
+    UIApplication *application = [UIApplication sharedApplication];
+    NSURL *URL = [NSURL URLWithString:@"prefs:root=MUSIC"];
+    [application openURL:URL options:@{} completionHandler:^(BOOL success) {
+        if (success) {
+            NSLog(@"Opened url");
+        }
+    }];
     [self getSetting];
-    // Do any additional setup after loading the view.
+    UITapGestureRecognizer *tapAction = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblClick:)];
+    tapAction.delegate =self;
+    tapAction.numberOfTapsRequired = 1;
+    //Enable the lable UserIntraction
+    self.titleLbl.userInteractionEnabled = YES;
+    [_titleLbl addGestureRecognizer:tapAction];
 }
-
+- (void)reachabilityChanged:(NSNotification*)notification1
+{
+    Reachability* reachability = notification1.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    self.titleLbl.text = [NSLocalizedString(@"Notifications & sounds", @"") uppercaseString];
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+}
+- (void)lblClick:(UITapGestureRecognizer *)tapGesture {
+    [self.navigationController popViewControllerAnimated:TRUE];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -73,28 +108,30 @@
                                                    NSString *jsonString = [[[responseDictionary valueForKey:@"data"] objectAtIndex:0] valueForKey:@"value"];
                                                   NSData *data1 = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
                                                   id responseDictionary1 = [NSJSONSerialization JSONObjectWithData:data1 options:0 error:nil];
-                                                  NSLog(@"%@",[responseDictionary1 valueForKey:@"is_sound"]);
-                                                  if ([[responseDictionary1 valueForKey:@"is_sound"] isEqualToString:@"true"]) {
-                                                      [_soundSwitch setOn:YES animated:YES];
-                                                      sound = @"true";
-                                                  }else{
-                                                      sound = @"false";
-                                                      [_soundSwitch setOn:NO animated:YES];
-                                                  }
-                                                  if ([[responseDictionary1 valueForKey:@"is_vibration"] isEqualToString:@"true"]) {
-                                                      [_vibrationSwitch setOn:YES animated:YES];
-                                                      vibration = @"true";
-                                                  }else{
-                                                      vibration = @"false";
-                                                      [_vibrationSwitch setOn:NO animated:YES];
-                                                  }
-                                                  if ([[responseDictionary1 valueForKey:@"is_notification"] isEqualToString:@"true"]) {
-                                                      notification = @"true";
-                                                      [_notificationSwitch setOn:YES animated:YES];
-                                                  }else{
-                                                      notification = @"false";
-                                                      [_notificationSwitch setOn:NO animated:YES];
-                                                  }
+                                     	             dispatch_async(dispatch_get_main_queue(), ^{
+                                                      if ([[responseDictionary1 valueForKey:@"is_sound"] isEqualToString:@"true"]) {
+                                                          [_soundSwitch setOn:YES animated:YES];
+                                                          sound = @"true";
+                                                      }else{
+                                                          sound = @"false";
+                                                          [_soundSwitch setOn:NO animated:YES];
+                                                      }
+                                                      if ([[responseDictionary1  valueForKey:@"is_vibration"] isEqualToString:@"true"]) {
+                                                          [_vibrationSwitch setOn:YES animated:YES];
+                                                          vibration = @"true";
+                                                      }else{
+                                                          vibration = @"false";
+                                                          [_vibrationSwitch setOn:NO animated:YES];
+                                                      }
+                                                      if ([[responseDictionary1 valueForKey:@"is_notification"] isEqualToString:@"true"]) {
+                                                          notification = @"true";
+                                                          [_notificationSwitch setOn:YES animated:YES];
+                                                      }else{
+                                                          notification = @"false";
+                                                          [_notificationSwitch setOn:NO animated:YES];
+                                                      }
+                                                  });
+                                                  
                                                   
                                               }
                                           }];
@@ -104,16 +141,23 @@
     }
 }
 - (IBAction)soundValueChange:(id)sender {
+    
     if(_soundSwitch.isOn)
     {
         sound = @"true";
         NSLog(@"The switch is on");
+        
+        
     }
     else
     {
         sound = @"false";
         NSLog(@"The switch is off");
+        
+        
     }
+    
+    [self updateSetting];
 }
 
 - (IBAction)vibrationValueChange:(id)sender {
@@ -127,6 +171,7 @@
         vibration = @"false";
         NSLog(@"The switch is off");
     }
+    [self updateSetting];
 }
 
 - (IBAction)notificationValueChange:(id)sender {
@@ -134,12 +179,15 @@
     {
         notification = @"true";
         NSLog(@"The switch is on");
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
     }
     else
     {
         notification = @"false";
         NSLog(@"The switch is off");
+        [[UIApplication sharedApplication] unregisterForRemoteNotifications];
     }
+    [self updateSetting];
 }
 -(void)updateSetting{
     if([Utils isNetworkAvailable] ==YES){
@@ -148,7 +196,7 @@
         NSDictionary *userData = [defaults objectForKey:@"userData"];
         NSDictionary *dataDir = @{@"is_sound":sound,@"is_vibration":vibration,@"is_notification":notification};
         NSDictionary *userSettings = @{@"userSettings":dataDir };
-        NSDictionary *mainDir =@{@"userId":[userData valueForKey:@"user_id"] ,@"userSettings":userSettings};
+        NSDictionary *mainDir =@{@"userId":[userData valueForKey:@"user_id"] ,@"userSettings":dataDir};
         NSDictionary *params = @{@"userData":mainDir };
         NSString *token = [defaults objectForKey:@"token"];
         NSString *concateToken = [NSString stringWithFormat:@"%@%@",@"Bearer ",token];
@@ -156,7 +204,7 @@
         NSDictionary *header =@{@"IsMobileUser": @"true",@"Authorization":concateToken};
         sessionConfiguration.HTTPAdditionalHeaders = header;
         NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-        NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,GetMatchFixturesClubID];
+        NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,PostSetting];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         NSData *requestData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil]; //TODO handle error

@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ClubTeamListVC : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface ClubTeamListVC : UIViewController<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *clubTeamArray;
 - (IBAction)backBtnClick:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *titleLbl;
 @property (strong, nonatomic) NSMutableDictionary *clubDir;
 @end

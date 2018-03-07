@@ -25,5 +25,7 @@ pod "MBCircularProgressBar"
 pod 'SVProgressHUD'
 pod 'Fabric'
 pod 'Crashlytics'
+pod 'Firebase/Core'
+pod 'Firebase/Messaging'
 use_frameworks!
 end

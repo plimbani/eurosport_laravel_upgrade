@@ -9,6 +9,8 @@
 #import "UserSettingsVC.h"
 #import "AppDelegate.h"
 #import "HomeVC.h"
+#import "Utils.h"
+#import "Reachability.h"
 
 @interface UserSettingsVC ()
 
@@ -25,7 +27,30 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)reachabilityChanged:(NSNotification*)notification
+{
+    Reachability* reachability = notification.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    self.notificationLbl.text = NSLocalizedString(@"Notifications & sounds", @"");
+    self.profileLbl.text = NSLocalizedString(@"Profile", @"");
+    self.helpLbl.text = NSLocalizedString(@"Help", @"");
+    self.privacyLbl.text = NSLocalizedString(@"Privacy & terms", @"");
+    self.logoutLbl.text = NSLocalizedString(@"Log out", @"");
+    [self.view setNeedsDisplay];
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+}
 /*
 #pragma mark - Navigation
 
@@ -50,12 +75,19 @@
 
 - (IBAction)logoutBtnClick:(id)sender {
     self.alertView.hidden = FALSE;
-    
+    self.alertViewTitle.text = NSLocalizedString(@"Confirm",@"");
+    self.alertViewSubTitle.text =NSLocalizedString(@"Are you sure you want to log out?", @"");
+//    UIApplication *application = [UIApplication sharedApplication];
+//    //NSURL *URL = [NSURL URLWithString:@"prefs:root=MUSIC"];
+//    NSURL*URL=[NSURL URLWithString:@"prefs://"];
+//    [application openURL:URL options:@{} completionHandler:^(BOOL success) {
+//        if (success) {
+//            NSLog(@"Opened url");
+//        }
+//    }];
 }
 - (IBAction)alertViewOkBtnClick:(id)sender {
     self.alertView.hidden = TRUE;
-    self.alertViewTitle.text = @"Confirm";
-    self.alertViewSubTitle.text = @"Are you sure you want to log out?";
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"token"];
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];

@@ -7,6 +7,8 @@
 //
 
 #import "HomeVC.h"
+#import "Reachability.h"
+#import "Utils.h"
 
 @interface HomeVC ()
 
@@ -18,7 +20,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
-
+- (void)reachabilityChanged:(NSNotification*)notification
+{
+    Reachability* reachability = notification.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

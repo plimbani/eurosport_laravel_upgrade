@@ -54,8 +54,11 @@
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
                                                   NSLog(@"%@",responseDictionary);
-                                                  _agelistArray =[responseDictionary[@"data"] mutableCopy];
-                                                  _searchListArray =[responseDictionary[@"data"] mutableCopy];
+                                                  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"group_name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+                                                  _agelistArray=[[responseDictionary[@"data"] sortedArrayUsingDescriptors:@[sort]] mutableCopy];
+                                                  _searchListArray=[[responseDictionary[@"data"] sortedArrayUsingDescriptors:@[sort]] mutableCopy];
+//                                                  _agelistArray =[responseDictionary[@"data"] mutableCopy];
+//                                                  _searchListArray =[responseDictionary[@"data"] mutableCopy];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       [self.tableView reloadData];
                                                   });
@@ -69,10 +72,34 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    [self.tableView addGestureRecognizer:gestureRecognizer];
     // Do any additional setup after loading the view.
     //self.title = @"AGE";
 }
+- (void) hideKeyboard:(UITapGestureRecognizer *)sender {
+    
+    
+    CGPoint location = [sender locationInView:self.tableView];
+    NSIndexPath *path = [self.tableView indexPathForRowAtPoint:location];
+    
+    if(path)
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        AgeTeamListVC *myVC = (AgeTeamListVC *)[storyboard instantiateViewControllerWithIdentifier:@"AgeTeamListVC"];
+        myVC.ageDir = [_agelistArray  objectAtIndex:path.row];
+        [self.navigationController pushViewController:myVC animated:YES];
+    }
+    else
+    {
+        // handle tap on empty space below existing rows however you want
+        [_searchBar resignFirstResponder];
+    }
+}
+
 -(void)viewWillAppear:(BOOL)animated{
+    self.searchBar.placeholder = NSLocalizedString(@"Search age category", @"");
      [self getAgeList];
 }
 - (void)didReceiveMemoryWarning {
@@ -91,8 +118,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AgeCell *cell = (AgeCell*)[tableView dequeueReusableCellWithIdentifier:@"AgeCell"];
-    cell.lbl.text = [[_agelistArray objectAtIndex:indexPath.row] valueForKey:@"category_age"];
+    
+    cell.lbl.text = [NSString stringWithFormat:@"%@ (%@)",[[_agelistArray objectAtIndex:indexPath.row] valueForKey:@"group_name"],[[_agelistArray objectAtIndex:indexPath.row] valueForKey:@"category_age"]];
     //cell.lblRowData.text=[[[[screen objectForKey:@"options"] objectForKey:@"optionList"] objectAtIndex:indexPath.row] objectForKey:@"text"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -153,7 +182,7 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)SearchBar
 {
-    SearchBar.showsCancelButton=YES;
+    SearchBar.showsCancelButton=NO;
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar
 {

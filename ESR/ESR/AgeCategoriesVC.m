@@ -8,6 +8,8 @@
 
 #import "AgeCategoriesVC.h"
 #import "AgeGroupVC.h"
+#import "Utils.h"
+#import "Reachability.h"
 
 @interface AgeCategoriesVC ()
 
@@ -66,7 +68,24 @@
     // Do any additional setup after loading the view.
 }
 -(void)viewWillAppear:(BOOL)animated{
+    self.ageCategoriesLbl.text = [NSLocalizedString(@"Age categories", @"") uppercaseString];
     [self getAgeList];
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+}
+- (void)reachabilityChanged:(NSNotification*)notification
+{
+    Reachability* reachability = notification.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -82,6 +101,14 @@
     // Pass the selected object to the new view controller.
 }
 */
+- (IBAction)handleButtonClick:(UIButton *)sender {
+    
+    if (![[[_agelistArray objectAtIndex:sender.tag] valueForKey:@"comments"] isKindOfClass:[NSNull class]] ) {
+        self.commentLbl.text = [[_agelistArray objectAtIndex:sender.tag] valueForKey:@"comments"];;
+        self.commentView.hidden = FALSE;
+    }
+    
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 50 ;
 }
@@ -94,15 +121,27 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AgeCell *cell = (AgeCell*)[tableView dequeueReusableCellWithIdentifier:@"AgeCell"];
-    cell.lbl.text = [[_agelistArray objectAtIndex:indexPath.row] valueForKey:@"category_age"];
+    cell.lbl.text = [NSString stringWithFormat:@"%@ (%@)",[[_agelistArray objectAtIndex:indexPath.row] valueForKey:@"group_name"],[[_agelistArray objectAtIndex:indexPath.row] valueForKey:@"category_age"]];
     //cell.lblRowData.text=[[[[screen objectForKey:@"options"] objectForKey:@"optionList"] objectAtIndex:indexPath.row] objectForKey:@"text"];
+    cell.commentBtnClick.tag = indexPath.row;
+    if ([[[_agelistArray objectAtIndex:indexPath.row] valueForKey:@"comments"] isKindOfClass:[NSNull class]] ) {
+        cell.commentBtnClick.hidden = TRUE;
+    }
+    //cell.faverateBtn.tag = [[[_tournamentlistArray objectAtIndex:indexPath.row] valueForKey:@"id"] integerValue];
+    [cell.commentBtnClick addTarget:self action:@selector(handleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    app.competationFormatId = [[_agelistArray  objectAtIndex:indexPath.row]valueForKey:@"id"];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     AgeGroupVC *myVC = (AgeGroupVC *)[storyboard instantiateViewControllerWithIdentifier:@"AgeGroupVC"];
     myVC.ageDir = [_agelistArray  objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:myVC animated:YES];
+}
+- (IBAction)closeBtnClick:(id)sender {
+    self.commentView.hidden = TRUE;
 }
 @end

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface HomeTabBar : UITabBarController<UITabBarControllerDelegate,UITabBarDelegate>
+//@property (weak, nonatomic) IBOutlet UITabBar *tabbar;
 
 @end

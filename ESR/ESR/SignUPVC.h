@@ -8,9 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SignUPVC : UIViewController<UITextFieldDelegate,UIScrollViewDelegate>{
-    
+@interface SignUPVC : UIViewController<UITextFieldDelegate,UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UIPickerViewDataSource, UIPickerViewDelegate>{
+    CAGradientLayer *maskLayer;
+    UITapGestureRecognizer *tap;
+    UITapGestureRecognizer *tap1;
 }
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
+@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableHeight;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) NSMutableArray *autoCompleteArray;
+@property (strong, nonatomic) IBOutlet UITableView *autoCompleteTableView;
 @property (weak, nonatomic) NSString *selectedTournamentIndex;
 @property (weak, nonatomic) IBOutlet UITextField *firstNameTxtField;
 @property (weak, nonatomic) IBOutlet UITextField *surnameTxtField;
@@ -19,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *confirmTxtField;
 @property (weak, nonatomic) IBOutlet UITextField *TournamentTxtField;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll;
+@property (weak, nonatomic) IBOutlet UIView *scrollSubView;
 @property (weak, nonatomic) IBOutlet UIButton *signUpBtn;
 - (IBAction)signUpBtnClick:(id)sender;
 - (IBAction)tournamentBtnClick:(id)sender;

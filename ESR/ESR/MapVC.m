@@ -7,6 +7,8 @@
 //
 
 #import "MapVC.h"
+#import "Reachability.h"
+#import "Utils.h"
 
 @interface MapVC ()
 
@@ -34,8 +36,9 @@
         // Add an annotation
         MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
         point.coordinate = coordinate;
-        point.title = [matchDetails valueForKey:@"pitch_number"];
-        point.subtitle = [matchDetails valueForKey:@"pitchType"];
+        //point.title = [matchDetails valueForKey:@"pitch_number"];
+        point.title =[matchDetails valueForKey:@"venue_name"];
+        //point.subtitle = [matchDetails valueForKey:@"pitchType"];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.mapView addAnnotation:point];
         });
@@ -45,18 +48,46 @@
         NSLog(@"%f",coordinate.latitude);
         MKCoordinateRegion mapRegion;
         mapRegion.center = coordinate;
-        mapRegion.span.latitudeDelta = .7;
-        mapRegion.span.longitudeDelta = .7;
+        mapRegion.span.latitudeDelta = 0.001;
+        mapRegion.span.longitudeDelta = 0.001;
         
-        CLLocationCoordinate2D noLocation;
-        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(coordinate, 500, 500);
-        MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:viewRegion];
-        [self.mapView setRegion:adjustedRegion animated:YES];
+//        CLLocationCoordinate2D noLocation;
+//        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(coordinate, 700, 700);
+//        MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:viewRegion];
+        [self.mapView setRegion:mapRegion animated:YES];
+        
+        
         
     }
     
+    UITapGestureRecognizer *tapAction = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblClick:)];
+    tapAction.delegate =self;
+    tapAction.numberOfTapsRequired = 1;
     
-    
+    //Enable the lable UserIntraction
+    _titleLbl.userInteractionEnabled = YES;
+    [_titleLbl addGestureRecognizer:tapAction];
+}
+- (void)reachabilityChanged:(NSNotification*)notification
+{
+    Reachability* reachability = notification.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+}
+- (void)lblClick:(UITapGestureRecognizer *)tapGesture {
+    [self.navigationController popViewControllerAnimated:TRUE];
 }
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {

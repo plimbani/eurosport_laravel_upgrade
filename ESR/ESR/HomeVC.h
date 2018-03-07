@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HomeVC : UIViewController
-
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
 @end

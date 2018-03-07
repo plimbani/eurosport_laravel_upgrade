@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AgeTeamListVC : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface AgeTeamListVC : UIViewController<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *ageTeamArray;
 - (IBAction)backBtnClick:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *titleLbl;
 @property (strong, nonatomic) NSMutableDictionary *ageDir;
 @end

@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ForgotPasswordVC : UIViewController<UITextFieldDelegate,UIScrollViewDelegate>
+@interface ForgotPasswordVC : UIViewController<UITextFieldDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate>{
+    UITapGestureRecognizer *tap;
+    UITapGestureRecognizer *tap1;
+}
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll1;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll2;
 @property (weak, nonatomic) IBOutlet UIButton *scroll1GetOTPBtn;
@@ -16,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *scroll2EmailTxt;
 @property (weak, nonatomic) IBOutlet UITextField *scroll2OPTTxt;
 @property (weak, nonatomic) IBOutlet UITextField *scroll2PasswordTxt;
+@property (weak, nonatomic) IBOutlet UIView *scrollSubView;
 - (IBAction)scroll1GetOTPBtnClick:(id)sender;
 - (IBAction)scroll2ChangePasswordBtnClick:(id)sender;
 - (IBAction)scroll1BackBtnClick:(id)sender;

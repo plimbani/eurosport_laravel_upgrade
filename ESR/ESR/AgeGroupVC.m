@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "ClubTeamCell.h"
 #import "GroupSummaryVC.h"
+#import "Reachability.h"
 
 @interface AgeGroupVC ()
 
@@ -25,7 +26,7 @@
     if([Utils isNetworkAvailable] ==YES){
         [SVProgressHUD show];
         AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        NSDictionary *params = @{@"tournamentId":[app.defaultTournamentDir valueForKey:@"tournament_id"],@"competationFormatId":[ageDir valueForKey:@"id"] };
+        NSDictionary *params = @{@"tournamentId":[app.defaultTournamentDir valueForKey:@"tournament_id"],@"competationFormatId":app.competationFormatId };
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *token = [defaults objectForKey:@"token"];
         NSString *concateToken = [NSString stringWithFormat:@"%@%@",@"Bearer ",token];
@@ -53,12 +54,10 @@
                                                   [SVProgressHUD dismiss];
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-                                                  
                                                   _ageGroupArray =[responseDictionary[@"data"] mutableCopy];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       [self.tableView reloadData];
                                                   });
-                                                  
                                               }
                                           }];
         [dataTask resume];
@@ -71,7 +70,25 @@
     // Do any additional setup after loading the view.
     [self getAgeGroupList];
 }
-
+- (void)reachabilityChanged:(NSNotification*)notification
+{
+    Reachability* reachability = notification.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    self.titleLbl.text = NSLocalizedString(@"GROUPS", @"");
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -99,7 +116,19 @@
 {
     
     ClubTeamCell *cell = (ClubTeamCell*)[tableView dequeueReusableCellWithIdentifier:@"ClubTeamCell"];
-    cell.lbl.text = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+    if (![[[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"actual_competition_type"] isKindOfClass:[NSNull class]]) {
+        if ([[[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"actual_competition_type"] isEqualToString:@"Elimination"]) {
+            NSString *name = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+            name = [name stringByReplacingOccurrencesOfString:@"Group-" withString:@""];
+            cell.lbl.text = name;
+        }else{
+            cell.lbl.text = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+        }
+    }else{
+        
+        cell.lbl.text = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+    }
+    //cell.lbl.text = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"name"];
     //cell.lblRowData.text=[[[[screen objectForKey:@"options"] objectForKey:@"optionList"] objectAtIndex:indexPath.row] objectForKey:@"text"];
     NSURL *url = [NSURL URLWithString:[[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"countryLogo"]];
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
@@ -112,6 +141,7 @@
                                    UIImage *image = [UIImage imageWithData:data];
                                    cell.image.image = image;                               }
                            }];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

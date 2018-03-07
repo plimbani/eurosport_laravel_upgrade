@@ -14,6 +14,8 @@
 #import "SignUpTournamentList.h"
 #import "UIColor+fromHex.h"
 #import "SVProgressHUD.h"
+#import "TournamentListCell.h"
+#import "Reachability.h"
 
 @interface SignUPVC ()
 
@@ -22,10 +24,108 @@
 @implementation SignUPVC
 @synthesize selectedTournamentIndex;
 -(UIView *)PaddingView{
-    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 20)];
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15, 20)];
+}
+-(void)GetTournamentLst{
+    
+    if([Utils isNetworkAvailable] ==YES){
+        //        NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];
+        [SVProgressHUD show];
+        NSString *post = @"";
+        NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        //        NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
+        NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,Tournaments];
+        //[request setURL:[NSURL URLWithString:url]];
+        NSDictionary *header =@{@"IsMobileUser": @"true"};
+        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        sessionConfiguration.HTTPAdditionalHeaders =header;
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+        NSDictionary *params =@"";
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
+                                                               cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+        //NSData *requestData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil]; //TODO handle error
+        [request setHTTPMethod:@"GET"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHTTPHeaderField:@"Content-Length"];
+        [request setHTTPBody: postData];
+        
+        
+        
+        NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                                          {
+                                              [SVProgressHUD dismiss];
+                                              if (error) {
+                                                  [SVProgressHUD dismiss];
+                                                  NSLog(@"data%@",data);
+                                                  NSLog(@"response%@",error);
+                                                  //[SVProgressHUD dismiss];
+                                              } else{
+                                                  [SVProgressHUD dismiss];
+                                                  NSError *parseError = nil;
+                                                  NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
+                                                  //_tournamentlistArray =[responseDictionary[@"data"] mutableCopy];
+                                                  _autoCompleteArray = [responseDictionary[@"data"] mutableCopy];
+                                                  NSLog(@"%@",_autoCompleteArray);
+                                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                                      [self.autoCompleteTableView reloadData];
+                                                      [self.pickerView reloadAllComponents];
+                                                  });
+                                                  
+                                                  
+                                              }
+                                          }];
+        [dataTask resume];
+    }
+    
+}
+- (NSInteger )numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSString *title = [NSString stringWithFormat:@"%@", [[_autoCompleteArray objectAtIndex:row] valueForKey:@"name"]];
+    NSAttributedString *attString =
+    [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+    return attString;
+}
+// The number of rows of data
+- (NSInteger )pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return _autoCompleteArray.count;
+}
+
+// The data to return for the row and component (column) that's being passed in
+- (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [NSString stringWithFormat:@"%@", [[_autoCompleteArray objectAtIndex:row] valueForKey:@"name"]];
+    
+}
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    // This method is triggered whenever the user makes a change to the picker selection.
+    // The parameter named row and component represents what was selected.
+    self.TournamentTxtField.text = [[_autoCompleteArray objectAtIndex:row] valueForKey:@"name"];
+    if (self.firstNameTxtField.text.length > 0 && self.surnameTxtField.text.length >0 && self.emailTxtField.text.length >0 && self.passwordTxtField.text.length >0 && self.confirmTxtField.text.length >0 && self.TournamentTxtField.text.length >0) {
+        self.signUpBtn.enabled = TRUE;
+        self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+    }
+    selectedTournamentIndex =[[_autoCompleteArray objectAtIndex:row] valueForKey:@"id"];
+    //self.pickerView.hidden = TRUE;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self GetTournamentLst];
+    _autoCompleteTableView.hidden =TRUE;
+    _pickerView.hidden = TRUE;
+    // _autoCompleteTableView.tableFooterView = [UIView new];
+    [[_autoCompleteTableView layer] setMasksToBounds:NO];
+    [[_autoCompleteTableView layer] setShadowColor:[UIColor blackColor].CGColor];
+    [[_autoCompleteTableView layer] setShadowOffset:CGSizeMake(0.0f, 5.0f)];
+    [[_autoCompleteTableView layer] setShadowOpacity:0.3f];
     // Do any additional setup after loading the view.
     //UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 20)];
     self.surnameTxtField.delegate = self;
@@ -46,18 +146,144 @@
     self.confirmTxtField.leftViewMode = UITextFieldViewModeAlways;
     self.TournamentTxtField.leftView = [self PaddingView];
     self.TournamentTxtField.leftViewMode = UITextFieldViewModeAlways;
+    self.surnameTxtField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
+    self.firstNameTxtField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
     UIColor *color = [UIColor grayColor];
-    self.surnameTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Surname" attributes:@{NSForegroundColorAttributeName: color}];
-    self.emailTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Email" attributes:@{NSForegroundColorAttributeName: color}];
-    self.passwordTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{NSForegroundColorAttributeName: color}];
-    self.firstNameTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"First name" attributes:@{NSForegroundColorAttributeName: color}];
-    self.confirmTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Confirm password" attributes:@{NSForegroundColorAttributeName: color}];
-    self.TournamentTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Tournament" attributes:@{NSForegroundColorAttributeName: color}];
+    self.surnameTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Surname", @"") attributes:@{NSForegroundColorAttributeName: color}];
+    self.emailTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Email address", @"") attributes:@{NSForegroundColorAttributeName: color}];
+    self.passwordTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Password", @"") attributes:@{NSForegroundColorAttributeName: color}];
+    self.firstNameTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"First name", @"") attributes:@{NSForegroundColorAttributeName: color}];
+    self.confirmTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Confirm password", @"") attributes:@{NSForegroundColorAttributeName: color}];
+    self.TournamentTxtField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Select tournament", @"") attributes:@{NSForegroundColorAttributeName: color}];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(tournamentSelect:)
                                                  name:@"tournamentSelect" object:nil];
+    UIGestureRecognizer *gestureRecognizer = [[UIGestureRecognizer alloc] init];
+    gestureRecognizer.delegate = self;
+    [self.scrollSubView addGestureRecognizer:gestureRecognizer];
+//    tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+//                                                                          action:@selector(dismissKeyboard)];
+//    
+//    [self.imageView addGestureRecognizer:tap];
+//    
+//    tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self
+//                                                  action:@selector(dismissKeyboard1)];
+//    
+//    [self.autoCompleteTableView addGestureRecognizer:tap1];
     
+    
+    
+}
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    
+    UIView* view = gestureRecognizer.view;
+    CGPoint loc = [gestureRecognizer locationInView:_scrollSubView];
+    UIView* subview = [view hitTest:loc withEvent:nil];
+    
+    if ([touch.view isKindOfClass:[UITextField class]])
+    {
+        self.autoCompleteTableView.hidden = TRUE;
+        self.pickerView.hidden = TRUE;
+        return FALSE;
+    }else if([touch.view.superview isKindOfClass:[UITableViewCell class]]) {
+    
+        [self.firstNameTxtField resignFirstResponder];
+        [self.passwordTxtField resignFirstResponder];
+        [self.confirmTxtField resignFirstResponder];
+        [self.surnameTxtField resignFirstResponder];
+        [self.emailTxtField resignFirstResponder];
+        [self.TournamentTxtField resignFirstResponder];
+        [self.scroll endEditing: YES];
+        [self.scrollSubView endEditing:YES];
+        [self scrollToY:0];
+        
+        self.autoCompleteTableView.hidden = TRUE;
+        CGPoint loc = [touch locationInView:_autoCompleteTableView];
+        NSIndexPath *path = [_autoCompleteTableView indexPathForRowAtPoint:loc];
+        //NSLog(@"%ld",path.row);
+        self.TournamentTxtField.text = [[_autoCompleteArray objectAtIndex:path.row] valueForKey:@"name"];
+        if (self.firstNameTxtField.text.length > 0 && self.surnameTxtField.text.length >0 && self.emailTxtField.text.length >0 && self.passwordTxtField.text.length >0 && self.confirmTxtField.text.length >0 && self.TournamentTxtField.text.length >0) {
+            self.signUpBtn.enabled = TRUE;
+            self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        }
+        selectedTournamentIndex =[[_autoCompleteArray objectAtIndex:path.row] valueForKey:@"id"];
+        return TRUE;
+    }
+    else
+    {
+        [self.firstNameTxtField resignFirstResponder];
+        [self.passwordTxtField resignFirstResponder];
+        [self.confirmTxtField resignFirstResponder];
+        [self.surnameTxtField resignFirstResponder];
+        [self.emailTxtField resignFirstResponder];
+        [self.TournamentTxtField resignFirstResponder];
+        [self.scroll endEditing: YES];
+        [self.scrollSubView endEditing:YES];
+        [self scrollToY:0];
+        self.autoCompleteTableView.hidden = TRUE;
+        self.pickerView.hidden = TRUE;
+        // here is remove keyBoard code
+        return FALSE;
+    }
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    self.tableHeight.constant = 35*_autoCompleteArray.count;
+    return [_autoCompleteArray count];
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    return 35;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    TournamentListCell *cell = (TournamentListCell*)[tableView dequeueReusableCellWithIdentifier:@"TournamentListCell"];
+//    cell.lbl.text = [[_autoCompleteArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+//    return cell;
+    UITableViewCell *Cell = [tableView dequeueReusableHeaderFooterViewWithIdentifier:nil];
+    if (Cell ==nil) {
+        Cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    }
+    
+    Cell.textLabel.text = [NSString stringWithFormat:@"%@", [[_autoCompleteArray objectAtIndex:indexPath.row] valueForKey:@"name"]];
+    Cell.contentView.backgroundColor = [UIColor whiteColor];
+    Cell.backgroundColor = [UIColor clearColor];
+    return Cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *Cell = [tableView cellForRowAtIndexPath:indexPath];
+    self.autoCompleteTableView.hidden = TRUE;
+    self.TournamentTxtField.text = [[_autoCompleteArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+    selectedTournamentIndex =[[_autoCompleteArray objectAtIndex:indexPath.row] valueForKey:@"id"];
+    //[self.scrollSubView addGestureRecognizer:tap];
+}
+-(void)dismissKeyboard1 {
+    [self.firstNameTxtField resignFirstResponder];
+    [self.passwordTxtField resignFirstResponder];
+    [self.confirmTxtField resignFirstResponder];
+    [self.surnameTxtField resignFirstResponder];
+    [self.emailTxtField resignFirstResponder];
+    [self.TournamentTxtField resignFirstResponder];
+    [self.scroll endEditing: YES];
+    [self.scrollSubView endEditing:YES];
+    [self scrollToY:0];
+    self.autoCompleteTableView.hidden = TRUE;
+    self.pickerView.hidden = TRUE;
+}
+-(void)dismissKeyboard {
+    [self.firstNameTxtField resignFirstResponder];
+    [self.passwordTxtField resignFirstResponder];
+    [self.confirmTxtField resignFirstResponder];
+    [self.surnameTxtField resignFirstResponder];
+    [self.emailTxtField resignFirstResponder];
+    [self.TournamentTxtField resignFirstResponder];
+    [self.scroll endEditing: YES];
+    [self.scrollSubView endEditing:YES];
+    [self scrollToY:0];
+    self.autoCompleteTableView.hidden = TRUE;
+    self.pickerView.hidden = TRUE;
 }
 - (void)tournamentSelect:(NSNotification *)message {
     self.TournamentTxtField.text = [message.object valueForKey:@"Name"];
@@ -69,22 +295,47 @@
 {
     [self scrollToY:0];
 }
+- (void)reachabilityChanged:(NSNotification*)notification
+{
+    Reachability* reachability = notification.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self scrollToY:0];
     if (self.firstNameTxtField.text.length > 0 && self.surnameTxtField.text.length >0 && self.emailTxtField.text.length >0 && self.passwordTxtField.text.length >0 && self.confirmTxtField.text.length >0 && self.TournamentTxtField.text.length >0) {
-        self.signUpBtn.enabled = TRUE;
-        self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        if ([self validateEmailWithString:self.emailTxtField.text]) {
+            self.signUpBtn.enabled = TRUE;
+            self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        }
+        
     }else{
         self.signUpBtn.enabled = FALSE;
         self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"CCCCCC" alpha:1.0];
+    }
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
     }
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
     
+}
+- (BOOL)validateEmailWithString:(NSString*)email
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:email];
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -122,11 +373,13 @@
 - (BOOL)textFieldShouldReturn:(UITextField*)textField
 {
     [textField resignFirstResponder];
-    return NO;
+    return YES;
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField*)textField
 {
+    self.autoCompleteTableView.hidden = TRUE;
+    self.pickerView.hidden = TRUE;
     [self scrollToView:textField];
     return YES;
 }
@@ -148,6 +401,13 @@
     }
     else if (textField == self.confirmTxtField) {
         [self.view endEditing:YES];
+    }
+    if (self.firstNameTxtField.text.length > 0 && self.surnameTxtField.text.length >0 && self.emailTxtField.text.length >0 && self.passwordTxtField.text.length >0 && self.confirmTxtField.text.length >0 && self.TournamentTxtField.text.length >0) {
+        self.signUpBtn.enabled = TRUE;
+        self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+    }else{
+        self.signUpBtn.enabled = FALSE;
+        self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"CCCCCC" alpha:1.0];
     }
 }
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -172,7 +432,8 @@
 - (void)scrollToView:(UIView*)view
 {
     CGRect theFrame = view.frame;
-    float y = theFrame.origin.y + theFrame.size.height +0;
+    float y = theFrame.origin.y -110;
+    //float y = theFrame.origin.y + theFrame.size.height -90;
     y -= (y / 1.7);
     [self scrollToY:-y];
 }
@@ -238,17 +499,30 @@
                                                           NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
                                                           //NSLog(@"%@",responseDictionary);
                                                           NSString *message = [responseDictionary valueForKey:@"message"];
+                                                          if ([message isEqualToString:@"This email already exists."]) {
+                                                              dispatch_async(dispatch_get_main_queue(), ^{
+                                                                  self.alertTitle.text = @"Error";
+                                                                  self.alertSubTitle.text = message;
+                                                                  self.alertView.hidden = FALSE;
+                                                              });
+                                                          }else{
+                                                              dispatch_async(dispatch_get_main_queue(), ^{
+                                                                  self.alertTitle.text = @"Confirmation";
+                                                                  self.alertSubTitle.text = message;
+                                                                  self.alertView.hidden = FALSE;
+                                                              });
+                                                          }
 //                                                          UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"ESR" message:message preferredStyle:UIAlertControllerStyleAlert];
 //                                                          UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
 //                                                            
 //                                                              [self.navigationController popViewControllerAnimated:TRUE];                                                          }];
 //                                                          [alertController addAction:ok];
 //                                                          [self presentViewController:alertController animated:YES completion:nil];
-                                                          dispatch_async(dispatch_get_main_queue(), ^{
-                                                              self.alertTitle.text = @"Euro-Sporing";
-                                                              self.alertSubTitle.text = message;
-                                                              self.alertView.hidden = FALSE;
-                                                          });
+//                                                          dispatch_async(dispatch_get_main_queue(), ^{
+//                                                              self.alertTitle.text = @"Euro-Sporing";
+//                                                              self.alertSubTitle.text = message;
+//                                                              self.alertView.hidden = FALSE;
+//                                                          });
                                                       }
                                                   }];
                 [dataTask resume];
@@ -264,7 +538,7 @@
 //            [self presentViewController:alertController animated:YES completion:nil];
             self.passwordAlertView.hidden = FALSE;
             self.passwordAlertTitle.text = @"Euro-Sportring";
-            self.passwordAlertSubTitle.text = @"Passwords do not match";
+            self.passwordAlertSubTitle.text = NSLocalizedString(@"The passwords entered do not match", @"");
         }
     }
 }
@@ -277,8 +551,13 @@
     [self.emailTxtField resignFirstResponder];
     [self.TournamentTxtField resignFirstResponder];
     [self.scroll endEditing: YES];
-    SignUpTournamentList *myVC = (SignUpTournamentList *)[self.storyboard instantiateViewControllerWithIdentifier:@"SignUpTournamentList"];
-    [self.navigationController pushViewController:myVC animated:YES];
+    //self.autoCompleteTableView.hidden = FALSE;
+    [self.scrollSubView endEditing:YES];
+    [self scrollToY:0];
+    self.pickerView.hidden = FALSE;
+//    [self.scrollSubView removeGestureRecognizer:tap];
+//    SignUpTournamentList *myVC = (SignUpTournamentList *)[self.storyboard instantiateViewControllerWithIdentifier:@"SignUpTournamentList"];
+//    [self.navigationController pushViewController:myVC animated:YES];
 }
 
 - (IBAction)backBtnClick:(id)sender {

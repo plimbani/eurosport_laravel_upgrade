@@ -19,5 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *pLbl;
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UILabel *aLbl;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imagewidthConstrain;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageHeightConstrain;
 
 @end

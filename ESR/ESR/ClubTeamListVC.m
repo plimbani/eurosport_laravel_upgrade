@@ -15,6 +15,7 @@
 #import "SVProgressHUD.h"
 #import "AppDelegate.h"
 #import "TeamDetailVC.h"
+#import "Reachability.h"
 
 @interface ClubTeamListVC ()
 
@@ -55,8 +56,8 @@
                                                   [SVProgressHUD dismiss];
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-                                                  
-                                                  _clubTeamArray =[responseDictionary[@"data"] mutableCopy];
+                                                  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+                                                  _clubTeamArray =[[responseDictionary[@"data"] sortedArrayUsingDescriptors:@[sort]] mutableCopy];
                                                   NSLog(@"%@",_clubTeamArray);
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       [self.tableView reloadData];
@@ -71,10 +72,36 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    UITapGestureRecognizer *tapAction = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblClick:)];
+    tapAction.delegate =self;
+    tapAction.numberOfTapsRequired = 1;
+    
+    //Enable the lable UserIntraction
+    _titleLbl.userInteractionEnabled = YES;
+    [_titleLbl addGestureRecognizer:tapAction];
+}
+- (void)reachabilityChanged:(NSNotification*)notification
+{
+    Reachability* reachability = notification.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
+}
+- (void)lblClick:(UITapGestureRecognizer *)tapGesture {
+    [self.navigationController popViewControllerAnimated:TRUE];
 }
 -(void)viewWillAppear:(BOOL)animated{
+    self.titleLbl.text = NSLocalizedString(@"TEAM", @"");
     [self getClubTeamList];
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -103,7 +130,12 @@
 {
     
     ClubTeamCell *cell = (ClubTeamCell*)[tableView dequeueReusableCellWithIdentifier:@"ClubTeamCell"];
-    cell.lbl.text = [[_clubTeamArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+    NSString * name;
+    name = [[_clubTeamArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+    if (![[[_clubTeamArray objectAtIndex:indexPath.row] valueForKey:@"CategoryAge"] isKindOfClass:[NSNull class]]) {
+        name = [NSString stringWithFormat:@"%@ (%@)",name,[[_clubTeamArray objectAtIndex:indexPath.row] valueForKey:@"CategoryAge"]];
+    }
+    cell.lbl.text = name;
     //cell.lblRowData.text=[[[[screen objectForKey:@"options"] objectForKey:@"optionList"] objectAtIndex:indexPath.row] objectForKey:@"text"];
     NSURL *url = [NSURL URLWithString:[[_clubTeamArray objectAtIndex:indexPath.row] valueForKey:@"countryLogo"]];
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
@@ -116,6 +148,7 @@
                                    UIImage *image = [UIImage imageWithData:data];
                                    cell.image.image = image;                               }
                            }];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

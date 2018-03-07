@@ -17,6 +17,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.delegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(teamBtnClick:)
+                                                 name:@"teamBtnClick" object:nil];
+    
+
 //    AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
 //    app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
 //    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -28,7 +34,12 @@
 //    [self.navigationController popToRootViewControllerAnimated:TRUE];
     // Do any additional setup after loading the view.
 }
-
+- (void)teamBtnClick:(NSNotification *)message {
+    NSInteger tabitem = 2;
+    //self.tabBarController.selectedIndex = 2;
+    //[self.delegate tabBarController:self didSelectViewController:[self.tabBarController.viewControllers objectAtIndex:2]];
+    [[self.viewControllers objectAtIndex:tabitem] popToRootViewControllerAnimated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -57,7 +68,25 @@
 //        //your code
 //    }
 //}
+-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item{
 
+    [self.navigationController popToRootViewControllerAnimated:YES];
+//    int index = [tabBar determinePositionInTabBar:item];
+//    NSInteger tabitem = self.tabBarController.selectedIndex;
+//    [[self.tabBarController.viewControllers objectAtIndex:index] popToRootViewControllerAnimated:YES];
+}
+//- (void)tabBarController:(UITabBarController *)tabBarCtrl didSelectViewController:(UIViewController *)viewController{
+//    
+//}
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
+    NSInteger tabitem = tabBarController.selectedIndex;
+    [[tabBarController.viewControllers objectAtIndex:tabitem] popToRootViewControllerAnimated:YES];
+    
+//    UITabBarItem *item = [tabBarController.tabBar selectedItem];
+////    [[self.tabBarController.viewControllers objectAtIndex:item] popToRootViewControllerAnimated:YES];
+//    
+//    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 /*
 #pragma mark - Navigation
 

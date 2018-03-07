@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ClubListVC : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate>
+@interface ClubListVC : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,UISearchControllerDelegate,UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) NSMutableArray *searchListArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

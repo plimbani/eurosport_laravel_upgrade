@@ -10,6 +10,7 @@
 #import "ClubListVC.h"
 #import "AgeListVC.h"
 #import "GroupListVC.h"
+#import "Utils.h"
 
 
 @interface ClubsVC ()
@@ -41,6 +42,13 @@
     //self.view = tabBarController.view;
    // [self addChildViewController:tabBarController];
    // [self addSubview:tabBarController.view toView:self.view];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
 }
 - (BOOL)mh_tabBarController:(MHTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index
 {

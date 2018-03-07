@@ -10,5 +10,6 @@
 
 @interface AgeCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *lbl;
+@property (weak, nonatomic) IBOutlet UIButton *commentBtnClick;
 
 @end

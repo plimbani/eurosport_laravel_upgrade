@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
-@interface MapVC : UIViewController<CLLocationManagerDelegate,MKMapViewDelegate>{
+@interface MapVC : UIViewController<CLLocationManagerDelegate,MKMapViewDelegate,UIGestureRecognizerDelegate>{
     CLLocationManager *locationManager;
 }
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLbl;
 @property (strong, nonatomic) NSMutableDictionary *matchDetails;
 - (IBAction)backBtnClick:(id)sender;
 @end

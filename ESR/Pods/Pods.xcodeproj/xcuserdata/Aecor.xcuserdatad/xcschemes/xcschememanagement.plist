@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>GoogleToolboxForMac.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MBCircularProgressBar-MBCircularProgressBar.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -34,6 +39,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Protobuf.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SVProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -52,7 +62,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A2A4C6F371BCCFC14BA4AB3289388933</key>
+		<key>2F78484C4970B96E372E4DE0690A1827</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>90BBA453AB280AAE22ECB1FCE1DDEE6C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C5B80060FE8C664DF08841000F41D515</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -67,12 +87,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F579AA4D4755DD9570010BC36D0422F7</key>
+		<key>E7D5066C1B1C3C12C41E09A13ABFD38A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F97414D5542F7EA8298C82298F5C4746</key>
+		<key>F579AA4D4755DD9570010BC36D0422F7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

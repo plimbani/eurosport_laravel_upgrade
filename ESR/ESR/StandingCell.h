@@ -14,5 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *played;
 @property (weak, nonatomic) IBOutlet UILabel *plusMinus;
 @property (weak, nonatomic) IBOutlet UILabel *points;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imagewidthConstrain;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageHeightConstrain;
 
 @end

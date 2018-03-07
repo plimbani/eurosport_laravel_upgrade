@@ -1,0 +1,92 @@
+/* 
+  Localizable.strings
+  ESR
+
+  Created by Aecor Digital on 24/08/17.
+  Copyright © 2017 Aecor Digital. All rights reserved.
+*/
+
+"First name" = "Voornaam";
+"Surname" = "Achternaam";
+"Email address" = "E-mailadres";
+"Password" = "Wachtwoord";
+"Confirm password" = "Wachtwoord bevestigen";
+"Select tournament" = "Toernooi selecten";
+"Success" = "Gelukt";
+"Default tournament updated successfully" = "Standaardtoernooi is geüpdatet";
+"Error" = "Fout";
+"Default tournament cannot be removed from favourite." = "Standaardtoernooi kan niet worden verwijderd uit favorieten.";
+"Profile updated successfully."= "Profiel geüpdatet";
+"The passwords entered do not match"="De ingevulde wachtwoorden komen niet overeen";
+"Passwords do not match."= "Wachtwoorden komen niet overeen";
+"Are you sure you want to log out?"= "Weet je zeker dat je wilt uitloggen?";
+"We have sent a password reset link to your email address." = "We hebben een link voor het aanmaken van een nieuw wachtwoord naar je e-mailadres gestuurd.";
+"Please check your inbox to verify your email address and complete your account registration"= "Kijk in je inbox om je e-mailadres te bevestigen en je accountregistratie af te ronden.";
+"Matches"="Wedstrijden";
+"league table" = "stand";
+"No league data available"="Geen standgegevens gevonden";
+"No matches available"="Geen wedstrijden gevonden";
+"View full league table"="Bekijk volledige stand";
+"View all club matches"="Bekijk alle clubwedstrijden";
+"is the winner"="is de winnaar";
+"Game information"="Spelinformatie";
+"GROUP"="GROEP";
+"PLACING MATCHES SUMMARY"="SAMENVATTING PLAATSINGSWEDSTRIJDEN";
+"Elimination"="Uitschakeling";
+"Round Robin"="Round Robin-toernooi";
+
+//Home(Tournament Tab)
+"Favourites"= "Favorieten";
+"Tournament" = "Toernooi";
+"Teams"= "Teams";
+"Age categories"="Leeftijdscategorieën";
+"Settings" = "Instellingen";
+"Matches"="Wedstrijden";
+"Days"="Dagen";
+"Hours"="Uren";
+"Seconds"="Seconden";
+"Minutes"="Minuten";
+
+//Date and Time
+"January"="Januari";
+"February"="Februari";
+"March"="Maart";
+"April"="April";
+"May"="Mei";
+"June"="Juni";
+"July"="Juli";
+"August"="Augustus";
+"September"="September";
+"October"="Oktober";
+"November"="November";
+"December"="December";
+
+//Team Page
+"TEAMS"="TEAMS";
+"CLUBS"="CLUBS";
+"CATEGORY"="CATEGORIEËN";
+"GROUPS"="GROEPEN";
+"Search clubs"="Zoek clubs";
+"Search age category"="Zoek leeftijdscategorie";
+"Search groups"="Zoek groepen";
+
+//Team Listing
+"TEAM"="TEAM";
+
+//Settings
+"Profile"="Profiel";
+"Notifications & sounds"="Meldingen & geluiden";
+"Help"="Help";
+"Privacy & terms"="Privacy & voorwaarden";
+"Log out"="Log uit";
+
+//Profile Page
+"English"="Engels";
+"French"="Frans";
+"Italian"="Italiaans";
+"German"="Duits";
+"Dutch"="Nederlands";
+"Czech"="Tsjechisch";
+"Danish"="Deens";
+"Polish"="Pools";
+

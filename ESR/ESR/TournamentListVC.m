@@ -23,6 +23,7 @@
 @synthesize defaultTournamentDir;
 -(void)GetTournamentLst{
     if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
         [SVProgressHUD show];
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *token = [defaults objectForKey:@"token"];
@@ -48,7 +49,32 @@
                                                   [SVProgressHUD dismiss];
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
+//                                                  NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES];
+//                                                  arrayUsedForTableView = [arrayUsedForTableView sortedArrayUsingDescriptors:@[dateSortDescriptor]];
+                                                  
+                                                  //NSMutableArray *sort = [[NSMutableArray alloc] init];
                                                   _tournamentlistArray =[responseDictionary[@"data"] mutableCopy];
+                                                  for (int i = 0; i<_tournamentlistArray.count; i++) {
+                                                      NSDateFormatter *dateformat = [[NSDateFormatter alloc] init];
+                                                      [dateformat setDateFormat:@"dd-MM-yyyy"];
+                                                      //NSLog(@"%@",[app.defaultTournamentDir valueForKey:@"start_date"]);
+                                                      NSDate *startDate = [dateformat dateFromString:[NSString stringWithFormat:@"%@",[[_tournamentlistArray objectAtIndex:i] valueForKey:@"start_date"]]];
+                                                      NSDictionary *dir =[[_tournamentlistArray objectAtIndex:i] mutableCopy];
+                                                      [dir setValue:startDate forKey:@"start_date"];
+                                                      [_tournamentlistArray replaceObjectAtIndex:i withObject:dir];
+                                                      //[sort addObject:startDate];
+                                                  }
+                                                  NSSortDescriptor* sortByDate = [NSSortDescriptor sortDescriptorWithKey:@"start_date" ascending:NO];
+                                                  [_tournamentlistArray sortUsingDescriptors:[NSArray arrayWithObject:sortByDate]];
+                                                  for (int i=0; i<_tournamentlistArray.count; i++) {
+                                                      NSDateFormatter *dateformat = [[NSDateFormatter alloc] init];
+                                                      [dateformat setDateFormat:@"dd-MM-YYYY"];
+                                                      NSString *startDate = [dateformat stringFromDate:[[_tournamentlistArray objectAtIndex:i] valueForKey:@"start_date"]];
+                                                      NSDictionary *dir =[[_tournamentlistArray objectAtIndex:i] mutableCopy];
+                                                      [dir setValue:startDate forKey:@"start_date"];
+                                                      [_tournamentlistArray replaceObjectAtIndex:i withObject:dir];
+                                                      
+                                                  }
                                                   _searchListArray =[responseDictionary[@"data"] mutableCopy];
                                                    [self GetFavouriteTournament];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
@@ -59,6 +85,7 @@
                                           }];
         [dataTask resume];
     }else{
+        self.offlineView.hidden = false;
         
     }
 }
@@ -100,6 +127,11 @@
                                                   AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
                                                   app.defaultTournamentDir =[responseDictionary[@"data"] mutableCopy];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                                      if (defaultFlag == 1) {
+                                                          self.alertTitle.text = NSLocalizedString(@"Success", @"");
+                                                          self.alertSubTitle.text =NSLocalizedString(@"Default tournament updated successfully", @"");
+                                                          self.alertView.hidden = FALSE;
+                                                      }
                                                       [self.tableView reloadData];
                                                   });
                                                   //NSLog(@"%@",defaultTournamentDir);
@@ -114,32 +146,7 @@
         
     }
 }
-//-(void)GetTournamentLst{
-//    if([Utils isNetworkAvailable] ==YES){
-//        //NSDictionary *params = @{@"user_email": userEmail, @"imei": imei};
-//        NSDictionary *params = @"";
-//        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//        NSString *finalURL=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,Tournaments ];
-//        manager.responseSerializer = [AFJSONResponseSerializer serializer];
-//        [manager GET:finalURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//            NSLog(@"JSON: %@", responseObject);
-//            //NSDictionary *data =  responseObject[@"data"];
-//            _tournamentlistArray =[responseObject[@"data"] mutableCopy];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.tableView reloadData];
-//                [self GetFavouriteTournament];
-//            });
-//            
-//            //            NSDictionary *userdata = data[@"user"];
-//            //            NSDictionary *meta = responseObject[@"meta"];
-//            
-//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//            //NSString *myString = [[NSString alloc] initWithData:operation.request.HTTPBody encoding:NSUTF8StringEncoding];
-//            //NSLog(@"Error: %@",myString);
-//        }];
-//    }else{
-//    }
-//}
+
 
 -(void)GetFavouriteTournament{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -176,8 +183,13 @@
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
                                                   _selectedArray =[responseDictionary[@"data"] mutableCopy];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                                      [self.tableView reloadData];
-                                                      [self GetDefaultTournament];
+                                                      if (defaultFavouriteFlag == 1) {
+                                                          [self setDefaultToutnamet];
+                                                      }else{
+                                                          [self GetDefaultTournament];
+                                                      }
+                                                      
+                                                      
                                                   });
                                                   
                                               }
@@ -189,14 +201,31 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    defaultFlag =0;
+    defaultFavouriteFlag = 0;
     
-    [self GetTournamentLst];
     // Do any additional setup after loading the view.
 }
 -(void)viewWillAppear:(BOOL)animated{
+    [self GetTournamentLst];
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
      [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
 }
-
+- (void)reachabilityChanged:(NSNotification*)notification
+{
+    Reachability* reachability = notification.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
+}
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
     [super preferredInterfaceOrientationForPresentation ];
@@ -220,8 +249,9 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 60 ;
+    return 70 ;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -244,7 +274,6 @@
     [cell.faverateBtn addTarget:self action:@selector(handleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     cell.defaultBtn.tag = indexPath.row;
     [cell.defaultBtn addTarget:self action:@selector(handleDefaultButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    NSLog(@"%@",[[_tournamentlistArray objectAtIndex:indexPath.row] valueForKey:@"tournamentLogo"]);
     if (![[[_tournamentlistArray objectAtIndex:indexPath.row] valueForKey:@"tournamentLogo"] isKindOfClass:[NSNull class]]) {
         NSURL *url = [NSURL URLWithString:[[_tournamentlistArray objectAtIndex:indexPath.row] valueForKey:@"tournamentLogo"]];
         NSURLRequest* request = [NSURLRequest requestWithURL:url];
@@ -255,7 +284,13 @@
                                                    NSError * error) {
                                    if (!error){
                                        UIImage *image = [UIImage imageWithData:data];
-                                       cell.image.image = image;                               }
+                                       if (image != NULL) {
+                                           cell.image.image = image;
+                                       }else{
+                                           cell.image.image = [UIImage imageNamed:@"globe.png"];
+                                       }
+                                   }else{
+                                   }
                                }];
     }
     
@@ -275,6 +310,7 @@
             cell.defaultBtn.selected = NO;
         }
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 -(void)removeFavourite:(NSString *)tournamentID{
@@ -313,9 +349,9 @@
                                                   //NSLog(@"%@",responseDictionary);
                                                   NSString *message = [responseDictionary valueForKey:@"message"];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                                      self.alertTitle.text = @"Euro-Sporing";
-                                                      self.alertSubTitle.text = message;
-                                                      self.alertView.hidden = FALSE;
+//                                                      self.alertTitle.text = @"Euro-Sporing";
+//                                                      self.alertSubTitle.text = message;
+//                                                      self.alertView.hidden = FALSE;
                                                   });
                                               
 //                                                  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"ESR" message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -377,9 +413,9 @@
 //                                                      [alertController addAction:ok];
 //                                                      [self presentViewController:alertController animated:YES completion:nil];
                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                          self.alertTitle.text = @"Euro-Sporing";
-                                                          self.alertSubTitle.text = message;
-                                                          self.alertView.hidden = FALSE;
+//                                                          self.alertTitle.text = @"Euro-Sporing";
+//                                                          self.alertSubTitle.text = message;
+//                                                          self.alertView.hidden = FALSE;
                                                       });
                                                   
                                                   });
@@ -393,11 +429,15 @@
 }
 -(void)setDefaultToutnamet{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userData = [defaults objectForKey:@"userData"];
+    NSDictionary *userData = [[defaults objectForKey:@"userData"] mutableCopy];
     if([Utils isNetworkAvailable] ==YES){
         [SVProgressHUD show];
         NSDictionary *params = @{@"user_id":[userData valueForKey:@"user_id"],@"tournament_id": [defaultTournamentDir valueForKey:@"id"]};
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [userData setValue:[defaultTournamentDir valueForKey:@"id"] forKey:@"tournament_id"];
+        [[NSUserDefaults standardUserDefaults] setObject:userData forKey:@"userData"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [userData valueForKey:@"tournament_id"];
         NSString *token = [defaults objectForKey:@"token"];
         NSString *concateToken = [NSString stringWithFormat:@"%@%@",@"Bearer ",token];
         NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -424,7 +464,7 @@
                                                   [SVProgressHUD dismiss];
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-                                                  _selectedArray =[responseDictionary[@"data"] mutableCopy];
+                                                  //_selectedArray =[responseDictionary[@"data"] mutableCopy];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       [self.tableView reloadData];
                                                       [self GetDefaultTournament];
@@ -438,22 +478,45 @@
     }
 }
 -(IBAction)handleDefaultButtonClick:(UIButton *)sender{
-    
+    defaultFlag = 1;
     defaultTournamentDir =[_tournamentlistArray objectAtIndex:sender.tag];
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     app.defaultTournamentDir = [_tournamentlistArray objectAtIndex:sender.tag];
-    [self.tableView reloadData];
-    [self setDefaultToutnamet];
+    int flag =0;
+    for (int i=0; i<_selectedArray.count;i++) {
+        if ([[defaultTournamentDir valueForKey:@"id"] integerValue] ==[[[_selectedArray objectAtIndex:i] valueForKey:@"tournament_id"] integerValue]) {
+            flag =1;
+            break;
+        }
+    }
+    if (flag == 0) {
+        defaultFavouriteFlag = 1;
+        [self addFavourite:[defaultTournamentDir valueForKey:@"id"]];
+        [_selectedArray addObject:defaultTournamentDir];
+        
+    }else{
+        [self.tableView reloadData];
+        [self setDefaultToutnamet];
+    }
+    
 }
 - (IBAction)handleButtonClick:(UIButton *)sender {
+    
     if (sender.selected == YES) {
-        [sender setSelected:NO];
-        for (int i=0; i<_selectedArray.count; i++) {
-            if ([[[_selectedArray objectAtIndex:i] valueForKey:@"tournament_id"] integerValue] == sender.tag) {
-                [self removeFavourite:[[_selectedArray objectAtIndex:i] valueForKey:@"tournament_id"]];
-                [_selectedArray removeObjectAtIndex:i];
+        if ([[defaultTournamentDir valueForKey:@"tournament_id"] integerValue] == sender.tag) {
+            self.alertTitle.text = NSLocalizedString(@"Error", @"");
+            self.alertSubTitle.text = NSLocalizedString(@"Default tournament cannot be removed from favourite.", @"");
+            self.alertView.hidden = FALSE;
+        }else{
+            [sender setSelected:NO];
+            for (int i=0; i<_selectedArray.count; i++) {
+                if ([[[_selectedArray objectAtIndex:i] valueForKey:@"tournament_id"] integerValue] == sender.tag) {
+                    [self removeFavourite:[[_selectedArray objectAtIndex:i] valueForKey:@"tournament_id"]];
+                    [_selectedArray removeObjectAtIndex:i];
+                }
             }
         }
+        
     } else {
         [sender setSelected:YES];
         for (int i =0; i<_tournamentlistArray.count; i++) {
@@ -572,5 +635,7 @@
 //}
 - (IBAction)alertViewOkBtnClick:(id)sender {
     self.alertView.hidden = TRUE;
+    defaultFlag =0;
+    defaultFavouriteFlag = 0;
 }
 @end

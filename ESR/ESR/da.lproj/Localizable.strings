@@ -1,0 +1,92 @@
+/* 
+  Localizable.strings
+  ESR
+
+  Created by Aecor Digital on 24/08/17.
+  Copyright © 2017 Aecor Digital. All rights reserved.
+*/
+
+"First name" = "Fornavn";
+"Surname" = "Efternavn";
+"Email address" = "E-mail-adresse";
+"Password" = "Password";
+"Confirm password" = "Bekræft password";
+"Select tournament" = "Vælg turnering";
+"Success" = "Gennemført";
+"Default tournament updated successfully" = "Standardturnering opdateret ";
+"Error" = "Fejl";
+"Default tournament cannot be removed from favourite." = "Standardturneringer kan ikke fjernes fra favoritter.";
+"Profile updated successfully."= "Profil opdateret.";
+"The passwords entered do not match"="De indtastede passwords passer ikke";
+"Passwords do not match."= "Passwords passer ikke.";
+"Are you sure you want to log out?"= "Er du sikker på du vil logge ud?";
+"We have sent a password reset link to your email address." = "Vi har sendt et link til oprettelse af et nyt password til e-mail-adressen.";
+"Please check your inbox to verify your email address and complete your account registration"= "Se i din indbakke for at bekræfte din e-mail-adresse og afslutte din kontooprettelse.";
+"Matches"="Kampe";
+"league table" = "Klassement";
+"No league data available"="Ingen ligadata fundet";
+"No matches available"="Ingen kampe fundet";
+"View full league table"="Se hele kampoversigten";
+"View all club matches"="Se alle klubkampe";
+"is the winner"="er vinder";
+"Game information"="Kampinformation";
+"GROUP"="GRUPPE";
+"PLACING MATCHES SUMMARY"="RESUMÉ KAMPADRESSER";
+"Elimination"="Elimination";
+"Round Robin"="Round Robin turnering";
+
+//Home(Tournament Tab)
+"Favourites"= "Favoritter";
+"Tournament" = "Turneringer";
+"Teams"= "Hold";
+"Age categories"="Aldersgrupper";
+"Settings" = "Indstillinger";
+"Matches"="Kampe";
+"Days"="Dage";
+"Hours"="Timer";
+"Seconds"="Sekunder";
+"Minutes"="Minutter";
+
+//Date and Time
+"January"="Januar";
+"February"="Februar";
+"March"="Marts";
+"April"="April";
+"May"="Maj";
+"June"="Juni";
+"July"="Juli";
+"August"="August";
+"September"="September";
+"October"="Oktober";
+"November"="November";
+"December"="December";
+
+//Team Page
+"TEAMS"="HOLD";
+"CLUBS"="KLUBBER";
+"CATEGORY"="KATEGORI";
+"GROUPS"="GRUPPER";
+"Search clubs"="Søg klubber";
+"Search age category"="Søg aldersgrupper";
+"Search groups"="Søg grupper";
+
+//Team Listing
+"TEAM"="HOLD";
+
+//Settings
+"Profile"="Profil";
+"Notifications & sounds"="Meldinger og lyde";
+"Help"="Hjælp";
+"Privacy & terms"="Privacy & betingelser";
+"Log out"="Log ud";
+
+
+//Profile Page
+"English"="Engelsk";
+"French"="Fransk";
+"Italian"="Italiensk";
+"German"="Tysk";
+"Dutch"="Hollandsk";
+"Czech"="Tjekkisk";
+"Danish"="Dansk";
+"Polish"="Polsk";

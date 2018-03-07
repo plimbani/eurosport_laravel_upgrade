@@ -46,12 +46,9 @@
     if (Cell ==nil) {
         Cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     }
-    
     Cell.textLabel.text = [NSString stringWithFormat:@"%@",[languageArray objectAtIndex:indexPath.row]];
     Cell.contentView.backgroundColor = [UIColor whiteColor];
     Cell.backgroundColor = [UIColor clearColor];
-    
-    
     return Cell;
 }
 

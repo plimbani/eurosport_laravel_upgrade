@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
 
 @interface TournamentListVC : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchControllerDelegate>{
-    
+    int defaultFlag;
+    int defaultFavouriteFlag;
 }
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (nonatomic, strong) NSMutableDictionary *defaultTournamentDir;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

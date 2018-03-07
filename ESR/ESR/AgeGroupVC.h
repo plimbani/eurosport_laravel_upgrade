@@ -12,5 +12,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *ageGroupArray;
 @property (strong, nonatomic) NSMutableDictionary *ageDir;
+@property (weak, nonatomic) IBOutlet UILabel *titleLbl;
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
 - (IBAction)backBtnClick:(id)sender;
 @end

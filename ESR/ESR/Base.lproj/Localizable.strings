@@ -1,0 +1,91 @@
+/* 
+  Localizable.strings
+  ESR
+
+  Created by Aecor Digital on 24/08/17.
+  Copyright © 2017 Aecor Digital. All rights reserved.
+*/
+"Create account" = "Create account";
+"Sign in"="Sign in";
+"First name" = "First name";
+"Surname" = "Surname";
+"Email address" = "Email address";
+"Password" = "Password";
+"Confirm password" = "Confirm password";
+"Select tournament" = "Select tournament";
+"Success" = "Success";
+"Default tournament updated successfully" = "Default tournament updated successfully";
+"Error" = "Error";
+"Default tournament cannot be removed from favourite." = "Default tournament cannot be removed from favourite.";
+"Profile updated successfully."= "Profile updated successfully.";
+"The passwords entered do not match"="The passwords entered do not match";
+"Passwords do not match."= "Passwords do not match.";
+"Are you sure you want to log out?"= "Are you sure you want to log out?";
+"We have sent a password reset link to your email address." = "We have sent a password reset link to your email address.";
+"Please check your inbox to verify your email address and complete your account registration"= "Please check your inbox to verify your email address and complete your account registration";
+"Matches"="Matches";
+"league table" = "league table";
+"No league data available"="No league data available";
+"No matches available"="No matches available";
+"View full league table"="View full league table";
+"View all club matches"="View all club matches";
+"is the winner"="is the winner";
+"Game information"="Game information";
+"GROUP"="GROUP";
+"PLACING MATCHES SUMMARY"="PLACING MATCHES SUMMARY";
+"Elimination"="Elimination";
+"Round Robin"="Round Robin";
+//Home(Tournament Tab)
+"Favourites"= "Favourites";
+"Tournament" = "Tournament";
+"Teams"= "Teams";
+"Age categories"="Age categories";
+"Settings" = "Settings";
+"Matches"="Matches";
+"Days"="Days";
+"Hours"="Hours";
+"Seconds"="Seconds";
+"Minutes"="Minutes";
+
+//Date and Time
+"January"="January";
+"February"="February";
+"March"="March";
+"April"="April";
+"May"="May";
+"June"="June";
+"July"="July";
+"August"="August";
+"September"="September";
+"October"="October";
+"November"="November";
+"December"="December";
+
+//Team Page
+"TEAMS"="TEAMS";
+"CLUBS"="CLUBS";
+"CATEGORY"="CATEGORY";
+"GROUPS"="GROUPS";
+"Search clubs"="Search clubs";
+"Search age category"="Search age category";
+"Search groups"="Search groups";
+
+//Team Listing
+"TEAM"="TEAM";
+
+//Settings
+"Profile"="Profile";
+"Notifications & sounds"="Notifications & sounds";
+"Help"="Help";
+"Privacy & terms"="Privacy & terms";
+"Log out"="Log out";
+
+//Profile Page
+"English"="English";
+"French"="French";
+"Italian"="Italian";
+"German"="German";
+"Dutch"="Dutch";
+"Czech"="Czech";
+"Danish"="Danish";
+"Polish"="Polish";

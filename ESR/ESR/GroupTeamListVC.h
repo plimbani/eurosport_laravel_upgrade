@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GroupTeamListVC : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface GroupTeamListVC : UIViewController<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *groupTeamArray;
 @property (strong, nonatomic) NSMutableDictionary *groupDir;
+@property (weak, nonatomic) IBOutlet UILabel *titleLbl;
 - (IBAction)backBtnClick:(id)sender;
 @end

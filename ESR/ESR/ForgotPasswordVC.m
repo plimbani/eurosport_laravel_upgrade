@@ -11,6 +11,7 @@
 #import "Utils.h"
 #import "SVProgressHUD.h"
 #import "UIColor+fromHex.h"
+#import "Reachability.h"
 @interface ForgotPasswordVC ()
 
 @end
@@ -45,6 +46,14 @@
 {
     [self scrollToY:0];
 }
+- (void)reachabilityChanged:(NSNotification*)notification
+{
+    Reachability* reachability = notification.object;
+    if(reachability.currentReachabilityStatus == NotReachable)
+        self.offlineView.hidden = false;
+    else
+        self.offlineView.hidden = TRUE;
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -60,7 +69,21 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                  action:@selector(dismissKeyboard)];
     
+    [self.scrollSubView addGestureRecognizer:tap];
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+
+    
+}
+-(void)dismissKeyboard {
+    [self.scroll1EmailTxt resignFirstResponder];
+    [self.scroll1 endEditing: YES];
+    [self.scrollSubView endEditing:YES];
+    [self scrollToY:0];
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -69,23 +92,27 @@
     {
         // the view has been removed from the navigation stack or hierarchy, back is probably the cause
         // this will be slow with a large stack however.
-        
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    
     if (self.scroll1EmailTxt.text.length > 0 ) {
-        self.scroll1GetOTPBtn.enabled = TRUE;
-        self.scroll1GetOTPBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        if ([self validateEmailWithString:self.scroll1EmailTxt.text]) {
+            self.scroll1GetOTPBtn.enabled = TRUE;
+            self.scroll1GetOTPBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        }
     }else{
         self.scroll1GetOTPBtn.enabled = FALSE;
         self.scroll1GetOTPBtn.backgroundColor =[UIColor colorwithHexString:@"CCCCCC" alpha:1.0];
     }
-    
-    
     return YES;
+}
+- (BOOL)validateEmailWithString:(NSString*)email
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:email];
 }
 //- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 //{
@@ -143,13 +170,13 @@
     [UIView beginAnimations:@"registerScroll" context:NULL];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
     [UIView setAnimationDuration:0.4];
-    self.view.transform = CGAffineTransformMakeTranslation(0, y);
+    self.scrollSubView.transform = CGAffineTransformMakeTranslation(0, y);
     [UIView commitAnimations];
 }
 - (void)scrollToView:(UIView*)view
 {
     CGRect theFrame = view.frame;
-    float y = theFrame.origin.y + theFrame.size.height +0;
+    float y = theFrame.origin.y -30;
     y -= (y / 1.7);
     [self scrollToY:-y];
 }
@@ -222,17 +249,16 @@
 //                                                      self.scroll2.hidden = FALSE;
                                                       [self scrollToY:0];
                                                       [self.scroll1EmailTxt resignFirstResponder];
-                                                      
                                                       NSString *message = [responseDictionary valueForKey:@"message"];
                                                       if ([message isEqualToString:@"Success"]) {
                                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                                              self.alertViewTitle.text = @"Euro-Sporing";
-                                                              self.alertViewSubLbl.text = @"We have sent a password reset link to your email address.";
+                                                              self.alertViewTitle.text = @"Confirmation";
+                                                              self.alertViewSubLbl.text = NSLocalizedString(@"We have sent a password reset link to your email address.", @"");
                                                               self.alertView.hidden = FALSE;
                                                           });
                                                       }else{
                                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                                              self.alertViewTitle.text = @"Euro-Sporing";
+                                                              self.alertViewTitle.text = @"Error";
                                                               self.alertViewSubLbl.text = message;
                                                               self.alertView.hidden = FALSE;
                                                           });
@@ -287,7 +313,7 @@
                                                       NSLog(@"%@",responseDictionary);
                                                       NSString *message = [responseDictionary valueForKey:@"message"];
                                                       if ([message isEqualToString:@"Success"]) {
-                                                          UIAlertController * alert=[UIAlertController alertControllerWithTitle:@"Success"
+                                                          UIAlertController * alert=[UIAlertController alertControllerWithTitle: NSLocalizedString(@"Success", @"")
                                                                                                                         message:@"Password Reset sucessfully"
                                                                                                                  preferredStyle:UIAlertControllerStyleAlert];
                                                           
@@ -301,7 +327,7 @@
                                                           [alert addAction:yesButton];
                                                           [self presentViewController:alert animated:YES completion:nil];
                                                       }else{
-                                                          UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:message preferredStyle:UIAlertControllerStyleAlert];
+                                                          UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", @"") message:message preferredStyle:UIAlertControllerStyleAlert];
                                                           
                                                           UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
                                                           [alertController addAction:ok];

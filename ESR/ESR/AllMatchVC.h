@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AllMatchVC : UIViewController<UITableViewDataSource,UITableViewDelegate>{
+@interface AllMatchVC : UIViewController<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>{
     
 }
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
+@property (weak, nonatomic) IBOutlet UILabel *teamNameLbl;
 @property (strong, nonatomic) NSMutableDictionary *teamDetails;
 @property (strong, nonatomic) NSMutableArray *fixturesArray;;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

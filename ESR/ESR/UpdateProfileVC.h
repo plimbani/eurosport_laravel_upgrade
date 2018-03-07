@@ -8,9 +8,25 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UpdateProfileVC : UIViewController<UITextFieldDelegate,UIScrollViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
-    
+@interface UpdateProfileVC : UIViewController<UITextFieldDelegate,UIScrollViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate,UIPickerViewDataSource, UIPickerViewDelegate>{
+    NSInteger selectLanguageIndex;
 }
+@property (strong, nonatomic) NSMutableArray *selectedArray;
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLbl;
+@property (weak, nonatomic) IBOutlet UIPickerView *languagePickerView;
+@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
+@property (weak, nonatomic) IBOutlet UIView *languageView;
+@property (weak, nonatomic) IBOutlet UIView *tournamentView;
+@property (weak, nonatomic) IBOutlet UIView *passwordView;
+@property (weak, nonatomic) IBOutlet UIView *emailView;
+@property (weak, nonatomic) IBOutlet UIView *surnameView;
+@property (weak, nonatomic) IBOutlet UIView *firstNameView;
+@property (weak, nonatomic) IBOutlet UIView *scrollSubView;
+@property (strong, nonatomic) NSMutableArray *autoCompleteArray;
+@property (strong, nonatomic) IBOutlet UITableView *autoCompleteTableView;
+@property (strong, nonatomic) NSMutableArray *autoCompleteLanguageArray;
+@property (strong, nonatomic) IBOutlet UITableView *autoCompleteLanguageTableView;
 @property (weak, nonatomic) NSString *selectedTournamentIndex;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UITextField *firstNameTxtField;

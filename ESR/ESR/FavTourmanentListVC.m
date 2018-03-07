@@ -101,6 +101,7 @@
     
     TournamentListCell *cell = (TournamentListCell*)[tableView dequeueReusableCellWithIdentifier:@"TournamentListCell"];
     cell.lbl.text = [[_favTournamentlistArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

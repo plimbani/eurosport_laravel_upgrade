@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NotificationSoundVC : UIViewController{
+@interface NotificationSoundVC : UIViewController<UIGestureRecognizerDelegate>{
     NSString *sound;
     NSString *vibration;
     NSString *notification;
 }
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLbl;
 @property (weak, nonatomic) IBOutlet UISwitch *soundSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *vibrationSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *notificationSwitch;

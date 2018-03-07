@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VenueDetailVC : UIViewController
+@interface VenueDetailVC : UIViewController<UIGestureRecognizerDelegate>
 @property (strong, nonatomic) NSMutableDictionary *matchDetails;
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (weak, nonatomic) IBOutlet UILabel *pitchName;
 @property (weak, nonatomic) IBOutlet UILabel *address;
 @property (weak, nonatomic) IBOutlet UILabel *playingSurface;
+@property (weak, nonatomic) IBOutlet UILabel *titleLbl;
+@property (weak, nonatomic) IBOutlet UIView *bottomMapView;
+@property (weak, nonatomic) IBOutlet UILabel *location;
 - (IBAction)backBtnClick:(id)sender;
 - (IBAction)viewOnMapBtnClick:(id)sender;
 

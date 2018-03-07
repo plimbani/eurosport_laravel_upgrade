@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GroupSummaryVC : UIViewController
+@interface GroupSummaryVC : UIViewController{
+    
+}
+@property (weak, nonatomic) IBOutlet UIView *offlineView;
+@property (weak, nonatomic) IBOutlet UILabel *titlelbl;
 @property (strong, nonatomic) NSMutableDictionary *groupDetails;
 @property (strong, nonatomic) NSMutableArray *fixturesArray;
 @property (strong, nonatomic) NSMutableArray *standingArray;

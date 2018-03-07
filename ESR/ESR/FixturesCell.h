@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface FixturesCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *awayTeamScore;
+@property (weak, nonatomic) IBOutlet UILabel *homeTeamScore;
 @property (weak, nonatomic) IBOutlet UILabel *HomeTeam;
 @property (weak, nonatomic) IBOutlet UILabel *AwayTeam;
 @property (weak, nonatomic) IBOutlet UILabel *venue_name;
@@ -16,5 +18,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *month;
 @property (weak, nonatomic) IBOutlet UIView *dateTimeview;
 @property (weak, nonatomic) IBOutlet UILabel *matchIDRound;
+@property (weak, nonatomic) IBOutlet UIButton *arrowBtn;
 
 @end
