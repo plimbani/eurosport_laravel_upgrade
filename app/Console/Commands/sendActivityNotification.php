@@ -4,10 +4,12 @@ namespace Laraspace\Console\Commands;
 
 use Carbon\Carbon;
 use Laraspace\Models\User;
+use Laraspace\Mail\SendMail;
 use Laraspace\Models\Website;
 use Illuminate\Console\Command;
 use Laraspace\Models\ActivityFeed;
 use Laraspace\Custom\Helper\Common;
+use Illuminate\Support\Facades\Mail;
 use Laraspace\Models\ActivityNotification;
 
 class sendActivityNotification extends Command
@@ -92,7 +94,9 @@ class sendActivityNotification extends Command
         $subject = 'World of Tournaments - Activity notification - ' . Carbon::now()->format('jS F Y, H:i');
         $emailTemplate = 'emails.activity_notification';
 
-        Common::sendMail($email_details, $recipient, $subject, $emailTemplate);
+        Mail::to($recipient['to'])
+          ->bcc($recipient['bcc'])
+          ->send(new SendMail($email_details, $subject, $emailTemplate));
 
         ActivityNotification::whereIn('id', $notificationIds)->update(['is_mail_sent' => 1, 'mailed_at' => Carbon::now()]);
       }
