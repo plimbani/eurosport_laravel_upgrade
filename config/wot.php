@@ -3,7 +3,7 @@
 return [
 	'website_customisation_options' => [
 		'colors' => [
-			'#D0021B', '#FF9F00', '#417505', '#50E3C2', '#1E469D', '#1E469D'
+			'#D0021B', '#FF9F00', '#417505', '#50E3C2', '#1E469D', '#9013FE'
 		],
 		'fonts' => [
 			'Open Sans', 'Montserrat', 'Roboto', 'Lato', 'PT Sans', 'Helvetica'
@@ -217,5 +217,9 @@ return [
     'contact' => 'Contact',
   ],
   'message_notification_days' => 14,
-  'activity_notification_recepients' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
+  'activity_notification_recepients' => [
+    'to' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
+    'cc' => [],
+    'bcc' => ['ssheth@aecordigital.com'],
+  ],
 ];
