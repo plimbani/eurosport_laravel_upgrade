@@ -6,7 +6,7 @@
 					<div class="draggable--section-card-header">
 						<div class="draggable--section-card-header-panel">
 							<div>
-			  				{{ itinerary.day }}, {{ itinerary.time }}, {{ itinerary.item }}
+			  				{{ itinerary.name }}
 			  			</div>
 			  			<div class="draggable--section-card-header-icons">
 				        <a class="text-primary" href="javascript:void(0)"
@@ -22,6 +22,7 @@
 				        </a>
 					    </div>			  			
 						</div>
+						<itinerary-item-list :parentIndex="index" :childClassNames="'draggable--section-child-1'" :items="itinerary.items" @setItineraryItems="setItineraryItems" @deleteItineraryItem="deleteItineraryItem" @initializeItemModal="initializeItemModal"></itinerary-item-list>
 					</div>
 				</div>
 			</draggable>
@@ -29,6 +30,7 @@
 		</div>
 		<button type="button" class="btn btn-primary" @click="addItinerary()">{{ $lang.homepage_add_itinerary }}</button>
 		<itinerary-modal :currentItineraryOperation="currentItineraryOperation" @storeItinerary="storeItinerary" @updateItinerary="updateItinerary"></itinerary-modal>
+		<itinerary-item-modal :currentItineraryItemOperation="itemModalData.currentItineraryItemOperation" @storeItineraryItem="storeItineraryItem" @updateItineraryItem="updateItineraryItem" :modalIndex="itemModalData.parentIndex"></itinerary-item-modal>
 	</div>
 </template>
 
@@ -36,19 +38,29 @@
 	import Website from '../api/website.js';
 	import draggable from 'vuedraggable';
 	import ItineraryModal  from  './ItineraryModal.vue';
+	import ItineraryItemList from './ItineraryItemList.vue';
+	import ItineraryItemModal from './ItineraryItemModal.vue';
 	import _ from 'lodash';
 
 	export default {
+		// props: ['countries'],
 		data() {
 			return {
 				itineraries: [],
 				currentItineraryIndex: -1,
 				currentItineraryOperation: 'add',
+				itemModalData: {
+					currentItineraryItemOperation: 'add',
+					currentItineraryItemIndex: -1,
+					parentIndex: -1,
+				}
 			};
 		},
 		components: {
 			draggable,
 			ItineraryModal,
+			ItineraryItemList,
+			ItineraryItemModal,
 		},
 		computed: {
 			getWebsite() {
@@ -58,6 +70,8 @@
 		mounted() {
 			this.getAllItineraries();
 			this.$root.$on('getItineraries', this.getItineraries);
+			this.$root.$on('importItineraries', this.importItineraries);
+
 		},
 		methods: {
 			getAllItineraries() {
@@ -72,33 +86,30 @@
 			addItinerary() {
 				var formData = {
 					id: '',
-					day: '',
-					time: '',
-					item: '',
+					name: '',
+					items: [],
 				};
 				this.currentItineraryIndex = this.itineraries.length;
 				this.currentItineraryOperation = 'add';
 				this.initializeModel(formData);
 			},      
 			storeItinerary(itineraryData) {
-				this.itineraries.push({ id: '', day: itineraryData.day, time: itineraryData.time, item: itineraryData.item });
+				this.itineraries.push({ id: '', name: itineraryData.name, items: [] });
 				$('#itinerary_modal').modal('hide');
 			},
       editItinerary(itinerary, index) {
 				var formData = {
 					id: itinerary.id,
-					day: itinerary.day,
-					time: itinerary.time,
-					item: itinerary.item,
+					name: itinerary.name,
+					items: itinerary.items,
 				};
 				this.currentItineraryIndex = index;
 				this.currentItineraryOperation = 'edit';
 				this.initializeModel(formData);      	
       },
 			updateItinerary(itineraryData) {
-				this.itineraries[this.currentItineraryIndex].day = itineraryData.day;
-				this.itineraries[this.currentItineraryIndex].time = itineraryData.time;
-				this.itineraries[this.currentItineraryIndex].item = itineraryData.item;
+				this.itineraries[this.currentItineraryIndex].name = itineraryData.name;
+				this.itineraries[this.currentItineraryIndex].items = itineraryData.items;
 				$('#itinerary_modal').modal('hide');
 			},      
       deleteItinerary(deleteIndex) {
@@ -113,7 +124,38 @@
 			},
 			getItineraries() {
         this.$emit('setItineraries', this.itineraries);
-      },			
+      },
+      importItineraries(itineraries) {
+				this.itineraries = itineraries;
+			},
+			setItineraryItems(ItineraryItems, index) {
+				this.itineraries[index].items = ItineraryItems;
+			},
+			initializeItemModal(formData, additionalParams) {
+				this.itemModalData.currentItineraryItemOperation = additionalParams.currentItineraryItemOperation;
+				this.itemModalData.currentItineraryItemIndex = additionalParams.currentItineraryItemIndex;
+				this.itemModalData.parentIndex = additionalParams.parentIndex;
+				this.$root.$emit('setItineraryItemData', formData);
+				$('#itinerary_item_modal').modal('show');
+			},
+			storeItineraryItem(itineraryItemData) {
+				var itineraryIndex = this.itemModalData.parentIndex;
+				var currentItineraryItemIndex = this.itemModalData.currentItineraryItemIndex;
+				this.itineraries[itineraryIndex]['items'].push({ id: '', day: itineraryItemData.day, time: itineraryItemData.time, item: itineraryItemData.item });
+				$('#itinerary_item_modal').modal('hide');
+			},
+			updateItineraryItem(itineraryItemData) {
+				var itineraryIndex = this.itemModalData.parentIndex;
+				var currentItineraryItemIndex = this.itemModalData.currentItineraryItemIndex;
+				this.itineraries[itineraryIndex]['items'][currentItineraryItemIndex].name = itineraryItemData.name;
+				this.itineraries[itineraryIndex]['items'][currentItineraryItemIndex].country = itineraryItemData.country;
+				$('#itinerary_item_modal').modal('hide');
+			},
+			deleteItineraryItem(deleteIndex, itineraryIndex) {
+				this.itineraries[itineraryIndex]['items'] = _.remove(this.itineraries[itineraryIndex]['items'], function(item, index) {
+					return index != deleteIndex;
+				});
+			},
 		},
 	}
 </script>

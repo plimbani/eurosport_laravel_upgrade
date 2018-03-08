@@ -10,32 +10,14 @@
         </div>
         <div class="modal-body">
           <div class="form-group row" :class="{'has-error': errors.has('day') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.program_itinerary_day }}*</label>
+            <label class="col-sm-5 form-control-label">{{ $lang.program_itinerary_name }}*</label>
             <div class="col-sm-6">
-                <input v-model="formValues.day" v-validate="{'required':true}" :class="{'is-danger': errors.has('day') }" name="day" type="text" class="form-control">
-                <i v-show="errors.has('day')" class="fa fa-warning"></i>
-                <span class="help is-danger" v-show="errors.has('day')">{{ errors.first('day') }}<br>
+                <input v-model="formValues.name" v-validate="{'required':true}" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control">
+                <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}<br>
                 </span>                
             </div>
           </div>
-          <div class="form-group row" :class="{'has-error': errors.has('time') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.program_itinerary_time }}*</label>
-            <div class="col-sm-6">
-                <input v-model="formValues.time" v-validate="{'required':true}" :class="{'is-danger': errors.has('time') }" name="time" type="text" class="form-control">
-                <i v-show="errors.has('time')" class="fa fa-warning"></i>
-                <span class="help is-danger" v-show="errors.has('time')">{{ errors.first('time') }}<br>
-                </span>                
-            </div>
-          </div>
-          <div class="form-group row" :class="{'has-error': errors.has('item') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.program_itinerary_item }}*</label>
-            <div class="col-sm-6">
-                <input v-model="formValues.item" v-validate="{'required':true}" :class="{'is-danger': errors.has('item') }" name="item" type="text" class="form-control">
-                <i v-show="errors.has('item')" class="fa fa-warning"></i>
-                <span class="help is-danger" v-show="errors.has('item')">{{ errors.first('item') }}<br>
-                </span>                
-            </div>
-          </div>          
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">{{ $lang.cancel_button }}</button>
@@ -57,9 +39,7 @@
         hasError: false,
         formValues: {
           id: '',
-          day: '',
-          time: '',
-          item: '',
+          name: '',
         },
       };
     },
@@ -84,9 +64,7 @@
       },
       setItineraryData(itineraryData) {
         this.formValues.id = itineraryData.id;
-        this.formValues.day = itineraryData.day;
-        this.formValues.time = itineraryData.time;
-        this.formValues.item = itineraryData.item;
+        this.formValues.name = itineraryData.name;
         this.clearErrorMsgs();
       }
     }
