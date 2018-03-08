@@ -11,7 +11,7 @@
 
 			  			<div class="draggable--section-card-header-icons">
 					        <a class="text-primary" href="javascript:void(0)"
-					        	@click="deleteItineraryItems(index)">
+					        	@click="deleteItineraryItem(index)">
 					        	<i class="jv-icon jv-dustbin"></i>
 					        </a>
 					        <a class="text-primary" href="javascript:void(0)"
@@ -100,8 +100,8 @@
 				};
 				this.$emit('initializeItemModal', formData, additionalParams);
 			},
-			deleteItineraryItems(deleteIndex) {
-				this.$emit('deleteItineraryItems', deleteIndex, this.parentIndex);
+			deleteItineraryItem(deleteIndex) {
+				this.$emit('deleteItineraryItem', deleteIndex, this.parentIndex);
 			},
 			onDragEnd() {
 				this.getItineraryItems();

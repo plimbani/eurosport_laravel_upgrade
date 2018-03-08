@@ -51,7 +51,7 @@
 	import { ErrorBag } from 'vee-validate';
 
 	export default {
-		props: ['currentItineraryItemOperation', 'items'],
+		props: ['currentItineraryItemOperation'],
 		data() {
 			return {
 				formValues: {
@@ -82,11 +82,11 @@
 					// fail stuff
 				});
 			},
-			setItineraryItemData(ageCategoryTeamData) {
-				this.formValues.id = ageCategoryTeamData.id;
-				this.formValues.day = ageCategoryTeamData.day;
-				this.formValues.time = ageCategoryTeamData.time;
-				this.formValues.item = ageCategoryTeamData.item;
+			setItineraryItemData(itiniraryItemData) {
+				this.formValues.id = itiniraryItemData.id;
+				this.formValues.day = itiniraryItemData.day;
+				this.formValues.time = itiniraryItemData.time;
+				this.formValues.item = itiniraryItemData.item;
 				this.clearErrorMsgs();
 			},
 		},

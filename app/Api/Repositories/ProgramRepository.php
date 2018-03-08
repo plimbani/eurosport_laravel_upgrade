@@ -6,6 +6,7 @@ use DB;
 use Laraspace\Models\Page;
 use Laraspace\Models\Website;
 use Laraspace\Models\Itinerary;
+use Laraspace\Models\ItineraryItem;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
 
@@ -44,9 +45,11 @@ class ProgramRepository
    *
    * @return response
    */
-	public function getItineraries($websiteId)
+	public function getAllItineraries($websiteId)
 	{
-		$itineraries = Itinerary::where('website_id', $websiteId)->orderBy('order')->get();
+		$itineraries = Itinerary::with(['items' => function($query){
+            $query->orderBy('order');
+          }])->where('website_id', $websiteId)->orderBy('order')->get();
     return $itineraries;
 	}
 
@@ -84,12 +87,38 @@ class ProgramRepository
       } else {
         $itinerary = $this->updateItinerary($currentLoggedInUserId, $itineraryData);
       }
+      $this->saveItineraryItems($itineraryData['items'], $itinerary->id, $websiteId);      
       $itineraryIds[] = $itinerary->id;
     }
 
     $deleteItinerariesId = array_diff($existingItineraryId, $itineraryIds);
 
     $this->deleteItineraries($deleteItinerariesId);
+  }
+
+  /*
+   * Save itinerary items
+   *
+   * @return response
+   */
+  function saveItineraryItems($items, $itineraryId, $websiteId) {
+    $existingItineraryItemsId = $this->getAllItineraryItemsIds($itineraryId, $websiteId);
+
+    $itineraryItemsIds = [];
+    for($i=0; $i<count($items); $i++) {
+      $itemData = $items[$i];
+      $itemData['order'] = $i + 1;
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
+      if($itemData['id'] == '') {
+        $ItineraryItem = $this->insertItineraryItem($itineraryId, $websiteId, $currentLoggedInUserId, $itemData);
+      } else {
+        $ItineraryItem = $this->updateItineraryItem($currentLoggedInUserId, $itemData);
+      }
+      $itineraryItemsIds[] = $ItineraryItem->id;      
+    }
+    $deleteItineraryItemId = array_diff($existingItineraryItemsId, $itineraryItemsIds);
+
+    $this->deleteItineraryItems($deleteItineraryItemId);
   }
 
   /*
@@ -104,6 +133,59 @@ class ProgramRepository
   }
 
   /*
+   * Get all age category teams ids
+   *
+   * @return response
+   */
+  public function getAllItineraryItemsIds($itineraryId, $websiteId)
+  {
+    $itineraryItemsIds = ItineraryItem::where('website_id', $websiteId)->where('itinerary_id', $itineraryId)->pluck('id')->toArray();
+
+    return $itineraryItemsIds;
+  }
+
+  /*
+   * Insert itinerary item
+   *
+   * @return response
+   */
+  public function insertItineraryItem($itineraryId, $websiteId, $currentLoggedInUserId, $data)
+  {
+    $itineraryItem = new ItineraryItem();
+
+    $itineraryItem->website_id = $websiteId;
+    $itineraryItem->itinerary_id = $itineraryId;
+    $itineraryItem->day = $data['day'];
+    $itineraryItem->time = $data['time'];
+    $itineraryItem->item = $data['item'];
+    $itineraryItem->order = $data['order'];
+    $itineraryItem->created_by = $currentLoggedInUserId;
+    $itineraryItem->save();
+
+    return $itineraryItem;
+  }
+
+  /*
+   * Update itinerary item
+   *
+   * @return response
+   */
+  public function updateItineraryItem($currentLoggedInUserId, $data)
+  {
+    $tineraryItem = ItineraryItem::find($data['id']);
+    $tineraryItem->day = $data['day'];
+    $tineraryItem->time = $data['time'];
+    $tineraryItem->item = $data['item'];
+    $tineraryItem->order = $data['order'];
+    if($tineraryItem->isDirty()) {
+      $tineraryItem->updated_by = $currentLoggedInUserId;
+      $tineraryItem->save();
+    }
+
+    return $tineraryItem;
+  }
+
+  /*
    * Insert itinerary
    *
    * @return response
@@ -112,9 +194,7 @@ class ProgramRepository
   {
     $itinerary = new Itinerary();
     $itinerary->website_id = $websiteId;
-    $itinerary->day = $data['day'];
-    $itinerary->time = $data['time'];
-    $itinerary->item = $data['item'];
+    $itinerary->name = $data['name'];
     $itinerary->order = $data['order'];
     $itinerary->created_by = $currentLoggedInUserId;
     $itinerary->save();
@@ -130,9 +210,7 @@ class ProgramRepository
   public function updateItinerary($currentLoggedInUserId, $data)
   {
     $itinerary = Itinerary::find($data['id']);
-    $itinerary->day = $data['day'];
-    $itinerary->time = $data['time'];
-    $itinerary->item = $data['item'];
+    $itinerary->name = $data['name'];
     $itinerary->order = $data['order'];
     if($itinerary->isDirty()) {
       $itinerary->updated_by = $currentLoggedInUserId;
@@ -151,6 +229,19 @@ class ProgramRepository
   {
     Itinerary::whereIn('id', $itineraryIds)->get()->each(function($itinerary) {
       $itinerary->delete();
+    });
+    return true;
+  }
+
+  /*
+   * Delete multiple itinerary items
+   *
+   * @return response
+   */
+  public function deleteItineraryItems($itineraryItemIds = [])
+  {
+    ItineraryItem::whereIn('id', $itineraryItemIds)->get()->each(function($itinerariesItem) {
+      $itinerariesItem->delete();
     });
     return true;
   }

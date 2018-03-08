@@ -43,7 +43,6 @@
 	import _ from 'lodash';
 
 	export default {
-		// props: ['countries'],
 		data() {
 			return {
 				itineraries: [],
@@ -147,8 +146,9 @@
 			updateItineraryItem(itineraryItemData) {
 				var itineraryIndex = this.itemModalData.parentIndex;
 				var currentItineraryItemIndex = this.itemModalData.currentItineraryItemIndex;
-				this.itineraries[itineraryIndex]['items'][currentItineraryItemIndex].name = itineraryItemData.name;
-				this.itineraries[itineraryIndex]['items'][currentItineraryItemIndex].country = itineraryItemData.country;
+				this.itineraries[itineraryIndex]['items'][currentItineraryItemIndex].day = itineraryItemData.day;
+				this.itineraries[itineraryIndex]['items'][currentItineraryItemIndex].time = itineraryItemData.time;
+				this.itineraries[itineraryIndex]['items'][currentItineraryItemIndex].item = itineraryItemData.item;
 				$('#itinerary_item_modal').modal('hide');
 			},
 			deleteItineraryItem(deleteIndex, itineraryIndex) {

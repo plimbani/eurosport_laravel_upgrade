@@ -40,6 +40,7 @@
         formValues: {
           id: '',
           name: '',
+          items: [],
         },
       };
     },
@@ -65,6 +66,7 @@
       setItineraryData(itineraryData) {
         this.formValues.id = itineraryData.id;
         this.formValues.name = itineraryData.name;
+        this.formValues.items = itineraryData.items;
         this.clearErrorMsgs();
       }
     }
