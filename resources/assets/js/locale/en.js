@@ -223,15 +223,15 @@ module.exports= {
   cancel_additional_page_btn: "Cancel",
   no_additional_page_title: "No additional pages found.",
   itinerary_title: "Itinerary",
-  homepage_add_itinerary: "Add an itinerary",
+  homepage_add_itinerary: "Add itinerary",
   homepage_add_an_itinerary: "Add an itinerary",
   homepage_edit_an_itinerary: "Edit an itinerary",
   program_itinerary_name: "Name",
   program_itinerary_day: "Day",
   program_itinerary_time: "Time",
   program_itinerary_item: "Item",
-  program_add_a_day: "Add a day",
-  program_edit_a_day: "Edit a day",
+  program_add_item: "Add item",
+  program_edit_item: "Edit item",
 
 
   competation_age_categories: "Age categories",

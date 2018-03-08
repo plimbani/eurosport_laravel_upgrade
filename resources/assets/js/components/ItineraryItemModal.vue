@@ -3,7 +3,7 @@
 		<div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{{ currentItineraryItemOperation == 'add' ? $lang.program_add_a_day : $lang.program_edit_a_day }}</h5>
+          <h5 class="modal-title">{{ currentItineraryItemOperation == 'add' ? $lang.program_add_item : $lang.program_edit_item }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
           </button>
