@@ -69,8 +69,6 @@
 		mounted() {
 			this.getAllItineraries();
 			this.$root.$on('getItineraries', this.getItineraries);
-			this.$root.$on('importItineraries', this.importItineraries);
-
 		},
 		methods: {
 			getAllItineraries() {
@@ -124,9 +122,6 @@
 			getItineraries() {
         this.$emit('setItineraries', this.itineraries);
       },
-      importItineraries(itineraries) {
-				this.itineraries = itineraries;
-			},
 			setItineraryItems(ItineraryItems, index) {
 				this.itineraries[index].items = ItineraryItems;
 			},
