@@ -31,6 +31,7 @@
 		'send' => 'Send',
 		'contact_confirmation_message' => 'Vi vender tilbage til dig',
 		'404_page_title' => 'Fejl 404 - siden findes ikke',
-		'404_page_message' => 'Fejl 404 - Fejl på siden'
+		'404_page_message' => 'Fejl 404 - Fejl på siden',
+		'match_schedule_message' => 'The match schedule will be available 2-3 weeks before the tournament begins.',
 	]
 ?>

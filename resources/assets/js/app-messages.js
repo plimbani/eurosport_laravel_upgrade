@@ -14,15 +14,17 @@ var vm = new Vue({
 	data() {
 		return {
 			websiteId: Site.websiteId,
-			messages: [],
+			all_messages: [],
+			recent_messages: [],
 		};
 	},
 	sockets: {
 		'eurosportring-channel:app.message.sent': function(message){
-			this.messages.push(message.message);
+			this.all_messages.push(message.message);
+			this.updateRecentMessages();
 		},
 		connect: function(){
-			console.log('socket connected');
+			// console.log('socket connected');
 		},
 	},
 	mounted() {
@@ -37,11 +39,28 @@ var vm = new Vue({
         	var vm = this;
             AppMessages.getWebsiteMessages(this.websiteId).then(
                 (response)=> {
-                	this.messages = response.data.messages;
+                	this.all_messages = response.data.messages;
+                	this.updateRecentMessages();
                 },
                 (error)=> {
                 }
             );
+        },
+        updateRecentMessages() {
+        	var dismissedMessages = localStorage.getItem("dismissedMessages") !== null ? JSON.parse(localStorage.getItem('dismissedMessages')) : [];
+        	this.recent_messages = [];
+        	if(this.all_messages.length > 0) {
+        		var vm = this;
+        		var all_messages = _.orderBy(this.all_messages, ['created_at'], ['desc']);
+	        	_.forEach(all_messages, function(value, key) {
+					if(_.includes(dismissedMessages, value.id) === false) {
+						vm.recent_messages.push(_.cloneDeep(value));
+					}
+					if(vm.recent_messages.length >= 3) {
+						return false;
+					}
+				});
+        	}
         },
     }
 

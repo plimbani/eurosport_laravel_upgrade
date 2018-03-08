@@ -183,5 +183,7 @@ class TournamentController extends BaseController
     public function getAllPublishedTournaments(Request $request) {
         return $this->tournamentObj->getAllPublishedTournaments($request->all());
     }
-
+    public function getFilterDropDownData(Request $request) {
+      return $this->tournamentObj->getFilterDropDownData($request->all());
+    }
 }
