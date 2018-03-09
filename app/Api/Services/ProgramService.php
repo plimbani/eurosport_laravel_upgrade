@@ -31,7 +31,7 @@ class ProgramService implements ProgramContract
    */
   public function getItineraries($websiteId)
   {
-    $data = $this->programRepo->getItineraries($websiteId);
+    $data = $this->programRepo->getAllItineraries($websiteId);
     
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }

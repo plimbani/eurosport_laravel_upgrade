@@ -12,4 +12,12 @@ class Itinerary extends Model
      * @var string
      */
     protected $table = 'itineraries';
+
+    /**
+     * Get all of the items of an itinerary.
+     */
+    public function items()
+    {
+        return $this->hasMany('Laraspace\Models\ItineraryItem');
+    }
 }
