@@ -689,14 +689,14 @@ class TournamentRepository
       $tournamentId = $data['tournamentId'];
       $filterBy = $data['filterBy'];
       $resultData = array();
-      switch($key) {
-        case 'team' :
+      switch($filterBy) {
+        case 'team':
           $resultData = Team::where('teams.tournament_id', $tournamentId)->select('id', 'name')->get();
           break;
-        case 'age_category' :
-          $resultData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)
-                          ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id')
-                           ->get();
+        case 'category_and_competition':
+          $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
+                          ->select('id',\DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"),'tournament_template_id')
+                          ->get();
           break;
         case 'location':
           $resultData = Venue::where('tournament_id', $tournamentId)->select('id','name')->get();

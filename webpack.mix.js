@@ -50,6 +50,10 @@ mix.combine([
 
 ],'public/assets/js/core/plugins.js')
 
+.combine([
+    pluginPath + 'select2/select2.js',
+],'public/assets/js/core/matches-plugins.js')
+
 .js('resources/assets/js/app.js','public/assets/js/')
 
 .js('resources/assets/js/app-messages.js', 'public/assets/js/frontend/app-messages.js')

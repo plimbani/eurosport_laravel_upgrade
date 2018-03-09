@@ -15,5 +15,6 @@
   <script type="text/javascript">
     var tournamentData = {!! json_encode($tournament) !!};
   </script>
-  <script src="{{ mix('assets/js/frontend/matchlist.js') }}"></script>
+  <script type="text/javascript" src="{{ mix('assets/js/core/matches-plugins.js') }}"></script>
+  <script type="text/javascript" src="{{ mix('assets/js/frontend/matchlist.js') }}"></script>
 @endsection

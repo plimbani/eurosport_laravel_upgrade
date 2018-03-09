@@ -888,5 +888,6 @@ class TournamentService implements TournamentContract
     public function getFilterDropDownData($data)
     {
       $data = $this->tournamentRepoObj->getFilterDropDownData($data);
+      return ['options' => $data];
     }
 }
