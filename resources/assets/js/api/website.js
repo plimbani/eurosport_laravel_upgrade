@@ -41,9 +41,9 @@ export default {
   getWebsiteCustomisationOptions() {
     return axios.get('/api/websites/customisation/options');
   },
-  // Get image path
-  getImagePath() {
-    return axios.get('/api/getImagePath');
+  // Get configuration details
+  getConfigurationDetail() {
+    return axios.get('/api/getConfigurationDetail');
   },
   // Get website default pages
   getWebsiteDefaultPages() {
@@ -127,6 +127,10 @@ export default {
   // Get all venue locations
   getLocations(websiteId) {
     return axios.get('/api/getLocations/' + websiteId);
+  },
+  // Get all venue markers
+  getMarkers(websiteId) {
+    return axios.get('/api/getMarkers/' + websiteId);
   },
   // Get contact details
   getContactDetails(websiteId) {

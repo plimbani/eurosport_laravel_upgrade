@@ -73,10 +73,8 @@ const mutations = {
 		state.google_analytics_id = websiteData.google_analytics_id;
 		state.tournament_logo = websiteData.tournament_logo;
 		state.social_sharing_graphic = websiteData.social_sharing_graphic;
-		state.heading_font = websiteData.heading_font;
-		state.body_font = websiteData.body_font;
-		state.primary_color = websiteData.primary_color;
-		state.secondary_color = websiteData.secondary_color;
+		state.font = websiteData.font;
+		state.color = websiteData.color;
 	},
 	[types.RESET_WEBSITE_DETAIL] (state) {
 		state.id = null;
@@ -88,10 +86,8 @@ const mutations = {
 		state.google_analytics_id = null;
 		state.tournament_logo = null;
 		state.social_sharing_graphic = null;
-		state.heading_font = null;
-		state.body_font = null;
-		state.primary_color = null;
-		state.secondary_color = null;
+		state.font = null;
+		state.color = null;
 	},
 };
 

@@ -135,6 +135,8 @@
                               <tr>
                                 <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px;" align="left">
                                   <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;">
+                                    <strong>The following users made changes to their websites in the last 30 minutes.</strong>
+                                    <br><br>
                                     @if(count($email_details['usersActivities']) > 0)
                                       @foreach($email_details['usersActivities'] as $detail)
                                         <h2>{{ $detail['name'] }}</h2>
@@ -205,7 +207,7 @@
                                 <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;" align="center">
                                   <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;">
                                     <p style="line-height:14px">
-                                      <small>Copyright 2017 Euro-Sportring. All rights reserved. Developer by
+                                      <small>Copyright {{ Carbon\Carbon::now()->format('Y') }} Euro-Sportring. All rights reserved. Developed by
                                         <a href="https://aecordigital.com" style="text-decoration:none">aecor</a>.
                                       </small>
                                     </p>

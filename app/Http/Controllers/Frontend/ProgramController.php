@@ -2,6 +2,7 @@
 
 namespace Laraspace\Http\Controllers\Frontend;
 
+use App;
 use Landlord;
 use Laraspace\Models\Page;
 use Illuminate\Http\Request;
@@ -64,6 +65,10 @@ class ProgramController extends Controller
                     ->where('website_id', $websiteId)
                     ->where('page_name', $additionalPageName)
                     ->first();
+
+      if(!$page) {
+        App::abort(404);
+      }
 
       // page title
       $varsForView['pageTitle'] = $parentPageDetail->title . ' - ' . $page->title;

@@ -4,6 +4,7 @@ namespace Laraspace\Providers;
 
 use URL;
 
+use Laraspace\Models\Map;
 use Laraspace\Models\Page;
 use Laraspace\Models\Photo;
 use Laraspace\Models\Sponsor;
@@ -20,6 +21,7 @@ use Laraspace\Models\AgeCategory;
 use Laraspace\Models\AgeCategoryTeam;
 use Laraspace\Models\HistoryAgeCategory;
 
+use Laraspace\Observers\MapObserver;
 use Laraspace\Observers\PageObserver;
 use Laraspace\Observers\PhotoObserver;
 use Laraspace\Observers\SponsorObserver;
@@ -69,6 +71,7 @@ class AppServiceProvider extends ServiceProvider
         Page::observe(PageObserver::class);
         Organiser::observe(OrganiserObserver::class);
         Location::observe(LocationObserver::class);
+        Map::observe(MapObserver::class);
         Itinerary::observe(ItineraryObserver::class);
         HistoryYear::observe(HistoryYearObserver::class);
         HistoryTeam::observe(HistoryTeamObserver::class);

@@ -34,7 +34,18 @@ class WebsiteVenueService implements WebsiteVenueContract
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
 
-
+  /*
+   * Get markers
+   *
+   * @return response
+   */
+  public function getMarkers($websiteId)
+  {
+    $data = $this->venueRepo->getAllMarkers($websiteId);
+    
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+  }
+  
   /*
    * Save venue page data
    *

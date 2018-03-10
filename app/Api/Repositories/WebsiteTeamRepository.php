@@ -5,11 +5,13 @@ namespace Laraspace\Api\Repositories;
 use DB;
 use Laraspace\Models\Country;
 use Laraspace\Models\AgeCategory;
+use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Models\AgeCategoryTeam;
 use Laraspace\Api\Services\PageService;
 
 class WebsiteTeamRepository
 {
+  use AuthUserDetail;
 
   /**
    * @var Page service
@@ -53,12 +55,13 @@ class WebsiteTeamRepository
    *
    * @return response
    */
-  public function insertAgeCategory($websiteId, $data)
+  public function insertAgeCategory($websiteId, $currentLoggedInUserId, $data)
   {
     $ageCategory = new AgeCategory();
     $ageCategory->website_id = $websiteId;
     $ageCategory->name = $data['name'];
     $ageCategory->order = $data['order'];
+    $ageCategory->created_by = $currentLoggedInUserId;
     $ageCategory->save();
 
     return $ageCategory;
@@ -69,12 +72,15 @@ class WebsiteTeamRepository
    *
    * @return response
    */
-  public function updateAgeCategory($data)
+  public function updateAgeCategory($currentLoggedInUserId, $data)
   {
     $ageCategory = AgeCategory::find($data['id']);
     $ageCategory->name = $data['name'];
     $ageCategory->order = $data['order'];
-    $ageCategory->save();
+    if($ageCategory->isDirty()) {
+      $ageCategory->updated_by = $currentLoggedInUserId;
+      $ageCategory->save();
+    }
 
     return $ageCategory;
   }
@@ -146,7 +152,7 @@ class WebsiteTeamRepository
    *
    * @return response
    */
-  public function insertAgeCategoryTeam($ageCategoryId, $websiteId, $data)
+  public function insertAgeCategoryTeam($ageCategoryId, $websiteId, $currentLoggedInUserId, $data)
   {
     $ageCategoryTeam = new AgeCategoryTeam();
     $ageCategoryTeam->website_id = $websiteId;
@@ -154,6 +160,7 @@ class WebsiteTeamRepository
     $ageCategoryTeam->name = $data['name'];
     $ageCategoryTeam->order = $data['order'];
     $ageCategoryTeam->country_id = $data['country']['id'];
+    $ageCategoryTeam->created_by = $currentLoggedInUserId;
     $ageCategoryTeam->save();
 
     return $ageCategoryTeam;
@@ -164,13 +171,16 @@ class WebsiteTeamRepository
    *
    * @return response
    */
-  public function updateAgeCategoryTeam($data)
+  public function updateAgeCategoryTeam($currentLoggedInUserId, $data)
   {
     $ageCategoryTeam = AgeCategoryTeam::find($data['id']);
     $ageCategoryTeam->name = $data['name'];
     $ageCategoryTeam->order = $data['order'];
     $ageCategoryTeam->country_id = $data['country']['id'];
-    $ageCategoryTeam->save();
+    if($ageCategoryTeam->isDirty()) {
+      $ageCategoryTeam->updated_by = $currentLoggedInUserId;
+      $ageCategoryTeam->save();
+    }
 
     return $ageCategoryTeam;
   }
@@ -251,10 +261,11 @@ class WebsiteTeamRepository
     for($i=0; $i<count($ageCategories); $i++) {
       $ageCategoryData = $ageCategories[$i];
       $ageCategoryData['order'] = $i + 1;
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($ageCategoryData['id'] == '') {
-        $ageCategory = $this->insertAgeCategory($websiteId, $ageCategoryData);
+        $ageCategory = $this->insertAgeCategory($websiteId, $currentLoggedInUserId, $ageCategoryData);
       } else {
-        $ageCategory = $this->updateAgeCategory($ageCategoryData);
+        $ageCategory = $this->updateAgeCategory($currentLoggedInUserId, $ageCategoryData);
       }
       $this->saveAgeCategoryTeams($ageCategoryData['teams'], $ageCategory->id, $websiteId);
       $ageCategoriesIds[] = $ageCategory->id;
@@ -278,11 +289,11 @@ class WebsiteTeamRepository
     for($i=0; $i<count($teams); $i++) {
       $teamData = $teams[$i];
       $teamData['order'] = $i + 1;
-
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($teamData['id'] == '') {
-        $ageCategoryTeam = $this->insertAgeCategoryTeam($ageCategoryId, $websiteId, $teamData);
+        $ageCategoryTeam = $this->insertAgeCategoryTeam($ageCategoryId, $websiteId, $currentLoggedInUserId, $teamData);
       } else {
-        $ageCategoryTeam = $this->updateAgeCategoryTeam($teamData);
+        $ageCategoryTeam = $this->updateAgeCategoryTeam($currentLoggedInUserId, $teamData);
       }
       $ageCategoryTeamIds[] = $ageCategoryTeam->id;
     }

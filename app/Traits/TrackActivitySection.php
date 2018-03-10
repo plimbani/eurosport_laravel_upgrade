@@ -56,14 +56,14 @@ trait TrackActivitySection
     $isWebsiteCustomised = 0;
     $isWebsiteInformationCustomised = 0;
 
-    $customisationModifiableFields = ['primary_color', 'secondary_color', 'heading_font', 'body_font'];
+    $customisationModifiableFields = ['color', 'font'];
     collect($website->getDirty())->each(function ($value, $key) use($customisationModifiableFields, &$isWebsiteCustomised) {
       if (in_array($key, $customisationModifiableFields)) {
         $isWebsiteCustomised = 1;
       }
     });
 
-    $informationModifiableFields = ['tournament_name', 'tournament_dates', 'tournament_location', 'domain_name', 'linked_tournament', 'google_analytics_id', 'tournament_logo', 'social_sharing_graphic'];
+    $informationModifiableFields = ['tournament_name', 'tournament_dates', 'tournament_location', 'domain_name', 'linked_tournament', 'google_analytics_id', 'is_website_offline', 'offline_redirect_url', 'tournament_logo', 'social_sharing_graphic'];
     collect($website->getDirty())->each(function ($value, $key) use($informationModifiableFields, &$isWebsiteInformationCustomised) {
       if (in_array($key, $informationModifiableFields)) {
         $isWebsiteInformationCustomised = 1;

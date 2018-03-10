@@ -36,7 +36,7 @@
 							<div class="form-group row">
 								<label class="col-sm-4 form-control-label">{{$lang.domain_name}}</label>
 								<div class="col-sm-8">
-										<input type="text" class="form-control" placeholder="Enter the domain name" v-validate="'url'" :class="{'is-danger': errors.has('domain_name') }" v-model="website.domain_name" name="domain_name">
+										<input type="text" class="form-control" placeholder="Enter the domain name" v-validate="domainNameValidationRules" :class="{'is-danger': errors.has('domain_name') }" v-model="website.domain_name" name="domain_name">
 										<span class="help is-danger" v-show="errors.has('domain_name')">The domain name is not a valid URL.</span>
 								</div>
 							</div>
@@ -53,11 +53,26 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group row mb-0">
+							<div class="form-group row">
 								<label class="col-sm-4 form-control-label">{{$lang.google_analytics_id}}</label>
 								<div class="col-sm-8">
 										<input type="text" class="form-control" placeholder="Enter the google analytics id"
 										v-model="website.google_analytics_id" name="google_analytics_id">
+								</div>
+							</div>
+							<div class="form-group row mb-0">
+								<div class="col-sm-8">
+										<div class="checkbox d-flex align-items-center">
+											<div class="c-input">
+												<input type="checkbox" v-bind:id="'is_website_offline'" class="euro-checkbox" v-model="website.is_website_offline" :true-value="1" :false-value="0" @change="resetOfflineRedirectUrl()" />
+												<label class="mb-0" v-bind:for="'is_website_offline'">{{$lang.is_website_offline}}</label>
+											</div>
+										</div>
+								</div>
+								<div class="col-sm-12 mt-2" v-if="website.is_website_offline == 1">
+									<input type="text" class="form-control" v-validate="offlineRedirectUrlValidationRules" :class="{'is-danger': errors.has('offline_redirect_url') }" :placeholder="$lang.offline_redirect_url"
+										v-model="website.offline_redirect_url" name="offline_redirect_url">
+									<span class="help is-danger" v-show="errors.has('offline_redirect_url')">{{ $lang.offline_redirect_url_error_message }}</span>
 								</div>
 							</div>
 						</div>
@@ -65,21 +80,15 @@
 							<div class="form-group row" v-if="this.isAdmin">
 								<label class="col-sm-12 form-control-label">{{$lang.tournament_logo}}</label>
 								<div class="col-sm-12">
-										<div class="row align-items-center" v-if="!tournament_logo_image">
+										<div class="row align-items-center">
 											<div class="col-sm-3">
-												<img src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
+												<transition-image v-if="tournament_logo_image != ''" :image_url="tournament_logo_image" :image_class="'img-fluid'"></transition-image>
+												<img v-if="tournament_logo_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
-												<button :disabled="is_tournament_logo_uploading" type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{is_tournament_logo_uploading ? $lang.uploading :$lang.tournament_tournament_choose_button}}</button>
-												<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange">
-											</div>
-										</div>
-										<div class="row align-items-center" v-else>
-											<div class="col-sm-3">
-												<transition-image :image_url="tournament_logo_image" :image_class="'img-fluid'"></transition-image>
-											</div>
-											<div class="col-sm-9">
-												<button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
+												<button v-if="tournament_logo_image != '' && is_tournament_logo_uploading == false" class="btn btn-default" @click="removeImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
+												<button v-else :disabled="is_tournament_logo_uploading" type="button" class="btn btn-default" @click="selectTournamentLogo()">{{is_tournament_logo_uploading ? $lang.uploading :$lang.tournament_tournament_choose_button}}</button>
+												<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange($event)">
 											</div>
 										</div>
 								</div>
@@ -87,21 +96,15 @@
 							<div class="form-group row">
 								<label class="col-sm-12 form-control-label">{{$lang.social_sharing_graphic}}</label>
 								<div class="col-sm-12">
-										<div class="row align-items-center" v-if="!social_sharing_graphic_image">
+										<div class="row align-items-center">
 											<div class="col-sm-3">
-												<img src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
+												<transition-image v-if="social_sharing_graphic_image != ''" :image_url="social_sharing_graphic_image" :image_class="'img-fluid'"></transition-image>
+												<img v-if="social_sharing_graphic_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
-												<button :disabled="is_social_sharing_image_uploading" type="button" class="btn btn-default" name="btnSelect" id="btnSelect_social_sharing">{{is_social_sharing_image_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
-												<input type="file" id="select_file_social_sharing" style="display:none;" @change="onSocialSharingGraphicImageChange">
-											</div>
-										</div>
-										<div class="row align-items-center" v-else>
-											<div class="col-sm-3">
-												<transition-image :image_url="social_sharing_graphic_image" :image_class="'img-fluid'"></transition-image>
-											</div>
-											<div class="col-sm-9">
-												<button class="btn btn-default" @click="removeSocialSharingImage">{{$lang.tournament_tournament_remove_button}}</button>
+												<button v-if="social_sharing_graphic_image != '' && is_social_sharing_image_uploading == false" class="btn btn-default" @click="removeSocialSharingImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
+												<button v-else :disabled="is_social_sharing_image_uploading" type="button" class="btn btn-default" name="btnSelect" @click="selectSocialSharingGraphic()">{{is_social_sharing_image_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+												<input type="file" id="select_file_social_sharing" style="display:none;" @change="onSocialSharingGraphicImageChange($event)">
 											</div>
 										</div>
 								</div>
@@ -115,41 +118,21 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group row">
-								<label class="col-sm-12 form-control-label">{{$lang.website_primary_color}}</label>
+								<label class="col-sm-12 form-control-label">{{$lang.website_color}}</label>
 								<div class="col-md-12">
-									<div v-for="primaryColor in customisation.primary_colors" class="websiteColourBox pull-left mr-2" :style="{'background-color': primaryColor}" @click="setWebsitePrimaryColor(primaryColor)" :class="{ 'website-color-active' : website.primary_color == primaryColor }">
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="form-control-label col-md-12">{{$lang.website_secondary_color}}</label>
-								<div class="col-md-12">
-									<div v-for="secondaryColor in customisation.secondary_colors" class="websiteColourBox pull-left mr-2" :style="{'background-color': secondaryColor}" @click="setWebsiteSecondaryColor(secondaryColor)" :class="{ 'website-color-active' : website.secondary_color == secondaryColor }">
+									<div v-for="color in customisation.colors" class="websiteColourBox pull-left mr-2" :style="{'background-color': color}" @click="setWebsiteColor(color)" :class="{ 'website-color-active' : website.color == color }">
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="row">
-										<label class="col-sm-12 form-control-label">{{$lang.website_heading_fonr}}</label>
-										<div class="col-md-12" v-for="headingFont in customisation.heading_font">
+										<label class="col-sm-12 form-control-label">{{$lang.website_font}}</label>
+										<div class="col-md-12" v-for="font in customisation.fonts">
 											<div class="radio mb-2">
 												<div class="r-input">
-													<input type="radio" name="headingFont" v-bind:id="headingFont" class="euro-radio" v-model="website.heading_font" :value="headingFont" />
-													<label v-bind:for="headingFont">{{ headingFont }}</label>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="row">
-										<label class="col-sm-12 form-control-label">{{$lang.website_body_fonr}}</label>
-										<div class="col-md-12" v-for="bodyFont in customisation.body_font">
-											<div class="radio mb-2">
-												<div class="r-input">
-													<input type="radio" name="bodyFont" v-bind:id="bodyFont" class="euro-radio" v-model="website.body_font" :value="bodyFont" />
-													<label v-bind:for="bodyFont">{{ bodyFont }}</label>
+													<input type="radio" name="font" v-bind:id="font" class="euro-radio" v-model="website.font" :value="font" />
+													<label v-bind:for="font">{{ font }}</label>
 												</div>
 											</div>
 										</div>
@@ -242,6 +225,7 @@
 	</div>
 </template>
 <script>
+var offlineRedirectUrl = null;
 var moment = require('moment');
 import Tournament from '../../../api/tournament.js';
 import Website from '../../../api/website.js';
@@ -263,21 +247,19 @@ export default {
 				domain_name: '',
 				linked_tournament: '',
 				google_analytics_id: '',
+				is_website_offline: 0,
+				offline_redirect_url: null,
 				tournament_logo:'',
 				social_sharing_graphic: '',
 				publishedTournaments: null,
-				primary_color: '',
-				secondary_color: '',
-				heading_font: '',
-				body_font: '',
+				color: '',
+				font: '',
 				pages: [],
 				sponsors: [],
 			},
 			customisation: {
-				primary_colors: [],
-				secondary_colors: [],
-				heading_font: [],
-				body_font: [],
+				colors: [],
+				fonts: [],
 			},
 			tournament_logo_image: '',
 			social_sharing_graphic_image: '',
@@ -289,12 +271,6 @@ export default {
 		let currentNavigationData = {
 			activeTab:'website_add',
 		};
-		$('#btnSelect').on('click',function(){
-			$('#selectFile').trigger('click')
-		});
-		$('#btnSelect_social_sharing').on('click',function(){
-			$('#select_file_social_sharing').trigger('click')
-		});
 		this.getAllPublishedTournaments();
 		this.getWebsiteCustomisationOptions();
 		this.website.websiteId = this.$store.state.Website.id;
@@ -321,6 +297,12 @@ export default {
 		},
     isImageUploading: function() {
       return (this.is_tournament_logo_uploading || this.is_social_sharing_image_uploading);
+    },
+    domainNameValidationRules: function() {
+    	return this.domainAndOfflineRedirectUrlValidation();
+    },
+    offlineRedirectUrlValidationRules: function() {
+    	return this.domainAndOfflineRedirectUrlValidation();
     },
 	},
 	methods: {
@@ -365,6 +347,7 @@ export default {
 		onTournamentLogoChange(e) {
 			var vm = this;
 			var files = e.target.files || e.dataTransfer.files;
+			var reader  = new FileReader();
 
 			if (!files.length)
 			 return;
@@ -374,8 +357,15 @@ export default {
 				return;
 			}
 
-			this.is_tournament_logo_uploading = true;
+			// Read image
+			reader.addEventListener("load", function () {
+				vm.tournament_logo_image = reader.result;
+			}, false);
+			if (files[0]) {
+				reader.readAsDataURL(files[0]);
+			}
 
+			this.is_tournament_logo_uploading = true;
       var formData = new FormData();
       formData.append('image', files[0]);
       axios.post('/api/websites/uploadTournamentLogo', formData).then(
@@ -409,6 +399,7 @@ export default {
 					if(Plugin.ValidateImageDimension(this, 1200, 635) == false) {
 						toastr['error']('Social sharing graphic size should be 1200x635', 'Error');
 					} else {
+						vm.social_sharing_graphic_image = r.target.result;
 						vm.is_social_sharing_image_uploading = true;
 			      var formData = new FormData();
 			      formData.append('image', files[0]);
@@ -429,45 +420,42 @@ export default {
 		},
 		removeImage: function (e) {
 			this.tournament_logo_image = '';
+			$('#selectFile').val('');
 			e.preventDefault();
 		},
 		removeSocialSharingImage: function (e) {
 			this.social_sharing_graphic_image = '';
+			$('#select_file_social_sharing').val('');
 			e.preventDefault();
 		},
 		getWebsiteCustomisationOptions() {
 			Website.getWebsiteCustomisationOptions().then(
 				(response) => {
-					this.customisation.primary_colors = response.data.data.primary_colors;
-					this.customisation.secondary_colors = response.data.data.secondary_colors;
-					this.customisation.heading_font = response.data.data.heading_font;
-					this.customisation.body_font = response.data.data.body_font;
+					this.customisation.colors = response.data.data.colors;
+					this.customisation.fonts = response.data.data.fonts;
 				},
 				(error) => {
 				}
 			)
 		},
-		setWebsitePrimaryColor(primaryColour) {
-			this.website.primary_color = primaryColour;
-		},
-		setWebsiteSecondaryColor(secondaryColour) {
-			this.website.secondary_color = secondaryColour;
+		setWebsiteColor(colour) {
+			this.website.color = colour;
 		},
 		getWebsiteSummary() {
 			Website.websiteSummaryData(this.website.websiteId).then(
 				(response) => {
-					this.tournament_logo_image = response.data.data.tournament_logo;
-					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic;
+					this.tournament_logo_image = response.data.data.tournament_logo !=null ? response.data.data.tournament_logo : '';
+					this.social_sharing_graphic_image = response.data.data.social_sharing_graphic !=null ? response.data.data.social_sharing_graphic : '';
 					this.website.tournament_name = response.data.data.tournament_name;
 					this.website.tournament_location = response.data.data.tournament_location;
 					this.website.tournament_date = response.data.data.tournament_dates;
 					this.website.domain_name = response.data.data.domain_name;
 					this.website.linked_tournament = response.data.data.linked_tournament != null ? response.data.data.linked_tournament : '';
 					this.website.google_analytics_id = response.data.data.google_analytics_id;
-					this.website.primary_color = response.data.data.primary_color;
-					this.website.secondary_color = response.data.data.secondary_color;
-					this.website.heading_font = response.data.data.heading_font;
-					this.website.body_font = response.data.data.body_font;
+					this.website.is_website_offline = response.data.data.is_website_offline;
+					this.website.offline_redirect_url = offlineRedirectUrl = response.data.data.offline_redirect_url;
+					this.website.color = response.data.data.color;
+					this.website.font = response.data.data.font;
 					this.website.pages = response.data.data.pageTreeArray;
 				},
 				(error) => {
@@ -492,6 +480,22 @@ export default {
 			}
 			childPage.is_published = 0;
 			return true;
+		},
+		selectTournamentLogo() {
+			$('#selectFile').trigger('click');
+		},
+		selectSocialSharingGraphic() {
+			$('#select_file_social_sharing').trigger('click');
+		},
+		resetOfflineRedirectUrl() {
+			this.website.offline_redirect_url = offlineRedirectUrl;
+		},
+		domainAndOfflineRedirectUrlValidation() {
+			var rules = { url: true };
+    	if(this.website.is_website_offline == 1) {
+    		rules.required = true;
+    	}
+    	return rules;
 		},
 	}
 }

@@ -7,6 +7,8 @@ use View;
 use Config;
 use Closure;
 use Landlord;
+use Redirect;
+use JavaScript;
 use Carbon\Carbon;
 use Laraspace\Models\Page;
 use Laraspace\Models\Website;
@@ -28,6 +30,10 @@ class VerifyWebsite
 
         if(!$website) {
             App::abort(404);
+        }
+
+        if($website->is_website_offline == 1) {
+          return Redirect::away($website->offline_redirect_url, 302);
         }
 
         Landlord::addTenant('website', $website);
@@ -54,10 +60,13 @@ class VerifyWebsite
         $sponsors = $website->sponsors;
         View::share('sponsors', $sponsors);
 
-        $days = Config::get('wot.message_notification_days');
-        $createdAfter = Carbon::today()->subDay($days);
-        $messages = $website->messages()->whereDate('created_at', '>=', $createdAfter)->orderBy('created_at', 'desc')->get();
-        View::share('messages', $messages);
+        JavaScript::put([
+            'websiteId' => $website->id,
+            'serverAddr' => env('BROADCAST_SERVER_ADDRESS'),
+            'serverPort' => env('BROADCAST_SERVER_PORT'),
+            'broadcastChannel' => env('BROADCAST_CHANNEL'),
+        ]);
+
         Config::set('wot.current_domain', $domain);
 
         return $next($request);

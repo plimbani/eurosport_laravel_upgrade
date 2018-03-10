@@ -3,12 +3,16 @@
 namespace Laraspace\Api\Repositories;
 
 use DB;
+use Laraspace\Models\Map;
 use Laraspace\Models\Location;
+use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
 
 
 class WebsiteVenueRepository
 {
+  use AuthUserDetail;
+
 	/**
    * @var Page service
    */
@@ -55,13 +59,14 @@ class WebsiteVenueRepository
    *
    * @return response
    */
-  public function insertLocation($websiteId, $data)
+  public function insertLocation($websiteId, $currentLoggedInUserId, $data)
   {
     $location = new Location();
     $location->website_id = $websiteId;
     $location->name = $data['name'];
     $location->address = $data['address'];
     $location->order = $data['order'];
+    $location->created_by = $currentLoggedInUserId;
     $location->save();
 
     return $location;
@@ -72,13 +77,16 @@ class WebsiteVenueRepository
    *
    * @return response
    */
-  public function updateLocation($data)
+  public function updateLocation($currentLoggedInUserId, $data)
   {
     $location = Location::find($data['id']);
     $location->name = $data['name'];
     $location->address = $data['address'];
     $location->order = $data['order'];
-    $location->save();
+    if($location->isDirty()) {
+      $location->updated_by = $currentLoggedInUserId;
+      $location->save();
+    }
 
     return $location;
   }
@@ -107,18 +115,91 @@ class WebsiteVenueRepository
     Location::whereIn('id', $locationIds)->get()->each(function($location) {
       $location->delete();
     });
-    
+
     return true;
   }
 
   /*
+   * Get all markers
+   *
+   * @return response
+   */
+  public function getAllMarkers($websiteId)
+  {
+    $markers = Map::where('website_id', $websiteId)->get();
+    return $markers;
+  }
+
+  /*
+   * Get all marker ids
+   *
+   * @return response
+   */
+  public function getAllMarkerIds($websiteId)
+  {
+    $markerIds = Map::where('website_id', $websiteId)->pluck('id')->toArray();
+    return $markerIds;
+  }
+
+  /*
+   * Insert marker
+   *
+   * @return response
+   */
+  public function insertMarker($websiteId, $currentLoggedInUserId, $data)
+  {
+    $marker = new Map();
+    $marker->website_id = $websiteId;
+    $marker->latitude = $data['position']['lat'];
+    $marker->longitude = $data['position']['lng'];
+    $marker->information = $data['information'];
+    $marker->created_by = $currentLoggedInUserId;
+    $marker->save();
+
+    return $marker;
+  }
+
+  /*
+   * Update marker
+   *
+   * @return response
+   */
+  public function updateMarker($currentLoggedInUserId, $data)
+  {
+    $marker = Map::find($data['id']);
+    $marker->latitude = $data['position']['lat'];
+    $marker->longitude = $data['position']['lng'];
+    $marker->information = $data['information'];
+    if($marker->isDirty()) {
+      $marker->updated_by = $currentLoggedInUserId;
+      $marker->save();
+    }
+
+    return $marker;
+  }
+
+  /*
+   * Delete multiple markers
+   *
+   * @return response
+   */
+  public function deleteMarkers($markerIds = [])
+  {
+    Map::whereIn('id', $markerIds)->get()->each(function($marker) {
+      $marker->delete();
+    });
+
+    return true;
+  }
+  /*
    * Save venue page data
    *
    * @return response
-   */	
+   */
 	public function savePageData($data)
 	{
-		$this->saveLocations($data);
+    $this->saveLocations($data);
+		$this->saveMarkers($data);
 	}
 
   /*
@@ -137,10 +218,11 @@ class WebsiteVenueRepository
     for($i=0; $i<count($locations); $i++) {
       $locationData = $locations[$i];
       $locationData['order'] = $i + 1;
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($locationData['id'] == '') {
-        $location = $this->insertLocation($websiteId, $locationData);
+        $location = $this->insertLocation($websiteId, $currentLoggedInUserId, $locationData);
       } else {
-        $location = $this->updateLocation($locationData);
+        $location = $this->updateLocation($currentLoggedInUserId, $locationData);
       }
       $locationIds[] = $location->id;
     }
@@ -148,5 +230,32 @@ class WebsiteVenueRepository
     $deleteLocationsId = array_diff($existingLocationsId, $locationIds);
 
     $this->deleteLocations($deleteLocationsId);
+  }
+
+  /*
+   * Save markers
+   *
+   * @return response
+   */
+  public function saveMarkers($data)
+  {
+    $websiteId = $data['websiteId'];
+    $markers = $data['markers'];
+
+    $existingMarkersId = $this->getAllMarkerIds($websiteId);
+
+    $markerIds = [];
+    for($i=0; $i<count($markers); $i++) {
+      $markerData = $markers[$i];
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
+      if($markerData['id'] == '') {
+        $marker = $this->insertMarker($websiteId, $currentLoggedInUserId, $markerData);
+      } else {
+        $marker = $this->updateMarker($currentLoggedInUserId, $markerData);
+      }
+      $markerIds[] = $marker->id;
+    }
+    $deleteMarkersId = array_diff($existingMarkersId, $markerIds);
+    $this->deleteMarkers($deleteMarkersId);
   }
 }

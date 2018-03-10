@@ -2,11 +2,14 @@
 
 namespace Laraspace\Console\Commands;
 
+use Carbon\Carbon;
 use Laraspace\Models\User;
+use Laraspace\Mail\SendMail;
 use Laraspace\Models\Website;
 use Illuminate\Console\Command;
 use Laraspace\Models\ActivityFeed;
 use Laraspace\Custom\Helper\Common;
+use Illuminate\Support\Facades\Mail;
 use Laraspace\Models\ActivityNotification;
 
 class sendActivityNotification extends Command
@@ -69,7 +72,7 @@ class sendActivityNotification extends Command
               $websites[$websiteId]['activities'] = [];
             }
 
-            if(!in_array($activity->page, $websites[$websiteId]['activities']) && !in_array($activity->section, $websites[$websiteId]['activities'])) {
+            if(array_search($activity->page, array_column($websites[$websiteId]['activities'], 'page')) === false || array_search($activity->section, array_column($websites[$websiteId]['activities'], 'section')) === false) {
               $websites[$websiteId]['activities'][] = [
                 'page' => $activity->page,
                 'section' => $activity->section
@@ -85,15 +88,17 @@ class sendActivityNotification extends Command
         }
       }
 
-      $email_details = ['usersActivities' => $usersActivities];
-      $recipient = config('wot.activity_notification_recepients');
-      $subject = 'World of Tournaments - Tournament administrators activity notification';
-      $emailTemplate = 'emails.activity_notification';
-
-      Common::sendMail($email_details, $recipient, $subject, $emailTemplate);
-
       if(count($notificationIds) > 0) {
-        ActivityNotification::whereIn('id', $notificationIds)->update(['is_mail_sent' => 1]);
+        $email_details = ['usersActivities' => $usersActivities];
+        $recipient = config('wot.activity_notification_recepients');
+        $subject = 'World of Tournaments - Activity notification - ' . Carbon::now()->format('jS F Y, H:i');
+        $emailTemplate = 'emails.activity_notification';
+
+        Mail::to($recipient['to'])
+          ->bcc($recipient['bcc'])
+          ->send(new SendMail($email_details, $subject, $emailTemplate));
+
+        ActivityNotification::whereIn('id', $notificationIds)->update(['is_mail_sent' => 1, 'mailed_at' => Carbon::now()]);
       }
 
       $this->info("Activity notification sent.");

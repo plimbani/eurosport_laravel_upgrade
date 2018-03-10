@@ -2,18 +2,12 @@
 
 return [
 	'website_customisation_options' => [
-		'primary_colors' => [
-			'#800000', '#FF0000', '#FFA500', '#FFFF00', '#808000', '#008000', '#0000FF', '#00FFFF'
+		'colors' => [
+			'#D0021B', '#FF9F00', '#417505', '#50E3C2', '#1E469D', '#9013FE'
 		],
-		'secondary_colors' => [
-			'#800000', '#FF0000', '#FFA500', '#FFFF00', '#808000', '#008000', '#0000FF', '#00FFFF'
+		'fonts' => [
+			'Open Sans', 'Montserrat', 'Roboto', 'Lato', 'PT Sans', 'Helvetica'
 		],
-		'heading_font' => [
-			'Open Sans', 'Lato', 'Old Standard TT', 'Abril Fatface', 'PT Serif'
-		],
-		'body_font' => [
-			'Ubuntu', 'Vollkorn', 'Droid', 'PT Mono', 'Gravitas One'
-		]
 	],
   'website_default_pages' => [
     [
@@ -223,5 +217,9 @@ return [
     'contact' => 'Contact',
   ],
   'message_notification_days' => 14,
-  'activity_notification_recepients' => ['mtilokani@aecoridgital.com', 'ssheth@aecordigital.com'],
+  'activity_notification_recepients' => [
+    'to' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
+    'cc' => [],
+    'bcc' => ['ssheth@aecordigital.com'],
+  ],
 ];

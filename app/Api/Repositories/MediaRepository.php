@@ -6,10 +6,13 @@ use DB;
 use Laraspace\Models\Photo;
 use Laraspace\Models\Document;
 use Laraspace\Custom\Helper\Image;
+use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
 
 class MediaRepository
 {
+  use AuthUserDetail;
+
   /**
    * @var AWS URL
    */
@@ -63,13 +66,14 @@ class MediaRepository
    *
    * @return response
    */
-  public function insertPhoto($websiteId, $data)
+  public function insertPhoto($websiteId, $currentLoggedInUserId, $data)
   {
     $photo = new Photo();
     $photo->website_id = $websiteId;
     $photo->caption = $data['caption'];
     $photo->order = $data['order'];
     $photo->image = $data['image'];
+    $photo->created_by = $currentLoggedInUserId;
     $photo->save();
 
     return $photo;
@@ -80,13 +84,16 @@ class MediaRepository
    *
    * @return response
    */
-  public function updatePhoto($data)
+  public function updatePhoto($currentLoggedInUserId, $data)
   {
     $photo = Photo::find($data['id']);
     $photo->caption = $data['caption'];
     $photo->order = $data['order'];
     $photo->image = $data['image'];
-    $photo->save();
+    if($photo->isDirty()) {
+      $photo->updated_by = $currentLoggedInUserId;
+      $photo->save();
+    }
 
     return $photo;
   }
@@ -148,11 +155,11 @@ class MediaRepository
 
       // Upload image
       $photoData['image'] = basename(parse_url($photoData['image'])['path']);
-
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($photoData['id'] == '') {
-        $photo = $this->insertPhoto($websiteId, $photoData);
+        $photo = $this->insertPhoto($websiteId, $currentLoggedInUserId, $photoData);
       } else {
-        $photo = $this->updatePhoto($photoData);
+        $photo = $this->updatePhoto($currentLoggedInUserId, $photoData);
       }
       $photoIds[] = $photo->id;
     }
@@ -190,11 +197,12 @@ class MediaRepository
    *
    * @return response
    */
-  public function insertDocument($websiteId, $data)
+  public function insertDocument($websiteId, $currentLoggedInUserId, $data)
   {
     $document = new Document();
     $document->website_id = $websiteId;
     $document->file_name = $data['file_name'];
+    $document->created_by = $currentLoggedInUserId;
     $document->save();
 
     return $document;
@@ -205,11 +213,14 @@ class MediaRepository
    *
    * @return response
    */
-  public function updateDocument($data)
+  public function updateDocument($currentLoggedInUserId, $data)
   {
     $document = Document::find($data['id']);
     $document->file_name = $data['file_name'];
-    $document->save();
+    if($document->isDirty()) {
+      $document->updated_by = $currentLoggedInUserId;
+      $document->save();
+    }
 
     return $document;
   }
@@ -259,11 +270,11 @@ class MediaRepository
 
       // Upload file
       $documentData['file_name'] = basename(parse_url($documentData['file'])['path']);
-
+      $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
       if($documentData['id'] == '') {
-        $document = $this->insertDocument($websiteId, $documentData);
+        $document = $this->insertDocument($websiteId, $currentLoggedInUserId, $documentData);
       } else {
-        $document = $this->updateDocument($documentData);
+        $document = $this->updateDocument($currentLoggedInUserId, $documentData);
       }
       $documentIds[] = $document->id;
     }

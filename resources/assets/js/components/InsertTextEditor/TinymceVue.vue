@@ -178,7 +178,6 @@
                             // this.$emit('input', this.content);
                         });
                         editor.setContent(this.content);
-                        this.$emit('input', this.content);
                     }
                 };
                 tinymce.init(this.concatAssciativeArrays(options, this.other_options));

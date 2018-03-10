@@ -4,9 +4,11 @@ namespace Laraspace\Api\Repositories;
 
 use DB;
 use Laraspace\Models\Contact;
+use Laraspace\Traits\AuthUserDetail;
 
 class ContactRepository
 {
+  use AuthUserDetail;
 
   /**
    * Create a new controller instance.
@@ -38,6 +40,10 @@ class ContactRepository
     isset($data['phone_number']) && trim($data['phone_number'])!='' ? $contact->phone_number = $data['phone_number'] : null;
     isset($data['email_address']) && trim($data['email_address'])!='' ? $contact->email_address = $data['email_address'] : null;
     isset($data['address']) && trim($data['address'])!='' ? $contact->address = $data['address'] : null;
-    $contact->save();
+    $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
+    if($contact->isDirty()) {
+      $contact->updated_by = $currentLoggedInUserId;
+      $contact->save();
+    }
   }
 }

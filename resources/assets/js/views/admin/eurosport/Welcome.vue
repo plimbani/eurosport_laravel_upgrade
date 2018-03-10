@@ -10,8 +10,8 @@
       </div>
     </div> -->
     <div class="row home-content">
-      <div class="col-sm-4 mb-4">
-        <div class="card mb-0 h-100">
+      <div class="col-sm-4 d-flex mb-4">
+        <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
           </div>
@@ -31,8 +31,8 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-4 mb-4">
-        <div class="card mb-0 h-100">
+      <div class="col-sm-4 d-flex mb-4">
+        <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"
             v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')"><strong>{{$lang.welcome_manage_user}}</strong></h5>
@@ -55,8 +55,8 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-4 mb-4">
-        <div class="card mb-0 h-100">
+      <div class="col-sm-4 d-flex mb-4">
+        <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_websites}}</strong></h5>
           </div>
