@@ -32,7 +32,7 @@
         <a href="javascript:void(0)" @click="clearFilter()">{{ $lang.matches.clear }}</a>
       </label>
     </div>
-    <component :is="currentView" :matches="matches" :currentView="currentView"></component>
+    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView"></component>
   </div>
 </template>
 
@@ -51,6 +51,11 @@
         tournamentDates: [],
         filterOptions: [],
         selectedOption: '',
+        competitionDetail: {
+          id: '',
+          name: '',
+          type: '',
+        },
         filterBy: 'category_and_competition',
       };
     },
@@ -65,6 +70,7 @@
       this.getFilterOptions();
     },
     created() {
+      this.$root.$on('showCompetitionData', this.showCompetitionData);
     },
     computed: {
     },
@@ -86,13 +92,14 @@
         return dateArray;
       },
       onMatchDateChange() {
-
+        console.log('onMatchDateChange');
+        this.setFilterOptions();
       },
       setFilterOption(option) {
         return JSON.stringify(option);
       },
       clearFilter() {
-        this.selectedVal = '';
+        this.selectedOption = '';
         this.setFilterOptions();
         $('.js-category-and-competition').select2().val(null).trigger("change");
         this.filterBy = 'category_and_competition';
@@ -104,12 +111,12 @@
         MatchList.getFilterDropDownData(data).then(
           (response) => {
             this.filterOptions = response.data.options;
-            if(this.filterBy == 'category_and_competition'){
+            if(this.filterBy == 'category_and_competition') {
               $('.js-category-and-competition').select2().val(null).trigger("change");
               var options = [];
-              _.map(response.data.options, function(option){
+              _.map(response.data.options, function(option) {
                 options.push({ "id": option.id, "name": option.name, "class": "category", "data": option.id });
-                _.map(option.competition, function(competition){
+                _.map(option.competition, function(competition) {
                   let groupName = competition.name.split("-");
                   groupName = groupName.splice(2, groupName.length);
                   groupName = groupName.join('-');
@@ -127,6 +134,7 @@
               });
               this.filterOptions = options;
             }
+            this.setFilterOptions();
           },
           (error) => {
           }
@@ -139,7 +147,9 @@
         // this.$store.dispatch('setTournamentFilter', tournamentFilter);
 
         if(this.filterBy === 'category_and_competition') {
-          if(this.selectedOption.class == 'category'){
+          if(this.selectedOption == '') {
+            matchFilterKey = '';
+          } else if(this.selectedOption.class == 'category'){
             matchFilterKey = 'competation_group_age';
           } else {
             matchFilterKey = 'competation_group';
@@ -155,7 +165,7 @@
 
         data.tournamentId = tournamentId;
         data.fiterEnable = true;
-        this.matchDate != '' ? data.matchDate = this.matchDate : null;
+        this.matchDate != '' ? data.tournamentDate = this.matchDate : null;
 
   			if(filterKey != '' && filterValue != '') {
           data.filterKey = filterKey;
@@ -168,10 +178,32 @@
   					$("body .js-loader").addClass('d-none');
             vm.matches = response.data.data;
             vm.matches = _.orderBy(vm.matches, ['match_datetime'], ['asc']);
-            // vm.$root.$emit('setMatchesForMatchList', _.clondeDeep(vm.matchData));
+            vm.$root.$emit('setMatchesForMatchList', _.cloneDeep(response.data.data));
   				},
   				(error) => {
   					console.log('Error in getting matches.');
+  				}
+  			)
+      },
+      showCompetitionData(id, competitionName, competitionType) {
+        this.currentView = 'Competition';
+        this.getCompetitionDetails(id, competitionName, competitionType);
+      },
+      getCompetitionDetails(competitionId, competitionName, competitionType) {
+        let tournamentId = tournamentData.id;
+  			let tournamentData = {'tournamentId': tournamentId, 'competitionId': competitionId};
+
+  			this.competitionDetail.DrawName = competitionName;
+  			this.competitionDetail.DrawId = competitionId;
+        this.competitionDetail.DrawType = competitionType;
+  			MatchList.getFixtures(tournamentData).then(
+  				(response)=> {
+  					if(response.data.status_code == 200) {
+  						this.matches = response.data.data;
+  					}
+  				},
+  				(error) => {
+  					alert('Error in getting draws');
   				}
   			)
       },
