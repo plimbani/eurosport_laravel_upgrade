@@ -7,7 +7,7 @@
 			background-color: $ls-color-gray--light;
 			border: $card-border-width solid $card-border-color;
 			@include border-radius($card-border-radius);
-			@extend .mb-2;
+			margin-bottom: 1rem !important;
 			// &:not(:last-child) {
 			// 	@extend .mb-2;
 			// }
