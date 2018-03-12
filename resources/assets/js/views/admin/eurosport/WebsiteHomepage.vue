@@ -20,7 +20,7 @@
 		          		<div class="row align-items-center">
 		          			<div class="col-sm-3">
 			          			<transition-image v-if="homepage.hero_image != ''" :image_url="homepage.hero_image" :image_class="'img-fluid'"></transition-image>
-			          			<img v-if="homepage.hero_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
+			          			<img v-if="homepage.hero_image == ''" src="http://placehold.it/250x250?text=No%20image" class="img-fluid" />
 			          		</div>
 			          		<div class="col-sm-9">
 			          			<button v-if="homepage.hero_image != '' && is_hero_image_uploading == false" class="btn btn-default" @click="removeImage($event, 'hero_image')">{{$lang.tournament_tournament_remove_button}}</button>
@@ -37,7 +37,7 @@
 		          		<div class="row align-items-center">
 		          			<div class="col-sm-3">
 											<transition-image v-if="homepage.welcome_image != ''" :image_url="homepage.welcome_image" :image_class="'img-fluid'"></transition-image>
-			          			<img v-if="homepage.welcome_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
+			          			<img v-if="homepage.welcome_image == ''" src="http://placehold.it/250x250?text=No%20image" class="img-fluid" />
 			          		</div>
 			          		<div class="col-sm-9">
 				          		<button v-if="homepage.welcome_image != '' && is_welcome_image_uploading == false" class="btn btn-default" @click="removeImage($event, 'welcome_image')">{{$lang.tournament_tournament_remove_button}}</button>
@@ -122,10 +122,10 @@ export default {
 	},
 	computed: {
 		getHeroImage() {
-  		return this.homepage.hero_image == '' ? 'http://placehold.it/250x250?text=noimage' : this.homepage.hero_image;
+  		return this.homepage.hero_image == '' ? 'http://placehold.it/250x250?text=No%20image' : this.homepage.hero_image;
   	},
   	getWelcomeImage() {
-  		return this.homepage.welcome_image == '' ? 'http://placehold.it/250x250?text=noimage' : this.homepage.welcome_image;
+  		return this.homepage.welcome_image == '' ? 'http://placehold.it/250x250?text=No%20image' : this.homepage.welcome_image;
   	},
   	getHeroImagePath() {
 			return this.$store.state.Image.heroImagePath;
