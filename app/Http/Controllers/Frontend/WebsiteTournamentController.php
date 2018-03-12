@@ -97,13 +97,16 @@ class WebsiteTournamentController extends Controller
     public function getHistoryPageDetails(Request $request)
     {
       $varsForView = [];
-      $websiteId = Landlord::getTenants()['website']->id;
+      $website = Landlord::getTenants()['website'];
+      $websiteId = $website->id;
       $pageDetail = $this->pageService->getPageDetails($this->historyPageName, $websiteId);
       $pageParentId = $pageDetail->parent_id;
       $parentPage = Page::find($pageParentId);
+      $tournament = $website->linked_tournament!=null ? Tournament::find($website->linked_tournament) : null;
 
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
+      $varsForView['tournament'] = $tournament->toArray();
 
       return view('frontend.history', $varsForView);
     }

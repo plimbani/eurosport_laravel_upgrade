@@ -21,4 +21,8 @@ export default {
 	getStanding(data) {
     return axios.post('/api/match/getStanding', {'tournamentData': data});
 	},
+	// Refresh standings
+	refreshStanding(data) {
+    return axios.post('/api/match/refreshStanding', {'tournamentData': data});
+  },
 }

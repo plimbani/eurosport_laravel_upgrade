@@ -27,4 +27,4 @@ Vue.i18n.add('en', require("./locale/frontend/en.js"));
 Vue.i18n.add('de', require("./locale/frontend/fr.js"));
 
 // set the start locale to use
-Vue.i18n.set('en');
+Vue.i18n.set(Site.currentLocale);

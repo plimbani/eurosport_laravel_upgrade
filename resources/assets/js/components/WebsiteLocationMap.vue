@@ -197,7 +197,7 @@ export default {
             $("#gmap_place_input input").val('');
           }
           this.markers[this.currentMarkerIndex].information = this.infoContent;
-          this.toggleInfoWindow(this.currentMarkerIndex)
+          this.toggleInfoWindow(this.currentMarkerIndex);
         }
       }).catch(() => {
         // fail stuff
