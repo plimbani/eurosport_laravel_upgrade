@@ -1,6 +1,7 @@
 <template>
 	<div class="form-group justify-content-between row">
 		<div class="col-sm-6">
+			<label class="px-0 pt-0 form-control-label"><strong>{{$lang.additional_page}}</strong></label>
 			<div class="draggable--section">
 				<draggable v-model="pages" :options="{draggable:'.additional-page-item', handle: '.additional-page-handle'}">
 					<div class="draggable--section-card additional-page-item" v-for="(page, index) in pages" :key="index"  v-if="isPageEnabled(page.name)">
@@ -11,7 +12,7 @@
 					        		<div>{{ page.title }}</div>
 					  			</div>
 				  			</div>
-				  			<div class="draggable--section-card-header-panel-icons">
+				  			<div class="draggable--section-card-header-icons">
 										<a v-if="isAdmin" class="text-primary" href="javascript:void(0)"
 						        	@click="deletePage(index)">
 						        	<i class="jv-icon jv-dustbin"></i>
@@ -29,7 +30,7 @@
 					</div>
 				</draggable>
 			</div>
-			<p class="help-block text-muted" v-show="pages.length === 0">{{ $lang.no_additional_page_title }}</p>
+			<p class="pt-0 help-block text-muted" v-show="pages.length === 0">{{ $lang.no_additional_page_title }}</p>
 		</div>
 		<div class="col-sm-6" v-show="currentPageOperation == 'edit' || isAdmin">
 			<div class="row">

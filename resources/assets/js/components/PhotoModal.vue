@@ -64,7 +64,7 @@
 	  },
 	  computed: {
 	  	getImage() {
-	  		return this.formValues.image == '' ? 'http://placehold.it/250x250?text=noimage' : this.formValues.image;
+	  		return this.formValues.image == '' ? 'http://placehold.it/250x250?text=No%20image' : this.formValues.image;
 	  	},
 	  },
 		methods: {
