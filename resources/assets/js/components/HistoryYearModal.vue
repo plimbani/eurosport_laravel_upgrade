@@ -14,7 +14,7 @@
             <div class="col-sm-6">
                 <input maxlength="4" v-model="formValues.year" v-validate="{'required':true, 'digits':4}" :class="{'is-danger': errors.has('year') }" name="year" type="text" class="form-control" :placeholder="$lang.year">
                 <i v-show="errors.has('year')" class="fa fa-warning"></i>
-                <span class="help is-danger" v-show="errors.has('year')">{{ errors.first('year') }}<br>
+                <span class="help is-danger" v-show="errors.has('year')">{{ $lang.add_history_year_error_message }}<br>
                 </span>
             </div>
           </div>
