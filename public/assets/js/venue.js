@@ -3,7 +3,7 @@ function venueMap() {
     center:new google.maps.LatLng(51.509865,-0.118092),
     zoom:8,
 	};
-	var map = new google.maps.Map(document.getElementById("venueMap"),mapProp);
+	var map = new google.maps.Map(document.getElementById("venue_map"),mapProp);
 	var infowindow = new google.maps.InfoWindow();
   var latlngbounds = new google.maps.LatLngBounds();
 	var marker;

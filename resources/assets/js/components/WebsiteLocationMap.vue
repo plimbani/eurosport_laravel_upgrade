@@ -192,7 +192,7 @@ export default {
       this.$validator.validateAll().then((response) => {
         if(response) {
           this.markers[this.currentMarkerIndex].information = this.infoContent;
-          this.toggleInfoWindow(this.currentMarkerIndex)
+          this.toggleInfoWindow(this.currentMarkerIndex);
         }
       }).catch(() => {
         // fail stuff
