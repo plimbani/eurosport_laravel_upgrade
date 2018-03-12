@@ -44,7 +44,9 @@ Vue.mixin({
       var websiteRoutes = _.cloneDeep(this.getWebsiteRoutes);
       var websitePages = _.cloneDeep(this.getWebsitePages);
       var websiteRouteKeys = Object.keys(websiteRoutes);
-      var websiteRouteNames = Object.values(websiteRoutes);
+      var websiteRouteNames = Object.keys(websiteRoutes).map(function(key) {
+        return websiteRoutes[key];
+      });
       var currentRouteIndex = _.indexOf(websiteRouteKeys, pageName);
       var routeIndex = type == 'forward' ? (currentRouteIndex + 1) : (currentRouteIndex - 1);
       if(routeIndex == 0 || routeIndex >= websiteRoutes.length) {
