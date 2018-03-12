@@ -1,5 +1,6 @@
 import Lang from 'vue-lang';
 import VuePaginate from 'vue-paginate';
+window.moment = require('moment');
 
 window._ = require('lodash');
 

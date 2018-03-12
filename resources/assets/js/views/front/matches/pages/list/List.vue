@@ -3,7 +3,7 @@
     <div>
       {{ $lang.matches.match_overview }}
       <select v-on:change="onMatchDateChange()" v-model="matchDate">
-        <option value="">All dates</option>
+        <option value="">{{ $lang.matches.all_dates }}</option>
         <option v-for="date in tournamentDates" v-bind:value="date">
           {{ date | formatDate }}
         </option>
@@ -37,7 +37,6 @@
 </template>
 
 <script type="text/babel">
-  var moment = require('moment');
   import MatchList from '../../../../../api/matchlist.js';
   import Matches from './components/Matches.vue';
   import Competition from './components/Competition.vue';
@@ -48,6 +47,7 @@
         matches: [],
         matchDate: '',
         currentView: 'Matches',
+        tournamentData: tournamentData,
         tournamentDates: [],
         filterOptions: [],
         selectedOption: '',
@@ -71,6 +71,7 @@
     },
     created() {
       this.$root.$on('showCompetitionData', this.showCompetitionData);
+      this.$root.$on('showMatchesList', this.showMatchesList);
     },
     computed: {
     },
@@ -92,7 +93,6 @@
         return dateArray;
       },
       onMatchDateChange() {
-        console.log('onMatchDateChange');
         this.setFilterOptions();
       },
       setFilterOption(option) {
@@ -190,23 +190,30 @@
         this.getCompetitionDetails(id, competitionName, competitionType);
       },
       getCompetitionDetails(competitionId, competitionName, competitionType) {
-        let tournamentId = tournamentData.id;
-  			let tournamentData = {'tournamentId': tournamentId, 'competitionId': competitionId};
+        var tournamentId = tournamentData.id;
+  			var data = {'tournamentId': tournamentId, 'competitionId': competitionId};
+        var vm = this;
 
-  			this.competitionDetail.DrawName = competitionName;
-  			this.competitionDetail.DrawId = competitionId;
-        this.competitionDetail.DrawType = competitionType;
-  			MatchList.getFixtures(tournamentData).then(
+  			this.competitionDetail.name = competitionName;
+  			this.competitionDetail.id = competitionId;
+        this.competitionDetail.type = competitionType;
+
+  			MatchList.getFixtures(data).then(
   				(response)=> {
   					if(response.data.status_code == 200) {
-  						this.matches = response.data.data;
+  						vm.matches = response.data.data;
+              vm.$root.$emit('setMatchesForMatchList', _.cloneDeep(response.data.data));
   					}
   				},
   				(error) => {
-  					alert('Error in getting draws');
+  					alert('Error in getting matches');
   				}
   			)
       },
+      showMatchesList() {
+        this.currentView = 'Matches';
+        this.getFilterOptions();
+      }
     },
   };
 </script>

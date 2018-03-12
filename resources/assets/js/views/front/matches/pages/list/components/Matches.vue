@@ -3,16 +3,16 @@
     <div class="col-md-12">
       <table id="matchSchedule" class="table table-hover table-bordered" v-if="matchData.length > 0">
         <thead>
-          <th class="text-center">{{ $lang.summary_schedule_date_time }}</th>
-          <th class="text-center">{{ $lang.summary_schedule_matches_categories }}</th>
-          <th class="text-center">{{ $lang.summary_schedule_matches_team }}</th>
-          <th class="text-center">{{ $lang.summary_schedule_matches_team }}</th>
-          <th class="text-center">{{ $lang.summary_schedule_matches_score }}</th>
-          <th class="text-center" v-if="showPlacingForMatch()">{{ $lang.summary_schedule_matches_placing }}</th>
-          <th class="text-center">{{ $lang.summary_schedule_matches_location }}</th>
+          <th class="text-center">{{ $lang.matches.date_and_time }}</th>
+          <th class="text-center">{{ $lang.matches.categories }}</th>
+          <th class="text-center">{{ $lang.matches.team }}</th>
+          <th class="text-center">{{ $lang.matches.team }}</th>
+          <th class="text-center">{{ $lang.matches.score }}</th>
+          <th class="text-center" v-if="showPlacingForMatch()">{{ $lang.matches.placing }}</th>
+          <th class="text-center">{{ $lang.matches.location }}</th>
         </thead>
         <tbody>
-          <tr v-for="(match, index1) in getMatchList()">
+          <tr v-for="(match) in getMatchList()">
             <td class="text-center">{{ match.match_datetime | formatDate }}</td>
             <td class="text-center">
               <a href="" v-if="currentView != 'Competition'" @click.prevent="showCompetitionData(match)">
@@ -34,7 +34,7 @@
               {{ (match.homeScore !== null && match.AwayScore !== null ? (match.homeScore + '-' + match.AwayScore) : '-') }}
             </td>
             <td class="text-center" v-if="showPlacingForMatch()">
-              {{ match.position != null ? match.position : 'N/A' }}
+              {{ match.position != null ? match.position : $lang.matches.n_a }}
             </td>
             <td>
               {{ match.venue_name }} - {{ match.pitch_number }}
@@ -66,14 +66,13 @@
 
 <script type="text/babel">
   import VuePaginate from 'vue-paginate';
-  import moment from 'moment';
 
   export default {
-    props: ['matches', 'currentView'],
+    props: ['matches', 'competitionDetail', 'currentView'],
     data() {
       return {
         matchData: [],
-        paginate: (this.currentView != 'Competition') ? ['matchlist'] : NULL,
+        paginate: (this.currentView != 'Competition') ? ['matchlist'] : null,
         noOfRecords: 20,
         recordCounts: [5, 10, 20, 50, 100],
       };
@@ -151,9 +150,9 @@
         }
       },
       showCompetitionData(match) {
-        let id = match.competitionId;
-        let competitionName = match.group_name + '-' + competition.competation_name;
-        let competitionType = match.round;
+        var id = match.competitionId;
+        var competitionName = match.group_name + '-' + match.competation_name;
+        var competitionType = match.round;
         this.$root.$emit('showCompetitionData', id, competitionName, competitionType);
       },
     }
