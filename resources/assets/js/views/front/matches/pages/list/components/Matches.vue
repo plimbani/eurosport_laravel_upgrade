@@ -1,18 +1,18 @@
 <template>
-  <div class="row">
+  <div class="row" v-cloak>
     <div class="col-md-12">
       <table id="matchSchedule" class="table table-hover table-bordered" v-if="matchData.length > 0">
         <thead>
-          <th class="text-center">{{ $lang.matches.date_and_time }}</th>
-          <th class="text-center">{{ $lang.matches.categories }}</th>
-          <th class="text-center">{{ $lang.matches.team }}</th>
-          <th class="text-center">{{ $lang.matches.team }}</th>
-          <th class="text-center">{{ $lang.matches.score }}</th>
-          <th class="text-center" v-if="showPlacingForMatch()">{{ $lang.matches.placing }}</th>
-          <th class="text-center">{{ $lang.matches.location }}</th>
+          <th class="text-center">{{ $t('matches.date_and_time') }}</th>
+          <th class="text-center">{{ $t('matches.categories') }}</th>
+          <th class="text-center">{{ $t('matches.team') }}</th>
+          <th class="text-center">{{ $t('matches.team') }}</th>
+          <th class="text-center">{{ $t('matches.score') }}</th>
+          <th class="text-center" v-if="showPlacingForMatch()">{{ $t('matches.placing') }}</th>
+          <th class="text-center">{{ $t('matches.location') }}</th>
         </thead>
         <tbody>
-          <tr v-for="(match) in getMatchList()">
+          <tr v-for="match in getMatchList()">
             <td class="text-center">{{ match.match_datetime | formatDate }}</td>
             <td class="text-center">
               <a href="" v-if="currentView != 'Competition'" @click.prevent="showCompetitionData(match)">
@@ -34,7 +34,7 @@
               {{ (match.homeScore !== null && match.AwayScore !== null ? (match.homeScore + '-' + match.AwayScore) : '-') }}
             </td>
             <td class="text-center" v-if="showPlacingForMatch()">
-              {{ match.position != null ? match.position : $lang.matches.n_a }}
+              {{ match.position != null ? match.position : $t('matches.n_a') }}
             </td>
             <td>
               {{ match.venue_name }} - {{ match.pitch_number }}
@@ -42,21 +42,22 @@
           </tr>
         </tbody>
       </table>
+      <p v-if="matchData.length == 0">{{ $t('matches.no_matches_found') }}</p>
       <paginate v-if="currentView != 'Competition'" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
       <div v-if="currentView != 'Competition'">
-        <div>
+        <div v-if="matchData.length > 0">
           <select class="form-control ls-select2" name="noOfRecords" v-model="noOfRecords">
             <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
               {{ recordCount }}
             </option>
           </select>
         </div>
-        <div>
+        <div v-if="matchData.length > 0">
           <span v-if="$refs.paginator">
-            Viewing {{ $refs.paginator.pageItemsCount }} results
+            {{ $t('matches.view_match_result', {'countFrom': getRecordCountFrom, 'countTo': getRecordCountTo, 'totalCount': matchData.length}) }}
           </span>
         </div>
-        <div>
+        <div v-if="matchData.length > 0">
           <paginate-links for="matchlist" :show-step-links="true" :limit="2" :async="true"></paginate-links>
         </div>
       </div>
@@ -99,6 +100,16 @@
       },
     },
     computed: {
+      getRecordCountFrom() {
+        return ( (this.noOfRecords * this.$refs.paginator.currentPage) + 1);
+      },
+      getRecordCountTo() {
+        var recordCountTo = ((this.noOfRecords * this.$refs.paginator.currentPage) + this.noOfRecords);
+        if(recordCountTo > this.matchData.length) {
+          return this.matchData.length;
+        }
+        return recordCountTo;
+      },
     },
     components: {
     },
@@ -119,11 +130,11 @@
     methods: {
       showPlacingForMatch() {
         if(this.currentView == 'Competition') {
-          // if(this.DrawName.actual_competition_type == 'Elimination') {
-          //   return true;
-          // } else {
-          //   return false;
-          // }
+          if(this.competitionDetail.actual_competition_type == 'Elimination') {
+            return true;
+          } else {
+            return false;
+          }
         }
         return true;
       },

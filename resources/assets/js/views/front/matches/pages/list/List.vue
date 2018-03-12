@@ -1,22 +1,22 @@
 <template>
   <div>
     <div>
-      {{ $lang.matches.match_overview }}
+      {{ $t('matches.match_overview') }}
       <select v-on:change="onMatchDateChange()" v-model="matchDate">
-        <option value="">{{ $lang.matches.all_dates }}</option>
+        <option value="">{{ $t('matches.all_dates') }}</option>
         <option v-for="date in tournamentDates" v-bind:value="date">
           {{ date | formatDate }}
         </option>
       </select>
-      {{ $lang.matches.filter_by }}
+      {{ $t('matches.filter_by') }}
       <label>
-        <input type="radio" v-model="filterBy" name="match_filter" value="category_and_competition" @click="getFilterOptions('category_and_competition')">{{ $lang.matches.category }}
+        <input type="radio" v-model="filterBy" name="match_filter" value="category_and_competition" @click="getFilterOptions('category_and_competition')">{{ $t('matches.category') }}
       </label>
       <label>
-        <input type="radio" v-model="filterBy" name="match_filter" value="location" @click="getFilterOptions('location')">{{ $lang.matches.location }}
+        <input type="radio" v-model="filterBy" name="match_filter" value="location" @click="getFilterOptions('location')">{{ $t('matches.location') }}
       </label>
       <label>
-        <input type="radio" v-model="filterBy" name="match_filter" value="team" @click="getFilterOptions('team')">{{ $lang.matches.team }}
+        <input type="radio" v-model="filterBy" name="match_filter" value="team" @click="getFilterOptions('team')">{{ $t('matches.team') }}
       </label>
       <div>
         <select class="js-category-and-competition" v-if="filterBy == 'category_and_competition'">
@@ -25,11 +25,11 @@
         </select>
         <select v-model="selectedOption" @change="setFilterOptions()" v-else>
           <option value="">Select</option>
-          <option :value="option.id" v-for="option in filterOptions" v-bind:value="option">{{option.name}}</option>
+          <option :value="option.id" v-for="option in filterOptions" v-bind:value="option">{{ option.name }}</option>
         </select>
       </div>
       <label>
-        <a href="javascript:void(0)" @click="clearFilter()">{{ $lang.matches.clear }}</a>
+        <a href="javascript:void(0)" @click="clearFilter()">{{ $t('matches.clear') }}</a>
       </label>
     </div>
     <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView"></component>
@@ -100,7 +100,6 @@
       },
       clearFilter() {
         this.selectedOption = '';
-        this.setFilterOptions();
         $('.js-category-and-competition').select2().val(null).trigger("change");
         this.filterBy = 'category_and_competition';
         this.getFilterOptions();

@@ -1,7 +1,7 @@
 var Vue = require('vue');
 import VueSocketio from 'vue-socket.io';
 import AppMessages from './api/appmessages.js';
-Vue.use(VueSocketio, 'http://'+ Site.serverAddr +':'+ Site.serverPort);
+// Vue.use(VueSocketio, 'http://'+ Site.serverAddr +':'+ Site.serverPort);
 
 // components
 var appMessages = require('./components/Frontend/AppMessage.vue');
@@ -18,15 +18,15 @@ var vm = new Vue({
 			recent_messages: [],
 		};
 	},
-	sockets: {
-		'eurosportring-channel:app.message.sent': function(message){
-			this.all_messages.push(message.message);
-			this.updateRecentMessages();
-		},
-		connect: function(){
-			// console.log('socket connected');
-		},
-	},
+	// sockets: {
+	// 	'eurosportring-channel:app.message.sent': function(message){
+	// 		this.all_messages.push(message.message);
+	// 		this.updateRecentMessages();
+	// 	},
+	// 	connect: function(){
+	// 		// console.log('socket connected');
+	// 	},
+	// },
 	mounted() {
         this.getWebsiteMessages();
     },

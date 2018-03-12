@@ -14,7 +14,7 @@
       <div v-if="competitionDetail.type != 'Elimination'">
         <label><h6>{{ competitionDetail.name }} results grid</h6></label>
       </div>
-      <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">No information available.</span>
+      <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">{{ $t('matches.no_information_available') }}</span>
     </div>
     <table v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
       <thead>
@@ -40,12 +40,12 @@
       </tbody>
     </table>
     <div>
-      <h6 v-if="competitionDetail.type != 'Elimination'" class="mb-0">
+      <h6 class="mb-0" v-if="competitionDetail.type != 'Elimination'">
         {{ competitionDetail.name }} standings
       </h6>
       <teamStanding :currentCompetitionId="currentCompetitionId" :competitionType="competitionDetail.type" v-if="currentCompetitionId != 0">
       </teamStanding>
-      <div v-if="currentCompetitionId == 0 && competitionDetail.type != 'Elimination'">No information available
+      <div v-if="currentCompetitionId == 0 && competitionDetail.type != 'Elimination'">{{ $t('matches.no_information_available') }}
       </div>
     </div>
 
@@ -115,7 +115,7 @@
             }
           },
           (error) => {
-            alert('Error in Getting Draws')
+            console.log('Error in getting draws')
           }
         );
       },
@@ -145,34 +145,24 @@
         $("body .js-loader").removeClass('d-none');
         let competitionId = 0;
         if(this.currentCompetitionId !== undefined){
-          competitionId = this.currentCompetation.id
+          competitionId = this.currentCompetitionId;
         }
         let data = {'tournamentId': tournamentData.id, 'competitionId': competitionId};
         MatchList.refreshStanding(data).then(
           (response)=> {
             if(response.data.status_code == 200){
               $("body .js-loader").addClass('d-none');
-               // this.teamStatus = false
-               //  let vm = this
-               //  if(resolve!=''){
-               //    resolve('done');
-               //  }
-               //  setTimeout(function(){
-               //    vm.teamStatus = true
-
-               //  },200)
             }
           },
         )
       },
       onCompetitionChange() {
-        // this.$store.dispatch('setCurrentScheduleView','drawDetails')
-        var competitionId = this.currentCompetition.id
-        var competitionName = this.currentCompetition.name
-        var competitionType = this.currentCompetition.actual_competition_type
+        var competitionId = this.currentCompetition.id;
+        var competitionName = this.currentCompetition.name;
+        var competitionType = this.currentCompetition.actual_competition_type;
         this.$root.$emit('showCompetitionData', competitionId, competitionName, competitionType);
-        // this.refreshStanding();
         this.currentCompetitionId = competitionId;
+
         this.generateDrawTable();
         this.$root.$emit('setStandingData', competitionId);
       },

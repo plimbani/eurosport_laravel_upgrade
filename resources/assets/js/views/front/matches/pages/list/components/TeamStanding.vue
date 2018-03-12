@@ -1,16 +1,16 @@
 <template>
 	<div>
-		<table class="mt-3 table table-hover table-bordered mt-3" v-if="standingData.length > 0">
+		<table class="table table-hover table-bordered" v-if="standingData.length > 0">
 			<thead>
 				<th class="text-center"></th>
-				<th class="text-center">{{ $lang.team_played_label }}</th>
-				<th class="text-center">{{ $lang.team_won_label }}</th>
-				<th class="text-center">{{ $lang.team_draws_label }}</th>
-				<th class="text-center">{{ $lang.team_lost_label }}</th>
-				<th class="text-center">{{ $lang.team_for_label }}</th>
-				<th class="text-center">{{ $lang.team_against_label }}</th>
-		    <th class="text-center">{{ $lang.team_difference_label }}</th>
-		    <th class="text-center">{{ $lang.team_points_label }}</th>
+				<th class="text-center">{{ $t('matches.played') }}</th>
+				<th class="text-center">{{ $t('matches.won') }}</th>
+				<th class="text-center">{{ $t('matches.draws') }}</th>
+				<th class="text-center">{{ $t('matches.lost') }}</th>
+				<th class="text-center">{{ $t('matches.for') }}</th>
+				<th class="text-center">{{ $t('matches.against') }}</th>
+		    <th class="text-center">{{ $t('matches.difference') }}</th>
+		    <th class="text-center">{{ $t('matches.points') }}</th>
 			</thead>
 			<tbody>
 				<tr v-for="standing in standingData">
@@ -29,7 +29,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<span v-if="standingData.length == 0 && competitionType != 'Elimination'">No information available</span>
+		<span v-if="standingData.length == 0 && competitionType != 'Elimination'">{{ $t('matches.no_information_available') }}</span>
 	</div>
 </template>
 
@@ -45,11 +45,14 @@
 		},
 		filters: {
 			formatGoals: function(goal) {
-	      (goal > 0) ? '+' + goal : goal;
+	      return (goal > 0) ? ('+' + goal) : goal;
 	    }
 		},
 		created() {
 			this.$root.$on('setStandingData', this.getStandingData);
+		},
+		beforeDestroy() {
+			this.$root.$off('setStandingData');
 		},
 		mounted() {
 			this.getStandingData(this.currentCompetitionId);
@@ -60,14 +63,14 @@
 					let tournamentId = tournamentData.id;
 					let data = {'tournamentId': tournamentId, 'competitionId': currentCompetitionId};
 
-					MatchList.getStanding(data).then(
+					MatchList.refreshStanding(data).then(
 						(response)=> {
 							if(response.data.status_code == 200) {
 								this.standingData = response.data.data;
 							}
 						},
 						(error) => {
-							alert('Error in getting standing data');
+							console.log('Error in getting standing data');
 						}
 					);
 				}

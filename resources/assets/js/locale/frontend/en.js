@@ -19,5 +19,15 @@ module.exports= {
     'standings': 'standings',
     'back_to_match_list': 'Back to match list',
     'n_a': 'N/A',
+    'no_information_available': 'No information available',
+    'played': 'Played',
+    'won': 'Won',
+    'draws': 'Draws',
+    'lost': 'Lost',
+    'for': 'For',
+    'against': 'Against',
+    'difference': 'Difference',
+    'points': 'Points',
+    'no_matches_found': 'No matches found',
   }
 };
