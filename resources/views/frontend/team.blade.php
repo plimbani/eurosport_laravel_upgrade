@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
 @section('content')
-	<h2 class="text-center">{!! __('messages.teams') !!}</h2>
+	<h1 class="text-center">{!! __('messages.teams') !!}</h1>
 	<div class="container teams-page">
 		<div class="row">
 			@foreach($ageCategories as $category)

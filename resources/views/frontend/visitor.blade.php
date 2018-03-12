@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h1>Visitors</h1>
+<h1>{!! __('messages.visitors') !!}</h1>
 
 @if($arrivalCheckInInformation)
 <h2>Arrival and check-in </h2>
