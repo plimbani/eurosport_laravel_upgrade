@@ -24,9 +24,6 @@
 		$(document).on('click', '[data-toggle="lightbox"]', function(event) {
       event.preventDefault();
       $(this).ekkoLightbox({
-      	/*onNavigate: function(direction, itemIndex)
-	        console.log('Navigating '+direction+'. Current item: '+itemIndex);
-		    }*/
       	alwaysShowClose: true
       });
   	});
