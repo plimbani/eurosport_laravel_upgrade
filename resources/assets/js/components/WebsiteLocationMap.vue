@@ -193,8 +193,6 @@ export default {
     saveMarker() {
       this.$validator.validateAll().then((response) => {
         if(response) {
-          console.log('this.currentSearchedMarker', this.currentSearchedMarker);
-          console.log('this.currentMarkerIndex', this.currentMarkerIndex);
           if(this.currentSearchedMarker == this.currentMarkerIndex) {
             $("#gmap_place_input input").val('');
           }
