@@ -701,7 +701,7 @@ module.exports= {
   please_note: "Please note:",
   upload_team_note: "uploading teams from an Excel file will overwrite all existing team data.",
   team_sheet_format: "The Excel sheet must be formatted with the following column headers:",
-  age_category: "Age category",
+  age_category: "Age Category",
   add_a_category: "Add Category",
   edit_category: "Edit Category",
   category: "Category",
