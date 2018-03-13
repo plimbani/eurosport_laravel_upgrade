@@ -33,6 +33,10 @@
 		'404_page_title' => 'Error 404 - page not found',
 		'404_page_message' => 'This might be because you have typed the web address incorrectly, or the page you were looking for may have been moved, updated or deleted. <a href=":url">Click here</a> to return to the homepage.',
 		'no_locations_found' => 'No locations found',
-		'no_photos_found' => 'No photos found'
+		'no_photos_found' => 'No photos found',
+		'stay_introduction_content' => 'Introduction content',
+		'visitors_arrival_and_check_in' => 'Arrival and check-in',
+		'visitors_public_transport' => 'Public transport',
+		'visitors_tips_for_visitors' => 'Tips for visitors',
 	]
 ?>
