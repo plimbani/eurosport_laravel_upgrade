@@ -83,7 +83,7 @@
 										<div class="row align-items-center">
 											<div class="col-sm-3">
 												<transition-image v-if="tournament_logo_image != ''" :image_url="tournament_logo_image" :image_class="'img-fluid'"></transition-image>
-												<img v-if="tournament_logo_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
+												<img v-if="tournament_logo_image == ''" src="http://placehold.it/250x250?text=No%20image" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
 												<button v-if="tournament_logo_image != '' && is_tournament_logo_uploading == false" class="btn btn-default" @click="removeImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
@@ -99,7 +99,7 @@
 										<div class="row align-items-center">
 											<div class="col-sm-3">
 												<transition-image v-if="social_sharing_graphic_image != ''" :image_url="social_sharing_graphic_image" :image_class="'img-fluid'"></transition-image>
-												<img v-if="social_sharing_graphic_image == ''" src="http://placehold.it/250x250?text=noimage" class="img-fluid" />
+												<img v-if="social_sharing_graphic_image == ''" src="http://placehold.it/250x250?text=No%20image" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
 												<button v-if="social_sharing_graphic_image != '' && is_social_sharing_image_uploading == false" class="btn btn-default" @click="removeSocialSharingImage($event)">{{$lang.tournament_tournament_remove_button}}</button>

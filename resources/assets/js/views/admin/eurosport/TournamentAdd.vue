@@ -84,7 +84,7 @@
                       <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
                       <div class="pull-right">
                         <div v-if="!image">
-                        <img  src="http://placehold.it/250x250?text=noimage"
+                        <img  src="http://placehold.it/250x250?text=No%20image"
                              class="thumb-size" />
                             <!--<button type="button" name="btnSelect" id="btnSelect">-->
                             <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
@@ -343,7 +343,7 @@ $('#btnSelect').on('click',function(){
 })
 
 let tId = this.$store.state.Tournament.tournamentId
- 
+
 if(tId.length != 0) {
 this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
 this.tournamentId = this.$store.state.Tournament.tournamentId
@@ -430,7 +430,7 @@ $('#tournament_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
   let vm = this
     let startDate = moment($('#tournament_start_date').val(), 'DD/MM/YYYY')
     let endDate = moment($('#tournament_end_date').val(), 'DD/MM/YYYY')
-    this.tournamentDateDiff = endDate.diff(startDate, 'days') 
+    this.tournamentDateDiff = endDate.diff(startDate, 'days')
     $('#tournament_end_date').datepicker('setStartDate', moment($('#tournament_start_date').val(), 'DD/MM/YYYY').format("DD/MM/YYYY"))
   $('#tournament_start_date').datepicker().on('changeDate',function(){
 
