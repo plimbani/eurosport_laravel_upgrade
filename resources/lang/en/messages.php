@@ -31,6 +31,13 @@
 		'send' => 'Send',
 		'contact_confirmation_message' => 'Thanks for getting in touch. Someone will get back to you shortly.',
 		'404_page_title' => 'Error 404 - page not found',
-		'404_page_message' => 'This might be because you have typed the web address incorrectly, or the page you were looking for may have been moved, updated or deleted. <a href=":url">Click here</a> to return to the homepage.'
+		'404_page_message' => 'This might be because you have typed the web address incorrectly, or the page you were looking for may have been moved, updated or deleted. <a href=":url">Click here</a> to return to the homepage.',
+
+		'contact_form_name' => 'Your name',
+		'contact_form_email' => 'Your email address',
+		'contact_form_telephone' => 'Your telephone number',
+		'contact_form_message' => 'Your message',
+		'contact_form_subject' => 'Message subject',
+		'contact_form_send_btn' => 'Send',
 	]
 ?>

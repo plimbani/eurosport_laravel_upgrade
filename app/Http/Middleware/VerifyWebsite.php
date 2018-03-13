@@ -67,7 +67,7 @@ class VerifyWebsite
             'broadcastChannel' => env('BROADCAST_CHANNEL'),
         ]);
 
-        Config::set('wot.current_domain', $domain);
+        // Config::set('wot.current_domain', $domain);
 
         return $next($request);
     }
