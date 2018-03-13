@@ -193,10 +193,10 @@ class TournamentRepository
                     'stage_continue_date' => $newStageContinuedate,
                     'stage_end_date' => $newStageEnddate,
                   ]);
-                
+
               }
             }
-          
+
             //update dates in all matches
             $matchesAll = TempFixture::where('tournament_id',$tournamentId)->get();
             if($matchesAll->count() > 0) {
@@ -216,9 +216,9 @@ class TournamentRepository
                   ]);
                 }
               }
-            } 
+            }
           }
-         
+
 
 
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
@@ -682,5 +682,27 @@ class TournamentRepository
     {
       $publishedTournaments = Tournament::where('status', 'Published')->get();
       return $publishedTournaments;
+    }
+
+    public function getFilterDropDownData($data)
+    {
+      $tournamentId = $data['tournamentId'];
+      $filterBy = $data['filterBy'];
+      $resultData = array();
+      switch($filterBy) {
+        case 'team':
+          $resultData = Team::where('teams.tournament_id', $tournamentId)->select('id', 'name')->get();
+          break;
+        case 'category_and_competition':
+          $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
+                          ->select('id',\DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"),'tournament_template_id')
+                          ->get();
+          break;
+        case 'location':
+          $resultData = Venue::where('tournament_id', $tournamentId)->select('id','name')->get();
+          break;
+      }
+
+      return $resultData;
     }
 }
