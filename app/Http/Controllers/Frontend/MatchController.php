@@ -4,6 +4,7 @@ namespace Laraspace\Http\Controllers\Frontend;
 
 use Landlord;
 use Illuminate\Http\Request;
+use Laraspace\Models\Tournament;
 use Laraspace\Api\Services\PageService;
 use Laraspace\Api\Contracts\MatchContract;
 
@@ -39,11 +40,14 @@ class MatchController extends Controller
     public function getMatchPageDetails(Request $request)
     {
         $varsForView = [];
-        $websiteId = Landlord::getTenants()['website']->id;
+        $website = Landlord::getTenants()['website'];
+        $websiteId = $website->id;
         $pageDetail = $this->pageService->getPageDetails($this->matchPageName, $websiteId);
+        $tournament = $website->linked_tournament!=null ? Tournament::find($website->linked_tournament) : null;
 
         // Page title
         $varsForView['pageTitle'] = $pageDetail->title;
+        $varsForView['tournament'] = $tournament->toArray();
 
         return view('frontend.matches', $varsForView);
     }

@@ -16,7 +16,7 @@
         </div>
       </gmap-info-window>
     </gmap-map>
-  </div>  
+  </div>
 </template>
 <script>
 import Website from '../api/website.js';
@@ -69,6 +69,7 @@ export default {
       mapStyle: 'green',
       scrollwheel: true,
       currentMarkerIndex: -1,
+      currentSearchedMarker: 0,
     }
   },
   computed: {
@@ -173,6 +174,7 @@ export default {
         marker.position.lat = place.geometry.location.lat();
         marker.position.lng = place.geometry.location.lng();
         this.updateInfoWindow(marker, this.markers.length - 1);
+        this.currentSearchedMarker = this.currentMarkerIndex;
       }
     },
     updateInfoWindow: function(marker, index) {
@@ -191,6 +193,9 @@ export default {
     saveMarker() {
       this.$validator.validateAll().then((response) => {
         if(response) {
+          if(this.currentSearchedMarker == this.currentMarkerIndex) {
+            $("#gmap_place_input input").val('');
+          }
           this.markers[this.currentMarkerIndex].information = this.infoContent;
           this.toggleInfoWindow(this.currentMarkerIndex);
         }
@@ -199,11 +204,11 @@ export default {
       });
     },
     deleteMarker() {
-      this.toggleInfoWindow(this.currentMarkerIndex);      
+      this.toggleInfoWindow(this.currentMarkerIndex);
       this.markers.splice(this.currentMarkerIndex, 1);
     },
     getMarkers() {
-      this.$emit('setMarkers', this.markers);      
+      this.$emit('setMarkers', this.markers);
     },
   }
 }
