@@ -88,6 +88,9 @@ $api->version('v1', function ($api) {
     $api->get('pitch/reportCard/{pitchId}',
         'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
 
+    // placings data route
+    $api->post('age_group/getPlacingsData','Laraspace\Api\Controllers\AgeGroupController@getPlacingsData');
+
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
@@ -182,9 +185,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('age_group/delete/{deleteid}', 'Laraspace\Api\Controllers\AgeGroupController@delete');
     $api->post('age_group/createCompetationFomat','Laraspace\Api\Controllers\AgeGroupController@createCompetationFomat');
     $api->post('age_group/deleteCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@deleteCompetationFormat');
-
-    // placings data route
-    $api->post('age_group/getPlacingsData','Laraspace\Api\Controllers\AgeGroupController@getPlacingsData');
 
     $api->get('venues/getAll/{tournamentId}', 'Laraspace\Api\Controllers\VenueController@getVenues');
 
