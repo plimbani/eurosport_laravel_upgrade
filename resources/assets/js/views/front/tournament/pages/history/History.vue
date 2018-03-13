@@ -1,6 +1,6 @@
 <template>
   <div>
-    <finalPlacings></finalPlacings>
+    <finalPlacings v-if="showFinalPlacings()"></finalPlacings>
     <historyYearWise></historyYearWise>
   </div>
 </template>
@@ -13,7 +13,7 @@
   export default {
     data() {
       return {
-
+        tournamentData: tournamentData,
       }
     },
     mounted() {
@@ -21,6 +21,11 @@
     components: {
       FinalPlacings,
       HistoryYearWise,
+    },
+    method() {
+      showFinalPlacings() {
+        return true;
+      }
     }
   };
 </script>
