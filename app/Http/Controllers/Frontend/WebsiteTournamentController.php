@@ -7,6 +7,7 @@ use Laraspace\Models\Page;
 use Illuminate\Http\Request;
 use Laraspace\Models\Tournament;
 use Laraspace\Api\Services\PageService;
+use Laraspace\Api\Contracts\AgeGroupContract;
 use Laraspace\Api\Contracts\WebsiteTournamentContract;
 
 class WebsiteTournamentController extends Controller
@@ -41,8 +42,9 @@ class WebsiteTournamentController extends Controller
      *
      * @return void
      */
-    public function __construct(WebsiteTournamentContract $websiteTournamentContract, PageService $pageService)
+    public function __construct(WebsiteTournamentContract $websiteTournamentContract, PageService $pageService, AgeGroupContract $ageGroupObj)
     {
+      $this->ageGroupObj = $ageGroupObj;
       $this->pageService = $pageService;
       $this->websiteTournamentContract = $websiteTournamentContract;
       $this->tournamentPageName = 'tournament';
@@ -105,9 +107,15 @@ class WebsiteTournamentController extends Controller
       $parentPage = Page::find($pageParentId);
       $tournament = $website->linked_tournament!=null ? Tournament::find($website->linked_tournament) : null;
 
+      // Get competition list for final placing.
+      $data = [];
+      $data['tournamentData'] = ['tournament_id' => $tournament->id];
+      $competitionList = $this->ageGroupObj->GetCompetationFormat($data);
+
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
       $varsForView['tournament'] = $tournament->toArray();
+      $varsForView['competitionList'] = $competitionList['data'];
 
       return view('frontend.history', $varsForView);
     }

@@ -1,4 +1,5 @@
 module.exports= {
+  no_information_available: 'No information available',
   matches: {
     'match_overview': 'Match overview',
     'all_dates': 'All dates',
@@ -29,5 +30,15 @@ module.exports= {
     'difference': 'Difference',
     'points': 'Points',
     'no_matches_found': 'No matches found',
-  }
+  },
+  tournament: {
+    'category_name': 'Category name',
+    'age_category': 'Age category',
+    'placings': 'Placings',
+    'view_placings': 'View placings',
+    'final_placings': 'Final placings',
+    'close': 'Close',
+    'placing': 'Placing',
+    'cancel': 'Cancel',
+  },
 };
