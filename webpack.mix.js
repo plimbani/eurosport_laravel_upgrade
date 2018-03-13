@@ -60,6 +60,8 @@ mix.combine([
 
 .js('resources/assets/js/views/front/matches/matchlist.js', 'public/assets/js/frontend/matchlist.js')
 
+.js('resources/assets/js/views/front/tournament/tournamenthistory.js', 'public/assets/js/frontend/tournamenthistory.js')
+
 .sass('resources/assets/sass/laraspace.scss', 'public/assets/css/')
 
 .sass('resources/assets/sass/frontend.scss', 'public/assets/css/')

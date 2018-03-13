@@ -5,8 +5,9 @@ namespace Laraspace\Http\Controllers\Frontend;
 use Landlord;
 use Laraspace\Models\Page;
 use Illuminate\Http\Request;
-use Laraspace\Api\Contracts\WebsiteTournamentContract;
+use Laraspace\Models\Tournament;
 use Laraspace\Api\Services\PageService;
+use Laraspace\Api\Contracts\WebsiteTournamentContract;
 
 class WebsiteTournamentController extends Controller
 {
