@@ -32,6 +32,7 @@
 		'contact_confirmation_message' => 'Dziękujemy za skontaktowanie się z nami. Ktoś wkrótce skontaktuje się z Tobą.',
 		'404_page_title' => 'Błąd 404 - strona nie została odnaleziona',
 		'404_page_message' => 'Przyczyną może być niepoprawne wpisanie adresu internetowego lub strony, której szukasz, mogła zostać ona przeniesiona, zaktualizowana lub usunięta. <a href=":url">Kliknij tutaj
-		</a>, aby powrócić na stronę główną.'
+		</a>, aby powrócić na stronę główną.',
+		'match_schedule_message' => 'The match schedule will be available 2-3 weeks before the tournament begins.',
 	]
 ?>

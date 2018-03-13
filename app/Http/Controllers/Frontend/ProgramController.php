@@ -44,8 +44,13 @@ class ProgramController extends Controller
       $websiteId = Landlord::getTenants()['website']->id;
       $pageDetail = $this->pageService->getPageDetails($this->programPageName, $websiteId);
 
+      $pageParentId = $pageDetail->id;
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
       // Page title
       $varsForView['pageTitle'] = $pageDetail->title;
+
+      $varsForView['itineraries'] = $this->programContract->getItineraries($websiteId)['data'];
 
       return view('frontend.program', $varsForView);
     }
@@ -70,9 +75,10 @@ class ProgramController extends Controller
         App::abort(404);
       }
 
+      $varsForView['additionalPage'] = $page;      
       // page title
       $varsForView['pageTitle'] = $parentPageDetail->title . ' - ' . $page->title;
 
-      return view('frontend.program', $varsForView);
+      return view('frontend.program_additional_page', $varsForView);
     }
 }
