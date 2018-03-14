@@ -47,16 +47,23 @@ mix.combine([
     pluginPath + 'fullcalendar/fullcalendar.js',
     pluginPath + 'fullcalendar-scheduler/scheduler1.js',
     pluginPath + 'fullcalendar/draggable.js',
-    
+
 ],'public/assets/js/core/plugins.js')
+
+.combine([
+    pluginPath + 'select2/select2.js',
+],'public/assets/js/core/matches-plugins.js')
 
 .js('resources/assets/js/app.js','public/assets/js/')
 
 .js('resources/assets/js/app-messages.js', 'public/assets/js/frontend/app-messages.js')
+
+.js('resources/assets/js/views/front/matches/matchlist.js', 'public/assets/js/frontend/matchlist.js')
+
+.js('resources/assets/js/views/front/tournament/tournamenthistory.js', 'public/assets/js/frontend/tournamenthistory.js')
 
 .sass('resources/assets/sass/laraspace.scss', 'public/assets/css/')
 
 .sass('resources/assets/sass/frontend.scss', 'public/assets/css/')
 
 .version()
-

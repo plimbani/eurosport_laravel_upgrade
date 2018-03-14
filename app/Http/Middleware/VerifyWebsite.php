@@ -10,6 +10,7 @@ use Landlord;
 use Redirect;
 use JavaScript;
 use Carbon\Carbon;
+use LaravelLocalization;
 use Laraspace\Models\Page;
 use Laraspace\Models\Website;
 
@@ -68,6 +69,10 @@ class VerifyWebsite
         ]);
 
         Config::set('wot.current_domain', $domain);
+
+        JavaScript::put([
+          'currentLocale' => LaravelLocalization::getCurrentLocale()
+        ]);
 
         return $next($request);
     }
