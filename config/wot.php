@@ -132,7 +132,7 @@ return [
           'is_published' => 0,
           'is_permission_changeable' => 1,
           'accessible_routes' => ['accommodation.page.details']
-	  		]  			
+	  		]
   		]
   	],
   	[
@@ -222,4 +222,5 @@ return [
     'cc' => [],
     'bcc' => ['ssheth@aecordigital.com'],
   ],
+  'inquiries_recipient' => 'ssheth@aecordigital.com',
 ];

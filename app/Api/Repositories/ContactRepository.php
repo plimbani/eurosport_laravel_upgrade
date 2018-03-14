@@ -3,7 +3,10 @@
 namespace Laraspace\Api\Repositories;
 
 use DB;
+use Landlord;
+use Carbon\Carbon;
 use Laraspace\Models\Contact;
+use Laraspace\Models\Inquiry;
 use Laraspace\Traits\AuthUserDetail;
 
 class ContactRepository
@@ -45,5 +48,30 @@ class ContactRepository
       $contact->updated_by = $currentLoggedInUserId;
       $contact->save();
     }
+  }
+
+  /*
+   * Save inquiry details
+   *
+   * @return response
+   */
+  public function saveInquiryDetails($data)
+  {
+    $ipAddress = $data->ip();
+    $data = $data->all();
+    $websiteId = Landlord::getTenants()['website']->id;
+
+    $inquiry = new Inquiry();
+    $inquiry->name = $data['name'];
+    $inquiry->email = $data['email'];
+    $inquiry->telephone_number = $data['telephone_number'];
+    $inquiry->subject = $data['subject'];
+    $inquiry->message = $data['message'];
+    $inquiry->website_id = '1';
+    $inquiry->ip_address = $ipAddress;
+    $inquiry->created_at = Carbon::now();
+    $inquiry->save();
+
+    return $inquiry;
   }
 }

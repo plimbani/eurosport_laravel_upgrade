@@ -64,6 +64,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Google re-captcha site key
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'google_re_captcha_site_key' => env('GOOGLE_RE_CAPTCHA_SITE_KEY'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Google re-captcha site key
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'google_re_captcha_secret_key' => env('GOOGLE_RE_CAPTCHA_SECRET_KEY'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
@@ -235,6 +253,7 @@ return [
         Laraspace\Api\Providers\ContactServiceProvider::class,
         Laraspace\Api\Providers\UploadMediaServiceProvider::class,
         Laraspace\Providers\ComposerServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -293,6 +312,8 @@ return [
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];

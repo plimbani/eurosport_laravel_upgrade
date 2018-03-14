@@ -2,6 +2,8 @@
 
 namespace Laraspace\Api\Services;
 
+use Landlord;
+use Laraspace\Custom\Helper\Common;
 use Laraspace\Api\Contracts\ContactContract;
 use Laraspace\Api\Repositories\ContactRepository;
 
@@ -40,7 +42,7 @@ class ContactService implements ContactContract
   public function getContactDetails($websiteId)
   {
     $data = $this->contactRepo->getContactDetails($websiteId);
-    
+
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
 
@@ -52,7 +54,29 @@ class ContactService implements ContactContract
   public function saveContactDetails($data)
   {
     $data = $this->contactRepo->saveContactDetails($data);
-    
+
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+  }
+
+  /*
+   * Save inquiry details
+   *
+   * @return response
+   */
+  public function saveInquiryDetails($data)
+  {
+    $data = $this->contactRepo->saveInquiryDetails($data);
+
+    $email_details = $data;
+    $currentWebsite = Landlord::getTenants()['website'];
+    $recipient = config('wot.inquiries_recipient');
+
+    $email_msg = 'Message from ' . $currentWebsite->tournament_name  .'Website';
+    $email_from = $data->email;
+    $email_templates = 'emails.frontend.send_inquiries';
+
+    Common::sendMail($email_details, $recipient, $email_msg, $email_templates, $email_from);
+
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
 }
