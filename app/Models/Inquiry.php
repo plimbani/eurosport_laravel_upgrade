@@ -11,7 +11,7 @@ class Inquiry extends Model
      *
      * @var string
      */
-    protected $table = 'inquieries';
+    protected $table = 'inquiries';
 
     public $timestamps = false;
 }

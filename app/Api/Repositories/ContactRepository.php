@@ -67,7 +67,7 @@ class ContactRepository
     $inquiry->telephone_number = $data['telephone_number'];
     $inquiry->subject = $data['subject'];
     $inquiry->message = $data['message'];
-    $inquiry->website_id = '1';
+    $inquiry->website_id = $websiteId;
     $inquiry->ip_address = $ipAddress;
     $inquiry->created_at = Carbon::now();
     $inquiry->save();

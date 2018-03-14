@@ -59,6 +59,11 @@ class ContactController extends Controller
     public function submitInquiry(Request $request)
     {
         $inquiryDetail = $this->contactContract->saveInquiryDetails($request);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Inquiry has been submitted'
+        ]);
     }
 
 }

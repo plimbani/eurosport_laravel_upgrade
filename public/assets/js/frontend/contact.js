@@ -47,8 +47,7 @@ var Contact = function() {
                         $('input[type=text], textarea').val('');
                         grecaptcha.reset();
                         $('.js-frm-create-inquiry').hide();
-                        $('.js-inquiry-success-message').css('display', 'block');
-                        $('.js-inquiry-success-message').html('Thanks for getting in touch.<br>Someone will get back to you shortly.');
+                        $('.js-inquiry-success-message').show();
                       }
                     });
                 }

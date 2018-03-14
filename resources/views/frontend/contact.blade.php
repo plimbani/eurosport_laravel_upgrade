@@ -18,6 +18,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="alert alert-success js-inquiry-success-message" role="alert" style="display: none">
+							{!! __('messages.inquiry_form_success_message') !!}
 						</div>
 					</div>
 				</div>
@@ -57,7 +58,7 @@
 						<div class="form-group">
 							<div class="col-md-9">
 								<div class="g-recaptcha" data-sitekey="{{ config('app.google_re_captcha_site_key') }}"></div>
-								<span class="recaptcha-errorspan" style="color:#f00; display: none;">Please validate reCAPTCHA</span>
+								<span class="recaptcha-errorspan" style="color:#f00; display: none;">{!! __('messages.recaptcha_error_message') !!}</span>
 							</div>
 						</div>
 					</div>
