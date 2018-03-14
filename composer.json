@@ -21,6 +21,7 @@
         "laravel/framework": "5.4.*",
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "^2.1",
+        "mariuzzo/laravel-js-localization": "^1.4",
         "mcamara/laravel-localization": "^1.3",
         "predis/predis": "^1.1",
         "t1st3/php-json-minify": "^0.6.2",

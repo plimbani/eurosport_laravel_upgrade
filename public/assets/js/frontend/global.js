@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	Lang.setLocale(Site.currentLocale);
+	
 	// More / Less links
 	$('ul.js-list').each(function(){
 		var teamsLength = $(this).find('li').length;
@@ -16,4 +18,6 @@ $(document).ready(function() {
 		}
 		$(this).siblings('li.toggleable').slideToggle();
 	});
+
+	console.log(Lang.get('messages.teams'));
 });
