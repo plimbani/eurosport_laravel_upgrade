@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	Lang.setLocale(Site.currentLocale);
-	
+
 	// More / Less links
 	$('ul.js-list').each(function(){
 		var teamsLength = $(this).find('li').length;
@@ -25,8 +25,9 @@ $(document).ready(function() {
 });
 
 function customValidationMessages() {
-	jQuery.extend(jQuery.validator.messages, {
-		required: "This field is required"
-	});
+	if ($.validator) {
+		jQuery.extend(jQuery.validator.messages, {
+			required: "This field is required"
+		});
+	}
 }
->>>>>>> b98f39eb290976ecb57602ef8cafb9a6ddc50258
