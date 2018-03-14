@@ -19,5 +19,14 @@ $(document).ready(function() {
 		$(this).siblings('li.toggleable').slideToggle();
 	});
 
+	customValidationMessages();
+
 	console.log(Lang.get('messages.teams'));
 });
+
+function customValidationMessages() {
+	jQuery.extend(jQuery.validator.messages, {
+		required: "This field is required"
+	});
+}
+>>>>>>> b98f39eb290976ecb57602ef8cafb9a6ddc50258
