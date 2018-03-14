@@ -17,4 +17,11 @@ interface ContactContract
      * @return response
      */
     public function saveContactDetails($data);
+
+    /*
+     * Save inquiry details
+     *
+     * @return response
+     */
+    public function saveInquiryDetails($data);
 }

@@ -16,4 +16,12 @@ $(document).ready(function() {
 		}
 		$(this).siblings('li.toggleable').slideToggle();
 	});
+
+	customValidationMessages();
 });
+
+function customValidationMessages() {
+	jQuery.extend(jQuery.validator.messages, {
+		required: "This field is required"
+	});
+}

@@ -132,7 +132,7 @@ return [
           'is_published' => 0,
           'is_permission_changeable' => 1,
           'accessible_routes' => ['accommodation.page.details']
-	  		]  			
+	  		]
   		]
   	],
   	[
@@ -222,4 +222,7 @@ return [
     'cc' => [],
     'bcc' => ['ssheth@aecordigital.com'],
   ],
+  'inquiries_recipient' => ['ssheth@aecordigital.com'],
+  'google_re_captcha_site_key' => env('GOOGLE_RE_CAPTCHA_SITE_KEY', ''),
+  'google_re_captcha_secret_key' => env('GOOGLE_RE_CAPTCHA_SECRET_KEY', '')
 ];
