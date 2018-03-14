@@ -57,7 +57,7 @@
 						</div>
 						<div class="form-group">
 							<div class="col-md-9">
-								<div class="g-recaptcha" data-sitekey="{{ config('app.google_re_captcha_site_key') }}"></div>
+								<div class="g-recaptcha" data-sitekey="{{ config('wot.google_re_captcha_site_key') }}"></div>
 								<span class="recaptcha-errorspan" style="color:#f00; display: none;">{!! __('messages.recaptcha_error_message') !!}</span>
 							</div>
 						</div>
