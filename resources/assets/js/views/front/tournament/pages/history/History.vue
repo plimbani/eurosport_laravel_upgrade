@@ -27,12 +27,13 @@
         if(!this.tournamentData) {
           return false;
         }
-        console.log('this.tournamentData.end_date', this.tournamentData.end_date);
-        console.log(moment(this.tournamentData.end_date, 'DD/MM/YYYY'));
-        console.log('moment.utc()', moment.utc());
-        console.log('moment.utc();', moment(this.tournamentData.end_date, 'DD/MM/YYYY').diff(moment.utc().format('DD/MM/YYYY'), 'days'));
-        console.log('this.tournamentData', this.tournamentData);
-        return true;
+        var currentUtcDate = moment.utc();
+        var tournamentEndDate = moment(this.tournamentData.end_date, 'DD/MM/YYYY');
+        var differenceInDays = currentUtcDate.diff(tournamentEndDate, 'days');
+        if(differenceInDays > 0) {
+          return true;
+        }
+        return false;
       },
     }
   };

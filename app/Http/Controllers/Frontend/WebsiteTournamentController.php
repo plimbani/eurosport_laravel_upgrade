@@ -112,10 +112,13 @@ class WebsiteTournamentController extends Controller
       $data['tournamentData'] = ['tournament_id' => $tournament->id];
       $competitionList = $this->ageGroupObj->GetCompetationFormat($data);
 
+      $allHistoryYears = $this->websiteTournamentContract->getAllHistoryYears($websiteId);
+
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
       $varsForView['tournament'] = $tournament->toArray();
       $varsForView['competitionList'] = $competitionList['data'];
+      $varsForView['allHistoryYears'] = $allHistoryYears['data'];
 
       return view('frontend.history', $varsForView);
     }
