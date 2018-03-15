@@ -38,6 +38,15 @@
         }
       }}
     </style>
+    <style id="antiClickjack">body{display:none !important;}</style>
+    <script type="text/javascript">
+        if (self === top) {
+            var antiClickjack = document.getElementById("antiClickjack");
+            antiClickjack.parentNode.removeChild(antiClickjack);
+        } else {
+            top.location = self.location;
+        }
+    </script>
 </head>
 <body class="layout-default skin-default">
     <div class="loader js-loader d-none">
