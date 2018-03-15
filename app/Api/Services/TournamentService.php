@@ -12,10 +12,13 @@ use Laraspace\Models\Tournament;
 use Validate;
 use JWTAuth;
 use Laraspace\Models\User;
+use Laraspace\Traits\TournamentAccess;
 use View;
 
 class TournamentService implements TournamentContract
 {
+    use TournamentAccess;
+
     /**
      *  Messages To Display.
      */
@@ -396,9 +399,15 @@ class TournamentService implements TournamentContract
     public function tournamentSummary($data)
     {
         $data = $data->all();
+
+        $isTournamentAccessible = $this->checkForTournamentAccess($data['tournamentId']);
+        if(!$isTournamentAccessible) {
+          abort(403, 'Unauthorized action.');
+        }
+
         $tournamentData = $this->tournamentRepoObj->tournamentSummary($data['tournamentId']);
         if ($tournamentData) {
-            return ['status_code' => '200', 'data'=>$tournamentData];
+          return ['status_code' => '200', 'data'=>$tournamentData];
         }
     }
 
