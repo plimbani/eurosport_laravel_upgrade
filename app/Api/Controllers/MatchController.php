@@ -189,6 +189,9 @@ class MatchController extends BaseController
 
     public function automateMatchScheduleAndResult(Request $request, $tournamentId = null, $ageGroupId = null)
     {
+        if(config('config-variables.is_automate_match_schedule_enabled') == false) {
+            abort(404);
+        }
         $status = 'success';
         try {
             if($tournamentId === null) {
