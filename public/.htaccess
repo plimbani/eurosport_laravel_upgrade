@@ -19,6 +19,13 @@
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 </IfModule>
 
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection "1; mode=block"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "SAMEORIGIN"
+    Header set X-Content-Type-Options nosniff
+</IfModule>
+
 <Files "web.config">
     Order Allow,Deny
     Deny from all
