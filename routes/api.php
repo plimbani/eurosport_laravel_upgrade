@@ -50,10 +50,6 @@ $api->version('v1', function ($api) {
     // $api->get('mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
     $api->get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
 
-    $api->post('password/updateUserPassword', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@updateUserPassword')->name('password.request'); 
-
-
-
     $api->get('match/report/generate/{ageGroupId}', 
         'Laraspace\Api\Controllers\MatchController@generateCategoryReport');  
 
@@ -65,7 +61,7 @@ $api->version('v1', function ($api) {
     $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData'); 
     $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result'); 
 
-    $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');  
+    $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
   
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index'); 
 
