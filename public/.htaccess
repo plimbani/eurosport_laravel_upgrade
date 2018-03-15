@@ -18,3 +18,17 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 </IfModule>
+
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection "1; mode=block"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "same-origin"
+    Header set X-Content-Type-Options nosniff
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' cdnjs.cloudflare.com cdn.polyfill.io maps.googleapis.com; connect-src 'self'; img-src 'self' data: *.s3.amazonaws.com placehold.it; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' 'unsafe-inline' fonts.gstatic.com; "
+    Header edit Set-Cookie ^(.*)$ $1;Secure
+</IfModule>
+
+<Files "web.config">
+    Order Allow,Deny
+    Deny from all
+</Files>
