@@ -34,7 +34,7 @@
 </template>
 
 <script type="text/babel">
-	import MatchList from '../../../../../../api/matchlist.js';
+	import MatchList from '../../../../../../api/frontend/matchlist.js';
 
 	export default {
 		props: ['currentCompetitionId', 'competitionType'],

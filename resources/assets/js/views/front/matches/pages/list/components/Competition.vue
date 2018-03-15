@@ -57,7 +57,7 @@
 <script type="text/babel">
   import Matches from './Matches.vue';
   import TeamStanding from './TeamStanding.vue';
-  import MatchList from '../../../../../../api/matchlist.js';
+  import MatchList from '../../../../../../api/frontend/matchlist.js';
 
   export default {
     props: ['matches', 'competitionDetail', 'currentView'],

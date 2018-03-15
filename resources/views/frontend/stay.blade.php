@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h2>Introduction content</h2>
+<h2>{!! __('messages.stay_introduction_content') !!}</h2>
 {!! $stayContent->content !!}
 <div class="row">
 	<div class="col-sm-4">

@@ -14,6 +14,7 @@
   <script type="text/javascript">
     var tournamentData = {!! json_encode($tournament) !!};
     var competitionList = {!! json_encode($competitionList) !!};
+    var allHistoryYears = {!! json_encode($allHistoryYears) !!}
   </script>
   <script type="text/javascript" src="{{ mix('assets/js/frontend/tournamenthistory.js') }}"></script>
 @endsection

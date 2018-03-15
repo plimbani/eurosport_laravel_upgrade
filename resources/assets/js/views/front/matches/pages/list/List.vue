@@ -37,7 +37,7 @@
 </template>
 
 <script type="text/babel">
-  import MatchList from '../../../../../api/matchlist.js';
+  import MatchList from '../../../../../api/frontend/matchlist.js';
   import Matches from './components/Matches.vue';
   import Competition from './components/Competition.vue';
 

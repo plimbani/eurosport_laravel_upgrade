@@ -65,7 +65,8 @@ class VerifyWebsite
             'websiteId' => $website->id,
             'serverAddr' => env('BROADCAST_SERVER_ADDRESS'),
             'serverPort' => env('BROADCAST_SERVER_PORT'),
-            'broadcastChannel' => env('BROADCAST_CHANNEL'),
+            'broadcastChannel' => config('broadcasting.channel'),
+            'appSchema' => config('app.app_scheme'),
         ]);
 
         // Config::set('wot.current_domain', $domain);

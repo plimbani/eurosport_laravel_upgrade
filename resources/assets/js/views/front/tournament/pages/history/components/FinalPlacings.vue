@@ -14,7 +14,7 @@
             <td>{{ competition.group_name }}</td>
             <td class="text-center">{{ competition.category_age }}</td>
             <td class="text-center">
-              <a @click="getAgeCategoryDetail(competition.id)" class="text-primary" href="#" data-toggle="modal" data-target="#viewPlacingsModal">
+              <a @click="getAgeCategoryDetail(competition.id)" class="text-primary" href="#" data-toggle="modal" data-target="#final_placing_modal">
                 <u>{{ $t('tournament.view_placings') }}</u>
               </a>
             </td>
@@ -59,9 +59,23 @@
       }
     },
     mounted() {
-
     },
     methods: {
+      getAgeCategoryDetail(ageCategoryId) {
+        let ageCategoryData = {'ageCategoryId': ageCategoryId};
+        this.positionData = [];
+        Tournament.getPlacingsData(ageCategoryData).then(
+          (response) => {
+            this.positionData = response.data.data
+          },
+          (error) => {
+          }
+        )
+      },
+      closeModal() {
+        $('#final_placing_modal').modal('hide');
+        return false;
+      },
     },
   };
 </script>

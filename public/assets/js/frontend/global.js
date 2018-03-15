@@ -1,12 +1,8 @@
 $(document).ready(function() {
+	Lang.setLocale(Site.currentLocale);
+
 	// More / Less links
-	$('ul.js-list').each(function(){
-		var teamsLength = $(this).find('li').length;
-		if(teamsLength > 5) {
-			$('li', this).eq(4).nextAll().hide().addClass('toggleable');
-		  $(this).append('<li class="more">More...</li>');
-		}
-	});
+	initializeList();
 
 	$(document).on('click', 'ul.js-list .more', function() {
 		if($(this).hasClass('less')){
@@ -18,10 +14,27 @@ $(document).ready(function() {
 	});
 
 	customValidationMessages();
+
+	console.log(Lang.get('messages.teams'));
 });
 
 function customValidationMessages() {
-	jQuery.extend(jQuery.validator.messages, {
-		required: "This field is required"
+	if ($.validator) {
+		jQuery.extend(jQuery.validator.messages, {
+			required: "This field is required"
+		});
+	}
+}
+
+function initializeList() {
+	$('ul.js-list').each(function() {
+		var teamsLength = $(this).find('li').length;
+		$('li.more', this).remove();
+		$('li.less', this).remove();
+		$('li', this).eq(4).nextAll().show().removeClass('toggleable');
+		if(teamsLength > 5) {
+			$('li', this).eq(4).nextAll().hide().addClass('toggleable');
+			$(this).append('<li class="more">More...</li>');
+		}
 	});
 }
