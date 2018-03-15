@@ -10,6 +10,7 @@ use Landlord;
 use Redirect;
 use JavaScript;
 use Carbon\Carbon;
+use LaravelLocalization;
 use Laraspace\Models\Page;
 use Laraspace\Models\Website;
 
@@ -64,10 +65,15 @@ class VerifyWebsite
             'websiteId' => $website->id,
             'serverAddr' => env('BROADCAST_SERVER_ADDRESS'),
             'serverPort' => env('BROADCAST_SERVER_PORT'),
-            'broadcastChannel' => env('BROADCAST_CHANNEL'),
+            'broadcastChannel' => config('broadcasting.channel'),
+            'appSchema' => config('app.app_scheme'),
         ]);
 
-        Config::set('wot.current_domain', $domain);
+        // Config::set('wot.current_domain', $domain);
+
+        JavaScript::put([
+          'currentLocale' => LaravelLocalization::getCurrentLocale()
+        ]);
 
         return $next($request);
     }

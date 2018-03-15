@@ -5,8 +5,10 @@ namespace Laraspace\Http\Controllers\Frontend;
 use Landlord;
 use Laraspace\Models\Page;
 use Illuminate\Http\Request;
-use Laraspace\Api\Contracts\WebsiteTournamentContract;
+use Laraspace\Models\Tournament;
 use Laraspace\Api\Services\PageService;
+use Laraspace\Api\Contracts\AgeGroupContract;
+use Laraspace\Api\Contracts\WebsiteTournamentContract;
 
 class WebsiteTournamentController extends Controller
 {
@@ -40,8 +42,9 @@ class WebsiteTournamentController extends Controller
      *
      * @return void
      */
-    public function __construct(WebsiteTournamentContract $websiteTournamentContract, PageService $pageService)
+    public function __construct(WebsiteTournamentContract $websiteTournamentContract, PageService $pageService, AgeGroupContract $ageGroupObj)
     {
+      $this->ageGroupObj = $ageGroupObj;
       $this->pageService = $pageService;
       $this->websiteTournamentContract = $websiteTournamentContract;
       $this->tournamentPageName = 'tournament';
@@ -97,13 +100,25 @@ class WebsiteTournamentController extends Controller
     public function getHistoryPageDetails(Request $request)
     {
       $varsForView = [];
-      $websiteId = Landlord::getTenants()['website']->id;
+      $website = Landlord::getTenants()['website'];
+      $websiteId = $website->id;
       $pageDetail = $this->pageService->getPageDetails($this->historyPageName, $websiteId);
       $pageParentId = $pageDetail->parent_id;
       $parentPage = Page::find($pageParentId);
+      $tournament = $website->linked_tournament!=null ? Tournament::find($website->linked_tournament) : null;
+
+      // Get competition list for final placing.
+      $data = [];
+      $data['tournamentData'] = ['tournament_id' => $tournament->id];
+      $competitionList = $this->ageGroupObj->GetCompetationFormat($data);
+
+      $allHistoryYears = $this->websiteTournamentContract->getAllHistoryYears($websiteId);
 
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
+      $varsForView['tournament'] = $tournament->toArray();
+      $varsForView['competitionList'] = $competitionList['data'];
+      $varsForView['allHistoryYears'] = $allHistoryYears['data'];
 
       return view('frontend.history', $varsForView);
     }

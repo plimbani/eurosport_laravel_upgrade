@@ -52,7 +52,6 @@
 
     {{-- Page specific custom scripts --}}
     @yield('page-scripts')
-    
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('wot.google_api_key') }}"></script>
+        
 </body>
 </html>

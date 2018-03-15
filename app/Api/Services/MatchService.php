@@ -351,7 +351,7 @@ class MatchService implements MatchContract
       foreach ($teamArray as $ageGroupId => $teamsList) {
         $teamsList = array_unique($teamsList);
         $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>true);
-        $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);        
+        $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
       }
       if ($matchResult) {
         return ['status_code' => '200', 'data' => $matchResult];

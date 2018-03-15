@@ -196,6 +196,7 @@ return [
         HipsterJazzbo\Landlord\LandlordServiceProvider::class,
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
 
         /*
          *  Custom Service Providers
@@ -235,6 +236,7 @@ return [
         Laraspace\Api\Providers\ContactServiceProvider::class,
         Laraspace\Api\Providers\UploadMediaServiceProvider::class,
         Laraspace\Providers\ComposerServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -293,6 +295,8 @@ return [
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];
