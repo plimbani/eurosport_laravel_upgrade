@@ -65,7 +65,8 @@
 					<div class="form-actions">
 					    <div class="row">
 					        <div class="col-md-offset-3 col-md-9">
-					            <button type="submit" class="btn button btn-primary js-contact-frm-submit-btn">{!! __('messages.contact_form_send_btn') !!}</button>
+					            <button type="submit" class="btn button btn-primary js-contact-frm-submit-btn"
+					            onClick="gtag('event', 'submit', { event_category: 'form', event_label: 'contact'});">{!! __('messages.contact_form_send_btn') !!}</button>
 					        </div>
 					    </div>
 					</div>
