@@ -174,7 +174,7 @@ const routes = [
     },
     {
         path: '/admin', component: FullLayoutTournament,
-        meta: { requiresAuth: true },   
+        meta: { requiresAuth: true },
         children: [
             {
                 path: 'enlarge_pitch_planner',
@@ -279,7 +279,10 @@ const routes = [
 const router = new VueRouter({
     routes,
     mode: 'history',
-    linkActiveClass: 'active'
+    linkActiveClass: 'active',
+    scrollBehavior (to, from, savedPosition) {
+      return { x: 0, y: 0 }
+    }
 })
 
 router.beforeEach((to, from, next) => {

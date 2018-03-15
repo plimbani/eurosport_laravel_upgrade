@@ -12,7 +12,7 @@
 					        		<div>{{ sponsor.website }}</div>
 					  			</div>
 				  			</div>
-				        	<div class="draggable--section-card-header-panel-icons">
+				        	<div class="draggable--section-card-header-icons">
 						        <a class="text-primary" href="javascript:void(0)"
 						        	@click="deleteSponsor(index)">
 						        	<i class="jv-icon jv-dustbin"></i>
