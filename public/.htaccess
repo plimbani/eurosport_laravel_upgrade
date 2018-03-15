@@ -22,9 +22,8 @@
 <IfModule mod_headers.c>
     Header set X-XSS-Protection "1; mode=block"
     Header always set X-Frame-Options "SAMEORIGIN"
-    Header always set Referrer-Policy "SAMEORIGIN"
+    Header always set Referrer-Policy "same-origin"
     Header set X-Content-Type-Options nosniff
-    Header set Content-Security-Policy "default-src 'self';"
 </IfModule>
 
 <Files "web.config">
