@@ -16,7 +16,7 @@ trait AuthUserDetail
 	{
 		$token=JWTAuth::getToken();
 		$authUser = JWTAuth::parseToken()->toUser();
-		$userObj = User::with('roles')->where('id', $authUser->id)->first();
+		$userObj = User::with('roles', 'tournaments')->where('id', $authUser->id)->first();
 
 		return $userObj;
 	}
