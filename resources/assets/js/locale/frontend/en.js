@@ -40,5 +40,6 @@ module.exports= {
     'close': 'Close',
     'placing': 'Placing',
     'cancel': 'Cancel',
+    'tournament_year': 'Tournament year'
   },
 };

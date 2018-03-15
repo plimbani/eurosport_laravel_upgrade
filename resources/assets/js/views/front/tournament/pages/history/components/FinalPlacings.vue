@@ -72,6 +72,10 @@
           }
         )
       },
+      closeModal() {
+        $('#final_placing_modal').modal('hide');
+        return false;
+      },
     },
   };
 </script>

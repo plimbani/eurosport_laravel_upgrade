@@ -27,7 +27,7 @@
 		<script>
 			var markers = {!! json_encode($markers) !!};
 		</script>
-		<script src="{{ asset('assets/js/venue.js') }}"></script>
+		<script src="{{ asset('assets/js/frontend/venue.js') }}"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key={{ config('wot.google_api_key') }}&&callback=venueMap"></script>
 	@endif
 @endsection

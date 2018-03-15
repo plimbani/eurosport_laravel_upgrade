@@ -43,6 +43,10 @@
 		'no_locations_found' => 'No locations found',
 		'no_photos_found' => 'No photos found',
 		'recaptcha_error_message' => 'Please validate reCAPTCHA',
-		'inquiry_form_success_message' =>'Thanks for getting in touch.<br>Someone will get back to you shortly.'
+		'inquiry_form_success_message' =>'Thanks for getting in touch.<br>Someone will get back to you shortly.',
+		'stay_introduction_content' => 'Introduction content',
+		'visitors_arrival_and_check_in' => 'Arrival and check-in',
+		'visitors_public_transport' => 'Public transport',
+		'visitors_tips_for_visitors' => 'Tips for visitors',
 	]
 ?>

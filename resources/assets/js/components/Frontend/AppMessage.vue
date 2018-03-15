@@ -11,7 +11,7 @@
 <script type="text/babel">
     import _ from 'lodash';
     import store from './../../store';
-    import AppMessages from './../../api/appmessages.js';
+    import AppMessages from './../../api/frontend/appmessages.js';
     export default  {
         props: ['recent_messages'],
         data() {
