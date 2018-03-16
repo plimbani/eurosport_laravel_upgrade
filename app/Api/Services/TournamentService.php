@@ -413,6 +413,11 @@ class TournamentService implements TournamentContract
 
     public function generateReport($data)
     {
+      $isTournamentAccessible = $this->checkForTournamentAccess($data['tournament_id']);
+      if(!$isTournamentAccessible) {
+        abort(403, 'Unauthorized action.');
+      }
+
       $reportQuery = DB::table('temp_fixtures')
           ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
           ->leftjoin('teams as home_team', function ($join) {

@@ -52,10 +52,10 @@ class UserRepository {
                         ->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
             });
         }
-        
+
         if(isset($data['userType']) && $data['userType'] !== '') {
             $user = $user->where('roles.slug', '=', $data['userType']);
-        }   
+        }
 
         $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale');
 
@@ -73,7 +73,7 @@ class UserRepository {
                 $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
                 $isDesktopUser = ($user->is_desktop_user == 1) ? 'Yes': 'No';
                 $isMobileUser = ($user->is_mobile_user == 1) ? 'Yes': 'No';
-                
+
                 $ddata = [
                         $user->first_name,
                         $user->last_name,
@@ -132,14 +132,14 @@ class UserRepository {
                 $deletedUser->restore();
 
                 $userData = User::find($deletedUser['id'])->update($userData);
-               
+
                 // $userData->roles()->detatch();
                 $user = User::find($deletedUser['id']);
                 $user->roles()->sync($data['userType']);
                 return ['status' => 'updated', 'user' => $user];
 
                 // return {'status':'updated','user':$user};
-               
+
                  // return  $deletedUser->attachRole($data['userType']);
             }else{
                     $user = User::create($userData);
@@ -226,7 +226,7 @@ class UserRepository {
     }
     public function postSetting($userData)
     {
-        
+
       \Log::info($userData);
       $userId= $userData['userId'];
       $updatedValue = ['value' => json_encode($userData['userSettings'])];
@@ -246,7 +246,7 @@ class UserRepository {
       $user->tournaments()->sync([]);
       $user->tournaments()->attach($data['tournaments']);
       return true;
-    } 
+    }
 
     public function getUserTournaments($id) {
       $user = User::find($id);

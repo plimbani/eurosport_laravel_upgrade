@@ -5,6 +5,9 @@ namespace Laraspace\Api\Controllers;
 use Brotzka\DotenvEditor\DotenvEditor;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\Team\StoreRequest;
+use Laraspace\Http\Requests\Team\UpdateRequest;
+use Laraspace\Http\Requests\Team\AssignTeamRequest;
 
 
 // Need to Define Only Contracts
@@ -70,7 +73,7 @@ class TeamController extends BaseController
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
 
-    public function createTeam(Request $request)
+    public function createTeam(StoreRequest $request)
     {
         $teamData = $request->all();
         // dd($teamData);
@@ -99,7 +102,7 @@ class TeamController extends BaseController
             return ['bigFileSize' =>  false];
      
     }
-    public function assignTeam(Request $request) {        
+    public function assignTeam(AssignTeamRequest $request) {        
         return $this->teamObj->assignTeams($request->all());
     }
     public function getAllTeamsGroup(Request $request) {
@@ -166,7 +169,7 @@ class TeamController extends BaseController
         return $this->teamObj->getAllClubs();
     }
 
-    public function updateTeamDetails(Request $request, $teamId)
+    public function updateTeamDetails(UpdateRequest $request, $teamId)
     {
         return $this->teamObj->updateTeamDetails($request, $teamId);
     }
