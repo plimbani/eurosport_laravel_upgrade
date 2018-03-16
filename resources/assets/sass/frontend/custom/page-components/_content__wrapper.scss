@@ -1,0 +1,41 @@
+.content__wrapper {
+    .organiser {
+        &_logo {
+            img {
+                max-width: 100%;
+                @extend .mb-3;
+                @include media-breakpoint-down(md) {
+                    max-height: 100px;
+                }
+            }
+        }
+    }
+    .club_content {
+        &-heading {
+            @include media-breakpoint-down(md) {
+                font-size: $font-size-base * 1.2;
+            }
+        }
+        @at-root {
+            .figure-thumb {
+                display: block;
+            }
+            .figure,
+            .figure-thumb {
+                &.right {
+                    float: right
+                }
+                img {
+                    width: 100%;
+                    box-shadow: 0px 10px 20px 0px rgba($black, .15);
+                }
+                .figure-caption {
+                    font-weight: 700;
+                    color: $black;
+                    text-transform: uppercase;
+                    font-size: ($font-size-base * 0.78);
+                }
+            }
+        }
+    }
+}

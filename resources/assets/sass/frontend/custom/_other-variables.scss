@@ -1,0 +1,25 @@
+// Variables
+// --------------------------
+$fa-font-path:                "../../../fonts/frontend/webfonts";
+$space-row-gutter-tiny:		  12px;
+
+// $theme-colors: (
+//   	"semi-dark":      $gray-500
+// );
+
+$spacers: (
+	gt: $space-row-gutter-tiny,
+	cb: $card-spacer-x
+);
+
+$header-height: 60px;
+$hero-height: 457px;
+$hero-height-sm: 325px;
+$club-logo: 222px;
+$wrapper-small-club-logo: ($club-logo - 100px);
+$club-logo-sm: 158px;
+$club-logo-box: $club-logo - $grid-gutter-width;
+$club-logo-box-sm: $club-logo-sm - $grid-gutter-width;
+$club-logo-padding: 24px;
+$club-logo-padding-sm: $club-logo-padding/2;
+$club-logo-bg: $body-bg;

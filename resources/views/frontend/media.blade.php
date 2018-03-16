@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.frontend.inner')
 @section('plugin-styles')
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
 @endsection
@@ -7,7 +7,7 @@
 		@if(count($photos) > 0)
 			@foreach($photos as $photo)
 				<div class="col-sm-4">
-					<a href="{{ $photo->image('large') }}" data-toggle="lightbox" data-title="{{ $photo->caption }}" data-gallery="example-gallery">		
+					<a href="{{ $photo->image('large') }}" data-toggle="lightbox" data-title="{{ $photo->caption }}" data-gallery="example-gallery">
 						<img src="{{ $photo->image('thumbnail') }}">
 						<p>{{ $photo->caption }}</p>
 					</a>

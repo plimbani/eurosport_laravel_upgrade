@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.frontend.inner')
 
 @section('content')
 	<h1>{!! __('messages.program') !!}</h1>

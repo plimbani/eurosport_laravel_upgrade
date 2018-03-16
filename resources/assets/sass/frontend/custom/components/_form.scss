@@ -1,0 +1,87 @@
+.custom_select {
+    position: relative;
+    display: block;
+    max-width: 100%;
+    z-index: 1;
+    margin-bottom: 0;
+    background-image: linear-gradient(-180deg, $gray-100 0%, $gray-200 100%);
+    border: 1px solid $input-border-color;
+    letter-spacing: 0;
+    @if $enable-rounded {
+        // Manually use the if/else instead of the mixin to account for iOS override
+        border-radius: $input-border-radius;
+    }
+    @else {
+        // Otherwise undo the iOS default
+        border-radius: 0;
+    }
+    &.round {
+        border-radius: 50px;
+    }
+    select {
+        border: none;
+        outline: none;
+        background: transparent;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+        display: block;
+        width: 100%;
+        padding: $input-padding-y 50px $input-padding-y $input-padding-x;
+        font-size: $font-size-base;
+        line-height: $input-line-height;
+        color: $input-color;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+    &:after {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 100%;
+        font-family: 'Font Awesome 5 Pro';
+        font-weight: 900;
+        content: "\f0d7";
+        color: #222222;
+        font-size: $font-size-base;
+        border-left: 1px solid rgba(159, 194, 235, 0.4);
+        z-index: -1;
+    }
+    &.custom_select-1 {
+        background: $gray-800;
+        border: 2px solid $gray-700;
+        display: inline-block;
+        select {
+            font-size: ($font-size-base*0.789);
+            @include media-breakpoint-down(sm) {
+            	font-size: ($font-size-base);
+            }
+            color: $white;
+            line-height: 1;
+        }
+        &:after {
+            color: $white;
+            font-size: ($font-size-base*0.789);
+            border-left: 2px solid $gray-700;
+        }
+    }
+    &.custom_select-2 {
+        background-image: linear-gradient(-180deg, theme-color("primary") 0%, theme-color("shade-50") 100%);
+        border: 1px solid rgba(theme-color("primary"), 0.5);
+        box-shadow: 0 5px 10px 0 rgba($black, 0.25);
+        select {
+            color: $white;
+        }
+        &:after {
+            color: $white;
+            font-size: ($font-size-base*1.5);
+            border-left: 1px solid rgba(theme-color("primary"), 0.5);
+        }
+    }
+}

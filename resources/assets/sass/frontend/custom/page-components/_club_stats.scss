@@ -1,0 +1,64 @@
+.club_stats {
+    position: relative;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-clip: border-box;
+    background-size: cover;
+    &-banner {
+        top: 0;
+        bottom: 0;
+        position: absolute;
+        left: 0;
+        right: 0;
+        background: rgba(theme-color('primary'), 0.8);
+        z-index: 1;
+    }
+    &-overlay {
+        z-index: 2;
+        position: relative;
+        padding: 60px 0;
+        >.container,
+        >.container-fluid {
+            @extend .d-flex;
+            @extend .flex-column;
+            height: 100%;
+        }
+
+        .info_tile-circle {
+            text-align: center;
+            width: 163px;
+            height: 163px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            @extend .d-flex;
+            @extend .flex-column;
+            @extend .justify-content-center;
+            background: rgb(0, 0, 0);
+            background: linear-gradient(180deg, rgba($white, 1) 0%, rgba(theme-color('light'), 1) 100%);
+            color: theme-color('primary');
+            border-radius: 50%;
+            border: 2px solid theme-color('primary-light');
+            @include media-breakpoint-down(md) {
+                width: 150px;
+                height: 150px;
+            }
+            @include media-breakpoint-down(sm) {
+                width: 130px;
+                height: 130px;
+                h2 {
+                    font-size: $font-size-lg;
+                }
+                span {
+                    font-size: 80%;
+                }
+            }
+            h2,
+            span {
+                font-weight: 700;
+                line-height: 1;
+            }
+        }
+    }
+}

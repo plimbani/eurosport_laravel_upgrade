@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.frontend.inner')
 
 @section('content')
 
@@ -18,7 +18,7 @@
 			<a href="{{ url($additionalPage->url) }}" class="btn btn-primary w-100">{{ $additionalPage->title }}</a>
 		</div>
 	@endif
-@endforeach	
+@endforeach
 </div>
 
 @endsection

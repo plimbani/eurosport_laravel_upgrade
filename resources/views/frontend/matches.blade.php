@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.frontend.inner')
 
 @section('content')
   <div id="matches_list">

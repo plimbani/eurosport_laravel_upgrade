@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.frontend.inner')
 
 @section('content')
 	<h2 class="text-center">{!! __('messages.contact') !!}</h2>

@@ -18,27 +18,33 @@
 
     <!-- Stylesheets required for application -->
     @include('partials.frontend.app-css')
-
     {{-- Stylesheets --}}
+
     {{-- Page specific plugin styles --}}
     @yield('plugin-styles')
 
-    <link rel="stylesheet" id="css-main" href="{{ mix('assets/css/frontend.css') }}">
+    <link rel="stylesheet" href="{{ mix('assets/css/frontend/theme-1.css') }}">
 
     @yield('page-styles')
     {{-- END Stylesheets --}}
 </head>
 
 <body>
-    <div>
-        @include('partials.frontend.header')
-        <main id="main-container">
-            @include('partials.frontend.messages')
-            @include('flash::message')
-            @yield('content')
-        </main>
-        @include('partials.frontend.footer')
-    </div>
+    @include('partials.frontend.header')
+
+    @include('partials.frontend.inner-hero-section')
+
+    @include('partials.frontend.quick-links')
+
+    @include('partials.frontend.tournament-messages')
+
+    @include('flash::message')
+
+    @yield('content')
+
+    @include('partials.frontend.sponsors')
+
+    @include('partials.frontend.footer')
 
     @yield('modals')
 
@@ -52,6 +58,6 @@
 
     {{-- Page specific custom scripts --}}
     @yield('page-scripts')
-        
+
 </body>
 </html>

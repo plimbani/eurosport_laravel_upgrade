@@ -66,4 +66,6 @@ mix.combine([
 
 .sass('resources/assets/sass/frontend.scss', 'public/assets/css/')
 
+.sass('resources/assets/sass/frontend/theme-1.scss', 'public/assets/css/frontend/')
+
 .version()
