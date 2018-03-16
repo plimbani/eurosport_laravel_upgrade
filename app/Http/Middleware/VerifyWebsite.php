@@ -13,9 +13,38 @@ use Carbon\Carbon;
 use LaravelLocalization;
 use Laraspace\Models\Page;
 use Laraspace\Models\Website;
+use Laraspace\Api\Services\PageService;
+use Laraspace\Api\Contracts\WebsiteContract;
 
 class VerifyWebsite
 {
+    /**
+     * @var Home page name
+     */
+    protected $homePageName;
+
+    /**
+     * @var Page service
+     */
+    protected $pageService;
+
+    /**
+     * @var Website contract
+     */
+    protected $websiteContract;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(PageService $pageService, WebsiteContract $websiteContract)
+    {
+        $this->websiteContract = $websiteContract;
+        $this->pageService = $pageService;
+        $this->homePageName = 'home';
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -53,6 +82,10 @@ class VerifyWebsite
             App::abort(404);
         }
 
+        // Get image path
+        $imagesPath = $this->websiteContract->getImagesPath();
+        View::share('images_path', $imagesPath);
+
         // Get all website's organisers
         $organisers = $website->organisers;
         View::share('organisers', $organisers);
@@ -61,6 +94,18 @@ class VerifyWebsite
         $sponsors = $website->sponsors;
         View::share('sponsors', $sponsors);
 
+        // Theme CSS path
+        $colorThemes = config('wot.colorthemes');
+        $themeCss = $website->color ? mix('frontend/css/' . $colorThemes[$website->color]) : mix('assets/css/frontend/main.css');
+        View::share('theme_css', $themeCss);
+
+        // Hero image
+        $homePageDetail = $this->pageService->getPageDetails($this->homePageName, $website->id);
+        $homePageMeta = $homePageDetail->meta;
+        $heroImage = ($homePageMeta && isset($homePageMeta['hero_image']) && $homePageMeta['hero_image']) ? $homePageMeta['hero_image'] : null;
+        $heroImage = config('filesystems.disks.s3.url') . config('wot.imagePath.hero_image') . $heroImage;
+        View::share('hero_image', $heroImage);
+
         JavaScript::put([
             'websiteId' => $website->id,
             'serverAddr' => env('BROADCAST_SERVER_ADDRESS'),
@@ -68,8 +113,6 @@ class VerifyWebsite
             'broadcastChannel' => config('broadcasting.channel'),
             'appSchema' => config('app.app_scheme'),
         ]);
-
-        // Config::set('wot.current_domain', $domain);
 
         JavaScript::put([
           'currentLocale' => LaravelLocalization::getCurrentLocale()

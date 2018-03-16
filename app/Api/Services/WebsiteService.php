@@ -32,7 +32,7 @@ class WebsiteService implements WebsiteContract
    * @var predefined conversion sizes
    */
   protected $conversions;
-  
+
 	/**
    *  Success message
    */
@@ -147,12 +147,22 @@ class WebsiteService implements WebsiteContract
    *
    * @return response
    */
+  public function getImagesPath()
+  {
+    return array_map(function($path){
+      return $this->getAWSUrl.$path;
+    }, $this->imagePath);
+  }
+
+  /*
+   * Get configuration detail
+   *
+   * @return response
+   */
   public function getConfigurationDetail()
   {
     $data = [];
-    $imagePath = array_map(function($path){
-      return $this->getAWSUrl.$path;
-    }, $this->imagePath);
+    $imagePath = $this->getImagesPath();
     $data['imagePath'] = $imagePath;
     $googleMapKey = env('GOOGLE_API_KEY');
     $data['googleMapKey'] = $googleMapKey;
@@ -179,7 +189,7 @@ class WebsiteService implements WebsiteContract
   public function getSponsors($websiteId)
   {
     $data = $this->websiteRepo->getAllSponsors($websiteId);
-    
+
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
 
@@ -199,9 +209,9 @@ class WebsiteService implements WebsiteContract
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
     ImageConversion::dispatch(
-      $filename, 
-      $this->tempImagePath, 
-      $this->imagePath['website_tournament_logo'], 
+      $filename,
+      $this->tempImagePath,
+      $this->imagePath['website_tournament_logo'],
       $this->conversions['website_tournament_logo']
     );
 
@@ -240,9 +250,9 @@ class WebsiteService implements WebsiteContract
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
     ImageConversion::dispatch(
-      $filename, 
-      $this->tempImagePath, 
-      $this->imagePath['sponsor_logo'], 
+      $filename,
+      $this->tempImagePath,
+      $this->imagePath['sponsor_logo'],
       $this->conversions['sponsor_logo']
     );
 
@@ -265,9 +275,9 @@ class WebsiteService implements WebsiteContract
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
     ImageConversion::dispatch(
-      $filename, 
-      $this->tempImagePath, 
-      $this->imagePath['hero_image'], 
+      $filename,
+      $this->tempImagePath,
+      $this->imagePath['hero_image'],
       $this->conversions['hero_image']
     );
 
@@ -290,9 +300,9 @@ class WebsiteService implements WebsiteContract
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
     ImageConversion::dispatch(
-      $filename, 
-      $this->tempImagePath, 
-      $this->imagePath['welcome_image'], 
+      $filename,
+      $this->tempImagePath,
+      $this->imagePath['welcome_image'],
       $this->conversions['welcome_image']
     );
 
@@ -315,9 +325,9 @@ class WebsiteService implements WebsiteContract
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
     ImageConversion::dispatch(
-      $filename, 
-      $this->tempImagePath, 
-      $this->imagePath['organiser_logo'], 
+      $filename,
+      $this->tempImagePath,
+      $this->imagePath['organiser_logo'],
       $this->conversions['organiser_logo']
     );
 

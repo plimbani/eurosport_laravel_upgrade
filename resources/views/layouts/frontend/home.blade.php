@@ -23,7 +23,7 @@
     {{-- Page specific plugin styles --}}
     @yield('plugin-styles')
 
-    <link rel="stylesheet" href="{{ mix('assets/css/frontend/theme-1.css') }}">
+    <link rel="stylesheet" href="{{ $theme_css }}">
 
     @yield('page-styles')
     {{-- END Stylesheets --}}
@@ -34,7 +34,7 @@
 
     @include('partials.frontend.home-hero-section')
 
-    @include('partials.frontend.quick-links')
+    @include('partials.frontend.home-quick-links')
 
     @include('partials.frontend.tournament-messages')
 

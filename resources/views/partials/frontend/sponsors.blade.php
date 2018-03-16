@@ -12,30 +12,11 @@
             </div>
         </div>
         <div class="d-flex align-items-center flex-wrap justify-content-center mb-5">
-            <div class="sponsored-logo">
-                <img src="images/sponsors/sponsor_1.png" alt="">
-            </div>
-            <div class="sponsored-logo">
-                <img src="images/sponsors/sponsor_2.png" alt="">
-            </div>
-            <div class="sponsored-logo">
-                <img src="images/sponsors/sponsor_3.png" alt="">
-            </div>
-            <div class="sponsored-logo">
-                <img src="images/sponsors/sponsor_4.png" alt="">
-            </div>
-            <div class="sponsored-logo">
-                <img src="images/sponsors/sponsor_5.png" alt="">
-            </div>
-            <div class="sponsored-logo">
-                <img src="images/sponsors/sponsor_6.png" alt="">
-            </div>
-            <div class="sponsored-logo">
-                <img src="images/sponsors/sponsor_7.png" alt="">
-            </div>
-            <div class="sponsored-logo">
-                <img src="images/sponsors/sponsor_8.png" alt="">
-            </div>
+            @foreach($sponsors as $sponsor)
+                <div class="sponsored-logo">
+                    <a target="_blank" href="{{ $sponsor->website }}"><img src="{{ $sponsor->sponsorLogo('small_thumbnail') }}" alt="{{ $sponsor->name }}"></a>
+                </div>
+            @endforeach
         </div>
     </div>
 </section>

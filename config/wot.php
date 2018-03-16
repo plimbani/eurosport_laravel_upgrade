@@ -183,6 +183,7 @@ return [
     ]
   ],
   'permissions_not_changeable_pages' => ['home', 'contact'],
+  'hide_header_menus' => ['home'],
   'current_domain' => null,
   'default_accessible_routes' => [],
   'google_api_key' => env('GOOGLE_API_KEY', ''),
@@ -224,5 +225,13 @@ return [
   ],
   'inquiries_recipient' => ['ssheth@aecordigital.com'],
   'google_re_captcha_site_key' => env('GOOGLE_RE_CAPTCHA_SITE_KEY', ''),
-  'google_re_captcha_secret_key' => env('GOOGLE_RE_CAPTCHA_SECRET_KEY', '')
+  'google_re_captcha_secret_key' => env('GOOGLE_RE_CAPTCHA_SECRET_KEY', ''),
+  'colorthemes' => [
+		'#D0021B' => 'theme-1.css',
+		'#FF9F00' => 'theme-2.css',
+		'#417505' => 'theme-3.css',
+		'#50E3C2' => 'theme-4.css',
+		'#1E469D' => 'theme-5.css',
+		'#9013FE' => 'theme-6.css',
+  ],
 ];

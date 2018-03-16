@@ -56,10 +56,9 @@
                             <span class="small text-uppercase text-muted">Organised by</span>
                         </div>
                         <div class="organiser_logo_footer">
-                            <img src="images/organizer/1.png" alt="">
-                            <img src="images/organizer/2.png" alt="">
-                            <img src="images/organizer/2.png" alt="">
-                            <img src="images/organizer/1.png" alt="">
+                            @foreach($organisers as $organiser)
+                                <img src="{{ $organiser->organiserLogo('small_thumbnail') }}" alt="{{ $organiser->name }}">
+                            @endforeach
                         </div>
                     </div>
                 </div>

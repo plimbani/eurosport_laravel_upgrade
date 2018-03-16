@@ -6,52 +6,30 @@
         </button>
         <div class="collapse navbar-collapse justify-content-lg-center" id="navbarText">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Team <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Matches</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Vanue</a>
-                </li>
-                <li class="nav-item active dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tournament</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <ul>
-                            <li class="nav-value">
-                                <a href="" class="current-tab">Tournament</a>
-                            </li>
-                            <li>
-                                <a href="">Rules</a>
-                            </li>
-                            <li>
-                                <a href="" class="active">History</a>
-                            </li>
-                            <li>
-                                <a href="">Another Page</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Program</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Stay</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Visitors</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Media</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
+                @foreach($menu_items as $item)
+                    @if(!in_array($item['page_name'], config('wot.hide_header_menus')))
+                        <li class="nav-item{{ (isset($item['children']) && count($item['children']) > 0) ? ' dropdown' : '' }}{{ in_array(Route::currentRouteName(), $item['accessible_routes']) ? ' active' : '' }}">
+                            @if(isset($item['children']) && count($item['children']) > 0)
+                                <a class="nav-link dropdown-toggle" href="{{ $item['url'] }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $item['title'] }}</a>
+                                <div class="dropdown-menu">
+                                    <ul>
+                                        <li class="nav-value">
+                                            <a href="{{ $item['url'] }}" class="current-tab">{{ $item['title'] }}</a>
+                                        </li>
+                                        @foreach($item['children'] as $childItem)
+                                            <li>
+                                                <a href="{{ $childItem['url'] }}" class="{{ in_array(Route::currentRouteName(), $childItem['accessible_routes']) ? 'active' : '' }}">{{ $childItem['title'] }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @else
+                                <a class="nav-link" href="{{ $item['url'] }}">{{ $item['title'] }}</a>
+                            @endif
+                        </li>
+                    @endif
+                @endforeach
             </ul>
-            <!-- <span class="navbar-text">
-            Navbar text with an inline element
-            </span> -->
         </div>
     </div>
 </nav>
