@@ -94,13 +94,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         App::setLocale($locale);
     }
 
-
-    // TODO: Move Method from web to api for Mobile App
-
-    $api->get('users/test', 'Laraspace\Api\Controllers\EnvController@test2');
-    // Team Stuff
-
-
     $api->post('teams', 'Laraspace\Api\Controllers\TeamController@getTeams'); 
     $api->post('clubs/getAll', 'Laraspace\Api\Controllers\TeamController@getClubs'); 
     $api->post('team/create', 'Laraspace\Api\Controllers\TeamController@createTeam'); 
