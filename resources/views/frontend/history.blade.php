@@ -1,13 +1,30 @@
 @extends('layouts.frontend.inner')
 
+@section('hero-section')
+	<div class="grid-full club_info">
+		<span class="club_info-detail">{!! __('messages.tournament') !!}</span>
+		<h1 class="club_info-title">{!! __('messages.history') !!}</h1>
+	</div>
+@endsection
+
+@section('quick-links')
+	@include('partials.frontend.quick-links.tournament')
+@endsection
+
 @section('content')
-
-  <div id="tournament_history">
-    <h1>{!! __('messages.history') !!}</h1>
-
-    <tournament-history></tournament-history>
-  </div>
-
+	<!-- Content wrapper -->
+	<div class="content__wrapper">
+	    <div class="container">
+	        <div class="row my-5">
+	            <div class="grid-22">
+	            </div>
+	            <div class="col-lg-8 club_content" id="tournament_history">
+	                <tournament-history></tournament-history>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- End of content wrapper -->
 @endsection
 
 @section('page-scripts')

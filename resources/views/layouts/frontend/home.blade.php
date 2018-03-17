@@ -36,7 +36,7 @@
 
     @include('partials.frontend.quick-links.home')
 
-    @include('partials.frontend.tournament-messages')
+    {{--@include('partials.frontend.tournament-messages')--}}
 
     @include('flash::message')
 

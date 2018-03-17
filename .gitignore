@@ -14,5 +14,5 @@ Thumbs.db
 .Spotlight-V100
 .Trashes
 .sass-cache
-/public/frontend/main.*.css
-/public/frontend/theme*.css
+/public/frontend/css/main.*.css
+/public/frontend/css/theme*.css

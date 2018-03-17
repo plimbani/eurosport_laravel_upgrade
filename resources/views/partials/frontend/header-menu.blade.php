@@ -18,7 +18,11 @@
                                         </li>
                                         @foreach($item['children'] as $childItem)
                                             <li>
-                                                <a href="{{ $childItem['url'] }}" class="{{ in_array(Route::currentRouteName(), $childItem['accessible_routes']) ? 'active' : '' }}">{{ $childItem['title'] }}</a>
+                                                @if($childItem['is_additional_page'] == 1)
+                                                    <a href="{{ $childItem['url'] }}" class="{{ app()->request->route('additionalPageName') == $childItem['page_name'] ? 'active' : '' }}">{{ $childItem['title'] }}</a>
+                                                @else
+                                                    <a href="{{ $childItem['url'] }}" class="{{ in_array(Route::currentRouteName(), $childItem['accessible_routes']) ? 'active' : '' }}">{{ $childItem['title'] }}</a>
+                                                @endif
                                             </li>
                                         @endforeach
                                     </ul>

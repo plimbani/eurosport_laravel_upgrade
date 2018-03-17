@@ -72,18 +72,12 @@
         <div class="row align-items-center copyright_section">
             <div class="col-md-9 d-none d-md-block">
                 <ul class="list-inline mb-0">
-                    <li class="list-inline-item">Copyright © 2018 Euro Sportring</li>
-                    <li class="list-inline-item"><a href="#">Terms & Conditions</a></li>
-                    <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+                    <li class="list-inline-item">Copyright © {{ Carbon\Carbon::now()->format('Y') }} Euro Sportring</li>
                 </ul>
             </div>
             <div class="col-12 text-center d-block d-md-none">
                 <ul class="list-inline mb-2">
-                    <li class="list-inline-item">Copyright © 2018 Euro Sportring</li>
-                </ul>
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item mr-4"><a href="#">Terms & Conditions</a></li>
-                    <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+                    <li class="list-inline-item">Copyright © {{ Carbon\Carbon::now()->format('Y') }} Euro Sportring</li>
                 </ul>
             </div>
             <div class="col-12 d-block d-md-none">

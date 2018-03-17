@@ -42,6 +42,14 @@
 
     @include('partials.frontend.sponsors')
 
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <hr class="hr my-5">
+            </div>
+        </div>
+    </div>
+
     @include('partials.frontend.footer')
 
     @yield('modals')

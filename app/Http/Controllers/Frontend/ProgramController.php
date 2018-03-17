@@ -75,7 +75,11 @@ class ProgramController extends Controller
         App::abort(404);
       }
 
-      $varsForView['additionalPage'] = $page;      
+      $varsForView['additionalPage'] = $page;
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($parentPageDetail->id, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+
       // page title
       $varsForView['pageTitle'] = $parentPageDetail->title . ' - ' . $page->title;
 

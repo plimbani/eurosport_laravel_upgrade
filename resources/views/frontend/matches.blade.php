@@ -1,14 +1,33 @@
 @extends('layouts.frontend.inner')
 
+@section('hero-section')
+	<div class="grid-full club_info">
+		<h1 class="club_info-title">{!! __('messages.matches') !!}</h1>
+	</div>
+@endsection
+
+@section('quick-links')
+	@include('partials.frontend.quick-links.home')
+@endsection
+
 @section('content')
-  <div id="matches_list">
-    <h2 class="text-center">{!! __('messages.matches') !!}</h2>
-    @if($tournament)
-      <match-listing></match-listing>
-    @else
-      {!! __('messages.match_schedule_message') !!}
-    @endif
-  </div>
+	<!-- Content wrapper -->
+	<div class="content__wrapper">
+    <div class="container">
+      <div class="row my-5">
+        <div class="grid-22">
+        </div>
+        <div class="col-lg-8 club_content" id="matches_list">
+          @if($tournament)
+              <match-listing></match-listing>
+          @else
+              {!! __('messages.match_schedule_message') !!}
+          @endif
+        </div>
+      </div>
+    </div>
+	</div>
+	<!-- End of content wrapper -->
 @endsection
 
 @section('page-scripts')
