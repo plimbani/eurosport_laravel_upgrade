@@ -13,6 +13,10 @@ $(document).ready(function() {
 		$(this).siblings('li.toggleable').slideToggle();
 	});
 
+	$(".js-locale-selection").on("change", function() {
+		window.location.href = $(".js-locale-selection option:selected").data("href");
+	});
+
 	customValidationMessages();
 
 	console.log(Lang.get('messages.teams'));
