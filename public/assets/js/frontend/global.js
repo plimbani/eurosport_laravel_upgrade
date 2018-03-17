@@ -1,9 +1,6 @@
 $(document).ready(function() {
 	Lang.setLocale(Site.currentLocale);
 
-	// More / Less links
-	initializeList();
-
 	$(document).on('click', 'ul.js-list .more', function() {
 		if($(this).hasClass('less')){
 			$(this).text('More...').removeClass('less');
@@ -19,13 +16,16 @@ $(document).ready(function() {
 
 	customValidationMessages();
 
+	// More / Less links
+	initializeList();
+
 	console.log(Lang.get('messages.teams'));
 });
 
 function customValidationMessages() {
 	if ($.validator) {
 		jQuery.extend(jQuery.validator.messages, {
-			required: "This field is required"
+			required: Lang.get('messages.required_field_message')
 		});
 	}
 }
@@ -38,7 +38,7 @@ function initializeList() {
 		$('li', this).eq(4).nextAll().show().removeClass('toggleable');
 		if(teamsLength > 5) {
 			$('li', this).eq(4).nextAll().hide().addClass('toggleable');
-			$(this).append('<li class="more">More...</li>');
+			$(this).append('<li class="more">' + Lang.get('messages.more') + '</li>');
 		}
 	});
 }

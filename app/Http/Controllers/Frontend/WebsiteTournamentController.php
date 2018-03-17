@@ -105,19 +105,24 @@ class WebsiteTournamentController extends Controller
       $pageDetail = $this->pageService->getPageDetails($this->historyPageName, $websiteId);
       $pageParentId = $pageDetail->parent_id;
       $parentPage = Page::find($pageParentId);
-      $tournament = $website->linked_tournament!=null ? Tournament::find($website->linked_tournament) : null;
+      $tournament = $website->linked_tournament!=null ? Tournament::find($website->linked_tournament)->toArray() : null;
 
       // Get competition list for final placing.
       $data = [];
-      $data['tournamentData'] = ['tournament_id' => $tournament->id];
-      $competitionList = $this->ageGroupObj->GetCompetationFormat($data);
+      $competitionListData = [];
+
+      if($tournament) {
+        $data['tournamentData'] = ['tournament_id' => $tournament['id']];
+        $competitionList = $this->ageGroupObj->GetCompetationFormat($data);
+        $competitionListData = $competitionList['data'];
+      }
 
       $allHistoryYears = $this->websiteTournamentContract->getAllHistoryYears($websiteId);
 
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
-      $varsForView['tournament'] = $tournament->toArray();
-      $varsForView['competitionList'] = $competitionList['data'];
+      $varsForView['tournament'] = $tournament;
+      $varsForView['competitionList'] = $competitionListData;
       $varsForView['allHistoryYears'] = $allHistoryYears['data'];
 
       return view('frontend.history', $varsForView);
