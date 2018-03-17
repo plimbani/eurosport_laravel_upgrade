@@ -8,24 +8,7 @@
 @endsection
 
 @section('quick-links')
-	<li class="nav-item">
-		<a class="nav-link active" href="#">
-			<span class="mr-2"><i class="fas fa-utensils"></i></span>
-			<span>Meals</span>
-		</a>
-	</li>
-	<li class="nav-item">
-		<a class="nav-link" href="#">
-			<span class="mr-2"><i class="fas fa-bed"></i></span>
-			<span>Accommodation</span>
-		</a>
-	</li>
-	<li class="nav-item">
-		<a class="nav-link" href="#">
-			<span class="mr-2"><i class="fas fa-file-alt"></i></span>
-			<span>Lorem ipsum dolor</span>
-		</a>
-	</li>
+	@include('partials.frontend.quick-links.tournament')
 @endsection
 
 @section('content')

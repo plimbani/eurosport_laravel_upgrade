@@ -1,24 +1,27 @@
 @extends('layouts.frontend.inner')
 
+@section('hero-section')
+	<div class="grid-full club_info">
+		<h1 class="club_info-title">{!! __('messages.stay') !!}</h1>
+	</div>
+@endsection
+
+@section('quick-links')
+	@include('partials.frontend.quick-links.stay')
+@endsection
+
 @section('content')
-
-<h2>{!! __('messages.stay_introduction_content') !!}</h2>
-{!! $stayContent->content !!}
-<div class="row">
-	<div class="col-sm-4">
-		<a href="{{ url('/meals') }}" class="btn btn-primary w-100">{!! __('messages.meals') !!}</a>
+	<!-- Content wrapper -->
+	<div class="content__wrapper">
+	    <div class="container">
+	        <div class="row my-5">
+	            <div class="grid-22">
+	            </div>
+	            <div class="col-lg-8 club_content">
+	                {!! $stayContent->content !!}
+	            </div>
+	        </div>
+	    </div>
 	</div>
-	<div class="col-sm-4">
-		<a href="{{ url('/accommodation') }}" class="btn btn-primary w-100">{!! __('messages.accommodation') !!}</a>
-	</div>
-
-@foreach($additionalPages as $additionalPage)
-	@if($additionalPage->is_published == 1)
-		<div class="col-sm-4">
-			<a href="{{ url($additionalPage->url) }}" class="btn btn-primary w-100">{{ $additionalPage->title }}</a>
-		</div>
-	@endif
-@endforeach
-</div>
-
+	<!-- End of content wrapper -->
 @endsection

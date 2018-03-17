@@ -23,5 +23,5 @@
         </div>
     </div>
 </div>
-@include('partials.frontend.inner-quick-links')
+@yield('quick-links')
 <!-- End of hero wrapper -->

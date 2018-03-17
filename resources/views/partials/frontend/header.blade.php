@@ -2,7 +2,7 @@
 <header>
     <div class="container">
         <div class="img-logo">
-            <a href="{{ url('/') }}"><img src="{{ asset('assets/img/logo-header.svg') }}" alt=""></a>
+            <a href="{{ url('/') }}"><img src="{{ asset('frontend/images/logo-header.svg') }}" alt=""></a>
         </div>
         <div class="text-uppercase text-white">
             <div class="d-flex align-items-center justify-content-end">

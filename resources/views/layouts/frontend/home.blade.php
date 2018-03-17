@@ -34,7 +34,7 @@
 
     @include('partials.frontend.home-hero-section')
 
-    @include('partials.frontend.home-quick-links')
+    @include('partials.frontend.quick-links.home')
 
     @include('partials.frontend.tournament-messages')
 

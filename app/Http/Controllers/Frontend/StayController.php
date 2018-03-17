@@ -80,6 +80,10 @@ class StayController extends Controller
       
       $parentPage = Page::find($pageParentId);
       $varsForView['mealsContent'] = $pageDetail;
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+      
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
 
@@ -100,6 +104,10 @@ class StayController extends Controller
       $parentPage = Page::find($pageParentId);
 
       $varsForView['accommodationContent'] = $pageDetail;
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+      
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
 

@@ -93,7 +93,7 @@
                 <div class="d-flex justify-content-center justify-content-lg-end">
                     <div class="d-inline-block flex-column">
                         <div class="copyright_section-logo">
-                            <img src="images/logo/logo-footer.svg" alt="">
+                            <img src="{{ asset('frontend/images/logo-footer.svg') }}" alt="">
                         </div>
                     </div>
                 </div>

@@ -82,6 +82,9 @@ class VerifyWebsite
             App::abort(404);
         }
 
+        // All accessible routes
+        View::share('accessible_routes', $accessibleRoutes);
+
         // Get image path
         $imagesPath = $this->websiteContract->getImagesPath();
         View::share('images_path', $imagesPath);
@@ -96,7 +99,7 @@ class VerifyWebsite
 
         // Theme CSS path
         $colorThemes = config('wot.colorthemes');
-        $themeCss = $website->color ? mix('frontend/css/' . $colorThemes[$website->color]) : mix('assets/css/frontend/main.css');
+        $themeCss = $website->color ? mix('frontend/css/' . $colorThemes[$website->color]) : mix('frontend/css/main.css');
         View::share('theme_css', $themeCss);
 
         // Hero image
