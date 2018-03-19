@@ -239,5 +239,11 @@ return [
     'program' => ['additional.program.page.details'],
     'stay' => ['meals.page.details', 'accommodation.page.details', 'additional.stay.page.details'],
     'visitors' => ['tourist.page.details'],
-  ]
+  ],
+	'font_files' => [
+		'Montserrat' => 'https://fonts.googleapis.com/css?family=Montserrat',
+		'Roboto' => 'https://fonts.googleapis.com/css?family=Roboto',
+		'Lato' => 'https://fonts.googleapis.com/css?family=Lato',
+		'PT Sans' => 'https://fonts.googleapis.com/css?family=PT+Sans',
+	],
 ];

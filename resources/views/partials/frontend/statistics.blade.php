@@ -4,38 +4,16 @@
     <div class="club_stats-overlay">
         <div class="container">
             <div class="row align-items-center justify-content-center h-100">
-                <div class="col-6 col-md-3 col-lg-3 col-xl-2">
-                    <div class="d-flex justify-content-center w-100">
-                        <div class="info_tile-circle">
-                            <h2>300</h2>
-                            <span>Team</span>
+                @foreach($statistics as $statistic)
+                    <div class="col-6 col-md-3 col-lg-3 col-xl-2">
+                        <div class="d-flex justify-content-center w-100">
+                            <div class="info_tile-circle">
+                                <h2>{{ $statistic->statisticCount() }}</h2>
+                                <span>{{ $statistic->statisticText() }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-6 col-md-3 col-lg-3 col-xl-2">
-                    <div class="d-flex justify-content-center w-100">
-                        <div class="info_tile-circle">
-                            <h2>15</h2>
-                            <span>Nations</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3 col-lg-3 col-xl-2">
-                    <div class="d-flex justify-content-center w-100">
-                        <div class="info_tile-circle">
-                            <h2>25</h2>
-                            <span>Years Experience</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3 col-lg-3 col-xl-2">
-                    <div class="d-flex justify-content-center w-100">
-                        <div class="info_tile-circle">
-                            <h2>1</h2>
-                            <span>Location</span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

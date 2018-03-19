@@ -1,7 +1,7 @@
 <div class="hero__wrapper">
     @include('partials.frontend.header-menu')
     <div class="hero__wrapper-banner">
-        <img src="{{ $hero_image }}" alt="">
+        <img src="{{ $hero_image }}" alt="Hero image" />
     </div>
     <div class="hero__wrapper-overlay">
         <div class="container">

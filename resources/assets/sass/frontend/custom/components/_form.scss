@@ -60,7 +60,7 @@
         select {
             font-size: ($font-size-base*0.789);
             @include media-breakpoint-down(sm) {
-            	font-size: ($font-size-base);
+                font-size: ($font-size-base);
             }
             color: $white;
             line-height: 1;

@@ -94,7 +94,7 @@ class VerifyWebsite
         $homePageDetail = $this->pageService->getPageDetails($this->homePageName, $website->id);
         $homePageMeta = $homePageDetail->meta;
         $heroImage = ($homePageMeta && isset($homePageMeta['hero_image']) && $homePageMeta['hero_image']) ? $homePageMeta['hero_image'] : null;
-        $heroImage = config('filesystems.disks.s3.url') . config('wot.imagePath.hero_image') . $heroImage;
+        $heroImage = config('filesystems.disks.s3.url') . config('wot.imagePath.hero_image') . Page::heroImageSize() . '/' . $heroImage;
         View::share('hero_image', $heroImage);
 
         $accessibleRoutesArray = $website->getPublishedPages()->pluck('accessible_routes')->toArray();

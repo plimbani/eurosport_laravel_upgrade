@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 300px">
+    <div>
         <div class="alert alert-dismissible alert-warning fade position-absolute show" role="alert" v-for="message in recent_messages" :key="message.id">
           {{ message.content }}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="dismissMessage(message.id)">

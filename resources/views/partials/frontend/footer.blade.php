@@ -4,38 +4,40 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="row">
-                    @php($itemsPerColumn = ceil($menu_items_count / 4))
+                    @php($itemsPerColumn = ceil( ($menu_items_count - count(config('wot.hide_header_menus'))) / 4))
                     @php($newColumnFlag = 1)
                     @php($itemCount = 0)
                     @php($columnCount = 0)
                     @foreach($menu_items as $item)
-                        @if($newColumnFlag == 1)
-                            @php($newColumnFlag = 0)
-                            @php($columnCount++)
-                            <div class="col-6 col-md-3{{ $columnCount > 2 ? ' mt-5 mt-md-0' : '' }}">
-                                <ul class="list-unstyled mb-0">
-                        @endif
-                                <li>
-                                    <a href="{{ $item['url'] }}">{{ $item['title'] }}</a>
-                                    @php($itemCount++)
-                                    @if(isset($item['children']) && count($item['children']) > 0)
-                                        <ul>
-                                            @foreach($item['children'] as $childItem)
-                                                <li>
-                                                    <a href="{{ $childItem['url'] }}">{{ $childItem['title'] }}</a>
-                                                </li>
-                                                @php($itemCount++)
-                                            @endforeach
-                                        </ul>
+                        @if(!in_array($item['page_name'], config('wot.hide_header_menus')))
+                            @if($newColumnFlag == 1)
+                                @php($newColumnFlag = 0)
+                                @php($columnCount++)
+                                <div class="col-6 col-md-3{{ $columnCount > 2 ? ' mt-5 mt-md-0' : '' }}">
+                                    <ul class="list-unstyled mb-0">
+                            @endif
+                                    <li>
+                                        <a href="{{ $item['url'] }}">{{ $item['title'] }}</a>
+                                        @php($itemCount++)
+                                        @if(isset($item['children']) && count($item['children']) > 0)
+                                            <ul>
+                                                @foreach($item['children'] as $childItem)
+                                                    <li>
+                                                        <a href="{{ $childItem['url'] }}">{{ $childItem['title'] }}</a>
+                                                    </li>
+                                                    @php($itemCount++)
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </li>
+                                    @if( ($itemCount >= $itemsPerColumn) || $loop->last)
+                                        @php($newColumnFlag = 1)
+                                        @php($itemCount = 0)
                                     @endif
-                                </li>
-                                @if( ($itemCount >= $itemsPerColumn) || $loop->last)
-                                    @php($newColumnFlag = 1)
-                                    @php($itemCount = 0)
-                                @endif
-                        @if($newColumnFlag == 1)
-                                </ul>
-                            </div>
+                            @if($newColumnFlag == 1)
+                                    </ul>
+                                </div>
+                            @endif
                         @endif
                     @endforeach
                 </div>

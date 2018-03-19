@@ -34,7 +34,7 @@
 
     @include('partials.frontend.inner-hero-section')
 
-    {{--@include('partials.frontend.tournament-messages')--}}
+    @include('partials.frontend.tournament-messages')
 
     @include('flash::message')
 
@@ -45,7 +45,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <hr class="hr my-5">
+                <hr class="hr">
             </div>
         </div>
     </div>

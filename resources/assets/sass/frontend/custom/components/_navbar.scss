@@ -10,12 +10,10 @@
     background: rgba(theme-color('primary'), .9);
     .navbar-brand {
         color: $navbar-dark-active-color;
-
         @include hover-focus {
             color: $navbar-dark-active-color;
         }
     }
-
     .navbar-nav {
         .nav-link {
             font-size: 12px;
@@ -25,12 +23,10 @@
             @include hover-focus {
                 color: $navbar-dark-hover-color;
             }
-
             &.disabled {
                 color: $navbar-dark-disabled-color;
             }
         }
-
         .show>.nav-link,
         .active>.nav-link,
         .nav-link.show,
@@ -40,86 +36,88 @@
             border-radius: $font-size-base;
         }
     }
-
     .navbar-toggler {
         color: $navbar-dark-color;
         border-color: $navbar-dark-toggler-border-color;
     }
-
     .navbar-toggler-icon {
         background-image: $navbar-dark-toggler-icon-bg;
     }
-
     .navbar-text {
         color: $navbar-dark-color;
         a {
             color: $navbar-dark-active-color;
-
             @include hover-focus {
                 color: $navbar-dark-active-color;
             }
         }
     }
-    .dropdown-menu {
+    .dropdown {
+        .dropdown-menu {
+            display: none;
+        }
         &.show {
-            font-size: 12px;
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: $gray-100;
-            border: 0px;
-            box-shadow: 0px 10px 20px 0px rgba($black, 0.25);
-            border-radius: 15px;
-            padding: 0;
-            margin-top: 0;
-            ul {
-                padding-left: 0;
-                list-style-type: none;
-                margin-bottom: 0;
-                padding: 0 $navbar-nav-link-padding-x;
-                li {
-                    a {
-                        display: block;
-                        padding: $nav-link-padding-y 0;
-                        position: relative;
-                        color: theme-color('primary');
-                        transition: all 0.1s ease;
-                        text-transform: uppercase;
-                        &:hover {
-                            text-decoration: none;
-                            opacity: 0.7;
-                        }
-                        &.active {
-                            font-weight: 700;
-                        }
-                        &.current-tab {
-                            color: theme-color('primary');
-                            font-weight: 700;
-                            &::after {
-                                display: inline-block;
-                                width: 0;
-                                height: 0;
-                                margin-left: $caret-width * .85;
-                                vertical-align: $caret-width * .85;
-                                content: "";
-                                @include caret-down;
-                            }
-                        }
-                    }
-                    &:not(:last-child) {
-                        &.nav-value {
-                            &:after {
-                                background: theme-color('primary');
-                            }
-                        }
-                        &:after {
-                            content: '';
+            .dropdown-menu {
+                font-size: 12px;
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                background: $gray-100;
+                border: 0px;
+                box-shadow: 0px 10px 20px 0px rgba($black, 0.25);
+                border-radius: 15px;
+                padding: 0;
+                margin-top: 0;
+                ul {
+                    padding-left: 0;
+                    list-style-type: none;
+                    margin-bottom: 0;
+                    padding: 0 $navbar-nav-link-padding-x;
+                    li {
+                        a {
                             display: block;
-                            height: 2px;
-                            background: theme-color('primary-extralight');
-                            padding: 0 $navbar-nav-link-padding-x;
-                            border-radius: 5px;
-                            width: 100%;
+                            padding: $nav-link-padding-y 0;
+                            position: relative;
+                            color: theme-color('primary');
+                            transition: all 0.1s ease;
+                            text-transform: uppercase;
+                            &:hover {
+                                text-decoration: none;
+                                opacity: 0.7;
+                            }
+                            &.active {
+                                font-weight: 700;
+                            }
+                            &.current-tab {
+                                color: theme-color('primary');
+                                font-weight: 700;
+                                &::after {
+                                    display: inline-block;
+                                    width: 0;
+                                    height: 0;
+                                    margin-left: $caret-width * .85;
+                                    vertical-align: $caret-width * .85;
+                                    content: "";
+                                    @include caret-down;
+                                }
+                            }
+                        }
+                        &:not(:last-child) {
+                            &.nav-value {
+                                &:after {
+                                    background: theme-color('primary');
+                                }
+                            }
+                            &:after {
+                                content: '';
+                                display: block;
+                                height: 2px;
+                                background: theme-color('primary-extralight');
+                                padding: 0 $navbar-nav-link-padding-x;
+                                border-radius: 5px;
+                                width: 100%;
+                            }
                         }
                     }
                 }
