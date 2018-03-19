@@ -12,4 +12,18 @@ class Sponsor extends Model
      * @var string
      */
     protected $table = 'sponsors';
+
+    /**
+     * Create sponsor logo url.
+     *
+     * @return string
+     */
+    public function sponsorLogo($key = null)
+    {
+        $path = config('filesystems.disks.s3.url') . config('wot.imagePath.sponsor_logo');
+        if($key) {
+            return  $path . $key . '/' . $this->logo;
+        }
+        return $path . $this->logo;
+    }
 }

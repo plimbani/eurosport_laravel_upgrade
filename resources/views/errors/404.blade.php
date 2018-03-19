@@ -1,49 +1,105 @@
+<!doctype html>
+<!--[if lte IE 9]><html lang="{{ app()->getLocale() }}" class="lt-ie10 lt-ie10-msg no-focus"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="{{ app()->getLocale() }}" class="no-focus">
+<!--<![endif]-->
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Error 404 - Page not found</title>
+<head>
+    @include('partials.frontend.google-analytics')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    <!-- Meta -->
+    @include('partials.frontend.meta', ['pageTitle' => 'Error 404 - Page not found'])
+    <!-- END Meta -->
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    @include('partials.frontend.favicons')
+    <!-- END Icons -->
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                color: #B0BEC5;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
+    <!-- Stylesheets required for application -->
+    @include('partials.frontend.app-css')
+    {{-- Stylesheets --}}
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
+    {{-- Page specific plugin styles --}}
+    @yield('plugin-styles')
 
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
+    <link rel="stylesheet" href="{{ $theme_css }}">
 
-            .title {
-                font-size: 72px;
-                margin-bottom: 40px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <h1 class="title">Error 404 - Page not found</div>
-                <div>{!! __('messages.404_page_message', ['url' => url('/')]) !!}</div>
+    @yield('page-styles')
+    {{-- END Stylesheets --}}
+</head>
+
+<body>
+    @include('partials.frontend.header')
+
+    <!-- Hero wrapper -->
+    <div class="hero__wrapper hero__wrapper-small">
+        @include('partials.frontend.header-menu')
+        <div class="hero__wrapper-banner">
+            <img src="{{ $hero_image }}" alt="">
+        </div>
+        <div class="hero__wrapper-overlay">
+            <div class="container">
+                <div class="row flex-column flex-lg-row align-items-center margin-area">
+                    <div class="grid-22">
+                        <div class="d-flex justify-content-center justify-content-lg-end">
+                            <div class="club_logo">
+                                <div class="club_logo-box">
+                                    <div class="d-flex align-items-center justify-content-center h-100">
+                                        <img src="{{ $websiteDetail->tournamentLogo('small_thumbnail') }}" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-full club_info">
+                        <h1 class="club_info-title">Error 404 - Page not found</h1>
+                    </div>
+                </div>
             </div>
         </div>
-    </body>
+    </div>
+    @yield('quick-links')
+    <!-- End of hero wrapper -->
+
+    <!-- Content wrapper -->
+    <div class="content__wrapper">
+        <div class="container">
+            <div class="row my-5">
+                <div class="grid-22">
+                </div>
+                <div class="col-lg-8 club_content">
+                    {!! __('messages.404_page_message', ['url' => url('/')]) !!}    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of content wrapper -->
+
+    @include('partials.frontend.sponsors')
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <hr class="hr my-5">
+            </div>
+        </div>
+    </div>
+
+    @include('partials.frontend.footer')
+
+    @yield('modals')
+
+    <!-- Javscript required for application -->
+    @include('partials.frontend.app-js')
+
+    <script src="{{ asset('frontend/js/global.js') }}"></script>
+
+    {{-- Plugin JS --}}
+    @yield('plugin-scripts')
+
+    {{-- Page specific custom scripts --}}
+    @yield('page-scripts')
+
+</body>
 </html>

@@ -48,5 +48,8 @@
 		'visitors_arrival_and_check_in' => 'Arrival and check-in',
 		'visitors_public_transport' => 'Public transport',
 		'visitors_tips_for_visitors' => 'Tips for visitors',
+		'more' => 'More...',
+		'less' => 'Less...',
+		'required_field_message' => 'This field is required'
 	]
 ?>
