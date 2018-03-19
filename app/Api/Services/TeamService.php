@@ -9,11 +9,14 @@ use Laraspace\Models\Club;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Competition;
 use DB;
+use Laraspace\Traits\TournamentAccess;
 
 
 
 class TeamService implements TeamContract
 {
+    use TournamentAccess;
+  
     public function __construct(TeamRepository $teamRepoObj)
     {
         $this->teamRepoObj = $teamRepoObj;
@@ -29,7 +32,6 @@ class TeamService implements TeamContract
     public function getTeams($teamData)
     {
         $data = $teamData->toArray()['teamData'];
-        // dd($data);
         // Here we send Status Code and Messages
         $data = $this->teamRepoObj->getAllFromFilter($data);
 
@@ -109,7 +111,10 @@ class TeamService implements TeamContract
     }
     public function create($data)
     {
-
+      $isTournamentAccessible = $this->checkForTournamentAccess($data->tournamentData['tournamentId']);
+      if(!$isTournamentAccessible) {
+        abort(403, 'Unauthorized action.');
+      }
         if($data['country']!=''){
 
             $data['country_id'] = $this->getCountryIdFromName($data['country']) != 'error' ? $this->getCountryIdFromName($data['country']) : '1';
@@ -216,7 +221,6 @@ class TeamService implements TeamContract
 
     public function assignTeams($data)
     {
-
       // $this->UpdateMatches($data);
       $teamsData = $this->teamRepoObj->getAllUpdatedTeam($data);
       $teamsList = $this->teamRepoObj->getAllGroupTeam($teamsData);
@@ -355,9 +359,15 @@ class TeamService implements TeamContract
 
       }
     }
-    public function resetAllTeams($ageCategoryId)
-    { 
-        $data = $ageCategoryId->toArray()['ageCategoryId'];
+    public function resetAllTeams($request)
+    {
+        $data = $request->toArray()['ageCategoryId'];
+        
+        $isTournamentAccessible = $this->checkForTournamentAccess($data['tournamentId']);
+        if(!$isTournamentAccessible) {
+          abort(403, 'Unauthorized action.');
+        }
+
         $data = $this->teamRepoObj->resetAllTeams($data);
     }
 }

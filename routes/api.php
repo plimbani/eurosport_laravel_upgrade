@@ -95,15 +95,10 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     }
 
 
-    // TODO: Move Method from web to api for Mobile App
+    $api->post('teams', 'Laraspace\Api\Controllers\TeamController@getTeams'); 
+    $api->post('clubs/getAll', 'Laraspace\Api\Controllers\TeamController@getClubs'); 
+    $api->post('team/create', 'Laraspace\Api\Controllers\TeamController@createTeam'); 
 
-    $api->get('users/test', 'Laraspace\Api\Controllers\EnvController@test2');
-    // Team Stuff
-
-
-    $api->post('teams', 'Laraspace\Api\Controllers\TeamController@getTeams');
-    $api->post('clubs/getAll', 'Laraspace\Api\Controllers\TeamController@getClubs');
-    $api->post('team/create', 'Laraspace\Api\Controllers\TeamController@createTeam');
     $api->post('team/edit/{id}', 'Laraspace\Api\Controllers\TeamController@edit');
     $api->post('team/delete/{deleteid}', 'Laraspace\Api\Controllers\TeamController@deleteTeam');
     $api->post('team/group/assign', 'Laraspace\Api\Controllers\TeamController@assignTeam');
