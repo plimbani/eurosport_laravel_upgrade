@@ -1,5 +1,5 @@
 <!-- Statistics -->
-<section class="club_stats" style="background-image: url(./images/banner/main/banner.png);">
+<section class="club_stats" style="background-image: url({{ asset('frontend/images/banner.png') }});">
     <div class="club_stats-banner"></div>
     <div class="club_stats-overlay">
         <div class="container">
