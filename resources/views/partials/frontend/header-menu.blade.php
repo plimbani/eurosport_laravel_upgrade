@@ -8,7 +8,8 @@
             <ul class="navbar-nav">
                 @foreach($menu_items as $item)
                     @if(!in_array($item['page_name'], config('wot.hide_header_menus')))
-                        <li class="nav-item{{ (isset($item['children']) && count($item['children']) > 0) ? ' dropdown' : '' }}{{ in_array(Route::currentRouteName(), $item['accessible_routes']) ? ' active' : '' }}">
+                        @php($childRoutes = array_key_exists($item['name'], config('wot.parents_child_routes')) ? config('wot.parents_child_routes.' . $item['name']) : [])
+                        <li class="nav-item{{ (isset($item['children']) && count($item['children']) > 0) ? ' dropdown' : '' }}{{ (in_array(Route::currentRouteName(), $item['accessible_routes']) || in_array(Route::currentRouteName(), $childRoutes)) ? ' active' : '' }}">
                             @if(isset($item['children']) && count($item['children']) > 0)
                                 <a class="nav-link dropdown-toggle" href="{{ $item['url'] }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $item['title'] }}</a>
                                 <div class="dropdown-menu">

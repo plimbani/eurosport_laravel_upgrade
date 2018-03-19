@@ -6,10 +6,6 @@
 	</div>
 @endsection
 
-@section('quick-links')
-	@include('partials.frontend.quick-links.home')
-@endsection
-
 @section('content')
 	<!-- Content wrapper -->
 	<div class="content__wrapper">
@@ -58,7 +54,7 @@
 		<script>
 			var markers = {!! json_encode($markers) !!};
 		</script>
-		<script src="{{ asset('assets/js/frontend/venue.js') }}"></script>
+		<script src="{{ asset('frontend/js/venue.js') }}"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key={{ config('wot.google_api_key') }}&&callback=venueMap"></script>
 	@endif
 @endsection

@@ -70,20 +70,8 @@ class VerifyWebsite
 
         // Get all published pages
         $pages = $website->getPublishedPages()->toArray();
+        View::share('menu_items_count', count($pages));
         View::share('menu_items', Page::buildPageTree($pages));
-
-        $accessibleRoutesArray = $website->getPublishedPages()->pluck('accessible_routes')->toArray();
-        $accessibleRoutesCollection = collect($accessibleRoutesArray);
-        $flattenedAccessibleRoutes = $accessibleRoutesCollection->flatten();
-        $accessibleRoutes = $flattenedAccessibleRoutes->unique()->toArray();
-        $accessibleRoutes = array_merge($accessibleRoutes, config('wot.default_accessible_routes'));
-        $currentRoute = $request->route()->getName();
-        if(!in_array($currentRoute, $accessibleRoutes)) {
-            App::abort(404);
-        }
-
-        // All accessible routes
-        View::share('accessible_routes', $accessibleRoutes);
 
         // Get image path
         $imagesPath = $this->websiteContract->getImagesPath();
@@ -108,6 +96,19 @@ class VerifyWebsite
         $heroImage = ($homePageMeta && isset($homePageMeta['hero_image']) && $homePageMeta['hero_image']) ? $homePageMeta['hero_image'] : null;
         $heroImage = config('filesystems.disks.s3.url') . config('wot.imagePath.hero_image') . $heroImage;
         View::share('hero_image', $heroImage);
+
+        $accessibleRoutesArray = $website->getPublishedPages()->pluck('accessible_routes')->toArray();
+        $accessibleRoutesCollection = collect($accessibleRoutesArray);
+        $flattenedAccessibleRoutes = $accessibleRoutesCollection->flatten();
+        $accessibleRoutes = $flattenedAccessibleRoutes->unique()->toArray();
+        $accessibleRoutes = array_merge($accessibleRoutes, config('wot.default_accessible_routes'));
+        $currentRoute = $request->route()->getName();
+        if(!in_array($currentRoute, $accessibleRoutes)) {
+            App::abort(404);
+        }
+
+        // All accessible routes
+        View::share('accessible_routes', $accessibleRoutes);
 
         JavaScript::put([
             'websiteId' => $website->id,

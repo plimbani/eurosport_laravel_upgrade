@@ -6,10 +6,6 @@
 	</div>
 @endsection
 
-@section('quick-links')
-	@include('partials.frontend.quick-links.home')
-@endsection
-
 @section('content')
 	<!-- Content wrapper -->
 	<div class="content__wrapper">
@@ -35,5 +31,5 @@
     var tournamentData = {!! json_encode($tournament) !!};
   </script>
   <script type="text/javascript" src="{{ mix('assets/js/core/matches-plugins.js') }}"></script>
-  <script type="text/javascript" src="{{ mix('assets/js/frontend/matchlist.js') }}"></script>
+  <script type="text/javascript" src="{{ mix('frontend/js/matchlist.js') }}"></script>
 @endsection

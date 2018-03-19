@@ -234,4 +234,10 @@ return [
 		'#1E469D' => 'theme-5.css',
 		'#9013FE' => 'theme-6.css',
   ],
+  'parents_child_routes' => [
+    'tournament' => ['rules.page.details', 'history.page.details'],
+    'program' => ['additional.program.page.details'],
+    'stay' => ['meals.page.details', 'accommodation.page.details', 'additional.stay.page.details'],
+    'visitors' => ['tourist.page.details'],
+  ]
 ];

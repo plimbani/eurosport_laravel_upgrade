@@ -3,9 +3,9 @@ $(document).ready(function() {
 
 	$(document).on('click', 'ul.js-list .more', function() {
 		if($(this).hasClass('less')){
-			$(this).text('More...').removeClass('less');
+			$(this).text(Lang.get('messages.more')).removeClass('less');
 		} else {
-			$(this).text('Less...').addClass('less');
+			$(this).text(Lang.get('messages.less')).addClass('less');
 		}
 		$(this).siblings('li.toggleable').slideToggle();
 	});
@@ -14,12 +14,11 @@ $(document).ready(function() {
 		window.location.href = $(".js-locale-selection option:selected").data("href");
 	});
 
+	// Custom validation messages
 	customValidationMessages();
 
 	// More / Less links
 	initializeList();
-
-	console.log(Lang.get('messages.teams'));
 });
 
 function customValidationMessages() {

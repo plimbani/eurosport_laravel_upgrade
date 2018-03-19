@@ -4,49 +4,40 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="row">
-                    <div class="col-6 col-md-3">
-                        <ul class="list-unstyled mb-0">
-                            <li><a href="">Team</a></li>
-                            <li><a href="">Matches</a></li>
-                            <li><a href="">Venue</a></li>
-                            <li><a href="">Program</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <ul class="list-unstyled mb-0">
-                            <li>
-                                <a href="">Tournament</a>
-                                <ul>
-                                    <li><a href="">Rules</a></li>
-                                    <li><a href="">History</a></li>
+                    @php($itemsPerColumn = ceil($menu_items_count / 4))
+                    @php($newColumnFlag = 1)
+                    @php($itemCount = 0)
+                    @php($columnCount = 0)
+                    @foreach($menu_items as $item)
+                        @if($newColumnFlag == 1)
+                            @php($newColumnFlag = 0)
+                            @php($columnCount++)
+                            <div class="col-6 col-md-3{{ $columnCount > 2 ? ' mt-5 mt-md-0' : '' }}">
+                                <ul class="list-unstyled mb-0">
+                        @endif
+                                <li>
+                                    <a href="{{ $item['url'] }}">{{ $item['title'] }}</a>
+                                    @php($itemCount++)
+                                    @if(isset($item['children']) && count($item['children']) > 0)
+                                        <ul>
+                                            @foreach($item['children'] as $childItem)
+                                                <li>
+                                                    <a href="{{ $childItem['url'] }}">{{ $childItem['title'] }}</a>
+                                                </li>
+                                                @php($itemCount++)
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                                @if( ($itemCount >= $itemsPerColumn) || $loop->last)
+                                    @php($newColumnFlag = 1)
+                                    @php($itemCount = 0)
+                                @endif
+                        @if($newColumnFlag == 1)
                                 </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-md-3 mt-5 mt-md-0">
-                        <ul class="list-unstyled mb-0">
-                            <li>
-                                <a href="">Stay</a>
-                                <ul>
-                                    <li><a href="">Meals</a></li>
-                                    <li><a href="">Accomodation</a></li>
-                                    <li><a href="">Aditional Page</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-md-3 mt-5 mt-md-0">
-                        <ul class="list-unstyled mb-0">
-                            <li>
-                                <a href="">Visitors</a>
-                                <ul>
-                                    <li><a href="">Tourist Information</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="">Media</a></li>
-                            <li><a href="">Contact</a></li>
-                        </ul>
-                    </div>
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
             </div>
             <div class="col-lg-4 mt-5 mt-lg-0">

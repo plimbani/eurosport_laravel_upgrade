@@ -7,10 +7,6 @@
 	</div>
 @endsection
 
-@section('quick-links')
-	@include('partials.frontend.quick-links.tournament')
-@endsection
-
 @section('content')
 	<!-- Content wrapper -->
 	<div class="content__wrapper">
@@ -33,5 +29,5 @@
     var competitionList = {!! json_encode($competitionList) !!};
     var allHistoryYears = {!! json_encode($allHistoryYears) !!}
   </script>
-  <script type="text/javascript" src="{{ mix('assets/js/frontend/tournamenthistory.js') }}"></script>
+  <script type="text/javascript" src="{{ mix('frontend/js/tournamenthistory.js') }}"></script>
 @endsection

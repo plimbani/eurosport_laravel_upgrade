@@ -56,11 +56,11 @@ mix.combine([
 
 .js('resources/assets/js/app.js','public/assets/js/')
 
-.js('resources/assets/js/app-messages.js', 'public/assets/js/frontend/app-messages.js')
+.js('resources/assets/js/app-messages.js', 'public/frontend/js/app-messages.js')
 
-.js('resources/assets/js/views/front/matches/matchlist.js', 'public/assets/js/frontend/matchlist.js')
+.js('resources/assets/js/views/front/matches/matchlist.js', 'public/frontend/js/matchlist.js')
 
-.js('resources/assets/js/views/front/tournament/tournamenthistory.js', 'public/assets/js/frontend/tournamenthistory.js')
+.js('resources/assets/js/views/front/tournament/tournamenthistory.js', 'public/frontend/js/tournamenthistory.js')
 
 .sass('resources/assets/sass/laraspace.scss', 'public/assets/css/')
 
