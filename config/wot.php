@@ -246,4 +246,8 @@ return [
 		'Lato' => 'https://fonts.googleapis.com/css?family=Lato',
 		'PT Sans' => 'https://fonts.googleapis.com/css?family=PT+Sans',
 	],
+  'routes' => [
+    'home' => 'home.page.details',
+    'teams' => 'team.page.details',
+  ],
 ];
