@@ -34,6 +34,7 @@ trait TournamentAccess
 	 */
 	protected function checkForWritePermissionByTournament($id)
 	{
+		// echo "<pre>";print_r($id);echo "</pre>";exit;
 		$user = $this->getCurrentLoggedInUserDetail();
 		if($user->hasRole('tournament.administrator')) {
 			$tournamentsIds = $user->tournaments()->pluck('id')->toArray();
