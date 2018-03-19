@@ -10,9 +10,22 @@ $(document).ready(function() {
 		$(this).siblings('li.toggleable').slideToggle();
 	});
 
-	$(".js-locale-selection").on("change", function() {
-		window.location.href = $(".js-locale-selection option:selected").data("href");
-	});
+	$(".js-locale-selection").click(function(e) {
+    $(this).toggleClass('show');
+    e.stopPropagation();
+  });
+
+  $('html').click(function() {
+    $(".js-locale-selection").removeClass("show");
+  });
+
+	$('body').on('mouseenter mouseleave', '.dropdown', function(e) {
+    var _d = $(e.target).closest('.dropdown');
+    _d.addClass('show');
+    setTimeout(function() {
+        _d[_d.is(':hover') ? 'addClass' : 'removeClass']('show');
+    }, 50);
+  });
 
 	// Custom validation messages
 	customValidationMessages();

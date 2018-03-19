@@ -17,13 +17,17 @@
                                     <ul class="list-unstyled mb-0">
                             @endif
                                     <li>
-                                        <a href="{{ $item['url'] }}">{{ $item['title'] }}</a>
+                                        <a href="{{ $item['url'] }}">{!! __('messages.' . $item['name']) !!}</a>
                                         @php($itemCount++)
                                         @if(isset($item['children']) && count($item['children']) > 0)
                                             <ul>
                                                 @foreach($item['children'] as $childItem)
                                                     <li>
-                                                        <a href="{{ $childItem['url'] }}">{{ $childItem['title'] }}</a>
+                                                        @if($childItem['is_additional_page'] == 1)
+                                                            <a href="{{ $childItem['url'] }}">{{ $childItem['title'] }}</a>
+                                                        @else
+                                                            <a href="{{ $childItem['url'] }}">{!! __('messages.' . $childItem['name']) !!}</a>
+                                                        @endif
                                                     </li>
                                                     @php($itemCount++)
                                                 @endforeach
@@ -89,24 +93,3 @@
     </div>
 </footer>
 <!-- End of footer -->
-
-{{--<nav class="navbar navbar-default">
-	<footer class="container-fluid text-center">
-		<ul class="nav navbar-nav">
-			@foreach($menu_items as $item)
-				<li>
-					<a href="{{ $item['url'] }}">{{ $item['title'] }}</a>
-					@if(isset($item['children']) && count($item['children']) > 0)
-						<ul class="col-sm-12">
-							@foreach($item['children'] as $childItem)
-								<li>
-									<a href="{{ $childItem['url'] }}">{{ $childItem['title'] }}</a>
-								</li>
-							@endforeach
-						</ul>
-					@endif
-				</li>
-			@endforeach
-		</ul>
-	</footer>
-</nav>--}}

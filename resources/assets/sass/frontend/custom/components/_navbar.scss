@@ -16,7 +16,7 @@
     }
     .navbar-nav {
         .nav-link {
-            font-size: 12px;
+            font-size: 11px;
             color: $navbar-dark-color;
             font-weight: 700;
             text-transform: uppercase;
@@ -58,7 +58,7 @@
         }
         &.show {
             .dropdown-menu {
-                font-size: 12px;
+                font-size: 11px;
                 display: block;
                 position: absolute;
                 top: 0;
@@ -82,6 +82,7 @@
                             color: theme-color('primary');
                             transition: all 0.1s ease;
                             text-transform: uppercase;
+                            word-break: break-all;
                             &:hover {
                                 text-decoration: none;
                                 opacity: 0.7;

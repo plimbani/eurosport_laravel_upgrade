@@ -11,25 +11,25 @@
                         @php($childRoutes = array_key_exists($item['name'], config('wot.parents_child_routes')) ? config('wot.parents_child_routes.' . $item['name']) : [])
                         <li class="nav-item{{ (isset($item['children']) && count($item['children']) > 0) ? ' dropdown' : '' }}{{ (in_array(Route::currentRouteName(), $item['accessible_routes']) || in_array(Route::currentRouteName(), $childRoutes)) ? ' active' : '' }}">
                             @if(isset($item['children']) && count($item['children']) > 0)
-                                <a class="nav-link dropdown-toggle" href="{{ $item['url'] }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $item['title'] }}</a>
+                                <a class="nav-link dropdown-toggle" href="{{ $item['url'] }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! __('messages.' . $item['name']) !!}</a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li class="nav-value">
-                                            <a href="{{ $item['url'] }}" class="current-tab">{{ $item['title'] }}</a>
+                                            <a href="{{ $item['url'] }}" class="current-tab">{!! __($item['title']) !!}</a>
                                         </li>
                                         @foreach($item['children'] as $childItem)
                                             <li>
                                                 @if($childItem['is_additional_page'] == 1)
                                                     <a href="{{ $childItem['url'] }}" class="{{ app()->request->route('additionalPageName') == $childItem['page_name'] ? 'active' : '' }}">{{ $childItem['title'] }}</a>
                                                 @else
-                                                    <a href="{{ $childItem['url'] }}" class="{{ in_array(Route::currentRouteName(), $childItem['accessible_routes']) ? 'active' : '' }}">{{ $childItem['title'] }}</a>
+                                                    <a href="{{ $childItem['url'] }}" class="{{ in_array(Route::currentRouteName(), $childItem['accessible_routes']) ? 'active' : '' }}">{!! __('messages.' . $childItem['name']) !!}</a>
                                                 @endif
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
                             @else
-                                <a class="nav-link" href="{{ $item['url'] }}">{{ $item['title'] }}</a>
+                                <a class="nav-link" href="{{ $item['url'] }}">{!! __('messages.' . $item['name']) !!}</a>
                             @endif
                         </li>
                     @endif
