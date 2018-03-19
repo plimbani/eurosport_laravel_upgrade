@@ -14,6 +14,7 @@ return [
 	    ],
 	    'welcome_image' => [
 	      'thumbnail' => ['width' => 350],
+				'medium' => ['width' => 768],
 	    ],
 	    'organiser_logo' => [
 	      'thumbnail' => ['width' => 200],
