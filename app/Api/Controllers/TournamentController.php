@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use Laraspace\Http\Requests\Tournament\DeleteRequest;
 use Laraspace\Http\Requests\Tournament\PublishRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Laraspace\Http\Requests\Tournament\TemplatesRequest;
 use Laraspace\Http\Requests\Tournament\StoreUpdateRequest;
+use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
+use Laraspace\Http\Requests\Tournament\CategoryCompetitionColorRequest;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\TournamentContract;
@@ -72,7 +75,7 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "json": "foo"})
      */
-    public function templates(Request $request)
+    public function templates(TemplatesRequest $request)
     {
         return $this->tournamentObj->templates($request->all());
     }
@@ -168,7 +171,7 @@ class TournamentController extends BaseController
     {
       return $this->tournamentObj->getUserLoginFavouriteTournament($request->all());
     }
-    public function getTournamentClub(Request $request)
+    public function getTournamentClub(TournamentClubRequest $request)
     {
       return $this->tournamentObj->getTournamentClub($request->all());
     }
@@ -180,7 +183,7 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->getCategoryCompetitions($request->all());
     }
-    public function saveCategoryCompetitionColor(Request $request)
+    public function saveCategoryCompetitionColor(CategoryCompetitionColorRequest $request)
     {
         return $this->tournamentObj->saveCategoryCompetitionColor($request->all());
     }

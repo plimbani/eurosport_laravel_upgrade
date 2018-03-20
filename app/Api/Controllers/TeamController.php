@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 use Laraspace\Http\Requests\Team\StoreRequest;
 use Laraspace\Http\Requests\Team\UpdateRequest;
 use Laraspace\Http\Requests\Team\AllClubsRequest;
+use Laraspace\Http\Requests\Team\TeamsListRequest;
+use Laraspace\Http\Requests\Team\ClubsTeamsRequest;
 use Laraspace\Http\Requests\Team\AssignTeamRequest;
+use Laraspace\Http\Requests\Team\TeamDetailsRequest;
 use Laraspace\Http\Requests\Team\AllCountriesRequest;
 use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
 use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
@@ -51,7 +54,7 @@ class TeamController extends BaseController
         return $this->teamObj->getClubs($request->all());
     }
 
-    public function getClubTeams(Request $request)
+    public function getClubTeams(ClubsTeamsRequest $request)
     {
         return $this->teamObj->getClubTeams($request->all());
     }
@@ -143,7 +146,7 @@ class TeamController extends BaseController
         return $this->teamObj->delete($request);
     }
 
-    public function getTeamsList(Request $request)
+    public function getTeamsList(TeamsListRequest $request)
     {
       return $this->teamObj->getTeamsList($request->all());
     }
@@ -158,7 +161,7 @@ class TeamController extends BaseController
       return $this->teamObj->getAllCompetitionTeamsFromFixture($request->all());
     }
 
-    public function editTeamDetails($teamId) 
+    public function editTeamDetails(TeamDetailsRequest $request, $teamId) 
     {
         return $this->teamObj->editTeamDetails($teamId);
     }

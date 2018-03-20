@@ -183,6 +183,11 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id')->where('is_default', 1);
     }
 
+    public function favouriteTournaments()
+    {
+        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id');
+    }
+
     public function tournaments()
     {
         return $this->belongsToMany('Laraspace\Models\Tournament', 'tournament_user', 'user_id','tournament_id');
