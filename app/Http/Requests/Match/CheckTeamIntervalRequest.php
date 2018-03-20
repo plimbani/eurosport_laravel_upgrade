@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace Laraspace\Http\Requests\Match;
 
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssignTeamRequest extends FormRequest
+class CheckTeamIntervalRequest extends FormRequest
 {
     use TournamentAccess;
 
@@ -16,12 +16,15 @@ class AssignTeamRequest extends FormRequest
      */
     public function authorize()
     {
-        $data = $this->all()['data'];
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
-        if(!$isTournamentAccessible) {
-            return false;
+        $data = $this->all();
+        if (isset($data['tournamentId'])) {
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
+            if(!$isTournamentAccessible) {
+                return false;
+            }
+            return true;
         }
-        return true;
+        return true;        
     }
 
     /**
@@ -32,7 +35,7 @@ class AssignTeamRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'tournamentId' => 'required'
         ];
     }
 }
