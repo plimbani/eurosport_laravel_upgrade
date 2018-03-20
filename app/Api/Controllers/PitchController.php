@@ -3,6 +3,8 @@
 namespace Laraspace\Api\Controllers;
 
 use JWTAuth;
+use UrlSigner;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
@@ -94,6 +96,13 @@ class PitchController extends BaseController
     public function generatePitchMatchReport($pitchId)
     {
         return $this->pitchObj->generatePitchMatchReport($pitchId);
+    }
+
+    public function getSignedUrlForPitchMatchReport($pitchId)
+    {
+        $signedUrl = UrlSigner::sign(url('api/pitch/reportCard/' . $pitchId), Carbon::now()->addMinutes(5));
+
+        return $signedUrl;
     }
 
 }

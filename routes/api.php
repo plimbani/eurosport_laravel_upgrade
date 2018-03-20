@@ -21,12 +21,23 @@ Route::group(['prefix' => 'auth'], function () {
 
 
 });
+
 Route::get('password/reset/{token}', '\Laraspace\Api\Controllers\PasswordController@getReset');
 Route::post('password/reset', '\Laraspace\Api\Controllers\PasswordController@postReset');
 //Route::post('password/email', 'Laraspace\Api\Controllers\PasswordController@postEmail');
 Route::get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
 
 $api = app('Dingo\Api\Routing\Router');
+
+$api->version('v1', ['middleware' => 'signedurl'], function ($api) {
+    $api->get('match/report/generate/{ageGroupId}',
+        'Laraspace\Api\Controllers\MatchController@generateCategoryReport')->name('generate.category.report');
+    $api->get('tournament/report/print', 'Laraspace\Api\Controllers\TournamentController@generatePrint');
+    $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
+    $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
+    $api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
+});
+
 
 $api->version('v1', function ($api) {
 
@@ -50,18 +61,18 @@ $api->version('v1', function ($api) {
     // $api->get('mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
     $api->get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
 
-    $api->get('match/report/generate/{ageGroupId}',
-        'Laraspace\Api\Controllers\MatchController@generateCategoryReport');
+    // $api->get('match/report/generate/{ageGroupId}',
+    //     'Laraspace\Api\Controllers\MatchController@generateCategoryReport')->name('generate.category.report');
 
-    $api->get('tournament/report/print', 'Laraspace\Api\Controllers\TournamentController@generatePrint');
+    // $api->get('tournament/report/print', 'Laraspace\Api\Controllers\TournamentController@generatePrint');
 
 
-    $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
+    // $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
 
     $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
     $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
 
-    $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
+    // $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
 
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
@@ -81,8 +92,20 @@ $api->version('v1', function ($api) {
 
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
 
-    $api->get('pitch/reportCard/{pitchId}',
-        'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
+    // $api->get('pitch/reportCard/{pitchId}',
+    //     'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
+
+
+    // routes for sigend url
+    $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
+
+    $api->post('getSignedUrlForTournamentReport/{reportData}', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
+
+    $api->post('getSignedUrlForMatchPrint/{reportData}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchPrint');
+
+    $api->post('getSignedUrlForRefereeReport/{refereeId}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForRefereeReport');
+
+    $api->post('getSignedUrlForPitchMatchReport/{pitchId}', 'Laraspace\Api\Controllers\PitchController@getSignedUrlForPitchMatchReport');
 
 } );
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
