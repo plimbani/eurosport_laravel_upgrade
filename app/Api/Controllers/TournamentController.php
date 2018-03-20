@@ -187,7 +187,11 @@ class TournamentController extends BaseController
     }
     public function getSignedUrlForTournamentReport($reportData)
     {
-        $signedUrl = UrlSigner::sign(url('api/tournament/report/print?' . $reportData), Carbon::now()->addMinutes(5));
+        parse_str($reportData, $reportData);
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/tournament/report/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
     }

@@ -792,21 +792,21 @@ class MatchController extends BaseController
 
     public function getSignedUrlForMatchReport($ageCategory)
     {
-        $signedUrl = UrlSigner::sign(url('api/match/report/generate/' . $ageCategory), Carbon::now()->addMinutes(5));
+        $signedUrl = UrlSigner::sign(url('api/match/report/generate/' . $ageCategory), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
         
         return $signedUrl;
     }
 
     public function getSignedUrlForMatchPrint($reportData)
     {
-        $signedUrl = UrlSigner::sign(url('api/match/print?' . $reportData), Carbon::now()->addMinutes(5));
+        $signedUrl = UrlSigner::sign(url('api/match/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
     }
 
     public function getSignedUrlForRefereeReport($refereeId)
     {
-        $signedUrl = UrlSigner::sign(url('api/match/reportCard/' . $refereeId), Carbon::now()->addMinutes(5));
+        $signedUrl = UrlSigner::sign(url('api/match/reportCard/' . $refereeId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
     }
