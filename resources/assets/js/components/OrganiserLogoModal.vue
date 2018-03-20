@@ -18,6 +18,7 @@
               <input type="file" id="organiser_logo" style="display:none;" @change="onLogoChange">
               <input type="hidden" v-model="formValues.logo" name="logo" v-validate="'required'" />
               <span class="help is-danger" v-show="errors.has('logo')">{{ errors.first('logo') }}</span>
+							<p class="help-block text-muted pb-0 mb-0">Preferred size: 200px × 200px (jpg, png or gif)</p>
             </div>
           </div>
           <div class="form-group row" :class="{'has-error': errors.has('name') }">

@@ -28,6 +28,9 @@
 			              		<input type="file" id="hero_image" style="display:none;" @change="onImageChange($event, 'hero_image')">
 			              		<input type="hidden" v-model="homepage.hero_image" name="hero_image" />
 			              	</div>
+										<div class="col-sm-12">
+											<p class="help-block text-muted pb-0 mb-0">Preferred size: 1681px × 600px (jpg, png or gif)</p>
+										</div>
 			            </div>
 		          	</div>
 	          	</div>
@@ -45,6 +48,9 @@
 				              	<input type="file" id="welcome_image" style="display:none;" @change="onImageChange($event, 'welcome_image')">
 				              	<input type="hidden" v-model="homepage.welcome_image" name="welcome_image" />
 				            </div>
+										<div class="col-sm-12">
+											<p class="help-block text-muted pb-0 mb-0">Preferred size: 768px × 403px (jpg, png or gif)</p>
+										</div>
 			            </div>
 		          	</div>
 	          	</div>
