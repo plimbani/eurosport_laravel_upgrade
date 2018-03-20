@@ -1,7 +1,8 @@
 function venueMap() {
 	var mapProp = {
     center:new google.maps.LatLng(51.509865,-0.118092),
-    zoom:8,
+    zoom: 8,
+    maxZoom: 15,
 	};
 	var map = new google.maps.Map(document.getElementById("venue_map"),mapProp);
 	var infowindow = new google.maps.InfoWindow();
