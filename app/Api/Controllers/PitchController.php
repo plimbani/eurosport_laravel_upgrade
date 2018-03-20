@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
 use Brotzka\DotenvEditor\DotenvEditor;
-use Laraspace\Http\Requests\Pitch\UpdateRequest;
+use Laraspace\Http\Requests\Pitch\ShowRequest;
 use Laraspace\Http\Requests\Pitch\StoreRequest;
+use Laraspace\Http\Requests\Pitch\UpdateRequest;
 use Laraspace\Http\Requests\Pitch\DeleteRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\PitchContract;
@@ -82,7 +83,7 @@ class PitchController extends BaseController
     {
         return $this->pitchObj->edit($request,$pitchId);
     }
-    public function show($pitchId)
+    public function show(ShowRequest $request, $pitchId)
     {
         return $this->pitchObj->getPitchData($pitchId);
     }
