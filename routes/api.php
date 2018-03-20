@@ -122,12 +122,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('clubs/getAll', 'Laraspace\Api\Controllers\TeamController@getClubs'); 
     $api->post('team/create', 'Laraspace\Api\Controllers\TeamController@createTeam'); 
 
-    $api->post('team/edit/{id}', 'Laraspace\Api\Controllers\TeamController@edit');
-    $api->post('team/delete/{deleteid}', 'Laraspace\Api\Controllers\TeamController@deleteTeam');
     $api->post('team/group/assign', 'Laraspace\Api\Controllers\TeamController@assignTeam');
-    $api->post('team/category/assign', 'Laraspace\Api\Controllers\TeamController@assignCategory');
     $api->post('team/getClubsTeams','Laraspace\Api\Controllers\TeamController@getClubTeams');
-    $api->post('team/getTeamsGroup', 'Laraspace\Api\Controllers\TeamController@getAllTeamsGroup');
     $api->post('team/checkTeamExist', 'Laraspace\Api\Controllers\TeamController@checkTeamExist');
 
     $api->post('editTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@editTeamDetails');
@@ -143,22 +139,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\TeamController@changeTeamName');
 
     //MatchResult api
-    $api->get('matches', 'Laraspace\Api\Controllers\MatchController@getMatches');
-    $api->post('match/create', 'Laraspace\Api\Controllers\MatchController@createMatch');
-    $api->post('match/edit/{id}', 'Laraspace\Api\Controllers\MatchController@edit');
-    $api->post('match/delete/{deleteid}', 'Laraspace\Api\Controllers\MatchController@deleteMatch');
-
-
     $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
-    $api->post('match/getScheduledMatch', 'Laraspace\Api\Controllers\MatchController@getAllScheduledMatch');
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
     // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
     $api->post('match/saveAllResults', 'Laraspace\Api\Controllers\MatchController@saveAllResults');
-    $api->post('match/saveUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@saveUnavailableBlock');
     $api->post('match/getUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@getUnavailableBlock');
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
     $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore');
@@ -173,7 +161,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('referee/create', 'Laraspace\Api\Controllers\RefereeController@createReferee');
     $api->post('referee/update', 'Laraspace\Api\Controllers\RefereeController@updateReferee');
 
-    $api->post('referee/edit/{id}', 'Laraspace\Api\Controllers\RefereeController@edit');
     $api->post('referee/refereeDetail', 'Laraspace\Api\Controllers\RefereeController@refereeDetail');
     $api->post('referee/delete/{deleteid}', 'Laraspace\Api\Controllers\RefereeController@deleteReferee');
 
@@ -188,11 +175,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch');
 
     //Age Group Stuff
-    $api->get('age_groups/ageCategoryData', 'Laraspace\Api\Controllers\AgeGroupController@ageCategoryData');
-    $api->get('age_groups', 'Laraspace\Api\Controllers\AgeGroupController@getAgeGroups');
-    $api->post('age_group/create', 'Laraspace\Api\Controllers\AgeGroupController@create');
-    $api->post('age_group/edit/{id}', 'Laraspace\Api\Controllers\AgeGroupController@edit');
-    $api->post('age_group/delete/{deleteid}', 'Laraspace\Api\Controllers\AgeGroupController@delete');
     $api->post('age_group/createCompetationFomat','Laraspace\Api\Controllers\AgeGroupController@createCompetationFomat');
     $api->post('age_group/deleteCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@deleteCompetationFormat');
 
@@ -216,11 +198,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('tournaments/getTemplate', 'Laraspace\Api\Controllers\TournamentController@getTemplate');
 
     $api->post('tournament/create', 'Laraspace\Api\Controllers\TournamentController@create');
-    $api->post('tournament/edit/{id}', 'Laraspace\Api\Controllers\TournamentController@edit');
     $api->post('tournament/delete/{id}', 'Laraspace\Api\Controllers\TournamentController@delete');
     $api->post('tournaments/tournamentSummary','Laraspace\Api\Controllers\TournamentController@tournamentSummary');
-    $api->post('tournament/allCategory',
-        'Laraspace\Api\Controllers\TournamentController@getAllCategory');
 
     $api->post('tournament/details/add',
         'Laraspace\Api\Controllers\TournamentController@addTournamentDetails');
@@ -260,7 +239,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     // Role Stuff
     $api->get('roles', 'Laraspace\Api\Controllers\RoleController@getRoles');
-    $api->get('roles-for-select', 'Laraspace\Api\Controllers\RoleController@getRolesForSelect');
 
     $api->get('tournament/report/generate',
         'Laraspace\Api\Controllers\TournamentController@generateReport');
@@ -278,8 +256,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\TournamentController@getTournamentClub');
 
     $api->post('teams/getTeamsList','Laraspace\Api\Controllers\TeamController@getTeamsList');
-    $api->post('teams/getTeamsListByCompetition',
-        'Laraspace\Api\Controllers\TeamController@getAllFromCompetitionId');
 
     $api->post('users/postSetting','Laraspace\Api\Controllers\UserController@postSetting');
     $api->post('users/getSetting','Laraspace\Api\Controllers\UserController@getSetting');
@@ -294,16 +270,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('tournament/saveCategoryCompetitionColor',
         'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
-
-
-    $api->get('generateDisplayMatchNumber',
-        'Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumber')->name('generate.display.match.number');
-
-    $api->get('generateDisplayMatchNumberForDb',
-        'Laraspace\Api\Controllers\MatchController@generateDisplayMatchNumberForDB')->name('generate.display.match.number.for.db');
-
-    $api->get('match/insertPositionsForPlacingMatches',
-        'Laraspace\Api\Controllers\MatchController@insertPositionsForPlacingMatches')->name('insert.positions.for.placing.matches');
 });
 
 
