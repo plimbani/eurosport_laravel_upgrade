@@ -69,7 +69,7 @@
                 <div class="grid-22">
                 </div>
                 <div class="col-lg-8 club_content">
-                    {!! __('messages.404_page_message', ['url' => url('/')]) !!}    
+                    {!! __('messages.404_page_message', ['url' => route('home.page.details', ['domain' => $websiteDetail->domain_name])]) !!}
                 </div>
             </div>
         </div>
@@ -92,8 +92,6 @@
 
     <!-- Javscript required for application -->
     @include('partials.frontend.app-js')
-
-    <script src="{{ asset('frontend/js/global.js') }}"></script>
 
     {{-- Plugin JS --}}
     @yield('plugin-scripts')
