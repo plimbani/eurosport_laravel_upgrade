@@ -1,11 +1,12 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace Laraspace\Http\Requests\Match;
 
+use Laraspace\Models\TempFixture;
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssignTeamRequest extends FormRequest
+class UnscheduleMatchRequest extends FormRequest
 {
     use TournamentAccess;
 
@@ -16,8 +17,9 @@ class AssignTeamRequest extends FormRequest
      */
     public function authorize()
     {
-        $data = $this->all()['data'];
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
+        $matchId = $this->all();
+        $tempFixture = TempFixture::find($matchId)->first();
+        $isTournamentAccessible = $this->checkForWritePermissionByTournament($tempFixture['tournament_id']);
         if(!$isTournamentAccessible) {
             return false;
         }

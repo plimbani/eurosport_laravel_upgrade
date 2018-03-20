@@ -523,7 +523,7 @@ export default {
 
 	          Tournament.getAllClubs(TournamentData).then(
 	          (response) => {
-	            this.clubs = response.data.data
+	            this.clubs = response.data.clubs
 	          },
 	          (error) => {
 	          }

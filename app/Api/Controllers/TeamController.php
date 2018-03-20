@@ -7,7 +7,11 @@ use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Laraspace\Http\Requests\Team\StoreRequest;
 use Laraspace\Http\Requests\Team\UpdateRequest;
+use Laraspace\Http\Requests\Team\AllClubsRequest;
 use Laraspace\Http\Requests\Team\AssignTeamRequest;
+use Laraspace\Http\Requests\Team\AllCountriesRequest;
+use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
+use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
 
 
 // Need to Define Only Contracts
@@ -144,7 +148,7 @@ class TeamController extends BaseController
       return $this->teamObj->getTeamsList($request->all());
     }
 
-    public function changeTeamName(Request $request)
+    public function changeTeamName(ChangeTeamNameRequest $request)
     {
         return $this->teamObj->changeTeamName($request->all());
     }
@@ -159,12 +163,12 @@ class TeamController extends BaseController
         return $this->teamObj->editTeamDetails($teamId);
     }
 
-    public function getAllCountries()
+    public function getAllCountries(AllCountriesRequest $request)
     {
         return $this->teamObj->getAllCountries();
     }
 
-    public function getAllClubs()
+    public function getAllClubs(AllClubsRequest $request)
     {
         return $this->teamObj->getAllClubs();
     }
@@ -174,7 +178,7 @@ class TeamController extends BaseController
         return $this->teamObj->updateTeamDetails($request, $teamId);
     }
 
-    public function checkTeamExist(Request $request)
+    public function checkTeamExist(CheckTeamExistRequest $request)
     {
         return $this->teamObj->checkTeamExist($request);
     }
