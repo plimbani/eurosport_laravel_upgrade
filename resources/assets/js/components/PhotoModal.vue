@@ -18,6 +18,7 @@
               <input type="file" id="image" style="display:none;" @change="onPhotoChange">
               <input type="hidden" v-model="formValues.image" name="image" v-validate="'required'" />
               <span class="help is-danger" v-show="errors.has('image')">{{ errors.first('image') }}</span>
+							<p class="help-block text-muted pb-0 mb-0">Preferred size: 1200px × 900px (jpg, png or gif)</p>
             </div>
           </div>
           <div class="form-group row" :class="{'has-error': errors.has('caption') }">

@@ -90,6 +90,9 @@
 												<button v-else :disabled="is_tournament_logo_uploading" type="button" class="btn btn-default" @click="selectTournamentLogo()">{{is_tournament_logo_uploading ? $lang.uploading :$lang.tournament_tournament_choose_button}}</button>
 												<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange($event)">
 											</div>
+											<div class="col-sm-12">
+												<p class="help-block text-muted pb-0 mb-0">Preferred size: 300px × 300px (jpg, png or gif)</p>
+											</div>
 										</div>
 								</div>
 							</div>
@@ -105,6 +108,9 @@
 												<button v-if="social_sharing_graphic_image != '' && is_social_sharing_image_uploading == false" class="btn btn-default" @click="removeSocialSharingImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
 												<button v-else :disabled="is_social_sharing_image_uploading" type="button" class="btn btn-default" name="btnSelect" @click="selectSocialSharingGraphic()">{{is_social_sharing_image_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
 												<input type="file" id="select_file_social_sharing" style="display:none;" @change="onSocialSharingGraphicImageChange($event)">
+											</div>
+											<div class="col-sm-12">
+												<p class="help-block text-muted pb-0 mb-0">Required image dimensions: 1200px × 635px (jpg, png or gif)</p>
 											</div>
 										</div>
 								</div>
