@@ -2,10 +2,11 @@
 
 namespace Laraspace\Http\Requests\Team;
 
+use Laraspace\Models\Team;
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssignTeamRequest extends FormRequest
+class CheckTeamExistRequest extends FormRequest
 {
     use TournamentAccess;
 
@@ -16,9 +17,8 @@ class AssignTeamRequest extends FormRequest
      */
     public function authorize()
     {
-        $data = $this->all()['data'];
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
-        if(!$isTournamentAccessible) {
+        $loggedInUser = $this->getCurrentLoggedInUserDetail();
+        if($loggedInUser->hasRole('mobile.user')) {
             return false;
         }
         return true;
