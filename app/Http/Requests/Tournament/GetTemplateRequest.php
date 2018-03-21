@@ -22,7 +22,7 @@ class GetTemplateRequest extends FormRequest
         if($user->hasRole('tournament.administrator')) {
             $accessibleTournamentsIds = $user->tournaments()->pluck('id')->toArray();        
             $accessibleTemplates = TournamentCompetationTemplates::whereIn('tournament_id', $accessibleTournamentsIds)->pluck('tournament_template_id')->unique()->toArray();
-            if (in_array($tournamentTemplateId, $accessibleTemplates)) {
+            if (!in_array($tournamentTemplateId, $accessibleTemplates)) {
                 return false;
             }
         }

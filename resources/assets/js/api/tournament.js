@@ -209,10 +209,13 @@ checkTeamIntervalforMatches(matchData){
     return api.post('getSignedUrlForMatchReport/'+ageCategoryData)
   },
   getSignedUrlForTournamentReport(reportData) {
-    return api.post('getSignedUrlForTournamentReport/'+reportData);
+    return api.post('getSignedUrlForTournamentReport?'+reportData);
+  },
+  getSignedUrlForTournamentReportExport(reportData) {
+    return api.post('getSignedUrlForTournamentReportExport?' + reportData);
   },
   getSignedUrlForMatchPrint(reportData) {
-    return api.post('getSignedUrlForMatchPrint/'+reportData);
+    return api.post('getSignedUrlForMatchPrint?'+reportData);
   },
   getSignedUrlForRefereeReport(refereeId) {
     return api.post('getSignedUrlForRefereeReport/' +refereeId);

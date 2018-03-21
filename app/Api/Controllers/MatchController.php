@@ -801,8 +801,12 @@ class MatchController extends BaseController
         return $signedUrl;
     }
 
-    public function getSignedUrlForMatchPrint($reportData)
+    public function getSignedUrlForMatchPrint(Request $request)
     {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+        
         $signedUrl = UrlSigner::sign(url('api/match/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;

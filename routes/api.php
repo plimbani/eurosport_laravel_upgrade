@@ -34,6 +34,7 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
     $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
     $api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
+    $api->get('tournament/report/reportExport','Laraspace\Api\Controllers\TournamentController@exportReport');
 });
 
 $api->version('v1', function ($api) {
@@ -78,13 +79,15 @@ $api->version('v1', function ($api) {
     // routes for sigend url
     $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
 
-    $api->post('getSignedUrlForTournamentReport/{reportData}', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
+    $api->post('getSignedUrlForTournamentReport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
 
-    $api->post('getSignedUrlForMatchPrint/{reportData}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchPrint');
+    $api->post('getSignedUrlForMatchPrint', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchPrint');
 
     $api->post('getSignedUrlForRefereeReport/{refereeId}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForRefereeReport');
 
     $api->post('getSignedUrlForPitchMatchReport/{pitchId}', 'Laraspace\Api\Controllers\PitchController@getSignedUrlForPitchMatchReport');
+
+    $api->post('getSignedUrlForTournamentReportExport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReportExport');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
