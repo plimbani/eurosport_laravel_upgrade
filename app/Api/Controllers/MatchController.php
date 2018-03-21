@@ -21,7 +21,7 @@ use File;
 use Storage;
 use DB;
 use PDF;
-
+use UrlSigner;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\MatchContract;
 use JWTAuth;
@@ -784,8 +784,30 @@ class MatchController extends BaseController
         return $this->matchObj->insertPositionsForPlacingMatches($request);
     }
 
+
     public function saveStandingsManually(Request $request)
     {
         return $this->matchObj->saveStandingsManually($request);
+    }
+
+    public function getSignedUrlForMatchReport($ageCategory)
+    {
+        $signedUrl = UrlSigner::sign(url('api/match/report/generate/' . $ageCategory), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        
+        return $signedUrl;
+    }
+
+    public function getSignedUrlForMatchPrint($reportData)
+    {
+        $signedUrl = UrlSigner::sign(url('api/match/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function getSignedUrlForRefereeReport($refereeId)
+    {
+        $signedUrl = UrlSigner::sign(url('api/match/reportCard/' . $refereeId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
     }
 }

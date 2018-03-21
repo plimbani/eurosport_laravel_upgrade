@@ -647,8 +647,17 @@ export default {
 	exportPrint() {
 		let ReportData = this.reportQuery
 		if(ReportData!=''){
-			var win = window.open("/api/tournament/report/print?"+ReportData, '_blank');
-      win.focus();
+			Tournament.getSignedUrlForTournamentReport(ReportData).then(
+				(response) => {
+					console.log('response', response);
+					window.open(response.data, '_blank');
+				},
+				(error) => {
+
+				}
+			)
+			// var win = window.open("/api/tournament/report/print?"+ReportData, '_blank');
+   		// win.focus();
 		}else{
 			toastr['error']('Records not available', 'Error');
 		}

@@ -1,7 +1,8 @@
 <?php
 namespace Laraspace\Api\Controllers;
 
-
+use UrlSigner;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laraspace\Http\Requests\Tournament\DeleteRequest;
 use Laraspace\Http\Requests\Tournament\PublishRequest;
@@ -186,6 +187,16 @@ class TournamentController extends BaseController
     public function saveCategoryCompetitionColor(CategoryCompetitionColorRequest $request)
     {
         return $this->tournamentObj->saveCategoryCompetitionColor($request->all());
+    }
+    public function getSignedUrlForTournamentReport($reportData)
+    {
+        parse_str($reportData, $reportData);
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/tournament/report/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
     }
 
 }
