@@ -5,6 +5,7 @@ namespace Laraspace\Api\Controllers;
 use Illuminate\Http\Request;
 use Laraspace\Models\Position;
 use Laraspace\Http\Requests\AgeGroup\TeamDetailsRequest;
+use Laraspace\Http\Requests\AgeGroup\CreateCompetationFomatRequest;
 use Laraspace\Http\Requests\AgeGroup\DeleteCompetitionFormatRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\AgeGroupContract;
@@ -89,7 +90,7 @@ class AgeGroupController extends BaseController
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function createCompetationFomat(Request $request)
+    public function createCompetationFomat(CreateCompetationFomatRequest $request)
     {
         return $this->ageGroupObj->createCompetationFomat($request->all());
     }

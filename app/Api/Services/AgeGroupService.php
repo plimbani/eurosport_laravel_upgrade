@@ -55,11 +55,6 @@ class AgeGroupService implements AgeGroupContract
         // Check if maximum team exceeds
         $totalCheckTeams = 0;
 
-        $isTournamentAccessible = $this->checkForTournamentAccess($data['tournament_id']);
-        if(!$isTournamentAccessible) {
-          abort(403, 'Unauthorized action.');
-        }
-
         $tournamentTotalTeamSumObj = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id']);
         $maximumTeams = Tournament::find($data['tournament_id'])->maximum_teams;
 

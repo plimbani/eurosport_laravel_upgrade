@@ -5,7 +5,6 @@ export default {
   	return axios.get('/api/tournaments')
   },
   getAllClubs(tournamentData) {
-    // alert('helll')
     return api.post('clubs/getAll',{'tournamentData': tournamentData})
   },
   getAllVenues(tournamentId) {
@@ -204,6 +203,21 @@ checkTeamIntervalforMatches(matchData){
   },
   getPlacingsData(placingsData) {
     return api.post('age_group/getPlacingsData', placingsData)
-  }
+  },
 
+  getSignedUrlForMatchReport(ageCategoryData) {
+    return api.post('getSignedUrlForMatchReport/'+ageCategoryData)
+  },
+  getSignedUrlForTournamentReport(reportData) {
+    return api.post('getSignedUrlForTournamentReport/'+reportData);
+  },
+  getSignedUrlForMatchPrint(reportData) {
+    return api.post('getSignedUrlForMatchPrint/'+reportData);
+  },
+  getSignedUrlForRefereeReport(refereeId) {
+    return api.post('getSignedUrlForRefereeReport/' +refereeId);
+  },
+  getSignedUrlForPitchMatchReport(pitchId) {
+    return api.post('getSignedUrlForPitchMatchReport/' +pitchId);
+  }
 }

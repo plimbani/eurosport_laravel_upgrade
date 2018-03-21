@@ -564,8 +564,16 @@ import Tournament from '../../../api/tournament.js'
                 }
             },
             generatePitchMatchReport(pitchId) {
-               var win = window.open("/api/pitch/reportCard/" + pitchId);
-               win.focus();
+               // var win = window.open("/api/pitch/reportCard/" + pitchId);
+               // win.focus();
+                Tournament.getSignedUrlForPitchMatchReport(pitchId).then(
+                    (response) => {
+                        window.open(response.data, '_blank');
+                    },
+                    (error) => {
+
+                    }  
+                )               
             },
         }
     }

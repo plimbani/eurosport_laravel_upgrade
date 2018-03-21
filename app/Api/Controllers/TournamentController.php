@@ -1,13 +1,15 @@
 <?php
 namespace Laraspace\Api\Controllers;
 
-
+use UrlSigner;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laraspace\Http\Requests\Tournament\DeleteRequest;
 use Laraspace\Http\Requests\Tournament\PublishRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Laraspace\Http\Requests\Tournament\TemplatesRequest;
 use Laraspace\Http\Requests\Tournament\StoreUpdateRequest;
+use Laraspace\Http\Requests\Tournament\GetTemplateRequest;
 use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
 use Laraspace\Http\Requests\Tournament\CategoryCompetitionColorRequest;
@@ -89,7 +91,7 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "json": "foo"})
      */
-    public function getTemplate(Request $request)
+    public function getTemplate(GetTemplateRequest $request)
     {
         return $this->tournamentObj->getTemplate($request->all());
     }
@@ -186,6 +188,16 @@ class TournamentController extends BaseController
     public function saveCategoryCompetitionColor(CategoryCompetitionColorRequest $request)
     {
         return $this->tournamentObj->saveCategoryCompetitionColor($request->all());
+    }
+    public function getSignedUrlForTournamentReport($reportData)
+    {
+        parse_str($reportData, $reportData);
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/tournament/report/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
     }
 
 }

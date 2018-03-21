@@ -32,10 +32,6 @@ class PitchService implements PitchContract
 
     public function getPitchSizeWiseSummary($tournamentId)
     {
-      $isTournamentAccessible = $this->checkForTournamentAccess($tournamentId);
-      if(!$isTournamentAccessible) {
-        abort(403, 'Unauthorized action.');
-      }
       return $this->pitchRepoObj->getPitchSizeWiseSummary($tournamentId);
     }
 
