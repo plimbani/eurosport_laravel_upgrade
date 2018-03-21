@@ -31,6 +31,7 @@
 		'send' => 'Zend',
 		'contact_confirmation_message' => 'Bedankt voor uw bericht. We nemen zo spoedig mogelijk contact met u op.',
 		'404_page_title' => 'Error 404. Pagina niet gevonden',
-		'404_page_message' => '<a href=":url">klik hier</a> om terug te gaan naar de homepage'
+		'404_page_message' => '<a href=":url">klik hier</a> om terug te gaan naar de homepage',
+		'match_schedule_message' => 'The match schedule will be available 2-3 weeks before the tournament begins.',
 	]
 ?>

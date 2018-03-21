@@ -73,4 +73,31 @@ class Page extends Model
 
         return $pages;
     }
+
+    /**
+     * Get welcome image.
+     *
+     * @return string
+     */
+    public function welcomeImage($key = null)
+    {
+        if($this->meta && array_key_exists('welcome_image', $this->meta) && $this->meta['welcome_image']) {
+            $path = config('filesystems.disks.s3.url') . config('wot.imagePath.welcome_image');
+            if($key) {
+                return  $path . $key . '/' . $this->meta['welcome_image'];
+            }
+            return $path . $this->meta['welcome_image'];
+        }
+        return null;
+    }
+
+    /**
+     * Get hero image.
+     *
+     * @return string
+     */
+    public static function heroImageSize()
+    {
+        return 'large';
+    }
 }

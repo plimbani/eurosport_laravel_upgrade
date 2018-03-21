@@ -57,8 +57,10 @@
       getEditorValue() {
         this.$emit('setEditorValue', this.content);
       },
-      blankEditorValue() {
-        this.content = '';
+      blankEditorValue(id) {
+        if(this.id == id) {
+          this.content = '';
+        }
       }
     },
   };

@@ -1,33 +1,31 @@
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<ul class="nav navbar-nav">
-		  @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-		    <li>
-		      <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-		         {{ $properties['native'] }}
-		      </a>
-		    </li>
-		  @endforeach
-		</ul>
-	</div>
-</nav>
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<ul class="nav navbar-nav">
-			@foreach($menu_items as $item)
-				<li>
-					<a href="{{ $item['url'] }}">{{ $item['title'] }}</a>
-					@if(isset($item['children']) && count($item['children']) > 0)
-						<ul class="col-sm-12">
-							@foreach($item['children'] as $childItem)
-								<li>
-									<a href="{{ $childItem['url'] }}">{{ $childItem['title'] }}</a>
-								</li>
-							@endforeach
-						</ul>
-					@endif
-				</li>
-			@endforeach
-		</ul>
-	</div>
-</nav>
+<!-- Header -->
+<header>
+    <div class="container">
+        <div class="img-logo">
+            <a href="{{ route('home.page.details', ['domain' => $websiteDetail->domain_name]) }}"><img src="{{ asset('frontend/images/logo-header.svg') }}" alt=""></a>
+        </div>
+        <div class="text-uppercase text-white">
+            <div class="d-flex align-items-center justify-content-end">
+                <span class="mr-2 small">Language</span>
+                <div class="lang-bar js-locale-selection">
+                    <div class="lang-bar-status">
+                        <span class="font-weight-bold">{{ strtoupper(LaravelLocalization::getCurrentLocale()) }}</span>
+                        <span>
+                          <i class="fas fa-caret-down"></i>
+                        </span>
+                    </div>
+                    <div class="lang-bar-list">
+                        <ul>
+                            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                <li>
+                                  <a hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" class="{{ LaravelLocalization::getCurrentLocale() == $localeCode ? 'active ' : '' }}">{{ $properties['native'] }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- End of Header -->

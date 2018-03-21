@@ -1,0 +1,13 @@
+.tournament_sponsored {
+	.sponsored-logo {
+		padding-right: ($grid-gutter-width * 1.2);
+    	padding-left: ($grid-gutter-width * 1.2);
+    	margin-top: $grid-gutter-width;
+    	margin-bottom: $grid-gutter-width;
+		img {
+			max-height: 65px;
+			max-width: 150px;
+			width: auto;
+		}
+	}
+}

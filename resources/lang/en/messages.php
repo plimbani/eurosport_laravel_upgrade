@@ -31,6 +31,25 @@
 		'send' => 'Send',
 		'contact_confirmation_message' => 'Thanks for getting in touch. Someone will get back to you shortly.',
 		'404_page_title' => 'Error 404 - page not found',
-		'404_page_message' => 'This might be because you have typed the web address incorrectly, or the page you were looking for may have been moved, updated or deleted. <a href=":url">Click here</a> to return to the homepage.'
+		'404_page_message' => 'This might be because you have typed the web address incorrectly, or the page you were looking for may have been moved, updated or deleted. <a href=":url">Click here</a> to return to the homepage.',
+
+		'contact_form_name' => 'Your name',
+		'contact_form_email' => 'Your email address',
+		'contact_form_telephone' => 'Your telephone number',
+		'contact_form_message' => 'Your message',
+		'contact_form_subject' => 'Message subject',
+		'contact_form_send_btn' => 'Send',
+		'match_schedule_message' => 'The match schedule will be available 2-3 weeks before the tournament begins.',
+		'no_locations_found' => 'No locations found',
+		'no_photos_found' => 'No photos found',
+		'recaptcha_error_message' => 'Please validate reCAPTCHA',
+		'inquiry_form_success_message' =>'Thanks for getting in touch.<br>Someone will get back to you shortly.',
+		'stay_introduction_content' => 'Introduction content',
+		'visitors_arrival_and_check_in' => 'Arrival and check-in',
+		'visitors_public_transport' => 'Public transport',
+		'visitors_tips_for_visitors' => 'Tips for visitors',
+		'more' => 'More...',
+		'less' => 'Less...',
+		'required_field_message' => 'This field is required'
 	]
 ?>

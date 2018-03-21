@@ -236,7 +236,7 @@ class PushMessagesController extends BaseController
         $message = $this->insertInMessageHistory($data);
 
         // Broadcast message to make message appear for users on tournament websites
-        broadcast(new AppMessageSent($message));
+        event(new AppMessageSent($message));
 
         return $this->response->array([
                     'data' => $downstreamResponse1,
@@ -271,6 +271,6 @@ class PushMessagesController extends BaseController
       $days = Config::get('wot.message_notification_days');
       $createdAfter = Carbon::today()->subDay($days);
       $messages = $website->messages()->whereDate('created_at', '>=', $createdAfter)->orderBy('created_at', 'desc')->get();
-      return $messages;
+      return ['messages' => $messages->toArray()];
     }
 }

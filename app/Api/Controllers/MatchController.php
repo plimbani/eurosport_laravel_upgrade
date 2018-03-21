@@ -161,16 +161,16 @@ class MatchController extends BaseController
     public function generateRefereeReportCard(Request $request, $refereeId){
 
         $refereeData = Referee::where('id',$refereeId)->first();
-        
+
         $referee = TempFixture::with('pitch','referee')->where('referee_id', $refereeId)
                                 ->orderBy('match_datetime','asc')->get();
-        
+
         $resultData = $referee->toArray();
 
         $date = new \DateTime(date('H:i d M Y'));
 
-        $refereeName = $refereeData['last_name'].", ".$refereeData['first_name'];     
-     
+        $refereeName = $refereeData['last_name'].", ".$refereeData['first_name'];
+
         $refereeReportPdf =  "Referee report card - " .$refereeName;
 
         $pdf = PDF::loadView('pitchplanner.referee_report_card',['resultData' => $resultData])

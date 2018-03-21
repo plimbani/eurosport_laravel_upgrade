@@ -1,0 +1,93 @@
+@mixin rem($property, $values...) {
+    $n: length($values);
+    $i: 1;
+    $pxlist: ();
+    $remlist: ();
+    @while $i <=$n {
+        $itemVal: (nth($values, $i));
+        @if $itemVal !="auto" {
+            $pxlist: append($pxlist, $itemVal + px);
+            $remlist: append($remlist, ($itemVal / 10) + rem);
+        }
+        @else {
+            $pxlist: append($pxlist, auto);
+            $remlist: append($remlist, auto);
+        }
+        $i: $i+1;
+    }
+    #{$property}: $pxlist;
+    #{$property}: $remlist;
+}
+
+
+/******** Usage ********
+
+.class{
+    @inlcude rem("margin", 10, 0);
+    @inlcude rem("padding", 10);
+    @inlcude rem("font-size", 12);
+}
+
+***********************/
+
+@function strip-unit($number) {
+    @if type-of($number)=='number' and not unitless($number) {
+        @return $number / ($number * 0 + 1);
+    }
+    @return $number;
+}
+
+
+/******** Usage ********
+
+which gives you in integer output like 
+10px => 10
+10em => 10
+
+.class{
+    @include rem("property", strip-unit(($grid-gutter-width / 2)));
+}
+***********************/
+
+@mixin font-size($sizeValue: 12) {
+    font-size: $sizeValue + px; //fallback for old browsers
+    font-size: (0.125 * $sizeValue) + rem;
+}
+
+/******** Usage ********
+
+input
+
+body {
+  @include font-size(16);
+}
+
+output
+
+body {
+  font-size: 16px;
+  font-size: 2rem;
+}
+***********************/
+
+
+@mixin line-height($heightValue: 12 ){
+    line-height: $heightValue + px; //fallback for old browsers
+    line-height: (0.125 * $heightValue) + rem;
+}
+
+/******** Usage ********
+
+input
+
+body {
+  @include line-height (16);
+}
+
+output
+
+body {
+  line-height: 16px;
+  line-height: 2rem;
+}
+***********************/

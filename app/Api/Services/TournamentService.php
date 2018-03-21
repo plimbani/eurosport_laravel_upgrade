@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use PDF;
 use Laraspace\Models\Venue;
 use Laraspace\Models\Team;
+use Laraspace\Models\Website;
 use Laraspace\Models\Tournament;
 use Validate;
 use JWTAuth;
@@ -391,6 +392,7 @@ class TournamentService implements TournamentContract
     public function delete($tournamentId)
     {
         DB::table('tournament_user')->where('tournament_id', $tournamentId)->delete();
+        Website::where('linked_tournament', $tournamentId)->update(['linked_tournament' => NULL]);
         $data = $this->tournamentRepoObj->delete($tournamentId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
@@ -516,7 +518,7 @@ class TournamentService implements TournamentContract
                     break;
               case 'displayMatchNumber':
                     $fieldName = 'displayMatchNumber';
-                    break;      
+                    break;
               case 'HomeTeam':
                     $fieldName = 'HomeTeam';
                     break;
@@ -538,7 +540,7 @@ class TournamentService implements TournamentContract
               $refName  = '';
               $homeTeam = null;
               $awayTeam = null;
-            
+
               if($reportRec->homeTeam == '0' ) {
                 if(strpos($reportRec->competition_actual_name, 'Group') !== false) {
                   $homeTeam = $reportRec->displayHomeTeamPlaceholder;
@@ -547,28 +549,28 @@ class TournamentService implements TournamentContract
                 }
 
                 // if($reportRec->actual_round == 'Elimination') {
-                 
+
                   if((strpos($reportRec->displayMatchNumber, 'wrs') != false) || (strpos($reportRec->displayMatchNumber, 'lrs') != false)) {
                     $matchPrec = '';
-                  
+
                     if(strpos($reportRec->displayHomeTeamPlaceholder, '#')  !== false ){
                       $homeTeam = $reportRec->displayHomeTeamPlaceholder;
                     } else {
                       if(strpos($reportRec->displayMatchNumber, 'wrs') != false ){
-                        $matchPrec = 'wrs.'; 
+                        $matchPrec = 'wrs.';
                       } if(strpos($reportRec->displayMatchNumber, 'lrs') != false){
-                        $matchPrec = 'lrs.'; 
+                        $matchPrec = 'lrs.';
                       }
                       $homeTeam = $matchPrec.$reportRec->displayHomeTeamPlaceholder;
                     }
-                  } 
+                  }
                 // }
               } else {
                 $homeTeam = $reportRec->HomeTeam;
               }
 
               if($reportRec->awayTeam == '0') {
-                
+
                 if(strpos($reportRec->competition_actual_name, 'Group') !== false) {
                   $awayTeam = $reportRec->displayAwayTeamPlaceholder;
                 } else if(strpos($reportRec->competition_actual_name, 'Pos') !== false) {
@@ -576,14 +578,14 @@ class TournamentService implements TournamentContract
                 }
                 // if($reportRec->actual_round == 'Elimination') {
                    $matchPrec ='';
-                  
+
                   if(strpos($reportRec->displayAwayTeamPlaceholder, '#')  !== false ){
                       $awayTeam = $reportRec->displayAwayTeamPlaceholder;
                     } else {
                       if(strpos($reportRec->displayMatchNumber, 'wrs') != false ){
-                        $matchPrec = 'wrs.'; 
+                        $matchPrec = 'wrs.';
                       } if(strpos($reportRec->displayMatchNumber, 'lrs') != false){
-                        $matchPrec = 'lrs.'; 
+                        $matchPrec = 'lrs.';
                       }
                       $awayTeam = $matchPrec.$reportRec->displayAwayTeamPlaceholder;
                     }
@@ -594,7 +596,7 @@ class TournamentService implements TournamentContract
 
               if($reportRec->referee_last_name != '' && $reportRec->referee_first_name != '') {
                 $refName =   $reportRec->referee_last_name . ', ' . $reportRec->referee_first_name;
-              } 
+              }
 
               $displayMatchNumber = str_replace('@HOME',$reportRec->displayHomeTeamPlaceholder,str_replace('@AWAY',$reportRec->displayAwayTeamPlaceholder,$reportRec->displayMatchNumber));
 
@@ -759,7 +761,7 @@ class TournamentService implements TournamentContract
                         break;
                   case 'displayMatchNumber':
                         $fieldName = 'displayMatchNumber';
-                        break;       
+                        break;
                   case 'full_game':
                         $fieldName = 'full_game';
                         break;
@@ -886,9 +888,15 @@ class TournamentService implements TournamentContract
       return ['status_code' => '200', 'message' => 'Group colors have been saved successfully.'];
     }
 
-    public function getAllPublishedTournaments($data) 
+    public function getAllPublishedTournaments($data)
     {
       $data = $this->tournamentRepoObj->getAllPublishedTournaments($data);
       return ['data' => $data, 'status_code' => '200'];
+    }
+
+    public function getFilterDropDownData($data)
+    {
+      $data = $this->tournamentRepoObj->getFilterDropDownData($data);
+      return ['options' => $data];
     }
 }

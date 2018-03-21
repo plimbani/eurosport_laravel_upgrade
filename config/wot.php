@@ -132,7 +132,7 @@ return [
           'is_published' => 0,
           'is_permission_changeable' => 1,
           'accessible_routes' => ['accommodation.page.details']
-	  		]  			
+	  		]
   		]
   	],
   	[
@@ -183,6 +183,7 @@ return [
     ]
   ],
   'permissions_not_changeable_pages' => ['home', 'contact'],
+  'hide_header_menus' => ['home'],
   'current_domain' => null,
   'default_accessible_routes' => [],
   'google_api_key' => env('GOOGLE_API_KEY', ''),
@@ -221,5 +222,47 @@ return [
     'to' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
     'cc' => [],
     'bcc' => ['ssheth@aecordigital.com'],
+  ],
+  'inquiries_recipient' => ['ssheth@aecordigital.com'],
+  'google_re_captcha_site_key' => env('GOOGLE_RE_CAPTCHA_SITE_KEY', ''),
+  'google_re_captcha_secret_key' => env('GOOGLE_RE_CAPTCHA_SECRET_KEY', ''),
+  'colorthemes' => [
+		'#D0021B' => 'theme-1.css',
+		'#FF9F00' => 'theme-2.css',
+		'#417505' => 'theme-3.css',
+		'#50E3C2' => 'theme-4.css',
+		'#1E469D' => 'theme-5.css',
+		'#9013FE' => 'theme-6.css',
+  ],
+  'parents_child_routes' => [
+    'tournament' => ['rules.page.details', 'history.page.details'],
+    'program' => ['additional.program.page.details'],
+    'stay' => ['meals.page.details', 'accommodation.page.details', 'additional.stay.page.details'],
+    'visitors' => ['tourist.page.details'],
+  ],
+	'font_files' => [
+		'Montserrat' => 'https://fonts.googleapis.com/css?family=Montserrat',
+		'Roboto' => 'https://fonts.googleapis.com/css?family=Roboto',
+		'Lato' => 'https://fonts.googleapis.com/css?family=Lato',
+		'PT Sans' => 'https://fonts.googleapis.com/css?family=PT+Sans',
+	],
+  'page_routes' => [
+    'home' => 'home.page.details',
+    'teams' => 'team.page.details',
+    'matches' => 'match.page.details',
+    'venue' => 'venue.page.details',
+    'tournament' => 'tournament.page.details',
+    'rules' => 'rules.page.details',
+    'history' => 'history.page.details',
+    'program' => 'program.page.details',
+    'additional_program_page' => 'additional.program.page.details',
+    'stay' => 'stay.page.details',
+    'meals' => 'meals.page.details',
+    'accommodation' => 'accommodation.page.details',
+    'additional_stay_page' => 'additional.stay.page.details',
+    'visitors' => 'visitor.page.details',
+    'tourist_information' => 'tourist.page.details',
+    'media' => 'media.page.details',
+    'contact' => 'contact.page.details',
   ],
 ];
