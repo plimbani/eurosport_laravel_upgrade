@@ -18,8 +18,6 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login','AuthController@authenticate');
     Route::get('logout','AuthController@logout');
     Route::post('check','AuthController@check');
-
-
 });
 
 Route::get('password/reset/{token}', '\Laraspace\Api\Controllers\PasswordController@getReset');
@@ -38,13 +36,9 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
 });
 
-
 $api->version('v1', function ($api) {
-
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
     $api->get('tournaments/getTournamentBySlug/{slug}', 'Laraspace\Api\Controllers\TournamentController@getTournamentBySlug');
-
-
 
     $api->post('tournament/getCategoryCompetitions', 'Laraspace\Api\Controllers\TournamentController@getCategoryCompetitions');
     $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
@@ -61,11 +55,9 @@ $api->version('v1', function ($api) {
     // $api->get('mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
     $api->get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
 
-    // $api->get('tournament/report/print', 'Laraspace\Api\Controllers\TournamentController@generatePrint');
-
     $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
-    $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
 
+    $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
 
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
@@ -79,15 +71,10 @@ $api->version('v1', function ($api) {
 
     $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
 
-
     $api->post('match/getStanding/{refreshStanding?}',
         'Laraspace\Api\Controllers\MatchController@getStanding');
 
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
-
-    // $api->get('pitch/reportCard/{pitchId}',
-    //     'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
-
 
     // routes for sigend url
     $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
