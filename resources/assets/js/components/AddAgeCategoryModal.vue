@@ -306,7 +306,7 @@
             </div>
           </div>
           <div class="form-group row align-items-center">
-            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_comments}}</div>
+            <div class="col-sm-4 form-control-label">Info for teams</div>
             <div class="col-sm-8">
               <div class="row align-items-center">
                 <div class="col-sm-12">
