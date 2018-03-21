@@ -166,12 +166,6 @@ class MatchService implements MatchContract
 
     public function scheduleMatch($matchData) {
         $data = $matchData->all()['matchData'];
-        
-        $isTournamentAccessible = $this->checkForTournamentAccess($data['tournamentId']);
-        if(!$isTournamentAccessible) {
-          abort(403, 'Unauthorized action.');
-        }
-
         $scheduledResult = $this->matchRepoObj->setMatchSchedule($matchData->all()['matchData']);
         if ($scheduledResult) {
             if($scheduledResult != -1 && $scheduledResult != -2){
@@ -315,13 +309,6 @@ class MatchService implements MatchContract
         }
     }
     public function assignReferee($matchData) {
-      $data = $matchData->all()['data'];
-
-      $isTournamentAccessible = $this->checkForTournamentAccess($data['tournamentId']);
-      if(!$isTournamentAccessible) {
-        abort(403, 'Unauthorized action.');
-      }
-
         $matchResult = $this->matchRepoObj->assignReferee($matchData->all()['data']);
         // dd($matchResult);
         if ($matchResult) {
@@ -357,12 +344,6 @@ class MatchService implements MatchContract
       $teamArray = [];
       $AllMatches = $matchData->all()['matchData']['matchDataArray'];
       $tournamentId = $matchData->all()['matchData']['tournamentId'];
-
-      $isTournamentAccessible = $this->checkForTournamentAccess($tournamentId);
-      if(!$isTournamentAccessible) {
-        abort(403, 'Unauthorized action.');
-      }
-
       foreach ($AllMatches as $match) {
         $matchResult = $this->matchRepoObj->saveAllResults($match);
         $matchData = $matchResult['match_data'];
@@ -400,13 +381,6 @@ class MatchService implements MatchContract
         }
     }
     public function getUnavailableBlock($matchData) {
-      $data = $matchData->all()['matchData'];
-      
-      $isTournamentAccessible = $this->checkForTournamentAccess($data['tournamentId']);
-      if(!$isTournamentAccessible) {
-        abort(403, 'Unauthorized action.');
-      }
-
         $scheduledResult = $this->matchRepoObj->getUnavailableBlock($matchData->all()['matchData']);
         if ($scheduledResult) {
             return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Block added successfully'];

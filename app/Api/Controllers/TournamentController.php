@@ -8,8 +8,11 @@ use Laraspace\Http\Requests\Tournament\DeleteRequest;
 use Laraspace\Http\Requests\Tournament\PublishRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Laraspace\Http\Requests\Tournament\TemplatesRequest;
+use Laraspace\Http\Requests\Tournament\TournamentSummary;
 use Laraspace\Http\Requests\Tournament\StoreUpdateRequest;
+use Laraspace\Http\Requests\Tournament\GetTemplateRequest;
 use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
+use Laraspace\Http\Requests\Tournament\GenerateReportRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
 use Laraspace\Http\Requests\Tournament\CategoryCompetitionColorRequest;
 
@@ -90,7 +93,7 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "json": "foo"})
      */
-    public function getTemplate(Request $request)
+    public function getTemplate(GetTemplateRequest $request)
     {
         return $this->tournamentObj->getTemplate($request->all());
     }
@@ -135,12 +138,14 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->delete($id);
     }
-    public function tournamentSummary(Request $request)
+    public function tournamentSummary(TournamentSummary $request)
     {
         return $this->tournamentObj->tournamentSummary($request);
     }
-
-    public function generateReport(Request $request) {
+    public function exportReport(Request $request) {
+       return $this->tournamentObj->generateReport($request->all());
+    }
+    public function generateReport(GenerateReportRequest $request) {
        return $this->tournamentObj->generateReport($request->all());
     }
     public function generatePrint(Request $request) {
@@ -188,13 +193,24 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->saveCategoryCompetitionColor($request->all());
     }
-    public function getSignedUrlForTournamentReport($reportData)
+    public function getSignedUrlForTournamentReport(Request $request)
     {
-        parse_str($reportData, $reportData);
+        $reportData = $request->all();
         ksort($reportData);
         $reportData  = http_build_query($reportData);
 
         $signedUrl = UrlSigner::sign(url('api/tournament/report/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function getSignedUrlForTournamentReportExport(Request $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/tournament/report/reportExport?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
     }

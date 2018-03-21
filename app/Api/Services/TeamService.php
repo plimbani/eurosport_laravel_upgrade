@@ -111,10 +111,6 @@ class TeamService implements TeamContract
     }
     public function create($data)
     {
-      $isTournamentAccessible = $this->checkForTournamentAccess($data->tournamentData['tournamentId']);
-      if(!$isTournamentAccessible) {
-        abort(403, 'Unauthorized action.');
-      }
         if($data['country']!=''){
 
             $data['country_id'] = $this->getCountryIdFromName($data['country']) != 'error' ? $this->getCountryIdFromName($data['country']) : '1';
@@ -362,12 +358,6 @@ class TeamService implements TeamContract
     public function resetAllTeams($request)
     {
         $data = $request->toArray()['ageCategoryId'];
-        
-        $isTournamentAccessible = $this->checkForTournamentAccess($data['tournamentId']);
-        if(!$isTournamentAccessible) {
-          abort(403, 'Unauthorized action.');
-        }
-
         $data = $this->teamRepoObj->resetAllTeams($data);
     }
 }

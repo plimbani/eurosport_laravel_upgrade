@@ -13,6 +13,8 @@ use Laraspace\Http\Requests\Pitch\ShowRequest;
 use Laraspace\Http\Requests\Pitch\StoreRequest;
 use Laraspace\Http\Requests\Pitch\UpdateRequest;
 use Laraspace\Http\Requests\Pitch\DeleteRequest;
+use Laraspace\Http\Requests\Pitch\GetPitchesRequest;
+use Laraspace\Http\Requests\Pitch\GetPitchSizeWiseSummaryRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\PitchContract;
 
@@ -41,7 +43,7 @@ class PitchController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getPitches($tournamentId)
+    public function getPitches(GetPitchesRequest $request, $tournamentId)
     {
         return $this->pitchObj->getAllPitches($tournamentId);
     }
@@ -55,7 +57,7 @@ class PitchController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getPitchSizeWiseSummary($tournamentId)
+    public function getPitchSizeWiseSummary(GetPitchSizeWiseSummaryRequest $request, $tournamentId)
     {
         return $this->pitchObj->getPitchSizeWiseSummary($tournamentId);
     }
