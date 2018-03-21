@@ -2,6 +2,7 @@
 
 namespace Laraspace\Api\Controllers;
 
+use Laraspace\Http\Requests\Role\GetRolesRequest;
 use Brotzka\DotenvEditor\DotenvEditor;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
@@ -33,7 +34,7 @@ class RoleController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getRoles()
+    public function getRoles(GetRolesRequest $request)
     {
         return $this->roleObj->getAllRoles();
     }

@@ -10,9 +10,12 @@ use Laraspace\Models\Team;
 use Laraspace\Models\Position;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentTemplates;
+use Laraspace\Traits\TournamentAccess;
 
 class AgeGroupService implements AgeGroupContract
 {
+  use TournamentAccess;
+
     public function __construct(AgeGroupRepository $ageRepoObj)
     {
         $this->ageGroupObj = $ageRepoObj;
@@ -51,6 +54,11 @@ class AgeGroupService implements AgeGroupContract
 
         // Check if maximum team exceeds
         $totalCheckTeams = 0;
+
+        $isTournamentAccessible = $this->checkForTournamentAccess($data['tournament_id']);
+        if(!$isTournamentAccessible) {
+          abort(403, 'Unauthorized action.');
+        }
 
         $tournamentTotalTeamSumObj = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id']);
         $maximumTeams = Tournament::find($data['tournament_id'])->maximum_teams;

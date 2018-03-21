@@ -14,10 +14,13 @@ use Laraspace\Models\Competition;
 use Laraspace\Models\TeamManualRanking;
 use Laraspace\Models\Team;
 use Laraspace\Models\Position;
+use Laraspace\Traits\TournamentAccess;
 use Laraspace\Models\TournamentCompetationTemplates;
 
 class MatchService implements MatchContract
 {
+    use TournamentAccess;
+
     public function __construct()
     {
         $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
@@ -109,7 +112,6 @@ class MatchService implements MatchContract
     public function getFixtures($data)
     {
         $data = $data->all();
-
         // $fixtureResData = $this->matchRepoObj->getFixtures($data['tournamentData']);
         $fixtureResData = $this->matchRepoObj->getTempFixtures($data['tournamentData']);
         return ['status_code' => '200', 'data' => $fixtureResData,'message' => 'Match Fixture data'];
@@ -163,6 +165,13 @@ class MatchService implements MatchContract
     }
 
     public function scheduleMatch($matchData) {
+        $data = $matchData->all()['matchData'];
+        
+        $isTournamentAccessible = $this->checkForTournamentAccess($data['tournamentId']);
+        if(!$isTournamentAccessible) {
+          abort(403, 'Unauthorized action.');
+        }
+
         $scheduledResult = $this->matchRepoObj->setMatchSchedule($matchData->all()['matchData']);
         if ($scheduledResult) {
             if($scheduledResult != -1 && $scheduledResult != -2){
@@ -306,6 +315,13 @@ class MatchService implements MatchContract
         }
     }
     public function assignReferee($matchData) {
+      $data = $matchData->all()['data'];
+
+      $isTournamentAccessible = $this->checkForTournamentAccess($data['tournamentId']);
+      if(!$isTournamentAccessible) {
+        abort(403, 'Unauthorized action.');
+      }
+
         $matchResult = $this->matchRepoObj->assignReferee($matchData->all()['data']);
         // dd($matchResult);
         if ($matchResult) {
@@ -341,6 +357,12 @@ class MatchService implements MatchContract
       $teamArray = [];
       $AllMatches = $matchData->all()['matchData']['matchDataArray'];
       $tournamentId = $matchData->all()['matchData']['tournamentId'];
+
+      $isTournamentAccessible = $this->checkForTournamentAccess($tournamentId);
+      if(!$isTournamentAccessible) {
+        abort(403, 'Unauthorized action.');
+      }
+
       foreach ($AllMatches as $match) {
         $matchResult = $this->matchRepoObj->saveAllResults($match);
         $matchData = $matchResult['match_data'];
@@ -370,7 +392,6 @@ class MatchService implements MatchContract
         }
     }
     public function saveUnavailableBlock($matchData) {
-
         $scheduledResult = $this->matchRepoObj->setUnavailableBlock($matchData->all()['matchData']);
         if ($scheduledResult) {
             return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Block added successfully'];
@@ -379,6 +400,13 @@ class MatchService implements MatchContract
         }
     }
     public function getUnavailableBlock($matchData) {
+      $data = $matchData->all()['matchData'];
+      
+      $isTournamentAccessible = $this->checkForTournamentAccess($data['tournamentId']);
+      if(!$isTournamentAccessible) {
+        abort(403, 'Unauthorized action.');
+      }
+
         $scheduledResult = $this->matchRepoObj->getUnavailableBlock($matchData->all()['matchData']);
         if ($scheduledResult) {
             return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Block added successfully'];

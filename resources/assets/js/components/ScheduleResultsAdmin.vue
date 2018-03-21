@@ -153,7 +153,15 @@ export default {
 		exportCategoryReport() {
 			let ageCategory	= this.ageCategory
 			if(ageCategory!=''){
-    			window.location.href = "/api/match/report/generate/"+ageCategory;
+				Tournament.getSignedUrlForMatchReport(ageCategory).then(
+					(response) => {
+						window.location.href = response.data;
+					},
+					(error) => {
+
+					}
+				)
+    			// window.location.href = "/api/match/report/generate/"+ageCategory;
 			} else {
     			toastr['error']('Please select age category.', 'Error');
 			}
