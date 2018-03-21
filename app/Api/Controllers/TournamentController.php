@@ -1,9 +1,17 @@
 <?php
 namespace Laraspace\Api\Controllers;
 
-use Illuminate\Foundation\Validation\ValidatesRequests;
-
+use UrlSigner;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\Tournament\DeleteRequest;
+use Laraspace\Http\Requests\Tournament\PublishRequest;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Laraspace\Http\Requests\Tournament\TemplatesRequest;
+use Laraspace\Http\Requests\Tournament\StoreUpdateRequest;
+use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
+use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
+use Laraspace\Http\Requests\Tournament\CategoryCompetitionColorRequest;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\TournamentContract;
@@ -68,7 +76,7 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "json": "foo"})
      */
-    public function templates(Request $request)
+    public function templates(TemplatesRequest $request)
     {
         return $this->tournamentObj->templates($request->all());
     }
@@ -97,7 +105,7 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function create(Request $request)
+    public function create(StoreUpdateRequest $request)
     {
         return $this->tournamentObj->create($request);
     }
@@ -123,7 +131,7 @@ class TournamentController extends BaseController
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function delete($id)
+    public function delete(DeleteRequest $request, $id)
     {
         return $this->tournamentObj->delete($id);
     }
@@ -145,7 +153,7 @@ class TournamentController extends BaseController
         logger($validator->errors()->all());
         return $validator->errors()->all();
     }
-    public function updateStatus(Request $request) {
+    public function updateStatus(PublishRequest $request) {
        return $this->tournamentObj->updateStatus($request->all());
     }
     public function tournamentFilter(Request $request)
@@ -164,11 +172,11 @@ class TournamentController extends BaseController
     {
       return $this->tournamentObj->getUserLoginFavouriteTournament($request->all());
     }
-    public function getTournamentClub(Request $request)
+    public function getTournamentClub(TournamentClubRequest $request)
     {
       return $this->tournamentObj->getTournamentClub($request->all());
     }
-    public function addTournamentDetails(Request $request)
+    public function addTournamentDetails(StoreBasicDetailRequest $request)
     {
         return $this->tournamentObj->addTournamentDetails($request->all());
     }
@@ -176,9 +184,19 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->getCategoryCompetitions($request->all());
     }
-    public function saveCategoryCompetitionColor(Request $request)
+    public function saveCategoryCompetitionColor(CategoryCompetitionColorRequest $request)
     {
         return $this->tournamentObj->saveCategoryCompetitionColor($request->all());
+    }
+    public function getSignedUrlForTournamentReport($reportData)
+    {
+        parse_str($reportData, $reportData);
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/tournament/report/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
     }
 
 }

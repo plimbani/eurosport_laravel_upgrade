@@ -15,7 +15,7 @@
 </template>
 
 <script type="text/babel">
-
+import Tournament from '../api/tournament.js'
 export default {
     props: ['referee'],
     mounted() {
@@ -49,8 +49,17 @@ export default {
 
         generateRefereeReport() {
             let refereeId = this.referee.id
-            var win = window.open("/api/match/reportCard/" + refereeId, '_blank');
-            win.focus();
+            // var win = window.open("/api/match/reportCard/" + refereeId, '_blank');
+            // win.focus();
+
+            Tournament.getSignedUrlForRefereeReport(refereeId).then(
+                (response) => {
+                    window.open(response.data, '_blank');
+                },
+                (error) => {
+
+                }  
+            )
         },
         editReferee() { 
             this.$root.$emit('editReferee', this.referee.id)

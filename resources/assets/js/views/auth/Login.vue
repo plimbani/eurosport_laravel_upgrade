@@ -95,12 +95,13 @@
                 $('#resetPassword').attr("disabled","disabled");
                 let formData = {'email': this.loginData.email}
                 return axios.post('/api/password/email',formData).then(response =>  {
-                    // console.log(response.status)
-                    if(response.status == 200){
+                    if(response.data.status == 403) {
+                        toastr['error']('Too many reset password attempts. Please try again in 1 hour!', 'Error');
+                    } else if(response.status == 200){
                         this.loginData.forgotpassword = ''
                         toastr['success']('We have emailed you a password reset link!', 'Success');
                         $('#resetPassword').attr("disabled","");
-                    }else{
+                    } else{
                         toastr['error']('email address does not exist', 'Error');
                          $('#resetPassword').removeAttr("disabled","");
                     }

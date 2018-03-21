@@ -3,9 +3,12 @@
 namespace Laraspace\Api\Services;
 
 use Laraspace\Api\Contracts\VenueContract;
+use Laraspace\Traits\TournamentAccess;
 
 class VenueService implements VenueContract
 {
+    use TournamentAccess;
+
     /**
      *  Messages To Display.
      */
@@ -27,6 +30,10 @@ class VenueService implements VenueContract
      */
     public function index($tournamentId)
     {
+        $isTournamentAccessible = $this->checkForTournamentAccess($tournamentId);
+        if(!$isTournamentAccessible) {
+            abort(403, 'Unauthorized action.');
+        }
         // Here we send Status Code and Messages        
         $data = $this->venueRepoObj->getAllVenues($tournamentId);
 

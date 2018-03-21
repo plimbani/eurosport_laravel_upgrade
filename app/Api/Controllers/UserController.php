@@ -2,18 +2,23 @@
 
 namespace Laraspace\Api\Controllers;
 
-use Brotzka\DotenvEditor\DotenvEditor;
+use Illuminate\Http\Request;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
+use Brotzka\DotenvEditor\DotenvEditor;
 
 // Need to Define Only Contracts
-use Laraspace\Api\Contracts\UserContract;
 use JWTAuth;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
-use Laraspace\Api\Repositories\UserRepository;
 use Laraspace\Custom\Helper\Common;
+use Laraspace\Api\Contracts\UserContract;
+use Laraspace\Api\Repositories\UserRepository;
+use Laraspace\Http\Requests\User\StoreRequest;
+use Laraspace\Http\Requests\User\DeleteRequest;
+use Laraspace\Http\Requests\User\BrowseRequest;
+use Laraspace\Http\Requests\User\DownloadReportRequest;
+use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 
 /**
  * Users Resource Description.
@@ -59,12 +64,12 @@ class UserController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getUsersByRegisterType(Request $request)
+    public function getUsersByRegisterType(BrowseRequest $request)
     {
         return $userData = $this->userObj->getUsersByRegisterType($request->all());
     }
 
-    public function getUserTableData(Request $request)
+    public function getUserTableData(DownloadReportRequest $request)
     {
         return $userData = $this->userObj->getUserTableData($request->all());
     }
@@ -78,7 +83,7 @@ class UserController extends BaseController
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function createUser(Request $request)
+    public function createUser(StoreRequest $request)
     {
         return $this->userObj->create($request);
     }
@@ -113,7 +118,7 @@ class UserController extends BaseController
      *
      * @return [type]           [description]
      */
-    public function deleteUser($id)
+    public function deleteUser(DeleteRequest $request, $id)
     {
         return $this->userObj->delete($id);
     }
@@ -186,7 +191,7 @@ class UserController extends BaseController
       $recipient = $userData->email;
       $email_templates = null;
       $email_msg = null;
-      
+
       if($userData->registered_from === 0)
       {
         $email_templates = 'emails.users.mobile_user';
@@ -238,12 +243,11 @@ class UserController extends BaseController
       return $this->userObj->getAllAppUsers($request->all());
     }
 
-    public function changeTournamentPermission(Request $request) {
-      return $this->userObj->changeTournamentPermission($request->all());  
+    public function changeTournamentPermission(TournamentPermissionRequest $request) {
+      return $this->userObj->changeTournamentPermission($request->all());
     }
 
     public function getUserTournaments(Request $request, $id) {
       return $this->userObj->getUserTournaments($id);
     }
-
 }
