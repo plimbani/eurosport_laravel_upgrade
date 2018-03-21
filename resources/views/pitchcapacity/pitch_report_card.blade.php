@@ -117,7 +117,7 @@
             </td>
           </tr>
           <tr>
-            <td width="230px">&nbsp;Comments</td>
+            <td width="230px">&nbsp;Remarks</td>
             <td>&nbsp;{{ $data['comments']}}</td>
           </tr>
         </thead>

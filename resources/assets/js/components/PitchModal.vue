@@ -113,7 +113,7 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_comments_label}}</label>
+                <label class="col-sm-3 form-control-label">Remarks</label>
                 <div class="col-sm-9">
                   <textarea class="form-control" name="comments" id="comments">{{matchDetail.comments}}</textarea>
                 </div>
