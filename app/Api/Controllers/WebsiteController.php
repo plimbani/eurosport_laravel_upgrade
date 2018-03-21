@@ -3,6 +3,10 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\Website\SummaryRequest;
+use Laraspace\Http\Requests\Website\StoreUpdateRequest;
+use Laraspace\Http\Requests\Website\GetWebsitesRequest;
+use Laraspace\Http\Requests\Website\GetSponsorsRequest;
 
 // Need to define only contracts
 use Laraspace\Api\Contracts\WebsiteContract;
@@ -63,7 +67,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function saveWebsiteData(Request $request)
+  public function saveWebsiteData(StoreUpdateRequest $request)
   {
     return $this->websiteContract->saveWebsiteData($request->all());
   }
@@ -73,7 +77,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function websiteSummary(Request $request)
+  public function websiteSummary(SummaryRequest $request)
   {
     return $this->websiteContract->websiteSummary($request);
   }
@@ -114,7 +118,7 @@ class WebsiteController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getSponsors(Request $request, $websiteId)
+  public function getSponsors(GetSponsorsRequest $request, $websiteId)
   {
     return $this->websiteContract->getSponsors($websiteId);
   }
@@ -182,7 +186,7 @@ class WebsiteController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getWebsiteDetails(Request $request, $websiteId)
+  public function getWebsiteDetails(GetWebsitesRequest $request, $websiteId)
   {
     return $this->websiteContract->getWebsiteDetails($websiteId);
   }

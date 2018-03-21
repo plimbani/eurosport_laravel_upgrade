@@ -5,6 +5,9 @@ namespace Laraspace\Api\Controllers;
 use Illuminate\Http\Request;
 
 use Laraspace\Api\Contracts\ProgramContract;
+use Laraspace\Http\Requests\Program\StoreUpdateRequest;
+use Laraspace\Http\Requests\Program\GetItineriesRequest;
+use Laraspace\Http\Requests\Program\GetProgramPageDataRequest;
 
 class ProgramController extends BaseController {
 	/**
@@ -27,7 +30,7 @@ class ProgramController extends BaseController {
    *
    * @param ProgramContract $programContract
    */
-  public function getItineraries(Request $request, $websiteId)
+  public function getItineraries(GetItineriesRequest $request, $websiteId)
   {
     return $this->programContract->getItineraries($websiteId);
   }
@@ -37,7 +40,7 @@ class ProgramController extends BaseController {
    *
    * @param ProgramContract $programContract
    */
-  public function saveProgramPageData(Request $request)
+  public function saveProgramPageData(StoreUpdateRequest $request)
   {
     return $this->programContract->saveProgramPageData($request->all());
   }
@@ -47,7 +50,7 @@ class ProgramController extends BaseController {
    *
    * @param ProgramContract $programContract
    */
-  public function getProgramPageData(Request $request, $websiteId)
+  public function getProgramPageData(GetProgramPageDataRequest $request, $websiteId)
   {
     return $this->programContract->getProgramPageData($websiteId);
   }

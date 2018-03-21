@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 // Need to define only contracts
 use Laraspace\Api\Contracts\MediaContract;
 
+use Laraspace\Http\Requests\Media\GetPhotosRequest;
+use Laraspace\Http\Requests\Media\StoreUpdateRequest;
+use Laraspace\Http\Requests\Media\GetDocumentsRequest;
+
 /**
  * Media description.
  *
@@ -39,7 +43,7 @@ class MediaController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getPhotos(Request $request, $websiteId)
+  public function getPhotos(GetPhotosRequest $request, $websiteId)
   {
     return $this->mediaContract->getPhotos($websiteId);
   }
@@ -53,7 +57,7 @@ class MediaController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getDocuments(Request $request, $websiteId)
+  public function getDocuments(GetDocumentsRequest $request, $websiteId)
   {
     return $this->mediaContract->getDocuments($websiteId);
   }
@@ -65,7 +69,7 @@ class MediaController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function savePageData(Request $request)
+  public function savePageData(StoreUpdateRequest $request)
   {
     return $this->mediaContract->savePageData($request);
   }

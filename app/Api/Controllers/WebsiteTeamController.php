@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 // Need to define only contracts
 use Laraspace\Api\Contracts\WebsiteTeamContract;
 
+use Laraspace\Http\Requests\WebsiteTeam\StoreUpdateRequest;
+use Laraspace\Http\Requests\WebsiteTeam\GetTeamPageDataRequest;
+use Laraspace\Http\Requests\WebsiteTeam\GetAgeCategoriesDataRequest;
+
 /**
  * Home description.
  *
@@ -37,7 +41,7 @@ class WebsiteTeamController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getAgeCategories(Request $request, $websiteId)
+  public function getAgeCategories(GetAgeCategoriesDataRequest $request, $websiteId)
   {
     return $this->websiteTeamContract->getAgeCategories($websiteId);
   }
@@ -49,7 +53,7 @@ class WebsiteTeamController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function savePageData(Request $request)
+  public function savePageData(StoreUpdateRequest $request)
   {
     return $this->websiteTeamContract->savePageData($request);
   }
@@ -61,7 +65,7 @@ class WebsiteTeamController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getPageData(Request $request, $websiteId)
+  public function getPageData(GetTeamPageDataRequest $request, $websiteId)
   {
     return $this->websiteTeamContract->getPageData($request);
   }
