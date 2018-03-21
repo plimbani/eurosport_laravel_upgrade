@@ -32,9 +32,9 @@ trait TournamentAccess
 	 *
 	 * @return response
 	 */
-	protected function checkForTournamentsAccess($id)
+	protected function checkForMultipleTournamentAccess($id)
 	{
-		$user = $this->getCurrentLoggedInUserDetail();		
+		$user = $this->getCurrentLoggedInUserDetail();
 		if($user->hasRole('tournament.administrator')) {
 			$tournamentsIds = $user->tournaments()->pluck('id')->toArray();
 			if (!empty(array_intersect($id, $tournamentsIds))) {
