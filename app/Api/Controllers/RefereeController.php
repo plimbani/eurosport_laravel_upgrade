@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Laraspace\Http\Requests\Referee\StoreRequest;
 use Laraspace\Http\Requests\Referee\UpdateRequest;
 use Laraspace\Http\Requests\Referee\DeleteRequest;
+use Laraspace\Http\Requests\Referee\GetRefereesRequest;
 use Laraspace\Http\Requests\Referee\RefereeDetailRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\RefereeContract;
@@ -38,7 +39,7 @@ class RefereeController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getReferees(Request $request)
+    public function getReferees(GetRefereesRequest $request)
     {
         return $this->refereeObj->getAllReferees($request->all()['tournamentData']);
     }

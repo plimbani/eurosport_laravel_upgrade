@@ -19,6 +19,9 @@ use Laraspace\Http\Requests\Match\AssignRefereeRequest;
 use Laraspace\Http\Requests\Match\CheckTeamIntervalRequest;
 use Laraspace\Http\Requests\Match\GetUnavailableBlockRequest;
 use Laraspace\Http\Requests\Match\RemoveAssignedRefereeRequest;
+use Laraspace\Http\Requests\Match\GetSignedUrlForMatchPrintRequest;
+use Laraspace\Http\Requests\Match\GetSignedUrlForMatchReportRequest;
+use Laraspace\Http\Requests\Match\GetSignedUrlForRefereeReportRequest;
 use Laraspace\Models\Referee;
 use Laraspace\Http\Requests\Match\UnscheduleMatchRequest;
 use File;
@@ -794,14 +797,14 @@ class MatchController extends BaseController
         return $this->matchObj->saveStandingsManually($request);
     }
 
-    public function getSignedUrlForMatchReport($ageCategory)
+    public function getSignedUrlForMatchReport(GetSignedUrlForMatchReportRequest $request, $ageCategory)
     {
         $signedUrl = UrlSigner::sign(url('api/match/report/generate/' . $ageCategory), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
         
         return $signedUrl;
     }
 
-    public function getSignedUrlForMatchPrint(Request $request)
+    public function getSignedUrlForMatchPrint(GetSignedUrlForMatchPrintRequest $request)
     {
         $reportData = $request->all();
         ksort($reportData);
@@ -812,7 +815,7 @@ class MatchController extends BaseController
         return $signedUrl;
     }
 
-    public function getSignedUrlForRefereeReport($refereeId)
+    public function getSignedUrlForRefereeReport(GetSignedUrlForRefereeReportRequest $request, $refereeId)
     {
         $signedUrl = UrlSigner::sign(url('api/match/reportCard/' . $refereeId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
