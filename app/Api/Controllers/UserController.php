@@ -9,6 +9,8 @@ use Brotzka\DotenvEditor\DotenvEditor;
 
 // Need to Define Only Contracts
 use JWTAuth;
+use UrlSigner;
+use Carbon\Carbon;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Laraspace\Custom\Helper\Common;
@@ -21,6 +23,7 @@ use Laraspace\Http\Requests\User\BrowseRequest;
 use Laraspace\Http\Requests\User\DownloadReportRequest;
 use Laraspace\Http\Requests\User\GetUserDetailsRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
+use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
 
 /**
  * Users Resource Description.
@@ -251,5 +254,16 @@ class UserController extends BaseController
 
     public function getUserTournaments(Request $request, $id) {
       return $this->userObj->getUserTournaments($id);
+    }
+
+    public function getSignedUrlForUsersTableData(GetSignedUrlForUsersTableDataRequest $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/users/getUserTableData?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
     }
 }
