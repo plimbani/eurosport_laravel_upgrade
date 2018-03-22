@@ -76,18 +76,7 @@ $api->version('v1', function ($api) {
 
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
 
-    // routes for sigend url
-    $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
-
-    $api->post('getSignedUrlForTournamentReport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
-
-    $api->post('getSignedUrlForMatchPrint', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchPrint');
-
-    $api->post('getSignedUrlForRefereeReport/{refereeId}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForRefereeReport');
-
-    $api->post('getSignedUrlForPitchMatchReport/{pitchId}', 'Laraspace\Api\Controllers\PitchController@getSignedUrlForPitchMatchReport');
-
-    $api->post('getSignedUrlForTournamentReportExport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReportExport');
+    
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
@@ -250,6 +239,19 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('tournament/saveCategoryCompetitionColor',
         'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
+
+    // routes for sigend url
+    $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
+
+    $api->post('getSignedUrlForTournamentReport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
+
+    $api->post('getSignedUrlForMatchPrint', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchPrint');
+
+    $api->post('getSignedUrlForRefereeReport/{refereeId}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForRefereeReport');
+
+    $api->post('getSignedUrlForPitchMatchReport/{pitchId}', 'Laraspace\Api\Controllers\PitchController@getSignedUrlForPitchMatchReport');
+
+    $api->post('getSignedUrlForTournamentReportExport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReportExport');
 });
 
 
