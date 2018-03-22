@@ -195,10 +195,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     // Push Notification Service
     // Update user for update user id
     $api->post('users/updatefcm','Laraspace\Api\Controllers\UserController@updatefcm');
-    $api->post('users/getAllAppUsers', 'Laraspace\Api\Controllers\UserController@getAllAppUsers');
-     $api->post('users/sendNotification',
+    $api->post('users/sendNotification',
         'Laraspace\Api\Controllers\PushMessagesController@sendNotification');
-     $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
+    $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
 
     //resend email
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
