@@ -5,7 +5,7 @@ namespace Laraspace\Http\Requests\Team;
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class ResetAllTeamsRequest extends FormRequest
 {
     use TournamentAccess;
 
@@ -16,8 +16,8 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->all()['tournamentId'])) {
-            $data = $this->all();
+        if (isset($this->all()['ageCategoryId'])) {
+            $data = $this->all()['ageCategoryId'];
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
             if(!$isTournamentAccessible) {
                 return false;
@@ -34,7 +34,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournamentId' => 'required'            
+            'ageCategoryId' => 'required | array'
         ];
     }
 }

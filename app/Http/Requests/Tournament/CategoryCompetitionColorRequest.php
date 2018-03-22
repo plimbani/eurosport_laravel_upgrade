@@ -25,7 +25,7 @@ class CategoryCompetitionColorRequest extends FormRequest
                 $tournamentIds[] = $competition['tournament_id'];
             }
             $tournamentIdsArray = array_unique($tournamentIds);
-            $isTournamentAccessible = $this->checkForTournamentsAccess($tournamentIdsArray);
+            $isTournamentAccessible = $this->checkForMultipleTournamentAccess($tournamentIdsArray);
             if(!$isTournamentAccessible) {
                 return false;
             }

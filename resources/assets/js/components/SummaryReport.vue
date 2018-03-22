@@ -610,8 +610,14 @@ export default {
     	exportReport() {
     		let ReportData = this.reportQuery
     		if(ReportData!=''){
-				ReportData += '&report_download=yes'
-    			window.location.href = "/tournament/report/reportExport?"+ReportData;
+					ReportData += '&report_download=yes';
+					Tournament.getSignedUrlForTournamentReportExport(ReportData).then(
+	          (response) => {
+    					window.location.href = response.data;	        
+	           },
+	          (error) => {
+	          }
+          )
     		}else{
     			toastr['error']('Records not available', 'Error');
     		}
@@ -649,7 +655,6 @@ export default {
 		if(ReportData!=''){
 			Tournament.getSignedUrlForTournamentReport(ReportData).then(
 				(response) => {
-					console.log('response', response);
 					window.open(response.data, '_blank');
 				},
 				(error) => {

@@ -14,10 +14,12 @@ use Laraspace\Models\Role;
 use Laraspace\Custom\Helper\Common;
 use Laraspace\Api\Contracts\UserContract;
 use Laraspace\Api\Repositories\UserRepository;
+use Laraspace\Http\Requests\User\EditRequest;
 use Laraspace\Http\Requests\User\StoreRequest;
 use Laraspace\Http\Requests\User\DeleteRequest;
 use Laraspace\Http\Requests\User\BrowseRequest;
 use Laraspace\Http\Requests\User\DownloadReportRequest;
+use Laraspace\Http\Requests\User\GetUserDetailsRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 
 /**
@@ -50,7 +52,7 @@ class UserController extends BaseController
     {
         return $this->userObj->getAllUsers();
     }
-    public function getUserDetails(Request $request)
+    public function getUserDetails(GetUserDetailsRequest $request)
     {
         return $this->userObj->getUserDetails($request->all());
     }
@@ -94,7 +96,7 @@ class UserController extends BaseController
      * @GET("/user/edit/{$id}")
      *
      */
-    public function edit(Request $request, $userId)
+    public function edit(EditRequest $request, $userId)
     {
         return $this->userObj->edit($userId);
     }

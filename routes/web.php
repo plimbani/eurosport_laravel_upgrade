@@ -7,7 +7,7 @@
 |
 */
 
-Route::get('tournament/report/reportExport','\Laraspace\Api\Controllers\TournamentController@generateReport');
+// Route::get('tournament/report/reportExport','\Laraspace\Api\Controllers\TournamentController@generateReport');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.request');
@@ -25,6 +25,6 @@ Route::get('/{vue?}', function () {
 
 })->where('vue', '[\/\w\.-]*')->name('home');
 
-Route::post('/passwordactivate', [
+/*Route::post('/passwordactivate', [
     'as' => 'password', 'uses' => '\Laraspace\Api\Controllers\UserController@passwordActivate'
-]);
+]);*/

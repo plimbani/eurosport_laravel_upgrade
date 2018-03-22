@@ -18,14 +18,13 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login','AuthController@authenticate');
     Route::get('logout','AuthController@logout');
     Route::post('check','AuthController@check');
-
-
 });
 
 Route::get('password/reset/{token}', '\Laraspace\Api\Controllers\PasswordController@getReset');
 Route::post('password/reset', '\Laraspace\Api\Controllers\PasswordController@postReset');
 //Route::post('password/email', 'Laraspace\Api\Controllers\PasswordController@postEmail');
 Route::get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
+
 
 $api = app('Dingo\Api\Routing\Router');
 
@@ -36,15 +35,12 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
     $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
     $api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
+    $api->get('tournament/report/reportExport','Laraspace\Api\Controllers\TournamentController@exportReport');
 });
 
-
 $api->version('v1', function ($api) {
-
     $api->post('tournaments/getTournamentByStatus', 'Laraspace\Api\Controllers\TournamentController@getTournamentByStatus');
     $api->get('tournaments/getTournamentBySlug/{slug}', 'Laraspace\Api\Controllers\TournamentController@getTournamentBySlug');
-
-
 
     $api->post('tournament/getCategoryCompetitions', 'Laraspace\Api\Controllers\TournamentController@getCategoryCompetitions');
     $api->post('match/getFixtures','Laraspace\Api\Controllers\MatchController@getFixtures');
@@ -60,19 +56,9 @@ $api->version('v1', function ($api) {
     $api->post('password/reset', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
     // $api->get('mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
     $api->get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
-
-    // $api->get('match/report/generate/{ageGroupId}',
-    //     'Laraspace\Api\Controllers\MatchController@generateCategoryReport')->name('generate.category.report');
-
-    // $api->get('tournament/report/print', 'Laraspace\Api\Controllers\TournamentController@generatePrint');
-
-
-    // $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
-
     $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
-    $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
 
-    // $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
+    $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
 
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
@@ -86,31 +72,18 @@ $api->version('v1', function ($api) {
 
     $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
 
-
     $api->post('match/getStanding/{refreshStanding?}',
         'Laraspace\Api\Controllers\MatchController@getStanding');
 
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
 
-    // $api->get('pitch/reportCard/{pitchId}',
-    //     'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
+    $api->post('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
 
+});
 
-    // routes for sigend url
-    $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
-
-    $api->post('getSignedUrlForTournamentReport/{reportData}', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
-
-    $api->post('getSignedUrlForMatchPrint/{reportData}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchPrint');
-
-    $api->post('getSignedUrlForRefereeReport/{refereeId}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForRefereeReport');
-
-    $api->post('getSignedUrlForPitchMatchReport/{pitchId}', 'Laraspace\Api\Controllers\PitchController@getSignedUrlForPitchMatchReport');
-
-} );
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
-
-     // for localization
+     
+    // for localization
     $locale = \Request::header('locale');
 
     if($locale != '') {
@@ -118,8 +91,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     }
 
 
-    $api->post('teams', 'Laraspace\Api\Controllers\TeamController@getTeams'); 
-    $api->post('clubs/getAll', 'Laraspace\Api\Controllers\TeamController@getClubs'); 
+    $api->post('teams', 'Laraspace\Api\Controllers\TeamController@getTeams');
     $api->post('team/create', 'Laraspace\Api\Controllers\TeamController@createTeam'); 
 
     $api->post('team/group/assign', 'Laraspace\Api\Controllers\TeamController@assignTeam');
@@ -148,7 +120,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
     $api->post('match/saveAllResults', 'Laraspace\Api\Controllers\MatchController@saveAllResults');
     $api->post('match/getUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@getUnavailableBlock');
-    $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
     $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore');
 
     $api->post('match/checkTeamIntervalforMatches',
@@ -229,10 +200,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\PushMessagesController@sendNotification');
      $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
 
-    // End of Push Notification code
-    $api->get('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
-
-
     //resend email
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
 
@@ -270,6 +237,19 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('tournament/saveCategoryCompetitionColor',
         'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
+
+    // routes for sigend url
+    $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
+
+    $api->post('getSignedUrlForTournamentReport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
+
+    $api->post('getSignedUrlForMatchPrint', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchPrint');
+
+    $api->post('getSignedUrlForRefereeReport/{refereeId}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForRefereeReport');
+
+    $api->post('getSignedUrlForPitchMatchReport/{pitchId}', 'Laraspace\Api\Controllers\PitchController@getSignedUrlForPitchMatchReport');
+
+    $api->post('getSignedUrlForTournamentReportExport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReportExport');
 });
 
 
