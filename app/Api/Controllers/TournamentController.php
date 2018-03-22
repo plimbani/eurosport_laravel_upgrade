@@ -15,6 +15,8 @@ use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
 use Laraspace\Http\Requests\Tournament\GenerateReportRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
 use Laraspace\Http\Requests\Tournament\CategoryCompetitionColorRequest;
+use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportRequest;
+use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportExportRequest;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\TournamentContract;
@@ -193,7 +195,7 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->saveCategoryCompetitionColor($request->all());
     }
-    public function getSignedUrlForTournamentReport(Request $request)
+    public function getSignedUrlForTournamentReport(GetSignedUrlForTournamentReportRequest $request)
     {
         $reportData = $request->all();
         ksort($reportData);
@@ -204,7 +206,7 @@ class TournamentController extends BaseController
         return $signedUrl;
     }
 
-    public function getSignedUrlForTournamentReportExport(Request $request)
+    public function getSignedUrlForTournamentReportExport(GetSignedUrlForTournamentReportExportRequest $request)
     {
         $reportData = $request->all();
         ksort($reportData);
