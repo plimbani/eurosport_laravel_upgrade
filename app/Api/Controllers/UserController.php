@@ -18,6 +18,8 @@ use Laraspace\Http\Requests\User\StoreRequest;
 use Laraspace\Http\Requests\User\DeleteRequest;
 use Laraspace\Http\Requests\User\BrowseRequest;
 use Laraspace\Http\Requests\User\DownloadReportRequest;
+use Laraspace\Http\Requests\User\GetUserWebsitesRequest;
+use Laraspace\Http\Requests\User\ChangePermissionRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 
 /**
@@ -247,7 +249,7 @@ class UserController extends BaseController
       return $this->userObj->changeTournamentPermission($request->all());
     }
 
-    public function changePermissions(Request $request) {
+    public function changePermissions(ChangePermissionRequest $request) {
       return $this->userObj->changePermissions($request->all());  
     }
 
@@ -255,7 +257,7 @@ class UserController extends BaseController
       return $this->userObj->getUserTournaments($id);
     }
 
-    public function getUserWebsites(Request $request, $id) {
+    public function getUserWebsites(GetUserWebsitesRequest $request, $id) {
       return $this->userObj->getUserWebsites($id);
     }
 }

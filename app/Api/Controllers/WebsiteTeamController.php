@@ -10,6 +10,7 @@ use Laraspace\Api\Contracts\WebsiteTeamContract;
 use Laraspace\Http\Requests\WebsiteTeam\StoreUpdateRequest;
 use Laraspace\Http\Requests\WebsiteTeam\GetTeamPageDataRequest;
 use Laraspace\Http\Requests\WebsiteTeam\GetAgeCategoriesDataRequest;
+use Laraspace\Http\Requests\WebsiteTeam\ImportAgeCategoryAndTeamDataRequest;
 
 /**
  * Home description.
@@ -78,7 +79,7 @@ class WebsiteTeamController extends BaseController
    * @Response(200, body={})
    */
 
-  public function importAgeCategoryAndTeamData(Request $request)
+  public function importAgeCategoryAndTeamData(ImportAgeCategoryAndTeamDataRequest $request)
   {
     return $this->websiteTeamContract->importAgeCategoryAndTeamData($request);
   }

@@ -12,6 +12,7 @@ use Laraspace\Http\Requests\Tournament\StoreUpdateRequest;
 use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
 use Laraspace\Http\Requests\Tournament\CategoryCompetitionColorRequest;
+use Laraspace\Http\Requests\Tournament\GetAllPublishedTournamentsRequest;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\TournamentContract;
@@ -189,7 +190,7 @@ class TournamentController extends BaseController
         return $this->tournamentObj->saveCategoryCompetitionColor($request->all());
     }
 
-    public function getAllPublishedTournaments(Request $request) {
+    public function getAllPublishedTournaments(GetAllPublishedTournamentsRequest $request) {
         return $this->tournamentObj->getAllPublishedTournaments($request->all());
     }
     

@@ -8,8 +8,10 @@ use Illuminate\Http\Request;
 use Laraspace\Api\Contracts\MediaContract;
 
 use Laraspace\Http\Requests\Media\GetPhotosRequest;
+use Laraspace\Http\Requests\Media\UploadMediaRequest;
 use Laraspace\Http\Requests\Media\StoreUpdateRequest;
 use Laraspace\Http\Requests\Media\GetDocumentsRequest;
+use Laraspace\Http\Requests\Media\UploadDocumentRequest;
 
 /**
  * Media description.
@@ -79,7 +81,7 @@ class MediaController extends BaseController
    *
    * @return response
    */
-  public function uploadMediaPhoto(Request $request) {
+  public function uploadMediaPhoto(UploadMediaRequest $request) {
     return $this->mediaContract->uploadMediaPhoto($request);
   }
 
@@ -89,7 +91,7 @@ class MediaController extends BaseController
    * @return response
    */
 
-  public function uploadDocument(Request $request) {
+  public function uploadDocument(UploadDocumentRequest $request) {
     return $this->mediaContract->uploadDocument($request); 
   }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\Website;
+namespace Laraspace\Http\Requests\Image;
 
-use Laraspace\Traits\WebsiteAccess;
+use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetWebsitesRequest extends FormRequest
+class UploadImageRequest extends FormRequest
 {
-    use WebsiteAccess;
-
+    use AuthUserDetail;
+    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,12 +16,12 @@ class GetWebsitesRequest extends FormRequest
      */
     public function authorize()
     {
-        $websiteId = $this->route('websiteId');
-        $isWebsiteAccessible = $this->checkForWritePermissionByWebsite($websiteId);        
-        if(!$isWebsiteAccessible) {
+        $loggedInUser = $this->getCurrentLoggedInUserDetail();
+
+        if($loggedInUser->hasRole('mobile.user')) {
             return false;
         }
-        return true;        
+        return true;
     }
 
     /**

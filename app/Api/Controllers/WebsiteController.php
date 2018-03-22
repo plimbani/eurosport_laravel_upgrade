@@ -4,9 +4,20 @@ namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
 use Laraspace\Http\Requests\Website\SummaryRequest;
-use Laraspace\Http\Requests\Website\StoreUpdateRequest;
-use Laraspace\Http\Requests\Website\GetWebsitesRequest;
 use Laraspace\Http\Requests\Website\GetSponsorsRequest;
+use Laraspace\Http\Requests\Website\StoreUpdateRequest;
+use Laraspace\Http\Requests\Website\GetAllWebsitesRequest;
+use Laraspace\Http\Requests\Website\GetWebsiteDataRequest;
+use Laraspace\Http\Requests\Website\UploadHeroImageRequest;
+use Laraspace\Http\Requests\Website\UploadWelcomeImageRequest;
+use Laraspace\Http\Requests\Website\UploadSponsorImageRequest;
+use Laraspace\Http\Requests\Website\UploadOrganiserLogoRequest;
+use Laraspace\Http\Requests\Website\UploadSocialGraphicRequest;
+use Laraspace\Http\Requests\Website\UploadTournamentLogoRequest;
+use Laraspace\Http\Requests\Website\GetWebsiteDefaultPagesRequest;
+use Laraspace\Http\Requests\Website\GetWebsiteCustomisationRequest;
+use Laraspace\Http\Requests\Website\GetUserAccessibleWebsitesRequest;
+use Laraspace\Http\Requests\Website\GetWebsiteConfigurationDetailRequest;
 
 // Need to define only contracts
 use Laraspace\Api\Contracts\WebsiteContract;
@@ -43,7 +54,7 @@ class WebsiteController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={})
      */
-    public function index()
+    public function index(GetAllWebsitesRequest $request)
     {
         return $this->websiteContract->index();
     }
@@ -57,7 +68,7 @@ class WebsiteController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getUserAccessibleWebsites()
+  public function getUserAccessibleWebsites(GetUserAccessibleWebsitesRequest $request)
   {
   	return $this->websiteContract->getUserAccessibleWebsites();
   }
@@ -87,7 +98,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function getWebsiteCustomisationOptions(Request $request) {
+  public function getWebsiteCustomisationOptions(GetWebsiteCustomisationRequest $request) {
     return $this->websiteContract->getWebsiteCustomisationOptions();
   }
 
@@ -96,7 +107,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function getConfigurationDetail(Request $request) {
+  public function getConfigurationDetail(GetWebsiteConfigurationDetailRequest $request) {
     return $this->websiteContract->getConfigurationDetail();
   }
 
@@ -105,7 +116,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function getWebsiteDefaultPages(Request $request) {
+  public function getWebsiteDefaultPages(GetWebsiteDefaultPagesRequest $request) {
     return $this->websiteContract->getWebsiteDefaultPages();
   }
 
@@ -128,7 +139,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function uploadTournamentLogo(Request $request) {
+  public function uploadTournamentLogo(UploadTournamentLogoRequest $request) {
     return $this->websiteContract->uploadTournamentLogo($request);
   }
 
@@ -137,7 +148,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function uploadSocialGraphic(Request $request) {
+  public function uploadSocialGraphic(UploadSocialGraphicRequest $request) {
     return $this->websiteContract->uploadSocialGraphic($request);
   }
 
@@ -146,7 +157,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function uploadSponsorImage(Request $request) {
+  public function uploadSponsorImage(UploadSponsorImageRequest $request) {
     return $this->websiteContract->uploadSponsorImage($request);
   }
 
@@ -155,7 +166,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function uploadHeroImage(Request $request) {
+  public function uploadHeroImage(UploadHeroImageRequest $request) {
     return $this->websiteContract->uploadHeroImage($request);
   }
 
@@ -164,7 +175,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function uploadWelcomeImage(Request $request) {
+  public function uploadWelcomeImage(UploadWelcomeImageRequest $request) {
     return $this->websiteContract->uploadWelcomeImage($request);
   }
 
@@ -173,7 +184,7 @@ class WebsiteController extends BaseController
    *
    * @return response
    */
-  public function uploadOrganiserLogo(Request $request) {
+  public function uploadOrganiserLogo(UploadOrganiserLogoRequest $request) {
     return $this->websiteContract->uploadOrganiserLogo($request);
   }
   
@@ -186,7 +197,7 @@ class WebsiteController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getWebsiteDetails(GetWebsitesRequest $request, $websiteId)
+  public function getWebsiteDetails(GetWebsiteDataRequest $request, $websiteId)
   {
     return $this->websiteContract->getWebsiteDetails($websiteId);
   }
