@@ -9,18 +9,23 @@ use Brotzka\DotenvEditor\DotenvEditor;
 
 // Need to Define Only Contracts
 use JWTAuth;
+use UrlSigner;
+use Carbon\Carbon;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Laraspace\Custom\Helper\Common;
 use Laraspace\Api\Contracts\UserContract;
 use Laraspace\Api\Repositories\UserRepository;
+use Laraspace\Http\Requests\User\EditRequest;
 use Laraspace\Http\Requests\User\StoreRequest;
 use Laraspace\Http\Requests\User\DeleteRequest;
 use Laraspace\Http\Requests\User\BrowseRequest;
 use Laraspace\Http\Requests\User\DownloadReportRequest;
 use Laraspace\Http\Requests\User\GetUserWebsitesRequest;
 use Laraspace\Http\Requests\User\ChangePermissionRequest;
+use Laraspace\Http\Requests\User\GetUserDetailsRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
+use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
 
 /**
  * Users Resource Description.
@@ -52,7 +57,7 @@ class UserController extends BaseController
     {
         return $this->userObj->getAllUsers();
     }
-    public function getUserDetails(Request $request)
+    public function getUserDetails(GetUserDetailsRequest $request)
     {
         return $this->userObj->getUserDetails($request->all());
     }
@@ -96,7 +101,7 @@ class UserController extends BaseController
      * @GET("/user/edit/{$id}")
      *
      */
-    public function edit(Request $request, $userId)
+    public function edit(EditRequest $request, $userId)
     {
         return $this->userObj->edit($userId);
     }
@@ -259,5 +264,16 @@ class UserController extends BaseController
 
     public function getUserWebsites(GetUserWebsitesRequest $request, $id) {
       return $this->userObj->getUserWebsites($id);
+    }
+
+    public function getSignedUrlForUsersTableData(GetSignedUrlForUsersTableDataRequest $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/users/getUserTableData?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace Laraspace\Http\Requests\Pitch;
 
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class GetSignedUrlForPitchMatchReportRequest extends FormRequest
 {
     use TournamentAccess;
 
@@ -16,12 +16,9 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->all()['tournamentId'])) {
-            $data = $this->all();
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
-            if(!$isTournamentAccessible) {
-                return false;
-            }
+        $user = $this->getCurrentLoggedInUserDetail();
+        if($user->hasRole('mobile.user')) {
+            return false;
         }
         return true;
     }
@@ -34,7 +31,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournamentId' => 'required'            
+            //
         ];
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace Laraspace\Http\Requests\User;
 
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class GetSignedUrlForUsersTableDataRequest extends FormRequest
 {
     use TournamentAccess;
-
+    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,14 +16,11 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->all()['tournamentId'])) {
-            $data = $this->all();
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
-            if(!$isTournamentAccessible) {
-                return false;
-            }
+        $user = $this->getCurrentLoggedInUserDetail();
+        if($user->hasRole('Super.administrator') || $user->hasRole('Master.administrator')) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -34,7 +31,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournamentId' => 'required'            
+            //
         ];
     }
 }

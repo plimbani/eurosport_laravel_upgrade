@@ -18,12 +18,7 @@ class RefereeService implements RefereeContract
     }
 
     public function getAllReferees($tournamentData)
-    {
-        $isTournamentAccessible = $this->checkForTournamentAccess($tournamentData['tournamentId']);        
-        if(!$isTournamentAccessible) {
-          abort(403, 'Unauthorized action.');
-        }
-        
+    {       
         return $this->refereeRepoObj->getAllReferees($tournamentData);
     }
 

@@ -363,7 +363,17 @@
                 userSearch = 'userData='+this.userListSearch;
                 userSlugType = 'userType='+this.userTypeSearch;
 
-                  window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
+                userData += 'report_download=yes&' + userSearch + '&' + userSlugType;
+
+                User.getSignedUrlForUsersTableData(userData).then(
+                  (response) => {
+                    window.location.href = response.data;         
+                   },
+                  (error) => {
+                  }                  
+                )
+
+                // window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
              },
             editTournamentPermission(user) {
               this.currentUserInTournamentPermission = user;

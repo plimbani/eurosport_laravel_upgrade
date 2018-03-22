@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace Laraspace\Http\Requests\AgeGroup;
 
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class CreateCompetationFomatRequest extends FormRequest
 {
     use TournamentAccess;
 
@@ -16,9 +16,9 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->all()['tournamentId'])) {
-            $data = $this->all();
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
+        if (isset($this->all()['compeationFormatData'])) {
+            $data = $this->all()['compeationFormatData'];
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);        
             if(!$isTournamentAccessible) {
                 return false;
             }
@@ -34,7 +34,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournamentId' => 'required'            
+            'compeationFormatData' => 'required | array'            
         ];
     }
 }

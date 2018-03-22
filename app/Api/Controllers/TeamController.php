@@ -13,6 +13,7 @@ use Laraspace\Http\Requests\Team\ClubsTeamsRequest;
 use Laraspace\Http\Requests\Team\AssignTeamRequest;
 use Laraspace\Http\Requests\Team\TeamDetailsRequest;
 use Laraspace\Http\Requests\Team\AllCountriesRequest;
+use Laraspace\Http\Requests\Team\ResetAllTeamsRequest;
 use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
 use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
 
@@ -186,7 +187,7 @@ class TeamController extends BaseController
         return $this->teamObj->checkTeamExist($request);
     }
 
-    public function resetAllTeams(Request $request)
+    public function resetAllTeams(ResetAllTeamsRequest $request)
     {
         return $this->teamObj->resetAllTeams($request);
     }

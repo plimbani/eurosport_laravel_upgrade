@@ -10,11 +10,18 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\Tournament;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Http\Requests\Match\ScheduleRequest;
 use Laraspace\Http\Requests\Match\SaveResultRequest;
+use Laraspace\Http\Requests\Match\AllResultsRequest;
 use Laraspace\Http\Requests\Match\MatchDetailRequest;
 use Laraspace\Http\Requests\Match\ScoreUpdateRequest;
+use Laraspace\Http\Requests\Match\AssignRefereeRequest;
 use Laraspace\Http\Requests\Match\CheckTeamIntervalRequest;
+use Laraspace\Http\Requests\Match\GetUnavailableBlockRequest;
 use Laraspace\Http\Requests\Match\RemoveAssignedRefereeRequest;
+use Laraspace\Http\Requests\Match\GetSignedUrlForMatchPrintRequest;
+use Laraspace\Http\Requests\Match\GetSignedUrlForMatchReportRequest;
+use Laraspace\Http\Requests\Match\GetSignedUrlForRefereeReportRequest;
 use Laraspace\Models\Referee;
 use Laraspace\Http\Requests\Match\UnscheduleMatchRequest;
 use File;
@@ -101,7 +108,7 @@ class MatchController extends BaseController
     public function getDrawTable(Request $request) {
         return $this->matchObj->getDrawTable($request);
     }
-    public function scheduleMatch(Request $request) {
+    public function scheduleMatch(ScheduleRequest $request) {
         return $this->matchObj->scheduleMatch($request);
     }
     public function checkTeamIntervalforMatches(CheckTeamIntervalRequest $request) {
@@ -131,7 +138,7 @@ class MatchController extends BaseController
     {
         return $this->matchObj->removeAssignedReferee($request);
     }
-    public function assignReferee(Request $request)
+    public function assignReferee(AssignRefereeRequest $request)
     {
         return $this->matchObj->assignReferee($request);
     }
@@ -139,7 +146,7 @@ class MatchController extends BaseController
     {
         return $this->matchObj->saveResult($request);
     }
-    public function saveAllResults(Request $request)
+    public function saveAllResults(AllResultsRequest $request)
     {
         return $this->matchObj->saveAllResults($request);
     }
@@ -147,7 +154,7 @@ class MatchController extends BaseController
     {
         return $this->matchObj->saveUnavailableBlock($request);
     }
-    public function getUnavailableBlock(Request $request)
+    public function getUnavailableBlock(GetUnavailableBlockRequest $request)
     {
         return $this->matchObj->getUnavailableBlock($request);
     }
@@ -790,21 +797,25 @@ class MatchController extends BaseController
         return $this->matchObj->saveStandingsManually($request);
     }
 
-    public function getSignedUrlForMatchReport($ageCategory)
+    public function getSignedUrlForMatchReport(GetSignedUrlForMatchReportRequest $request, $ageCategory)
     {
         $signedUrl = UrlSigner::sign(url('api/match/report/generate/' . $ageCategory), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
         
         return $signedUrl;
     }
 
-    public function getSignedUrlForMatchPrint($reportData)
+    public function getSignedUrlForMatchPrint(GetSignedUrlForMatchPrintRequest $request)
     {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+        
         $signedUrl = UrlSigner::sign(url('api/match/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
     }
 
-    public function getSignedUrlForRefereeReport($refereeId)
+    public function getSignedUrlForRefereeReport(GetSignedUrlForRefereeReportRequest $request, $refereeId)
     {
         $signedUrl = UrlSigner::sign(url('api/match/reportCard/' . $refereeId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 

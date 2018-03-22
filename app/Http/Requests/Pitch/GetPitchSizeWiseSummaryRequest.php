@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\Team;
+namespace Laraspace\Http\Requests\Pitch;
 
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class GetPitchSizeWiseSummaryRequest extends FormRequest
 {
     use TournamentAccess;
 
@@ -16,12 +16,10 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->all()['tournamentId'])) {
-            $data = $this->all();
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
-            if(!$isTournamentAccessible) {
-                return false;
-            }
+        $tournamentId = $this->route('tournamentId');
+        $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);        
+        if(!$isTournamentAccessible) {
+            return false;
         }
         return true;
     }
@@ -34,7 +32,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournamentId' => 'required'            
+            //
         ];
     }
 }
