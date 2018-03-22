@@ -25,6 +25,6 @@ Route::get('/{vue?}', function () {
 
 })->where('vue', '[\/\w\.-]*')->name('home');
 
-Route::post('/passwordactivate', [
+/*Route::post('/passwordactivate', [
     'as' => 'password', 'uses' => '\Laraspace\Api\Controllers\UserController@passwordActivate'
-]);
+]);*/

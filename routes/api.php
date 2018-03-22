@@ -25,6 +25,7 @@ Route::post('password/reset', '\Laraspace\Api\Controllers\PasswordController@pos
 //Route::post('password/email', 'Laraspace\Api\Controllers\PasswordController@postEmail');
 Route::get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
 
+
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
@@ -76,12 +77,13 @@ $api->version('v1', function ($api) {
 
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
 
-    
+    $api->post('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
+
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
-
-     // for localization
+     
+    // for localization
     $locale = \Request::header('locale');
 
     if($locale != '') {
@@ -197,10 +199,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
      $api->post('users/sendNotification',
         'Laraspace\Api\Controllers\PushMessagesController@sendNotification');
      $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
-
-    // End of Push Notification code
-    $api->get('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
-
 
     //resend email
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
