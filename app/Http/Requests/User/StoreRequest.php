@@ -15,8 +15,13 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
+        if (isset($this->headers->all()['ismobileuser'])) {
+            $isMobileUser = $this->headers->all()['ismobileuser'];
+            if ($isMobileUser == true) {
+                return true;            
+            }
+        }
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-
         if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator')) {
             return true;
         }
