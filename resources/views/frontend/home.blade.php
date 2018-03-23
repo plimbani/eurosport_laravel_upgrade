@@ -24,7 +24,7 @@
                 <div class="col-lg-8 club_content">
                     <figure class="figure right">
                         @if($pageDetails->welcomeImage('thumbnail'))
-                            <img src="{{ $pageDetails->welcomeImage('thumbnail') }}" class="figure-img img-fluid ml-1" alt="Welcome image" />
+                            <img src="{{ $pageDetails->welcomeImage('thumbnail') }}" class="figure-img img-fluid ml-1" alt="{!! __('messages.welcome_image') !!}" />
                         @endif
                     </figure>
                     {!! $pageDetails->content !!}
@@ -40,7 +40,7 @@
                 <div class="col-12">
                     <div class="row mb-4">
                         <div class="col-12 text-center text-uppercase text-muted">
-                            <div class="h8">Organised by</div>
+                            <div class="h8">{!! __('messages.organised_by') !!}</div>
                         </div>
                     </div>
                     <div class="row align-items-center justify-content-center organiser">
@@ -56,7 +56,7 @@
             </div>
         </div>
         <figure class="figure-thumb">
-            <img src="{{ $pageDetails->welcomeImage('medium') }}" class="figure-img img-fluid" alt="Welcome image">
+            <img src="{{ $pageDetails->welcomeImage('medium') }}" class="figure-img img-fluid" alt="{!! __('messages.welcome_image') !!}">
         </figure>
         <div class="container">
             <div class="row">

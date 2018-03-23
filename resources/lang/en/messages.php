@@ -50,6 +50,8 @@
 		'visitors_tips_for_visitors' => 'Tips for visitors',
 		'more' => 'More...',
 		'less' => 'Less...',
-		'required_field_message' => 'This field is required'
+		'required_field_message' => 'This field is required',
+		'welcome_image' => 'Welcome image',
+		'organised_by' => 'Organised by'
 	]
 ?>
