@@ -1,5 +1,12 @@
 // Variables
 // --------------------------
+
+$line-height-base-custom: ($font-size-base * 1.8756) !default;
+
+$h7-font-size:                ($font-size-base * 0.75) !default;         //12px
+$h8-font-size:                ($font-size-base * 0.625) !default;        //10px
+
+
 $fa-font-path:                "/frontend/fonts/webfonts";
 $space-row-gutter-tiny:		  12px;
 
@@ -20,6 +27,6 @@ $wrapper-small-club-logo: ($club-logo - 100px);
 $club-logo-sm: 158px;
 $club-logo-box: $club-logo - $grid-gutter-width;
 $club-logo-box-sm: $club-logo-sm - $grid-gutter-width;
-$club-logo-padding: 24px;
+$club-logo-padding: 30px;
 $club-logo-padding-sm: $club-logo-padding/2;
 $club-logo-bg: $body-bg;

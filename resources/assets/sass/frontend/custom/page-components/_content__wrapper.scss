@@ -2,7 +2,7 @@
     .organiser {
         &_logo {
             img {
-                max-width: 100%;
+                max-width: 98px;
                 @extend .mb-3;
                 @include media-breakpoint-down(md) {
                     max-height: 100px;

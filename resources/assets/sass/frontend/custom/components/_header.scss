@@ -24,7 +24,7 @@ header {
     }
     .lang-bar {
         position: relative;
-        font-size: 80%;
+        @extend .h7;
         width: 100px ;
         .lang-bar-status {
             position: relative;
