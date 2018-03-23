@@ -196,10 +196,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     // Push Notification Service
     // Update user for update user id
     $api->post('users/updatefcm','Laraspace\Api\Controllers\UserController@updatefcm');
-    $api->post('users/getAllAppUsers', 'Laraspace\Api\Controllers\UserController@getAllAppUsers');
-     $api->post('users/sendNotification',
+    $api->post('users/sendNotification',
         'Laraspace\Api\Controllers\PushMessagesController@sendNotification');
-     $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
+    $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
 
     //resend email
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
@@ -216,9 +215,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('users/setFavourite','Laraspace\Api\Controllers\UserController@setFavourite');
     $api->post('users/removeFavourite','Laraspace\Api\Controllers\UserController@removeFavourite');
     $api->post('users/setDefaultFavourite','Laraspace\Api\Controllers\UserController@setDefaultFavourite');
-    $api->post('users/getLoginUserDefaultTournament',
-        'Laraspace\Api\Controllers\TournamentController@getUserLoginDefaultTournament');
-     $api->post('users/getLoginUserFavouriteTournament',
+    $api->post('users/getLoginUserFavouriteTournament',
         'Laraspace\Api\Controllers\TournamentController@getUserLoginFavouriteTournament');
     $api->post('tournaments/getTournamentClub',
         'Laraspace\Api\Controllers\TournamentController@getTournamentClub');
@@ -227,7 +224,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('users/postSetting','Laraspace\Api\Controllers\UserController@postSetting');
     $api->post('users/getSetting','Laraspace\Api\Controllers\UserController@getSetting');
-    $api->post('users/updateProfileImage','Laraspace\Api\Controllers\UserController@setUserImage');
 
 
     $api->post('user/changeTournamentPermission',

@@ -2,12 +2,10 @@
 
 namespace Laraspace\Http\Requests\User;
 
-use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class PostSettingRequest extends FormRequest
 {
-    use AuthUserDetail;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -18,15 +16,11 @@ class StoreRequest extends FormRequest
         if (isset($this->headers->all()['ismobileuser'])) {
             $isMobileUser = $this->headers->all()['ismobileuser'];
             if ($isMobileUser == true) {
-                return true;            
+                return true;
             }
         }
-        $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator')) {
-            return true;
-        }
         return false;
-   }
+    }
 
     /**
      * Get the validation rules that apply to the request.

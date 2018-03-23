@@ -1,13 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace Laraspace\Http\Requests\PushMessage;
 
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class GetMessagesRequest extends FormRequest
 {
     use AuthUserDetail;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,18 +16,13 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->headers->all()['ismobileuser'])) {
-            $isMobileUser = $this->headers->all()['ismobileuser'];
-            if ($isMobileUser == true) {
-                return true;            
-            }
-        }
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator')) {
-            return true;
+
+        if($loggedInUser->hasRole('mobile.user')) {
+            return false;
         }
-        return false;
-   }
+        return true;
+    }
 
     /**
      * Get the validation rules that apply to the request.
