@@ -1,7 +1,7 @@
 @extends('layouts.frontend.inner')
 
 @section('hero-section')
-	<div class="grid-full club_info">
+	<div class="col-lg-8 club_info">
 		<h1 class="club_info-title">{!! __('messages.matches') !!}</h1>
 	</div>
 @endsection
@@ -11,7 +11,7 @@
 	<div class="content__wrapper">
     <div class="container">
         {{-- <div class="row my-5">
-            <div class="grid-22">
+            <div class="col-lg-3">
             </div>
             <div class="col-lg-8 club_content" id="matches_list">
               @if($tournament)
@@ -24,7 +24,8 @@
 
         <div class="row my-5">
             <div class="col-lg-12 club_content macth_table" id="matches_list">
-                <h4>Table Title</h4>
+                
+{{--                 <h4>Table Title</h4>
                 <hr class="hr m-0">
                 <div class="table-responsive">
                     <table class="table">
@@ -69,7 +70,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> --}}
 
                 @if($tournament)
                     <match-listing></match-listing>
