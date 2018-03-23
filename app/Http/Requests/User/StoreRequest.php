@@ -2,6 +2,7 @@
 
 namespace Laraspace\Http\Requests\User;
 
+use Laraspace\Models\Role;
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,8 +23,18 @@ class StoreRequest extends FormRequest
             }
         }
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator')) {
+        if($loggedInUser->hasRole('Super.administrator')) {
             return true;
+        }
+        if($loggedInUser->hasRole('Master.administrator')) {
+            if (isset($this->all()['userType'])) {            
+                $userType = $this->all()['userType'];
+                $role = Role::find($userType);
+                if ( !($role['slug'] == 'Super.administrator') ) {
+                    return true;
+                }
+            }
+            return false;
         }
         return false;
    }

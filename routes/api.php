@@ -60,8 +60,6 @@ $api->version('v1', function ($api) {
 
     $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
 
-    $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
-
     $api->post('appversion', 'Laraspace\Api\Controllers\VersionController@apkVersion');
 
     $api->post('match/saveStandingsManually',
@@ -78,7 +76,7 @@ $api->version('v1', function ($api) {
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
 
     $api->post('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
-
+    $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {

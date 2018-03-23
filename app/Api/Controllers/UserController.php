@@ -20,6 +20,7 @@ use Laraspace\Http\Requests\User\StoreRequest;
 use Laraspace\Api\Repositories\UserRepository;
 use Laraspace\Http\Requests\User\DeleteRequest;
 use Laraspace\Http\Requests\User\BrowseRequest;
+use Laraspace\Http\Requests\User\UpdateRequest;
 use Laraspace\Http\Requests\User\UpdateFcmRequest;
 use Laraspace\Http\Requests\User\UserStatusRequest;
 use Laraspace\Http\Requests\User\ResendEmailRequest;
@@ -122,7 +123,7 @@ class UserController extends BaseController
      *
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function update(Request $request, $userId)
+    public function update(UpdateRequest $request, $userId)
     {
         return $this->userObj->update($request, $userId);
     }
