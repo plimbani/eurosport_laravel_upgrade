@@ -1,12 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace Laraspace\Http\Requests\PushMessage;
 
-use Laraspace\Models\User;
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditRequest extends FormRequest
+class GetMessagesRequest extends FormRequest
 {
     use AuthUserDetail;
 
@@ -17,18 +16,11 @@ class EditRequest extends FormRequest
      */
     public function authorize()
     {
-        $id = $this->route('id');
-        $user = User::find($id)->roles()->first();
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        
-        if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
-          if($id != $loggedInUser->id) {
+
+        if($loggedInUser->hasRole('mobile.user')) {
             return false;
-          }
         }
-        if ($user['slug'] == 'Super.administrator' && $loggedInUser->hasRole('Master.administrator')) {
-            return false;
-        }        
         return true;
     }
 

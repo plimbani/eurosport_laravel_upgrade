@@ -53,7 +53,7 @@
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()">
                         <option value="">Select</option>
-                        <option v-for="role in userRolesOptions" v-bind:value="role.id">
+                        <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
                             {{ role.name }}
                         </option>
                       </select>
@@ -156,7 +156,7 @@ import { ErrorBag } from 'vee-validate';
 
             this.$validator.updateDictionary(this.errorMessages);
         },
-        props:['userId','userRoles','userEmailData','publishedTournaments'],
+        props:['userId','userRoles','userEmailData','publishedTournaments','isMasterAdmin'],
         methods: {
             initialState() {
                 this.$data.formValues.id = '',

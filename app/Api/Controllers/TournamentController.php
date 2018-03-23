@@ -16,6 +16,7 @@ use Laraspace\Http\Requests\Tournament\GenerateReportRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
 use Laraspace\Http\Requests\Tournament\CategoryCompetitionColorRequest;
 use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportRequest;
+use Laraspace\Http\Requests\Tournament\GetUserLoginFavouriteTournamentRequest;
 use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportExportRequest;
 
 // Need to Define Only Contracts
@@ -175,7 +176,7 @@ class TournamentController extends BaseController
     {
       return $this->tournamentObj->getUserLoginDefaultTournament($request->all());
     }
-     public function getUserLoginFavouriteTournament(Request $request)
+     public function getUserLoginFavouriteTournament(GetUserLoginFavouriteTournamentRequest $request)
     {
       return $this->tournamentObj->getUserLoginFavouriteTournament($request->all());
     }
