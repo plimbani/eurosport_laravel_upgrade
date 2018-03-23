@@ -50,7 +50,7 @@
                 <div class="d-flex justify-content-center justify-content-lg-end">
                     <div class="d-inline-block flex-column">
                         <div class="w-100 text-center">
-                            <span class="h8 text-uppercase text-muted">Organised by</span>
+                            <span class="h8 text-uppercase text-muted">{!! __('messages.organised_by') !!}</span>
                         </div>
                         <div class="organiser_logo_footer">
                             @foreach($organisers as $organiser)
@@ -69,12 +69,12 @@
         <div class="row align-items-center copyright_section">
             <div class="col-md-9 d-none d-md-block">
                 <ul class="list-inline mb-0">
-                    <li class="list-inline-item">Copyright © {{ Carbon\Carbon::now()->format('Y') }} Euro Sportring</li>
+                    <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} {!! __('messages.euro_sportring') !!}</li>
                 </ul>
             </div>
             <div class="col-12 text-center d-block d-md-none">
                 <ul class="list-inline mb-2">
-                    <li class="list-inline-item">Copyright © {{ Carbon\Carbon::now()->format('Y') }} Euro Sportring</li>
+                    <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} {!! __('messages.euro_sportring') !!}</li>
                 </ul>
             </div>
             <div class="col-12 d-block d-md-none">

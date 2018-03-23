@@ -52,6 +52,14 @@
 		'less' => 'Less...',
 		'required_field_message' => 'This field is required',
 		'welcome_image' => 'Welcome image',
-		'organised_by' => 'Organised by'
+		'organised_by' => 'Organised by',
+		'match_schedule' => 'Match Schedule',
+		'the_teams' => 'The teams',
+		'the_venue' => 'The venue',
+		'travel_accommodation' => 'Travel & Accommodation',
+		'copyright' => 'Copyright &copy;',
+		'euro_sportring' => 'Euro Sportring',
+		'language' => 'Language',
+		'hero_image' => 'Hero image'
 	]
 ?>

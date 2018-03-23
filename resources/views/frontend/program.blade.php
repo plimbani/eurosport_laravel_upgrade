@@ -1,7 +1,7 @@
 @extends('layouts.frontend.inner')
 
 @section('hero-section')
-	<div class="grid-full club_info">
+	<div class="col-lg-8 club_info">
 		<h1 class="club_info-title">{!! __('messages.program') !!}</h1>
 	</div>
 @endsection
@@ -11,7 +11,7 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	            <div class="grid-22">
+	            <div class="col-lg-3">
 	            </div>
 	            <div class="col-lg-8 club_content list-style-type">
 	            	@foreach($itineraries as $itinerary)
