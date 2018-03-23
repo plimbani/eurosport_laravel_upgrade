@@ -1,47 +1,52 @@
 <template>
-  <div class="row" v-cloak>
-    <div class="col-md-12">
-      <table id="matchSchedule" class="table table-hover table-bordered" v-if="matchData.length > 0">
-        <thead>
-          <th class="text-center">{{ $t('matches.date_and_time') }}</th>
-          <th class="text-center">{{ $t('matches.categories') }}</th>
-          <th class="text-center">{{ $t('matches.team') }}</th>
-          <th class="text-center">{{ $t('matches.team') }}</th>
-          <th class="text-center">{{ $t('matches.score') }}</th>
-          <th class="text-center" v-if="showPlacingForMatch()">{{ $t('matches.placing') }}</th>
-          <th class="text-center">{{ $t('matches.location') }}</th>
-        </thead>
-        <tbody>
-          <tr v-for="match in getMatchList()">
-            <td class="text-center">{{ match.match_datetime | formatDate }}</td>
-            <td class="text-center">
-              <a href="" v-if="currentView != 'Competition'" @click.prevent="showCompetitionData(match)">
-                <u>{{ match.competation_name | formatGroup }}</u>
-              </a>
-              <span v-else>{{ match.competation_name | formatGroup(match.round) }}</span>
-            </td>
-            <td align="right">
-              <span class="text-center" v-if="(match.Home_id == 0 )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
-              <span class="text-center" v-else>{{ match.HomeTeam }}</span>
-              <span v-if="(match.Home_id != 0 )" :class="'flag-icon flag-icon-' + match.HomeCountryFlag"></span>
-            </td>
-            <td align="left">
-              <span v-if="(match.Away_id != 0 )" :class="'flag-icon flag-icon-' + match.AwayCountryFlag"></span>
-              <span class="text-center" v-if="(match.Away_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayAwayTeamPlaceholderName) }}</span>
-              <span class="text-center" v-else>{{ match.AwayTeam }}</span>
-            </td>
-            <td class="text-center">
-              {{ (match.homeScore !== null && match.AwayScore !== null ? (match.homeScore + '-' + match.AwayScore) : '-') }}
-            </td>
-            <td class="text-center" v-if="showPlacingForMatch()">
-              {{ match.position != null ? match.position : $t('matches.n_a') }}
-            </td>
-            <td>
-              {{ match.venue_name }} - {{ match.pitch_number }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div>
+      <hr class="hr m-0">
+      <div class="table-responsive">
+        <table id="matchSchedule" class="table" v-if="matchData.length > 0">
+          <thead>
+            <tr>
+              <th scope="col">{{ $t('matches.date_and_time') }}</th>
+              <th scope="col">{{ $t('matches.categories') }}</th>
+              <th scope="col">{{ $t('matches.team') }}</th>
+              <th scope="col">{{ $t('matches.team') }}</th>
+              <th scope="col">{{ $t('matches.score') }}</th>
+              <th scope="col" v-if="showPlacingForMatch()">{{ $t('matches.placing') }}</th>
+              <th scope="col">{{ $t('matches.location') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="match in getMatchList()">
+              <td>{{ match.match_datetime | formatDate }}</td>
+              <td>
+                <a href="" v-if="currentView != 'Competition'" @click.prevent="showCompetitionData(match)">
+                  <u>{{ match.competation_name | formatGroup }}</u>
+                </a>
+                <span v-else>{{ match.competation_name | formatGroup(match.round) }}</span>
+              </td>
+              <td>
+                <span class="text-center" v-if="(match.Home_id == 0 )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
+                <span class="text-center" v-else>{{ match.HomeTeam }}</span>
+                <span v-if="(match.Home_id != 0 )" :class="'flag-icon flag-icon-' + match.HomeCountryFlag"></span>
+              </td>
+              <td>
+                <span v-if="(match.Away_id != 0 )" :class="'flag-icon flag-icon-' + match.AwayCountryFlag"></span>
+                <span class="text-center" v-if="(match.Away_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayAwayTeamPlaceholderName) }}</span>
+                <span class="text-center" v-else>{{ match.AwayTeam }}</span>
+              </td>
+              <td>
+                {{ (match.homeScore !== null && match.AwayScore !== null ? (match.homeScore + '-' + match.AwayScore) : '-') }}
+              </td>
+              <td v-if="showPlacingForMatch()">
+                {{ match.position != null ? match.position : $t('matches.n_a') }}
+              </td>
+              <td>
+                {{ match.venue_name }} - {{ match.pitch_number }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <p v-if="matchData.length == 0">{{ $t('matches.no_matches_found') }}</p>
       <paginate v-if="currentView != 'Competition'" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
       <div v-if="currentView != 'Competition'">
@@ -60,9 +65,8 @@
         <div v-if="matchData.length > 0">
           <paginate-links for="matchlist" :show-step-links="true" :limit="2" :async="true"></paginate-links>
         </div>
-      </div>
+      </div>      
     </div>
-  </div>
 </template>
 
 <script type="text/babel">

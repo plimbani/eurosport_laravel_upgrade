@@ -95,7 +95,7 @@
                 margin: 0 auto;
                 background: $club-logo-bg;
                 @include media-breakpoint-up(lg) {
-                    margin-bottom: -$club-logo-padding;
+                    margin-bottom: -30px;
                     box-shadow: 0px 10px 20px 0px rgba($black, .15);
                 }
                 img {
