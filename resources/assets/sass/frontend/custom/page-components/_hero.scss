@@ -146,6 +146,9 @@
                     font-size: $h6-font-size;
                     font-weight: 700;
                     padding: $nav-link-padding-y $nav-link-padding-x;
+                    line-height: 1;
+                    display: flex;
+                    align-items: center;
                     &:hover {
                         opacity: 0.5;
                     }
@@ -158,7 +161,7 @@
                     }
                     &.active {
                         background-color: rgba(theme-color('primary'), 0.2);
-                        border-radius: 20px;
+                        border-radius: $font-size-base * 2;
                         @include media-breakpoint-down(md) {
                             border-radius: 2px;
                         }

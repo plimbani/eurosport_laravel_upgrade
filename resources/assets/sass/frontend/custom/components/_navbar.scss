@@ -22,6 +22,9 @@
             padding-left: ($navbar-nav-link-padding-x / 1.5);
             padding-right: ($navbar-nav-link-padding-x / 1.5);
             @extend .h7;
+            @include media-breakpoint-only(lg) {
+                font-size: $h8-font-size;
+            }
             @include hover-focus {
                 color: $navbar-dark-hover-color;
             }
