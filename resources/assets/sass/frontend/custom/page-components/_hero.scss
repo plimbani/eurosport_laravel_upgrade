@@ -99,8 +99,8 @@
                     box-shadow: 0px 10px 20px 0px rgba($black, .15);
                 }
                 img {
-                    max-width: $club-logo-box - ($club-logo-padding / 2);
-                    max-height: $club-logo-box - ($club-logo-padding / 2);
+                    max-width: $club-logo-box - ($club-logo-padding);
+                    max-height: $club-logo-box - ($club-logo-padding);
                     @include media-breakpoint-down(md) {
                         // max-width: $club-logo-box-sm - ($club-logo-padding-sm / 2);
                         // max-height: $club-logo-box-sm - ($club-logo-padding-sm / 2);
@@ -112,6 +112,7 @@
         }
         .club_info {
             color: $white;
+            text-shadow: 0 2px 4px rgba($black,.50);
             @include media-breakpoint-down(md) {
                 text-align: center;
             }
@@ -123,6 +124,7 @@
             }
             .club_info-detail {
                 font-size: ($font-size-base * 1.1);
+                text-shadow: 0 2px 4px rgba($black,0.50);
                 @include media-breakpoint-down(md) {
                     font-size: ($font-size-base * 0.88);
                 }
@@ -141,11 +143,15 @@
             .nav-item {
                 .nav-link {
                     text-transform: uppercase;
-                    font-size: ($font-size-base * 0.88);
+                    font-size: $h6-font-size;
                     font-weight: 700;
                     padding: $nav-link-padding-y $nav-link-padding-x;
                     &:hover {
                         opacity: 0.5;
+                    }
+                    i {
+                        font-size: $font-size-base * 1.25;
+                        line-height: 1.5;
                     }
                     @include media-breakpoint-only(lg) {
                         font-size: ($font-size-base * 0.68);

@@ -8,7 +8,7 @@
         </div>
         <div class="row my-5">
             <div class="col-12 text-center">
-                <span class="text-uppercase small text-muted">Tournament sponsored by</span>
+                <span class="text-uppercase h8 text-muted">Tournament sponsored by</span>
             </div>
         </div>
         <div class="d-flex align-items-center flex-wrap justify-content-center mb-5">
