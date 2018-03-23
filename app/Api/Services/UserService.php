@@ -280,15 +280,6 @@ class UserService implements UserContract
         $userData['user']=array();
         $userObj = User::findOrFail($userId);
 
-        $loggedInUser = $this->getCurrentLoggedInUserDetail();
-
-        if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
-          if($userId != $loggedInUser->id) {
-            abort(403, 'Unauthorized action.');
-          }
-          $data['userType'] = $userObj->roles[0]->id;
-        }
-
         if(isset($data['emailAddress'])) {
           $userEmailExists = User::where('email', $data['emailAddress'])->where('id', '!=', $userId)->count();
           if($userEmailExists > 0) {

@@ -2,6 +2,7 @@
 
 namespace Laraspace\Http\Requests\User;
 
+use Laraspace\Models\User;
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,12 +17,21 @@ class DeleteRequest extends FormRequest
      */
     public function authorize()
     {
+        $id = $this->route('id');
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator')) {
-            return true;
+        if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
+          if($id != $loggedInUser->id) {
+            return false;
+          }
         }
-        return false;
+        
+        $user = User::find($id)->roles()->first();
+        if ($user['slug'] == 'Super.administrator' && $loggedInUser->hasRole('Master.administrator')) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
