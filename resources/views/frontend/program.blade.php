@@ -19,14 +19,14 @@
 	            		<hr class="hr m-0">
 		            	<ul class="list-group list-group-flush mb-4">
 		            		@foreach($itinerary['items'] as $item)
-							  	<li class="list-group-item pl-0 pr-0 pt-3 pb-4">
+							  	<li class="list-group-item px-0 py-4">
 							  		<div class="row">
 							  			<div class="col-4">
-							  				<h6 class="m-0">{{ $item->day }}</h6>
-							  				<div class="f12">{{ $item->time }}</div>
+							  				<h5 class="mb-0">{{ $item->day }}</h5>
+							  				<div class="h7">{{ $item->time }}</div>
 							  			</div>
 							  			<div class="col-8">
-											<h6>{{ $item->item }}</h6>
+											<h5>{{ $item->item }}</h5>
 							  			</div>
 							  		</div>
 							  	</li>
