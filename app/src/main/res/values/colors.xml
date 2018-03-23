@@ -14,6 +14,7 @@
     <color name="green">#6DA622</color>
     <color name="border_color">#999a9c</color>
     <color name="gray_text">#58595b</color>
+    <color name="light_gray">#edeef1</color>
     <color name="traffic_light">#27e833</color>
     <color name="light_green">#c5dba7</color>
 
