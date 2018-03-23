@@ -50,6 +50,9 @@
 		'visitors_tips_for_visitors' => 'Tips for visitors',
 		'more' => 'More...',
 		'less' => 'Less...',
-		'required_field_message' => 'This field is required'
+		'required_field_message' => 'This field is required',
+		'match_schedule' => 'Match Schedule',
+		'the_teams' => 'The teams',
+		'the_venue' => 'The venue'
 	]
 ?>
