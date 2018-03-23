@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="py-5">
+<footer class="py-4">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
@@ -13,7 +13,7 @@
                             @if($newColumnFlag == 1)
                                 @php($newColumnFlag = 0)
                                 @php($columnCount++)
-                                <div class="col-6 col-md-3{{ $columnCount > 2 ? ' mt-5 mt-md-0' : '' }}">
+                                <div class="col-6 col-md-3{{ $columnCount > 2 ? ' mt-4 mt-md-0' : '' }}">
                                     <ul class="list-unstyled mb-0">
                             @endif
                                     <li>
@@ -46,11 +46,11 @@
                     @endforeach
                 </div>
             </div>
-            <div class="col-lg-4 mt-5 mt-lg-0">
+            <div class="col-lg-4 mt-4 mt-lg-0">
                 <div class="d-flex justify-content-center justify-content-lg-end">
                     <div class="d-inline-block flex-column">
                         <div class="w-100 text-center">
-                            <span class="small text-uppercase text-muted">Organised by</span>
+                            <span class="h8 text-uppercase text-muted">Organised by</span>
                         </div>
                         <div class="organiser_logo_footer">
                             @foreach($organisers as $organiser)
@@ -63,7 +63,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <hr class="hr my-5">
+                <hr class="hr my-4">
             </div>
         </div>
         <div class="row align-items-center copyright_section">
