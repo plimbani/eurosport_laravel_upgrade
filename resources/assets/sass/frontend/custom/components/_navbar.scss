@@ -16,10 +16,12 @@
     }
     .navbar-nav {
         .nav-link {
-            font-size: 11px;
             color: $navbar-dark-color;
             font-weight: 700;
             text-transform: uppercase;
+            padding-left: ($navbar-nav-link-padding-x / 1.5);
+            padding-right: ($navbar-nav-link-padding-x / 1.5);
+            @extend .h7;
             @include hover-focus {
                 color: $navbar-dark-hover-color;
             }
@@ -33,7 +35,7 @@
         .nav-link.active {
             color: $navbar-dark-active-color;
             background: rgba($navbar-dark-active-color, 0.25);
-            border-radius: $font-size-base;
+            border-radius: $font-size-base * 2;
         }
     }
     .navbar-toggler {
@@ -53,36 +55,42 @@
         }
     }
     .dropdown {
+        .dropdown-toggle {
+            &:after {
+                margin-left: ($font-size-base / 2);
+            }
+        }
         .dropdown-menu {
             display: none;
         }
         &.show {
             .dropdown-menu {
-                font-size: 11px;
                 display: block;
                 position: absolute;
                 top: 0;
                 right: 0;
+                max-width: 250px;
                 background: $gray-100;
                 border: 0px;
                 box-shadow: 0px 10px 20px 0px rgba($black, 0.25);
-                border-radius: 15px;
+                border-radius: $font-size-base;
                 padding: 0;
                 margin-top: 0;
                 ul {
                     padding-left: 0;
                     list-style-type: none;
                     margin-bottom: 0;
-                    padding: 0 $navbar-nav-link-padding-x;
+                    padding: $nav-link-padding-y ($navbar-nav-link-padding-x / 1.5);
                     li {
                         a {
                             display: block;
-                            padding: $nav-link-padding-y 0;
+                            // padding: $nav-link-padding-y 0;
                             position: relative;
                             color: theme-color('primary');
                             transition: all 0.1s ease;
                             text-transform: uppercase;
                             word-break: break-all;
+                            @extend .h7;
                             &:hover {
                                 text-decoration: none;
                                 opacity: 0.7;
@@ -97,7 +105,7 @@
                                     display: inline-block;
                                     width: 0;
                                     height: 0;
-                                    margin-left: $caret-width * .85;
+                                    margin-left: ($font-size-base / 2);
                                     vertical-align: $caret-width * .85;
                                     content: "";
                                     @include caret-down;

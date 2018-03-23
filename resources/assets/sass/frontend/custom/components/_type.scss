@@ -1,0 +1,9 @@
+h1, .h1 { line-height: $font-size-base * 3.125; }
+h2, .h2 { line-height: $font-size-base * 2.5; }
+h3, .h3 { line-height: $line-height-base-custom; }
+h4, .h4 { line-height: $line-height-base-custom; }
+h5, .h5 { line-height: $line-height-base-custom; }
+h6, .h6 { line-height: $font-size-base * 1.563; }
+
+.h7 { font-size: $h7-font-size; line-height: $font-size-base * 1.5; }
+.h8 { font-size: $h8-font-size; line-height: $line-height-base-custom; }
