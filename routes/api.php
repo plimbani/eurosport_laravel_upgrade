@@ -214,9 +214,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('users/setFavourite','Laraspace\Api\Controllers\UserController@setFavourite');
     $api->post('users/removeFavourite','Laraspace\Api\Controllers\UserController@removeFavourite');
     $api->post('users/setDefaultFavourite','Laraspace\Api\Controllers\UserController@setDefaultFavourite');
-    $api->post('users/getLoginUserDefaultTournament',
-        'Laraspace\Api\Controllers\TournamentController@getUserLoginDefaultTournament');
-     $api->post('users/getLoginUserFavouriteTournament',
+    $api->post('users/getLoginUserFavouriteTournament',
         'Laraspace\Api\Controllers\TournamentController@getUserLoginFavouriteTournament');
     $api->post('tournaments/getTournamentClub',
         'Laraspace\Api\Controllers\TournamentController@getTournamentClub');
@@ -225,7 +223,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('users/postSetting','Laraspace\Api\Controllers\UserController@postSetting');
     $api->post('users/getSetting','Laraspace\Api\Controllers\UserController@getSetting');
-    $api->post('users/updateProfileImage','Laraspace\Api\Controllers\UserController@setUserImage');
 
 
 

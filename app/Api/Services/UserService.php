@@ -334,7 +334,7 @@ class UserService implements UserContract
         ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
         $userData['user']['organisation']=$data['organisation'];
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
-
+        
         $this->userRepoObj->update($userData['user'], $userId);
 
         if(isset($data['tournament_id'])) {

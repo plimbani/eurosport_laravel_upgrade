@@ -15,18 +15,22 @@ use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Laraspace\Custom\Helper\Common;
 use Laraspace\Api\Contracts\UserContract;
-use Laraspace\Api\Repositories\UserRepository;
 use Laraspace\Http\Requests\User\EditRequest;
 use Laraspace\Http\Requests\User\StoreRequest;
+use Laraspace\Api\Repositories\UserRepository;
 use Laraspace\Http\Requests\User\DeleteRequest;
 use Laraspace\Http\Requests\User\BrowseRequest;
 use Laraspace\Http\Requests\User\UpdateFcmRequest;
 use Laraspace\Http\Requests\User\UserStatusRequest;
 use Laraspace\Http\Requests\User\ResendEmailRequest;
+use Laraspace\Http\Requests\User\GetSettingRequest;
+use Laraspace\Http\Requests\User\PostSettingRequest;
 use Laraspace\Http\Requests\User\SetFavouriteRequest;
-use Laraspace\Http\Requests\User\RemoveFavouriteRequest;
 use Laraspace\Http\Requests\User\DownloadReportRequest;
 use Laraspace\Http\Requests\User\GetUserDetailsRequest;
+use Laraspace\Http\Requests\User\RemoveFavouriteRequest;
+use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
+use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
 
@@ -230,15 +234,15 @@ class UserController extends BaseController
     {
       return$this->userObj->removeFavourite($request->all());
     }
-    public function setDefaultFavourite(Request $request)
+    public function setDefaultFavourite(SetDefaultFavouriteRequest $request)
     {
       return $this->userObj->setDefaultFavourite($request->all());
     }
-    public function postSetting(Request $request)
+    public function postSetting(PostSettingRequest $request)
     {
       return $this->userObj->postSetting($request->all());
     }
-    public function getSetting(Request $request)
+    public function getSetting(GetSettingRequest $request)
     {
       return $this->userObj->getSetting($request->all());
     }
@@ -257,7 +261,7 @@ class UserController extends BaseController
       return $this->userObj->changeTournamentPermission($request->all());
     }
 
-    public function getUserTournaments(Request $request, $id) {
+    public function getUserTournaments(GetUsetTournamentsRequest $request, $id) {
       return $this->userObj->getUserTournaments($id);
     }
 

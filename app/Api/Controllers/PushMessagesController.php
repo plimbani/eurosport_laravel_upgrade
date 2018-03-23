@@ -10,14 +10,15 @@ use App\Models\MessageRecipient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MessageReceiptRequest;*/
+use DB;
+use FCM;
 use Laraspace\Models\User;
+use Laraspace\Models\Message;
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
-use DB;
-use Laraspace\Models\Message;
-use FCM;
 use Laraspace\Http\Requests\PushMessage\GetMessagesRequest;
+use Laraspace\Http\Requests\PushMessage\SendNotificationRequest;
 
 class PushMessagesController extends BaseController
 {
@@ -157,7 +158,7 @@ class PushMessagesController extends BaseController
       return true;
     }
 
-    public function sendNotification(Request $request)
+    public function sendNotification(SendNotificationRequest $request)
     {
 
         \Log::info($request->all());
