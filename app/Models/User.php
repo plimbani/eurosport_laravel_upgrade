@@ -54,7 +54,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'token',
     ];
 
     /**
@@ -181,6 +181,11 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
     public function defaultFavouriteTournament()
     {
         return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id')->where('is_default', 1);
+    }
+
+    public function favouriteTournaments()
+    {
+        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id');
     }
 
     public function tournaments()

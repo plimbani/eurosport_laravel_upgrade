@@ -6,16 +6,19 @@ use DB;
 use Laraspace\Api\Contracts\RefereeContract;
 use Validator;
 use Laraspace\Model\Role;
+use Laraspace\Traits\TournamentAccess;
 
 class RefereeService implements RefereeContract
 {
+    use TournamentAccess;
+    
     public function __construct()
     {
         $this->refereeRepoObj = new \Laraspace\Api\Repositories\RefereeRepository();
     }
 
     public function getAllReferees($tournamentData)
-    {
+    {       
         return $this->refereeRepoObj->getAllReferees($tournamentData);
     }
 

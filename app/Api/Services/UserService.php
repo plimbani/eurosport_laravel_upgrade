@@ -12,13 +12,15 @@ use Illuminate\Mail\Message;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Hash;
-
+use Laraspace\Traits\AuthUserDetail;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Laraspace\Models\UserFavourites;
 
 class UserService implements UserContract
 {
+  use AuthUserDetail;
+
     public function __construct()
     {
         $this->userRepoObj = new \Laraspace\Api\Repositories\UserRepository();
@@ -53,9 +55,9 @@ class UserService implements UserContract
      * @return [type]
      */
     public function create($data)
-    { 
+    {
       // dd($data);
-  
+
         // Data Initilization
         $data = $data->all();
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
@@ -271,7 +273,6 @@ class UserService implements UserContract
      */
     public function update($data, $userId)
     {
-
         $data = $data->all();
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData=array();
@@ -324,7 +325,7 @@ class UserService implements UserContract
         ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
         $userData['user']['organisation']=$data['organisation'];
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
-
+        
         $this->userRepoObj->update($userData['user'], $userId);
 
         if(isset($data['tournament_id'])) {
@@ -431,7 +432,7 @@ class UserService implements UserContract
         // Insert value and set default
          // $userData = UserFavourites::where('user_id','=',$user_id)
          //      ->get();
-        
+
         $userFavouriteData = array();
         $userFavouriteData['user_id'] =  $user_id;
         $userFavouriteData['tournament_id']  = $tournament_id;
@@ -521,7 +522,7 @@ class UserService implements UserContract
         return ['status_code'=>'200','message'=>'Tournament permissions has been updated successfully.'];
       } else {
         return ['status_code'=>'200','message'=>'Problem on updating'];
-      }     
+      }
     }
 
     public function changePermissions($data) {
@@ -534,7 +535,7 @@ class UserService implements UserContract
     }
 
     public function getUserTournaments($id) {
-      return $this->userRepoObj->getUserTournaments($id); 
+      return $this->userRepoObj->getUserTournaments($id);
     }
 
     public function getUserWebsites($id) {

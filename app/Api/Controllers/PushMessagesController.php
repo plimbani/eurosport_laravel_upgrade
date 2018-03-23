@@ -10,17 +10,19 @@ use App\Models\MessageRecipient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MessageReceiptRequest;*/
-use Laraspace\Models\User;
-use Laraspace\Models\Website;
-use LaravelFCM\Message\OptionsBuilder;
-use LaravelFCM\Message\PayloadDataBuilder;
-use LaravelFCM\Message\PayloadNotificationBuilder;
 use DB;
-use Laraspace\Models\Message;
-use Laraspace\Events\AppMessageSent;
 use FCM;
 use Config;
 use Carbon\Carbon;
+use Laraspace\Models\User;
+use Laraspace\Models\Website;
+use Laraspace\Models\Message;
+use Laraspace\Events\AppMessageSent;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use Laraspace\Http\Requests\PushMessage\GetMessagesRequest;
+use Laraspace\Http\Requests\PushMessage\SendNotificationRequest;
 
 class PushMessagesController extends BaseController
 {
@@ -160,7 +162,7 @@ class PushMessagesController extends BaseController
       return $message;
     }
 
-    public function sendNotification(Request $request)
+    public function sendNotification(SendNotificationRequest $request)
     {
         \Log::info($request->all());
         $data = $request->all();
@@ -244,7 +246,7 @@ class PushMessagesController extends BaseController
                     "status_code" => 200
                 ]);
     }
-    public function getMessages(Request $request) {
+    public function getMessages(GetMessagesRequest $request) {
         $messageData = $request->all();
         $tournamentId = $messageData['messageData']['tournament_id'];
         $messageData = Message::where('tournament_id',$tournamentId)->With(['sender','receiver','tournament'])->get()->toArray();
