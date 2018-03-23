@@ -1,0 +1,31 @@
+.macth_table{
+	h4{
+		color: theme-color('primary');
+		font-weight:$font-weight-bold;
+	}
+	hr{
+		background: theme-color('primary');;
+	}
+	.table-responsive .table{
+		position:relative;
+	}
+	.table-responsive th,.table-responsive td{
+		font-size:0.875rem;
+		padding-left:0;
+		vertical-align: middle;
+	}
+	.table-responsive th{
+		border-bottom:none;
+	}
+	.table-responsive thead:after{
+		content:'';
+		position:absolute;
+		width:100%;
+		height: 4px;
+		border-radius: 2px;
+		background: $gray-200;
+	}
+	.table-responsive a{
+		text-decoration:$link-hover-decoration;
+	}
+}
