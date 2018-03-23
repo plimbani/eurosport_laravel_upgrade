@@ -2,14 +2,13 @@
 
 namespace Laraspace\Http\Requests\User;
 
-use Laraspace\Models\User;
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditRequest extends FormRequest
+class UserStatusRequest extends FormRequest
 {
     use AuthUserDetail;
-
+    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,19 +16,12 @@ class EditRequest extends FormRequest
      */
     public function authorize()
     {
-        $id = $this->route('id');
-        $user = User::find($id)->roles()->first();
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        
-        if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
-          if($id != $loggedInUser->id) {
-            return false;
-          }
+
+        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator')) {
+            return true;
         }
-        if ($user['slug'] == 'Super.administrator' && $loggedInUser->hasRole('Master.administrator')) {
-            return false;
-        }        
-        return true;
+        return false;
     }
 
     /**

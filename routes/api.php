@@ -25,6 +25,7 @@ Route::post('password/reset', '\Laraspace\Api\Controllers\PasswordController@pos
 //Route::post('password/email', 'Laraspace\Api\Controllers\PasswordController@postEmail');
 Route::get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
 
+
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
@@ -35,6 +36,7 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('match/reportCard/{refereeId}','Laraspace\Api\Controllers\MatchController@generateRefereeReportCard');
     $api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
     $api->get('tournament/report/reportExport','Laraspace\Api\Controllers\TournamentController@exportReport');
+    $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
 });
 
 $api->version('v1', function ($api) {
@@ -54,12 +56,9 @@ $api->version('v1', function ($api) {
 
     $api->post('password/reset', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
     // $api->get('mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.request');
-    $api->get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');
-    $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
+    $api->get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@userMlogin');    
 
     $api->get('match/automateMatchScheduleAndResult/{tournamentId?}/{ageGroupId?}','Laraspace\Api\Controllers\MatchController@automateMatchScheduleAndResult')->name('automate.match.result');
-
-    $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
     $api->post('appversion', 'Laraspace\Api\Controllers\VersionController@apkVersion');
 
@@ -76,12 +75,13 @@ $api->version('v1', function ($api) {
 
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
 
-    
+    $api->post('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
+    $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
-
-     // for localization
+     
+    // for localization
     $locale = \Request::header('locale');
 
     if($locale != '') {
@@ -193,14 +193,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     // Push Notification Service
     // Update user for update user id
     $api->post('users/updatefcm','Laraspace\Api\Controllers\UserController@updatefcm');
-    $api->post('users/getAllAppUsers', 'Laraspace\Api\Controllers\UserController@getAllAppUsers');
-     $api->post('users/sendNotification',
+    $api->post('users/sendNotification',
         'Laraspace\Api\Controllers\PushMessagesController@sendNotification');
-     $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
-
-    // End of Push Notification code
-    $api->get('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
-
+    $api->post('users/getMessage','Laraspace\Api\Controllers\PushMessagesController@getMessages');
 
     //resend email
     $api->post('/user/resendEmail', '\Laraspace\Api\Controllers\UserController@resendEmail');
@@ -217,9 +212,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('users/setFavourite','Laraspace\Api\Controllers\UserController@setFavourite');
     $api->post('users/removeFavourite','Laraspace\Api\Controllers\UserController@removeFavourite');
     $api->post('users/setDefaultFavourite','Laraspace\Api\Controllers\UserController@setDefaultFavourite');
-    $api->post('users/getLoginUserDefaultTournament',
-        'Laraspace\Api\Controllers\TournamentController@getUserLoginDefaultTournament');
-     $api->post('users/getLoginUserFavouriteTournament',
+    $api->post('users/getLoginUserFavouriteTournament',
         'Laraspace\Api\Controllers\TournamentController@getUserLoginFavouriteTournament');
     $api->post('tournaments/getTournamentClub',
         'Laraspace\Api\Controllers\TournamentController@getTournamentClub');
@@ -228,7 +221,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('users/postSetting','Laraspace\Api\Controllers\UserController@postSetting');
     $api->post('users/getSetting','Laraspace\Api\Controllers\UserController@getSetting');
-    $api->post('users/updateProfileImage','Laraspace\Api\Controllers\UserController@setUserImage');
 
 
 
@@ -252,6 +244,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForPitchMatchReport/{pitchId}', 'Laraspace\Api\Controllers\PitchController@getSignedUrlForPitchMatchReport');
 
     $api->post('getSignedUrlForTournamentReportExport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReportExport');
+
+    $api->post('getSignedUrlForUsersTableData', 'Laraspace\Api\Controllers\UserController@getSignedUrlForUsersTableData');
 });
 
 
