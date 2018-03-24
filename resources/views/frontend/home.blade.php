@@ -22,9 +22,9 @@
                     </div>
                 </div>
                 <div class="col-lg-8 club_content">
-                    <figure class="figure right">
+                    <figure class="figure right pl-gg">
                         @if($pageDetails->welcomeImage('thumbnail'))
-                            <img src="{{ $pageDetails->welcomeImage('thumbnail') }}" class="figure-img img-fluid ml-1" alt="Welcome image" />
+                            <img src="{{ $pageDetails->welcomeImage('thumbnail') }}" class="figure-img img-fluid" alt="Welcome image" />
                         @endif
                     </figure>
                     {!! $pageDetails->content !!}

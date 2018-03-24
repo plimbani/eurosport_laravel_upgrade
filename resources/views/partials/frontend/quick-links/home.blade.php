@@ -2,8 +2,8 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-3"></div>
-            <div class="col-lg-8">
-                <ul class="nav align-items-center justify-content-between">
+            <div class="col-lg-9">
+                <ul class="nav align-items-center">
                     @if(in_array('match.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link{{ Route::currentRouteName() == 'match.page.details' ? ' active' : '' }}" href="{{ route('match.page.details', ['domain' => $websiteDetail->domain_name]) }}">

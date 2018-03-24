@@ -1,10 +1,19 @@
 // Variables
 // --------------------------
 
-$line-height-base-custom: ($font-size-base * 1.8756) !default;
-
 $h7-font-size:                ($font-size-base * 0.75) !default;         //12px
 $h8-font-size:                ($font-size-base * 0.625) !default;        //10px
+
+$line-height-base-custom: ($font-size-base * 1.8756) !default;
+
+$h1-line-height: $font-size-base * 3.125 !default;
+$h2-line-height: $font-size-base * 2.5 !default;
+$h3-line-height: $line-height-base-custom !default;
+$h4-line-height: $line-height-base-custom !default;
+$h5-line-height: $line-height-base-custom !default;
+$h6-line-height: $font-size-base * 1.563 !default;
+$h7-line-height: $font-size-base * 1.5 !default;
+$h8-line-height: $line-height-base-custom !default;
 
 
 $fa-font-path:                "/frontend/fonts/webfonts";
@@ -15,8 +24,13 @@ $space-row-gutter-tiny:		  12px;
 // );
 
 $spacers: (
+	gg: $grid-gutter-width,
 	gt: $space-row-gutter-tiny,
-	cb: $card-spacer-x
+	cb: $card-spacer-x,
+	h2: $h2-font-size,
+	h4: $h4-font-size,
+	lh1: $h1-line-height,
+	lh3: $h3-line-height
 );
 
 $header-height: 60px;
