@@ -1,12 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\Match;
+namespace Laraspace\Http\Requests\Team;
 
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
-use Laraspace\Models\TournamentCompetationTemplates;
 
-class GetSignedUrlForMatchReportRequest extends FormRequest
+class GetTeamsRequest extends FormRequest
 {
     use TournamentAccess;
 
@@ -17,11 +16,12 @@ class GetSignedUrlForMatchReportRequest extends FormRequest
      */
     public function authorize()
     {
-        $ageCategoryId = $this->route('ageCategory');
-        $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($ageCategory->tournament_id);
-        if(!$isTournamentAccessible) {
-          return false;
+        if (isset($this->all()['teamData']['tournamentId'])) {
+            $data = $this->all();
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['teamData']['tournamentId']);
+            if(!$isTournamentAccessible) {
+                return false;
+            }
         }
         return true;
     }
@@ -34,7 +34,7 @@ class GetSignedUrlForMatchReportRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'teamData' => 'required|array'
         ];
     }
 }

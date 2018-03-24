@@ -528,13 +528,20 @@ this.$validator.validateAll().then(
   } else {
     msg = 'Tournament details edited successfully.'
   }
-  this.$store.dispatch('SaveTournamentDetails', this.tournament)
-    // Display Toastr Message for add Tournament
-    toastr['success'](msg, 'Success');
-    // Now redirect to Comperation Format page
-    // now here also check if tournament id is set then we push it
-  setTimeout(this.redirectCompetation, 5000);
-  // commit(types.SAVE_TOURNAMENT, response.data)
+
+  Tournament.saveTournament(this.tournament).then(
+    (response) => {
+      if(response.data.status_code == 200) {
+        this.$store.dispatch('SaveTournamentDetails', response.data.data);
+        toastr['success'](msg, 'Success');
+        this.redirectCompetation();
+      } else {
+        alert('Error Occured')
+      }
+    },
+    (error) => {
+    }
+  );
 },
 (error) => {
 }

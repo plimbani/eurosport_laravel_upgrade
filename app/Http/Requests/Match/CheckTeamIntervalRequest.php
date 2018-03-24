@@ -24,7 +24,7 @@ class CheckTeamIntervalRequest extends FormRequest
             }
             return true;
         }
-        return true;        
+        return true;
     }
 
     /**
@@ -35,7 +35,9 @@ class CheckTeamIntervalRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournamentId' => 'required'
+            'tournamentId' => 'required',
+            'ageGroupId' => 'required',
+            'teams' => 'required|array',
         ];
     }
 }

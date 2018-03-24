@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Laraspace\Http\Requests\Team\StoreRequest;
 use Laraspace\Http\Requests\Team\UpdateRequest;
 use Laraspace\Http\Requests\Team\AllClubsRequest;
+use Laraspace\Http\Requests\Team\GetTeamsRequest;
 use Laraspace\Http\Requests\Team\TeamsListRequest;
 use Laraspace\Http\Requests\Team\ClubsTeamsRequest;
 use Laraspace\Http\Requests\Team\AssignTeamRequest;
@@ -45,7 +46,7 @@ class TeamController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getTeams(Request $request)
+    public function getTeams(GetTeamsRequest $request)
     {
        return  $result = $this->teamObj->getTeams($request);
     }

@@ -18,7 +18,7 @@ class CreateCompetationFomatRequest extends FormRequest
     {
         if (isset($this->all()['compeationFormatData'])) {
             $data = $this->all()['compeationFormatData'];
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);        
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
             if(!$isTournamentAccessible) {
                 return false;
             }

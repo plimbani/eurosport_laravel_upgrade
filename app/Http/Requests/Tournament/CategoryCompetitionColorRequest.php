@@ -17,15 +17,11 @@ class CategoryCompetitionColorRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->all()['competitionsColorData'])) {            
+        if (isset($this->all()['competitionsColorData'])) {
             $competitionsColorData = $this->all()['competitionsColorData'];
             $competitionIds = array_keys($competitionsColorData);
-            $competitions = Competition::whereIn('id', $competitionIds)->get();
-            foreach ($competitions as $competition) {
-                $tournamentIds[] = $competition['tournament_id'];
-            }
-            $tournamentIdsArray = array_unique($tournamentIds);
-            $isTournamentAccessible = $this->checkForMultipleTournamentAccess($tournamentIdsArray);
+            $tournamentIds = Competition::whereIn('id', $competitionIds)->pluck('tournament_id')->unique()->toArray();
+            $isTournamentAccessible = $this->checkForMultipleTournamentAccess($tournamentIds);
             if(!$isTournamentAccessible) {
                 return false;
             }
