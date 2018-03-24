@@ -16,7 +16,7 @@ class UpdateFcmRequest extends FormRequest
         if (isset($this->headers->all()['ismobileuser'])) {
             $isMobileUser = $this->headers->all()['ismobileuser'];
             if ($isMobileUser == true) {
-                return true;            
+                return true;
             }
         }
         return false;

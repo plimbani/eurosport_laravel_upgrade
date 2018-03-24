@@ -2,6 +2,7 @@
 
 namespace Laraspace\Http\Requests\Match;
 
+use Laraspace\Models\Competition;
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,14 +17,16 @@ class SaveStandingsManuallyRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->all()['data'])) {        
+        if (isset($this->all()['data'])) {
             $data = $this->all()['data'];
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
+            $competitionId = $data['competitionId'];
+            $competition = Competition::findOrFail($competitionId);
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($competition->tournament_id);
             if(!$isTournamentAccessible) {
                 return false;
             }
+            return true;
         }
-        return true;
     }
 
     /**
@@ -34,7 +37,7 @@ class SaveStandingsManuallyRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required | array'            
+            'data' => 'required|array'
         ];
     }
 }

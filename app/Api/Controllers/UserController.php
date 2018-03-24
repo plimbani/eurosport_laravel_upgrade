@@ -27,7 +27,6 @@ use Laraspace\Http\Requests\User\ResendEmailRequest;
 use Laraspace\Http\Requests\User\GetSettingRequest;
 use Laraspace\Http\Requests\User\PostSettingRequest;
 use Laraspace\Http\Requests\User\SetFavouriteRequest;
-use Laraspace\Http\Requests\User\DownloadReportRequest;
 use Laraspace\Http\Requests\User\GetUserDetailsRequest;
 use Laraspace\Http\Requests\User\RemoveFavouriteRequest;
 use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
@@ -84,7 +83,7 @@ class UserController extends BaseController
         return $userData = $this->userObj->getUsersByRegisterType($request->all());
     }
 
-    public function getUserTableData(DownloadReportRequest $request)
+    public function getUserTableData(Request $request)
     {
         return $userData = $this->userObj->getUserTableData($request->all());
     }

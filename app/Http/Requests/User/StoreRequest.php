@@ -27,9 +27,9 @@ class StoreRequest extends FormRequest
             return true;
         }
         if($loggedInUser->hasRole('Master.administrator')) {
-            if (isset($this->all()['userType'])) {            
+            if (isset($this->all()['userType'])) {
                 $userType = $this->all()['userType'];
-                $role = Role::find($userType);
+                $role = Role::findOrFail($userType);
                 if ( !($role['slug'] == 'Super.administrator') ) {
                     return true;
                 }

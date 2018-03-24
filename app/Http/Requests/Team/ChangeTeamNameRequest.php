@@ -20,14 +20,14 @@ class ChangeTeamNameRequest extends FormRequest
         $data = $this->all();
         if(isset($data['teamData']['team_id'])) {
             $teamId = $data['teamData']['team_id'];
-            $team = Team::find($teamId)->first();
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($team['tournament_id']);
+            $team = Team::findOrFail($teamId);
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($team->tournament_id);
             if(!$isTournamentAccessible) {
                 return false;
             }
             return true;
         }
-        return true;        
+        return true;
     }
 
     /**
@@ -38,7 +38,7 @@ class ChangeTeamNameRequest extends FormRequest
     public function rules()
     {
         return [
-            'teamData' => 'required|array',            
+            'teamData' => 'required|array',
         ];
     }
 }

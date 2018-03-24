@@ -17,14 +17,11 @@ class TeamDetailsRequest extends FormRequest
      */
     public function authorize()
     {
-        $ageCategoryId = $this->all();
-        $data = TournamentCompetationTemplates::find($ageCategoryId)->first();
-        if (isset($data['tournament_id'])) {
-            $isTournamentAccessible = $this->checkForTournamentReadAccess($data['tournament_id']);
-            if(!$isTournamentAccessible) {
-              return false;
-            }
-            return true;
+        $ageCategoryId = $this->all()['ageCategoryId'];
+        $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
+        $isTournamentAccessible = $this->checkForTournamentReadAccess($ageCategory->tournament_id);
+        if(!$isTournamentAccessible) {
+          return false;
         }
         return true;
     }

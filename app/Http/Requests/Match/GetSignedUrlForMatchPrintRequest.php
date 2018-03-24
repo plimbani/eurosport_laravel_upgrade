@@ -2,6 +2,7 @@
 
 namespace Laraspace\Http\Requests\Match;
 
+use Laraspace\Models\TempFixture;
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,8 +17,11 @@ class GetSignedUrlForMatchPrintRequest extends FormRequest
      */
     public function authorize()
     {
-        $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('mobile.user')) {
+        $data = $this->all();
+        $matchId = $data['matchId'];
+        $tempFixture = TempFixture::findOrFail($matchId);
+        $isTournamentAccessible = $this->checkForWritePermissionByTournament($tempFixture->tournament_id);
+        if(!$isTournamentAccessible) {
             return false;
         }
         return true;

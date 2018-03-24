@@ -16,10 +16,9 @@ class TournamentSummary extends FormRequest
      */
     public function authorize()
     {
-        // echo "<pre>";print_r($this->all()['tournamentId']);echo "</pre>";exit;
-        if (isset($this->all()['tournamentId'])) {        
+        if (isset($this->all()['tournamentId'])) {
             $tournamentId = $this->all()['tournamentId'];
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);        
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
             if(!$isTournamentAccessible) {
                 return false;
             }

@@ -16,8 +16,9 @@ class GetSignedUrlForTournamentReportRequest extends FormRequest
      */
     public function authorize()
     {
-        $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('mobile.user')) {
+        $data = $this->all();
+        $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournament_id']);
+        if(!$isTournamentAccessible) {
             return false;
         }
         return true;

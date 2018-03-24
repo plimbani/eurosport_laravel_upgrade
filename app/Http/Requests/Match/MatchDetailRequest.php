@@ -19,14 +19,14 @@ class MatchDetailRequest extends FormRequest
     {
         if (isset($this->all()['matchId'])) {
             $matchId = $this->all()['matchId'];
-            $tempFixture = TempFixture::find($matchId)->first();
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($tempFixture['tournament_id']);
+            $tempFixture = TempFixture::findOrFail($matchId);
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($tempFixture->tournament_id);
             if(!$isTournamentAccessible) {
                 return false;
             }
             return true;
         }
-        return true;        
+        return true;
     }
 
     /**

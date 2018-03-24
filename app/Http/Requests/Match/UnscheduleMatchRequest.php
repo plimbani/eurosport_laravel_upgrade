@@ -17,13 +17,15 @@ class UnscheduleMatchRequest extends FormRequest
      */
     public function authorize()
     {
-        $matchId = $this->all();
-        $tempFixture = TempFixture::find($matchId)->first();
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($tempFixture['tournament_id']);
-        if(!$isTournamentAccessible) {
-            return false;
+        if($this->all()['matchData']) {
+            $matchId = $this->all()['matchData'];
+            $tempFixture = TempFixture::findOrFail($matchId);
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($tempFixture->tournament_id);
+            if(!$isTournamentAccessible) {
+                return false;
+            }
+            return true;
         }
-        return true;
     }
 
     /**
@@ -34,7 +36,7 @@ class UnscheduleMatchRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'matchData' => 'required',
         ];
     }
 }

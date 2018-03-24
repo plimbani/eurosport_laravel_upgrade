@@ -1,13 +1,13 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace Laraspace\Http\Requests\Venue;
 
-use Laraspace\Traits\AuthUserDetail;
+use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DownloadReportRequest extends FormRequest
+class GetVenueRequest extends FormRequest
 {
-    use AuthUserDetail;
+    use TournamentAccess;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -16,6 +16,11 @@ class DownloadReportRequest extends FormRequest
      */
     public function authorize()
     {
+        $tournamentId = $this->route('tournamentId');
+        $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
+        if(!$isTournamentAccessible) {
+            return false;
+        }
         return true;
     }
 

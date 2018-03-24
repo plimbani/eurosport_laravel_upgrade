@@ -17,7 +17,7 @@ class GetPitchesRequest extends FormRequest
     public function authorize()
     {
         $tournamentId = $this->route('tournamentId');
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);        
+        $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
         if(!$isTournamentAccessible) {
             return false;
         }

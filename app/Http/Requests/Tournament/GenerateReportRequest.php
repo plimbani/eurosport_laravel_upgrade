@@ -16,12 +16,13 @@ class GenerateReportRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->all()['tournament_id'])) {            
+        if (isset($this->all()['tournament_id'])) {
             $tournamentId = $this->all()['tournament_id'];
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);        
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
             if(!$isTournamentAccessible) {
                 return false;
             }
+            return true;
         }
         return true;
     }

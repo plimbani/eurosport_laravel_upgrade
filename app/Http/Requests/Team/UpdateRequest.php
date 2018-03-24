@@ -18,7 +18,7 @@ class UpdateRequest extends FormRequest
     public function authorize()
     {
         $teamId = $this->route('id');
-        $team = Team::find($teamId);
+        $team = Team::findOrFail($teamId);
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($team->tournament_id);
         if(!$isTournamentAccessible) {
             return false;

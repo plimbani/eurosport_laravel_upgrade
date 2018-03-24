@@ -19,14 +19,14 @@ class RefereeDetailRequest extends FormRequest
     {
         if (isset($this->all()['refereeId'])) {
             $refereeId = $this->all()['refereeId'];
-            $referee = Referee::find($refereeId)->first();
+            $referee = Referee::findOrFail($refereeId);
             $isTournamentAccessible = $this->checkForWritePermissionByTournament($referee->tournament_id);
             if(!$isTournamentAccessible) {
                 return false;
             }
             return true;
         }
-        return true;
+        return false;
     }
 
     /**
