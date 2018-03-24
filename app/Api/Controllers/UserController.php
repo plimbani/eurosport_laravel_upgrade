@@ -28,6 +28,8 @@ use Laraspace\Http\Requests\User\GetSettingRequest;
 use Laraspace\Http\Requests\User\PostSettingRequest;
 use Laraspace\Http\Requests\User\SetFavouriteRequest;
 use Laraspace\Http\Requests\User\DownloadReportRequest;
+use Laraspace\Http\Requests\User\GetUserWebsitesRequest;
+use Laraspace\Http\Requests\User\ChangePermissionRequest;
 use Laraspace\Http\Requests\User\GetUserDetailsRequest;
 use Laraspace\Http\Requests\User\RemoveFavouriteRequest;
 use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
@@ -262,16 +264,16 @@ class UserController extends BaseController
       return $this->userObj->changeTournamentPermission($request->all());
     }
 
-    public function changePermissions(Request $request) {
+    public function changePermissions(ChangePermissionRequest $request) {
       return $this->userObj->changePermissions($request->all());  
-    }
-
-    public function getUserWebsites(Request $request, $id) {
-      return $this->userObj->getUserWebsites($id);
     }
 
     public function getUserTournaments(GetUsetTournamentsRequest $request, $id) {
       return $this->userObj->getUserTournaments($id);
+    }
+
+    public function getUserWebsites(GetUserWebsitesRequest $request, $id) {
+      return $this->userObj->getUserWebsites($id);
     }
 
     public function getSignedUrlForUsersTableData(GetSignedUrlForUsersTableDataRequest $request)

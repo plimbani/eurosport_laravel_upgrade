@@ -93,6 +93,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('team/group/assign', 'Laraspace\Api\Controllers\TeamController@assignTeam');
     $api->post('team/getClubsTeams','Laraspace\Api\Controllers\TeamController@getClubTeams');
+
     $api->post('team/checkTeamExist', 'Laraspace\Api\Controllers\TeamController@checkTeamExist');
 
     $api->post('editTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@editTeamDetails');
@@ -110,18 +111,19 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     //MatchResult api
     $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
+
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
     // $api->get('match/report', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
     $api->post('match/assignReferee', 'Laraspace\Api\Controllers\MatchController@assignReferee');
     $api->post('match/saveResult', 'Laraspace\Api\Controllers\MatchController@saveResult');
     $api->post('match/saveAllResults', 'Laraspace\Api\Controllers\MatchController@saveAllResults');
+
     $api->post('match/getUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@getUnavailableBlock');
     $api->post('match/updateScore', 'Laraspace\Api\Controllers\MatchController@updateScore');
 
     $api->post('match/checkTeamIntervalforMatches',
         'Laraspace\Api\Controllers\MatchController@checkTeamIntervalforMatches');
-
 
 
     //Referee api
@@ -131,8 +133,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('referee/refereeDetail', 'Laraspace\Api\Controllers\RefereeController@refereeDetail');
     $api->post('referee/delete/{deleteid}', 'Laraspace\Api\Controllers\RefereeController@deleteReferee');
-
-
 
     //pitch api
     $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');
@@ -151,14 +151,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->get('venues/getAll/{tournamentId}', 'Laraspace\Api\Controllers\VenueController@getVenues');
 
-
-    //Tournament Api CRUD Routes
-
-
     // Get Tournament Details By Status
 
     $api->post('tournament/updateStatus', 'Laraspace\Api\Controllers\TournamentController@updateStatus');
-
 
     // Get All Templates
     $api->post('tournaments/templates', 'Laraspace\Api\Controllers\TournamentController@templates');

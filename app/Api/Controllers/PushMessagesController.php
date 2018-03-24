@@ -12,9 +12,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MessageReceiptRequest;*/
 use DB;
 use FCM;
-use Laraspace\Models\User;
 use Config;
 use Carbon\Carbon;
+use Laraspace\Models\User;
 use Laraspace\Models\Website;
 use Laraspace\Models\Message;
 use Laraspace\Events\AppMessageSent;

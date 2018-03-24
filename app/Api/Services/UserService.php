@@ -537,6 +537,7 @@ class UserService implements UserContract
     public function getUserTournaments($id) {
       return $this->userRepoObj->getUserTournaments($id);
     }
+
     public function getUserWebsites($id) {
       return $this->userRepoObj->getUserWebsites($id); 
     }

@@ -227,6 +227,7 @@
 <script>
 var offlineRedirectUrl = null;
 var moment = require('moment');
+import _ from 'lodash';
 import Tournament from '../../../api/tournament.js';
 import Website from '../../../api/website.js';
 import SponsorsList from '../../../components/SponsorsList.vue';
@@ -271,7 +272,13 @@ export default {
 		let currentNavigationData = {
 			activeTab:'website_add',
 		};
-		this.getAllPublishedTournaments();
+
+		if (_.indexOf(['Super.administrator', 'Master.administrator', 'Internal.administrator'], this.$store.state.Users.userDetails.role_slug) > -1)
+		{
+			this.getAllPublishedTournaments();			
+		}
+
+
 		this.getWebsiteCustomisationOptions();
 		this.website.websiteId = this.$store.state.Website.id;
 		if(this.website.websiteId) {

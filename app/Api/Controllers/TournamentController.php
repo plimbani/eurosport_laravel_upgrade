@@ -15,6 +15,7 @@ use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
 use Laraspace\Http\Requests\Tournament\GenerateReportRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
 use Laraspace\Http\Requests\Tournament\CategoryCompetitionColorRequest;
+use Laraspace\Http\Requests\Tournament\GetAllPublishedTournamentsRequest;
 use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportRequest;
 use Laraspace\Http\Requests\Tournament\GetUserLoginFavouriteTournamentRequest;
 use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportExportRequest;
@@ -200,6 +201,7 @@ class TournamentController extends BaseController
     public function getAllPublishedTournaments(Request $request) {
         return $this->tournamentObj->getAllPublishedTournaments($request->all());
     }
+
     public function getSignedUrlForTournamentReport(GetSignedUrlForTournamentReportRequest $request)
     {
         $reportData = $request->all();
