@@ -1,0 +1,20 @@
+.list-style-type{
+	h4{
+		color: theme-color('primary');
+		font-weight:$font-weight-bold;
+	}
+	hr{
+		background: theme-color('primary');;
+	}
+	.list-group-item:first-child{
+		border-top:0;
+	}
+	.list-group-item:last-child{
+		border-bottom:0;
+	}
+	h6{
+		&.m-0{
+			font-weight:$font-weight-bold;
+		}
+	}
+}

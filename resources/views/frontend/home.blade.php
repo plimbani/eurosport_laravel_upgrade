@@ -5,7 +5,7 @@
     <div class="content__wrapper d-none d-lg-block">
         <div class="container">
             <div class="row my-5">
-                <div class="grid-22">
+                <div class="col-lg-3">
                     <div class="row mb-4">
                         <div class="col-12 text-center text-uppercase text-muted">
                             <div class="h8">Organised by</div>
