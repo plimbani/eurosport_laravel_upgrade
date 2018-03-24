@@ -32,7 +32,7 @@ class StoreUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'website_id' => 'required',
         ];
     }
 }

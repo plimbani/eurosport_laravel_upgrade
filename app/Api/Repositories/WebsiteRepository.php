@@ -101,6 +101,8 @@ class WebsiteRepository
    */
   public function saveWebsite($data)
   {
+    $loggedInUser = $this->getCurrentLoggedInUserDetail();
+
     if(isset($data['websiteId']) && $data['websiteId'] != null){
       $websiteId = $data['websiteId'];
       $website = Website::find($websiteId);
@@ -110,20 +112,24 @@ class WebsiteRepository
       $data['isExistingWebsite'] = false;
     }
 
-    $website->tournament_name = $data['tournament_name'];
-    $website->tournament_dates = $data['tournament_date'];
-    $website->tournament_location = $data['tournament_location'];
-    $website->domain_name = $data['domain_name'];
-    $website->linked_tournament = $data['linked_tournament'];
-    $website->google_analytics_id = $data['google_analytics_id'];
-    $website->is_website_offline = $data['is_website_offline'];
-    $website->offline_redirect_url = $data['is_website_offline'] == 1 ? Common::addSchemeToUrl($data['offline_redirect_url']) : null;
-    $website->tournament_logo = ($data['tournament_logo'] != '') ? $data['tournament_logo'] : NULL;
+    // Allowed access to particular user roles
+    if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('Internal.administrator')) {
+      $website->tournament_name = $data['tournament_name'];
+      $website->tournament_dates = $data['tournament_date'];
+      $website->tournament_location = $data['tournament_location'];
+      $website->domain_name = $data['domain_name'];
+      $website->linked_tournament = $data['linked_tournament'];
+      $website->google_analytics_id = $data['google_analytics_id'];
+      $website->is_website_offline = $data['is_website_offline'];
+      $website->offline_redirect_url = $data['is_website_offline'] == 1 ? Common::addSchemeToUrl($data['offline_redirect_url']) : null;
+      $website->tournament_logo = ($data['tournament_logo'] != '') ? $data['tournament_logo'] : NULL;
+    }
+    
     $website->social_sharing_graphic = ($data['social_sharing_graphic'] != '') ? $data['social_sharing_graphic'] : NULL;
     $website->color = $data['color'];
     $website->font = $data['font'];
 
-    $currentLoggedInUserId = $this->getCurrentLoggedInUserId();
+    $currentLoggedInUserId = $loggedInUser->id;
     if($data['isExistingWebsite'] == false){
       $website->created_by = $currentLoggedInUserId;
       $website->save();
@@ -136,7 +142,10 @@ class WebsiteRepository
 
     $data['websiteId'] = $website->id;
 
-    $this->saveWebsitePageDetail($data);
+    // Allowed access to particular user roles
+    if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('Internal.administrator')) {
+      $this->saveWebsitePageDetail($data);
+    }
 
     $this->saveContactDetail($currentLoggedInUserId, $data);
 

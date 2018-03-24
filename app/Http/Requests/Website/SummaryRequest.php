@@ -32,7 +32,7 @@ class SummaryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'websiteId' => 'required',
         ];
     }
 }
