@@ -399,12 +399,6 @@ class TournamentService implements TournamentContract
     public function tournamentSummary($data)
     {
         $data = $data->all();
-
-        $isTournamentAccessible = $this->checkForTournamentAccess($data['tournamentId']);
-        if(!$isTournamentAccessible) {
-          abort(403, 'Unauthorized action.');
-        }
-
         $tournamentData = $this->tournamentRepoObj->tournamentSummary($data['tournamentId']);
         if ($tournamentData) {
           return ['status_code' => '200', 'data'=>$tournamentData];

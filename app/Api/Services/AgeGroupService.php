@@ -10,9 +10,12 @@ use Laraspace\Models\Team;
 use Laraspace\Models\Position;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentTemplates;
+use Laraspace\Traits\TournamentAccess;
 
 class AgeGroupService implements AgeGroupContract
 {
+  use TournamentAccess;
+
     public function __construct(AgeGroupRepository $ageRepoObj)
     {
         $this->ageGroupObj = $ageRepoObj;

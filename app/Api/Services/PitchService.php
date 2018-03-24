@@ -9,9 +9,12 @@ use Laraspace\Model\Role;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\Pitch;
 use PDF;
+use Laraspace\Traits\TournamentAccess;
 
 class PitchService implements PitchContract
 {
+    use TournamentAccess;
+
     public function __construct()
     {
         $this->pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
@@ -20,12 +23,16 @@ class PitchService implements PitchContract
 
     public function getAllPitches($tournamentId)
     {
-        return $this->pitchRepoObj->getAllPitches($tournamentId);
+      $isTournamentAccessible = $this->checkForTournamentAccess($tournamentId);
+      if(!$isTournamentAccessible) {
+        abort(403, 'Unauthorized action.');
+      }
+      return $this->pitchRepoObj->getAllPitches($tournamentId);
     }
 
     public function getPitchSizeWiseSummary($tournamentId)
     {
-        return $this->pitchRepoObj->getPitchSizeWiseSummary($tournamentId);
+      return $this->pitchRepoObj->getPitchSizeWiseSummary($tournamentId);
     }
 
     /**
