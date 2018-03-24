@@ -59,8 +59,15 @@ class ForgotPasswordController extends Controller
 
         if($tries == 3) {
             if($diffInMinutes > config('config-variables.reset_password_interval')) {
-                $msg = "Too many reset password attempts. Please try again in 1 hour.";
-                return response()->json(['status'=>'403', 'message' => $msg]);
+                $tries = 0;
+                $passwordReset = DB::table('password_resets')
+                                    ->where('email', $request['email'])
+                                    ->update(['tries' => $tries]);
+
+            } else {
+                $hourDuration = (config('config-variables.reset_password_interval') / 60);
+                $msg = "Too many reset password attempts. Please try again in .$hourDuration. hour.";
+                return response()->json(['status'=>'403', 'message' => $msg]);              
             }
         }
 

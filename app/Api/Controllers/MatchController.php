@@ -19,6 +19,7 @@ use Laraspace\Http\Requests\Match\AssignRefereeRequest;
 use Laraspace\Http\Requests\Match\CheckTeamIntervalRequest;
 use Laraspace\Http\Requests\Match\GetUnavailableBlockRequest;
 use Laraspace\Http\Requests\Match\RemoveAssignedRefereeRequest;
+use Laraspace\Http\Requests\Match\SaveStandingsManuallyRequest;
 use Laraspace\Http\Requests\Match\GetSignedUrlForMatchPrintRequest;
 use Laraspace\Http\Requests\Match\GetSignedUrlForMatchReportRequest;
 use Laraspace\Http\Requests\Match\GetSignedUrlForRefereeReportRequest;
@@ -792,7 +793,7 @@ class MatchController extends BaseController
     }
 
 
-    public function saveStandingsManually(Request $request)
+    public function saveStandingsManually(SaveStandingsManuallyRequest $request)
     {
         return $this->matchObj->saveStandingsManually($request);
     }
