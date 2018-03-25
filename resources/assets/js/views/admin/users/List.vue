@@ -143,7 +143,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :userEmailData="userEmailData" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin"></user-modal>
+        :userRoles="userRoles" :userEmailData="userEmailData" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -153,6 +153,7 @@
            @closeModal="closeConfirm()">
          </active-modal>
          <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal>
+         <confirm-privilege-change-modal @confirmed="privilegeChangeConfirmed()"></confirm-privilege-change-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -161,6 +162,7 @@
     import UserModal  from  '../../../components/UserModal.vue'
     import ActiveModal  from  '../../../components/ActiveModal.vue'
     import TournamentPermissionModal from '../../../components/TournamentPermissionModal.vue'
+    import ConfirmPrivilegeChangeModal from '../../../components/ConfirmPrivilegeChangeModal.vue'
     import User from '../../../api/users.js'
     import Tournament from '../../../api/tournament.js'
     import VuePaginate from 'vue-paginate'
@@ -172,7 +174,8 @@
             ResendModal,
             UserModal,
             ActiveModal,
-            TournamentPermissionModal
+            TournamentPermissionModal,
+            ConfirmPrivilegeChangeModal,
         },
         data() {
             return {
@@ -356,6 +359,10 @@
                   }
                 )
             },
+            privilegeChangeConfirmed() {
+              this.$root.$emit('privilegeChangeConfirmed');
+              $('#confirm_privilege_modal').modal('hide');
+            },
             exportTableReport() {
                 let userData = this.reportQuery              
                 let userSearch = '';
@@ -381,6 +388,9 @@
               this.$root.$emit('getUserTournaments', user);
               $('#tournament_permission_modal').modal('show')
 
+            },
+            showChangePrivilegeModal() {
+              $('#confirm_privilege_modal').modal('show');
             }
         }
     }
