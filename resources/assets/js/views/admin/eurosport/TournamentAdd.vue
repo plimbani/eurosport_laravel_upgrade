@@ -84,8 +84,7 @@
                       <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
                       <div class="pull-right">
                         <div v-if="!image">
-                        <img  src="http://placehold.it/250x250?text=No%20image"
-                             class="thumb-size" />
+                            <img src="/assets/img/noimage.png" class="thumb-size" />
                             <!--<button type="button" name="btnSelect" id="btnSelect">-->
                             <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
                             <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
