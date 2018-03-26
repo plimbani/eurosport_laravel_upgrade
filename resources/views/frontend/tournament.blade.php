@@ -11,8 +11,7 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	            <div class="col-lg-12 club_content macth_table" id="matches_list">
-	                <hr class="hr m-0">
+	            <div class="col-lg-12 club_content match_table" id="matches_list">
 	                <div class="table-responsive">
 	                    <table class="table">
 	                        <thead>
@@ -89,8 +88,10 @@
 
 	            <div class="col-lg-3">
 	            </div>
-	            <div class="col-lg-8 club_content">
-	                {!! $tournamentContent->content !!}
+	            <div class="col-lg-8 club_content match_table">
+	            	<div class="table-responsive">
+	                	{!! $tournamentContent->content !!}
+	            	</div>
 	            </div>	        
 	    </div>
 	</div>
