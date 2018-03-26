@@ -78,7 +78,7 @@
 	  },
 	  computed: {
 	  	getSponsorLogo() {
-	  		return this.formValues.logo == '' ? 'http://placehold.it/250x250?text=No%20image' : this.formValues.logo;
+	  		return this.formValues.logo == '' ? '/assets/img/noimage.png' : this.formValues.logo;
 	  	},
 	  },
 		methods: {

@@ -237,6 +237,7 @@ return [
         Laraspace\Api\Providers\UploadMediaServiceProvider::class,
         Laraspace\Providers\ComposerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Spatie\UrlSigner\Laravel\UrlSignerServiceProvider::class,
     ],
 
     /*
@@ -297,6 +298,7 @@ return [
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'UrlSigner' => Spatie\UrlSigner\Laravel\UrlSignerFacade::class,
     ],
 
 ];
