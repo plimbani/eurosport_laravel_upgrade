@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\AgeGroup;
+namespace Laraspace\Http\Requests\Team;
 
 use JWTAuth;
 use Laraspace\Models\Tournament;
+use Laraspace\Models\Competition;
 use Laraspace\Traits\TournamentAccess;
-use Laraspace\Models\TournamentCompetationTemplates;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TeamDetailsRequest extends FormRequest
+class GetAllCompetitionTeamsFromFixtureRequest extends FormRequest
 {
     use TournamentAccess;
 
@@ -21,9 +21,10 @@ class TeamDetailsRequest extends FormRequest
     {
         $token = JWTAuth::getToken();
         if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
-            $ageCategoryId = $this->all()['ageCategoryId'];
-            $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
-            $tournament_id = $ageCategory->tournament_id;
+            $data = $this->all()['tournamentData'];
+            $competitionId = $data['competitionId'];
+            $competition = Competition::findOrFail($competitionId);
+            $tournament_id = $competition->tournament_id;
             $tournament = Tournament::where('id',$tournament_id)->first();
             $isTournamentPublished = $this->isTournamentPublished($tournament);
             if(!$isTournamentPublished) {
