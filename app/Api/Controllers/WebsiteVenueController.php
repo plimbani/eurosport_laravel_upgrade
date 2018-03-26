@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\WebsiteVenueContract;
 
+use Laraspace\Http\Requests\Venue\GetLocationsRequest;
+use Laraspace\Http\Requests\Venue\GetMarkersRequest;
+use Laraspace\Http\Requests\Venue\StoreUpdateRequest;
+
 /**
  * Tournament Resource Description.
  *
@@ -38,7 +42,7 @@ class WebsiteVenueController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getLocations(Request $request, $websiteId)
+  public function getLocations(GetLocationsRequest $request, $websiteId)
   {
     return $this->websiteVenueContract->getLocations($websiteId);
   }
@@ -52,7 +56,7 @@ class WebsiteVenueController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getMarkers(Request $request, $websiteId)
+  public function getMarkers(GetMarkersRequest $request, $websiteId)
   {
     return $this->websiteVenueContract->getMarkers($websiteId);
   }
@@ -62,7 +66,7 @@ class WebsiteVenueController extends BaseController
    *
    * @return response
    */ 
-  public function savePageData(Request $request)
+  public function savePageData(StoreUpdateRequest $request)
   {
     return $this->websiteVenueContract->savePageData($request->all());
   }

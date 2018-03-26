@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 // Need to define only contracts
 use Laraspace\Api\Contracts\ContactContract;
 
+use Laraspace\Http\Requests\Contact\GetContactDataRequest;
+use Laraspace\Http\Requests\Contact\StoreUpdateRequest;
+
 /**
  * Contact description.
  *
@@ -36,7 +39,7 @@ class ContactController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getContactDetails(Request $request, $websiteId)
+  public function getContactDetails(GetContactDataRequest $request, $websiteId)
   {
     return $this->contactContract->getContactDetails($websiteId);
   }
@@ -49,7 +52,7 @@ class ContactController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function saveContactDetails(Request $request)
+  public function saveContactDetails(StoreUpdateRequest $request)
   {
     return $this->contactContract->saveContactDetails($request);
   }
