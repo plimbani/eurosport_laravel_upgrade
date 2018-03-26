@@ -13,7 +13,7 @@
 		font-size:$h6-font-size;
 		padding-left:0;
 		vertical-align: middle;
-		border-bottom:none;
+		border:none;
 	}
 	.table-responsive thead:after{
 		content:'';
@@ -22,6 +22,22 @@
 		height: 4px;
 		border-radius: 2px;
 		background: $gray-200;
+	}
+	.table-responsive tr{
+		&:after{
+			content:'';
+			position: absolute;
+		    left: 0;
+		    width:100%;
+		    background: $gray-200;
+		    height: 2px;
+		    border-radius: 2px;
+		}
+		&:first-child{
+			&:after{
+				display:none;
+			}
+		}
 	}
 	.table-responsive a{
 		text-decoration:$link-hover-decoration;

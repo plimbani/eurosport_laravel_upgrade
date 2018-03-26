@@ -8,7 +8,7 @@
     		border-left: 1px solid theme-color('primary');
     		color: theme-color('primary');
     		&.left-arrow,
-    		.right-arrow {
+    		&.right-arrow {
 				border-radius:$border-radius * 4;
 				border: 1px solid theme-color('primary');   
 			}
@@ -34,7 +34,7 @@
 			a{
     			cursor:pointer;
     			display:block;
-    			padding: $pagination-padding-y $pagination-padding-x;
+    			padding: ($mark-padding * 1.5) ($pagination-padding-y * 1.75);
     			&:not([href]):not([tabindex]){
     				color: theme-color('primary');
     			}
