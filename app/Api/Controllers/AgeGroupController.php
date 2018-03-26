@@ -5,6 +5,7 @@ namespace Laraspace\Api\Controllers;
 use Illuminate\Http\Request;
 use Laraspace\Models\Position;
 use Laraspace\Http\Requests\AgeGroup\TeamDetailsRequest;
+use Laraspace\Http\Requests\AgeGroup\GetCompetationFormatRequest;
 use Laraspace\Http\Requests\AgeGroup\CreateCompetationFomatRequest;
 use Laraspace\Http\Requests\AgeGroup\DeleteCompetitionFormatRequest;
 // Need to Define Only Contracts
@@ -94,7 +95,7 @@ class AgeGroupController extends BaseController
     {
         return $this->ageGroupObj->createCompetationFomat($request->all());
     }
-    public function getCompetationFormat(Request $request) {
+    public function getCompetationFormat(GetCompetationFormatRequest $request) {
         return $this->ageGroupObj->GetCompetationFormat($request);
     }
     public function deleteCompetationFormat(DeleteCompetitionFormatRequest $request) {
