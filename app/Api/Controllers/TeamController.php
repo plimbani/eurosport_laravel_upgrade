@@ -17,6 +17,8 @@ use Laraspace\Http\Requests\Team\AllCountriesRequest;
 use Laraspace\Http\Requests\Team\ResetAllTeamsRequest;
 use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
 use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
+use Laraspace\Http\Requests\Team\GetAllTournamentTeamsRequest;
+use Laraspace\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
 
 
 // Need to Define Only Contracts
@@ -61,7 +63,7 @@ class TeamController extends BaseController
         return $this->teamObj->getClubTeams($request->all());
     }
 
-    public function getAllTournamentTeams(Request $request)
+    public function getAllTournamentTeams(GetAllTournamentTeamsRequest $request)
     {
       return $this->teamObj->getAllTournamentTeams($request->all());
     }
@@ -158,7 +160,7 @@ class TeamController extends BaseController
         return $this->teamObj->changeTeamName($request->all());
     }
 
-    public function getAllCompetitionTeamsFromFixture(Request $request)
+    public function getAllCompetitionTeamsFromFixture(GetAllCompetitionTeamsFromFixtureRequest $request)
     {
       return $this->teamObj->getAllCompetitionTeamsFromFixture($request->all());
     }

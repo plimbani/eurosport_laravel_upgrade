@@ -87,4 +87,12 @@ trait TournamentAccess
 		}
 		return true;
 	}
+
+	protected function isTournamentPublished($tournament)
+	{
+		if($tournament->status != 'Published') {
+      return false;
+    }
+    return true;
+	}
 }

@@ -14,6 +14,9 @@ use Laraspace\Http\Requests\Tournament\GetTemplateRequest;
 use Laraspace\Http\Requests\Tournament\TournamentClubRequest;
 use Laraspace\Http\Requests\Tournament\GenerateReportRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
+use Laraspace\Http\Requests\Tournament\TournamentFilterRequest;
+use Laraspace\Http\Requests\Tournament\GetTournamentBySlugRequest;
+use Laraspace\Http\Requests\Tournament\GetCategoryCompetitionsRequest;
 use Laraspace\Http\Requests\Tournament\CategoryCompetitionColorRequest;
 use Laraspace\Http\Requests\Tournament\GetAllPublishedTournamentsRequest;
 use Laraspace\Http\Requests\Tournament\GetSignedUrlForTournamentReportRequest;
@@ -69,7 +72,7 @@ class TournamentController extends BaseController
         return $this->tournamentObj->getTournamentByStatus($request);
     }
 
-    public function getTournamentBySlug(Request $request, $slug)
+    public function getTournamentBySlug(GetTournamentBySlugRequest $request, $slug)
     {
         return $this->tournamentObj->getTournamentBySlug($slug);
     }
@@ -165,7 +168,7 @@ class TournamentController extends BaseController
     public function updateStatus(PublishRequest $request) {
        return $this->tournamentObj->updateStatus($request->all());
     }
-    public function tournamentFilter(Request $request)
+    public function tournamentFilter(TournamentFilterRequest $request)
     {
       return $this->tournamentObj->tournamentFilter($request->all());
     }
@@ -189,7 +192,7 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->addTournamentDetails($request->all());
     }
-    public function getCategoryCompetitions(Request $request)
+    public function getCategoryCompetitions(GetCategoryCompetitionsRequest $request)
     {
         return $this->tournamentObj->getCategoryCompetitions($request->all());
     }
