@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="py-4">
+<footer class="pt-lh1">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
@@ -63,10 +63,10 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <hr class="hr my-4">
+                <hr class="hr mt-4 mb-0">
             </div>
         </div>
-        <div class="row align-items-center copyright_section">
+        <div class="row align-items-center copyright_section my-lh3">
             <div class="col-md-9 d-none d-md-block">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} {!! __('messages.euro_sportring') !!}</li>
