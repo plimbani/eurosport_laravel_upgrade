@@ -1,6 +1,10 @@
 header {
     background: $black;
     height: $header-height;
+    @include media-breakpoint-down(sm) {
+        height: ($header-height - 20px)
+    }
+    height: $header-height;
     position: relative;
     display: flex;
     flex-wrap: wrap; // allow us to do the line break for collapsing content
@@ -18,7 +22,7 @@ header {
         img {
             height: 50px;
             @include media-breakpoint-down(sm) {
-                height: 40px;
+                height: 30px;
             }
         }
     }

@@ -80,7 +80,7 @@
                 flex: 0 0 $club-logo-sm;
                 max-width: $club-logo-sm;
                 margin-top: 45px;
-                margin-bottom: 1rem;
+                margin-bottom: $h7-font-size;
             }
             .club_logo-box {
                 width: $club-logo-box;
@@ -119,14 +119,16 @@
             .club_info-title {
                 font-weight: 700;
                 @include media-breakpoint-down(md) {
-                    font-size: ($font-size-base * 1.5);
+                    font-size: $h3-font-size;
+                    line-height: $h2-line-height;
+                    margin-bottom: 0;
                 }
             }
             .club_info-detail {
-                font-size: ($font-size-base * 1.1);
+                font-size: $h4-font-size;
                 text-shadow: 0 2px 4px rgba($black,0.50);
                 @include media-breakpoint-down(md) {
-                    font-size: ($font-size-base * 0.88);
+                    font-size: $h6-font-size;
                 }
             }
         }
