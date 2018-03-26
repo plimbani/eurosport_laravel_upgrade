@@ -8,7 +8,7 @@
                 <div class="col-lg-3">
                     <div class="row mb-4">
                         <div class="col-12 text-center text-uppercase text-muted">
-                            <div class="h8">Organised by</div>
+                            <div class="h8">{!! __('messages.organised_by') !!}</div>
                         </div>
                     </div>
                     <div class="row align-items-center justify-content-center organiser">

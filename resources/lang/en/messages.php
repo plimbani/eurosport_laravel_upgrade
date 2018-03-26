@@ -60,6 +60,7 @@
 		'copyright' => 'Copyright &copy;',
 		'euro_sportring' => 'Euro Sportring',
 		'language' => 'Language',
-		'hero_image' => 'Hero image'
+		'hero_image' => 'Hero image',
+		'tournament_sponsored_by' => 'Tournament sponsored by'
 	]
 ?>

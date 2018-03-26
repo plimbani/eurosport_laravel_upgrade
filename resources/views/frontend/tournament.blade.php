@@ -30,7 +30,7 @@
 	                            <tr>
 	                                <td>U19</td>
 	                                <td>01.01.99</td>
-	                                <td><a href="#">16</a></td>
+	                                <td>16</td>
 	                                <td>2 * 15</td>
 	                                <td>11</td>
 	                                <td>5</td>
