@@ -387,7 +387,6 @@
              },
             editTournamentPermission(user) {
               this.currentUserInTournamentPermission = user;
-              // console.log('user', user);
               this.$root.$emit('getUserTournaments', user);
               this.$root.$emit('getUserWebsites', user);
               $('#permission_modal').modal('show');

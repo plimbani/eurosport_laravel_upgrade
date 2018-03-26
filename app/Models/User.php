@@ -54,7 +54,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'token',
+        'password', 'remember_token', 'token', 'fcm_id',
     ];
 
     /**
