@@ -6,7 +6,7 @@
         </div>
         <div class="text-uppercase text-white">
             <div class="d-flex align-items-center justify-content-end">
-                <span class="mr-2 small">Language</span>
+                <span class="mr-2 h7">Language</span>
                 <div class="lang-bar js-locale-selection">
                     <div class="lang-bar-status">
                         <span class="font-weight-bold">{{ strtoupper(LaravelLocalization::getCurrentLocale()) }}</span>

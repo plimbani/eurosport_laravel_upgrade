@@ -5,7 +5,7 @@
 @endsection
 
 @section('hero-section')
-	<div class="grid-full club_info">
+	<div class="col-lg-8 club_info">
 		<span class="club_info-detail">{!! __('messages.visitors') !!}</span>
 		<h1 class="club_info-title">{!! __('messages.tourist_information') !!}</h1>
 	</div>
@@ -20,7 +20,7 @@
             		@foreach($photos as $photo)
 		                <div class="col-6 col-md-4 col-lg-3">
 		                    <a class="figure text-center" href="{{ $photo->image('large') }}" data-toggle="lightbox" data-gallery="example-gallery" data-title="{{ $photo->caption }}">
-		                        <img src="{{ $photo->image('thumbnail') }}" class="figure-img img-fluid ml-1" alt="{{ $photo->caption }}">
+		                        <img src="{{ $photo->image('thumbnail') }}" class="figure-img img-fluid" alt="{{ $photo->caption }}">
 		                        <figcaption class="figure-caption">{{ $photo->caption }}</figcaption>
 		                    </a>
 		                </div>

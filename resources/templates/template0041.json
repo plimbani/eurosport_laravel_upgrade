@@ -490,47 +490,47 @@
             "position": 1,
             "dependent_type": "ranking",
             "ranking": "1D"
-        }
+        },
         {
             "position": 2,
             "dependent_type": "ranking",
             "ranking": "2D"
-        }
+        },
         {
             "position": 3,
             "dependent_type": "ranking",
             "ranking": "3D"
-        }
+        },
         {
             "position": 4,
             "dependent_type": "ranking",
             "ranking": "1E"
-        }
+        },
         {
             "position": 5,
             "dependent_type": "ranking",
             "ranking": "2E"
-        }
+        },
         {
             "position": 6,
             "dependent_type": "ranking",
             "ranking": "3E"
-        }
+        },
         {
             "position": 7,
             "dependent_type": "ranking",
             "ranking": "1F"
-        }
+        },
         {
             "position": 8,
             "dependent_type": "ranking",
             "ranking": "2F"
-        }
+        },
         {
             "position": 9,
             "dependent_type": "ranking",
             "ranking": "3F"
-        }
+        },
         {
             "position": 10,
             "dependent_type": "match",
@@ -554,6 +554,6 @@
             "dependent_type": "match",
             "match_number": "CAT.PM2.G4.4A_4C_LR-4B_5C_LR",
             "result_type": "looser"
-        },
+        }
     ]
 }

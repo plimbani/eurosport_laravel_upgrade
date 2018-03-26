@@ -1,7 +1,7 @@
 @extends('layouts.frontend.inner')
 
 @section('hero-section')
-	<div class="grid-full club_info">
+	<div class="col-lg-8 club_info">
 		<span class="club_info-detail">{!! __('messages.tournament') !!}</span>
 		<h1 class="club_info-title">{!! __('messages.history') !!}</h1>
 	</div>
@@ -12,7 +12,7 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	            <div class="grid-22">
+	            <div class="col-lg-3">
 	            </div>
 	            <div class="col-lg-8 club_content" id="tournament_history">
 	                <tournament-history></tournament-history>
