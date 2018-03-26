@@ -23,7 +23,7 @@
         </div> --}}
 
         <div class="row my-5">
-            <div class="col-lg-12 club_content macth_table" id="matches_list">
+            <div class="col-lg-12 club_content match_table" id="matches_list">
                 
 {{--                 <h4>Table Title</h4>
                 <hr class="hr m-0">

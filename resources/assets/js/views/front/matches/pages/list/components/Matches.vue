@@ -1,6 +1,6 @@
 <template>
     <div>
-      <hr class="hr m-0">
+      <!-- <hr class="hr m-0"> -->
       <div class="table-responsive">
         <table id="matchSchedule" class="table" v-if="matchData.length > 0">
           <thead>
