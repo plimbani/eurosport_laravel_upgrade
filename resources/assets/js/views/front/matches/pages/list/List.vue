@@ -1,6 +1,54 @@
 <template>
   <div>
     <div>
+        <div class="row align-items-center custom_radio_btn">
+            <div class="col-md-4">
+                <div class="row align-items-center">
+                    <div class="col-md-5">
+                        <label class="label-of-input font-weight-bold">Match overview</label>
+                    </div>
+                    <div class="col-md-7">
+                        <label class="custom_select_box d-block" for="match_overview">
+                            <select id="match_overview" class="border-0" name="options">
+                                <option value=""> Please select</option>
+                                <option value="1"> 2016 </option>
+                                <option value="2">2015</option>
+                                <option value="3">2014</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-md-4">
+                <label class="label-of-input font-weight-bold">Filter by:</label>
+                <div class="radio d-inline-block">
+                    <input type="radio" id="category-radio" value="option1" name="radioInline" checked="">
+                    <label for="category-radio" class="d-inline-block"> Category </label>
+                </div>
+                <div class="radio d-inline-block">
+                    <input type="radio" id="location-radio" value="option2" name="radioInline">
+                    <label for="location-radio" class="d-inline-block"> Location </label>
+                </div>
+                <div class="radio d-inline-block">
+                    <input type="radio" id="team-radio" value="option3" name="radioInline">
+                    <label for="team-radio" class="d-inline-block"> Team </label>
+                </div>
+            </div>
+            <div class="col-md-3">
+               
+                <select class="form-control js-category-and-competition">
+                    <option value="">Select</option>
+                    <option value="">opt1</option> 
+                    <option value="">op2</option> 
+                </select>
+            </div>
+            <div class="col-md-1"> 
+                <a href="javascript:void(0)" class="btn btn-primary btn-block">Clear</a>
+            </div>
+        </div>
+    
+    </div>
+    <div>
       {{ $t('matches.match_overview') }}
       <select v-on:change="onMatchDateChange()" v-model="matchDate">
         <option value="">{{ $t('matches.all_dates') }}</option>

@@ -71858,12 +71858,12 @@ DayGrid.mixin({
 		if (seg.isStart) {
 			timeText = this.getEventTimeText(event);
 			if (timeText) {
-				timeHtml = '<span class="fc-time">' + htmlEscape(timeText) + '</span>';
+				timeHtml = '<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' + '<span class="fc-time">' + htmlEscape(timeText) + '</span>';
 			}
 		}
 
 		titleHtml =
-			'<span class="fc-title">' +
+			'<span class="fc-title ">' +
 				(htmlEscape(event.title || '') || '&nbsp;') + // we always want one line of height
 			'</span>';
 		
@@ -73257,34 +73257,49 @@ TimeGrid.mixin({
 				''
 				) +
 			'>' +
-				'<div class="fc-content">' +
-					(timeText ?
-						'<div class="fc-time"' +
-						' data-start="' + htmlEscape(startTimeText) + '"' +
-						' data-full="' + htmlEscape(fullTimeText) + '"' +
-						'>' +
-							'<span>' + htmlEscape(timeText) + '</span>' +
-						'</div>' :
+				'<div class="scheduled-match-content">' +
+					'<div class="badge badge-custom " style="display: ' + event.displayFlag + '"><i class="fa fa-exclamation-triangle"></i></div>'+
+					'<div class="fc-content">' +
+						(timeText ?
+							'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
+							'<div class="fc-time"' +
+							' data-start="' + htmlEscape(startTimeText) + '"' +
+							' data-full="' + htmlEscape(fullTimeText) + '"' +
+							'>' +
+								'<span>' + htmlEscape(timeText) + '</span>' +
+							'</div>' :
+							''
+							) +
+						(event.title ?
+							
+							'<div class="fc-title">' +
+								htmlEscape(event.title) +
+							'</div>' :
+							''
+							) +
+						((event.homeScore !== null) && (event.awayScore !== null) ? 
+							'<div class="fc-score">' +
+								htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
+							'</div>' :
+							''
+						) +
+					'</div>' +
+					'<div class="fc-bg"/>' +
+					/* TODO: write CSS for this
+					(isResizableFromStart ?
+						'<div class="fc-resizer fc-start-resizer" />' :
 						''
 						) +
-					(event.title ?
-						'<div class="fc-title">' +
-							htmlEscape(event.title) +
-						'</div>' :
+					*/
+					(isResizableFromEnd ?
+						'<div class="fc-resizer fc-end-resizer" />' :
+						''
+						) +
+					(event.fixtureStripColor ?
+					'<div class="scheduled-match-content-strip" style="background: ' + event.fixtureStripColor + '"></div>' :
 						''
 						) +
 				'</div>' +
-				'<div class="fc-bg"/>' +
-				/* TODO: write CSS for this
-				(isResizableFromStart ?
-					'<div class="fc-resizer fc-start-resizer" />' :
-					''
-					) +
-				*/
-				(isResizableFromEnd ?
-					'<div class="fc-resizer fc-end-resizer" />' :
-					''
-					) +
 			'</a>';
 	},
 
@@ -83901,7 +83916,10 @@ TimelineGrid = (function(superClass) {
     classes = this.getSegClasses(seg, isDraggable, isResizableFromStart || isResizableFromEnd);
     classes.unshift('fc-timeline-event', 'fc-h-event');
     timeText = this.getEventTimeText(event);
-    return '<a class="' + classes.join(' ') + '" style="' + cssToStr(this.getSegSkinCss(seg)) + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' + '<div class="fc-content">' + (timeText ? '<span class="fc-time">' + htmlEscape(timeText) + '</span>' : '') + '<span class="fc-title">' + (event.title ? htmlEscape(event.title) : '&nbsp;') + '</span>' + '</div>' + '<div class="fc-bg" />' + (isResizableFromStart ? '<div class="fc-resizer fc-start-resizer"></div>' : '') + (isResizableFromEnd ? '<div class="fc-resizer fc-end-resizer"></div>' : '') + '</a>';
+    return '<a class="' + classes.join(' ') + '" style="' + cssToStr(this.getSegSkinCss(seg)) + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' +
+    '<div class="fc-content">'
+    +'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
+     (timeText ? '<span class="fc-time">' + htmlEscape(timeText) + '</span>' : '') + '<span class="fc-title">' + (event.title ? htmlEscape(event.title) : '&nbsp;') + '</span>' + '</div>' + '<div class="fc-bg" />' + (isResizableFromStart ? '<div class="fc-resizer fc-start-resizer"></div>' : '') + (isResizableFromEnd ? '<div class="fc-resizer fc-end-resizer"></div>' : '') + '</a>';
   };
 
   TimelineGrid.prototype.updateSegFollowers = function(segs) {
@@ -84678,7 +84696,7 @@ ResourceTimelineView = (function(superClass) {
   /*
   	TODO: the scenario where there were previously unassociated events that are now
   	 attached to this resource. should render those events immediately.
-  
+
   	Responsible for rendering the new resource
    */
 
