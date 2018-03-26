@@ -96,15 +96,14 @@
                 let formData = {'email': this.loginData.email}
                 return axios.post('/api/password/email',formData).then(response =>  {
                     if(response.data.status == 403) {
-                        toastr['error']('Too many reset password attempts. Please try again in 1 hour!', 'Error');
+                        toastr['error'](response.data.message, 'Error');
                     } else if(response.status == 200){
                         this.loginData.forgotpassword = ''
                         toastr['success']('We have emailed you a password reset link!', 'Success');
-                        $('#resetPassword').attr("disabled","");
                     } else{
                         toastr['error']('email address does not exist', 'Error');
-                         $('#resetPassword').removeAttr("disabled","");
                     }
+                    $('#resetPassword').removeAttr("disabled", "");
                 }).catch(error => {
                     if (error.response.status == 401) {
                                 // toastr['error']('Invalid Credentials', 'Error');

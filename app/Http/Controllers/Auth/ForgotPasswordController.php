@@ -66,8 +66,8 @@ class ForgotPasswordController extends Controller
 
             } else {
                 $hourDuration = (config('config-variables.reset_password_interval') / 60);
-                $msg = "Too many reset password attempts. Please try again in .$hourDuration. hour.";
-                return response()->json(['status'=>'403', 'message' => $msg]);              
+                $msg = "Too many reset password attempts. Please try again after " . $hourDuration . " hour.";
+                return response()->json(['status'=>'403', 'message' => $msg]);
             }
         }
 

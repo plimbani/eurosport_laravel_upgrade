@@ -19,18 +19,22 @@ class UpdateRequest extends FormRequest
     public function authorize()
     {
         $id = $this->route('id');
+        $request = $this->all();
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
+        $usersRole = User::findOrFail($id)->roles()->first();
         if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
           if($id != $loggedInUser->id) {
             return false;
           }
+          if(isset($request['userType']) && $usersRole->id != $request['userType']) {
+            return false;
+          }
           return true;
         }
-        $user = User::findOrFail($id)->roles()->first();
-        if (isset($this->all()['userType'])) {
-            $userType = $this->all()['userType'];
+        if (isset($request['userType'])) {
+            $userType = $request['userType'];
             $role = Role::findOrFail($userType);
-            if (($user['slug'] == 'Super.administrator' || $role['slug'] == 'Super.administrator') && $loggedInUser->hasRole('Master.administrator')) {
+            if (($usersRole->slug == 'Super.administrator' || $role->slug == 'Super.administrator') && $loggedInUser->hasRole('Master.administrator')) {
                 return false;
             }
         }
@@ -45,7 +49,6 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'userType' => 'required'
         ];
     }
 }
