@@ -299,12 +299,12 @@ class UserService implements UserContract
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
-          $data['organisation'] = NULL;
+          $data['organisation'] = $userObj->organisation;
           $data['userType'] = $userObj->roles[0]->id;
           // here we add code for Tournament id update
 
         } else {
-          if($userObj->roles[0]->id == $mobileUserRoleId && $data['userType'] != $mobileUserRoleId) {
+          if($userObj->roles[0]->id == $mobileUserRoleId && isset($data['userType']) && $data['userType'] != $mobileUserRoleId) {
             $email_details = array();
             $email_details['name'] = $data['name'];
             $recipient = $data['emailAddress'];
@@ -315,7 +315,7 @@ class UserService implements UserContract
             $userData['user']['is_desktop_user'] = 1;
           }
 
-          if($userObj->roles[0]->id != $mobileUserRoleId && $data['userType'] == $mobileUserRoleId) {
+          if($userObj->roles[0]->id != $mobileUserRoleId && isset($data['userType']) && $data['userType'] == $mobileUserRoleId) {
             $userData['user']['is_desktop_user'] = 0;
             $data['organisation'] = NULL;
           }
@@ -332,8 +332,10 @@ class UserService implements UserContract
           $this->setDefaultFavourite(['user_id' => $userId, 'tournament_id' => $data['tournament_id']]);
         }
 
-        $userObj->detachAllRoles();
-        $userObj->attachRole($data['userType']);
+        if(isset($data['userType'])) {
+          $userObj->detachAllRoles();
+          $userObj->attachRole($data['userType']);
+        }
 
         $userData['people']['first_name']=$data['name'];
         $userData['people']['last_name']=$data['surname'];
