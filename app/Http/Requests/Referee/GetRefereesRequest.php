@@ -34,7 +34,7 @@ class GetRefereesRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournamentData' => 'required | array'            
+            'tournamentData' => 'required|array'
         ];
     }
 }

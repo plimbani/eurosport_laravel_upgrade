@@ -18,7 +18,7 @@ class GetUnavailableBlockRequest extends FormRequest
     {
         if (isset($this->all()['matchData'])) {
             $data = $this->all()['matchData'];
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);        
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
             if(!$isTournamentAccessible) {
                 return false;
             }

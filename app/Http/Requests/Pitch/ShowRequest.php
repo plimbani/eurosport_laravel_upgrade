@@ -18,7 +18,7 @@ class ShowRequest extends FormRequest
     public function authorize()
     {
         $pitchId = $this->route('pitchId');
-        $pitch = Pitch::find($pitchId);
+        $pitch = Pitch::findOrFail($pitchId);
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($pitch->tournament_id);
         if(!$isTournamentAccessible) {
             return false;

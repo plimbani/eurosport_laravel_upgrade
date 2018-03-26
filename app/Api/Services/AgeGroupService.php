@@ -402,7 +402,7 @@ class AgeGroupService implements AgeGroupContract
     public function getPlacingsData($data) {
       $data = $this->ageGroupObj->getPlacingsData($data);
       if ($data) {
-        return ['data' => $data, 'status_code' => '200', 'message' => 'Data Successfully Deleted'];
+        return ['data' => $data, 'status_code' => '200', 'message' => 'Data Fetched Successfully'];
       }
     }
 

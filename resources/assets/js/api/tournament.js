@@ -4,9 +4,6 @@ export default {
   getAllTournaments() {
   	return axios.get('/api/tournaments')
   },
-  getAllClubs(tournamentData) {
-    return api.post('clubs/getAll',{'tournamentData': tournamentData})
-  },
   getAllVenues(tournamentId) {
    return api.get('venues/getAll/'+tournamentId)
   },

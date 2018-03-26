@@ -18,7 +18,7 @@ class GetUserDetailsRequest extends FormRequest
     {
         $data = $this->all()['userData'];
         $userEmail = $data['email'];
-        $loggedInUser = $this->getCurrentLoggedInUserDetail();        
+        $loggedInUser = $this->getCurrentLoggedInUserDetail();
         if ($userEmail == $loggedInUser['email']) {
             return true;
         }

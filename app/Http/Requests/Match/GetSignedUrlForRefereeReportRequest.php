@@ -2,6 +2,7 @@
 
 namespace Laraspace\Http\Requests\Match;
 
+use Laraspace\Models\Referee;
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,8 +17,10 @@ class GetSignedUrlForRefereeReportRequest extends FormRequest
      */
     public function authorize()
     {
-        $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('mobile.user')) {
+        $refereeId = $this->route('refereeId');
+        $referee = Referee::findOrFail($refereeId);
+        $isTournamentAccessible = $this->checkForWritePermissionByTournament($referee->tournament_id);
+        if(!$isTournamentAccessible) {
             return false;
         }
         return true;

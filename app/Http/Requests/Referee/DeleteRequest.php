@@ -18,7 +18,7 @@ class DeleteRequest extends FormRequest
     public function authorize()
     {
         $refereeId = $this->route('deleteid');
-        $referee = Referee::find($refereeId);
+        $referee = Referee::findOrFail($refereeId);
         $isTournamentAccessible = $this->checkForWritePermissionByTournament($referee->tournament_id);
         if(!$isTournamentAccessible) {
             return false;

@@ -18,7 +18,7 @@ class ScheduleRequest extends FormRequest
     {
         if (isset($this->all()['matchData'])) {
             $data = $this->all()['matchData'];
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);        
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
             if(!$isTournamentAccessible) {
                 return false;
             }
@@ -34,7 +34,7 @@ class ScheduleRequest extends FormRequest
     public function rules()
     {
         return [
-            'matchData' => 'required | array'
+            'matchData' => 'required|array'
         ];
     }
 }

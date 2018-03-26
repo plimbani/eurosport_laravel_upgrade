@@ -2,7 +2,7 @@
 
 namespace Laraspace\Http\Requests\AgeGroup;
 
-use Laraspace\Models\Pitch;
+use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -18,9 +18,9 @@ class DeleteCompetitionFormatRequest extends FormRequest
     public function authorize()
     {
         $data = $this->all();
-        $pitchId = $data['pitch_id'];
-        $pitch = Pitch::find($pitchId);
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($pitch->tournament_id);        
+        $ageCategoryId = $data['tournamentCompetationTemplateId'];
+        $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
+        $isTournamentAccessible = $this->checkForWritePermissionByTournament($ageCategory->tournament_id);
         if(!$isTournamentAccessible) {
             return false;
         }
@@ -35,7 +35,7 @@ class DeleteCompetitionFormatRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'tournamentCompetationTemplateId' => 'required',
         ];
     }
 }

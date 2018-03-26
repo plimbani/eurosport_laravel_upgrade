@@ -18,7 +18,7 @@ class AssignRefereeRequest extends FormRequest
     {
         if (isset($this->all()['data'])) {
             $data = $this->all()['data'];
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);        
+            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
             if(!$isTournamentAccessible) {
                 return false;
             }
@@ -34,7 +34,7 @@ class AssignRefereeRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required | array'
+            'data' => 'required|array'
         ];
     }
 }

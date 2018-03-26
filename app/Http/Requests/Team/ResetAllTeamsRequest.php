@@ -16,14 +16,11 @@ class ResetAllTeamsRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->all()['ageCategoryId'])) {
-            $data = $this->all()['ageCategoryId'];
-            $isTournamentAccessible = $this->checkForWritePermissionByTournament($data['tournamentId']);
-            if(!$isTournamentAccessible) {
-                return false;
-            }
+        $user = $this->getCurrentLoggedInUserDetail();
+        if($user->hasRole('Super.administrator')) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**

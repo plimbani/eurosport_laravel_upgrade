@@ -24,11 +24,12 @@ class UpdateRequest extends FormRequest
           if($id != $loggedInUser->id) {
             return false;
           }
+          return true;
         }
-        $user = User::find($id)->roles()->first();
+        $user = User::findOrFail($id)->roles()->first();
         if (isset($this->all()['userType'])) {
             $userType = $this->all()['userType'];
-            $role = Role::find($userType);
+            $role = Role::findOrFail($userType);
             if (($user['slug'] == 'Super.administrator' || $role['slug'] == 'Super.administrator') && $loggedInUser->hasRole('Master.administrator')) {
                 return false;
             }
