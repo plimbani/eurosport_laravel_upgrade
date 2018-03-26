@@ -80,7 +80,7 @@
                 flex: 0 0 $club-logo-sm;
                 max-width: $club-logo-sm;
                 margin-top: 45px;
-                margin-bottom: 1rem;
+                margin-bottom: $h7-font-size;
             }
             .club_logo-box {
                 width: $club-logo-box;
@@ -95,12 +95,12 @@
                 margin: 0 auto;
                 background: $club-logo-bg;
                 @include media-breakpoint-up(lg) {
-                    margin-bottom: -$club-logo-padding;
+                    margin-bottom: -30px;
                     box-shadow: 0px 10px 20px 0px rgba($black, .15);
                 }
                 img {
-                    max-width: $club-logo-box - ($club-logo-padding / 2);
-                    max-height: $club-logo-box - ($club-logo-padding / 2);
+                    max-width: $club-logo-box - ($club-logo-padding);
+                    max-height: $club-logo-box - ($club-logo-padding);
                     @include media-breakpoint-down(md) {
                         // max-width: $club-logo-box-sm - ($club-logo-padding-sm / 2);
                         // max-height: $club-logo-box-sm - ($club-logo-padding-sm / 2);
@@ -112,19 +112,23 @@
         }
         .club_info {
             color: $white;
+            text-shadow: 0 2px 4px rgba($black,.50);
             @include media-breakpoint-down(md) {
                 text-align: center;
             }
             .club_info-title {
                 font-weight: 700;
                 @include media-breakpoint-down(md) {
-                    font-size: ($font-size-base * 1.5);
+                    font-size: $h3-font-size;
+                    line-height: $h2-line-height;
+                    margin-bottom: 0;
                 }
             }
             .club_info-detail {
-                font-size: ($font-size-base * 1.1);
+                font-size: $h4-font-size;
+                text-shadow: 0 2px 4px rgba($black,0.50);
                 @include media-breakpoint-down(md) {
-                    font-size: ($font-size-base * 0.88);
+                    font-size: $h6-font-size;
                 }
             }
         }
@@ -141,18 +145,25 @@
             .nav-item {
                 .nav-link {
                     text-transform: uppercase;
-                    font-size: ($font-size-base * 0.88);
+                    font-size: $h6-font-size;
                     font-weight: 700;
                     padding: $nav-link-padding-y $nav-link-padding-x;
+                    line-height: 1;
+                    display: flex;
+                    align-items: center;
                     &:hover {
                         opacity: 0.5;
+                    }
+                    i {
+                        font-size: $font-size-base * 1.25;
+                        line-height: 1.5;
                     }
                     @include media-breakpoint-only(lg) {
                         font-size: ($font-size-base * 0.68);
                     }
                     &.active {
                         background-color: rgba(theme-color('primary'), 0.2);
-                        border-radius: 20px;
+                        border-radius: $font-size-base * 2;
                         @include media-breakpoint-down(md) {
                             border-radius: 2px;
                         }

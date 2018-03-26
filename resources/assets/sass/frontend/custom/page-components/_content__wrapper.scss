@@ -2,8 +2,8 @@
     .organiser {
         &_logo {
             img {
-                max-width: 100%;
-                @extend .mb-3;
+                max-width: 98px;
+                @extend .mb-5;
                 @include media-breakpoint-down(md) {
                     max-height: 100px;
                 }
@@ -20,6 +20,15 @@
             .figure-thumb {
                 display: block;
             }
+            a.figure ,
+            a.figure-thumb {
+                text-decoration: none;
+                &:hover {
+                    img {
+                        box-shadow: 0px 5px 10px 0px rgba($black, .15);
+                    }
+                }
+            }
             .figure,
             .figure-thumb {
                 &.right {
@@ -27,6 +36,7 @@
                 }
                 img {
                     width: 100%;
+                    transition: all 0.3s ease;
                     box-shadow: 0px 10px 20px 0px rgba($black, .15);
                 }
                 .figure-caption {

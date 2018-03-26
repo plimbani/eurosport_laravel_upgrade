@@ -5,10 +5,10 @@
     <div class="content__wrapper d-none d-lg-block">
         <div class="container">
             <div class="row my-5">
-                <div class="grid-22">
+                <div class="col-lg-3">
                     <div class="row mb-4">
                         <div class="col-12 text-center text-uppercase text-muted">
-                            <small>Organised by</small>
+                            <div class="h8">Organised by</div>
                         </div>
                     </div>
                     <div class="row align-items-center justify-content-center organiser">
@@ -22,9 +22,9 @@
                     </div>
                 </div>
                 <div class="col-lg-8 club_content">
-                    <figure class="figure right">
+                    <figure class="figure right pl-gg">
                         @if($pageDetails->welcomeImage('thumbnail'))
-                            <img src="{{ $pageDetails->welcomeImage('thumbnail') }}" class="figure-img img-fluid ml-1" alt="Welcome image" />
+                            <img src="{{ $pageDetails->welcomeImage('thumbnail') }}" class="figure-img img-fluid" alt="Welcome image" />
                         @endif
                     </figure>
                     {!! $pageDetails->content !!}
@@ -40,7 +40,7 @@
                 <div class="col-12">
                     <div class="row mb-4">
                         <div class="col-12 text-center text-uppercase text-muted">
-                            <small>Organised by</small>
+                            <div class="h8">Organised by</div>
                         </div>
                     </div>
                     <div class="row align-items-center justify-content-center organiser">

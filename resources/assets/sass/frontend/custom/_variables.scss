@@ -184,7 +184,7 @@ $container-max-widths: (
   sm: 540px,
   md: 720px,
   lg: 960px,
-  xl: 1140px
+  xl: 1100px
 ) !default;
 
 @include _assert-ascending($container-max-widths, "$container-max-widths");
@@ -195,7 +195,7 @@ $container-max-widths: (
 // Set the number of columns and specify the width of the gutters.
 
 $grid-columns:                12 !default;
-$grid-gutter-width:           30px !default;
+$grid-gutter-width:           20px !default;
 
 // Components
 //
@@ -241,14 +241,15 @@ $font-weight-normal:          400 !default;
 $font-weight-bold:            700 !default;
 
 $font-weight-base:            $font-weight-normal !default;
+// $line-height-base:            ($font-size-base * 3) !default;
 $line-height-base:            1.5 !default;
 
-$h1-font-size:                $font-size-base * 2.5 !default;
-$h2-font-size:                $font-size-base * 2 !default;
-$h3-font-size:                $font-size-base * 1.75 !default;
-$h4-font-size:                $font-size-base * 1.5 !default;
-$h5-font-size:                $font-size-base * 1.25 !default;
-$h6-font-size:                $font-size-base !default;
+$h1-font-size:                ($font-size-base * 3) !default;             // 48px
+$h2-font-size:                ($font-size-base * 2.25) !default;          // 36px
+$h3-font-size:                ($font-size-base * 1.5) !default;           // 24px
+$h4-font-size:                ($font-size-base * 1.25) !default;          // 18px
+$h5-font-size:                $font-size-base !default;                   //16px
+$h6-font-size:                ($font-size-base * 0.875) !default;         //14px
 
 $headings-margin-bottom:      ($spacer / 2) !default;
 $headings-font-family:        inherit !default;
