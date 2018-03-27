@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         if(config('app.app_scheme') == 'secure') {
-            URL::forceScheme('https');
+            $this->app['request']->server->set('HTTPS', true);
         } 
     }
 
