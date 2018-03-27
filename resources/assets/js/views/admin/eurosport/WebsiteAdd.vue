@@ -83,7 +83,7 @@
 										<div class="row align-items-center">
 											<div class="col-sm-3">
 												<transition-image v-if="tournament_logo_image != ''" :image_url="tournament_logo_image" :image_class="'img-fluid'"></transition-image>
-												<img v-if="tournament_logo_image == ''" src="http://placehold.it/250x250?text=No%20image" class="img-fluid" />
+												<img v-if="tournament_logo_image == ''" src="/assets/img/noimage.png" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
 												<button v-if="tournament_logo_image != '' && is_tournament_logo_uploading == false" class="btn btn-default" @click="removeImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
@@ -102,7 +102,7 @@
 										<div class="row align-items-center">
 											<div class="col-sm-3">
 												<transition-image v-if="social_sharing_graphic_image != ''" :image_url="social_sharing_graphic_image" :image_class="'img-fluid'"></transition-image>
-												<img v-if="social_sharing_graphic_image == ''" src="http://placehold.it/250x250?text=No%20image" class="img-fluid" />
+												<img v-if="social_sharing_graphic_image == ''" src="/assets/img/noimage.png" class="img-fluid" />
 											</div>
 											<div class="col-sm-9">
 												<button v-if="social_sharing_graphic_image != '' && is_social_sharing_image_uploading == false" class="btn btn-default" @click="removeSocialSharingImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
@@ -233,6 +233,7 @@
 <script>
 var offlineRedirectUrl = null;
 var moment = require('moment');
+import _ from 'lodash';
 import Tournament from '../../../api/tournament.js';
 import Website from '../../../api/website.js';
 import SponsorsList from '../../../components/SponsorsList.vue';
@@ -277,7 +278,13 @@ export default {
 		let currentNavigationData = {
 			activeTab:'website_add',
 		};
-		this.getAllPublishedTournaments();
+
+		if (_.indexOf(['Super.administrator', 'Master.administrator', 'Internal.administrator'], this.$store.state.Users.userDetails.role_slug) > -1)
+		{
+			this.getAllPublishedTournaments();			
+		}
+
+
 		this.getWebsiteCustomisationOptions();
 		this.website.websiteId = this.$store.state.Website.id;
 		if(this.website.websiteId) {
