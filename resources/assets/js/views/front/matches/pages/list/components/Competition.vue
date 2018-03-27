@@ -35,36 +35,39 @@
             </div>
         </div>    
         <div v-if="competitionDetail.type != 'Elimination'">
-            <label><h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} results grid</h6></label>
+          <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} results grid</h6>
         </div>
         <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">{{ $t('matches.no_information_available') }}</span>
     </div>
 
-    <table v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
-      <thead>
-        <tr>
-          <th></th>
-          <th v-for="(match, index) in matchesGrid">
-            <span v-if="match.TeamCountryFlag" :class="'flag-icon flag-icon-' + match.TeamCountryFlag"></span>
-            <span>{{ match.TeamName }}</span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(match, index) in matchesGrid">
-          <td>
-            <span v-if="match.TeamCountryFlag" :class="'flag-icon flag-icon-'+ match.TeamCountryFlag"></span>
-            <span>{{ match.TeamName }}</span>
-          </td>
-          <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
-            <div v-if="teamMatch.score == null && teamMatch != 'Y' && teamMatch != 'X' ">{{ teamMatch.date | formatDate }}</div>
-            <div v-else>{{ teamMatch.score }}</div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">    
+      <table class="table" v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
+        <thead>
+          <tr>
+            <th></th>
+            <th scope="col" v-for="(match, index) in matchesGrid">
+              <span v-if="match.TeamCountryFlag" :class="'flag-icon flag-icon-' + match.TeamCountryFlag"></span>
+              <span>{{ match.TeamName }}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(match, index) in matchesGrid">
+            <td>
+              <span v-if="match.TeamCountryFlag" :class="'flag-icon flag-icon-'+ match.TeamCountryFlag"></span>
+              <span>{{ match.TeamName }}</span>
+            </td>
+            <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
+              <div v-if="teamMatch.score == null && teamMatch != 'Y' && teamMatch != 'X' ">{{ teamMatch.date | formatDate }}</div>
+              <div v-else>{{ teamMatch.score }}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <div>
-      <h6 class="mb-0 mt-3 font-weight-bold" v-if="competitionDetail.type != 'Elimination'">
+      <h6 class="mt-3 font-weight-bold" v-if="competitionDetail.type != 'Elimination'">
         {{ competitionDetail.name }} standings
       </h6>
       <teamStanding :currentCompetitionId="currentCompetitionId" :competitionType="competitionDetail.type" v-if="currentCompetitionId != 0">
