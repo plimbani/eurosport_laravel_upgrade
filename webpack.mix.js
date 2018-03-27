@@ -47,6 +47,7 @@ mix.combine([
     pluginPath + 'fullcalendar/fullcalendar.js',
     pluginPath + 'fullcalendar-scheduler/scheduler1.js',
     pluginPath + 'fullcalendar/draggable.js',
+    pluginPath + 'jquery-minicolors/jquery.minicolors.min.js',
 
 ],'public/assets/js/core/plugins.js')
 

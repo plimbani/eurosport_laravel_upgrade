@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 // Need to define only contracts
 use Laraspace\Api\Contracts\MediaContract;
 
+use Laraspace\Http\Requests\Media\GetPhotosRequest;
+use Laraspace\Http\Requests\Media\UploadMediaRequest;
+use Laraspace\Http\Requests\Media\StoreUpdateRequest;
+use Laraspace\Http\Requests\Media\GetDocumentsRequest;
+use Laraspace\Http\Requests\Media\UploadDocumentRequest;
+
 /**
  * Media description.
  *
@@ -39,7 +45,7 @@ class MediaController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getPhotos(Request $request, $websiteId)
+  public function getPhotos(GetPhotosRequest $request, $websiteId)
   {
     return $this->mediaContract->getPhotos($websiteId);
   }
@@ -53,7 +59,7 @@ class MediaController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getDocuments(Request $request, $websiteId)
+  public function getDocuments(GetDocumentsRequest $request, $websiteId)
   {
     return $this->mediaContract->getDocuments($websiteId);
   }
@@ -65,7 +71,7 @@ class MediaController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function savePageData(Request $request)
+  public function savePageData(StoreUpdateRequest $request)
   {
     return $this->mediaContract->savePageData($request);
   }
@@ -75,7 +81,7 @@ class MediaController extends BaseController
    *
    * @return response
    */
-  public function uploadMediaPhoto(Request $request) {
+  public function uploadMediaPhoto(UploadMediaRequest $request) {
     return $this->mediaContract->uploadMediaPhoto($request);
   }
 
@@ -85,7 +91,7 @@ class MediaController extends BaseController
    * @return response
    */
 
-  public function uploadDocument(Request $request) {
+  public function uploadDocument(UploadDocumentRequest $request) {
     return $this->mediaContract->uploadDocument($request); 
   }
 }

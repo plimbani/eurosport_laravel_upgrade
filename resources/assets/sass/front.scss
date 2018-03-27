@@ -865,3 +865,7 @@ gmap-map {
   height: 400px;
   display: block;
 }
+
+.frm-team-assign tr td:nth-child(3) {
+    white-space: nowrap;
+}

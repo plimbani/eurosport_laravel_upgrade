@@ -52,4 +52,7 @@ export default {
   getUserWebsites(userId) {
     return api.get('user/getUserWebsites/' + userId)
   },
+  getSignedUrlForUsersTableData(userData) {
+    return api.post('getSignedUrlForUsersTableData?' +userData);
+  }
 }

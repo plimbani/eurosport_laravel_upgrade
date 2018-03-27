@@ -11,7 +11,7 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	            <div class="col-lg-3">
+	            <div class="col-lg-2">
 	            </div>
 	            <div class="col-lg-8 club_content list-style-type">
 	            	@foreach($itineraries as $itinerary)

@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\Venue\GetVenueRequest;
 
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\VenueContract;
@@ -49,7 +50,7 @@ class VenueController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "json": "foo"})
      */
-    public function getVenues($tournamentId)
+    public function getVenues(GetVenueRequest $request, $tournamentId)
     {
         return $this->venueObj->index($tournamentId);
     }

@@ -122,7 +122,7 @@
             this.$root.$on('setPitchReset', this.resetPitch);
             this.$root.$on('setGameReset', this.gameReset);
             this.$root.$on('setRefereeReset', this.refereeReset);
-            this.$root.$on('RefereeCount', this.refereeCount);
+            this.$root.$on('RefereeCount', this.setRefereeCount);
             this.$root.$on('resetPitchesOnCategoryColorSave', this.resetPitchesOnCategoryColorSave);
             this.$root.$on('getPitchesByTournamentFilter', this.setFilter);
             this.$root.$on('setPitchPlanTab',this.setCurrentTab)
@@ -345,7 +345,7 @@
                     $('.fc-agendaDay-button').click()
                 }
             },
-            refereeCount(totReferee) {
+            setRefereeCount(totReferee) {
                 this.refereeCount = totReferee
             },
             resetPitch() {
