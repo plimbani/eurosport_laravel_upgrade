@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a @click="showMatchListView()" href="javascript:void(0)">
+    <!-- <a @click="showMatchListView()" href="javascript:void(0)">
       <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to match list
     </a>
     <div>
@@ -15,7 +15,31 @@
         <label><h6>{{ competitionDetail.name }} results grid</h6></label>
       </div>
       <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">{{ $t('matches.no_information_available') }}</span>
+    </div> -->
+
+    <a @click="showMatchListView()" href="javascript:void(0)" class="btn btn-primary">
+        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to match list
+    </a>
+    <div>
+        <div class="row align-items-center mt-2">
+            <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                <label class="custom_select_box d-block mb-0" for="match_overview">
+                    <select v-on:change="onCompetitionChange()"
+                v-model="currentCompetition" id="competition-overview" class="border-0" name="competition-options">
+                        <option v-for="competition in competitionList"
+                        v-bind:value="competition">
+                        {{ competition.name }}
+                        </option>
+                    </select>
+                </label>
+            </div>
+        </div>    
+        <div v-if="competitionDetail.type != 'Elimination'">
+            <label><h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} results grid</h6></label>
+        </div>
+        <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">{{ $t('matches.no_information_available') }}</span>
     </div>
+
     <table v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
       <thead>
         <tr>
@@ -40,7 +64,7 @@
       </tbody>
     </table>
     <div>
-      <h6 class="mb-0" v-if="competitionDetail.type != 'Elimination'">
+      <h6 class="mb-0 mt-3 font-weight-bold" v-if="competitionDetail.type != 'Elimination'">
         {{ competitionDetail.name }} standings
       </h6>
       <teamStanding :currentCompetitionId="currentCompetitionId" :competitionType="competitionDetail.type" v-if="currentCompetitionId != 0">
@@ -49,7 +73,7 @@
       </div>
     </div>
 
-    <h6>{{ competitionDetail.name }} matches</h6>
+    <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} matches</h6>
     <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView"></matches>
   </div>
 </template>

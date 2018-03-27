@@ -2,13 +2,13 @@
   <div>
     <div>
         <div class="row align-items-center custom_radio_btn">
-            <div class="col-md-4">
+            <div class="col-md-12 col-lg-4 col-xl-4">
                 <div class="row align-items-center">
-                    <div class="col-md-5">
-                        <label class="label-of-input font-weight-bold">Match overview</label>
+                    <div class="col-md-6 col-lg-5 col-xl-5">
+                        <label class="label-of-input font-weight-bold mb-0">Match overview</label>
                     </div>
-                    <div class="col-md-7">
-                        <label class="custom_select_box d-block" for="match_overview">
+                    <div class="col-sm-7 col-md-6 col-lg-7 col-xl-7">
+                        <label class="custom_select_box d-block mb-0" for="match_overview">
                             <select id="match_overview" class="border-0" name="options">
                                 <option value=""> Please select</option>
                                 <option value="1"> 2016 </option>
@@ -19,34 +19,32 @@
                     </div>
                 </div>
             </div> 
-            <div class="col-md-4">
-                <label class="label-of-input font-weight-bold">Filter by:</label>
+            <div class="col-md-6 col-lg-4 col-xl-4 my-2 my-lg-0 my-xl-0">
+                <label class="label-of-input font-weight-bold mb-0">Filter by:</label>
                 <div class="radio d-inline-block">
                     <input type="radio" id="category-radio" value="option1" name="radioInline" checked="">
-                    <label for="category-radio" class="d-inline-block"> Category </label>
+                    <label for="category-radio" class="d-inline-block mb-0"> Category </label>
                 </div>
                 <div class="radio d-inline-block">
                     <input type="radio" id="location-radio" value="option2" name="radioInline">
-                    <label for="location-radio" class="d-inline-block"> Location </label>
+                    <label for="location-radio" class="d-inline-block mb-0"> Location </label>
                 </div>
                 <div class="radio d-inline-block">
                     <input type="radio" id="team-radio" value="option3" name="radioInline">
-                    <label for="team-radio" class="d-inline-block"> Team </label>
+                    <label for="team-radio" class="d-inline-block mb-0"> Team </label>
                 </div>
             </div>
-            <div class="col-md-3">
-               
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override my-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0">               
                 <select class="form-control js-category-and-competition">
                     <option value="">Select</option>
                     <option value="">opt1</option> 
                     <option value="">op2</option> 
                 </select>
             </div>
-            <div class="col-md-1"> 
+            <div class="col-4 col-sm-2 col-md-2 col-lg-1 col-xl-1"> 
                 <a href="javascript:void(0)" class="btn btn-primary btn-block">Clear</a>
             </div>
-        </div>
-    
+        </div>    
     </div>
     <div>
       {{ $t('matches.match_overview') }}
