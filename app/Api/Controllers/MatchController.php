@@ -11,11 +11,16 @@ use Laraspace\Models\Pitch;
 use Laraspace\Models\Tournament;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Http\Requests\Match\ScheduleRequest;
+use Laraspace\Http\Requests\Match\GetDrawsRequest;
 use Laraspace\Http\Requests\Match\SaveResultRequest;
 use Laraspace\Http\Requests\Match\AllResultsRequest;
 use Laraspace\Http\Requests\Match\MatchDetailRequest;
 use Laraspace\Http\Requests\Match\ScoreUpdateRequest;
+use Laraspace\Http\Requests\Match\GetFixturesRequest;
+use Laraspace\Http\Requests\Match\GetStandingRequest;
+use Laraspace\Http\Requests\Match\GetDrawTableRequest;
 use Laraspace\Http\Requests\Match\AssignRefereeRequest;
+use Laraspace\Http\Requests\Match\RefreshStandingRequest;
 use Laraspace\Http\Requests\Match\CheckTeamIntervalRequest;
 use Laraspace\Http\Requests\Match\GetUnavailableBlockRequest;
 use Laraspace\Http\Requests\Match\RemoveAssignedRefereeRequest;
@@ -97,16 +102,16 @@ class MatchController extends BaseController
     {
         return $this->matchObj->deleteMatch($deleteId);
     }
-    public function getDraws(Request $request){
+    public function getDraws(GetDrawsRequest $request){
         return $this->matchObj->getDraws($request);
     }
-    public function getFixtures(Request $request){
+    public function getFixtures(GetFixturesRequest $request){
         return $this->matchObj->getFixtures($request);
     }
-    public function getStanding(Request $request, $refreshStanding = null){
+    public function getStanding(GetStandingRequest $request, $refreshStanding = null){
         return $this->matchObj->getStanding($request, $refreshStanding);
     }
-    public function getDrawTable(Request $request) {
+    public function getDrawTable(GetDrawTableRequest $request) {
         return $this->matchObj->getDrawTable($request);
     }
     public function scheduleMatch(ScheduleRequest $request) {
@@ -167,7 +172,7 @@ class MatchController extends BaseController
     {
         return $this->matchObj->updateScore($request);
     }
-    public function refreshStanding(Request $request)
+    public function refreshStanding(RefreshStandingRequest $request)
     {
         return $this->matchObj->refreshStanding($request->all());
     }
