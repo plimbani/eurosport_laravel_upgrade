@@ -78,14 +78,14 @@
                                     </td>
                                     <td>
                                         <a class="text-primary" href="javascript:void(0)"
-                                         @click="editUser(user.id)">
+                                         @click="editUser(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
                                         <i class="jv-icon jv-edit"></i>
                                         </a>
                                         &nbsp;
                                         <a href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you would like to delete
                                         this user record?" data-toggle="modal" data-target="#delete_modal"
-                                        @click="prepareDeleteResource(user.id)">
+                                        @click="prepareDeleteResource(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
                                         <i class="jv-icon jv-dustbin"></i>
                                         </a>
                                         &nbsp;
@@ -143,7 +143,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :userEmailData="userEmailData" :publishedTournaments="publishedTournaments"></user-modal>
+        :userRoles="userRoles" :userEmailData="userEmailData" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -153,6 +153,7 @@
            @closeModal="closeConfirm()">
          </active-modal>
          <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal>
+         <confirm-privilege-change-modal @confirmed="privilegeChangeConfirmed()"></confirm-privilege-change-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -161,6 +162,7 @@
     import UserModal  from  '../../../components/UserModal.vue'
     import ActiveModal  from  '../../../components/ActiveModal.vue'
     import TournamentPermissionModal from '../../../components/TournamentPermissionModal.vue'
+    import ConfirmPrivilegeChangeModal from '../../../components/ConfirmPrivilegeChangeModal.vue'
     import User from '../../../api/users.js'
     import Tournament from '../../../api/tournament.js'
     import VuePaginate from 'vue-paginate'
@@ -172,7 +174,8 @@
             ResendModal,
             UserModal,
             ActiveModal,
-            TournamentPermissionModal
+            TournamentPermissionModal,
+            ConfirmPrivilegeChangeModal,
         },
         data() {
             return {
@@ -212,7 +215,10 @@
             },
             uData(){
               return this.uStatusData
-            }
+            },
+            isMasterAdmin() {
+              return this.$store.state.Users.userDetails.role_slug == 'Master.administrator';
+            }            
         },
         filters: {
             formatDate: function(date) {
@@ -353,6 +359,10 @@
                   }
                 )
             },
+            privilegeChangeConfirmed() {
+              this.$root.$emit('privilegeChangeConfirmed');
+              $('#confirm_privilege_modal').modal('hide');
+            },
             exportTableReport() {
                 let userData = this.reportQuery              
                 let userSearch = '';
@@ -360,14 +370,26 @@
                 userSearch = 'userData='+this.userListSearch;
                 userSlugType = 'userType='+this.userTypeSearch;
 
-                  window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
+                userData += 'report_download=yes&' + userSearch + '&' + userSlugType;
+
+                User.getSignedUrlForUsersTableData(userData).then(
+                  (response) => {
+                    window.location.href = response.data;         
+                   },
+                  (error) => {
+                  }                  
+                )
+
+                // window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
              },
             editTournamentPermission(user) {
               this.currentUserInTournamentPermission = user;
-              console.log('user', user);
               this.$root.$emit('getUserTournaments', user);
               $('#tournament_permission_modal').modal('show')
 
+            },
+            showChangePrivilegeModal() {
+              $('#confirm_privilege_modal').modal('show');
             }
         }
     }

@@ -84,7 +84,7 @@
                       <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
                       <div class="pull-right">
                         <div v-if="!image">
-                        <img  src="http://placehold.it/250x250"
+                        <img src="/assets/img/noimage.png"
                              width="100px" height="100px"/>
                             <!--<button type="button" name="btnSelect" id="btnSelect">-->
                             <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
@@ -528,13 +528,20 @@ this.$validator.validateAll().then(
   } else {
     msg = 'Tournament details edited successfully.'
   }
-  this.$store.dispatch('SaveTournamentDetails', this.tournament)
-    // Display Toastr Message for add Tournament
-    toastr['success'](msg, 'Success');
-    // Now redirect to Comperation Format page
-    // now here also check if tournament id is set then we push it
-  setTimeout(this.redirectCompetation, 5000);
-  // commit(types.SAVE_TOURNAMENT, response.data)
+
+  Tournament.saveTournament(this.tournament).then(
+    (response) => {
+      if(response.data.status_code == 200) {
+        this.$store.dispatch('SaveTournamentDetails', response.data.data);
+        toastr['success'](msg, 'Success');
+        this.redirectCompetation();
+      } else {
+        alert('Error Occured')
+      }
+    },
+    (error) => {
+    }
+  );
 },
 (error) => {
 }
