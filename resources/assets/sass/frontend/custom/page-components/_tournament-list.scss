@@ -1,19 +1,15 @@
 .tournament-list {
     ul {
         li {
-            color: $gray-600;
+            color: $gray-900;
             font-size: $font-size-sm;
-            span {
-                color: $gray-900;
-            }
-            &.more {
-                list-style-type: none;
-                border: 1px solid theme-color('primary');
-                color: theme-color('primary');
-                width: 87px;
-                border-radius: $border-radius * 4;
-                text-align: center;
-            }
         }
+    }
+    .btn-more {
+        border: 1px solid theme-color('primary');
+        width: 87px;
+        border-radius: $border-radius * 4;
+        text-align: center;
+        padding: $input-btn-padding-y-sm;
     }
 }

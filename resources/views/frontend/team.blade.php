@@ -22,11 +22,10 @@
 								<div>
 									<ul class="js-list list-unstyled">
 										@foreach($category->teams as $team)
-											<li class="team-item d-flex justify-content-between"><span>{{ $team->name }} ({{ $team->country->country_code }})</span> <span class="flag-icon flag-icon-{{ $team->country->country_flag }}"></span></li>
+											<li class="team-item d-flex justify-content-between">{{ $team->name }} ({{ $team->country->country_code }}) <span class="flag-icon flag-icon-{{ $team->country->country_flag }}"></span></li>
 										@endforeach
-
-										<a href="" class="btn btn-more">More</a>
 									</ul>
+									<a href="" class="btn btn-more text-primary">More</a>
 								</div>
 							</div>
 						@endforeach
