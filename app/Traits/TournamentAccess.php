@@ -91,8 +91,8 @@ trait TournamentAccess
 	protected function isTournamentPublished($tournament)
 	{
 		if($tournament->status != 'Published') {
-      return false;
-    }
-    return true;
+	    	return false;
+	    }
+	    return true;
 	}
 }
