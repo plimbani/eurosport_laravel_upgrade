@@ -210,6 +210,7 @@ return [
         Laraspace\Api\Providers\PitchServiceProvider::class,
         Laraspace\Api\Providers\RoleServiceProvider::class,
         Laraspace\Api\Providers\VenueServiceProvider::class,
+        Spatie\UrlSigner\Laravel\UrlSignerServiceProvider::class,
 
 
 
@@ -267,6 +268,7 @@ return [
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
+        'UrlSigner' => Spatie\UrlSigner\Laravel\UrlSignerFacade::class,
     ],
 
 ];

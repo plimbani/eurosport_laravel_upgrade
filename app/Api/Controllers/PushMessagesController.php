@@ -10,13 +10,15 @@ use App\Models\MessageRecipient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\MessageReceiptRequest;*/
+use DB;
+use FCM;
 use Laraspace\Models\User;
+use Laraspace\Models\Message;
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
-use DB;
-use Laraspace\Models\Message;
-use FCM;
+use Laraspace\Http\Requests\PushMessage\GetMessagesRequest;
+use Laraspace\Http\Requests\PushMessage\SendNotificationRequest;
 
 class PushMessagesController extends BaseController
 {
@@ -156,7 +158,7 @@ class PushMessagesController extends BaseController
       return true;
     }
 
-    public function sendNotification(Request $request)
+    public function sendNotification(SendNotificationRequest $request)
     {
 
         \Log::info($request->all());
@@ -193,14 +195,12 @@ class PushMessagesController extends BaseController
           $tokenSoundOff = $userDataSoundOff;
           // dd($tokenSoundOff);
           if(!empty($tokenSoundOff)){
-            \Log::info("tokenSoundOff".$tokenSoundOff);
             $downstreamResponse1 = $this->sendToFCM($content,$tokenSoundOff,'');
           }
           $userDataSoundOn = User::join('settings', 'users.id', '=', 'settings.user_id')->whereIn('users.id',$users)->where('settings.value->is_sound', 'true')->pluck('users.fcm_id')->toArray();
           $tokenSoundOn = $userDataSoundOn;
           // dd($tokenSoundOn);
           if(!empty($tokenSoundOn)){
-            \Log::info("tokenSoundOn".$tokenSoundOn);
             $downstreamResponse2 = $this->sendToFCM($content,$tokenSoundOn,'default');
           }
           
@@ -239,7 +239,7 @@ class PushMessagesController extends BaseController
                     "status_code" => 200
                 ]);
     }
-    public function getMessages(Request $request) {
+    public function getMessages(GetMessagesRequest $request) {
         $messageData = $request->all();
         $tournamentId = $messageData['messageData']['tournament_id'];
         $messageData = Message::where('tournament_id',$tournamentId)->With(['sender','receiver','tournament'])->get()->toArray();
