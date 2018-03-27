@@ -127,7 +127,7 @@
         </tr>
        @endif
         <tr>
-          <td align="left">&nbsp;Comments</td>
+          <td align="left">&nbsp;Remarks</td>
           <td>&nbsp;{{ $data['comments']}}</td>
         </tr>
         <tr>
