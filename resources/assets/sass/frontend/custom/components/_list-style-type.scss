@@ -1,11 +1,4 @@
 .list-style-type {
-    h4 {
-        color: theme-color('primary');
-        font-weight: $font-weight-bold;
-    }
-    hr {
-        background: theme-color('primary');
-    }
     .list-group-item {
         z-index: 1;
         &:after {

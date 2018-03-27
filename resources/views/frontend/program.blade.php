@@ -15,8 +15,8 @@
 	            </div>
 	            <div class="col-lg-8 club_content list-style-type">
 	            	@foreach($itineraries as $itinerary)
-	            		<h4>{{ $itinerary->name }}</h4>
-	            		<hr class="hr m-0">
+	            		<h4 class="text-primary font-weight-bold">{{ $itinerary->name }}</h4>
+	            		<hr class="hr m-0 bg-primary">
 		            	<ul class="list-group list-group-flush mb-4">
 		            		@foreach($itinerary['items'] as $item)
 							  	<li class="list-group-item border-0 px-0 py-4">

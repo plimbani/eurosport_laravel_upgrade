@@ -17,13 +17,15 @@
 					<div class="row">
 						@foreach($ageCategories as $category)
 							<div class="col-sm-3">
-								<h3 class="mb-0">{{ $category->name }}</h3>
-								<hr class="hr mt-0 mb-3">
+								<h3 class="mb-0 text-primary font-weight-bold">{{ $category->name }}</h3>
+								<hr class="hr mt-0 mb-3 bg-primary">
 								<div>
-									<ul class="js-list">
+									<ul class="js-list list-unstyled">
 										@foreach($category->teams as $team)
-											<li class="team-item"><span>{{ $team->name }} ({{ $team->country->country_code }})</span> <span class="flag-icon pull-right flag-icon-{{ $team->country->country_flag }}"></span></li>
+											<li class="team-item d-flex justify-content-between"><span>{{ $team->name }} ({{ $team->country->country_code }})</span> <span class="flag-icon flag-icon-{{ $team->country->country_flag }}"></span></li>
 										@endforeach
+
+										<a href="" class="btn btn-more">More</a>
 									</ul>
 								</div>
 							</div>
