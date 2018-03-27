@@ -32,7 +32,7 @@
                         <li class="nav-item">
                             <a class="nav-link{{ Route::currentRouteName() == 'accommodation.page.details' ? ' active' : '' }}" href="{{ route('accommodation.page.details', ['domain' => $websiteDetail->domain_name]) }}">
                                 <span class="mr-2"><i class="fas fa-suitcase"></i></span>
-                                <span>Travel & Accommodation</span>
+                                <span>{!! __('messages.travel_accommodation') !!}</span>
                             </a>
                         </li>
                     @endif

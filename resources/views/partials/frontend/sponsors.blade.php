@@ -8,7 +8,7 @@
         </div>
         <div class="row my-h2">
             <div class="col-12 text-center">
-                <div class="text-uppercase h8 text-muted">Tournament sponsored by</div>
+                <div class="text-uppercase h8 text-muted">{!! __('messages.tournament_sponsored_by') !!}</div>
             </div>
         </div>
         <div class="d-flex align-items-center flex-wrap justify-content-center mb-h2">

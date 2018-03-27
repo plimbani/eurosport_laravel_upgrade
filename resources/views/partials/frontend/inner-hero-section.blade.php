@@ -2,7 +2,7 @@
 <div class="hero__wrapper hero__wrapper-small">
     @include('partials.frontend.header-menu')
     <div class="hero__wrapper-banner">
-        <img src="{{ $hero_image }}" alt="">
+        <img src="{{ $hero_image }}" alt="{!! __('messages.hero_image') !!}">
     </div>
     <div class="hero__wrapper-overlay">
         <div class="container">
