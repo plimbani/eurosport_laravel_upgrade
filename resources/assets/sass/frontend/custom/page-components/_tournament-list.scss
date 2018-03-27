@@ -1,0 +1,31 @@
+.tournament-list{
+	h3 {
+        color: theme-color('primary');
+        font-weight: $font-weight-bold;
+    }
+    hr {
+        background: theme-color('primary');
+    }
+    ul{
+    	list-style-type:decimal;
+    	margin-left: -20px;
+    	li{
+    		color:$gray-600;
+    		font-size:$font-size-sm;
+    		span{
+    			color:$gray-900;
+    		}
+    		&.more{
+    			list-style-type:none;
+    			border:1px solid theme-color('primary');
+    			color: theme-color('primary');
+    			width:87px;
+    			border-radius: $border-radius * 4;
+    			text-align: center;
+    			cursor: pointer;
+    			margin-left: -20px;
+    			margin-top:10px;
+    		}
+    	}
+    }
+}
