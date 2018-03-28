@@ -4,9 +4,17 @@
         padding: 0;
         line-height: initial;
         li {
-            display: inline-block;
+            @extend .d-inline-block;
             border-left: 1px solid theme-color('primary');
             color: theme-color('primary');
+             &:hover,&.active{
+                background-color:theme-color('primary');
+                a{
+                    &:not([href]):not([tabindex]) {
+                        color: $white;
+                    }
+                }
+            }
             &.left-arrow,
             &.right-arrow {
                 border-radius: $border-radius * 8;
@@ -14,14 +22,14 @@
                 width: 120px;
             }
             &.left-arrow {
-                margin-right: 1rem;
+                margin-right: $spacer;
                 a:after {
                     content: 'Previous';
                     padding-left: $h7-font-size;
                 }
             }
             &.right-arrow {
-                margin-left: 1rem;
+                margin-left: $spacer;
                 a:before {
                     content: 'Next';
                     padding-right: $h7-font-size;
@@ -49,13 +57,14 @@
             }
             a {
                 cursor: pointer;
-                display: block;
+                @extend .d-block;
                 font-size: $h7-font-size;
                 font-weight: $font-weight-bold;
                 padding: $h8-font-size $h7-font-size;
                 &:not([href]):not([tabindex]) {
                     color: theme-color('primary');
                 }
+               
             }
         }
     }
