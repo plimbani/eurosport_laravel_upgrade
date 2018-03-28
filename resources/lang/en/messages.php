@@ -38,7 +38,7 @@
 		'contact_form_telephone' => 'Your telephone number',
 		'contact_form_message' => 'Your message',
 		'contact_form_subject' => 'Message subject',
-		'contact_form_send_btn' => 'Send',
+		'contact_form_send_btn' => 'Send Enquiry',
 		'match_schedule_message' => 'The match schedule will be available 2-3 weeks before the tournament begins.',
 		'no_locations_found' => 'No locations found',
 		'no_photos_found' => 'No photos found',
