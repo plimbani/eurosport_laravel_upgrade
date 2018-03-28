@@ -27,7 +27,7 @@
 						<div class="col-md-6">
 							<h6 class="font-weight-bold mb-3">{!! __('messages.contact_euro_sportring') !!}</h6>
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<div class="alert alert-success js-inquiry-success-message" role="alert" style="display: none">
 										{!! __('messages.inquiry_form_success_message') !!}
 									</div>
