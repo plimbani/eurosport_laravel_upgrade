@@ -353,6 +353,9 @@ export default {
       if(competitionActualName.indexOf('Group') !== -1){
         return placeholder;
       } else if(competitionActualName.indexOf('Pos') !== -1){
+        if(placeholder.indexOf('wrs.') !== -1 || placeholder.indexOf('lrs.') !== -1) {
+          return placeholder;
+        }
         return 'Pos-' + placeholder;
       }
 
