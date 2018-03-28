@@ -11,12 +11,10 @@
 	<div class="content__wrapper">
     <div class="container">
       <div class="row my-5">
-        <div class="col-lg-3">
-        </div>
-        <div class="col-lg-8 club_content">
-					@if(count($markers) > 0)
-						<div id="venue_map" style="width:100%;height:400px;"></div>
-					@endif
+        <div class="col-lg-12 club_content">
+			@if(count($markers) > 0)
+				<div id="venue_map" style="width:100%;height:400px;"></div>
+			@endif
         </div>
       </div>
     </div>
@@ -27,21 +25,19 @@
 	<div class="content__wrapper">
     <div class="container">
       <div class="row my-5">
-        <div class="col-lg-3">
-        </div>
-        <div class="col-lg-8 club_content">
-					@if(count($locations) > 0)
-						@foreach($locations as $location)
-							<div class="col-sm-3">
-								<h3>{{ $location->name }}</h3>
-								<div>
-									{!! nl2br($location->address) !!}
-								</div>
-							</div>
-						@endforeach
-					@else
-						<p>{!! __('messages.no_locations_found') !!}</p>
-					@endif
+        <div class="col-lg-12 club_content">
+			@if(count($locations) > 0)
+				@foreach($locations as $location)
+					<div class="col-sm-3">
+						<h3>{{ $location->name }}</h3>
+						<div>
+							{!! nl2br($location->address) !!}
+						</div>
+					</div>
+				@endforeach
+			@else
+				<p>{!! __('messages.no_locations_found') !!}</p>
+			@endif
         </div>
       </div>
     </div>

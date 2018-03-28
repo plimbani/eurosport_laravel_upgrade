@@ -11,8 +11,6 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	           {{--  <div class="col-lg-3">
-	            </div> --}}
 	            <div class="col-lg-12 club_content">
 	                <div class="row">
 						<div class="col-md-6">
