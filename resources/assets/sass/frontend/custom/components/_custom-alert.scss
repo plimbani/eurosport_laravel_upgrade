@@ -1,0 +1,9 @@
+.custom-alert {
+    top: $form-check-input-gutter;
+    right: $form-check-input-gutter;
+    z-index: 1;
+    min-width: 250px;
+    .close {
+        right: $spacer / 2;
+    }
+}
