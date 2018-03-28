@@ -20,15 +20,15 @@
             <div class="col-md-6 col-lg-4 col-xl-4 my-2 my-lg-0 my-xl-0">
                 <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.filter_by') }}:</label>
                 <div class="radio d-inline-block">
-                    <input type="radio" v-model="filterBy" id="filter_category_and_competition" value="category_and_competition" name="match_filter" @click="getFilterOptions('category_and_competition')">
+                    <input type="radio" v-model="filterBy" id="filter_category_and_competition" value="category_and_competition" name="match_filter" @change="getFilterOptions()">
                     <label for="filter_category_and_competition" class="d-inline-block mb-0">{{ $t('matches.category') }}</label>
                 </div>
                 <div class="radio d-inline-block">
-                    <input type="radio" v-model="filterBy" id="filter_location" value="location" name="match_filter" @click="getFilterOptions('location')">
+                    <input type="radio" v-model="filterBy" id="filter_location" value="location" name="match_filter" @change="getFilterOptions()">
                     <label for="filter_location" class="d-inline-block mb-0">{{ $t('matches.location') }}</label>
                 </div>
                 <div class="radio d-inline-block">
-                    <input type="radio" v-model="filterBy" id="filter_team" value="team" name="match_filter" @click="getFilterOptions('team')">
+                    <input type="radio" v-model="filterBy" id="filter_team" value="team" name="match_filter" @change="getFilterOptions()">
                     <label for="filter_team" class="d-inline-block mb-0">{{ $t('matches.team') }}</label>
                 </div>
             </div>
@@ -124,6 +124,9 @@
         this.getFilterOptions();
       },
       getFilterOptions() {
+        if ($('.js-category-and-competition').data('select2')) {
+          $('.js-category-and-competition').select2('destroy');
+        }
         let data = { 'tournamentId': tournamentData.id, 'filterBy': this.filterBy };
         this.selectedOption = '';
         MatchList.getFilterDropDownData(data).then(
