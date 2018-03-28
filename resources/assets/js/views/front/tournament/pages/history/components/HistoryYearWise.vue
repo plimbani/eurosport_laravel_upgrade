@@ -1,14 +1,16 @@
 <template>
   <div>
     <div v-if="allHistoryYears.length > 0">
-      <span class="text-uppercase">{{ $t('tournament.tournament_year') }}</span>
-      <label class="custom_select round custom_select-2" for="history_year">
-        <select id="history_year" v-model="currentYearId" @change="historyYearChanged()">
-            <option :value="allHistoryYear.id" v-for="allHistoryYear in allHistoryYears">
-                {{ allHistoryYear.year }}
-            </option>
-        </select>
-      </label>
+      <div class="mx-auto text-center">
+        <span class="text-uppercase h6">{{ $t('tournament.tournament_year') }}</span>
+        <label class="custom_select round custom_select-2 d-inline-block" for="history_year">
+          <select id="history_year" v-model="currentYearId" @change="historyYearChanged()">
+              <option :value="allHistoryYear.id" v-for="allHistoryYear in allHistoryYears">
+                  {{ allHistoryYear.year }}
+              </option>
+          </select>
+        </label>
+      </div>
 
       <div class="row tournament-list" v-if="currentYear">
         <div class="col-sm-3 mb-5 js-age-category" v-for="ageCategory in currentYear.age_categories">
