@@ -50,20 +50,13 @@
       <p v-if="matchData.length == 0">{{ $t('matches.no_matches_found') }}</p>
       <paginate v-if="currentView != 'Competition'" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
       <div v-if="currentView != 'Competition'">
-        <div v-if="matchData.length > 0">
-           <!--  <label class="custom_select" for="no-of-pages">
-                <select id="no-of-pages" class="ls-select2" name="noOfRecords" v-model="noOfRecords">
-                    <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
-                        {{ recordCount }}
-                    </option>
-                </select>
-            </label> -->
-            <!-- <select class="form-control ls-select2" name="noOfRecords" v-model="noOfRecords">
+        <!-- <div v-if="matchData.length > 0">
+            <select class="form-control ls-select2" name="noOfRecords" v-model="noOfRecords">
                 <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
                     {{ recordCount }}
                 </option>
-            </select> -->
-        </div>
+            </select>
+        </div> -->
         <!-- <div v-if="matchData.length > 0">
           <span v-if="$refs.paginator">
             {{ $t('matches.view_match_result', {'countFrom': getRecordCountFrom, 'countTo': getRecordCountTo, 'totalCount': matchData.length}) }}
