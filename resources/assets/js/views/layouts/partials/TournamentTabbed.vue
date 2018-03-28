@@ -46,7 +46,7 @@ export default {
     }
   },
   mounted() {
-
+    this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
     if(this.tournamentId == '' ) {
       //this.$router.push({name: 'welcome'})
       }
