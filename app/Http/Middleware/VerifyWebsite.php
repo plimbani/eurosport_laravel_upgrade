@@ -59,7 +59,7 @@ class VerifyWebsite
         View::share('websiteDetail', $website);
 
         if(!$website) {
-            App::abort(404);
+            return Redirect::away(config('app.url'), 302);
         }
 
         if($website->is_website_offline == 1) {
@@ -67,35 +67,6 @@ class VerifyWebsite
         }
 
         Landlord::addTenant('website', $website);
-
-        // Get all published pages
-        $pages = $website->getPublishedPages()->toArray();
-        View::share('menu_items_count', count($pages));
-        View::share('menu_items', Page::buildPageTree($pages));
-
-        // Get image path
-        $imagesPath = $this->websiteContract->getImagesPath();
-        View::share('images_path', $imagesPath);
-
-        // Get all website's organisers
-        $organisers = $website->organisers;
-        View::share('organisers', $organisers);
-
-        // Get all website's sponsors
-        $sponsors = $website->sponsors;
-        View::share('sponsors', $sponsors);
-
-        // Theme CSS path
-        $colorThemes = config('wot.colorthemes');
-        $themeCss = $website->color ? mix('frontend/css/' . $colorThemes[$website->color]) : mix('frontend/css/main.css');
-        View::share('theme_css', $themeCss);
-
-        // Hero image
-        $homePageDetail = $this->pageService->getPageDetails($this->homePageName, $website->id);
-        $homePageMeta = $homePageDetail->meta;
-        $heroImage = ($homePageMeta && isset($homePageMeta['hero_image']) && $homePageMeta['hero_image']) ? $homePageMeta['hero_image'] : null;
-        $heroImage = config('filesystems.disks.s3.url') . config('wot.imagePath.hero_image') . Page::heroImageSize() . '/' . $heroImage;
-        View::share('hero_image', $heroImage);
 
         $accessibleRoutesArray = $website->getPublishedPages()->pluck('accessible_routes')->toArray();
         $accessibleRoutesCollection = collect($accessibleRoutesArray);
@@ -106,21 +77,6 @@ class VerifyWebsite
         if(!in_array($currentRoute, $accessibleRoutes)) {
             App::abort(404);
         }
-
-        // All accessible routes
-        View::share('accessible_routes', $accessibleRoutes);
-
-        JavaScript::put([
-            'websiteId' => $website->id,
-            'serverAddr' => env('BROADCAST_SERVER_ADDRESS'),
-            'serverPort' => env('BROADCAST_SERVER_PORT'),
-            'broadcastChannel' => config('broadcasting.channel'),
-            'appSchema' => config('app.app_scheme'),
-        ]);
-
-        JavaScript::put([
-          'currentLocale' => LaravelLocalization::getCurrentLocale()
-        ]);
 
         return $next($request);
     }

@@ -5,7 +5,7 @@
         <span class="text-uppercase h6">{{ $t('tournament.tournament_year') }}</span>
         <label class="custom_select round custom_select-2 d-inline-block" for="history_year">
           <select id="history_year" v-model="currentYearId" @change="historyYearChanged()">
-              <option :value="allHistoryYear.id" v-for="allHistoryYear in allHistoryYears">
+              <option class="text-primary" :value="allHistoryYear.id" v-for="allHistoryYear in allHistoryYears">
                   {{ allHistoryYear.year }}
               </option>
           </select>

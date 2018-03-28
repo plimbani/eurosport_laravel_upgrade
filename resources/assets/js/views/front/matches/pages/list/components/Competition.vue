@@ -21,7 +21,7 @@
         <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to match list
     </a>
     <div>
-        <div class="row align-items-center mt-2">
+        <div class="row align-items-center my-4">
             <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">
                 <label class="custom_select_box d-block mb-0" for="match_overview">
                     <select v-on:change="onCompetitionChange()"

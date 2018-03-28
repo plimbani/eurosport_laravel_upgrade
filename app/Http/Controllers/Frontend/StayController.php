@@ -126,6 +126,7 @@ class StayController extends Controller
       $parentPageDetail = $this->pageService->getPageDetails($this->stayPageName, $websiteId);
       $page = Page::where('parent_id', $parentPageDetail->id)
                     ->where('website_id', $websiteId)
+                    ->where('is_published', 1)
                     ->where('page_name', $additionalPageName)
                     ->first();
 

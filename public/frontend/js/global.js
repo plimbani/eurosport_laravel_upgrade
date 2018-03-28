@@ -11,9 +11,9 @@ $(document).ready(function() {
 	});
 
 	$(".js-locale-selection").click(function(e) {
-    $(this).toggleClass('show');
-    e.stopPropagation();
-  });
+	    $(this).toggleClass('show');
+	    e.stopPropagation();
+	});
 
   $('html').click(function() {
     $(".js-locale-selection").removeClass("show");
