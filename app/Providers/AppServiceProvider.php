@@ -61,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         if(config('app.app_scheme') == 'secure') {
-            URL::forceScheme('https');
+            $this->app['request']->server->set('HTTPS', true);
         }
 
         Website::observe(WebsiteObserver::class);
@@ -79,7 +79,7 @@ class AppServiceProvider extends ServiceProvider
         Document::observe(DocumentObserver::class);
         Contact::observe(ContactObserver::class);
         AgeCategoryTeam::observe(AgeCategoryTeamObserver::class);
-        AgeCategory::observe(AgeCategoryObserver::class);        
+        AgeCategory::observe(AgeCategoryObserver::class);
     }
 
     /**
