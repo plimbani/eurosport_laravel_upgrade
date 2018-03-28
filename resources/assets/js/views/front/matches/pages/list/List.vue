@@ -5,78 +5,51 @@
             <div class="col-md-12 col-lg-4 col-xl-4">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-lg-5 col-xl-5">
-                        <label class="label-of-input font-weight-bold mb-0">Match overview</label>
+                        <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.match_overview') }}</label>
                     </div>
                     <div class="col-sm-7 col-md-6 col-lg-7 col-xl-7">
                         <label class="custom_select_box d-block mb-0" for="match_overview">
-                            <select id="match_overview" class="border-0" name="options">
-                                <option value=""> Please select</option>
-                                <option value="1"> 2016 </option>
-                                <option value="2">2015</option>
-                                <option value="3">2014</option>
+                            <select id="match_overview" class="border-0" v-on:change="onMatchDateChange()" v-model="matchDate">
+                                <option value=""> {{ $t('matches.all_dates') }}</option>
+                                <option v-for="date in tournamentDates" v-bind:value="date">{{ date | formatDate }}</option>
                             </select>
                         </label>
                     </div>
                 </div>
             </div> 
             <div class="col-md-6 col-lg-4 col-xl-4 my-2 my-lg-0 my-xl-0">
-                <label class="label-of-input font-weight-bold mb-0">Filter by:</label>
+                <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.filter_by') }}:</label>
                 <div class="radio d-inline-block">
-                    <input type="radio" id="category-radio" value="option1" name="radioInline" checked="">
-                    <label for="category-radio" class="d-inline-block mb-0"> Category </label>
+                    <input type="radio" v-model="filterBy" id="filter_category_and_competition" value="category_and_competition" name="match_filter" @change="getFilterOptions()">
+                    <label for="filter_category_and_competition" class="d-inline-block mb-0">{{ $t('matches.category') }}</label>
                 </div>
                 <div class="radio d-inline-block">
-                    <input type="radio" id="location-radio" value="option2" name="radioInline">
-                    <label for="location-radio" class="d-inline-block mb-0"> Location </label>
+                    <input type="radio" v-model="filterBy" id="filter_location" value="location" name="match_filter" @change="getFilterOptions()">
+                    <label for="filter_location" class="d-inline-block mb-0">{{ $t('matches.location') }}</label>
                 </div>
                 <div class="radio d-inline-block">
-                    <input type="radio" id="team-radio" value="option3" name="radioInline">
-                    <label for="team-radio" class="d-inline-block mb-0"> Team </label>
+                    <input type="radio" v-model="filterBy" id="filter_team" value="team" name="match_filter" @change="getFilterOptions()">
+                    <label for="filter_team" class="d-inline-block mb-0">{{ $t('matches.team') }}</label>
                 </div>
             </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override my-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0">               
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override my-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0" v-if="filterBy == 'category_and_competition'">
                 <select class="form-control js-category-and-competition">
                     <option value="">Select</option>
-                    <option value="">opt1</option> 
-                    <option value="">op2</option> 
+                    <option v-for="option in filterOptions" v-bind:data-val="setFilterOption(option)" v-bind:id="option.id" v-bind:value="setFilterOption(option)" :class="option.class">{{ option.name }}</option>
                 </select>
             </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override my-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0" v-else>
+              <label class="custom_select_box d-block mb-0" for="location_team_filter">
+                <select id="location_team_filter" class="form-control" v-model="selectedOption" @change="setFilterOptions()">
+                  <option value="">Select</option>
+                  <option :value="option.id" v-for="option in filterOptions" v-bind:value="option">{{ option.name }}</option>
+                </select>
+              </label>
+            </div>
             <div class="col-4 col-sm-2 col-md-2 col-lg-1 col-xl-1"> 
-                <a href="javascript:void(0)" class="btn btn-primary btn-block">Clear</a>
+                <a href="javascript:void(0)" class="btn btn-primary btn-block" @click="clearFilter()">{{ $t('matches.clear') }}</a>
             </div>
         </div>    
-    </div>
-    <div>
-      {{ $t('matches.match_overview') }}
-      <select v-on:change="onMatchDateChange()" v-model="matchDate">
-        <option value="">{{ $t('matches.all_dates') }}</option>
-        <option v-for="date in tournamentDates" v-bind:value="date">
-          {{ date | formatDate }}
-        </option>
-      </select>
-      {{ $t('matches.filter_by') }}
-      <label>
-        <input type="radio" v-model="filterBy" name="match_filter" value="category_and_competition" @click="getFilterOptions('category_and_competition')">{{ $t('matches.category') }}
-      </label>
-      <label>
-        <input type="radio" v-model="filterBy" name="match_filter" value="location" @click="getFilterOptions('location')">{{ $t('matches.location') }}
-      </label>
-      <label>
-        <input type="radio" v-model="filterBy" name="match_filter" value="team" @click="getFilterOptions('team')">{{ $t('matches.team') }}
-      </label>
-      <div>
-        <select class="js-category-and-competition" v-if="filterBy == 'category_and_competition'">
-          <option value="">Select</option>
-          <option v-for="option in filterOptions" v-bind:data-val="setFilterOption(option)" v-bind:id="option.id" v-bind:value="setFilterOption(option)" :class="option.class">{{ option.name }}</option>
-        </select>
-        <select v-model="selectedOption" @change="setFilterOptions()" v-else>
-          <option value="">Select</option>
-          <option :value="option.id" v-for="option in filterOptions" v-bind:value="option">{{ option.name }}</option>
-        </select>
-      </div>
-      <label>
-        <a href="javascript:void(0)" @click="clearFilter()">{{ $t('matches.clear') }}</a>
-      </label>
     </div>
     <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView"></component>
   </div>
@@ -89,7 +62,7 @@
 
   export default {
     data() {
-  		return {
+      return {
         matches: [],
         matchDate: '',
         currentView: 'Matches',
@@ -110,7 +83,7 @@
         var date = moment(date,'DD/MM/YYYY');
         return moment(date).format("DD MMM YYYY");
       },
-  	},
+    },
     mounted() {
       this.tournamentDates = this.getTournamentDates(tournamentData.start_date, tournamentData.end_date);
       this.getFilterOptions();
@@ -151,6 +124,9 @@
         this.getFilterOptions();
       },
       getFilterOptions() {
+        if ($('.js-category-and-competition').data('select2')) {
+          $('.js-category-and-competition').select2('destroy');
+        }
         let data = { 'tournamentId': tournamentData.id, 'filterBy': this.filterBy };
         this.selectedOption = '';
         MatchList.getFilterDropDownData(data).then(
@@ -205,30 +181,30 @@
       },
       getAllMatches(filterKey, filterValue) {
         $("body .js-loader").removeClass('d-none');
-  			var tournamentId = tournamentData.id;
-  			var data = {};
+        var tournamentId = tournamentData.id;
+        var data = {};
 
         data.tournamentId = tournamentId;
         data.fiterEnable = true;
         this.matchDate != '' ? data.tournamentDate = this.matchDate : null;
 
-  			if(filterKey != '' && filterValue != '') {
+        if(filterKey != '' && filterValue != '') {
           data.filterKey = filterKey;
           data.filterValue = filterValue.id;
-  	    }
+        }
 
-  			let vm = this;
-  			MatchList.getFixtures(data).then(
-  				(response)=> {
-  					$("body .js-loader").addClass('d-none');
+        let vm = this;
+        MatchList.getFixtures(data).then(
+          (response)=> {
+            $("body .js-loader").addClass('d-none');
             vm.matches = response.data.data;
             vm.matches = _.orderBy(vm.matches, ['match_datetime'], ['asc']);
             vm.$root.$emit('setMatchesForMatchList', _.cloneDeep(response.data.data));
-  				},
-  				(error) => {
-  					console.log('Error in getting matches.');
-  				}
-  			)
+          },
+          (error) => {
+            console.log('Error in getting matches.');
+          }
+        )
       },
       showCompetitionData(id, competitionName, competitionType) {
         this.currentView = 'Competition';
@@ -236,24 +212,24 @@
       },
       getCompetitionDetails(competitionId, competitionName, competitionType) {
         var tournamentId = tournamentData.id;
-  			var data = {'tournamentId': tournamentId, 'competitionId': competitionId};
+        var data = {'tournamentId': tournamentId, 'competitionId': competitionId};
         var vm = this;
 
-  			this.competitionDetail.name = competitionName;
-  			this.competitionDetail.id = competitionId;
+        this.competitionDetail.name = competitionName;
+        this.competitionDetail.id = competitionId;
         this.competitionDetail.type = competitionType;
 
-  			MatchList.getFixtures(data).then(
-  				(response)=> {
-  					if(response.data.status_code == 200) {
-  						vm.matches = response.data.data;
+        MatchList.getFixtures(data).then(
+          (response)=> {
+            if(response.data.status_code == 200) {
+              vm.matches = response.data.data;
               vm.$root.$emit('setMatchesForMatchList', _.cloneDeep(response.data.data));
-  					}
-  				},
-  				(error) => {
-  					alert('Error in getting matches');
-  				}
-  			)
+            }
+          },
+          (error) => {
+            alert('Error in getting matches');
+          }
+        )
       },
       showMatchesList() {
         this.currentView = 'Matches';

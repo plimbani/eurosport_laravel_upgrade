@@ -1,19 +1,23 @@
 <template>
   <div>
     <div v-if="allHistoryYears.length > 0">
-      <span class="text-uppercase">{{ $t('tournament.tournament_year') }}</span><span> {{ currentYear ? currentYear.year : null }}</span>
-      <ul>
-        <li v-for="allHistoryYear in allHistoryYears">
-          <a href="javascript:" @click="historyYearChanged(allHistoryYear.id)">{{ allHistoryYear.year }}</a>
-        </li>
-      </ul>
-      <div class="container" v-if="currentYear">
-        <div class="row">
-          <div class="col-sm-3 js-age-category" v-for="ageCategory in currentYear.age_categories">
-            <h3>{{ ageCategory.name }}</h3>
-            <ul class="js-list">
-              <li class="team-item" v-for="team in ageCategory.teams">
-                {{ team.name }} <span :class="'flag-icon flag-icon-' + team.country.country_flag"></span>
+      <span class="text-uppercase">{{ $t('tournament.tournament_year') }}</span>
+      <label class="custom_select round custom_select-2" for="history_year">
+        <select id="history_year" v-model="currentYearId" @change="historyYearChanged()">
+            <option :value="allHistoryYear.id" v-for="allHistoryYear in allHistoryYears">
+                {{ allHistoryYear.year }}
+            </option>
+        </select>
+      </label>
+
+      <div class="row tournament-list" v-if="currentYear">
+        <div class="col-sm-3 mb-5 js-age-category" v-for="ageCategory in currentYear.age_categories">
+          <h3 class="mb-0 text-primary font-weight-bold">{{ ageCategory.name }}</h3>
+          <hr class="hr mt-0 mb-0 bg-primary">
+          <div class="js-list-parent-div">
+            <ul class="js-list list-unstyled">
+              <li class="team-item d-flex justify-content-between" v-for="team in ageCategory.teams">
+                {{ team.name }} ({{ team.country.country_code }}) <span :class="'flag-icon flag-icon-' + team.country.country_flag"></span>
               </li>
             </ul>
           </div>
@@ -44,8 +48,8 @@
       }
     },
     methods: {
-      historyYearChanged(id) {
-        this.getHistoryAgeCategories(id);
+      historyYearChanged() {
+        this.getHistoryAgeCategories(this.currentYearId);
       },
       getHistoryAgeCategories(id) {
         let historyYear = _.find(this.allHistoryYears, (historyYear) => {

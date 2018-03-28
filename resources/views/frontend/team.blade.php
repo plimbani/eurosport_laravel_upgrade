@@ -19,16 +19,22 @@
 							<div class="col-sm-3 mb-5">
 								<h3 class="mb-0 text-primary font-weight-bold">{{ $category->name }}</h3>
 								<hr class="hr mt-0 mb-0 bg-primary">
-								<div>
-									<ul class="js-list list-unstyled">
-										@foreach($category->teams as $team)
-											<li class="team-item d-flex justify-content-between">{{ $team->name }} ({{ $team->country->country_code }}) <span class="flag-icon flag-icon-{{ $team->country->country_flag }}"></span></li>
-										@endforeach
-									</ul>
-									<a href="" class="btn btn-outline-primary btn-round px-h4 text-uppercase font-weight-bold">More...</a>
+								<div class="js-list-parent-div">
+									@if(count($category->teams) > 0)
+										<ul class="js-list list-unstyled">
+											@foreach($category->teams as $team)
+												<li class="team-item d-flex justify-content-between">{{ $team->name }} ({{ $team->country->country_code }}) <span class="flag-icon flag-icon-{{ $team->country->country_flag }}"></span></li>
+											@endforeach
+										</ul>
+									@else
+										No team found.
+									@endif
 								</div>
 							</div>
 						@endforeach
+						@if(count($ageCategories) == 0)
+							No age category found.
+						@endif
 					</div>
 	            </div>
 	        </div>
