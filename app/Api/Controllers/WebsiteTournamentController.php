@@ -3,6 +3,8 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\WebsiteTournament\StoreUpdateRequest;
+use Laraspace\Http\Requests\WebsiteTournament\GetWebsiteTournamentRequest;
 
 // Need to define only contracts
 use Laraspace\Api\Contracts\WebsiteTournamentContract;
@@ -34,7 +36,7 @@ class WebsiteTournamentController extends BaseController
    *
    * @return response
    */	
-	public function savePageData(Request $request)
+	public function savePageData(StoreUpdateRequest $request)
 	{
     return $this->websiteTournamentContract->savePageData($request->all());
 	}
@@ -44,7 +46,7 @@ class WebsiteTournamentController extends BaseController
    *
    * @return response
    */
-  public function getPageData(Request $request, $websiteId)
+  public function getPageData(GetWebsiteTournamentRequest $request, $websiteId)
   {
     return $this->websiteTournamentContract->getPageData($websiteId);
   }

@@ -36,11 +36,11 @@ class Kernel extends HttpKernel
             new RequestHandled($request, $response)
         );
 
-        if($request->server('HTTP_HOST') != config('app.domain')) {
-            $website = Website::where('domain_name', $request->server('HTTP_HOST'))->first();
+        if($request->server('SERVER_NAME') != config('app.domain')) {
+            $website = Website::where('domain_name', $request->server('SERVER_NAME'))->first();
 
             if(!$website) {
-                App::abort(404);
+                return Redirect::away(config('app.url'), 302);
             }
 
             if($website->is_website_offline == 1) {
@@ -110,5 +110,6 @@ class Kernel extends HttpKernel
         'localizationRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
         'localeSessionRedirect' => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
         'localeViewPath' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
+        'signedurl' => \Spatie\UrlSigner\Laravel\Middleware\ValidateSignature::class,
     ];
 }

@@ -1,0 +1,19 @@
+.tournament_history {
+    .custom_select {
+        width: 161px;
+        margin-left: $font-size-base;
+        @include media-breakpoint-down(sm) {
+            &.custom_select-2 {
+                width: 140px;
+                margin-left: $font-size-base / 2;
+            }
+        }
+        select {
+            font-size: $font-size-base * 1.125;
+            padding-left: $input-btn-padding-x-lg * 2;
+        }
+    }
+    .tournament-list {
+        margin-top: $h5-line-height;
+    }
+}

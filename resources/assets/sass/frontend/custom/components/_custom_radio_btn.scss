@@ -1,13 +1,23 @@
-.custom_radio_btn{
-    label{
+.custom_radio_btn {
+    margin-bottom: $spacer * 2.5;
+    label {
         font-size: $font-size-sm;
     }
     .radio {
         padding-left: $list-inline-padding * 2;
+        @include media-breakpoint-down(xs) {
+            padding-left: ($list-inline-padding / 2);
+        }
+        @include media-breakpoint-only(md) {
+            padding-left: ($list-inline-padding / 2);
+        }
+        @include media-breakpoint-only(lg) {
+            padding-left: ($list-inline-padding / 2);
+        }
         input[type="radio"] {
             opacity: 0;
             &:focus+label::before {
-                outline:none;
+                outline: none;
             }
             &:checked+label::after {
                 -webkit-transform: scale(1, 1);
@@ -19,8 +29,17 @@
         label {
             position: relative;
             padding-left: $table-cell-padding-sm;
+            @include media-breakpoint-down(xs) {
+                padding-left: ($list-inline-padding / 2);
+            }
+            @include media-breakpoint-only(md) {
+                padding-left: ($list-inline-padding / 2);
+            }
+            @include media-breakpoint-only(lg) {
+                padding-left: ($list-inline-padding / 2);
+            }
             cursor:pointer;
-            &:before{
+            &:before {
                 content: "";
                 position: absolute;
                 width: 20px;
@@ -33,9 +52,9 @@
                 -webkit-transition: border 0.15s ease-in-out;
                 -o-transition: border 0.15s ease-in-out;
                 transition: border 0.15s ease-in-out;
-                margin-top:($spacer/3);
+                margin-top: ($spacer/3);
             }
-            &:after{
+            &:after {
                 position: absolute;
                 content: " ";
                 width: 12px;
@@ -43,8 +62,8 @@
                 left: 4px;
                 top: 4px;
                 margin-left: -20px;
-                margin-top:($spacer/3);
-                border-radius:$custom-radio-indicator-border-radius;
+                margin-top: ($spacer/3);
+                border-radius: $custom-radio-indicator-border-radius;
                 background-color: theme-color('primary');
                 -webkit-transform: scale(0, 0);
                 -ms-transform: scale(0, 0);

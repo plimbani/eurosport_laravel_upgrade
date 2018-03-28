@@ -5,6 +5,20 @@ namespace Laraspace\Api\Controllers;
 use Brotzka\DotenvEditor\DotenvEditor;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\Team\StoreRequest;
+use Laraspace\Http\Requests\Team\UpdateRequest;
+use Laraspace\Http\Requests\Team\AllClubsRequest;
+use Laraspace\Http\Requests\Team\GetTeamsRequest;
+use Laraspace\Http\Requests\Team\TeamsListRequest;
+use Laraspace\Http\Requests\Team\ClubsTeamsRequest;
+use Laraspace\Http\Requests\Team\AssignTeamRequest;
+use Laraspace\Http\Requests\Team\TeamDetailsRequest;
+use Laraspace\Http\Requests\Team\AllCountriesRequest;
+use Laraspace\Http\Requests\Team\ResetAllTeamsRequest;
+use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
+use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
+use Laraspace\Http\Requests\Team\GetAllTournamentTeamsRequest;
+use Laraspace\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
 
 
 // Need to Define Only Contracts
@@ -34,7 +48,7 @@ class TeamController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getTeams(Request $request)
+    public function getTeams(GetTeamsRequest $request)
     {
        return  $result = $this->teamObj->getTeams($request);
     }
@@ -44,12 +58,12 @@ class TeamController extends BaseController
         return $this->teamObj->getClubs($request->all());
     }
 
-    public function getClubTeams(Request $request)
+    public function getClubTeams(ClubsTeamsRequest $request)
     {
         return $this->teamObj->getClubTeams($request->all());
     }
 
-    public function getAllTournamentTeams(Request $request)
+    public function getAllTournamentTeams(GetAllTournamentTeamsRequest $request)
     {
       return $this->teamObj->getAllTournamentTeams($request->all());
     }
@@ -70,7 +84,7 @@ class TeamController extends BaseController
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
 
-    public function createTeam(Request $request)
+    public function createTeam(StoreRequest $request)
     {
         $teamData = $request->all();
         // dd($teamData);
@@ -99,7 +113,7 @@ class TeamController extends BaseController
             return ['bigFileSize' =>  false];
      
     }
-    public function assignTeam(Request $request) {        
+    public function assignTeam(AssignTeamRequest $request) {        
         return $this->teamObj->assignTeams($request->all());
     }
     public function getAllTeamsGroup(Request $request) {
@@ -136,47 +150,47 @@ class TeamController extends BaseController
         return $this->teamObj->delete($request);
     }
 
-    public function getTeamsList(Request $request)
+    public function getTeamsList(TeamsListRequest $request)
     {
       return $this->teamObj->getTeamsList($request->all());
     }
 
-    public function changeTeamName(Request $request)
+    public function changeTeamName(ChangeTeamNameRequest $request)
     {
         return $this->teamObj->changeTeamName($request->all());
     }
 
-    public function getAllCompetitionTeamsFromFixture(Request $request)
+    public function getAllCompetitionTeamsFromFixture(GetAllCompetitionTeamsFromFixtureRequest $request)
     {
       return $this->teamObj->getAllCompetitionTeamsFromFixture($request->all());
     }
 
-    public function editTeamDetails($teamId) 
+    public function editTeamDetails(TeamDetailsRequest $request, $teamId) 
     {
         return $this->teamObj->editTeamDetails($teamId);
     }
 
-    public function getAllCountries()
+    public function getAllCountries(AllCountriesRequest $request)
     {
         return $this->teamObj->getAllCountries();
     }
 
-    public function getAllClubs()
+    public function getAllClubs(AllClubsRequest $request)
     {
         return $this->teamObj->getAllClubs();
     }
 
-    public function updateTeamDetails(Request $request, $teamId)
+    public function updateTeamDetails(UpdateRequest $request, $teamId)
     {
         return $this->teamObj->updateTeamDetails($request, $teamId);
     }
 
-    public function checkTeamExist(Request $request)
+    public function checkTeamExist(CheckTeamExistRequest $request)
     {
         return $this->teamObj->checkTeamExist($request);
     }
 
-    public function resetAllTeams(Request $request)
+    public function resetAllTeams(ResetAllTeamsRequest $request)
     {
         return $this->teamObj->resetAllTeams($request);
     }

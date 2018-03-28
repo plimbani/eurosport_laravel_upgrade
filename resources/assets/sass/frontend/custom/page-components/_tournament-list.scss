@@ -1,0 +1,17 @@
+.tournament-list {
+    ul {
+        padding-top: $h8-font-size;
+        padding-bottom: $h8-font-size;
+        li {
+            color: $gray-900;
+            padding-top: $h8-font-size;
+            padding-bottom: $h8-font-size;
+            font-size: $h6-font-size;
+            line-height: $h5-line-height;
+        }
+    }
+    .btn {
+        font-size: $h7-font-size;
+        width: 87px;
+    }
+}

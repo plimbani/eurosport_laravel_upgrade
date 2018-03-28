@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 // Need to define only contracts
 use Laraspace\Api\Contracts\VisitorContract;
 
+use Laraspace\Http\Requests\Visitor\StoreUpdateRequest;
+use Laraspace\Http\Requests\Visitor\GetVisitorPageDataRequest;
+
 /**
  * Visitor description.
  *
@@ -37,7 +40,7 @@ class VisitorController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function savePageData(Request $request)
+  public function savePageData(StoreUpdateRequest $request)
   {
     return $this->visitorContract->savePageData($request);
   }
@@ -49,7 +52,7 @@ class VisitorController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getPageData(Request $request, $websiteId)
+  public function getPageData(GetVisitorPageDataRequest $request, $websiteId)
   {
     return $this->visitorContract->getPageData($websiteId);
   }

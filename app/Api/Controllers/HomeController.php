@@ -3,6 +3,10 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\Homepage\GetStatisticsRequest;
+use Laraspace\Http\Requests\Homepage\GetOrganisersRequest;
+use Laraspace\Http\Requests\Homepage\StoreUpdateRequest;
+use Laraspace\Http\Requests\Homepage\GetHomePageDataRequest;
 
 // Need to define only contracts
 use Laraspace\Api\Contracts\HomeContract;
@@ -39,7 +43,7 @@ class HomeController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getStatistics(Request $request, $websiteId)
+  public function getStatistics(GetStatisticsRequest $request, $websiteId)
   {
     return $this->homeContract->getStatistics($websiteId);
   }
@@ -53,7 +57,7 @@ class HomeController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getOrganisers(Request $request, $websiteId)
+  public function getOrganisers(GetOrganisersRequest $request, $websiteId)
   {
     return $this->homeContract->getOrganisers($websiteId);
   }
@@ -65,7 +69,7 @@ class HomeController extends BaseController
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function savePageData(Request $request)
+  public function savePageData(StoreUpdateRequest $request)
   {
     return $this->homeContract->savePageData($request);
   }
@@ -73,11 +77,11 @@ class HomeController extends BaseController
   /**
    * Get home page data
    *
-   * @Get("/getHomePageData")
+   * @Get("/getWebsiteHomePageData")
    * @Versions({"v1"})
    * @Response(200, body={})
    */
-  public function getPageData(Request $request, $websiteId)
+  public function getPageData(GetHomePageDataRequest $request, $websiteId)
   {
     return $this->homeContract->getPageData($websiteId);
   }

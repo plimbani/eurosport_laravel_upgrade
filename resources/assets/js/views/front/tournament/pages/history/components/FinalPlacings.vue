@@ -1,19 +1,19 @@
 <template>
   <div>
-    <div>
-      <table class="table table-hover table-bordered" v-if="competitionList.length > 0">
+    <div class="table-responsive">
+      <table class="table" v-if="competitionList.length > 0">
         <thead>
           <tr>
-            <th class="text-center">{{ $t('tournament.category_name') }}</th>
-            <th class="text-center">{{ $t('tournament.age_category') }}</th>
-            <th class="text-center">{{ $t('tournament.placings') }}</th>
+            <th scope="col">{{ $t('tournament.category_name') }}</th>
+            <th scope="col">{{ $t('tournament.age_category') }}</th>
+            <th scope="col">{{ $t('tournament.placings') }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="competition in competitionList">
             <td>{{ competition.group_name }}</td>
-            <td class="text-center">{{ competition.category_age }}</td>
-            <td class="text-center">
+            <td>{{ competition.category_age }}</td>
+            <td>
               <a @click="getAgeCategoryDetail(competition.id)" class="text-primary" href="#" data-toggle="modal" data-target="#final_placing_modal">
                 <u>{{ $t('tournament.view_placings') }}</u>
               </a>

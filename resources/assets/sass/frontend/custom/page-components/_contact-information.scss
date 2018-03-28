@@ -1,0 +1,43 @@
+.contact-information {
+    .form-group {
+        &.is-invalid {
+            .form-control {
+                border-color: $danger;
+            }
+        }
+        .form-control {
+            font-size: $h6-font-size;
+            border-radius: $form-check-inline-input-margin-x;
+            border-color: $gray-400;
+        }
+        input.form-control {
+            height: 40px;
+        }
+    }
+    .btn {
+        width: 183px;
+        font-size: $h6-font-size;
+        padding: $input-btn-padding-y ($input-btn-padding-x-lg * 3.75) $input-btn-padding-y ($input-btn-padding-x-sm * 3);
+        box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+        &:after {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            bottom: 0;
+            display: -webkit-inline-box;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            width: 50px;
+            height: 100%;
+            font-family: 'Font Awesome 5 Pro';
+            content: "\F0DA";
+            z-index: 1;
+        }
+    }
+}
