@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="alert alert-dismissible alert-warning fade position-absolute show custom-alert text-primary" role="alert" v-for="message in recent_messages" :key="message.id">
+    <div class="position-absolute main-alert-wrapper custom-alert">
+        <div class="alert alert-dismissible alert-warning fade mb-2 show text-primary" role="alert" v-for="message in recent_messages" :key="message.id">
           {{ message.content }}
           <button type="button" class="close p-0" data-dismiss="alert" aria-label="Close" @click="dismissMessage(message.id)">
             <span aria-hidden="true">&times;</span>
