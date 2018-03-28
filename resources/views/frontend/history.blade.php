@@ -12,7 +12,7 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	            <div class="col-lg-12 club_content match_table" id="tournament_history">
+	            <div class="col-lg-12 club_content match_table tournament_history" id="tournament_history">
 	                <tournament-history></tournament-history>
 	            </div>
 	        </div>
