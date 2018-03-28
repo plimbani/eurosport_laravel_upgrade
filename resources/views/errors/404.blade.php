@@ -36,12 +36,12 @@
     <div class="hero__wrapper hero__wrapper-small">
         @include('partials.frontend.header-menu')
         <div class="hero__wrapper-banner">
-            <img src="{{ $hero_image }}" alt="">
+            <img src="{{ $hero_image }}" alt="{!! __('messages.hero_image') !!}">
         </div>
         <div class="hero__wrapper-overlay">
             <div class="container">
                 <div class="row flex-column flex-lg-row align-items-center margin-area">
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="d-flex justify-content-center justify-content-lg-end">
                             <div class="club_logo">
                                 <div class="club_logo-box">
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="grid-full club_info">
+                    <div class="col-lg-8 club_info">
                         <h1 class="club_info-title">Error 404 - Page not found</h1>
                     </div>
                 </div>
@@ -62,11 +62,15 @@
     @yield('quick-links')
     <!-- End of hero wrapper -->
 
+    @include('partials.frontend.tournament-messages')
+
+    @include('flash::message')
+
     <!-- Content wrapper -->
     <div class="content__wrapper">
         <div class="container">
             <div class="row my-5">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                 </div>
                 <div class="col-lg-8 club_content">
                     {!! __('messages.404_page_message', ['url' => route('home.page.details', ['domain' => $websiteDetail->domain_name])]) !!}

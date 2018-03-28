@@ -158,7 +158,9 @@
                         opacity: 0.5;
                     }
                     .icon {
-                        margin-right: $h8-font-size;
+                        @include media-breakpoint-down(lg) {
+                            margin-right: $h8-font-size;
+                        }
                         @include media-breakpoint-up(lg) {
                             margin-left: $h8-font-size;
                         }

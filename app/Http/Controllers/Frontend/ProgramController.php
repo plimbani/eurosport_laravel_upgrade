@@ -68,6 +68,7 @@ class ProgramController extends Controller
       $parentPageDetail = $this->pageService->getPageDetails($this->programPageName, $websiteId);
       $page = Page::where('parent_id', $parentPageDetail->id)
                     ->where('website_id', $websiteId)
+                    ->where('is_published', 1)
                     ->where('page_name', $additionalPageName)
                     ->first();
 

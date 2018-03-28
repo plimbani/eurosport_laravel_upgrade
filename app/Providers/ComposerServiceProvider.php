@@ -15,6 +15,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
       View::composer('partials.frontend.meta', 'Laraspace\Http\ViewComposers\WebsiteMetaComposer');
+      View::composer(['frontend.*', 'errors.404'], 'Laraspace\Http\ViewComposers\WebsiteComposer');
     }
 
     /**
