@@ -6,6 +6,9 @@
     max-width: 370px;
     font-size: $h6-font-size;
     line-height: $line-height-base;
+    .alert {
+        padding-right: $alert-padding-x;
+    }
     .close {
         right: $spacer / 2;
         opacity: 1;
