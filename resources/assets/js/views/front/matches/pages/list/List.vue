@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-        <div class="row align-items-center custom_radio_btn">
+        <div class="row align-items-center custom_radio_btn" v-if="currentView == 'Matches'">
             <div class="col-md-12 col-lg-4 col-xl-4">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-lg-5 col-xl-5">
@@ -32,13 +32,13 @@
                     <label for="filter_team" class="d-inline-block mb-0">{{ $t('matches.team') }}</label>
                 </div>
             </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override my-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0" v-if="filterBy == 'category_and_competition'">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override my-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0" v-show="filterBy == 'category_and_competition'">
                 <select class="form-control js-category-and-competition">
                     <option value="">Select</option>
                     <option v-for="option in filterOptions" v-bind:data-val="setFilterOption(option)" v-bind:id="option.id" v-bind:value="setFilterOption(option)" :class="option.class">{{ option.name }}</option>
                 </select>
             </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override my-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0" v-else>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override my-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0"  v-show="filterBy != 'category_and_competition'">
               <label class="custom_select_box d-block mb-0" for="location_team_filter">
                 <select id="location_team_filter" class="form-control" v-model="selectedOption" @change="setFilterOptions()">
                   <option value="">Select</option>
@@ -49,7 +49,7 @@
             <div class="col-4 col-sm-2 col-md-2 col-lg-1 col-xl-1"> 
                 <a href="javascript:void(0)" class="btn btn-primary btn-block" @click="clearFilter()">{{ $t('matches.clear') }}</a>
             </div>
-        </div>    
+        </div>
     </div>
     <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView"></component>
   </div>

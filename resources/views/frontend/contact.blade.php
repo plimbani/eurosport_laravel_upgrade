@@ -11,8 +11,6 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	           {{--  <div class="col-lg-3">
-	            </div> --}}
 	            <div class="col-lg-12 club_content contact-information">
 	                <div class="row">
 						<div class="col-md-6">
@@ -64,61 +62,11 @@
 								<div class="form-actions">
 								    <div class="row">
 								        <div class="col-md-12 text-right">
-								            <button type="submit" class="btn button btn-primary js-contact-frm-submit-btn btn-round text-uppercase text-left font-weight-bold"
-								            onClick="gtag('event', 'submit', { event_category: 'form', event_label: 'contact'});">{!! __('messages.contact_form_send_btn') !!}</button>
+								            <button type="submit" class="btn button btn-primary js-contact-frm-submit-btn btn-round text-uppercase text-left font-weight-bold">{!! __('messages.contact_form_send_btn') !!}</button>
 								        </div>
 								    </div>
 								</div>
 							{{ Form::close() }}
-
-							{{-- {!! Form::open(['class' => 'js-frm-create-inquiry form-horizontal', 'role' => 'form']) !!}
-								<div class="form-body">
-									<div class="form-group">
-										<div class="col-md-9">
-											{!! Form::text('name', null,['class' => 'form-control',
-											'id' => 'contact_name' ,'placeholder' => __('messages.contact_form_name') ]) !!}
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-9">
-											{!! Form::text('email', null,['class' => 'form-control',
-											'id' => 'contact_email' ,'placeholder' => __('messages.contact_form_email')  ]) !!}
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-9">
-											{!! Form::text('telephone_number', null,['class' => 'form-control',
-											'id' => 'contact_telephone_number' ,'placeholder' => __('messages.contact_form_telephone') ]) !!}
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-9">
-											{!! Form::text('subject', null,['class' => 'form-control',
-											'id' => 'contact_subject' ,'placeholder' => __('messages.contact_form_message')]) !!}
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-9">
-											{!! Form::textarea('message', null,['class' => 'form-control',
-											'id' => 'contact_message' ,'placeholder' => __('messages.contact_form_subject')]) !!}
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-9">
-											<div class="g-recaptcha" data-sitekey="{{ config('wot.google_re_captcha_site_key') }}"></div>
-											<span class="recaptcha-errorspan" style="color:#f00; display: none;">{!! __('messages.recaptcha_error_message') !!}</span>
-										</div>
-									</div>
-								</div>
-								<div class="form-actions">
-								    <div class="row">
-								        <div class="col-md-offset-3 col-md-9">
-								            <button type="submit" class="btn button btn-primary js-contact-frm-submit-btn"
-								            onClick="gtag('event', 'submit', { event_category: 'form', event_label: 'contact'});">{!! __('messages.contact_form_send_btn') !!}</button>
-								        </div>
-								    </div>
-								</div>
-							{{ Form::close() }} --}}
 						</div>
 					</div>
 	            </div>

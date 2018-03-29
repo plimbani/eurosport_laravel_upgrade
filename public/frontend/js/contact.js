@@ -38,6 +38,7 @@ var Contact = function() {
                     $('.recaptcha-errorspan').show();
                 } else {
                     $('.js-contact-frm-submit-btn').addClass('is-loading');
+                    gtag('event', 'submit', { event_category: 'form', event_label: 'contact'});
                     $.ajax({
                       url: "/"+ Site.currentLocale + "/submitInquiry",
                       method: 'POST',
@@ -45,9 +46,9 @@ var Contact = function() {
                       success: function(response){
                         $('.js-contact-frm-submit-btn').removeClass('is-loading');
                         $('input[type=text], textarea').val('');
-                        grecaptcha.reset();
                         $('.js-frm-create-inquiry').hide();
                         $('.js-inquiry-success-message').show();
+                        grecaptcha.reset();
                       }
                     });
                 }

@@ -3,15 +3,16 @@
 		<div class="table-responsive">			
 			<table class="table" v-if="standingData.length > 0">
 				<thead>
-					<!-- <th class="text-center" scope="col"></th> -->
-					<th class="text-center" scope="col">{{ $t('matches.played') }}</th>
-					<th class="text-center" scope="col">{{ $t('matches.won') }}</th>
-					<th class="text-center" scope="col">{{ $t('matches.draws') }}</th>
-					<th class="text-center" scope="col">{{ $t('matches.lost') }}</th>
-					<th class="text-center" scope="col">{{ $t('matches.for') }}</th>
-					<th class="text-center" scope="col">{{ $t('matches.against') }}</th>
-			    <th class="text-center" scope="col">{{ $t('matches.difference') }}</th>
-			    <th class="text-center" scope="col">{{ $t('matches.points') }}</th>
+					<tr>
+						<th class="text-center" scope="col">{{ $t('matches.played') }}</th>
+						<th class="text-center" scope="col">{{ $t('matches.won') }}</th>
+						<th class="text-center" scope="col">{{ $t('matches.draws') }}</th>
+						<th class="text-center" scope="col">{{ $t('matches.lost') }}</th>
+						<th class="text-center" scope="col">{{ $t('matches.for') }}</th>
+						<th class="text-center" scope="col">{{ $t('matches.against') }}</th>
+				    	<th class="text-center" scope="col">{{ $t('matches.difference') }}</th>
+				    	<th class="text-center" scope="col">{{ $t('matches.points') }}</th>
+				    </tr>
 				</thead>
 				<tbody>
 					<tr v-for="standing in standingData">

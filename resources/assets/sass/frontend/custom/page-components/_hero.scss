@@ -147,16 +147,27 @@
                     text-transform: uppercase;
                     font-size: $h6-font-size;
                     font-weight: 700;
-                    padding: $nav-link-padding-y $nav-link-padding-x;
+                    padding: $nav-link-padding-y $font-size-base;
                     line-height: 1;
                     display: flex;
+                    @include media-breakpoint-up(lg) {
+                        flex-direction: row-reverse;
+                    }
                     align-items: center;
                     &:hover {
                         opacity: 0.5;
                     }
+                    .icon {
+                        @include media-breakpoint-down(lg) {
+                            margin-right: $h8-font-size;
+                        }
+                        @include media-breakpoint-up(lg) {
+                            margin-left: $h8-font-size;
+                        }
+                    }
                     i {
                         font-size: $font-size-base * 1.25;
-                        line-height: 1.5;
+                        // line-height: 1.5;
                     }
                     @include media-breakpoint-only(lg) {
                         font-size: ($font-size-base * 0.68);
