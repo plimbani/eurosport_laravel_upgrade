@@ -130,11 +130,13 @@
 									</div>
 								</div>
 							</div>
+						</div>
+						<div class="col-md-6">
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<div class="row">
 										<label class="col-sm-12 form-control-label">{{$lang.website_font}}</label>
-										<div class="col-md-12" v-for="font in customisation.fonts">
+										<div class="col-md-4" v-for="font in customisation.fonts">
 											<div class="radio mb-2">
 												<div class="r-input">
 													<input type="radio" name="font" v-bind:id="font" class="euro-radio" v-model="website.font" :value="font" />
@@ -146,8 +148,120 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
-							<!-- Preview section -->
+					</div>
+					<div class="row justify-content-between">
+						<div class="col-md-12">
+							<h6><strong>Preview</strong></h6>
+						</div>
+						<div class="col-md-12">
+							<div class="card">
+								<div class="preview">
+									<div class="preview--header">
+										<div class="container-fluid">
+											<div class="d-flex align-items-center justify-content-between">
+												<div class="logo">
+													<img src="/frontend/images/logo-header.svg" alt="">
+												</div>
+												<div class="lang-bar d-flex align-items-center h-100">
+													<h5>LANGUAGE</h5>
+													<img src="/assets/img/preview/language.png" alt="">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="preview--container">
+										<div class="preview--container-nav" :style="{background: getPreviewColor}">
+											<div class="container-fluid">
+												<ul class="nav justify-content-center">
+													<li class="nav-item">
+														<a class="nav-link" href="javascript:void(0)">Team</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link" href="javascript:void(0)">Matches</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link" href="javascript:void(0)">Venue</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link dropdown-toggle" href="javascript:void(0)">Tournament</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link dropdown-toggle" href="javascript:void(0)">Program</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link dropdown-toggle" href="javascript:void(0)">Stay</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link" href="javascript:void(0)">Media</a>
+													</li>
+													<li class="nav-item">
+														<a class="nav-link" href="javascript:void(0)">Contact</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="preview--container-banner">
+											<img src="/assets/img/preview/heroimage.jpg" alt="Hero image">
+										</div>
+										<div class="preview--container-overlay">
+											<div class="container-fluid">
+												<div class="row align-items-center margin-area">
+													<div class="col-3">
+														<div class="d-flex justify-content-end">
+															<div class="club_logo">
+																<div class="club_logo-box">
+																	<div class="d-flex align-items-center justify-content-center h-100">
+																		<img src="/assets/img/preview/copacostabrava.png" alt="">
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-9 club_info">
+														<h1 class="club_info-title">Costa Brava Cup</h1>
+														<span class="club_info-detail">31st March - 1st April 2018, Tordera</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="preview--header-secondary">
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-3"></div>
+												<div class="col-9">
+													<ul class="nav align-items-center h-100">
+														<li class="nav-item">
+															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">Match Schedule <span class="ml-2"><i class="fa fa-calendar"></i></span></a>
+														</li>
+														<li class="nav-item">
+															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">The Teams <span class="ml-2"><i class="fa fa-shield"></i></span></a>
+														</li>
+														<li class="nav-item">
+															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">The Venue <span class="ml-2"><i class="fa fa-map-marker"></i></span></a>
+														</li>
+														<li class="nav-item">
+															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">Travel & Accommodation <span class="ml-2"><i class="fa fa-suitcase"></i></span></a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="preview-body">
+										<div class="container-fluid">
+											<div class="row pt-4">
+												<div class="col-3">
+												</div>
+												<div class="col-7 text-justify" :style="{'font-family': getPreviewFont}">
+													<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis amet, facilis reprehenderit sunt adipisci necessitatibus illo, non architecto dolorem sit ex ut repellat laudantium aspernatur eius quia sapiente iure delectus?</p>
+													<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur officia modi praesentium! Minima repellendus explicabo error a consectetur unde blanditiis enim quae suscipit provident, voluptates quia repellat voluptate quaerat aperiam.</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 					<hr class="my-4">
@@ -308,15 +422,27 @@ export default {
 		userDetails: function() {
 			return this.$store.state.Users.userDetails
 		},
-    isImageUploading: function() {
-      return (this.is_tournament_logo_uploading || this.is_social_sharing_image_uploading);
-    },
-    domainNameValidationRules: function() {
-    	return this.domainAndOfflineRedirectUrlValidation();
-    },
-    offlineRedirectUrlValidationRules: function() {
-    	return this.domainAndOfflineRedirectUrlValidation();
-    },
+	    isImageUploading: function() {
+	      return (this.is_tournament_logo_uploading || this.is_social_sharing_image_uploading);
+	    },
+	    domainNameValidationRules: function() {
+	    	return this.domainAndOfflineRedirectUrlValidation();
+	    },
+	    offlineRedirectUrlValidationRules: function() {
+	    	return this.domainAndOfflineRedirectUrlValidation();
+	    },
+	    getPreviewColor: function() {
+	    	if(this.website.color != '') {
+	    		return Plugin.HexToRgb(this.website.color, 90);
+	    	}
+	    	return Plugin.HexToRgb('#D0021B', 90);
+	    },
+	    getPreviewFont: function () {
+	    	if(this.website.font == 'Helvetica') {
+	    		return "'Helvetica', 'Arial'";
+	    	}
+	    	return this.website.font;
+	    },
 	},
 	methods: {
 		next() {
