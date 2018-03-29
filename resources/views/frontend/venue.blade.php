@@ -24,17 +24,19 @@
 	<!-- Content wrapper -->
 	<div class="content__wrapper">
     <div class="container">
-      <div class="row my-5">
+      <div class="row mt-2 mb-5">
         <div class="col-lg-12 club_content">
 			@if(count($locations) > 0)
+			<div class="row">
 				@foreach($locations as $location)
-					<div class="col-sm-3">
-						<h3>{{ $location->name }}</h3>
-						<div>
-							{!! nl2br($location->address) !!}
+						<div class="col-sm-3">
+							<h4 class="my-3 font-weight-bold">{{ $location->name }}</h4>
+							<h6>
+								{!! nl2br($location->address) !!}
+							</h6>
 						</div>
-					</div>
 				@endforeach
+			</div>
 			@else
 				<p>{!! __('messages.no_locations_found') !!}</p>
 			@endif
