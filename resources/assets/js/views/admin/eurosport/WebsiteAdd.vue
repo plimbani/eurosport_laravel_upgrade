@@ -150,11 +150,9 @@
 						</div>
 					</div>
 					<div class="row justify-content-between">
+						<label class="col-sm-12 form-control-label">Preview</label>
 						<div class="col-md-12">
-							<h6><strong>Preview</strong></h6>
-						</div>
-						<div class="col-md-12">
-							<div class="card">
+							<div class="card mb-0">
 								<div class="preview">
 									<div class="preview--header">
 										<div class="container-fluid">
