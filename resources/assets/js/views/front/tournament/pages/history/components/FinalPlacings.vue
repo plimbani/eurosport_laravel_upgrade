@@ -14,7 +14,7 @@
             <td>{{ competition.group_name }}</td>
             <td>{{ competition.category_age }}</td>
             <td>
-              <a @click="getAgeCategoryDetail(competition.id)" class="text-primary" href="#" data-toggle="modal" data-target="#final_placing_modal">
+              <a @click="getAgeCategoryDetail(competition.id)" href="#" data-toggle="modal" data-target="#final_placing_modal">
                 <u>{{ $t('tournament.view_placings') }}</u>
               </a>
             </td>
@@ -28,19 +28,23 @@
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
           <div class="modal-header">
-             <h5 class="modal-title">{{ $t('tournament.final_placings') }}</h5>
+             <h5 class="modal-title font-weight-bold">{{ $t('tournament.final_placings') }}</h5>
              <button type="button" class="close" data-dismiss="modal" :aria-label="$t('tournament.close')">
              <span aria-hidden="true">×</span>
              </button>
           </div>
           <div class="modal-body modal-fixed-height">
               <div class="form-group row mb-0" v-for="position in positionData">
-                <div class="col-sm-3 form-control-label font-weight-bold border">{{ $t('tournament.placing') }} {{ position.pos }}</div>
-                <div class="col-sm-9 form-control-label"> {{ position.team_name }}</div>
+                <div class="col-sm-3 form-control-label border-0">
+                  <h6 class="font-weight-bold">{{ $t('tournament.placing') }} {{ position.pos }}</h6>
+                </div>
+                <div class="col-sm-9 form-control-label"> 
+                  <h6>{{ position.team_name }}</h6>
+                </div>
               </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" @click="closeModal()">{{ $t('tournament.cancel') }}</button>
+            <button type="button" class="btn btn-primary" @click="closeModal()">{{ $t('tournament.cancel') }}</button>
           </div>
          </div>
       </div>

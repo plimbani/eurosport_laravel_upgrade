@@ -23,7 +23,7 @@
                 </a>
                 <span v-else>{{ match.competation_name | formatGroup(match.round) }}</span>
               </td>
-              <td>
+              <td class="text-right">
                 <span class="text-center" v-if="(match.Home_id == 0 )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
                 <span class="text-center" v-else>{{ match.HomeTeam }}</span>
                 <span v-if="(match.Home_id != 0 )" :class="'flag-icon flag-icon-' + match.HomeCountryFlag"></span>
