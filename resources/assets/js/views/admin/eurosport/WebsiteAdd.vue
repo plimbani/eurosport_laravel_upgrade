@@ -209,14 +209,14 @@
 															<div class="club_logo">
 																<div class="club_logo-box">
 																	<div class="d-flex align-items-center justify-content-center h-100">
-																		<img src="/assets/img/preview/copacostabrava.png" alt="">
+																		<img src="/assets/img/preview/logo.jpg" alt="">
 																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
-													<div class="col-9 club_info">
-														<h1 class="club_info-title">Costa Brava Cup</h1>
+													<div class="col-9 club_info" :style="{'font-family': getPreviewFont}">
+														<h1 class="club_info-title">Example Cup</h1>
 														<span class="club_info-detail">31st March - 1st April 2018, Tordera</span>
 													</div>
 												</div>

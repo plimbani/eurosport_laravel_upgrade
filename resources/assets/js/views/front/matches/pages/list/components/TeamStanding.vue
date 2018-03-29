@@ -4,6 +4,7 @@
 			<table class="table" v-if="standingData.length > 0">
 				<thead>
 					<tr>
+						<th></th>
 						<th class="text-center" scope="col">{{ $t('matches.played') }}</th>
 						<th class="text-center" scope="col">{{ $t('matches.won') }}</th>
 						<th class="text-center" scope="col">{{ $t('matches.draws') }}</th>
@@ -17,7 +18,7 @@
 				<tbody>
 					<tr v-for="standing in standingData">
 						<td align="left">
-			        <span :class="'flag-icon flag-icon-' + standing.teamCountryFlag"></span>
+			        		<span :class="'flag-icon flag-icon-' + standing.teamCountryFlag"></span>
 							<span>{{ standing.name }}</span>
 						</td>
 						<td class="text-center">{{ standing.played }}</td>
@@ -26,8 +27,8 @@
 						<td class="text-center">{{ standing.lost }}</td>
 						<td class="text-center">{{ standing.goal_for }}</td>
 						<td class="text-center">{{ standing.goal_against }}</td>
-			      <td class="text-center">{{ standing.goal_for - standing.goal_against | formatGoals }}</td>
-			      <td class="text-center">{{ standing.points }}</td>
+					    <td class="text-center">{{ standing.goal_for - standing.goal_against | formatGoals }}</td>
+					    <td class="text-center">{{ standing.points }}</td>
 					</tr>
 				</tbody>
 			</table>
