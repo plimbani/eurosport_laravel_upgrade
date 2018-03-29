@@ -27,7 +27,7 @@
 											@endforeach
 										</ul>
 									@else
-										<div class="no-data text-center h6"> No team found.</div>
+										<div class="no-data h6"> No team found.</div>
 									@endif
 								</div>
 							</div>
