@@ -21,7 +21,7 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="col-lg-8 club_content">
+                <div class="col-lg-8 club_content {{ $brand_font_class }}">
                     <figure class="figure right pl-gg">
                         @if($pageDetails->welcomeImage('thumbnail'))
                             <img src="{{ $pageDetails->welcomeImage('thumbnail') }}" class="figure-img img-fluid ml-1" alt="{!! __('messages.welcome_image') !!}" />
@@ -60,7 +60,7 @@
         </figure>
         <div class="container">
             <div class="row">
-                <div class="col-12 club_content">
+                <div class="col-12 club_content {{ $brand_font_class }}">
                     {!! $pageDetails->content !!}
                 </div>
             </div>

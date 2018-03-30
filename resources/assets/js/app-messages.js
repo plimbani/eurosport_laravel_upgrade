@@ -21,8 +21,10 @@ var vm = new Vue({
 	},
 	sockets: {
 		'eurosportring-channel:app.message.sent': function(message){
-			this.all_messages.push(message.message);
-			this.updateRecentMessages();
+			if(message.message.tournament_id == Site.tournamentId) {
+				this.all_messages.push(message.message);
+				this.updateRecentMessages();
+			}
 		},
 		connect: function(){
 			// console.log('socket connected');
