@@ -12,8 +12,8 @@
 	    <div class="container">
 	    	@if(count($markers) > 0)
 		      	<div class="row my-5">
-		        	<div class="col-lg-12 club_content {{ $brand_font_class }}">
-						<div id="venue_map" style="width:100%;height:400px;"></div>
+		        	<div class="col-lg-12 club_content venue-information {{ $brand_font_class }}">
+						<div id="venue_map" class="venue-map"></div>
 		        	</div>
 		      	</div>
 	      	@endif
@@ -22,7 +22,7 @@
 					@if(count($locations) > 0)
 						<div class="row">
 							@foreach($locations as $location)
-									<div class="col-sm-3">
+									<div class="col-sm-4 col-md-3 col-lg-3">
 										<h4 class="my-3 font-weight-bold">{{ $location->name }}</h4>
 										<h6>
 											{!! nl2br($location->address) !!}
