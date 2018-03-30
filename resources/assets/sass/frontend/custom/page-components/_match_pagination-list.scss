@@ -7,14 +7,19 @@
             @extend .d-inline-block;
             border-left: 1px solid theme-color('primary');
             color: theme-color('primary');
-            &:hover,
-            &.active {
-                background-color: theme-color('primary');
-                a {
-                    &:not([href]):not([tabindex]) {
-                        color: $white;
-                    }
-                }
+            &.active,
+            &:focus {
+                background: theme-color("tint-10");
+                border-color: theme-color("tint-20");
+                // a {
+                //     &:not([href]):not([tabindex]) {
+                //         color: $white;
+                //     }
+                // }
+            }
+            &:hover {
+                background: theme-color("tint-10");
+                border-color: theme-color("tint-20");
             }
             &.left-arrow,
             &.right-arrow {
@@ -23,6 +28,13 @@
                 width: 120px;
                 @include media-breakpoint-down(xs) {
                     width: 90px;
+                }
+                &:hover,
+                &:focus {
+                    background: theme-color("tint-10");
+                }
+                &:hover {
+                    border-color: theme-color("tint-20");
                 }
             }
             &.left-arrow {

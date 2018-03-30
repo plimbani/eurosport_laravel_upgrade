@@ -105,6 +105,7 @@ class WebsiteComposer
         'serverPort' => env('BROADCAST_SERVER_PORT'),
         'broadcastChannel' => config('broadcasting.channel'),
         'appScheme' => config('app.app_scheme'),
+        'googleAnalyticsId' => $website->google_analytics_id ?: null,
     ]);
 
     JavaScript::put([
