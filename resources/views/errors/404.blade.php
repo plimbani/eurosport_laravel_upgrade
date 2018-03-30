@@ -97,6 +97,8 @@
     <!-- Javscript required for application -->
     @include('partials.frontend.app-js')
 
+    <script src="{{ asset('frontend/js/global.js') }}"></script>
+
     {{-- Plugin JS --}}
     @yield('plugin-scripts')
 
