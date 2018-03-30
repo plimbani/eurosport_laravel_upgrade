@@ -11,8 +11,6 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	            {{-- <div class="col-lg-3">
-	            </div> --}}
 	            <div class="col-lg-12 club_content tournament-list">
 					<div class="row">
 						@foreach($ageCategories as $category)
@@ -27,13 +25,13 @@
 											@endforeach
 										</ul>
 									@else
-										<div class="no-data h6"> No team found.</div>
+										<div class="no-data h6 text-muted">No team found.</div>
 									@endif
 								</div>
 							</div>
 						@endforeach
 						@if(count($ageCategories) == 0)
-							No age category found.
+							<div class="no-data h6 text-muted">No age category found.</div>
 						@endif
 					</div>
 	            </div>

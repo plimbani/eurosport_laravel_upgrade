@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="table-responsive">
-      <table class="table" v-if="competitionList.length > 0">
+    <div class="table-responsive" v-if="competitionList.length > 0">
+      <table class="table">
         <thead>
           <tr>
             <th scope="col">{{ $t('tournament.category_name') }}</th>
@@ -21,7 +21,6 @@
           </tr>
         </tbody>
       </table>
-      <span v-else>{{ $t('no_information_available') }}</span>
     </div>
     <!-- View final placings modal -->
     <div class="modal" id="final_placing_modal" tabindex="-1" role="dialog" aria-labelledby="final_placing_modal" style="display: none;" aria-hidden="true" data-animation="false">

@@ -29,7 +29,7 @@ module.exports= {
     'against': 'Against',
     'difference': 'Difference',
     'points': 'Points',
-    'no_matches_found': 'No matches found',
+    'no_matches_found': 'No matches found.',
   },
   tournament: {
     'category_name': 'Category name',
@@ -40,6 +40,9 @@ module.exports= {
     'close': 'Close',
     'placing': 'Placing',
     'cancel': 'Cancel',
-    'tournament_year': 'Tournament year'
+    'tournament_year': 'Tournament year',
+    'no_history_found': 'No history found.',
+    'no_age_category_found': 'No age category found.',
+    'no_team_found': 'No team found.',
   },
 };
