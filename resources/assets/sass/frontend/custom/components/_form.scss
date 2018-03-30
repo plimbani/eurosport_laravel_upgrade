@@ -4,7 +4,7 @@
     max-width: 100%;
     z-index: 1;
     margin-bottom: 0;
-    background-image: linear-gradient(-180deg, $gray-100 0%, $gray-200 100%);
+    @include linearGradient($gray-100, $gray-200);
     border: 1px solid $input-border-color;
     letter-spacing: 0;
     @if $enable-rounded {
@@ -72,7 +72,7 @@
         }
     }
     &.custom_select-2 {
-        background-image: linear-gradient(-180deg, theme-color("primary") 0%, theme-color("shade-50") 100%);
+        @include linearGradient(theme-color("primary"), theme-color("shade-50"));
         border: 1px solid rgba(theme-color("primary"), 0.5);
         box-shadow: 0 5px 10px 0 rgba($black, 0.25);
         select {
