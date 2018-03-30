@@ -25,10 +25,10 @@
             <div class="no-data h6 text-muted" v-if="ageCategory.teams.length == 0">{{ $t('tournament.no_team_found') }}</div>
           </div>
         </div>
-        <div class="no-data h6 text-muted" v-if="currentYear.age_categories.length == 0">{{ $t('tournament.no_age_category_found') }}</div>
+        <div class="col-sm-12 no-data h6 text-muted mb-0" v-if="currentYear.age_categories.length == 0">{{ $t('tournament.no_age_category_found') }}</div>
       </div>
     </div>
-    <div class="no-data h6 text-muted" v-else>{{ $t('tournament.no_history_found') }}</div>
+    <div class="no-data h6 text-muted mb-0" v-else>{{ $t('tournament.no_history_found') }}</div>
   </div>
 </template>
 
